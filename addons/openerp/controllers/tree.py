@@ -31,33 +31,34 @@
 This module implementes heirarchical tree view for a tiny model having
     view_type = 'tree'
 """
-
 import time
-import xml.dom.minidom
+import simplejson
 
-from openobject.tools import url
-from openobject.tools import expose
-
-from openerp.utils import rpc
-from openerp.utils import cache
-from openerp.utils import icons
-from openerp.utils import common
-from openerp.utils import TinyDict
-
+import actions
 from openerp.controllers import SecuredController
+from openerp.utils import rpc, cache, icons, common, TinyDict
 from openerp.widgets import tree_view
 
+from openobject.tools import url, expose
 
 DT_FORMAT = '%Y-%m-%d'
 DHM_FORMAT = '%Y-%m-%d %H:%M:%S'
 
+FORMATTERS = {
+    'integer': lambda value, _i: str(value),
+    'float': lambda value, _i: '%.02f' % (value),
+    'date': lambda value, _i: time.strftime('%x', time.strptime(value, DT_FORMAT)),
+    'datetime': lambda value, _i: time.strftime('%x', time.strptime(value, DHM_FORMAT)),
+    'one2one': lambda value, _i: value[1],
+    'many2one': lambda value, _i: value[1],
+    'selection': lambda value, info: dict(info['selection']).get(value, ''),
+}
+
 class Tree(SecuredController):
-    
-    _cp_path = "/tree"
+    _cp_path = "/openerp/tree"
 
     @expose(template="templates/tree.mako")
     def create(self, params):
-
         view_id = (params.view_ids or False) and params.view_ids[0]
         domain = params.domain
         context = params.context
@@ -66,17 +67,19 @@ class Tree(SecuredController):
         model = params.model
 
         if view_id:
-            view_base =  rpc.session.execute('object', 'execute', 'ir.ui.view', 'read', [view_id], ['model', 'type'], context)[0]
+            view_base =  rpc.session.execute(
+                    'object', 'execute', 'ir.ui.view', 'read', [view_id],
+                    ['model', 'type'], context)[0]
             model = view_base['model']
             view = cache.fields_view_get(model, view_id, view_base['type'], context)
         else:
             view = cache.fields_view_get(model, False, 'tree', context)
-
-        tree = tree_view.ViewTree(view, model, res_id, domain=domain, context=context, action="/tree/action")
+        fields = cache.fields_get(view['model'], False, context)
+            
+        tree = tree_view.ViewTree(view, model, res_id, domain=domain, context=context, action="/tree/action", fields=fields)
         if tree.toolbar:
-            
             proxy = rpc.RPCProxy(model)
-            
+
             for tool in tree.toolbar:
                 if tool.get('icon'):
                     tool['icon'] = icons.get_icon(tool['icon'])
@@ -85,8 +88,8 @@ class Tree(SecuredController):
                 id = tool['id']
                 ids = proxy.read([id], [tree.field_parent])[0][tree.field_parent]
                 tool['ids'] = ids
-                
-        return dict(tree=tree, model=model)
+
+        return {'tree': tree, 'model': model}
 
     @expose()
     def default(self, id, model, view_id, domain, context):
@@ -94,7 +97,8 @@ class Tree(SecuredController):
 
         try:
             view_id = int(view_id)
-        except:
+        except TypeError:
+            # if view_id is None
             view_id = False
 
         params.ids = id
@@ -108,7 +112,7 @@ class Tree(SecuredController):
     def sort_callback(self, item1, item2, field, sort_order="asc", type=None):
         a = item1[field]
         b = item2[field]
-        
+
         if type == 'many2one' and isinstance(a, (tuple, list)):
             a = a[1]
             b = b[1]
@@ -119,12 +123,16 @@ class Tree(SecuredController):
         return cmp(a, b)
 
     @expose('json')
-    def data(self, ids, model, fields, field_parent=None, icon_name=None, domain=[], context={}, sort_by=None, sort_order="asc"):
-
-        ids = ids or []
+    def data(self, ids, model, fields, field_parent=None, icon_name=None,
+             domain=[], context={}, sort_by=None, sort_order="asc", fields_info=None):
+        
+        if ids == 'None' or ids == '':
+            ids = []
 
         if isinstance(ids, basestring):
-            ids = [int(id) for id in ids.split(',')]
+            ids = map(int, ids.split(','))
+        elif isinstance(ids, list):
+            ids = map(int, ids)
 
         if isinstance(fields, basestring):
             fields = eval(fields)
@@ -134,74 +142,51 @@ class Tree(SecuredController):
 
         if isinstance(context, basestring):
             context = eval(context)
+        
+        if isinstance(fields_info, basestring):
+            fields_info = simplejson.loads(fields_info)
 
         if field_parent and field_parent not in fields:
             fields.append(field_parent)
 
         proxy = rpc.RPCProxy(model)
 
-        ctx = context or {}
-        ctx.update(rpc.session.context.copy())
+        ctx = dict(context,
+                   **rpc.session.context)
 
         if icon_name:
             fields.append(icon_name)
 
-        fields_info = cache.fields_get(model, fields, ctx)
         result = proxy.read(ids, fields, ctx)
 
         if sort_by:
-            result.sort(lambda a,b: self.sort_callback(a, b, sort_by, sort_order, type=fields_info[sort_by]['type']))
+            fields_info_type = simplejson.loads(fields_info[sort_by])
+            result.sort(lambda a,b: self.sort_callback(a, b, sort_by, sort_order, type=fields_info_type['type']))
 
-        # formate the data
+        # format the data
         for field in fields:
-
-            if fields_info[field]['type'] in ('integer'):
-                for x in result:
-                    if x[field]:
-                        x[field] = '%s'%(x[field])
-            
-            if fields_info[field]['type'] in ('float'):
-                for x in result:
-                    if x[field]:
-                        x[field] = '%.02f'%(round(x[field], 2))
-
-            if fields_info[field]['type'] in ('date',):
-                for x in result:
-                    if x[field]:
-                        date = time.strptime(x[field], DT_FORMAT)
-                        x[field] = time.strftime('%x', date)
-
-            if fields_info[field]['type'] in ('datetime',):
-                for x in result:
-                    if x[field]:
-                        date = time.strptime(x[field], DHM_FORMAT)
-                        x[field] = time.strftime('%x %H:%M:%S', date)
-
-            if fields_info[field]['type'] in ('one2one', 'many2one'):
-                for x in result:
-                    if x[field]:
-                        x[field] = x[field][1]
-
-            if fields_info[field]['type'] in ('selection'):
-                for x in result:
-                    if x[field]:
-                        x[field] = dict(fields_info[field]['selection']).get(x[field], '')
+            field_info = simplejson.loads(fields_info[field])
+            formatter = FORMATTERS.get(field_info['type'])
+            for x in result:
+                if x[field] and formatter:
+                    x[field] = formatter(x[field], field_info)
 
         records = []
         for item in result:
-
-            # empty string instead of bool and None
+            # empty string instead of False or None
             for k, v in item.items():
-                if v==None or (v==False and type(v)==bool):
+                if v is None or v is False:
                     item[k] = ''
 
-            record = {}
-
-            record['id'] = item.pop('id')
-            record['action'] = url('/tree/open', model=model, id=record['id'])
-            record['target'] = None
-
-            record['icon'] = None
+            id = item.pop('id')
+            record = {
+                'id': id,
+                'action': url('/openerp/tree/open', model=model, id=id),
+                'target': None,
+                'icon': None,
+                'children': [],
+                'items': item
+            }
 
             if icon_name and item.get(icon_name):
                 icon = item.pop(icon_name)
@@ -211,16 +196,12 @@ class Tree(SecuredController):
                     record['action'] = None
                     record['target'] = None
 
-            record['children'] = []
-
             if field_parent and field_parent in item:
                 record['children'] = item.pop(field_parent) or None
 
-            record['items'] = item
+            records.append(record)
 
-            records += [record]
-
-        return dict(records=records)
+        return {'records': records}
 
     def do_action(self, name, adds={}, datas={}):
         params, data = TinyDict.split(datas)
@@ -233,13 +214,14 @@ class Tree(SecuredController):
         ctx.update(context)
 
         if ids:
-            ids = [int(id) for id in ids.split(',')]
+            ids = map(int, ids.split(','))
 
         id = (ids or False) and ids[0]
 
-        if len(ids):
-            import actions
-            return actions.execute_by_keyword(name, adds=adds, model=model, id=id, ids=ids, context=ctx, report_type='pdf')
+        if ids:
+            return actions.execute_by_keyword(
+                    name, adds=adds, model=model, id=id, ids=ids, context=ctx,
+                    report_type='pdf')
         else:
             raise common.message(_("No record selected!"))
 
@@ -265,11 +247,10 @@ class Tree(SecuredController):
 
     @expose()
     def switch(self, **kw):
-
         params, data = TinyDict.split(kw)
 
-        ids = params.selection or []            
-        if len(ids):
+        ids = params.selection or []
+        if ids:
             import actions
             return actions.execute_window(False, res_id=ids, model=params.model, domain=params.domain)
         else:
@@ -277,15 +258,8 @@ class Tree(SecuredController):
 
     @expose()
     def open(self, **kw):
-        datas = {}
-
-        datas['_terp_model'] = kw.get('model')
-        datas['_terp_context'] = kw.get('context', {})
-        datas['_terp_domain'] = kw.get('domain', [])
-
-        datas['ids'] = kw.get('id')
-
-        return self.do_action('tree_but_open', datas=datas)
-
-# vim: ts=4 sts=4 sw=4 si et
-
+        return self.do_action('tree_but_open', datas={
+                '_terp_model': kw.get('model'),
+                '_terp_context': kw.get('context', {}),
+                '_terp_domain': kw.get('domain', []),
+                'ids': kw.get('id')})

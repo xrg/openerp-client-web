@@ -1,4 +1,4 @@
-<%inherit file="/openobject/controllers/templates/base.mako"/>
+<%inherit file="/openerp/controllers/templates/base.mako"/>
 
 <%def name="header()">
     <title>
@@ -7,15 +7,13 @@
         % endif
     </title>
 
-    <script type="text/javascript" src="/openobject/static/javascript/openobject/openobject.ui.waitbox.js"></script>
+    <script type="text/javascript" src="/openerp/static/javascript/openerp/openerp.ui.waitbox.js"></script>
     <script type="text/javascript" src="/openerp/static/javascript/wizard.js"></script>
 
     <link rel="stylesheet" type="text/css" href="/openerp/static/css/waitbox.css"/>
 </%def>
 
 <%def name="content()">
-
-<%include file="header.mako"/>
 
 <div class="view">
 
@@ -37,7 +35,7 @@
             <table align="center" cellspacing="0">
                 <tr>
                     % if len(state) >= 3:
-                    <td><img align="left" src="${state[2]}" width="16" height="16"/></td>
+                    <td><img alt="" align="left" src="${state[2]}" width="16" height="16"/></td>
                     % endif
                     <td nowrap="nowrap">${state[1]}</td>
                 </tr>
@@ -47,7 +45,5 @@
     </div>
     
 </div>
-
-<%include file="footer.mako"/>
 
 </%def>

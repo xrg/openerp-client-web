@@ -92,7 +92,7 @@ function initialize_dashboard() {
             var args = {src: src_id, dst: dst.id, ref: ref_id};
             args['view_id'] = openobject.dom.get('_terp_view_id').value;
 
-            var req = openobject.http.postJSON('/viewed/update_dashboard', args); 
+            var req = openobject.http.postJSON('/openerp/viewed/update_dashboard', args); 
             req.addCallback(function(obj) {
 
                 if (obj.error) {
@@ -110,7 +110,6 @@ function initialize_dashboard() {
             var embeds = openobject.dom.select('embeds');
             
             MochiKit.Iter.forEach(embeds, function(e){
-                log(e);
                 MochiKit.DOM.hideElement(e);
             });
     });

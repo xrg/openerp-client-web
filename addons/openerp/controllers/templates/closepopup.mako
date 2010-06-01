@@ -1,13 +1,14 @@
-<%inherit file="/openobject/controllers/templates/base.mako"/>
+<%inherit file="/openerp/controllers/templates/base.mako"/>
 
 <%def name="header()">
     <script type="text/javascript">    
         MochiKit.DOM.addLoadEvent(function(evt){
             if (window.opener) {
-                window.opener.setTimeout("window.location.reload()", 0);
+                window.opener.location.reload();
                 window.close();
             } else {
-                openobject.http.redirect('/');
+            	openobject.http.redirect('/openerp/blank');
+            	window.parent.location.href = '/openerp/menu'; 
             }
         });
     </script>

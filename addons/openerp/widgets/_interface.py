@@ -72,7 +72,7 @@ class TinyWidget(Widget):
     nolabel = False
     visible = True
     model = None
-    
+
     valign = "middle"
 
     def __init__(self, **attrs):
@@ -180,19 +180,12 @@ class TinyInputWidget(TinyWidget, InputWidget):
         self.kind = attrs.get('type', None)
 
     def set_state(self, state):
-
         if isinstance(self.states, dict) and state in self.states:
-
             attrs = dict(self.states[state])
 
-            if 'readonly' in attrs:
-                self.readonly = attrs['readonly']
-
-            if 'required' in attrs:
-                self.required = attrs['required']
-
-            if 'value' in attrs:
-                self.default = attrs['value']
+            self.readonly = attrs.get('readonly', self.readonly)
+            self.required = attrs.get('required', self.required)
+            self.default = attrs.get('value', self.default)
 
     def get_value(self):
         """Get the value of the field.
@@ -263,59 +256,42 @@ class ConcurrencyInfo(TinyInputWidget):
     def info(self):
         return getattr(cherrypy.request, 'terp_concurrency_info', {})
 
-
-__WIDGETS = {}
+from openobject import pooler
 
 def register_widget(klass, types, view="form"):
     """Register a widget class for the given view and types
-    
+
     @param view: the view type (e.g. form, tree)
-    @param types: register for the give types    
+    @param types: register for the give types
     @param klass: widget class
     """
-    
-    wids = __WIDGETS.setdefault(view, {})
-    
-    if not isinstance(types, (list, tuple)):
-        types = [types]
-        
-    for t in types:
-        wids[t] = klass
-        
 
-def unregister_widget(types, view="form"):
-    """Unregister the given widget types for the given view.
-    
-    @param view: the view
-    @param types: the widgets to unregister
-    """
-    wids = __WIDGETS.setdefault(view, {})
-    
     if not isinstance(types, (list, tuple)):
         types = [types]
-        
+
     for t in types:
-        wids.pop(t, None)
-        
+        pooler.register_object(klass, key=t, group=view)
+
 
 def get_widget(type, view="form"):
     """Get the widget of the given type for the given view.
-    
+
     @param view: the view
     @param type: the widget type
     """
-    wids = __WIDGETS.setdefault(view, {})
-    return wids.get(type)
+
+    pool = pooler.get_pool()
+    return pool.get(type, group=view)
 
 
 def get_registered_widgets(view="form"):
     """Get all the registered widgets for the given view type.
-    
+
     @param view: the view
     @returns: dict of all the registered widgets
     """
-    return __WIDGETS.get(view, {}).copy()
+    pool = pooler.get_pool()
+    return pool.get_group(view)
 
 
 # vim: ts=4 sts=4 sw=4 si et
-

@@ -26,22 +26,17 @@
 # You can see the MPL licence at: http://www.mozilla.org/MPL/MPL-1.1.html
 #
 ###############################################################################
-
-import os
 import base64
+
+from openerp.controllers import SecuredController
+from openerp.utils import rpc, common
 
 from openobject.tools import expose
 
-from openerp.utils import rpc
-from openerp.utils import common
-from openerp.utils import TinyDict
-
-from openerp.controllers import SecuredController
-
 
 class Attachment(SecuredController):
-    
-    _cp_path = "/attachment"
+
+    _cp_path = "/openerp/attachment"
 
     @expose()
     def index(self, model, id):
@@ -76,6 +71,13 @@ class Attachment(SecuredController):
             return base64.decodestring(data[0]['datas'])
         else:
             return ''
+
+    @expose('json')
+    def removeAttachment(self, id=False, **kw):
+        proxy = rpc.RPCProxy('ir.attachment')
+        proxy.unlink(int(id))
+        return dict()
+
 
 # vim: ts=4 sts=4 sw=4 si et
 

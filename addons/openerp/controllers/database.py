@@ -26,26 +26,16 @@
 # You can see the MPL licence at: http://www.mozilla.org/MPL/MPL-1.1.html
 #
 ###############################################################################
-
+import base64
 import re
 import time
-import base64
 
 import cherrypy
-
-from openobject.tools import url
-from openobject.tools import expose
-from openobject.tools import redirect
-from openobject.tools import validate
-from openobject.tools import error_handler
+from openerp import widgets, validators
+from openerp.utils import rpc, common
 
 from openobject.controllers import BaseController
-
-from openerp.utils import rpc
-from openerp.utils import common
-
-from openerp import widgets
-from openerp import validators
+from openobject.tools import url, expose, redirect, validate, error_handler
 
 
 def get_lang_list():
@@ -70,15 +60,15 @@ class DBForm(widgets.Form):
             self.validator = validators.Schema()
         for f in self.fields:
             self.validator.add_field(f.name, f.validator)
-            
+
     def update_params(self, d):
         super(DBForm, self).update_params(d)
         d.attrs['action'] = url(self.action)
 
 class FormCreate(DBForm):
     name = "create"
-    string = _('Create new database')
-    action = '/database/do_create'
+    string = _('Create database')
+    action = '/openerp/database/do_create'
     submit_text = _('OK')
     strip_name = True
     form_attrs = {'onsubmit': 'return on_create()'}
@@ -94,7 +84,7 @@ class FormCreate(DBForm):
 class FormDrop(DBForm):
     name = "drop"
     string = _('Drop database')
-    action = '/database/do_drop'
+    action = '/openerp/database/do_drop'
     submit_text = _('OK')
     form_attrs = {'onsubmit': 'return window.confirm(_("Do you really want to drop the selected database?"))'}
     fields = [widgets.SelectField(name='dbname', options=get_db_list, label=_('Database:'), validator=validators.String(not_empty=True)),
@@ -103,7 +93,7 @@ class FormDrop(DBForm):
 class FormBackup(DBForm):
     name = "backup"
     string = _('Backup database')
-    action = '/database/do_backup'
+    action = '/openerp/database/do_backup'
     submit_text = _('OK')
     fields = [widgets.SelectField(name='dbname', options=get_db_list, label=_('Database:'), validator=validators.String(not_empty=True)),
               widgets.PasswordField(name='password', label=_('Password:'), validator=validators.NotEmpty())]
@@ -111,7 +101,7 @@ class FormBackup(DBForm):
 class FormRestore(DBForm):
     name = "restore"
     string = _('Restore database')
-    action = '/database/do_restore'
+    action = '/openerp/database/do_restore'
     submit_text = _('OK')
     fields = [widgets.FileField(name="filename", label=_('File:')),
               widgets.PasswordField(name='password', label=_('Password:'), validator=validators.NotEmpty()),
@@ -120,7 +110,7 @@ class FormRestore(DBForm):
 class FormPassword(DBForm):
     name = "password"
     string = _('Change Administrator Password')
-    action = '/database/do_password'
+    action = '/openerp/database/do_password'
     submit_text = _('OK')
     fields = [widgets.PasswordField(name='old_password', label=_('Old Password:'), validator=validators.NotEmpty()),
               widgets.PasswordField(name='new_password', label=_('New Password:'), validator=validators.NotEmpty()),
@@ -138,12 +128,12 @@ _FORMS = {
 }
 
 class Database(BaseController):
-    
-    _cp_path = "/database"
+
+    _cp_path = "/openerp/database"
 
     @expose()
     def index(self, *args, **kw):
-        raise redirect('/database/create')
+        raise redirect('/openerp/database/create')
 
     @expose(template="templates/database.mako")
     def create(self, tg_errors=None, **kw):
@@ -160,10 +150,6 @@ class Database(BaseController):
 
         ok = False
         try:
-            dblist = rpc.session.listdb()
-            if dbname in dblist:
-                raise Exception('DbExist')
-
             res = rpc.session.execute_db('create', password, dbname, demo_data, language, admin_password)
             while True:
                 try:
@@ -190,8 +176,8 @@ class Database(BaseController):
                 raise common.warning(_("Could not create database."))
 
         if ok:
-            raise redirect('/')
-        raise redirect('/login', db=dbname)
+            raise redirect('/openerp/menu', {'db': True})
+        raise redirect('/openerp/login', db=dbname)
 
     @expose(template="templates/database.mako")
     def drop(self, tg_errors=None, **kw):
@@ -210,7 +196,7 @@ class Database(BaseController):
             else:
                 raise common.warning(_("Couldn't drop database"))
 
-        raise redirect("/database/drop")
+        raise redirect("/openerp/database/drop")
 
     @expose(template="templates/database.mako")
     def backup(self, tg_errors=None, **kw):
@@ -230,7 +216,7 @@ class Database(BaseController):
         except Exception, e:
             raise common.warning(_("Could not create backup."))
 
-        raise redirect('/login')
+        raise redirect('/openerp/login')
 
     @expose(template="templates/database.mako")
     def restore(self, tg_errors=None, **kw):
@@ -250,7 +236,7 @@ class Database(BaseController):
             else:
                 raise common.warning(_("Couldn't restore database"))
 
-        raise redirect('/login', db=dbname)
+        raise redirect('/openerp/login', db=dbname)
 
     @expose(template="templates/database.mako")
     def password(self, tg_errors=None, **kw):
@@ -269,7 +255,7 @@ class Database(BaseController):
             else:
                 raise common.warning(_("Error, password not changed."))
 
-        raise redirect('/login')
+        raise redirect('/openerp/login')
 
 # vim: ts=4 sts=4 sw=4 si et
 

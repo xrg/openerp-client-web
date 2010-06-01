@@ -26,40 +26,33 @@
 # You can see the MPL licence at: http://www.mozilla.org/MPL/MPL-1.1.html
 #
 ###############################################################################
-
-import os
-import re
-
 import cherrypy
+from openerp.controllers import SecuredController, unsecured, actions, login as tiny_login, form
+from openerp.utils import rpc, cache, common
 
-from openobject import tools
-
-from openobject.tools import url
-from openobject.tools import expose
-from openobject.tools import redirect
-from openobject.tools import find_resource
-
-from openerp.utils import rpc
-from openerp.utils import cache
-from openerp.utils import common
-
-from openerp.controllers import SecuredController, unsecured
-from openerp.controllers import login as tiny_login
+from openobject.tools import url, expose, redirect
 
 
 def _cp_on_error():
-    
-    errorpage = cherrypy.request.pool.get_controller("/errorpage")
+
+    errorpage = cherrypy.request.pool.get_controller("/openerp/errorpage")
     message = errorpage.render()
     cherrypy.response.status = 500
     #cherrypy.response.headers['Content-Type'] = 'text/html'
     cherrypy.response.body = [message]
 
+cherrypy.config.update({'request.error_response': _cp_on_error})
+
 class Root(SecuredController):
 
-    _cp_config = {'request.error_response': _cp_on_error}
-    _cp_path = "/"
+    _cp_path = "/openerp"
 
+    @expose()
+    def index(self):
+        """Index page, loads the view defined by `action_id`.
+        """
+        raise redirect("/openerp/menu")
+    
     def user_action(self, id='action_id'):
         """Perform default user action.
 
@@ -68,36 +61,90 @@ class Root(SecuredController):
 
         proxy = rpc.RPCProxy("res.users")
         act_id = proxy.read([rpc.session.uid], [id, 'name'], rpc.session.context)
-        
+
         if not act_id[0][id]:
             common.warning(_('You can not log into the system!\nAsk the administrator to verify\nyou have an action defined for your user.'), _('Access Denied!'))
             rpc.session.logout()
-            raise redirect('/');
-
-        act_id = act_id[0][id][0]
-        
-        import actions
-        return actions.execute_by_id(act_id)
+            raise redirect('/openerp');
+        else:
+            act_id = act_id[0][id][0]
+            from openerp import controllers
+            return controllers.actions.execute_by_id(act_id)
 
     @expose()
-    def index(self):
-        """Index page, loads the view defined by `action_id`.
-        """
+    def home(self):
         return self.user_action('action_id')
-        return dict()
-        
+
     @expose()
-    def menu(self):
-        """Main menu page, loads the view defined by `menu_id`.
-        """
-        return self.user_action('menu_id')
+    def info(self):
+        return """
+    <html>
+    <head></head>
+    <body>
+        <div align="center" style="padding: 50px;">
+            <img border="0" src="%s"></img>
+        </div>
+    </body>
+    </html>
+    """ % (url("/openerp/static/images/loading.gif"))
+
+    @expose(template="templates/menu.mako")
+    def menu(self, active=None, **kw):
+        from openerp.utils import icons
+        from openerp.widgets import tree_view
+        
+        try:
+            id = int(active)
+        except:
+            id = False
+            form.Form().reset_notebooks()
+
+        ctx = rpc.session.context.copy()
+        proxy = rpc.RPCProxy("ir.ui.menu")
+
+        ids = proxy.search([('parent_id', '=', False)], 0, 0, 0, ctx)
+        parents = proxy.read(ids, ['name', 'icon'], ctx)
+        
+        if not id and ids:
+            id = ids[0]
+
+        ids = proxy.search([('parent_id', '=', id)], 0, 0, 0, ctx)
+        tools = proxy.read(ids, ['name', 'icon', 'action'], ctx)
+        view = cache.fields_view_get('ir.ui.menu', 1, 'tree', {})
+        fields = cache.fields_get(view['model'], False, ctx)
+        
+        for tool in tools:
+            tid = tool['id']
+            tool['icon'] = icons.get_icon(tool['icon'])
+            
+            if tool['action']:
+                tool['action_id'] = tid
+                
+            tool['tree'] = tree = tree_view.ViewTree(view, 'ir.ui.menu', tid,
+                                    domain=[('parent_id', '=', tid)],
+                                    context=ctx, action="/openerp/tree/action", fields=fields)
+            tree._name = "tree_%s" %(tid)
+            tree.tree.onselection = None
+            tree.tree.onheaderclick = None
+            tree.tree.showheaders = 0
+            tree.tree.linktarget = "'appFrame'"
+            
+        for parent in parents:
+            if parent['id'] == id:
+                parent['active'] = 'active'
+            else:
+                parent['active'] = ''
+                
+        if kw.get('db'):
+            return dict(parents=parents, tools=tools, setup = '/openerp/home')
+        return dict(parents=parents, tools=tools)
 
     @expose(allow_json=True)
     @unsecured
     def login(self, db=None, user=None, password=None, style=None, location=None, **kw):
 
         location = url(location or '/', kw or {})
-
+        print "\n\n\n Loacation in login root.py...",location
         if db and user and user.startswith("anonymous"):
             if rpc.session.login(db, user, password):
                 raise redirect(location)
@@ -108,7 +155,7 @@ class Root(SecuredController):
             return dict(result=0)
 
         if style in ('ajax', 'ajax_small'):
-            return dict(db=db, user=user, password=password, location=location, 
+            return dict(db=db, user=user, password=password, location=location,
                     style=style, cp_template="templates/login_ajax.mako")
 
         return tiny_login(target=location, db=db, user=user, password=password, action="login")
@@ -119,7 +166,7 @@ class Root(SecuredController):
         """ Logout method, will terminate the current session.
         """
         rpc.session.logout()
-        raise redirect('/')
+        raise redirect('/openerp')
 
     @expose(template="templates/about.mako")
     @unsecured
@@ -127,7 +174,10 @@ class Root(SecuredController):
         from openobject import release
         version = _("Version %s") % (release.version,)
         return dict(version=version)
+    
+    @expose()
+    def blank(self):
+        return ''
 
 
 # vim: ts=4 sts=4 sw=4 si et
-

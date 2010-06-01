@@ -1,4 +1,4 @@
-<%inherit file="/openobject/controllers/templates/base.mako"/>
+<%inherit file="/openerp/controllers/templates/base.mako"/>
 
 <%def name="header()">
     <title>${_("Select action")}</title>
@@ -20,7 +20,7 @@
     }
 </script>
 
-<form id="selection" action="/selection/action" onsubmit="return onSubmit()">
+<form id="selection" action="/openerp/selection/action" onsubmit="return onSubmit()">
 
     <input type="hidden" name="_terp_data" value="${data}"/>
 
@@ -49,7 +49,7 @@
                     <td width="100%">
                     </td>
                     <td>
-                        <button type="button" onclick="window.opener ? window.close() : history.back()">${_("Cancel")}</button>
+                    	<a class="button-a" href="javascript: void(0)" onclick="window.opener ? window.close() : history.back()">${_("Cancel")}</a>
                         <button type="submit">${_("OK")}</button>
                     </td>
                 </tr>

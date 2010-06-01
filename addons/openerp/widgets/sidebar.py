@@ -43,48 +43,57 @@ class Sidebar(TinyWidget):
 
     javascript = [JSSource("""
         function toggle_sidebar(forced) {
-        
             function a() {
-
                 var sb = openobject.dom.get('sidebar');
-
+                
                 sb.style.display = forced ? forced : (sb.style.display == "none" ? "" : "none");
-
                 openobject.http.setCookie("terp_sidebar", sb.style.display);
-
-                var img = openobject.dom.select('img', 'sidebar_hide')[0];
+                
+                var a_img = openobject.dom.get('toggle-click');
+                var tertiary = openobject.dom.get('tertiary');
+                var tertiary_wrap = openobject.dom.get('tertiary_wrap');
+                var main_sidebar = openobject.dom.get('main_sidebar');
+                var sidebar_hide = openobject.dom.get('sidebar_hide');
+                var attach_sidebar = openobject.dom.get('attach_sidebar');
+                
                 if (sb.style.display == "none") {
-                    img.src = "/openerp/static/images/sidebar_show.gif";
+                    setNodeAttribute(a_img, 'class', 'off');
+                    setNodeAttribute(tertiary, 'style', 'width: 21px');
+                    setNodeAttribute(tertiary_wrap, 'style', 'padding: 0 0 0 0');
+                    setNodeAttribute(sidebar_hide, 'style', 'padding: 0 0 0 0');
+                    setNodeAttribute(attach_sidebar, 'style', 'display: none');
                 } else {
-                    img.src = "/openerp/static/images/sidebar_hide.gif";
+                    setNodeAttribute(a_img, 'class', 'on');
+                    setNodeAttribute(tertiary, 'style', 'width: 180px');
+                    setNodeAttribute(tertiary_wrap, 'style', 'padding: 0 0 0 10px');
+                    setNodeAttribute(sidebar_hide, 'style', 'padding: 0 0 0 8px');
+                    setNodeAttribute(attach_sidebar, 'style', "display: ''");
                 }
             }
-            
             if (typeof(Notebook) == "undefined") {
+                log('undefine');
                 a();
             } else {
                 Notebook.adjustSize(a);
             }
+            
+            MochiKit.Signal.signal(document, 'toggle_sidebar');
         }
-
-        MochiKit.DOM.addLoadEvent(function(evt) {
-            var sb = openobject.dom.get('sidebar');
-            if (sb) toggle_sidebar(openobject.http.getCookie('terp_sidebar'));
-        });
+        
     """)]
 
     def __init__(self, model, submenu=None, toolbar=None, id=None, view_type="form", multi=True, context={}, **kw):
 
         super(Sidebar, self).__init__(model=model, id=id)
-
+        
         self.multi = multi
         self.context = context or {}
         self.view_type = view_type
-        
+
         act = 'client_action_multi'
         toolbar = toolbar or {}
         submenu = submenu
-        
+
         self.reports = toolbar.get('print', [])
         self.actions = toolbar.get('action', [])
         self.relates = toolbar.get('relate', [])
@@ -93,7 +102,7 @@ class Sidebar(TinyWidget):
         self.sub_menu = None
 
         proxy = rpc.RPCProxy('ir.values')
-        
+
         if self.view_type == 'form':
             act = 'tree_but_action'
 
@@ -103,7 +112,7 @@ class Sidebar(TinyWidget):
         ids = [a['id'] for a in self.actions]
         for act in actions:
             if act['id'] not in ids:
-                act['context'] = self.context 
+                act['context'] = self.context
                 self.actions.append(act)
 
         reports = proxy.get('action', 'client_print_multi', [(self.model, False)], False, self.context)
@@ -116,18 +125,17 @@ class Sidebar(TinyWidget):
                 self.reports.append(rep)
 
         if self.view_type == 'form':
-            
+
             proxy = rpc.RPCProxy('ir.attachment')
             ids = proxy.search([('res_model', '=', model), ('res_id', '=', id)], 0, 0, 0, self.context)
-            
+
             if ids:
                 attach = []
                 datas = proxy.read(ids, ['datas_fname'])
                 self.attachments = [(d['id'], d['datas_fname']) for d in datas if d['datas_fname']]
-                
+
             self.sub_menu = submenu
         else:
             self.relates = []
-        
-# vim: ts=4 sts=4 sw=4 si et
 
+# vim: ts=4 sts=4 sw=4 si et

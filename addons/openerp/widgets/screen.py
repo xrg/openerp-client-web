@@ -34,11 +34,6 @@ from openerp.utils import cache
 
 from openerp.widgets import TinyInputWidget
 
-import form
-import graph
-import listgrid
-
-import tinycalendar
 
 class Screen(TinyInputWidget):
 
@@ -59,15 +54,16 @@ class Screen(TinyInputWidget):
         <input type="hidden" id="${name}_terp_limit" name="${name}_terp_limit" value="${limit}"/>
         <input type="hidden" id="${name}_terp_offset" name="${name}_terp_offset" value="${offset}"/>
         <input type="hidden" id="${name}_terp_count" name="${name}_terp_count" value="${count}"/>
+        <input type="hidden" id="${name}_terp_group_by_ctx" name="${name}_terp_group_by_ctx" value="${group_by_ctx}"/>
         
         % if widget:
             ${display_member(widget)}
         % endif
     """
 
-    params = ['model', 'state', 'id', 'ids', 'view_id', 'view_ids', 'view_mode', 'view_type', 'domain', 
-              'context', 'limit', 'offset', 'count']
-    
+    params = ['model', 'state', 'id', 'ids', 'view_id', 'view_ids', 'view_mode', 'view_type', 'domain',
+              'context', 'limit', 'offset', 'count', 'group_by_ctx']
+
     member_widgets = ['widget']
 
     def __init__(self, params=None, prefix='', name='', views_preloaded={}, hastoolbar=False, hassubmenu=False, editable=False, readonly=False, selectable=0, nolinks=1):
@@ -75,7 +71,6 @@ class Screen(TinyInputWidget):
         # get params dictionary
         params = params or cherrypy.request.terp_params
         prefix = prefix or (params.prefix or '')
-
         super(Screen, self).__init__(prefix=prefix, name=name)
 
         self.model         = params.model
@@ -86,7 +81,7 @@ class Screen(TinyInputWidget):
         self.view_mode     = params.view_mode or []
         self.view_type     = params.view_type
         self.view_id       = False
-
+        self.group_by_ctx  = params.group_by_ctx or []        
         self.is_wizard = params.is_wizard
 
         while len(self.view_ids) < len(self.view_mode):
@@ -108,14 +103,17 @@ class Screen(TinyInputWidget):
         self.count         = params.count
 
         if (self.ids or self.id) and self.count == 0:
-            self.count = rpc.RPCProxy(self.model).search_count(self.domain, self.context)
-
+            if self.ids and len(self.ids) < self.limit:
+                self.count = len(self.ids)
+            else:
+                self.count = rpc.RPCProxy(self.model).search_count(self.domain, self.context)
+                
         self.prefix             = prefix
         self.views_preloaded    = views_preloaded or (params.views or {})
 
         self.hastoolbar         = hastoolbar
         self.toolbar            = None
-        
+
         self.hassubmenu         = hassubmenu
         self.submenu            = None
 
@@ -145,62 +143,10 @@ class Screen(TinyInputWidget):
     def add_view(self, view, view_type='form'):
 
         self.view_id = view.get('view_id', self.view_id)
-
-        if view_type == 'form':
-            self.widget = form.Form(prefix=self.prefix,
-                                    model=self.model,
-                                    view=view,
-                                    ids=(self.id or []) and [self.id],
-                                    domain=self.domain,
-                                    context=self.context,
-                                    editable=self.editable,
-                                    readonly=self.readonly,
-                                    nodefault=self.nodefault, nolinks=self.link)
-
-            if not self.is_wizard and self.ids is None:
-                proxy = rpc.RPCProxy(self.model)
-                self.ids = proxy.search(self.domain, self.offset or False, self.limit or False, 0, self.context)
-                self.count = proxy.search_count(self.domain, self.context)
-
-        elif view_type == 'tree':
-            self.widget = listgrid.List(self.name or '_terp_list',
-                                        model=self.model,
-                                        view=view,
-                                        ids=self.ids,
-                                        domain=self.domain,
-                                        context=self.context,
-                                        view_mode=self.view_mode,
-                                        editable=self.editable,
-                                        selectable=self.selectable,
-                                        offset=self.offset, limit=self.limit, count=self.count, nolinks=self.link)
-
-            self.ids = self.widget.ids
-            self.limit = self.widget.limit
-            self.count = self.widget.count
-
-        elif view_type == 'graph':
-            self.widget = graph.Graph(model=self.model,
-                                      view=view,
-                                      view_id=view.get('view_id', False),
-                                      ids=self.ids, domain=self.domain,
-                                      context=self.context)
-            self.ids = self.widget.ids
-
-        elif view_type == 'calendar':
-            self.widget = tinycalendar.get_calendar(view=view,
-                                                    model=self.model,
-                                                    ids=self.ids,
-                                                    domain=self.domain,
-                                                    context=self.context,
-                                                    options=self.kalendar)
-
-        elif view_type == 'gantt':
-            self.widget = tinycalendar.GanttCalendar(model=self.model,
-                                                     view=view,
-                                                     ids=self.ids,
-                                                     domain=self.domain,
-                                                     context=self.context,
-                                                     options=self.kalendar)
+        self.view = view  
+        
+        from _views import get_view_widget
+        self.widget = get_view_widget(view_type, self)
 
         self.string = (self.widget or '') and self.widget.string
 
@@ -209,12 +155,11 @@ class Screen(TinyInputWidget):
             if value: toolbar[item] = value
 
         submenu = view.get('submenu', {})
-        
+
         self.toolbar = toolbar or None
         self.submenu = eval(ustr(submenu)) or None
-        
+
         self.hastoolbar = (toolbar or False) and True
         self.hassubmenu = (submenu or False) and True
 
 # vim: ts=4 sts=4 sw=4 si et
-

@@ -26,19 +26,12 @@
 # You can see the MPL licence at: http://www.mozilla.org/MPL/MPL-1.1.html
 #
 ###############################################################################
-
 import time
 
 import cherrypy
-
-from openerp.utils import rpc
-from openerp.utils import TinyDict
-from openerp.utils import expr_eval
-
+from openerp.utils import TinyDict, expr_eval
+from openerp.widgets import TinyInputWidget, register_widget
 from openerp.widgets.screen import Screen
-
-from openerp.widgets import TinyInputWidget
-from openerp.widgets import register_widget
 
 
 __all__ = ["O2M"]
@@ -48,7 +41,7 @@ class O2M(TinyInputWidget):
     """One2Many widget
     """
     template = "templates/one2many.mako"
-    params = ['id', 'parent_id', 'new_attrs', 'pager_info', 'switch_to', 'default_get_ctx']
+    params = ['id', 'parent_id', 'new_attrs', 'pager_info', 'switch_to', 'default_get_ctx', 'source']
     member_widgets = ['screen']
 
     form = None
@@ -63,12 +56,10 @@ class O2M(TinyInputWidget):
         self.new_attrs = { 'text': _("New"), 'help': _('Create new record.')}
         self.default_get_ctx = attrs.get('default_get', {}) or attrs.get('context', {})
 
-#        self.colspan = 4
-#        self.nolabel = True
 
         # get top params dictionary
         params = cherrypy.request.terp_params
-
+        self.source = params.source
         pprefix = ''
         if '/' in self.name:
             pprefix = self.name[:self.name.rindex('/')]
@@ -104,16 +95,25 @@ class O2M(TinyInputWidget):
 
         self.switch_to = view_mode[-1]
         if view_type == view_mode[-1]: self.switch_to = view_mode[0]
-        
-        ids = attrs.get('value') or []
+
+        if '_terp_sort_domain' in params:
+            if len(params.o2m.split('/')) > 1:
+                parent = params.o2m.split('/')[0]
+                child = params.o2m.split('/')[1]
+                ids = params[parent][child].ids
+            else:
+                ids = params[params.o2m].ids
+        else:
+            ids = attrs.get('value') or []
+
         if not isinstance(ids, list):
             ids = [ids]
-            
+
         if ids and isinstance(ids[0], dict):
             ids = []
-            
+
         id = (ids or None) and ids[0]
-        
+
         if current and params.source and self.name in params.source.split('/'):
             id = current.id
 
@@ -126,6 +126,8 @@ class O2M(TinyInputWidget):
         current.view_type = view_type
         current.domain = current.domain or []
         current.context = current.context or {}
+
+        group_by_ctx = ''
 
         if self.default_get_ctx:
             ctx = cherrypy.request.terp_record
@@ -144,9 +146,17 @@ class O2M(TinyInputWidget):
             except:
                 pass
 
+            if ctx and ctx.get('group_by'):
+                group_by_ctx = ctx.get('group_by')
+
         current.offset = current.offset or 0
         current.limit = current.limit or 20
         current.count = len(ids or [])
+
+        # Group By for one2many list.
+        if group_by_ctx:
+            current.group_by_ctx = group_by_ctx
+            current.domain = [('id', 'in', ids)]
 
         if current.view_type == 'tree' and self.readonly:
             self.editable = False
@@ -175,12 +185,9 @@ class O2M(TinyInputWidget):
 
         if not self.ids:
             return []
-        
+
         values = getattr(self.screen.widget, 'values', [])
-        
+
         return [(1, val.get('id', False), val) for val in values]
 
 register_widget(O2M, ["one2many", "one2many_form", "one2many_list"])
-
-# vim: ts=4 sts=4 sw=4 si et
-

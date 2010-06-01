@@ -37,5 +37,3 @@ def nestedvars_tool():
 
 cherrypy.tools.nestedvars = cherrypy.Tool("before_handler", nestedvars_tool)
 cherrypy.lowercase_api = True
-
-

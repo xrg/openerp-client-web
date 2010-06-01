@@ -3,7 +3,6 @@
         id="${name}" 
         kind="${kind}" 
         name="${name}" 
-        style="width: 100%" 
         class="${css_class}"
         search_context="${search_context}" ${py.attrs(attrs)}>
         <option value=""></option>

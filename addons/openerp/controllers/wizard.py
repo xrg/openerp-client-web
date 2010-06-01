@@ -26,31 +26,20 @@
 # You can see the MPL licence at: http://www.mozilla.org/MPL/MPL-1.1.html
 #
 ###############################################################################
-
 import re
 
 import cherrypy
-
-from openobject.tools import expose
-from openobject.tools import redirect
-from openobject.tools import validate
-from openobject.tools import error_handler
-
-from openerp.utils import rpc
-from openerp.utils import icons
-from openerp.utils import common
-from openerp.utils import TinyDict
-
+from openerp import widgets as tw, validators
 from openerp.controllers import SecuredController
-
-from openerp import widgets as tw
-from openerp import validators
+from openerp.utils import rpc, icons, TinyDict
 
 import form
+from openobject.tools import expose, redirect, validate, error_handler
+from openobject import pooler
 
 class Wizard(SecuredController):
-    
-    _cp_path = "/wizard"
+
+    _cp_path = "/openerp/wizard"
 
     def execute(self, params):
 
@@ -89,7 +78,7 @@ class Wizard(SecuredController):
                 res['datas'] = {}
 
             if res['type']=='form':
-                
+
                 fields = res['fields']
                 form_values = {}
 
@@ -102,27 +91,27 @@ class Wizard(SecuredController):
                 datas['form'] = form_values
 
                 res['datas'].update(datas['form'])
-                
+
                 params.is_wizard = True
                 params.view_mode = ['form']
                 params.view_type = 'form'
                 params.views = {'form': res}
-                
+
                 # keep track of datas and some other required information
                 params.hidden_fields = [tw.form.Hidden(name='_terp_datas', default=ustr(datas)),
                                         tw.form.Hidden(name='_terp_state2', default=state),
                                         tw.form.Hidden(name='_terp_wiz_id', default=wiz_id)]
-                
-                form = tw.form_view.ViewForm(params, name="view_form", action="/wizard/action")
+
+                form = tw.form_view.ViewForm(params, name="view_form", action="/openerp/wizard/action")
 
                 buttons = []
                 for x in res.get('state', []):
                     x = list(x)
                     x[1] = re.sub('_(?!_)', '', x[1]) # remove mnemonic
-                    
+
                     if len(x) >= 3:
                         x[2] = icons.get_icon(x[2])
-                        
+
                     buttons.append(tuple(x))
 
                 params.state = state
@@ -130,7 +119,9 @@ class Wizard(SecuredController):
 
             elif res['type']=='action':
                 import actions
-
+                # If configuration is done 
+                if res['state'] == 'end':
+                    return self.end()
                 act_res = actions.execute(res['action'], **datas)
                 if act_res:
                     return act_res
@@ -150,7 +141,7 @@ class Wizard(SecuredController):
             elif res['type']=='state':
                 state = res['state']
 
-        raise redirect('/wizard/end')
+        raise redirect('/openerp/wizard/end')
 
     @expose(template="templates/wizard.mako")
     def create(self, params, tg_errors=None):
@@ -168,9 +159,10 @@ class Wizard(SecuredController):
         if 'wizard_parent_params' in cherrypy.session:
             frm = cherrypy.session['wizard_parent_form']
             params = cherrypy.session['wizard_parent_params']
-
-            frm = eval('cherrypy.request.app.root' + frm.replace('/', '.'))
-            return frm.create(params)
+            try:
+                return pooler.get_pool().get_controller(frm).create(params)
+            except:
+                pass
 
         import actions
         return actions.close_popup()
@@ -231,4 +223,3 @@ class Wizard(SecuredController):
         return self.create(params, tg_errors=tg_errors)
 
 # vim: ts=4 sts=4 sw=4 si et
-

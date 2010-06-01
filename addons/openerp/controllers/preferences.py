@@ -26,26 +26,17 @@
 # You can see the MPL licence at: http://www.mozilla.org/MPL/MPL-1.1.html
 #
 ###############################################################################
+from openerp.utils import rpc, TinyDict, cache
 
-import re
-import time
+from form import Form
+from openobject.tools import expose, redirect
 
 import cherrypy
 
-from openobject.tools import expose
-from openobject.tools import redirect
-
-from openerp.utils import rpc
-from openerp.utils import TinyDict
-
-from openerp.controllers import SecuredController
-
-from form import Form
-
 
 class Preferences(Form):
-    
-    _cp_path = "/pref"
+
+    _cp_path = "/openerp/pref"
 
     @expose(template="templates/preferences.mako")
     def create(self):
@@ -83,7 +74,10 @@ class Preferences(Form):
         proxy = rpc.RPCProxy('res.users')
         proxy.write([rpc.session.uid], data)
         rpc.session.context_reload()
-        raise redirect('/pref/create')
-
+        raise redirect('/openerp/pref/create')
+    
+    @expose()
+    def clear_cache(self):
+        cache.clear()
+        raise redirect('/openerp')
 # vim: ts=4 sts=4 sw=4 si et
-

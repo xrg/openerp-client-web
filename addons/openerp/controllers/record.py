@@ -26,14 +26,10 @@
 # You can see the MPL licence at: http://www.mozilla.org/MPL/MPL-1.1.html
 #
 ###############################################################################
-
 import time
 
-from openerp.utils import expr_eval
-from openerp.utils import TinyDict
-
-from openerp.widgets import TinyWidget
-from openerp.widgets import TinyInputWidget
+from openerp.utils import expr_eval, TinyDict
+from openerp.widgets import TinyWidget, TinyInputWidget
 
 from form import Form
 
@@ -57,7 +53,7 @@ class Record(dict):
         parent = parent or self
 
         for wid in parent.iter_member_widgets():
-            
+
             if isinstance(wid, TinyInputWidget) and wid.name and not wid.name.endswith('/'):
                 self[wid.name] = wid.get_value()
 

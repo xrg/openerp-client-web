@@ -58,13 +58,15 @@ class Action(TinyInputWidget):
         super(Action, self).__init__(**attrs)
         self.nolabel = True
 
-        self.act_id=attrs['name']
-        res = rpc.session.execute('object', 'execute', 'ir.actions.actions', 'read', [self.act_id], ['type'], rpc.session.context)
+        self.act_id = int(attrs['name'])
+        
+        proxy = rpc.RPCProxy("ir.actions.actions")
+        res = proxy.read([self.act_id], ['type'], rpc.session.context)
         if not res:
             raise _('Action not found!')
 
-        type=res[0]['type']
-        self.action = rpc.session.execute('object', 'execute', type, 'read', [self.act_id], False, rpc.session.context)[0]
+        _type=res[0]['type']
+        self.action = rpc.session.execute('object', 'execute', _type, 'read', [self.act_id], False, rpc.session.context)[0]
 
         if 'view_mode' in attrs:
             self.action['view_mode'] = attrs['view_mode']
@@ -73,10 +75,10 @@ class Action(TinyInputWidget):
 
             if not self.action.get('domain', False):
                 self.action['domain']='[]'
-            
+
             ctx = rpc.session.context.copy()
             ctx.update({'active_id': False, 'active_ids': []})
-            
+
             self.context = expr_eval(self.action.get('context', '{}'), ctx)
             self.domain = expr_eval(self.action['domain'], ctx)
 
@@ -110,8 +112,7 @@ class Action(TinyInputWidget):
 
             elif self.action['view_type']=='tree':
                 pass #TODO
-            
-register_widget(Action, ["action"])            
+
+register_widget(Action, ["action"])
 
 # vim: ts=4 sts=4 sw=4 si et
-

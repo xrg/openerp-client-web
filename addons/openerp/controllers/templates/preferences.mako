@@ -1,18 +1,16 @@
-<%inherit file="/openobject/controllers/templates/base.mako"/>
+<%inherit file="/openerp/controllers/templates/base.mako"/>
 
 <%def name="header()">
     <title>${params.string}</title>
     <script type="text/javascript">
-        var form_controller = '/pref';
+        var form_controller = '/openerp/pref';
     </script>
 </%def>
 
 <%def name="content()">
 
-<%include file="header.mako"/>
-
     <div class="view">
-        <form name="view_form" id="view_form" action="/pref/ok" method="post">
+        <form name="view_form" id="view_form" action="/openerp/pref/ok" method="post">
             <table align="center">
                 <tr>
                     <td class="toolbar welcome">${params.string}</td>
@@ -20,13 +18,14 @@
                 <tr>
                     <td>${form.display()}</td>
                 </tr>
-                <td class="toolbar" align="right">
-                    <button type='button' style="width: 80px" onclick="openobject.http.redirect('/')">${_("Cancel")}</button>
-                    <button type='button' style="width: 80px" onclick="submit_form('ok')">${_("Save")}</button>
-                </td>
+                <tr>
+	                <td style="text-align: right; padding: 0 30px 0 0;">
+	                    <button type='button' class="static_buttons" onclick="openobject.http.redirect('/openerp')">${_("Cancel")}</button>
+	                    <button type='button' class="static_buttons" onclick="submit_form('ok')">${_("Save")}</button>
+	                </td>
+	            </tr>
             </table>
         </form>
     </div>
     
-<%include file="footer.mako"/>
 </%def>

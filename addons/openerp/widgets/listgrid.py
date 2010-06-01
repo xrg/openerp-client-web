@@ -26,36 +26,21 @@
 # You can see the MPL licence at: http://www.mozilla.org/MPL/MPL-1.1.html
 #
 ###############################################################################
-
-import time
-import math
 import copy
-import locale
+import math
+import time
 import xml.dom.minidom
+from itertools import chain, count
 
 import cherrypy
-
-from openobject import tools
-
-from openobject.i18n import format
-from openobject.widgets import CSSLink, JSLink
-
-from openerp.utils import rpc
-from openerp.utils import icons
-from openerp.utils import common
-from openerp.utils import expr_eval
-from openerp.utils import node_attributes
+from openerp.utils import rpc, icons, common, expr_eval, node_attributes
+from openerp.widgets import TinyWidget, TinyInputWidget, ConcurrencyInfo, get_widget
 
 import form
-
+from openobject import tools
+from openobject.i18n import format
+from openobject.widgets import CSSLink, JSLink
 from pager import Pager
-
-from openerp.widgets import TinyWidget
-from openerp.widgets import TinyInputWidget
-from openerp.widgets import ConcurrencyInfo
-
-from openerp.widgets import get_widget
-from openerp.widgets import register_widget
 
 
 class List(TinyWidget):
@@ -63,7 +48,7 @@ class List(TinyWidget):
     template = "templates/listgrid.mako"
     params = ['name', 'data', 'columns', 'headers', 'model', 'selectable', 'editable',
               'pageable', 'selector', 'source', 'offset', 'limit', 'show_links', 'editors',
-              'hiddens', 'edit_inline', 'field_total', 'link', 'checkbox_name', 'm2m', 'min_rows']
+              'hiddens', 'edit_inline', 'field_total', 'link', 'checkbox_name', 'm2m', 'min_rows', 'string']
 
     member_widgets = ['pager', 'buttons', 'editors', 'concurrency_info']
 
@@ -96,7 +81,10 @@ class List(TinyWidget):
 
         self.context = context or {}
         self.domain = domain or []
-
+        
+        custom_search_domain = getattr(cherrypy.request, 'custom_search_domain', [])
+        custom_filter_domain = getattr(cherrypy.request, 'custom_filter_domain', [])        
+        
         if name.endswith('/'):
             self._name = name[:-1]
 
@@ -106,7 +94,7 @@ class List(TinyWidget):
         self.selectable = kw.get('selectable', 0)
         self.editable = kw.get('editable', False)
         self.pageable = kw.get('pageable', True)
-        
+
         self.offset = kw.get('offset', 0)
         self.limit = kw.get('limit', 0)
         self.count = kw.get('count', 0)
@@ -128,17 +116,15 @@ class List(TinyWidget):
         attrs = node_attributes(root)
         self.string = attrs.get('string','')
         
-        # is relational field (M2M/O2M)
-        if self.source:
-            self.limit = cherrypy.request.app.config['openobject-web'].get('child.listgrid.limit', self.limit) 
-            self.min_rows = cherrypy.request.app.config['openobject-web'].get('child.listgrid.min_rows', 5)
-        else:
-            self.min_rows = 5
-
-        try:
-            self.min_rows = int(attrs.get('min_rows'))
-        except:
-            pass
+        search_param = domain or []
+        if custom_search_domain:
+            for elem in custom_search_domain:
+                if elem not in self.domain:
+                    search_param.append(elem)
+                    
+            for elem in custom_filter_domain:
+                if elem not in self.domain:
+                    search_param.append(elem)
 
         try:
             self.limit = int(attrs.get('limit'))
@@ -152,21 +138,21 @@ class List(TinyWidget):
                 self.colors[colour] = test
 
         proxy = rpc.RPCProxy(model)
-
-        if ids == None:
+        
+        if ids is None:
             if self.limit > 0:
-                ids = proxy.search(domain, self.offset, self.limit, 0, context)
+                ids = proxy.search(search_param, self.offset, self.limit, 0, context)
             else:
-                ids = proxy.search(domain, 0, 0, 0, context)
-
+                ids = proxy.search(search_param, 0, 0, 0, context)
+                
             self.count = proxy.search_count(domain, context)
-
+                
         self.data_dict = {}
         data = []
-        
+
         if ids and not isinstance(ids, list):
             ids = [ids]
-        
+
         if ids and len(ids) > 0:
 
             ctx = rpc.session.context.copy()
@@ -175,12 +161,15 @@ class List(TinyWidget):
             data = proxy.read(ids, fields.keys() + ['__last_update'], ctx)
             self._update_concurrency_info(self.model, data)
             self.concurrency_info = ConcurrencyInfo(self.model, ids)
-
+            order_data = [(d['id'], d) for d in data]
+            orderer = dict(zip(ids, count()))
+            ordering = sorted(order_data, key=lambda object: orderer[object[0]])
+            data = [i[1] for i in ordering]
             for item in data:
                 self.data_dict[item['id']] = item.copy()
 
             self.ids = ids
-            
+
         self.values = copy.deepcopy(data)
         self.headers, self.hiddens, self.data, self.field_total, self.buttons = self.parse(root, fields, data)
 
@@ -201,13 +190,14 @@ class List(TinyWidget):
         if self.editable and attrs.get('editable') in ('top', 'bottom'):
 
             for f, fa in self.headers:
-                k = fa.get('type', 'char')
-                if not get_widget(k):
-                    k = 'char'
+                if not isinstance(fa, int):
+                    k = fa.get('type', 'char')
+                    if not get_widget(k):
+                        k = 'char'
 
-                fa['prefix'] = '_terp_listfields' + ((self.name != '_terp_list' or '') and '/' + self.name)
-                fa['inline'] = True
-                self.editors[f] = get_widget(k)(**fa)
+                    fa['prefix'] = '_terp_listfields' + ((self.name != '_terp_list' or '') and '/' + self.name)
+                    fa['inline'] = True
+                    self.editors[f] = get_widget(k)(**fa)
 
             # generate hidden fields
             for f, fa in self.hiddens:
@@ -219,7 +209,7 @@ class List(TinyWidget):
                 self.editors[f] = form.Hidden(**fa)
 
         # limit the data
-        if self.pageable and len(self.data) > self.limit:
+        if self.pageable and len(self.data) > self.limit and self.limit != -1:
             self.data = self.data[self.offset:]
             self.data = self.data[:min(self.limit, len(self.data))]
 
@@ -245,38 +235,32 @@ class List(TinyWidget):
     def display(self, value=None, **params):
 
         # set editor values
-        if self.editors and self.edit_inline:
+        if not (self.editors and self.edit_inline):
+            return super(List, self).display(value, **params)
 
-            ctx = rpc.session.context.copy()
-            ctx.update(self.context)
+        ctx = dict(rpc.session.context,
+                   **self.context)
 
-            fields = [f for f, fa in self.headers]
-            fields += [f for f, fa in self.hiddens]
+        fields = [name for name, _ in chain(self.headers, self.hiddens)]
 
-            proxy = rpc.RPCProxy(self.model)
+        proxy = rpc.RPCProxy(self.model)
 
-            values = {}
-            defaults = {}
+        if self.edit_inline > 0:
+            values = self.data_dict[self.edit_inline]
+        else:
+            values = dict(proxy.default_get(fields, ctx))
 
             # update values according to domain
-            for d in self.domain:
-                if d[0] in fields:
-                    if d[1] == '=':
-                        values[d[0]] = d[2]
-                    if d[1] == 'in' and len(d[2]) == 1:
-                        values[d[0]] = d[2][0]
+            for (field, operator, value) in self.domain:
+                if field in fields:
+                    if operator == '=':
+                        values[field] = value
+                    elif operator == 'in' and len(value) == 1:
+                        values[field] = value[0]
 
-            if self.edit_inline > 0:
-                values = self.data_dict[self.edit_inline]
-            else:
-                defaults = proxy.default_get(fields, ctx)
-
-            for k, v in defaults.items():
-                values.setdefault(k, v)
-
-            for f in fields:
-                if f in values:
-                    self.editors[f].set_value(values[f])
+        for f in fields:
+            if f in values:
+                self.editors[f].set_value(values[f])
 
         return super(List, self).display(value, **params)
 
@@ -301,8 +285,13 @@ class List(TinyWidget):
 
             if node.nodeName == 'button':
                 attrs = node_attributes(node)
+                if attrs.get('invisible', False):
+                    visible = eval(attrs['invisible'], {'context':self.context})
+                    if visible:
+                        continue
                 buttons += [Button(**attrs)]
-
+                headers.append(("button", len(buttons)))
+                
             elif node.nodeName == 'field':
                 attrs = node_attributes(node)
 
@@ -347,7 +336,7 @@ class List(TinyWidget):
 
                     if invisible:
                         hiddens += [(name, fields[name])]
-                        continue
+#                        continue
 
                     if 'sum' in attrs:
                         field_total[name] = [attrs['sum'], 0.0]
@@ -373,8 +362,11 @@ class List(TinyWidget):
 
                         row[name] = cell
 
-                    headers += [(name, fields[name])]
+                    if invisible:
+                        continue
 
+                    headers += [(name, fields[name])]
+                    
         return headers, hiddens, data, field_total, buttons
 
 class Char(TinyWidget):
@@ -393,7 +385,7 @@ class Char(TinyWidget):
 
         self.text = self.get_text()
         self.link = self.get_link()
-        
+
         self.color = None
         self.onclick = None
 
@@ -417,31 +409,24 @@ class Char(TinyWidget):
 
 class M2O(Char):
 
-    template = """\
-        <span>
-            % if link:
-                <a href="${link}">${text}</a>
-            % else:
-                ${text}
-            % endif
-        </span>
-    """
-
     def get_text(self):
-        
+
         if isinstance(self.value, int):
             self.value = self.value, rpc.name_get(self.attrs['relation'], self.value)
-            
+
         if self.value and len(self.value) > 0:
-            return self.value[-1]
+            if isinstance(self.value, tuple):
+                return self.value[-1]
+            else:
+                return self.value
 
         return ''
 
     def get_link(self):
         m2o_link = int(self.attrs.get('link', 1))
-        
+
         if m2o_link == 1:
-            return tools.url('/form/view', model=self.attrs['relation'], id=(self.value or False) and self.value[0])
+            return tools.url('/openerp/form/view', model=self.attrs['relation'], id=(self.value or False) and self.value[0])
         else:
             return None
 
@@ -508,10 +493,13 @@ class ProgressBar(Char):
     """
 
     def get_text(self):
+        if not self.value:
+            return 0.0
+        
         if isinstance(self.value, float):
-            self.value = '%.2f' % (self.value)            
+            self.value = '%.2f' % (self.value)
             self.value = float(self.value)
-            
+
             if self.value > 100.0:
                 self.range = 100.0
             else:
@@ -531,25 +519,29 @@ class DateTime(Char):
         return ustr(self.value or '')
 
 class Boolean(Char):
-    
-    params = ['value', 'kind']
-    
-    template = """ <input type="checkbox" kind="${kind}" class="checkbox" readonly="readonly" disabled="disabled" value="${py.checker(value)}"> """
+
+    params = ['val', 'kind']
+
+    template = """ <input type="checkbox" kind="${kind}" class="checkbox" readonly="readonly" disabled="disabled" ${py.checker(val)} value="${val}"> """
 
     def get_text(self):
-        self.kind=self.attrs.get('type', 'boolean')
-        self.default = self.value or ''
-        
+        self.val = int(self.value)
+        self.kind = 'boolean'
+#        if int(self.value) == 1:
+#            return _('Yes')
+#        else:
+#            return _('No')
+
 class Button(TinyInputWidget):
-    
+
     params = ['icon', 'id', 'parent_grid', 'btype', 'confirm', 'width', 'context']
 
     template="""
     % if visible and not icon:
-    <button type="button" ${py.attrs(attrs, context=ctx)} title="${help}" style="min-width: ${width}px;"
+    <a class="button-b" href="javascript: void(0)" ${py.attrs(attrs, context=ctx)} title="${help}"
         onclick="new ListView('${parent_grid}').onButtonClick('${name}', '${btype}', ${id}, '${confirm}', getNodeAttribute(this, 'context'))">
         ${string}
-    </button>
+    </a>
     % endif
     % if visible and icon:
     <img height="16" width="16" class="listImage" src="${icon}" title="${help}" context="${ctx}" ${py.attrs(attrs)}
@@ -610,4 +602,3 @@ CELLTYPES = {
 }
 
 # vim: ts=4 sts=4 sw=4 si et
-

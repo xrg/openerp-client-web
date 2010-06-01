@@ -47,17 +47,19 @@ class ViewTree(Form):
     template = "templates/viewtree.mako"
     params = ['model', 'id', 'ids', 'domain', 'context', 'view_id', 'toolbar']
     member_widgets = ['tree', 'sidebar']
-    
+
     javascript = [JSLink("openerp", "javascript/form.js", location=locations.bodytop)]
 
-    def __init__(self, view, model, res_id=False, domain=[], context={}, action=None):
+    def __init__(self, view, model, res_id=False, domain=[], context={}, action=None, fields=None):
         super(ViewTree, self).__init__(name='view_tree', action=action)
 
         self.model = view['model']
         self.domain2 = domain or []
         self.context = context or {}
-
         self.domain = []
+        
+        fields_info = {}
+        fields_info.update(fields)
 
         self.field_parent = view.get("field_parent") or None
 
@@ -71,8 +73,7 @@ class ViewTree(Form):
 
         ctx = self.context.copy();
         ctx.update(rpc.session.context)
-
-        fields = cache.fields_get(self.model, False, ctx)
+                
         dom = xml.dom.minidom.parseString(view['arch'].encode('utf-8'))
 
         root = dom.childNodes[0]
@@ -101,23 +102,24 @@ class ViewTree(Form):
         self.tree = treegrid.TreeGrid(name="tree_%s" % (id),
                                       model=self.model,
                                       headers=self.headers,
-                                      url=url("/tree/data"),
-                                      ids=ids or 0,
+                                      url=url("/openerp/tree/data"),
+                                      ids=ids,
                                       domain=self.domain,
                                       context=self.context,
                                       field_parent=self.field_parent,
                                       onselection="onSelection",
-                                      onheaderclick="onHeaderClick")
+                                      onheaderclick="onHeaderClick",
+                                      fields_info=fields_info)
         self.id = id
         self.ids = ids
-        
+
         submenu = {}
         toolbar = {}
         for item, value in view.get('toolbar', {}).items():
             if value: toolbar[item] = value
+        if toolbar:
+            self.sidebar = Sidebar(self.model, submenu, toolbar, context=self.context)
 
-        self.sidebar = Sidebar(self.model, submenu, toolbar, context=self.context)
-        
         # get the correct view title
         self.string = getattr(cherrypy.request, '_terp_view_name', self.string)
 
@@ -136,4 +138,3 @@ class ViewTree(Form):
             self.headers += [field]
 
 # vim: ts=4 sts=4 sw=4 si et
-

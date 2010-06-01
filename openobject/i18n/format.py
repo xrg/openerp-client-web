@@ -87,13 +87,21 @@ def format_datetime(value, kind="datetime", as_timetuple=False):
 
     server_format = DT_SERVER_FORMATS[kind]
     local_format = get_datetime_format(kind)
-    
+
     if not value:
         return ''
 
     if isinstance(value, (time.struct_time, tuple)):
         value = time.strftime(server_format, value)
-
+        
+    if isinstance(value, DT.datetime):
+        value = ustr(value)
+        try:
+            value = DT.datetime.strptime(value[:10], server_format)
+            return value.strftime(local_format)
+        except:
+            return ''
+        
     value = value.strip()
 
     # remove trailing miliseconds
@@ -180,12 +188,12 @@ def format_decimal(value, digits=2):
     if digits == 0:
         return numbers.format_number(value, locale=locale)
     num, decimals = v.split(".", 1)
-    
+
     if num == "-0":
         val = "-0"
     else:
         val = numbers.format_number(int(num), locale=locale)
-        
+
     return val + unicode(numbers.get_decimal_symbol(locale) + decimals)
 
 def parse_decimal(value):

@@ -15,7 +15,7 @@
         src="${src}" 
         width="${width}" 
         height="${height}" 
-        onclick="openobject.tools.openWindow(openobject.http.getURL('/image', {model: '${model}', id: ${id}, field : '${field}'}), {width: 500, height: 300});"/>
+        onclick="openobject.tools.openWindow(openobject.http.getURL('/openerp/image', {model: '${model}', id: ${id}, field : '${field}'}), {width: 500, height: 300});"/>
 % endif
 
 % if not stock and id and not editable:

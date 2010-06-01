@@ -6,7 +6,7 @@ var TreeView = function(current) {
     }
   
     this.__init__(current);
-}
+};
 
 TreeView.prototype = {
 
@@ -28,7 +28,8 @@ TreeView.prototype = {
         if (openobject.http.AJAX_COUNT > 0) {
             return;
         }
-    
+        ids = ids == ''? 'None' : ids;
+    	
         var tree = this.trees['tree_' + id] || null;
         
         MochiKit.DOM.removeElementClass(this.current_button, "selected");
@@ -66,9 +67,9 @@ TreeView.prototype = {
         var form = document.forms['view_tree'];
         var args = {
             '_terp_selection': '[' + selection + ']'
-        }
+        };
 
-        setNodeAttribute(form, 'action', openobject.http.getURL('/tree/switch', args));
+        setNodeAttribute(form, 'action', openobject.http.getURL('/openerp/tree/switch', args));
         form.method = 'post';
         form.submit();
     
@@ -80,4 +81,4 @@ TreeView.prototype = {
     
     toString: MochiKit.Base.forwardCall("repr")
     
-}
+};

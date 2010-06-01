@@ -26,31 +26,19 @@
 # You can see the MPL licence at: http://www.mozilla.org/MPL/MPL-1.1.html
 #
 ###############################################################################
-
 import urllib
 
 import cherrypy
-
-from openobject.tools import expose
-from openobject.tools import validate
-from openobject.tools import error_handler
-from openobject.tools import exception_handler
-
-from openerp.utils import rpc
-from openerp.utils import cache
-from openerp.utils import TinyDict
-from openerp.utils import context_with_concurrency_info
-
 from openerp import widgets as tw
+from openerp.utils import rpc, TinyDict, context_with_concurrency_info
 
-from form import Form
-from form import get_validation_schema
-from form import default_error_handler
-from form import default_exception_handler
+from form import Form, get_validation_schema, default_error_handler, default_exception_handler
+from openobject.tools import expose, validate, error_handler, exception_handler
+
 
 class OpenO2M(Form):
-    
-    _cp_path = "/openo2m"
+
+    _cp_path = "/openerp/openo2m"
 
     def create_form(self, params, tg_errors=None):
 
@@ -58,19 +46,19 @@ class OpenO2M(Form):
         params.model = params.o2m_model
         params.view_mode = ['form', 'tree']
         params.view_type = 'form'
-        
+
         #XXX: dirty hack to fix bug #401700
         if not params.get('_terp_view_ids'):
             params['_terp_view_ids'] = []
 
         # to get proper view, first generate form using the view_params
         vp = params.view_params
-        
-        # this prevents calling default_get, causes unnecessary 
+
+        # this prevents calling default_get, causes unnecessary
         # auto increment of sequence
-        vp.id = params.parent_id or False 
-        
-        form = tw.form_view.ViewForm(vp, name="view_form", action="/openo2m/save")
+        vp.id = params.parent_id or False
+
+        form = tw.form_view.ViewForm(vp, name="view_form", action="/openerp/openo2m/save")
         cherrypy.request.terp_validators = {}
         wid = form.screen.widget.get_widgets_by_name(params.o2m)[0]
 
@@ -80,18 +68,23 @@ class OpenO2M(Form):
 
         params.prefix = params.o2m
         params.views = wid.view
-        
+
         # IE hack, get context from cookies (see o2m.js)
         o2m_context = {}
+        parent_context = {}
         try:
             o2m_context = urllib.unquote(cherrypy.request.cookie['_terp_o2m_context'].value)
+            parent_context = urllib.unquote(cherrypy.request.cookie['_terp_parent_context'].value)
             cherrypy.request.cookie['_terp_o2m_context']['expires'] = 0
             cherrypy.response.cookie['_terp_o2m_context']['expires'] = 0
+            cherrypy.request.cookie['_terp_parent_context']['expires'] = 0
+            cherrypy.response.cookie['_terp_parent_context']['expires'] = 0
         except:
             pass
-        
+
         params.o2m_context = params.o2m_context or o2m_context
-        
+        params.parent_context = params.parent_context or parent_context
+
         ctx = params.context or {}
         ctx.update(params.parent_context or {})
         ctx.update(params.o2m_context or {})
@@ -107,9 +100,9 @@ class OpenO2M(Form):
                                 tw.form.Hidden(name='_terp_o2m_context', default=ustr(params.o2m_context or {})),
                                 tw.form.Hidden(name=params.prefix + '/__id', default=params.id or None)] + hiddens
 
-        form = tw.form_view.ViewForm(params, name="view_form", action="/openo2m/save")
+        form = tw.form_view.ViewForm(params, name="view_form", action="/openerp/openo2m/save")
         form.screen.string = wid.screen.string
-        
+
         return form
 
     @expose(template="templates/openo2m.mako")
@@ -142,23 +135,24 @@ class OpenO2M(Form):
         ctx.update(params.o2m_context or {})
 
         id = proxy.write([params.parent_id], data, ctx)
-        
+
         prefix = params.o2m
         current = params.chain_get(prefix)
-        
+
         params.load_counter = 1
         if current and current.id and not params.button:
             params.load_counter = 2
-        
+
         ids = current.ids
         fld = params.o2m.split('/')[-1]
         all_ids = proxy.read([params.parent_id], [fld])[0][fld]
         new_ids = [i for i in all_ids if i not in ids]
 
         current.ids = all_ids
-        #if new_ids:
-        #    current.id = new_ids[0]
-            
+        if new_ids and params.source:
+            current.id = new_ids[0]
+            params.o2m_id = current.id
+
         # perform button action
         if params.button:
             current.button = params.button
@@ -168,12 +162,6 @@ class OpenO2M(Form):
             if res:
                 return res
 
-        # If new O2M action, get the newly created id
-        if params.source:
-            field = prefix.split('/')[-1]
-            current.id = proxy.read([params.parent_id], [field], ctx)[0][field][0]
-            params.o2m_id = current.id
-
         return self.create(params)
 
     @expose()
@@ -182,4 +170,3 @@ class OpenO2M(Form):
         return self.create(params)
 
 # vim: ts=4 sts=4 sw=4 si et
-

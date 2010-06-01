@@ -72,7 +72,7 @@ var onDelete = function(node){
         return;
     }
     
-    var act = data.localName == 'view' ? '/viewed/remove_view' : '/viewed/save/remove';
+    var act = data.localName == 'view' ? '/openerp/viewed/remove_view' : '/openerp/viewed/save/remove';
     
     var req = openobject.http.postJSON(act, {view_id: data.view_id, xpath_expr: getXPath(selected)});
     req.addCallback(function(obj){
@@ -101,7 +101,7 @@ var onAdd = function(node){
         return;
     }
     
-    var req = openobject.http.post('/viewed/add', {view_id: data.view_id, xpath_expr: getXPath(selected)});
+    var req = openobject.http.post('/openerp/viewed/add', {view_id: data.view_id, xpath_expr: getXPath(selected)});
     req.addCallback(function(xmlHttp){
         var el = window.mbox.content;
         el.innerHTML = xmlHttp.responseText;
@@ -137,7 +137,7 @@ var doAdd = function() {
         params[el.name] = el.value;
     });
     
-    var act = openobject.dom.get('node').value == 'view' ? '/viewed/create_view' : '/viewed/save/node';
+    var act = openobject.dom.get('node').value == 'view' ? '/openerp/viewed/create_view' : '/openerp/viewed/save/node';
     
     var req = openobject.http.postJSON(act, params);
     req.addCallback(function(obj) {
@@ -192,7 +192,7 @@ var onEdit = function(node) {
         return;
     };
     
-    var req = openobject.http.post('/viewed/edit', {view_id: data.view_id, xpath_expr: getXPath(selected)});
+    var req = openobject.http.post('/openerp/viewed/edit', {view_id: data.view_id, xpath_expr: getXPath(selected)});
     req.addCallback(function(xmlHttp){
         
         var el = window.mbox.content;
@@ -249,7 +249,7 @@ var doEdit = function() {
         }
     });
     
-    var req = openobject.http.postJSON('/viewed/save/properties', params);
+    var req = openobject.http.postJSON('/openerp/viewed/save/properties', params);
     req.addCallback(function(obj){
         
         if (obj.error){
@@ -291,7 +291,7 @@ var onMove = function(direction, node) {
         xpath_ref: getXPath(refNode)
     }
     
-    var req = openobject.http.postJSON('/viewed/save/move', params);
+    var req = openobject.http.postJSON('/openerp/viewed/save/move', params);
     
     req.addCallback(function(obj) {
         
@@ -350,7 +350,7 @@ var onInherit = function() {
         xpath_expr: getXPath(selected)
     };
     
-    var req = openobject.http.postJSON('/viewed/create_view', params);
+    var req = openobject.http.postJSON('/openerp/viewed/create_view', params);
     req.addCallback(function(obj) {
         
         if (obj.error){
@@ -365,7 +365,7 @@ var onInherit = function() {
 }
 
 var onPreview = function() {
-   var act = openobject.http.getURL('/viewed/preview/show', {'model' : openobject.dom.get('view_model').value, 
+   var act = openobject.http.getURL('/openerp/viewed/preview/show', {'model' : openobject.dom.get('view_model').value, 
                                              'view_id' : openobject.dom.get('view_id').value,
                                              'view_type' : openobject.dom.get('view_type').value});
    
@@ -377,7 +377,7 @@ var onPreview = function() {
 }
 
 var onNew = function(model){                          
-    var act = openobject.http.getURL('/viewed/new_field/edit', {'for_model' : model});
+    var act = openobject.http.getURL('/openerp/viewed/new_field/edit', {'for_model' : model});
     openobject.tools.openWindow(act, {width: 650, height: 400});
 }
 

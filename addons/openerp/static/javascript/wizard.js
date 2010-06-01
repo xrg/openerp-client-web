@@ -31,7 +31,7 @@ var WAITBOX = null;
 var WAITBOX_SHOW = false;
 
 MochiKit.DOM.addLoadEvent(function(evt){
-    WAITBOX = new openobject.ui.WaitBox();
+    WAITBOX = new openerp.ui.WaitBox();
 });
 
 function showWaitBox() {
@@ -44,14 +44,14 @@ function showWaitBox() {
 function wizardAction(state) {
 
     var form = document.forms['view_form'];
-    var act = '/wizard/action';
+    var act = '/openerp/wizard/action';
 
     if (state == 'end'){
-        act = '/wizard/end';
+        act = '/openerp/wizard/end';
     }
 
     if (state == 'report'){
-        act = '/wizard/report';
+        act = '/openerp/wizard/report';
     }
     
     if (state != 'end' && !validate_required(form)) {

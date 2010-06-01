@@ -34,7 +34,7 @@ from openerp.widgets import TinyWidget
 class Pager(TinyWidget):
 
     template = "templates/pager.mako"
-    params = ['offset', 'limit', 'count', 'prev', 'next', 'page_info', 'pager_id']
+    params = ['offset', 'limit', 'count', 'prev', 'next', 'page_info', 'pager_id', 'pager_options']
 
     css = [CSSLink("openerp", 'css/pager.css')]
 
@@ -52,12 +52,17 @@ class Pager(TinyWidget):
         self.offset = offset or 0
         self.limit = limit or 20
         self.count = count or 0
+        self.pager_options = []
+        
+        
+        self.pager_options = [20, 50, 100, 500]
 
-        if len(self.ids) > self.limit:
+        if self.limit != -1 and len(self.ids) > self.limit:
             self.ids = self.ids[self.offset:]
             self.ids = self.ids[:min(self.limit, len(self.ids))]
 
-        if self.view_type == 'form':
+#        if self.view_type == 'form':
+        if self.view_type in ['form', 'diagram']:        
 
             index = 0
             if self.id in self.ids:
@@ -79,4 +84,3 @@ class Pager(TinyWidget):
             self.next = self.offset+len(self.ids) < self.count
 
 # vim: ts=4 sts=4 sw=4 si et
-

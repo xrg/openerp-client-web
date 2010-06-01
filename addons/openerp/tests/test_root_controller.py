@@ -1,4 +1,3 @@
-
 from openerp.utils import rpc
 from openobject.test import TestCase
 
@@ -17,5 +16,3 @@ class RootTest(TestCase):
         self.getPage("/menu")
         self.assertStatus(200)
         self.assertInBody("new TreeGrid")
-        
-

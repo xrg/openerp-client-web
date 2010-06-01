@@ -3,11 +3,46 @@
     font-weight: bold;
     color: #999;
     vertical-align: middle;
+    background: transparent url(../images/dot-a.gif) repeat-x scroll 0 50%;
+    overflow: hidden;
 }
 
-.pager a {
-    color: #333;
+.pager p.paging {
+	color: #a6a5a5; 
+	font-size: 0.9em; 
+	font-weight: bold; 
+	text-transform: uppercase; 
+	text-align: right; 
+	line-height: 1;
+	float: right; 
+	margin: 0; 
+	padding-left: 10px;
 }
+
+.pager p.paging a{
+	 display: -moz-inline-stack; display: inline-block; overflow: hidden; width: 9px; height: 11px; margin: 0 5px; font-size: 0; text-align: left; text-indent: -10001px; vertical-align: middle;
+}
+
+.pager p.paging a.new {
+	 background: none;
+}
+
+.pager p.paging span{
+	 display: -moz-inline-stack; display: inline-block; overflow: hidden; width: 9px; height: 11px; margin: 0 5px; font-size: 0; text-align: left; text-indent: -10001px; vertical-align: middle;
+}
+
+/* .pager p.paging span { position: absolute; left: -10001px; top: -10001px; } */
+
+.pager p.paging a.first { margin: 0; background: url(../images/first.gif) no-repeat; }
+.pager p.paging span.first { margin: 0; background: url(../images/first.gif) no-repeat; }
+.pager p.paging a.prev { width: 7px; background: url(../images/prev.gif) no-repeat; }
+.pager p.paging span.prev { width: 7px; background: url(../images/prev.gif) no-repeat; }
+.pager p.paging a.last { margin: 0; background: url(../images/last.gif) no-repeat; }
+.pager p.paging span.last { margin: 0; background: url(../images/last.gif) no-repeat; }
+.pager p.paging a.next { width: 5px; background: url(../images/next.gif) no-repeat; }
+.pager p.paging span.next { width: 5px; background: url(../images/next.gif) no-repeat; }
+* html p.paging a { display: inline; text-indent: 0; }
+ *:first-child+html p.paging a { display: inline; text-indent: 0; }
 
 .pager a:hover {
     text-decoration: none;

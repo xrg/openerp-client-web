@@ -27,6 +27,22 @@
 //
 ////////////////////////////////////////////////////////////////////////////////
 
+/**
+ *
+ * @event show triggered when a tab of the notebook is displayed
+ *  @argument notebook the notebook instance this
+ *                     event was triggered from
+ *  @argument tab the (DOM element) tab being showed
+ * @event hide triggered when a tab of the notebook is hidden
+ *  @arguments 'see show'
+ * @event activate triggered when a tab is set as the active tab
+ *  @arguments 'see show'
+ * @event remove triggered when a tab is removed from the notebook
+ *  @arguments 'see show'
+ * @event click triggered when the notebook's tab bar is clicked
+ *  @arguments 'see show'
+ *
+ */
 var Notebook = function(element, options) {
 
     var cls = arguments.callee;
@@ -64,7 +80,7 @@ Notebook.prototype = {
             'remember': true,
             'onclose': null
         }, options || {});
-
+        
         this.prepare();
                 
         this.element.notebook = this;
@@ -102,6 +118,7 @@ Notebook.prototype = {
         
             var page = pages[i];
             var text = page.title || "Page " + i;
+            var id = page.id || 'none';
             
             text = text.split('|');
             
@@ -117,6 +134,7 @@ Notebook.prototype = {
             
             this.add(page, {
                 text: text,
+                id: id,
                 help: help,
                 closable: closable,
                 activate: false,
@@ -229,10 +247,11 @@ Notebook.prototype = {
     
         var options = MochiKit.Base.update({
             text: "",                         // text of the tab
+            id: "",							  // ID of tab for static menu
             help: "",                         // help text for the tab
-            closable: this.options.closable,    // make the tab closable
-            activate: true,                     // activate the tab or not
-            css: null                           // additional css class
+            closable: this.options.closable,  // make the tab closable
+            activate: true,                   // activate the tab or not
+            css: null                         // additional css class
         }, options || {});
         
         var text = options.text ? options.text : 'Page ' + this.tabs.length;
@@ -243,7 +262,7 @@ Notebook.prototype = {
         
         MochiKit.DOM.addElementClass(page, 'notebook-page');
         
-        var tab = LI({'class': 'notebook-tab', 'title': options.help},
+        var tab = LI({'class': 'notebook-tab', 'title': options.help, 'id': options.id},
                         A({'href': 'javascript: void(0)', 'class': 'tab-title'}, 
                             SPAN(null, text)));
                             
@@ -482,9 +501,10 @@ Notebook.prototype = {
         //XXX: doesn't work properly under IE
     
         hideElement(this.elemWrap);
-        var w = this.element.parentNode.clientWidth;
-                
+        var w = this.element.parentNode.clientWidth;  
+         
         w = w < this.widthTabs ? w - 36 : w;
+        
         w = Math.max(0, w - 2);
         
         setElementDimensions(this.elemWrap, {w: w});
@@ -530,7 +550,6 @@ Notebook.prototype = {
     },
     
     onScrollRight: function(evt) {
-    
         var w = this.widthTabs - this.widthWrap;
         var x = this.elemWrap.scrollLeft;
         
@@ -545,7 +564,6 @@ Notebook.prototype = {
     },
     
     onScrollLeft: function(evt) {
-    
         var x = this.elemWrap.scrollLeft;
         var s = Math.max(0, x - 100);
         

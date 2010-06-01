@@ -27,8 +27,8 @@
 //
 ////////////////////////////////////////////////////////////////////////////////
 
-if (typeof(Sizzle) == "undefined") {
-    throw "Sizzle is required by 'openobject.dom'.";
+if (typeof(jQuery) == "undefined") {
+    throw "jQuery is required by 'openobject.dom'.";
 }
 
 openobject.dom = {
@@ -60,7 +60,7 @@ openobject.dom = {
             return MochiKit.Base.isArrayLike(selector) ? selector : [selector];
         }
     
-        return Sizzle(selector, MochiKit.DOM.getElement(context));
+        return jQuery(selector, MochiKit.DOM.getElement(context)).get();
     },
     
     /**

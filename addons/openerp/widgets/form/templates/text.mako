@@ -1,12 +1,12 @@
 % if editable and not inline:
 <textarea rows="6" id ="${name}" name="${name}" class="${css_class}"
-    ${py.attrs(attrs, kind=kind)}>${value}</textarea>
+    ${py.attrs(attrs, kind=kind)} style="width: 99%;">${value}</textarea>
 % endif
 
 % if editable and not inline:
 <script type="text/javascript">
     if (!window.browser.isWebKit) {
-        new openobject.ui.TextArea('${name}');
+        new openerp.ui.TextArea('${name}');
     }
 </script>
 % endif

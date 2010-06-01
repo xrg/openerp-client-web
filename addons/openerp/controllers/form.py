@@ -26,39 +26,22 @@
 # You can see the MPL licence at: http://www.mozilla.org/MPL/MPL-1.1.html
 #
 ###############################################################################
-
-import re
 import base64
+import re
 
 import cherrypy
-
-from openobject.tools import expose
-from openobject.tools import redirect
-from openobject.tools import validate
-from openobject.tools import error_handler
-from openobject.tools import exception_handler
-
-from openerp import utils
-
-from openerp.utils import rpc
-from openerp.utils import cache
-from openerp.utils import common
-from openerp.utils import TinyDict
-from openerp.utils import TinyForm
-
+from openerp import utils, widgets as tw, validators
 from openerp.controllers import SecuredController
-
-from openerp import widgets as tw
-from openerp import validators
-
+from openerp.utils import rpc, cache, common, TinyDict, TinyForm
 from openerp.widgets.form import generate_url_for_picture
 
+from openobject.tools import expose, redirect, validate, error_handler, exception_handler
 
 def make_domain(name, value, kind='char'):
     """A helper function to generate domain for the given name, value pair.
     Will be used for search window...
     """
-        
+
     if isinstance(value, int) and not isinstance(value, bool):
         return [(name, '=', value)]
 
@@ -77,10 +60,10 @@ def make_domain(name, value, kind='char'):
             return [(name, '<=', end)]
 
         return None
-    
+
     if kind == "selection" and value:
         return [(name, '=', value)]
-    
+
     if isinstance(value, basestring) and value:
         return [(name, 'ilike', value)]
 
@@ -105,10 +88,10 @@ def search(model, offset=0, limit=20, domain=[], context={}, data={}):
     domain = domain or []
     context = context or {}
     data = data or {}
-    
+
     proxy = rpc.RPCProxy(model)
     fields = proxy.fields_get([], {})
-    
+
     search_domain = domain[:]
     search_data = {}
 
@@ -130,7 +113,13 @@ def search(model, offset=0, limit=20, domain=[], context={}, data={}):
     ctx.update(context)
 
     ids = proxy.search(search_domain, o, l, 0, ctx)
-    count = proxy.search_count(search_domain, ctx)
+    if len(ids) < l:
+        count = len(ids)
+    else:
+        count = proxy.search_count(search_domain, ctx)
+        
+    if isinstance(ids, list):
+        count = len(ids)
 
     return dict(model=model, ids=ids, count=count, offset=o, limit=l,
                 search_domain=search_domain, search_data=search_data)
@@ -153,9 +142,9 @@ def get_validation_schema(self):
 
     cherrypy.request.terp_validators = {}
     cherrypy.request.terp_data = data
-    
+
     params.nodefault = True
-    
+
     form = self.create_form(params)
     cherrypy.request.terp_form = form
 
@@ -187,28 +176,32 @@ def default_exception_handler(self, tg_exceptions=None, **kw):
     raise tg_exceptions
 
 class Form(SecuredController):
-    
-    _cp_path = "/form"
-    
+
+    _cp_path = "/openerp/form"
+
     def create_form(self, params, tg_errors=None):
         if tg_errors:
             return cherrypy.request.terp_form
-
+        
+        cherrypy.session['params'] = params
+        
         params.offset = params.offset or 0
         params.limit = params.limit or 20
         params.count = params.count or 0
         params.view_type = params.view_type or params.view_mode[0]
 
-        return tw.form_view.ViewForm(params, name="view_form", action="/form/save")
+        return tw.form_view.ViewForm(params, name="view_form", action="/openerp/form/save")
 
     @expose(template="templates/form.mako")
     def create(self, params, tg_errors=None):
 
         params.view_type = params.view_type or params.view_mode[0]
-
+        
         if params.view_type == 'tree':
             params.editable = True
 
+        can_shortcut = True
+        
         form = self.create_form(params, tg_errors)
 
         if not tg_errors:
@@ -220,48 +213,49 @@ class Form(SecuredController):
         editable = form.screen.editable
         mode = form.screen.view_type
         id = form.screen.id
-        ids = form.screen.ids
 
         buttons = TinyDict()    # toolbar
-        links = TinyDict()      # bottom links (customise view, ...)
-
         buttons.new = not editable or mode == 'tree'
         buttons.edit = not editable and mode == 'form'
         buttons.save = editable and mode == 'form'
         buttons.cancel = editable and mode == 'form'
         buttons.delete = not editable and mode == 'form'
-        buttons.pager =  mode == 'form' # Pager will visible in edit and non-edit mode in form view.
-
-        buttons.search = 'tree' in params.view_mode and mode != 'tree'
-        buttons.graph = 'graph' in params.view_mode and mode != 'graph'
-        buttons.form = 'form' in params.view_mode and mode != 'form'
-        buttons.calendar = 'calendar' in params.view_mode and mode != 'calendar'
-        buttons.gantt = 'gantt' in params.view_mode and mode != 'gantt'
+        buttons.pager =  mode == 'form' or mode == 'diagram'# Pager will visible in edit and non-edit mode in form view.
         buttons.can_attach = id and mode == 'form'
-        buttons.has_attach = buttons.can_attach and len(form.sidebar.attachments)
+        buttons.has_attach = buttons.can_attach and form.sidebar and form.sidebar.attachments
         buttons.i18n = not editable and mode == 'form'
 
-        target = getattr(cherrypy.request, '_terp_view_target', None)
-        buttons.toolbar = target != 'new' and not form.is_dashboard
+        from openerp.widgets import get_registered_views
+        buttons.views = []
 
-        if cache.can_write('ir.ui.view'):
-            links.view_manager = True
-            
-        if cache.can_write('workflow'):
-            links.workflow_manager = True
-            
-        buttons.process = cache.can_read('process.process')
+        views = get_registered_views()
+        for k, v in views:
+            active = k in params.view_mode and mode != k
+            buttons.views.append(dict(kind=k, name=v.name, desc=v.desc, active=active))
+
+        target = getattr(cherrypy.request, '_terp_view_target', None)
+        buttons.toolbar = (target != 'new' and not form.is_dashboard) or mode == 'diagram'
 
         pager = None
         if buttons.pager:
             pager = tw.pager.Pager(id=form.screen.id, ids=form.screen.ids, offset=form.screen.offset,
                                    limit=form.screen.limit, count=form.screen.count, view_type=params.view_type)
 
-        return dict(form=form, pager=pager, buttons=buttons, links=links, path=self.path)
+        can_shortcut = self.can_shortcut_create()
+        shortcut_ids = []
+        
+        if cherrypy.session.get('terp_shortcuts'):
+            for sc in cherrypy.session['terp_shortcuts']:
+                if isinstance(sc['res_id'], tuple):
+                    shortcut_ids.append(sc['res_id'][0])
+                else:
+                    shortcut_ids.append(sc['res_id'])
+                    
+        return dict(form=form, pager=pager, buttons=buttons, path=self.path, can_shortcut=can_shortcut, shortcut_ids=shortcut_ids)
 
     @expose()
-    def edit(self, model, id=False, ids=None, view_ids=None, view_mode=['form', 'tree'],
-             source=None, domain=[], context={}, offset=0, limit=20, count=0, search_domain=None, **kw):
+    def edit(self, model, id=False, ids=None, view_ids=None, view_mode=['form', 'tree'],source=None, domain=[],
+             context={}, offset=0, limit=20, count=0, search_domain=None, search_data=None, filter_domain=None, **kw):
 
         params, data = TinyDict.split({'_terp_model': model,
                                        '_terp_id' : id,
@@ -274,11 +268,13 @@ class Form(SecuredController):
                                        '_terp_offset': offset,
                                        '_terp_limit': limit,
                                        '_terp_count': count,
-                                       '_terp_search_domain': search_domain})
+                                       '_terp_search_domain': search_domain,
+                                       '_terp_search_data': search_data,
+                                       '_terp_filter_domain': filter_domain})
 
         params.editable = True
         params.view_type = 'form'
-        
+
         cherrypy.request._terp_view_target = kw.get('target')
 
         if params.view_mode and 'form' not in params.view_mode:
@@ -300,8 +296,8 @@ class Form(SecuredController):
         return self.create(params)
 
     @expose()
-    def view(self, model, id, ids=None, view_ids=None, view_mode=['form', 'tree'],
-            source=None, domain=[], context={}, offset=0, limit=20, count=0, search_domain=None, **kw):
+    def view(self, model, id, ids=None, view_ids=None, view_mode=['form', 'tree'], source=None, domain=[],
+             context={}, offset=0, limit=20, count=0, search_domain=None, search_data=None, filter_domain=None, **kw):
         params, data = TinyDict.split({'_terp_model': model,
                                        '_terp_id' : id,
                                        '_terp_ids' : ids,
@@ -313,11 +309,13 @@ class Form(SecuredController):
                                        '_terp_offset': offset,
                                        '_terp_limit': limit,
                                        '_terp_count': count,
-                                       '_terp_search_domain': search_domain})
+                                       '_terp_search_domain': search_domain,
+                                       '_terp_search_data': search_data,
+                                       '_terp_filter_domain': filter_domain})
 
         params.editable = False
         params.view_type = 'form'
-        
+
         cherrypy.request._terp_view_target = kw.get('target')
 
         if params.view_mode and 'form' not in params.view_mode:
@@ -356,7 +354,9 @@ class Form(SecuredController):
                                                offset=params.offset,
                                                limit=params.limit,
                                                count=params.count,
-                                               search_domain=ustr(params.search_domain))
+                                               search_domain=ustr(params.search_domain),
+                                               search_data = ustr(params.search_data),
+                                               filter_domain= ustr(params.filter_domain))
 
         params.view_type = 'tree'
         return self.create(params)
@@ -379,7 +379,7 @@ class Form(SecuredController):
         cherrypy.session['remember_notebooks'] = True
 
         # bypass save, for button action in non-editable view
-        if not (params.button and not params.editable and params.id):
+        if not (params.button and params.editable and params.id):
 
             proxy = rpc.RPCProxy(params.model)
 
@@ -411,6 +411,30 @@ class Form(SecuredController):
         if terp_save_only:
             return dict(params=params, data=data)
 
+        def get_params(p, f):
+
+            pp = p.chain_get(f)
+            px = rpc.RPCProxy(p.model)
+
+            _ids = pp.ids
+            _all = px.read([p.id], [f])[0][f]
+            _new = [i for i in _all if i not in _ids]
+
+            pp.ids = _all
+            if _new:
+                pp.id = _new[0]
+
+            return pp
+
+        if params.source and len(params.source.split("/")) > 1:
+
+            path = params.source.split("/")
+            p = params
+            for f in path:
+                p = get_params(p, f)
+
+            return self.create(params)
+
         args = {'model': params.model,
                 'id': params.id,
                 'ids': ustr(params.ids),
@@ -421,8 +445,10 @@ class Form(SecuredController):
                 'offset': params.offset,
                 'limit': params.limit,
                 'count': params.count,
-                'search_domain': ustr(params.search_domain)}
-                
+                'search_domain': ustr(params.search_domain),
+                'search_data': ustr(params.search_data),
+                'filter_domain': ustr(params.filter_domain)}
+
         if params.editable or params.source or params.return_edit:
             raise redirect(self.path + '/edit', source=params.source, **args)
 
@@ -518,7 +544,8 @@ class Form(SecuredController):
                 'offset': params.offset,
                 'limit': params.limit,
                 'count': params.count,
-                'search_domain': ustr(params.search_domain)}
+                'search_domain': ustr(params.search_domain),
+                'filter_domain': ustr(params.filter_domain)}
 
         if new_id:
             raise redirect(self.path + '/edit', **args)
@@ -557,7 +584,8 @@ class Form(SecuredController):
                 'offset': params.offset,
                 'limit': params.limit,
                 'count': params.count,
-                'search_domain': ustr(params.search_domain)}
+                'search_domain': ustr(params.search_domain),
+                'filter_domain': ustr(params.filter_domain)}
 
         if not params.id:
             raise redirect(self.path + '/edit', **args)
@@ -579,7 +607,33 @@ class Form(SecuredController):
         res = proxy.read([params.id],[params.field], rpc.session.context)
 
         return base64.decodestring(res[0][params.field])
-
+    
+    @expose()
+    def save_attachment(self, **kw):
+        params, data = TinyDict.split(cherrypy.session['params'])
+        datas = base64.encodestring(kw.get('datas').file.read())
+        file_name = kw.get('datas').filename
+        ctx = rpc.session.context.copy()
+        ctx.update({'default_res_model': params.model, 'default_res_id': params.id, 'active_id': False, 'active_ids': []})
+        
+        add_attachment = rpc.RPCProxy('ir.attachment').create({'name': kw.get('datas_fname'), 'description': False, 'datas': datas, 'datas_fname': file_name}, ctx)
+        
+        args = {'model': params.model,
+                'id': params.id,
+                'ids': ustr(params.ids),
+                'view_ids': ustr(params.view_ids),
+                'view_mode': ustr(params.view_mode),
+                'domain': ustr(params.domain),
+                'context': ustr(params.context),
+                'offset': params.offset,
+                'limit': params.limit,
+                'count': params.count,
+                'search_domain': ustr(params.search_domain),
+                'search_data': ustr(params.search_data),
+                'filter_domain': ustr(params.filter_domain)}
+        
+        raise redirect(self.path + '/edit', source=params.source, **args)
+    
     @expose()
     def clear_binary_data(self, **kw):
         params, data = TinyDict.split(kw)
@@ -591,7 +645,7 @@ class Form(SecuredController):
             proxy.write([params.id], {params.field: False, params.fname: False}, ctx)
         else:
             proxy.write([params.id], {params.field: False}, ctx)
-            
+
         args = {'model': params.model,
                 'id': params.id,
                 'ids': ustr(params.ids),
@@ -602,8 +656,9 @@ class Form(SecuredController):
                 'offset': params.offset,
                 'limit': params.limit,
                 'count': params.count,
-                'search_domain': ustr(params.search_domain)}
-                
+                'search_domain': ustr(params.search_domain),
+                'filter_domain': ustr(params.filter_domain)}
+
         raise redirect(self.path + '/edit', **args)
 
     @expose()
@@ -821,42 +876,37 @@ class Form(SecuredController):
         else:
             raise common.message(_("No record selected!"))
 
-    @expose()
-    def report(self, **kw):
-        return self.do_action('client_print_multi', adds={'Print Screen': {'report_name':'printscreen.list',
-                                                                           'name': _('Print Screen'),
-                                                                           'type':'ir.actions.report.xml'}}, datas=kw)
 
     @expose()
     def action(self, **kw):
         params, data = TinyDict.split(kw)
-        
+
         id = params.id or False
         ids = params.selection or []
-        
+
         if not ids and id:
             ids = [id]
-            
+
         if not id and ids:
             id = ids[0]
-        
+
         domain = params.domain or []
         context = params.context or {}
-        
+
         act_id = params.action
-        
+
         if not params.selection and not params.id:
             raise common.message(_('You must save this record to use the sidebar button!'))
-        
+
         if not act_id:
             return self.do_action('client_action_multi', datas=kw)
-        
+
         action_type = rpc.RPCProxy('ir.actions.actions').read(act_id, ['type'], rpc.session.context)['type']
         action = rpc.session.execute('object', 'execute', action_type, 'read', act_id, False, rpc.session.context)
-        
+
         action['domain'] = domain or []
         action['context'] = context or {}
-        
+
         import actions
         return actions.execute(action, model=params.model, id=id, ids=ids, report_type='pdf')
 
@@ -929,13 +979,13 @@ class Form(SecuredController):
             response = getattr(proxy, func_name)(ids, *args)
         except Exception, e:
             return dict(error=ustr(e))
-        
+
         if response is False: # response is False when creating new record for inherited view.
             response = {}
-            
+
         if 'value' not in response:
             response['value'] = {}
-            
+
         result.update(response)
 
         # apply validators (transform values from python)
@@ -1037,19 +1087,26 @@ class Form(SecuredController):
 
         return dict(values=data)
 
+    # Possible to create shortcut for particular object or not.
+    def can_shortcut_create(self):
+        return (rpc.session.is_logged() and
+                rpc.session.active_id and
+                cherrypy.request.path_info == '/openerp/tree/open' and
+                cherrypy.request.params.get('model') == 'ir.ui.menu')
+
     @expose()
     def action_submenu(self, **kw):
         params, data = TinyDict.split(kw)
-        
+
         import actions
-        
+
         act_id = rpc.session.execute('object', 'execute', 'ir.model.data', 'search', [('name','=', params.action_id)])
         res_model = rpc.session.execute('object', 'execute', 'ir.model.data', 'read', act_id, ['res_id'])
-        
+
         res = rpc.session.execute('object', 'execute', 'ir.actions.act_window', 'read', res_model[0]['res_id'], False)
-        
+
         if res:
             return actions.execute(res, model=params.model, id=params.id, context=rpc.session.context.copy())
 
-        
+
 # vim: ts=4 sts=4 sw=4 si et

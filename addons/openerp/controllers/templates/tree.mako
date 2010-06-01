@@ -1,4 +1,4 @@
-<%inherit file="/openobject/controllers/templates/base.mako"/>
+<%inherit file="/openerp/controllers/templates/base.mako"/>
 
 <%def name="header()">
     <title>${tree.string}</title>
@@ -6,8 +6,6 @@
 </%def>
 
 <%def name="content()">
-
-<%include file="header.mako"/>
 
 <table id="treeview" class="view" width="100%" border="0" cellpadding="0" cellspacing="0">
     <tr>
@@ -18,7 +16,7 @@
                         <table width="100%" class="titlebar">
                             <tr>
                                 <td width="32px" align="center">
-                                    <img src="/openerp/static/images/stock/gtk-find.png"/>
+                                    <img alt="" src="/openerp/static/images/stock/gtk-find.png"/>
                                 </td>
                                 <td width="100%">${tree.string}</td>
                                 <!--td nowrap="nowrap">
@@ -47,7 +45,8 @@
                                         <table border="0" cellpadding="0" cellspacing="0" class="tree-field">
                                             <tr>
                                                 % if tool['icon']:
-                                                <td><img src="${tool['icon']}" width="32" height="32" align="left"/></td>
+                                                <td><img alt="" src="${tool['icon']}"
+                                                         width="32" height="32" align="left"/></td>
                                                 % endif
                                                 <td>${tool['name']}</td>
                                             </tr>
@@ -72,7 +71,5 @@
 <script type="text/javascript">
     var TREEVIEW = new TreeView(${tree.id});
 </script>
-
-<%include file="footer.mako"/>
 
 </%def>

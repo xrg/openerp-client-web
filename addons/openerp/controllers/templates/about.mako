@@ -1,12 +1,10 @@
-<%inherit file="/openobject/controllers/templates/base.mako"/>
+<%inherit file="/openerp/controllers/templates/base.mako"/>
 
 <%def name="header()">
     <title>${_("About the OpenERP Web")}</title>
 </%def>
 
 <%def name="content()">
-
-<%include file="header.mako"/>
 
 <table class="view" width="100%">
     <tr>
@@ -129,7 +127,5 @@ ${_("""Depending on your needs, OpenERP is available through a web or applicatio
         </td>
     </tr>
 </table>
-
-<%include file="footer.mako"/>
 
 </%def>

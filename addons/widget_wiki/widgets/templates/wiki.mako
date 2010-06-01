@@ -3,7 +3,7 @@
         ${py.attrs(attrs, kind=kind)}>${value}</textarea>
     <script type="text/javascript">
         if (!window.browser.isWebKit) {
-            new openobject.ui.TextArea('${name}');
+            new openerp.ui.TextArea('${name}');
         }
     </script>
 % endif

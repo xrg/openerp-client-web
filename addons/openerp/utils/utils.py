@@ -192,7 +192,7 @@ _VALIDATORS = {
     'many2one': lambda *a: validators.many2one(),
     'email' : lambda *a: validators.Email(),
     'url' : lambda *a: validators.URL(),
-	'picture': lambda *a: validators.Binary(),
+    'picture': lambda *a: validators.Binary(),
 }
 
 class TinyFormError(validators.Invalid):
@@ -233,7 +233,7 @@ class TinyForm(object):
             value = attrs.get('value')
 
             required = attrs.get('required', False)
-            
+
             if kind == "one2many":
                 try:
                     value = eval(value)
@@ -313,4 +313,3 @@ if __name__ == "__main__":
     print params.chain_get('view_ids.child').view_ids
 
 # vim: ts=4 sts=4 sw=4 si et
-

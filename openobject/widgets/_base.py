@@ -23,7 +23,7 @@ __all__ = ['Widget', 'InputWidget']
 _serial_generator = count()
 
 class Widget(object):
-    
+
     __metaclass__ = WidgetType
 
     template = None
@@ -39,11 +39,11 @@ class Widget(object):
         'css_class': 'Main CSS class for this widget',
         'css_classes': 'List of all CSS classes',
     }
-    
+
     member_widgets = []
     default = None
     parent = None
-    
+
     def __init__(self, name=None, **params):
         # set each keyword args as attribute
         for k, v in params.iteritems():
@@ -56,7 +56,7 @@ class Widget(object):
 
         self._name = name
         self._serial = _serial_generator.next()
-        
+
         # params & member_widgets
         for name in chain(self.__class__.params, self.__class__.member_widgets):
             try:
@@ -74,26 +74,26 @@ class Widget(object):
         # Set default css class for the widget
         if not getattr(self, 'css_class', None):
             self.css_class = self.__class__.__name__.lower()
-            
+
     @property
     def name(self):
         return self._name
-    
+
     @property
     def path(self):
         item = self
         while item:
             yield item
             item = item.parent
-            
+
     @property
     def root(self):
         return list(self.path)[-1]
-    
+
     @property
     def is_root(self):
         return self.parent is None
-    
+
     def adjust_value(self, value, **params):
         """Adjust the value sent to the template on display."""
         if value is None:
@@ -101,7 +101,7 @@ class Widget(object):
             if callable(value):
                 value = value()
         return value
-    
+
     def iter_member_widgets(self):
         """Iterates over all the widget's children
         """
@@ -115,7 +115,7 @@ class Widget(object):
                     yield widget
             elif attr is not None:
                 yield attr
-    
+
     def value_for(self, item, value):
         """
         Get value for member widget.
@@ -123,16 +123,16 @@ class Widget(object):
         Pick up the value for a given member_widget 'item' from the
         value dict passed to this widget.
         """
-        
+
         if getattr(item, 'strip_name', False):
             return value
-        
+
         name = getattr(item, "name", item)
         if isinstance(value, dict):
             return value.get(name)
         else:
             return None
-    
+
     def params_for(self, item, **params):
         """
         Get params for member widget.
@@ -140,10 +140,10 @@ class Widget(object):
         Pick up the params for the given member_widget 'item' from
         the params dict passed to this widget.
         """
-        
+
         if getattr(item, 'strip_name', False):
             return params
-        
+
         name = getattr(item, "name", item)
         item_params = {}
         for k, v in params.iteritems():
@@ -151,20 +151,20 @@ class Widget(object):
                 if name in v:
                     item_params[k] = v[name]
         return item_params
-    
+
     def display_member(self, item, value, **params):
-        
+
         if isinstance(item, basestring):
             item = getattr(self, item, None)
-        
+
         assert isinstance(item, Widget), "Invalid member widget."
-        
+
         v = self.value_for(item, value)
         d = self.params_for(item, **params)
         return item.display(v, **d)
-    
+
     def update_params(self, params):
-        
+
         # Populate dict with attrs from self listed at params and member_widgets
         for k in ifilterfalse(params.__contains__, chain(self.params, self.member_widgets)):
             attr = getattr(self, k, None)
@@ -172,35 +172,35 @@ class Widget(object):
                 if not isinstance(attr, Widget) and callable(attr):
                     attr = attr()
             params[k] = attr
-            
+
         for w in self.iter_member_widgets():
             w.parent = self
-            
+
         v = params['value']
         d = params['member_widgets_params']
-        
+
         params['value_for'] = lambda f: self.value_for(f, v)
         params['params_for'] = lambda f: self.params_for(f, **d)
         params['display_member'] = lambda f: self.display_member(f, v, **d)
-        
+
         params.css_class = ' '.join(set([params['css_class'] or ''] + params['css_classes']))
-        
+
     def display(self, value=None, **params):
-        
+
         params['member_widgets_params'] = params.copy()
-        
+
         d = make_bunch(params)
         d.value = self.adjust_value(value, **params)
-        
+
         self.update_params(d)
-        
+
         d['css_class'] = ' '.join(set([d['css_class'] or ''] + d['css_classes']))
-        
+
         return tools.render_template(self.template_c, d)
-    
+
     def render(self, value=None, **params):
         return self.display(value, **params)
-    
+
     def retrieve_css(self):
         """
         Return the needed CSS ressources.
@@ -215,7 +215,7 @@ class Widget(object):
             for cssitem in widget.retrieve_css():
                 css.add(cssitem)
         return css
-    
+
     def retrieve_javascript(self):
         """
         Get JavaScript for the member widgets.
@@ -230,7 +230,7 @@ class Widget(object):
             for script in widget.retrieve_javascript():
                 scripts.add(script)
         return scripts
-       
+
     def __ne__(self, other):
         return not (self == other)
 
@@ -240,7 +240,7 @@ class Widget(object):
               (other._serial == self._serial) and
               (other._name == self._name)
             )
-    
+
     def __repr__(self):
         return self.__class__.__name__
         return "%s(%s)" % (self.__class__.__name__, ', '.join(
@@ -249,34 +249,34 @@ class Widget(object):
 
 
 class InputWidget(Widget):
-    
+
     params = {
         'required': "Whether the field value is required.",
         'readonly': "Whether the field is readonly.",
         'disabled': "Whether the field is disabled.",
     }
-    
+
     validator = DefaultValidator
 
     required = False
     readonly = False
     disabled = False
-    
+
     strip_name = False
-    
+
     def __init__(self, name=None, **params):
         super(InputWidget, self).__init__(name, **params)
-        
+
     @property
     def full_name(self):
         return ".".join(reversed([w.name for w in self.path if w.name and not getattr(w, 'strip_name', False)]))
-    
+
     @property
     def is_validated(self):
         try:
             if self.root is cherrypy.request.validated_form:
                 return True
-            
+
             for w in cherrypy.request.validated_form.iter_member_widgets():
                 if w is self.root:
                     return True
@@ -312,35 +312,35 @@ class InputWidget(Widget):
             except Invalid, error:
                 raise
         return value
-    
-    def safe_validate(self, value): 
+
+    def safe_validate(self, value):
         """Tries to coerce the value to python using the validator. If
         validation fails the original value will be returned unmodified."""
-        
+
         # don't validate empty values
         if value is None or (isinstance(value, basestring) and value.strip() == ""):
             return value
-        
+
         try:
             value = self.validate(value)
         except Exception:
             pass
         return value
-    
+
     def adjust_value(self, value, **params):
         """Adjusts the python value sent to :meth:`Widget.display` with
         the validator so it can be rendered in the template.
         """
-        
-        iv = None        
+
+        iv = None
         if hasattr(cherrypy.request, 'input_values') and self.is_validated:
             iv = cherrypy.request.input_values.get(self._name)
-            
+
         if iv is not None and not isinstance(self.validator, (ForEach, Schema)):
             value = self.safe_validate(iv)
         else:
             value = super(InputWidget, self).adjust_value(value, **params)
-        
+
         if self.validator and not isinstance(self.validator, Schema):
             # Does not adjust_value with Schema because it will recursively
             # call from_python on all sub-validators and that will send
@@ -353,41 +353,41 @@ class InputWidget(Widget):
                 # Ignore conversion errors so bad-input is redisplayed properly
                 pass
         return value
-    
+
     def update_params(self, params):
-        
+
         error = None
         if self.is_validated:
             error = getattr(cherrypy.request, 'validation_exception', None)
             value = getattr(cherrypy.request, 'validation_value', None)
-                        
+
             if self.is_root:
                 params['error'] = params.setdefault('error', error)
             elif error:
                 params['error'] = params.setdefault('error', error.error_dict.get(self._name, None))
         else:
             params['error'] = params.setdefault('error', None)
-            
+
         super(InputWidget, self).update_params(params)
-            
+
         if not self.strip_name:
-            
+
             if self.is_required:
                 params.css_classes.append('requiredfield')
-                
+
             if self.is_readonly:
                 params.css_classes.append('readonlyfield')
-            
+
             if self.is_disabled:
                 params.css_classes.append('disabledfield')
-                
+
             if params.error:
                 params.css_classes.append('errorfield')
 
         params['error_for'] = lambda f: self.error_for(f, params['error'])
-        
+
     def error_for(self, item, error):
-        
+
         if getattr(item, "strip_name", False):
             return error
 
@@ -396,5 +396,3 @@ class InputWidget(Widget):
         except:
             pass
         return None
-
-

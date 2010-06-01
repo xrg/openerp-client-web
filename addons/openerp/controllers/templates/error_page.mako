@@ -1,10 +1,10 @@
-<%inherit file="/openobject/controllers/templates/base.mako"/>
+<%inherit file="/openerp/controllers/templates/base.mako"/>
 
 <%def name="header()">
     <link href="/openerp/static/css/style.css" rel="stylesheet" type="text/css" />
     <title>${title}</title>
 
-    <script type="text/javascript" src="/openobject/static/javascript/openobject/openobject.ui.textarea.js"></script>
+    <script type="text/javascript" src="/openerp/static/javascript/openerp/openerp.ui.textarea.js"></script>
     
     <script type="text/javascript">
         var send_maintenance_request = function() {
@@ -15,7 +15,7 @@
                 tb: openobject.dom.get('error').value
             }
 
-            var req = openobject.http.postJSON('/errorpage/submit', args);
+            var req = openobject.http.postJSON('/openerp/errorpage/submit', args);
 
             req.addCallback(function(obj){
 
@@ -35,8 +35,6 @@
 </%def>
 
 <%def name="content()">
-	
-<%include file="header.mako"/>
     
 	<table class="view" border="0" width="100%">
         % if maintenance:
@@ -103,7 +101,7 @@ is displayed on the second tab.""")}
                                         <td class="item">
                                             <textarea id="explanation" class="text" rows="10"/>
                                             <script type="text/javascript">
-                                                new openobject.ui.TextArea('explanation');
+                                                new openerp.ui.TextArea('explanation');
                                             </script>
                                         </td>
                                     </tr>
@@ -112,14 +110,14 @@ is displayed on the second tab.""")}
                                         <td class="item">
                                             <textarea id="remarks" class="text" rows="10"/>
                                             <script type="text/javascript">
-                                                new openobject.ui.TextArea('remarks');
+                                                new openerp.ui.TextArea('remarks');
                                             </script>
                                         </td>
                                     </tr>
                                     <tr>
                                         <td></td>
                                         <td>
-                                            <button class="button" type="button" onclick="send_maintenance_request()">${_("Send to Maintenance Team")}</button>
+                                        	<a class="button-a" href="javascript: void(0)" onclick="send_maintenance_request()">${_("Send to Maintenance Team")}</a>
                                         </td>
                                     </tr>
                                 </table>
@@ -129,7 +127,7 @@ is displayed on the second tab.""")}
                     <div title="${_('Application Error!')}">
                         <textarea id="error" class="text" readonly="readonly" style="width: 99%" rows="20">${error}</textarea>
                         <script type="text/javascript">
-                            new openobject.ui.TextArea('error');
+                            new openerp.ui.TextArea('error');
                         </script>
                     </div>
                 </div>
@@ -167,7 +165,7 @@ Choose:
 			   		<tr><td height="5px"/></tr>
 			   		<tr>
 			   			<td class="errorbox" align="right">
-			   				<button type="button" onclick="history.length > 1 ? history.back() : window.close()">${_("Cancel")}</button>
+			   				<a class="button-a" href="javascript: void(0)" onclick="history.length > 1 ? history.back() : window.close()">${_("Cancel")}</a>
 			   				<button type="submit">${_("Write Anyway")}</button>
 			   			</td>
 			   		</tr>
@@ -187,7 +185,7 @@ Choose:
                     <tr><td height="5px"/></tr>
                     <tr>
                         <td class="errorbox" align="right">
-                            <button type="button" onclick="history.length > 1 ? history.back() : window.close()">OK</button>
+                        	<a class="button-a" href="javascript: void(0)" onclick="history.length > 1 ? history.back() : window.close()">OK</a>
                         </td>
                     </tr>
                 </table>
@@ -197,5 +195,5 @@ Choose:
         </tr>
         % endif
     </table>
-<%include file="footer.mako"/>    
+    
 </%def>

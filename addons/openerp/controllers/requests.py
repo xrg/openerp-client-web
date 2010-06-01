@@ -26,21 +26,16 @@
 # You can see the MPL licence at: http://www.mozilla.org/MPL/MPL-1.1.html
 #
 ###############################################################################
-
 import cherrypy
-
+from openerp.controllers import SecuredController
 from openerp.utils import rpc
-from openerp.utils import common
 
 from openobject.tools import expose
-from openobject.tools import redirect
-
-from openerp.controllers import SecuredController
 
 
 class Requests(SecuredController):
-    
-    _cp_path = "/requests"
+
+    _cp_path = "/openerp/requests"
 
     def my(self):
 
@@ -52,21 +47,22 @@ class Requests(SecuredController):
             ids, ids2 = rpc.RPCProxy('res.request').request_get()
             cherrypy.session['terp_requests'] = (ids, ids2)
 
+        total_mess = 0
         msg = _("No request")
         if len(ids):
             msg = _('%s request(s)') % len(ids)
 
         if len(ids2):
             msg += _(' - %s pending request(s)') % len(ids2)
+            total_mess = len(ids)
 
-        return ids, msg
+        return ids, msg, total_mess
 
     @expose()
     def default(self):
         import actions
-        return actions.execute_window(False, 'res.request', res_id=None, 
+        return actions.execute_window(False, 'res.request', res_id=None,
             domain=[('act_to','=',rpc.session.uid)], view_type='form', mode='tree,form')
 
 
 # vim: ts=4 sts=4 sw=4 si et
-
