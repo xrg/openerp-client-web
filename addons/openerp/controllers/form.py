@@ -274,6 +274,9 @@ class Form(SecuredController):
 
         params.editable = True
         params.view_type = 'form'
+        
+        if kw.get('default_date'):
+            params.context.update({'default_date' : kw.get('default_date')})
 
         cherrypy.request._terp_view_target = kw.get('target')
 
