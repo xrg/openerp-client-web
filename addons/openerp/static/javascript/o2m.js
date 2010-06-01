@@ -92,6 +92,7 @@ One2Many.prototype = {
         params['_terp_view_params/_terp_ids'] = $('_terp_ids').value;
         params['_terp_view_params/_terp_view_ids'] = openobject.dom.get('_terp_view_ids').value;
         params['_terp_view_params/_terp_view_mode'] = openobject.dom.get('_terp_view_mode').value;
+        params['_terp_view_params/_terp_context'] = openobject.dom.get('_terp_context').value || {};
         params['_terp_view_params/_terp_view_type'] = 'form';
 
         while(names.length) {
@@ -104,6 +105,7 @@ One2Many.prototype = {
             params['_terp_view_params/' + prefix + '/_terp_ids'] = $(prefix + '/_terp_ids').value;
             params['_terp_view_params/' + prefix + '/_terp_view_ids'] = openobject.dom.get(prefix + '/_terp_view_ids').value;
             params['_terp_view_params/' + prefix + '/_terp_view_mode'] = openobject.dom.get(prefix + '/_terp_view_mode').value;
+            params['_terp_view_params/' + prefix + '/_terp_context'] = openobject.dom.get(prefix + '/_terp_context').value || {};
             params['_terp_view_params/' + prefix + '/_terp_view_type'] = 'form';
         }
 
