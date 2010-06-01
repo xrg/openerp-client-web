@@ -439,6 +439,9 @@ class ImpEx(SecuredController):
 
         _fields = {}
         _fields_invert = {}
+        
+        proxy = rpc.RPCProxy(params.model)
+        fields = proxy.fields_get(False, rpc.session.context)
 
         def model_populate(fields, prefix_node='', prefix=None, prefix_value='', level=2):
             def str_comp(x,y):
@@ -449,19 +452,22 @@ class ImpEx(SecuredController):
             fields_order = fields.keys()
             fields_order.sort(lambda x,y: str_comp(fields[x].get('string', ''), fields[y].get('string', '')))
             for field in fields_order:
-                if (fields[field]['type'] not in ('reference',)) and (not fields[field].get('readonly', False)):
+                if (fields[field].get('type','') not in ('reference',))\
+                            and (not fields[field].get('readonly', False)\
+                            or not dict(fields[field].get('states', {}).get(
+                            'draft', [('readonly', True)])).get('readonly',True)):
+                    
                     st_name = prefix_value+fields[field]['string'] or field
                     _fields[prefix_node+field] = st_name
                     _fields_invert[st_name] = prefix_node+field
-                    if fields[field]['type']=='one2many' and level>0:
+                    if fields[field].get('type','')=='one2many' and level>0:
                         fields2 = rpc.session.execute('object', 'execute', fields[field]['relation'], 'fields_get', False, rpc.session.context)
                         fields2.update({'id': {'type': 'char', 'string': 'ID'}, 'db_id':{'type': 'char', 'string': 'Database ID'}})
                         model_populate(fields2, prefix_node+field+'/', None, st_name+'/', level-1)
                     if fields[field].get('type','') in ('many2one', 'many2many' ) and level>0:
                         model_populate({'id': {'type': 'char', 'string': 'ID'}, 'db_id': {'type': 'char', 'string': 'Database ID'}},
                                        prefix_node+field+':', None, st_name+'/', level-1)
-        proxy = rpc.RPCProxy(params.model)
-        fields = proxy.fields_get(False, rpc.session.context)
+
         fields.update({'id': {'type': 'char', 'string': 'ID'}, 'db_id': {'type': 'char', 'string': 'Database ID'}})
         model_populate(fields)
 
@@ -476,10 +482,12 @@ class ImpEx(SecuredController):
             for line in data:
                 for word in line:
                     word = ustr(word.decode(csvcode))
-                    if word in _fields_invert.keys():
+                    if word in _fields:
+                        fields += [(word, _fields[word])]
+                    elif word in _fields_invert.keys():
                         fields += [(_fields_invert[word], word)]
                     else:
-                        fields += [(word, _fields[word])]
+                        raise common.warning(_("You cannot import this field %s, because we cannot auto-detect it" % (word,)))
                 break
         except:
             raise common.warning(_('Error processing your first line of the file.\nField %s is unknown!') % (word,), _('Import Error.'))
