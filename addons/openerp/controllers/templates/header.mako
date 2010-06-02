@@ -109,6 +109,7 @@ except:
 	    <script type="text/javascript">
 	       jQuery('div#top').css('height','65px');
 	       jQuery('p#logo').css('height','65px');
+	       jQuery('img#company_logo').css('padding', '10px 0');
 	    </script>
 	    <table id="shortcuts" class="menubar" cellpadding="0" cellspacing="0">
 	        <tr id="sc_row">
@@ -141,6 +142,7 @@ except:
            jQuery('p#logo').css('height','33px');
            jQuery('img#company_logo').css('vertical-align', 'top');
            jQuery('img#company_logo').css('width', '75%');
+           jQuery('img#company_logo').css('padding', '0 10px');
         </script>
 	% endif
 </div>

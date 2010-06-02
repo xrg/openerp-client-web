@@ -14,10 +14,7 @@
             <td valign="top">
                 <table width="100%" class="titlebar">
                     <tr>
-                        <td width="32px" align="center">
-                            <img alt="" src="/openerp/static/images/stock/gtk-find.png"/>
-                        </td>
-                        <td nowrap="nowrap">Web Modules</td>
+                        <td nowrap="nowrap"><h1>Web Modules</h1></td>
                      <tr>
                  </table>
              </td>

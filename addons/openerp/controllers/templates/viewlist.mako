@@ -104,10 +104,7 @@
             <td>
                 <table width="100%" class="titlebar">
                     <tr>
-                        <td width="32px" align="center">
-                            <img alt="" src="/openerp/static/images/stock/gtk-find.png"/>
-                        </td>
-                        <td width="100%">${_("Manage Views (%s)") % (model)}</td>
+                        <td width="100%"><h1>${_("Manage Views (%s)") % (model)}</h1></td>
                     </tr>
                 </table>
             </td>
