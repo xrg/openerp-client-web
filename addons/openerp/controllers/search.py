@@ -97,7 +97,7 @@ class Search(Form):
         params, data = TinyDict.split(kw)
 
         domain = kw.get('_terp_domain', [])
-        context = kw.get('_terp_context', {})
+        context = params.context or {}
 
         parent_context = params.parent_context or {}
         parent_context.update(rpc.session.context.copy())
