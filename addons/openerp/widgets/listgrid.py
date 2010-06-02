@@ -475,6 +475,10 @@ class FloatTime(Char):
     def get_text(self):
         val = self.value or 0.0
         t = '%02d:%02d' % (math.floor(abs(val)),round(abs(val)%1+0.01,2) * 60)
+        
+        hour, min = t.split(':')
+        if int(min) == 60:
+            t = str(int(hour) + 1) + ":00"
         if val < 0:
             t = '-' + t
 
