@@ -28,7 +28,7 @@ jQuery(document).ready(function () {
         var waitBox = new openerp.ui.WaitBox();
         // open un-targeted links in #appContent via xhr. Links with @target are considered
         // external links. Ignore hash-links.
-        jQuery(document).delegate('a[href]:not([target]):not([href^="#"]):not([href^="javascript:"])', 'click', function () {
+        jQuery(document).delegate('a[href]:not([target]):not([href^="#"])', 'click', function () {
             waitBox.showAfter(LINK_WAIT_NO_SIGN);
             openLink(jQuery(this).attr('href'),
                      jQuery.proxy(waitBox, 'hide'));

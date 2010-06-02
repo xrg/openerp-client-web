@@ -97,6 +97,8 @@ openerp.ui.WaitBox.prototype = {
      * @returns this
      */
     showAfter : function(delay) {
+        // in case we already have a timeout, override it?
+        this.clearTimeout();
         this.timeout = setTimeout(jQuery.proxy(function () {
             this.show();
         }, this), delay);
