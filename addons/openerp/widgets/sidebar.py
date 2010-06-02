@@ -131,8 +131,8 @@ class Sidebar(TinyWidget):
 
             if ids:
                 attach = []
-                datas = proxy.read(ids, ['datas_fname'])
-                self.attachments = [(d['id'], d['datas_fname']) for d in datas if d['datas_fname']]
+                datas = proxy.read(ids, ['datas_fname', 'name'])
+                self.attachments = [(d['id'], d['datas_fname'] or d['name']) for d in datas if d['datas_fname'] or d['name']]
 
             self.sub_menu = submenu
 
