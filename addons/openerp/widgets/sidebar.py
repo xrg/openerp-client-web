@@ -135,7 +135,5 @@ class Sidebar(TinyWidget):
                 self.attachments = [(d['id'], d['datas_fname']) for d in datas if d['datas_fname']]
 
             self.sub_menu = submenu
-        else:
-            self.relates = []
 
 # vim: ts=4 sts=4 sw=4 si et
