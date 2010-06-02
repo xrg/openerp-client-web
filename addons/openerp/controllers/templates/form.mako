@@ -49,7 +49,7 @@
                                     
                                     <td id="title_details" width="50%" class="content_header_space">
                                     	<h1>${form.screen.string}
-                                    		<a target="appFrame" class="help" href="javascript: void(0)" title="${_('Corporate Intelligence...')}" onclick="show_process_view()">
+                                    		<a class="help" href="javascript: void(0)" title="${_('Corporate Intelligence...')}" onclick="show_process_view()">
                                     			<small>Help</small>
 		                              		</a>
                                     	</h1>
@@ -74,7 +74,7 @@
 									</td>
 									
 									<!-- <td class="content_header_space" cursor: pointer;">
-	                                    <a target="appFrame" onclick="show_process_view()">
+	                                    <a onclick="show_process_view()">
 		                              		<img title="${_('Corporate Intelligence...')}" class="button" border="0" src="/openerp/static/images/stock/gtk-help.png" width="16" height="16"/>
 		                              	</a>
                                     </td> -->

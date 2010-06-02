@@ -63,7 +63,7 @@ except:
 			<ul class="tools">
 				% if rpc.session.is_logged():
 				<li>
-					<a target='appFrame' href="${py.url('/openerp/requests')}" class="messages">Messages<small>${total_mess}</small></a>
+					<a href="${py.url('/openerp/requests')}" class="messages">Messages<small>${total_mess}</small></a>
 					<ul>
 						<li class="first last"><a href="javascript: void(0);">Requests</a></li>
 					</ul>
@@ -76,7 +76,7 @@ except:
 					</ul>
 				</li>
 				
-				<li><a target="appFrame" href="${py.url('/openerp/pref/create')}" class="preferences">Preferences</a>
+				<li><a href="${py.url('/openerp/pref/create')}" class="preferences">Preferences</a>
 					<ul>
 						<li class="first last"><a href="javascript: void(0);">Edit Preferences</a></li>
 					</ul>
@@ -109,7 +109,7 @@ except:
 	            % for i, sc in enumerate(shortcuts):
 	                % if i < 7:
 			            <td nowrap="nowrap">
-			                <a target="appFrame" href="${py.url('/openerp/tree/open', id=sc['res_id'], model='ir.ui.menu')}">${sc['name']}</a>
+			                <a href="${py.url('/openerp/tree/open', id=sc['res_id'], model='ir.ui.menu')}">${sc['name']}</a>
 			            </td>
 	                % endif
 	            % endfor
@@ -119,7 +119,7 @@ except:
 	                	onmouseover="showMore_sc('shortcuts_menu', 'shortcuts_submenu');">>></a>
 	                <div class="submenu" id="shortcuts_submenu" onmouseover="showElement(this);" onmouseout="hideElement(this);">
 	                    % for sc in shortcuts[7:]:
-	                    	<a target="appFrame" href="${py.url('/openerp/tree/open', id=sc['res_id'], model='ir.ui.menu')}">${sc['name']}</a>
+	                    	<a href="${py.url('/openerp/tree/open', id=sc['res_id'], model='ir.ui.menu')}">${sc['name']}</a>
 	                    % endfor
 	                </div>
 	            </td>
@@ -127,7 +127,7 @@ except:
 	        </tr>
 	    </table>
 	    <div id="edit_shortcut">
-	    	<a target="appFrame" href="/openerp/shortcuts">Edit</a>
+	    	<a href="/openerp/shortcuts">Edit</a>
 	    </div>
 	% endif
 </div>

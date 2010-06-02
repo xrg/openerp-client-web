@@ -59,9 +59,9 @@ class Shortcuts(SecuredController):
         <div id="shortcuts_submenu">
             % for sc in new_shortcuts:
                 % if type(sc['res_id']) == type(()):
-                    <a target="appFrame" href="${py.url('/tree/open', id=sc['res_id'][0], model='ir.ui.menu')}" style="height: 10px; padding: 0 2px 8px 5px;">${sc['name']}</a>
+                    <a href="${py.url('/tree/open', id=sc['res_id'][0], model='ir.ui.menu')}" style="height: 10px; padding: 0 2px 8px 5px;">${sc['name']}</a>
                 % else:
-                    <a target="appFrame" href="${py.url('/tree/open', id=sc['res_id'], model='ir.ui.menu')}" style="height: 10px; padding: 0 2px 8px 5px;">${sc['name']}</a>
+                    <a href="${py.url('/tree/open', id=sc['res_id'], model='ir.ui.menu')}" style="height: 10px; padding: 0 2px 8px 5px;">${sc['name']}</a>
                 % endif
             % endfor
             <hr id="shortcut_sep" style="border: none; border-top: dashed 1px #CCCCCC; color: #FFFFFF; background-color: #FFFFFF; height: 1px; padding: 0px"/>
