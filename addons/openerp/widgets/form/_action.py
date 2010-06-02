@@ -58,7 +58,7 @@ class Action(TinyInputWidget):
         super(Action, self).__init__(**attrs)
         self.nolabel = True
 
-        self.act_id = int(attrs['name'])
+        self.act_id= self.name
         
         proxy = rpc.RPCProxy("ir.actions.actions")
         res = proxy.read([self.act_id], ['type'], rpc.session.context)
