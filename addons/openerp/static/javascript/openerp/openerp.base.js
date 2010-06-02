@@ -19,9 +19,11 @@ function openLink(url /*optional afterLoad */) {
     }
 }
 
-// link probably expects faster feedback than form
-var LINK_WAIT_NO_SIGN = 300;
-var FORM_WAIT_NO_SIGN = 500;
+// Timers before displaying the wait box, in case the remote query takes too long
+/** @constant */
+var LINK_WAIT_NO_ACTIVITY = 300;
+/** @constant */
+var FORM_WAIT_NO_ACTIVITY = 500;
 jQuery(document).ready(function () {
     var app = jQuery('#appContent');
     if (app.length) {
@@ -29,7 +31,7 @@ jQuery(document).ready(function () {
         // open un-targeted links in #appContent via xhr. Links with @target are considered
         // external links. Ignore hash-links.
         jQuery(document).delegate('a[href]:not([target]):not([href^="#"])', 'click', function () {
-            waitBox.showAfter(LINK_WAIT_NO_SIGN);
+            waitBox.showAfter(LINK_WAIT_NO_ACTIVITY);
             openLink(jQuery(this).attr('href'),
                      jQuery.proxy(waitBox, 'hide'));
             return false;
@@ -38,7 +40,7 @@ jQuery(document).ready(function () {
         jQuery(document).delegate('form:not([target])', 'submit', function () {
             var form = jQuery(this);
             // Don't make the wait box appear immediately
-            waitBox.showAfter(FORM_WAIT_NO_SIGN);
+            waitBox.showAfter(FORM_WAIT_NO_ACTIVITY);
             jQuery.ajax({
                 url: form.attr("action"),
                 data: form.serialize(),
