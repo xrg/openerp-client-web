@@ -739,6 +739,7 @@ img.m2o_select {
     vertical-align: middle;
     margin-left: -4px;
     height: 18px;
+    background-color: #FFFFFF;
 }
 
 td.item select {
