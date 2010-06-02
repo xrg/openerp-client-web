@@ -1,4 +1,4 @@
-<a ${py.attrs(attrs)} 
+<a ${py.attrs(attrs, context=ctx)} 
 	class="button-b" 
 	id="${name}" 
 	href="javascript: void(0)" 

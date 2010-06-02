@@ -741,7 +741,7 @@ _PROPERTIES = {
     'image' : ['filename', 'width', 'height', 'groups'],
     'separator' : ['string', 'colspan', 'groups'],
     'label': ['string', 'align', 'colspan', 'groups'],
-    'button': ['name', 'string', 'icon', 'type', 'states', 'readonly', 'special', 'target', 'confirm', 'attrs', 'groups'],
+    'button': ['name', 'string', 'icon', 'type', 'states', 'readonly', 'special', 'target', 'confirm', 'context', 'attrs', 'groups'],
     'newline' : [],
     'hpaned': ['position', 'groups'],
     'vpaned': ['position', 'groups'],

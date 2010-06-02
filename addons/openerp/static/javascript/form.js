@@ -306,6 +306,9 @@ function buttonClicked(name, btype, model, id, sure, target) {
     if (sure && !confirm(sure)) {
         return;
     }
+    
+    var button = getElement(name);
+    var context = getNodeAttribute(button, "context");
 
     var params = {
         '_terp_button/name': name,
@@ -313,9 +316,19 @@ function buttonClicked(name, btype, model, id, sure, target) {
         '_terp_button/model': model,
         '_terp_button/id': id
     };
+    
+    if (!context || context == "{}") {
+        var act = get_form_action(btype == 'cancel' ? 'cancel' : 'save', params);
+        return submit_form(act, null, target);
+    }
+    
+    var req = eval_domain_context_request({source: "", domain: "[]", context: context});
+    req.addCallback(function(obj) {
+        params['_terp_button/context'] = obj.context || 0;
 
-    var act = get_form_action(btype == 'cancel' ? 'cancel' : 'save', params);
-    submit_form(act, null, target);
+        var act = get_form_action(btype == 'cancel' ? 'cancel' : 'save', params);
+        submit_form(act, null, target);
+     });
 }
 
 function onBooleanClicked(name) {
