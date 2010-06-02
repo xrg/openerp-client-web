@@ -99,7 +99,7 @@ is displayed on the second tab.""")}
                                     <tr>
                                         <td class="label" width="5%" nowrap="nowrap">${_("Explain what you did:")}</td>
                                         <td class="item">
-                                            <textarea id="explanation" class="text" rows="10"/>
+                                            <textarea id="explanation" class="text" rows="10"></textarea> 
                                             <script type="text/javascript">
                                                 new openerp.ui.TextArea('explanation');
                                             </script>
@@ -108,7 +108,7 @@ is displayed on the second tab.""")}
                                     <tr>
                                         <td class="label">${_("Other Comments:")}</td>
                                         <td class="item">
-                                            <textarea id="remarks" class="text" rows="10"/>
+                                            <textarea id="remarks" class="text" rows="10"></textarea>
                                             <script type="text/javascript">
                                                 new openerp.ui.TextArea('remarks');
                                             </script>
