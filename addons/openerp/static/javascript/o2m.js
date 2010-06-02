@@ -150,12 +150,12 @@ One2Many.prototype = {
         var edit=MochiKit.DOM.getElement(this.name + '/_terp_editable');
         
         if (readonly) {
-            btn.style.display='none';
+            if(btn){btn.style.display='none';}
             MochiKit.Base.map(function (el) {el.style.display='none'},MochiKit.Selector.findChildElements(grid,['.selector']));
             edit.value= 0;
         }
         else{
-            btn.style.display='';
+            if(btn){btn.style.display='';}
             MochiKit.Base.map(function (el) {el.style.display=''},MochiKit.Selector.findChildElements(grid,['.selector']));
              edit.value = 1;
         }
