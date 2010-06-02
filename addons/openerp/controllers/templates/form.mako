@@ -1,4 +1,4 @@
-<%inherit file="/openerp/controllers/templates/base.mako"/>
+<%inherit file="/openerp/controllers/templates/xhr.mako"/>
 
 <%def name="header()">
     <title>${form.screen.string}</title>

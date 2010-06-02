@@ -8,7 +8,7 @@
     </script>
 
     <script type="text/javascript">
-        MochiKit.DOM.addLoadEvent(function(evt) {
+        jQuery(document).ready(function() {
 
             var lc = parseInt(openobject.dom.get('_terp_id').value) || 0;
             

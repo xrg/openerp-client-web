@@ -21,7 +21,7 @@
                 '_terp_starts' : starts,
                 '_terp_ends' : ends,
                 '_terp_context': openobject.dom.get('_terp_context').value
-            }
+            };
 
             var req = openobject.http.postJSON('/view_calendar/calpopup/get_defaults', params);
             req.addCallback(function(obj){
@@ -55,7 +55,7 @@
             }
         }
 
-        addLoadEvent(on_load);
+        jQuery(document).ready(on_load);
     </script>
 </%def>
 

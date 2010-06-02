@@ -28,7 +28,6 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 function initialize_dashboard() {
-
     if (window.browser.isIE) {
         return;
     }
@@ -106,7 +105,7 @@ function initialize_dashboard() {
         }
     }
 
-    MochiKit.Signal.connect(MochiKit.DragAndDrop.Draggables, 'start', function(evt) {
+    MochiKit.Signal.connect(MochiKit.DragAndDrop.Draggables, 'start', function() {
             var embeds = openobject.dom.select('embeds');
             
             MochiKit.Iter.forEach(embeds, function(e){
@@ -114,7 +113,7 @@ function initialize_dashboard() {
             });
     });
 
-    MochiKit.Signal.connect(MochiKit.DragAndDrop.Draggables, 'end', function(evt){
+    MochiKit.Signal.connect(MochiKit.DragAndDrop.Draggables, 'end', function(){
             var embeds = openobject.dom.select('embeds');
       
             MochiKit.Iter.forEach(embeds, function(e){
@@ -123,8 +122,4 @@ function initialize_dashboard() {
     });
 }
 
-
-MochiKit.DOM.addLoadEvent(initialize_dashboard);
-
-// vim: ts=4 sts=4 sw=4 si et
-
+jQuery(document).ready(initialize_dashboard);

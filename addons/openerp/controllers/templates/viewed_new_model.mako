@@ -5,16 +5,13 @@
 
     <script type="text/javascript">
         var form_controller = '/openerp/viewed/new_model';
-    </script>
-    
-    <script type="text/javascript">
 
         function do_select(id, src) {
             viewRecord(id, src);
         }
 
         var createNewModel = function() { 
-            window.location.href = get_form_action('edit'); 
+            openLink(get_form_action('edit')); 
         }
     </script>
 </%def>

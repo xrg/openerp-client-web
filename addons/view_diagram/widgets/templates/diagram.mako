@@ -2,7 +2,7 @@
 
     var WORKFLOW;
     
-    MochiKit.DOM.addLoadEvent(function(evt){
+    jQuery(document).ready(function(){
         WORKFLOW = new openobject.workflow.Workflow('canvas');
         WORKFLOW.setViewPort("viewport");
     });

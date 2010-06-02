@@ -35,7 +35,7 @@ var Accordion = function(container, options) {
     }
 
     this.__init__(container, options);
-}
+};
 
 Accordion.prototype = {
 
@@ -47,7 +47,6 @@ Accordion.prototype = {
 
         if (!this.element) {
             throw(container + " doesn't exist!");
-            return false;
         }
 
         MochiKit.DOM.addElementClass(this.element, "accordion");
@@ -124,7 +123,4 @@ Accordion.prototype = {
 
     toString: MochiKit.Base.forwardCall("repr")
 
-}
-
-// vim: ts=4 sts=4 sw=4 si et
-
+};

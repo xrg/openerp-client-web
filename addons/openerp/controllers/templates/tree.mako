@@ -1,10 +1,5 @@
-<%inherit file="/openerp/controllers/templates/base.mako"/>
-
-<%def name="header()">
-    <title>${tree.string}</title>
-    <script type="text/javascript" src="/openerp/static/javascript/treeview.js"></script>
-</%def>
-
+<%inherit file="/openerp/controllers/templates/xhr.mako"/>
+ 
 <%def name="content()">
 
 <table id="treeview" class="view" width="100%" border="0" cellpadding="0" cellspacing="0">

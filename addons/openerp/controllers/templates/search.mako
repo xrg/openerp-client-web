@@ -1,21 +1,24 @@
-<%inherit file="/openerp/controllers/templates/base.mako"/>
+<%inherit file="/openerp/controllers/templates/xhr.mako"/>
 
 <%def name="header()">
+    <%
+        if params.selectable == 1:
+            create_url = "/openm2o/edit"
+        elif params.selectable == 2:
+            create_url = "/openm2m/new"
+    %>
     <title>Search ${form.screen.string}</title>
 
     <script type="text/javascript">
         var form_controller = '/openerp/search';
-    </script>
 
-    <script type="text/javascript">
-
-        function pager_action(action, src){
-            if (src)
+        function pager_action(action, src) {
+            if (src) {
                 new ListView(src).go(action);
-           else
+            } else {
                 submit_form(action);
+            }
         }
-
     </script>
 
     % if params.selectable == 1:
@@ -50,15 +53,6 @@
             }
             
             window.close();
-        }
-
-        function do_create(){
-            act = openobject.http.getURL('/openerp/openm2o/edit', {_terp_model: '${params.model}', 
-                                           _terp_source: '${params.source}',
-                                           _terp_m2o: '${params.source}',
-                                           _terp_domain: openobject.dom.get('_terp_domain').value,
-                                           _terp_context: openobject.dom.get('_terp_context').value});
-            window.location.href = act;
         }
     </script>
     % elif params.selectable == 2:
@@ -99,14 +93,14 @@
 
 <%def name="content()">
 <div class="view">
-    <form id="search_form" name="search_form" action="" method="post" onsubmit="return false;">
+    <form id="search_form" name="search_form" action="" method="post">
         <input type="hidden" id="_terp_source" name="_terp_source" value="${params.source}"/>
         <input type="hidden" id="_terp_selectable" name="_terp_selectable" value="${params.selectable}"/>
         <input type="hidden" id="_terp_search_domain" name="_terp_search_domain" value="${params.search_domain}"/>
         <input type="hidden" id="_terp_filter_domain" name="_terp_filter_domain" value="${params.filter_domain}"/>
         <input type="hidden" id="_terp_search_data" name="_terp_search_data" value="${params.search_data}"/>
 
-        <table width="100%" border="0" cellpadding="2" xmlns="http://www.w3.org/1999/xhtml" xmlns:py="http://purl.org/kid/ns#" style="border: none;">
+        <table width="100%" border="0" cellpadding="2" xmlns="http://www.w3.org/1999/xhtml" xmlns:py="http://purl.org/kid/ns#">
             <tr>
                 <td>
                     <table width="100%" class="titlebar" style="border: none;">
@@ -140,14 +134,14 @@
         </table>
         <script type="text/javascript">
             if(jQuery('#${form_name} tr.pagerbar:first td.pager-cell-button')) {
-                   jQuery('#${form_name} tr.pagerbar:first td.pager-cell-button:first a').click(function() {
-		                    act = openobject.http.getURL('/openerp/openm2m/new', {_terp_model: '${params.model}', 
-                                           _terp_source: '${params.source}',
-                                           _terp_m2m: '${params.source}',
-                                           _terp_domain: openobject.dom.get('_terp_domain').value,
-                                           _terp_context: openobject.dom.get('_terp_context').value});
-                            window.location.href = act;
-                   });
+                jQuery('#${form_name} tr.pagerbar:first td.pager-cell-button:first a').click(function() {
+                    openLink(openobject.http.getURL('/openerp/openm2m/new', {
+                        _terp_model: '${params.model}',
+                        _terp_source: '${params.source}',
+                        _terp_m2m: '${params.source}',
+                        _terp_domain: openobject.dom.get('_terp_domain').value,
+                        _terp_context: openobject.dom.get('_terp_context').value}));
+                });
             }
         </script>
     </form>

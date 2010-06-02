@@ -28,50 +28,54 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 var save_binary_data = function(src, filename) {
-    
+
     var name = openobject.dom.get(src) ? openobject.dom.get(src).name : src;
 
-    var prefix = name.split('/'); name = prefix.pop();
-    var prefix = prefix.join('/'); prefix = prefix ? prefix + '/' : '';
+    var prefix = name.split('/');
+    name = prefix.pop();
+    var prefix = prefix.join('/');
+    prefix = prefix ? prefix + '/' : '';
 
     var fname = openobject.dom.get(prefix + filename) || openobject.dom.get(prefix + 'name');
 
     fname = fname ? fname.value || fname.innerHTML : null;
 
     var act = get_form_action('save_binary_data');
-    act = fname ? act + '/' + fname : act;    
+    act = fname ? act + '/' + fname : act;
 
     act = openobject.http.getURL(act, {_terp_field: name,
-                       _terp_model: openobject.dom.get(prefix + '_terp_model').value,
-                       _terp_id: openobject.dom.get(prefix + '_terp_id').value});
+        _terp_model: openobject.dom.get(prefix + '_terp_model').value,
+        _terp_id: openobject.dom.get(prefix + '_terp_id').value});
 
     submit_form(act);
-}
+};
 
 var clear_binary_data = function(src, filename) {
-    
+
     var name = openobject.dom.get(src) ? openobject.dom.get(src).name : src;
 
-    var prefix = name.split('/'); name = prefix.pop();
-    var prefix = prefix.join('/'); prefix = prefix ? prefix + '/' : '';
+    var prefix = name.split('/');
+    name = prefix.pop();
+    var prefix = prefix.join('/');
+    prefix = prefix ? prefix + '/' : '';
 
     var act = get_form_action('clear_binary_data');
     act = openobject.http.getURL(act, {_terp_field: name,
-                       _terp_fname: filename || null,
-                       _terp_model: openobject.dom.get(prefix + '_terp_model').value,
-                       _terp_id: openobject.dom.get(prefix + '_terp_id').value});
+        _terp_fname: filename || null,
+        _terp_model: openobject.dom.get(prefix + '_terp_model').value,
+        _terp_id: openobject.dom.get(prefix + '_terp_id').value});
 
     submit_form(act);
-}
+};
 
 var add_binary = function(src) {
 
     binary_add = openobject.dom.get(src + '_binary_add');
     binary_buttons = openobject.dom.get(src + '_binary_buttons');
-        
+
     binary_add.style.display = "";
     binary_buttons.style.display = "none";
-    
+
     fld = openobject.dom.get(src);
     fld.disabled = false;
 
@@ -79,31 +83,32 @@ var add_binary = function(src) {
     if (browser.isGecko) {
         fld.size = 50;
     }
-}
+};
 
-var set_binary_filename = function(src, filename){
+var set_binary_filename = function(src, filename) {
 
     var src = openobject.dom.get(src);
     var name = src.name;
 
-    var prefix = name.split('/'); prefix.pop();
-    var prefix = prefix.join('/'); prefix = prefix ? prefix + '/' : '';
+    var prefix = name.split('/');
+    prefix.pop();
+    var prefix = prefix.join('/');
+    prefix = prefix ? prefix + '/' : '';
 
     var target = openobject.dom.get(prefix + filename);
 
     var fname = src.value || '';
-    
+
     if (/Windows NT/.test(window.navigator.userAgent)) {
-    	fname = fname.split('\\'); fname = fname.pop();	
+        fname = fname.split('\\');
+        fname = fname.pop();
     }
     else {
-    	fname = fname.split('/'); fname = fname.pop();
+        fname = fname.split('/');
+        fname = fname.pop();
     }
-    
+
     if (target) {
         target.value = fname;
     }
-}
-
-// vim: ts=4 sts=4 sw=4 si et
-
+};

@@ -29,7 +29,7 @@
 
 var InfoBox = function(params) {
     this.__init__(params);
-}
+};
 
 InfoBox.prototype = {
 
@@ -196,7 +196,4 @@ InfoBox.prototype = {
            getCalendar();
         });
     }
-}
-
-// vim: ts=4 sts=4 sw=4 si et
-
+};

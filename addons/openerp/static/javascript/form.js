@@ -7,17 +7,17 @@
 // Developed by Tiny (http://openerp.com) and Axelor (http://axelor.com).
 //
 // The OpenERP web client is distributed under the "OpenERP Public License".
-// It's based on Mozilla Public License Version (MPL) 1.1 with following
+// It's based on Mozilla Public License Version (MPL) 1.1 with following 
 // restrictions:
 //
-// -   All names, links and logos of Tiny, Open ERP and Axelor must be
-//     kept as in original distribution without any changes in all software
-//     screens, especially in start-up page and the software header, even if
-//     the application source code has been changed or updated or code has been
+// -   All names, links and logos of Tiny, Open ERP and Axelor must be 
+//     kept as in original distribution without any changes in all software 
+//     screens, especially in start-up page and the software header, even if 
+//     the application source code has been changed or updated or code has been 
 //     added.
 //
 // -   All distributions of the software must keep source code with OEPL.
-//
+// 
 // -   All integrations to any other software must keep source code with OEPL.
 //
 // If you need commercial licence to remove this kind of restriction please
@@ -28,7 +28,6 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 function get_form_action(action, params) {
-
     var act = typeof(form_controller) == 'undefined' ? '/form' : form_controller;
     act = action && action.indexOf('/') == 0 ? action : act + '/' + action;
     return openobject.http.getURL(act, params);
@@ -63,10 +62,10 @@ function openRecord(id, src, target, readonly) {
 
     var search_domain = openobject.dom.get('_terp_search_domain');
     search_domain = search_domain ? search_domain.value : null;
-
+    
     var search_data = openobject.dom.get('_terp_search_data');
     search_data = search_data ? search_data.value : null;
-
+    
     var search_filter_domain = openobject.dom.get('_terp_filter_domain');
     search_filter_domain = search_filter_domain ? search_filter_domain.value : [];
 
@@ -97,7 +96,7 @@ function openRecord(id, src, target, readonly) {
         return openobject.tools.openWindow(get_form_action('/openerp/openm2m/edit', args));
     }
 
-    window.location.href = get_form_action(action, args);
+    openLink(get_form_action(action, args));
 }
 
 function editRecord(id, src, target) {
@@ -198,18 +197,19 @@ function switch_O2M(view_type, src) {
 }
 
 function show_process_view() {
-	var model = openobject.dom.get('_terp_model').value;
-	var id = openobject.dom.get('_terp_id').value;
-	
-	if (openobject.dom.get('_terp_list')) {
-		 var list = new ListView('_terp_list');
-		 var ids = list.getSelectedRecords();
-		 if (ids.length) {
-			id = ids[0];
-		 }
-	}
-	id = parseInt(id) || null;
-	window.location.href = openobject.http.getURL('/view_diagram/process', {res_model: model, res_id: id})
+    var model = openobject.dom.get('_terp_model').value;
+    var id;
+    if (openobject.dom.get('_terp_list')) {
+        var list = new ListView('_terp_list');
+        var ids = list.getSelectedRecords();
+        if (ids.length) {
+            id = ids[0];
+        }
+    } else {
+        id = openobject.dom.get('_terp_id').value;
+    }
+    openLink(openobject.http.getURL('/view_diagram/process', {
+        res_model: model, res_id: parseInt(id, 10) || null}));
 }
 
 function validate_required(form) {
@@ -293,7 +293,7 @@ function submit_form(action, src, target) {
     }
 
     form.attributes['action'].value = action;
-    form.submit();
+    jQuery(form).submit();
 }
 
 function pager_action(action, src) {
@@ -444,7 +444,7 @@ function getFormData(extended) {
             if (kind == 'text_html') {
                 attrs['value'] = tinyMCE.get(e.name).getContent();
             }
-            
+
             if (kind == 'reference' && value) { 
                 attrs['value'] = "[" + value + ",'" + getNodeAttribute(e, 'relation') + "']";
             }
@@ -657,11 +657,12 @@ function eval_domain_context_request(options) {
     params['_terp_prefix'] = prefix;
     params['_terp_active_id'] = prefix ? openobject.dom.get(prefix + '/_terp_id').value : openobject.dom.get('_terp_id').value;
     params['_terp_active_ids'] = prefix ? openobject.dom.get(prefix + '/_terp_ids').value : openobject.dom.get('_terp_ids').value;
-    
+
     if(options.group_by_ctx && options.group_by_ctx.length > 0)
         params['_terp_group_by'] = options.group_by_ctx;
     else
         params['_terp_group_by'] = '[]';
+
     if (options.active_id) {
         params['_terp_active_id'] = options.active_id;
         params['_terp_active_ids'] = options.active_ids;
@@ -723,10 +724,10 @@ function open_search_window(relation, domain, context, source, kind, text) {
 }
 
 function showCustomizeMenu(src, elem) {
-	
+
 	var pos = jQuery('#show_customize_menu').position();
 	var left_position = pos.left - 50 + 'px';
-        
+
     jQuery('#'+elem).css('left', left_position);
     jQuery('#'+elem).slideToggle('slow');
 }
@@ -1020,11 +1021,11 @@ function open_url(site) {
 }
 
 function submenu_action(action_id, model) {
-    window.location.href = openobject.http.getURL("/openerp/form/action_submenu", {
+    openLink(openobject.http.getURL("/openerp/form/action_submenu", {
         _terp_action_id: action_id,
         _terp_model: model,
         _terp_id: $('_terp_id').value
-    });
+    }));
 }
 
 function show_wkf() {
@@ -1032,12 +1033,12 @@ function show_wkf() {
     if ($('_terp_list')) {
         var lst = new ListView('_terp_list');
         var ids = lst.getSelectedRecords();
-
+        
         if (ids.length < 1)
             return alert(_('You must select at least one record.'));
-        id = ids[0]
+        id = ids[0]            
     } else {
-        id = $('_terp_id') && $('_terp_id').value!='False' ? $('_terp_id').value : null;        
+        id = $('_terp_id') && $('_terp_id').value != 'False' ? $('_terp_id').value : null;        
     }
     
     openobject.tools.openWindow(openobject.http.getURL('/view_diagram/workflow', {model: $('_terp_model').value, rec_id:id}));
@@ -1097,7 +1098,7 @@ function animatePoof() {
         }, frameRate);
         bgTop -= frameSize; // update bgPosition to reflect the new background-position of our poof <div>
     }
-    
+       
     // wait until the animation completes and then hide the poof <div>
     setTimeout("jQuery('.poof').hide()", frames * frameRate);
 }

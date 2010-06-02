@@ -27,19 +27,11 @@
 //
 ////////////////////////////////////////////////////////////////////////////////
 
-var WAITBOX = null;
-var WAITBOX_SHOW = false;
+var WAIT_BOX = null;
 
-MochiKit.DOM.addLoadEvent(function(evt){
-    WAITBOX = new openerp.ui.WaitBox();
+jQuery(document).ready(function(){
+    WAIT_BOX = new openerp.ui.WaitBox();
 });
-
-function showWaitBox() {
-
-    if (WAITBOX_SHOW) {
-        WAITBOX.show();
-    }
-}
 
 function wizardAction(state) {
 
@@ -55,15 +47,11 @@ function wizardAction(state) {
     }
     
     if (state != 'end' && !validate_required(form)) {
-        return false;
+        return;
     }
 
     MochiKit.DOM.setNodeAttribute(form, 'action', openobject.http.getURL(act));
     form._terp_state.value = state;
 
-    WAITBOX_SHOW = state != 'report';
-    
-    MochiKit.Async.callLater(2, showWaitBox);
-    
-    form.submit();
+    jQuery(form).submit();
 }

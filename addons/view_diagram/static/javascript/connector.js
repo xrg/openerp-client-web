@@ -36,120 +36,118 @@ if (typeof(openobject.workflow) == "undefined") {
 }
 
 
-openobject.workflow.Connector=function(id, from, to, options) {
+openobject.workflow.Connector = function(id, from, to, options) {
 	
-	draw2d.Connection.call(this);
-	this.setLineWidth(2);
-	this.setColor(new draw2d.Color(180, 180, 180));
-	this.setTargetDecorator(new openobject.workflow.ConnectionDecorator());
+    draw2d.Connection.call(this);
+    this.setLineWidth(2);
+    this.setColor(new draw2d.Color(180, 180, 180));
+    this.setTargetDecorator(new openobject.workflow.ConnectionDecorator());
     
-	this.setSourceAnchor(new openobject.workflow.ConnectionAnchor());
+    this.setSourceAnchor(new openobject.workflow.ConnectionAnchor());
     this.setTargetAnchor(new openobject.workflow.ConnectionAnchor());
     this.setRouter(new draw2d.NullConnectionRouter());
 	  
-	var html = this.getHTMLElement();
-	html.style.cursor = 'pointer';
+    var html = this.getHTMLElement();
+    html.style.cursor = 'pointer';
 	
-	MochiKit.Signal.connect(html, 'ondblclick', this, this.ondblClick);
-	MochiKit.Signal.connect(html, 'onmouseover', this, this.onmouseOver);
-	MochiKit.Signal.connect(html, 'onmouseout', this, this.onmouseOut);
-	MochiKit.Signal.connect(html, 'onclick', this, this.onClick);
+    MochiKit.Signal.connect(html, 'ondblclick', this, this.ondblClick);
+    MochiKit.Signal.connect(html, 'onmouseover', this, this.onmouseOver);
+    MochiKit.Signal.connect(html, 'onmouseout', this, this.onmouseOut);
+    MochiKit.Signal.connect(html, 'onclick', this, this.onClick);
 	
 	
-	this.sourceId = null;
-	this.destId = null;
-	this.setDeleteable(false);
+    this.sourceId = null;
+    this.destId = null;
+    this.setDeleteable(false);
 	
-	if(id) {
-		this.tr_id = id;
-		this.from = from;
-		this.to = to;
-		this.isOverlaping = false;
-		this.OverlapingSeq = 0;
-		this.totalOverlaped = 0;
-		this.options = MochiKit.Base.update({}, options || {})
-		this.sourceAnchor.conn_id = id;
-		this.targetAnchor.conn_id = id;
-	}
-}
+    if (id) {
+        this.tr_id = id;
+        this.from = from;
+        this.to = to;
+        this.isOverlaping = false;
+        this.OverlapingSeq = 0;
+        this.totalOverlaped = 0;
+        this.options = MochiKit.Base.update({}, options || {});
+        this.sourceAnchor.conn_id = id;
+        this.targetAnchor.conn_id = id;
+    }
+};
 
 openobject.workflow.Connector.prototype = new draw2d.Connection();
 
 openobject.workflow.Connector.prototype.ondblClick = function(event) {	
-		new InfoBox(this).show(event);
-}
+    new InfoBox(this).show(event);
+};
 
 openobject.workflow.Connector.prototype.onClick = function(event) {
     
-    if (WORKFLOW.selected==this)
+    if (WORKFLOW.selected == this)
         new InfoBox(this).show(event);
-}
+};
 
 
 openobject.workflow.Connector.prototype.onmouseOver = function(event) {
-    str = ''
+    str = '';
     for (f in this.options) 
         str += f + ': ' + this.options[f] + ' | '
             
-    openobject.dom.get('status').innerHTML = str.substring(0, str.length-3);//"Condition: " + this.condition + " | Signal: "+ this.signal;
-}
+    openobject.dom.get('status').innerHTML = str.substring(0, str.length - 3);//"Condition: " + this.condition + " | Signal: "+ this.signal;
+};
 
-openobject.workflow.Connector.prototype.onmouseOut = function(event){
+openobject.workflow.Connector.prototype.onmouseOut = function(event) {
     openobject.dom.get('status').innerHTML = '';
-}
+};
 
 openobject.workflow.Connector.prototype.edit = function() {
 	
-	params = {
-	'_terp_model' : WORKFLOW.connector_obj,//'workflow.transition',
-	'_terp_start' : this.getSource().getParent().get_act_id(),
-	'_terp_end' : this.getTarget().getParent().get_act_id()
-	}
+    params = {
+        '_terp_model' : WORKFLOW.connector_obj,//'workflow.transition',
+        '_terp_start' : this.getSource().getParent().get_act_id(),
+        '_terp_end' : this.getTarget().getParent().get_act_id()
+    };
 	
-	if(!isUndefinedOrNull(this.tr_id))
-		params['_terp_id'] = this.tr_id;	
+    if (!isUndefinedOrNull(this.tr_id))
+        params['_terp_id'] = this.tr_id;
 		
 	var act = openobject.http.getURL('/view_diagram/workflow/connector/edit', params);
 	openobject.tools.openWindow(act);
 }
 
 openobject.workflow.Connector.prototype.get_tr_id = function() {
-	return this.tr_id;
-}
+    return this.tr_id;
+};
 
 openobject.workflow.Connector.prototype.__delete__ = function() {
-		MochiKit.Signal.disconnectAll(this.getHTMLElement(), 'ondblclick', 'onmouseover', 'onmouseout', 'onclick');
-}
+    MochiKit.Signal.disconnectAll(this.getHTMLElement(), 'ondblclick', 'onmouseover', 'onmouseout', 'onclick');
+};
 
 openobject.workflow.Connector.prototype.setSource = function(port) {
 	
-	draw2d.Connection.prototype.setSource.call(this,port);
+    draw2d.Connection.prototype.setSource.call(this, port);
 	
-	if(this.sourceId==null)
-		this.sourceId = port.getParent().get_act_id();
-	else if(this.sourceId != port.getParent().get_act_id())	{
-		this.sourceId = port.getParent().get_act_id();
+    if (this.sourceId == null)
+        this.sourceId = port.getParent().get_act_id();
+    else if (this.sourceId != port.getParent().get_act_id()) {
+        this.sourceId = port.getParent().get_act_id();
 
-		req = openobject.http.postJSON('/view_diagram/workflow/connector/change_ends', {conn_obj: WORKFLOW.connector_obj, 
-		                                                                  id: this.tr_id, 
-		                                                                  field: WORKFLOW.src_node_nm, 
-		                                                                  value: this.sourceId});
-	}
-}
+        req = openobject.http.postJSON('/view_diagram/workflow/connector/change_ends', {conn_obj: WORKFLOW.connector_obj,
+            id: this.tr_id,
+            field: WORKFLOW.src_node_nm,
+            value: this.sourceId});
+    }
+};
 
 openobject.workflow.Connector.prototype.setTarget = function(port) {
-	draw2d.Connection.prototype.setTarget.call(this,port);
+    draw2d.Connection.prototype.setTarget.call(this, port);
 	
-	if(this.destId==null)
-		this.destId = port.getParent().get_act_id();
-	else if(this.destId != port.getParent().get_act_id()) {
-		this.destId = port.getParent().get_act_id();
+    if (this.destId == null)
+        this.destId = port.getParent().get_act_id();
+    else if (this.destId != port.getParent().get_act_id()) {
+        this.destId = port.getParent().get_act_id();
 
-        req = openobject.http.postJSON('/view_diagram/workflow/connector/change_ends', {conn_obj: WORKFLOW.connector_obj, 
-                                                                           id: this.tr_id, 
-                                                                           field: WORKFLOW.des_node_nm, 
-                                                                           value: this.destId});
-	}
-}
-
-// vim: ts=4 sts=4 sw=4 si et
+        req = openobject.http.postJSON('/view_diagram/workflow/connector/change_ends', {conn_obj: WORKFLOW.connector_obj,
+            id: this.tr_id,
+            field: WORKFLOW.des_node_nm,
+            value: this.destId});
+    }
+};

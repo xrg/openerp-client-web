@@ -7,7 +7,11 @@
     overflow: hidden;
 }
 
+.pager label,
+.pager span span,
+.pager a,
 .pager p.paging {
+    cursor: pointer;
 	color: #a6a5a5; 
 	font-size: 0.9em; 
 	font-weight: bold; 

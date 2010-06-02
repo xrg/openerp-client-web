@@ -13,7 +13,7 @@
                 explanation: openobject.dom.get('explanation').value,
                 remarks: openobject.dom.get('remarks').value,
                 tb: openobject.dom.get('error').value
-            }
+            };
 
             var req = openobject.http.postJSON('/openerp/errorpage/submit', args);
 
@@ -40,7 +40,7 @@
         % if maintenance:
         <tr>
             <td valign="top">
-<form id="view_form" onsubmit="return false;">
+<form id="view_form">
                 <div id="error_page_notebook">
                     <div title="${_('Maintenance')}">
                             % if maintenance['status'] == 'none':

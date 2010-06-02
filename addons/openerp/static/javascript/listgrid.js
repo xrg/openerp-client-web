@@ -28,9 +28,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 var ListView = function(name) {
-
-//    var elem = openobject.dom.get(name);
-    var elem = jQuery('[id="'+name+'"]').get()
+    var elem = jQuery('#'+name).get()
     
     if (elem.__listview) {
         return elem.__listview;
@@ -48,10 +46,9 @@ ListView.prototype = {
     __init__: function(name) {
 
         var prefix = name == '_terp_list' ? '' : name + '/';
-		
+
         this.name = name;
-        this.model = $('[id*="'+prefix + '_terp_model'+'"]').get() ? $('[id*="'+prefix + '_terp_model'+'"]').val() : null;
-        
+        this.model = $('[id*="'+prefix + '_terp_model'+'"]').get() ? $('[id*="'+prefix + '_terp_model'+'"]').val() : null;        
         this.current_record = null;
 
         this.ids = $('[id*="'+prefix + '_terp_ids'+'"]').val();
@@ -60,7 +57,7 @@ ListView.prototype = {
         this.view_mode = $('[id*="'+prefix + '_terp_view_mode'+'"]').get() ? $('[id*="'+prefix + '_terp_view_mode'+'"]').val() : null;
 
         // if o2m
-		
+        
         this.m2m = $('[id*="'+ name + '_set' + '"]');
 		this.default_get_ctx = $('[id*="' + prefix + '_terp_default_get_ctx' + '"]').get() ? $('[id*="' + prefix + '_terp_default_get_ctx' + '"]').val() : null;
 		this.sort_key = null;
@@ -73,7 +70,7 @@ ListView.prototype = {
     checkAll: function(clear) {
 
         clear = clear ? false : true;
-        
+
         $('[id*="'+this.name+'"]:first').find(':checkbox').each(function(i) {
 			$(this).attr('checked', clear)
 		});
@@ -100,7 +97,7 @@ ListView.prototype = {
 		    	jQuery('tr.field_sum').find('td.grid-cell').find('span').each(function() {
 		    		sum_fields.push(jQuery(this).attr('id'))
 		    	});
-		    	
+	    	 
 		    	var selected_fields = sum_fields.join(",");
 		    	var selected_ids = '[' + selected_ids.join(',') + ']';
 		    	if(selected_ids == '[]') {
@@ -108,7 +105,7 @@ ListView.prototype = {
 		    		 selected_ids =this.ids;
 		    		}
 		    	}
-		    	
+	    	
 		    	jQuery.ajax({
 		    		url: '/openerp/listgrid/count_sum',
 		    		type: 'POST',
@@ -147,8 +144,7 @@ ListView.prototype = {
     },
 
     onBooleanClicked: function(clear, value) {
-    	
-        var selected_ids = this.getSelectedRecords()
+        var selected_ids = this.getSelectedRecords();
         var sb = openobject.dom.get('sidebar');
         if (selected_ids.length <= 1) {
             if (sb){
@@ -159,7 +155,7 @@ ListView.prototype = {
             if (sb) toggle_sidebar();
         }
         
-       	this.selectedRow_sum();
+       	this.selectedRow_sum();     
     },
 
     getColumns: function(dom) {
@@ -315,7 +311,7 @@ MochiKit.Base.update(ListView.prototype, {
         	this.sort_key_order = order;
         }
     },
-    
+
     group_by: function(id, record, no_leaf, group) {
         var group_record = jQuery('[records="' + record + '"]');
         var group_by_context = jQuery(group_record).attr('grp_context');
@@ -370,7 +366,7 @@ MochiKit.Base.update(ListView.prototype, {
         else {
         	domain = drop.attr('grp_domain');
         }
-        
+
         var ch_records = drag.attr('ch_records');
         if(ch_records) {
         	children = ch_records;
@@ -384,7 +380,7 @@ MochiKit.Base.update(ListView.prototype, {
         		children = drag_record;
         	}
         }
-        
+
         if((drag_record && drop_record) && (drag.attr('id')) == drop.attr('id')) {
             _list_view.dragRow(drag, drop, view);
         } 
@@ -735,7 +731,7 @@ MochiKit.Base.update(ListView.prototype, {
         if(this.sort_key) {
         	args['_terp_sort_key'] = this.sort_key;
         	args['_terp_sort_order'] = this.sort_key_order;
-        	args['_terp_sort_model'] = self.model
+        	args['_terp_sort_model'] = self.model;
         	args['_terp_sort_domain'] = this.sort_domain;
         	if(self.name !='_terp_list') {
         		args['_terp_o2m'] = self.name;

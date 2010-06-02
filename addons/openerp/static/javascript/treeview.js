@@ -71,10 +71,9 @@ TreeView.prototype = {
 
         setNodeAttribute(form, 'action', openobject.http.getURL('/openerp/tree/switch', args));
         form.method = 'post';
-        form.submit();
-    
+        jQuery(form).submit();
     },
-    
+
     repr: function() {
         return "[TreeView]";
     },
