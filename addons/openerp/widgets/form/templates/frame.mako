@@ -23,7 +23,7 @@
                                 % if attrs.get('widget_item')[1].kind in ('char', 'selection', 'one2many', 'many2many'):
                                     <table>
                                         <tr>
-                                            <td>
+                                            <td class="filter_item">
                                                 ${display_member(attrs.get('widget_item')[1])}
                                             </td>
                                         </tr>

@@ -146,13 +146,17 @@ div#search_filter_data table.fields td.item {
 }
 
 table#search_table td{
-	text-align: center;
 	font-weight: bold;
+}
+
+.filter_item {
+	padding: 0;
 }
 
 td.item table {
 	border: none;
 }
+
 
 table.fields {
 	border: none;
