@@ -67,6 +67,7 @@ from openerp import validators
 from _binary import Image
 
 
+
 class Frame(TinyInputWidget):
     """Frame widget layouts the widgets in a table.
     """
@@ -153,6 +154,7 @@ class Frame(TinyInputWidget):
                 if isinstance(wid, Separator) and not string:
                     a['width'] = '2%'
                 else:
+                    
                     a['width'] = '%d%%' % (w)
     def add_row(self):
 
@@ -234,7 +236,17 @@ class Frame(TinyInputWidget):
         if getattr(widget, 'attributes', False):
             attrs['attrs'] = str(widget.attributes)
             attrs['widget'] = widget.name
-
+            
+        if not isinstance(widget, (Char, Frame, Float, DateTime, Integer, Selection, Notebook, Separator, NewLine, Label)):
+            if not widget.kind and not widget._name:
+                if widget.string:
+                    attrs['style'] = 'padding: 0;'
+            else:
+                from openerp.widgets.search import Filter as Filter
+                if isinstance(widget, Filter) and widget.string:
+                    attrs['style'] = 'padding: 0;'
+                
+            
         td = [attrs, widget]
         if widget.full_name and self.label_position:
             if label_table:

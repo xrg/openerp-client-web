@@ -211,7 +211,7 @@ div.fields-a { }
   * html div.fields-a p span.lookup { display: inline; text-indent: 0; }
   *:first-child+html div.fields-a p span.lookup { display: inline; text-indent: 0; }
 
-div.filter-a { overflow: hidden; width: 100%; margin: 0 0 5px;}
+div.filter-a { width: 100%; margin: 0 0 5px; }
  div.filter-a ul { float: left; list-style: none; padding: 0; border: 1px solid #cccbcb; border-radius: 4px; -moz-border-radius: 4px; -webkit-border-radius: 4px; background: #ededed url(../images/filter-a-buttons.gif) repeat-x; box-shadow: 0 1px 0 #fff; -moz-box-shadow: 0 1px 0 #fff; -webkit-box-shadow: 0 1px 0 #fff; }
   div.filter-a ul li { float: left; font-size: 1em; font-weight: bold; text-transform: uppercase; text-shadow: #fff 0 1px 0; }
   div.filter-a ul li.first { border-left: none; }

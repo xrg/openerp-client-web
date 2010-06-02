@@ -142,21 +142,12 @@ div#search_filter_data table {
 }
 
 div#search_filter_data table.fields td.item {
-	padding: 0 0 0 0;
 	width: auto;
 }
 
 table#search_table td{
 	text-align: center;
 	font-weight: bold;
-}
-
-table.fields td.item {
-	padding: 0 0 0 0;
-}
-
-form table.fields td.item {
-	padding: 2px 9px 5px 4px;	
 }
 
 td.item table {
@@ -197,6 +188,7 @@ td.item button table {
 	font-weight: 600;
 	font-size: 0.8em;
 }
+
 td.item button table td {
 	border: none;
 	padding: 0;
@@ -229,13 +221,10 @@ button.btn_filter:hover {
 
 table#filter_table {
 	margin: 0;
-	width: auto;
 }
 
 table#filter_table td.filter_column {
-	padding: 0;
 	text-align: left;
-	width: auto;
 }
 
 table#filter_table td.filter_column select {
@@ -277,7 +266,6 @@ div.inactive_filter {
 	background: url(../images/button_unchecked.gif) repeat-x left bottom;
 	border: solid 1px #888888; 
 	white-space: nowrap;
-	padding: 1px;
 }
 
 div.active_filter {
@@ -285,7 +273,6 @@ div.active_filter {
 	background: url(../images/button_checked.gif) repeat-x left bottom; 
 	border: solid 1px #888888; 
 	white-space: nowrap;
-	padding: 1px;
 }
 
 td.group-expand, img.group_expand {
@@ -337,10 +324,6 @@ div.group-expand h2:hover {
 #groupdata_table {
 	margin: 0;
 	display: block;
-}
-
-#groupdata_table td {
-	padding: 0;
 }
 
 div.group-collapse {
