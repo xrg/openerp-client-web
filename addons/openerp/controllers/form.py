@@ -472,6 +472,10 @@ class Form(SecuredController):
 
         id = (id or False) and int(id)
         ids = (id or []) and [id]
+        
+        ctx = (params.context or {}).copy()
+        ctx.update(rpc.session.context.copy())
+        ctx.update(button.context or {})
 
         if btype == 'cancel':
             if name:
@@ -514,7 +518,7 @@ class Form(SecuredController):
 
             res = actions.execute_by_id(action_id, type=action_type,
                                         model=model, id=id, ids=ids,
-                                        context=params.context or {})
+                                        context=ctx or {})
             if res:
                 return res
 
