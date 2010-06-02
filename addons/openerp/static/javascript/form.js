@@ -306,9 +306,6 @@ function buttonClicked(name, btype, model, id, sure, target) {
     if (sure && !confirm(sure)) {
         return;
     }
-    
-    var button = getElement(name);
-    var context = getNodeAttribute(button, "context");
 
     var params = {
         '_terp_button/name': name,

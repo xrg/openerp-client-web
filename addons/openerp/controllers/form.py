@@ -498,8 +498,7 @@ class Form(SecuredController):
                 return actions.execute(res, ids=[id])
 
         elif btype == 'object':
-            ctx = params.context or {}
-            ctx.update(rpc.session.context.copy())
+
             res = rpc.session.execute('object', 'execute', model, name, ids, ctx)
 
             if isinstance(res, dict):
