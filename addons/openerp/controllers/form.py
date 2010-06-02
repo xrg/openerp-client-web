@@ -866,7 +866,7 @@ class Form(SecuredController):
         model = params.model
 
         id = params.id or False
-        ids = params.ids or []
+        ids = params.selection or params.ids or []
 
         if params.view_type == 'form':
             #TODO: save current record
