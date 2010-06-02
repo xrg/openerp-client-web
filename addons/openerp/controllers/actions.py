@@ -340,8 +340,12 @@ def execute_by_id(act_id, type=None, **data):
 
     if type is None:
         type = get_action_type(act_id)
+        
+    ctx = {}
+    ctx.update(rpc.session.context.copy())
+    ctx.update(data.get('context') or {})   
 
-    res = rpc.session.execute('object', 'execute', type, 'read', act_id, False, rpc.session.context)
+    res = rpc.session.execute('object', 'execute', type, 'read', act_id, False, ctx)
     return execute(res, **data)
 
 def execute_by_keyword(keyword, adds=None, **data):
