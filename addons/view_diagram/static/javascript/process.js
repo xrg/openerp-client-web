@@ -260,7 +260,7 @@ MochiKit.Base.update(openobject.process.Node.prototype, {
         var bbar = openobject.dom.select('td.node-buttons', elem)[0];        
         var menu = openobject.dom.select('td.node-menu', elem)[0];
 
-        title.innerHTML = title.title = this.data.name || '';
+        title.innerHTML = this.data.name || '';
         text.innerHTML = this.data.notes || '';
 
         if (this.data.subflow && this.data.subflow.length) {
@@ -342,7 +342,7 @@ MochiKit.Base.update(openobject.process.Transition.prototype, {
 
         this.setTargetDecorator(new openobject.process.TargetDecorator(color));
         this.setColor(color);
-        this.setLineWidth(2);
+        this.setLineWidth(3);
         this.setSelectable(false);
 
         this.data = data;
@@ -352,7 +352,8 @@ MochiKit.Base.update(openobject.process.Transition.prototype, {
         var elem = this.getHTMLElement();
         elem.style.cursor = 'pointer';
         elem.title = this._makeTipText();
-
+        MochiKit.Signal.connect(elem, 'ondblclick', this, this._makeTipText);
+        
         if (roles.length) {
             var role_img = new draw2d.ImageFigure('/openerp/static/images/stock/stock_person.png');
             role_img.setDimension(32, 32);
@@ -389,8 +390,10 @@ MochiKit.Base.update(openobject.process.Transition.prototype, {
         if (buttons.length) {
             title += '<span>Actions:</span>' + _mkList(buttons);
         }
-
-        return title;
+        
+        var params = {'title_tip': MochiKit.DOM.emitHTML(title)}
+        
+        openobject.tools.openWindow(openobject.http.getURL("/process/open_tip", params), {width: 450, height: 250});
     }
 });
 
