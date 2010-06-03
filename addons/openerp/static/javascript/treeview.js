@@ -14,10 +14,10 @@ TreeView.prototype = {
     __class__: TreeView,
     
     __init__: function(current) {
-        this.view_tree = openobject.dom.get("view_tree");
+        this.view_tree = jQuery("#view_tree")[0];
         this.trees = {};
         this.current = treeGrids['tree_' + current];
-        this.current_button = openobject.dom.select("tr.selected", "treeview")[0];
+        this.current_button = jQuery('#treeview tr.selected').get(0);
 
         this.trees[this.current.id] = this.current;
     },
@@ -29,15 +29,14 @@ TreeView.prototype = {
         ids = ids == ''? 'None' : ids;
     	
         var tree = this.trees['tree_' + id] || null;
-        
-        MochiKit.DOM.removeElementClass(this.current_button, "selected");
-        MochiKit.DOM.hideElement(this.current.id);
+
+        jQuery(this.current_button).removeClass("selected");
+        jQuery('#'+this.current.id).hide();
         
         if (!tree) {
-            
-            var span = MochiKit.DOM.SPAN({'id': 'tree_' + id});
-            this.view_tree.appendChild(span);
-            tree = this.current.copy(span, null, ids);
+            var span = jQuery('<span>', {'id': 'tree_' + id});
+            jQuery(this.view_tree).append(span);
+            tree = this.current.copy(span[0], null, ids);
             this.trees[tree.id] = tree;
             
             tree.render();
@@ -45,30 +44,26 @@ TreeView.prototype = {
         
         this.current = tree;
         this.current_button = elem;
-        
-        MochiKit.DOM.addElementClass(this.current_button, "selected");
+
+        jQuery(this.current_button).addClass('selected');
         
         if (tree.table) {
-            tree.table.style.display = "";
+            jQuery(tree.table).show();
         }
     },
     
     switchItem: function() {
-
-        var selection = openobject.dom.get('_terp_ids').value;
-        
+        var selection = jQuery('#_terp_ids').val();
         if (!selection) {
             return alert(_('You must select at least one record.'));
         }
-        
-        var form = document.forms['view_tree'];
-        var args = {
-            '_terp_selection': '[' + selection + ']'
-        };
 
-        setNodeAttribute(form, 'action', openobject.http.getURL('/openerp/tree/switch', args));
-        form.method = 'post';
-        jQuery(form).submit();
+        jQuery('#view_tree').attr({
+            'action': openobject.http.getURL('/openerp/tree/switch', {
+                '_terp_selection': '[' + selection + ']'
+            }),
+            'method': 'post'
+        }).submit();
     },
 
     repr: function() {
