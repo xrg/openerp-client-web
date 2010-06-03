@@ -148,11 +148,12 @@ TreeGrid.prototype = {
         this.thead = MochiKit.DOM.THEAD({'class': 'tree-head'});
         this.tbody = MochiKit.DOM.TBODY({'class': 'tree-body'});
         this.table = MochiKit.DOM.TABLE({id: this.id, 'class': 'tree-grid'}, this.thead, this.tbody);
-        
+
         if (this.options.showheaders) {
             this._makeHeader();
         }
-        
+        debugger;
+
         this._makeBody();
 
         if (openobject.dom.get(this.id) != this.table) {
