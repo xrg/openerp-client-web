@@ -114,6 +114,7 @@ hr { overflow: hidden; height: 1px; margin: 15px 0 !important; margin: -5px 0 8p
      #nav ul li a:hover span, #nav ul li a:focus span, #nav ul li a:active span, #nav ul li a.active span { background-position: 100% -23px; }
     #nav ul li em { position: absolute; left: -10001px; top: -10001px; }
  
+    .scroll_right { text-align: center; width: 2%;}
  #content { height: 100%; }
    #content div.wrap { padding: 0px 0 5px; }
   #primary { min-height: 100%; margin: 0 20px 0 195px; }

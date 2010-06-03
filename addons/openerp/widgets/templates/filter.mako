@@ -11,13 +11,19 @@
 			
 		if help!=text_val:
 			text = text_val
+			bg_position = "top center"
+			a_width = ''
 		else:
 			text = ''
+			a_width = '20px'
+			bg_position = "center center"
 	%>
 	<ul>
 		<li class="${filter_class}" title="${help}" onclick="search_filter(getElement('${filter_id}'), this);">
-			<a class="${a_class}" style="background-image: url(${icon});">
-				${text}
+			<a class="${a_class}" style="background-image: url(${icon}); background-position: ${bg_position}; width: ${a_width};">
+				% if text:
+				    ${text}
+				% endif
 				<span>&raquo;</span>
 				<input ${py.attrs(attrs)} style="display:none;"
                     type="checkbox"
