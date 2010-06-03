@@ -1,3 +1,4 @@
+var treeGrids;
 var TreeView = function(current) {
 
     var cls = arguments.callee;
@@ -13,18 +14,15 @@ TreeView.prototype = {
     __class__: TreeView,
     
     __init__: function(current) {
-        
         this.view_tree = openobject.dom.get("view_tree");
-                
         this.trees = {};
-        this.current = window['tree_' + current];
+        this.current = treeGrids['tree_' + current];
         this.current_button = openobject.dom.select("tr.selected", "treeview")[0];
-                
+
         this.trees[this.current.id] = this.current;
     },
         
     openTree: function(id, ids, elem) {
-    
         if (openobject.http.AJAX_COUNT > 0) {
             return;
         }
@@ -39,7 +37,6 @@ TreeView.prototype = {
             
             var span = MochiKit.DOM.SPAN({'id': 'tree_' + id});
             this.view_tree.appendChild(span);
-            
             tree = this.current.copy(span, null, ids);
             this.trees[tree.id] = tree;
             
