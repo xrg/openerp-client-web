@@ -896,6 +896,7 @@ class Form(TinyInputWidget):
                 name = attrs['name']
 
                 try:
+                    fields[name]['link'] = attrs.get('link', '1')
                     fields[name].update(attrs)
                 except:
                     print "-"*30,"\n malformed tag for:", attrs
@@ -959,7 +960,8 @@ class Form(TinyInputWidget):
     def _make_field_widget(self, attrs, value=False):
 
         attrs['editable'] = self.editable
-        attrs['link'] = self.link
+        if not attrs['type'] == 'many2one':
+            attrs['link'] = self.link
 
         attrs.setdefault('context', self.context)
         attrs.setdefault('model', self.model)

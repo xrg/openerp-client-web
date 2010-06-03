@@ -49,7 +49,7 @@ ManyToOne.prototype.__init__ = function(name){
 
     this.field = openobject.dom.get(name);
     this.text = openobject.dom.get(name + '_text');
-    
+    this.editable = getElement('_terp_editable') ? getElement('_terp_editable').value : 'True';
     //for autocomplete
     this.auto_hidden_id = openobject.dom.get('_hidden_' + name)
     
@@ -82,38 +82,40 @@ ManyToOne.prototype.__init__ = function(name){
     this.field_class = getNodeAttribute(this.field, 'class');
     setNodeAttribute(this.text, 'autocomplete', 'OFF');
     
-    connect(this.field, 'onchange', this, this.on_change);
-    //connect(this.text, 'onchange', this, this.on_change_text);
-    connect(this.text, 'onkeydown', this, this.on_keydown);
-    connect(this.text, 'onkeypress', this, this.on_keypress);
-    connect(this.text, 'onkeyup', this, this.on_keyup);
-    connect(this.text, 'onfocus', this, this.gotFocus);
-    connect(this.text, 'onblur', this, this.lostFocus);
-    
-    if (this.hiddenField)
-    	this.lastHiddenResult = this.field.value;
-	this.lastTextResult = this.text.value;
+    if (this.editable == 'True'){
+	    connect(this.field, 'onchange', this, this.on_change);
+	    //connect(this.text, 'onchange', this, this.on_change_text);
+	    connect(this.text, 'onkeydown', this, this.on_keydown);
+	    connect(this.text, 'onkeypress', this, this.on_keypress);
+	    connect(this.text, 'onkeyup', this, this.on_keyup);
+	    connect(this.text, 'onfocus', this, this.gotFocus);
+	    connect(this.text, 'onblur', this, this.lostFocus);
+	    
+	    if (this.hiddenField)
+	    	this.lastHiddenResult = this.field.value;
+		this.lastTextResult = this.text.value;
+		
+	    if (this.select_img)
+	        connect(this.select_img, 'onclick', this, this.select);
+	    if (this.open_img)
+	        connect(this.open_img, 'onclick', this, this.open_record);
+	    
+	    if (this.reference) {
+	        connect(this.reference, 'onchange', this, this.on_reference_changed);
+	    }
+	    
+	    this.is_inline = name.indexOf('_terp_listfields/') == 0;
 	
-    if (this.select_img)
-        connect(this.select_img, 'onclick', this, this.select);
-    if (this.open_img)
-        connect(this.open_img, 'onclick', this, this.open_record);
-    
-    if (this.reference) {
-        connect(this.reference, 'onchange', this, this.on_reference_changed);
+	    this.field._m2o = this;
+	
+	    this.change_icon();
+	    
+	    if (this.takeFocus) {
+	        this.text.focus();
+	        this.gotFocus();
+	    }
+	     bindMethods(this);
     }
-    
-    this.is_inline = name.indexOf('_terp_listfields/') == 0;
-
-    this.field._m2o = this;
-
-    this.change_icon();
-    
-    if (this.takeFocus) {
-        this.text.focus();
-        this.gotFocus();
-    }
-     bindMethods(this);
 }
 
 ManyToOne.prototype.gotFocus = function(evt) {
@@ -140,6 +142,7 @@ ManyToOne.prototype.select = function(evt){
 }
 
 ManyToOne.prototype.open_record = function(evt){
+    this.field.value = this.field.value || getNodeAttribute(this.field, 'value');
 	if (this.field.value) {
 	    this.open(this.field.value);
 	}
@@ -156,13 +159,14 @@ ManyToOne.prototype.open = function(id){
 
     var model = this.relation;
     var source = this.name;
-    var editable = 'True';
+    var editable = this.editable || 'True';
     
-    // To open popup form in readonly mode.
-    if (this.field_class.indexOf('readonlyfield') != -1) {
-        var editable = 'False';
+    if (editable ==  'True'){
+	    // To open popup form in readonly mode.
+	    if (this.field_class.indexOf('readonlyfield') != -1) {
+	        var editable = 'False';
+	    }
     }
-
     var req = eval_domain_context_request({source: source, domain: domain, context: context});
 
     req.addCallback(function(obj){
