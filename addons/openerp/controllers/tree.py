@@ -63,7 +63,7 @@ class Tree(SecuredController):
         domain = params.domain
         context = params.context
 
-        res_id = params.ids
+        res_id = params.ids or 0
         model = params.model
 
         if view_id:
