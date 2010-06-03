@@ -127,6 +127,7 @@
                         <tr>
                             <td width="100%">
                             	<a class="button-a" href="javascript: void(0)" onclick="search_filter()">${_("Filter")}</a>
+                           	    <a class="button-a" href="javascript: void(0)" onclick="do_create()">${_("New")}</a>
                             	<a class="button-a" href="javascript: void(0)" onclick="do_select()">${_("Select")}</a>
                             	<a class="button-a" href="javascript: void(0)" onclick="window.close()">${_("Close")}</a>
                             </td>

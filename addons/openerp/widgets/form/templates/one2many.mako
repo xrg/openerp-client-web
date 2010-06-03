@@ -3,11 +3,23 @@
         <td>
             <table width="100%" class="gridview" style="border-bottom: 1px solid #C0C0C0;"cellpadding="0" cellspacing="0">
                 <tr class="pagebar">
-                	<td class="pagerbar-cell" align="right" width="25%">
+                    <%
+                        if view_type == 'form':
+                            pager_width = '15%'
+                        else:
+                            pager_width = '25%'
+                    %>
+                	<td class="pagerbar-cell" align="right" width="${pager_width}">
                 		<div class="pagerbar-header">
                 			<strong>${screen.string}</strong>
                 		</div>
                 	</td>
+                	
+                	% if screen.editable and not readonly and view_type == 'form':
+                	   <td>
+                	       <a class="button-a" href="javascript: void(0)" title="${_('Create new record...')}" onclick="new One2Many('${name}', ${(screen.view_type == 'tree' or 0) and len(screen.widget.editors)}).create()">${_('New')}</a>
+                	   </td>
+                	% endif
                 	
                     % if pager_info:
                     <td width="75%" style="text-align: left" align="left">
