@@ -78,7 +78,7 @@ def get_search_default(attrs={}, screen_context=None, default_domain=[]):
             if ctx.get('group_by'):
                 str_ctx = 'group_' + ctx.get('group_by')
                 default_val = str_ctx in screen_context.get('group_by', [])            
-    
+                default_search = str_ctx in screen_context.get('group_by', [])
     return default_search or default_val 
 
 class RangeWidget(TinyInputWidget):
