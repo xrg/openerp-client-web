@@ -10,12 +10,14 @@
                 	</td>
                 	
                     % if pager_info:
-                    <td style="padding: 0 4px">${pager_info}</td>                    
-                    <td>                        
-                        <button type="button" title="${_('Next record...')}" onclick="submit_form('next', '${name}')" style="padding: 2px">
-                            <img src="/openerp/static/images/stock/gtk-go-forward.png"
-                                 alt="${_('Next record...')}" width="16" height="16"/>
-                        </button>                        
+                    <td width="75%" style="text-align: left" align="left">
+                        <div class="pager">
+                            <p id="_${name}_link_span" class="paging">
+                                <a class="prev" title="${_('Previous record...')}" href="javascript: void(0)" onclick="submit_form('previous', '${name}')"></a>
+                                <font>${pager_info}</font>
+                                <a class="next" title="${_('Next record...')}" href="javascript: void(0)" onclick="submit_form('next', '${name}')"></a>
+                            </p>                            
+                        </div>
                     </td>
                     % endif
                     <td>
