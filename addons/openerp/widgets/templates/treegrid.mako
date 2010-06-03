@@ -3,11 +3,6 @@
         var treeGrids;
         if(!treeGrids) {
             treeGrids = {};
-            jQuery(document).ready(function () {
-                for(var name in treeGrids) {
-                    treeGrids[name].render();
-                }
-            });
         }
         treeGrids['${name}'] = new TreeGrid('${name}', {
             'showheaders': ${showheaders and 'true' or 'false'},
@@ -19,6 +14,7 @@
         });
         treeGrids['${name}'].setHeaders(${headers|n});
         treeGrids['${name}'].setRecords('${url}', ${url_params|n});
+        jQuery(document).ready(jQuery.proxy(treeGrids['${name}'], 'render'));
     </script>
 </span>
 
