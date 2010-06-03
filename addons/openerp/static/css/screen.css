@@ -42,8 +42,8 @@ hr { overflow: hidden; height: 1px; margin: 15px 0 !important; margin: -5px 0 8p
  #top table td{padding: 0px; }
   #logo { float: left; width: 172px; margin: 0 10px 0 0; padding: 0 0 0 10px; background: url(../images/logo-bg.png) repeat-y; line-height: 50px; }
    #logo a { }
-    #logo img { vertical-align: middle; width: 100%; }
-  #title-menu { float: left; margin: 0; padding: 6px 5px 0; background: none; color: #fff; font-size: 1em; font-weight: bold; text-shadow: #111 0 1px 0; }
+    #logo img { width: 100%; }
+  #title-menu { float: left; margin: 0; padding: 4px 0; background: none; color: #fff; font-size: 1em; font-weight: bold; text-shadow: #111 0 1px 0; }
    #title-menu small { display: block; font-size: 0.9em; color: #ccc; font-weight: normal; }
   #corner { float: right; }
    #corner a { color: #fff; text-decoration: none; }
