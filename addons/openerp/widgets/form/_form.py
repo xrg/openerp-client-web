@@ -666,13 +666,13 @@ class Group(TinyInputWidget):
 
     def __init__(self, **attrs):
         super(Group, self).__init__(**attrs)
-        self.default = attrs.get('expand', False)
+        self.default = int(attrs.get('expand', 0))
         self.frame = Frame(**attrs)
         self.nolabel = True
         self.view_type = cherrypy.request.terp_params.get('_terp_view_type')
         
         if attrs.get('group_by_ctx'):
-            self.default = True
+            self.default = 1
         self.expand_grp_id = 'expand_grp_%s' % (random.randint(0,10000))
         
 register_widget(Group, ["group"])
