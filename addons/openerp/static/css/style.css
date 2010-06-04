@@ -136,6 +136,10 @@ span.yes, span.cancel {
 	background: url(../images/button.png) left top no-repeat;
 }
 
+.search_filters {
+	padding: 0;
+}
+
 div#search_filter_data table {
 	width: auto;
 	border: none;

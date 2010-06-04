@@ -240,12 +240,13 @@ class Frame(TinyInputWidget):
         if not isinstance(widget, (Char, Frame, Float, DateTime, Integer, Selection, Notebook, Separator, NewLine, Label)):
             if not widget.kind and not widget._name:
                 if widget.string:
-                    attrs['style'] = 'padding: 0;'
+                    attrs['class'] = attrs.get('class', 'item').__add__(' search_filters')
+                    attrs['nowrap'] = 'nowrap'
             else:
                 from openerp.widgets.search import Filter as Filter
                 if isinstance(widget, Filter) and widget.string:
-                    attrs['style'] = 'padding: 0;'
-                
+                    attrs['class'] = attrs.get('class', 'item').__add__(' search_filters')
+                    attrs['nowrap'] = 'nowrap'
             
         td = [attrs, widget]
         if widget.full_name and self.label_position:
