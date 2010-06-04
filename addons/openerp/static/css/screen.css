@@ -99,7 +99,7 @@ hr { overflow: hidden; height: 1px; margin: 15px 0 !important; margin: -5px 0 8p
  table#shortcuts tr { display:block; float:left; position: absolute; padding: 6px 5px; border-top: 1px solid #606060; left: 180px; top: 33px; width: 100%; height: auto; margin: 0; line-height: 1.2; }
  table#shortcuts tr td { margin: 0; text-align: center; color: #fff; border-right: 1px solid #909090; padding-left: 1px;}
  table#shortcuts tr td a { display: block; height: auto; font-size: 0.8em; line-height: 0.7; text-indent: 0; text-shadow: #111 0 -1px 0; }
- 
+
  #main_nav {background: url(../images/nav-bg-a.png) repeat-x; width: 100%; padding-top: 65px;}
  #nav { left: 0; z-index: 10; height: 34px; border-bottom: 1px solid #511712; position: relative; width: 95%; /* Add scroll-bars */ overflow: hidden;}
   #nav ul { float: left; list-style: none; margin: 0; padding: 6px 5px; display: block; /* Max width here, for users without Javascript */ position: absolute;}
@@ -113,7 +113,7 @@ hr { overflow: hidden; height: 1px; margin: 15px 0 !important; margin: -5px 0 8p
     #nav ul li a:hover, #nav ul li a:focus, #nav ul li a:active, #nav ul li a.active { background-position: 0 -23px; }
      #nav ul li a:hover span, #nav ul li a:focus span, #nav ul li a:active span, #nav ul li a.active span { background-position: 100% -23px; }
     #nav ul li em { position: absolute; left: -10001px; top: -10001px; }
- 
+
  #content { height: 100%; }
    #content div.wrap { padding: 0px 0 5px; }
   #primary { min-height: 100%; margin: 0 20px 0 195px; }
@@ -225,7 +225,7 @@ div.filter-a { overflow: hidden; width: 100%; margin: 0 0 5px;}
     div.filter-a ul li a.active span { display: block; }
  div.filter-a div.fields-a { float: left; padding-top: 13px; }
   div.filter-a div.fields-a p { float: left; margin: 0; padding-right: 10px; }
-   div.filter-a div.fields-a p label { display: block; margin: 0 0 1px; } 
+   div.filter-a div.fields-a p label { display: block; margin: 0 0 1px; }
 
 div.footer-a { position: relative; overflow: hidden; width: 100%; margin: 0 0 10px; }
  div.footer-a p { margin: 0; padding: 0 15px; font-size: 0.9em; font-weight: bold; text-transform: uppercase; }
@@ -235,7 +235,7 @@ div.footer-a { position: relative; overflow: hidden; width: 100%; margin: 0 0 10
   div.footer-a p.powered a { color: #969494; }
  div.footer-a p.one { float: left; }
  div.footer-a p.two { float: right; }
- 
+
 div.login_footer-a { position: relative; width: 100%; margin: 0 0 10px; padding: 10px 0;}
  div.login_footer-a div { margin: 0; padding: 0 15px; font-size: 1.2em; font-weight: bold; text-transform: uppercase; }
   div.login_footer-a div a { color: #5c5b5b; }
@@ -318,7 +318,7 @@ div.sideheader-a { position: relative; margin: 0 -15px 10px; padding: 0 5px 0 10
 
 /* tables */
 
-table { width: 100%; border-bottom: 1px solid #f4f2f2; }
+table { border-bottom: 1px solid #f4f2f2; }
  table th, table td { padding: 5px 10px; text-align: left; }
  table thead th { border-bottom: 1px solid #f4f2f2; color: #3a3939; font-size: 0.9em; font-weight: bold; text-transform: uppercase; }
  table tfoot th { color: #3a3939; font-size: 0.9em; font-weight: bold; text-transform: uppercase; }
