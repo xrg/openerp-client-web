@@ -367,6 +367,10 @@ div.custom-filter ul {
 	float: left; list-style: none; margin: 0; padding: 5px 0 0;
 }
 
+table#search_table td {
+	padding: 2px 0;
+}
+
 div.custom-filter ul li {
 	display: inline; 
 	float: left;
