@@ -24,13 +24,17 @@ function openLink(url /*optional afterLoad */) {
 var LINK_WAIT_NO_ACTIVITY = 300;
 /** @constant */
 var FORM_WAIT_NO_ACTIVITY = 500;
+var console;
 jQuery(document).ready(function () {
     var app = jQuery('#appContent');
     if (app.length) {
         var waitBox = new openerp.ui.WaitBox();
         // open un-targeted links in #appContent via xhr. Links with @target are considered
         // external links. Ignore hash-links.
-        jQuery(document).delegate('a[href]:not([target]):not([href^="#"])', 'click', function () {
+        jQuery(document).delegate('a[href]:not([target]):not([href^="#"]):not([href^="javascript"])', 'click', function () {
+            if(console) {
+                console.debug('opening link', this);
+            }
             waitBox.showAfter(LINK_WAIT_NO_ACTIVITY);
             openLink(jQuery(this).attr('href'),
                      jQuery.proxy(waitBox, 'hide'));
@@ -39,6 +43,9 @@ jQuery(document).ready(function () {
         // do the same for forms
         jQuery(document).delegate('form:not([target])', 'submit', function () {
             var form = jQuery(this);
+            if(console) {
+                console.debug('submitting form', this);
+            }
             // Don't make the wait box appear immediately
             waitBox.showAfter(FORM_WAIT_NO_ACTIVITY);
             jQuery.ajax({
