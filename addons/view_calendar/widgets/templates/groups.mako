@@ -3,7 +3,7 @@
     <dt class="calGroupsTitle">
         <table>
             <tr>
-                <td>
+                <td width="70%">
                     ${title}
                 </td>
                 <td>
