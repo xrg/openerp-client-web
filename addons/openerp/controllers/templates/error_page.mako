@@ -1,8 +1,7 @@
-<%inherit file="/openerp/controllers/templates/base.mako"/>
+<%inherit file="/openerp/controllers/templates/xhr.mako"/>
 
 <%def name="header()">
     <link href="/openerp/static/css/style.css" rel="stylesheet" type="text/css" />
-    <title>${title}</title>
 
     <script type="text/javascript" src="/openerp/static/javascript/openerp/openerp.ui.textarea.js"></script>
     
@@ -27,8 +26,9 @@
                     alert(obj.message)
                 }
 
-                return history.length > 1 ? history.back() : window.close()
+                history.length > 1 ? history.back() : window.close()
             });
+            return false;
         }
 		
     </script>
@@ -37,10 +37,10 @@
 <%def name="content()">
     
 	<table class="view" border="0" width="100%">
-        % if maintenance:
         <tr>
+        % if maintenance:
             <td valign="top">
-<form id="view_form">
+<form id="view_form" action="/openerp/errorpage/submit" method="POST">
                 <div id="error_page_notebook">
                     <div title="${_('Maintenance')}">
                             % if maintenance['status'] == 'none':
@@ -97,18 +97,21 @@ is displayed on the second tab.""")}
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td class="label" width="5%" nowrap="nowrap">${_("Explain what you did:")}</td>
+                                        <td class="label" width="5%" nowrap="nowrap"><label for="explanation">
+                                            ${_("Explain what you did:")}</label></td>
                                         <td class="item">
-                                            <textarea id="explanation" class="text" rows="10"/>
+                                            <textarea id="explanation" name="explanation" class="text"
+                                                      rows="10"></textarea>
                                             <script type="text/javascript">
                                                 new openerp.ui.TextArea('explanation');
                                             </script>
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td class="label">${_("Other Comments:")}</td>
+                                        <td class="label"><label for="remarks">${_("Other Comments:")}</label></td>
                                         <td class="item">
-                                            <textarea id="remarks" class="text" rows="10"/>
+                                            <textarea id="remarks" class="text" name="remarks"
+                                                      rows="10"></textarea>
                                             <script type="text/javascript">
                                                 new openerp.ui.TextArea('remarks');
                                             </script>
@@ -117,7 +120,7 @@ is displayed on the second tab.""")}
                                     <tr>
                                         <td></td>
                                         <td>
-                                        	<a class="button-a" href="javascript: void(0)" onclick="send_maintenance_request()">${_("Send to Maintenance Team")}</a>
+                                        	<button onclick="return send_maintenance_request();">${_("Send to Maintenance Team")}</button>
                                         </td>
                                     </tr>
                                 </table>
@@ -125,7 +128,8 @@ is displayed on the second tab.""")}
                             % endif
                     </div>
                     <div title="${_('Application Error!')}">
-                        <textarea id="error" class="text" readonly="readonly" style="width: 99%" rows="20">${error}</textarea>
+                        <textarea id="error" name="error" class="text" readonly="readonly"
+                                  style="width: 99%" rows="20">${error}</textarea>
                         <script type="text/javascript">
                             new openerp.ui.TextArea('error');
                         </script>
@@ -136,8 +140,7 @@ is displayed on the second tab.""")}
                 </script>
 </form>
             </td>
-        </tr>
-        % else:        	
+        % else:
             <td valign="top">
             	% if concurrency:
             	
@@ -149,7 +152,7 @@ is displayed on the second tab.""")}
 			    % endfor
 			    
             	<table border="0" cellpadding="0" cellspacing="0" align="center">
-            		<tr><td height="15px"/></tr>
+            		<tr><td height="15px"></td></tr>
 					<tr>
 						<td class="errorbox" style="padding: 30px;">
 							<pre align="center">
@@ -162,7 +165,7 @@ Choose:
 			   				</pre>
 			   			</td>
 			   		</tr>
-			   		<tr><td height="5px"/></tr>
+			   		<tr><td height="5px"></td></tr>
 			   		<tr>
 			   			<td class="errorbox" align="right">
 			   				<a class="button-a" href="javascript: void(0)" onclick="history.length > 1 ? history.back() : window.close()">${_("Cancel")}</a>
@@ -172,17 +175,17 @@ Choose:
 			   	</table>
 			   	% else:
                 <table border="0" cellpadding="0" cellspacing="0" align="center">
-                    <tr><td height="15px"/></tr>
+                    <tr><td height="15px"></td></tr>
                     <tr>
                         <td class="errorbox welcome">${title}</td>
                     </tr>
-                    <tr><td height="5px"/></tr>
+                    <tr><td height="5px"></td></tr>
                     <tr>
                         <td class="errorbox" style="padding: 30px;">
                             <pre>${error}</pre>
                         </td>
                     </tr>
-                    <tr><td height="5px"/></tr>
+                    <tr><td height="5px"></td></tr>
                     <tr>
                         <td class="errorbox" align="right">
                         	<a class="button-a" href="javascript: void(0)" onclick="history.length > 1 ? history.back() : window.close()">OK</a>
@@ -192,8 +195,8 @@ Choose:
                 % endif
                 </form>
             </td>
-        </tr>
         % endif
+        </tr>
     </table>
     
 </%def>
