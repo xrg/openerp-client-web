@@ -1,12 +1,6 @@
-<%inherit file="/openerp/controllers/templates/base.mako"/>
+<%inherit file="/openerp/controllers/templates/xhr.mako"/>
 
 <%def name="header()">
-    <title>
-        % if form:
-            ${form.screen.string}
-        % endif
-    </title>
-
     <script type="text/javascript" src="/openerp/static/javascript/openerp/openerp.ui.waitbox.js"></script>
     <script type="text/javascript" src="/openerp/static/javascript/wizard.js"></script>
 

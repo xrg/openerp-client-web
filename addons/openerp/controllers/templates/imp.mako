@@ -14,7 +14,7 @@
         .fields-selector-left {
             width: 45%;
         }
-        
+
         td.fields-selector-left div#import_fields_left {
         	overflow: scroll;
         	width: 100%;
@@ -87,10 +87,10 @@
                 o.selected = true;
             });
 
-            document.getElementsByName(form)[0].target = "detector";
-            
-            setNodeAttribute(form, 'action', openobject.http.getURL('/openerp/impex/import_data'));
-            document.getElementsByName(form)[0].submit();
+            jQuery(form).attr('target', "detector");
+
+            jQuery(form).attr('action', openobject.http.getURL('/openerp/impex/import_data')));
+            jQuery(form).submit();
         }
 
         function on_detector(src){
@@ -121,11 +121,11 @@
             if (! openobject.dom.get('csvfile').value ){
                 return alert(_('You must select an import file first!'));
             }
-			
-            document.getElementsByName(form)[0].target = "detector";
 
-            setNodeAttribute(form, 'action',openobject.http.getURL('/openerp/impex/detect_data'));
-            document.getElementsByName(form)[0].submit();
+            jQuery(form).attr('target', "detector");
+
+            jQuery(form).attr('action', openobject.http.getURL('/openerp/impex/detect_data')));
+            jQuery(form).submit();
         }
 
     </script>

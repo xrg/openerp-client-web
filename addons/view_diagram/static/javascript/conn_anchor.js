@@ -54,8 +54,8 @@ openobject.workflow.ConnectionAnchor.implement({
 		var b2 = (bounds.h/2) * (bounds.h/2);//minor axis of ellipse
 		var a2 = (bounds.w/2) * (bounds.w/2);//major axis of ellipse
 		
-		var ry = reference.y - center.y
-		var rx = reference.x - center.x
+		var ry = reference.y - center.y;
+		var rx = reference.x - center.x;
 		if(rx!=0)
 			var slope = ry / rx;
 		
@@ -126,7 +126,7 @@ openobject.workflow.ConnectionAnchor.implement({
     			var root1x = xnew;
     			var root2x = xnew;
     			
-    			var root1y = Math.sqrt((b2 * (a2 - (root1x*root1x)))/(a2))
+    			var root1y = Math.sqrt((b2 * (a2 - (root1x * root1x))) / (a2));
     			var root2y = -root1y;
     		}
     		

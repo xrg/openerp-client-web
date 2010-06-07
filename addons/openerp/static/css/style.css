@@ -48,7 +48,7 @@ td.powered a {
 	color: #969494;
 }
 
-td.dimmed-text { 
+td.dimmed-text {    
     padding: 0 0 0 5px;
 }
 
@@ -166,13 +166,13 @@ table.fields {
 	border: none;
 }
 
-button {
+button, a.button {
     border: solid 1px #888888;    
     background: url(../images/button-a.gif) repeat-x;
     color: #FFFFFF;
     font-weight: 600;
     white-space: nowrap;
-    cursor: pointer; 
+    cursor: pointer;
     border: 1px solid #aaa9a9; 
     border-color: #c6c4c4 #aaa9a9 #797878; 
     border-radius: 3px; 

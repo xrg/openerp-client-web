@@ -20,7 +20,6 @@
     
     margin: auto;
     width: 350px;
-    height: 100px;
 
     background-color: white;
     border: 2px solid #696969;
@@ -36,18 +35,7 @@
 #WaitBox .WaitImage {
     padding: 4px;
     height: 70px;
+    background: transparent url(/openerp/static/images/progress.gif) no-repeat center 65%;
     
     text-align: center;
 }
-
-#WaitBox .WaitButtons {
-    position: absolute;
-    bottom: 0pt;
-    padding: 2px;
-    border-top: 2px solid #696969;
-}
-
-/**
- * vim: sts=4 st=4 et
- *
- */

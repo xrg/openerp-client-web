@@ -31,7 +31,8 @@
                         <tr>
                             <td class="label"><label for="translate">${_("Add Translation for:")}</label></td>
                             <td>
-                                <select name="translate" onchange="window.location.href=openobject.http.getURL('/openerp/translator', {_terp_model: '${model}', _terp_id: '${id}', translate: this.value})">
+                                <select name="translate" id="translate"
+                                        onchange="openLink(openobject.http.getURL('/openerp/translator', {_terp_model: '${model}', _terp_id: '${id}', translate: this.value}))">
                                     <option value="fields" ${py.selector(translate=='fields')}>${_("Fields")}</option>
                                     <option value="labels" ${py.selector(translate=='labels')}>${_("Labels")}</option>
                                     <option value="relates" ${py.selector(translate=='relates')}>${_("Relates")}</option>

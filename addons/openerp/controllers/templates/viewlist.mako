@@ -1,4 +1,4 @@
-<%inherit file="/openerp/controllers/templates/base.mako"/>
+<%inherit file="/openerp/controllers/templates/xhr.mako"/>
 
 <%def name="header()">
     <title>${_("Manage Views (%s)") % (model)}</title>
@@ -12,8 +12,7 @@
         }
         
         function doCreate() {
-            var vf = document.forms['view_form'];
-            vf.submit();
+            jQuery('form#view_form').submit();
         }
         
         function doCancel() {
@@ -72,10 +71,13 @@
                 return;
             }
             
-            window.location.href = openobject.http.getURL('/openerp/viewlist/delete?model=${model}&id=' + boxes[0].value);
+            openLink(openobject.http.getURL('/openerp/viewlist/delete', {
+                model: '${model}',
+                id: boxes[0].value
+            }));
         }
 		
-        MochiKit.DOM.addLoadEvent(function(evt){
+        jQuery(document).ready(function(){
             
             if (!window.opener) 
                 return;

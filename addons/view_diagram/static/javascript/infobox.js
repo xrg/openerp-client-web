@@ -29,78 +29,80 @@
 
 var InfoBox = function(source) {
     this.__init__(source);
-}
+};
 
 InfoBox.prototype = {
-	
-	__init__ : function(source) {		
-		
-		this.source = source;		
-		this.layer = openobject.dom.get('calInfoLayer');
+
+    __init__ : function(source) {
+
+        this.source = source;
+        this.layer = openobject.dom.get('calInfoLayer');
         this.box = openobject.dom.get('calInfoBox');
 
         var btnCancel = BUTTON({'class': 'button', 'type': 'button'}, 'Cancel');
-        var btnEdit = BUTTON({'class': 'button', 'type': 'button'}, 'Edit');  
+        var btnEdit = BUTTON({'class': 'button', 'type': 'button'}, 'Edit');
         var btnDelete = BUTTON({'class': 'button', 'type': 'button'}, 'Delete');
-        
+
         MochiKit.Signal.connect(btnCancel, 'onclick', this, 'hide');
-        MochiKit.Signal.connect(btnEdit, 'onclick', this, 'onEdit'); 
+        MochiKit.Signal.connect(btnEdit, 'onclick', this, 'onEdit');
         MochiKit.Signal.connect(btnDelete, 'onclick', this, 'onDelete');
-        
+
         var title = 'Information Box';
-        
-        if(this.source instanceof openobject.workflow.StateOval || this.source instanceof openobject.workflow.StateRectangle) {
+
+        if (this.source instanceof openobject.workflow.StateOval || this.source instanceof openobject.workflow.StateRectangle) {
             var id = 'Id: ' + this.source.get_act_id();
         } else {
-        	var id = this.source.from+ ' ---> ' + this.source.to;
+            var id = this.source.from + ' ---> ' + this.source.to;
         }
-        
-        var dtls = []              
-        var options = this.source.options           
-        for (f in options) 
+
+        var dtls = [];
+        var options = this.source.options;
+        for (f in options)
             dtls.push(DIV({'class': 'calInfoDesc'}, f + ': ' + options[f]))
-            
-        var info = DIV(null,                    
-                    DIV({'class': 'calInfoTitle'}, title),
-                    DIV({'id': 'info'},
-                    DIV({'class': 'calInfoDesc'}, id),
-                    map(function(x){return x}, dtls)),                    
-                        TABLE({'class': 'calInfoButtons', 'cellpadding': 2}, 
-                            TBODY(null, 
+
+        var info = DIV(null,
+                DIV({'class': 'calInfoTitle'}, title),
+                DIV({'id': 'info'},
+                        DIV({'class': 'calInfoDesc'}, id),
+                        map(function(x) {
+                            return x
+                        }, dtls)),
+                TABLE({'class': 'calInfoButtons', 'cellpadding': 2},
+                        TBODY(null,
                                 TR(null,
-                                    TD(null, btnEdit),                                   
-                                    TD(null, btnDelete),
-                                    TD({'align': 'right', 'width': '100%'}, btnCancel)))));
-         
-        if ($('_terp_editable').value=='False') {
-            removeElement(btnEdit)
+                                        TD(null, btnEdit),
+                                        TD(null, btnDelete),
+                                        TD({'align': 'right', 'width': '100%'}, btnCancel)))));
+
+        if ($('_terp_editable').value == 'False') {
+            removeElement(btnEdit);
             removeElement(btnDelete)
-        }                           
-                                    
+        }
+
         if (!this.layer) {
             this.layer = DIV({id: 'calInfoLayer'});
             MochiKit.DOM.appendChildNodes(document.body, this.layer);
             setOpacity(this.layer, 0.3);
             connect(this.layer, 'onclick', this, 'hide');
         }
-        
+
         if (!this.box) {
             this.box = DIV({id: 'calInfoBox'});
             MochiKit.DOM.appendChildNodes(document.body, this.box);
         }
-        
-        this.box.innerHTML = "";        
+
+        this.box.innerHTML = "";
         MochiKit.DOM.appendChildNodes(this.box, info);
-	},	
-	
-	show : function(evt) {
-		
+    },
+
+    show : function(evt) {
+
         MochiKit.DOM.setElementDimensions(this.layer, elementDimensions(document.body));
         //setElementDimensions(this.layer, getViewportDimensions());
 
         var w = 350;
-        var h = elementDimensions('info').h>0 ? elementDimensions('info').h + 53 : 125;
-        
+        var h = elementDimensions('info').h > 0 ? elementDimensions('info').h + 53 : 125;
+
         MochiKit.DOM.setElementDimensions(this.box, {w: w, h: h});
 
         var x = evt.mouse().page.x;
@@ -123,26 +125,24 @@ InfoBox.prototype = {
 
         MochiKit.DOM.showElement(this.layer);
         MochiKit.DOM.showElement(this.box);
-    },	
-	
+    },
+
     hide : function(evt) {
         MochiKit.DOM.hideElement(this.box);
         MochiKit.DOM.hideElement(this.layer);
     },
-    
-    onEdit : function(){
+
+    onEdit : function() {
         this.hide();
         this.source.edit();
     },
-      
-    onDelete : function(){
-    	
-		this.hide();
+
+    onDelete : function() {
+
+        this.hide();
         if (!confirm('Do you really want to delete this record?')) {
             return false;
         }
-		WORKFLOW.remove_elem(this.source);
+        WORKFLOW.remove_elem(this.source);
     }
-}
-
-// vim: ts=4 sts=4 sw=4 si et
+};

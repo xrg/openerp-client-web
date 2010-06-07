@@ -3,7 +3,7 @@
  */
 var GanttCalendar = function(options) {
     this.__init__(options);
-}
+};
 
 GanttCalendar._ZOOM_SCALE = {
     'day': 30,
@@ -15,7 +15,7 @@ GanttCalendar._ZOOM_SCALE = {
     'year': 6,
     '3years': 150,
     '5years': 200
-}
+};
 
 GanttCalendar.prototype = {
    
@@ -41,13 +41,13 @@ GanttCalendar.prototype = {
         MochiKit.DOM.removeElement('calBodySect');
             
         var tbl = TABLE(null,
-                    TBODY(null,
+                TBODY(null,
                         TR(null,
-                            TD({'width': 200, 'nowrap': 'nowrap'}),
-                            TD({}, DIV({'id': 'calHeaderC'}, this.header.elements))),
+                                TD({'width': 200, 'nowrap': 'nowrap'}),
+                                TD({}, DIV({'id': 'calHeaderC'}, this.header.elements))),
                         TR(null,
-                            TD({'width': 200, 'nowrap': 'nowrap'}, DIV({'id': 'calListC'})),
-                            TD({}, DIV({'id': 'calGridC'})))));
+                                TD({'width': 200, 'nowrap': 'nowrap'}, DIV({'id': 'calListC'})),
+                                TD({}, DIV({'id': 'calGridC'})))));
       
         tbl.cellPadding = 0;
         tbl.cellSpacing = 0;
@@ -68,14 +68,14 @@ GanttCalendar.prototype = {
       
     },
 
-    __delete__: function(){
+    __delete__: function() {
         this.dettachSignals();
         this.grid.__delete__();
         this.list.__delete__();
         this.header.__delete__();
     },
 
-    attachSignals: function(){
+    attachSignals: function() {
         this.evtLoad = MochiKit.Signal.connect(window, 'onload', this, 'onResize');
         this.evtResize = MochiKit.Signal.connect(window, 'onresize', this, 'onResize');
         this.evtScrollGrid = MochiKit.Signal.connect('calGridC', 'onscroll', this, 'onScrollGrid');
@@ -85,7 +85,7 @@ GanttCalendar.prototype = {
         this.evtEventResized = MochiKit.Signal.connect(MochiKit.DragAndDrop.Resizables, 'end', this, 'onEventResized');
     },
 
-    dettachSignals: function(){
+    dettachSignals: function() {
         MochiKit.Signal.disconnect(this.evtLoad);
         MochiKit.Signal.disconnect(this.evtResize);
         MochiKit.Signal.disconnect(this.evtScrollGrid);
@@ -95,7 +95,7 @@ GanttCalendar.prototype = {
         MochiKit.Signal.disconnect(this.evtEventResized);
     },
 
-    onResize: function(evt){
+    onResize: function(evt) {
         
         var h1 = getElementDimensions('calGroupC').h;
         var h2 = openobject.dom.get('calGridC').clientHeight;
@@ -117,7 +117,7 @@ GanttCalendar.prototype = {
         var events = openobject.dom.select('div.calEvent', 'calGantt') || [];
         var groups = openobject.dom.select('div.calGroup', 'calGantt') || [];
 
-        for(var i=0; i<events.length; i++) {
+        for (var i = 0; i < events.length; i++) {
         
             var elem = events[i];
             var id = MochiKit.DOM.getNodeAttribute(elem, 'nRecordID');
@@ -133,12 +133,12 @@ GanttCalendar.prototype = {
                 'bg': bg.lighterColorWithLevel(0.2).toHexString(),
                 'clr': elem.style.color,
                 'text': MochiKit.DOM.scrapeText(elem)
-            }
+            };
 
             MochiKit.DOM.removeElement(elem);
         }
 
-        for(var i=0; i<groups.length; i++) {
+        for (var i = 0; i < groups.length; i++) {
         
             var elem = groups[i];
             var id = MochiKit.DOM.getNodeAttribute(elem, 'nRecordID');
@@ -152,7 +152,7 @@ GanttCalendar.prototype = {
                 'title': elem.title,
                 'model': MochiKit.DOM.getNodeAttribute(elem, 'model'),
                 'items': items
-            }
+            };
 
             MochiKit.DOM.removeElement(elem);
         }
@@ -210,14 +210,14 @@ GanttCalendar.prototype = {
         var pos = getElementPosition(element, 'calGrid');
         var dim = getElementDimensions(element);
 
-        with(this.sTip) {
+        with (this.sTip) {
             style.display = "";
             style.top = pos.y + 'px';
             style.right = getElementDimensions('calGrid').w - pos.x + 2 + 'px';
             innerHTML = dt.starts.strftime('%Y-%m-%d %H:%M');
         }
 
-        with(this.eTip) {
+        with (this.eTip) {
             style.display = "";
             style.top = pos.y + 'px';
             style.left = pos.x + dim.w + 2 + 'px';
@@ -242,7 +242,7 @@ GanttCalendar.prototype = {
         var self = this;
         var req = saveCalendarRecord(id, toISOTimestamp(dt.starts), toISOTimestamp(dt.ends));
         
-        req.addCallback(function(obj){
+        req.addCallback(function(obj) {
             
             if (obj.error) {
                 self.grid.adjust();
@@ -299,7 +299,7 @@ GanttCalendar.prototype = {
         var self = this;
         var req = saveCalendarRecord(id, toISOTimestamp(ds), toISOTimestamp(se));
         
-        req.addCallback(function(obj){
+        req.addCallback(function(obj) {
             
             if (obj.error) {
                 self.grid.adjust();
@@ -313,14 +313,14 @@ GanttCalendar.prototype = {
             getCalendar();
         });
     }
-}
+};
 
 /**
  * GanttCalendar.Header
  */
 GanttCalendar.Header = function(calendar) {
     this.__init__(calendar);
-}
+};
 
 GanttCalendar.Header.prototype = {
 
@@ -344,21 +344,21 @@ GanttCalendar.Header.prototype = {
         var divs = [];
         var subs = [];
 
-        for(var i=0; i<titles.length; i++) {
+        for (var i = 0; i < titles.length; i++) {
 
             var spec = {
                 'count': parseInt(getNodeAttribute(titles[i], 'nCount')),
                 'width': scw
-            }
+            };
             this.specs = this.specs.concat(spec);
 
             var w = spec.count * spec.width;
             var div = DIV({'class': 'calTitle'}, MochiKit.DOM.scrapeText(titles[i]));
             MochiKit.Style.setStyle(div, {
-                    'position': 'absolute',
-                    'width': w + 'px',
-                    'left': scale + 'px',
-                    'top': '0px'
+                'position': 'absolute',
+                'width': w + 'px',
+                'left': scale + 'px',
+                'top': '0px'
             });
 
             scale += w;
@@ -367,14 +367,14 @@ GanttCalendar.Header.prototype = {
 
         var w = scale / subtitles.length;
 
-        for(var i=0; i<subtitles.length; i++) {
+        for (var i = 0; i < subtitles.length; i++) {
             
             var _div = DIV({'class': 'calSubTitle'}, MochiKit.DOM.scrapeText(subtitles[i]));
             MochiKit.Style.setStyle(_div, {
-                    'position': 'absolute',
-                    'width': w + 'px',
-                    'left': i * w + 'px',
-                    'top': '0px'
+                'position': 'absolute',
+                'width': w + 'px',
+                'left': i * w + 'px',
+                'top': '0px'
             });
 
             subs = subs.concat(_div);
@@ -392,14 +392,14 @@ GanttCalendar.Header.prototype = {
 
     adjust: function() {      
     }
-}
+};
 
 /**
  * GanttCalendar.List
  */
 GanttCalendar.List = function(calendar) {
     this.__init__(calendar);
-}
+};
 
 GanttCalendar.List.prototype = {
 
@@ -442,7 +442,7 @@ GanttCalendar.List.prototype = {
 
         appendChildNodes('calListC', DIV({'id': 'calList'}, elements));
 
-        forEach(elements, function(elem){
+        forEach(elements, function(elem) {
             MochiKit.Sortable.Sortable.create(elem, {
                 'tag': 'div',
                 'only': ['calEventLabel'],
@@ -452,7 +452,7 @@ GanttCalendar.List.prototype = {
     },
    
     __delete__: function() {
-        forEach(this._signals, function(s){
+        forEach(this._signals, function(s) {
             MochiKit.Signal.disconnect(s);
         });
     },
@@ -461,14 +461,15 @@ GanttCalendar.List.prototype = {
         this.stat = {};
 
         var s = openobject.http.getCookie('terp_gantt_status') || '';
-        try{
+        try {
             this.stat = eval('({' + s + '})');
-        }catch(e){}
+        } catch(e) {
+        }
     },
 
     _set_status: function() {
         var s = [];
-        for(var k in this.stat) {
+        for (var k in this.stat) {
             s.push("'" + k + "':" + this.stat[k]);
         }
         openobject.http.setCookie('terp_gantt_status', s.join(','));
@@ -487,7 +488,7 @@ GanttCalendar.List.prototype = {
             div.style.display = evt ? (visible ? '' : 'none') : (visible ? 'none' : '');
         });
 
-        forEach(group.events, function(e){
+        forEach(group.events, function(e) {
             e.element.style.display = evt ? (visible ? '' : 'none') : (visible ? 'none' : '');
         });
 
@@ -507,7 +508,7 @@ GanttCalendar.List.prototype = {
         var event = draggable.element.__event;
 
         var items = openobject.dom.select('div.calEventLabel', 'calListC');
-        items = MochiKit.Base.map(function(item){
+        items = MochiKit.Base.map(function(item) {
             return item.__event.record_id;
         }, items);
 
@@ -517,28 +518,28 @@ GanttCalendar.List.prototype = {
             '_terp_model': openobject.dom.get('_terp_model').value,
             '_terp_level': openobject.dom.get('_terp_gantt_level').value,
             '_terp_level_value': group.id
-        }
+        };
 
         var self = this;
         var req = openobject.http.postJSON('/view_calendar/calendar/gantt_reorder', params);
-        req.addCallback(function(obj){
+        req.addCallback(function(obj) {
             if (obj.error) {
                 return alert(obj.error);
             }
         });
 
-        req.addBoth(function(obj){
+        req.addBoth(function(obj) {
             return getCalendar();
         });
     }
-}
+};
 
 /**
  * GanttCalendar.Grid
  */
 GanttCalendar.Grid = function(calendar) {
     this.__init__(calendar);
-}
+};
 
 GanttCalendar.Grid.prototype = {
 
@@ -562,7 +563,7 @@ GanttCalendar.Grid.prototype = {
         this.columns = [];
 
         var divs = [];
-        for(var i=0, left=0; i<this.calendar.header.count; i++) {
+        for (var i = 0, left = 0; i < this.calendar.header.count; i++) {
 
             var spec = this.calendar.header.specs[i];
             var col = new GanttCalendar.GridColumn(this.calendar, spec);
@@ -585,17 +586,17 @@ GanttCalendar.Grid.prototype = {
         MochiKit.DOM.appendChildNodes(this.element, this.calendar.sTip, this.calendar.eTip);
     },
 
-    _makeGroups : function(){
+    _makeGroups : function() {
 
         this.groups = this.groups || [];
 
         // release the groups
-        forEach(this.groups, function(g){
+        forEach(this.groups, function(g) {
             g.__delete__();
         });
         this.groups = [];
 
-        for(var id in this.calendar.groups) {
+        for (var id in this.calendar.groups) {
             this.groups = this.groups.concat(new GanttCalendar.GridGroup(parseInt(id), this.calendar));
         }
     },
@@ -603,7 +604,7 @@ GanttCalendar.Grid.prototype = {
     adjust: function() {
 
         var left = null;
-        forEach(this.groups, function(g){
+        forEach(this.groups, function(g) {
             g.adjust();
             var x = parseInt(g.bar.style.left) || 0;
             left = left == null ? x : Math.min(left, x);
@@ -612,14 +613,14 @@ GanttCalendar.Grid.prototype = {
         // adjust horizontal scrollbar
         openobject.dom.get('calGridC').scrollLeft = left - 50;
     }
-}
+};
 
 /**
  * GanttCalendar.GridColumn
  */
 GanttCalendar.GridColumn = function(calendar, spec) {
     this.__init__(calendar, spec);
-}
+};
 
 GanttCalendar.GridColumn.prototype = {
 
@@ -633,7 +634,7 @@ GanttCalendar.GridColumn.prototype = {
         this.element = DIV({'class': 'calColumn'});
         this.elements = [];
 
-        for(var i=0; i<spec.count; i++) {
+        for (var i = 0; i < spec.count; i++) {
 
             var div = DIV({'class': i % 2 == 0 ? 'calVRule even' : 'calVRule odd'});
             MochiKit.Style.setStyle(div, {
@@ -647,14 +648,14 @@ GanttCalendar.GridColumn.prototype = {
 
         MochiKit.DOM.appendChildNodes(this.element, this.elements);
     }
-}
+};
 
 /**
  * GanttCalendar.GridGroup
  */
 GanttCalendar.GridGroup = function(id, calendar) {
     this.__init__(id, calendar);
-}
+};
 
 GanttCalendar.GridGroup.prototype = {
 
@@ -675,14 +676,14 @@ GanttCalendar.GridGroup.prototype = {
         this.events = [];
 
         var self = this;
-        forEach(this.items, function(id){
+        forEach(this.items, function(id) {
             var evt = events[id];
             var div = DIV({
-                    'nRecordID': id,
-                    'dtStart': evt.starts,
-                    'dtEnd': evt.ends,
-                    'title': evt.title
-                }, DIV({'class': 'calEventGrip2'}));
+                'nRecordID': id,
+                'dtStart': evt.starts,
+                'dtEnd': evt.ends,
+                'title': evt.title
+            }, DIV({'class': 'calEventGrip2'}));
 
             div.className = evt.className;
             div.style.backgroundColor = evt.bg;
@@ -690,7 +691,7 @@ GanttCalendar.GridGroup.prototype = {
             self.events = self.events.concat(new GanttCalendar.Event(div, self));
         });
 
-        MochiKit.DOM.appendChildNodes(this.element, this.bar, MochiKit.Base.map(function(e){
+        MochiKit.DOM.appendChildNodes(this.element, this.bar, MochiKit.Base.map(function(e) {
             return e.element;
         }, this.events));
 
@@ -699,8 +700,8 @@ GanttCalendar.GridGroup.prototype = {
         }
     },
 
-    __delete__: function(){
-        forEach(this.events, function(e){
+    __delete__: function() {
+        forEach(this.events, function(e) {
             e.__delete__();
         });
     },
@@ -720,7 +721,7 @@ GanttCalendar.GridGroup.prototype = {
         var events = Array.prototype.slice.call(this.events);
 
         // sort them by start time
-        events.sort(function(a, b){
+        events.sort(function(a, b) {
             if (a.starts == b.starts) return 0;
             if (a.starts < b.starts) return -1;
             return 1;
@@ -729,12 +730,12 @@ GanttCalendar.GridGroup.prototype = {
         // prepare usages bar
 
         var st = events[0].starts;
-        var se = events[events.length-1].ends;
+        var se = events[events.length - 1].ends;
 
         var bounds = [];
 
         var self = this;
-        forEach(events, function(e){
+        forEach(events, function(e) {
             if (MochiKit.Base.findValue(bounds, e.starts) == -1) {
                 bounds.push(e.starts);
             }
@@ -743,7 +744,7 @@ GanttCalendar.GridGroup.prototype = {
             }
         });
 
-        bounds.sort(function(a, b){
+        bounds.sort(function(a, b) {
             if (a == b) return 0;
             if (a < b) return -1;
             return 1;
@@ -752,13 +753,15 @@ GanttCalendar.GridGroup.prototype = {
         var periods = [];
 
         var cur = bounds.shift();
-        while(bounds.length) {
+        while (bounds.length) {
             var last = bounds.shift();
-            periods = periods.concat([[cur, last]]);
+            periods = periods.concat([
+                [cur, last]
+            ]);
             cur = last;
         }
 
-        var divs = MochiKit.Base.map(function(b){
+        var divs = MochiKit.Base.map(function(b) {
             var div = DIV({});
             div.starts = b[0];
             div.ends = b[1];
@@ -766,9 +769,9 @@ GanttCalendar.GridGroup.prototype = {
             div.style.height = '100%';
 
             var n = 0;
-            forEach(events, function(e){
+            forEach(events, function(e) {
                 if ((div.starts >= e.starts && div.starts <= e.ends) &&
-                    (div.ends <= e.ends && div.ends >= e.starts)) {
+                        (div.ends <= e.ends && div.ends >= e.starts)) {
                     n += 1;
                 }
             });
@@ -786,7 +789,7 @@ GanttCalendar.GridGroup.prototype = {
         var bx = null;
         var bw = null;
 
-        for(var i=0; i<events.length; i++){
+        for (var i = 0; i < events.length; i++) {
 
             var e = events[i];
 
@@ -802,7 +805,7 @@ GanttCalendar.GridGroup.prototype = {
             this.bar.style.width = bw - 2 + 'px';
         }
 
-        for(var i=0; i<this.bars.length; i++){
+        for (var i = 0; i < this.bars.length; i++) {
             var e = this.bars[i];
             var x = (e.starts.getTime() - events[0].starts.getTime()) / (60 * 1000);
             var w = (e.ends.getTime() - e.starts.getTime()) / (60 * 1000);
@@ -813,33 +816,33 @@ GanttCalendar.GridGroup.prototype = {
         }
     },
 
-    adjust: function(){
+    adjust: function() {
 
-        forEach(this.events, function(e){
+        forEach(this.events, function(e) {
             e.adjust();
         });
         
         var w = 0;
 
-        forEach(this.calendar.header.specs, function(spec){
+        forEach(this.calendar.header.specs, function(spec) {
             w += spec.count * spec.width;
         });
 
         this.element.style.width = w + 'px';
         this.calculate_usages();
     }
-}
+};
 
 /**
  * GanttCalendar.Event
  */
-GanttCalendar.Event = function(element, container){
+GanttCalendar.Event = function(element, container) {
     this.__init__(element, container);
-}
+};
 
 GanttCalendar.Event.prototype = {
 
-    __init__: function(element, container){
+    __init__: function(element, container) {
         this.element = element;
         this.container = container;
 
@@ -893,7 +896,7 @@ GanttCalendar.Event.prototype = {
     },
 
     onClick: function(evt) {
-        if (!hasElementClass(this.element, 'dragging')){
+        if (!hasElementClass(this.element, 'dragging')) {
             new InfoBox({
                 dtStart : this.starts,
                 dtEnd : this.ends,
@@ -919,11 +922,11 @@ GanttCalendar.Event.prototype = {
             snap = 60 * scale; // 1 hour
         }
 
-        var x = Math.round(x/snap) * snap;
+        var x = Math.round(x / snap) * snap;
         
         return [x + 1, y];
     }
-}
+};
 
 // Zoom handlers
 
@@ -942,7 +945,7 @@ var ganttZoomOut = function() {
     };
 
     return getCalendar(null, modes[mode]);
-}
+};
 
 var ganttZoomIn = function() {
 
@@ -959,5 +962,5 @@ var ganttZoomIn = function() {
     };
 
     return getCalendar(null, modes[mode]);
-}
+};
 

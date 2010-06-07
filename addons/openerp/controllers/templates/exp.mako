@@ -14,7 +14,7 @@
         .fields-selector-left {
             width: 45%;
         }
-        
+
         td.fields-selector-left div#export_fields_left {
         	overflow: scroll;
         	width: 100%; 
@@ -78,8 +78,7 @@
             forEach(options, function(o){
                 o.selected = true;
             });
-            
-            form.submit();        
+            jQuery(form).submit();
         }
         
         function del_fields(all){
@@ -98,7 +97,7 @@
         function do_select(id, src) {
             openobject.dom.get('fields').innerHTML = '';
             model = openobject.dom.get('_terp_model').value;
-            params = {'_terp_id': id, '_terp_model': model}
+            params = {'_terp_id': id, '_terp_model': model};
             
             req = openobject.http.postJSON('/openerp/impex/get_namelist', params);
             
@@ -126,7 +125,7 @@
             params = {'_terp_id' : id};
 
             setNodeAttribute(form, 'action', openobject.http.getURL('/openerp/impex/delete_listname', params));
-            form.submit();
+            jQuery(form).submit();
         }
         
         function reload(name_list) {
@@ -134,7 +133,7 @@
 
             forEach(name_list, function(f){                
                 var text = f[1];
-                var id = f[0]
+                var id = f[0];
                 select.options.add(new Option(text, id));
             });
         }
@@ -157,7 +156,7 @@
             openobject.dom.get('_terp_fields2').value = '[' + fields2.join(',') + ']';
 
             setNodeAttribute(form, 'action', openobject.http.getURL('/openerp/impex/export_data/data.' + openobject.dom.get('export_as').value));
-            form.submit();
+            jQuery(form).submit();
         }
     </script>
 </%def>

@@ -52,15 +52,15 @@ var Browser = {
 
     // Is opera?
     isOpera : /opera/.test(navigator.userAgent.toLowerCase())
-}
+};
 
 function elementPosition2(elem) {
     var x = y = 0;
     if (elem.offsetParent) {
-        x = elem.offsetLeft
-        y = elem.offsetTop
+        x = elem.offsetLeft;
+        y = elem.offsetTop;
         while (elem = elem.offsetParent) {
-            x += elem.offsetLeft
+            x += elem.offsetLeft;
             y += elem.offsetTop
         }
     }
@@ -82,7 +82,7 @@ var getCalendar = function(day, mode) {
     var contents = formContents(form);
     var params = {};
 
-    for(var i in contents[0]){
+    for (var i in contents[0]) {
         var k = contents[0][i];
         var v = contents[1][i];
 
@@ -93,8 +93,10 @@ var getCalendar = function(day, mode) {
     var colors = openobject.dom.select('input', 'calGroups');
     var values = [];
 
-    colors = filter(function(e){return e.checked}, colors);
-    forEach(colors, function(e){
+    colors = filter(function(e) {
+        return e.checked
+    }, colors);
+    forEach(colors, function(e) {
         values = values.concat(e.value);
     });
 
@@ -102,48 +104,41 @@ var getCalendar = function(day, mode) {
     params['_terp_color_values'] = values.join(",");
 
     showElement('calLoading');
-	
+
     var req = openobject.http.post(act, params);
-    req.addCallback(function(xmlHttp){
+    req.addCallback(function(xmlHttp) {
 
         var d = DIV();
         d.innerHTML = xmlHttp.responseText;
-		
+
         var newContainer = d.getElementsByTagName('table');
-//        
-//        if (newContainer.id != 'calContainer'){
-//            return ;//window.location.href = '/';   
-//        }
 
         // release resources
         CAL_INSTANCE.__delete__();
-		swapDOM('Calendar', newContainer[0]);
-//        swapDOM('calContainer', d.getElementsByTagName('table')[1]);
-		
+        swapDOM('Calendar', newContainer[0]);
+
         var ua = navigator.userAgent.toLowerCase();
 
         if ((navigator.appName != 'Netscape') || (ua.indexOf('safari') != -1)) {
             // execute JavaScript
-            
-            	var scripts = openobject.dom.select('script', newContainer[1]);
+            var scripts = openobject.dom.select('script', newContainer[1]);
             forEach(scripts, function(s){
                 eval(s.innerHTML);
             });
-            
         }
 
         callLater(0, bind(CAL_INSTANCE.onResize, CAL_INSTANCE));
     });
 
-    req.addErrback(function(e){
+    req.addErrback(function(e) {
         log(e);
     });
-}
+};
 
 var getMiniCalendar = function(action) {
     var req = openobject.http.post(action);
 
-    req.addCallback(function(xmlHttp){
+    req.addCallback(function(xmlHttp) {
 
         var d = DIV();
         d.innerHTML = xmlHttp.responseText;
@@ -152,9 +147,9 @@ var getMiniCalendar = function(action) {
 
         swapDOM('MiniCalendar', newMiniCalendar);
     });
-}
+};
 
-var saveCalendarRecord = function(record_id, starts, ends){
+var saveCalendarRecord = function(record_id, starts, ends) {
 
     var params = getFormParams('_terp_concurrency_info');
     MochiKit.Base.update(params, {
@@ -167,24 +162,25 @@ var saveCalendarRecord = function(record_id, starts, ends){
     });
 
     var req = openobject.http.postJSON('/view_calendar/calendar/save', params);
-    return req.addCallback(function(obj){
+    return req.addCallback(function(obj) {
 
         // update concurrency info
-        for(var key in obj.info) {
+        for (var key in obj.info) {
             try {
                 var items = openobject.dom.select("[name=_terp_concurrency_info][value*=" + key + "]");              
                 var value = "('" + key + "', '" + obj.info[key] + "')";
-                for(var i=0; i<items.length;i++) {
+                for (var i = 0; i < items.length; i++) {
                     items[i].value = value;
                 }
-            }catch(e){}
+            } catch(e) {
+            }
         }
 
         return obj;
     });
-}
+};
 
-var editCalendarRecord = function(record_id){
+var editCalendarRecord = function(record_id) {
 
     var params = {
         'id': record_id,
@@ -193,22 +189,22 @@ var editCalendarRecord = function(record_id){
         'view_ids': openobject.dom.get('_terp_view_ids').value,
         'domain': openobject.dom.get('_terp_domain').value,
         'context': openobject.dom.get('_terp_context').value
-    }
+    };
 
     var act = openobject.http.getURL('/view_calendar/calpopup/edit', params);
     openobject.tools.openWindow(act);
-}
+};
 
-var copyCalendarRecord = function(record_id){
+var copyCalendarRecord = function(record_id) {
 
     var params = {
         '_terp_id': record_id,
         '_terp_model': openobject.dom.get('_terp_model').value,
         '_terp_context': openobject.dom.get('_terp_context').value
-    }
+    };
 
     return openobject.http.post('/view_calendar/calendar/duplicate', params);
-}
+};
 
 // vim: ts=4 sts=4 sw=4 si et
 

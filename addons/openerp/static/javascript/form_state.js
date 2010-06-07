@@ -27,13 +27,13 @@
 //
 ////////////////////////////////////////////////////////////////////////////////
 
-var form_hookContextMenu = function(){
+function form_hookContextMenu(){
     if (!openobject.dom.get('_terp_list')) {
         MochiKit.Signal.connect(window.document, 'oncontextmenu', on_context_menu);
     }
 }
 
-var form_hookOnChange = function() {
+function form_hookOnChange() {
 
     var prefix = '';
     try {
@@ -67,7 +67,7 @@ var form_hookOnChange = function() {
     }
 }
 
-var form_hookStateChange = function() {
+function form_hookStateChange() {
     
     var items = [];
     
@@ -107,7 +107,7 @@ var form_hookStateChange = function() {
     }
 }
 
-var form_onStateChange = function(container, widget, states, evt) {
+function form_onStateChange(container, widget, states, evt) {
 
     var src = evt.src();
     var value = typeof(src.value) == "undefined" ? getNodeAttribute(src, 'value') || src.innerHTML : src.value;
@@ -135,7 +135,7 @@ var form_onStateChange = function(container, widget, states, evt) {
 
 }
 
-var form_hookAttrChange = function() {
+function form_hookAttrChange() {
     
     var items = [];
     
@@ -195,24 +195,24 @@ var form_hookAttrChange = function() {
     }
 }
 
-var form_onAttrChange = function(container, widget, attr, expr, evt) {
-
-    var prefix = widget.slice(0, widget.lastIndexOf('/')+1);
-    var widget = openobject.dom.get(widget);
+function form_onAttrChange(container, widgetName, attr, expr, evt) {
+    var prefix = widgetName.slice(0, widgetName.lastIndexOf('/') + 1);
+    var widget = openobject.dom.get(widgetName);
 
     var result = form_evalExpr(prefix, expr);
-    
-    if (attr == 'readonly')
-       form_setReadonly(container, widget, result)
-    
-    if (attr == 'required')
-       form_setRequired(container, widget, result)
-    
-    if (attr == 'invisible')
-       form_setVisible(container, widget, !result)
+
+    switch (attr) {
+        case 'readonly': form_setReadonly(container, widget, result);
+            break;
+        case 'required': form_setRequired(container, widget, result);
+            break;
+        case 'invisible': form_setVisible(container, widget, !result);
+            break;
+        default:
+    }
 }
 
-var form_evalExpr = function(prefix, expr) {
+function form_evalExpr(prefix, expr) {
     
     var result = true;
     
@@ -262,9 +262,9 @@ var form_evalExpr = function(prefix, expr) {
     return result;
 }
 
-var form_setReadonly = function(container, field, readonly) {
+function form_setReadonly(container, fieldName, readonly) {
     
-    var field = openobject.dom.get(field);
+    var field = openobject.dom.get(fieldName);
 
     if (!field) {
         return;
@@ -300,7 +300,7 @@ var form_setReadonly = function(container, field, readonly) {
     }
 }
 
-var form_setRequired = function(container, field, required) {
+function form_setRequired(container, field, required) {
     
     if (required) {
         MochiKit.DOM.addElementClass(field, 'requiredfield');
@@ -316,7 +316,7 @@ var form_setRequired = function(container, field, required) {
     }
 }
 
-var form_setVisible = function(container, field, visible) {
+function form_setVisible(container, field, visible) {
 
     if (MochiKit.DOM.hasElementClass(container, 'notebook-page')) { // notebook page?
     
@@ -344,12 +344,9 @@ var form_setVisible = function(container, field, visible) {
     }
 }
 
-MochiKit.DOM.addLoadEvent(function(evt){    
+jQuery(document).ready(function(){
     form_hookContextMenu();
     form_hookStateChange();
     form_hookAttrChange();
     form_hookOnChange();
 });
-
-// vim: ts=4 sts=4 sw=4 si et
-

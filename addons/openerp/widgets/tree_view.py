@@ -99,7 +99,7 @@ class ViewTree(Form):
         self.headers = []
         self.parse(root, fields)
 
-        self.tree = treegrid.TreeGrid(name="tree_%s" % (id),
+        self.tree = treegrid.TreeGrid(name="tree_%d" % (id),
                                       model=self.model,
                                       headers=self.headers,
                                       url=url("/openerp/tree/data"),

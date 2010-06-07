@@ -23,7 +23,7 @@
             }
         }
 
-        addLoadEvent(on_load);
+        jQuery(document).ready(on_load);
     </script>
 </%def>
 

@@ -319,7 +319,7 @@ div.sideheader-a { position: relative; margin: 0 -15px 10px; padding: 0 5px 0 10
 
 /* tables */
 
-table { width: 100%; border-bottom: 1px solid #f4f2f2; }
+table { border-bottom: 1px solid #f4f2f2; }
  table th, table td { padding: 5px 10px; text-align: left; }
  table thead th { border-bottom: 1px solid #f4f2f2; color: #3a3939; font-size: 0.9em; font-weight: bold; text-transform: uppercase; }
  table tfoot th { color: #3a3939; font-size: 0.9em; font-weight: bold; text-transform: uppercase; }
@@ -480,18 +480,19 @@ ul.sections-a { overflow: hidden; list-style: none; margin: 0 -7px; padding: 0; 
      ul.sections-a li span.wrap a:active span strong,
      ul.sections-a li span.wrap a.active span strong { background-position: 100% 5px; }
 
-table.sidenav-a { width: 0px; list-style: none; margin: 0 0 15px; padding: 0; color: #fff; text-shadow: #333 0 1px 0; border-bottom: 0px;}
- table.sidenav-a div.accordion div.accordion-block { padding: 0 0 5px; background: url(../images/sidenav-bg-a.gif) 0 100% repeat-x; font-size: 1em; }
-  table.sidenav-a table.accordion-title a { display: block; width: 165px; height: 20px; font-size: 0.8em; padding: 0 0 0 15px; background: url(../images/sidenav-link-a.png) no-repeat; color: #fff; line-height: 20px; font-weight: bold; text-decoration: none !important; text-transform: uppercase; }
-  table.sidenav-a td.accordion-title-td { padding : 0px; border: 0px;}
-  table.sidenav-a table.accordion-title { width: 0px; border-bottom: 0px; margin-bottom: 0px;} 
-  table.sidenav-a table.accordion-title a:hover,
-  table.sidenav-a table.accordion-title a:focus,
-  table.sidenav-a table.accordion-title-active,
-  table.sidenav-a table.accordion-title-active { background-position: 0 -20px; color: #fff; border: 0px;}
-  table.sidenav-a div.accordion div.accordion-block div.accordion-content { overflow: auto; width: 180px; list-style: none; margin: 0; padding-top: 10px; padding-bottom: 0px; background: url(../images/sidenav-bg-b.gif) repeat-x; }
+.sidenav-a { width: 0; list-style: none; margin: 0 0 15px; padding: 0; color: #fff; text-shadow: #333 0 1px 0; border-bottom: 0;}
+ .sidenav-a .accordion .accordion-block { padding: 0 0 5px; background: url(../images/sidenav-bg-a.gif) 0 100% repeat-x; font-size: 1em; }
+  .sidenav-a .accordion-title a,
+  .sidenav-a .accordion-title span { display: block; width: 165px; height: 20px; font-size: 0.8em; padding: 0 0 0 15px; background: url(../images/sidenav-link-a.png) no-repeat; color: #fff; line-height: 20px; font-weight: bold; text-decoration: none !important; text-transform: uppercase; cursor: pointer; }
+  .sidenav-a .accordion-title-td { padding : 0; border: 0;}
+  .sidenav-a .accordion-title { width: 0; border-bottom: 0; margin-bottom: 0;}
+  .sidenav-a .accordion-title :hover,
+  .sidenav-a .accordion-title :focus,
+  .sidenav-a .accordion-title-active,
+  .sidenav-a .accordion-title-active { background-position: 0 -20px; color: #fff; border: 0;}
+  .sidenav-a .accordion .accordion-block .accordion-content { overflow: auto; width: 180px; list-style: none; margin: 0; padding-top: 10px; padding-bottom: 0; background: url(../images/sidenav-bg-b.gif) repeat-x; }
    table.sidenav-a div.accordion div.accordion-block div.accordion-content tr.row { padding: 0; background: none; }
-   table.sidenav-a div.accordion div.accordion-block div.accordion-content tr.row td { border: 0px;}
+   table.sidenav-a div.accordion div.accordion-block div.accordion-content tr.row td { border: 0;}
     table.sidenav-a div.accordion div.accordion-block div.accordion-content tr.row { height: 21px; background: url(../images/sidenav-bg-c.gif) -1px 0 no-repeat; color: #fff; font-size: 1em; font-weight: normal; text-transform: none; }
     table.sidenav-a div.accordion div.accordion-block div.accordion-content tr.row:hover,
     table.sidenav-a div.accordion div.accordion-block div.accordion-content tr.ror:focus,
