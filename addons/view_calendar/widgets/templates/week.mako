@@ -136,6 +136,7 @@
                                     jQuery('#toggle-click').click(function() {
                                         jQuery('#toggle-click').toggleClass('off');
                                         jQuery('#sidebar_calendar').toggle();
+                                        new MonthCalendar().onResize();
                                     });
                                   </script>
                               </p>

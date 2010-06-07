@@ -349,6 +349,10 @@
     padding-left: 12px;
 }*/
 
+td#calSidebar {
+	padding: 0;
+}
+
 #calGroups dt, #calSearchOptions dt {
     font-weight: bold;
     margin-bottom: 2px;
