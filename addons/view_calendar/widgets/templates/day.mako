@@ -128,12 +128,12 @@
                           </td>
                           <td id="sidebar_calendar_hide" valign="top" style="padding: 0;">
                               <p class="toggle-a">
-                                  <a id="toggle-click" class="on" href="javascript: void(0)">
+                                  <a id="toggle-click" class="off" href="javascript: void(0)">
                                       Toggle
                                   </a>
                                   <script type="text/javascript">
 				                    jQuery('#toggle-click').click(function() {
-				                        jQuery('#toggle-click').toggleClass('off');
+				                        jQuery('#toggle-click').toggleClass('on off');
 				                        jQuery('#sidebar_calendar').toggle();
 				                        CAL_INSTANCE.onResize();
 				                    });
