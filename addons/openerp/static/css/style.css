@@ -136,27 +136,31 @@ span.yes, span.cancel {
 	background: url(../images/button.png) left top no-repeat;
 }
 
+.search_filters {
+	padding: 0;
+}
+
 div#search_filter_data table {
 	width: auto;
 	border: none;
 }
 
 div#search_filter_data table.fields td.item {
-	padding: 0 0 0 0;
 	width: auto;
 }
 
-table.fields td.item {
-	padding: 0 0 0 0;
+table#search_table td{
+	font-weight: bold;
 }
 
-form table.fields td.item {
-	padding: 2px 9px 5px 4px;	
+.filter_item {
+	padding: 0;
 }
 
 td.item table {
 	border: none;
 }
+
 
 table.fields {
 	border: none;
@@ -192,6 +196,7 @@ td.item button table {
 	font-weight: 600;
 	font-size: 0.8em;
 }
+
 td.item button table td {
 	border: none;
 	padding: 0;
@@ -224,13 +229,10 @@ button.btn_filter:hover {
 
 table#filter_table {
 	margin: 0;
-	width: auto;
 }
 
 table#filter_table td.filter_column {
-	padding: 0;
 	text-align: left;
-	width: auto;
 }
 
 table#filter_table td.filter_column select {
@@ -272,7 +274,6 @@ div.inactive_filter {
 	background: url(../images/button_unchecked.gif) repeat-x left bottom;
 	border: solid 1px #888888; 
 	white-space: nowrap;
-	padding: 1px;
 }
 
 div.active_filter {
@@ -280,7 +281,6 @@ div.active_filter {
 	background: url(../images/button_checked.gif) repeat-x left bottom; 
 	border: solid 1px #888888; 
 	white-space: nowrap;
-	padding: 1px;
 }
 
 td.group-expand, img.group_expand {
@@ -334,10 +334,6 @@ div.group-expand h2:hover {
 	display: block;
 }
 
-#groupdata_table td {
-	padding: 0;
-}
-
 div.group-collapse {
 	cursor: pointer;
 	overflow: hidden;
@@ -369,6 +365,10 @@ div.custom-filter {
 
 div.custom-filter ul {
 	float: left; list-style: none; margin: 0; padding: 5px 0 0;
+}
+
+table#search_table td {
+	padding: 2px 0;
 }
 
 div.custom-filter ul li {

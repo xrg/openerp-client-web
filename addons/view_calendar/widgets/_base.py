@@ -64,7 +64,7 @@ def choice_colors(n):
 
 class TinyEvent(TinyWidget):
 
-    template = """<div class="calEvent" style="background-color: ${color}"
+    template = """<div class="calEvent" style="background-color: ${color}; -moz-border-radius: 4px;"
     starts="${str(starts)}" ends="${str(ends)}" record_id="${record_id}" title="${description}">${title}</div>
     """
 

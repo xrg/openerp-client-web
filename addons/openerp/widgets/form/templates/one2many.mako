@@ -3,19 +3,33 @@
         <td>
             <table width="100%" class="gridview" style="border-bottom: 1px solid #C0C0C0;"cellpadding="0" cellspacing="0">
                 <tr class="pagebar">
-                	<td class="pagerbar-cell" align="right" width="25%">
+                    <%
+                        if view_type == 'form':
+                            pager_width = '15%'
+                        else:
+                            pager_width = '25%'
+                    %>
+                	<td class="pagerbar-cell" align="right" width="${pager_width}">
                 		<div class="pagerbar-header">
                 			<strong>${screen.string}</strong>
                 		</div>
                 	</td>
                 	
+                	% if screen.editable and not readonly and view_type == 'form':
+                	   <td>
+                	       <a class="button-a" href="javascript: void(0)" title="${_('Create new record...')}" onclick="new One2Many('${name}', ${(screen.view_type == 'tree' or 0) and len(screen.widget.editors)}).create()">${_('New')}</a>
+                	   </td>
+                	% endif
+                	
                     % if pager_info:
-                    <td style="padding: 0 4px">${pager_info}</td>                    
-                    <td>                        
-                        <button type="button" title="${_('Next record...')}" onclick="submit_form('next', '${name}')" style="padding: 2px">
-                            <img src="/openerp/static/images/stock/gtk-go-forward.png"
-                                 alt="${_('Next record...')}" width="16" height="16"/>
-                        </button>                        
+                    <td width="75%" style="text-align: left" align="left">
+                        <div class="pager">
+                            <p id="_${name}_link_span" class="paging">
+                                <a class="prev" title="${_('Previous record...')}" href="javascript: void(0)" onclick="submit_form('previous', '${name}')"></a>
+                                <font>${pager_info}</font>
+                                <a class="next" title="${_('Next record...')}" href="javascript: void(0)" onclick="submit_form('next', '${name}')"></a>
+                            </p>                            
+                        </div>
                     </td>
                     % endif
                     <td>

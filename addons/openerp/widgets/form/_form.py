@@ -67,6 +67,7 @@ from openerp import validators
 from _binary import Image
 
 
+
 class Frame(TinyInputWidget):
     """Frame widget layouts the widgets in a table.
     """
@@ -88,7 +89,8 @@ class Frame(TinyInputWidget):
             self.columns = int(attrs.get('col', 4))
  
         self.nolabel = True
-
+        self.label_position = attrs.get('label_position')
+        
         self.x = 0
         self.y = 0
 
@@ -152,6 +154,7 @@ class Frame(TinyInputWidget):
                 if isinstance(wid, Separator) and not string:
                     a['width'] = '2%'
                 else:
+                    
                     a['width'] = '%d%%' % (w)
     def add_row(self):
 
@@ -190,11 +193,13 @@ class Frame(TinyInputWidget):
             colspan = 2
 
         tr = self.table[-1]
-
+        label_table = []
         if label:
             colspan -= 1
             attrs = {'class': 'label', 'title': getattr(widget, 'help', None), 'for': widget.name}
             td = [attrs, label]
+            if widget.full_name and self.label_position:
+                label_table = td
             tr.append(td)
 
         if isinstance(widget, TinyInputWidget) and hasattr(cherrypy.request, 'terp_validators'):
@@ -231,10 +236,27 @@ class Frame(TinyInputWidget):
         if getattr(widget, 'attributes', False):
             attrs['attrs'] = str(widget.attributes)
             attrs['widget'] = widget.name
-
+            
+        if not isinstance(widget, (Char, Frame, Float, DateTime, Integer, Selection, Notebook, Separator, NewLine, Label)):
+            if not widget.kind and not widget._name:
+                if widget.string:
+                    attrs['class'] = attrs.get('class', 'item').__add__(' search_filters')
+                    attrs['nowrap'] = 'nowrap'
+            else:
+                from openerp.widgets.search import Filter as Filter
+                if isinstance(widget, Filter) and widget.string:
+                    attrs['class'] = attrs.get('class', 'item').__add__(' search_filters')
+                    attrs['nowrap'] = 'nowrap'
+            
         td = [attrs, widget]
-        tr.append(td)
-
+        if widget.full_name and self.label_position:
+            if label_table:
+                label_table[0]['widget_item'] = td
+                label_table[0]['label_position'] = self.label_position
+            else:
+                tr.append(td)
+        else:
+            tr.append(td)
         self.x += colspan + a
 
     def add_hidden(self, widget):
@@ -645,13 +667,13 @@ class Group(TinyInputWidget):
 
     def __init__(self, **attrs):
         super(Group, self).__init__(**attrs)
-        self.default = attrs.get('expand', False)
+        self.default = int(attrs.get('expand', 0))
         self.frame = Frame(**attrs)
         self.nolabel = True
         self.view_type = cherrypy.request.terp_params.get('_terp_view_type')
         
         if attrs.get('group_by_ctx'):
-            self.default = True
+            self.default = 1
         self.expand_grp_id = 'expand_grp_%s' % (random.randint(0,10000))
         
 register_widget(Group, ["group"])

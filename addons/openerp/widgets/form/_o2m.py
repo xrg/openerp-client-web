@@ -41,7 +41,7 @@ class O2M(TinyInputWidget):
     """One2Many widget
     """
     template = "templates/one2many.mako"
-    params = ['id', 'parent_id', 'new_attrs', 'pager_info', 'switch_to', 'default_get_ctx', 'source']
+    params = ['id', 'parent_id', 'new_attrs', 'pager_info', 'switch_to', 'default_get_ctx', 'source', 'view_type']
     member_widgets = ['screen']
 
     form = None
@@ -86,7 +86,8 @@ class O2M(TinyInputWidget):
 
         view_mode = mode
         view_type = mode[0]
-
+        self.view_type = view_type
+        
         if not current:
             current = TinyDict()
 

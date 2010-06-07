@@ -38,12 +38,12 @@ hr { overflow: hidden; height: 1px; margin: 15px 0 !important; margin: -5px 0 8p
 ------------------------------------------- */
 
 #root { height: 100%; }
- #top { position: absolute; left: 0; top: 0; z-index: 15; width: 100%; height: 65px; background: #7d7b7b url(../images/top-bg-a.gif) 0 100% repeat-x; color: #fff; text-transform: uppercase; letter-spacing: 0.5px; text-shadow: #333 0 1px 0; }
+ #top { position: absolute; left: 0; top: 0; z-index: 15; width: 100%; background: #7d7b7b url(../images/top-bg-a.gif) 0 100% repeat-x; color: #fff; text-transform: uppercase; letter-spacing: 0.5px; text-shadow: #333 0 1px 0; }
  #top table td{padding: 0px; }
-  #logo { float: left; width: 172px; height: 65px; margin: 0 10px 0 0; padding: 0 0 0 10px; background: url(../images/logo-bg.png) repeat-y; line-height: 50px; }
+  #logo { float: left; width: 172px; margin: 0 10px 0 0; padding: 0 0 0 10px; background: url(../images/logo-bg.png) repeat-y; line-height: 50px; }
    #logo a { }
-    #logo img { vertical-align: middle; }
-  #title-menu { float: left; margin: 0; padding: 6px 0 0; background: none; color: #fff; font-size: 1em; font-weight: bold; text-shadow: #111 0 1px 0; }
+    #logo img { width: 100%; }
+  #title-menu { float: left; margin: 0; padding: 4px 0; background: none; color: #fff; font-size: 1em; font-weight: bold; text-shadow: #111 0 1px 0; }
    #title-menu small { display: block; font-size: 0.9em; color: #ccc; font-weight: normal; }
   #corner { float: right; }
    #corner a { color: #fff; text-decoration: none; }
@@ -99,7 +99,7 @@ hr { overflow: hidden; height: 1px; margin: 15px 0 !important; margin: -5px 0 8p
  table#shortcuts tr { display:block; float:left; position: absolute; padding: 6px 5px; border-top: 1px solid #606060; left: 180px; top: 33px; width: 100%; height: auto; margin: 0; line-height: 1.2; }
  table#shortcuts tr td { margin: 0; text-align: center; color: #fff; border-right: 1px solid #909090; padding-left: 1px;}
  table#shortcuts tr td a { display: block; height: auto; font-size: 0.8em; line-height: 0.7; text-indent: 0; text-shadow: #111 0 -1px 0; }
-
+ 
  #main_nav {background: url(../images/nav-bg-a.png) repeat-x; width: 100%; padding-top: 65px;}
  #nav { left: 0; z-index: 10; height: 34px; border-bottom: 1px solid #511712; position: relative; width: 95%; /* Add scroll-bars */ overflow: hidden;}
   #nav ul { float: left; list-style: none; margin: 0; padding: 6px 5px; display: block; /* Max width here, for users without Javascript */ position: absolute;}
@@ -113,7 +113,8 @@ hr { overflow: hidden; height: 1px; margin: 15px 0 !important; margin: -5px 0 8p
     #nav ul li a:hover, #nav ul li a:focus, #nav ul li a:active, #nav ul li a.active { background-position: 0 -23px; }
      #nav ul li a:hover span, #nav ul li a:focus span, #nav ul li a:active span, #nav ul li a.active span { background-position: 100% -23px; }
     #nav ul li em { position: absolute; left: -10001px; top: -10001px; }
-
+ 
+    .scroll_right { text-align: center; width: 2%;}
  #content { height: 100%; }
    #content div.wrap { padding: 0px 0 5px; }
   #primary { min-height: 100%; margin: 0 20px 0 195px; }
@@ -211,7 +212,7 @@ div.fields-a { }
   * html div.fields-a p span.lookup { display: inline; text-indent: 0; }
   *:first-child+html div.fields-a p span.lookup { display: inline; text-indent: 0; }
 
-div.filter-a { overflow: hidden; width: 100%; margin: 0 0 5px;}
+div.filter-a { width: 100%; margin: 0 0 5px; }
  div.filter-a ul { float: left; list-style: none; padding: 0; border: 1px solid #cccbcb; border-radius: 4px; -moz-border-radius: 4px; -webkit-border-radius: 4px; background: #ededed url(../images/filter-a-buttons.gif) repeat-x; box-shadow: 0 1px 0 #fff; -moz-box-shadow: 0 1px 0 #fff; -webkit-box-shadow: 0 1px 0 #fff; }
   div.filter-a ul li { float: left; font-size: 1em; font-weight: bold; text-transform: uppercase; text-shadow: #fff 0 1px 0; }
   div.filter-a ul li.first { border-left: none; }
@@ -219,13 +220,13 @@ div.filter-a { overflow: hidden; width: 100%; margin: 0 0 5px;}
    div.filter-a ul li.inactive_filter a {font-size: 0.8em; font-weight: 600; cursor: pointer; }
    div.filter-a ul li.products a { background-image: url(../images/filter-a-icons-products.gif); }
    div.filter-a ul li.services a { background-image: url(../images/filter-a-icons-services.gif); }
-   div.filter-a ul li a { position: relative; float: left; height: 12px; padding: 25px 7px 8px; background-position: 50% 8px; background-repeat: no-repeat; white-space: nowrap;}
+   div.filter-a ul li a { position: relative; float: left; height: 12px; padding: 25px 7px 8px; background-position: 50% 4px; background-repeat: no-repeat; white-space: nowrap;}
    div.filter-a ul li a.active {font-size: 0.8em; font-weight: 600; background-color: #E8E8E8; }
     div.filter-a ul li a span { display: none; position: absolute; left: 45%; bottom: -2px; overflow: hidden; width: 7px; height: 7px; margin: 0 0 0 -3px; background: url(../images/filter-a-buttons-arrow.gif) no-repeat; font-size: 0; text-indent: -10001px; }
     div.filter-a ul li a.active span { display: block; }
  div.filter-a div.fields-a { float: left; padding-top: 13px; }
   div.filter-a div.fields-a p { float: left; margin: 0; padding-right: 10px; }
-   div.filter-a div.fields-a p label { display: block; margin: 0 0 1px; }
+   div.filter-a div.fields-a p label { display: block; margin: 0 0 1px; } 
 
 div.footer-a { position: relative; overflow: hidden; width: 100%; margin: 0 0 10px; }
  div.footer-a p { margin: 0; padding: 0 15px; font-size: 0.9em; font-weight: bold; text-transform: uppercase; }
@@ -235,7 +236,7 @@ div.footer-a { position: relative; overflow: hidden; width: 100%; margin: 0 0 10
   div.footer-a p.powered a { color: #969494; }
  div.footer-a p.one { float: left; }
  div.footer-a p.two { float: right; }
-
+ 
 div.login_footer-a { position: relative; width: 100%; margin: 0 0 10px; padding: 10px 0;}
  div.login_footer-a div { margin: 0; padding: 0 15px; font-size: 1.2em; font-weight: bold; text-transform: uppercase; }
   div.login_footer-a div a { color: #5c5b5b; }
