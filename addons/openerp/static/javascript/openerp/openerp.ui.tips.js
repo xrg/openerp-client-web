@@ -167,16 +167,23 @@ MochiKit.DOM.addLoadEvent(function(evt){
     if (window.browser.isOpera){
         return;
     }
-
+    
     var elements = MochiKit.Base.filter(function(e){
 
         var text = MochiKit.DOM.getNodeAttribute(e, 'title');
         if (!text)
             return false;
+             
+        if(jQuery(e).find('table#search_table').length) {
+        	var title = jQuery(e).find('table#search_table td:first span').text();
+        	var title = title.split(":")[0];
+        }  
         
-        var title = MochiKit.DOM.scrapeText(e).replace(/^\s*\?\s*|\s*\:\s*$/g, '');
+        else {
+            var title = MochiKit.DOM.scrapeText(e).replace(/^\s*\?\s*|\s*\:\s*$/g, '');
+        }
+        
         MochiKit.DOM.setNodeAttribute(e, 'title', title + '::' + text);
-
         return true;
 
     }, openobject.dom.select('td.label', document));

@@ -15,7 +15,9 @@
                             % if attrs.get('title'):
                                 <sup style="color: darkgreen; vertical-align: middle;">?</sup>
                             % endif
+                            <span>
                             ${(widget or '') and widget + ':'}
+                            </span>
                         </td>
                     </tr>
                     <tr>
