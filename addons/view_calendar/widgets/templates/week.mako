@@ -3,7 +3,7 @@
 		<td><div id="calLoading">${_("Loading...")}</div></td>
 	</tr>
 	<tr>
-		<td>
+		<td width="100%" style="width: 100%; padding: 0;">
 			<div class="box-a calendar-a">
 			<p class="side">
 				<a class="button-b" href="javascript:void(0)" title="${_('Today...')}" onclick="getCalendar('${selected_day.today().isoformat()}', 'day')">${_("Today")}</a>
@@ -136,7 +136,7 @@
                                     jQuery('#toggle-click').click(function() {
                                         jQuery('#toggle-click').toggleClass('off');
                                         jQuery('#sidebar_calendar').toggle();
-                                        new MonthCalendar().onResize();
+                                        CAL_INSTANCE.onResize();
                                     });
                                   </script>
                               </p>

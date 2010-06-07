@@ -207,9 +207,8 @@
     height: 16px;
     font-size: 10px;
     font-weight: bold;
-    text-align: right;
+    text-align: center;
     padding-right: 4px;
-
     border-top: 1px solid #C0C0C0;
     background-color: #D9D9D9;
 }

@@ -3,7 +3,7 @@
 		<td><div id="calLoading">${_("Loading...")}</div></td>
 	</tr>
 	<tr>
-		<td width="100%" style="width: 100%">
+		<td width="100%" style="width: 100%; padding: 0;">
 			<div class="box-a calendar-a">
 				<p class="side">
 					% if day == day.today():
@@ -135,7 +135,7 @@
 				                    jQuery('#toggle-click').click(function() {
 				                        jQuery('#toggle-click').toggleClass('off');
 				                        jQuery('#sidebar_calendar').toggle();
-				                        new MonthCalendar().onResize();
+				                        CAL_INSTANCE.onResize();
 				                    });
                                   </script>
                               </p>
