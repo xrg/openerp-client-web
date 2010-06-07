@@ -10,10 +10,20 @@
  *                    by jQuery.load: responseText, textStatus and
  *                    XMLHttpRequest
  */
+var console;
 function openLink(url /*optional afterLoad */) {
     var app = jQuery('#appContent');
+    var afterLoad = arguments[1];
     if(app.length) {
-        app.load(url, arguments[1]);
+        jQuery.ajax({
+            url: url,
+            complete: function (xhr) {
+                console.debug(app.get(0));
+                console.debug(xhr);
+                app.html(xhr.responseText);
+                if(afterLoad) { afterLoad(); }
+            }
+        });
     } else {
         window.location.assign(url);
     }
@@ -24,7 +34,6 @@ function openLink(url /*optional afterLoad */) {
 var LINK_WAIT_NO_ACTIVITY = 300;
 /** @constant */
 var FORM_WAIT_NO_ACTIVITY = 500;
-var console;
 jQuery(document).ready(function () {
     var app = jQuery('#appContent');
     if (app.length) {
@@ -51,10 +60,12 @@ jQuery(document).ready(function () {
             jQuery.ajax({
                 url: form.attr("action"),
                 data: form.serialize(),
-                method: form.attr('method') || 'GET',
+                type: form.attr('method') || 'GET',
                 contentType: form.attr('enctype') || 'application/x-www-form-urlencoded',
-                success: jQuery.proxy(app, 'html'),
-                complete: jQuery.proxy(waitBox, 'hide')
+                complete: function (xhr) {
+                    app.html(xhr.responseText);
+                    jQuery.proxy(waitBox, 'hide');
+                }
             });
             return false;
         });
