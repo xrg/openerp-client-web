@@ -1,9 +1,9 @@
-<table border="0" style="border: none;" id="Calendar">
+<table border="0" style="border: none; width: 100%;" width="100%" id="Calendar">
 	<tr>
 		<td><div id="calLoading">${_("Loading...")}</div></td>
 	</tr>
 	<tr>
-		<td>
+		<td width="100%" style="width: 100%">
 			<div class="box-a calendar-a">
 				<p class="side">
 					% if day == day.today():
@@ -78,57 +78,71 @@
             </div>
 					        </div>
 					        <script type="text/javascript">
-            CAL_INSTANCE = new WeekCalendar();
-        </script>
+                                CAL_INSTANCE = new WeekCalendar();
+                            </script>
 						</td>
 					</tr>
 				</table>
 			</div>
 		</td>
-		<td id="calSidebar"valign="top">
-			<table>
-		<tr>
-			<td class="toggle-a" align="right">
-				<a  id="toggle-navigator" class="on" href="javascript: void(0)" style="float: right;">Toggle</a>
-				
-				<script type="text/javascript">
-					jQuery('#toggle-navigator').click(function() {
-						jQuery('#toggle-navigator').toggleClass('off');
-						jQuery('#calSidebar-sidebar').toggle();
-					});
-				</script>
-			</td>
-		</tr>
-	</table>
-		<table id="calSidebar-sidebar">
-			<tr>
-			<td class="sideheader-a">
-				<h2>Navigator</h2>
-			</td>
-		</tr>
-		<tr>
-			<td>
-				${minical.display()}
-			</td>
-		</tr>
-		<tr>
-			<td>
-				${groupbox.display()}
-			</td>
-		</tr>
-		<tr>
-			<td>
-				<div id="calSearchOptions">
-            <table border="0">
-                <tr>
-                    <td><input type="checkbox" class="checkbox" id="_terp_use_search" name="_terp_use_search" onclick="getCalendar()" ${py.checker(use_search)}/></td>
-                    <td>${_("Apply search filter")}</td>
-                </tr>
-		</table>
-        </div>
-			</td>
-		</tr>
-		</table>
+		<td id="calSidebar" valign="top">
+            <div id="tertiary">
+                <div id="tertiary_wrap">
+                    <table id="sidebar_pane" cellspacing="0" cellpadding="0" border="0">
+                        <tr>
+                            <td id="sidebar_calendar" style="display: none;">
+                                <table id="calSidebar-sidebar">
+                                    <tr>
+                                        <td class="sideheader-a">
+                                            <h2>Navigator</h2>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding: 0;">
+                                            <div id="mini_calendar">
+                                                ${minical.display()}
+                                            </div>
+                                            <div id="group_box">
+                                                ${groupbox.display()}
+                                            </div>
+                                        </td>
+                                    </tr>   
+                                    <tr>
+                                        <td id="calendar_search_filter">
+                                            <div id="calSearchOptions">
+                                                <dl>
+                                                    <dt>${_("Filter")}</dt>
+                                                    <dd>
+                                                        <ul class="ul_calGroups">
+                                                            <li>
+                                                                <input type="checkbox" class="checkbox" id="_terp_use_search" name="_terp_use_search" onclick="getCalendar()" ${py.checker(use_search)}/>
+                                                                <label>${_("Apply search filter")}</label>
+                                                            </li>
+                                                        </ul>
+                                                    </dd>
+                                                </dl>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </table>
+                          </td>
+                          <td id="sidebar_calendar_hide" valign="top" style="padding: 0;">
+                              <p class="toggle-a">
+                                  <a id="toggle-click" class="on" href="javascript: void(0)">
+                                      Toggle
+                                  </a>
+                                  <script type="text/javascript">
+				                    jQuery('#toggle-click').click(function() {
+				                        jQuery('#toggle-click').toggleClass('off');
+				                        jQuery('#sidebar_calendar').toggle();
+				                    });
+                                  </script>
+                              </p>
+                          </td>
+                      </tr>
+                  </table>
+              </div>
+          </div>
 		</td>
 	</tr>
 </table>
