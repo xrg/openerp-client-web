@@ -1,3 +1,23 @@
+2010-06-07: 5.0.11
+==================
+
+Bugfixes
+--------
+
+ * Not linked to a bug report:
+   * We can't edit a many2one relation if the link attribute is defined on the field tag
+   * Attachment button was not 'checked' if the attachment had no filename (which is not a required field)
+ * https://launchpad.net/bugs/575784
+
+
+Improvements
+------------
+
+ * jasper-produced document types
+ * Improved view-editor for inherited view.
+ * Improved pagination limit.
+
+
 2010-04-02: 5.0.10
 ==================
 
