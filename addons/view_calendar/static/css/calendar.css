@@ -110,6 +110,8 @@
     -moz-border-radius: 5px; 
     -webkit-border-radius: 5px;
     font-weight: 600;
+    padding-top: 2px;
+    padding-bottom: 4px;
 }
 
 .calWeek #calBodySect .calEvent,
