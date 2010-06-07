@@ -152,7 +152,6 @@ TreeGrid.prototype = {
         if (this.options.showheaders) {
             this._makeHeader();
         }
-        debugger;
 
         this._makeBody();
 
