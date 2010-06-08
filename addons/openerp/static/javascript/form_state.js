@@ -215,11 +215,17 @@ function form_onAttrChange(container, widgetName, attr, expr, evt) {
 function form_evalExpr(prefix, expr) {
     
     var result = true;
+    var stack = [];
     
     for(var i=0; i<expr.length; i++) {
         
         var ex = expr[i];
         var elem = openobject.dom.get(prefix + ex[0]);
+        
+        if (ex.length==1) {
+            stack.push(ex[0]);
+            continue;
+        }
         
         if (!elem) 
             continue;
@@ -232,31 +238,48 @@ function form_evalExpr(prefix, expr) {
             
             case '=':
             case '==':
-                result = result && (elem_value == val);
+                stack.push(elem_value == val);
                 break;
             case '!=':
             case '<>':
-                result = result && (elem_value != val);
+                stack.push(elem_value != val);
                 break;
             case '<':
-                result = result && (elem_value < val);
+                stack.push(elem_value < val);
                 break;
             case '>':
-                result = result && (elem_value > val);
+                stack.push(elem_value > val);
                 break;
             case '<=':
-                result = result && (elem_value <= val);
+                stack.push(elem_value <= val);
                 break;
             case '>=':
-                result = result && (elem_value >= val);
+                stack.push(elem_value >= val);
                 break;
             case 'in':
-                result = result && MochiKit.Base.findIdentical(val, elem_value) > -1;
+                stack.push(MochiKit.Base.findIdentical(val, elem_value) > -1);
                 break;
             case 'not in':
-                result = result && MochiKit.Base.findIdentical(val, elem_value) == -1;
+                stack.push(MochiKit.Base.findIdentical(val, elem_value) == -1);
                 break;
         }
+    }
+    
+    for (i=stack.length-1; i>-1; i--) {
+        if(stack[i] == '|'){
+            var result = stack[i+1] || stack[i+2];
+            stack.splice(i, 3, result)
+        }
+    }
+    
+    if (stack.length > 1) {
+        result = true;
+        for (i=0; i<stack.length; i++) {
+            result = result && stack[i];
+        }        
+    }
+    else {
+        result = stack[0];
     }
     
     return result;
