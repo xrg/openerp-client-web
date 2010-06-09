@@ -91,7 +91,7 @@ import cherrypy
 	    % if pageable:
 	    <tr class="pagerbar">
 	        <td colspan="2" class="pagerbar-cell" align="right">
-	        	<table class="pager-table" width="0%">
+	        	<table class="pager-table">
 	        		<tr>
 	        			<td class="pager-cell">
 	        				<h2>${string} List</h2>
