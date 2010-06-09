@@ -19,7 +19,7 @@
 	padding-left: 10px;
 }
 
-.pager .paging span {
+.pager .paging .nav {
 	 display: -moz-inline-stack; display: inline-block; overflow: hidden; width: 9px; height: 11px; margin: 0 5px; font-size: 0; text-align: left; text-indent: -10001px; vertical-align: middle;
 }
 

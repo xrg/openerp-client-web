@@ -6,12 +6,12 @@
         % if prev:
         <a href="#first" onclick="pager_action('first', '${name}'); return false;">
         % endif
-        <span class="first">${_("<< First")}</span>
+        <span class="first nav">${_("<< First")}</span>
         % if prev:
         </a>
         <a href="#previous" onclick="pager_action('previous', '${name}'); return false;">
         % endif
-        <span class="prev">${_("< Previous")}</span>
+        <span class="prev nav">${_("< Previous")}</span>
         % if prev:
         </a>
         % endif
@@ -19,12 +19,12 @@
         % if next:
         <a href="#next" onclick="pager_action('next', '${name}'); return false;">
         % endif
-        <span class="next">${_("Next >")}</span>
+        <span class="next nav">${_("Next >")}</span>
         % if next:
         </a>
         <a href="#last" onclick="pager_action('last', '${name}'); return false;">
         % endif
-        <span class="last">${_("Last >>")}</span>
+        <span class="last nav">${_("Last >>")}</span>
         % if next:
         </a>
         % endif
