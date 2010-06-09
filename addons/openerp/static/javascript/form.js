@@ -126,15 +126,6 @@ function editSelectedRecord() {
 }
 
 function switchView(view_type, src) {
-
-    var prefix = src ? src + '/' : '';
-    var form = document.forms['view_form'];
-
-    var params = {
-        '_terp_source': src,
-        '_terp_source_view_type': view_type
-    };
-
     if (openobject.dom.get('_terp_list')) {
         var ids = new ListView('_terp_list').getSelectedRecords();
         if (ids.length > 0) {
@@ -142,7 +133,10 @@ function switchView(view_type, src) {
         }
     }
 
-    submit_form(get_form_action('switch', params));
+    submit_form(get_form_action('switch', {
+        '_terp_source': src,
+        '_terp_source_view_type': view_type
+    }));
 }
 
 function switch_O2M(view_type, src) {
