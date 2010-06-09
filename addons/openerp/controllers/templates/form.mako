@@ -47,13 +47,38 @@
 	                                	% endif
                                     % endif
                                     
-                                    <td id="title_details" width="50%" class="content_header_space">
+                                    <td id="title_details" width="30%" class="content_header_space">
                                     	<h1>${form.screen.string}
                                     		<a class="help" href="javascript: void(0)" title="${_('Corporate Intelligence...')}" onclick="show_process_view()">
                                     			<small>Help</small>
 		                              		</a>
                                     	</h1>
                                     </td>
+                                    
+                                    %if serverLog:
+                                    	<td>
+									    	<div id="serverlog" style="display: none;">
+									    		<div class="serverLogHeader">
+									    			Current actions :
+									    			<img id="closeServerLog" style="cursor: pointer;" align="right" src="/openerp/static/images/attachments-a-close.png"></img>
+									    		</div>
+									    		% for log in serverLog:
+									    			<div class="logActions">
+								    					<a href="">
+								    						${log['name']}
+								    					</a>
+									    			</div>
+									    		% endfor	
+									    	</div>
+									    	
+									    	<script type="text/javascript">
+									    		jQuery('#serverlog').fadeIn('slow');
+									    		jQuery('#closeServerLog').click(function() {
+									    			jQuery('#serverlog').fadeOut("slow");
+									    		});
+									    	</script>
+								    	</td>
+    								% endif
                                     
                                     <%def name="make_view_button(i, kind, name, desc, active)">
                                     	<li class="v${i}" title="${desc}">

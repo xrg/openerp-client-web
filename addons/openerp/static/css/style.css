@@ -896,6 +896,29 @@ div#progress_div3 {
 	 text-align: center;	
 }
 
+div.logActions {
+	padding: 2px;
+}
+
+div#serverlog {
+	-moz-border-radius-bottomleft: 3px;
+	-moz-border-radius-bottomright: 3px;
+	-moz-border-radius-topleft: 3px;
+	-moz-border-radius-topright: 3px;
+	background: #FFFFFF none repeat scroll 0 0;
+	border: 1px solid #CECBCB;
+}
+
+div.serverLogHeader {
+	font-weight: bold;
+	border-bottom: 1px solid #CECBCB;
+	padding: 2px;
+}
+
+div#serverlog a {
+	color: #511712;
+}
+
 /**
  * vim: sts=4 st=4 et 
  *

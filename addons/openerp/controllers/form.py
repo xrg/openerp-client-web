@@ -250,8 +250,11 @@ class Form(SecuredController):
                     shortcut_ids.append(sc['res_id'][0])
                 else:
                     shortcut_ids.append(sc['res_id'])
-                    
-        return dict(form=form, pager=pager, buttons=buttons, path=self.path, can_shortcut=can_shortcut, shortcut_ids=shortcut_ids)
+        
+        proxy_log = rpc.RPCProxy('res.log')
+        serverLog = proxy_log.get() or None
+        
+        return dict(form=form, pager=pager, buttons=buttons, path=self.path, can_shortcut=can_shortcut, shortcut_ids=shortcut_ids, serverLog=serverLog)
 
     def _read_form(self, context, count, domain, filter_domain, id, ids, kw,
                    limit, model, offset, search_data, search_domain, source,
