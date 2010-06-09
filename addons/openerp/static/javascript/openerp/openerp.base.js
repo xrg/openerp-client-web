@@ -47,16 +47,13 @@ jQuery(document).ready(function () {
         // do the same for forms
         jQuery(document).delegate('form:not([target])', 'submit', function () {
             var form = jQuery(this);
+            form.ajaxForm();
             // Don't make the wait box appear immediately
             waitBox.showAfter(FORM_WAIT_NO_ACTIVITY);
-            jQuery.ajax({
-                url: form.attr("action"),
-                data: form.serialize(),
-                type: form.attr('method') || 'GET',
-                contentType: form.attr('enctype') || 'application/x-www-form-urlencoded',
+            form.ajaxSubmit({
                 complete: function (xhr) {
                     app.html(xhr.responseText);
-                    jQuery.proxy(waitBox, 'hide');
+                    waitBox.hide();
                 }
             });
             return false;
