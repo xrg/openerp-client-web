@@ -214,7 +214,6 @@ function form_onAttrChange(container, widgetName, attr, expr, evt) {
 
 function form_evalExpr(prefix, expr) {
     
-    var result = true;
     var stack = [];
     
     for(var i=0; i<expr.length; i++) {
@@ -235,7 +234,6 @@ function form_evalExpr(prefix, expr) {
         var elem_value = elem.value || getNodeAttribute(elem, 'value') || elem.innerHTML;
         
         switch (op.toLowerCase()) {
-            
             case '=':
             case '==':
                 stack.push(elem_value == val);
@@ -264,24 +262,16 @@ function form_evalExpr(prefix, expr) {
                 break;
         }
     }
-    
-    for (i=stack.length-1; i>-1; i--) {
-        if(stack[i] == '|'){
-            var result = stack[i+1] || stack[i+2];
-            stack.splice(i, 3, result)
+
+    var result = true;
+    var current;
+    while(stack.length > 1) {
+        current = stack.shift();
+        if(current === '|') {
+            current = stack.shift() || stack.shift()
         }
+        result = result && current;
     }
-    
-    if (stack.length > 1) {
-        result = true;
-        for (i=0; i<stack.length; i++) {
-            result = result && stack[i];
-        }        
-    }
-    else {
-        result = stack[0];
-    }
-    
     return result;
 }
 
