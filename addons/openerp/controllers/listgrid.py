@@ -149,6 +149,13 @@ class List(SecuredController):
         
         if groupby and isinstance(groupby, basestring):
             groupby = groupby.split(',')
+        
+        if params.get('_terp_filters_context'):
+            if isinstance(params.filters_context, (list, tuple)):
+                for filter_ctx in params.filters_context:
+                    params.context.update(filter_ctx)
+            else:
+                params.context.update(params.filters_context)
             
         params['_terp_group_by_ctx'] = groupby        
         if '_terp_sort_key' in params:

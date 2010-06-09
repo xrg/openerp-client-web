@@ -257,6 +257,7 @@ function display_Customfilters(all_domains, group_by_ctx){
 }
 
 var group_by = new Array();
+var filter_context = [];
 
 function search_filter(src, id) {
 	var all_domains = {};
@@ -287,6 +288,13 @@ function search_filter(src, id) {
 
             jQuery(set_filter).attr('class', 'inactive');
             jQuery(id).attr('class', 'inactive_filter');
+            
+            if(jQuery(src).attr('filter_context') && jQuery(src).attr('filter_context')!='{}') {
+                var filter_index = jQuery.inArray(jQuery(src).attr('filter_context'), filter_context);
+                if(filter_index >= 0) {
+                    filter_context.splice(filter_index, 1);
+                }
+            }
         } else {
             jQuery(src).attr('checked',true);
             jQuery(set_filter).attr('class', 'active');
@@ -294,9 +302,16 @@ function search_filter(src, id) {
 
             if(jQuery(src).attr('group_by_ctx') && jQuery(src).attr('group_by_ctx')!='False' && jQuery(src).attr('group_by_ctx')!='') {
                 group_by.push(jQuery(src).attr('group_by_ctx'));
-            }            
+            }
+            
+            if(jQuery(src).attr('filter_context') && jQuery(src).attr('filter_context')!='{}') {
+                filter_context.push(jQuery(src).attr('filter_context'));
+            }
         }
     }
+    
+    jQuery('#_terp_filters_context').val(filter_context);
+    
 	var filter_table = getElement('filter_table');
 	datas = $$('[name]', 'search_filter_data');
 	
