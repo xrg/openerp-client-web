@@ -88,8 +88,11 @@ class Tree(SecuredController):
                 id = tool['id']
                 ids = proxy.read([id], [tree.field_parent])[0][tree.field_parent]
                 tool['ids'] = ids
-
-        return {'tree': tree, 'model': model}
+        
+        proxy_log = rpc.RPCProxy('res.log')
+        serverLog = proxy_log.get() or None
+        
+        return {'tree': tree, 'model': model, 'serverLog': serverLog}
 
     @expose()
     def default(self, id, model, view_id, domain, context):

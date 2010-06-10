@@ -251,6 +251,7 @@ class Form(SecuredController):
                 else:
                     shortcut_ids.append(sc['res_id'])
         
+        # Server log will display in flash message in form view for any server action like wizard.
         proxy_log = rpc.RPCProxy('res.log')
         serverLog = proxy_log.get() or None
         

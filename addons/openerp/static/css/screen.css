@@ -47,7 +47,7 @@ hr { overflow: hidden; height: 1px; margin: 15px 0 !important; margin: -5px 0 8p
    #title-menu small { display: block; font-size: 0.9em; color: #ccc; font-weight: normal; }
   #corner { float: right; }
    #corner a { color: #fff; text-decoration: none; }
-   #corner p.name { float: left; height: 34px; margin: 0; padding: 0 10px 0 12px; background: url(../images/top-sep-a.png) no-repeat; line-height: 34px; font-size: 1em; text-transform: uppercase; }
+   #corner p.name { float: left; height: 34px; margin: 0; padding: 0 2px 0 7px; background: url(../images/top-sep-a.png) no-repeat; line-height: 34px; font-size: 1em; text-transform: uppercase; }
    #corner ul.tools { float: left; list-style: none; height: 34px; margin: 0; padding: 0 0 0 2px; background: url(../images/top-sep-a.png) no-repeat; line-height: 33px; font-size: 1em; text-transform: uppercase; }
     #corner ul.tools li { position: relative; float: left; }
      #corner ul.tools li a { overflow: hidden; float: left; width: 26px; height: 34px; background: url(../images/top-tools-a.png) no-repeat; font-size: 1em; text-indent: -10001px; }

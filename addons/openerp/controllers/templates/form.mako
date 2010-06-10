@@ -64,7 +64,7 @@
 									    		</div>
 									    		% for log in serverLog:
 									    			<div class="logActions">
-								    					<a href="">
+								    					<a href="${py.url('/openerp/form/edit', model=log['res_model'], id=log['res_id'])}">
 								    						${log['name']}
 								    					</a>
 									    			</div>
