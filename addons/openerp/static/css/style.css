@@ -164,6 +164,7 @@ td.item table {
 
 table.fields {
 	border: none;
+    width: 100%;
 }
 
 button, a.button {
