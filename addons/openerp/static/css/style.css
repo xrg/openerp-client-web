@@ -167,13 +167,12 @@ table.fields {
 }
 
 button, a.button {
-    border: solid 1px #888888;    
     background: url(../images/button-a.gif) repeat-x;
     color: #FFFFFF;
     font-weight: 600;
     white-space: nowrap;
     cursor: pointer;
-    border: 1px solid #aaa9a9; 
+    border: 1px solid; 
     border-color: #c6c4c4 #aaa9a9 #797878; 
     border-radius: 3px; 
     -moz-border-radius: 3px; 
@@ -696,7 +695,8 @@ div.welcome-message {
 .view .separator {
     font-weight: bold;
     border-bottom: 1px solid #666;
-    margin: 6px 0px;
+    margin: 6px 0;
+    width: 100%;
 }
 
 .view .selection_search {
