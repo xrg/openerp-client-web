@@ -162,33 +162,30 @@ openerp.ui.Tips.prototype = {
     }
 };
 
-jQuery(document).ready(function(){
+function setup_tips(){
 
     if (window.browser.isOpera){
         return;
     }
-    
     var elements = MochiKit.Base.filter(function(e){
-
         var text = MochiKit.DOM.getNodeAttribute(e, 'title');
         if (!text)
             return false;
-             
-        if(jQuery(e).find('table#search_table').length) {
-        	var title = jQuery(e).find('table#search_table td:first span').text();
-        	var title = title.split(":")[0];
-        }  
-        
-        else {
-            var title = MochiKit.DOM.scrapeText(e).replace(/^\s*\?\s*|\s*\:\s*$/g, '');
+
+        var title;
+        var search_table = jQuery(e).find('table#search_table');
+        if(search_table.length) {
+            title = jQuery(search_table).find('td:first span').text().split(":")[0];
+        } else {
+            title = MochiKit.DOM.scrapeText(e).replace(/^\s*\?\s*|\s*:\s*$/g, '');
         }
-        
+
         MochiKit.DOM.setNodeAttribute(e, 'title', title + '::' + text);
         return true;
 
     }, openobject.dom.select('td.label', document));
-    
-    new openerp.ui.Tips(elements);
-});
 
-// vim: ts=4 sts=4 sw=4 si et
+    new openerp.ui.Tips(elements);
+}
+jQuery(document).ready(setup_tips);
+jQuery(document).ajaxStop(setup_tips);
