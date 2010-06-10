@@ -87,9 +87,6 @@ class FieldPref(SecuredController):
         field = field.split('/')[-1]
 
         proxy = rpc.RPCProxy('ir.values')
-        
-        if type(value) == type('') and not len(value):
-            value = False
             
         res = proxy.set('default', deps, field, [(model,False)], value, True, False, False, params.you or False, True)
 

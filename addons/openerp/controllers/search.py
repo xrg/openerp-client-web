@@ -122,8 +122,8 @@ class Search(Form):
             pctx = pctx.chain_get(prefix)
             
         #update active_id in context for links
-        parent_context['active_id'] = params.active_id or False
-        parent_context['active_ids'] = params.active_ids or []
+        parent_context.update({'active_id':  params.active_id or False,
+                              'active_ids':  params.active_ids or []})
 
         ctx['parent'] = pctx
         ctx['context'] = parent_context

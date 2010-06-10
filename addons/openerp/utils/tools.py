@@ -160,8 +160,7 @@ def get_node_xpath(node):
 
     if pn and pn.localName and pn.localName != 'view':
         xp = get_node_xpath(pn) + xp
-#    Fixed when child used anywhere except dashboard(notebook/page/vpaned/child).
-#    nodes = xml_locate(root, node.parentNode)
+
     nodes = [n for n in pn.childNodes if n.localName == node.localName]
     xp += '[%s]' % (nodes.index(node) + 1)
 

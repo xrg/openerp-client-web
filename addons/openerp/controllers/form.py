@@ -276,7 +276,7 @@ class Form(SecuredController):
         params.view_type = 'form'
         
         if kw.get('default_date'):
-            params.context.update({'default_date' : kw.get('default_date')})
+            params.context.update({'default_date' : kw['default_date']})
 
         cherrypy.request._terp_view_target = kw.get('target')
 
@@ -387,8 +387,7 @@ class Form(SecuredController):
             proxy = rpc.RPCProxy(params.model)
 
             if not params.id:
-                ctx = params.context or {}
-                ctx.update(rpc.session.context.copy())
+                ctx = dict((params.context or {}), **rpc.session.context)
                 id = proxy.create(data, ctx)
                 params.ids = (params.ids or []) + [int(id)]
                 params.id = int(id)
@@ -473,8 +472,7 @@ class Form(SecuredController):
         id = (id or False) and int(id)
         ids = (id or []) and [id]
         
-        ctx = (params.context or {}).copy()
-        ctx.update(rpc.session.context.copy())
+        ctx = dict((params.context or {}), **rpc.session.context)
         ctx.update(button.context or {})
 
         if btype == 'cancel':
@@ -1001,9 +999,8 @@ class Form(SecuredController):
         values2 = {}
         for k, v in values.items():
             key = ((prefix or '') and prefix + '/') + k
-            kind = ''
-            if data.get(key):
-                kind =  data[key].get('type')
+            
+            kind = data.get(key, {}).get('type', '')
 
             if key in data and key != 'id':
                 values2[k] = data[key]

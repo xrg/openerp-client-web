@@ -249,10 +249,7 @@ class TinyForm(object):
                             for key, val in values.items():
                                 if key in res1.keys():
                                     if res1[key]['type'] == 'many2many':
-                                        if val == []:
-                                            values[key] = [(6, 0, [])]
-                                        else:
-                                            values[key] = [(6, 0, val)]
+                                        values[key] = [(6, 0, val)]
                         value = []
                         for r in res:
                             id = r.pop('id')

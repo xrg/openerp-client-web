@@ -36,12 +36,11 @@ from openerp.utils import rpc, common, TinyDict, node_attributes
 from openerp.widgets import treegrid, listgrid
 
 from openobject import tools
-from openobject.tools import expose, redirect
+from openobject.tools import expose, redirect, ast
 
 
 def datas_read(ids, model, fields, context=None):
-    ctx = context.copy()
-    ctx.update(rpc.session.context)
+    ctx = dict((context or {}), **rpc.session.context)
     return rpc.RPCProxy(model).export_data(ids, fields, ctx)
 
 def export_csv(fields, result, write_title=False):
@@ -73,8 +72,7 @@ def export_csv(fields, result, write_title=False):
 
 def _fields_get_all(model, views, context=None):
     
-    if not context:
-        context = {}
+    context = context or {}
 
     def parse(root, fields):
 
@@ -120,8 +118,7 @@ class ImpEx(SecuredController):
     def exp(self, **kw):
         params, data = TinyDict.split(kw)
         
-        ctx = params.context or {}
-        ctx.update(rpc.session.context.copy())
+        ctx = dict((params.context or {}), **rpc.session.context)
 
         views = {}
         if params.view_mode and params.view_ids:
@@ -182,23 +179,23 @@ class ImpEx(SecuredController):
     @expose('json')
     def get_fields(self, model, prefix='', name='', field_parent=None, **kw):
 
-        is_importing = kw.get('is_importing', False)
+        is_importing = kw.get('is_importing', False)        
         
-        ctx = {}
         try:
-            ctx = eval(kw['context'])
+            ctx = ast.literal_eval(kw['context'])
         except:
-            pass
-        ctx.update(rpc.session.context.copy())
+            ctx = {}
+            
+        ctx.update(**rpc.session.context)
 
         ids = kw.get('ids', '').split(',')
         ids = [i for i in ids if i]
-
-        views = {}
+        
         try:
-            views = eval(kw['views'])
+            views = ast.literal_eval(kw['views'])
         except:
-            pass
+            views = {}
+            
 
         fields = _fields_get_all(model, views, ctx)
         fields.update({'id': {'string': 'ID'}, 'db_id': {'string': 'Database ID'}})
@@ -260,7 +257,7 @@ class ImpEx(SecuredController):
                     cid = id + '/' + fld
                     cid = cid.replace(' ', '_')
 
-                    children += [cid]
+                    children.append(cid)
 
                 record['children'] = children or None
                 record['params'] = {'model': ref, 'prefix': id, 'name': nm}
@@ -274,9 +271,8 @@ class ImpEx(SecuredController):
 
         params, data = TinyDict.split(kw)
         
-        ctx = params.context or {}
-        ctx.update(rpc.session.context.copy())
-
+        ctx = dict((params.context or {}), **rpc.session.context)
+        
         res = []
         ids = []
         id = params.id
@@ -299,12 +295,8 @@ class ImpEx(SecuredController):
 
     def get_data(self, model, context=None):
 
-        name = ''
-        prefix = ''
         ids = []
-        
-        if not context:
-            context = {}
+        context = context or {}
 
         fields_data = {}
         proxy = rpc.RPCProxy(model)
@@ -352,8 +344,7 @@ class ImpEx(SecuredController):
         if isinstance(fields, basestring):
             fields = [fields]
 
-        ctx = params.context or {}
-        ctx.update(rpc.session.context.copy())
+        ctx = dict((params.context or {}), **rpc.session.context)
         ctx['import_comp'] = import_compat
 
         domain = params.seach_domain or []
@@ -411,8 +402,7 @@ class ImpEx(SecuredController):
     def imp(self, **kw):
         params, data = TinyDict.split(kw)
         
-        ctx = params.context or {}
-        ctx.update(rpc.session.context.copy())
+        ctx = dict((params.context or {}), **rpc.session.context)
         
         views = {}
         if params.view_mode and params.view_ids:
@@ -440,9 +430,8 @@ class ImpEx(SecuredController):
         _fields = {}
         _fields_invert = {}
         
-        proxy = rpc.RPCProxy(params.model)
-        fields = proxy.fields_get(False, rpc.session.context)
-
+        fields = rpc.RPCProxy(params.model).fields_get(False, rpc.session.context)
+        
         def model_populate(fields, prefix_node='', prefix=None, prefix_value='', level=2):
             def str_comp(x,y):
                 if x<y: return 1
@@ -504,10 +493,8 @@ class ImpEx(SecuredController):
         input=StringIO.StringIO(content)
         data = list(csv.reader(input, quotechar=str(csvdel), delimiter=str(csvsep)))[int(csvskip):]
         datas = []
-        #if csv_data['combo']:
-        ctx = {}
-        ctx.update(rpc.session.context.copy())
-
+        ctx = dict(**rpc.session.context)
+        
         if not isinstance(fields, list):
             fields = [fields]
 
