@@ -65,6 +65,11 @@ td.dimmed-text span{
 	padding: 0 5px;
 }
 
+.dimmed-text table.form-footer {
+    border: none;
+    width: 100%;
+}
+
 hr {
     border: 0px;
     background-color: #888;

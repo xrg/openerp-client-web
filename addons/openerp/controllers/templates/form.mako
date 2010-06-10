@@ -197,7 +197,7 @@
                     
                     <tr>
                         <td class="dimmed-text">
-                            <table style="border: none;">
+                            <table class="form-footer">
                             	<tr>
                             		<td class="footer">
                             			<a href="javascript: void(0)" onclick="new ListView('_terp_list').importData()"">${_("Import")}</a>
