@@ -213,11 +213,10 @@ function form_onAttrChange(container, widgetName, attr, expr, evt) {
 }
 
 function form_evalExpr(prefix, expr) {
-    
+
     var stack = [];
-    
-    for(var i=0; i<expr.length; i++) {
-        
+    for (var i = 0; i < expr.length; i++) {
+
         var ex = expr[i];
         var elem = openobject.dom.get(prefix + ex[0]);
         
@@ -263,16 +262,14 @@ function form_evalExpr(prefix, expr) {
         }
     }
 
-    var result = true;
-    var current;
-    while(stack.length > 1) {
-        current = stack.shift();
-        if(current === '|') {
-            current = stack.shift() || stack.shift()
+    for (var j=stack.length-1; j>-1; j--) {
+        if(stack[j] == '|'){
+            var result = stack[j+1] || stack[j+2];
+            stack.splice(j, 3, result)
         }
-        result = result && current;
     }
-    return result;
+    // shouldn't find any `false` left at this point
+    return stack.indexOf(false) == -1;
 }
 
 function form_setReadonly(container, fieldName, readonly) {
