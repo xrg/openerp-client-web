@@ -1,4 +1,4 @@
-<%inherit file="/openerp/controllers/templates/xhr.mako"/>
+<%inherit file="/openerp/controllers/templates/base_dispatch.mako"/>
 
 <%def name="header()">
     <title>${params.string}</title>

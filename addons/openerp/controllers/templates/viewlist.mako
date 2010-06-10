@@ -1,4 +1,4 @@
-<%inherit file="/openerp/controllers/templates/xhr.mako"/>
+<%inherit file="/openerp/controllers/templates/base_dispatch.mako"/>
 
 <%def name="header()">
     <title>${_("Manage Views (%s)") % (model)}</title>
@@ -99,7 +99,6 @@
         
     </script>
 </%def>
-
 <%def name="content()">
     <table id="view_list" class="view" cellspacing="5" border="0" width="100%">
         <tr>

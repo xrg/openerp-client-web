@@ -1,4 +1,4 @@
-<%inherit file="/openerp/controllers/templates/xhr.mako"/>
+<%inherit file="/openerp/controllers/templates/base_dispatch.mako"/>
 
 <%def name="header()">
     <script type="text/javascript" src="/openerp/static/javascript/openerp/openerp.ui.waitbox.js"></script>
