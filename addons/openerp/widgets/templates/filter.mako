@@ -8,10 +8,10 @@
 			filter_class = "inactive_filter"
 			a_class = "inactive"
 			checked_default = "false"
-			ul_class="filter_with_icon"
 			
 		if help!=text_val:
 			text = text_val
+			ul_class="filter_with_icon"
 		else:
 			text = ''
 			ul_class="filter_icon"
