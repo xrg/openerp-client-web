@@ -16,35 +16,27 @@ except:
 %>
 
 <script type="text/javascript">
-	jQuery(document).ready(function() {
-		var top_divWidth = jQuery('div#top-menu').width();
-		var logoWidth = jQuery('p#logo').width();
-		
-		var sc_rowWidth = top_divWidth - logoWidth - 82;
-		jQuery('tr#sc_row').css('width', sc_rowWidth);
-	});
-	
-	jQuery(window).resize(function() {
-		var top_divWidth = jQuery('div#top-menu').width();
-		var logoWidth = jQuery('p#logo').width();
-		
-		var sc_rowWidth = top_divWidth - logoWidth - 82;
-	    jQuery('tr#sc_row').css('width', sc_rowWidth);
-	});
+    function setRowWidth() {
+        var top_divWidth = jQuery('div#top-menu').width();
+        var logoWidth = jQuery('p#logo').width();
 
-	function showMore_sc(id, submenu) {
-		var pos = jQuery('#'+id).position();
-		var logoWidth = jQuery('#logo').innerWidth();
-		
-		var pos = pos.left;
-        
-        jQuery('#'+submenu).css('left', pos);
-        jQuery('#'+submenu).css('top', 25 + 'px');
-        jQuery('#'+submenu).slideToggle('slow');
-	}
-	
+        var sc_rowWidth = top_divWidth - logoWidth - 82;
+        jQuery('tr#sc_row').css('width', sc_rowWidth);
+    }
+
+    function showMore_sc(id, submenu) {
+        var pos = jQuery('#'+id).position().left;
+
+        jQuery('#'+submenu).css({
+            'left': pos,
+            'top': 25 + 'px'
+        }).slideToggle('slow');
+    }
+
+    jQuery(document).ready(setRowWidth);
+    jQuery(window).resize(setRowWidth);
 </script>
-			
+
 <div id="top">
 	<div id="top-menu">
 		<p id="logo">
@@ -138,9 +130,11 @@ except:
         <script type="text/javascript">
            jQuery('div#top').css('height','34px');
            jQuery('p#logo').css('height','33px');
-           jQuery('img#company_logo').css('vertical-align', 'top');
-           jQuery('img#company_logo').css('width', '75%');
-           jQuery('img#company_logo').css('padding', '0 10px');
+           jQuery('img#company_logo').css({
+               'vertical-align': 'top',
+               'width': '75%',
+               'padding': '0 10px'
+           });
         </script>
 	% endif
 </div>
