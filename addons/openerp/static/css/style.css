@@ -143,16 +143,18 @@ span.yes, span.cancel {
 
 .search_filters {
 	padding: 0;
+	white-space: nowrap;
+	border-collapse: separate;
+	width: auto;
 }
 
 div#search_filter_data table {
-	width: auto;
 	border: none;
 }
 
-div#search_filter_data table.fields td.item {
+/*div#search_filter_data table.fields td.item {
 	width: auto;
-}
+} */
 
 table#search_table td{
 	font-weight: bold;
@@ -738,7 +740,7 @@ td.item input {
 }
 
 table#m2o_table td#m2o input {
-	height: 16px;
+	height: 20px;
 	width: 100px;
 	position: relative; 
 	border-right: none;
@@ -783,7 +785,7 @@ td.item .mceSelectList {
 
 td.item .checkbox,
 td.item .radio {
-    width: auto;
+   /* width: auto; */
 }
 
 #view_form .translatable {

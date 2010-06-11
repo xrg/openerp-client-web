@@ -154,8 +154,8 @@ class Frame(TinyInputWidget):
                 if isinstance(wid, Separator) and not string:
                     a['width'] = '2%'
                 else:
-                    
                     a['width'] = '%d%%' % (w)
+                    
     def add_row(self):
 
         if len(self.table) and len(self.table[-1]) == 0:
@@ -199,6 +199,7 @@ class Frame(TinyInputWidget):
             attrs = {'class': 'label', 'title': getattr(widget, 'help', None), 'for': widget.name}
             td = [attrs, label]
             if widget.full_name and self.label_position:
+                attrs['class'] = attrs.get('class', 'label').__add__(' search_filters')
                 label_table = td
             tr.append(td)
 
@@ -257,6 +258,12 @@ class Frame(TinyInputWidget):
                 tr.append(td)
         else:
             tr.append(td)
+        if isinstance(widget, Group):
+            if colspan < 2:
+                for prev_tr in self.table:
+                    if len(prev_tr) > 2:
+                        attrs['colspan'] = len(prev_tr)
+                    
         self.x += colspan + a
 
     def add_hidden(self, widget):
