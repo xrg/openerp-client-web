@@ -213,7 +213,10 @@ div.fields-a { }
   *:first-child+html div.fields-a p span.lookup { display: inline; text-indent: 0; }
 
 div.filter-a {/* width: 100%; margin: 0 0 5px; */}
- div.filter-a ul { float: left; list-style: none; padding: 0; border: 1px solid #cccbcb; border-radius: 4px; -moz-border-radius: 4px; -webkit-border-radius: 4px; background: #ededed url(../images/filter-a-buttons.gif) repeat-x; box-shadow: 0 1px 0 #fff; -moz-box-shadow: 0 1px 0 #fff; -webkit-box-shadow: 0 1px 0 #fff; }
+ div.filter-a ul { float: left; list-style: none; border: 1px solid #cccbcb; border-radius: 4px; -moz-border-radius: 4px; -webkit-border-radius: 4px; background: #ededed url(../images/filter-a-buttons.gif) repeat-x; box-shadow: 0 1px 0 #fff; -moz-box-shadow: 0 1px 0 #fff; -webkit-box-shadow: 0 1px 0 #fff; }
+ div.filter-a ul.filter_with_icon {padding: 0; }
+ div.filter-a ul.filter_icon {padding-left: 10px; padding-right: 10px;}
+ div.filter-a ul.filter_icon li a {background-position: center; }
   div.filter-a ul li { float: left; font-size: 1em; font-weight: bold; text-transform: uppercase; text-shadow: #fff 0 1px 0; }
   div.filter-a ul li.first { border-left: none; }
   div.filter-a ul li.active_filter a {font-size: 0.8em; font-weight: 600; cursor: pointer; }

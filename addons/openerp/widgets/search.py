@@ -170,6 +170,8 @@ class Filter(TinyInputWidget):
         self.text_val = self.string or self.help
         if self.icon:
             self.icon = icons.get_icon(self.icon)
+        
+        print "\n Help .....",self.help, self.text_val, self.icon
 
 class M2O_search(M2O):
     template = """

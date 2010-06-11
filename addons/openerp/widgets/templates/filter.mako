@@ -8,21 +8,17 @@
 			filter_class = "inactive_filter"
 			a_class = "inactive"
 			checked_default = "false"
+			ul_class="filter_with_icon"
 			
 		if help!=text_val:
 			text = text_val
-			bg_position = "top center"
-			a_width = ''
-			a_height = ''
 		else:
 			text = ''
-			a_width = '20px'
-			a_height = 'auto'
-			bg_position = "center center"
+			ul_class="filter_icon"
 	%>
-	<ul>
+	<ul class="${ul_class}">
 		<li class="${filter_class}" title="${help}" onclick="search_filter(getElement('${filter_id}'), this);">
-			<a class="${a_class}" style="background-image: url(${icon}); width: ${a_width}; height: ${a_height};">
+			<a class="${a_class}" style="background-image: url(${icon});">
 				% if text:
 				    ${text}
 				% endif
