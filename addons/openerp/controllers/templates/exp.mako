@@ -74,7 +74,7 @@
             var form = document.forms['view_form'];
             form.action = openobject.http.getURL('/openerp/impex/save_exp');
             
-            var options = openobject.dom.get('fields').options;            
+            var options = openobject.dom.get('fields').options;
             forEach(options, function(o){
                 o.selected = true;
             });

@@ -89,7 +89,7 @@
 
             jQuery(form).attr('target', "detector");
 
-            jQuery(form).attr('action', openobject.http.getURL('/openerp/impex/import_data')));
+            jQuery(form).attr('action', openobject.http.getURL('/openerp/impex/import_data'));
             jQuery(form).submit();
         }
 
@@ -124,7 +124,7 @@
 
             jQuery(form).attr('target', "detector");
 
-            jQuery(form).attr('action', openobject.http.getURL('/openerp/impex/detect_data')));
+            jQuery(form).attr('action', openobject.http.getURL('/openerp/impex/detect_data'));
             jQuery(form).submit();
         }
 

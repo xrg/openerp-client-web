@@ -55,24 +55,24 @@
                 <table class="grid" width="100%" cellpadding="0" cellspacing="0">
                     <tr class="grid-header">
                         % if translate=='fields':
-                        <td class="grid-cell" align="right">${_("Field")}</td>
+                        	<td class="grid-cell" align="right">${_("Field")}</td>
                         % endif
                         % for lang in langs:
-                        <td class="grid-cell" width="${100 / len(langs)}%">${lang['name']}</td>
+                        	<td class="grid-cell" width="${100 / len(langs)}%">${lang['name']}</td>
                         % endfor
                     </tr>
                     % for n, v, x, s in data:
                     <tr class="grid-row">
                         % if x:
-                        <input type="hidden" name="_terp_models/${n}" value="${x}"/>
+                        	<input type="hidden" name="_terp_models/${n}" value="${x}"/>
                         % endif
                         % if translate=='fields':
-                        <td class="grid-cell label" align="right">${s}: </td>
+                        	<td class="grid-cell label" align="right">${s}: </td>
                         % endif
                         % for lang in langs:
-                        <td class="grid-cell item">
-                            <input type="text" name="${lang['code']}/${n}" value="${v[lang['code']]}" style="width: 100%;"/>
-                        </td>
+	                        <td class="grid-cell item">
+	                            <input type="text" name="${lang['code']}/${n}" value="${v[lang['code']]}" style="width: 100%;"/>
+	                        </td>
                         % endfor
                     </tr>
                     % endfor
@@ -81,24 +81,24 @@
         </tr>
         % else:
             % for n, data_ in view:
-        <tr>
-            <td>
-                <table width="100%">
-                    <tr><td colspan="2"><hr noshade="noshade"/></td></tr>
-                    <tr><th colspan="2" align="center">${[l for l in langs if l['code'] == n][0]['name']} (${n})</th></tr>
-                    <tr><td colspan="2"><hr noshade="noshade"/></td></tr>
-                    % for d in data_:
-                    <tr>
-                        <td style="width: 50%; text-align: right"><label for="${n}/${d['id']}">${d['src']} = </label></td>
-                        <td style="width: 50%">
-                            <input type="text" name="${n}/${d['id']}" id="${n}/${d['id']}" value="${d['value']}"
-                                   style="width: 100%;"/>
-                        </td>
-                    </tr>
-                    % endfor
-                </table>
-            </td>
-        </tr>
+		        <tr>
+		            <td>
+		                <table width="100%">
+		                    <tr><td colspan="2"><hr noshade="noshade"/></td></tr>
+		                    <tr><th colspan="2" align="center">${[l for l in langs if l['code'] == n][0]['name']} (${n})</th></tr>
+		                    <tr><td colspan="2"><hr noshade="noshade"/></td></tr>
+		                    % for d in data_:
+		                    <tr>
+		                        <td style="width: 50%; text-align: right"><label for="${n}/${d['id']}">${d['src']} = </label></td>
+		                        <td style="width: 50%">
+		                            <input type="text" name="${n}/${d['id']}" id="${n}/${d['id']}" value="${d['value']}"
+		                                   style="width: 100%;"/>
+		                        </td>
+		                    </tr>
+		                    % endfor
+		                </table>
+		            </td>
+		        </tr>
             % endfor
         % endif
 
