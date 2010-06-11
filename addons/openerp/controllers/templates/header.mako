@@ -40,7 +40,7 @@ except:
 <div id="top">
 	<div id="top-menu">
 		<p id="logo">
-			<img id="company_logo" src="/openerp/static/images/openerp_small.png" onclick="window.open('http://www.openerp.com')"/>
+			<img alt="OpenERP" id="company_logo" src="/openerp/static/images/openerp_small.png" onclick="window.open('http://www.openerp.com')"/>
 		</p>
 		<ul id="skip-links">
 			<li><a href="#nav" accesskey="n">Skip to navigation [n]</a></li>
@@ -89,7 +89,7 @@ except:
             	% endif
 			</ul>
 			<p class="name">${_("%(user)s", user=rpc.session.user_name or 'guest')}</p>
-			<img src="/openerp/static//images/top-sep-a.png" style="float: left; padding: 0 6px 0;"/>
+			<img alt="" src="/openerp/static//images/top-sep-a.png" style="float: left; padding: 0 6px 0;"/>
 			<h1 id="title-menu">Tiny SPRL <small>Administration</small></h1>
 			<p class="logout"><a href="${py.url('/openerp/logout')}" target="_top">${_("Logout")}</a></p>
 		</div>
