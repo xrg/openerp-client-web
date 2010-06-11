@@ -239,8 +239,12 @@ class Frame(TinyInputWidget):
             attrs['widget'] = widget.name
             
         if not isinstance(widget, (Char, Frame, Float, DateTime, Integer, Selection, Notebook, Separator, NewLine, Label)):
+            
             if not widget.kind and not widget._name:
                 if widget.string:
+                    attrs['class'] = attrs.get('class', 'item').__add__(' search_filters')
+                    attrs['nowrap'] = 'nowrap'
+                else:
                     attrs['class'] = attrs.get('class', 'item').__add__(' search_filters')
                     attrs['nowrap'] = 'nowrap'
             else:
@@ -248,6 +252,7 @@ class Frame(TinyInputWidget):
                 if isinstance(widget, Filter) and widget.string:
                     attrs['class'] = attrs.get('class', 'item').__add__(' search_filters')
                     attrs['nowrap'] = 'nowrap'
+                    
             
         td = [attrs, widget]
         if widget.full_name and self.label_position:
