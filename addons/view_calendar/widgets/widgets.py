@@ -28,27 +28,15 @@
 ###############################################################################
 
 import time
-import datetime
-import calendar
 import xml.dom.minidom
-
-import cherrypy
 
 from openobject.widgets import JSLink, CSSLink
 
-from openerp.utils import rpc
-from openerp.utils import TinyDict
-from openerp.utils import node_attributes
-
+from openerp.utils import rpc, node_attributes
 from openerp.widgets import TinyWidget
 
-from _base import ICalendar
-from _base import TinyCalendar
-
-from utils import Day
-from utils import Week
-from utils import Month
-from utils import Year
+from _base import ICalendar, TinyCalendar
+from utils import Day, Week, Month, Year
 
 class MiniCalendar(TinyWidget):
     template = 'templates/mini.mako'
