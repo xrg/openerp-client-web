@@ -40,7 +40,9 @@ except:
 <div id="top">
 	<div id="top-menu">
 		<p id="logo">
-			<img alt="OpenERP" id="company_logo" src="/openerp/static/images/openerp_small.png" onclick="window.open('http://www.openerp.com')"/>
+            <a href="http://www.openerp.com" target="_blank">
+                <img alt="OpenERP" id="company_logo" src="/openerp/static/images/openerp_small.png"/>
+            </a>
 		</p>
 		<ul id="skip-links">
 			<li><a href="#nav" accesskey="n">Skip to navigation [n]</a></li>
