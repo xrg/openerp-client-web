@@ -87,10 +87,10 @@
                 o.selected = true;
             });
 
-            jQuery(form).attr('target', "detector");
-
-            jQuery(form).attr('action', openobject.http.getURL('/openerp/impex/import_data'));
-            jQuery(form).submit();
+            jQuery(form).attr({
+                'target': "detector",
+                'action': openobject.http.getURL('/openerp/impex/import_data')
+            }).submit();
         }
 
         function on_detector(src){
@@ -122,10 +122,10 @@
                 return alert(_('You must select an import file first!'));
             }
 
-            jQuery(form).attr('target', "detector");
-
-            jQuery(form).attr('action', openobject.http.getURL('/openerp/impex/detect_data'));
-            jQuery(form).submit();
+            jQuery(form).attr({
+                'target': "detector",
+                'action': openobject.http.getURL('/openerp/impex/detect_data')
+            }).submit();
         }
 
     </script>

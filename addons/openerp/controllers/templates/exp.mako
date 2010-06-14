@@ -72,13 +72,14 @@
 
         function save_export() {
             var form = document.forms['view_form'];
-            form.action = openobject.http.getURL('/openerp/impex/save_exp');
             
             var options = openobject.dom.get('fields').options;
             forEach(options, function(o){
                 o.selected = true;
             });
-            jQuery(form).submit();
+            jQuery(form).attr('action',
+                    openobject.http.getURL('/openerp/impex/save_exp')
+            ).submit();
         }
         
         function del_fields(all){
@@ -96,10 +97,11 @@
         
         function do_select(id, src) {
             openobject.dom.get('fields').innerHTML = '';
-            model = openobject.dom.get('_terp_model').value;
-            params = {'_terp_id': id, '_terp_model': model};
-            
-            req = openobject.http.postJSON('/openerp/impex/get_namelist', params);
+            var model = openobject.dom.get('_terp_model').value;
+            var req = openobject.http.postJSON('/openerp/impex/get_namelist', {
+                '_terp_id': id,
+                '_terp_model': model
+            });
             
             req.addCallback(function(obj){
                 if (obj.error){
@@ -121,11 +123,10 @@
             }
             
             var id = boxes[0].value;
-    
-            params = {'_terp_id' : id};
 
-            setNodeAttribute(form, 'action', openobject.http.getURL('/openerp/impex/delete_listname', params));
-            jQuery(form).submit();
+            jQuery(form).attr('action', openobject.http.getURL(
+                '/openerp/impex/delete_listname', {'_terp_id' : id})
+            ).submit();
         }
         
         function reload(name_list) {
@@ -143,7 +144,8 @@
             var options = openobject.dom.get('fields').options;
 
             if (options.length == 0){
-                return alert(_('Please select fields to export...'));
+                alert(_('Please select fields to export...'));
+                return;
             }
 
             var fields2 = [];
@@ -155,8 +157,9 @@
 
             openobject.dom.get('_terp_fields2').value = '[' + fields2.join(',') + ']';
 
-            setNodeAttribute(form, 'action', openobject.http.getURL('/openerp/impex/export_data/data.' + openobject.dom.get('export_as').value));
-            jQuery(form).submit();
+            jQuery(form).attr('action', openobject.http.getURL(
+                '/openerp/impex/export_data/data.' + openobject.dom.get('export_as').value)
+            ).submit();
         }
     </script>
 </%def>
