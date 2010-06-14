@@ -106,17 +106,14 @@ function getCalendar(day, mode) {
 
     var req = openobject.http.post(act, params);
     req.addCallback(function(xmlHttp) {
-
-        var d = DIV();
-        d.innerHTML = xmlHttp.responseText;
-
-        var newContainer = d.getElementsByTagName('table');
+        var newCalendar = jQuery(xmlHttp.responseText);
 
         // release resources
         CAL_INSTANCE.__delete__();
-        swapDOM('Calendar', newContainer[0]);
 
-        callLater(0, bind(CAL_INSTANCE.onResize, CAL_INSTANCE));
+        jQuery('#Calendar').replaceWith(newCalendar);
+
+        setTimeout(jQuery.proxy(CAL_INSTANCE, 'onResize'), 0);
     });
 
     req.addErrback(function(e) {
@@ -128,13 +125,9 @@ var getMiniCalendar = function(action) {
     var req = openobject.http.post(action);
 
     req.addCallback(function(xmlHttp) {
+        var newMiniCalendar = jQuery(xmlHttp.responseText);
 
-        var d = DIV();
-        d.innerHTML = xmlHttp.responseText;
-
-        var newMiniCalendar = d.getElementsByTagName('div')[0];
-
-        swapDOM('MiniCalendar', newMiniCalendar);
+        jQuery('#MiniCalendar').replaceWith(newMiniCalendar);
     });
 };
 

@@ -77,9 +77,6 @@
                                 % endfor
                             </div>
                         </div>
-                        <script type="text/javascript">
-                            CAL_INSTANCE = new MonthCalendar();
-                        </script>
                     </td>
                 </tr>
             </table>
@@ -147,3 +144,11 @@
 	</td>
     </tr>
 </table>
+
+<script type="text/javascript">
+    var CAL_INSTANCE;
+    jQuery(document).ready(function() {
+        CAL_INSTANCE = new MonthCalendar();
+        setTimeout(jQuery.proxy(CAL_INSTANCE, 'onResize'), 100);
+    });
+</script>
