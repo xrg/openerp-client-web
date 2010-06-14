@@ -38,14 +38,14 @@
 
         .fields-selector button {
             width: 100%;
-            margin: 5px 0px;
+            margin: 5px 0;
         }
     </style>
 
     <script type="text/javascript">
         function add_fields(){
         
-            var tree = ${tree.name};
+            var tree = treeGrids['${tree.name}'];
             
             var fields = tree.selection;
             var select = openobject.dom.get('fields');
