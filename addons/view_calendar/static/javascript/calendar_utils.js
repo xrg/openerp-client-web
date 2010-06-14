@@ -121,7 +121,7 @@ function getCalendar(day, mode) {
     });
 }
 
-var getMiniCalendar = function(action) {
+function getMiniCalendar(action) {
     var req = openobject.http.post(action);
 
     req.addCallback(function(xmlHttp) {
@@ -129,9 +129,9 @@ var getMiniCalendar = function(action) {
 
         jQuery('#MiniCalendar').replaceWith(newMiniCalendar);
     });
-};
+}
 
-var saveCalendarRecord = function(record_id, starts, ends) {
+function saveCalendarRecord(record_id, starts, ends) {
 
     var params = getFormParams('_terp_concurrency_info');
     MochiKit.Base.update(params, {
@@ -160,9 +160,9 @@ var saveCalendarRecord = function(record_id, starts, ends) {
 
         return obj;
     });
-};
+}
 
-var editCalendarRecord = function(record_id) {
+function editCalendarRecord(record_id) {
 
     var params = {
         'id': record_id,
@@ -175,9 +175,9 @@ var editCalendarRecord = function(record_id) {
 
     var act = openobject.http.getURL('/view_calendar/calpopup/edit', params);
     openobject.tools.openWindow(act);
-};
+}
 
-var copyCalendarRecord = function(record_id) {
+function copyCalendarRecord(record_id) {
 
     var params = {
         '_terp_id': record_id,
@@ -186,7 +186,4 @@ var copyCalendarRecord = function(record_id) {
     };
 
     return openobject.http.post('/view_calendar/calendar/duplicate', params);
-};
-
-// vim: ts=4 sts=4 sw=4 si et
-
+}
