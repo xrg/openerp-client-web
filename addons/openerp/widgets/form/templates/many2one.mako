@@ -18,10 +18,10 @@
                 % endif
             </td>
             <td style="border-left: none; padding: 0;">
-                <img id="${name}_select" src="/openerp/static/images/fields-a-lookup-a.gif" title="${_('Search')}" alt="${_('Search')}" class="${css_class} m2o_select"/>
+                <img id="${name}_select" src="/openerp/static/images/fields-a-lookup-a.gif" style="cursor: pointer;" title="${_('Search')}" alt="${_('Search')}" class="${css_class} m2o_select"/>
             </td>
             <td>                           
-            	<img id="${name}_open" src="/openerp/static/images/iconset-d-drop.gif" alt="${_('Open')}" title="${_('Open a resource')}"/>
+            	<img id="${name}_open" src="/openerp/static/images/iconset-d-drop.gif" style="cursor: pointer;" alt="${_('Open')}" title="${_('Open a resource')}"/>
             </td>
             
         </tr>

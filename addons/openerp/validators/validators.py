@@ -191,6 +191,11 @@ class URL(URL):
 
 class Email(Email):
     if_empty = False
+    
+    domainRE = re.compile(r'''
+        (^(?:[a-z0-9][a-z0-9\-]{0,62}\.)+ # (sub)domain - alpha followed by 62max chars (63 total)
+        [a-z]{2,}[\s,.]*$)*                     # TLD
+    ''', re.I | re.VERBOSE)
 
     def _from_python(self, value, state):
         return value or ''
