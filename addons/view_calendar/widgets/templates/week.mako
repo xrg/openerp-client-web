@@ -117,7 +117,7 @@
                                                         <ul class="ul_calGroups">
                                                             <li>
                                                                 <input type="checkbox" class="checkbox" id="_terp_use_search" name="_terp_use_search" onclick="getCalendar()" ${py.checker(use_search)}/>
-                                                                <label>${_("Apply search filter")}</label>
+                                                                <label for="_terp_use_search">${_("Apply search filter")}</label>
                                                             </li>
                                                         </ul>
                                                     </dd>
