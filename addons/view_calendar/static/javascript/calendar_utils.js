@@ -71,10 +71,10 @@ function elementPosition2(elem) {
 
 var CAL_INSTANCE = null;
 
-var getCalendar = function(day, mode) {
+function getCalendar(day, mode) {
 
-    var day = day || openobject.dom.get('_terp_selected_day').value;
-    var mode = mode || openobject.dom.get('_terp_selected_mode').value;
+    day = day || openobject.dom.get('_terp_selected_day').value;
+    mode = mode || openobject.dom.get('_terp_selected_mode').value;
     
     var act = openobject.http.getURL('/view_calendar/calendar/get', {day: day, mode: mode});
 
@@ -90,12 +90,11 @@ var getCalendar = function(day, mode) {
     }
 
     // colors
-    var colors = openobject.dom.select('input', 'calGroups');
     var values = [];
 
-    colors = filter(function(e) {
+    var colors = filter(function(e) {
         return e.checked
-    }, colors);
+    }, openobject.dom.select('input', 'calGroups'));
     forEach(colors, function(e) {
         values = values.concat(e.value);
     });
@@ -117,23 +116,13 @@ var getCalendar = function(day, mode) {
         CAL_INSTANCE.__delete__();
         swapDOM('Calendar', newContainer[0]);
 
-        var ua = navigator.userAgent.toLowerCase();
-
-        if ((navigator.appName != 'Netscape') || (ua.indexOf('safari') != -1)) {
-            // execute JavaScript
-            var scripts = openobject.dom.select('script', newContainer[1]);
-            forEach(scripts, function(s){
-                eval(s.innerHTML);
-            });
-        }
-
         callLater(0, bind(CAL_INSTANCE.onResize, CAL_INSTANCE));
     });
 
     req.addErrback(function(e) {
         log(e);
     });
-};
+}
 
 var getMiniCalendar = function(action) {
     var req = openobject.http.post(action);
