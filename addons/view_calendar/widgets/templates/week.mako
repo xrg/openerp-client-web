@@ -1,8 +1,5 @@
 <table border="0" style="border: none;" id="Calendar">
 	<tr>
-		<td><div id="calLoading">${_("Loading...")}</div></td>
-	</tr>
-	<tr>
 		<td width="100%" style="width: 100%; padding: 0;">
 			<div class="box-a calendar-a">
 			<p class="side">

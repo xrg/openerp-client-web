@@ -70,7 +70,7 @@ function elementPosition2(elem) {
 ///////////////////////////////////////////////////////////////////////////////
 
 var CAL_INSTANCE = null;
-
+var CALENDAR_WAIT_BOX = new openerp.ui.WaitBox();
 function getCalendar(day, mode) {
 
     day = day || openobject.dom.get('_terp_selected_day').value;
@@ -96,7 +96,7 @@ function getCalendar(day, mode) {
     params['_terp_colors'] = openobject.dom.get('_terp_colors').value;
     params['_terp_color_values'] = values.join(",");
 
-    showElement('calLoading');
+    CALENDAR_WAIT_BOX.showAfter(300);
 
     var req = openobject.http.post(act, params);
     req.addCallback(function(xmlHttp) {
@@ -107,7 +107,10 @@ function getCalendar(day, mode) {
 
         jQuery('#Calendar').replaceWith(newCalendar);
 
-        setTimeout(jQuery.proxy(CAL_INSTANCE, 'onResize'), 0);
+        setTimeout(function () {
+            CAL_INSTANCE.onResize();
+            CALENDAR_WAIT_BOX.hide();
+        }, 0);
     });
 
     req.addErrback(function(e) {

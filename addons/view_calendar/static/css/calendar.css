@@ -64,7 +64,7 @@
 
 .calWeek .calVRule {
     position: absolute;
-    top: 0pt;
+    top: 0;
     width: 1px;
 
     border-left: 2px solid #C0C0C0;
@@ -116,8 +116,8 @@
 
 .calWeek #calBodySect .calEvent,
 .calWeek #calBodySect .calEventNew {
-    padding: 0px;
-    margin: 0px;
+    padding: 0;
+    margin: 0;
 
     font-size: 9px;
 
@@ -142,7 +142,7 @@
 
 .calEventGrip {
     position: absolute;
-    padding: 0px;
+    padding: 0;
 
     left: 0;
     bottom: 1px;
@@ -152,14 +152,6 @@
 
     background: url("../images/calGrip.gif") no-repeat scroll center bottom;
     cursor: s-resize;
-}
-
-#calLoading {
-    color: maroon;
-    font-weight: bold;
-    padding-left: 20px;
-    background: url("../images/calLoading.gif") no-repeat left;
-    display: none;
 }
 
 /**************************************/
@@ -283,7 +275,7 @@
 
 #calInfoBox .calInfoButtons {
     position: absolute;
-    bottom: 0pt;
+    bottom: 0;
     padding: 2px;
     border-top: 2px solid #696969;
 }
@@ -420,11 +412,10 @@ ul.ul_calGroups li input {
 
 table#calSidebar-sidebar td.sideheader-a {
 	background: transparent url(/openerp/static/images/sideheader-a-bg.png) repeat-x scroll 0 100%;
-	padding: 0;
-	vertical-align: top;
+    padding: 0 0 0 10px;
+    vertical-align: top;
 	text-align: left;
 	border-bottom: 1px solid #D2CFCF;
-	padding-left: 10px;
 }
 
 td#sidebar_calendar, td#sidebar_calendar_hide, td#calendar_search_filter {
@@ -442,8 +433,3 @@ td#sidebar_calendar_hide p.toggle-a a {
 	line-height: 21px;
 	height: 21px;
 }
-
-/**
- * vim: sts=4 st=4 et
- *
- */
