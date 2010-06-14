@@ -199,8 +199,6 @@ class Form(SecuredController):
         
         if params.view_type == 'tree':
             params.editable = True
-
-        can_shortcut = True
         
         form = self.create_form(params, tg_errors)
 

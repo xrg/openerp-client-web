@@ -71,10 +71,10 @@ function elementPosition2(elem) {
 
 var CAL_INSTANCE = null;
 
-var getCalendar = function(day, mode) {
+function getCalendar(day, mode) {
 
-    var day = day || openobject.dom.get('_terp_selected_day').value;
-    var mode = mode || openobject.dom.get('_terp_selected_mode').value;
+    day = day || openobject.dom.get('_terp_selected_day').value;
+    mode = mode || openobject.dom.get('_terp_selected_mode').value;
     
     var act = openobject.http.getURL('/view_calendar/calendar/get', {day: day, mode: mode});
 
@@ -90,12 +90,11 @@ var getCalendar = function(day, mode) {
     }
 
     // colors
-    var colors = openobject.dom.select('input', 'calGroups');
     var values = [];
 
-    colors = filter(function(e) {
+    var colors = filter(function(e) {
         return e.checked
-    }, colors);
+    }, openobject.dom.select('input', 'calGroups'));
     forEach(colors, function(e) {
         values = values.concat(e.value);
     });
@@ -107,49 +106,32 @@ var getCalendar = function(day, mode) {
 
     var req = openobject.http.post(act, params);
     req.addCallback(function(xmlHttp) {
-
-        var d = DIV();
-        d.innerHTML = xmlHttp.responseText;
-
-        var newContainer = d.getElementsByTagName('table');
+        var newCalendar = jQuery(xmlHttp.responseText);
 
         // release resources
         CAL_INSTANCE.__delete__();
-        swapDOM('Calendar', newContainer[0]);
 
-        var ua = navigator.userAgent.toLowerCase();
+        jQuery('#Calendar').replaceWith(newCalendar);
 
-        if ((navigator.appName != 'Netscape') || (ua.indexOf('safari') != -1)) {
-            // execute JavaScript
-            var scripts = openobject.dom.select('script', newContainer[1]);
-            forEach(scripts, function(s){
-                eval(s.innerHTML);
-            });
-        }
-
-        callLater(0, bind(CAL_INSTANCE.onResize, CAL_INSTANCE));
+        setTimeout(jQuery.proxy(CAL_INSTANCE, 'onResize'), 0);
     });
 
     req.addErrback(function(e) {
         log(e);
     });
-};
+}
 
-var getMiniCalendar = function(action) {
+function getMiniCalendar(action) {
     var req = openobject.http.post(action);
 
     req.addCallback(function(xmlHttp) {
+        var newMiniCalendar = jQuery(xmlHttp.responseText);
 
-        var d = DIV();
-        d.innerHTML = xmlHttp.responseText;
-
-        var newMiniCalendar = d.getElementsByTagName('div')[0];
-
-        swapDOM('MiniCalendar', newMiniCalendar);
+        jQuery('#MiniCalendar').replaceWith(newMiniCalendar);
     });
-};
+}
 
-var saveCalendarRecord = function(record_id, starts, ends) {
+function saveCalendarRecord(record_id, starts, ends) {
 
     var params = getFormParams('_terp_concurrency_info');
     MochiKit.Base.update(params, {
@@ -162,8 +144,8 @@ var saveCalendarRecord = function(record_id, starts, ends) {
     });
 
     var req = openobject.http.postJSON('/view_calendar/calendar/save', params);
-    return req.addCallback(function(obj) {
 
+    return req.addCallback(function(obj) {
         // update concurrency info
         for (var key in obj.info) {
             try {
@@ -175,36 +157,26 @@ var saveCalendarRecord = function(record_id, starts, ends) {
             } catch(e) {
             }
         }
-
         return obj;
     });
-};
+}
 
-var editCalendarRecord = function(record_id) {
-
-    var params = {
+function editCalendarRecord(record_id) {
+    var act = openobject.http.getURL('/view_calendar/calpopup/edit', {
         'id': record_id,
         'model': openobject.dom.get('_terp_model').value,
         'view_mode': openobject.dom.get('_terp_view_mode').value,
         'view_ids': openobject.dom.get('_terp_view_ids').value,
         'domain': openobject.dom.get('_terp_domain').value,
         'context': openobject.dom.get('_terp_context').value
-    };
-
-    var act = openobject.http.getURL('/view_calendar/calpopup/edit', params);
+    });
     openobject.tools.openWindow(act);
-};
+}
 
-var copyCalendarRecord = function(record_id) {
-
-    var params = {
+function copyCalendarRecord(record_id) {
+    return openobject.http.post('/view_calendar/calendar/duplicate', {
         '_terp_id': record_id,
         '_terp_model': openobject.dom.get('_terp_model').value,
         '_terp_context': openobject.dom.get('_terp_context').value
-    };
-
-    return openobject.http.post('/view_calendar/calendar/duplicate', params);
-};
-
-// vim: ts=4 sts=4 sw=4 si et
-
+    });
+}

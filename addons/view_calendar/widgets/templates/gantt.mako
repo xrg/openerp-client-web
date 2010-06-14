@@ -92,7 +92,7 @@
                             onclick="getCalendar()"
                             ${py.checker(use_search)}/>
                     </td>
-                    <td>${_("Apply search filter")}</td>
+                    <td><label for="_terp_use_search">${_("Apply search filter")}</label></td>
                 </tr>
             </table>
         </div>
