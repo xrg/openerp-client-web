@@ -55,7 +55,7 @@ var Browser = {
 };
 
 function elementPosition2(elem) {
-    var x = y = 0;
+    var x = 0, y = 0;
     if (elem.offsetParent) {
         x = elem.offsetLeft;
         y = elem.offsetTop;
