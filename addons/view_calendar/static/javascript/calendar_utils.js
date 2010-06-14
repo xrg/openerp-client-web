@@ -90,14 +90,8 @@ function getCalendar(day, mode) {
     }
 
     // colors
-    var values = [];
-
-    var colors = filter(function(e) {
-        return e.checked
-    }, openobject.dom.select('input', 'calGroups'));
-    forEach(colors, function(e) {
-        values = values.concat(e.value);
-    });
+    var values = jQuery('#calGroups input:checked').map(function (i, e) {
+        return jQuery(e).val(); }).get();
 
     params['_terp_colors'] = openobject.dom.get('_terp_colors').value;
     params['_terp_color_values'] = values.join(",");
