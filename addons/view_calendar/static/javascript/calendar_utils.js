@@ -144,8 +144,8 @@ function saveCalendarRecord(record_id, starts, ends) {
     });
 
     var req = openobject.http.postJSON('/view_calendar/calendar/save', params);
-    return req.addCallback(function(obj) {
 
+    return req.addCallback(function(obj) {
         // update concurrency info
         for (var key in obj.info) {
             try {
@@ -157,33 +157,26 @@ function saveCalendarRecord(record_id, starts, ends) {
             } catch(e) {
             }
         }
-
         return obj;
     });
 }
 
 function editCalendarRecord(record_id) {
-
-    var params = {
+    var act = openobject.http.getURL('/view_calendar/calpopup/edit', {
         'id': record_id,
         'model': openobject.dom.get('_terp_model').value,
         'view_mode': openobject.dom.get('_terp_view_mode').value,
         'view_ids': openobject.dom.get('_terp_view_ids').value,
         'domain': openobject.dom.get('_terp_domain').value,
         'context': openobject.dom.get('_terp_context').value
-    };
-
-    var act = openobject.http.getURL('/view_calendar/calpopup/edit', params);
+    });
     openobject.tools.openWindow(act);
 }
 
 function copyCalendarRecord(record_id) {
-
-    var params = {
+    return openobject.http.post('/view_calendar/calendar/duplicate', {
         '_terp_id': record_id,
         '_terp_model': openobject.dom.get('_terp_model').value,
         '_terp_context': openobject.dom.get('_terp_context').value
-    };
-
-    return openobject.http.post('/view_calendar/calendar/duplicate', params);
+    });
 }
