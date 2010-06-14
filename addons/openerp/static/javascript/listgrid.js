@@ -71,7 +71,7 @@ ListView.prototype = {
 
         clear = clear ? false : true;
 
-        $('[id*="'+this.name+'"]:first').find(':checkbox').each(function(i) {
+        $('[id*="'+this.name+'"]:first :checkbox').each(function(i) {
 			$(this).attr('checked', clear)
 		});
         
@@ -91,10 +91,10 @@ ListView.prototype = {
 	   	   	   jQuery('#'+this.name+' tr.pagerbar:first td.second').fadeOut(2000)
 	   	   }
 	   }	
-		if(jQuery('tr.field_sum').find('td.grid-cell').find('span').length>0) {
+		if(jQuery('tr.field_sum td.grid-cell span').length>0) {
 		    	var sum_fields = [];
 		    	 
-		    	jQuery('tr.field_sum').find('td.grid-cell').find('span').each(function() {
+		    	jQuery('tr.field_sum td.grid-cell span').each(function() {
 		    		sum_fields.push(jQuery(this).attr('id'))
 		    	});
 	    	 
@@ -283,9 +283,9 @@ MochiKit.Base.update(ListView.prototype, {
         	ids = this.ids;
         	domain = "[]";
         	search_domain = "[]";
-        	filter_domain = jQuery('input[id=_terp_filter_domain]').val() || "[]";
-        	if(jQuery('input[id=_terp_search_domain]').val() != '' && jQuery('input[id=_terp_search_domain]').val() != 'None') {
-        		search_domain = jQuery('input[id=_terp_search_domain]').val();
+        	filter_domain = jQuery('#_terp_filter_domain').val() || "[]";
+        	if(jQuery('#_terp_search_domain').val() != '' && jQuery('#_terp_search_domain').val() != 'None') {
+        		search_domain = jQuery('#_terp_search_domain').val();
         	}
         }
         
