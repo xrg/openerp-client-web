@@ -26,10 +26,7 @@
                 <td width="100%" colspan="2">
                     <table class="titlebar">
                         <tr>
-                            <td width="32px" align="left">
-                                <img alt="index" src="/static/images/stock/gtk-index.png"/>
-                            </td>
-                            <td align="center" width="100%">${_("Save as a Filter")}</td>
+                            <td align="center" width="100%"><h1>${_("Save as a Filter")}</h1></td>
                         </tr>
                     </table>
                 </td>

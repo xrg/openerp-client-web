@@ -12,7 +12,7 @@
 
 <table width="100%">
         <tr>
-            <td class="titlebar">${_("OpenERP Web")}</td>
+            <td class="titlebar"><h1>${_("OpenERP Web")}</h1></td>
         </tr>
         <tr>
             <td>
@@ -34,7 +34,7 @@ ${_("Licenced under the terms of %(license)s", license="""<a href="/LICENSE.txt"
             </td>
         </tr>
         <tr>
-            <td width="100%" class="titlebar">${_("About OpenERP")}</td>
+            <td width="100%" class="titlebar"><h1>${_("About OpenERP")}</h1></td>
         </tr>
         <tr>
             <td>
@@ -59,7 +59,7 @@ ${_("""Depending on your needs, OpenERP is available through a web or applicatio
             </td>
         </tr>
         <tr>
-            <td width="100%" class="titlebar">${_("Links")}</td>
+            <td width="100%" class="titlebar"><h1>${_("Links")}</h1></td>
         </tr>
         <tr>
             <td>

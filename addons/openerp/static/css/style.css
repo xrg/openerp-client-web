@@ -148,7 +148,7 @@ span.yes, span.cancel {
 	width: auto;
 }
 
-div#search_filter_data table {
+div#search_filter_data table,div.toolbar table, table.titlebar, table.view {
 	border: none;
 }
 

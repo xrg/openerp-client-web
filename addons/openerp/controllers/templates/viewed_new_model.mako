@@ -22,7 +22,7 @@
             <td>
                 <table width="100%" class="titlebar">
                     <tr>
-                        <td width="100%">${form.screen.string}</td>
+                        <td width="100%"><h1>${form.screen.string}</h1></td>
                     </tr>
                 </table>
             </td>

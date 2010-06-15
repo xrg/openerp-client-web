@@ -177,10 +177,7 @@
             <td>
                 <table width="100%" class="titlebar">
                     <tr>
-                        <td width="32px" align="center">
-                            <img src="/openerp/static/images/stock/gtk-go-up.png"/>
-                        </td>
-                        <td width="100%">${_("Export Data")}</td>
+                        <td width="100%"><h1>${_("Export Data")}</h1></td>
                     </tr>
                 </table>
             </td>

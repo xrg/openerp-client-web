@@ -51,10 +51,7 @@
         <td width="100%" valign="top">
             <table width="100%" class="titlebar">
                 <tr>
-                    <td width="32px" align="center">
-                        <img src="/openerp/static/images/stock/gtk-refresh.png"/>
-                    </td>
-                    <td width="100%" id="process_title">${title}</td>
+                    <td width="100%" id="process_title"><h1>${title}</h1></td>
                     <td nowrap="nowrap">
                         <img class="button" title="${_('Help')}" src="/openerp/static/images/stock/gtk-help.png" width="16" height="16"
                         onclick="context_help()"/>
