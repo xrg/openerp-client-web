@@ -40,7 +40,6 @@ import cherrypy
 from openerp import validators
 from openerp.utils import rpc, icons, common, TinyDict, node_attributes, get_node_xpath
 from openerp.widgets import TinyWidget, TinyInputWidget, ConcurrencyInfo, get_widget, register_widget
-from openerp.widgets.search import Filter
 
 from _binary import Image
 from openobject import tools
@@ -219,6 +218,7 @@ class Frame(TinyInputWidget):
             attrs['widget'] = widget.name
             
         if not isinstance(widget, (Char, Frame, Float, DateTime, Integer, Selection, Notebook, Separator, NewLine, Label)):
+            from openerp.widgets.search import Filter
             if (not (widget.kind or widget._name)) or (isinstance(widget, Filter) and widget.string):
                 attrs['class'] = attrs.get('class', 'item') + ' search_filters'
                 attrs['nowrap'] = 'nowrap'
