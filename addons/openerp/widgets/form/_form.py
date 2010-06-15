@@ -157,7 +157,7 @@ class Frame(TinyInputWidget):
 
         if widget.validator:
             cherrypy.request.terp_validators[str(widget.name)] = widget.validator
-            cherrypy.request.terp_fields += [widget]
+            cherrypy.request.terp_fields.append(widget)
 
     def add(self, widget, label=None, rowspan=1, colspan=1):
 
@@ -253,7 +253,7 @@ class Frame(TinyInputWidget):
     def add_hidden(self, widget):
         if isinstance(widget, TinyInputWidget) and hasattr(cherrypy.request, 'terp_validators'):
             self._add_validator(widget)
-        self.hiddens += [widget]
+        self.hiddens.append(widget)
 
 class Notebook(TinyInputWidget):
     """Notebook widget, contains list of frames. Each frame will be displayed as a
@@ -856,10 +856,10 @@ class Form(TinyInputWidget):
             attrs['state'] = self.state
 
             if node.localName=='image':
-                views += [Image(**attrs)]
+                views.append(Image(**attrs))
 
             elif node.localName=='separator':
-                views += [Separator(**attrs)]
+                views.append(Separator(**attrs))
 
             elif node.localName=='label':
                 text = attrs.get('string', '')
@@ -872,32 +872,32 @@ class Form(TinyInputWidget):
                             text += node.toxml()
 
                 attrs['string'] = text
-                views += [Label(**attrs)]
+                views.append(Label(**attrs))
 
             elif node.localName=='newline':
-                views += [NewLine(**attrs)]
+                views.append(NewLine(**attrs))
 
             elif node.localName=='button':
-                views += [Button(model=self.model, id=self.id, **attrs)]
+                views.append(Button(model=self.model, id=self.id, **attrs))
 
             elif node.localName == 'form':
                 n = self.parse(prefix=prefix, root=node, fields=fields, values=values)
-                views += [Frame(children=n, **attrs)]
+                views.append(Frame(children=n, **attrs))
 
             elif node.localName == 'notebook':
                 n = self.parse(prefix=prefix, root=node, fields=fields, values=values)
                 nb = Notebook(children=n, **attrs)
                 self.nb_couter += 1
                 nb._name = prefix.replace('/', '_') + '_notebook_%s'  % (self.nb_couter)
-                views += [nb]
+                views.append(nb)
 
             elif node.localName == 'page':
                 n = self.parse(prefix=prefix, root=node, fields=fields, values=values)
-                views += [Page(children=n, **attrs)]
+                views.append(Page(children=n, **attrs))
 
             elif node.localName=='group':                
                 n = self.parse(prefix=prefix, root=node, fields=fields, values=values)
-                views += [Group(children=n, **attrs)]
+                views.append(Group(children=n, **attrs))
 
             elif node.localName == 'field':
                 name = attrs['name']
@@ -927,24 +927,24 @@ class Form(TinyInputWidget):
                 self.view_fields.append(name)
 
                 field = self._make_field_widget(fields[name], values.get(name))
-                views += [field]
+                views.append(field)
 
             elif node.localName=='hpaned':
                 n = self.parse(prefix=prefix, root=node, fields=fields, values=values)
-                views += [HPaned(children=n, **attrs)]
+                views.append(HPaned(children=n, **attrs))
 
             elif node.localName=='vpaned':
                 n = self.parse(prefix=prefix, root=node, fields=fields, values=values)
-                views += [VPaned(children=n, **attrs)]
+                views.append(VPaned(children=n, **attrs))
 
             elif node.localName in ('child1', 'child2'):
                 n = self.parse(prefix=prefix, root=node, fields=fields, values=values)
                 attrs['name'] = get_node_xpath(node)
-                views += [Dashbar(children=n, **attrs)]
+                views.append(Dashbar(children=n, **attrs))
 
             elif node.localName=='action':
                 wid = get_widget('action')(**attrs)
-                views += [wid]
+                views.append(wid)
                 cherrypy.request._terp_dashboard = True
 
             else:
@@ -958,7 +958,7 @@ class Form(TinyInputWidget):
                         continue
                     attrs['value'] = node.nodeValue
 
-                views += [HtmlView(children=n, **attrs)]
+                views.append(HtmlView(children=n, **attrs))
 
 
         return views
