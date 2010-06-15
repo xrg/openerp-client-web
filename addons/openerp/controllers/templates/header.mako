@@ -36,10 +36,17 @@ except:
     jQuery(document).ready(setRowWidth);
     jQuery(window).resize(setRowWidth);
 </script>
-
-<div id="top">
+    <%
+        if rpc.session.is_logged():
+            top_class = "header_top"
+            logo_class = "header_logo"
+        else:
+            top_class = "header_top_small"
+            logo_class = "header_logo_small"
+    %>
+<div id="top" class="${top_class}">
 	<div id="top-menu">
-		<p id="logo">
+		<p id="logo" class="${logo_class}">
             <a href="http://www.openerp.com" target="_blank">
                 <img alt="OpenERP" id="company_logo" src="/openerp/static/images/openerp_small.png"/>
             </a>
@@ -98,11 +105,7 @@ except:
 	</div>
 	
 	% if rpc.session.is_logged():
-	    <script type="text/javascript">
-	       jQuery('div#top').css('height','65px');
-	       jQuery('p#logo').css('height','65px');
-	       jQuery('img#company_logo').css('padding', '10px 0');
-	    </script>
+	   
 	    <table id="shortcuts" class="menubar" cellpadding="0" cellspacing="0">
 	        <tr id="sc_row">
 	            % for i, sc in enumerate(shortcuts):
@@ -128,15 +131,5 @@ except:
 	    <div id="edit_shortcut">
 	    	<a href="/openerp/shortcuts">Edit</a>
 	    </div>
-    % else:
-        <script type="text/javascript">
-           jQuery('div#top').css('height','34px');
-           jQuery('p#logo').css('height','33px');
-           jQuery('img#company_logo').css({
-               'vertical-align': 'top',
-               'width': '75%',
-               'padding': '0 10px'
-           });
-        </script>
 	% endif
 </div>
