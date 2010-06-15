@@ -74,7 +74,7 @@ def get_search_default(attrs={}, screen_context=None, default_domain=[]):
             default_val = 0
             
         if attrs.get('context'):
-            ctx =  ast.literal_eval(attrs.get('context'))
+            ctx =  expr_eval(attrs.get('context', "{}"), {'self':attrs.get('name', False)})
             if ctx.get('group_by'):
                 str_ctx = 'group_' + ctx.get('group_by')
                 default_val = str_ctx in screen_context.get('group_by', [])            
