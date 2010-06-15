@@ -927,6 +927,11 @@ div#serverlog a {
 	color: #511712;
 }
 
+table.reference td{
+	padding: 0;
+	white-space: nowrap;
+}
+
 /**
  * vim: sts=4 st=4 et 
  *
