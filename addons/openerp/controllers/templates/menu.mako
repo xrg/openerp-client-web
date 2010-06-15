@@ -43,7 +43,6 @@
             });
             
             if(jQuery('div.sc_menu').width() > total_width) {
-                jQuery('ul.sc_menu').css('left', '30%');
                 jQuery('a.scroll_right').css('display', 'none');
             }
         });
