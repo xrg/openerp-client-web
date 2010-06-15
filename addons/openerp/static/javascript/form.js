@@ -125,14 +125,7 @@ function editSelectedRecord() {
     });
 }
 
-var warning = false;
 function switchView(view_type, src) {
-	if(warning) {
-	   if(!confirm(_('This record has been modified \n Do you want to save it ?'))) {
-	   	   return;
-	   }
-	}
-	
     if (openobject.dom.get('_terp_list')) {
         var ids = new ListView('_terp_list').getSelectedRecords();
         if (ids.length > 0) {
@@ -285,11 +278,6 @@ function submit_form(action, src, target) {
     if (action == 'save_and_edit') {
         action = 'save';
         args['_terp_return_edit'] = 1;
-    }
-    
-    if(warning) {
-        action = 'save';
-        args['_terp_return_switch'] = 1;
     }
     
     action = get_form_action(action, args);

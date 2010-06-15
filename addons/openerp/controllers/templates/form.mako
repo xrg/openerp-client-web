@@ -243,11 +243,4 @@
             % endif
         </tr>
     </table>
-    % if form.screen.view_type is 'form':
-        <script type="text/javascript">
-            jQuery(document).delegate('#view_form input:not([type="hidden"]),select,textarea', 'change', function() {
-               warning = true;
-            });
-        </script>
-    % endif
 </%def>
