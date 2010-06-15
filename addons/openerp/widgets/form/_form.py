@@ -179,7 +179,7 @@ class Frame(TinyInputWidget):
             attrs = {'class': 'label', 'title': getattr(widget, 'help', None), 'for': widget.name}
             td = [attrs, label]
             if widget.full_name and self.label_position:
-                attrs['class'] = attrs.get('class', 'label').__add__(' search_filters search_fields')
+                attrs['class'] = attrs.get('class', 'label') + ' search_filters search_fields'
                 label_table = td
             tr.append(td)
 
@@ -222,15 +222,14 @@ class Frame(TinyInputWidget):
             
             if not widget.kind and not widget._name:
                 if widget.string:
-                    attrs['class'] = attrs.get('class', 'item').__add__(' search_filters')
+                    attrs['class'] = attrs.get('class', 'item') + ' search_filters'
                     attrs['nowrap'] = 'nowrap'
                 else:
-                    attrs['class'] = attrs.get('class', 'item').__add__(' search_filters')
+                    attrs['class'] = attrs.get('class', 'item') + ' search_filters'
                     attrs['nowrap'] = 'nowrap'
             else:
-                from openerp.widgets.search import Filter as Filter
                 if isinstance(widget, Filter) and widget.string:
-                    attrs['class'] = attrs.get('class', 'item').__add__(' search_filters')
+                    attrs['class'] = attrs.get('class', 'item') + ' search_filters'
                     attrs['nowrap'] = 'nowrap'
                     
             
