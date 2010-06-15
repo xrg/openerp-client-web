@@ -20,31 +20,6 @@
                                 <td align="center" valign="middle" width="16">
                                     <a target="new" href="${py.url('http://doc.openerp.com/index.php', model=tree.model, lang=rpc.session.context.get('lang', 'en'))}"><img border="0" src="/openerp/static/images/stock/gtk-help.png" width="16" height="16"/></a>
                                 </td>
-                                
-                                %if serverLog:
-                                   	<td>
-								    	<div id="serverlog" style="display: none;">
-								    		<div class="serverLogHeader">
-								    			Current actions :
-								    			<img id="closeServerLog" style="cursor: pointer;" align="right" src="/openerp/static/images/attachments-a-close.png"></img>
-								    		</div>
-								    		% for log in serverLog:
-								    			<div class="logActions">
-							    					<a href="${py.url('/openerp/form/edit', model=log['res_model'], id=log['res_id'])}">
-							    						${log['name']}
-							    					</a>
-								    			</div>
-								    		% endfor	
-								    	</div>
-								    	
-								    	<script type="text/javascript">
-								    		jQuery('#serverlog').fadeIn('slow');
-								    		jQuery('#closeServerLog').click(function() {
-								    			jQuery('#serverlog').fadeOut("slow");
-								    		});
-								    	</script>
-							    	</td>
-   								% endif
                             </tr>
                          </table>
                      </td>
