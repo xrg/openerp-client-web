@@ -345,6 +345,10 @@ div.group-expand h2:hover {
 	display: block;
 }
 
+#groupdata_table td {
+   padding-left: 0pt;
+}
+
 div.group-collapse {
 	cursor: pointer;
 	overflow: hidden;
