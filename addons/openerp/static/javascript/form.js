@@ -128,7 +128,7 @@ function editSelectedRecord() {
 var warning = false;
 function switchView(view_type, src) {
 	if(warning) {
-	   if(!confirm(_('Do you really want to delete selected record(s) ?'))) {
+	   if(!confirm(_('This record has been modified \n Do you want to save it ?'))) {
 	   	   return;
 	   }
 	}
