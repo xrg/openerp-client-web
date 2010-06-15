@@ -509,8 +509,6 @@ ManyToOne.prototype.displayResults = function(result) {
         // Swap out the old results with the newly created table
         var resultsHolder = openobject.dom.get("autoCompleteResults_" + this.name);
         if (this.isShowingResults) {
-            resultsHolder.style.left = getLeft(this.text) + "px";
-            resultsHolder.style.top = getBottom(this.text) + 1 + "px";
             replaceChildNodes(resultsHolder, fancyTable);
             this.updateSelectedResult();
             showElement(resultsHolder);
