@@ -68,7 +68,7 @@ except:
 				</li>
 				% endif
 				
-				<li><a href="${py.url('/')}" class="home">Home</a>
+				<li><a href="${py.url('/openerp/home')}" class="home">Home</a>
 					<ul>
 						<li class="first last"><a href="javascript: void(0);">Home</a></li>
 					</ul>
