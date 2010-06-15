@@ -31,41 +31,21 @@
 This module implementes widget parser for form view, and
 several widget components.
 """
-
 import os
-import re
-import time
 import random
+import re
 import xml.dom.minidom
 
 import cherrypy
-
-from openobject import tools
-
-from openobject.i18n import format
-from openobject.i18n import get_locale
-
-from openobject.widgets import JSLink, JSSource, CSSLink
-
-from openerp.utils import rpc
-from openerp.utils import icons
-from openerp.utils import common
-from openerp.utils import cache
-from openerp.utils import TinyDict
-from openerp.utils import node_attributes
-from openerp.utils import get_node_xpath
-
-from openerp.widgets import TinyWidget
-from openerp.widgets import TinyInputWidget
-from openerp.widgets import ConcurrencyInfo
-
-from openerp.widgets import get_widget
-from openerp.widgets import register_widget
-
 from openerp import validators
+from openerp.utils import rpc, icons, common, TinyDict, node_attributes, get_node_xpath
+from openerp.widgets import TinyWidget, TinyInputWidget, ConcurrencyInfo, get_widget, register_widget
+from openerp.widgets.search import Filter
 
 from _binary import Image
-
+from openobject import tools
+from openobject.i18n import format, get_locale
+from openobject.widgets import JSLink, CSSLink
 
 
 class Frame(TinyInputWidget):
