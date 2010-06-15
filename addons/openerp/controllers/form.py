@@ -452,7 +452,8 @@ class Form(SecuredController):
 
         if params.editable or params.source or params.return_edit:
             raise redirect(self.path + '/edit', source=params.source, **args)
-
+        if params.editable or params.source or params.return_switch:
+            raise redirect(self.path + '/switch', params)
         raise redirect(self.path + '/view', **args)
 
     def button_action(self, params):

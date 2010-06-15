@@ -125,14 +125,21 @@ function editSelectedRecord() {
     });
 }
 
+var warning = false;
 function switchView(view_type, src) {
+	if(warning) {
+	   if(!confirm(_('Do you really want to delete selected record(s) ?'))) {
+	   	   return;
+	   }
+	}
+	
     if (openobject.dom.get('_terp_list')) {
         var ids = new ListView('_terp_list').getSelectedRecords();
         if (ids.length > 0) {
             openobject.dom.get('_terp_id').value = ids[0];
         }
     }
-
+    
     submit_form(get_form_action('switch', {
         '_terp_source': src,
         '_terp_source_view_type': view_type
@@ -253,7 +260,7 @@ function validate_required(form) {
 }
 
 function submit_form(action, src, target) {
-
+	
     if (openobject.http.AJAX_COUNT > 0) {
         return callLater(1, submit_form, action, src, target);
     }
@@ -279,9 +286,14 @@ function submit_form(action, src, target) {
         action = 'save';
         args['_terp_return_edit'] = 1;
     }
-
+    
+    if(warning) {
+        action = 'save';
+        args['_terp_return_switch'] = 1;
+    }
+    
     action = get_form_action(action, args);
-
+    
     if (/\/save(\?|\/)?/.test(action) && !validate_required(form)) {
         return false;
     }
