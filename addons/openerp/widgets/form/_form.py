@@ -219,19 +219,9 @@ class Frame(TinyInputWidget):
             attrs['widget'] = widget.name
             
         if not isinstance(widget, (Char, Frame, Float, DateTime, Integer, Selection, Notebook, Separator, NewLine, Label)):
-            
-            if not widget.kind and not widget._name:
-                if widget.string:
-                    attrs['class'] = attrs.get('class', 'item') + ' search_filters'
-                    attrs['nowrap'] = 'nowrap'
-                else:
-                    attrs['class'] = attrs.get('class', 'item') + ' search_filters'
-                    attrs['nowrap'] = 'nowrap'
-            else:
-                if isinstance(widget, Filter) and widget.string:
-                    attrs['class'] = attrs.get('class', 'item') + ' search_filters'
-                    attrs['nowrap'] = 'nowrap'
-                    
+            if (not (widget.kind or widget._name)) or (isinstance(widget, Filter) and widget.string):
+                attrs['class'] = attrs.get('class', 'item') + ' search_filters'
+                attrs['nowrap'] = 'nowrap'
             
         td = [attrs, widget]
         if widget.full_name and self.label_position:
@@ -524,7 +514,7 @@ class Selection(TinyInputWidget):
 
     def set_value(self, value):
         
-        if value==False:
+        if not value:
             value=''
 
         if isinstance(value, (tuple, list)):
@@ -532,7 +522,7 @@ class Selection(TinyInputWidget):
 
         for s in dict(self.options):
             if str(s) == str(value):
-                value =  s
+                value = s
 
         super(Selection, self).set_value(value)
 
@@ -972,7 +962,7 @@ class Form(TinyInputWidget):
         attrs.setdefault('model', self.model)
         attrs.setdefault('state', self.state)
 
-        if attrs.get('widget', False):
+        if attrs.get('widget'):
             if attrs['widget']=='one2many_list':
                 attrs['widget']='one2many'
             if get_widget(attrs['widget']):
