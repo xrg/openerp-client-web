@@ -99,6 +99,7 @@ input.radio {
 
 fieldset {
     border: solid 1px #888888; 
+    padding: 3px;
 }
 
 div.message-box {
@@ -146,6 +147,10 @@ span.yes, span.cancel {
 	white-space: nowrap;
 	border-collapse: separate;
 	width: auto;
+}
+
+td.search_fields {
+	padding: 0 4px;
 }
 
 div#search_filter_data table,div.toolbar table, table.titlebar, table.view {
@@ -714,8 +719,6 @@ td.label {
 	color:#777777;
 	font-size:10px;
 	font-weight:bold;
-	padding:0 4px;
-	text-align:right;
 	text-transform:uppercase;
 	white-space:nowrap;
 }

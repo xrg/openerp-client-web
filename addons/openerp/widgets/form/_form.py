@@ -199,7 +199,7 @@ class Frame(TinyInputWidget):
             attrs = {'class': 'label', 'title': getattr(widget, 'help', None), 'for': widget.name}
             td = [attrs, label]
             if widget.full_name and self.label_position:
-                attrs['class'] = attrs.get('class', 'label').__add__(' search_filters')
+                attrs['class'] = attrs.get('class', 'label').__add__(' search_filters search_fields')
                 label_table = td
             tr.append(td)
 
