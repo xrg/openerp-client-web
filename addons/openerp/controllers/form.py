@@ -199,7 +199,6 @@ class Form(SecuredController):
         
         if params.view_type == 'tree':
             params.editable = True
-        
         form = self.create_form(params, tg_errors)
 
         if not tg_errors:
@@ -211,7 +210,6 @@ class Form(SecuredController):
         editable = form.screen.editable
         mode = form.screen.view_type
         id = form.screen.id
-
         buttons = TinyDict()    # toolbar
         buttons.new = not editable or mode == 'tree'
         buttons.edit = not editable and mode == 'form'
@@ -251,8 +249,13 @@ class Form(SecuredController):
         
         # Server log will display in flash message in form view for any server action like wizard.
         serverLog = rpc.RPCProxy('res.log').get() or None
-        
-        return dict(form=form, pager=pager, buttons=buttons, path=self.path, can_shortcut=can_shortcut, shortcut_ids=shortcut_ids, serverLog=serverLog)
+        display_name = {}
+        if params.view_type is 'form':
+            if params.id:
+                if form.screen.view.get('fields'):
+                    display_name = {'field': form.screen.view['fields']['name']['string'], 'value': form.screen.view['fields']['name']['value']}
+              
+        return dict(form=form, pager=pager, buttons=buttons, path=self.path, can_shortcut=can_shortcut, shortcut_ids=shortcut_ids, serverLog=serverLog,display_name=display_name)
 
     def _read_form(self, context, count, domain, filter_domain, id, ids, kw,
                    limit, model, offset, search_data, search_domain, source,

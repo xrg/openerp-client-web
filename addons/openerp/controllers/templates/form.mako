@@ -52,6 +52,9 @@
                                     		<a class="help" href="javascript: void(0)" title="${_('Corporate Intelligence...')}" onclick="show_process_view()">
                                     			<small>Help</small>
 		                              		</a>
+                                            % if display_name:
+		                              		  <small class="sub">${display_name['field']} : ${display_name['value']}</small>
+                                            % endif	                              		       
                                     	</h1>
                                     </td>
                                     
