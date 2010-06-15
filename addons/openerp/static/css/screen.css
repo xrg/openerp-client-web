@@ -39,15 +39,13 @@ hr { overflow: hidden; height: 1px; margin: 15px 0 !important; margin: -5px 0 8p
 
 #root { height: 100%; }
  #top { position: absolute; left: 0; top: 0; z-index: 15; width: 100%; background: #7d7b7b url(../images/top-bg-a.gif) 0 100% repeat-x; color: #fff; text-transform: uppercase; letter-spacing: 0.5px; text-shadow: #333 0 1px 0; }
- div.header_top, p.header_logo {height: 65px; }
- p.header_logo img#company_logo {padding: 10px 0; width: 100%;}
- div.header_top_small {height: 34px; }
- p.header_logo_small {height: 33px; }
- p.header_logo_small img#company_logo {padding: 0 10px; width: 75%; vertical-align: top; }
- #top table td{padding: 0px; }
+ .header_logged, .header_logged p#logo {height: 65px; }
+ .header_logged #company_logo {padding: 10px 0; width: 100%;}
+ .header_not_logged {height: 34px; }
+ .header_not_logged #logo {height: 33px; }
+ .header_not_logged #company_logo {padding: 0 10px; width: 75%; vertical-align: top; }
+ #top table td{padding: 0; }
   #logo { float: left; width: 172px; margin: 0 10px 0 0; padding: 0 0 0 10px; background: url(../images/logo-bg.png) repeat-y; line-height: 50px; }
-   #logo a { }
-    /*#logo img { width: 100%; } */
   #title-menu { float: left; margin: 0; padding: 4px 0; background: none; color: #fff; font-size: 1em; font-weight: bold; text-shadow: #111 0 1px 0; }
    #title-menu small { display: block; font-size: 0.9em; color: #ccc; font-weight: normal; }
   #corner { float: right; }

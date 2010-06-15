@@ -38,15 +38,13 @@ except:
 </script>
     <%
         if rpc.session.is_logged():
-            top_class = "header_top"
-            logo_class = "header_logo"
+            header_class = "header_logged"
         else:
-            top_class = "header_top_small"
-            logo_class = "header_logo_small"
+            header_class = "header_not_logged"
     %>
-<div id="top" class="${top_class}">
+<div id="top" class="${header_class}">
 	<div id="top-menu">
-		<p id="logo" class="${logo_class}">
+		<p id="logo">
             <a href="http://www.openerp.com" target="_blank">
                 <img alt="OpenERP" id="company_logo" src="/openerp/static/images/openerp_small.png"/>
             </a>
