@@ -175,8 +175,8 @@ class WikiParser(wikimarkup.Parser):
         proxy = rpc.RPCProxy('wiki.wiki')
         def link(path):
             link = path.group().replace('[','').replace('[','').replace(']','').replace(']','').split("|")
-
-            mids = proxy.search([('name','ilike',link[0])])
+            name_to_search = link[0].strip()
+            mids = proxy.search([('name','ilike', name_to_search)])
             link_str = ""
             if mids:
                if len(link) == 2:

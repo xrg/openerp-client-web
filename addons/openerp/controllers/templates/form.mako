@@ -5,6 +5,7 @@
 
     <script type="text/javascript">
         var form_controller = '${path}';
+        var USER_ID = '${rpc.session.uid}';
     </script>
 
     <script type="text/javascript">
@@ -129,7 +130,7 @@
 	                                        <img 
 	                                            class="button" width="16" height="16"
 	                                            title="${_('Translate this resource.')}" 
-	                                            src="/openerp/static/images/stock/stock_translate.png" onclick="openobject.tools.openWindow('${py.url('/openerp/translator', _terp_model=form.screen.model, _terp_id=form.screen.id)}')"/>
+	                                            src="/openerp/static/images/stock/stock_translate.png" onclick="openobject.tools.openWindow(openobject.http.getURL('/openerp/translator', {_terp_model: '${form.screen.model}', _terp_id: ${form.screen.id}, _terp_context: $('_terp_context').value}));"/>
 	                                    </td>
 	                                    <td align="center" valign="middle" width="16" class="content_header_space">
 	                                        <img 

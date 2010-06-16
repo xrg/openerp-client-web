@@ -171,6 +171,7 @@
     <input type="hidden" id="_terp_ids" name="_terp_ids" value="${ids}"/>
     <input type="hidden" id="_terp_search_domain" name="_terp_search_domain" value="${search_domain}"/>
     <input type="hidden" id="_terp_fields2" name="_terp_fields2" value="[]"/>
+    <input type="hidden" id="_terp_context" name="_terp_context" value="${ctx}"/>
 
     <table class="view" cellspacing="5" border="0" width="100%">
         <tr>

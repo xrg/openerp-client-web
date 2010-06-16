@@ -112,6 +112,9 @@ class O2M(TinyInputWidget):
 
         if ids and isinstance(ids[0], dict):
             ids = []
+            
+        if ids and isinstance(ids[0], tuple):
+            ids = [i[1] for i in ids]
 
         id = (ids or None) and ids[0]
 

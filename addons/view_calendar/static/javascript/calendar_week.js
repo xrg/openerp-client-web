@@ -310,8 +310,11 @@ WeekCalendar.AllDayGrid.prototype = {
         var target = evt.target();
         if (!hasElementClass(target, 'calVRule'))
             return;
-
-        editCalendarRecord(null);
+            
+        var elem = getElement('calEventNew');
+        var dt = MochiKit.DateTime.isoTimestamp(getNodeAttribute(elem, 'dtStart'));
+        
+        editCalendarRecord(null, toISOTimestamp(dt));
     },
 
     splitEvent : function(record, params) {
@@ -403,7 +406,10 @@ WeekCalendar.AllDayGrid.prototype = {
         forEach(events, function(e) {
             var dt = toISODate(e.starts);
 
-            if (!(dt in containers)) return;
+            if (!(dt in containers)){
+                 e.style.display = 'none';
+                 return;
+            }
 
             var container = containers[dt];
 
@@ -725,7 +731,7 @@ WeekCalendar.DayGrid.prototype = {
 
         setNodeAttribute(elem, 'dtend', toISOTimestamp(e));
 
-        editCalendarRecord(null);
+        editCalendarRecord(null, toISOTimestamp(dt));
 
         hideElement('calEventNew');
     },

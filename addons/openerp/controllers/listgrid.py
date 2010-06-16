@@ -64,9 +64,10 @@ class List(SecuredController):
             frm = TinyForm(**kw).to_python()
             data = {}
             ctx = context_with_concurrency_info(params.parent.context, params.concurrency_info)
-
-            if model != params.model:
-                source = params.source
+            
+            source = params.source
+            if source and source != '_terp_list':
+                
                 data = frm.chain_get(source)
 
                 if '__id' in data: data.pop('__id')

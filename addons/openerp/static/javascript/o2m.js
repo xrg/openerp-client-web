@@ -88,8 +88,11 @@ One2Many.prototype = {
 
         // get the required view params to get proper view
         params['_terp_view_params/_terp_model'] = openobject.dom.get('_terp_model').value;
+        params['_terp_view_params/_terp_id'] = $('_terp_id').value;
+        params['_terp_view_params/_terp_ids'] = $('_terp_ids').value;
         params['_terp_view_params/_terp_view_ids'] = openobject.dom.get('_terp_view_ids').value;
         params['_terp_view_params/_terp_view_mode'] = openobject.dom.get('_terp_view_mode').value;
+        params['_terp_view_params/_terp_context'] = openobject.dom.get('_terp_context').value || {};
         params['_terp_view_params/_terp_view_type'] = 'form';
 
         while (names.length) {
@@ -98,8 +101,11 @@ One2Many.prototype = {
             var prefix = parents.join('/');
 
             params['_terp_view_params/' + prefix + '/_terp_model'] = openobject.dom.get(prefix + '/_terp_model').value;
+            params['_terp_view_params/' + prefix + '/_terp_id'] = $(prefix + '/_terp_id').value;
+            params['_terp_view_params/' + prefix + '/_terp_ids'] = $(prefix + '/_terp_ids').value;
             params['_terp_view_params/' + prefix + '/_terp_view_ids'] = openobject.dom.get(prefix + '/_terp_view_ids').value;
             params['_terp_view_params/' + prefix + '/_terp_view_mode'] = openobject.dom.get(prefix + '/_terp_view_mode').value;
+            params['_terp_view_params/' + prefix + '/_terp_context'] = openobject.dom.get(prefix + '/_terp_context').value || {};
             params['_terp_view_params/' + prefix + '/_terp_view_type'] = 'form';
         }
 
@@ -136,5 +142,22 @@ One2Many.prototype = {
                 openobject.http.delCookie('_terp_parent_context');
             }
         });
+    },
+    
+    setReadonly: function(readonly) {
+        var btn=MochiKit.DOM.getElement(this.name+'_btn_');
+        var grid=MochiKit.DOM.getElement(this.name+'_grid');
+        var edit=MochiKit.DOM.getElement(this.name + '/_terp_editable');
+        
+        if (readonly) {
+            if(btn){btn.style.display='none';}
+            MochiKit.Base.map(function (el) {el.style.display='none'},MochiKit.Selector.findChildElements(grid,['.selector']));
+            edit.value= 0;
+        }
+        else{
+            if(btn){btn.style.display='';}
+            MochiKit.Base.map(function (el) {el.style.display=''},MochiKit.Selector.findChildElements(grid,['.selector']));
+             edit.value = 1;
+        }
     }
 };

@@ -123,18 +123,16 @@ class Sidebar(TinyWidget):
                 rep['context'] = self.context
                 self.reports.append(rep)
 
-        if self.view_type == 'form':
+        if self.view_type == 'form' and id:
 
             proxy = rpc.RPCProxy('ir.attachment')
             ids = proxy.search([('res_model', '=', model), ('res_id', '=', id)], 0, 0, 0, self.context)
 
             if ids:
                 attach = []
-                datas = proxy.read(ids, ['datas_fname'])
-                self.attachments = [(d['id'], d['datas_fname']) for d in datas if d['datas_fname']]
+                datas = proxy.read(ids, ['datas_fname', 'name'])
+                self.attachments = [(d['id'], d['datas_fname'] or d['name']) for d in datas if d['datas_fname'] or d['name']]
 
             self.sub_menu = submenu
-        else:
-            self.relates = []
 
 # vim: ts=4 sts=4 sw=4 si et

@@ -47,7 +47,7 @@ class List(TinyWidget):
 
     template = "templates/listgrid.mako"
     params = ['name', 'data', 'columns', 'headers', 'model', 'selectable', 'editable',
-              'pageable', 'selector', 'source', 'offset', 'limit', 'show_links', 'editors',
+              'pageable', 'selector', 'source', 'offset', 'limit', 'show_links', 'editors', 'view_mode',
               'hiddens', 'edit_inline', 'field_total', 'link', 'checkbox_name', 'm2m', 'min_rows', 'string']
 
     member_widgets = ['pager', 'buttons', 'editors', 'concurrency_info']
@@ -94,7 +94,8 @@ class List(TinyWidget):
         self.selectable = kw.get('selectable', 0)
         self.editable = kw.get('editable', False)
         self.pageable = kw.get('pageable', True)
-
+        self.view_mode = kw.get('view_mode', [])
+        
         self.offset = kw.get('offset', 0)
         self.limit = kw.get('limit', 0)
         self.count = kw.get('count', 0)
@@ -444,6 +445,9 @@ class Selection(Char):
 
     def get_text(self):
         if self.value:
+            if isinstance(self.value, (tuple, list)):
+                self.value = self.value[0]
+
             selection = self.attrs['selection']
             for k, v in selection:
                 if k == self.value:
@@ -468,6 +472,10 @@ class FloatTime(Char):
     def get_text(self):
         val = self.value or 0.0
         t = '%02d:%02d' % (math.floor(abs(val)),round(abs(val)%1+0.01,2) * 60)
+        
+        hour, min = t.split(':')
+        if int(min) == 60:
+            t = str(int(hour) + 1) + ":00"
         if val < 0:
             t = '-' + t
 

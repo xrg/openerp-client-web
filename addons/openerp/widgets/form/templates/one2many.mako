@@ -36,7 +36,7 @@
                         % if not screen.editable and screen.view_type=='form':
                         <img class="button" title="${_('Translate me.')}" alt="${_('Translate me.')}" 
                              src="/openerp/static/images/stock/stock_translate.png" width="16" height="16"
-                             onclick="openobject.tools.openWindow('${py.url('/openerp/translator', _terp_model=screen.model, _terp_id=screen.id)}')"/>
+                             onclick="openobject.tools.openWindow(openobject.http.getURL('/openerp/translator', {_terp_model: '${screen.model}', _terp_id: ${screen.id}, _terp_context: $('_terp_context').value}));"/>
                         % endif
                     </td>
                 </tr>
@@ -46,7 +46,7 @@
     <tr>
         % if screen:
         <td>
-            <input type="hidden" name="${name}/__id" id="${name}/__id" value="${id}"/>
+            <input type="hidden" name="${name}/__id" id="${name}/__id" value="${id}" ${py.disabled(screen.view_type!="form")}/>
             <input type="hidden" name="${name}/_terp_default_get_ctx" id="${name}/_terp_default_get_ctx" value="${default_get_ctx}"/>
             ${screen.display()}
         </td>

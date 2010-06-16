@@ -36,20 +36,12 @@
 
 % if not editable and link:
     % if link=='1':
-        <span id="${name}" ${py.attrs(kind=kind, value=value)}>
-            <a href="${py.url('/openerp/form/view', model=relation, id=value)}">${text}</a>
+        <span id="${name}" name="${name}" ${py.attrs(kind=kind, value=value, relation=relation, context=ctx, domain=domain, link=link)}>
+            <a href="javascript: void(0)" onclick="new ManyToOne('${name}').open_record('${value}')">${text}</a>
         </span>
     % endif
     % if link=='0':
-        <span id="${name}" ${py.attrs(kind=kind, value=value)}>${text}</span>
+        <span id="${name}" ${py.attrs(kind=kind, value=value, relation=relation, link=link)}>${text}</span>
     % endif
-% endif
-
-% if not editable and not link == '0':
-    <span>
-        <span id="${name}" ${py.attrs(kind=kind, value=value, relation=relation)}>
-            <a href="${py.url('/openerp/form/view', model=relation, id=value)}">${text}</a>
-        </span>
-    </span>
 % endif
 

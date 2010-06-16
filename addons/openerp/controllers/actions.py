@@ -71,6 +71,8 @@ def execute_window(view_ids, model, res_id=False, domain=None, view_type='form',
 
     cherrypy.request._terp_view_name = name or None
     cherrypy.request._terp_view_target = target or None
+    if name:
+        params.context['_terp_view_name'] = name
 
     if params.ids and not isinstance(params.ids, list):
         params.ids = [params.ids]
@@ -271,9 +273,13 @@ def execute(action, **data):
 
         res = rpc.RPCProxy('ir.actions.server').run([action['id']], ctx)
         if res:
-            return execute(res, **data)
-        else:
-            return ''
+            if not isinstance(res, list):
+                res = [res]
+                
+            output = None
+            for r in res:
+                output = execute(r, **data)
+            return output
 
     elif action['type']=='ir.actions.wizard':
         if 'window' in data:
@@ -284,7 +290,7 @@ def execute(action, **data):
 
         ctx1.update(ctx2)
 
-        data['context'] = ctx2
+        data['context'] = ctx1
 
         return execute_wizard(action['wiz_name'], **data)
 
@@ -339,8 +345,10 @@ def execute_by_id(act_id, type=None, **data):
 
     if type is None:
         type = get_action_type(act_id)
+        
+    ctx = dict(rpc.session.context, **(data.get('context') or {}))   
 
-    res = rpc.session.execute('object', 'execute', type, 'read', act_id, False, rpc.session.context)
+    res = rpc.session.execute('object', 'execute', type, 'read', act_id, False, ctx)
     return execute(res, **data)
 
 def execute_by_keyword(keyword, adds=None, **data):

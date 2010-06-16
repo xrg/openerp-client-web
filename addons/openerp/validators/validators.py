@@ -78,8 +78,8 @@ class Float(Number):
         try:
             value = format.parse_decimal(value)
         except ValueError:
-            pass
-        return Number.to_python(value, state)
+            raise Invalid(_('Invalid literal for float'), value, state)
+        return value
 
 class FloatTime(Float):
 
@@ -232,6 +232,10 @@ class many2one(BaseValidator):
             value = (len(value) or False) and value[0]
 
         return value or ''
+    
+class one2many(FancyValidator):
+    
+    if_empty = []
 
 
 # Let some FormEncode strings goes into message catalog.

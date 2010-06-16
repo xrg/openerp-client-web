@@ -152,6 +152,7 @@ function switch_O2M(view_type, src) {
 
     params['_terp_source'] = src;
     params['_terp_source_view_type'] = view_type;
+    params['_terp_editable'] = $(prefix + '_terp_editable').value
 
     if (openobject.dom.get('_terp_list')) {
         var ids = new ListView('_terp_list').getSelectedRecords();
@@ -306,9 +307,19 @@ function buttonClicked(name, btype, model, id, sure, target) {
         '_terp_button/model': model,
         '_terp_button/id': id
     };
+    
+    if (!context || context == "{}") {
+        var act = get_form_action(btype == 'cancel' ? 'cancel' : 'save', params);
+        return submit_form(act, null, target);
+    }
+    
+    var req = eval_domain_context_request({source: "", domain: "[]", context: context});
+    req.addCallback(function(obj) {
+        params['_terp_button/context'] = obj.context || 0;
 
-    var act = get_form_action(btype == 'cancel' ? 'cancel' : 'save', params);
-    submit_form(act, null, target);
+        var act = get_form_action(btype == 'cancel' ? 'cancel' : 'save', params);
+        submit_form(act, null, target);
+     });
 }
 
 function onBooleanClicked(name) {
@@ -436,7 +447,9 @@ function getFormData(extended) {
             }
 
             if (kind == 'text_html') {
-                attrs['value'] = tinyMCE.get(e.name).getContent();
+                if(tinyMCE.get(e.name)){
+                    attrs['value'] =  tinyMCE.get(e.name).getContent();
+                }
             }
 
             if (kind == 'reference' && value) { 
@@ -571,7 +584,9 @@ function onChange(name) {
                         openobject.dom.get(prefix + k + '_checkbox_').checked = value || false;
                         break;
                     case 'text_html':
-                        tinyMCE.execInstanceCommand(k, 'mceSetContent', false, value || '');
+                        if(tinyMCE.get(prefix + k)){
+                            tinyMCE.execInstanceCommand(prefix + k, 'mceSetContent', false, value || '')
+                        }
                         break;
                     case 'selection':
                         var opts = [];

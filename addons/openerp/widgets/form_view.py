@@ -103,9 +103,16 @@ class ViewForm(Form):
 
         if params.view_type == 'tree':
             self.screen.id = False
+            
+        if 'form' not in self.screen.view_mode:
+            self.screen.widget.link = 0
+            self.screen.editable = False
+            self.screen.widget.editable = False
 
         # get the correct view title
-        self.screen.string = getattr(cherrypy.request, '_terp_view_name', self.screen.string) or self.screen.string
+        if params.context:
+            self.screen.string = params.context.get('_terp_view_name', self.screen.string)
+        self.screen.string = self.screen.string
 
         # get the actual pager data
         self.limit = self.screen.limit
@@ -120,6 +127,11 @@ class ViewForm(Form):
             self.hidden_fields = params.hidden_fields
 
         #self.fields = cherrypy.request.terp_fields
+    def update_params(self, d):
+        super(ViewForm, self).update_params(d)
+        if self.search:            
+            d.attrs['onsubmit']='submit_search_form()';    
+        
 
 
 # vim: ts=4 sts=4 sw=4 si et

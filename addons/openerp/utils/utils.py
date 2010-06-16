@@ -157,7 +157,7 @@ class TinyDict(dict):
 
         def _plain(data, prefix):
             for k, v in data.items():
-                if isinstance(v, dict):
+                if isinstance(v, dict) and not k.startswith('_terp_'):
                     _plain(v, prefix + k +'/')
                 else:
                     res[prefix + k] = v
@@ -189,6 +189,7 @@ _VALIDATORS = {
     'text': lambda *a: validators.String(),
     'text_tag': lambda *a: validators.String(),
     'many2many': lambda *a: validators.many2many(),
+    'one2many': lambda *a: validators.one2many(),
     'many2one': lambda *a: validators.many2one(),
     'email' : lambda *a: validators.Email(),
     'url' : lambda *a: validators.URL(),
@@ -243,12 +244,18 @@ class TinyForm(object):
                         from openerp.utils import rpc
                         proxy = rpc.RPCProxy(attrs['relation'])
                         res = proxy.read(value, [], rpc.session.context)
+                        res1 = proxy.fields_get(False, rpc.session.context)
+                        for values in res:
+                            for key, val in values.items():
+                                if key in res1.keys():
+                                    if res1[key]['type'] == 'many2many':
+                                        values[key] = [(6, 0, val)]
                         value = []
                         for r in res:
                             id = r.pop('id')
                             value += [(1, id, r)]
                     else:
-                        value = [(0, 0, [])]
+                        value = []
                 except:
                     pass
 
@@ -256,6 +263,8 @@ class TinyForm(object):
                 kind = 'char'
 
             v = _VALIDATORS.get(kind, validators.DefaultValidator)()
+            if kind == "float" and attrs.get("digit"):
+                v = validators.Float(digit=attrs.get("digit"))
             v.not_empty = (required or False) and True
 
             try:

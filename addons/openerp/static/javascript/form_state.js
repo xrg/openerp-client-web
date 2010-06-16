@@ -161,6 +161,7 @@ function form_hookAttrChange() {
         attrs = attrs.replace(/\)/g, ']');
         attrs = attrs.replace(/True/g, '1');
         attrs = attrs.replace(/False/g, '0');
+        attrs = attrs.replace(/uid/g, window.USER_ID);
         
         try {
             attrs = eval('(' + attrs + ')');
@@ -284,15 +285,16 @@ function form_setReadonly(container, fieldName, readonly) {
 
     if (!kind && 
             openobject.dom.get(field.id + '_id') && 
-            openobject.dom.get(field.id + '_text') &&
+            MochiKit.DOM.getElement(field.id + '_set') &&
             MochiKit.DOM.getNodeAttribute(field.id + '_id', 'kind') == "many2many") {
         return Many2Many(field.id).setReadonly(readonly);
     }
-
+    
+    var type = MochiKit.DOM.getNodeAttribute(field, 'type');
     field.readOnly = readonly;
     field.disabled = readonly;
     
-    if (readonly) {
+    if (readonly && (type != 'button')) {
         MochiKit.DOM.addElementClass(field, 'readonlyfield');
     } else {
         MochiKit.DOM.removeElementClass(field, 'readonlyfield');
@@ -301,6 +303,10 @@ function form_setReadonly(container, fieldName, readonly) {
     if (field.type == 'hidden' && kind == 'many2one') {
         //form_setReadonly(container, getElement(field.name + '_text'), readonly);
         return ManyToOne(field).setReadonly(readonly);
+    }
+    
+    if (!kind && MochiKit.DOM.getElement(field.id + '_btn_') || MochiKit.DOM.getElement('_o2m_'+field.id)) { // one2many
+        return new One2Many(field.id).setReadonly(readonly);
     }
     
     if (kind == 'date' || kind == 'datetime' || kind == 'time') {
@@ -349,7 +355,12 @@ function form_setVisible(container, field, visible) {
         try {
             var label = getNodeAttribute(container, 'for');
             label = MochiKit.Selector.findChildElements(container.parentNode, ['td.label[for="' + label + '"]'])[0];
-            if (label) label.style.display = visible ? '' : 'none';
+            if (!label){
+                container.style.display = visible ? '' : 'none';
+            }
+            else{
+                getFirstParentByTagAndClassName(container).style.display = visible ? '' : 'none';
+            }
         }catch(e){}
     }
 }

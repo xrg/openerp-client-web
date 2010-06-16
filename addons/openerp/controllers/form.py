@@ -252,7 +252,7 @@ class Form(SecuredController):
         display_name = {}
         if params.view_type is 'form':
             if params.id:
-                if form.screen.view.get('fields'):
+                if form.screen.view.get('fields') and form.screen.view['fields'].get('name'):
                     display_name = {'field': form.screen.view['fields']['name']['string'], 'value': form.screen.view['fields']['name']['value']}
               
         return dict(form=form, pager=pager, buttons=buttons, path=self.path, can_shortcut=can_shortcut, shortcut_ids=shortcut_ids, serverLog=serverLog,display_name=display_name)
@@ -280,6 +280,9 @@ class Form(SecuredController):
 
         params.editable = editable
         params.view_type = 'form'
+        
+        if kw.get('default_date'):
+            params.context.update({'default_date' : kw['default_date']})
 
         cherrypy.request._terp_view_target = kw.get('target')
 
@@ -385,7 +388,8 @@ class Form(SecuredController):
             proxy = rpc.RPCProxy(params.model)
 
             if not params.id:
-                id = proxy.create(data, params.context)
+                ctx = dict((params.context or {}), **rpc.session.context)
+                id = proxy.create(data, ctx)
                 params.ids = (params.ids or []) + [int(id)]
                 params.id = int(id)
                 params.count += 1
@@ -467,6 +471,9 @@ class Form(SecuredController):
 
         id = (id or False) and int(id)
         ids = (id or []) and [id]
+        
+        ctx = dict((params.context or {}), **rpc.session.context)
+        ctx.update(button.context or {})
 
         if btype == 'cancel':
             if name:
@@ -489,8 +496,7 @@ class Form(SecuredController):
                 return actions.execute(res, ids=[id])
 
         elif btype == 'object':
-            ctx = params.context or {}
-            ctx.update(rpc.session.context.copy())
+
             res = rpc.session.execute('object', 'execute', model, name, ids, ctx)
 
             if isinstance(res, dict):
@@ -509,7 +515,7 @@ class Form(SecuredController):
 
             res = actions.execute_by_id(action_id, type=action_type,
                                         model=model, id=id, ids=ids,
-                                        context=params.context or {})
+                                        context=ctx or {})
             if res:
                 return res
 
@@ -861,7 +867,7 @@ class Form(SecuredController):
         model = params.model
 
         id = params.id or False
-        ids = params.ids or []
+        ids = params.selection or params.ids or []
 
         if params.view_type == 'form':
             #TODO: save current record
@@ -993,12 +999,20 @@ class Form(SecuredController):
         values2 = {}
         for k, v in values.items():
             key = ((prefix or '') and prefix + '/') + k
+            
+            kind = data.get(key, {}).get('type', '')
 
             if key in data and key != 'id':
                 values2[k] = data[key]
                 values2[k]['value'] = v
             else:
                 values2[k] = {'value': v}
+                
+            if kind == 'float':
+                field = proxy.fields_get([k], ctx2)
+                digit = field[k].get('digits')
+                if digit: digit = digit[1]
+                values2[k]['digit'] = digit or 2
 
         values = TinyForm(**values2).from_python().make_plain()
 

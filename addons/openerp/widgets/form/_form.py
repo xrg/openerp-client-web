@@ -267,7 +267,7 @@ class Notebook(TinyInputWidget):
 
         self.fake_widget = '_fake'
         if attrs.get('prefix'):
-            self.fake_widge = attrs['prefix'] + '/_fake'
+            self.fake_widget = attrs['prefix'] + '/_fake'
 
 register_widget(Notebook, ["notebook"])
 
@@ -613,7 +613,7 @@ class Hidden(TinyInputWidget):
 class Button(TinyInputWidget):
 
     template = "templates/button.mako"
-    params = ["btype", "id", "confirm", "icon", "target"]
+    params = ["btype", "id", "confirm", "icon", "target", "context"]
 
     visible = True
     target = 'current'
@@ -626,6 +626,7 @@ class Button(TinyInputWidget):
         self.string = re.sub('_(?!_)', '', self.string or '')
 
         self.btype = attrs.get('special', attrs.get('type', 'workflow'))
+        self.context = attrs.get("context", {})
 
         self.nolabel = True
 
@@ -780,9 +781,11 @@ class Form(TinyInputWidget):
                     values[d[0]] = d[2][0]
 
         if ids:
-            values = proxy.read(ids[:1], fields.keys() + ['__last_update'], ctx)[0]
-            self.id = ids[0]
-            self._update_concurrency_info(self.model, [values])
+            lval = proxy.read(ids[:1], fields.keys() + ['__last_update'], ctx)
+            if lval:
+                values = lval[0]
+                self.id = ids[0]
+                self._update_concurrency_info(self.model, [values])
 
         elif 'datas' in view: # wizard data
 
@@ -893,6 +896,7 @@ class Form(TinyInputWidget):
                 name = attrs['name']
 
                 try:
+                    fields[name]['link'] = attrs.get('link', '1')
                     fields[name].update(attrs)
                 except:
                     print "-"*30,"\n malformed tag for:", attrs
@@ -956,7 +960,8 @@ class Form(TinyInputWidget):
     def _make_field_widget(self, attrs, value=False):
 
         attrs['editable'] = self.editable
-        attrs['link'] = self.link
+        if not attrs['type'] == 'many2one':
+            attrs['link'] = self.link
 
         attrs.setdefault('context', self.context)
         attrs.setdefault('model', self.model)

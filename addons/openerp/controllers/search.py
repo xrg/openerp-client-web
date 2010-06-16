@@ -96,7 +96,7 @@ class Search(Form):
         params, data = TinyDict.split(kw)
 
         domain = kw.get('_terp_domain', [])
-        context = kw.get('_terp_context', {})
+        context = params.context or {}
 
         parent_context = params.parent_context or {}
         parent_context.update(rpc.session.context.copy())
@@ -120,6 +120,10 @@ class Search(Form):
         if prefix and '/' in prefix:
             prefix = prefix.rsplit('/', 1)[0]
             pctx = pctx.chain_get(prefix)
+            
+        #update active_id in context for links
+        parent_context.update({'active_id':  params.active_id or False,
+                              'active_ids':  params.active_ids or []})
 
         ctx['parent'] = pctx
         ctx['context'] = parent_context
@@ -148,6 +152,9 @@ class Search(Form):
             for key, val in context.items():
                 if val==None:
                     context[key] = False
+                    
+        if isinstance(context, dict):
+            context = expr_eval(context, ctx)
 
         ctx2 = parent_context
         parent_context.update(context)

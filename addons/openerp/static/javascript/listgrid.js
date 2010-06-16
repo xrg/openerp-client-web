@@ -581,7 +581,7 @@ MochiKit.Base.update(ListView.prototype, {
         }
 
         var parent_field = this.name.split('/');
-        var data = getFormData(true);
+        var data = getFormData(2);
         var args = getFormParams('_terp_concurrency_info');
 
         for (var k in data) {
@@ -715,11 +715,14 @@ MochiKit.Base.update(ListView.prototype, {
         var self = this;
         var args = this.makeArgs();
         
+        var current_id = edit_inline ? (parseInt(edit_inline) || 0) : edit_inline;
+        
         // add args
         args['_terp_source'] = this.name;
         args['_terp_edit_inline'] = edit_inline;
         args['_terp_source_default_get'] = default_get_ctx;
         args['_terp_concurrency_info'] = concurrency_info;
+        args['_terp_editable'] = openobject.dom.get('_terp_editable').value;
         args['_terp_group_by_ctx'] = openobject.dom.get('_terp_group_by_ctx').value;
         
         if (this.name == '_terp_list') {
@@ -743,9 +746,13 @@ MochiKit.Base.update(ListView.prototype, {
             var _terp_id = openobject.dom.get(self.name + '/_terp_id') || openobject.dom.get('_terp_id');
             var _terp_ids = openobject.dom.get(self.name + '/_terp_ids') || openobject.dom.get('_terp_ids');
             var _terp_count = openobject.dom.get(self.name + '/_terp_count') || openobject.dom.get('_terp_count');
-
+            _terp_id.value = current_id > 0 ? current_id : 'False';
+            
             if (obj.ids) {
-                _terp_id.value = obj.ids.length ? obj.ids[0] : 'False';
+                if (typeof(current_id) == "undefined" && obj.ids.length) {
+                    current_id = obj.ids[0];
+                }
+                _terp_id.value = current_id > 0 ? current_id : 'False';
                 _terp_ids.value = '[' + obj.ids.join(',') + ']';
                 _terp_count.value = obj.count;
             }
@@ -842,6 +849,7 @@ MochiKit.Base.update(ListView.prototype, {
 
         openobject.tools.openWindow(openobject.http.getURL('/openerp/impex/exp', {_terp_model: this.model,
             _terp_source: this.name,
+            _terp_context: $('_terp_context').value,
             _terp_search_domain: openobject.dom.get('_terp_search_domain').value,
             _terp_ids: ids,
             _terp_view_ids : this.view_ids,
@@ -850,6 +858,7 @@ MochiKit.Base.update(ListView.prototype, {
 
     importData: function() {
         openobject.tools.openWindow(openobject.http.getURL('/openerp/impex/imp', {_terp_model: this.model,
+            _terp_context: $('_terp_context').value,
             _terp_source: this.name,
             _terp_view_ids : this.view_ids,
             _terp_view_mode : this.view_mode}));
