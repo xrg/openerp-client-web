@@ -71,8 +71,7 @@ function elementPosition2(elem) {
 
 var CAL_INSTANCE = null;
 var CALENDAR_WAIT_BOX = new openerp.ui.WaitBox();
-function getCalendar(day, mode) {
-
+function getCalendar(day, mode, color_filters) {
     day = day || openobject.dom.get('_terp_selected_day').value;
     mode = mode || openobject.dom.get('_terp_selected_mode').value;
     
@@ -88,7 +87,10 @@ function getCalendar(day, mode) {
 
         params[k] = [v];
     }
-
+    if(color_filters) {
+        params['_terp_color_filters'] = color_filters;
+    }
+    
     // colors
     var values = jQuery('#calGroups input:checked').map(function (i, e) {
         return jQuery(e).val(); }).get();

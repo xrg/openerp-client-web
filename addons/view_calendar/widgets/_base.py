@@ -228,7 +228,7 @@ class ICalendar(TinyWidget):
         first = days[0].month2.prev()[0] #HACK: add prev month
         domain = self.domain + [(self.date_start, '>', first.isoformat()),
                                 (self.date_start, '<', days[-1].next().isoformat())]
-
+         
         # convert color values from string to python values
         if self.color_values and self.color_field in self.fields:
             try:
@@ -252,12 +252,20 @@ class ICalendar(TinyWidget):
         ctx.update(self.context)
 
         order_by = ('sequence' in self.fields or 0) and 'sequence'
-
+        
+        if self.color_field and self.fields[self.color_field].get('relation'):
+            if self.options and self.options.get('_terp_color_filters'):
+                clr_field = self.options['_terp_color_filters']
+            else:
+                search_limit = 3
+                clr_field = rpc.RPCProxy(self.fields[self.color_field]['relation']).search([], 0, search_limit, 0, ctx)
+              
+            domain.append((self.color_field, 'in', clr_field))
+            
         ids = proxy.search(domain, 0, 0, order_by, ctx)
         result = proxy.read(ids, self.fields.keys()+['__last_update'], ctx)
         self._update_concurrency_info(self.model, result)
         self.concurrency_info = ConcurrencyInfo(self.model, ids)
-
         if self.color_field:
 
             for evt in result:
@@ -272,7 +280,7 @@ class ICalendar(TinyWidget):
                     value, name = key
 
                 self.colors[key] = (name, value, None)
-
+                
             colors = choice_colors(len(self.colors))
             for i, (key, value) in enumerate(self.colors.items()):
                 self.colors[key] = (value[0], value[1], colors[i])

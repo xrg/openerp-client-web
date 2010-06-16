@@ -62,7 +62,7 @@ class TinyCalendar(Form):
     def get(self, day, mode, **kw):
 
         params, data = TinyDict.split(kw)
-
+        
         options = TinyDict()
         options.selected_day = params.selected_day
 
@@ -73,7 +73,7 @@ class TinyCalendar(Form):
 
         options.date1 = day
         options.mode = mode
-
+        
         if params.colors:
             try:
                 options.colors = eval(kw['_terp_colors'])
@@ -85,7 +85,8 @@ class TinyCalendar(Form):
 
         options.search_domain = params.search_domain or []
         options.use_search = params.use_search
-
+        if params.get('_terp_color_filters'):
+            options.color_filters = params.color_filters
         params.kalendar = options
 
         form = self.create_form(params)

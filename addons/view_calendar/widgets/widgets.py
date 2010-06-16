@@ -59,18 +59,23 @@ class MiniCalendar(TinyWidget):
 
 class GroupBox(TinyWidget):
     template = 'templates/groups.mako'
-    params = ["colors", "color_values", "title"]
+    params = ["colors", "color_values", "title", "grp_model", "grp_domain", "grp_context"]
 
     colors = {}
     color_values = []
     title = None
     action = None
 
-    def __init__(self, colors, color_values, selected_day, title=None, mode='month'):
+    def __init__(self, colors, color_values, selected_day, group_relation={}, title=None, mode='month'):
         super(GroupBox, self).__init__()
         self.colors = colors
         self.color_values = color_values
         self.title = title
+        
+        if group_relation.get('relation'):
+            self.grp_model = group_relation['relation']
+            self.grp_domain = group_relation['domain']
+            self.grp_context = group_relation['context']
 
 def get_calendar(model, view, ids=None, domain=[], context={}, options=None):
 
@@ -125,11 +130,12 @@ class MonthCalendar(TinyCalendar):
 
         self.month = Month(y, m)
         self.events = self.get_events(self.month.days)
-
+        
         self.selected_day = _get_selection_day(Day(y, m, 1), self.selected_day, 'month')
-
+        
         self.minical = MiniCalendar(self.selected_day)
         self.groupbox = GroupBox(self.colors, self.color_values, self.selected_day,
+                group_relation=self.fields[self.color_field],
                 title=(self.color_field or None) and self.fields[self.color_field]['string'],
                 mode='month')
 
@@ -158,6 +164,7 @@ class WeekCalendar(TinyCalendar):
 
         self.minical = MiniCalendar(self.week[0], True)
         self.groupbox = GroupBox(self.colors, self.color_values, self.week[0],
+                group_relation=self.fields[self.color_field],
                 title=(self.color_field or None) and self.fields[self.color_field]['string'],
                 mode='week')
 
@@ -184,6 +191,7 @@ class DayCalendar(TinyCalendar):
         self.events = self.get_events([self.day])
         self.minical = MiniCalendar(self.day)
         self.groupbox =  GroupBox(self.colors, self.color_values, self.day,
+                group_relation=self.fields[self.color_field],
                 title=(self.color_field or None) and self.fields[self.color_field]['string'],
                 mode='day')
 
@@ -342,6 +350,7 @@ class GanttCalendar(ICalendar):
         self.events = self.get_events(self.days)
         self.groups = self.get_groups(self.events)
         self.groupbox = GroupBox(self.colors, self.color_values, day,
+                group_relation=self.fields[self.color_field],
                 title=(self.color_field or None) and self.fields[self.color_field]['string'], mode=self.mode)
 
     def parse(self, root, fields):
