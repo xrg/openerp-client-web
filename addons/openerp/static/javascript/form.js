@@ -628,17 +628,14 @@ function onChange(name) {
 /**
  * This function will be used by many2one field to get display name.
  *
- * @param name: name/instance of the widget
- * @param relation: the OpenERP model
- *
- * @return string
+ * @param name name/instance of the widget
+ * @param relation the OpenERP model
  */
 function getName(name, relation) {
-
     var value_field = openobject.dom.get(name);
     var text_field = openobject.dom.get(value_field.name + '_text');
 
-    relation = relation ? relation : getNodeAttribute(value_field, 'relation');
+    relation = relation ? relation : jQuery(value_field).attr('relation');
 
     if (value_field.value == '') {
         text_field.value = ''
