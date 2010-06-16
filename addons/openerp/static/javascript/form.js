@@ -303,7 +303,6 @@ function pager_action(action, src) {
 }
 
 function buttonClicked(name, btype, model, id, sure, target) {
-
     if (sure && !confirm(sure)) {
         return;
     }
@@ -314,10 +313,12 @@ function buttonClicked(name, btype, model, id, sure, target) {
         '_terp_button/model': model,
         '_terp_button/id': id
     };
-    
+
+    var context = jQuery(document.getElementById(name)).attr('context');
     if (!context || context == "{}") {
         var act = get_form_action(btype == 'cancel' ? 'cancel' : 'save', params);
-        return submit_form(act, null, target);
+        submit_form(act, null, target);
+        return;
     }
     
     var req = eval_domain_context_request({source: "", domain: "[]", context: context});
