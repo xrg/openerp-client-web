@@ -239,6 +239,13 @@ function validate_required(form) {
         }
 
         if (!value) {
+        	if(jQuery(elem2).attr('kind') == 'many2one') {
+                var select_id = jQuery(elem2).attr('id').split("_text")[0];
+                var img_select = jQuery('#'+select_id+'_select');
+                var img_class = img_select.attr('class');
+                img_select.attr('class', img_class+' errorfield');
+            }
+            
             addElementClass(elem2, 'errorfield');
             result = false;
         } else if (hasElementClass(elem2, 'errorfield')) {
