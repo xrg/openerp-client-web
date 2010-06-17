@@ -13,3 +13,18 @@
 		<img align="center" src="${icon}" width="16" height="16"/>
 	% endif
 </a>
+   
+% if default_focus:
+    <script type="text/javascript">
+       jQuery('#${name}').focus();
+       jQuery('#${name}').keypress(function(evt) {
+            if(evt.keyCode == 0) {
+                jQuery(this).click();
+            }
+            if(evt.keyCode == 27) {
+                window.close();
+            }
+       });
+    </script>
+% endif
+

@@ -613,13 +613,12 @@ class Hidden(TinyInputWidget):
 class Button(TinyInputWidget):
 
     template = "templates/button.mako"
-    params = ["btype", "id", "confirm", "icon", "target", "context"]
+    params = ["btype", "id", "confirm", "icon", "target", "context", "default_focus"]
 
     visible = True
     target = 'current'
 
     def __init__(self, **attrs):
-
         super(Button, self).__init__(**attrs)
 
         # remove mnemonic
@@ -632,6 +631,8 @@ class Button(TinyInputWidget):
 
         if self.icon:
             self.icon = icons.get_icon(self.icon)
+        
+        self.default_focus = attrs.get('default_focus', 0)
 
     def set_state(self, state):
         if self.states:
