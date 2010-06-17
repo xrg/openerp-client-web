@@ -27,13 +27,13 @@
 //
 ////////////////////////////////////////////////////////////////////////////////
 
-var form_hookContextMenu = function(){
+function form_hookContextMenu(){
     if (!openobject.dom.get('_terp_list')) {
         MochiKit.Signal.connect(window.document, 'oncontextmenu', on_context_menu);
     }
 }
 
-var form_hookOnChange = function() {
+function form_hookOnChange() {
 
     var prefix = '';
     try {
@@ -67,7 +67,7 @@ var form_hookOnChange = function() {
     }
 }
 
-var form_hookStateChange = function() {
+function form_hookStateChange() {
     
     var items = [];
     
@@ -107,7 +107,7 @@ var form_hookStateChange = function() {
     }
 }
 
-var form_onStateChange = function(container, widget, states, evt) {
+function form_onStateChange(container, widget, states, evt) {
 
     var src = evt.src();
     var value = typeof(src.value) == "undefined" ? getNodeAttribute(src, 'value') || src.innerHTML : src.value;
@@ -135,7 +135,7 @@ var form_onStateChange = function(container, widget, states, evt) {
 
 }
 
-var form_hookAttrChange = function() {
+function form_hookAttrChange() {
     
     var items = [];
     
@@ -161,6 +161,7 @@ var form_hookAttrChange = function() {
         attrs = attrs.replace(/\)/g, ']');
         attrs = attrs.replace(/True/g, '1');
         attrs = attrs.replace(/False/g, '0');
+        attrs = attrs.replace(/uid/g, window.USER_ID);
         
         try {
             attrs = eval('(' + attrs + ')');
@@ -195,31 +196,35 @@ var form_hookAttrChange = function() {
     }
 }
 
-var form_onAttrChange = function(container, widget, attr, expr, evt) {
-
-    var prefix = widget.slice(0, widget.lastIndexOf('/')+1);
-    var widget = openobject.dom.get(widget);
+function form_onAttrChange(container, widgetName, attr, expr, evt) {
+    var prefix = widgetName.slice(0, widgetName.lastIndexOf('/') + 1);
+    var widget = openobject.dom.get(widgetName);
 
     var result = form_evalExpr(prefix, expr);
-    
-    if (attr == 'readonly')
-       form_setReadonly(container, widget, result)
-    
-    if (attr == 'required')
-       form_setRequired(container, widget, result)
-    
-    if (attr == 'invisible')
-       form_setVisible(container, widget, !result)
+
+    switch (attr) {
+        case 'readonly': form_setReadonly(container, widget, result);
+            break;
+        case 'required': form_setRequired(container, widget, result);
+            break;
+        case 'invisible': form_setVisible(container, widget, !result);
+            break;
+        default:
+    }
 }
 
-var form_evalExpr = function(prefix, expr) {
-    
-    var result = true;
-    
-    for(var i=0; i<expr.length; i++) {
-        
+function form_evalExpr(prefix, expr) {
+
+    var stack = [];
+    for (var i = 0; i < expr.length; i++) {
+
         var ex = expr[i];
         var elem = openobject.dom.get(prefix + ex[0]);
+        
+        if (ex.length==1) {
+            stack.push(ex[0]);
+            continue;
+        }
         
         if (!elem) 
             continue;
@@ -229,42 +234,48 @@ var form_evalExpr = function(prefix, expr) {
         var elem_value = elem.value || getNodeAttribute(elem, 'value') || elem.innerHTML;
         
         switch (op.toLowerCase()) {
-            
             case '=':
             case '==':
-                result = result && (elem_value == val);
+                stack.push(elem_value == val);
                 break;
             case '!=':
             case '<>':
-                result = result && (elem_value != val);
+                stack.push(elem_value != val);
                 break;
             case '<':
-                result = result && (elem_value < val);
+                stack.push(elem_value < val);
                 break;
             case '>':
-                result = result && (elem_value > val);
+                stack.push(elem_value > val);
                 break;
             case '<=':
-                result = result && (elem_value <= val);
+                stack.push(elem_value <= val);
                 break;
             case '>=':
-                result = result && (elem_value >= val);
+                stack.push(elem_value >= val);
                 break;
             case 'in':
-                result = result && MochiKit.Base.findIdentical(val, elem_value) > -1;
+                stack.push(MochiKit.Base.findIdentical(val, elem_value) > -1);
                 break;
             case 'not in':
-                result = result && MochiKit.Base.findIdentical(val, elem_value) == -1;
+                stack.push(MochiKit.Base.findIdentical(val, elem_value) == -1);
                 break;
         }
     }
-    
-    return result;
+
+    for (var j=stack.length-1; j>-1; j--) {
+        if(stack[j] == '|'){
+            var result = stack[j+1] || stack[j+2];
+            stack.splice(j, 3, result)
+        }
+    }
+    // shouldn't find any `false` left at this point
+    return stack.indexOf(false) == -1;
 }
 
-var form_setReadonly = function(container, field, readonly) {
+function form_setReadonly(container, fieldName, readonly) {
     
-    var field = openobject.dom.get(field);
+    var field = openobject.dom.get(fieldName);
 
     if (!field) {
         return;
@@ -274,15 +285,16 @@ var form_setReadonly = function(container, field, readonly) {
 
     if (!kind && 
             openobject.dom.get(field.id + '_id') && 
-            openobject.dom.get(field.id + '_text') &&
+            MochiKit.DOM.getElement(field.id + '_set') &&
             MochiKit.DOM.getNodeAttribute(field.id + '_id', 'kind') == "many2many") {
         return Many2Many(field.id).setReadonly(readonly);
     }
-
+    
+    var type = MochiKit.DOM.getNodeAttribute(field, 'type');
     field.readOnly = readonly;
     field.disabled = readonly;
     
-    if (readonly) {
+    if (readonly && (type != 'button')) {
         MochiKit.DOM.addElementClass(field, 'readonlyfield');
     } else {
         MochiKit.DOM.removeElementClass(field, 'readonlyfield');
@@ -293,6 +305,10 @@ var form_setReadonly = function(container, field, readonly) {
         return ManyToOne(field).setReadonly(readonly);
     }
     
+    if (!kind && MochiKit.DOM.getElement(field.id + '_btn_') || MochiKit.DOM.getElement('_o2m_'+field.id)) { // one2many
+        return new One2Many(field.id).setReadonly(readonly);
+    }
+    
     if (kind == 'date' || kind == 'datetime' || kind == 'time') {
         var img = openobject.dom.get(field.name + '_trigger');
         if (img)
@@ -300,7 +316,7 @@ var form_setReadonly = function(container, field, readonly) {
     }
 }
 
-var form_setRequired = function(container, field, required) {
+function form_setRequired(container, field, required) {
     
     if (required) {
         MochiKit.DOM.addElementClass(field, 'requiredfield');
@@ -316,7 +332,7 @@ var form_setRequired = function(container, field, required) {
     }
 }
 
-var form_setVisible = function(container, field, visible) {
+function form_setVisible(container, field, visible) {
 
     if (MochiKit.DOM.hasElementClass(container, 'notebook-page')) { // notebook page?
     
@@ -339,17 +355,19 @@ var form_setVisible = function(container, field, visible) {
         try {
             var label = getNodeAttribute(container, 'for');
             label = MochiKit.Selector.findChildElements(container.parentNode, ['td.label[for="' + label + '"]'])[0];
-            if (label) label.style.display = visible ? '' : 'none';
+            if (!label){
+                container.style.display = visible ? '' : 'none';
+            }
+            else{
+                getFirstParentByTagAndClassName(container).style.display = visible ? '' : 'none';
+            }
         }catch(e){}
     }
 }
 
-MochiKit.DOM.addLoadEvent(function(evt){    
+jQuery(document).ready(function(){
     form_hookContextMenu();
     form_hookStateChange();
     form_hookAttrChange();
     form_hookOnChange();
 });
-
-// vim: ts=4 sts=4 sw=4 si et
-

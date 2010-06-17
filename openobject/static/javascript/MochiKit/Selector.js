@@ -188,7 +188,7 @@ MochiKit.Selector.Selector.prototype = {
                         break;
                     case 'not':
                         var subselector = new MochiKit.Selector.Selector(pseudoClassArgument);
-                        conditions.push('!( ' + subselector.buildMatchExpression() + ')')
+                        conditions.push('!( ' + subselector.buildMatchExpression() + ')');
                         break;
                 }
             }
@@ -198,7 +198,7 @@ MochiKit.Selector.Selector.prototype = {
                 var value = 'MochiKit.DOM.getNodeAttribute(element, ' + repr(attribute.name) + ')';
                 var splitValueBy = function (delimiter) {
                     return value + '.split(' + repr(delimiter) + ')';
-                }
+                };
                 conditions.push(value + ' != null');
                 switch (attribute.operator) {
                     case '=':

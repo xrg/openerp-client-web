@@ -1,4 +1,4 @@
-<%inherit file="/openerp/controllers/templates/base.mako"/>
+<%inherit file="/openerp/controllers/templates/base_dispatch.mako"/>
 
 <%def name="header()">
     <title>${_("Process")}</title>
@@ -20,10 +20,10 @@
     % if selection:
     <script type="text/javascript">
         var select_workflow = function() {
-            var id = parseInt(openobject.dom.get('select_workflow').value) || null;
+            var id = parseInt(openobject.dom.get('select_workflow').value, 10) || null;
             var res_model = openobject.dom.get('res_model').value || null;
-            var res_id = parseInt(openobject.dom.get('res_id').value) || null;
-            window.location.href = openobject.http.getURL("/view_diagram/process", {id: id, res_model: res_model, res_id: res_id});
+            var res_id = parseInt(openobject.dom.get('res_id').value, 10) || null;
+            openLink(openobject.http.getURL("/view_diagram/process", {id: id, res_model: res_model, res_id: res_id}));
         }
     </script>
     % endif
@@ -51,10 +51,7 @@
         <td width="100%" valign="top">
             <table width="100%" class="titlebar">
                 <tr>
-                    <td width="32px" align="center">
-                        <img src="/openerp/static/images/stock/gtk-refresh.png"/>
-                    </td>
-                    <td width="100%" id="process_title">${title}</td>
+                    <td width="100%" id="process_title"><h1>${title}</h1></td>
                     <td nowrap="nowrap">
                         <img class="button" title="${_('Help')}" src="/openerp/static/images/stock/gtk-help.png" width="16" height="16"
                         onclick="context_help()"/>

@@ -32,7 +32,7 @@ openobject.tools = {
     openWindow: function(anchor, options) {
 
         var opts = MochiKit.Base.update({
-            name        : 'win' + Math.round(Math.random()*100000),
+            name        : 'win' + Math.round(Math.random() * 100000),
             center      : true,
             x           : null,
             y           : null,
@@ -52,7 +52,7 @@ openobject.tools = {
 
         args += "height=" + (opts.fullscreen ? screen.availHeight : opts.height) + ",";
         args += "width=" + (opts.fullscreen ? screen.availWidth : opts.width) + ",";
-        
+
         if (!opts.center) {
             opts.x = 0;
             opts.y = 0;
@@ -71,25 +71,33 @@ openobject.tools = {
             args += "top=" + opts.y + ",";
         }
 
-        if (opts.scrollbars) { args += "scrollbars=1,"; }
-        if (opts.menubar) { args += "menubar=1,"; }
-        if (opts.locationbar) { args += "location=1,"; }
-        if (opts.resizable) { args += "resizable=1,"; }
+        if (opts.scrollbars) {
+            args += "scrollbars=1,";
+        }
+        if (opts.menubar) {
+            args += "menubar=1,";
+        }
+        if (opts.locationbar) {
+            args += "location=1,";
+        }
+        if (opts.resizable) {
+            args += "resizable=1,";
+        }
 
         var win = window.open(openobject.http.getURL(anchor), opts.name, args);
         return false;
-    
+
     },
-    
+
     validateEmail: function(value) {
-        var re  = /(^[a-z]([a-z_\.]*)@([a-z_\.]*)([.][a-z]{3})$)|(^[a-z]([a-z_\.]*)@([a-z_\.]*)(\.[a-z]{3})(\.[a-z]{2})*$)/i;
+        var re = /((^[a-z]([a-z_\.]*)@([a-z_\.]*)([.][a-z]{3})$)|(^[a-z]([a-z_\.]*)@([a-z_\.]*)(\.[a-z]{3})(\.[a-z]{2})*[\s,.]*$))*/i;
         return re.test(value);
     },
-    
+
     validateURL: function(value) {
-    
+
     }
-}
+};
 
 // vim: ts=4 sts=4 sw=4 si et
 

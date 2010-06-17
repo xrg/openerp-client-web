@@ -32,21 +32,14 @@ import time
 import datetime
 import xml.dom.minidom
 
-import cherrypy
-
 from openobject.i18n import format
 from openobject.widgets import JSLink, CSSLink
 
-from openerp.utils import rpc
-from openerp.utils import TinyDict
-from openerp.utils import node_attributes
+from openerp.utils import rpc, node_attributes
 
-from openerp.widgets import TinyWidget
-from openerp.widgets import ConcurrencyInfo
-from openerp.widgets import get_widget
+from openerp.widgets import TinyWidget, ConcurrencyInfo, get_widget
 
-from utils import Day
-from utils import parse_datetime
+from utils import Day, parse_datetime
 
 
 COLOR_PALETTE = ['#f57900', '#cc0000', '#d400a8', '#75507b', '#3465a4', '#73d216', '#c17d11', '#edd400',
@@ -64,7 +57,7 @@ def choice_colors(n):
 
 class TinyEvent(TinyWidget):
 
-    template = """<div class="calEvent" style="background-color: ${color}"
+    template = """<div class="calEvent" style="background-color: ${color}; -moz-border-radius: 4px;"
     starts="${str(starts)}" ends="${str(ends)}" record_id="${record_id}" title="${description}">${title}</div>
     """
 
@@ -128,9 +121,9 @@ class ICalendar(TinyWidget):
         super(ICalendar, self).__init__()
 
         self.info_fields = []
-        self.fields = []
+        self.fields = {}
 
-        self.events = {}
+        self.events = []
 
         self.colors = {}
         self.color_values = []
@@ -248,8 +241,8 @@ class ICalendar(TinyWidget):
                         vals[i] = wid.validator.to_python(v)
                     except:
                         pass
-                domain += [(self.color_field, "in", vals)]
-            except Exception, e:
+                domain.append((self.color_field, "in", vals))
+            except Exception:
                 pass
 
         if self.options and self.options.use_search:
@@ -288,15 +281,15 @@ class ICalendar(TinyWidget):
 
         for evt in result:
             self.convert(evt)
-            events += [self.get_event_widget(evt)]
+            events.append(self.get_event_widget(evt))
 
         # filter out the events which are not in the range
         result = []
         for e in events:
             if e.dayspan > 0 and days[0] - e.dayspan < e.starts:
-                result += [e]
+                result.append(e)
             if e.dayspan == 0 and days[0] <= e.starts:
-                result += [e]
+                result.append(e)
 
         return result
 
@@ -304,8 +297,6 @@ class ICalendar(TinyWidget):
 
         title = ''       # the title
         description = [] # the description
-        starts = None    # the starting time (datetime)
-        ends = None      # the end time (datetime)
 
         if self.info_fields:
 
@@ -320,7 +311,7 @@ class ICalendar(TinyWidget):
                 s = event[f]
                 if isinstance(s, (tuple, list)): s = s[-1]
 
-                description += [ustr(s)]
+                description.append(ustr(s))
 
         starts = event.get(self.date_start)
         ends = event.get(self.date_delay) or 1.0
@@ -332,7 +323,7 @@ class ICalendar(TinyWidget):
             h = ends
 
             if ends == self.day_length:
-                n += 1
+                span = 1
 
             elif ends > self.day_length:
                 n = ends / self.day_length
@@ -340,9 +331,11 @@ class ICalendar(TinyWidget):
 
                 n = int(math.floor(n))
 
-                if h > 0: n += 1
+                if h > 0:
+                    span = n + 1
+                else:
+                    span = n
 
-            span = n
             ends = time.localtime(time.mktime(starts) + (h * 60 * 60) + (n * 24 * 60 * 60))
 
         if starts and self.date_stop:

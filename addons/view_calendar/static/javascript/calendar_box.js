@@ -29,7 +29,7 @@
 
 var InfoBox = function(params) {
     this.__init__(params);
-}
+};
 
 InfoBox.prototype = {
 
@@ -45,11 +45,16 @@ InfoBox.prototype = {
         this.layer = openobject.dom.get('calInfoLayer');
         this.box = openobject.dom.get('calInfoBox');
 
-        var btnCancel = BUTTON({'class': 'button', 'type': 'button'}, _('Cancel'));
-        var btnEdit = BUTTON({'class': 'button', 'type': 'button'}, _('Edit'));
-        var btnCopy = BUTTON({'class': 'button', 'type': 'button'}, _('Duplicate'));
-        var btnDelete = BUTTON({'class': 'button', 'type': 'button'}, _('Delete'));
-
+//        var btnCancel = BUTTON({'class': 'button', 'type': 'button'}, _('Cancel'));
+//        var btnEdit = BUTTON({'class': 'button', 'type': 'button'}, _('Edit'));
+//        var btnCopy = BUTTON({'class': 'button', 'type': 'button'}, _('Duplicate'));
+//        var btnDelete = BUTTON({'class': 'button', 'type': 'button'}, _('Delete'));
+        
+        var btnCancel = A({'class': 'button-a', 'href': 'javascript: void(0)'}, _('Cancel'));
+        var btnEdit = A({'class': 'button-a', 'href': 'javascript: void(0)'}, _('Edit'));
+        var btnCopy = A({'class': 'button-a', 'href': 'javascript: void(0)'}, _('Duplicate'));
+        var btnDelete = A({'class': 'button-a', 'href': 'javascript: void(0)'}, _('Delete'));
+        
         MochiKit.Signal.connect(btnCancel, 'onclick', this, 'hide');
         MochiKit.Signal.connect(btnEdit, 'onclick', this, 'onEdit');
         MochiKit.Signal.connect(btnCopy, 'onclick', this, 'onCopy');
@@ -196,7 +201,4 @@ InfoBox.prototype = {
            getCalendar();
         });
     }
-}
-
-// vim: ts=4 sts=4 sw=4 si et
-
+};

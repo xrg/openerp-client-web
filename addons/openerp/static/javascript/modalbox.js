@@ -29,7 +29,7 @@
 
 var ModalBox = function(options) {
     this.__init__(options);
-}
+};
 
 ModalBox.prototype = {
 
@@ -41,7 +41,7 @@ ModalBox.prototype = {
             buttons: []         // buttons
         }, options || {});
 
-        if (openobject.dom.get('modalbox_overlay')){
+        if (openobject.dom.get('modalbox_overlay')) {
             throw "Only one Modalbox instance is allowed per page.";
         }
 
@@ -51,7 +51,7 @@ ModalBox.prototype = {
         var btnCancel = BUTTON({'class': 'static_buttons', 'type': 'button'}, 'Cancel');
         MochiKit.Signal.connect(btnCancel, 'onclick', this, this.hide);
 
-        var buttons = MochiKit.Base.map(function(btn){
+        var buttons = MochiKit.Base.map(function(btn) {
             var b = MochiKit.DOM.BUTTON({'class': 'static_buttons', 'type': 'button'}, btn.text);
             MochiKit.Signal.connect(b, 'onclick', btn.onclick || MochiKit.Base.noop);
             return b;
@@ -60,11 +60,11 @@ ModalBox.prototype = {
         buttons.push(btnCancel);
 
         var content = DIV(null,
-                        this.title,
-                        this.content,
-                            TABLE({'class': 'modalbox-buttons', 'cellpadding': 2, 'width': '100%'}, 
-                                TBODY(null, 
-                                    TR(null,
+                this.title,
+                this.content,
+                TABLE({'class': 'modalbox-buttons', 'cellpadding': 2, 'width': '100%'},
+                        TBODY(null,
+                                TR(null,
                                         TD({'align': 'right', 'width': '100%'}, buttons)))));
         
         this.overlay = DIV({id: 'modalbox_overlay'});
@@ -101,8 +101,8 @@ ModalBox.prototype = {
         showElement(this.box);
 
         // set the height of content
-        var h2 = h - getElementDimensions(this.title).h - 
-            getElementDimensions(openobject.dom.select('table.modalbox-buttons', this.box)[0]).h;
+        var h2 = (h - getElementDimensions(this.title).h - 
+                  getElementDimensions(openobject.dom.select('table.modalbox-buttons', this.box)[0]).h);
 
         setElementDimensions(this.content, {h: h2});
 
@@ -115,6 +115,4 @@ ModalBox.prototype = {
 
         MochiKit.Signal.signal(this, "hide", this);
     }
-}
-
-// vim: sts=4 st=4 et
+};

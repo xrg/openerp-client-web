@@ -1,20 +1,20 @@
-<%inherit file="/openerp/controllers/templates/base.mako"/>
+<%inherit file="/openerp/controllers/templates/base_dispatch.mako"/>
 
 <%def name="header()">
     <title>${_("Image")}</title>
     <script type="text/javascript">
 
         function do_delete(form, id, field){
-            setNodeAttribute(form, 'action', openobject.http.getURL('/openerp/image/delete', {id: id}));
-            form.submit();
+            setNodeAttribute(form, 'action', openobject.http.getURL('/image/delete', {id: id}));
+            jQuery(form).submit();
         }
 
         function do_save(form, id){
-            setNodeAttribute(form, 'action', openobject.http.getURL('/openerp/image/save_as', {id: id}));
-            form.submit();
+            setNodeAttribute(form, 'action', openobject.http.getURL('/image/save_as', {id: id}));
+            jQuery(form).submit();
         }
 
-        addLoadEvent(function(evt){
+        jQuery(document).ready(function(){
             img = window.opener.document.getElementById('${field}');
             img.src = img.src + '&' + Math.random();
             if(openobject.dom.get('saved').value)

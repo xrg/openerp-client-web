@@ -27,57 +27,39 @@
 #
 ###############################################################################
 
-import os
 import base64
 
 import cherrypy
-from pyparsing import *
 
 from openobject.tools import expose
-from openobject.tools import redirect
-from openobject.tools import validate
-
 
 from openerp.utils import rpc
-from openerp.utils import TinyDict
 
-from openerp.controllers import form
 from openerp.controllers import SecuredController
 
 
-FILE_FORMATS = {
-     'pdf' : 'application/pdf',
-     'doc' : 'application/vnd.ms-word',
-     'html': 'text/html',
-}
-
 class WikiView(SecuredController):
-
     _cp_path = "/widget_wiki/wiki"
+
+    def get_attachment(self, **kwargs):
+        attachments = rpc.RPCProxy('ir.attachment')
+        file_name = kwargs.get('file').replace("'", '').strip()
+        id = kwargs.get('id').strip()
+
+        ids = attachments.search([('datas_fname', '=', file_name),
+                                  ('res_model', '=', 'wiki.wiki'),
+                                  ('res_id', '=', id)])
+
+        res = attachments.read(ids, ['datas'])[0].get('datas')
+        return res, file_name
 
     @expose(content_type='application/octet')
     def getImage(self, *kw, **kws):
-        model = 'ir.attachment'
-        field = 'datas_fname'
-        file = kws.get('file').replace("'",'').strip()
-        id = kws.get('id').strip()
-        proxy = rpc.RPCProxy(model)
-        ids = proxy.search([(field,'=',file), ('res_model','=','wiki.wiki'), ('res_id','=',id)])
-
-        res = proxy.read(ids, ['datas'])[0]
-        res = res.get('datas')
+        res, _ = self.get_attachment(**kws)
         return base64.decodestring(res)
 
     @expose(content_type='application/octet')
     def getfile(self, *kw, **kws):
-        model = 'ir.attachment'
-        field = 'datas_fname'
-        file = kws.get('file').replace("'",'').strip()
-        id = kws.get('id').strip()
-        proxy = rpc.RPCProxy(model)
-        ids = proxy.search([(field,'=',file), ('res_model','=','wiki.wiki'), ('res_id','=',id)])
-        res = proxy.read(ids, ['datas'])[0]
-        res = res.get('datas')
-        #cherrypy.response.headers['Content-Type'] = FILE_FORMATS[data['format']]
-        cherrypy.response.headers['Content-Disposition'] = 'filename="' + file + '"';
+        res, file_name = self.get_attachment(**kws)
+        cherrypy.response.headers['Content-Disposition'] = 'filename="%s"' % (file_name,)
         return base64.decodestring(res)

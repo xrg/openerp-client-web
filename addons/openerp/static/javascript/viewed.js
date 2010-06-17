@@ -27,15 +27,15 @@
 //
 ////////////////////////////////////////////////////////////////////////////////
 
-var onSelect = function(evt, node){
+function onSelect(evt, node){
 }
 
-var getXPath = function(node) {
+function getXPath(node) {
     
     var path = node.getPath(1);
     
     var xp = '';
-    var nd = path.pop()
+    var nd = path.pop();
     
     while (nd.record.items.localName != 'view') {
         
@@ -43,7 +43,7 @@ var getXPath = function(node) {
             return n.record.items.localName == nd.record.items.localName; 
         }, nd.parentNode.childNodes);
         
-        var idx = MochiKit.Base.findIdentical(similar, nd) + 1
+        var idx = MochiKit.Base.findIdentical(similar, nd) + 1;
         
         xp = '/' + nd.record.items.localName + '[' + idx + ']' + xp;
         nd = path.pop();
@@ -52,7 +52,7 @@ var getXPath = function(node) {
     return xp;
 }
 
-var onDelete = function(node){
+function onDelete(node){
     
     var tree = view_tree;
     var selected = node || tree.selection[0] || null;
@@ -85,7 +85,7 @@ var onDelete = function(node){
     });
 }
 
-var onAdd = function(node){
+function onAdd(node){
 
     var tree = view_tree;
     var selected = node || tree.selection[0] || null;
@@ -121,7 +121,7 @@ var onAdd = function(node){
     });
 }
 
-var doAdd = function() {
+function doAdd() {
     
     var tree = view_tree;
     var selected = tree.selection[0] || null;
@@ -176,7 +176,7 @@ var doAdd = function() {
     return false;
 }
 
-var onEdit = function(node) {
+function onEdit(node) {
 
     var tree = view_tree;
     var selected = node || tree.selection[0] || null;
@@ -190,7 +190,7 @@ var onEdit = function(node) {
     
     if (data.localName == 'view') {
         return;
-    };
+    }
     
     var req = openobject.http.post('/openerp/viewed/edit', {view_id: data.view_id, xpath_expr: getXPath(selected)});
     req.addCallback(function(xmlHttp){
@@ -213,7 +213,7 @@ var onEdit = function(node) {
     });
 }
 
-var doEdit = function() {
+function doEdit() {
     
     var tree = view_tree;
     var selected = tree.selection[0] || null;
@@ -266,7 +266,7 @@ var doEdit = function() {
     return false;
 }
 
-var onMove = function(direction, node) {
+function onMove(direction, node) {
     
     var tree = view_tree;
     var selected = node || tree.selection[0] || null;
@@ -289,7 +289,7 @@ var onMove = function(direction, node) {
         view_id: data.view_id, 
         xpath_expr: getXPath(node),
         xpath_ref: getXPath(refNode)
-    }
+    };
     
     var req = openobject.http.postJSON('/openerp/viewed/save/move', params);
     
@@ -302,7 +302,7 @@ var onMove = function(direction, node) {
         var pnode = node.parentNode;
         var nnode = tree.createNode(record);
         
-        pnode.removeChild(node)
+        pnode.removeChild(node);
         pnode.insertBefore(nnode, refNode);
         
         if (direction == 'up') {
@@ -315,7 +315,7 @@ var onMove = function(direction, node) {
     return true;
 }
 
-var onButtonClick = function(evt, node) {
+function onButtonClick(evt, node) {
     
     var src = evt.src();
     
@@ -332,7 +332,7 @@ var onButtonClick = function(evt, node) {
     }
 }
 
-var onInherit = function() {
+function onInherit() {
     
     if (!confirm(_('Do you really wants to create an inherited view here?'))) {
         return;
@@ -364,7 +364,7 @@ var onInherit = function() {
     return false;
 }
 
-var onPreview = function() {
+function onPreview() {
    var act = openobject.http.getURL('/openerp/viewed/preview/show', {'model' : openobject.dom.get('view_model').value, 
                                              'view_id' : openobject.dom.get('view_id').value,
                                              'view_type' : openobject.dom.get('view_type').value});
@@ -376,31 +376,31 @@ var onPreview = function() {
     window.open(act);
 }
 
-var onNew = function(model){                          
+function onNew(model){
     var act = openobject.http.getURL('/openerp/viewed/new_field/edit', {'for_model' : model});
     openobject.tools.openWindow(act, {width: 650, height: 400});
 }
 
-var onClose = function(){
+function onClose(){
     window.opener.setTimeout("window.location.reload()", 1);
     window.close();
 }
 
-var toggleFields = function(selector) {
+function toggleFields(selector) {
     openobject.dom.get('name').style.display = selector.value == 'field' ? '' : 'none';
     openobject.dom.get('new_field').style.display = selector.value == 'field' ? '' : 'none';
 }
 
-var onUpdate = function(){
+function onUpdate(){
     window.mbox.onUpdate();
 }
 
-var addNewFieldName = function(name) {
+function addNewFieldName(name) {
     var op = openobject.dom.get("name").options;
     op[op.length] = new Option(name, name, 0, 1);
 }
 
-MochiKit.DOM.addLoadEvent(function(evt){
+jQuery(document).ready(function(){
 
     window.mbox = new ModalBox({
         title: 'Properties',

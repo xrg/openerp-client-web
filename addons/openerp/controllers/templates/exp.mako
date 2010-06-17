@@ -1,4 +1,4 @@
-<%inherit file="/openerp/controllers/templates/base.mako"/>
+<%inherit file="/openerp/controllers/templates/base_dispatch.mako"/>
 
 <%def name="header()">
     <title>Export Data</title>
@@ -14,7 +14,7 @@
         .fields-selector-left {
             width: 45%;
         }
-        
+
         td.fields-selector-left div#export_fields_left {
         	overflow: scroll;
         	width: 100%; 
@@ -37,14 +37,14 @@
 
         .fields-selector button {
             width: 100%;
-            margin: 5px 0px;
+            margin: 5px 0;
         }
     </style>
 
     <script type="text/javascript">
         function add_fields(){
         
-            var tree = ${tree.name};
+            var tree = treeGrids['${tree.name}'];
             
             var fields = tree.selection;
             var select = openobject.dom.get('fields');
@@ -72,14 +72,14 @@
 
         function save_export() {
             var form = document.forms['view_form'];
-            form.action = openobject.http.getURL('/openerp/impex/save_exp');
             
-            var options = openobject.dom.get('fields').options;            
+            var options = openobject.dom.get('fields').options;
             forEach(options, function(o){
                 o.selected = true;
             });
-            
-            form.submit();        
+            jQuery(form).attr('action',
+                    openobject.http.getURL('/openerp/impex/save_exp')
+            ).submit();
         }
         
         function del_fields(all){
@@ -97,10 +97,11 @@
         
         function do_select(id, src) {
             openobject.dom.get('fields').innerHTML = '';
-            model = openobject.dom.get('_terp_model').value;
-            params = {'_terp_id': id, '_terp_model': model}
-            
-            req = openobject.http.postJSON('/openerp/impex/get_namelist', params);
+            var model = openobject.dom.get('_terp_model').value;
+            var req = openobject.http.postJSON('/openerp/impex/get_namelist', {
+                '_terp_id': id,
+                '_terp_model': model
+            });
             
             req.addCallback(function(obj){
                 if (obj.error){
@@ -122,11 +123,10 @@
             }
             
             var id = boxes[0].value;
-    
-            params = {'_terp_id' : id};
 
-            setNodeAttribute(form, 'action', openobject.http.getURL('/openerp/impex/delete_listname', params));
-            form.submit();
+            jQuery(form).attr('action', openobject.http.getURL(
+                '/openerp/impex/delete_listname', {'_terp_id' : id})
+            ).submit();
         }
         
         function reload(name_list) {
@@ -134,7 +134,7 @@
 
             forEach(name_list, function(f){                
                 var text = f[1];
-                var id = f[0]
+                var id = f[0];
                 select.options.add(new Option(text, id));
             });
         }
@@ -144,7 +144,8 @@
             var options = openobject.dom.get('fields').options;
 
             if (options.length == 0){
-                return alert(_('Please select fields to export...'));
+                alert(_('Please select fields to export...'));
+                return;
             }
 
             var fields2 = [];
@@ -156,8 +157,9 @@
 
             openobject.dom.get('_terp_fields2').value = '[' + fields2.join(',') + ']';
 
-            setNodeAttribute(form, 'action', openobject.http.getURL('/openerp/impex/export_data/data.' + openobject.dom.get('export_as').value));
-            form.submit();
+            jQuery(form).attr('action', openobject.http.getURL(
+                '/openerp/impex/export_data/data.' + openobject.dom.get('export_as').value)
+            ).submit();
         }
     </script>
 </%def>
@@ -169,16 +171,14 @@
     <input type="hidden" id="_terp_ids" name="_terp_ids" value="${ids}"/>
     <input type="hidden" id="_terp_search_domain" name="_terp_search_domain" value="${search_domain}"/>
     <input type="hidden" id="_terp_fields2" name="_terp_fields2" value="[]"/>
+    <input type="hidden" id="_terp_context" name="_terp_context" value="${ctx}"/>
 
     <table class="view" cellspacing="5" border="0" width="100%">
         <tr>
             <td>
                 <table width="100%" class="titlebar">
                     <tr>
-                        <td width="32px" align="center">
-                            <img src="/openerp/static/images/stock/gtk-go-up.png"/>
-                        </td>
-                        <td width="100%">${_("Export Data")}</td>
+                        <td width="100%"><h1>${_("Export Data")}</h1></td>
                     </tr>
                 </table>
             </td>

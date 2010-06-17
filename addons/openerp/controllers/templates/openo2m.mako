@@ -1,4 +1,4 @@
-<%inherit file="/openerp/controllers/templates/base.mako"/>
+<%inherit file="/openerp/controllers/templates/base_dispatch.mako"/>
 
 <%def name="header()">
     <title>${form.screen.string} </title>
@@ -13,7 +13,7 @@
             viewRecord(id, src);
         }
 
-        MochiKit.DOM.addLoadEvent(function (evt){
+        jQuery(document).ready(function (){
 
             var pwin = window.opener;
             var pform = pwin.document.forms['view_form'];
@@ -27,7 +27,7 @@
 
                 if (e.name && e.type != 'button' && e.name.indexOf('${params.o2m}') != 0){
 
-                    var attrs = {}
+                    var attrs = {};
                     MochiKit.Iter.forEach(required_attrs, function(n){
                         if (e.attributes[n]) attrs[n] = e.attributes[n].value;
                     });

@@ -40,7 +40,7 @@ var Many2Many = function(name) {
     }
 
     this.__init__(name);
-}
+};
 
 Many2Many.prototype = {
 
@@ -63,7 +63,7 @@ Many2Many.prototype = {
         MochiKit.Signal.connect(this.text, 'onchange', this, this.onChange);
 
         if (!this.hasList) {
-            MochiKit.Signal.connect(this.text, 'onkeydown', bind(function(evt){
+            MochiKit.Signal.connect(this.text, 'onkeydown', bind(function(evt) {
                 var key = evt.event().keyCode;
 
                 if (key == 8 || key == 46) {
@@ -71,7 +71,7 @@ Many2Many.prototype = {
                     this.id.value = '';
                     this.onChange();
                 }
-                
+
                 if (key == 113) {
                     evt.stop();
                     this.onClick();
@@ -83,22 +83,22 @@ Many2Many.prototype = {
         // save the reference
         openobject.dom.get(name)._m2m = this;
     },
-    
+
     onClick: function() {
-    	this.btnAdd.onclick();
+        this.btnAdd.onclick();
     },
 
     onChange: function() {
         this.setValue(this.id.value);
     },
 
-    selectAll: function(){
+    selectAll: function() {
         if (this.hasList) {
             ListView(this.name).checkAll();
         }
     },
 
-    setValue: function(ids){
+    setValue: function(ids) {
 
         ids = /^\[.*\]/.test(ids) ? ids : '[' + ids + ']';
         ids = eval(ids);
@@ -121,29 +121,30 @@ Many2Many.prototype = {
         }
     },
 
-    getValue: function(){
+    getValue: function() {
         var ids = this.hasList ? this.terp_ids.value : this.id.value;
         try {
             res = eval(ids);
-            if (res.length) 
+            if (res.length)
                 return res;
-        } catch(e) {}
-        
+        } catch(e) {
+        }
+
         return [];
     },
 
     remove: function() {
-        
+
         var ids = eval(this.terp_ids.value) || [];
         var boxes = ListView(this.name).getSelectedItems();
 
-        if(boxes.length <= 0)
+        if (boxes.length <= 0)
             return;
 
         boxes = MochiKit.Base.map(function(box) {
             return parseInt(box.value);
         }, boxes);
-    
+
         ids = MochiKit.Base.filter(function(id) {
             return MochiKit.Base.findIdentical(boxes, id) == -1;
         }, ids);
@@ -158,7 +159,7 @@ Many2Many.prototype = {
         this.id.disabled = readonly;
         this.text.readOnly = readonly;
         this.text.disabled = readonly;
-        
+
         if (readonly) {
             MochiKit.DOM.addElementClass(this.id, 'readonlyfield');
             MochiKit.DOM.addElementClass(this.text, 'readonlyfield');
@@ -171,7 +172,4 @@ Many2Many.prototype = {
             this.btnDel.parentNode.style.display = '';
         }
     }
-}
-
-// vim: ts=4 sts=4 sw=4 si et
-
+};

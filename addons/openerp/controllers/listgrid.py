@@ -64,9 +64,10 @@ class List(SecuredController):
             frm = TinyForm(**kw).to_python()
             data = {}
             ctx = context_with_concurrency_info(params.parent.context, params.concurrency_info)
-
-            if model != params.model:
-                source = params.source
+            
+            source = params.source
+            if source and source != '_terp_list':
+                
                 data = frm.chain_get(source)
 
                 if '__id' in data: data.pop('__id')
@@ -149,18 +150,15 @@ class List(SecuredController):
         
         if groupby and isinstance(groupby, basestring):
             groupby = groupby.split(',')
-            
-        group_by_list = []
         
-        if groupby:
-            for gb in groupby:
-                if 'group_' in gb:
-                    group_split = gb.split('group_')                    
-                    if group_split:
-                        group_by_list.append(group_split[1])
+        if params.get('_terp_filters_context'):
+            if isinstance(params.filters_context, (list, tuple)):
+                for filter_ctx in params.filters_context:
+                    params.context.update(filter_ctx)
+            else:
+                params.context.update(params.filters_context)
             
-        params['_terp_group_by_ctx'] = group_by_list
-                
+        params['_terp_group_by_ctx'] = groupby        
         if '_terp_sort_key' in params:
             proxy = rpc.RPCProxy(params.model)
             if params.search_domain is None:

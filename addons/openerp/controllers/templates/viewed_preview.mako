@@ -1,4 +1,4 @@
-<%inherit file="/openerp/controllers/templates/base.mako"/>
+<%inherit file="/openerp/controllers/templates/base_dispatch.mako"/>
 
 <%def name="header()">
     <title>${form.screen.string}</title>
@@ -14,10 +14,7 @@
             <td>
                 <table width="100%" class="titlebar">
                     <tr>
-                        <td width="32px" align="center">
-                            <img alt="" src="${py.url('/static/images/stock/gtk-print-preview.png')}"/>
-                        </td>
-                        <td width="100%">${form.screen.string}</td>
+                        <td width="100%"><h1>${form.screen.string}</h1></td>
                     </tr>
                 </table>
             </td>

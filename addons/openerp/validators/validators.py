@@ -78,8 +78,8 @@ class Float(Number):
         try:
             value = format.parse_decimal(value)
         except ValueError:
-            pass
-        return Number.to_python(value, state)
+            raise Invalid(_('Invalid literal for float'), value, state)
+        return value
 
 class FloatTime(Float):
 
@@ -191,6 +191,11 @@ class URL(URL):
 
 class Email(Email):
     if_empty = False
+    
+    domainRE = re.compile(r'''
+        (^(?:[a-z0-9][a-z0-9\-]{0,62}\.)+ # (sub)domain - alpha followed by 62max chars (63 total)
+        [a-z]{2,}[\s,.]*$)*                     # TLD
+    ''', re.I | re.VERBOSE)
 
     def _from_python(self, value, state):
         return value or ''
@@ -227,6 +232,10 @@ class many2one(BaseValidator):
             value = (len(value) or False) and value[0]
 
         return value or ''
+    
+class one2many(FancyValidator):
+    
+    if_empty = []
 
 
 # Let some FormEncode strings goes into message catalog.

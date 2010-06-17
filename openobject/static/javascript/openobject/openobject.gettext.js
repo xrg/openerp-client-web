@@ -30,23 +30,24 @@
 openobject.gettext = {
 
     MESSAGES: {},
-    
+
     ugettext: function(key) {
         try {
             return this.MESSAGES[key] || key;
-        } catch(e) {}
-            return key;
+        } catch(e) {
+        }
+        return key;
     },
-    
+
     update: function(messages) {
         MochiKit.Base.update(this.MESSAGES, messages);
     }
 
-}
+};
 
 window._ = function(key) {
     return openobject.gettext.ugettext(key);
-}
+};
 
 
 // vim: ts=4 sts=4 sw=4 si et

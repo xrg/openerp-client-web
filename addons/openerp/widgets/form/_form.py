@@ -31,40 +31,20 @@
 This module implementes widget parser for form view, and
 several widget components.
 """
-
 import os
-import re
-import time
 import random
+import re
 import xml.dom.minidom
 
 import cherrypy
-
-from openobject import tools
-
-from openobject.i18n import format
-from openobject.i18n import get_locale
-
-from openobject.widgets import JSLink, JSSource, CSSLink
-
-from openerp.utils import rpc
-from openerp.utils import icons
-from openerp.utils import common
-from openerp.utils import cache
-from openerp.utils import TinyDict
-from openerp.utils import node_attributes
-from openerp.utils import get_node_xpath
-
-from openerp.widgets import TinyWidget
-from openerp.widgets import TinyInputWidget
-from openerp.widgets import ConcurrencyInfo
-
-from openerp.widgets import get_widget
-from openerp.widgets import register_widget
-
 from openerp import validators
+from openerp.utils import rpc, icons, common, TinyDict, node_attributes, get_node_xpath
+from openerp.widgets import TinyWidget, TinyInputWidget, ConcurrencyInfo, get_widget, register_widget
 
 from _binary import Image
+from openobject import tools
+from openobject.i18n import format, get_locale
+from openobject.widgets import JSLink, CSSLink
 
 
 class Frame(TinyInputWidget):
@@ -88,7 +68,8 @@ class Frame(TinyInputWidget):
             self.columns = int(attrs.get('col', 4))
  
         self.nolabel = True
-
+        self.label_position = attrs.get('label_position')
+        
         self.x = 0
         self.y = 0
 
@@ -98,11 +79,10 @@ class Frame(TinyInputWidget):
         self.add_row()
 
         for child in self.children:
-
+            
             string = not child.nolabel and child.string
             rowspan = child.rowspan or 1
             colspan = child.colspan or 1
-
             if isinstance(child, NewLine):
                 self.add_row()
 
@@ -130,17 +110,14 @@ class Frame(TinyInputWidget):
         for row in self.table:
 
             sn = len([w for a, w in row if isinstance(w, (basestring, Label, Image))])
-
             sw = 5                                  # label & image width
             ww = 100.00 - sw * sn                   # remaining width
             cn = self.columns - sn                  # columns - (lables + image)
 
             cn -= len([w for a, w in row if not isinstance(w, (basestring, Label, Image)) and not w.visible])
-
             if cn < 1: cn = 1
 
             for i, (a, wid) in enumerate(row):
-
                 if isinstance(wid, (basestring, Label, Image)):
                     w = sw
 
@@ -153,9 +130,11 @@ class Frame(TinyInputWidget):
                         w = ww * c / cn
                     else:
                         w = 0
-
-                a['width'] = '%d%%' % (w)
-
+                if isinstance(wid, Separator) and not string:
+                    a['width'] = '2%'
+                else:
+                    a['width'] = '%d%%' % (w)
+                    
     def add_row(self):
 
         if len(self.table) and len(self.table[-1]) == 0:
@@ -177,7 +156,7 @@ class Frame(TinyInputWidget):
 
         if widget.validator:
             cherrypy.request.terp_validators[str(widget.name)] = widget.validator
-            cherrypy.request.terp_fields += [widget]
+            cherrypy.request.terp_fields.append(widget)
 
     def add(self, widget, label=None, rowspan=1, colspan=1):
 
@@ -193,11 +172,14 @@ class Frame(TinyInputWidget):
             colspan = 2
 
         tr = self.table[-1]
-
+        label_table = []
         if label:
             colspan -= 1
             attrs = {'class': 'label', 'title': getattr(widget, 'help', None), 'for': widget.name}
             td = [attrs, label]
+            if widget.full_name and self.label_position:
+                attrs['class'] = attrs.get('class', 'label') + ' search_filters search_fields'
+                label_table = td
             tr.append(td)
 
         if isinstance(widget, TinyInputWidget) and hasattr(cherrypy.request, 'terp_validators'):
@@ -234,16 +216,34 @@ class Frame(TinyInputWidget):
         if getattr(widget, 'attributes', False):
             attrs['attrs'] = str(widget.attributes)
             attrs['widget'] = widget.name
-
+            
+        if not isinstance(widget, (Char, Frame, Float, DateTime, Integer, Selection, Notebook, Separator, NewLine, Label)):
+            from openerp.widgets.search import Filter
+            if (not (widget.kind or widget._name)) or (isinstance(widget, Filter) and widget.string):
+                attrs['class'] = attrs.get('class', 'item') + ' search_filters'
+                attrs['nowrap'] = 'nowrap'
+            
         td = [attrs, widget]
-        tr.append(td)
-
+        if widget.full_name and self.label_position:
+            if label_table:
+                label_table[0]['widget_item'] = td
+                label_table[0]['label_position'] = self.label_position
+            else:
+                tr.append(td)
+        else:
+            tr.append(td)
+        if isinstance(widget, Group):
+            if colspan < 2:
+                for prev_tr in self.table:
+                    if len(prev_tr) > 2:
+                        attrs['colspan'] = len(prev_tr)
+                    
         self.x += colspan + a
 
     def add_hidden(self, widget):
         if isinstance(widget, TinyInputWidget) and hasattr(cherrypy.request, 'terp_validators'):
             self._add_validator(widget)
-        self.hiddens += [widget]
+        self.hiddens.append(widget)
 
 class Notebook(TinyInputWidget):
     """Notebook widget, contains list of frames. Each frame will be displayed as a
@@ -267,7 +267,7 @@ class Notebook(TinyInputWidget):
 
         self.fake_widget = '_fake'
         if attrs.get('prefix'):
-            self.fake_widge = attrs['prefix'] + '/_fake'
+            self.fake_widget = attrs['prefix'] + '/_fake'
 
 register_widget(Notebook, ["notebook"])
 
@@ -286,15 +286,15 @@ class Separator(TinyInputWidget):
     """
 
     template = "templates/separator.mako"
-    params = ["orientation"]
+    params = ["orientation", "position"]
 
     def __init__(self, **attrs):
         super(Separator, self).__init__(**attrs)
-
         self.colspan = int(attrs.get('colspan', 4))
         self.orientation = attrs.get('orientation', False)
-        self.rowspan = 1
+        self.rowspan = int(attrs.get('rowspan', 1))
         self.nolabel = True
+        self.position = attrs.get('position', 'horizontal')
 
 register_widget(Separator, ["separator"])
 
@@ -514,7 +514,7 @@ class Selection(TinyInputWidget):
 
     def set_value(self, value):
         
-        if value==False:
+        if not value:
             value=''
 
         if isinstance(value, (tuple, list)):
@@ -522,7 +522,7 @@ class Selection(TinyInputWidget):
 
         for s in dict(self.options):
             if str(s) == str(value):
-                value =  s
+                value = s
 
         super(Selection, self).set_value(value)
 
@@ -613,7 +613,7 @@ class Hidden(TinyInputWidget):
 class Button(TinyInputWidget):
 
     template = "templates/button.mako"
-    params = ["btype", "id", "confirm", "icon", "target"]
+    params = ["btype", "id", "confirm", "icon", "target", "context"]
 
     visible = True
     target = 'current'
@@ -626,6 +626,7 @@ class Button(TinyInputWidget):
         self.string = re.sub('_(?!_)', '', self.string or '')
 
         self.btype = attrs.get('special', attrs.get('type', 'workflow'))
+        self.context = attrs.get("context", {})
 
         self.nolabel = True
 
@@ -648,13 +649,13 @@ class Group(TinyInputWidget):
 
     def __init__(self, **attrs):
         super(Group, self).__init__(**attrs)
-        self.default = attrs.get('expand', False)
+        self.default = int(attrs.get('expand', 0))
         self.frame = Frame(**attrs)
         self.nolabel = True
         self.view_type = cherrypy.request.terp_params.get('_terp_view_type')
         
         if attrs.get('group_by_ctx'):
-            self.default = True
+            self.default = 1
         self.expand_grp_id = 'expand_grp_%s' % (random.randint(0,10000))
         
 register_widget(Group, ["group"])
@@ -780,9 +781,11 @@ class Form(TinyInputWidget):
                     values[d[0]] = d[2][0]
 
         if ids:
-            values = proxy.read(ids[:1], fields.keys() + ['__last_update'], ctx)[0]
-            self.id = ids[0]
-            self._update_concurrency_info(self.model, [values])
+            lval = proxy.read(ids[:1], fields.keys() + ['__last_update'], ctx)
+            if lval:
+                values = lval[0]
+                self.id = ids[0]
+                self._update_concurrency_info(self.model, [values])
 
         elif 'datas' in view: # wizard data
 
@@ -846,10 +849,10 @@ class Form(TinyInputWidget):
             attrs['state'] = self.state
 
             if node.localName=='image':
-                views += [Image(**attrs)]
+                views.append(Image(**attrs))
 
             elif node.localName=='separator':
-                views += [Separator(**attrs)]
+                views.append(Separator(**attrs))
 
             elif node.localName=='label':
                 text = attrs.get('string', '')
@@ -862,37 +865,38 @@ class Form(TinyInputWidget):
                             text += node.toxml()
 
                 attrs['string'] = text
-                views += [Label(**attrs)]
+                views.append(Label(**attrs))
 
             elif node.localName=='newline':
-                views += [NewLine(**attrs)]
+                views.append(NewLine(**attrs))
 
             elif node.localName=='button':
-                views += [Button(model=self.model, id=self.id, **attrs)]
+                views.append(Button(model=self.model, id=self.id, **attrs))
 
             elif node.localName == 'form':
                 n = self.parse(prefix=prefix, root=node, fields=fields, values=values)
-                views += [Frame(children=n, **attrs)]
+                views.append(Frame(children=n, **attrs))
 
             elif node.localName == 'notebook':
                 n = self.parse(prefix=prefix, root=node, fields=fields, values=values)
                 nb = Notebook(children=n, **attrs)
                 self.nb_couter += 1
                 nb._name = prefix.replace('/', '_') + '_notebook_%s'  % (self.nb_couter)
-                views += [nb]
+                views.append(nb)
 
             elif node.localName == 'page':
                 n = self.parse(prefix=prefix, root=node, fields=fields, values=values)
-                views += [Page(children=n, **attrs)]
+                views.append(Page(children=n, **attrs))
 
             elif node.localName=='group':                
                 n = self.parse(prefix=prefix, root=node, fields=fields, values=values)
-                views += [Group(children=n, **attrs)]
+                views.append(Group(children=n, **attrs))
 
             elif node.localName == 'field':
                 name = attrs['name']
 
                 try:
+                    fields[name]['link'] = attrs.get('link', '1')
                     fields[name].update(attrs)
                 except:
                     print "-"*30,"\n malformed tag for:", attrs
@@ -917,24 +921,24 @@ class Form(TinyInputWidget):
                 self.view_fields.append(name)
 
                 field = self._make_field_widget(fields[name], values.get(name))
-                views += [field]
+                views.append(field)
 
             elif node.localName=='hpaned':
                 n = self.parse(prefix=prefix, root=node, fields=fields, values=values)
-                views += [HPaned(children=n, **attrs)]
+                views.append(HPaned(children=n, **attrs))
 
             elif node.localName=='vpaned':
                 n = self.parse(prefix=prefix, root=node, fields=fields, values=values)
-                views += [VPaned(children=n, **attrs)]
+                views.append(VPaned(children=n, **attrs))
 
             elif node.localName in ('child1', 'child2'):
                 n = self.parse(prefix=prefix, root=node, fields=fields, values=values)
                 attrs['name'] = get_node_xpath(node)
-                views += [Dashbar(children=n, **attrs)]
+                views.append(Dashbar(children=n, **attrs))
 
             elif node.localName=='action':
                 wid = get_widget('action')(**attrs)
-                views += [wid]
+                views.append(wid)
                 cherrypy.request._terp_dashboard = True
 
             else:
@@ -948,7 +952,7 @@ class Form(TinyInputWidget):
                         continue
                     attrs['value'] = node.nodeValue
 
-                views += [HtmlView(children=n, **attrs)]
+                views.append(HtmlView(children=n, **attrs))
 
 
         return views
@@ -956,13 +960,14 @@ class Form(TinyInputWidget):
     def _make_field_widget(self, attrs, value=False):
 
         attrs['editable'] = self.editable
-        attrs['link'] = self.link
+        if not attrs['type'] == 'many2one':
+            attrs['link'] = self.link
 
         attrs.setdefault('context', self.context)
         attrs.setdefault('model', self.model)
         attrs.setdefault('state', self.state)
 
-        if attrs.get('widget', False):
+        if attrs.get('widget'):
             if attrs['widget']=='one2many_list':
                 attrs['widget']='one2many'
             if get_widget(attrs['widget']):

@@ -1,4 +1,4 @@
-<%inherit file="/openerp/controllers/templates/base.mako"/>
+<%inherit file="/openerp/controllers/templates/base_dispatch.mako"/>
 
 <%def name="header()">
     <title>${form.screen.string}</title>
@@ -21,7 +21,7 @@
                 '_terp_starts' : starts,
                 '_terp_ends' : ends,
                 '_terp_context': openobject.dom.get('_terp_context').value
-            }
+            };
 
             var req = openobject.http.postJSON('/view_calendar/calpopup/get_defaults', params);
             req.addCallback(function(obj){
@@ -55,7 +55,7 @@
             }
         }
 
-        addLoadEvent(on_load);
+        jQuery(document).ready(on_load);
     </script>
 </%def>
 
@@ -82,8 +82,10 @@
                             <td width="100%">
                             </td>
                             <td>
-                                <button type="button" onclick="window.close()">${_("Close")}</button>
-                                <button type="button" onclick="submit_form('save')">${_("Save")}</button>
+                                <a class="button-a" href="javascript: void(0)" onclick="window.close()">${_("Close")}</a>
+                            </td>
+                            <td>
+                                <a class="button-a" href="javascript: void(0)" onclick="submit_form('save')">${_("Save")}</a>
                             </td>
                         </tr>
                     </table>

@@ -33,22 +33,22 @@
 
 openerp.ui.Tips = function(elements, options) {
     this.__init__(elements, options);
-}
+};
 
 openerp.ui.Tips.prototype = {
 
-__init__ : function(elements, options) {
+    __init__ : function(elements, options) {
 
-    this.options = MochiKit.Base.update({
-        wait: 1,            // wait for n seconds
-        maxTitleChars: 255  // number of chars in title
-    }, options || {});
+        this.options = MochiKit.Base.update({
+            wait: 1,            // wait for n seconds
+            maxTitleChars: 255  // number of chars in title
+        }, options || {});
 
-    this.deferred = null;
-    this.elements = elements;
+        this.deferred = null;
+        this.elements = elements;
 
-    this.toolTitle = SPAN({'class': 'tipTitle'});
-    this.toolText = P({'class': 'tipText'});
+        this.toolTitle = SPAN({'class': 'tipTitle'});
+        this.toolText = P({'class': 'tipText'});
     
     this.toolTip = TABLE({'class': 'tooltip'},
                         TBODY(null,
@@ -59,37 +59,37 @@ __init__ : function(elements, options) {
                             ));
                                 
                             
-    this.toolTip.cellPadding = 0;
-    this.toolTip.cellSpacing = 0;
+        this.toolTip.cellPadding = 0;
+        this.toolTip.cellSpacing = 0;
     
-    MochiKit.DOM.appendChildNodes(document.body, this.toolTip);
+        MochiKit.DOM.appendChildNodes(document.body, this.toolTip);
 
-    MochiKit.Iter.forEach(elements, function(el) {
+        MochiKit.Iter.forEach(elements, function(el) {
         
-        el = openobject.dom.get(el);
-        el.myText = MochiKit.DOM.getNodeAttribute(el, 'title');
+            el = openobject.dom.get(el);
+            el.myText = MochiKit.DOM.getNodeAttribute(el, 'title');
 
-        if (el.myText) 
-            el.removeAttribute('title');
+            if (el.myText)
+                el.removeAttribute('title');
 
-        //if (el.href){
-        //    if (el.href.indexOf('http://') > -1) el.myTitle = el.href.replace('http://', '');
-        //    if (el.href.length > this.options.maxTitleChars) el.myTitle = el.href.substr(0,this.options.maxTitleChars-3)+"...";
-        //}
+            //if (el.href){
+            //    if (el.href.indexOf('http://') > -1) el.myTitle = el.href.replace('http://', '');
+            //    if (el.href.length > this.options.maxTitleChars) el.myTitle = el.href.substr(0,this.options.maxTitleChars-3)+"...";
+            //}
         
-        if (el.myText && el.myText.indexOf('::') > -1){
-            var dual = el.myText.split('::');
-            el.myTitle = MochiKit.Format.strip(dual[0]);
-            el.myText = MochiKit.Format.strip(dual[1]);
-        }
+            if (el.myText && el.myText.indexOf('::') > -1) {
+                var dual = el.myText.split('::');
+                el.myTitle = MochiKit.Format.strip(dual[0]);
+                el.myText = MochiKit.Format.strip(dual[1]);
+            }
         
-        MochiKit.Signal.connect(el, 'onmouseover', this, this.showLater);
-        MochiKit.Signal.connect(el, 'onmouseout', this, this.hide);
+          MochiKit.Signal.connect(el, 'onmouseover', this, this.showLater);
+          MochiKit.Signal.connect(el, 'onmouseout', this, this.hide);
 
-    }, this);
-},
+        }, this);
+    },
 
-    showLater: function(evt){
+    showLater: function(evt) {
         
         var e = evt.src();
         var x = evt.mouse().client.x;
@@ -98,7 +98,7 @@ __init__ : function(elements, options) {
         this.deferred = MochiKit.Async.callLater(this.options.wait, MochiKit.Base.bind(this.show, this), e, x, y);
     },
 
-    show: function(el, x, y){
+    show: function(el, x, y) {
 
         var text = el.myText;
         var title = el.myTitle;
@@ -118,12 +118,12 @@ __init__ : function(elements, options) {
             this.toolText.innerHTML = '';        
             MochiKit.DOM.appendChildNodes(this.toolText, div.childNodes);
         } else {
-            this.toolText.innerHTML = text ? text : el.myTitle;;
+            this.toolText.innerHTML = text ? text : el.myTitle;
         }
         
         this.toolTitle.style.display = title ? 'block' : 'none';
         
-        if (browser.isIE){
+        if (browser.isIE) {
             this.toolTip.style.display = 'block';
         } else {
             MochiKit.Visual.appear(this.toolTip, {duration: 0.5, from: 0});
@@ -134,7 +134,7 @@ __init__ : function(elements, options) {
         var doc = document.documentElement;
         var body = document.body;
 
-        var ps = MochiKit.Style.getElementPosition(el)
+        var ps = MochiKit.Style.getElementPosition(el);
         var vd = MochiKit.DOM.getViewportDimensions();
         var md = MochiKit.Style.getElementDimensions(this.toolTip);
 
@@ -150,38 +150,42 @@ __init__ : function(elements, options) {
         this.toolTip.style.left = x + 'px';
     },
 
-    hide: function(){
+    hide: function() {
         if (this.deferred) {
             this.deferred.cancel();
         }
-        if (browser.isIE){
+        if (browser.isIE) {
             this.toolTip.style.display = 'none';
         } else {
             MochiKit.Visual.fade(this.toolTip, {duration: 0.2, queue: 'end'});
         }
     }
-}
+};
 
-MochiKit.DOM.addLoadEvent(function(evt){
+function setup_tips(){
 
     if (window.browser.isOpera){
         return;
     }
-
     var elements = MochiKit.Base.filter(function(e){
-
         var text = MochiKit.DOM.getNodeAttribute(e, 'title');
         if (!text)
             return false;
-        
-        var title = MochiKit.DOM.scrapeText(e).replace(/^\s*\?\s*|\s*\:\s*$/g, '');
-        MochiKit.DOM.setNodeAttribute(e, 'title', title + '::' + text);
 
+        var title;
+        var search_table = jQuery(e).find('table#search_table');
+        if(search_table.length) {
+            title = jQuery(search_table).find('td:first span').text().split(":")[0];
+        } else {
+            title = MochiKit.DOM.scrapeText(e).replace(/^\s*\?\s*|\s*:\s*$/g, '');
+        }
+
+        MochiKit.DOM.setNodeAttribute(e, 'title', title + '::' + text);
         return true;
 
     }, openobject.dom.select('td.label', document));
-    
-    new openerp.ui.Tips(elements);
-});
 
-// vim: ts=4 sts=4 sw=4 si et
+    new openerp.ui.Tips(elements);
+}
+jQuery(document).ready(setup_tips);
+jQuery(document).ajaxStop(setup_tips);

@@ -1,4 +1,4 @@
-<%inherit file="/openerp/controllers/templates/base.mako"/>
+<%inherit file="/openerp/controllers/templates/base_dispatch.mako"/>
 
 <%def name="header()">
     <title>Import Data</title>
@@ -14,7 +14,7 @@
         .fields-selector-left {
             width: 45%;
         }
-        
+
         td.fields-selector-left div#import_fields_left {
         	overflow: scroll;
         	width: 100%;
@@ -38,14 +38,14 @@
 
         .fields-selector button {
             width: 100%;
-            margin: 5px 0px;
+            margin: 5px 0;
         }
     </style>
 
     <script type="text/javascript">
         function add_fields(){
         
-            var tree = ${tree.name};
+            var tree = treeGrids['${tree.name}'];
             
             var fields = tree.selection;
             var select = openobject.dom.get('fields');
@@ -87,10 +87,10 @@
                 o.selected = true;
             });
 
-            document.getElementsByName(form)[0].target = "detector";
-            
-            setNodeAttribute(form, 'action', openobject.http.getURL('/openerp/impex/import_data'));
-            document.getElementsByName(form)[0].submit();
+            jQuery(form).attr({
+                'target': "detector",
+                'action': openobject.http.getURL('/openerp/impex/import_data')
+            }).submit();
         }
 
         function on_detector(src){
@@ -121,11 +121,11 @@
             if (! openobject.dom.get('csvfile').value ){
                 return alert(_('You must select an import file first!'));
             }
-			
-            document.getElementsByName(form)[0].target = "detector";
 
-            setNodeAttribute(form, 'action',openobject.http.getURL('/openerp/impex/detect_data'));
-            document.getElementsByName(form)[0].submit();
+            jQuery(form).attr({
+                'target': "detector",
+                'action': openobject.http.getURL('/openerp/impex/detect_data')
+            }).submit();
         }
 
     </script>
@@ -144,10 +144,7 @@
             <td>
                 <table width="100%" class="titlebar">
                     <tr>
-                        <td width="32px" align="center">
-                            <img src="/openerp/static/images/stock/gtk-go-down.png"/>
-                        </td>
-                        <td width="100%">${_("Import Data")}</td>
+                        <td width="100%"><h1>${_("Import Data")}</h1></td>
                     </tr>
                 </table>
             </td>

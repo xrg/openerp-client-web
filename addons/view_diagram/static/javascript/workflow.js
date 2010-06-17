@@ -188,7 +188,7 @@ openobject.workflow.Workflow.implement({
 		var counter = 1;
 		
 		for(i=0; i<n; i++) {
-			var conn = this.connectors.get(i)
+			var conn = this.connectors.get(i);
 			var start = conn.getSource().getParent().get_act_id();
 			var end = conn.getTarget().getParent().get_act_id();
 			
@@ -204,7 +204,7 @@ openobject.workflow.Workflow.implement({
 		}
 		
 		for(i=0; i<conn_overlapped.length; i++) {
-			var conn = this.connectors.get(conn_overlapped[i]) 
+			var conn = this.connectors.get(conn_overlapped[i]);
 			
 			if(flag) {
 				conn.totalOverlaped = counter;
@@ -341,7 +341,7 @@ openobject.workflow.Workflow.implement({
 						end = j;
 				}
 				
-				var counter = self.get_overlaping_connection(data['s_id'], data['d_id'], 1)
+				var counter = self.get_overlaping_connection(data['s_id'], data['d_id'], 1);
 				var params = MochiKit.Base.update({}, obj.data);
 				
 				if(counter>1) {
@@ -399,7 +399,7 @@ openobject.workflow.Workflow.implement({
 	remove_state : function(state) {     
         
         var fig = this.getFigure(state.getId());
-        var connections = null
+        var connections = null;
                 
         if(fig.getPorts && connections==null) {
             connections = new draw2d.ArrayList();

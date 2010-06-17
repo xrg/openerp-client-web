@@ -1,10 +1,11 @@
-<%inherit file="/openerp/controllers/templates/base.mako"/>
+<%inherit file="/openerp/controllers/templates/base_dispatch.mako"/>
 
 <%def name="header()">
     <title>${form.screen.string}</title>
 
     <script type="text/javascript">
         var form_controller = '${path}';
+        var USER_ID = '${rpc.session.uid}';
     </script>
 
     <script type="text/javascript">
@@ -47,13 +48,41 @@
 	                                	% endif
                                     % endif
                                     
-                                    <td id="title_details" width="50%" class="content_header_space">
+                                    <td id="title_details" width="30%" class="content_header_space">
                                     	<h1>${form.screen.string}
-                                    		<a target="appFrame" class="help" href="javascript: void(0)" title="${_('Corporate Intelligence...')}" onclick="show_process_view()">
+                                    		<a class="help" href="javascript: void(0)" title="${_('Corporate Intelligence...')}" onclick="show_process_view()">
                                     			<small>Help</small>
 		                              		</a>
+                                            % if display_name:
+		                              		  <small class="sub">${display_name['field']} : ${display_name['value']}</small>
+                                            % endif	                              		       
                                     	</h1>
                                     </td>
+                                    
+                                    %if serverLog:
+                                    	<td>
+									    	<div id="serverlog" style="display: none;">
+									    		<div class="serverLogHeader">
+									    			Current actions :
+									    			<img id="closeServerLog" style="cursor: pointer;" align="right" src="/openerp/static/images/attachments-a-close.png"></img>
+									    		</div>
+									    		% for log in serverLog:
+									    			<div class="logActions">
+								    					<a href="${py.url('/openerp/form/edit', model=log['res_model'], id=log['res_id'])}">
+								    						${log['name']}
+								    					</a>
+									    			</div>
+									    		% endfor	
+									    	</div>
+									    	
+									    	<script type="text/javascript">
+									    		jQuery('#serverlog').fadeIn('slow');
+									    		jQuery('#closeServerLog').click(function() {
+									    			jQuery('#serverlog').fadeOut("slow");
+									    		});
+									    	</script>
+								    	</td>
+    								% endif
                                     
                                     <%def name="make_view_button(i, kind, name, desc, active)">
                                     	<li class="v${i}" title="${desc}">
@@ -74,7 +103,7 @@
 									</td>
 									
 									<!-- <td class="content_header_space" cursor: pointer;">
-	                                    <a target="appFrame" onclick="show_process_view()">
+	                                    <a onclick="show_process_view()">
 		                              		<img title="${_('Corporate Intelligence...')}" class="button" border="0" src="/openerp/static/images/stock/gtk-help.png" width="16" height="16"/>
 		                              	</a>
                                     </td> -->
@@ -101,7 +130,7 @@
 	                                        <img 
 	                                            class="button" width="16" height="16"
 	                                            title="${_('Translate this resource.')}" 
-	                                            src="/openerp/static/images/stock/stock_translate.png" onclick="openobject.tools.openWindow('${py.url('/openerp/translator', _terp_model=form.screen.model, _terp_id=form.screen.id)}')"/>
+	                                            src="/openerp/static/images/stock/stock_translate.png" onclick="openobject.tools.openWindow(openobject.http.getURL('/openerp/translator', {_terp_model: '${form.screen.model}', _terp_id: ${form.screen.id}, _terp_context: $('_terp_context').value}));"/>
 	                                    </td>
 	                                    <td align="center" valign="middle" width="16" class="content_header_space">
 	                                        <img 
@@ -172,7 +201,7 @@
                     
                     <tr>
                         <td class="dimmed-text">
-                            <table style="border: none;">
+                            <table class="form-footer">
                             	<tr>
                             		<td class="footer">
                             			<a href="javascript: void(0)" onclick="new ListView('_terp_list').importData()"">${_("Import")}</a>
@@ -180,7 +209,7 @@
                             			<a href="javascript: void(0)" onclick="new ListView('_terp_list').exportData()">${_("Export")}</a>
                             		</td>
                             		<td class="powered">
-                            			Powered by <a href="http://www.openerp.com"  target="_blank">openerp.com</a>
+                            			Powered by <a href="http://www.openerp.com" target="_blank">openerp.com</a>
                             		</td>
                             		<td class="footer" style="text-align: right;">
                             			<a id="show_customize_menu" onmouseover="showCustomizeMenu(this, 'customise_menu_')" 

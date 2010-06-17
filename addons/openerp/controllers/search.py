@@ -96,7 +96,7 @@ class Search(Form):
         params, data = TinyDict.split(kw)
 
         domain = kw.get('_terp_domain', [])
-        context = kw.get('_terp_context', {})
+        context = params.context or {}
 
         parent_context = params.parent_context or {}
         parent_context.update(rpc.session.context.copy())
@@ -104,8 +104,7 @@ class Search(Form):
             if isinstance(params.group_by, str):
                 parent_context['group_by'] = [params.group_by]
             else:
-                parent_context['group_by'] = params.group_by
-            
+                parent_context['group_by'] = params.group_by    
         try:
             ctx = TinyForm(**kw).to_python()
             pctx = ctx
@@ -121,6 +120,10 @@ class Search(Form):
         if prefix and '/' in prefix:
             prefix = prefix.rsplit('/', 1)[0]
             pctx = pctx.chain_get(prefix)
+            
+        #update active_id in context for links
+        parent_context.update({'active_id':  params.active_id or False,
+                              'active_ids':  params.active_ids or []})
 
         ctx['parent'] = pctx
         ctx['context'] = parent_context
@@ -149,11 +152,16 @@ class Search(Form):
             for key, val in context.items():
                 if val==None:
                     context[key] = False
+                    
+        if isinstance(context, dict):
+            context = expr_eval(context, ctx)
 
         ctx2 = parent_context
         parent_context.update(context)
-
-        return dict(domain=ustr(domain), context=ustr(parent_context))
+        if not isinstance(params.group_by, list):
+            params.group_by = [params.group_by]
+        
+        return dict(domain=ustr(domain), context=ustr(parent_context), group_by = ustr(params.group_by))
 
     @expose('json')
     def get(self, **kw):
@@ -323,10 +331,10 @@ class Search(Form):
 
         if not domain:
             domain = None
-
+        if not isinstance(group_by_ctx, list):
+            group_by_ctx = [group_by_ctx]
         if group_by_ctx:
             search_data['group_by_ctx'] = group_by_ctx
-
         return dict(domain=ustr(domain), context=ustr(ctx), search_data=ustr(search_data), filter_domain=ustr(inner_domain))
 
     @expose()

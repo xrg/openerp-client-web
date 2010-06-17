@@ -45,7 +45,7 @@ openobject.process.__repr__ = openobject.process.toString = function () {
  */
 openobject.process.Workflow = function(canvas) {
     this.__init__(canvas);
-}
+};
 
 openobject.process.Workflow.prototype = new draw2d.Workflow();
 MochiKit.Base.update(openobject.process.Workflow.prototype, {
@@ -216,7 +216,7 @@ MochiKit.Base.update(openobject.process.Workflow.prototype, {
  */
 openobject.process.Node = function(data) {
     this.__init__(data);
-}
+};
 
 openobject.process.Node.prototype = new draw2d.Node();
 MochiKit.Base.update(openobject.process.Node.prototype, {
@@ -260,7 +260,7 @@ MochiKit.Base.update(openobject.process.Node.prototype, {
         var bbar = openobject.dom.select('td.node-buttons', elem)[0];        
         var menu = openobject.dom.select('td.node-menu', elem)[0];
 
-        title.innerHTML = title.title = this.data.name || '';
+        title.innerHTML = this.data.name || '';
         text.innerHTML = this.data.notes || '';
 
         if (this.data.subflow && this.data.subflow.length) {
@@ -278,7 +278,7 @@ MochiKit.Base.update(openobject.process.Node.prototype, {
             var menu_img = IMG({src: '/openerp/static/images/stock/gtk-jump-to.png'});
             menu_img.title = this.data.menu.name;
             menu_img.onclick = MochiKit.Base.bind(function(){
-                window.location.href = openobject.http.getURL('/openerp/tree/open', {model: 'ir.ui.menu', id: this.data.menu.id});
+                openLink(openobject.http.getURL('/openerp/tree/open', {model: 'ir.ui.menu', id: this.data.menu.id}));
             }, this);
             MochiKit.DOM.appendChildNodes(menu, menu_img);
         }
@@ -323,7 +323,7 @@ MochiKit.Base.update(openobject.process.Node.prototype, {
  */
 openobject.process.Transition = function(data) {
     this.__init__(data);
-}
+};
 
 openobject.process.Transition.prototype = new draw2d.Connection();
 MochiKit.Base.update(openobject.process.Transition.prototype, {
@@ -342,7 +342,7 @@ MochiKit.Base.update(openobject.process.Transition.prototype, {
 
         this.setTargetDecorator(new openobject.process.TargetDecorator(color));
         this.setColor(color);
-        this.setLineWidth(2);
+        this.setLineWidth(3);
         this.setSelectable(false);
 
         this.data = data;
@@ -352,7 +352,8 @@ MochiKit.Base.update(openobject.process.Transition.prototype, {
         var elem = this.getHTMLElement();
         elem.style.cursor = 'pointer';
         elem.title = this._makeTipText();
-
+        MochiKit.Signal.connect(elem, 'ondblclick', this, this._makeTipText);
+        
         if (roles.length) {
             var role_img = new draw2d.ImageFigure('/openerp/static/images/stock/stock_person.png');
             role_img.setDimension(32, 32);
@@ -372,11 +373,11 @@ MochiKit.Base.update(openobject.process.Transition.prototype, {
 
         var _mkList = function(values) {
             var r = '<ul style="margin-bottom: 0px; margin-top: 0px;">';
-            MochiKit.Base.map(function(v){
+            MochiKit.Base.map(function(v) {
                 r += '<li>' + v.name + '</li>';
             }, values);
             return r + '</ul>';
-        }
+        };
 
         if (roles.length || buttons.length) {
             title += '<hr noshade="noshade"/>'
@@ -389,8 +390,10 @@ MochiKit.Base.update(openobject.process.Transition.prototype, {
         if (buttons.length) {
             title += '<span>Actions:</span>' + _mkList(buttons);
         }
-
-        return title;
+        
+        var params = {'title_tip': MochiKit.DOM.emitHTML(title)}
+        
+        openobject.tools.openWindow(openobject.http.getURL("/process/open_tip", params), {width: 450, height: 250});
     }
 });
 
@@ -399,7 +402,7 @@ MochiKit.Base.update(openobject.process.Transition.prototype, {
  */
 openobject.process.TargetDecorator = function(color) {
     this.__init__(color);
-}
+};
 
 openobject.process.TargetDecorator.prototype = new draw2d.ArrowConnectionDecorator();
 MochiKit.Base.update(openobject.process.TargetDecorator.prototype, {

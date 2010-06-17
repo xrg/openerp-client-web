@@ -27,28 +27,17 @@
 #
 ###############################################################################
 
+import itertools
 import time
-import datetime
-import calendar
 import xml.dom.minidom
-
-import cherrypy
 
 from openobject.widgets import JSLink, CSSLink
 
-from openerp.utils import rpc
-from openerp.utils import TinyDict
-from openerp.utils import node_attributes
-
+from openerp.utils import rpc, node_attributes
 from openerp.widgets import TinyWidget
 
-from _base import ICalendar
-from _base import TinyCalendar
-
-from utils import Day
-from utils import Week
-from utils import Month
-from utils import Year
+from _base import ICalendar, TinyCalendar
+from utils import Day, Week, Month, Year
 
 class MiniCalendar(TinyWidget):
     template = 'templates/mini.mako'
@@ -194,7 +183,7 @@ class DayCalendar(TinyCalendar):
 
         self.events = self.get_events([self.day])
         self.minical = MiniCalendar(self.day)
-        self.groupbox = GroupBox(self.colors, self.color_values, self.day,
+        self.groupbox =  GroupBox(self.colors, self.color_values, self.day,
                 title=(self.color_field or None) and self.fields[self.color_field]['string'],
                 mode='day')
 
@@ -257,7 +246,7 @@ class GanttCalendar(ICalendar):
             self.headers = [(24, ustr(dp)), (24, ustr(day)), (24, ustr(dn))]
             self.subheaders = []
             for x in self.headers:
-                self.subheaders += [time.strftime('%I %P', (y, 1, 1, i, 0, 0, 1, 1, 0)) for i in range(0, 24, 6)]
+                self.subheaders.append(time.strftime('%I %P', (y, 1, 1, i, 0, 0, 1, 1, 0)) for i in range(0, 24, 6))
 
         elif self.mode == 'week':
             self.days = [d for d in Week(day)]
@@ -266,7 +255,7 @@ class GanttCalendar(ICalendar):
             self.headers = [(12, u"%s %s" % (d.month2.name, d.day)) for d in self.days]
             self.subheaders = []
             for x in self.days:
-                self.subheaders += [time.strftime('%I %P', (y, 1, 1, i, 0, 0, 1, 1, 0)) for i in [0, 23]]
+                self.subheaders.append(time.strftime('%I %P', (y, 1, 1, i, 0, 0, 1, 1, 0)) for i in [0, 23])
 
         elif self.mode == '3weeks':
             w = Week(day)
@@ -276,10 +265,7 @@ class GanttCalendar(ICalendar):
             self.title = _(u"%s - %s") % (ustr(self.days[0]), ustr(self.days[-1]))
             self.selected_day = _get_selection_day(day, self.selected_day, 'week')
             self.headers = [(7, _("Week %s") % w1[0].strftime('%W')) for w1 in [wp, w, wn]]
-            self.subheaders = []
-            self.subheaders += [x.strftime('%a %d') for x in wp]
-            self.subheaders += [x.strftime('%a %d') for x in w]
-            self.subheaders += [x.strftime('%a %d') for x in wn]
+            self.subheaders = [x.strftime('%a %d') for x in itertools.chain(wp, w, wn)]
 
         elif self.mode == '3months':
             q = 1 + (m - 1) / 3
@@ -288,26 +274,22 @@ class GanttCalendar(ICalendar):
             mt = mn.prev()
             mp = mt.prev()
 
-            days = []
-            days += [d for d in mp if d.year == mp.year and d.month == mp.month]
-            days += [d for d in mt if d.year == mt.year and d.month == mt.month]
-            days += [d for d in mn if d.year == mn.year and d.month == mn.month]
+            days = [d for d in mp if d.year == mp.year and d.month == mp.month] \
+                 + [d for d in mt if d.year == mt.year and d.month == mt.month] \
+                 + [d for d in mn if d.year == mn.year and d.month == mn.month]
 
             self.days = days
             self.title = _("%s, Qtr %s") % (y, q)
             self.selected_day = _get_selection_day(day, self.selected_day, '3months')
 
-            headers = []
-            headers += [w for w in mp.weeks]
-            headers += [w for w in mt.weeks]
-            headers += [w for w in mn.weeks]
+            headers = list(itertools.chain(mp.weeks, mt.weeks, mn.weeks))
 
             self.headers = [(mp.range[-1], ustr(mp)), (mt.range[-1], ustr(mt)), (mn.range[-1], ustr(mn))]
             self.subheaders = []
             for x in headers:
                 x = _("Week %s") % x[0].strftime('%W')
                 if x not in self.subheaders:
-                    self.subheaders += [x]
+                    self.subheaders.append(x)
 
         elif self.mode == 'year':
             yr = Year(y)
@@ -371,7 +353,7 @@ class GanttCalendar(ICalendar):
             attrs = node_attributes(node)
 
             if node.localName == 'field':
-                info_fields += [attrs['name']]
+                info_fields.append(attrs['name'])
 
             if node.localName == 'level':
                 self.level = attrs
@@ -386,7 +368,6 @@ class GanttCalendar(ICalendar):
 
         obj = self.level['object']
         field = self.level['link']
-        domain = self.level['domain']
 
         keys = []
         groups = {}

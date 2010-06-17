@@ -1,4 +1,4 @@
-<%inherit file="/openerp/controllers/templates/base.mako"/>
+<%inherit file="/openerp/controllers/templates/base_dispatch.mako"/>
 
 <%def name="header()">
 <title>${_("Workflow")}</title>
@@ -17,10 +17,7 @@
             <td colspan="2">
                 <table width="100%" class="titlebar">
                     <tr>
-                        <td width="32px" align="center">
-                            <img src="/openerp/static/images/stock/gtk-refresh.png"/>
-                        </td>
-                        <td width="100%">${_('Workflow (%s)') % name}</td>
+                        <td width="100%"><h1>${_('Workflow (%s)') % name}</h1></td>
                     </tr>
                 </table>
             </td>

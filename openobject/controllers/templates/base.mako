@@ -14,6 +14,7 @@
 
     <script type="text/javascript" src="/openobject/static/javascript/jQuery/jquery-1.4.2.js"></script>
     <script type="text/javascript" src="/openobject/static/javascript/jQuery/jquery-ui-1.8.custom.js"></script>
+    <script type="text/javascript" src="/openobject/static/javascript/jQuery/jquery.form.js"></script>
     <script type="text/javascript" src="/openobject/static/javascript/jQuery/jquery.blockUI.js"></script>
     <script type="text/javascript" src="/openobject/static/javascript/jQuery/jquery.validate.js"></script>
     

@@ -1,10 +1,8 @@
-<%inherit file="/openerp/controllers/templates/base.mako"/>
+<%inherit file="/openerp/controllers/templates/base_dispatch.mako"/>
 
 <%def name="header()">
-    <title>${tree.string}</title>
     <script type="text/javascript" src="/openerp/static/javascript/treeview.js"></script>
 </%def>
-
 <%def name="content()">
 
 <table id="treeview" class="view" width="100%" border="0" cellpadding="0" cellspacing="0">
@@ -15,10 +13,7 @@
                     <td colspan="2">
                         <table width="100%" class="titlebar">
                             <tr>
-                                <td width="32px" align="center">
-                                    <img alt="" src="/openerp/static/images/stock/gtk-find.png"/>
-                                </td>
-                                <td width="100%">${tree.string}</td>
+                                <td width="100%"><h1>${tree.string}</h1></td>
                                 <!--td nowrap="nowrap">
                                 <button type="button" title="${_('Switch current view: form/list')}" onclick="TREEVIEW.switchItem()">${_("Switch")}</button>
                                 </td-->

@@ -48,6 +48,10 @@ def expr_eval(string, context={}):
             return {}
         return temp
     else:
+        if isinstance(string, dict):
+            for i,v in string.items():
+                if v=='active_id':
+                    string[i] = eval(v,context)
         return string
 
 def node_attributes(node):
@@ -157,7 +161,7 @@ def get_node_xpath(node):
     if pn and pn.localName and pn.localName != 'view':
         xp = get_node_xpath(pn) + xp
 
-    nodes = xml_locate(root, node.parentNode)
+    nodes = [n for n in pn.childNodes if n.localName == node.localName]
     xp += '[%s]' % (nodes.index(node) + 1)
 
     return xp
@@ -194,11 +198,15 @@ class TempFileName(str):
         fd, fn = tempfile.mkstemp(suffix=suffix, prefix=prefix, dir=dir, text=text)
         os.close(fd)
         return str.__new__(cls, fn)
+    
+    def __init__(self, *args, **kwargs):
+        self.__os_path_exists = os.path.exists
+        self.__os_unlink = os.unlink
+        str.__init__(self, *args, **kwargs)
 
     def __del__(self):
-        import os   # ensure os module exists
-        if os.path.exists(str(self)):
-            os.unlink(str(self))
+        if self.__os_path_exists(self):
+            self.__os_unlink(self)
 
     def __copy__(self):
         return self

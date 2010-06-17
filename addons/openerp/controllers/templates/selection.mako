@@ -1,4 +1,4 @@
-<%inherit file="/openerp/controllers/templates/base.mako"/>
+<%inherit file="/openerp/controllers/templates/base_dispatch.mako"/>
 
 <%def name="header()">
     <title>${_("Select action")}</title>
@@ -9,14 +9,7 @@
 
 <script type="text/javascript">
     function onSubmit() {
-        var form = openobject.dom.get('selection');
-        var result = false;
-
-        forEach(form._terp_action, function(e){
-            result = result ? result : e.checked;
-        });
-
-        return result;
+        return jQuery('#selection input[name=_terp_action]:checked').length > 0;
     }
 </script>
 
@@ -33,10 +26,10 @@
         <div class="spacer"></div>
 
             <table width="100%" border="0" class="fields">
-                % for key, value in values.items():
+                % for i, (key, value) in enumerate(values.iteritems()):
                 <tr>
-                    <td width="25px"><input type="radio" id="_terp_action" name="_terp_action" value="${value}"/></td>
-                    <td>${key}</td>
+                    <td width="25px"><input type="radio" id="_terp_action_${i}" name="_terp_action" value="${value}"/></td>
+                    <td><label for="_terp_action_${i}">${key}</label></td>
                 </tr>
                 % endfor
             </table>

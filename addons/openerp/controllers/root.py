@@ -127,14 +127,6 @@ class Root(SecuredController):
             tree.tree.onselection = None
             tree.tree.onheaderclick = None
             tree.tree.showheaders = 0
-            tree.tree.linktarget = "'appFrame'"
-            
-        for parent in parents:
-            if parent['id'] == id:
-                parent['active'] = 'active'
-            else:
-                parent['active'] = ''
-                
         if kw.get('db'):
             return dict(parents=parents, tools=tools, setup = '/openerp/home')
         return dict(parents=parents, tools=tools)
@@ -144,7 +136,7 @@ class Root(SecuredController):
     def login(self, db=None, user=None, password=None, style=None, location=None, **kw):
 
         location = url(location or '/', kw or {})
-        print "\n\n\n Loacation in login root.py...",location
+
         if db and user and user.startswith("anonymous"):
             if rpc.session.login(db, user, password):
                 raise redirect(location)

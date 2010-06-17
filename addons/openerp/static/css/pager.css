@@ -7,7 +7,7 @@
     overflow: hidden;
 }
 
-.pager p.paging {
+.pager .paging {
 	color: #a6a5a5; 
 	font-size: 0.9em; 
 	font-weight: bold; 
@@ -19,7 +19,7 @@
 	padding-left: 10px;
 }
 
-.pager p.paging a{
+.pager .paging .nav {
 	 display: -moz-inline-stack; display: inline-block; overflow: hidden; width: 9px; height: 11px; margin: 0 5px; font-size: 0; text-align: left; text-indent: -10001px; vertical-align: middle;
 }
 
@@ -27,28 +27,13 @@
 	 background: none;
 }
 
-.pager p.paging span{
-	 display: -moz-inline-stack; display: inline-block; overflow: hidden; width: 9px; height: 11px; margin: 0 5px; font-size: 0; text-align: left; text-indent: -10001px; vertical-align: middle;
-}
-
-/* .pager p.paging span { position: absolute; left: -10001px; top: -10001px; } */
-
-.pager p.paging a.first { margin: 0; background: url(../images/first.gif) no-repeat; }
-.pager p.paging span.first { margin: 0; background: url(../images/first.gif) no-repeat; }
-.pager p.paging a.prev { width: 7px; background: url(../images/prev.gif) no-repeat; }
-.pager p.paging span.prev { width: 7px; background: url(../images/prev.gif) no-repeat; }
-.pager p.paging a.last { margin: 0; background: url(../images/last.gif) no-repeat; }
-.pager p.paging span.last { margin: 0; background: url(../images/last.gif) no-repeat; }
-.pager p.paging a.next { width: 5px; background: url(../images/next.gif) no-repeat; }
-.pager p.paging span.next { width: 5px; background: url(../images/next.gif) no-repeat; }
-* html p.paging a { display: inline; text-indent: 0; }
- *:first-child+html p.paging a { display: inline; text-indent: 0; }
+.pager .paging .first { margin: 0; background: url(../images/first.gif) no-repeat; }
+.pager .paging .prev { width: 7px; background: url(../images/prev.gif) no-repeat; }
+.pager .paging .last { margin: 0; background: url(../images/last.gif) no-repeat; }
+.pager .paging .next { width: 5px; background: url(../images/next.gif) no-repeat; }
+* html .paging a { display: inline; text-indent: 0; }
+ *:first-child+html .paging a { display: inline; text-indent: 0; }
 
 .pager a:hover {
     text-decoration: none;
 }
-
-/**
- * vim: sts=4 st=4 et 
- *
- */

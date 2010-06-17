@@ -1,7 +1,7 @@
 % if editable:
-    <table width="100%" cellpadding="0" cellspacing="0">
+    <table width="100%" class="reference" cellpadding="0" cellspacing="0">
         <tr>
-            <td width="30%">
+            <td nowrap="nowrap" width="1%">
                 <input type="hidden" id='${name}' name='${name}' class="${css_class}"
                     ${py.attrs(attrs, kind=kind, domain=domain, context=ctx, relation=relation, value=value)}/>
                 <select id="${name}_reference" name='${name}'>
@@ -18,26 +18,32 @@
                     % endfor
                 </select>
             </td>
-            <td>
-                <input type="text" id='${name}_text' class="${css_class}" ${py.attrs(attrs, kind=kind, relation=relation, value=text)}/>
-                % if error:
-                <span class="fielderror">${error}</span>
-                % endif
-            </td>
-            % if not inline:
-            <td width="16" style="padding-left: 2px">
-                <img id='${name}_open' 
-                    width="16" 
-                    height="16" 
-                    alt="${_('Open')}" 
-                    title="${_('Open a resource')}" 
-                    src="/openerp/static/images/stock/gtk-open.png" 
-                    style="cursor: pointer;" 
-                    class="imgSelect"/>
-            </td>
-            % endif
-            <td width="16" style="padding-left: 2px">
-                <img id='${name}_select' width="16" height="16" alt="${_('Search')}" title="${_('Search')}" src="/openerp/static/images/stock/gtk-find.png" style="cursor: pointer;" class="imgSelect"/>
+            <td nowrap="nowrap" width="20%" align="left">
+                <table>
+                    <tr>
+                        <td>
+                            <input type="text" id='${name}_text' class="${css_class}" ${py.attrs(attrs, kind=kind, relation=relation, value=text)}/>
+			                % if error:
+			                <span class="fielderror">${error}</span>
+			                % endif
+                        </td>
+                        % if not inline:
+				            <td width="16" style="padding-left: 2px" nowrap="nowrap">
+				                <img id='${name}_open' 
+				                    width="16" 
+				                    height="16" 
+				                    alt="${_('Open')}" 
+				                    title="${_('Open a resource')}" 
+				                    src="/openerp/static/images/stock/gtk-open.png" 
+				                    style="cursor: pointer;" 
+				                    class="imgSelect"/>
+				            </td>
+                        % endif
+                        <td width="16" style="padding-left: 2px" nowrap="nowrap">
+                            <img id='${name}_select' width="16" height="16" alt="${_('Search')}" title="${_('Search')}" src="/openerp/static/images/stock/gtk-find.png" style="cursor: pointer;" class="imgSelect"/>
+                        </td>
+                    </tr>
+                </table>
             </td>
         </tr>
     </table>
@@ -48,6 +54,10 @@
         new ManyToOne('${name}');
     </script>    
 % else:
-    <span>${'(%s) %s' % (dict(options).get(relation), text)}</span>
+    <span>
+        <span id="${name}" ${py.attrs(kind=kind, value=value, relation=relation)}>
+            <a href="${py.url('/form/view', model=relation, id=value)}">${text}</a>
+        </span>
+    </span>
 % endif
 

@@ -35,7 +35,7 @@ var Accordion = function(container, options) {
     }
 
     this.__init__(container, options);
-}
+};
 
 Accordion.prototype = {
 
@@ -47,7 +47,6 @@ Accordion.prototype = {
 
         if (!this.element) {
             throw(container + " doesn't exist!");
-            return false;
         }
 
         MochiKit.DOM.addElementClass(this.element, "accordion");
@@ -56,20 +55,29 @@ Accordion.prototype = {
             duration: 0.5
         }, options || {});
 
+		var firstBlock = MochiKit.DOM.getElementsByTagAndClassName(null, "accordion-block", container)[0];
+		var firstBlock_id = firstBlock.id.split('block_')[1];
+
         var accordions = MochiKit.DOM.getElementsByTagAndClassName(null, "accordion-block", container);
 
         MochiKit.Iter.forEach(accordions, function(accordion) {
 
             var title = getElementsByTagAndClassName(null, "accordion-title", accordion)[0];
             var content = getElementsByTagAndClassName(null, "accordion-content", accordion)[0];
-
+			
+			var content_id = content.id.split('content_')[1];
+			
             title._content = content;
 
             MochiKit.Signal.connect(title, "onclick", this, partial(this.activate, title));
-            MochiKit.Style.hideElement(content);
-
-            this.current = title;
-
+            
+            if (firstBlock_id != content_id) {
+            	MochiKit.Style.hideElement(content);
+            }
+            else {
+            	this.current = getElement('title_' + content_id);
+            }
+			
         }, this);
     },
 
@@ -124,7 +132,4 @@ Accordion.prototype = {
 
     toString: MochiKit.Base.forwardCall("repr")
 
-}
-
-// vim: ts=4 sts=4 sw=4 si et
-
+};

@@ -64,7 +64,7 @@
 
 .calWeek .calVRule {
     position: absolute;
-    top: 0pt;
+    top: 0;
     width: 1px;
 
     border-left: 2px solid #C0C0C0;
@@ -101,20 +101,23 @@
 .calEventNew {
     position: absolute;
     z-index: 100;
-
     padding-left: 2px;
-
     font-size: 10px;
     white-space: nowrap;
     overflow: hidden;
-
     cursor: pointer;
+    border-radius: 5px; 
+    -moz-border-radius: 5px; 
+    -webkit-border-radius: 5px;
+    font-weight: 600;
+    padding-top: 2px;
+    padding-bottom: 4px;
 }
 
 .calWeek #calBodySect .calEvent,
 .calWeek #calBodySect .calEventNew {
-    padding: 0px;
-    margin: 0px;
+    padding: 0;
+    margin: 0;
 
     font-size: 9px;
 
@@ -139,7 +142,7 @@
 
 .calEventGrip {
     position: absolute;
-    padding: 0px;
+    padding: 0;
 
     left: 0;
     bottom: 1px;
@@ -149,14 +152,6 @@
 
     background: url("../images/calGrip.gif") no-repeat scroll center bottom;
     cursor: s-resize;
-}
-
-#calLoading {
-    color: maroon;
-    font-weight: bold;
-    padding-left: 20px;
-    background: url("../images/calLoading.gif") no-repeat left;
-    display: none;
 }
 
 /**************************************/
@@ -206,9 +201,8 @@
     height: 16px;
     font-size: 10px;
     font-weight: bold;
-    text-align: right;
+    text-align: center;
     padding-right: 4px;
-
     border-top: 1px solid #C0C0C0;
     background-color: #D9D9D9;
 }
@@ -281,7 +275,7 @@
 
 #calInfoBox .calInfoButtons {
     position: absolute;
-    bottom: 0pt;
+    bottom: 0;
     padding: 2px;
     border-top: 2px solid #696969;
 }
@@ -290,10 +284,10 @@
  * Mini Calendar
  */
 
-#MiniCalendar {
+/*#MiniCalendar {
     background-color: #E0E0E0;
-    padding: 8px;
-}
+    padding: 8px; 
+}*/
 
 .calMini {
     font-size: 10px;
@@ -334,25 +328,51 @@
  * Group Box
  */
 
-#MiniCalendar {
+/*#MiniCalendar {
     margin-bottom: 5px;
-}
+} */
 
-#calSearchOptions,
-#calGroups {
+/*#calSearchOptions {
     margin: 0pt;
     margin-bottom: 5px;
     padding: 8px;
-    background-color: #E0E0E0;
-}
+} 
 
 #calSearchOptions {
     padding-left: 12px;
+}*/
+
+td#calSidebar {
+	padding: 0;
 }
 
-#calGroups dt {
+#calGroups dt, #calSearchOptions dt {
     font-weight: bold;
     margin-bottom: 2px;
+    text-align: left;
+    color: #8E8E8E;
+    background: transparent url(/openerp/static/images/sideheader-a-bg.png) repeat-x scroll 0 100%;
+    height: 20px;
+    vertical-align: middle;
+    padding-left: 10px;
+    border-bottom: 1px solid #D2CFCF;
+    border-top: 1px solid #E1DEDE;
+}
+
+#calGroups dt table {
+	border: none;
+	font-weight: bold;
+}
+
+#calGroups dt table td {
+	text-align: left;
+	padding: 0;
+}
+
+#calGroups dt a {
+	float: right;
+	vertical-align: middle;
+	margin-top: 2px;
 }
 
 #calGroups dd {
@@ -366,7 +386,50 @@
     color: black;
 }
 
-/**
- * vim: sts=4 st=4 et
- *
- */
+table#calSidebar-sidebar {
+	border: none;
+}
+
+#calSidebar div#tertiary {
+	background: none;
+}
+
+td#sidebar_calendar {
+	background: #EAE7E7 url(/openerp/static/images/tertiary-bg-a.gif) repeat-y scroll 0 0;
+}
+
+ul.ul_calGroups {
+	list-style: none; margin: 0 0 10px; padding: 0; font-size: 0.9em;
+}
+
+ul.ul_calGroups li {
+	margin: 0 0 10px; color: #5a5a5a; font-size: 1.2em; line-height: 1;
+}
+
+ul.ul_calGroups li input {
+	width: 12px; height: 12px; margin: 0 3px 0 0; padding: 0; vertical-align: middle;
+}
+
+table#calSidebar-sidebar td.sideheader-a {
+	background: transparent url(/openerp/static/images/sideheader-a-bg.png) repeat-x scroll 0 100%;
+    padding: 0 0 0 10px;
+    vertical-align: top;
+	text-align: left;
+	border-bottom: 1px solid #D2CFCF;
+}
+
+td#sidebar_calendar, td#sidebar_calendar_hide, td#calendar_search_filter {
+	padding: 0;
+}
+
+td#calendar_search_filter table {
+	border: none;
+}
+td#calendar_search_filter {
+	color: #5a5a5a;
+}
+
+td#sidebar_calendar_hide p.toggle-a a {
+	line-height: 21px;
+	height: 21px;
+}

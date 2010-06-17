@@ -35,12 +35,8 @@ import cherrypy
 from openobject.tools import expose
 from openobject.i18n import format
 
-from openerp.utils import rpc
-from openerp.utils import common
-from openerp.utils import TinyDict
-from openerp.utils import context_with_concurrency_info
+from openerp.utils import rpc, TinyDict, context_with_concurrency_info
 
-from openerp.controllers import SecuredController
 from openerp.controllers.form import Form
 
 from view_calendar import widgets as tc
@@ -79,7 +75,6 @@ class TinyCalendar(Form):
         options.mode = mode
 
         if params.colors:
-            #options.colors = params.colors
             try:
                 options.colors = eval(kw['_terp_colors'])
             except:
@@ -145,16 +140,15 @@ class TinyCalendar(Form):
 
             data[params.fields['date_delay']['name']] = n
 
-        ctx = rpc.session.context.copy()
-        ctx.update(params.context or {})
+        ctx = dict(rpc.session.context,
+                   **(params.context or {}))
         ctx = context_with_concurrency_info(ctx, params.concurrency_info)
 
         error = None
-        info = {}
         proxy = rpc.RPCProxy(params.model)
 
         try:
-            res = proxy.write([params.id], data, ctx)
+            proxy.write([params.id], data, ctx)
             info = proxy.read([params.id], ['__last_update'])[0]['__last_update']
             info = {'%s,%s'%(params.model, params.id): info}
         except Exception, e:
@@ -171,10 +165,9 @@ class TinyCalendar(Form):
         model = params.model
 
         proxy = rpc.RPCProxy(model)
-        new_id = False
         try:
             new_id = proxy.copy(id, {}, ctx)
-        except Exception, e:
+        except Exception:
             pass
 
         return dict(id=new_id)
@@ -182,27 +175,28 @@ class TinyCalendar(Form):
     def _get_gantt_records(self, model, ids=None, group=None):
 
         if group:
-            record = {'id': group['id']}
-            record['items'] = {'name': group['title']}
-            record['action'] = None
-            record['target'] = None
-            record['icon'] = None
-            record['children'] = self._get_gantt_records(model, group['items'])
-            return [record]
+            return [{
+                'id': group['id'],
+                'items': {'name': group['title']},
+                'action': None,
+                'target': None,
+                'icon': None,
+                'children': self._get_gantt_records(model, group['items'])
+            }]
 
         proxy = rpc.RPCProxy(model)
-        ctx = rpc.session.context.copy()
+        ctx = dict(rpc.session.context)
 
         records = []
         for id in ids:
-            record = {'id': id}
-            record['items'] = {'name': proxy.name_get([id], ctx)[0][-1]}
-            record['action'] = 'javascript: void(0)'
-            record['target'] = None
-            record['icon'] = None
-            record['children'] = None
-
-            records.append(record)
+            records.append({
+                'id': id,
+                'items': {'name': proxy.name_get([id], ctx)[0][-1]},
+                'action': 'javascript: void(0)',
+                'target': None,
+                'icon': None,
+                'children': None
+            })
 
         return records
 
@@ -307,8 +301,5 @@ class CalendarPopup(Form):
 
         kind = params.fields['date_start']['kind']
         data[params.fields['date_start']['name']] = format.format_datetime(ds.timetuple(), kind)
-
-        ctx = rpc.session.context.copy()
-        ctx.update(params.context or {})
 
         return data

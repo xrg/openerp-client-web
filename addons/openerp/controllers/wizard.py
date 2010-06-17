@@ -85,6 +85,9 @@ class Wizard(SecuredController):
                 for f in fields:
                     if 'value' in fields[f]:
                         form_values[f] = fields[f]['value']
+                    
+                    if f in datas['form'] and fields[f]['type'] == "one2many":
+                        datas['form'][f] = [(1, d, {}) for d in datas['form'][f]]
 
                 form_values.update(datas['form'])
 

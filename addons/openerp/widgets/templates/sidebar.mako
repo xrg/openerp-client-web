@@ -124,7 +124,7 @@
             <ul class="attachments-a">
                 % for item in attachments:
                     <li id="attachment_item_${item[0]}">
-                        <a href="${py.url(['/openerp/attachment/save_as', item[1]], record=item[0])}">
+                        <a target="_self" href="${py.url(['/openerp/attachment/save_as', item[1]], record=item[0])}">
                             ${item[1]}
                         </a>
                         <span>|</span>
@@ -142,14 +142,18 @@
         jQuery.unblockUI();
     });
     
-    jQuery('#datas').validate({
+    jQuery('#FormSubmit').click(function() {
+        jQuery('#datas').validate({
          expression: "if (VAL) return true; else return false;",
          message: "enter the attachment file"
-    });
+        });
    
-     jQuery("#datas_fname").validate({
-         expression: "if (VAL) return true; else return false;",
-         message: "enter the attachment name"
+         jQuery("#datas_fname").validate({
+             expression: "if (VAL) return true; else return false;",
+             message: "enter the attachment name"
+        });
+        jQuery.unblockUI();
+        jQuery('#attachment-box').submit();
     });
 </script>
 % endif

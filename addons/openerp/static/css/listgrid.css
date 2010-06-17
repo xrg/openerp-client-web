@@ -119,6 +119,7 @@
 .gridview .pagerbar .pagerbar-cell .pager-table {
 	background: none;
 	border: none;
+    width: 100%;
 }
 
 .gridview .pagerbar .pagerbar-cell .pager-table .pager-cell{
@@ -197,6 +198,14 @@ strong#total_sum_label {
 	padding: 0 1px;
 	color: #7D7979;
 	font-size: 0.9em;
+}
+
+.pager-cell-button {
+	padding: 0 3px;
+}
+
+.second {
+	display: none;
 }
 /**
  * vim: sts=4 st=4 et 
