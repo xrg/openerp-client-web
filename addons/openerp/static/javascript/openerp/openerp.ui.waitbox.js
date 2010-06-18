@@ -38,28 +38,25 @@ openerp.ui.WaitBox = function(options) {
 openerp.ui.WaitBox.prototype = {
 
     __init__ : function(options) {
-        
+
         this.options = MochiKit.Base.update({
         }, options || {});
 
-        this.layer = openobject.dom.get('WaitBoxLayer');
-        this.box = openobject.dom.get('WaitBox');
-        
+        this.layer = document.getElementById('WaitBoxLayer');
+        this.box = document.getElementById('WaitBox');
+
         if (!this.layer) {
             var title = this.options.title || _("Please wait...");
             var desc = this.options.description || _("This operation may take a while...");
-            
-            var info = DIV(null,
-                    DIV({'class': 'WaitTitle'}, title),
-                    DIV({'class': 'WaitImage'}, desc));
-        
+
             this.layer = DIV({id: 'WaitBoxLayer'});
-            appendChildNodes(document.body, this.layer);
-    
             this.box = DIV({id: 'WaitBox'});
-            appendChildNodes(document.body, this.box);
-        
-            appendChildNodes(this.box, info);
+
+            jQuery([this.layer, this.box]).appendTo(document.body);
+
+            jQuery(this.box).append(DIV(null,
+                    DIV({'class': 'WaitTitle'}, title),
+                    DIV({'class': 'WaitImage'}, desc)));
         }
     },
 
@@ -73,18 +70,18 @@ openerp.ui.WaitBox.prototype = {
 
     show : function() {
         this.clearTimeout();
-        
-        var vd = elementDimensions(document.body);
-        var md = elementDimensions(this.box);
 
-        var x = (vd.w / 2) - (md.w / 2);
-        var y = (vd.h / 2) - (md.h / 2);
-        
-        setElementPosition(this.box,{
-            x: Math.max(0, x), y: Math.max(0, y)});
+        var viewPort = jQuery(window);
+        var box = jQuery(this.box);
+        var x = (viewPort.width() / 2) - (box.outerWidth() / 2);
+        var y = (viewPort.height() / 2) - (box.outerHeight() / 2);
 
-        showElement(this.layer);
-        showElement(this.box);
+        box.offset({
+            top: Math.max(0, y),
+            left: Math.max(0, x)
+        });
+
+        jQuery([this.layer, this.box]).show();
     },
 
     /**
@@ -107,7 +104,6 @@ openerp.ui.WaitBox.prototype = {
 
     hide : function() {
         this.clearTimeout();
-        hideElement(this.box);
-        hideElement(this.layer);
+        jQuery([this.box, this.layer]).hide();
     }
 };
