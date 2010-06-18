@@ -88,6 +88,8 @@
                                     	<li class="v${i}" title="${desc}">
                                     		% if form.screen.view_type == kind:
                                     			<a href="javascript: void(0);" onclick="switchView('${kind}')" class="active">${kind}</a>
+                                    		% elif kind not in form.screen.view_mode:
+                                    		    <a class="nohover">${kind}</a> 
                                     		% else:
                                     			<a href="javascript: void(0);" onclick="switchView('${kind}')">${kind}</a>
                                     		% endif
