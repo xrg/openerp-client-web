@@ -156,7 +156,9 @@ def execute_report(name, **data):
         datas['id'] = ids[0]
 
     try:
-        report_id = rpc.session.execute('report', 'report', name, ids, datas, rpc.session.context)
+        ctx = dict(rpc.session.context)
+        ctx.update(datas.get('context', {}))
+        report_id = rpc.session.execute('report', 'report', name, ids, datas, ctx)
         state = False
         attempt = 0
         while not state:
@@ -199,6 +201,9 @@ def execute(action, **data):
         #XXX: in gtk client just returns to the caller
         #raise common.error('Error', 'Invalid action...')
         return
+
+    # update context with that of the action
+    data.setdefault('context', {}).update(tools.expr_eval(action.get('context','{}'), data.get('context', {}).copy()))
 
     if action['type'] == 'ir.actions.act_window_close':
         return """<html>
@@ -295,10 +300,12 @@ def execute(action, **data):
         return execute_wizard(action['wiz_name'], **data)
 
     elif action['type']=='ir.actions.report.custom':
+        data.update(action.get('datas',{}))
         data['report_id'] = action['report_id']
         return execute_report('custom', **data)
 
     elif action['type']=='ir.actions.report.xml':
+        data.update(action.get('datas',{}))
         return execute_report(action['report_name'], **data)
 
     elif action['type']=="ir.actions.act_url":
