@@ -155,7 +155,9 @@ def execute_report(name, **data):
         datas['id'] = ids[0]
 
     try:
-        report_id = rpc.session.execute('report', 'report', name, ids, datas, rpc.session.context)
+        ctx = dict(rpc.session.context)
+        ctx.update(datas.get('context', {}))
+        report_id = rpc.session.execute('report', 'report', name, ids, datas, ctx)
         state = False
         attempt = 0
         while not state:
@@ -199,7 +201,7 @@ def execute(action, **data):
         #raise common.error('Error', 'Invalid action...')
         return close_popup()
 
-    data.get('context', {}).update(expr_eval(action.get('context','{}'), data.get('context', {}).copy()))
+    data.setdefault('context', {}).update(expr_eval(action.get('context','{}'), data.get('context', {}).copy()))
     if action['type'] == 'ir.actions.act_window_close':
         return close_popup()
 
@@ -295,12 +297,12 @@ def execute(action, **data):
         return execute_wizard(action['wiz_name'], **data)
 
     elif action['type']=='ir.actions.report.custom':
+        data.update(action.get('datas',{}))
         data['report_id'] = action['report_id']
         return execute_report('custom', **data)
 
     elif action['type']=='ir.actions.report.xml':
-        if not data.get('datas'):
-            data = action.get('datas',[])
+        data.update(action.get('datas',{}))
         return execute_report(action['report_name'], **data)
 
     elif action['type']=="ir.actions.act_url":
