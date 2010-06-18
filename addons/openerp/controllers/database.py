@@ -157,7 +157,7 @@ class Database(BaseController):
                     if progress == 1.0:
                         for x in users:
                             if x['login'] == 'admin':
-                                rpc.session.login(dbname, 'admin', password)
+                                rpc.session.login(dbname, 'admin', x['password'])
                                 ok = True
                         break
                     else:

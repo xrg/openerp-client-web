@@ -65,10 +65,22 @@
 				<ul class="sc_menu">
 					%for parent in parents:
 						<li id="${parent['id']}" class="menu_tabs">
+						
 							<a href="${py.url('/openerp/menu', active=parent['id'])}" target="_top" class="${parent.get('active', '')}">
 								<span>${parent['name']}</span>
 							</a>
 							<em>[1]</em>
+							% if parent.get('action'):
+                                 <script type="text/javascript">
+                                     jQuery("#${parent['id']} a").dblclick(function() {
+                                             return jQuery('#appContent').load(
+                                                 openobject.http.getURL('/openerp/tab_action', {
+                                                     'action': "${parent['id']}"
+                                                 });
+                                             )
+                                     });
+                                 </script>
+                            % endif                               
 						</li>
 					% endfor
 				</ul>
@@ -114,6 +126,11 @@
 			<div id="primary">
 				<div class="wrap">
 					<div id="appContent"></div>
+					% if setup:
+					   <script type="text/javascript">
+					   jQuery('#appContent').load(openobject.http.getURL('/openerp/home'));
+					   </script>
+					% endif
 				</div>
 			</div>
 		</div>
