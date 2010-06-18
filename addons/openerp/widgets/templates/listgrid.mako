@@ -39,7 +39,11 @@ import cherrypy
 </%def>
 
 <%def name="make_row(data)">
-    <tr class="grid-row" record="${data['id']}">
+	% if editors:
+    	<tr class="grid-row inline_editors" record="${data['id']}">
+    % else:
+    	<tr class="grid-row" record="${data['id']}">
+    % endif
         % if selector:
             <td class="grid-cell selector">
                 <input type="${selector}" class="${selector} grid-record-selector"
@@ -201,7 +205,11 @@ import cherrypy
 	                        </tr>
                         % endif
                         % for i in range(min_rows - len(data)):
-	                        <tr class="grid-row">
+	                        % if editors:
+	                        	<tr class="grid-row inline_editors">
+	                        % else:
+	                        	<tr class="grid-row">
+	                        % endif
 	                            % if selector:
 	                                <td width="1%" class="grid-cell selector">&nbsp;</td>
 	                            % endif
@@ -304,6 +312,18 @@ import cherrypy
 	            						editRecord(jQuery(row).attr('record'));
 	            					}
 	            				}
+	            			}
+	            		});
+	            	});
+	            	
+	            	jQuery('table#${name}_grid tr.inline_editors').each(function(i, row) {
+	            		jQuery(row).click(function(event) {
+	            			record_id = jQuery(row).attr('record');
+	            			if (record_id > 0) {
+	            				new ListView('${name}').edit(record_id);
+	            			}
+	            			else {
+	            				new One2Many('${name}', jQuery('#_o2m_${name}').attr('detail')).create()
 	            			}
 	            		});
 	            	});
