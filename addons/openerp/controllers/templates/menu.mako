@@ -73,11 +73,11 @@
 							% if parent.get('action'):
                                  <script type="text/javascript">
                                      jQuery("#${parent['id']} a").dblclick(function() {
-                                             return jQuery('#appContent').load(
+                                             openLink(
                                                  openobject.http.getURL('/openerp/tab_action', {
                                                      'action': "${parent['id']}"
-                                                 });
-                                             )
+                                                 }));
+                                         return false;
                                      });
                                  </script>
                             % endif                               
@@ -128,7 +128,7 @@
 					<div id="appContent"></div>
 					% if setup:
 					   <script type="text/javascript">
-					   jQuery('#appContent').load(openobject.http.getURL('/openerp/home'));
+					   openLink(openobject.http.getURL('/openerp/home'));
 					   </script>
 					% endif
 				</div>
