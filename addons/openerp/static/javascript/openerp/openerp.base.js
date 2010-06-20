@@ -11,11 +11,14 @@
  *                    XMLHttpRequest
  */
 var console;
+// cache for the current hash url so we can know if it's changed
+var currentUrl;
 function openLink(url /*optional afterLoad */) {
     var app = jQuery('#appContent');
     var afterLoad = arguments[1];
     if(app.length) {
-        window.location.hash = 'url='+url;
+        currentUrl = url;
+        window.location.hash = '#'+jQuery.param({'url': url});
         jQuery.ajax({
             url: url,
             complete: function (xhr) {
@@ -60,4 +63,25 @@ jQuery(document).ready(function () {
             return false;
         });
     }
+
+    // wash for hash changes
+    jQuery(window).bind('hashchange', function () {
+        var newUrl = null;
+        // would use window.location.hash but... https://bugzilla.mozilla.org/show_bug.cgi?id=483304
+        var hashValue = window.location.href.split('#')[1] || '';
+        jQuery.each(hashValue.split('&'), function (i, element) {
+            var e = element.split("=");
+            if(e[0] === 'url') {
+                newUrl = decodeURIComponent(e[1]);
+            }
+        });
+
+        if(!newUrl || newUrl == currentUrl) {
+            return;
+        }
+        openLink(newUrl);
+    });
+    // if the initially loaded URL had a hash-url inside
+    jQuery(window).trigger('hashchange');
 });
+
