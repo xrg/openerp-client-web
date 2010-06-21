@@ -18,6 +18,12 @@ function openLink(url /*optional afterLoad */) {
     var afterLoad = arguments[1];
     if(app.length) {
         currentUrl = url;
+        if(jQuery('div.hide_tools')) {
+        	jQuery('div.hide_tools').css('display', '');
+        }   
+        else {
+        	jQuery('div.show_tools').css('display', '');
+        }
         window.location.hash = '#'+jQuery.param({'url': url});
         jQuery.ajax({
             url: url,

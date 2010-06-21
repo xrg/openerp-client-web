@@ -111,8 +111,17 @@
 		        	</table>
 		    	</div>
 			</div>
-			
+			<div class="hide_tools" style="display: none;">
+                 <script type="text/javascript">
+                    jQuery('div.hide_tools').click(function() {
+                        jQuery(this).toggleClass('show_tools hide_tools')
+                        jQuery('#primary').css('margin-left','0');
+                        jQuery('#secondary').toggle();
+                    });
+                 </script>
+             </div>
 			<div id="primary">
+			    
 				<div class="wrap">
 					<div id="appContent"></div>
 					% if setup:
@@ -121,6 +130,7 @@
 					   </script>
 					% endif
 				</div>
+				
 			</div>
 		</div>
 	</div>

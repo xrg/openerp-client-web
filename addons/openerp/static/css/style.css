@@ -938,6 +938,20 @@ table.reference td{
 	white-space: nowrap;
 }
 
+div.hide_tools {
+   float: left; 
+   cursor: pointer;
+   background: #CECBCB url(../images/prev.gif) no-repeat scroll center center;
+   padding-left: 10px;
+}
+
+div.show_tools {
+   float: left; 
+   cursor: pointer;
+   background: #CECBCB url(../images/next.gif) no-repeat scroll center center;
+   padding-left: 10px;
+}
+
 /**
  * vim: sts=4 st=4 et 
  *
