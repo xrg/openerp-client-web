@@ -105,7 +105,7 @@ import cherrypy
 	        				if(jQuery('#${name}').length>0) {
 	        					if(jQuery('#_m2m_${name}').length>0) {
 	        						if('${editable}' != 'False') { 
-		        						jQuery('#${name}').find('td.pager-cell:first').after('<td style="width: 10%;" class="pager-cell button"> <a title="${_('Add records...')}" class="button-a" href="javascript: void(0)" id="${name}_button1">add</a></td>')
+		        						jQuery('#${name}').find('td.pager-cell:first').after('<td class="pager-cell button"> <a title="${_('Add records...')}" class="button-a" href="javascript: void(0)" id="${name}_button1">add</a></td>')
 		        						jQuery('#${name}_button1').click(function() {
 		        							open_search_window(jQuery('#_m2m_${name}').attr('relation'), jQuery('#_m2m_${name}').attr('domain'), jQuery('#_m2m_${name}').attr('context'),'${name}', 2, jQuery('#${name}_set').val())
 		        						});
@@ -113,7 +113,7 @@ import cherrypy
 	        					}
 	        					else if(jQuery('#_o2m_${name}').length>0) {
 	        					    if('${editable}' != 'False') {
-	        						     jQuery('#${name}').find('td.pager-cell:first').after('<td style="width: 10%;" class="pager-cell"><a class="button-a" href="javascript: void(0)" id="${name}_btn_" title="${_('Create new record.')}">new<a/></td>');
+	        						     jQuery('#${name}').find('td.pager-cell:first').after('<td class="pager-cell"><a class="button-a" href="javascript: void(0)" id="${name}_btn_" title="${_('Create new record.')}">new<a/></td>');
 	        						}
 	        						jQuery('#${name}_btn_').click(function() {
 	        							new One2Many('${name}', jQuery('#_o2m_${name}').attr('detail')).create()
@@ -121,7 +121,7 @@ import cherrypy
 	        					}
 	        					else {
 	        					    if('${editable}' != 'False') {
-	        						     jQuery('#${name}').find('td.pager-cell:first').after('<td style="width: 10%;" class="pager-cell-button"><a class="button-a" href="javascript: void(0)" title="${_('Create new record.')}">new<a/></td>');
+	        						     jQuery('#${name}').find('td.pager-cell:first').after('<td class="pager-cell-button"><a class="button-a" href="javascript: void(0)" title="${_('Create new record.')}">new<a/></td>');
 	        						}
 	        						if("${editors}" == "{}") {
 	        							jQuery('#${name}').find('td.pager-cell-button:first').find('a:first').click(function() {

@@ -490,12 +490,12 @@ table.menu_connection a:hover {
 
 form#attachment-box {
 	font-weight: 600;
-	display:none;
+	color: #8E8E8E;
 }
 
-form#attachment-box .attachment_box_head {
+/*form#attachment-box {
 	border-bottom: 1px solid silver;
-}
+} */
 
 .attachment-header {
 	text-align: center;
@@ -950,6 +950,17 @@ div.show_tools {
    cursor: pointer;
    background: #CECBCB url(../images/next.gif) no-repeat scroll center center;
    padding-left: 10px;
+}
+
+td#add_attachment, table.attachment_bar td {
+	padding: 2px 2px;
+}
+
+table.attachment_bar {
+	border: none;
+}
+table.attachment_bar td a {
+	float: none;
 }
 
 /**

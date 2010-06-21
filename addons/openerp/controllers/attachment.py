@@ -74,10 +74,9 @@ class Attachment(SecuredController):
 
     @expose('json')
     def removeAttachment(self, id=False, **kw):
-        
         proxy = rpc.RPCProxy('ir.attachment')
         try:
-            proxy.unlink(int(id))
+            proxy.unlink([int(id)], rpc.session.context)
             return dict()
         except Exception, e:
             return dict(error=ustr(e))
