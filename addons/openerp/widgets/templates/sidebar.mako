@@ -58,11 +58,35 @@
 			<p class="toggle-a"><a id="toggle-click" href="javascript: void(0)" onclick="toggle_sidebar();">Toggle</a></p>
         </td>
     </tr>
+    <tr>
+        <td colspan='2' id="customise_menu" style="display: none;">
+            <div class="sideheader-a">
+                <h2>${_("Customise")}</h2>
+            </div>
+            <ul id="customise_menu_">
+                <li>
+                    <a class="customise_menu_options" title="${_('Manage views of the current object')}" 
+                    onclick="openobject.tools.openWindow('/openerp/viewlist?model=${model}', {height: 400})" 
+                    href="javascript: void(0)">${_("Manage Views")}</a>
+                </li>
+                <li>
+                    <a class="customise_menu_options" title="${_('Manage workflows of the current object')}" 
+                    onclick="javascript: show_wkf()" 
+                    href="javascript: void(0)">${_("Show Workflow")}</a>
+                </li>
+                <li>
+                    <a class="customise_menu_options" title="${_('Customise current object or create a new object')}" 
+                    onclick="openobject.tools.openWindow('/openerp/viewed/new_model/edit?model=${model}')" 
+                    href="javascript: void(0)">${_("Customise Object")}</a>
+                </li>
+            </ul>
+        </td>
+    </tr>
     % if view_type == 'form':
     <tr>
         <td id="add_attachment" colspan='2' style="display: none;">
             <div class="sideheader-a">
-                <h2>Add Attachments</h2>
+                <h2>${_("Add Attachments")}</h2>
             </div>
             <div>
             <form id="attachment-box" action="/openerp/form/save_attachment" method="post" enctype="multipart/form-data">
@@ -70,7 +94,7 @@
                     <tr>
                         <td>
                             <div>
-                                Attachment Name:
+                                ${_("File Name")}:
                             </div>
                             <div>
                                 <input id="file_name" type="text" maxlength="64" name="datas_fname" kind="char" class="char" size="10"/>
@@ -80,7 +104,7 @@
                     <tr>
                         <td>
                             <div>
-                                File:
+                                ${_("File")}:
                             </div>
                             <div>
                                 <input type="file" id="datas" class="binary" onchange="onChange(this); set_binary_filename(this, 'datas_fname');" name="datas" kind="binary" size="5"/>
@@ -89,7 +113,7 @@
                     </tr>
                     <tr>
                         <td align="center">
-                            <a id="FormSubmit" class="button-a" align="center" href="javascript: void(0)">submit</a>
+                            <a id="FormSubmit" class="button-a" align="center" href="javascript: void(0)">${_("submit")}</a>
                         </td>
                     </tr>
                 </table>
@@ -102,7 +126,7 @@
             <div class="poof"></div>
             <div class="sideheader-a" id="sideheader-a">
                 
-                <h2>Attachments</h2>
+                <h2>${_("Attachments")}</h2>
             </div>
             <ul class="attachments-a">
                 % for item in attachments:

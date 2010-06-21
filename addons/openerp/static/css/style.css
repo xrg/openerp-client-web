@@ -956,6 +956,10 @@ td#add_attachment, table.attachment_bar td {
 	padding: 2px 2px;
 }
 
+td#customise_menu {
+	padding: 0;
+}
+
 table.attachment_bar {
 	border: none;
 }

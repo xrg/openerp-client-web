@@ -187,7 +187,6 @@
                     <tr>
                         <td style="padding: 2px">${form.display()}</td>
                     </tr>
-                    
                     <tr>
                         <td class="dimmed-text">
                             <table class="form-footer">
@@ -199,21 +198,6 @@
                             		</td>
                             		<td class="powered">
                             			Powered by <a href="http://www.openerp.com" target="_blank">openerp.com</a>
-                            		</td>
-                            		<td class="footer" style="text-align: right;">
-                            			<a id="show_customize_menu" onmouseover="showCustomizeMenu(this, 'customise_menu_')" 
-                                			onmouseout="hideElement('customise_menu_');" href="javascript: void(0)">${_("Customise")}</a><br/>
-			                            <div id="customise_menu_" class="contextmenu" onmouseover="showElement(this);" onmouseout="hideElement(this);">
-			                                <a class="customise_menu_options" title="${_('Manage views of the current object')}" 
-			                                   	onclick="openobject.tools.openWindow('/openerp/viewlist?model=${form.screen.model}', {height: 400})" 
-			                                   href="javascript: void(0)">${_("Manage Views")}</a>
-			                                <a class="customise_menu_options" title="${_('Manage workflows of the current object')}" 
-			                                   	onclick="javascript: show_wkf()" 
-			                                   href="javascript: void(0)">${_("Show Workflow")}</a>
-			                                <a class="customise_menu_options" title="${_('Customise current object or create a new object')}" 
-			                                   	onclick="openobject.tools.openWindow('/openerp/viewed/new_model/edit?model=${form.screen.model}')" 
-			                                   href="javascript: void(0)">${_("Customise Object")}</a>
-			                            </div>
                             		</td>
                             	</tr>
                             </table>

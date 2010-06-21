@@ -39,7 +39,7 @@ from screen import Screen
 class Sidebar(TinyWidget):
 
     template = "templates/sidebar.mako"
-    params = ['reports', 'actions', 'relates', 'attachments', 'sub_menu', 'view_type']
+    params = ['reports', 'actions', 'relates', 'attachments', 'sub_menu', 'view_type', 'model']
 
     javascript = [JSSource("""
         function toggle_sidebar(forced) {
@@ -56,6 +56,7 @@ class Sidebar(TinyWidget):
                 var sidebar_hide = openobject.dom.get('sidebar_hide');
                 var attach_sidebar = openobject.dom.get('attach_sidebar');
                 var add_attachment = openobject.dom.get('add_attachment');
+                var customise_menu = openobject.dom.get('customise_menu');
                 if (sb.style.display == "none") {
                     setNodeAttribute(a_img, 'class', 'off');
                     setNodeAttribute(tertiary, 'style', 'width: 21px');
@@ -63,6 +64,7 @@ class Sidebar(TinyWidget):
                     setNodeAttribute(sidebar_hide, 'style', 'padding: 0 0 0 0');
                     setNodeAttribute(attach_sidebar, 'style', 'display: none');
                     setNodeAttribute(add_attachment, 'style', 'display: none');
+                    setNodeAttribute(customise_menu, 'style', 'display: none');
                 } else {
                     setNodeAttribute(a_img, 'class', 'on');
                     setNodeAttribute(tertiary, 'style', 'width: 180px');
@@ -70,6 +72,7 @@ class Sidebar(TinyWidget):
                     setNodeAttribute(sidebar_hide, 'style', 'padding: 0 0 0 8px');
                     setNodeAttribute(attach_sidebar, 'style', "display: ''");
                     setNodeAttribute(add_attachment, 'style', "display: ''");
+                    setNodeAttribute(customise_menu, 'style', "display: ''");
                 }
             }
             if (typeof(Notebook) == "undefined") {
