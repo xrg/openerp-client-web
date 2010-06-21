@@ -70,17 +70,6 @@
 								<span>${parent['name']}</span>
 							</a>
 							<em>[1]</em>
-							% if parent.get('action'):
-                                 <script type="text/javascript">
-                                     jQuery("#${parent['id']} a").dblclick(function() {
-                                             openLink(
-                                                 openobject.http.getURL('/openerp/tab_action', {
-                                                     'action': "${parent['id']}"
-                                                 }));
-                                         return false;
-                                     });
-                                 </script>
-                            % endif                               
 						</li>
 					% endfor
 				</ul>

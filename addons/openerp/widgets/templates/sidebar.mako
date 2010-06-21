@@ -101,7 +101,6 @@
 			<p class="toggle-a"><a id="toggle-click" href="javascript: void(0)" onclick="toggle_sidebar();">Toggle</a></p>
         </td>
     </tr>
-     % if attachments:
     <tr>
         <td id="attach_sidebar" colspan='2' style="display: none;">
             <div class="poof"></div>
@@ -134,7 +133,6 @@
             </ul>
         </td>
     </tr>
-    % endif
 </table>
 <script type="text/javascript">
                        

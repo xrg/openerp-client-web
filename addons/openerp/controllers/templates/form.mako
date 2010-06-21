@@ -103,30 +103,6 @@
 											% endfor
 										</ul>
 									</td>
-									
-									<!-- <td class="content_header_space" cursor: pointer;">
-	                                    <a onclick="show_process_view()">
-		                              		<img title="${_('Corporate Intelligence...')}" class="button" border="0" src="/openerp/static/images/stock/gtk-help.png" width="16" height="16"/>
-		                              	</a>
-                                    </td> -->
-                                  
-                                    % if buttons.can_attach and not buttons.has_attach:
-                                    <td align="center" valign="middle" width="16" class="content_header_space">
-                                        <img 
-                                            class="button" width="16" height="16"
-                                            title="${_('Show attachments.')}" 
-                                            src="/openerp/static/images/stock/gtk-paste.png" 
-                                            onclick="window.open(openobject.http.getURL('/openerp/attachment', {model: '${form.screen.model}', id: ${form.screen.id}}))"/>
-                                    </td>
-                                    % endif
-                                    % if buttons.can_attach and buttons.has_attach:
-                                    <td align="center" valign="middle" width="16" class="content_header_space">
-                                        <img id="attachments"
-                                            class="button" width="16" height="16"
-                                            title="${_('Show attachments.')}" 
-                                            src="/openerp/static/images/stock/gtk-paste-v.png" onclick="window.open(openobject.http.getURL('/openerp/attachment', {model: '${form.screen.model}', id: '${form.screen.id}'}))"/>
-                                    </td>
-                                    % endif
                                     % if form.screen.view_type in ('form'):
 	                                    <td align="center" valign="middle" width="16" class="content_header_space">
 	                                        <img 
