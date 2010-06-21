@@ -422,7 +422,6 @@ TreeNode.prototype = {
                         value.onclick = MochiKit.Base.bind(this.onButtonClick, this);
                         break;
                     default:
-                        throw 'Unknown header type ' + header.type;
                 }
 
             }
@@ -494,7 +493,6 @@ TreeNode.prototype = {
                         b.innerHTML = MochiKit.DOM.escapeHTML(value);
                         break;
                     default:
-                        throw "Unknown header type " + header.type;
                 }
             }
         }
