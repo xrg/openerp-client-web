@@ -94,8 +94,8 @@ hr { overflow: hidden; height: 1px; margin: 15px 0 !important; margin: -5px 0 8p
    #skip-links li a:focus, #skip-links li a:active { display: block; position: absolute; left: 10001px; top: 0; z-index: 10001; width: 200px; margin: 15px 0 0 15px; padding: 2px 0; background: #333; color: #fff; text-align: center; text-decoration: none; }
  
  /* Add Shortcut */
- td#add_shortcut a { float: left; width: 26px; height: 34px; background: url(../images/top-tools-a.png) no-repeat; }
- td#add_shortcut a.add_shortcut { background-position: -46px 0; }
+ td#add_shortcut { width: 26px; height: 34px; background: url(../images/add_shortcut.png) no-repeat; padding: 0; width: 30px; cursor: pointer;}
+ td#remove_shortcut { width: 26px; height: 34px; background: url(../images/remove_shortcut.png) no-repeat; padding: 0; width: 30px; cursor: pointer;}
  /* ================ */
  
  table#shortcuts {border-bottom: 0px; border-collapse: expand;}
@@ -550,7 +550,7 @@ p.toggle-a { position: relative; right: 0; z-index: 19; float: right; margin-bot
 td#sidebar {padding: 0px; border-color: #EAE7E7;}
 td#attach_sidebar {padding: 0px; border-color: #EAE7E7;}
 table#sidebar_pane {margin-bottom: 0px; border-color: #EAE7E7;}
-td#main_sidebar {padding: 5px 0 5px 0px; border-color: #EAE7E7;}
+td#main_sidebar {padding: 10px 0 5px 0px; border-color: #EAE7E7;}
 tfoot.attachPopup_footer { border-bottom: 1px solid silver; vertical-align: middle; }
 td#sidebar_hide {padding : 0px; border-color: #EAE7E7; }
 td#body_form_td {padding: 0px; border-color: #EAE7E7; }

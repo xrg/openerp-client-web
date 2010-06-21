@@ -100,5 +100,21 @@ class Shortcuts(SecuredController):
         cherrypy.session['terp_shortcuts'] = sc
         
         raise redirect('/openerp/tree/open', id=id, model='ir.ui.menu')
+    
+    @expose()
+    def remove_sc(self, id):
+        id = int(id)
+        sc = cherrypy.session.get('terp_shortcuts', False)
+        
+        proxy = rpc.RPCProxy('ir.ui.view_sc')
+        
+        for s in sc:
+            if int(s.get('res_id')) == id:
+                proxy.unlink(int(s.get('id')))
+        
+        sc = proxy.get_sc(rpc.session.uid, 'ir.ui.menu', rpc.session.context)
+        cherrypy.session['terp_shortcuts'] = sc
+        
+        raise redirect('/openerp/tree/open', id=id, model='ir.ui.menu')
 
 # vim: ts=4 sts=4 sw=4 si et
