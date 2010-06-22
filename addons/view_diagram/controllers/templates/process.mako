@@ -16,7 +16,6 @@
             return window.open(openobject.http.getURL('http://doc.openerp.com/index.php', {model: 'process.process', lang:'${rpc.session.context.get('lang', 'en')}'}));
         }
     </script>
-
     % if selection:
     <script type="text/javascript">
         var select_workflow = function() {
@@ -31,60 +30,152 @@
 
 <%def name="content()">
 
-% if selection:
-<div class="view">
-    <input type="hidden" id="res_model" value="${res_model}"/>
-    <input type="hidden" id="res_id" value="${res_id}"/>
-    <fieldset>
-        <legend><b>${_("Select Process")}</b></legend>
-        <select id="select_workflow" name="select_workflow" style="min-width: 150px">
-            % for val, text in selection:
-            <option value="${val}">${text}</option>
-            % endfor
-        </select>
-        <button class="button" type="button" onclick="select_workflow()">${_("Select")}</button>
-    </fieldset>
-</div>
-% else:
 <table class="view" width="100%" border="0" cellpadding="0" cellspacing="0">
-    <tr>
-        <td width="100%" valign="top">
-            <table width="100%" class="titlebar">
-                <tr>
-                    <td width="100%" id="process_title"><h1>${title}</h1></td>
-                    <td nowrap="nowrap">
-                        <img class="button" title="${_('Help')}" src="/openerp/static/images/stock/gtk-help.png" width="16" height="16"
-                        onclick="context_help()"/>
-                    </td>
-                </tr>
-            </table>
-        </td>
+	<tr>
+	    <td>
+		    <table width="100%">
+			    <tr>
+			        <td width="80%" valign="top">
+			            <table width="100%" class="titlebar">
+			                <tr>
+			                    <td width="100%" id="process_title"></td>
+			                </tr>
+			            </table>
+			        </td>
+			    	<td width="20%"; align="center;" >
+				    	<table>
+			    			<tr>
+			    				<td>
+									<div>
+										<a class="help-button-a" href="./">
+											Buy a Support Contract
+											<small>By Chat/Mail/Phone</small>
+										</a>
+									</div>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<div>
+										<a class="help-button-a" href="./">
+											Get Books
+											<small>Available in Amazon</small>
+										</a>
+									</div>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<div>
+										<a class="help-button-a" href="./">
+											Community Forum
+											<small>Join Community Discussion</small>
+										</a>
+									</div>
+								</td>
+							</tr>
+						</table>
+					</td>
+				</tr>
+			</table>
+		</td>
     </tr>
+	<tr>
+		<td>
+			<table class="view" width="100%" border="0" cellpadding="0" cellspacing="0">
+				<tr>
+					<td><b>Process</b>
+					</td>
+				</tr>
+				<tr>
+					<td>
+					    <input type="hidden" id="res_model" value="${res_model}"/>
+					    <input type="hidden" id="res_id" value="${res_id}"/>
+					    <fieldset>
+					        <legend><b>${_("Select Process")}</b></legend>
+					        <select id="select_workflow" name="select_workflow" style="min-width: 150px">
+					            % for val, text in selection:
+					            <option value="${val}" >${text}</option>
+					            % endfor
+					        </select>
+					        <button class="button" type="button" onclick="select_workflow()">${_("Select")}</button>
+					    </fieldset>
+				    </td>
+			    </tr>
+		    </table>
+		</td>
+	</tr>
+
+	<tr>
+		<td>
+			<table class="view" width="100%" border="0" cellpadding="0" cellspacing="0">
+
+			    <tr>
+			        <td align="center">
+			            <input type="hidden" id="id" value="${id}"/>
+			            <input type="hidden" id="res_model" value="${res_model}"/>
+			            <input type="hidden" id="res_id" value="${res_id}"/>
+			            <div id="process_canvas"></div>
+			            <script type="text/javascript">
+			                var id = parseInt(openobject.dom.get('id').value, 10) || 0;
+			                var res_model = openobject.dom.get('res_model').value;
+			                var res_id = openobject.dom.get('res_id').value;
+
+			                if (id) {
+			                    var wkf = new openobject.process.Workflow('process_canvas');
+			                    wkf.load(id, res_model, res_id);
+			                }
+			            </script>
+			        </td>
+			    </tr>
+
+			</table>
+
+		</td>
+	</tr>
+
+
+	% if fields:
     <tr>
-        <td align="center">
-            <input type="hidden" id="id" value="${id}"/>
-            <input type="hidden" id="res_model" value="${res_model}"/>
-            <input type="hidden" id="res_id" value="${res_id}"/>
-            <div id="process_canvas"></div>
-            <script type="text/javascript">
-                var id = parseInt(openobject.dom.get('id').value, 10) || 0;
-                var res_model = openobject.dom.get('res_model').value;
-                var res_id = openobject.dom.get('res_id').value;
-                
-                if (id) {
-                    var wkf = new openobject.process.Workflow('process_canvas');
-                    wkf.load(id, res_model, res_id);
-                }                 
-            </script>
-        </td>
+    	<td>
+    		<table>
+    			<tr>
+    				<td align="left"><h1>Fields</h1></td>
+    			</tr>
+    			<tr>
+    				<td align="left">
+			            <table>
+						% for k,v in fields.items():
+							<tr>
+								<td>
+									<b>${k}:</b>
+								</td>
+								<td>${v['string']}, ${v['type']},
+								% for l,m in v.items():
+									% if m and (l not in ('string','type')):
+										${l},
+									% endif
+								% endfor
+								</td>
+							</tr>
+						% endfor
+			            </table>
+					</td>
+				</tr>
+			</table>
+    	</td>
     </tr>
+    % endif
     <tr>
-        <td class="dimmed-text">
-            [<a target="_blank" href="${py.url('/openerp/form/edit', model='process.process', id=id)}">${_("Customize")}</a>]
-        </td>
-    </tr>
+       <td class="dimmed-text">
+           [<a target="_blank" href="${py.url('/openerp/form/edit', model='process.process', id=id)}">${_("Customize")}</a>]
+       </td>
+   </tr>
 </table>
-%endif
+
+
+
+
 
 
 </%def>

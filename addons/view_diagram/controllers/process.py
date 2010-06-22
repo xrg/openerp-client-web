@@ -49,9 +49,12 @@ class Process(SecuredController):
         selection = None
 
         proxy = rpc.RPCProxy('process.process')
+        fields = proxy.fields_get([], {})
         if id:
             res = proxy.read([id], ['name'], rpc.session.context)[0]
             title = res['name']
+            selection = proxy.search_by_model(False, rpc.session.context)
+
         else:
             selection = proxy.search_by_model(res_model, rpc.session.context)
             if res_model and not selection:
@@ -59,9 +62,10 @@ class Process(SecuredController):
 
             if len(selection) == 1:
                 id, title = selection[0]
-                selection = None
+#                selection = None
+                selection = proxy.search_by_model(False, rpc.session.context)
 
-        return dict(id=id, res_model=res_model, res_id=res_id, title=title, selection=selection)
+        return dict(fields=fields, id=id, res_model=res_model, res_id=res_id, title=title, selection=selection)
 
     @expose('json')
     def get(self, id, res_model=None, res_id=False):
@@ -105,7 +109,7 @@ class Process(SecuredController):
             node['res']['perm'] = update_perm(node['res']['perm'] or {})
 
         return graph
-    
+
     @expose(template="templates/process_tip.mako")
     def open_tip(self, **kw):
         title_tip = kw.get('title_tip')
