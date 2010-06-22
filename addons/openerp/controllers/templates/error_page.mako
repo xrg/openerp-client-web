@@ -29,10 +29,43 @@
             });
             return false;
         }
+        
+        function toggle_error(){
+            var error = openobject.dom.get('traceback_details')
+            
+            error.style.display = error.style.display == "none" ? "" : "none";
+            if (error.style.display == "none") {
+                jQuery('#toggle-error').toggleClass('expand-error collapse-error')
+            }
+            else {
+                jQuery('#toggle-error').toggleClass('collapse-error expand-error')
+            }
+        }
+        
+        function toggle_maintenance(){
+            var maintenance = openobject.dom.get('maintenance_details')
+            
+            if (getNodeAttribute(maintenance, 'class') == "close"){
+                jQuery('#toggle-maintenance').toggleClass('expand-error collapse-error')
+                jQuery('#maintenance_details').toggleClass('close open')
+            }
+            else {
+                jQuery('#toggle-maintenance').toggleClass('collapse-error expand-error ')
+                jQuery('#maintenance_details').toggleClass('open close')
+            }
+        }
     </script>
 </%def>
 
 <%def name="content()">
+<%
+    if maintenance['status'] == 'full':
+        a_class = "collapse-error"
+        div_class = "open"
+    else:
+        a_class = "expand-error"
+        div_class = "close"
+%>
 
 <table class="view" border="0" width="100%">
     <tr>
@@ -40,7 +73,19 @@
             <td valign="top">
                 <form id="view_form" action="/openerp/errorpage/submit" method="POST">
                     <div id="error_page_notebook">
-                        <div title="${_('Maintenance')}">
+                        <b>${_("An ")} ${'%s' % title} ${_("has been reported.")}</b><br/>
+                        <div title="${_('Let me fix it !')}" style="margin-top:5px; padding-top:5px;">
+                            <a class="expand-error" id="toggle-error" href="javascript: void(0)" onclick="toggle_error();">${_('[ Let me fix it! ]')}</a>
+                            <div id="traceback_details" style="display:none; emargin-top:5px; padding-top:5px;">
+                                <textarea id="error" name="error" class="text" readonly="readonly" style="width: 99%;" rows="20" >${error}</textarea>
+                                <script type="text/javascript" title="${_('Application Error!')}">
+                                    new openerp.ui.TextArea('error');
+                                </script>
+                            </div>
+                        </div>
+                        <div title="${_('Fix it for me !')}" style="margin-top:5px; padding-top:5px;">
+                        <a class="${a_class}" id="toggle-maintenance" href="javascript: void(0)" onclick="toggle_maintenance('${maintenance['status']}');">${_('[ Fix it for me! ]')}</a>
+                        <div title="${_('Maintenance')}" id="maintenance_details" class="${div_class}">
                             % if maintenance['status'] == 'none':
                                 <pre>
 <b>${_("An unknown error has been reported.")}</b><br/>
@@ -63,10 +108,10 @@ The maintenance program offers you:
 
 You can use the link bellow for more information. The detail of the error
 is displayed on the second tab.""")}
+<a href="http://www.openerp.com/" target="_blank">Click here for details about the maintenance proposition</a>
                                 </pre>
                             % elif maintenance['status'] == 'partial':
                                 <pre>
-<b>${_("An unknown error has been reported.")}</b><br/><br/>
 
 ${_("""Your maintenance contract does not cover all modules installed in your system !
 If you are using Open ERP in production, it is highly suggested to upgrade your
@@ -82,8 +127,8 @@ Here is the list of modules not covered by your maintenance contract:""")}
 % for mod in maintenance['uncovered_modules']:
 ${' * %s\n' % mod}
 % endfor
-${_("""You can use the link bellow for more information. The detail of the error
-is displayed on the second tab.""")}
+${_("""You can use the link bellow for more information.""")}
+<a href="http://www.openerp.com/" target="_blank">Click here for details about the maintenance proposition</a>
                                 </pre>
                             % elif maintenance['status'] == 'full':
                                 <div>
@@ -124,18 +169,9 @@ is displayed on the second tab.""")}
                                     </table>
                                 </div>
                             % endif
-                        </div>
-                        <div title="${_('Application Error!')}">
-                            <textarea id="error" name="error" class="text" readonly="readonly"
-                                      style="width: 99%" rows="20">${error}</textarea>
-                            <script type="text/javascript">
-                                new openerp.ui.TextArea('error');
-                            </script>
-                        </div>
-                    </div>
-                    <script type="text/javascript">
-                        new Notebook('error_page_notebook', {'closable': false});
-                    </script>
+                        </div>                        
+                      </div>
+                    </div>                   
                 </form>
             </td>
         % else:

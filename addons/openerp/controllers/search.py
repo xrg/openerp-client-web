@@ -30,6 +30,7 @@ from openerp.utils import rpc, expr_eval, TinyDict, TinyForm, TinyFormError
 
 import actions
 from form import Form
+from error_page import _ep
 from openobject.tools import expose, ast
 
 
@@ -117,7 +118,7 @@ class Search(Form):
         except TinyFormError, e:
             return dict(error_field=e.field, error=ustr(e))
         except Exception, e:
-            return dict(error=ustr(e))
+            return dict(error=_ep.render())
 
         prefix = params.prefix
         if prefix:

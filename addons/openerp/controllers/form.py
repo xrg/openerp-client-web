@@ -34,7 +34,7 @@ from openerp import utils, widgets as tw, validators
 from openerp.controllers import SecuredController
 from openerp.utils import rpc, cache, common, TinyDict, TinyForm
 from openerp.widgets.form import generate_url_for_picture
-
+from error_page import _ep
 from openobject.tools import expose, redirect, validate, error_handler, exception_handler
 
 def make_domain(name, value, kind='char'):
@@ -983,7 +983,7 @@ class Form(SecuredController):
         try:
             response = getattr(proxy, func_name)(ids, *args)
         except Exception, e:
-            return dict(error=ustr(e))
+             return dict(error=_ep.render())
 
         if response is False: # response is False when creating new record for inherited view.
             response = {}
