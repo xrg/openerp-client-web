@@ -1087,26 +1087,6 @@ function removeAttachment(e, element, id) {
 		}
 	});
 }
-<<<<<<< TREE
-
-function animatePoof() {
-	var bgTop = 0; // initial background-position for the poof sprit is '0 0'
-    var frames = 5; // number of frames in the sprite animation
-    var frameSize = 32; // size of poof <div> in pixels (32 x 32 px in this example)
-    var frameRate = 80; // set length of time each frame in the animation will display (in milliseconds)
-
-    // loop through amination frames
-    // and display each frame by resetting the background-position of the poof <div>
-    for(i=1; i<frames; i++) {
-        jQuery('.poof').animate({
-            backgroundPosition: '0 ' + (bgTop - frameSize) + 'px'
-        }, frameRate);
-        bgTop -= frameSize; // update bgPosition to reflect the new background-position of our poof <div>
-    }
-       
-    // wait until the animation completes and then hide the poof <div>
-    setTimeout("jQuery('.poof').hide()", frames * frameRate);
-}
 
 function error_popup(obj) {
     try{
@@ -1117,5 +1097,3 @@ function error_popup(obj) {
 	    error_window.document.write(d.innerHTML);
 	} catch(e) {alert(e)}
 }
-=======
->>>>>>> MERGE-SOURCE
