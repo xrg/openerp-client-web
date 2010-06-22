@@ -58,18 +58,18 @@
 </%def>
 
 <%def name="content()">
-<%
-    if maintenance['status'] == 'full':
-        a_class = "collapse-error"
-        div_class = "open"
-    else:
-        a_class = "expand-error"
-        div_class = "close"
-%>
 
 <table class="view" border="0" width="100%">
     <tr>
         % if maintenance:
+            <%
+                if maintenance['status'] == 'full':
+                    a_class = "collapse-error"
+                    div_class = "open"
+                else:
+                    a_class = "expand-error"
+                    div_class = "close"
+            %>
             <td valign="top">
                 <form id="view_form" action="/openerp/errorpage/submit" method="POST">
                     <div id="error_page_notebook">
