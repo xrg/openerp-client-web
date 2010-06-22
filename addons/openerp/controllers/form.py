@@ -218,7 +218,7 @@ class Form(SecuredController):
         buttons.delete = not editable and mode == 'form'
         buttons.pager =  mode == 'form' or mode == 'diagram'# Pager will visible in edit and non-edit mode in form view.
         buttons.can_attach = id and mode == 'form'
-        buttons.has_attach = buttons.can_attach and form.sidebar and form.sidebar.attachments
+#        buttons.has_attach = buttons.can_attach and form.sidebar and form.sidebar.attachments
         buttons.i18n = not editable and mode == 'form'
 
         from openerp.widgets import get_registered_views
@@ -231,7 +231,6 @@ class Form(SecuredController):
 
         target = getattr(cherrypy.request, '_terp_view_target', None)
         buttons.toolbar = (target != 'new' and not form.is_dashboard) or mode == 'diagram'
-
         pager = None
         if buttons.pager:
             pager = tw.pager.Pager(id=form.screen.id, ids=form.screen.ids, offset=form.screen.offset,
@@ -254,7 +253,7 @@ class Form(SecuredController):
             if params.id:
                 if form.screen.view.get('fields') and form.screen.view['fields'].get('name'):
                     display_name = {'field': form.screen.view['fields']['name']['string'], 'value': form.screen.view['fields']['name']['value']}
-              
+        
         return dict(form=form, pager=pager, buttons=buttons, path=self.path, can_shortcut=can_shortcut, shortcut_ids=shortcut_ids, serverLog=serverLog,display_name=display_name)
 
     def _read_form(self, context, count, domain, filter_domain, id, ids, kw,

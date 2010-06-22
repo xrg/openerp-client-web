@@ -95,7 +95,6 @@ class Sidebar(TinyWidget):
         act = 'client_action_multi'
         toolbar = toolbar or {}
         submenu = submenu
-
         self.reports = toolbar.get('print', [])
         self.actions = toolbar.get('action', [])
         self.relates = toolbar.get('relate', [])

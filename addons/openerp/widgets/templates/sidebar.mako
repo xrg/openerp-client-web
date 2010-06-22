@@ -29,8 +29,6 @@
 </ul>
 </%def>
 
-% if reports or actions or relates or attachments:
-
 <table id="sidebar_pane" border="0" cellpadding="0" cellspacing="0">
     <tr>
         <td id="sidebar" style="display: none">
@@ -156,5 +154,4 @@
        jQuery('#attachment-box').submit()
    });
 </script>
-% endif
 
