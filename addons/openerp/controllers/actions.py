@@ -272,10 +272,12 @@ def execute(action, **data):
             if not isinstance(res, list):
                 res = [res]
                 
-            output = None
+            output = ''
             for r in res:
                 output = execute(r, **data)
             return output
+        else:
+            return ''
 
     elif action['type']=='ir.actions.wizard':
         if 'window' in data:
