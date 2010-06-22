@@ -218,7 +218,6 @@ class Form(SecuredController):
         buttons.delete = not editable and mode == 'form'
         buttons.pager =  mode == 'form' or mode == 'diagram'# Pager will visible in edit and non-edit mode in form view.
         buttons.can_attach = id and mode == 'form'
-#        buttons.has_attach = buttons.can_attach and form.sidebar and form.sidebar.attachments
         buttons.i18n = not editable and mode == 'form'
 
         from openerp.widgets import get_registered_views

@@ -97,7 +97,6 @@ class ViewForm(Form):
         self.screen = Screen(prefix='', hastoolbar=True, hassubmenu=True, editable=editable, readonly=readonly,
                              selectable=params.selectable or 2)
         
-#        if self.screen.toolbar:
         self.sidebar = Sidebar(self.screen.model, self.screen.submenu, self.screen.toolbar, self.screen.id,
                                self.screen.view_type, context=self.screen.context)
 
