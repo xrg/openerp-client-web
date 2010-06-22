@@ -38,18 +38,18 @@
 			        <td width="80%" valign="top">
 			            <table width="100%" class="titlebar">
 			                <tr>
-			                    <td width="100%" id="process_title"></td>
+			                    <td width="100%" id="process_title" style="padding-left: 0px; font-weight: bold;"></td>
 			                </tr>
 			            </table>
 			        </td>
-			    	<td width="20%"; align="center;" >
+			    	<td width="20%" align="center" >
 				    	<table>
 			    			<tr>
 			    				<td>
 									<div>
-										<a class="help-button-a" href="./">
+										<a class="help-button-a" href="javascript: void(0)">
 											Buy a Support Contract
-											<small>By Chat/Mail/Phone</small>
+											<small>By Chat / Mail / Phone</small>
 										</a>
 									</div>
 								</td>
@@ -57,7 +57,7 @@
 							<tr>
 								<td>
 									<div>
-										<a class="help-button-a" href="./">
+										<a class="help-button-a" href="javascript: void(0)">
 											Get Books
 											<small>Available in Amazon</small>
 										</a>
@@ -67,7 +67,7 @@
 							<tr>
 								<td>
 									<div>
-										<a class="help-button-a" href="./">
+										<a class="help-button-a" href="javascript: void(0)">
 											Community Forum
 											<small>Join Community Discussion</small>
 										</a>
@@ -84,18 +84,17 @@
 		<td>
 			<table class="view" width="100%" border="0" cellpadding="0" cellspacing="0">
 				<tr>
-					<td><b>Process</b>
-					</td>
+					<td style="font-size: 14px; font-weight: bold;">Process</td>
 				</tr>
 				<tr>
 					<td>
 					    <input type="hidden" id="res_model" value="${res_model}"/>
 					    <input type="hidden" id="res_id" value="${res_id}"/>
 					    <fieldset>
-					        <legend><b>${_("Select Process")}</b></legend>
+					        <legend><b style="padding: 4px;">${_("Select Process")}</b></legend>
 					        <select id="select_workflow" name="select_workflow" style="min-width: 150px">
 					            % for val, text in selection:
-					            <option value="${val}" >${text}</option>
+					            <option value="${val}" ${val==id and "selected" or ""} >${text}</option>
 					            % endfor
 					        </select>
 					        <button class="button" type="button" onclick="select_workflow()">${_("Select")}</button>
@@ -105,17 +104,15 @@
 		    </table>
 		</td>
 	</tr>
-
 	<tr>
 		<td>
 			<table class="view" width="100%" border="0" cellpadding="0" cellspacing="0">
-
 			    <tr>
 			        <td align="center">
 			            <input type="hidden" id="id" value="${id}"/>
 			            <input type="hidden" id="res_model" value="${res_model}"/>
 			            <input type="hidden" id="res_id" value="${res_id}"/>
-			            <div id="process_canvas"></div>
+			            <div id="process_canvas" style="margin-top: 00px"></div>
 			            <script type="text/javascript">
 			                var id = parseInt(openobject.dom.get('id').value, 10) || 0;
 			                var res_model = openobject.dom.get('res_model').value;
@@ -128,30 +125,26 @@
 			            </script>
 			        </td>
 			    </tr>
-
 			</table>
-
 		</td>
 	</tr>
-
-
 	% if fields:
     <tr>
     	<td>
     		<table>
     			<tr>
-    				<td align="left"><h1>Fields</h1></td>
+    				<td align="left" style="font-size: 14px; font-weight: bold;">Fields</td>
     			</tr>
     			<tr>
     				<td align="left">
 			            <table>
-						% for k,v in fields.items():
+						% for k, v in fields.items():
 							<tr>
 								<td>
 									<b>${k}:</b>
 								</td>
 								<td>${v['string']}, ${v['type']},
-								% for l,m in v.items():
+								% for l, m in v.items():
 									% if m and (l not in ('string','type')):
 										${l},
 									% endif
