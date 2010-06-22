@@ -74,7 +74,16 @@ class Root(SecuredController):
     @expose()
     def home(self):
         return self.user_action('action_id')
-
+    
+    @expose()
+    def custom_action(self, action):
+        action = int(action)
+        keyword = 'tree_but_open'
+        ctx = rpc.session.context
+        menu_id = rpc.RPCProxy('ir.ui.menu').search([('id','=', action)], 0, 0, 0, ctx)
+        
+        return actions.execute_by_keyword(keyword, adds={}, model='ir.ui.menu', id=menu_id[0], ids=menu_id, context=rpc.session.context, report_type='pdf')
+    
     @expose()
     def info(self):
         return """
@@ -98,16 +107,20 @@ class Root(SecuredController):
         except:
             id = False
             form.Form().reset_notebooks()
-
         ctx = rpc.session.context.copy()
         proxy = rpc.RPCProxy("ir.ui.menu")
-
         ids = proxy.search([('parent_id', '=', False)], 0, 0, 0, ctx)
-        parents = proxy.read(ids, ['name', 'icon'], ctx)
-        
+        parents = proxy.read(ids, ['name', 'icon', 'action'], ctx)
+                
         if not id and ids:
             id = ids[0]
-
+            
+        for parent in parents:
+            if parent['id'] == id:
+                parent['active'] = 'active'
+            else:
+                parent['active'] = ''
+                
         ids = proxy.search([('parent_id', '=', id)], 0, 0, 0, ctx)
         tools = proxy.read(ids, ['name', 'icon', 'action'], ctx)
         view = cache.fields_view_get('ir.ui.menu', 1, 'tree', {})

@@ -70,6 +70,14 @@
 								<span>${parent['name']}</span>
 							</a>
 							<em>[1]</em>
+							% if parent.get('action') and parent.get('active'):
+							 <script type="text/javascript">
+							     jQuery(document).ready(function() {
+							     jQuery('#appContent').load(
+							         openLink(openobject.http.getURL('/openerp/custom_action', {'action': "${parent['id']}"}))
+							     )});
+							 </script>
+							% endif
 						</li>
 					% endfor
 				</ul>
@@ -89,7 +97,7 @@
 				                            <tr>
 				                                <td id="${tool['id']}" class="accordion-title-td" >
                                                 % if tool.get('action_id'):
-                                                  <a href="${py.url('/tree/open', model='ir.ui.model', id=tool['action_id'])}">
+                                                  <a href="${py.url('/openerp/custom_action', action=tool['action_id'])}">
                                                     ${tool['name']}</a>
                                                 % else:
                                                   <span>${tool['name']}</span>
