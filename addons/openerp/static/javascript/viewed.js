@@ -54,7 +54,7 @@ function getXPath(node) {
 
 function onDelete(node){
     
-    var tree = view_tree;
+    var tree = treeGrids['view_tree'];
     var selected = node || tree.selection[0] || null;
     
     if (!selected) {
@@ -87,7 +87,7 @@ function onDelete(node){
 
 function onAdd(node){
 
-    var tree = view_tree;
+    var tree = treeGrids['view_tree'];
     var selected = node || tree.selection[0] || null;
     
     if (!selected) {
@@ -123,7 +123,7 @@ function onAdd(node){
 
 function doAdd() {
     
-    var tree = view_tree;
+    var tree = treeGrids['view_tree'];
     var selected = tree.selection[0] || null;
     
     if (!selected) {
@@ -178,7 +178,7 @@ function doAdd() {
 
 function onEdit(node) {
 
-    var tree = view_tree;
+    var tree = treeGrids['view_tree'];
     var selected = node || tree.selection[0] || null;
     
     if (!selected) {
@@ -215,7 +215,7 @@ function onEdit(node) {
 
 function doEdit() {
     
-    var tree = view_tree;
+    var tree = treeGrids['view_tree'];
     var selected = tree.selection[0] || null;
     
     if (!selected) {
@@ -268,7 +268,7 @@ function doEdit() {
 
 function onMove(direction, node) {
     
-    var tree = view_tree;
+    var tree = treeGrids['view_tree'];
     var selected = node || tree.selection[0] || null;
     
     if (!selected) {
@@ -338,7 +338,7 @@ function onInherit() {
         return;
     }
     
-    var tree = view_tree;
+    var tree = treeGrids['view_tree'];
     var selected = tree.selection[0] || null;
     
     if (!selected) {
