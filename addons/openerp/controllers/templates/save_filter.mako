@@ -6,7 +6,7 @@
     <script type="text/javascript">
 
         var onFilterClose = function(form) {
-            jQuery(form).submit();
+            jQuery('#'+form).submit();
             window.opener.document.getElementById('filter_list').selectedIndex = 0;
             window.close();
             window.opener.location.reload();
@@ -16,7 +16,7 @@
 </%def>
 
 <%def name="content()">
-    <form name="filter_sc" method="POST" action="/openerp/search/do_filter_sc">
+    <form id="filter_sc" name="filter_sc" method="POST" action="/openerp/search/do_filter_sc">
         <input type="hidden" id="model" name="model" value="${model}"/>
         <input type="hidden" id="domain" name="domain" value="${domain}"/>
         <input type="hidden" id="flag" name="flag" value="${flag}"/>
