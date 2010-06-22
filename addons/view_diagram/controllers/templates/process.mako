@@ -168,14 +168,14 @@
     % endif
     <tr>
        <td class="dimmed-text">
-           [<a target="_blank" href="${py.url('/openerp/form/edit', model='process.process', id=id)}">${_("Customize")}</a>]
+           <table class="form-footer">
+                <tr>
+	                <td class="footer" style="text-align: right;">
+	                    <a target="_blank" id="show_customize_menu" href="${py.url('/openerp/form/edit', model='process.process', id=id)}">${_("Customise")}</a><br/>
+	                </td>
+                </tr>
+            </table>
        </td>
    </tr>
 </table>
-
-
-
-
-
-
 </%def>

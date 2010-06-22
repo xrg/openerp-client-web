@@ -351,7 +351,7 @@ MochiKit.Base.update(openobject.process.Transition.prototype, {
 
         var elem = this.getHTMLElement();
         elem.style.cursor = 'pointer';
-        elem.title = this._makeTipText();
+       
         MochiKit.Signal.connect(elem, 'ondblclick', this, this._makeTipText);
         
         if (roles.length) {
@@ -393,7 +393,7 @@ MochiKit.Base.update(openobject.process.Transition.prototype, {
         
         var params = {'title_tip': MochiKit.DOM.emitHTML(title)}
         
-        openobject.tools.openWindow(openobject.http.getURL("/process/open_tip", params), {width: 450, height: 250});
+        openobject.tools.openWindow(openobject.http.getURL("/view_diagram/process/open_tip", params), {width: 450, height: 250});
     }
 });
 
