@@ -52,12 +52,12 @@ class Binary(TinyInputWidget):
         super(Binary, self).__init__(**attrs)
         self.validator = validators.Binary()
         self.onchange = "onChange(this); set_binary_filename(this, '%s');" % (self.filename or '')
-
+        self.is_wizard = attrs.get('is_wizard')
+        
     def set_value(self, value):
-        #XXX: server bug work-arround
-        try:
-            self.text = tools.get_size(value)
-        except:
+        if self.is_wizard:
+            self.text = tools.get_size(len(value))
+        else:
             self.text = value or ''
             
 

@@ -662,7 +662,7 @@ class Form(TinyInputWidget):
     params = ['id']
     member_widgets = ['frame', 'concurrency_info']
 
-    def __init__(self, prefix, model, view, ids=[], domain=[], context={}, editable=True, readonly=False, nodefault=False, nolinks=1):
+    def __init__(self, prefix, model, view, ids=[], domain=[], context={}, editable=True, readonly=False, nodefault=False, nolinks=1, is_wizard=False):
 
         super(Form, self).__init__(prefix=prefix, model=model, editable=editable, readonly=readonly, nodefault=nodefault)
 
@@ -673,7 +673,7 @@ class Form(TinyInputWidget):
 
         self.string = attrs.get('string', '')
         self.link = attrs.get('link', nolinks)
-
+        self.is_wizard = is_wizard
         self.id = None
         self.context = context or {}
 
@@ -880,6 +880,9 @@ class Form(TinyInputWidget):
 
         if kind == 'image' or kind == 'picture':
             attrs['id'] = self.id
+            
+        if kind == 'binary':
+            attrs['is_wizard'] = self.is_wizard
 
         # suppress by container's readonly property
         if self.readonly:

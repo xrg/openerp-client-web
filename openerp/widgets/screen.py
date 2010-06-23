@@ -157,7 +157,7 @@ class Screen(TinyInputWidget):
                                     context=self.context,
                                     editable=self.editable,
                                     readonly=self.readonly,
-                                    nodefault=self.nodefault, nolinks=self.link)
+                                    nodefault=self.nodefault, nolinks=self.link, is_wizard=self.is_wizard)
 
             if not self.is_wizard and self.ids is None:
                 proxy = rpc.RPCProxy(self.model)
