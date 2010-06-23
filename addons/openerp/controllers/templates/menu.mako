@@ -48,8 +48,16 @@
         });
         
         jQuery(document).ready(function() {
-            jQuery('#primary').width(795);
+            resize_appContent()
         });
+        
+        function resize_appContent() {
+            var window_width = jQuery(window).width();
+            var secondary_width = jQuery('#secondary').width();
+            var primary_width = window_width - secondary_width ;
+            jQuery('#primary').width(primary_width - 50);
+            
+        }
     </script>
 </%def>
 
@@ -128,14 +136,15 @@
                     jQuery('div.hide_tools').click(function() {
                         jQuery(this).toggleClass('show_tools hide_tools')
                         if(jQuery(this).attr('class') == 'show_tools') {
-                            jQuery('#secondary').hide();
-                            jQuery('#primary').width(975);
+                            jQuery('#secondary').width(0);
+                            jQuery('#secondary').hide()
                         }
                         else {
-                            jQuery('#secondary').show();
-                            jQuery('#primary').width(795);
+                            jQuery('#secondary').width(180);
+                            jQuery('#secondary').show()
                         }
-			            
+                        
+			            resize_appContent()
                     });
                  </script>
              </div>
