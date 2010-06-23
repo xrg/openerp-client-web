@@ -46,22 +46,23 @@
                 jQuery('a.scroll_right').css('display', 'none');
             }
         });
-        
-        jQuery(document).ready(function() {
-            resize_appContent()
-        });
-        
+
         function resize_appContent() {
             var window_width = jQuery(window).width();
             var secondary_width = jQuery('#secondary').width();
             var primary_width = window_width - secondary_width ;
             jQuery('#primary').width(primary_width - 50);
-            
         }
-        
-        jQuery(window).resize(function() {
-            resize_appContent()
+        jQuery(document).ready(function () {
+            jQuery('.open-close-menu').click(function() {
+                jQuery(this).toggleClass('show_tools hide_tools');
+                jQuery('#secondary').toggle();
+
+                resize_appContent()
+            });
+            resize_appContent();
         });
+        jQuery(window).resize(resize_appContent);
         
     </script>
 </%def>
@@ -135,23 +136,7 @@
 		        	</table>
 		    	</div>
 			</div>
-			<div class="hide_tools" style="display: none;">
-                 <script type="text/javascript">
-                    jQuery('div.hide_tools').click(function() {
-                        jQuery(this).toggleClass('show_tools hide_tools')
-                        if(jQuery(this).attr('class') == 'show_tools') {
-                            jQuery('#secondary').width(0);
-                            jQuery('#secondary').hide()
-                        }
-                        else {
-                            jQuery('#secondary').width(180);
-                            jQuery('#secondary').show()
-                        }
-                        
-			            resize_appContent()
-                    });
-                 </script>
-             </div>
+			<div class="open-close-menu hide_tools"></div>
 			<div id="primary">
 			    
 				<div class="wrap">

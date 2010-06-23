@@ -938,20 +938,18 @@ table.reference td{
 	white-space: nowrap;
 }
 
-div.hide_tools {
-   float: left; 
-   cursor: pointer;
-   background: #CECBCB url(../images/prev.gif) no-repeat scroll center center;
-   padding-left: 10px;
-   width: 5px;
+.open-close-menu {
+    float: left;
+    cursor: pointer;
+    background: #CECBCB no-repeat scroll center center;
+    height: 100%;
+    width: 11px;
 }
-
-div.show_tools {
-   float: left; 
-   cursor: pointer;
-   background: #CECBCB url(../images/next.gif) no-repeat scroll center center;
-   padding-left: 10px;
-   width: 5px;
+.hide_tools {
+    background-image: url(../images/prev.gif);
+}
+.show_tools {
+    background-image: url(../images/next.gif);
 }
 
 td#add_attachment, table.attachment_bar td {
