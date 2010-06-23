@@ -123,8 +123,14 @@
                  <script type="text/javascript">
                     jQuery('div.hide_tools').click(function() {
                         jQuery(this).toggleClass('show_tools hide_tools')
-                        jQuery('#primary').css('margin-left','0');
-                        jQuery('#secondary').toggle();
+                        if(jQuery(this).attr('class') == 'show_tools') {
+                            jQuery('#primary').css('margin-left','0px');
+                            jQuery('#secondary').hide();
+                        }
+                        else {
+                            jQuery('#primary').css('margin-left','195px');
+                            jQuery('#secondary').show();
+                        }
                     });
                  </script>
              </div>

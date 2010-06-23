@@ -84,12 +84,12 @@ ListView.prototype = {
 	selectedRow_sum: function() {
 		var selected_ids = this.getSelectedRecords();
 		if(selected_ids.length) {
-			jQuery('#'+this.name+' tr.pagerbar:first td.pager-cell-button:hidden').fadeIn(2000);
+			jQuery('#'+this.name+'_delete_record').parent().fadeIn(1000)
+			jQuery('#'+this.name+'_edit_record').parent().fadeIn(1000)
 	   }
 	   else {
-	   	   if(jQuery('#'+this.name+' tr.pagerbar:first td.second').css('display') != 'none') {
-	   	   	   jQuery('#'+this.name+' tr.pagerbar:first td.second').fadeOut(2000)
-	   	   }
+	   	   jQuery('#'+this.name+'_delete_record').parent().fadeOut(1000)
+           jQuery('#'+this.name+'_edit_record').parent().fadeOut(1000)
 	   }	
 		if(jQuery('tr.field_sum td.grid-cell span').length>0) {
 		    	var sum_fields = [];

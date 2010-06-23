@@ -48,7 +48,7 @@ class List(TinyWidget):
     template = "templates/listgrid.mako"
     params = ['name', 'data', 'columns', 'headers', 'model', 'selectable', 'editable',
               'pageable', 'selector', 'source', 'offset', 'limit', 'show_links', 'editors', 'view_mode',
-              'hiddens', 'edit_inline', 'field_total', 'link', 'checkbox_name', 'm2m', 'min_rows', 'string']
+              'hiddens', 'edit_inline', 'field_total', 'link', 'checkbox_name', 'm2m', 'min_rows', 'string', 'o2m']
 
     member_widgets = ['pager', 'buttons', 'editors', 'concurrency_info']
 
@@ -100,7 +100,8 @@ class List(TinyWidget):
         self.limit = kw.get('limit', 0)
         self.count = kw.get('count', 0)
         self.link = kw.get('nolinks')
-        self.m2m = False
+        self.m2m = kw.get('m2m', 0)
+        self.o2m = kw.get('o2m', 0)
         self.concurrency_info = None
         self.selector = None
 
@@ -113,7 +114,7 @@ class List(TinyWidget):
         fields = view['fields']
         dom = xml.dom.minidom.parseString(view['arch'].encode('utf-8'))
         root = dom.childNodes[0]
-
+        
         attrs = node_attributes(root)
         self.string = attrs.get('string','')
         

@@ -67,7 +67,7 @@ class Screen(TinyInputWidget):
 
     member_widgets = ['widget']
 
-    def __init__(self, params=None, prefix='', name='', views_preloaded={}, hastoolbar=False, hassubmenu=False, editable=False, readonly=False, selectable=0, nolinks=1):
+    def __init__(self, params=None, prefix='', name='', views_preloaded={}, hastoolbar=False, hassubmenu=False, editable=False, readonly=False, selectable=0, nolinks=1, **kw):
 
         # get params dictionary
         params = params or cherrypy.request.terp_params
@@ -84,6 +84,10 @@ class Screen(TinyInputWidget):
         self.view_id       = False
         self.group_by_ctx  = params.group_by_ctx or []        
         self.is_wizard = params.is_wizard
+        
+        self.m2m = kw.get('_m2m', 0)
+        self.o2m = kw.get('_o2m', 0)
+        
         while len(self.view_ids) < len(self.view_mode):
             self.view_ids += [False]
 

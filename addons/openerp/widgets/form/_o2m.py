@@ -167,7 +167,7 @@ class O2M(TinyInputWidget):
 
         self.screen = Screen(current, prefix=self.name, views_preloaded=view,
                              editable=self.editable, readonly=self.readonly,
-                             selectable=0, nolinks=self.link)
+                             selectable=0, nolinks=self.link, **{'_o2m': 1})
         self.id = id
         self.ids = ids
 
