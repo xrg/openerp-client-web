@@ -1093,7 +1093,7 @@ function error_popup(obj) {
 	    var d = DIV();
 	    d.innerHTML = obj.error    
 	    error_window= window.open("", "error", "status=1, scrollbars=yes, width=550, height=400");
-	    error_window.document.write('<html><head><title>Open ERP - Error</title></head</HTML>');
+	    error_window.document.write('<html><head><title>Open ERP - Error</title></head></HTML>');
 	    error_window.document.write(d.innerHTML);
 	} catch(e) {alert(e)}
 }
