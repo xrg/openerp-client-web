@@ -58,6 +58,11 @@
             jQuery('#primary').width(primary_width - 50);
             
         }
+        
+        jQuery(window).resize(function() {
+            resize_appContent()
+        });
+        
     </script>
 </%def>
 
