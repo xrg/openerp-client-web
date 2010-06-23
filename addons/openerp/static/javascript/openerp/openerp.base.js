@@ -30,6 +30,23 @@ function openLink(url /*optional afterLoad */) {
         window.location.assign(url);
     }
 }
+/**
+ * Extract the current hash-url from the page's location
+ *
+ * @returns the current hash-url if any, otherwise returns `null`
+ */
+function hashUrl() {
+    var newUrl = null;
+    // would use window.location.hash but... https://bugzilla.mozilla.org/show_bug.cgi?id=483304
+    var hashValue = window.location.href.split('#')[1] || '';
+    jQuery.each(hashValue.split('&'), function (i, element) {
+        var e = element.split("=");
+        if(e[0] === 'url') {
+            newUrl = decodeURIComponent(e[1]);
+        }
+    });
+    return newUrl;
+}
 
 // Timers before displaying the wait box, in case the remote query takes too long
 /** @constant */
@@ -66,16 +83,7 @@ jQuery(document).ready(function () {
 
     // wash for hash changes
     jQuery(window).bind('hashchange', function () {
-        var newUrl = null;
-        // would use window.location.hash but... https://bugzilla.mozilla.org/show_bug.cgi?id=483304
-        var hashValue = window.location.href.split('#')[1] || '';
-        jQuery.each(hashValue.split('&'), function (i, element) {
-            var e = element.split("=");
-            if(e[0] === 'url') {
-                newUrl = decodeURIComponent(e[1]);
-            }
-        });
-
+        var newUrl = hashUrl();
         if(!newUrl || newUrl == currentUrl) {
             return;
         }

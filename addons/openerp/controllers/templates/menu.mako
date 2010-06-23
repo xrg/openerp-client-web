@@ -56,7 +56,8 @@
             jQuery('#primary').width(primary_width - 50);
         }
         jQuery(document).ready(function () {
-            if(DOCUMENT_TO_LOAD) {
+            // Don't load doc if there is a hash-url, it takes precedence
+            if(DOCUMENT_TO_LOAD && !hashUrl()) {
                 openLink(DOCUMENT_TO_LOAD);
             }
 
