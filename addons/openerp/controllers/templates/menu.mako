@@ -46,6 +46,10 @@
                 jQuery('a.scroll_right').css('display', 'none');
             }
         });
+        
+        jQuery(document).ready(function() {
+            jQuery('#primary').width(795);
+        });
     </script>
 </%def>
 
@@ -124,13 +128,14 @@
                     jQuery('div.hide_tools').click(function() {
                         jQuery(this).toggleClass('show_tools hide_tools')
                         if(jQuery(this).attr('class') == 'show_tools') {
-                            jQuery('#primary').css('margin-left','0px');
                             jQuery('#secondary').hide();
+                            jQuery('#primary').width(975);
                         }
                         else {
-                            jQuery('#primary').css('margin-left','195px');
                             jQuery('#secondary').show();
+                            jQuery('#primary').width(795);
                         }
+			            
                     });
                  </script>
              </div>
@@ -144,7 +149,6 @@
 					   </script>
 					% endif
 				</div>
-				
 			</div>
 		</div>
 	</div>

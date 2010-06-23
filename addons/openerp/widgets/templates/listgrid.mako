@@ -135,7 +135,7 @@ import cherrypy
 	        			        % endif
 	        			    </td>
 	        			% endif
-	        			<td class="pager-cell-button second">
+	        			<td class="pager-cell-button" style="display: none;">
 	        			    <a id="${name}_delete_record" class="button-a" href="javascript: void(0)" title="${_('Delete record(s).')}">${_('delete')}<a/>
 	        			    <script type="text/javascript">
 	        			        jQuery('#${name}_delete_record').click(function() {
@@ -143,7 +143,7 @@ import cherrypy
                                 });
 	        			    </script>
 	        			</td>
-	        			<td class="pager-cell-button second">
+	        			<td class="pager-cell-button" style="display: none;">
                             <a id="${name}_edit_record" class="button-a" href="javascript: void(0)" title="${_('Edit record(s).')}">${_('edit')}<a/>
                             <script type="text/javascript">
                                 jQuery('#${name}_edit_record').click(function() {

@@ -120,7 +120,7 @@ hr { overflow: hidden; height: 1px; margin: 15px 0 !important; margin: -5px 0 8p
     .scroll_right { text-align: center; width: 2%;}
  #content { height: 100%; }
    #content div.wrap { padding: 0px 0 5px; }
-  #primary { min-height: 100%; margin: 0 20px 0 195px; vertical-align: top; }
+  #primary { min-height: 100%; margin: 0; vertical-align: top; float: right;}
    #primary div.wrap { padding-top: 0px; }
   #secondary { float: left; width: 180px; min-height: 100%; border-right: 1px solid #3c3c3c; background: #5a5858; }
   #tertiary { float: right; min-height: 100%; border-left: 1px solid #d2cfcf; background: #eae7e7 url(../images/tertiary-bg-a.gif) repeat-y; }

@@ -943,6 +943,7 @@ div.hide_tools {
    cursor: pointer;
    background: #CECBCB url(../images/prev.gif) no-repeat scroll center center;
    padding-left: 10px;
+   width: 5px;
 }
 
 div.show_tools {
@@ -950,6 +951,7 @@ div.show_tools {
    cursor: pointer;
    background: #CECBCB url(../images/next.gif) no-repeat scroll center center;
    padding-left: 10px;
+   width: 5px;
 }
 
 td#add_attachment, table.attachment_bar td {
