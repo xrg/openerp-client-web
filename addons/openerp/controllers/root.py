@@ -48,10 +48,12 @@ class Root(SecuredController):
     _cp_path = "/openerp"
 
     @expose()
-    def index(self):
+    def index(self, next=None):
         """Index page, loads the view defined by `action_id`.
         """
-        raise redirect("/openerp/menu")
+        if next: arguments = {'next': next}
+        else: arguments = {}
+        raise redirect("/openerp/menu", **arguments)
     
     def user_action(self, id='action_id'):
         """Perform default user action.
@@ -65,7 +67,7 @@ class Root(SecuredController):
         if not act_id[0][id]:
             common.warning(_('You can not log into the system!\nAsk the administrator to verify\nyou have an action defined for your user.'), _('Access Denied!'))
             rpc.session.logout()
-            raise redirect('/openerp');
+            raise redirect('/openerp')
         else:
             act_id = act_id[0][id][0]
             from openerp import controllers
@@ -98,7 +100,7 @@ class Root(SecuredController):
     """ % (url("/openerp/static/images/loading.gif"))
 
     @expose(template="templates/menu.mako")
-    def menu(self, active=None, **kw):
+    def menu(self, active=None, next=None):
         from openerp.utils import icons
         from openerp.widgets import tree_view
         
@@ -140,9 +142,8 @@ class Root(SecuredController):
             tree.tree.onselection = None
             tree.tree.onheaderclick = None
             tree.tree.showheaders = 0
-        if kw.get('db'):
-            return dict(parents=parents, tools=tools, setup = '/openerp/home')
-        return dict(parents=parents, tools=tools)
+
+        return dict(parents=parents, tools=tools, load_content=(next and next or ''))
 
     @expose(allow_json=True)
     @unsecured

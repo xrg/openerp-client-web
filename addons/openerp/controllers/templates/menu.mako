@@ -36,6 +36,8 @@
     </style>
 
     <script type="text/javascript">
+        var DOCUMENT_TO_LOAD = "${load_content}";
+        
         jQuery(document).ready(function() {
             var total_width = 0;
             jQuery('ul.sc_menu li').each(function() {
@@ -54,6 +56,10 @@
             jQuery('#primary').width(primary_width - 50);
         }
         jQuery(document).ready(function () {
+            if(DOCUMENT_TO_LOAD) {
+                openLink(DOCUMENT_TO_LOAD);
+            }
+
             jQuery('.open-close-menu').click(function() {
                 jQuery(this).toggleClass('show_tools hide_tools');
                 jQuery('#secondary').toggle();
@@ -141,11 +147,6 @@
 			    
 				<div class="wrap">
 					<div id="appContent"></div>
-					% if setup:
-					   <script type="text/javascript">
-					   openLink(openobject.http.getURL('/openerp/home'));
-					   </script>
-					% endif
 				</div>
 			</div>
 		</div>
