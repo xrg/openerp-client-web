@@ -35,7 +35,7 @@
                             </thead>
                             <tbody>
                                 % for tool in tree.toolbar:
-                                <tr class="${'row' + ((tree.id == tool['id'] or '') and ' selected')}" onclick="TREEVIEW.openTree(${tool['id']}, ${tool['ids']}, this)">
+                                <tr class="${'row_tree_toolbar' + ((tree.id == tool['id'] or '') and ' selected')}" onclick="TREEVIEW.openTree(${tool['id']}, ${tool['ids']}, this)">
                                     <td>
                                         <table border="0" cellpadding="0" cellspacing="0" class="tree-field">
                                             <tr>

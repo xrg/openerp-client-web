@@ -16,6 +16,10 @@ table.tree-grid td {
     border-top: none;
 }
 
+table.tree-field {
+	border-bottom: none;
+}
+
 table.tree-grid .tree-field td {
     padding: 0 2px;
     border: none;
@@ -96,6 +100,16 @@ table.tree-grid .requiredfield {
 table.tree-grid a:hover {
     color: blue;
     border: none;
+}
+
+tr.row_tree_toolbar {
+	background-color: #5A5858;
+	color: #FFFFFF;
+	cursor: pointer;
+}
+
+tr.row_tree_toolbar:hover {
+	background-color: #3C3C3C;
 }
 
 /**
