@@ -208,7 +208,7 @@ class TinyCalendar(Form):
 
         if params.groups:
             for group in params.groups:
-                records += self._get_gantt_records(params.model, None, group)
+                records.extend(self._get_gantt_records(params.model, None, group))
         else:
             records = self._get_gantt_records(params.model, params.ids or [])
 
