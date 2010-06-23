@@ -5,9 +5,9 @@
 	onclick="buttonClicked('${name}', '${btype}', '${model}', '${id}', '${confirm}', '${target}', getNodeAttribute(this, 'context'));" style="height: 18px;">
 	% if string:
 		% if icon:
-			<div class="button_wid_string" style="background-image: url(${icon});">${string}</div>
+			<div class="button_wid_string" style="background-image: url(${icon}); padding-top: 3px;">${string}</div>
 		% else:
-			<div style="text-align: center;">${string}</div>
+			<div style="text-align: center; padding-top: 3px;">${string}</div>
 		% endif
 	%else:
 		<img align="center" src="${icon}" width="16" height="16"/>

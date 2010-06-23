@@ -61,7 +61,7 @@
             <div class="sideheader-a">
                 <h2>${_("Customise")}</h2>
             </div>
-            <ul id="customise_menu_">
+            <ul id="customise_menu_" class="clean-a">
                 <li>
                     <a class="customise_menu_options" title="${_('Manage views of the current object')}" 
                     onclick="openobject.tools.openWindow('/openerp/viewlist?model=${model}', {height: 400})" 

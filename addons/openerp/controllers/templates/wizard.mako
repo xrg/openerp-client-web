@@ -25,7 +25,7 @@
     
     <div class="toolbar" style="text-align: right;">
         % for state in buttons:
-        <button onclick="wizardAction('${state[0]}')">
+        <button class="button_wid" onclick="wizardAction('${state[0]}')">
             <table align="center" cellspacing="0">
                 <tr>
                     % if len(state) >= 3:

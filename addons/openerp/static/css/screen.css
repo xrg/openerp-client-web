@@ -413,7 +413,7 @@ table.schedule-a { border-top: 1px solid #dbdbdb; }
 
 /* lists */
 
-ul.attachments-a, ul#customise_menu_ { list-style: none; margin: 0 0 10px; padding: 0; }
+ul.attachments-a { list-style: none; margin: 0 0 10px; padding: 0; }
  ul.attachments-a li { position: relative; margin: 0 0 5px; padding: 0 20px 0 0; color: #5b5b5b; font-size: 1.2em; text-shadow: #fff 0 1px 0; }
  * html ul.attachments-a li { height: 1%; }
   ul.attachments-a li span { position: absolute; left: -10001px; top: -10001px; }
@@ -584,6 +584,9 @@ a.cta-a:hover, a.cta-a:focus, a.cta-a:active { border-color: #aaa; }
   a.cta-a strong { display: block; color: #393939; }
 
 /* other */
+
+
+.button_wid table td{ padding: 2px; }
 
 .wrapper { overflow: hidden; width: 100%; }
 
