@@ -120,8 +120,9 @@ class Root(SecuredController):
         for parent in parents:
             if parent['id'] == id:
                 parent['active'] = 'active'
-            else:
-                parent['active'] = ''
+                # explicit next takes precedence on menu item action
+                if not next and parent.get('action'):
+                    next = url('/openerp/custom_action', action=id)
                 
         ids = proxy.search([('parent_id', '=', id)], 0, 0, 0, ctx)
         tools = proxy.read(ids, ['name', 'icon', 'action'], ctx)

@@ -89,18 +89,10 @@
 				<ul class="sc_menu">
 					%for parent in parents:
 						<li id="${parent['id']}" class="menu_tabs">
-						
 							<a href="${py.url('/openerp/menu', active=parent['id'])}" target="_top" class="${parent.get('active', '')}">
 								<span>${parent['name']}</span>
 							</a>
 							<em>[1]</em>
-							% if parent.get('action') and parent.get('active'):
-							 <script type="text/javascript">
-							     jQuery(document).ready(function() {
-							        openLink(openobject.http.getURL('/openerp/custom_action', {'action': "${parent['id']}"}))
-							     });
-							 </script>
-							% endif
 						</li>
 					% endfor
 				</ul>
