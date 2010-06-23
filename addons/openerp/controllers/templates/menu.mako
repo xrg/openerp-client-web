@@ -90,9 +90,8 @@
 							% if parent.get('action') and parent.get('active'):
 							 <script type="text/javascript">
 							     jQuery(document).ready(function() {
-							     jQuery('#appContent').load(
-							         openLink(openobject.http.getURL('/openerp/custom_action', {'action': "${parent['id']}"}))
-							     )});
+							        openLink(openobject.http.getURL('/openerp/custom_action', {'action': "${parent['id']}"}))
+							     });
 							 </script>
 							% endif
 						</li>
