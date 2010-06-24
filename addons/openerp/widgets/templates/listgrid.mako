@@ -324,6 +324,7 @@ import cherrypy
             % else:
                 <script type="text/javascript">
                     var view_type = jQuery('[id*=_terp_view_type]').val();
+                    var editable = jQuery('[id*=_terp_editable]').val();
                     jQuery('table#${name}_grid tr.grid-row').each(function(index, row) {
                         jQuery(row).click(function(event) {
                             if (!(event.target.className == 'grid-cell selector' || event.target.className == 'checkbox grid-record-selector' || event.target.className == 'listImage')) {
