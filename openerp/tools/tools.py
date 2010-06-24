@@ -39,8 +39,11 @@ def expr_eval(string, context={}):
     context['time'] = time
     context['datetime'] = DT
     if isinstance(string, basestring):
-        string = string.replace("'active_id'", "active_id")
-        return eval(string, context)
+        try:
+            string = string.replace("'active_id'", "active_id")
+            return eval(string, context)
+        except:
+            return {}
     else:
         if isinstance(string, dict):
             for i,v in string.items():
