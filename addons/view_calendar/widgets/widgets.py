@@ -263,7 +263,8 @@ class GanttCalendar(ICalendar):
             self.headers = [(12, u"%s %s" % (d.month2.name, d.day)) for d in self.days]
             self.subheaders = []
             for x in self.days:
-                self.subheaders.append(time.strftime('%I %P', (y, 1, 1, i, 0, 0, 1, 1, 0)) for i in [0, 23])
+                for i in [0, 23]:
+                    self.subheaders.append(time.strftime('%I %P', (y, 1, 1, i, 0, 0, 1, 1, 0)))
 
         elif self.mode == '3weeks':
             w = Week(day)

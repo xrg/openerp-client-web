@@ -39,7 +39,12 @@ InfoBox.prototype = {
             dtEnd : null,       // end time
             nRecordID : null,   // record id
             title: null,        // title
-            description: null   // description
+            description: null,   // description
+            event_id: null,      // id
+            create_date: null,   //create date
+            create_uid: null,    //create uid
+            write_date: null,    //write date
+            write_uid: null      //write uid
         }, params);
 
         this.layer = openobject.dom.get('calInfoLayer');
@@ -77,10 +82,18 @@ InfoBox.prototype = {
         }
 
         var desc = SPAN(null, this.params.description, BR(), desc);
-
+        
+        var log = DIV({'class': 'calLogInfo'},
+                        DIV(null,'ID:', this.params.event_id),
+                        DIV(null,'Creation User:', this.params.create_uid),
+                        DIV(null,'Creation Date:', this.params.create_date),
+                        DIV(null,'Latest Modification by: ', this.params.write_uid),
+                        DIV(null,'Latest Modification Date: ', this.params.write_date)
+                     );
         var info = DIV(null,
                     DIV({'class': 'calInfoTitle'}, title),
                     DIV({'class': 'calInfoDesc'}, desc),
+                    DIV(null, log),
                         TABLE({'class': 'calInfoButtons', 'cellpadding': 2}, 
                             TBODY(null, 
                                 TR(null,
@@ -112,7 +125,7 @@ InfoBox.prototype = {
         //setElementDimensions(this.layer, getViewportDimensions());
 
         var w = 350;
-        var h = 125;
+        var h = 145;
 
         setElementDimensions(this.box, {w: w, h: h});
 

@@ -64,7 +64,8 @@
                     nRecordID="${group['id']}"
                     items="${str(group['items'])}"
                     model="${group['model']}"
-                    title="${group['title']}"/>
+                    title="${group['title']}"
+                    />
                 % endfor
                 % for evt in events:
                 <div class="calEvent"
@@ -73,6 +74,10 @@
                     dtStart="${str(evt.starts)}"
                     dtEnd="${str(evt.ends)}"
                     title="${evt.title}"
+                    nCreationDate="${evt.create_date}"
+                    nCreationId="${evt.create_uid}"
+                    nWriteDate="${evt.write_date}"
+                    nWriteId="${evt.write_uid}"
                     style="background-color: ${evt.color}"/>
                 % endfor
             </div>
