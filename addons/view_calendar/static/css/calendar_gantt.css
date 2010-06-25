@@ -138,6 +138,14 @@
     cursor: w-resize;
 }
 
+td#calOptions {
+	vertical-align: top;
+}
+
+td#calOptions dd {
+	padding-left: 0;
+}
+
 /**
  * vim: sts=4 st=4 et
  *
