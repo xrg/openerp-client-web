@@ -55,7 +55,7 @@ class Binary(TinyInputWidget):
         self.is_wizard = attrs.get('is_wizard')
         
     def set_value(self, value):
-        if self.is_wizard:
+        if self.is_wizard and value:
             self.text = tools.get_size(len(value))
         else:
             self.text = value or ''
