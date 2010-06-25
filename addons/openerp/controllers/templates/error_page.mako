@@ -6,6 +6,19 @@
     <script type="text/javascript" src="/openerp/static/javascript/openerp/openerp.ui.textarea.js"></script>
 
     <script type="text/javascript">
+
+        jQuery(document).ready(function() {
+            if("${maintenance['status']}" == 'none') {
+                jQuery('#toggle-maintenance').attr('class', 'collapse-error')
+                jQuery('#maintenance_details').show()
+            }
+            
+            jQuery('a').click(function() {
+                jQuery(this).toggleClass('collapse-error expand-error')
+                jQuery(this).next().toggle()
+            });
+        });
+        
         var send_maintenance_request = function() {
             var args = {
                 explanation: openobject.dom.get('explanation').value,
@@ -29,31 +42,6 @@
             });
             return false;
         }
-        
-        function toggle_error(){
-            var error = openobject.dom.get('traceback_details')
-            
-            error.style.display = error.style.display == "none" ? "" : "none";
-            if (error.style.display == "none") {
-                jQuery('#toggle-error').toggleClass('expand-error collapse-error')
-            }
-            else {
-                jQuery('#toggle-error').toggleClass('collapse-error expand-error')
-            }
-        }
-        
-        function toggle_maintenance(){
-            var maintenance = openobject.dom.get('maintenance_details')
-            
-            if (getNodeAttribute(maintenance, 'class') == "close"){
-                jQuery('#toggle-maintenance').toggleClass('expand-error collapse-error')
-                jQuery('#maintenance_details').toggleClass('close open')
-            }
-            else {
-                jQuery('#toggle-maintenance').toggleClass('collapse-error expand-error ')
-                jQuery('#maintenance_details').toggleClass('open close')
-            }
-        }
     </script>
 </%def>
 
@@ -62,33 +50,24 @@
 <table class="view" border="0" width="100%">
     <tr>
         % if maintenance:
-            <%
-                if maintenance['status'] == 'full':
-                    a_class = "collapse-error"
-                    div_class = "open"
-                else:
-                    a_class = "expand-error"
-                    div_class = "close"
-            %>
             <td valign="top">
                 <form id="view_form" action="/openerp/errorpage/submit" method="POST">
                     <div id="error_page_notebook">
-                        <b>${_("An ")} ${'%s' % title} ${_("has been reported.")}</b><br/>
-                        <div title="${_('Let me fix it !')}" style="margin-top:5px; padding-top:5px;">
-                            <a class="expand-error" id="toggle-error" href="javascript: void(0)" onclick="toggle_error();">${_('[ Let me fix it! ]')}</a>
-                            <div id="traceback_details" style="display:none; emargin-top:5px; padding-top:5px;">
+                        <h4 style="padding-top:10px;">${_("An ")} ${'%s' % title} ${_("has been reported.")}</h4>
+                        <div style="margin-top:5px; padding-top:5px;">
+                            <a id="toggle-error" class="expand-error" title="${_('Let me fix it !')}" >${_('Let me fix it !')}</a>
+                            <div id="traceback_details" style="display:none; margin-top:5px; padding-top:5px;">
                                 <textarea id="error" name="error" class="text" readonly="readonly" style="width: 99%;" rows="20" >${error}</textarea>
                                 <script type="text/javascript" title="${_('Application Error!')}">
                                     new openerp.ui.TextArea('error');
                                 </script>
                             </div>
                         </div>
-                        <div title="${_('Fix it for me !')}" style="margin-top:5px; padding-top:5px;">
-                        <a class="${a_class}" id="toggle-maintenance" href="javascript: void(0)" onclick="toggle_maintenance('${maintenance['status']}');">${_('[ Fix it for me! ]')}</a>
-                        <div title="${_('Maintenance')}" id="maintenance_details" class="${div_class}">
+                        <div style="margin-top:5px; padding-top:5px;">
+                        <a id="toggle-maintenance" class="expand-error" title="${_('Fix it for me !')}">${_('Fix it for me !')}</a>
+                        <div id="maintenance_details" style="display:none; margin-top:5px; padding-top:5px;">
                             % if maintenance['status'] == 'none':
                                 <pre>
-<b>${_("An unknown error has been reported.")}</b><br/>
 
 <b>${_("You do not have a valid Open ERP maintenance contract !")}</b><br/><br/>
 ${_("""If you are using Open ERP in production, it is highly suggested to subscribe

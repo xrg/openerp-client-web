@@ -533,13 +533,11 @@ table#title_header {margin-bottom: 0px; padding: 0 0 5px; background: url(../ima
 
 /* error page */
 a.expand-error {background: transparent url(../images/treegrid/expand.gif) no-repeat scroll 0 50%; color:#7D7979;
-font-size:0.9em; font-weight:bold; margin:3px; padding:0 0 0 20px; text-decoration: none;}
+font-size:1.1em; font-weight:bold; margin:3px; padding:0 0 0 20px; text-decoration: none; margin-top:5px; cursor:pointer;}
 
 a.collapse-error {background: transparent url(../images/treegrid/collapse.gif) no-repeat scroll 0 50%; color:#7D7979;
-font-size:0.9em; font-weight:bold; margin:3px; padding:0 0 0 20px; text-decoration: none;}
+font-size:1.1em; font-weight:bold; margin:3px; padding:0 0 0 20px; text-decoration: none; margin-top:5px; cursor:pointer;}
 
-div#maintenance_details.close {display:none; margin-top:5px; padding-top:5px;}
-div#maintenance_details.open {margin-top:5px; padding-top:5px;}
 /* paragraphs */
 
 p.paging-a { color: #a6a5a5; font-size: 0.8em; font-weight: bold; text-transform: uppercase; text-align: right; line-height: 1; }
