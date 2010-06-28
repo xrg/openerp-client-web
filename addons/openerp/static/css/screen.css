@@ -126,10 +126,7 @@ hr { overflow: hidden; height: 1px; margin: 15px 0 !important; margin: -5px 0 8p
   #tertiary { float: right; min-height: 100%; border-left: 1px solid #d2cfcf; background: #eae7e7 url(../images/tertiary-bg-a.gif) repeat-y; }
 
 div.three-a { }
-   div#tertiary table#sidebar_pane td#sidebar div.sideheader-a { margin-left: -10px; }
    div.customize {margin-left: -10px; margin-right: -5px; }
-   div#tertiary table#sidebar_pane td#attach_sidebar div.sideheader-a { margin-left: -10px; margin-right: -5px;}
-
 
 /* GENERAL
 ------------------------------------------- */
@@ -313,19 +310,8 @@ div.salesfields-a-boxed { }
   * html div.salesfields-a-boxed div.row p.first { width: 255px; }
    div.salesfields-a-boxed div.row p.first label { width: 65px; }
    div.salesfields-a-boxed div.row p input.text { border-bottom: 1px solid #efefef; background-color: #faf9f9; }
-
-div.sideheader-a { position: relative; margin: 0 -15px 10px -10px; padding: 0 5px 0 10px; border-top: 1px solid #e1dede; border-bottom: 1px solid #d2cfcf; background: url(../images/sideheader-a-bg.png) 0 100% repeat-x; }
- div.sideheader-a ul.side { float: right; list-style: none; margin: 3px 0 0; padding: 0; }
-  div.sideheader-a ul.side li { display: inline; float: left; margin-left: 5px; }
-   div.sideheader-a ul.side li a.button-a { padding-left: 3px; padding-right: 3px; font-size: 0.9em; }
- div.sideheader-a h2,td.sideheader-a h2 { margin: 0; padding: 0; color: #8e8e8e; font-size: 0.8em; line-height: 21px; font-weight: bold; text-transform: uppercase; text-shadow: #fff 0 1px 0; }
-
 /* forms */
-
-
-
 /* tables */
-
 table { border-bottom: 1px solid #f4f2f2; }
  table th, table td { padding: 5px 10px; }
  table thead th { border-bottom: 1px solid #f4f2f2; color: #3a3939; font-size: 0.9em; font-weight: bold; text-transform: uppercase; }
@@ -573,12 +559,19 @@ p.toggle-a { position: relative; right: 0; z-index: 19; float: right; margin-bot
  p.toggle-a a.on,td.toggle-a a.on { background-position: -21px 0; }
  td.toggle-a a.off { background-position:  0; }
 
-td#sidebar {padding: 0px; border-color: #EAE7E7;}
-td#attach_sidebar {padding: 0px; border-color: #EAE7E7;}
-table#sidebar_pane {margin-bottom: 0px; border-color: #EAE7E7;}
+td#sidebar {padding: 0px;}
+td#attach_sidebar {padding: 0px;}
+table#sidebar_pane {margin-bottom: 0px;}
 td#main_sidebar {padding: 10px 0 5px 0px; border-color: #EAE7E7;}
-tfoot.attachPopup_footer { border-bottom: 1px solid silver; vertical-align: middle; }
-td#sidebar_hide {padding : 0px; border-color: #EAE7E7; }
+td#sidebar_hide {padding: 0px; }
+div#tertiary table#sidebar_pane td#sidebar div.sideheader-a { margin-left: -10px; }
+div#tertiary table#sidebar_pane td#attach_sidebar div.sideheader-a { margin-left: -10px; margin-right: -5px;}
+div.sideheader-a { position: relative; margin: 0 -15px 10px -10px; padding: 0 5px 0 10px; border-top: 1px solid #e1dede; border-bottom: 1px solid #d2cfcf; background: url(../images/sideheader-a-bg.png) 0 100% repeat-x; }
+ div.sideheader-a ul.side { float: right; list-style: none; margin: 3px 0 0; padding: 0; }
+  div.sideheader-a ul.side li { display: inline; float: left; margin-left: 5px; }
+   div.sideheader-a ul.side li a.button-a { padding-left: 3px; padding-right: 3px; font-size: 0.9em; }
+ div.sideheader-a h2,td.sideheader-a h2 { margin: 0; padding: 0; color: #8e8e8e; font-size: 0.8em; line-height: 21px; font-weight: bold; text-transform: uppercase; text-shadow: #fff 0 1px 0; }
+
 td#body_form_td {padding: 0px; border-color: #EAE7E7; }
 
 /* links */
