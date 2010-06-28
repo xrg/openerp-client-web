@@ -287,7 +287,7 @@ class Search(TinyInputWidget):
             
         self.frame = self.parse(model, dom, self.fields, values)[0]
 
-        my_acts = rpc.session.execute('object', 'execute', 'ir.actions.act_window', 'get_filters', model)
+        my_acts = rpc.session.execute('object', 'execute', 'ir.filters', 'get_filters', model)        
 
         sorted_filters = [(act.get('domain', act['id']), act['name'])
                           for act in my_acts]

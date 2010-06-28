@@ -6,18 +6,6 @@
     <script type="text/javascript" src="/openerp/static/javascript/openerp/openerp.ui.textarea.js"></script>
 
     <script type="text/javascript">
-
-        jQuery(document).ready(function() {
-            if("${maintenance['status']}" == 'none') {
-                jQuery('#toggle-maintenance').attr('class', 'collapse-error')
-                jQuery('#maintenance_details').show()
-            }
-            
-            jQuery('a').click(function() {
-                jQuery(this).toggleClass('collapse-error expand-error')
-                jQuery(this).next().toggle()
-            });
-        });
         
         var send_maintenance_request = function() {
             var args = {
@@ -50,6 +38,20 @@
 <table class="view" border="0" width="100%">
     <tr>
         % if maintenance:
+            <script type="text/javascript">
+		        jQuery(document).ready(function() {
+		            if("${maintenance['status']}" == 'full') {
+		                jQuery('#toggle-maintenance').attr('class', 'collapse-error')
+		                jQuery('#maintenance_details').show()
+		            }
+		            
+		            jQuery('a').click(function() {
+		                jQuery(this).toggleClass('collapse-error expand-error')
+		                jQuery(this).next().toggle()
+		            });
+		        });
+		    </script>
+
             <td valign="top">
                 <form id="view_form" action="/openerp/errorpage/submit" method="POST">
                     <div id="error_page_notebook">
