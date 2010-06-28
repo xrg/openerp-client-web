@@ -45,3 +45,8 @@
     % endif
 % endif
 
+% if default_focus:
+	<script type="text/javascript">
+	    jQuery('#${name}_text').focus()
+	</script>
+% endif

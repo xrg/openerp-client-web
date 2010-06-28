@@ -104,7 +104,7 @@ hr { overflow: hidden; height: 1px; margin: 15px 0 !important; margin: -5px 0 8p
  table#shortcuts tr td a { display: block; height: auto; font-size: 0.8em; line-height: 0.7; text-indent: 0; text-shadow: #111 0 -1px 0; }
  
  #main_nav {background: url(../images/nav-bg-a.png) repeat-x; width: 100%; padding-top: 65px;}
- #nav { left: 0; z-index: 10; height: 34px; border-bottom: 1px solid #511712; position: relative; width: 95%; /* Add scroll-bars */ overflow: hidden;}
+ #nav { left: 0; z-index: 10; height: 34px; /*border-bottom: 1px solid #511712; */ position: relative; width: 95%; /* Add scroll-bars */ overflow: hidden;}
   #nav ul { float: left; list-style: none; margin: 0; padding: 6px 5px; display: block; /* Max width here, for users without Javascript */ position: absolute;}
    #nav ul li { display: block; float: left; padding: 0 2px; font-size: 1em; text-transform: uppercase; text-align: center; }
     #nav ul li a { display: block; float: left; padding: 0 0 0 3px; background: url(../images/nav-items-a.png) no-repeat; color: #fff !important; font-weight: bold; text-shadow: #111 0 1px 0; text-decoration: none !important; }

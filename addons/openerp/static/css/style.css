@@ -967,6 +967,10 @@ table.attachment_bar td a {
 	float: none;
 }
 
+.pager-cell-button {
+	padding:0 0 0 5px; 
+}
+
 /**
  * vim: sts=4 st=4 et 
  *
