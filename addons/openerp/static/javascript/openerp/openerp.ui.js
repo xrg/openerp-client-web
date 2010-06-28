@@ -39,27 +39,9 @@ openerp.ui = {};
 
 function toggle_sidebar() {
     function a() {
-        var sb = jQuery('#sidebar');
-        sb.toggle();
-        
-        openobject.http.setCookie("terp_sidebar", sb.css('display'));
+        jQuery('#tertiary').toggleClass('sidebar-open sidebar-closed');
 
-        var tertiary = openobject.dom.get('tertiary');
-        var tertiary_wrap = openobject.dom.get('tertiary_wrap');
-        var sidebar_hide = openobject.dom.get('sidebar_hide');
-        if (sb.is(':hidden')) {
-            setNodeAttribute(tertiary, 'style', 'width: 21px');
-            setNodeAttribute(tertiary_wrap, 'style', 'padding: 0 0 0 0');
-            setNodeAttribute(sidebar_hide, 'style', 'padding: 0 0 0 0');
-        } else {
-            setNodeAttribute(tertiary, 'style', 'width: 180px');
-            setNodeAttribute(tertiary_wrap, 'style', 'padding: 0 0 0 10px');
-            setNodeAttribute(sidebar_hide, 'style', 'padding: 0 0 0 8px');
-        }
         jQuery('#toggle-click').toggleClass('on off');
-        jQuery('#attach_sidebar').toggle();
-        jQuery('#add_attachment').toggle();
-        jQuery('#customise_menu').toggle();
     }
     if (typeof(Notebook) == "undefined") {
         a();

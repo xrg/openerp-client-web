@@ -31,7 +31,7 @@
 
 <table id="sidebar_pane" border="0" cellpadding="0" cellspacing="0">
     <tr>
-        <td id="sidebar" style="display: none">
+        <td id="sidebar">
 			<div class="sideheader-a">
 				<h2>Secondary Options</h2>
 			</div>
@@ -57,7 +57,7 @@
         </td>
     </tr>
     <tr>
-        <td colspan='2' id="customise_menu" style="display: none;">
+        <td colspan='2' id="customise_menu">
             <div class="sideheader-a">
                 <h2>${_("Customise")}</h2>
             </div>
@@ -82,7 +82,7 @@
     </tr>
     % if view_type == 'form':
     <tr>
-        <td id="add_attachment" colspan='2' style="display: none;">
+        <td id="add_attachment" colspan='2'>
             <div class="sideheader-a">
                 <h2>${_("Add Attachments")}</h2>
             </div>
@@ -120,7 +120,7 @@
         </td>
     </tr>
     <tr>
-        <td id="attach_sidebar" colspan='2' style="display: none;">
+        <td id="attach_sidebar" colspan='2'>
             <div class="poof"></div>
             <div class="sideheader-a" id="sideheader-a">
                 

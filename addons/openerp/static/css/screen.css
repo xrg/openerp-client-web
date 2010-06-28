@@ -554,10 +554,6 @@ p.paging-a { color: #a6a5a5; font-size: 0.8em; font-weight: bold; text-transform
  p.paging-a a.prev { width: 7px; background: url(../images/prev.gif) no-repeat; }
  p.paging-a a.next { width: 5px; background: url(../images/next.gif) no-repeat; }
 
-p.toggle-a { position: relative; right: 0; z-index: 19; float: right; margin-bottom: 0px;}
- p.toggle-a a,td.toggle-a a { float: left; display: block; overflow: hidden; width: 21px; height: 22px; border: 1px solid #d2cfcf; border-width: 0 0 1px 1px; background: url(../images/toggle-a-bg.png) no-repeat; text-indent: -10001px; }
- p.toggle-a a.on,td.toggle-a a.on { background-position: -21px 0; }
- td.toggle-a a.off { background-position:  0; }
 
 td#sidebar {padding: 0px;}
 td#attach_sidebar {padding: 0px;}
@@ -571,6 +567,33 @@ div.sideheader-a { position: relative; margin: 0 -15px 10px -10px; padding: 0 5p
   div.sideheader-a ul.side li { display: inline; float: left; margin-left: 5px; }
    div.sideheader-a ul.side li a.button-a { padding-left: 3px; padding-right: 3px; font-size: 0.9em; }
  div.sideheader-a h2,td.sideheader-a h2 { margin: 0; padding: 0; color: #8e8e8e; font-size: 0.8em; line-height: 21px; font-weight: bold; text-transform: uppercase; text-shadow: #fff 0 1px 0; }
+.sidebar-open {
+    width: 180px;
+}
+.sidebar-open #tertiary_wrap {
+    padding: 0 0 0 10px;
+
+}
+.sidebar-open #sidebar_hide {
+    padding: 0 0 0 8px;
+}
+.sidebar-closed {
+    width: 21px;
+}
+.sidebar-closed #tertiary_wrap, .sidebar-closed #sidebar_hide {
+    padding: 0;
+}
+.sidebar-closed #sidebar, .sidebar-closed #attach_sidebar, .sidebar-closed #add_attachment, .sidebar-closed #customise_menu {
+    display: none;
+}
+
+p.toggle-a { position: relative; right: 0; z-index: 19; float: right; margin-bottom: 0px;}
+ .toggle-a a {
+     float: left; display: block; overflow: hidden; width: 21px; height: 22px; border: solid #d2cfcf; border-width: 0 0 1px 1px;
+     background: url(../images/toggle-a-bg.png) no-repeat -21px 0;
+     text-indent: -10001px;
+ }
+ .sidebar-closed .toggle-a a { background-position:  0; }
 
 td#body_form_td {padding: 0px; border-color: #EAE7E7; }
 
