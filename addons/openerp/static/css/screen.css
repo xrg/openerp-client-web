@@ -532,11 +532,28 @@ ul.views-a { float: right; list-style: none; margin: 0; padding: 0; }
 table#title_header {margin-bottom: 0px; padding: 0 0 5px; background: url(../images/sep-a.gif) 0 100% repeat-x;}
 
 /* error page */
-a.expand-error {background: transparent url(../images/treegrid/expand.gif) no-repeat scroll 0 50%; color:#7D7979;
-font-size:1.1em; font-weight:bold; margin:3px; padding:0 0 0 20px; text-decoration: none; margin-top:5px; cursor:pointer;}
-
-a.collapse-error {background: transparent url(../images/treegrid/collapse.gif) no-repeat scroll 0 50%; color:#7D7979;
-font-size:1.1em; font-weight:bold; margin:3px; padding:0 0 0 20px; text-decoration: none; margin-top:5px; cursor:pointer;}
+.error-section {
+    margin-top:5px; padding-top:5px;
+}
+.error-section h5 {
+    background: transparent no-repeat scroll 0 50%; color:#7D7979;
+    margin: 5px 3px 3px; padding: 0 0 0 20px;
+    font-size: 1em;
+    cursor: pointer;
+}
+.error-section .details {
+    margin-top:5px; padding-top:5px;
+}
+.error-section .details textarea { width: 99%; }
+.expanded-error h5 {
+    background-image: url(../images/treegrid/collapse.gif);
+}
+.collapsed-error h5 {
+    background-image: url(../images/treegrid/expand.gif);
+}
+.collapsed-error .details {
+    display: none;
+}
 
 /* paragraphs */
 
