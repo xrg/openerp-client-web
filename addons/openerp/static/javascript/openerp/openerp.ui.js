@@ -37,17 +37,17 @@ if (typeof(openerp) == "undefined") {
 
 openerp.ui = {};
 
-function toggle_sidebar(forced) {
+function toggle_sidebar() {
     function a() {
-        var sb = openobject.dom.get('sidebar');
-
-        sb.style.display = forced ? forced : (sb.style.display == "none" ? "" : "none");
-        openobject.http.setCookie("terp_sidebar", sb.style.display);
+        var sb = jQuery('#sidebar');
+        sb.toggle();
+        
+        openobject.http.setCookie("terp_sidebar", sb.css('display'));
 
         var tertiary = openobject.dom.get('tertiary');
         var tertiary_wrap = openobject.dom.get('tertiary_wrap');
         var sidebar_hide = openobject.dom.get('sidebar_hide');
-        if (sb.style.display == "none") {
+        if (sb.is(':hidden')) {
             setNodeAttribute(tertiary, 'style', 'width: 21px');
             setNodeAttribute(tertiary_wrap, 'style', 'padding: 0 0 0 0');
             setNodeAttribute(sidebar_hide, 'style', 'padding: 0 0 0 0');
