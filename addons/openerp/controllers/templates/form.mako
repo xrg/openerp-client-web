@@ -96,19 +96,22 @@
     								% endif
                                     
                                     <%def name="make_view_button(i, kind, name, desc, active)">
+                                        <%
+                                            cls = ''
+                                            if form.screen.view_type == kind:
+                                                cls = 'active'
+                                        %>
                                     	<li class="v${i}" title="${desc}">
-                                    		% if form.screen.view_type == kind:
-                                    			<a href="javascript: void(0);" onclick="switchView('${kind}')" class="active">${kind}</a>
-                                    		% elif kind not in form.screen.view_mode:
-                                    		    <a class="nohover">${kind}</a> 
+                                    		% if kind in form.screen.view_mode:
+                                    			<a href="#" onclick="switchView('${kind}'); return false;" class="${cls}">${kind}</a> 
                                     		% else:
-                                    			<a href="javascript: void(0);" onclick="switchView('${kind}')">${kind}</a>
+                                    		    <a class="inactive">${kind}</a>
                                     		% endif
                                     	</li>
                                     </%def>
                                     
                                     <td id="view_buttons" class="content_header_space">
-                                    	<ul class="views-a">
+                                    	<ul id="view-selector">
                                     		% for i, view in enumerate(buttons.views):
 												${make_view_button(i+1, **view)}
 											% endfor

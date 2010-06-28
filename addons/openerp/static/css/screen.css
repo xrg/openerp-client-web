@@ -518,16 +518,17 @@ ul.split-a { overflow: hidden; list-style: none; width: 100%; margin: 0 0 15px; 
  ul.split-a .one { float: left; width: 150px; }
  ul.split-a .two { float: right; width: 150px; }
 
-ul.views-a { float: right; list-style: none; margin: 0; padding: 0; }
- ul.views-a li { display: inline; float: left; margin: 0 0 0 3px; }
-  ul.views-a li a { float: left; overflow: hidden; width: 22px; height: 21px; background: url(../images/views-icons-a.png) no-repeat; text-indent: -10001px; }
-  ul.views-a li.v1 a { background-position: 0 0; } ul.views-a li.v1 a:hover, ul.views-a li.v1 a:focus, ul.views-a li.v1 a:active, ul.views-a li.v1 a.active { background-position: 0 -21px; }
-  ul.views-a li.v2 a { background-position: -22px 0; } ul.views-a li.v2 a:hover, ul.views-a li.v2 a:focus, ul.views-a li.v2 a:active, ul.views-a li.v2 a.active { background-position: -22px -21px; }
-  ul.views-a li.v3 a { background-position: -44px 0; } ul.views-a li.v3 a:hover, ul.views-a li.v3 a:focus, ul.views-a li.v3 a:active, ul.views-a li.v3 a.active { background-position: -44px -21px; }
-  ul.views-a li.v5 a { background-position: -88px 0; } ul.views-a li.v5 a:hover, ul.views-a li.v5 a:focus, ul.views-a li.v5 a:active, ul.views-a li.v5 a.active { background-position: -88px -21px; }
-  ul.views-a li.v4 a { background-position: -110px 0; } ul.views-a li.v4 a:hover, ul.views-a li.v4 a:focus, ul.views-a li.v4 a:active, ul.views-a li.v4 a.active { background-position: -110px -21px; }
-  ul.views-a li.v6 a { background-position: -66px 0; } ul.views-a li.v6 a:hover, ul.views-a li.v6 a:focus, ul.views-a li.v6 a:active, ul.views-a li.v6 a.active { background-position: -66px -21px; }
-  ul.views-a li.v7 a { background-position: -132px 0; } ul.views-a li.v7 a:hover, ul.views-a li.v7 a:focus, ul.views-a li.v7 a:active, ul.views-a li.v7 a.active { background-position: -132px -21px; }
+#view-selector { float: right; list-style: none; margin: 0; padding: 0; }
+ #view-selector li { display: inline; float: left; margin: 0 0 0 3px; }
+  #view-selector li a { float: left; overflow: hidden; width: 22px; height: 21px; background: url(../images/views-icons-a.png) no-repeat; text-indent: -10001px; }
+  #view-selector li a.inactive { filter:alpha(opacity=40); opacity:0.4; }
+  #view-selector li.v1 a { background-position: 0 0; } #view-selector li.v1 a:hover, #view-selector li.v1 a:focus, #view-selector li.v1 a:active, #view-selector li.v1 a.active { background-position: 0 -21px; }
+  #view-selector li.v2 a { background-position: -22px 0; } #view-selector li.v2 a:hover, #view-selector li.v2 a:focus, #view-selector li.v2 a:active, #view-selector li.v2 a.active { background-position: -22px -21px; }
+  #view-selector li.v3 a { background-position: -44px 0; } #view-selector li.v3 a:hover, #view-selector li.v3 a:focus, #view-selector li.v3 a:active, #view-selector li.v3 a.active { background-position: -44px -21px; }
+  #view-selector li.v5 a { background-position: -88px 0; } #view-selector li.v5 a:hover, #view-selector li.v5 a:focus, #view-selector li.v5 a:active, #view-selector li.v5 a.active { background-position: -88px -21px; }
+  #view-selector li.v4 a { background-position: -110px 0; } #view-selector li.v4 a:hover, #view-selector li.v4 a:focus, #view-selector li.v4 a:active, #view-selector li.v4 a.active { background-position: -110px -21px; }
+  #view-selector li.v6 a { background-position: -66px 0; } #view-selector li.v6 a:hover, #view-selector li.v6 a:focus, #view-selector li.v6 a:active, #view-selector li.v6 a.active { background-position: -66px -21px; }
+  #view-selector li.v7 a { background-position: -132px 0; } #view-selector li.v7 a:hover, #view-selector li.v7 a:focus, #view-selector li.v7 a:active, #view-selector li.v7 a.active { background-position: -132px -21px; }
 
 table#title_header {margin-bottom: 0px; padding: 0 0 5px; background: url(../images/sep-a.gif) 0 100% repeat-x;}
 
