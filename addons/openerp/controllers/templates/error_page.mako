@@ -1,5 +1,7 @@
 <%inherit file="/openerp/controllers/templates/base_dispatch.mako"/>
-
+<%!
+    MAINTENANCE_CONTRACTS_LINK = '<a href="http://www.openerp.com/" target="_blank">See more about maintenance contracts.</a>'
+%>
 <%def name="header()">
     <link href="/openerp/static/css/style.css" rel="stylesheet" type="text/css"/>
 
@@ -86,7 +88,7 @@ The maintenance program offers you:
 * Security alerts by email and automatic migration,
 * Access to the customer portal.
 """)}
-<a href="http://www.openerp.com/" target="_blank">See more about maintenance contracts.</a>
+${MAINTENANCE_CONTRACTS_LINK|n}
                                 </pre>
                                 % elif maintenance['status'] == 'partial':
                                 <pre>
@@ -106,7 +108,7 @@ Here is the list of modules not covered by your maintenance contract:""")}
 ${' * %s\n' % mod}
 % endfor
 
-<a href="http://www.openerp.com/" target="_blank">See more about maintenance contracts.</a>
+${MAINTENANCE_CONTRACTS_LINK|n}
                                 </pre>
                                 % elif maintenance['status'] == 'full':
                                 <div>
