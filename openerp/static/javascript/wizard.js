@@ -41,7 +41,7 @@ function showWaitBox() {
     }
 }
 
-function wizardAction(state) {
+function wizardAction(state, state_name) {
 
     var form = document.forms['view_form'];
     var act = '/wizard/action';
@@ -62,6 +62,10 @@ function wizardAction(state) {
     form._terp_state.value = state;
 
     WAITBOX_SHOW = state != 'report';
+    
+    if (state_name == 'Print') {
+    	WAITBOX_SHOW = false;
+    }
     
     MochiKit.Async.callLater(2, showWaitBox);
     
