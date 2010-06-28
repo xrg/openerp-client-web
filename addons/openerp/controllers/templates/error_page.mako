@@ -69,13 +69,15 @@
                                 <pre>
 
 <b>${_("You do not have a valid Open ERP maintenance contract !")}</b><br/><br/>
-${_("""If you are using Open ERP in production, it is highly suggested to subscribe
+${_("""If you are using Open ERP in production, it is recommended to have
 a maintenance program.
 
-The Open ERP maintenance contract provides you a bugfix guarantee and an
-automatic migration system so that we can fix your problems within a few
-hours. If you had a maintenance contract, this error would have been sent
-to the quality team of the Open ERP editor.
+The Open ERP maintenance contract provides you with bug fix guarantees and an
+automatic migration system so that we can start working on your problems within a few
+hours.
+
+With a maintenance contract, errors such as this one can be sent directly to the OpenERP
+team for review and evaluation.
 
 The maintenance program offers you:
 * Automatic migrations on new versions,
@@ -83,10 +85,8 @@ The maintenance program offers you:
 * Monthly announces of potential bugs and their fixes,
 * Security alerts by email and automatic migration,
 * Access to the customer portal.
-
-You can use the link bellow for more information. The detail of the error
-is displayed on the second tab.""")}
-<a href="http://www.openerp.com/" target="_blank">Click here for details about the maintenance proposition</a>
+""")}
+<a href="http://www.openerp.com/" target="_blank">See more about maintenance contracts.</a>
                                 </pre>
                                 % elif maintenance['status'] == 'partial':
                                 <pre>
@@ -95,18 +95,18 @@ ${_("""Your maintenance contract does not cover all modules installed in your sy
 If you are using Open ERP in production, it is highly suggested to upgrade your
 contract.
 
-If you have developped your own modules or installed third party module, we
+If you have developed your own modules or installed third party module, we
 can provide you an additional maintenance contract for these modules. After
 having reviewed your modules, our quality team will ensure they will migrate
-automatically for all futur stable versions of Open ERP at no extra cost.
+automatically for all future stable versions of Open ERP at no extra cost.
 
 Here is the list of modules not covered by your maintenance contract:""")}
 
 % for mod in maintenance['uncovered_modules']:
 ${' * %s\n' % mod}
 % endfor
-${_("""You can use the link bellow for more information.""")}
-<a href="http://www.openerp.com/" target="_blank">Click here for details about the maintenance proposition</a>
+
+<a href="http://www.openerp.com/" target="_blank">See more about maintenance contracts.</a>
                                 </pre>
                                 % elif maintenance['status'] == 'full':
                                 <div>
