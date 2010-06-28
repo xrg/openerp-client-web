@@ -11,13 +11,14 @@
                 % if attrs.get('label_position'):
                 <table id="search_table">
                     <tr>
-                        <td ${py.attrs(attrs.get('widget_item')[0])} width="${attrs.get('width')}">
+                        <td ${py.attrs(attrs.get('widget_item')[0])} width="${attrs.get('width')}">                            
+                            <label for="${attrs.get('for')}">
+                                ${(widget or '') and widget}
+                            </label>
                             % if attrs.get('title'):
                                 <sup style="color: darkgreen; vertical-align: middle;">?</sup>
                             % endif
-                            <label for="${attrs.get('for')}">
-                                ${(widget or '') and widget + ':'}
-                            </label>
+                            :
                         </td>
                     </tr>
                     <tr>
@@ -36,11 +37,12 @@
                          </td>
                     </tr>
                 </table>
-                % else:
+                % else:                    
+                    ${(widget or '') and widget}
                     % if attrs.get('title'):
                         <sup style="color: darkgreen;">?</sup>
                     % endif
-                    ${(widget or '') and widget + ':'}
+                    :
                 % endif
             % endif
             % if not isinstance(widget, basestring) and widget.visible:
