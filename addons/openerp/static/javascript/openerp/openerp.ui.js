@@ -40,8 +40,6 @@ openerp.ui = {};
 function toggle_sidebar() {
     function a() {
         jQuery('#tertiary').toggleClass('sidebar-open sidebar-closed');
-
-        jQuery('#toggle-click').toggleClass('on off');
     }
     if (typeof(Notebook) == "undefined") {
         a();
