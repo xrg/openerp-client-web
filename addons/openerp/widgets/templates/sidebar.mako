@@ -69,36 +69,18 @@
     <div>
         <form id="attachment-box" action="/openerp/form/save_attachment" method="post"
               enctype="multipart/form-data">
-            <table class="attachment_bar">
-                <tr>
-                    <td>
-                        <div>
-                            ${_("File Name")}:
-                        </div>
-                        <div>
-                            <input id="file_name" type="text" maxlength="64" name="datas_fname" kind="char"
-                                   class="char" size="10"/>
-                        </div>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <div>
-                            ${_("File")}:
-                        </div>
-                        <div>
-                            <input type="file" id="datas" class="binary"
-                                   onchange="onChange(this); set_binary_filename(this, 'datas_fname');"
-                                   name="datas" kind="binary" size="5"/>
-                        </div>
-                    </td>
-                </tr>
-                <tr>
-                    <td align="center">
-                        <a id="FormSubmit" class="button-a" align="center" href="javascript: void(0)">${_("submit")}</a>
-                    </td>
-                </tr>
-            </table>
+            <div>
+                <label for="file_name">${_("File Name")}:</label>
+                <input id="file_name" type="text" maxlength="64" name="datas_fname" kind="char"
+                       class="char" size="10"/>
+            </div>
+            <div>
+                <label for="datas">${_("File")}:</label>
+                <input type="file" id="datas" class="binary"
+                       onchange="onChange(this); set_binary_filename(this, 'datas_fname');"
+                       name="datas" kind="binary" size="5"/>
+            </div>
+            <button type="submit" id="FormSubmit" class="button-a" name="FormSubmit">${_('submit')}</button>
         </form>
     </div>
     <div class="sideheader-a">

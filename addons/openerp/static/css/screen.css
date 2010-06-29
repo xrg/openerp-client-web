@@ -398,24 +398,6 @@ table.schedule-a { border-top: 1px solid #dbdbdb; }
   table.schedule-a .grey small { color: #8a8a8a; text-shadow: #d7d7d7 0 1px 0; }
 
 /* lists */
-
-ul.attachments-a { list-style: none; margin: 0 0 10px; padding: 0; }
- ul.attachments-a li { position: relative; margin: 0 0 5px; padding: 0 20px 0 0; color: #5b5b5b; font-size: 1.2em; text-shadow: #fff 0 1px 0; }
- * html ul.attachments-a li { height: 1%; }
-  ul.attachments-a li span { position: absolute; left: -10001px; top: -10001px; }
-  ul.attachments-a li a { color: #5b5b5b; }
-  ul.attachments-a li a:hover,
-  ul.attachments-a li a:focus,
-  ul.attachments-a li a:active { color: #111; }
-  ul.attachments-a li a.close { position: absolute; right: 0; top: 0; overflow: hidden; width: 15px; height: 15px; background: url(../images/attachments-a-close.png) no-repeat; font-size: 0; text-indent: -10001px; }
-
-ul.clean-a { list-style: none; margin: 0 0 15px; padding: 0; }
- ul.clean-a li { margin: 0 0 5px; color: #5b5b5b; font-size: 1em; text-shadow: #fff 0 1px 0; }
-  ul.clean-a li a { color: #5b5b5b; }
-  ul.clean-a li a:hover,
-  ul.clean-a li a:focus,
-  ul.clean-a li a:active { color: #111; }
-
 ul.inline-a { list-style: none; margin: 0 0 10px; padding: 0; }
  ul.inline-a li { display: inline; padding-right: 20px; color: #bab8b8; font-size: 0.9em; font-weight: bold; text-transform: uppercase; }
   ul.inline-a li strong { padding-right: 5px; color: #3a3a3a; }
@@ -555,6 +537,7 @@ p.paging-a { color: #a6a5a5; font-size: 0.8em; font-weight: bold; text-transform
  p.paging-a a.next { width: 5px; background: url(../images/next.gif) no-repeat; }
 
 
+/* sidebar */
 #tertiary { position: relative; }
 #sidebar {padding: 0;}
 #main_sidebar {padding: 10px 0 5px 0; }
@@ -563,8 +546,28 @@ p.paging-a { color: #a6a5a5; font-size: 0.8em; font-weight: bold; text-transform
   .sideheader-a ul.side li { display: inline; float: left; margin-left: 5px; }
    .sideheader-a ul.side li a.button-a { padding-left: 3px; padding-right: 3px; font-size: 0.9em; }
  .sideheader-a h2 { margin: 0 0 0 10px;; padding: 0; color: #8e8e8e; font-size: 0.8em; line-height: 21px; font-weight: bold; text-transform: uppercase; text-shadow: #fff 0 1px 0; }
-#sidebar ul.clean-a {
-    margin: 6px 0 0 10px;
+#sidebar ul, #sidebar form {
+    list-style: none;
+    margin: 6px 10px;
+    padding: 0;
+}
+ #sidebar li, #sidebar label { margin: 0 0 5px; color: #5b5b5b; font-size: 1em; text-shadow: #fff 0 1px 0; }
+ #sidebar label { margin: 5px 0 0 };
+  /*#sidebar li a { color: #5b5b5b; }*/
+  #sidebar li a:hover,
+  #sidebar li a:focus,
+  #sidebar li a:active { color: #111; }
+ #sidebar input {
+     display: block;
+     width: 100%;
+ }
+#sidebar button {
+    display: block;
+    margin: 5px auto;
+    font-size: 10px;
+    height: 14px;
+    line-height: 13px;
+    padding: 0 10px;
 }
 .sidebar-open {
     width: 180px;
@@ -584,6 +587,11 @@ p.paging-a { color: #a6a5a5; font-size: 0.8em; font-weight: bold; text-transform
  }
  .sidebar-closed #sidebar_hide a, #sidebar_calendar_hide a.off { background-position:  0; }
  #sidebar_calendar_hide a.off { border-left-width: 0; }
+
+ .attachments-a li { position: relative; }
+ * html .attachments-a li { height: 1%; }
+  .attachments-a li span { display: none; }
+  .attachments-a li .close { position: absolute; right: 0; top: 0; overflow: hidden; width: 15px; height: 15px; background: url(../images/attachments-a-close.png) no-repeat; font-size: 0; text-indent: -10001px; }
 
 td#body_form_td {padding: 0px; border-color: #EAE7E7; }
 
