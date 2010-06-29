@@ -562,11 +562,11 @@ td#main_sidebar {padding: 10px 0 5px 0px; border-color: #EAE7E7;}
 td#sidebar_hide {padding: 0px; }
 div#tertiary table#sidebar_pane td#sidebar div.sideheader-a { margin-left: -10px; }
 div#tertiary table#sidebar_pane td#attach_sidebar div.sideheader-a { margin-left: -10px; margin-right: -5px;}
-div.sideheader-a { position: relative; margin: 0 -15px 10px -10px; padding: 0 5px 0 10px; border-top: 1px solid #e1dede; border-bottom: 1px solid #d2cfcf; background: url(../images/sideheader-a-bg.png) 0 100% repeat-x; }
- div.sideheader-a ul.side { float: right; list-style: none; margin: 3px 0 0; padding: 0; }
-  div.sideheader-a ul.side li { display: inline; float: left; margin-left: 5px; }
-   div.sideheader-a ul.side li a.button-a { padding-left: 3px; padding-right: 3px; font-size: 0.9em; }
- div.sideheader-a h2,td.sideheader-a h2 { margin: 0; padding: 0; color: #8e8e8e; font-size: 0.8em; line-height: 21px; font-weight: bold; text-transform: uppercase; text-shadow: #fff 0 1px 0; }
+.sideheader-a { position: relative; margin: 0 -15px 10px -10px; padding: 0 5px 0 10px; border-top: 1px solid #e1dede; border-bottom: 1px solid #d2cfcf; background: url(../images/sideheader-a-bg.png) 0 100% repeat-x; }
+ .sideheader-a ul.side { float: right; list-style: none; margin: 3px 0 0; padding: 0; }
+  .sideheader-a ul.side li { display: inline; float: left; margin-left: 5px; }
+   .sideheader-a ul.side li a.button-a { padding-left: 3px; padding-right: 3px; font-size: 0.9em; }
+ .sideheader-a h2 { margin: 0; padding: 0; color: #8e8e8e; font-size: 0.8em; line-height: 21px; font-weight: bold; text-transform: uppercase; text-shadow: #fff 0 1px 0; }
 .sidebar-open {
     width: 180px;
 }
@@ -583,7 +583,7 @@ div.sideheader-a { position: relative; margin: 0 -15px 10px -10px; padding: 0 5p
 .sidebar-closed #tertiary_wrap, .sidebar-closed #sidebar_hide {
     padding: 0;
 }
-.sidebar-closed #sidebar, .sidebar-closed #attach_sidebar, .sidebar-closed #add_attachment, .sidebar-closed #customise_menu {
+.sidebar-closed #sidebar {
     display: none;
 }
 
