@@ -952,21 +952,6 @@ table.reference td{
     background-image: url(../images/next.gif);
 }
 
-td#add_attachment, table.attachment_bar td {
-	padding: 3px;
-}
-
-td#customise_menu {
-	padding: 0;
-}
-
-table.attachment_bar {
-	border: none;
-}
-table.attachment_bar td a {
-	float: none;
-}
-
 .pager-cell-button {
 	padding:0 0 0 5px; 
 }
