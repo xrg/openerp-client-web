@@ -577,12 +577,13 @@ p.paging-a { color: #a6a5a5; font-size: 0.8em; font-weight: bold; text-transform
 }
 
 #sidebar_hide { padding: 0; position: absolute; top: 0; right: 0; }
- #sidebar_hide a {
+ #sidebar_hide a, #sidebar_calendar_hide a {
      display: block; overflow: hidden; width: 21px; height: 21px; border: 1px solid #d2cfcf; border-right-width: 0;
      background: url(../images/toggle-a-bg.png) no-repeat -21px 0;
      text-indent: -10001px;
  }
- .sidebar-closed #sidebar_hide a { background-position:  0; }
+ .sidebar-closed #sidebar_hide a, #sidebar_calendar_hide a.off { background-position:  0; }
+ #sidebar_calendar_hide a.off { border-left-width: 0; }
 
 td#body_form_td {padding: 0px; border-color: #EAE7E7; }
 
