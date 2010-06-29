@@ -171,6 +171,11 @@ function form_hookAttrChange() {
         
         for (var attr in attrs) {
             var expr_fields = {}; // check if field appears more then once in the expr
+            
+            if (attrs[attr] == ''){                
+                return form_onAttrChange(container, widget, attr, attrs[attr]);
+            }
+            
             forEach(attrs[attr], function(n){
 
                 if (typeof(n) == "number") { // {'invisible': [1]}

@@ -27,24 +27,35 @@
                                 <tr>
                                 	% if can_shortcut:
                                 		% if rpc.session.active_id not in shortcut_ids:
-                                	<td id="add_shortcut" style="padding: 0; width: 30px;">	
-	                                    <a href="javascript: void(0)" id="menu_header" 
-	                                    	title="${_('Add as shortcut')}" 
-	                                    	class="add_shortcut">
-	                                    </a>
-	                                    <script type="text/javascript">
-	                                       jQuery('#menu_header').click(function() {
-	                                           jQuery.ajax({
-	                                               url: '/openerp/shortcuts/add',
-	                                               type: 'POST',
-	                                               data: {'id': '${rpc.session.active_id}'},
-	                                               success: function() {
-	                                                   window.parent.location.reload();
-	                                               }
-	                                           });
-	                                       });
-	                                    </script>
-	                                </td>
+		                                	<td id="add_shortcut">
+			                                    <script type="text/javascript">
+			                                       jQuery('#add_shortcut').click(function() {
+			                                           jQuery.ajax({
+			                                               url: '/openerp/shortcuts/add',
+			                                               type: 'POST',
+			                                               data: {'id': '${rpc.session.active_id}'},
+			                                               success: function() {
+			                                                   window.parent.location.reload();
+			                                               }
+			                                           });
+			                                       });
+			                                    </script>
+			                                </td>
+	                                	% else:
+	                                		<td id="remove_shortcut">	
+			                                    <script type="text/javascript">
+			                                       jQuery('#remove_shortcut').click(function() {
+			                                           jQuery.ajax({
+			                                               url: '/openerp/shortcuts/remove_sc',
+			                                               type: 'POST',
+			                                               data: {'id': '${rpc.session.active_id}'},
+			                                               success: function() {
+			                                                   window.parent.location.reload();
+			                                               }
+			                                           });
+			                                       });
+			                                    </script>
+			                                </td>
 	                                	% endif
                                     % endif
                                     
@@ -85,46 +96,27 @@
     								% endif
                                     
                                     <%def name="make_view_button(i, kind, name, desc, active)">
+                                        <%
+                                            cls = ''
+                                            if form.screen.view_type == kind:
+                                                cls = 'active'
+                                        %>
                                     	<li class="v${i}" title="${desc}">
-                                    		% if form.screen.view_type == kind:
-                                    			<a href="javascript: void(0);" onclick="switchView('${kind}')" class="active">${kind}</a>
+                                    		% if kind in form.screen.view_mode:
+                                    			<a href="#" onclick="switchView('${kind}'); return false;" class="${cls}">${kind}</a> 
                                     		% else:
-                                    			<a href="javascript: void(0);" onclick="switchView('${kind}')">${kind}</a>
+                                    		    <a class="inactive">${kind}</a>
                                     		% endif
                                     	</li>
                                     </%def>
                                     
                                     <td id="view_buttons" class="content_header_space">
-                                    	<ul class="views-a">
+                                    	<ul id="view-selector">
                                     		% for i, view in enumerate(buttons.views):
 												${make_view_button(i+1, **view)}
 											% endfor
 										</ul>
 									</td>
-									
-									<!-- <td class="content_header_space" cursor: pointer;">
-	                                    <a onclick="show_process_view()">
-		                              		<img title="${_('Corporate Intelligence...')}" class="button" border="0" src="/openerp/static/images/stock/gtk-help.png" width="16" height="16"/>
-		                              	</a>
-                                    </td> -->
-                                  
-                                    % if buttons.can_attach and not buttons.has_attach:
-                                    <td align="center" valign="middle" width="16" class="content_header_space">
-                                        <img 
-                                            class="button" width="16" height="16"
-                                            title="${_('Show attachments.')}" 
-                                            src="/openerp/static/images/stock/gtk-paste.png" 
-                                            onclick="window.open(openobject.http.getURL('/openerp/attachment', {model: '${form.screen.model}', id: ${form.screen.id}}))"/>
-                                    </td>
-                                    % endif
-                                    % if buttons.can_attach and buttons.has_attach:
-                                    <td align="center" valign="middle" width="16" class="content_header_space">
-                                        <img id="attachments"
-                                            class="button" width="16" height="16"
-                                            title="${_('Show attachments.')}" 
-                                            src="/openerp/static/images/stock/gtk-paste-v.png" onclick="window.open(openobject.http.getURL('/openerp/attachment', {model: '${form.screen.model}', id: '${form.screen.id}'}))"/>
-                                    </td>
-                                    % endif
                                     % if form.screen.view_type in ('form'):
 	                                    <td align="center" valign="middle" width="16" class="content_header_space">
 	                                        <img 
@@ -198,7 +190,6 @@
                     <tr>
                         <td style="padding: 2px">${form.display()}</td>
                     </tr>
-                    
                     <tr>
                         <td class="dimmed-text">
                             <table class="form-footer">
@@ -210,21 +201,6 @@
                             		</td>
                             		<td class="powered">
                             			Powered by <a href="http://www.openerp.com" target="_blank">openerp.com</a>
-                            		</td>
-                            		<td class="footer" style="text-align: right;">
-                            			<a id="show_customize_menu" onmouseover="showCustomizeMenu(this, 'customise_menu_')" 
-                                			onmouseout="hideElement('customise_menu_');" href="javascript: void(0)">${_("Customise")}</a><br/>
-			                            <div id="customise_menu_" class="contextmenu" onmouseover="showElement(this);" onmouseout="hideElement(this);">
-			                                <a class="customise_menu_options" title="${_('Manage views of the current object')}" 
-			                                   	onclick="openobject.tools.openWindow('/openerp/viewlist?model=${form.screen.model}', {height: 400})" 
-			                                   href="javascript: void(0)">${_("Manage Views")}</a>
-			                                <a class="customise_menu_options" title="${_('Manage workflows of the current object')}" 
-			                                   	onclick="javascript: show_wkf()" 
-			                                   href="javascript: void(0)">${_("Show Workflow")}</a>
-			                                <a class="customise_menu_options" title="${_('Customise current object or create a new object')}" 
-			                                   	onclick="openobject.tools.openWindow('/openerp/viewed/new_model/edit?model=${form.screen.model}')" 
-			                                   href="javascript: void(0)">${_("Customise Object")}</a>
-			                            </div>
                             		</td>
                             	</tr>
                             </table>

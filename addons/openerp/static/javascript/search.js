@@ -118,21 +118,22 @@ function add_filter_row() {
  */
 function remove_row(id) {
 	
-	var filter_table = $('filter_table');
-	
-	node = MochiKit.DOM.getFirstParentByTagAndClassName(id, 'tr', 'filter_row_class');
-	
-	if (node.id != 'filter_row/0') {
-		removeElement(node);
+	var node = jQuery(id).closest('tr');
+	if (node.attr('id') != 'filter_row/0') {
+		jQuery(node).remove();
 	}
 	else {
-		node.style.display = 'none';
-		if ($('and_or/0'))
-			removeElement($('and_or/0'));
-		$('qstring/0').value = '';
-		$('qstring/0').style.background = '#FFFFFF';
+		node.css('display', 'none');
+		if (jQuery('#and_or/0')) {
+			jQuery('#and_or/0').remove();
+		}
+		if(jQuery('#qstring/0')) {
+			jQuery('#qstring/0').val('');
+			jQuery('#qstring/0').css('background', '#FFFFFF');   
+		}
 	}
-	MochiKit.Signal.signal(filter_table, 'onremovefilter', node);
+	
+//	MochiKit.Signal.signal(filter_table, 'onremovefilter', node);
 }
 // Direct click on icon.
 function search_image_filter(src, id) {

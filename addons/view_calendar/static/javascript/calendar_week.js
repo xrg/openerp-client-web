@@ -196,7 +196,11 @@ WeekCalendar.AllDayGrid.prototype = {
                 className: e.className,
                 bg : e.style.backgroundColor,
                 clr: e.style.color,
-                text: MochiKit.DOM.scrapeText(e)
+                text: MochiKit.DOM.scrapeText(e),
+                create_date: getNodeAttribute(e, 'nCreationDate'),
+                create_uid: getNodeAttribute(e, 'nCreationId'),
+                write_date: getNodeAttribute(e, 'nWriteDate'),
+                write_uid: getNodeAttribute(e, 'nWriteId')
             };
 
             MochiKit.DOM.removeElement(e);
@@ -321,7 +325,11 @@ WeekCalendar.AllDayGrid.prototype = {
 
         var ds = isoTimestamp(params.starts);
         var de = isoTimestamp(params.ends);
-
+        var cdate = isoTimestamp(params.create_date);
+        var wdate = isoTimestamp(params.write_date);
+        
+        var cuid = params.create_uid;
+        var wuid = params.write_uid;
         var span = parseInt(params.dayspan) || 1;
 
         while (ds < isoDate(this.calendar.colDays[0])) {
@@ -335,7 +343,11 @@ WeekCalendar.AllDayGrid.prototype = {
             nRecordID : record,
             dtStart : toISOTimestamp(ds),
             dtEnd : toISOTimestamp(de),
-            nDaySpan: span
+            nDaySpan: span,
+            nCreationDate: toISOTimestamp(cdate),
+            nCreationId: cuid,
+            nWriteDate: toISOTimestamp(wdate),
+            nWriteId: wuid
         }, params.text);
 
         div.className = params.className;
@@ -856,7 +868,12 @@ WeekCalendar.AllDayEvent.prototype = {
                 dtEnd : this.ends,
                 nRecordID: this.record_id,
                 title: MochiKit.DOM.scrapeText(this.element),
-                description: this.description
+                description: this.description,
+                event_id: jQuery(this.element).attr('nrecordid'),
+                create_date: jQuery(this.element).attr('ncreationdate'),
+                create_uid: jQuery(this.element).attr('ncreationid'),
+                write_date: jQuery(this.element).attr('nwritedate'),
+                write_uid: jQuery(this.element).attr('nwriteid')
             }).show(evt);
         }
     },
@@ -976,7 +993,12 @@ WeekCalendar.DayEvent.prototype = {
                 dtEnd : this.ends,
                 nRecordID: this.record_id,
                 title: this.title,
-                description: this.description
+                description: this.description,
+                event_id: jQuery(this.element).attr('nrecordid'),
+                create_date: jQuery(this.element).attr('ncreationdate'),
+                create_uid: jQuery(this.element).attr('ncreationid'),
+                write_date: jQuery(this.element).attr('nwritedate'),
+                write_uid: jQuery(this.element).attr('nwriteid')
             }).show(evt);
         }
     },

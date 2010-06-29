@@ -2,6 +2,17 @@
 
 <%def name="header()">
     <title>${_("Login")}</title>
+    <script type="text/javascript">
+        // replace existing openLink to intercept transformations of hash-urls
+        var openLink = function (url) {
+            jQuery(document).ready(function () {
+                var form = jQuery('#loginform');
+                var separator = (form.attr('action').indexOf('?') == -1) ? '?' : '&';
+                form.attr('action',
+                          form.attr('action') + separator + jQuery.param({'next': url}));
+            })
+        }
+    </script>
 </%def>
 
 <%def name="content()">
@@ -10,7 +21,7 @@
 
     <div class="view" style="padding-top: 90px;">
 
-        <form action="${py.url(target)}" method="post" name="loginform">
+        <form action="${py.url(target)}" method="post" name="loginform" id="loginform">
             % for key, value in origArgs.items():
             <input type="hidden" name="${key}" value="${value}"/>
             % endfor

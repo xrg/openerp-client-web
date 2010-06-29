@@ -6,12 +6,12 @@
 
         function do_delete(form, id, field){
             setNodeAttribute(form, 'action', openobject.http.getURL('/image/delete', {id: id}));
-            jQuery(form).submit();
+            jQuery('#'+form).submit();
         }
 
         function do_save(form, id){
             setNodeAttribute(form, 'action', openobject.http.getURL('/image/save_as', {id: id}));
-            jQuery(form).submit();
+            jQuery('#'+form).submit();
         }
 
         jQuery(document).ready(function(){
@@ -37,7 +37,7 @@
         </tr>
         <tr>
             <td>
-                <form action="/openerp/image/add" method="post" enctype="multipart/form-data">
+                <form id="add_image" action="/openerp/image/add" method="post" enctype="multipart/form-data">
                         <input type="hidden" name="model" value="${model}"/>
                         <input type="hidden" name="id" value="${id}"/>
                         <input type="hidden" name="field" value="${field}"/>
@@ -56,8 +56,8 @@
                             <tr>
                                 <td width="100%">
                                 <button type="submit">${_("Save")}</button>
-                                <a href="javascript: void(0)" class="button-a" onclick="do_save(form, id)">${_("Save As")}</a>
-                                <a href="javascript: void(0)" class="button-a" onclick="do_delete(form, id, field)">${_("Delete")}</a>
+                                <a href="javascript: void(0)" class="button-a" onclick="do_save('add_image', id)">${_("Save As")}</a>
+                                <a href="javascript: void(0)" class="button-a" onclick="do_delete('add_image', id, field)">${_("Delete")}</a>
                                 </td>
                                 <td>
                                 	<a href="javascript: void(0)" class="button-a" onclick="window.close()">${_("Close")}</a>

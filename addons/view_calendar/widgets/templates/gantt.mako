@@ -8,8 +8,8 @@
                         onclick="getCalendar('${days[0].prev().isoformat()}', null)"/>
                 </td>
                 <td nowrap="nowrap">
-                    <button type="button" title="${_('Today...')}" 
-                        onclick="getCalendar('${days[0].today().isoformat()}', 'day')">${_("Today")}</button>
+                    <a class="button-a" href="javascript: void(0)" title="${_('Today...')}"
+                        onclick="getCalendar('${days[0].today().isoformat()}', 'day')">${_("Today")}</a>
                 </td>
                 <td nowrap="nowrap">
                     <img height="16" width="16" class="button" src="/openerp/static/images/stock/gtk-go-forward.png" 
@@ -64,7 +64,8 @@
                     nRecordID="${group['id']}"
                     items="${str(group['items'])}"
                     model="${group['model']}"
-                    title="${group['title']}"/>
+                    title="${group['title']}"
+                    />
                 % endfor
                 % for evt in events:
                 <div class="calEvent"
@@ -73,28 +74,33 @@
                     dtStart="${str(evt.starts)}"
                     dtEnd="${str(evt.ends)}"
                     title="${evt.title}"
+                    nCreationDate="${evt.create_date}"
+                    nCreationId="${evt.create_uid}"
+                    nWriteDate="${evt.write_date}"
+                    nWriteId="${evt.write_uid}"
                     style="background-color: ${evt.color}"/>
                 % endfor
             </div>
         </div>
     </td>
-</tr>
-<tr>
-    <td>        
+    <td id="calOptions" style="vertical-align: top;">        
         ${groupbox.display()}
         
         <div id="calSearchOptions">
-            <table border="0">
-                <tr>
-                    <td>
-                        <input type="checkbox" class="checkbox" 
-                            id="_terp_use_search" name="_terp_use_search"
-                            onclick="getCalendar()"
-                            ${py.checker(use_search)}/>
-                    </td>
-                    <td><label for="_terp_use_search">${_("Apply search filter")}</label></td>
-                </tr>
-            </table>
+            <dl>
+               <dt>${_("Filter")}</dt>
+               <dd>
+                   <ul class="ul_calGroups">
+                       <li>
+                           <input type="checkbox" class="checkbox" 
+           id="_terp_use_search" name="_terp_use_search"
+           onclick="getCalendar()"
+           ${py.checker(use_search)}/>
+                           <label for="_terp_use_search">${_("Apply search filter")}</label>
+                       </li>
+                   </ul>
+               </dd>
+           </dl>
         </div>
 
         <script type="text/javascript">
@@ -102,6 +108,9 @@
         </script>
 
     </td>
+</tr>
+<tr>
+    
 </tr>
 </table>
 

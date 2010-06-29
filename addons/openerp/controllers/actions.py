@@ -42,8 +42,6 @@ from selection import Selection
 from tree import Tree
 from wizard import Wizard
 
-from openobject.tools import redirect
-
 def execute_window(view_ids, model, res_id=False, domain=None, view_type='form', context=None,
                    mode='form,tree', name=None, target=None, limit=None, search_view=None):
     """Performs `actions.act_window` action.
@@ -234,6 +232,7 @@ def execute(action, **data):
         ctx.update({'active_id': data.get('id', False), 'active_ids': data.get('ids', []), 'active_model': data.get('model',False)})
         ctx.update(expr_eval(action.get('context', '{}'), ctx.copy()))
 
+
         search_view = action.get('search_view_id')
         if search_view:
             if isinstance(search_view, (list, tuple)):
@@ -244,10 +243,7 @@ def execute(action, **data):
         # save active_id in session
         rpc.session.active_id = data.get('id')
 
-        a = ctx.copy()
-        a['time'] = time
-        a['datetime'] = datetime
-        domain = expr_eval(action['domain'], a)
+        domain = expr_eval(action['domain'], dict(ctx, time=time, datetime=datetime))
 
         if data.get('domain', False):
             domain.append(data['domain'])
@@ -278,10 +274,12 @@ def execute(action, **data):
             if not isinstance(res, list):
                 res = [res]
                 
-            output = None
+            output = ''
             for r in res:
                 output = execute(r, **data)
             return output
+        else:
+            return ''
 
     elif action['type']=='ir.actions.wizard':
         if 'window' in data:

@@ -490,12 +490,12 @@ table.menu_connection a:hover {
 
 form#attachment-box {
 	font-weight: 600;
-	display:none;
+	color: #8E8E8E;
 }
 
-form#attachment-box .attachment_box_head {
+/*form#attachment-box {
 	border-bottom: 1px solid silver;
-}
+} */
 
 .attachment-header {
 	text-align: center;
@@ -542,7 +542,7 @@ span.ValidationErrors {
 /* ----------------- Form Content Start -------------- */
 
 td.content_header_space {
-    padding: 10px 5px 0px 0px;
+    padding: 0px 5px 0px 0px;
 }
 
 /* ----------------- Form Content End -------------- */
@@ -772,7 +772,6 @@ td.item select {
 	background: #FFFFFF none repeat scroll 0 0;
 	border: 1px solid #CECBCB;
 	vertical-align: middle;
-	padding: 0px 1px;
 }
 
 .resizable-textarea .grip {
@@ -937,6 +936,39 @@ div#serverlog a {
 table.reference td{
 	padding: 0;
 	white-space: nowrap;
+}
+
+.open-close-menu {
+    float: left;
+    cursor: pointer;
+    background: #CECBCB no-repeat scroll center center;
+    height: 100%;
+    width: 11px;
+}
+.hide_tools {
+    background-image: url(../images/prev.gif);
+}
+.show_tools {
+    background-image: url(../images/next.gif);
+}
+
+td#add_attachment, table.attachment_bar td {
+	padding: 2px 2px;
+}
+
+td#customise_menu {
+	padding: 0;
+}
+
+table.attachment_bar {
+	border: none;
+}
+table.attachment_bar td a {
+	float: none;
+}
+
+.pager-cell-button {
+	padding:0 0 0 5px; 
 }
 
 /**

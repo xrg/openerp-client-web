@@ -30,7 +30,8 @@ from openerp.utils import rpc, expr_eval, TinyDict, TinyForm, TinyFormError
 
 import actions
 from form import Form
-from openobject.tools import expose
+from error_page import _ep
+from openobject.tools import expose, ast
 
 
 class Search(Form):
@@ -53,10 +54,14 @@ class Search(Form):
 
         # don't show links in list view, except the do_select link
         form.screen.widget.show_links = 0
+        if params.get('return_to'):
+            proxy = rpc.RPCProxy(params.model)
+            records = proxy.read(params.ids, ['name'], rpc.session.context)
+            params['grp_records'] = records
         return dict(form=form, params=params, form_name = form.screen.widget.name)
 
     @expose()
-    def new(self, model, source=None, kind=0, text=None, domain=[], context={}):
+    def new(self, model, source=None, kind=0, text=None, domain=[], context={}, **kw):
         """Create new search view...
 
         @param model: the model
@@ -88,7 +93,9 @@ class Search(Form):
             else:
                 count = proxy.search_count(params.domain, ctx)
             params.count = count
-
+        
+        if kw and kw.get('return_to'):
+            params['return_to'] = ast.literal_eval(kw['return_to'])
         return self.create(params)
 
     @expose('json')
@@ -111,7 +118,7 @@ class Search(Form):
         except TinyFormError, e:
             return dict(error_field=e.field, error=ustr(e))
         except Exception, e:
-            return dict(error=ustr(e))
+            return dict(error=_ep.render())
 
         prefix = params.prefix
         if prefix:

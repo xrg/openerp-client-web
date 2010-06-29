@@ -48,10 +48,12 @@ class Root(SecuredController):
     _cp_path = "/openerp"
 
     @expose()
-    def index(self):
+    def index(self, next=None):
         """Index page, loads the view defined by `action_id`.
         """
-        raise redirect("/openerp/menu")
+        if next: arguments = {'next': next}
+        else: arguments = {}
+        raise redirect("/openerp/menu", **arguments)
     
     def user_action(self, id='action_id'):
         """Perform default user action.
@@ -65,7 +67,7 @@ class Root(SecuredController):
         if not act_id[0][id]:
             common.warning(_('You can not log into the system!\nAsk the administrator to verify\nyou have an action defined for your user.'), _('Access Denied!'))
             rpc.session.logout()
-            raise redirect('/openerp');
+            raise redirect('/openerp')
         else:
             act_id = act_id[0][id][0]
             from openerp import controllers
@@ -74,7 +76,16 @@ class Root(SecuredController):
     @expose()
     def home(self):
         return self.user_action('action_id')
-
+    
+    @expose()
+    def custom_action(self, action):
+        action = int(action)
+        keyword = 'tree_but_open'
+        ctx = rpc.session.context
+        menu_id = rpc.RPCProxy('ir.ui.menu').search([('id','=', action)], 0, 0, 0, ctx)
+        
+        return actions.execute_by_keyword(keyword, adds={}, model='ir.ui.menu', id=menu_id[0], ids=menu_id, context=rpc.session.context, report_type='pdf')
+    
     @expose()
     def info(self):
         return """
@@ -89,7 +100,7 @@ class Root(SecuredController):
     """ % (url("/openerp/static/images/loading.gif"))
 
     @expose(template="templates/menu.mako")
-    def menu(self, active=None, **kw):
+    def menu(self, active=None, next=None):
         from openerp.utils import icons
         from openerp.widgets import tree_view
         
@@ -98,16 +109,21 @@ class Root(SecuredController):
         except:
             id = False
             form.Form().reset_notebooks()
-
         ctx = rpc.session.context.copy()
         proxy = rpc.RPCProxy("ir.ui.menu")
-
         ids = proxy.search([('parent_id', '=', False)], 0, 0, 0, ctx)
-        parents = proxy.read(ids, ['name', 'icon'], ctx)
-        
+        parents = proxy.read(ids, ['name', 'icon', 'action'], ctx)
+                
         if not id and ids:
             id = ids[0]
-
+            
+        for parent in parents:
+            if parent['id'] == id:
+                parent['active'] = 'active'
+                # explicit next takes precedence on menu item action
+                if not next and parent.get('action'):
+                    next = url('/openerp/custom_action', action=id)
+                
         ids = proxy.search([('parent_id', '=', id)], 0, 0, 0, ctx)
         tools = proxy.read(ids, ['name', 'icon', 'action'], ctx)
         view = cache.fields_view_get('ir.ui.menu', 1, 'tree', {})
@@ -127,9 +143,8 @@ class Root(SecuredController):
             tree.tree.onselection = None
             tree.tree.onheaderclick = None
             tree.tree.showheaders = 0
-        if kw.get('db'):
-            return dict(parents=parents, tools=tools, setup = '/openerp/home')
-        return dict(parents=parents, tools=tools)
+
+        return dict(parents=parents, tools=tools, load_content=(next and next or ''))
 
     @expose(allow_json=True)
     @unsecured

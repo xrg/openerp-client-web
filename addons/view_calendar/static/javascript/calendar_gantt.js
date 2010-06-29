@@ -123,7 +123,6 @@ GanttCalendar.prototype = {
             var id = MochiKit.DOM.getNodeAttribute(elem, 'nRecordID');
 
             var bg = MochiKit.Color.Color.fromBackground(elem);
-
             this.events[id] = {
                 'dayspan': MochiKit.DOM.getNodeAttribute(elem, 'nDaySpan'),
                 'starts': MochiKit.DOM.getNodeAttribute(elem, 'dtStart'),
@@ -132,7 +131,11 @@ GanttCalendar.prototype = {
                 'className': elem.className,
                 'bg': bg.lighterColorWithLevel(0.2).toHexString(),
                 'clr': elem.style.color,
-                'text': MochiKit.DOM.scrapeText(elem)
+                'text': MochiKit.DOM.scrapeText(elem),
+                'create_date': MochiKit.DOM.getNodeAttribute(elem, 'nCreationDate'),
+                'create_uid': MochiKit.DOM.getNodeAttribute(elem, 'nCreationId'),
+                'write_date': MochiKit.DOM.getNodeAttribute(elem, 'nWriteDate'),
+                'write_uid': MochiKit.DOM.getNodeAttribute(elem, 'nWriteId')
             };
 
             MochiKit.DOM.removeElement(elem);
@@ -368,7 +371,6 @@ GanttCalendar.Header.prototype = {
         var w = scale / subtitles.length;
 
         for (var i = 0; i < subtitles.length; i++) {
-            
             var _div = DIV({'class': 'calSubTitle'}, MochiKit.DOM.scrapeText(subtitles[i]));
             MochiKit.Style.setStyle(_div, {
                 'position': 'absolute',
@@ -664,7 +666,7 @@ GanttCalendar.GridGroup.prototype = {
 
         var group = calendar.groups[id];
         var events = calendar.events;
-
+        
         this.id = id;
         this.title = group.title;
         this.model = group.model;
@@ -674,15 +676,19 @@ GanttCalendar.GridGroup.prototype = {
 
         this.bar = DIV({'class': 'calEvent calBar'});
         this.events = [];
-
         var self = this;
         forEach(this.items, function(id) {
             var evt = events[id];
+            
             var div = DIV({
                 'nRecordID': id,
                 'dtStart': evt.starts,
                 'dtEnd': evt.ends,
-                'title': evt.title
+                'title': evt.title,
+                'nCreationDate': evt.create_date,
+                'nCreationId': evt.create_uid,
+                'nWriteDate': evt.write_date,
+                'nWriteId': evt.write_id
             }, DIV({'class': 'calEventGrip2'}));
 
             div.className = evt.className;
@@ -845,7 +851,6 @@ GanttCalendar.Event.prototype = {
     __init__: function(element, container) {
         this.element = element;
         this.container = container;
-
         this.starts = isoTimestamp(getNodeAttribute(element, 'dtStart'));
         this.ends = isoTimestamp(getNodeAttribute(element, 'dtEnd'));
         this.dayspan = parseInt(getNodeAttribute(element, 'nDaySpan')) || 1;
@@ -902,7 +907,12 @@ GanttCalendar.Event.prototype = {
                 dtEnd : this.ends,
                 nRecordID: this.record_id,
                 title: this.element.title,
-                description: this.element.title
+                description: this.element.title,
+                event_id: jQuery(this.element).attr('nrecordid'),
+                create_date: jQuery(this.element).attr('ncreationdate'),
+                create_uid: jQuery(this.element).attr('ncreationid'),
+                write_date: jQuery(this.element).attr('nwritedate'),
+                write_uid: jQuery(this.element).attr('nwriteid')
             }).show(evt);
         }
     },

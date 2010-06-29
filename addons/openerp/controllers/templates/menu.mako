@@ -36,6 +36,8 @@
     </style>
 
     <script type="text/javascript">
+        var DOCUMENT_TO_LOAD = "${load_content}";
+        
         jQuery(document).ready(function() {
             var total_width = 0;
             jQuery('ul.sc_menu li').each(function() {
@@ -46,6 +48,29 @@
                 jQuery('a.scroll_right').css('display', 'none');
             }
         });
+
+        function resize_appContent() {
+            var window_width = jQuery(window).width();
+            var secondary_width = jQuery('#secondary').width();
+            var primary_width = window_width - secondary_width ;
+            jQuery('#primary').width(primary_width - 50);
+        }
+        jQuery(document).ready(function () {
+            // Don't load doc if there is a hash-url, it takes precedence
+            if(DOCUMENT_TO_LOAD && !hashUrl()) {
+                openLink(DOCUMENT_TO_LOAD);
+            }
+
+            jQuery('.open-close-menu').click(function() {
+                jQuery(this).toggleClass('show_tools hide_tools');
+                jQuery('#secondary').toggle();
+
+                resize_appContent()
+            });
+            resize_appContent();
+        });
+        jQuery(window).resize(resize_appContent);
+        
     </script>
 </%def>
 
@@ -88,7 +113,7 @@
 				                            <tr>
 				                                <td id="${tool['id']}" class="accordion-title-td" >
                                                 % if tool.get('action_id'):
-                                                  <a href="${py.url('/tree/open', model='ir.ui.model', id=tool['action_id'])}">
+                                                  <a href="${py.url('/openerp/custom_action', action=tool['action_id'])}">
                                                     ${tool['name']}</a>
                                                 % else:
                                                   <span>${tool['name']}</span>
@@ -110,8 +135,9 @@
 		        	</table>
 		    	</div>
 			</div>
-			
+			<div class="open-close-menu hide_tools"></div>
 			<div id="primary">
+			    
 				<div class="wrap">
 					<div id="appContent"></div>
 				</div>

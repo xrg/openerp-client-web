@@ -59,9 +59,9 @@ class Shortcuts(SecuredController):
         <div id="shortcuts_submenu">
             % for sc in new_shortcuts:
                 % if type(sc['res_id']) == type(()):
-                    <a href="${py.url('/tree/open', id=sc['res_id'][0], model='ir.ui.menu')}" style="height: 10px; padding: 0 2px 8px 5px;">${sc['name']}</a>
+                    <a href="${py.url('/openerp/tree/open', id=sc['res_id'][0], model='ir.ui.menu')}" style="height: 10px; padding: 0 2px 8px 5px;">${sc['name']}</a>
                 % else:
-                    <a href="${py.url('/tree/open', id=sc['res_id'], model='ir.ui.menu')}" style="height: 10px; padding: 0 2px 8px 5px;">${sc['name']}</a>
+                    <a href="${py.url('/openerp/tree/open', id=sc['res_id'], model='ir.ui.menu')}" style="height: 10px; padding: 0 2px 8px 5px;">${sc['name']}</a>
                 % endif
             % endfor
             <hr id="shortcut_sep" style="border: none; border-top: dashed 1px #CCCCCC; color: #FFFFFF; background-color: #FFFFFF; height: 1px; padding: 0px"/>
@@ -96,6 +96,22 @@ class Shortcuts(SecuredController):
         name = rpc.RPCProxy('ir.ui.menu').name_get([id], rpc.session.context)[0][1]
         proxy.create({'user_id': rpc.session.uid, 'res_id': id, 'resource': 'ir.ui.menu', 'name': name})
 
+        sc = proxy.get_sc(rpc.session.uid, 'ir.ui.menu', rpc.session.context)
+        cherrypy.session['terp_shortcuts'] = sc
+        
+        raise redirect('/openerp/tree/open', id=id, model='ir.ui.menu')
+    
+    @expose()
+    def remove_sc(self, id):
+        id = int(id)
+        sc = cherrypy.session.get('terp_shortcuts', False)
+        
+        proxy = rpc.RPCProxy('ir.ui.view_sc')
+        
+        for s in sc:
+            if int(s.get('res_id')) == id:
+                proxy.unlink(int(s.get('id')))
+        
         sc = proxy.get_sc(rpc.session.uid, 'ir.ui.menu', rpc.session.context)
         cherrypy.session['terp_shortcuts'] = sc
         

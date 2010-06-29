@@ -124,7 +124,7 @@
             
             var id = boxes[0].value;
 
-            jQuery(form).attr('action', openobject.http.getURL(
+            jQuery('#'+form).attr('action', openobject.http.getURL(
                 '/openerp/impex/delete_listname', {'_terp_id' : id})
             ).submit();
         }
@@ -156,8 +156,8 @@
             });
 
             openobject.dom.get('_terp_fields2').value = '[' + fields2.join(',') + ']';
-
-            jQuery(form).attr('action', openobject.http.getURL(
+            
+            jQuery('#'+form).attr('action', openobject.http.getURL(
                 '/openerp/impex/export_data/data.' + openobject.dom.get('export_as').value)
             ).submit();
         }
@@ -191,7 +191,7 @@
         </tr>
         <tr>
             <td class="toolbar">
-            	<a class="button-a" href="javascript: void(0)" onclick="delete_listname(form);">${_("Delete")}</a>
+            	<a class="button-a" href="javascript: void(0)" onclick="delete_listname('view_form');">${_("Delete")}</a>
             </td>
         </tr>
         % endif
@@ -300,7 +300,7 @@
                     <table border="0" cellpadding="0" cellspacing="0" width="100%">
                         <tr>
                             <td width="100%">&nbsp;</td>
-                            <td><a class="button-a" href="javascript: void(0)" onclick="do_export(form)">${_("Export")}</a></td>
+                            <td><a class="button-a" href="javascript: void(0)" onclick="do_export('view_form')">${_("Export")}</a></td>
                             <td><a class="button-a" href="javascript: void(0)" onclick="window.close()">${_("Close")}</a></td>
                         </tr>
                     </table>

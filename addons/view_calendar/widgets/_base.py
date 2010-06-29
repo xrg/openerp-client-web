@@ -40,7 +40,7 @@ from openerp.utils import rpc, node_attributes
 from openerp.widgets import TinyWidget, ConcurrencyInfo, get_widget
 
 from utils import Day, parse_datetime
-
+import logging
 
 COLOR_PALETTE = ['#f57900', '#cc0000', '#d400a8', '#75507b', '#3465a4', '#73d216', '#c17d11', '#edd400',
                  '#fcaf3e', '#ef2929', '#ff00c9', '#ad7fa8', '#729fcf', '#8ae234', '#e9b96e', '#fce94f',
@@ -58,10 +58,11 @@ def choice_colors(n):
 class TinyEvent(TinyWidget):
 
     template = """<div class="calEvent" style="background-color: ${color}; -moz-border-radius: 4px;"
-    starts="${str(starts)}" ends="${str(ends)}" record_id="${record_id}" title="${description}">${title}</div>
+    starts="${str(starts)}" ends="${str(ends)}" record_id="${record_id}" title="${description}"
+    create_date="${create_date}" create_uid="${create_uid}" write_uid="${write_uid}" write_date="${write_date}">${title}</div>
     """
 
-    params = ['starts', 'ends', 'title', 'description', 'color', 'record_id']
+    params = ['starts', 'ends', 'title', 'description', 'color', 'record_id', 'create_date', 'create_uid', 'write_uid', 'write_date']
 
     starts = None
     ends = None
@@ -80,7 +81,6 @@ class TinyEvent(TinyWidget):
 
         self.record = record
         self.record_id = record['id']
-
         if starts and ends:
 
             self.starts = (starts or None) and datetime.datetime(*starts[:6])
@@ -91,6 +91,10 @@ class TinyEvent(TinyWidget):
         self.title = title
         self.description = description
         self.color = color
+        self.create_date = record['create_date']
+        self.create_uid = record['create_uid']
+        self.write_uid = record['write_uid']
+        self.write_date = record['write_date']
 
 class ICalendar(TinyWidget):
     """ Base Calendar calss
@@ -202,7 +206,6 @@ class ICalendar(TinyWidget):
     def convert(self, event):
 
         fields = [x for x in [self.date_start, self.date_stop] if x]
-
         for fld in fields:
             typ = self.fields[fld]['type']
             assert typ in ('date', 'datetime'), "Invalid field type (%s), should be either `date` or `datetime`: %s" % (typ, fld)
@@ -228,7 +231,7 @@ class ICalendar(TinyWidget):
         first = days[0].month2.prev()[0] #HACK: add prev month
         domain = self.domain + [(self.date_start, '>', first.isoformat()),
                                 (self.date_start, '<', days[-1].next().isoformat())]
-
+         
         # convert color values from string to python values
         if self.color_values and self.color_field in self.fields:
             try:
@@ -252,19 +255,25 @@ class ICalendar(TinyWidget):
         ctx.update(self.context)
 
         order_by = ('sequence' in self.fields or 0) and 'sequence'
-
+        
+        if self.color_field and self.fields[self.color_field].get('relation'):
+            if self.options and self.options.get('_terp_color_filters'):
+                clr_field = self.options['_terp_color_filters']
+            else:
+                search_limit = 3
+                clr_field = rpc.RPCProxy(self.fields[self.color_field]['relation']).search([], 0, search_limit, 0, ctx)
+              
+            domain.append((self.color_field, 'in', clr_field))
+            
         ids = proxy.search(domain, 0, 0, order_by, ctx)
         result = proxy.read(ids, self.fields.keys()+['__last_update'], ctx)
         self._update_concurrency_info(self.model, result)
         self.concurrency_info = ConcurrencyInfo(self.model, ids)
-
         if self.color_field:
-
             for evt in result:
                 key = evt[self.color_field]
                 name = key
                 value = key
-
                 if isinstance(key, list): # M2O, XMLRPC returns List instead of Tuple
                     evt[self.color_field] = key = tuple(key)
 
@@ -272,7 +281,7 @@ class ICalendar(TinyWidget):
                     value, name = key
 
                 self.colors[key] = (name, value, None)
-
+                
             colors = choice_colors(len(self.colors))
             for i, (key, value) in enumerate(self.colors.items()):
                 self.colors[key] = (value[0], value[1], colors[i])
@@ -290,14 +299,13 @@ class ICalendar(TinyWidget):
                 result.append(e)
             if e.dayspan == 0 and days[0] <= e.starts:
                 result.append(e)
-
+                
         return result
 
     def get_event_widget(self, event):
 
         title = ''       # the title
         description = [] # the description
-
         if self.info_fields:
 
             f = self.info_fields[0]
@@ -364,7 +372,15 @@ class ICalendar(TinyWidget):
 
         title = title.strip()
         description = ', '.join(description).strip()
-
+        
+        event_log = rpc.session.execute('object', 'execute', self.model, 'perm_read', [event['id']])[0]
+        
+        event['create_date'] = event_log['create_date']
+        event['create_uid'] = event_log['create_uid'][1]
+        if isinstance(event_log['write_uid'], tuple):
+            event_log['write_uid'] = event_log['write_uid'][1]
+        event['write_uid'] = event_log['write_uid']
+        event['write_date'] = event_log['write_date']
         return TinyEvent(event, starts, ends, title, description, dayspan=span, color=(color or None) and color[-1])
 
 

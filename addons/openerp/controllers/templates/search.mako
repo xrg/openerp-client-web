@@ -56,38 +56,66 @@
         }
     </script>
     % elif params.selectable == 2:
-    <script type="text/javascript">
-
-        function do_select(id) {
-
-            var source = "${params.source}";
-            var list_this = new ListView('_terp_list');
-
-            with(window.opener) {
-
-                var m2m = Many2Many('${params.source}');
-                var ids = m2m.getValue();
-
-                if (id){
-                    if (findValue(ids, id) == -1) ids.push(id);
-                } else {
-                    var boxes = list_this.getSelectedItems();
-
-                    if(boxes.length == 0) {
-                        alert(_("No record selected..."));
-                        return;
+        % if params.get('return_to'):
+            <script type="text/javascript">
+                function do_select() {
+                    var list_this = new ListView('_terp_list');
+                    with(window.opener) {
+                       var boxes = list_this.getSelectedRecords();
+                       if(boxes) {
+                            var groups = eval(jQuery('#groups_id').val());
+                            var new_groups = new Array();
+                            forEach(boxes, function(b){
+                                if(jQuery.inArray(parseInt(b), groups) < 0) {
+                                    new_groups.push(parseInt(b));
+                                }
+                            });
+                            var color_filters = groups.concat(new_groups);
+                            getCalendar(null, null, color_filters);
+                       }
+                       
+                       else {
+                            alert(_("No record selected..."));
+                            return;
+                       }
                     }
-
-                    forEach(boxes, function(b){
-                        if (findValue(ids, b.value) == -1) ids.push(b.value);
-                    });
+                    window.close()
                 }
-
-                m2m.setValue(ids);
-            }
-            window.close();
-        }
-    </script>
+            </script>
+        % else:
+		    <script type="text/javascript">
+		
+		        function do_select(id) {
+		
+		            var source = "${params.source}";
+		            var list_this = new ListView('_terp_list');
+		
+		            with(window.opener) {
+		
+		                var m2m = Many2Many('${params.source}');
+		                var ids = m2m.getValue();
+		
+		                if (id){
+		                    if (findValue(ids, id) == -1) ids.push(id);
+		                } else {
+		                    var boxes = list_this.getSelectedItems();
+		
+		                    if(boxes.length == 0) {
+		                        alert(_("No record selected..."));
+		                        return;
+		                    }
+		
+		                    forEach(boxes, function(b){
+		                        if (findValue(ids, b.value) == -1) ids.push(b.value);
+		                    });
+		                }
+		
+		                m2m.setValue(ids);
+		            }
+		            window.close();
+		        }
+		    </script>
+        % endif		    
     % endif
 </%def>
 

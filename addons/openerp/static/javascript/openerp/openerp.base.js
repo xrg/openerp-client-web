@@ -11,10 +11,14 @@
  *                    XMLHttpRequest
  */
 var console;
+// cache for the current hash url so we can know if it's changed
+var currentUrl;
 function openLink(url /*optional afterLoad */) {
     var app = jQuery('#appContent');
     var afterLoad = arguments[1];
     if(app.length) {
+        currentUrl = url;
+        window.location.hash = '#'+jQuery.param({'url': url});
         jQuery.ajax({
             url: url,
             complete: function (xhr) {
@@ -25,6 +29,23 @@ function openLink(url /*optional afterLoad */) {
     } else {
         window.location.assign(url);
     }
+}
+/**
+ * Extract the current hash-url from the page's location
+ *
+ * @returns the current hash-url if any, otherwise returns `null`
+ */
+function hashUrl() {
+    var newUrl = null;
+    // would use window.location.hash but... https://bugzilla.mozilla.org/show_bug.cgi?id=483304
+    var hashValue = window.location.href.split('#')[1] || '';
+    jQuery.each(hashValue.split('&'), function (i, element) {
+        var e = element.split("=");
+        if(e[0] === 'url') {
+            newUrl = decodeURIComponent(e[1]);
+        }
+    });
+    return newUrl;
 }
 
 // Timers before displaying the wait box, in case the remote query takes too long
@@ -59,4 +80,16 @@ jQuery(document).ready(function () {
             return false;
         });
     }
+
+    // wash for hash changes
+    jQuery(window).bind('hashchange', function () {
+        var newUrl = hashUrl();
+        if(!newUrl || newUrl == currentUrl) {
+            return;
+        }
+        openLink(newUrl);
+    });
+    // if the initially loaded URL had a hash-url inside
+    jQuery(window).trigger('hashchange');
 });
+

@@ -41,7 +41,7 @@ __all__ = ["M2O"]
 
 class M2O(TinyInputWidget):
     template = "templates/many2one.mako"
-    params=['relation', 'text', 'domain', 'context', 'link', 'readonly']
+    params=['relation', 'text', 'domain', 'context', 'link', 'readonly', 'default_focus']
 
     domain = []
     context = {}
@@ -56,7 +56,8 @@ class M2O(TinyInputWidget):
         self.context = attrs.get('context', {})
         self.link = attrs.get('link')
         self.onchange = None # override onchange in js code
-
+        
+        self.default_focus = attrs.get('default_focus', 0)
         self.validator = validators.many2one()
 
     def set_value(self, value):

@@ -39,7 +39,7 @@ from screen import Screen
 class Sidebar(TinyWidget):
 
     template = "templates/sidebar.mako"
-    params = ['reports', 'actions', 'relates', 'attachments', 'sub_menu']
+    params = ['reports', 'actions', 'relates', 'attachments', 'sub_menu', 'view_type', 'model']
 
     javascript = [JSSource("""
         function toggle_sidebar(forced) {
@@ -55,19 +55,24 @@ class Sidebar(TinyWidget):
                 var main_sidebar = openobject.dom.get('main_sidebar');
                 var sidebar_hide = openobject.dom.get('sidebar_hide');
                 var attach_sidebar = openobject.dom.get('attach_sidebar');
-                
+                var add_attachment = openobject.dom.get('add_attachment');
+                var customise_menu = openobject.dom.get('customise_menu');
                 if (sb.style.display == "none") {
                     setNodeAttribute(a_img, 'class', 'off');
                     setNodeAttribute(tertiary, 'style', 'width: 21px');
                     setNodeAttribute(tertiary_wrap, 'style', 'padding: 0 0 0 0');
                     setNodeAttribute(sidebar_hide, 'style', 'padding: 0 0 0 0');
                     setNodeAttribute(attach_sidebar, 'style', 'display: none');
+                    setNodeAttribute(add_attachment, 'style', 'display: none');
+                    setNodeAttribute(customise_menu, 'style', 'display: none');
                 } else {
                     setNodeAttribute(a_img, 'class', 'on');
                     setNodeAttribute(tertiary, 'style', 'width: 180px');
                     setNodeAttribute(tertiary_wrap, 'style', 'padding: 0 0 0 10px');
                     setNodeAttribute(sidebar_hide, 'style', 'padding: 0 0 0 8px');
                     setNodeAttribute(attach_sidebar, 'style', "display: ''");
+                    setNodeAttribute(add_attachment, 'style', "display: ''");
+                    setNodeAttribute(customise_menu, 'style', "display: ''");
                 }
             }
             if (typeof(Notebook) == "undefined") {
@@ -84,15 +89,12 @@ class Sidebar(TinyWidget):
     def __init__(self, model, submenu=None, toolbar=None, id=None, view_type="form", multi=True, context={}, **kw):
 
         super(Sidebar, self).__init__(model=model, id=id)
-        
         self.multi = multi
         self.context = context or {}
         self.view_type = view_type
-
         act = 'client_action_multi'
         toolbar = toolbar or {}
         submenu = submenu
-
         self.reports = toolbar.get('print', [])
         self.actions = toolbar.get('action', [])
         self.relates = toolbar.get('relate', [])

@@ -57,7 +57,17 @@
             <div id="calAllDaySect">
                 % for evt in events:
                     % if evt.dayspan > 0:
-                <div nRecordID="${evt.record_id}" nDaySpan="${evt.dayspan}" dtStart="${str(evt.starts)}" dtEnd="${str(evt.ends)}" title="${evt.description}" style="background-color: ${evt.color}" class="calEvent allDay">${evt.title}</div>
+                            <div nRecordID="${evt.record_id}" 
+                                nDaySpan="${evt.dayspan}" 
+                                dtStart="${str(evt.starts)}" 
+                                dtEnd="${str(evt.ends)}" 
+                                title="${evt.description}"
+                                nCreationDate="${evt.create_date}"
+                                nCreationId="${evt.create_uid}"
+                                nWriteDate="${evt.write_date}"
+                                nWriteId="${evt.write_uid}"
+                                style="background-color: ${evt.color}" 
+                                class="calEvent allDay">${evt.title}</div>
                     % endif
                 % endfor
             </div>
@@ -65,7 +75,15 @@
             <div id="calBodySect">
                 % for evt in events:
                     % if evt.dayspan == 0:
-                <div nRecordID="${evt.record_id}" dtStart="${str(evt.starts)}" dtEnd="${str(evt.ends)}" style="background-color: ${evt.color}" class="calEvent noAllDay">
+                <div nRecordID="${evt.record_id}" 
+                    dtStart="${str(evt.starts)}" 
+                    dtEnd="${str(evt.ends)}"
+                    nCreationDate="${evt.create_date}"
+                    nCreationId="${evt.create_uid}"
+                    nWriteDate="${evt.write_date}"
+                    nWriteId="${evt.write_uid}" 
+                    style="background-color: ${evt.color}" 
+                    class="calEvent noAllDay">
                    <div style="height: 10px;" class="calEventTitle">${evt.starts.strftime('%I:%M %P')} - ${evt.title}</div>
                    <div class="calEventDesc">${evt.description}</div>
                    <div class="calEventGrip"></div>

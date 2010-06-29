@@ -272,6 +272,9 @@
 #calInfoBox .calInfoDesc {
     padding: 2px;
 }
+.calInfoDesc {
+ border-bottom: 2px solid #696969;
+}
 
 #calInfoBox .calInfoButtons {
     position: absolute;

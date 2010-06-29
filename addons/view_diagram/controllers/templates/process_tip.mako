@@ -1,4 +1,4 @@
-<%inherit file="master.mako"/>
+<%inherit file="/openerp/controllers/templates/base_dispatch.mako"/>
 <%! show_header_footer = False %>
 
 <%def name="header()">

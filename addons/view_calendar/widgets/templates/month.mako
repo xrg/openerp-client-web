@@ -60,6 +60,10 @@
                                                 dtStart="${str(evt.starts)}"
                                                 dtEnd="${str(evt.ends)}"
                                                 title="${evt.description}"
+                                                nCreationDate="${evt.create_date}"
+                                                nCreationId="${evt.create_uid}"
+                                                nWriteDate="${evt.write_date}"
+                                                nWriteId="${evt.write_uid}"
                                                 style="background-color: ${evt.color}">${evt.title}</div>
                                         % endif
                                         % if evt.dayspan == 0:
@@ -69,6 +73,10 @@
                                                 dtStart="${str(evt.starts)}"
                                                 dtEnd="${str(evt.ends)}"
                                                 title="${evt.description}"
+                                                nCreationDate="${evt.create_date}"
+                                                nCreationId="${evt.create_uid}"
+                                                nWriteDate="${evt.write_date}"
+                                                nWriteId="${evt.write_uid}"
                                                 style="color: ${evt.color}">${evt.starts.strftime('%H:%M')} - ${evt.title}</div>
                                         % endif
                                     % endfor

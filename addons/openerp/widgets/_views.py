@@ -105,7 +105,8 @@ class ListView(TinyView):
                                     editable=screen.editable,
                                     selectable=screen.selectable,
                                     offset=screen.offset, limit=screen.limit,
-                                    count=screen.count, nolinks=screen.link)
+                                    count=screen.count, nolinks=screen.link,
+                                    m2m=screen.m2m, o2m=screen.o2m)
 
         screen.ids = widget.ids
         screen.limit = widget.limit

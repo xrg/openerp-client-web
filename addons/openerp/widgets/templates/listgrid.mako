@@ -39,7 +39,11 @@ import cherrypy
 </%def>
 
 <%def name="make_row(data)">
-    <tr class="grid-row" record="${data['id']}">
+	% if editors:
+    	<tr class="grid-row inline_editors" record="${data['id']}">
+    % else:
+    	<tr class="grid-row" record="${data['id']}">
+    % endif
         % if selector:
             <td class="grid-cell selector">
                 <input type="${selector}" class="${selector} grid-record-selector"
@@ -97,51 +101,57 @@ import cherrypy
 	        				<h2>${string} List</h2>
 	        			</td>
 	        			% if editable:
-	        			<script type="text/javascript">
-	        				if(jQuery('#${name}').length>0) {
-	        					if(jQuery('#_m2m_${name}').length>0) {
-	        						if('${editable}' != 'False') { 
-		        						jQuery('#${name}').find('td.pager-cell:first').after('<td style="width: 10%;" class="pager-cell button"> <a title="${_('Add records...')}" class="button-a" href="javascript: void(0)" id="${name}_button1">add</a></td>')
-		        						jQuery('#${name}_button1').click(function() {
-		        							open_search_window(jQuery('#_m2m_${name}').attr('relation'), jQuery('#_m2m_${name}').attr('domain'), jQuery('#_m2m_${name}').attr('context'),'${name}', 2, jQuery('#${name}_set').val())
-		        						});
-	        						}
-	        					}
-	        					else if(jQuery('#_o2m_${name}').length>0) {
-	        					    if('${editable}' != 'False') {
-	        						     jQuery('#${name}').find('td.pager-cell:first').after('<td style="width: 10%;" class="pager-cell"><a class="button-a" href="javascript: void(0)" id="${name}_btn_" title="${_('Create new record.')}">new<a/></td>');
-	        						}
-	        						jQuery('#${name}_btn_').click(function() {
-	        							new One2Many('${name}', jQuery('#_o2m_${name}').attr('detail')).create()
-	        						});
-	        					}
-	        					else {
-	        					    if('${editable}' != 'False') {
-	        						     jQuery('#${name}').find('td.pager-cell:first').after('<td style="width: 10%;" class="pager-cell-button"><a class="button-a" href="javascript: void(0)" title="${_('Create new record.')}">new<a/></td>');
-	        						}
-	        						if("${editors}" == "{}") {
-	        							jQuery('#${name}').find('td.pager-cell-button:first').find('a:first').click(function() {
-	        								editRecord(null);
-	        							});
-	        						}
-	        						else {
-	        							jQuery('#${name}').find('td.pager-cell-button:first').find('a:first').click(function() {
-	        								new ListView('_terp_list').create();
-	        							});	
-	        						}
-	        						
-	        						jQuery('#${name}').find('td.pager-cell-button:first').after('<td class="pager-cell-button second"><a id="delete_record" class="button-a" href="javascript: void(0)" title="${_('Delete record(s).')}">delete<a/></td>');
-	        						jQuery('#${name}').find('td.pager-cell-button:last').after('<td class="pager-cell-button second"><a id="edit_record" class="button-a" href="javascript: void(0)" title="${_('Edit record(s).')}">edit<a/></td>');
-	        						jQuery('#delete_record').click(function() {
-                                        new ListView('_terp_list').remove(null,this);
-	        						});
-	        						jQuery('#edit_record').click(function() {
-                                        editSelectedRecord();
-                                    });
-	        					}
-	        				}
-	        			</script>
+	        			    <td class="pager-cell-button">
+	        			        % if m2m:
+	        			            <a class="button-a" href="javascript: void(0)" title="${_('Add records...')}" id="${name}_button1">${_('add')}</a>
+	        			            <script type="text/javascript">
+	        			                jQuery('#${name}_button1').click(function() {
+	        			                    open_search_window(jQuery('#_m2m_${name}').attr('relation'), jQuery('#_m2m_${name}').attr('domain'), jQuery('#_m2m_${name}').attr('context'),'${name}', 2, jQuery('#${name}_set').val())
+	        			                });
+	        			            </script>
+	        			        % elif o2m:
+	        			            <a class="button-a" href="javascript: void(0)" title="${_('Create new record.')}" id="${name}_btn_">${_('new')}</a>
+	        			            <script type="text/javascript">
+	        			                jQuery('#${name}_btn_').click(function() {
+	        			                    new One2Many('${name}', jQuery('#_o2m_${name}').attr('detail')).create();
+	        			                });
+	        			            </script>
+	        			        % else:
+	        			            <a id="${name}_new" class="button-a" href="javascript: void(0)" title="${_('Create new record.')}">${_('new')}<a/>
+	        			            % if editors:
+	        			                <script type="text/javascript">
+	        			                    jQuery('#${name}_new').click(function() {
+	        			                        new ListView('_terp_list').create();
+	        			                    });
+	        			                    
+	        			                </script>
+	        			            % else:
+	        			                <script type="text/javascript">
+	        			                    jQuery('#${name}_new').click(function() {
+	        			                        editRecord(null);
+	        			                    });
+	        			                </script>
+	        			            % endif
+	        			        % endif
+	        			    </td>
 	        			% endif
+	        			<td class="pager-cell-button" style="display: none;">
+	        			    <a id="${name}_delete_record" class="button-a" href="javascript: void(0)" title="${_('Delete record(s).')}">${_('delete')}<a/>
+	        			    <script type="text/javascript">
+	        			        jQuery('#${name}_delete_record').click(function() {
+-                                        new ListView('_terp_list').remove(null,this);
+                                });
+	        			    </script>
+	        			</td>
+	        			<td class="pager-cell-button" style="display: none;">
+                            <a id="${name}_edit_record" class="button-a" href="javascript: void(0)" title="${_('Edit record(s).')}">${_('edit')}<a/>
+                            <script type="text/javascript">
+                                jQuery('#${name}_edit_record').click(function() {
+-                                       editSelectedRecord();
+                                });
+                            </script>
+                        </td>
+	        			
         				<td class="pager-cell" style="width: 90%">
         					${pager.display()}
         				</td>
@@ -201,7 +211,11 @@ import cherrypy
 	                        </tr>
                         % endif
                         % for i in range(min_rows - len(data)):
-	                        <tr class="grid-row">
+	                        % if editors:
+	                        	<tr class="grid-row inline_editors">
+	                        % else:
+	                        	<tr class="grid-row">
+	                        % endif
 	                            % if selector:
 	                                <td width="1%" class="grid-cell selector">&nbsp;</td>
 	                            % endif
@@ -287,52 +301,55 @@ import cherrypy
 						
 		            }
 				</script>
-			% endif
-			% if 'form' in view_mode:
-				<script type="text/javascript">
-					//Make all records Editable by Double-click
-					var view_type = jQuery('[id*=_terp_view_type]').val();
-	            	var editable = jQuery('[id*=_terp_editable]').val();
-	            	jQuery('table#${name}_grid tr.grid-row').each(function(index, row) {
-	            		jQuery(row).dblclick(function(event) {
-	            			if (!(event.target.className == 'checkbox grid-record-selector' || event.target.className == 'listImage')) {
-	            				if (view_type == 'tree') {
-	            					if (editable != 'True') {
-	            						do_select(jQuery(row).attr('record'));
-	            					}
-	            					else {
-	            						editRecord(jQuery(row).attr('record'));
-	            					}
-	            				}
-	            			}
-	            		});
-	            	});
-	            	
-	            	jQuery('table#${name}_grid tr.grid-row').each(function(index, row) {
-	            		jQuery(row).click(function(event) {
-	            			if (!(event.target.className == 'grid-cell selector' || event.target.className == 'checkbox grid-record-selector' || event.target.className == 'listImage')) {
-	            				if (view_type == 'tree') {
-	            					do_select(jQuery(row).attr('record'));
-	            				}
-	            			}
-	            		});
-	            	});
-	
-	                if (view_type == 'form') {
-	                    if (jQuery('#${name}_set').length) {
-	                        if (jQuery('input#${name}/_terp_ids').val() != '[]') {
-	                            jQuery('table#${name}_grid tr.grid-row td:nth-child(2) span span').each(function(index, span) {
-	                                var link_text = jQuery(span).text();
-	                                var record_id = jQuery(span).parents('tr.grid-row').attr('record');
-	                                jQuery(span).empty().append(
-		                                jQuery('<a>').attr('href', '#').click(function () {
-		                                    do_select(record_id, '${name}');
-		                                    return false;
-		                                }).text(link_text));});
-	                        }
-	                    }
-	                }
-	            </script>
+			% endif		
+            
+            % if editors:
+                <script type="text/javascript">       
+                    jQuery('table#${name}_grid tr.grid-row').each(function(index, row) {
+                        if(jQuery(row).attr('record')) { 
+                            jQuery(row).click(function(event) {                                 
+                                if (!(event.target.className == 'checkbox grid-record-selector' || event.target.className == 'listImage')) {                              
+                                    record_id = jQuery(row).attr('record');
+                                    if (record_id > 0) {
+                                        new ListView('${name}').edit(record_id);
+                                    }
+                                    else {
+                                        new One2Many('${name}', jQuery('#_o2m_${name}').attr('detail')).create()
+                                    }                                
+                                }   
+                            });
+                        }
+                    });
+                </script>                     
+            % else:
+                <script type="text/javascript">
+                    var view_type = jQuery('[id*=_terp_view_type]').val();
+                    var editable = jQuery('[id*=_terp_editable]').val();
+                    jQuery('table#${name}_grid tr.grid-row').each(function(index, row) {
+                        jQuery(row).click(function(event) {
+                            if (!(event.target.className == 'grid-cell selector' || event.target.className == 'checkbox grid-record-selector' || event.target.className == 'listImage')) {
+                                if (view_type == 'tree') {
+                                    do_select(jQuery(row).attr('record'));
+                                }
+                            }
+                        });
+                    });
+                    
+                    jQuery('table#${name}_grid tr.grid-row').each(function(index, row) {
+                        jQuery(row).dblclick(function(event) {                           
+                            if (!(event.target.className == 'checkbox grid-record-selector' || event.target.className == 'listImage')) {
+                                if (view_type == 'tree') {
+                                    if (editable != 'True') {
+                                        do_select(jQuery(row).attr('record'));
+                                    }
+                                    else {
+                                        editRecord(jQuery(row).attr('record'));
+                                    }
+                                }
+                            }
+                        });
+                    });
+                </script>
             % endif
         </td>
     </tr>

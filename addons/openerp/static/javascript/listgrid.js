@@ -84,12 +84,12 @@ ListView.prototype = {
 	selectedRow_sum: function() {
 		var selected_ids = this.getSelectedRecords();
 		if(selected_ids.length) {
-			jQuery('#'+this.name+' tr.pagerbar:first td.pager-cell-button:hidden').fadeIn(2000);
+			jQuery('#'+this.name+'_delete_record').parent().show()
+			jQuery('#'+this.name+'_edit_record').parent().show()
 	   }
 	   else {
-	   	   if(jQuery('#'+this.name+' tr.pagerbar:first td.second').css('display') != 'none') {
-	   	   	   jQuery('#'+this.name+' tr.pagerbar:first td.second').fadeOut(2000)
-	   	   }
+	   	   jQuery('#'+this.name+'_delete_record').parent().hide()
+           jQuery('#'+this.name+'_edit_record').parent().hide()
 	   }	
 		if(jQuery('tr.field_sum td.grid-cell span').length>0) {
 		    	var sum_fields = [];
@@ -796,7 +796,7 @@ MochiKit.Base.update(ListView.prototype, {
             }
 
             // set focus on the first field
-            var first = openobject.dom.select('listfields', self.name)[0] || null;
+            var first = jQuery('input.listfields')[0] || null;
             if (first) {
                 first.focus();
                 first.select();
