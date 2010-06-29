@@ -4,9 +4,6 @@
 	    	<a href="javascript: void(0)" onclick="return false">${item['name']}</a>
 	    </li>
 	% else:
-		<%
-			from openobject import icons
-		%>
 		<li data="${item}">
 	   		% if item['name']:
 				<a href="#" onclick="submenu_action('${item['action_id']}', '${model}');">
@@ -18,8 +15,7 @@
 </%def>
 
 <%def name="make_sidebox(title, model, items, submenu=0)">
-
-<h4 class="a">${title}</h4>
+<div class="sideheader-a"><h2>${title}</h2></div>
 <ul class="clean-a">
 	% for item in items:
         % if item:
@@ -32,9 +28,6 @@
 <table id="sidebar_pane" border="0" cellpadding="0" cellspacing="0">
     <tr>
         <td id="sidebar">
-			<div class="sideheader-a">
-				<h2>Secondary Options</h2>
-			</div>
             % if reports:
                 ${make_sidebox(_("REPORTS"), model, reports)}
             % endif
