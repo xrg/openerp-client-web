@@ -621,22 +621,7 @@ class Form(SecuredController):
         ctx.update({'default_res_model': params.model, 'default_res_id': params.id, 'active_id': False, 'active_ids': []})
         
         add_attachment = rpc.RPCProxy('ir.attachment').create({'name': kw.get('datas_fname'), 'description': False, 'datas': datas, 'datas_fname': file_name}, ctx)
-        
-        args = {'model': params.model,
-                'id': params.id,
-                'ids': ustr(params.ids),
-                'view_ids': ustr(params.view_ids),
-                'view_mode': ustr(params.view_mode),
-                'domain': ustr(params.domain),
-                'context': ustr(params.context),
-                'offset': params.offset,
-                'limit': params.limit,
-                'count': params.count,
-                'search_domain': ustr(params.search_domain),
-                'search_data': ustr(params.search_data),
-                'filter_domain': ustr(params.filter_domain)}
-        
-        raise redirect(self.path + '/edit', source=params.source, **args)
+        return
     
     @expose()
     def clear_binary_data(self, **kw):

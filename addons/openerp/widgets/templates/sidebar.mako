@@ -152,6 +152,7 @@
         
    jQuery('#FormSubmit').click(function() {
        jQuery('#attachment-box').submit()
+       window.location.reload()
    });
 </script>
 
