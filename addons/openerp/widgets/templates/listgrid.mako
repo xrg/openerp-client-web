@@ -304,21 +304,21 @@ import cherrypy
 			% endif		
             
             % if editors:
-                <script type="text/javascript">       
-                    jQuery('table#${name}_grid tr.grid-row').each(function(index, row) {
-                        if(jQuery(row).attr('record')) { 
-                            jQuery(row).click(function(event) {                                 
-                                if (!(event.target.className == 'checkbox grid-record-selector' || event.target.className == 'listImage')) {                              
-                                    record_id = jQuery(row).attr('record');
-                                    if (record_id > 0) {
-                                        new ListView('${name}').edit(record_id);
-                                    }
-                                    else {
-                                        new One2Many('${name}', jQuery('#_o2m_${name}').attr('detail')).create()
-                                    }                                
-                                }   
-                            });
-                        }
+                <script type="text/javascript">
+                	/* In editable grid, clicking on empty row will create new and on existing row will edit. */ 
+                	
+                    jQuery('table[id=${name}_grid] tr.grid-row').each(function(index, row) {
+	                    jQuery(row).click(function(event) {                             
+	                        if (!(event.target.tagName == 'INPUT' || event.target.tagName == 'IMG')) {                              
+	                            record_id = jQuery(row).attr('record');
+	                            if (record_id > 0) {
+	                                new ListView('${name}').edit(record_id);
+	                            }
+	                            else {
+	                                new One2Many('${name}', jQuery('table.one2many[id$=${name}]').attr('detail')).create();
+	                            }                                
+	                        }   
+	                    });
                     });
                 </script>                     
             % else:
