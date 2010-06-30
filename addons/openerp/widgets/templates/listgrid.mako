@@ -112,10 +112,10 @@ import cherrypy
 	        			        % elif o2m:
 	        			            <a class="button-a" href="javascript: void(0)" title="${_('Create new record.')}" id="${name}_btn_">${_('new')}</a>
 	        			            <script type="text/javascript">
-	        			                jQuery('#${name}_btn_').click(function() {
-	        			                    new One2Many('${name}', jQuery('#_o2m_${name}').attr('detail')).create();
-	        			                });
-	        			            </script>
+                                        jQuery('a.button-a[id*=${name}_btn]').click(function() {
+                                            new One2Many('${name}', jQuery('table.one2many[id$=${name}]').attr('detail')).create();
+                                        }); 
+                                    </script>
 	        			        % else:
 	        			            <a id="${name}_new" class="button-a" href="javascript: void(0)" title="${_('Create new record.')}">${_('new')}<a/>
 	        			            % if editors:
