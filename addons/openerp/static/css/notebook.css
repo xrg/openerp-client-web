@@ -1,15 +1,21 @@
 div.notebook {
     overflow: hidden;
-    margin: 0 0 10px; padding: 0; border-radius: 4px; -moz-border-radius: 4px; -webkit-border-radius: 4px; background: #fff; box-shadow: 0 1px 1px #ddd; -moz-box-shadow: 0 1px 1px #ddd; -webkit-box-shadow: 0 1px 1px #ddd;
+    margin: 0 0 10px;
+    padding: 0;
+    border-radius: 4px;
+    -moz-border-radius: 4px;
+    -webkit-border-radius: 4px;
+    background: #fff;
+    box-shadow: 0 1px 1px #ddd;
+    -moz-box-shadow: 0 1px 1px #ddd;
+    -webkit-box-shadow: 0 1px 1px #ddd;
 }
 
 div.notebook-tabs {
     position: relative;
 }
 
-div.notebook-tabs-left,
-div.notebook-tabs-right {
-
+div.notebook-tabs-left,div.notebook-tabs-right {
     position: absolute;
     top: 0px;
     width: 18px;
@@ -48,16 +54,17 @@ div.notebook-tabs-wrap-scrollable {
 }
 
 ul.notebook-tabs-strip {
-
     display: block;
     float: left;
     width: 5000px;
-
-    margin: 0 0 5px; padding: 0 0 0 0; border-top-left-radius: 4px;
-    -moz-border-radius-topright: 4px; -webkit-border-top-right-radius: 4px; background: #ccc;
-
+    margin: 0 0 5px;
+    padding: 0 0 0 0;
+    border-top-left-radius: 4px;
+    -moz-border-radius-topright: 4px;
+    -webkit-border-top-right-radius: 4px;
+    background: #ccc;
     list-style: none;
-   /* border-bottom: solid 1px gray; */
+    /* border-bottom: solid 1px gray; */
 }
 
 li.notebook-tab {
@@ -67,17 +74,21 @@ li.notebook-tab {
     border: 1px solid gray;
     background-color: #c0c0c0;
     margin-bottom: -1px;*/
-    font-size: 0.8em; font-weight: bold; text-transform: uppercase;
+    font-size: 0.8em;
+    font-weight: bold;
+    text-transform: uppercase;
 }
 
-li.notebook-tab-active {
-    /*background-color: #fff;
+li.notebook-tab-active { /*background-color: #fff;
     border-bottom: 1px solid white; */
     position: relative;
     float: left;
-	font-size: 0.8em; font-weight: bold; text-transform: uppercase;
-    background:#999 url(/openerp/static/images/calendar-a-head-active.gif) -10001px 100% no-repeat;
-	background-position: 50% 100%;
+    font-size: 0.8em;
+    font-weight: bold;
+    text-transform: uppercase;
+    background: #999 url(/openerp/static/images/calendar-a-head-active.gif) -10001px
+        100% no-repeat;
+    background-position: 50% 100%;
 }
 
 li.notebook-tab a.tab-title {
@@ -86,11 +97,20 @@ li.notebook-tab a.tab-title {
     /*padding: 3px 0.5em;
     color: #222; */
     text-decoration: none !important;
-    float: left; height: 17px; padding: 7px 0 0; color: #9f9f9f;text-shadow: #fff 0 1px 0;float: left; height: 17px; padding: 7px 7px 0 7px; color: #888;text-shadow: #fff 0 1px 0;
+    float: left;
+    height: 17px;
+    padding: 7px 0 0;
+    color: #9f9f9f;
+    text-shadow: #fff 0 1px 0;
+    float: left;
+    height: 17px;
+    padding: 7px 7px 0 7px;
+    color: #888;
+    text-shadow: #fff 0 1px 0;
 }
 
 li.notebook-tab-active a.tab-title {
-	color: #fff;
+    color: #fff;
 }
 
 li.notebook-tab span.tab-close {
@@ -107,8 +127,7 @@ li.notebook-tab-closable a.tab-title {
     padding-right: 18px;
 }
 
-div.notebook-pages {
-    /*border: 1px solid gray;
+div.notebook-pages { /*border: 1px solid gray;
     border-top: none; */
     padding: 10px 15px 1px;
 }
@@ -120,4 +139,3 @@ div.notebook-page {
 div.notebook-page-active {
     display: block;
 }
-
