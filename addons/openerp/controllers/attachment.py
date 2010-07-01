@@ -59,16 +59,15 @@ class Attachment(SecuredController):
         else:
             raise common.message(_('No record selected! You can only attach to existing record...'))
 
-        return True
-
     @expose(content_type="application/octet-stream")
     def save_as(self, fname=None, record=False, **kw):
         record = int(record)
         proxy = rpc.RPCProxy('ir.attachment')
 
-        data = proxy.read([record], [], rpc.session.context)
-        if len(data) and not data[0]['link'] and data[0]['datas']:
-            return base64.decodestring(data[0]['datas'])
+        data = proxy.read(record, [], rpc.session.context)
+
+        if data['type'] == 'binary':
+            return base64.decodestring(data['datas'])
         else:
             return ''
 

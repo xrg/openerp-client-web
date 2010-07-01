@@ -621,6 +621,9 @@ class Form(SecuredController):
         ctx = rpc.session.context.copy()
         file_ext = file_name.split('.')[-1]
         f_name = ''
+        print '='*30
+        print file_name, kw.get('datas_fname'), kw.get('datas')
+        print '='*30
         if file_name and not kw.get('datas_fname'):
             f_name = file_name
         elif file_name and kw.get('datas_fname'):
@@ -628,7 +631,7 @@ class Form(SecuredController):
         elif kw.get('datas_fname') and not file_name:
             return 
         ctx.update({'default_res_model': params.model, 'default_res_id': params.id, 'active_id': False, 'active_ids': []})
-        add_attachment = rpc.RPCProxy('ir.attachment').create({'name': f_name, 'description': False, 'datas': datas, 'datas_fname': file_name}, ctx)
+        rpc.RPCProxy('ir.attachment').create({'name': f_name, 'description': False, 'datas': datas, 'datas_fname': file_name}, ctx)
         return
     
     @expose()
