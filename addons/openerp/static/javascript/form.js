@@ -1059,6 +1059,11 @@ function show_wkf() {
     openobject.tools.openWindow(openobject.http.getURL('/view_diagram/workflow', {model: $('_terp_model').value, rec_id:id}));
 }
 
+/**
+ * @event click
+ *
+ * Requests the deletion of an attachment based on data provided by the trigger's parent's @data-id
+ */
 function removeAttachment () {
     var attachment_line = jQuery(this).parent();
     var id = attachment_line.attr('data-id');
@@ -1079,6 +1084,13 @@ function removeAttachment () {
 
     return false;
 }
+/**
+ * @event form submission
+ *
+ * Used by the sidebar to create a new attachment.
+ *
+ * Creates a new line in #attachments if the creation succeeds.
+ */
 function createAttachment() {
     var form = jQuery(this);
     form.ajaxForm();
