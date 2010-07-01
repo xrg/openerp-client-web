@@ -7,7 +7,7 @@
 
         var onFilterClose = function(form) {
             jQuery('#'+form).submit();
-            window.opener.document.getElementById('filter_list').selectedIndex = 0;
+            // window.opener.document.getElementById('filter_list').selectedIndex = 0;
             window.close();
             window.opener.location.reload();
         }

@@ -370,7 +370,7 @@ function search_filter(src, id) {
 function final_search_domain(custom_domain, all_domains, group_by_ctx) {
 	var req = openobject.http.postJSON('/openerp/search/eval_domain_filter', 
 		{source: '_terp_list',
-		model: $('_terp_model').value, 
+		model: jQuery('#_terp_model').val(), 
 		custom_domain: custom_domain,
 		all_domains: all_domains,
 		group_by_ctx: group_by_ctx
