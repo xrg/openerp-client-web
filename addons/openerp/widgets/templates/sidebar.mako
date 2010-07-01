@@ -64,27 +64,6 @@
     </ul>
     % if view_type == 'form':
     <div class="sideheader-a">
-        <h2>${_("Add Attachments")}</h2>
-    </div>
-    <div>
-        <form id="attachment-box" action="/openerp/attachment/save" method="post"
-              enctype="multipart/form-data">
-            <div>
-                <label for="file_name">${_("File Name")}:</label>
-                <input id="file_name" type="text" maxlength="64" name="datas_fname" kind="char"
-                       class="char" size="10"/>
-            </div>
-            <div>
-                <label for="datas">${_("File")}:</label>
-                <input type="file" id="datas" class="binary"
-                       onchange="onChange(this); set_binary_filename(this, 'datas_fname');"
-                       name="datas" kind="binary" size="5"/>
-            </div>
-            <button type="submit" id="FormSubmit" class="button-a" name="FormSubmit">${_('submit')}</button>
-        </form>
-    </div>
-    <div class="sideheader-a">
-
         <h2>${_("Attachments")}</h2>
     </div>
     <ul id="attachments" class="attachments-a">
@@ -99,6 +78,19 @@
             </li>
         % endfor
     </ul>
+
+    <form id="attachment-box" action="/openerp/attachment/save" method="post"
+          enctype="multipart/form-data">
+        <label for="datas">${_("File")}:</label>
+        <input type="file" id="datas" class="binary"
+               onchange="onChange(this);"
+               name="datas" kind="binary" size="5"/>
+
+        <label for="file_name">${_("File Name")}:</label>
+        <input id="file_name" type="text" maxlength="64" name="datas_fname" kind="char"
+               class="char" size="10"/>
+        <button type="submit" id="FormSubmit" class="button-a" name="FormSubmit">${_('submit')}</button>
+    </form>
     % endif
 </div>
 
@@ -110,10 +102,26 @@
         jQuery('#attachments li a.close').each(function () {
             jQuery(this).click(removeAttachment);
         });
-        jQuery('#datas').validate({
+
+        var file_name = jQuery('#file_name');
+        var name_set = file_name.prev('label[for=file_name]').andSelf();
+        name_set.hide();
+        jQuery('#datas').change(function () {
+            var val = jQuery(this).val();
+
+            if(val) {
+                name_set.show('fast');
+                file_name.val(val).focus().select();
+            } else {
+                name_set.hide('fast');
+            }
+        }).validate({
             expression: "if (VAL) return true; else return false;"
         });
-        jQuery('#attachment-box').submit(createAttachment);
+        jQuery('#attachment-box').submit(createAttachment).bind('reset', function () {
+            // a reset on the form doesn't trigger $(#datas).change event
+            name_set.hide();
+        });
     });
 </script>
 
