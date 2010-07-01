@@ -28,6 +28,7 @@
 ###############################################################################
 import base64
 
+import cherrypy
 from openerp.controllers import SecuredController
 from openerp.utils import rpc, common
 
@@ -67,6 +68,7 @@ class Attachment(SecuredController):
         data = proxy.read(record, [], rpc.session.context)
 
         if data['type'] == 'binary':
+            cherrypy.response.headers["Content-Disposition"] = "attachment; filename=%s" % data['name']
             return base64.decodestring(data['datas'])
         else:
             return ''

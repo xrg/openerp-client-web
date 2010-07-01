@@ -91,7 +91,7 @@
         % for item in attachments:
             <!-- don't forget to also change jquery template in form.js/createAttachment -->
             <li id="attachment_item_${item[0]}" data-id="${item[0]}">
-                <a target="_self" href="${py.url(['/openerp/attachment/save_as', item[1]], record=item[0])}">
+                <a target="_self" href="${py.url('/openerp/attachment/save_as', record=item[0])}">
                     ${item[1]}
                 </a>
                 <span>|</span>
