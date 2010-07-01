@@ -319,18 +319,7 @@ class Search(Form):
             if selection_domain in ['blk', 'sf', 'mf']:
                 if selection_domain == 'blk':
                     selection_domain = []
-
-                if selection_domain == 'sf':
-                    return dict(flag=selection_domain, sf_dom=ustr(domain))
-
-                if selection_domain == 'mf':
-                    act = {'name':'Manage Filters',
-                         'res_model':'ir.filters',
-                         'type':'ir.actions.act_window',
-                         'view_type':'form',
-                         'view_mode':'tree,form',
-                         'domain':'[(\'model_id\',\'=\',\''+model+'\'),(\'user_id\',\'=\',(\''+str(rpc.session.uid)+'\',))]'}
-                    return dict(action=act)
+                
             else:
                 selection_domain = expr_eval(selection_domain)
                 if selection_domain:
@@ -346,10 +335,14 @@ class Search(Form):
 
     @expose()
     def manage_filter(self, **kw):
-        action = kw.get('action')
-        action = eval(action)
+        act={'name':'Manage Filters',
+                 'res_model':'ir.filters',
+                 'type':'ir.actions.act_window',
+                 'view_type':'form',
+                 'view_mode':'tree,form',
+                 'domain':'[(\'model_id\',\'=\',\''+kw.get('model')+'\'),(\'user_id\',\'=\',(\''+str(rpc.session.uid)+'\',))]'}
 
-        return actions.execute(action, context=rpc.session.context)
+        return actions.execute(act, context=rpc.session.context)
 
     @expose(template="templates/save_filter.mako")
     def save_filter(self, **kw):

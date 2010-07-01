@@ -26,13 +26,30 @@
                 			</div>
             			</td>
             			<td>
-           			         <a class="button-b" title="${_('Clear all .')}" href="javascript: void(0)">${_("Clear")}</a>
-          			         
+           			         <a class="button-a" title="${_('Clear all .')}" href="javascript: void(0)">${_("Clear")}</a>
             			</td>
-            			<td width="50%" align="left">
-            				<div class="message-box" style="width: 100%" width="100%" style="display:none;">
-            				</div>
-            			</td>
+            			<td>
+                             <a class="button-a" title="${_('Save as Filters.')}" href="javascript: void(0)" onclick="save_as_filter()">${_("Save as Filter")}</a>
+                        </td>
+                        <td>
+                             <a class="button-a" title="${_('Manage Filters.')}" href="javascript: void(0)" onclick="manage_filters()">${_("Manage Filter")}</a>
+                        </td>
+                        <td class="custom-filter">
+                             <ul>
+                                <li>
+                                    <select name="filter_list" id="filter_list" onchange="search_filter();">
+                                        % for f in search.filters_list:
+                                        <option value="${f[0]}">${f[1]}</option>
+                                        % endfor
+                                    </select>
+                                </li>
+                                <li>
+                                    <a class="button" href="javascript: void(0)" onclick="add_filter_row();">
+                                        <span class="add">Add</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </td>
             		</tr>
             	</table>
                 

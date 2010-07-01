@@ -374,26 +374,22 @@ div.group-collapse h2:hover {
 	background: url(../images/group-a-header-b2.png) 0 50% no-repeat; 
 }
 
-div.custom-filter {
-	overflow: hidden; width: 100%; margin: 0 0 10px;
-}
-
-div.custom-filter ul {
-	float: left; list-style: none; margin: 0; padding: 5px 0 0;
+td.custom-filter ul {
+	float: left; list-style: none; margin: 0; padding: 0 5px 0 0;
 }
 
 table#search_table td {
 	padding: 2px 0;
 }
 
-div.custom-filter ul li {
+td.custom-filter ul li {
 	display: inline; 
-	float: left;
-	margin: 0;
-	padding-right: 5px;
+    float: left;
+    margin: 0;
+    padding-right: 0 5px 0 0;
 }
 
-div.custom-filter ul li select {
+td.custom-filter ul li select {
 	float: left; 
 	height: 17px; 
 	padding: -1px 10px 0; 
@@ -413,14 +409,14 @@ div.custom-filter ul li select {
 	text-shadow: #fff 0 1px 0;
 }
 
-div.custom-filter ul li a.button {
+td.custom-filter ul li a.button {
 	cursor: pointer; float: left; height: 11px; padding: 3px 9px 0; border: 1px solid #aaa9a9; border-color: #e5e3e3 #dad9d9 #cccbcb; border-radius: 3px; -moz-border-radius: 3px; -webkit-border-radius: 3px; box-shadow: 0 1px 0 #fff; -moz-box-shadow: 0 1px 0 #fff; -webkit-box-shadow: 0 1px 0 #fff; background: url(../images/button-a.gif) 0 -26px repeat-x; color: #8d8d8d; white-space: nowrap; font-size: 1em; font-weight: 600; line-height: 11px; text-transform: uppercase; text-shadow: #fff 0 1px 0;
 }
 
-div.custom-filter ul li a.button:hover, div.custom-filter ul li a.button:focus, div.custom-filter ul li a.button:active {
+td.custom-filter ul li a.button:hover, td.custom-filter ul li a.button:focus, td.custom-filter ul li a.button:active {
 	border-color: #c6c4c4 #aaa9a9 #797878; background-position: 0 0; text-shadow: #6a6969 0 1px 0; color: #fff;
 }
-div.custom-filter ul li span.add {
+td.custom-filter ul li span.add {
 	display: block; overflow: hidden; width: 6px; margin: 0 -2px; background: url(../images/button-b-icons-add.gif) 0 50% no-repeat; font-size: 0; text-indent: -10001px;
 }
 

@@ -37,21 +37,4 @@
 			% endif
 		% endfor
 	</table>
-	<div class="custom-filter">
-		<ul>
-			<li>
-				<select name="filter_list" id="filter_list" onchange="search_filter();">
-	                % for f in filters_list:
-	                <option value="${f[0]}">${f[1]}</option>
-	                % endfor
-	            </select>
-			</li>
-			<li>
-				<a class="button" href="javascript: void(0)" onclick="add_filter_row();">
-					<span class="add">Add</span>
-				</a>
-				
-			</li>
-		</ul>
-	</div>
 </div>

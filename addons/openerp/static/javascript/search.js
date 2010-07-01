@@ -260,18 +260,18 @@ function display_Customfilters(all_domains, group_by_ctx){
 var group_by = new Array();
 var filter_context = [];
 
-function search_filter(src, id) {
-	var all_domains = {};
-	var check_domain = 'None';
-	var domains = {};
-	
-	var search_context = {};
-	var all_boxes = [];
-	var domain = 'None';
-	var set_filter = jQuery(id).find("a")[0];
-	
-	var filter_class = jQuery(set_filter).attr('class');
-	var check_groups = jQuery('#_terp_group_by_ctx').val();
+function parse_filters(src, id) {
+    var all_domains = {};
+    var check_domain = 'None';
+    var domains = {};
+    
+    var search_context = {};
+    var all_boxes = [];
+    var domain = 'None';
+    var set_filter = jQuery(id).find("a")[0];
+    
+    var filter_class = jQuery(set_filter).attr('class');
+    var check_groups = jQuery('#_terp_group_by_ctx').val();
     if(check_groups!='[]') {
         check_groups = eval(check_groups)
         for(i in check_groups) {
@@ -313,58 +313,82 @@ function search_filter(src, id) {
     
     jQuery('#_terp_filters_context').val(filter_context);
     
-	var filter_table = getElement('filter_table');
-	datas = $$('[name]', 'search_filter_data');
-	
-	forEach(datas, function(d) {
-		if (d.type != 'checkbox' && d.name && d.value && d.name.indexOf('_terp_') == -1  && d.name != 'filter_list') {
-			value = d.value;
-			if (getNodeAttribute(d, 'kind') == 'selection') {
-				value = parseInt(d.value);
-				if(getNodeAttribute(d, 'search_context')) {
-					search_context['context'] = getNodeAttribute(d, 'search_context');
-					search_context['value'] = value;
-				}
-			}
-			if (getNodeAttribute(d, 'kind') == 'many2one'){
-				value = openobject.dom.get(d.name+'_text').value || value;
-			}
-			domains[d.name] = value;
-		}
-	});
-	domains = serializeJSON(domains);
-//	search_context = serializeJSON(search_context);
-	all_domains['domains'] = domains;
-	all_domains['search_context'] =  search_context;
-	selected_boxes = getElementsByTagAndClassName('input', 'grid-domain-selector');
-	
-	forEach(selected_boxes, function(box){
-		if (box.id && box.checked && box.value != '[]') {
-			all_boxes = all_boxes.concat(box.value);
-		}
-	});
-	
-	checked_button = all_boxes.toString();
-	check_domain = checked_button.length > 0? checked_button.replace(/(]\,\[)/g, ', ') : 'None';
-	all_domains['check_domain'] = check_domain;
-	
-	if ($('filter_list')) {
-		all_domains['selection_domain'] = jQuery('#filter_list').val();
-	}
-	
-	all_domains = serializeJSON(all_domains);
+    var filter_table = getElement('filter_table');
+    datas = $$('[name]', 'search_filter_data');
+    
+    forEach(datas, function(d) {
+        if (d.type != 'checkbox' && d.name && d.value && d.name.indexOf('_terp_') == -1  && d.name != 'filter_list') {
+            value = d.value;
+            if (getNodeAttribute(d, 'kind') == 'selection') {
+                value = parseInt(d.value);
+                if(getNodeAttribute(d, 'search_context')) {
+                    search_context['context'] = getNodeAttribute(d, 'search_context');
+                    search_context['value'] = value;
+                }
+            }
+            if (getNodeAttribute(d, 'kind') == 'many2one'){
+                value = openobject.dom.get(d.name+'_text').value || value;
+            }
+            domains[d.name] = value;
+        }
+    });
+    domains = serializeJSON(domains);
+//  search_context = serializeJSON(search_context);
+    all_domains['domains'] = domains;
+    all_domains['search_context'] =  search_context;
+    selected_boxes = getElementsByTagAndClassName('input', 'grid-domain-selector');
+    
+    forEach(selected_boxes, function(box){
+        if (box.id && box.checked && box.value != '[]') {
+            all_boxes = all_boxes.concat(box.value);
+        }
+    });
+    
+    checked_button = all_boxes.toString();
+    check_domain = checked_button.length > 0? checked_button.replace(/(]\,\[)/g, ', ') : 'None';
+    all_domains['check_domain'] = check_domain;
+    
+    if ($('filter_list')) {
+        all_domains['selection_domain'] = jQuery('#filter_list').val();
+    }
+    
+    all_domains = serializeJSON(all_domains);
+    return all_domains;
+}
 
-	if(jQuery('#filter_table').css('display') != 'none' || jQuery('#_terp_filter_domain').val() != '[]') {
-		
-		if (jQuery('#filter_table').css('display') == 'none'){
-			jQuery('#filter_table').css('display', '');
-		}		
-		display_Customfilters(all_domains, group_by);
-	}
-	else {
-		custom_domain = jQuery('#_terp_filter_domain').val() || '[]';		
-		final_search_domain(custom_domain, all_domains, group_by);
-	}
+function search_filter(src, id) {
+	all_domains = parse_filters(src, id);
+    if(jQuery('#filter_table').css('display') != 'none' || jQuery('#_terp_filter_domain').val() != '[]') {
+        
+        if (jQuery('#filter_table').css('display') == 'none'){
+            jQuery('#filter_table').css('display', '');
+        }
+        display_Customfilters(all_domains, group_by);
+    }
+    else {
+        custom_domain = jQuery('#_terp_filter_domain').val() || '[]';       
+        final_search_domain(custom_domain, all_domains, group_by);
+    }
+}
+
+function save_as_filter() {
+    domain_list = parse_filters()
+    custom_domain = jQuery('#_terp_filter_domain').val() || '[]';
+    var params = {'all_domains': domain_list, 'source': '_terp_list', 'custom_domain': custom_domain, 'group_by_ctx': group_by}
+    var req = openobject.http.postJSON('/openerp/search/eval_domain_filter', params);
+    req.addCallback(function(obj) {
+        var sf_params = {'model': jQuery('#_terp_model').val(), 'domain': obj.domain, 'group_by': group_by, 'flag': 'sf'};
+        openobject.tools.openWindow(openobject.http.getURL('/openerp/search/save_filter', sf_params), {
+                width: 500,
+                height: 350
+            });
+    });
+    
+}
+
+function manage_filters() {
+    var params = {'model': jQuery('#_terp_model').val()}
+    openLink(openobject.http.getURL('/openerp/search/manage_filter', params));
 }
 
 function final_search_domain(custom_domain, all_domains, group_by_ctx) {
