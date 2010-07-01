@@ -127,11 +127,6 @@ hr {
 }
 
 #top {
-    position: absolute;
-    left: 0;
-    top: 0;
-    z-index: 15;
-    width: 100%;
     background: #7d7b7b url(../images/top-bg-a.gif) 0 100% repeat-x;
     color: #fff;
     text-transform: uppercase;
@@ -558,7 +553,6 @@ table#shortcuts tr td a {
 #main_nav {
     background: url(../images/nav-bg-a.png) repeat-x;
     width: 100%;
-    padding-top: 65px;
 }
 
 #nav {
