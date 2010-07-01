@@ -7,17 +7,17 @@
 // Developed by Tiny (http://openerp.com) and Axelor (http://axelor.com).
 //
 // The OpenERP web client is distributed under the "OpenERP Public License".
-// It's based on Mozilla Public License Version (MPL) 1.1 with following
+// It's based on Mozilla Public License Version (MPL) 1.1 with following 
 // restrictions:
 //
-// -   All names, links and logos of Tiny, Open ERP and Axelor must be
-//     kept as in original distribution without any changes in all software
-//     screens, especially in start-up page and the software header, even if
-//     the application source code has been changed or updated or code has been
+// -   All names, links and logos of Tiny, Open ERP and Axelor must be 
+//     kept as in original distribution without any changes in all software 
+//     screens, especially in start-up page and the software header, even if 
+//     the application source code has been changed or updated or code has been 
 //     added.
 //
 // -   All distributions of the software must keep source code with OEPL.
-//
+// 
 // -   All integrations to any other software must keep source code with OEPL.
 //
 // If you need commercial licence to remove this kind of restriction please
@@ -62,10 +62,10 @@ function openRecord(id, src, target, readonly) {
 
     var search_domain = openobject.dom.get('_terp_search_domain');
     search_domain = search_domain ? search_domain.value : null;
-
+    
     var search_data = openobject.dom.get('_terp_search_data');
     search_data = search_data ? search_data.value : null;
-
+    
     var search_filter_domain = openobject.dom.get('_terp_filter_domain');
     search_filter_domain = search_filter_domain ? search_filter_domain.value : [];
 
@@ -132,7 +132,7 @@ function switchView(view_type, src) {
             openobject.dom.get('_terp_id').value = ids[0];
         }
     }
-
+    
     submit_form(get_form_action('switch', {
         '_terp_source': src,
         '_terp_source_view_type': view_type
@@ -246,7 +246,7 @@ function validate_required(form) {
                 var img_class = img_select.attr('class');
                 img_select.attr('class', img_class+' errorfield');
             }
-
+            
             addElementClass(elem2, 'errorfield');
             result = false;
         } else if (hasElementClass(elem2, 'errorfield')) {
@@ -262,7 +262,7 @@ function validate_required(form) {
 }
 
 function submit_form(action, src, target) {
-
+	
     if (openobject.http.AJAX_COUNT > 0) {
         return callLater(1, submit_form, action, src, target);
     }
@@ -288,9 +288,9 @@ function submit_form(action, src, target) {
         action = 'save';
         args['_terp_return_edit'] = 1;
     }
-
+    
     action = get_form_action(action, args);
-
+    
     if (/\/save(\?|\/)?/.test(action) && !validate_required(form)) {
         return false;
     }
@@ -321,7 +321,7 @@ function buttonClicked(name, btype, model, id, sure, target) {
         submit_form(act, null, target);
         return;
     }
-
+    
     var req = eval_domain_context_request({source: "", domain: "[]", context: context});
     req.addCallback(function(obj) {
         params['_terp_button/context'] = obj.context || 0;
@@ -461,7 +461,7 @@ function getFormData(extended) {
                 }
             }
 
-            if (kind == 'reference' && value) {
+            if (kind == 'reference' && value) { 
                 attrs['value'] = "[" + value + ",'" + getNodeAttribute(e, 'relation') + "']";
             }
 
@@ -1048,25 +1048,21 @@ function show_wkf() {
     if ($('_terp_list')) {
         var lst = new ListView('_terp_list');
         var ids = lst.getSelectedRecords();
-
+        
         if (ids.length < 1)
             return alert(_('You must select at least one record.'));
-        id = ids[0]
+        id = ids[0]            
     } else {
-        id = $('_terp_id') && $('_terp_id').value != 'False' ? $('_terp_id').value : null;
+        id = $('_terp_id') && $('_terp_id').value != 'False' ? $('_terp_id').value : null;        
     }
-
+    
     openobject.tools.openWindow(openobject.http.getURL('/view_diagram/workflow', {model: $('_terp_model').value, rec_id:id}));
 }
 
-function removeAttachment(e, element, id) {
-    var element = jQuery('#' + element);
-	var parent = element.parent();
-
-	// set the x and y offset of the poof animation from cursor position
-	var xOffset = 100;
-    var yOffset = 19;
-
+function removeAttachment () {
+    var attachment_line = jQuery(this).parent();
+    var id = attachment_line.attr('data-id');
+	
 	jQuery.ajax({
 		url: '/openerp/attachment/removeAttachment/',
 		type: 'POST',
@@ -1076,23 +1072,45 @@ function removeAttachment(e, element, id) {
 			if(obj.error) {
 				return alert(obj.error);
 			}
-
-            // remove clicked element from the document list
-            jQuery(element).fadeOut('fast');
-            jQuery(element).remove();
-
-	       if(parent.children().length == 0) {
-	       	   parent.remove();
-	       	   jQuery('#sideheader-a').remove();
-	       }
+			
+            jQuery(attachment_line).remove();
 		}
 	});
+
+    return false;
+}
+function createAttachment() {
+    var form = jQuery(this);
+    form.ajaxForm();
+    form.ajaxSubmit({
+        dataType: 'json',
+        success: function (data) {
+            var attachment_line = jQuery('<li>', {
+                'id': 'attachment_item_' + data['id'],
+                'data-id': data['id']});
+
+            jQuery([
+                jQuery('<a>', {
+                    'target': '_self',
+                    'href': openobject.http.getURL(
+                        '/openerp/attachment/save_as', {
+                            'record': data['id']})
+                }).text(data['name']),
+                jQuery('<span>|</span>'),
+                jQuery("<a href='#' class='close'>Close</a>").click(removeAttachment)
+            ]).appendTo(attachment_line);
+
+            jQuery('#attachments').append(attachment_line);
+            form.resetForm();
+        }
+    });
+    return false;
 }
 
 function error_popup(obj) {
     try{
 	    var d = DIV();
-	    d.innerHTML = obj.error
+	    d.innerHTML = obj.error    
 	    error_window= window.open("", "error", "status=1, scrollbars=yes, width=550, height=400");
 	    error_window.document.write('<html><head><title>Open ERP - Error</title></head></HTML>');
 	    error_window.document.write(d.innerHTML);

@@ -484,35 +484,11 @@ table.menu_connection a:hover {
 
 /* ---------------------- Attachment --------------- */
 
-form#attachment-box {
-	font-weight: 600;
-	color: #8E8E8E;
+#attachment-box label {
+    display: block;
 }
 
-/*form#attachment-box {
-	border-bottom: 1px solid silver;
-} */
-
-.attachment-header {
-	text-align: center;
-}
-
-#attachment-box input#FormSubmit ,input#FormCancel {
-    background: #EFEFEF;
-    border: 1px solid #888;
-    padding: 3px 4px;
-    color: #af2d21;
-    margin: 0px 5px 0px 0px;
-    border-radius: 7px;
-    -moz-border-radius: 7px;
-    font-weight: 600;
-}
-
-#attachment-box input:focus {
-    outline: none;
-}
-
-span.ValidationErrors {
+.ValidationErrors {
     display: inline-block;
     font-size: 12px;
     color: #D00;
@@ -524,15 +500,6 @@ span.ValidationErrors {
     border: 1px solid #D00;
     color: #D00;
     background: #FFFFFE;
-}
-
-.poof {
-    background: transparent url(../images/poof.png) no-repeat 0 0;
-    cursor: pointer;
-    display: none;
-    height: 32px;
-    position: absolute;
-    width: 32px;
 }
 
 /* ----------------- Form Content Start -------------- */
@@ -949,7 +916,7 @@ table.reference td{
 }
 
 td#add_attachment, table.attachment_bar td {
-	padding: 3px;
+	padding: 2px 2px;
 }
 
 td#customise_menu {

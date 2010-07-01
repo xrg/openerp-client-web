@@ -36,3 +36,16 @@ if (typeof(openerp) == "undefined") {
 }
 
 openerp.ui = {};
+
+function toggle_sidebar() {
+    function a() {
+        jQuery('#tertiary').toggleClass('sidebar-open sidebar-closed');
+    }
+    if (typeof(Notebook) == "undefined") {
+        a();
+    } else {
+        Notebook.adjustSize(a);
+    }
+
+    MochiKit.Signal.signal(document, 'toggle_sidebar');
+}

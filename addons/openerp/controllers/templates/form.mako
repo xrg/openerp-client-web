@@ -211,7 +211,7 @@
 
             % if form.sidebar and buttons.toolbar and form.screen.view_type not in ('calendar', 'gantt'):
             <td id="main_sidebar" valign="top">
-            	<div id="tertiary">
+            	<div id="tertiary" class="sidebar-closed">
 					<div id="tertiary_wrap">
                 		${form.sidebar.display()}
                 	</div>
