@@ -1070,7 +1070,7 @@ function removeAttachment () {
 		dataType: 'json',
 		success: function(obj) {
 			if(obj.error) {
-				return alert(obj.error);
+				error_popup(obj.error);
 			}
 			
             jQuery(attachment_line).remove();
@@ -1108,11 +1108,13 @@ function createAttachment() {
 }
 
 function error_popup(obj) {
-    try{
-	    var d = DIV();
-	    d.innerHTML = obj.error    
-	    error_window= window.open("", "error", "status=1, scrollbars=yes, width=550, height=400");
-	    error_window.document.write('<html><head><title>Open ERP - Error</title></head></HTML>');
-	    error_window.document.write(d.innerHTML);
-	} catch(e) {alert(e)}
+    try {
+        var d = jQuery('<div>').html(obj.error);
+        var error_window = window.open("", "error", "status=1, scrollbars=yes, width=550, height=400");
+        error_window.document.write('<html><head><title>Open ERP - Error</title></head><body>');
+        error_window.document.write(d.html());
+        error_window.document.write('</body></html>')
+    } catch(e) {
+        alert(e)
+    }
 }
