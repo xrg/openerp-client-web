@@ -1091,14 +1091,16 @@ function createAttachment() {
             jQuery([
                 jQuery('<a>', {
                     'target': '_self',
-                    'href': openobject.http.getURL('/openerp/attachment/save_as', {
-                        'record': data['id']})
+                    'href': openobject.http.getURL(
+                        '/openerp/attachment/save_as', {
+                            'record': data['id']})
                 }).text(data['name']),
                 jQuery('<span>|</span>'),
                 jQuery("<a href='#' class='close'>Close</a>").click(removeAttachment)
             ]).appendTo(attachment_line);
 
             jQuery('#attachments').append(attachment_line);
+            form.resetForm();
         }
     });
     return false;
