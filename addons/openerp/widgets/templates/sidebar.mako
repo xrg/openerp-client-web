@@ -64,6 +64,8 @@
     </ul>
     % if view_type == 'form':
     <div class="sideheader-a">
+        <a href="#" id="add-attachment" class="button-a">Add</a>
+
         <h2>${_("Attachments")}</h2>
     </div>
     <ul id="attachments" class="attachments-a">
@@ -103,6 +105,7 @@
             jQuery(this).click(removeAttachment);
         });
 
+        var attachments = jQuery('#attachment-box').hide();
         var file_name = jQuery('#file_name');
         var name_set = file_name.prev('label[for=file_name]').andSelf();
         name_set.hide();
@@ -118,7 +121,10 @@
         }).validate({
             expression: "if (VAL) return true; else return false;"
         });
-        jQuery('#attachment-box').submit(createAttachment).bind('reset', function () {
+        jQuery('#add-attachment').click (function () { attachments.show(); });
+        jQuery('#attachment-box').submit(createAttachment).submit(function () {
+            attachments.hide();
+        }).bind('reset', function () {
             // a reset on the form doesn't trigger $(#datas).change event
             name_set.hide();
         });

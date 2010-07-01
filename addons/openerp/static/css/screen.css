@@ -569,6 +569,11 @@ p.paging-a { color: #a6a5a5; font-size: 0.8em; font-weight: bold; text-transform
     line-height: 13px;
     padding: 0 10px;
 }
+#sidebar #add-attachment {
+    position: absolute;
+    top: 4px;
+    right: 1px;
+}
 .sidebar-open {
     width: 180px;
 }
