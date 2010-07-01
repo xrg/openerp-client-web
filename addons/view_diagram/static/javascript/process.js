@@ -7,17 +7,17 @@
 // Developed by Tiny (http://openerp.com) and Axelor (http://axelor.com).
 //
 // The OpenERP web client is distributed under the "OpenERP Public License".
-// It's based on Mozilla Public License Version (MPL) 1.1 with following 
+// It's based on Mozilla Public License Version (MPL) 1.1 with following
 // restrictions:
 //
-// -   All names, links and logos of Tiny, Open ERP and Axelor must be 
-//     kept as in original distribution without any changes in all software 
-//     screens, especially in start-up page and the software header, even if 
-//     the application source code has been changed or updated or code has been 
+// -   All names, links and logos of Tiny, Open ERP and Axelor must be
+//     kept as in original distribution without any changes in all software
+//     screens, especially in start-up page and the software header, even if
+//     the application source code has been changed or updated or code has been
 //     added.
 //
 // -   All distributions of the software must keep source code with OEPL.
-// 
+//
 // -   All integrations to any other software must keep source code with OEPL.
 //
 // If you need commercial licence to remove this kind of restriction please
@@ -56,12 +56,12 @@ MochiKit.Base.update(openobject.process.Workflow.prototype, {
 
         this.__super__.call(this, canvas);
         this.setBackgroundImage(null, false);
-        
+
         this.nodes = {};
         this.transitions = {};
     },
 
-    load: function(id, res_model, res_id) {
+    load: function(id, res_model, res_id, title) {
 
         if (window.browser.isOpera) {
             return;
@@ -70,17 +70,18 @@ MochiKit.Base.update(openobject.process.Workflow.prototype, {
         this.process_id = id;
         this.res_model = res_model;
         this.res_id = res_id;
+        this.title = title;
 
         var self = this;
-        var req = openobject.http.postJSON('/view_diagram/process/get', {id: id, res_model: res_model, res_id: res_id});
+        var req = openobject.http.postJSON('/view_diagram/process/get', {id: id, res_model: res_model, res_id: res_id, title: title});
         req.addCallback(function(obj){
-            self._render(obj.title, obj.perm, obj.notes, obj.nodes, obj.transitions, obj.related);            
+            self._render(title, obj.perm, obj.notes, obj.nodes, obj.transitions, obj.related);
         });
 
     },
 
     reload: function() {
-        this.load(this.process_id, this.res_model, this.res_id);
+        this.load(this.process_id, this.res_model, this.res_id, this.title);
     },
 
     _render: function(title, perm, notes, nodes, transitions, related) {
@@ -99,7 +100,7 @@ MochiKit.Base.update(openobject.process.Workflow.prototype, {
 
     		var n = new openobject.process.Node(data);
 	    	this.addFigure(n, data.x, data.y);
-	    	
+
 	    	this.nodes[id] = n; // keep reference
 
             h = Math.max(h, data.y);
@@ -115,10 +116,10 @@ MochiKit.Base.update(openobject.process.Workflow.prototype, {
         w += 150 + 10; // add width of node + some margin
 
         MochiKit.DOM.setElementDimensions(this.html, {h: h, w: w});
-	    
+
 	    for(var id in transitions){
     		var data = transitions[id];
-    		
+
     		var src = this.nodes[data.source];
     		var dst = this.nodes[data.target];
 
@@ -126,12 +127,12 @@ MochiKit.Base.update(openobject.process.Workflow.prototype, {
             data.active = src.data.active && !dst.data.gray;
 
             var t = new openobject.process.Transition(data);
-    		
+
     		t.setSource(src.outPort);
     		t.setTarget(dst.inPort);
-    		
+
     		this.addFigure(t);
-    		
+
     		this.transitions[id] = t; // keep reference
     	}
 
@@ -189,7 +190,7 @@ MochiKit.Base.update(openobject.process.Workflow.prototype, {
                     "<dl>"+
                     "<dt>"+ _("Notes:") + "</dt>" +
                     "<dd>" +
-                        notes + 
+                        notes +
                     "</dd>"+
                     "<dt>"+ perm.text + "</dt>"+
                     "<dd>"+ perm.value + "</dd>");
@@ -208,7 +209,7 @@ MochiKit.Base.update(openobject.process.Workflow.prototype, {
 
         return elem;
     }
-   
+
 });
 
 /**
@@ -225,9 +226,9 @@ MochiKit.Base.update(openobject.process.Node.prototype, {
 
     __init__: function(data) {
         this.data = data;
-        
+
         this.__super__.call(this);
-        
+
         this.setDimension(150, 100);
         this.setResizeable(false);
         this.setSelectable(false);
@@ -237,12 +238,12 @@ MochiKit.Base.update(openobject.process.Node.prototype, {
 
     createHTMLElement: function() {
         var elem = this.__super__.prototype.createHTMLElement.call(this);
-        
+
         var bg = "node";
-        bg = this.data.kind == "subflow" ? "node-subflow" : "node"; 
+        bg = this.data.kind == "subflow" ? "node-subflow" : "node";
         bg = this.data.gray ? bg + "-gray" : bg;
         elem.style.background = 'url(/view_diagram/static/images/'+ bg + '.png) no-repeat';
-		
+
         elem.innerHTML = (
         "<div class='node-title'></div>"+
         "<div class='node-text'></div>"+
@@ -257,7 +258,7 @@ MochiKit.Base.update(openobject.process.Node.prototype, {
 
         var title = openobject.dom.select('div.node-title', elem)[0];
         var text = openobject.dom.select('div.node-text', elem)[0];
-        var bbar = openobject.dom.select('td.node-buttons', elem)[0];        
+        var bbar = openobject.dom.select('td.node-buttons', elem)[0];
         var menu = openobject.dom.select('td.node-menu', elem)[0];
 
         title.innerHTML = this.data.name || '';
@@ -295,20 +296,20 @@ MochiKit.Base.update(openobject.process.Node.prototype, {
 		elem.className = 'node';
         return elem;
     },
-    
+
     setWorkflow: function(workflow) {
     	this.__super__.prototype.setWorkflow.call(this, workflow);
-    	
+
     	this.outPort = new draw2d.OutputPort();
         this.inPort = new draw2d.OutputPort();
-        
+
         this.outPort.setWorkflow(workflow);
         this.inPort.setWorkflow(workflow);
-        
+
         this.addPort(this.outPort, this.width, this.height/2);
         this.addPort(this.inPort, 0, this.height/2);
-        
-        this.inPort.getHTMLElement().style.display = 'none';    
+
+        this.inPort.getHTMLElement().style.display = 'none';
     	this.outPort.getHTMLElement().style.display = 'none';
     },
 
@@ -351,9 +352,9 @@ MochiKit.Base.update(openobject.process.Transition.prototype, {
 
         var elem = this.getHTMLElement();
         elem.style.cursor = 'pointer';
-       
+
         MochiKit.Signal.connect(elem, 'ondblclick', this, this._makeTipText);
-        
+
         if (roles.length) {
             var role_img = new draw2d.ImageFigure('/openerp/static/images/stock/stock_person.png');
             role_img.setDimension(32, 32);
@@ -390,9 +391,9 @@ MochiKit.Base.update(openobject.process.Transition.prototype, {
         if (buttons.length) {
             title += '<span>Actions:</span>' + _mkList(buttons);
         }
-        
+
         var params = {'title_tip': MochiKit.DOM.emitHTML(title)}
-        
+
         openobject.tools.openWindow(openobject.http.getURL("/view_diagram/process/open_tip", params), {width: 450, height: 250});
     }
 });
@@ -414,9 +415,9 @@ MochiKit.Base.update(openobject.process.TargetDecorator.prototype, {
 	    this.setBackgroundColor(color);
         this.setColor(color);
     },
-    
+
     paint: function(/*draw2d.Graphics*/ g) {
-		
+
 		if(this.backgroundColor!=null) {
      		g.setColor(this.backgroundColor);
      		g.fillPolygon([0, 6, 6, 0], [0, 6, -6, 0]);

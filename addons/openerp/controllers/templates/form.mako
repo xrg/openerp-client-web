@@ -42,7 +42,7 @@
 			                                    </script>
 			                                </td>
 	                                	% else:
-	                                		<td id="remove_shortcut">	
+	                                		<td id="remove_shortcut">
 			                                    <script type="text/javascript">
 			                                       jQuery('#remove_shortcut').click(function() {
 			                                           jQuery.ajax({
@@ -58,18 +58,18 @@
 			                                </td>
 	                                	% endif
                                     % endif
-                                    
+
                                     <td id="title_details" width="30%" class="content_header_space">
                                     	<h1>${form.screen.string}
-                                    		<a class="help" href="javascript: void(0)" title="${_('Corporate Intelligence...')}" onclick="show_process_view()">
+                                    		<a class="help" href="javascript: void(0)" title="${_('Corporate Intelligence...')}" onclick="show_process_view('${form.screen.string}')">
                                     			<small>Help</small>
 		                              		</a>
                                             % if display_name:
 		                              		  <small class="sub">${display_name['field']} : ${display_name['value']}</small>
-                                            % endif	                              		       
+                                            % endif
                                     	</h1>
                                     </td>
-                                    
+
                                     %if serverLog:
                                     	<td>
 									    	<div id="serverlog" style="display: none;">
@@ -83,9 +83,9 @@
 								    						${log['name']}
 								    					</a>
 									    			</div>
-									    		% endfor	
+									    		% endfor
 									    	</div>
-									    	
+
 									    	<script type="text/javascript">
 									    		jQuery('#serverlog').fadeIn('slow');
 									    		jQuery('#closeServerLog').click(function() {
@@ -94,7 +94,7 @@
 									    	</script>
 								    	</td>
     								% endif
-                                    
+
                                     <%def name="make_view_button(i, kind, name, desc, active)">
                                         <%
                                             cls = ''
@@ -103,13 +103,13 @@
                                         %>
                                     	<li class="v${i}" title="${desc}">
                                     		% if kind in form.screen.view_mode:
-                                    			<a href="#" onclick="switchView('${kind}'); return false;" class="${cls}">${kind}</a> 
+                                    			<a href="#" onclick="switchView('${kind}'); return false;" class="${cls}">${kind}</a>
                                     		% else:
                                     		    <a class="inactive">${kind}</a>
                                     		% endif
                                     	</li>
                                     </%def>
-                                    
+
                                     <td id="view_buttons" class="content_header_space">
                                     	<ul id="view-selector">
                                     		% for i, view in enumerate(buttons.views):
@@ -119,15 +119,15 @@
 									</td>
                                     % if form.screen.view_type in ('form'):
 	                                    <td align="center" valign="middle" width="16" class="content_header_space">
-	                                        <img 
+	                                        <img
 	                                            class="button" width="16" height="16"
-	                                            title="${_('Translate this resource.')}" 
+	                                            title="${_('Translate this resource.')}"
 	                                            src="/openerp/static/images/stock/stock_translate.png" onclick="openobject.tools.openWindow(openobject.http.getURL('/openerp/translator', {_terp_model: '${form.screen.model}', _terp_id: ${form.screen.id}, _terp_context: $('_terp_context').value}));"/>
 	                                    </td>
 	                                    <td align="center" valign="middle" width="16" class="content_header_space">
-	                                        <img 
+	                                        <img
 	                                            class="button" width="16" height="16"
-	                                            title="${_('View Log.')}" 
+	                                            title="${_('View Log.')}"
 	                                            src="/openerp/static/images/stock/stock_log.png"
 	                                            onclick="openobject.tools.openWindow('${py.url('/openerp/viewlog', _terp_model=form.screen.model, _terp_id=form.screen.id)}', {width: 500, height: 300})"/>
 	                                    </td>
@@ -149,7 +149,7 @@
 		                            </li>
 	                            	% endif
 		                            % if buttons.edit:
-		                            <li title="${_('Edit this resource')}"> 
+		                            <li title="${_('Edit this resource')}">
 		                                <a href="javascript: void(0);" onclick="editRecord(${form.screen.id or 'null'})" class="button-a">${_("Edit")}</a>
 		                            </li>
 		                            % endif
@@ -157,7 +157,7 @@
 		                            <li title="${_('Save this resource')}">
 		                                <a href="javascript: void(0);" onclick="submit_form('save')" class="button-a">${_("Save")}</a>
 		                            </li>
-		                            <li title="${_('Save & Edit this resource')}"> 
+		                            <li title="${_('Save & Edit this resource')}">
 		                                <a href="javascript: void(0);" onclick="submit_form('save_and_edit')" class="button-a">${_("Save & Edit")}</a>
 		                            </li>
 		                            % endif
@@ -167,17 +167,17 @@
 		                            </li>
 		                            % endif
 		                            % if buttons.delete:
-		                            <li title="${_('Delete this resource')}"> 
+		                            <li title="${_('Delete this resource')}">
 		                                <a href="javascript: void(0);" onclick="submit_form('delete')" class="button-a">${_("Delete")}</a>
 		                            </li>
 		                            % endif
 		                            % if buttons.cancel:
-		                            <li title="${_('Cancel editing the current resource')}"> 
+		                            <li title="${_('Cancel editing the current resource')}">
 		                                <a href="javascript: void(0);" onclick="submit_form('cancel')" class="button-a">${_("Cancel")}</a>
 		                            </li>
 		                            % endif
 		                    	</ul>
-		                    	
+
 		                    	% if buttons.pager:
                                 	<p class="paging-a">
 						            	${pager.display()}

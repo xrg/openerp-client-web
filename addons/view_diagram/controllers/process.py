@@ -40,19 +40,18 @@ class Process(SecuredController):
     _cp_path = "/view_diagram/process"
 
     @expose(template="templates/process.mako")
-    def default(self, id=False, res_model=None, res_id=False):
+    def default(self, id=False, res_model=None, res_id=False, title=None):
 
         id = (id or False) and int(id)
         res_id = int(res_id)
 
-        title = _("Select Workflow")
+        title = title
         selection = None
 
         proxy = rpc.RPCProxy('process.process')
         fields = proxy.fields_get([], {})
         if id:
             res = proxy.read([id], ['name'], rpc.session.context)[0]
-            title = res['name']
             selection = proxy.search_by_model(False, rpc.session.context)
 
         else:
@@ -61,14 +60,14 @@ class Process(SecuredController):
                 selection = proxy.search_by_model(False, rpc.session.context)
 
             if len(selection) == 1:
-                id, title = selection[0]
+                id = selection[0]
 #                selection = None
                 selection = proxy.search_by_model(False, rpc.session.context)
 
         return dict(fields=fields, id=id, res_model=res_model, res_id=res_id, title=title, selection=selection)
 
     @expose('json')
-    def get(self, id, res_model=None, res_id=False):
+    def get(self, id, res_model=None, res_id=False, title=None):
 
         id = int(id)
         res_id = int(res_id)

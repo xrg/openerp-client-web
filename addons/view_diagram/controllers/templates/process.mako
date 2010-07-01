@@ -16,13 +16,13 @@
             return window.open(openobject.http.getURL('http://doc.openerp.com/index.php', {model: 'process.process', lang:'${rpc.session.context.get('lang', 'en')}'}));
         }
     </script>
-    % if selection:
+	% if selection:
     <script type="text/javascript">
         var select_workflow = function() {
             var id = parseInt(openobject.dom.get('select_workflow').value, 10) || null;
             var res_model = openobject.dom.get('res_model').value || null;
             var res_id = parseInt(openobject.dom.get('res_id').value, 10) || null;
-            openLink(openobject.http.getURL("/view_diagram/process", {id: id, res_model: res_model, res_id: res_id}));
+            openLink(openobject.http.getURL("/view_diagram/process", {id: id, res_model: res_model, res_id: res_id, title: '${title}'}));
         }
     </script>
     % endif
@@ -38,7 +38,7 @@
 			        <td width="80%" valign="top">
 			            <table width="100%" class="titlebar">
 			                <tr>
-			                    <td width="100%" id="process_title" style="padding-left: 0px; font-weight: bold;"></td>
+			                    <td width="100%" id="process_title" align="left" style="font-size: 14px; font-weight: bold;">${title}</td>
 			                </tr>
 			            </table>
 			        </td>
@@ -84,7 +84,7 @@
 		<td>
 			<table class="view" width="100%" border="0" cellpadding="0" cellspacing="0">
 				<tr>
-					<td style="font-size: 14px; font-weight: bold;">Process</td>
+					<td align="left" style="font-size: 14px; font-weight: bold;">Process</td>
 				</tr>
 				<tr>
 					<td>
@@ -120,7 +120,7 @@
 
 			                if (id) {
 			                    var wkf = new openobject.process.Workflow('process_canvas');
-			                    wkf.load(id, res_model, res_id);
+			                    wkf.load(id, res_model, res_id,'${title}');
 			                }
 			            </script>
 			        </td>
@@ -140,13 +140,17 @@
 			            <table>
 						% for k, v in fields.items():
 							<tr>
-								<td>
+								<td valign="top">
 									<b>${k}:</b>
 								</td>
-								<td>${v['string']}, ${v['type']},
+								<td valign="top">
 								% for l, m in v.items():
-									% if m and (l not in ('string','type')):
-										${l},
+									% if m:
+										% if m == True:
+											${l},
+										% else:
+											${l}: ${m},
+										% endif
 									% endif
 								% endfor
 								</td>
