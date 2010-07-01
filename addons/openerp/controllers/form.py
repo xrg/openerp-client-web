@@ -613,8 +613,8 @@ class Form(SecuredController):
 
         return base64.decodestring(res[0][params.field])
 
-    @expose()
-    def save_attachment(self, datas, datas_fname=None):
+    @expose('json')
+    def save_attachment(self, datas, datas_fname=None, **kwargs):
         params, data = TinyDict.split(cherrypy.session['params'])
         ctx = dict(rpc.session.context,
                    default_res_model=params.model, default_res_id=params.id,
@@ -629,13 +629,14 @@ class Form(SecuredController):
                 if provided_ext:
                     ext = provided_ext
 
-        rpc.RPCProxy('ir.attachment').create({
-            'name': (name + ext),
+        attachment_name = (name + ext)
+        attachment_id = rpc.RPCProxy('ir.attachment').create({
+            'name': attachment_name,
             'description': False,
             'datas': base64.encodestring(datas.file.read()),
             'datas_fname': datas.filename
         }, ctx)
-        return
+        return {'id': attachment_id, 'name': attachment_name}
 
     @expose()
     def clear_binary_data(self, **kw):

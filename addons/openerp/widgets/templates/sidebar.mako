@@ -87,14 +87,15 @@
 
         <h2>${_("Attachments")}</h2>
     </div>
-    <ul class="attachments-a">
+    <ul id="attachments" class="attachments-a">
         % for item in attachments:
-            <li id="attachment_item_${item[0]}">
+            <!-- don't forget to also change jquery template in form.js/createAttachment -->
+            <li id="attachment_item_${item[0]}" data-id="${item[0]}">
                 <a target="_self" href="${py.url(['/openerp/attachment/save_as', item[1]], record=item[0])}">
                     ${item[1]}
                 </a>
                 <span>|</span>
-                <a href="javascript: void(0);" class="close" title="${_('Delete')}" onclick="removeAttachment(event, 'attachment_item_${item[0]}', ${item[0]});">Close</a>
+                <a href="#" class="close" title="${_('Delete')}">Close</a>
             </li>
         % endfor
     </ul>
@@ -105,12 +106,14 @@
     <a id="toggle-click" href="javascript: void(0)" onclick="toggle_sidebar();">Toggle</a>
 </div>
 <script type="text/javascript">
-    jQuery('#datas').validate({
-        expression: "if (VAL) return true; else return false;"
+    jQuery(document).ready(function () {
+        jQuery('#attachments li a.close').each(function () {
+            jQuery(this).click(removeAttachment);
+        });
+        jQuery('#datas').validate({
+            expression: "if (VAL) return true; else return false;"
+        });
+        jQuery('#attachment-box').submit(createAttachment);
     });
-   jQuery('#FormSubmit').click(function() {
-       jQuery('#attachment-box').submit()
-       window.location.reload()
-   });
 </script>
 

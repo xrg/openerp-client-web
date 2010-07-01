@@ -1058,14 +1058,10 @@ function show_wkf() {
     openobject.tools.openWindow(openobject.http.getURL('/view_diagram/workflow', {model: $('_terp_model').value, rec_id:id}));
 }
 
-function removeAttachment(e, element, id) {
-    var element = jQuery('#' + element);
-	var parent = element.parent();
-	
-	// set the x and y offset of the poof animation from cursor position
-	var xOffset = 100;
-    var yOffset = 19;
-	
+function removeAttachment () {
+    var attachment_line = jQuery(this).parent();
+    var id = attachment_line.attr('data-id');
+
 	jQuery.ajax({
 		url: '/openerp/attachment/removeAttachment/',
 		type: 'POST',
@@ -1075,17 +1071,38 @@ function removeAttachment(e, element, id) {
 			if(obj.error) {
 				return alert(obj.error);
 			}
-			
-            // remove clicked element from the document list
-            jQuery(element).fadeOut('fast');
-            jQuery(element).remove();
-            
-	       if(parent.children().length == 0) {
-	       	   parent.remove();
-	       	   jQuery('#sideheader-a').remove();
-	       }
+
+            jQuery(attachment_line).remove();
 		}
 	});
+
+    return false;
+}
+function createAttachment() {
+    var form = jQuery(this);
+    form.ajaxForm();
+    form.ajaxSubmit({
+        dataType: 'json',
+        success: function (data) {
+            var link = jQuery('<a>', {
+                'target': '_self',
+                'href': openobject.http.getURL('/openerp/attachment/save_as', {
+                    'record': data['id']})
+            }).text(data['name']);
+            var separator = jQuery('<span>|</span>');
+            var closer = jQuery("<a href='#' class='close'>Close</a>").click(
+                    removeAttachment);
+
+            jQuery('#attachments').append(
+                jQuery('<li>', {
+                    'id': 'attachment_item_' + data['id'],
+                    'data-id': data['id']}).append(
+                        link).append(
+                        separator).append(
+                        closer));
+        }
+    });
+    return false;
 }
 
 function error_popup(obj) {
