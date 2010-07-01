@@ -27,10 +27,11 @@
 #
 ###############################################################################
 import base64
+import os
 
 import cherrypy
 from openerp.controllers import SecuredController
-from openerp.utils import rpc, common
+from openerp.utils import rpc, common, TinyDict
 
 from openobject.tools import expose
 
@@ -72,6 +73,31 @@ class Attachment(SecuredController):
             return base64.decodestring(data['datas'])
         else:
             return ''
+
+    @expose('json')
+    def save(self, datas, datas_fname=None, **kwargs):
+        params, data = TinyDict.split(cherrypy.session['params'])
+        ctx = dict(rpc.session.context,
+                   default_res_model=params.model, default_res_id=params.id,
+                   active_id=False, active_ids=[])
+
+        name, ext = os.path.splitext(datas.filename)
+        # if a name is explicitly provided
+        if datas_fname:
+            provided_name, provided_ext = os.path.splitext(datas_fname)
+            if provided_name:
+                name = provided_name
+                if provided_ext:
+                    ext = provided_ext
+
+        attachment_name = (name + ext)
+        attachment_id = rpc.RPCProxy('ir.attachment').create({
+            'name': attachment_name,
+            'description': False,
+            'datas': base64.encodestring(datas.file.read()),
+            'datas_fname': datas.filename
+        }, ctx)
+        return {'id': attachment_id, 'name': attachment_name}
 
     @expose('json')
     def removeAttachment(self, id=False, **kw):

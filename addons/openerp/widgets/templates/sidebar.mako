@@ -67,7 +67,7 @@
         <h2>${_("Add Attachments")}</h2>
     </div>
     <div>
-        <form id="attachment-box" action="/openerp/form/save_attachment" method="post"
+        <form id="attachment-box" action="/openerp/attachment/save" method="post"
               enctype="multipart/form-data">
             <div>
                 <label for="file_name">${_("File Name")}:</label>
