@@ -62,7 +62,7 @@ class Attachment(SecuredController):
             raise common.message(_('No record selected! You can only attach to existing record...'))
 
     @expose(content_type="application/octet-stream")
-    def save_as(self, fname=None, record=False, **kw):
+    def get(self, fname=None, record=False, **kw):
         record = int(record)
         proxy = rpc.RPCProxy('ir.attachment')
 
@@ -100,13 +100,13 @@ class Attachment(SecuredController):
         return {'id': attachment_id, 'name': attachment_name}
 
     @expose('json')
-    def removeAttachment(self, id=False, **kw):
+    def remove(self, id=False, **kw):
         proxy = rpc.RPCProxy('ir.attachment')
         try:
             proxy.unlink([int(id)], rpc.session.context)
-            return dict()
+            return {}
         except Exception, e:
-            return dict(error=ustr(e))
+            return {'error': ustr(e)}
 
 
 # vim: ts=4 sts=4 sw=4 si et

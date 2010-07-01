@@ -1064,7 +1064,7 @@ function removeAttachment () {
     var id = attachment_line.attr('data-id');
 	
 	jQuery.ajax({
-		url: '/openerp/attachment/removeAttachment/',
+		url: '/openerp/attachment/remove/',
 		type: 'POST',
 		data: {'id': id},
 		dataType: 'json',
@@ -1093,7 +1093,7 @@ function createAttachment() {
                 jQuery('<a>', {
                     'target': '_self',
                     'href': openobject.http.getURL(
-                        '/openerp/attachment/save_as', {
+                        '/openerp/attachment/get', {
                             'record': data['id']})
                 }).text(data['name']),
                 jQuery('<span>|</span>'),
