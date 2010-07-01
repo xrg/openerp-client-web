@@ -953,7 +953,7 @@ table.reference td{
 }
 
 td#add_attachment, table.attachment_bar td {
-	padding: 2px 2px;
+	padding: 3px;
 }
 
 td#customise_menu {

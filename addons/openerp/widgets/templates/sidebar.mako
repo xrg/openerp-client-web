@@ -110,7 +110,7 @@
                         </td>
                     </tr>
                     <tr>
-                        <td align="center">
+                        <td align="left">
                             <a id="FormSubmit" class="button-a" align="center" href="javascript: void(0)">${_("submit")}</a>
                         </td>
                     </tr>
@@ -142,14 +142,6 @@
     % endif
 </table>
 <script type="text/javascript">
-    jQuery('#datas').validate({
-        expression: "if (VAL) return true; else return false;"
-    });
-   
-    jQuery("#file_name").validate({
-        expression: "if (VAL) return true; else return false;"
-        });
-        
    jQuery('#FormSubmit').click(function() {
        jQuery('#attachment-box').submit()
        window.location.reload()
