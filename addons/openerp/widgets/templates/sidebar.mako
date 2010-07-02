@@ -100,34 +100,6 @@
     <a id="toggle-click" href="javascript: void(0)" onclick="toggle_sidebar();">Toggle</a>
 </div>
 <script type="text/javascript">
-    jQuery(document).ready(function () {
-        jQuery('#attachments li a.close').each(function () {
-            jQuery(this).click(removeAttachment);
-        });
-
-        var attachments = jQuery('#attachment-box').hide();
-        var file_name = jQuery('#file_name');
-        var name_set = file_name.prev('label[for=file_name]').andSelf();
-        name_set.hide();
-        jQuery('#datas').change(function () {
-            var val = jQuery(this).val();
-
-            if(val) {
-                name_set.show('fast');
-                file_name.val(val).focus().select();
-            } else {
-                name_set.hide('fast');
-            }
-        }).validate({
-            expression: "if (VAL) return true; else return false;"
-        });
-        jQuery('#add-attachment').click (function () { attachments.show(); });
-        jQuery('#attachment-box').submit(createAttachment).submit(function () {
-            attachments.hide();
-        }).bind('reset', function () {
-            // a reset on the form doesn't trigger $(#datas).change event
-            name_set.hide();
-        });
-    });
+    jQuery(document).ready(setupAttachments);
 </script>
 
