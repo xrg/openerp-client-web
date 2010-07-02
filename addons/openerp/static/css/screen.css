@@ -661,12 +661,21 @@ table#shortcuts tr td a {
     padding-top: 0px;
 }
 
-#secondary {
-    float: left;
-    width: 180px;
+.nav_accordion {
+	float: left;
     min-height: 100%;
     border-right: 1px solid #3c3c3c;
     background: #5a5858;
+}
+
+.nav_accordion_hide {
+    width: 0px;
+    display: none;
+}
+
+.nav_accordion_show {
+    width: 180px;
+    display: block;
 }
 
 #tertiary {

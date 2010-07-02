@@ -63,7 +63,7 @@
 
             jQuery('.open-close-menu').click(function() {
                 jQuery(this).toggleClass('show_tools hide_tools');
-                jQuery('#secondary').toggle();
+                jQuery('#secondary').toggleClass('nav_accordion_hide nav_accordion_show');
 
                 resize_appContent()
             });
@@ -101,7 +101,7 @@
 		</div>
 				
 	    <div id="content" class="three-a">
-		    <div id="secondary">
+		    <div id="secondary" class="nav_accordion nav_accordion_show">
 		    	<div class="wrap">
 		    		<table class="sidenav-a">
 				        <tr>
