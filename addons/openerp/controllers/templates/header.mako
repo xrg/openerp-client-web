@@ -18,9 +18,10 @@ except:
 <script type="text/javascript">
     function setRowWidth() {
         var top_divWidth = jQuery('div#top-menu').width();
-        var logoWidth = jQuery('p#logo').width();
+        var logoWidth = jQuery('p#logo').outerWidth();
 
-        var sc_rowWidth = top_divWidth - logoWidth - 82;
+        var sc_rowWidth = top_divWidth - logoWidth - 10;
+        log(sc_rowWidth);
         jQuery('tr#sc_row').css('width', sc_rowWidth);
     }
 
