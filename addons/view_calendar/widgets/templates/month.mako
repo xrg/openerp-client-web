@@ -87,65 +87,8 @@
                 </table>
             </div>
         </td>
-        <td id="calSidebar"valign="top">
-            <div id="tertiary">
-                <div id="tertiary_wrap">
-                    <table id="sidebar_pane" cellspacing="0" cellpadding="0" border="0">
-                        <tr>
-                            <td id="sidebar_calendar" style="display: none;">
-                                <table id="calSidebar-sidebar">
-                                    <tr>
-                                        <td class="sideheader-a">
-                                            <h2>Navigator</h2>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td style="padding: 0;">
-                                            <div id="mini_calendar">
-                                                ${minical.display()}
-                                            </div>
-                                            <div id="group_box">
-                                                ${groupbox.display()}
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td id="calendar_search_filter">
-                                            <div id="calSearchOptions">
-                                                <dl>
-                                                    <dt>${_("Filter")}</dt>
-                                                    <dd>
-                                                        <ul class="ul_calGroups">
-                                                            <li>
-                                                                <input type="checkbox" class="checkbox" id="_terp_use_search" name="_terp_use_search" onclick="getCalendar()" ${py.checker(use_search)}/>
-                                                                <label for="_terp_use_search">${_("Apply search filter")}</label>
-                                                            </li>
-                                                        </ul>
-                                                    </dd>
-                                                </dl>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                </table>
-                            </td>
-                            <td id="sidebar_calendar_hide" valign="top" style="padding: 0;">
-                                <p class="toggle-a">
-                                    <a id="toggle-click" class="off" href="javascript: void(0)">
-                                        Toggle
-                                    </a>
-                                    <script type="text/javascript">
-                                        jQuery('#toggle-click').click(function() {
-                                            jQuery('#toggle-click').toggleClass('on off');
-                                            jQuery('#sidebar_calendar').toggle();
-                                            CAL_INSTANCE.onResize();
-                                        });
-                                    </script>
-                                </p>
-                            </td>
-                        </tr>
-                    </table>
-                </div>
-            </div>
+        <td id="calSidebar" valign="top">
+            <%include file="sidebar.mako" />
         </td>
     </tr>
 </table>

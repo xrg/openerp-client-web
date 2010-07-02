@@ -113,7 +113,8 @@ class ICalendar(TinyWidget):
     params = ['use_search']
     member_widgets = ['concurrency_info']
 
-    css = [CSSLink("view_calendar", 'css/calendar.css')]
+    css = [CSSLink("view_calendar", 'css/calendar.css'),
+           CSSLink("view_calendar", 'css/screen.css')]
     javascript = [JSLink("view_calendar", 'javascript/calendar_date.js'),
                   JSLink("view_calendar", 'javascript/calendar_utils.js'),
                   JSLink("view_calendar", 'javascript/calendar_box.js'),
