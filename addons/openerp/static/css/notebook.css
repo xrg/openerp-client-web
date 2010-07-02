@@ -79,14 +79,13 @@ li.notebook-tab {
     text-transform: uppercase;
 }
 
-li.notebook-tab-active { /*background-color: #fff;
-    border-bottom: 1px solid white; */
+li.notebook-tab-active { 
     position: relative;
     float: left;
     font-size: 0.8em;
     font-weight: bold;
     text-transform: uppercase;
-    background: #999 url(/openerp/static/images/calendar-a-head-active.gif) -10001px
+    background: #666666 url(/openerp/static/images/calendar-a-head-active.gif) -10001px
         100% no-repeat;
     background-position: 50% 100%;
 }
@@ -94,19 +93,12 @@ li.notebook-tab-active { /*background-color: #fff;
 li.notebook-tab a.tab-title {
     display: block;
     outline: none;
-    /*padding: 3px 0.5em;
-    color: #222; */
     text-decoration: none !important;
     float: left;
     height: 17px;
-    padding: 7px 0 0;
-    color: #9f9f9f;
-    text-shadow: #fff 0 1px 0;
-    float: left;
-    height: 17px;
     padding: 7px 7px 0 7px;
-    color: #888;
-    text-shadow: #fff 0 1px 0;
+    color: #666666;
+    text-shadow: None;
 }
 
 li.notebook-tab-active a.tab-title {
