@@ -25,18 +25,18 @@
 			                	<a class="button-a" title="${_('Filter records.')}" href="javascript: void(0)" onclick="search_filter()">${_("Filter")}</a>
                 			</div>
             			</td>
-            			<td>
+            			<td style="padding: 0 2px 0 2px;">
            			         <a class="button-a" title="${_('Clear all .')}" href="javascript: void(0)">${_("Clear")}</a>
             			</td>
-            			<td>
+            			<td style="padding: 0 2px 0 2px;">
                              <a class="button-a" title="${_('Save as Filters.')}" href="javascript: void(0)" onclick="save_as_filter()">${_("Save as Filter")}</a>
                         </td>
-                        <td>
+                        <td style="padding: 0 2px 0 2px;">
                              <a class="button-a" title="${_('Manage Filters.')}" href="javascript: void(0)" onclick="manage_filters()">${_("Manage Filter")}</a>
                         </td>
                         <td class="custom-filter">
                              <ul>
-                                <li>
+                                <li style="padding-right: 3px;">
                                     <select name="filter_list" id="filter_list" onchange="search_filter();">
                                         % for f in search.filters_list:
                                         <option value="${f[0]}">${f[1]}</option>

@@ -346,7 +346,7 @@ div.group-expand h2:hover {
 }
 
 #groupdata_table td {
-    padding-left: 0pt;
+    padding: 0pt;
 }
 
 div.group-collapse {
