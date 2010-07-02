@@ -72,7 +72,7 @@
         % for item in attachments:
             <!-- don't forget to also change jquery template in form.js/createAttachment -->
             <li id="attachment_item_${item[0]}" data-id="${item[0]}">
-                <a target="_self" href="${py.url('/openerp/attachment/get', record=item[0])}">
+                <a class="attachment-file" target="_self" href="${py.url('/openerp/attachment/get', record=item[0])}">
                     ${item[1]}
                 </a>
                 <span>|</span>
@@ -87,10 +87,6 @@
         <input type="file" id="datas" class="binary"
                onchange="onChange(this);"
                name="datas" kind="binary" size="5"/>
-
-        <label for="file_name">${_("File Name")}:</label>
-        <input id="file_name" type="text" maxlength="64" name="datas_fname" kind="char"
-               class="char" size="10"/>
         <button type="submit" id="FormSubmit" class="button-a" name="FormSubmit">${_('submit')}</button>
     </form>
     % endif

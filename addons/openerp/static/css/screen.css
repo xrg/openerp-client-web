@@ -2764,6 +2764,11 @@ p.paging-a a.next {
 .attachments-a li span {
     display: none;
 }
+.attachments-a li a.attachment-file {
+    display: block;
+    margin-right: 15px;
+    overflow: hidden;
+}
 
 .attachments-a li .close {
     position: absolute;

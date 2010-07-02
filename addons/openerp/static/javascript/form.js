@@ -1093,7 +1093,6 @@ function removeAttachment () {
  */
 function createAttachment() {
     var form = jQuery(this);
-    form.ajaxForm();
     form.ajaxSubmit({
         dataType: 'json',
         success: function (data) {
@@ -1114,6 +1113,7 @@ function createAttachment() {
 
             jQuery('#attachments').append(attachment_line);
             form.resetForm();
+            form.hide();
         }
     });
     return false;
@@ -1125,28 +1125,11 @@ function setupAttachments() {
         });
 
         var attachments = jQuery('#attachment-box').hide();
-        var file_name = jQuery('#file_name');
-        var name_set = file_name.prev('label[for=file_name]').andSelf();
-        name_set.hide();
-        jQuery('#datas').change(function () {
-            var val = jQuery(this).val();
-
-            if(val) {
-                name_set.show('fast');
-                file_name.val(val).focus().select();
-            } else {
-                name_set.hide('fast');
-            }
-        }).validate({
+        jQuery('#datas').validate({
             expression: "if (VAL) return true; else return false;"
         });
         jQuery('#add-attachment').click (function () { attachments.show(); });
-        attachments.submit(createAttachment).submit(function () {
-            attachments.hide();
-        }).bind('reset', function () {
-            // a reset on the form doesn't trigger $(#datas).change event
-            name_set.hide();
-        });
+        attachments.submit(createAttachment);
     }
 
 function error_popup(obj) {
