@@ -21,7 +21,6 @@ except:
         var logoWidth = jQuery('p#logo').outerWidth();
 
         var sc_rowWidth = top_divWidth - logoWidth - 10;
-        log(sc_rowWidth);
         jQuery('tr#sc_row').css('width', sc_rowWidth);
     }
 
@@ -55,7 +54,7 @@ except:
         % if logged:
             <h1 id="title-menu">
                ${_("%(company_id)s", company_id=rpc.session.company_id or '')}
-               <small>${_("%(user)s", user=rpc.session.user_name or 'guest')}</small>
+               <small>${_("%(user)s", user=rpc.session.user_name)}</small>
             </h1>
         % endif
         <ul id="skip-links">

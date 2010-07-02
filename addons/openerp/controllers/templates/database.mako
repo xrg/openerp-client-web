@@ -34,7 +34,7 @@
 
     <table cellpadding="0" cellspacing="0" border="0" width="100%">
         <tr>
-            <td style="padding-top: 65px;" valign="top">
+            <td valign="top">
                 <table width="100%" class="titlebar">
                     <tr>
                         <td width="32px" align="center">
