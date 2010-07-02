@@ -693,8 +693,6 @@ table#shortcuts tr td a {
 #tertiary {
     float: right;
     min-height: 100%;
-    border-left: 1px solid #d2cfcf;
-    background: #eae7e7 url(../images/tertiary-bg-a.gif) repeat-y;
 }
 
 div.three-a {
@@ -2284,6 +2282,8 @@ p.paging-a a.next {
 
 #main_sidebar {
     padding: 0;
+    background: #eae7e7 url(../images/tertiary-bg-a.gif) repeat-y;
+    border-left: 1px solid #d2cfcf;
 }
 
 .sideheader-a {
