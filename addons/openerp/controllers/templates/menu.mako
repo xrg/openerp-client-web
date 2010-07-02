@@ -49,12 +49,6 @@
             }
         });
 
-        function resize_appContent() {
-            var window_width = jQuery(window).width();
-            var secondary_width = jQuery('#secondary').width();
-            var primary_width = window_width - secondary_width ;
-            jQuery('#primary').width(primary_width - 50);
-        }
         jQuery(document).ready(function () {
             // Don't load doc if there is a hash-url, it takes precedence
             if(DOCUMENT_TO_LOAD && !hashUrl()) {
@@ -62,14 +56,9 @@
             }
 
             jQuery('.open-close-menu').click(function() {
-                jQuery(this).toggleClass('show_tools hide_tools');
-                jQuery('#secondary').toggleClass('nav_accordion_hide nav_accordion_show');
-
-                resize_appContent()
+                jQuery('#content').toggleClass('hide-menu');
             });
-            resize_appContent();
         });
-        jQuery(window).resize(resize_appContent);
         
     </script>
 </%def>
@@ -101,7 +90,7 @@
 		</div>
 				
 	    <div id="content" class="three-a">
-		    <div id="secondary" class="nav_accordion nav_accordion_show">
+		    <div id="secondary">
 		    	<div class="wrap">
 		    		<table class="sidenav-a">
 				        <tr>

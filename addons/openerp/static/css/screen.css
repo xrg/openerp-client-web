@@ -652,30 +652,42 @@ table#shortcuts tr td a {
 
 #primary {
     min-height: 100%;
-    margin: 0;
+    margin: 0 0 0 200px;
     vertical-align: top;
-    float: right;
 }
 
 #primary div.wrap {
     padding-top: 0px;
 }
 
-.nav_accordion {
+#secondary {
 	float: left;
     min-height: 100%;
     border-right: 1px solid #3c3c3c;
     background: #5a5858;
+    width: 180px;
+    display: block;
 }
 
-.nav_accordion_hide {
-    width: 0px;
+.hide-menu #primary {
+    margin-left: 20px;
+}
+
+.hide-menu #secondary {
     display: none;
 }
 
-.nav_accordion_show {
-    width: 180px;
-    display: block;
+.open-close-menu {
+    float: left;
+    cursor: pointer;
+    background: #CECBCB no-repeat scroll center center;
+    height: 100%;
+    width: 11px;
+    background-image: url(../images/prev.gif);
+}
+
+.hide-menu .open-close-menu {
+    background-image: url(../images/next.gif);
 }
 
 #tertiary {
