@@ -202,7 +202,7 @@
                 </table>
             </td>
 
-            % if form.sidebar and buttons.toolbar and form.screen.view_type not in ('calendar', 'gantt'):
+            % if form.sidebar:
             <td id="main_sidebar" valign="top">
             	<div id="tertiary" class="sidebar-closed">
 					<div id="tertiary_wrap">

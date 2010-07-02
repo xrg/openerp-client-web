@@ -3,17 +3,20 @@
         <td width="100%" style="width: 100%; padding: 0;">
             <div class="box-a calendar-a">
             <p class="side">
-                <a class="button-b" href="javascript:void(0)" title="${_('Today...')}" onclick="getCalendar('${selected_day.today().isoformat()}', 'day')">${_("Today")}</a>
+                <a class="button-b" href="javascript:void(0)" title="${_('Today...')}" 
+                    onclick="getCalendar('${selected_day.today().isoformat()}', 'day')">${_("Today")}</a>
             </p>
             <ul class="head">
                 <li>
-                    <a href="javascript: void(0)" title="${_('Month Calendar...')}" onclick="getCalendar(null, 'month')">${_("Month")}</a>
+                    <a href="javascript: void(0)" title="${_('Month Calendar...')}" 
+                        onclick="getCalendar(null, 'month')">${_("Month")}</a>
                 </li>
                 <li>
                     <a class="active" href="javascript: void(0)" title="${_('Week Calendar...')}">${_("Week")}</a>
                 </li>
                 <li>
-                    <a href="javascript: void(0)" title="${_('Day Calendar...')}" onclick="getCalendar(null, 'day')">${_("Day")}</a>
+                    <a href="javascript: void(0)" title="${_('Day Calendar...')}" 
+                        onclick="getCalendar(null, 'day')">${_("Day")}</a>
                 </li>
             </ul>
             <div class="inner">
@@ -21,11 +24,13 @@
                     <span class="one">
                         <a class="first" href="javascript: void(0)"></a>
                         <small>|</small>
-                        <a class="prev" href="javascript: void(0)" onclick="getCalendar('${week.prev()[0].isoformat()}')"></a>
+                        <a class="prev" href="javascript: void(0)" 
+                            onclick="getCalendar('${week.prev()[0].isoformat()}')"></a>
                     </span>
                     <small>|</small>
                     <span class="two">
-                        <a class="next" href="javascript: void(0)" onclick="getCalendar('${week.next()[0].isoformat()}')"></a>
+                        <a class="next" href="javascript: void(0)"
+                            onclick="getCalendar('${week.next()[0].isoformat()}')"></a>
                         <small>|</small>
                         <a class="last" href="javascript: void(0)"></a>
                     </span>
@@ -39,9 +44,12 @@
             <table border="0" id="calContainer" width="100%">
                 <tr>
                     <td id="calMainArea" valign="top">
-                        <input type="hidden" id="_terp_selected_day" name="_terp_selected_day" value="${selected_day.isoformat()}"/>
-                        <input type="hidden" id="_terp_selected_mode" name="_terp_selected_mode" value="week"/>
-                        <input type="hidden" id="_terp_calendar_fields" name="_terp_calendar_fields" value="${calendar_fields}"/>
+                        <input type="hidden" id="_terp_selected_day"
+                            name="_terp_selected_day" value="${selected_day.isoformat()}"/>
+                        <input type="hidden" id="_terp_selected_mode"
+                            name="_terp_selected_mode" value="week"/>
+                        <input type="hidden" id="_terp_calendar_fields"
+                            name="_terp_calendar_fields" value="${calendar_fields}"/>
                         % if concurrency_info:
                             ${concurrency_info.display()}
                         % endif
@@ -95,9 +103,6 @@
                 </tr>
             </table>
         </div>
-        </td>
-        <td id="calSidebar"valign="top">
-            <%include file="sidebar.mako" />
         </td>
     </tr>
 </table>

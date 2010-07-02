@@ -76,6 +76,17 @@ class GroupBox(TinyWidget):
             self.grp_model = group_relation['relation']
             self.grp_domain = group_relation['domain']
             self.grp_context = group_relation['context']
+            
+class Sidebar(TinyWidget):
+    template = 'templates/sidebar.mako'
+    params = ['use_search']
+    member_widgets = ['minical', 'groupbox']
+    
+    def __init__(self, minical, groupbox, use_search=False):
+        super(Sidebar, self).__init__()
+        self.minical = minical
+        self.groupbox = groupbox
+        self.use_search = use_search
 
 def get_calendar(model, view, ids=None, domain=[], context={}, options=None):
 
@@ -114,7 +125,6 @@ class MonthCalendar(TinyCalendar):
 
     template = 'templates/month.mako'
     params = ['month', 'events', 'selected_day', 'calendar_fields', 'date_format']
-    member_widgets = ['minical', 'groupbox']
 
     month = None
     events = {}
@@ -133,23 +143,22 @@ class MonthCalendar(TinyCalendar):
         
         self.selected_day = _get_selection_day(Day(y, m, 1), self.selected_day, 'month')
         
-        self.minical = MiniCalendar(self.selected_day)
-        self.groupbox = GroupBox(self.colors, self.color_values, self.selected_day,
+        minical = MiniCalendar(self.selected_day)
+        groupbox = GroupBox(self.colors, self.color_values, self.selected_day,
                 group_relation=self.fields[self.color_field],
                 title=(self.color_field or None) and self.fields[self.color_field]['string'],
                 mode='month')
+                
+        self.sidebar = Sidebar(minical, groupbox, self.use_search)
 
 
 class WeekCalendar(TinyCalendar):
     template = 'templates/week.mako'
     params = ['week', 'events', 'selected_day', 'calendar_fields', 'date_format']
-    member_widgets = ['minical', 'groupbox']
 
     week = None
     events = {}
-
-    minical = None
-
+    
     def __init__(self, model, view, ids=None, domain=[], context={}, options=None):
         TinyCalendar.__init__(self, model, ids, view, domain, context, options)
 
@@ -162,22 +171,20 @@ class WeekCalendar(TinyCalendar):
 
         self.selected_day = _get_selection_day(Day(y, m, d), self.selected_day, 'week')
 
-        self.minical = MiniCalendar(self.week[0], True)
-        self.groupbox = GroupBox(self.colors, self.color_values, self.week[0],
+        minical = MiniCalendar(self.week[0], True)
+        groupbox = GroupBox(self.colors, self.color_values, self.week[0],
                 group_relation=self.fields[self.color_field],
                 title=(self.color_field or None) and self.fields[self.color_field]['string'],
                 mode='week')
-
+        
+        self.sidebar = Sidebar(minical, groupbox, self.use_search)
 
 class DayCalendar(TinyCalendar):
     template = 'templates/day.mako'
     params = ['day', 'events', 'calendar_fields', 'date_format']
-    member_widgets = ['minical', 'groupbox']
 
     day = None
     events = {}
-
-    minical = None
 
     def __init__(self, model, view, ids=None, domain=[], context={}, options=None):
         TinyCalendar.__init__(self, model, ids, view, domain, context, options)
@@ -189,12 +196,14 @@ class DayCalendar(TinyCalendar):
         self.day = Day(y,m,d)
 
         self.events = self.get_events([self.day])
-        self.minical = MiniCalendar(self.day)
-        self.groupbox =  GroupBox(self.colors, self.color_values, self.day,
+        
+        minical = MiniCalendar(self.day)
+        groupbox =  GroupBox(self.colors, self.color_values, self.day,
                 group_relation=self.fields[self.color_field],
                 title=(self.color_field or None) and self.fields[self.color_field]['string'],
                 mode='day')
-
+        
+        self.sidebar = Sidebar(minical, groupbox, self.use_search)
 
 class GanttCalendar(ICalendar):
 
@@ -211,6 +220,8 @@ class GanttCalendar(ICalendar):
     headers = None
     subheaders = None
     mode = 'week'
+    
+    sidebar = None
 
     css = [CSSLink("view_calendar", 'css/calendar.css'),
            CSSLink("view_calendar", 'css/calendar_gantt.css')]

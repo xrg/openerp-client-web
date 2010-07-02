@@ -6,18 +6,22 @@
                     % if day == day.today():
                         <a class="button-a" href="javascript: void(0)">${_("Today")}</a>
                        % else:
-                           <a class="button-b" href="javascript: void(0)" onclick="getCalendar('${day.today().isoformat()}', 'day')">${_("Today")}</a>
+                           <a class="button-b" href="javascript: void(0)"
+                            onclick="getCalendar('${day.today().isoformat()}', 'day')">${_("Today")}</a>
                     % endif
                 </p>
                 <ul class="head">
                     <li>
-                        <a href="javascript: void(0)" title="${_('Month Calendar...')}" onclick="getCalendar(null, 'month')">${_("Month")}</a>
+                        <a href="javascript: void(0)" title="${_('Month Calendar...')}"
+                            onclick="getCalendar(null, 'month')">${_("Month")}</a>
                     </li>
                     <li>
-                        <a href="javascript: void(0)" title="${_('Week Calendar...')}" onclick="getCalendar(null, 'week')">${_("Week")}</a>
+                        <a href="javascript: void(0)" title="${_('Week Calendar...')}"
+                            onclick="getCalendar(null, 'week')">${_("Week")}</a>
                     </li>
                     <li>
-                        <a class="active" href="javascript: void(0)" title="${_('Day Calendar...')}">${_("Day")}</a>
+                        <a class="active" href="javascript: void(0)"
+                            title="${_('Day Calendar...')}">${_("Day")}</a>
                     </li>
                 </ul>
                 <div class="inner">
@@ -25,11 +29,13 @@
                         <span class="one">
                             <a class="first" href="javascript: void(0)"></a>
                             <small>|</small>
-                            <a class="prev" href="javascript: void(0)" onclick="getCalendar('${day.prev().isoformat()}')"></a>
+                            <a class="prev" href="javascript: void(0)"
+                                onclick="getCalendar('${day.prev().isoformat()}')"></a>
                         </span>
                         <small>|</small>
                         <span class="two">
-                            <a class="next" href="javascript: void(0)" onclick="getCalendar('${day.next().isoformat()}')"></a>
+                            <a class="next" href="javascript: void(0)"
+                                onclick="getCalendar('${day.next().isoformat()}')"></a>
                             <small>|</small>
                             <a class="last" href="javascript: void(0)"></a>
                         </span>
@@ -43,9 +49,12 @@
                 <table border="0" id="calContainer" width="100%">
                     <tr>
                         <td id="calMainArea" valign="top">
-                            <input type="hidden" id="_terp_selected_day" name="_terp_selected_day" value="${day.isoformat()}"/>
-                            <input type="hidden" id="_terp_selected_mode" name="_terp_selected_mode" value="day"/>
-                            <input type="hidden" id="_terp_calendar_fields" name="_terp_calendar_fields" value="${calendar_fields}"/>
+                            <input type="hidden" id="_terp_selected_day"
+                                name="_terp_selected_day" value="${day.isoformat()}"/>
+                            <input type="hidden" id="_terp_selected_mode"
+                                name="_terp_selected_mode" value="day"/>
+                            <input type="hidden" id="_terp_calendar_fields"
+                                name="_terp_calendar_fields" value="${calendar_fields}"/>
                             % if concurrency_info:
                                 ${concurrency_info.display()}
                             % endif
@@ -98,9 +107,6 @@
                     </tr>
                 </table>
             </div>
-        </td>
-        <td id="calSidebar" valign="top">
-            <%include file="sidebar.mako" />
         </td>
     </tr>
 </table>
