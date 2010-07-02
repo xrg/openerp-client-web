@@ -67,7 +67,7 @@
             position = "absolute";
             padding = "2px 8px";
             color = "white";
-            backgroundColor = "red";
+            backgroundColor = "#9a0404";
             fontWeight = "bold";
             zIndex = 1000;
         }

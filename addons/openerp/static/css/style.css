@@ -653,11 +653,12 @@ div.label_header {
 }
 
 div.message {
-    background-color: red;
+    background-color: #9a0404;
     color: white;
     text-align: center;
     font-weight: bold;
     border: none;
+    font-size: 1.3em;
 }
 
 div.welcome-message {
