@@ -29,3 +29,10 @@ table.tooltip .tipText {
     text-align: center;
 }
 
+table.tooltip .tipExtra {
+    text-align: left;
+    color: #84fb92;
+    padding-right:5px;
+    font-size: 12px;
+}
+
