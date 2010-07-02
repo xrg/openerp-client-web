@@ -2364,7 +2364,7 @@ p.paging-a a.next {
 }
 
 #main_sidebar {
-    padding: 10px 0 5px 0;
+    padding: 0;
 }
 
 .sideheader-a {
@@ -2448,6 +2448,7 @@ p.paging-a a.next {
     right: 1px;
 }
 
+
 .sidebar-open {
     width: 180px;
 }
@@ -2476,6 +2477,7 @@ p.paging-a a.next {
     border-right-width: 0;
     background: url(../images/toggle-a-bg.png) no-repeat -21px 0;
     text-indent: -10001px;
+    outline: none;
 }
 
 .sidebar-closed #sidebar_hide a {
