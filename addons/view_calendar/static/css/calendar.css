@@ -6,6 +6,11 @@
     position: relative;
 }
 
+.calMonth td,
+.calWeek td {
+    padding: 0;
+}
+
 .calDayHeader {
     height: 21px;
 
@@ -283,112 +288,3 @@
     border-top: 2px solid #696969;
 }
 
-/**
- * Group Box
- */
-
-/*#MiniCalendar {
-    margin-bottom: 5px;
-} */
-
-/*#calSearchOptions {
-    margin: 0pt;
-    margin-bottom: 5px;
-    padding: 8px;
-} 
-
-#calSearchOptions {
-    padding-left: 12px;
-}*/
-
-td#calSidebar {
-	padding: 0;
-}
-
-#calGroups dt, #calSearchOptions dt {
-    font-weight: bold;
-    margin-bottom: 2px;
-    text-align: left;
-    color: #8E8E8E;
-    background: transparent url(/openerp/static/images/sideheader-a-bg.png) repeat-x scroll 0 100%;
-    height: 20px;
-    vertical-align: middle;
-    padding-left: 10px;
-    border-bottom: 1px solid #D2CFCF;
-    border-top: 1px solid #E1DEDE;
-}
-
-#calGroups dt table {
-	border: none;
-	font-weight: bold;
-}
-
-#calGroups dt table td {
-	text-align: left;
-	padding: 0;
-}
-
-#calGroups dt a {
-	float: right;
-	vertical-align: middle;
-	margin-top: 2px;
-}
-
-#calGroups dd {
-    margin-left: 4px;
-}
-
-.calMini a,
-.calMonth a,
-.calWeek a {
-    text-decoration: none;
-    color: black;
-}
-
-table#calSidebar-sidebar {
-	border: none;
-}
-
-#calSidebar div#tertiary {
-	background: none;
-}
-
-td#sidebar_calendar {
-	background: #EAE7E7 url(/openerp/static/images/tertiary-bg-a.gif) repeat-y scroll 0 0;
-}
-
-ul.ul_calGroups {
-	list-style: none; margin: 0 0 10px; padding: 0; font-size: 0.9em;
-}
-
-ul.ul_calGroups li {
-	margin: 0 0 10px; color: #5a5a5a; font-size: 1.2em; line-height: 1;
-}
-
-ul.ul_calGroups li input {
-	width: 12px; height: 12px; margin: 0 3px 0 0; padding: 0; vertical-align: middle;
-}
-
-table#calSidebar-sidebar td.sideheader-a {
-	background: transparent url(/openerp/static/images/sideheader-a-bg.png) repeat-x scroll 0 100%;
-    padding: 0 0 0 10px;
-    vertical-align: top;
-	text-align: left;
-	border-bottom: 1px solid #D2CFCF;
-}
-
-td#sidebar_calendar, td#sidebar_calendar_hide, td#calendar_search_filter {
-	padding: 0;
-}
-
-td#calendar_search_filter table {
-	border: none;
-}
-td#calendar_search_filter {
-	color: #5a5a5a;
-}
-
-td#sidebar_calendar_hide p.toggle-a a {
-	line-height: 21px;
-	height: 21px;
-}

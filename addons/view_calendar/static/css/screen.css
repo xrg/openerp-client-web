@@ -80,7 +80,8 @@ div.calendar-a {
     
 }
 
-div.calendar-a h4,table.calendar-a h4 {
+div.calendar-a h4,
+table.calendar-a h4 {
     margin: 0 0 15px;
     background: url(../images/dot-a.gif) 0 50% repeat-x;
     color: #252424;
@@ -89,12 +90,14 @@ div.calendar-a h4,table.calendar-a h4 {
     text-align: center;
 }
 
-div.calendar-a h4 span,table.calendar-a h4 span {
+div.calendar-a h4 span,
+table.calendar-a h4 span {
     padding: 0 10px;
     background: #fff;
 }
 
-div.calendar-a h4 small,table.calendar-a h4 small {
+div.calendar-a h4 small,
+table.calendar-a h4 small {
     color: #bbb;
     font-size: 1em;
     font-weight: 400;
