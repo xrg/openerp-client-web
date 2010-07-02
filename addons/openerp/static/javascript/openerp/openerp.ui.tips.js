@@ -183,7 +183,7 @@ function setup_tips(){
     var elements = MochiKit.Base.filter(function(e){
         var text = MochiKit.DOM.getNodeAttribute(e, 'title');
         var model = MochiKit.DOM.getNodeAttribute(e, 'model');
-        var fname = MochiKit.DOM.getNodeAttribute(e, 'fname');
+        var fname = MochiKit.DOM.getNodeAttribute(e, 'fname') || '';
         var fieldname = fname && fname.indexOf('/') == -1 ? fname : fname.split(/[/ ]+/).pop();
         if (!text)
             return false;

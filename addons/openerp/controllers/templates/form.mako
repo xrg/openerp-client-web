@@ -116,22 +116,7 @@
 												${make_view_button(i+1, **view)}
 											% endfor
 										</ul>
-									</td>
-                                    % if form.screen.view_type in ('form'):
-	                                    <td align="center" valign="middle" width="16" class="content_header_space">
-	                                        <img
-	                                            class="button" width="16" height="16"
-	                                            title="${_('Translate this resource.')}"
-	                                            src="/openerp/static/images/stock/stock_translate.png" onclick="openobject.tools.openWindow(openobject.http.getURL('/openerp/translator', {_terp_model: '${form.screen.model}', _terp_id: ${form.screen.id}, _terp_context: $('_terp_context').value}));"/>
-	                                    </td>
-	                                    <td align="center" valign="middle" width="16" class="content_header_space">
-	                                        <img
-	                                            class="button" width="16" height="16"
-	                                            title="${_('View Log.')}"
-	                                            src="/openerp/static/images/stock/stock_log.png"
-	                                            onclick="openobject.tools.openWindow('${py.url('/openerp/viewlog', _terp_model=form.screen.model, _terp_id=form.screen.id)}', {width: 500, height: 300})"/>
-	                                    </td>
-                                    % endif
+									</td>                                    
                                 </tr>
                             </table>
                         </td>
@@ -198,7 +183,15 @@
                             			<a href="javascript: void(0)" onclick="new ListView('_terp_list').importData()"">${_("Import")}</a>
                             			<span>|</span>
                             			<a href="javascript: void(0)" onclick="new ListView('_terp_list').exportData()">${_("Export")}</a>
-                            		</td>
+                            			% if form.screen.view_type in ('form'):
+	                           			 <span>|</span>
+	                           			 <a href="javascript: void(0)" title="${_('Translate this resource.')}" onclick="openobject.tools.openWindow(openobject.http.getURL('/openerp/translator', {_terp_model: '${form.screen.model}', _terp_id: ${form.screen.id}, _terp_context: $('_terp_context').value}));">
+	                           			      ${_('Translate')}</a>
+	                           			 <span>|</span>
+	                           			 <a href="javascript: void(0)"  title="${_('View Log.')}" onclick="openobject.tools.openWindow('${py.url('/openerp/viewlog', _terp_model=form.screen.model, _terp_id=form.screen.id)}', {width: 500, height: 300})">
+	                           			     ${_('View Log')}</a> 
+                            			% endif
+                            		</td>                            		
                             		<td class="powered">
                             			Powered by <a href="http://www.openerp.com" target="_blank">openerp.com</a>
                             		</td>
