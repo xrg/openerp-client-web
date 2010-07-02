@@ -20,8 +20,8 @@
 					</td>
 					% if len(filter_domain[f -1]) == 1:
 					<td class="and_or" id="and_or/${x}">
-						<select id="select_andor/${x}" class="and_or">
-						% if filter_domain[f -1] == '&':
+						<select id="select_andor/${x}" class="select_andor">
+						% if filter_domain[f-1] == '&':
 							<option value="AND">AND</option>
 						%else:
 							<option value="OR">OR</option>

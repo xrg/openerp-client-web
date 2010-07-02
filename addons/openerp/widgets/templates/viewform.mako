@@ -18,23 +18,23 @@
         </tr>
         <tr>
             <td class="view_form_options" align="left">
-            	<table style="border: none;">
+            	<table style="border: none; width: 100%;">
             		<tr>
-            			<td style="padding: 0;">
+            			<td style="padding: 0; float: left;">
             				<div class="toolbar">
 			                	<a class="button-a" title="${_('Filter records.')}" href="javascript: void(0)" onclick="search_filter()">${_("Filter")}</a>
                 			</div>
             			</td>
-            			<td style="padding: 0 2px 0 2px;">
+            			<td style="padding: 0 2px 0 2px; float: left;">
            			         <a class="button-a" title="${_('Clear all .')}" href="javascript: void(0)">${_("Clear")}</a>
             			</td>
-            			<td style="padding: 0 2px 0 2px;">
+            			<td style="padding: 0 2px 0 2px; float: left;">
                              <a class="button-a" title="${_('Save as Filters.')}" href="javascript: void(0)" onclick="save_as_filter()">${_("Save as Filter")}</a>
                         </td>
-                        <td style="padding: 0 2px 0 2px;">
+                        <td style="padding: 0 2px 0 2px; float: left;">
                              <a class="button-a" title="${_('Manage Filters.')}" href="javascript: void(0)" onclick="manage_filters()">${_("Manage Filter")}</a>
                         </td>
-                        <td class="custom-filter">
+                        <td class="custom-filter" style="float: right; padding: 0;">
                              <ul>
                                 <li style="padding-right: 3px;">
                                     <select name="filter_list" id="filter_list" onchange="search_filter();">

@@ -240,14 +240,22 @@ table#filter_table {
 
 table#filter_table td.filter_column {
     text-align: left;
+    padding: 0;
 }
 
 table#filter_table td.filter_column select {
     width: 80px;
 }
 
-table#filter_table td.filter_column input.qstring {
+table#filter_table td.filter_column input.qstring,
+table#filter_table td.filter_column select.filter_fields,
+table#filter_table td.filter_column select.expr,
+table#filter_table td.and_or select.select_andor {
     width: 100px;
+    -moz-border-radius: 3px 3px 3px 3px;
+	background: none repeat scroll 0 0 #FFFFFF;
+	border: 1px solid #CECBCB;
+	vertical-align: middle;
 }
 
 table#filter_table td.image_col {
