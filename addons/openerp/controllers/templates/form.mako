@@ -22,7 +22,7 @@
                 <table cellpadding="0" cellspacing="0" border="0" width="100%" style="border: none;">
                     % if buttons.toolbar:
                     <tr>
-                        <td>
+                        <td style="padding: 10px 10px 5px 0;">
                             <table width="100%" id="title_header">
                                 <tr>
                                 	% if can_shortcut:
