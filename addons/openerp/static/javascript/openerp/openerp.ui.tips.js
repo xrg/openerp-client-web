@@ -38,6 +38,7 @@ openerp.ui.Tips = function(elements, options) {
 openerp.ui.Tips.prototype = {
 
     __init__ : function(elements, options) {
+        jQuery('.tooltip').remove();
 
         this.options = MochiKit.Base.update({
             wait: 1,            // wait for n seconds
