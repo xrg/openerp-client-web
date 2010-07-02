@@ -284,50 +284,6 @@
 }
 
 /**
- * Mini Calendar
- */
-
-/*#MiniCalendar {
-    background-color: #E0E0E0;
-    padding: 8px; 
-}*/
-
-.calMini {
-    font-size: 10px;
-    text-align: center;
-}
-
-.calMiniTitles td {
-    width: 14%;
-}
-
-.calMiniDays {
-    background-color: white;
-}
-
-.calMiniDays .dayOff {
-    background-color: #E9E9E9;
-}
-
-.calMiniDays .dayThis {
-    background-color: #FFFFDF;
-}
-
-.calMini .weekSelected td,
-.calMini td.daySelected {
-    background-color: navy;
-}
-
-.calMini .weekSelected td a,
-.calMini td.daySelected a {
-    color: white;
-}
-
-.calMini .button {
-    cursor: pointer;
-}
-
-/**
  * Group Box
  */
 
