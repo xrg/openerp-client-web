@@ -52,33 +52,28 @@ Accordion.prototype = {
         MochiKit.DOM.addElementClass(this.element, "accordion");
 
         this.options = MochiKit.Base.update({
-            duration: 0.5
+            duration: 0.1
         }, options || {});
-
-		var firstBlock = MochiKit.DOM.getElementsByTagAndClassName(null, "accordion-block", container)[0];
-		var firstBlock_id = firstBlock.id.split('block_')[1];
-
-        var accordions = MochiKit.DOM.getElementsByTagAndClassName(null, "accordion-block", container);
-
-        MochiKit.Iter.forEach(accordions, function(accordion) {
-
-            var title = getElementsByTagAndClassName(null, "accordion-title", accordion)[0];
-            var content = getElementsByTagAndClassName(null, "accordion-content", accordion)[0];
-			
-			var content_id = content.id.split('content_')[1];
-			
+        
+        var titles = MochiKit.DOM.getElementsByTagAndClassName(null, "accordion-title", container);
+        var contents = MochiKit.DOM.getElementsByTagAndClassName(null, "accordion-content", container);
+        
+        for (var i=0; i<titles.length; i++) {
+            var title = titles[i];
+            var content = contents[i];
+            
             title._content = content;
-
+            
             MochiKit.Signal.connect(title, "onclick", this, partial(this.activate, title));
             
-            if (firstBlock_id != content_id) {
+            if (i > 0) {
             	MochiKit.Style.hideElement(content);
             }
             else {
-            	this.current = getElement('title_' + content_id);
+            	this.current = title;
             }
 			
-        }, this);
+        }
     },
 
     activate : function(title) {
