@@ -103,14 +103,8 @@ function getCalendar(day, mode, color_filters) {
     var req = openobject.http.post(act, params);
     req.addCallback(function(xmlHttp) {
         var newCalendar = jQuery(xmlHttp.responseText);
-
-        // release resources
-        CAL_INSTANCE.__delete__();
-
         jQuery('#Calendar').replaceWith(newCalendar);
-
         setTimeout(function () {
-            CAL_INSTANCE.onResize();
             CALENDAR_WAIT_BOX.hide();
         }, 0);
     });

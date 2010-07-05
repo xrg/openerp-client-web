@@ -212,12 +212,14 @@ MonthCalendar.prototype = {
             div.className = params.className;
             div.title = params.title;
 
-            with (div.style) {
-                backgroundColor = params.bg;
-                color = params.clr;
-                borderColor = Color.fromString(params.bg).darkerColorWithLevel(0.2).toHexString();
-                textShadow = "0 -1px 0 " + borderColor;
-            }
+            div.style.backgroundColor = params.bg;
+            div.style.color = params.clr;
+
+            try{
+                var bg = Color.fromString(div.style.backgroundColor).darkerColorWithLevel(0.2).toHexString();
+                div.style.borderColor = bg;
+                div.style.textShadow = "0 -1px 0 " + bg;
+            }catch(e){}
 
             events = events.concat(div);
 

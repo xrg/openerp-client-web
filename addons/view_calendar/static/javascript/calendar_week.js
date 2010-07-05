@@ -938,10 +938,11 @@ WeekCalendar.DayEvent.prototype = {
         var color = Color.fromString(element.style.backgroundColor);
         var tl = getElementsByTagAndClassName('div', 'calEventTitle', element)[0];
 
-        element.style.borderColor = color.darkerColorWithLevel(0.2).toHexString();
-        element.style.textShadow = "0 -1px 0 " + element.style.borderColor;
-
-        tl.style.textShadow = "0 1px 0 " + color.lighterColorWithLevel(0.2).toHexString();
+        try{
+            element.style.borderColor = color.darkerColorWithLevel(0.2).toHexString();
+            element.style.textShadow = "0 -1px 0 " + element.style.borderColor;
+            tl.style.textShadow = "0 1px 0 " + color.lighterColorWithLevel(0.2).toHexString();
+        }catch(e){}
 
         this.title = MochiKit.DOM.scrapeText(tl);
 
