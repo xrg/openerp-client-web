@@ -84,8 +84,7 @@ openobject.tools = {
             args += "resizable=1,";
         }
 
-        var win = window.open(openobject.http.getURL(anchor), opts.name, args);
-        return false;
+        return window.open(openobject.http.getURL(anchor), opts.name, args);
 
     },
 

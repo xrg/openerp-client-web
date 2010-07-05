@@ -88,15 +88,18 @@ function openRecord(id, src, target, readonly) {
     var action = readonly ? 'view' : 'edit';
 
     if (target == '_blank') {
-        return window.open(get_form_action(action, args));
+        window.open(get_form_action(action, args));
+        return null;
     }
 
     if (kind == 'many2many') {
         args['source'] = src;
-        return openobject.tools.openWindow(get_form_action('/openerp/openm2m/edit', args));
+        openobject.tools.openWindow(get_form_action('/openerp/openm2m/edit', args));
+        return null
     }
 
     openLink(get_form_action(action, args));
+    return null
 }
 
 function editRecord(id, src, target) {
