@@ -21,7 +21,7 @@ except:
         var logoWidth = jQuery('p#logo').outerWidth();
 
         var sc_rowWidth = top_divWidth - logoWidth - 10;
-        jQuery('tr#sc_row').css('width', sc_rowWidth);
+        jQuery('#sc_row').css('width', sc_rowWidth);
     }
 
     function showMore_sc(id, submenu) {
@@ -110,15 +110,15 @@ except:
     </div>
     
     % if logged:
-        <table id="shortcuts" class="menubar" cellpadding="0" cellspacing="0">
-            <tr id="sc_row">
+        <div id="shortcuts" class="menubar" cellpadding="0" cellspacing="0">
+            <div id="sc_row">
                 % for sc in shortcuts:
-                    <td>
+                    <span>
                         <a id="shortcut_${sc['res_id']}"
                            href="${py.url('/openerp/tree/open', id=sc['res_id'], model='ir.ui.menu')}">${sc['name']}</a>
-                    </td>
+                    </span>
                 % endfor
-            </tr>
-        </table>
+            </div>
+        </div>
     % endif
 </div>

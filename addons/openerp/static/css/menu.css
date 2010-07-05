@@ -1,44 +1,25 @@
-table.menubar {
+.menubar {
     margin: 0;
     padding: 0;
     white-space: nowrap;
 }
 
-table.menubar td {
+.menubar span {
     margin: 0;
     padding: 0;
 }
 
-table.menubar a {
-/*  display: block; */
+.menubar a {
     text-align: center;
-/*	background-color: #666; */
     padding: 4px 2px;
     margin: 0 1px 0 0;
     color: #EEEEEE;
-    text-decoration: none;
     letter-spacing: 0;
 }
 
-table.menubar a:hover {
+.menubar a:hover {
     background-color: #707070;
-    text-decoration: none;
-}
-
-div.contextmenu a.customise_menu_options,
-div.contextmenu span {
-    display: block;
-    text-align: left;
-    text-decoration: none;
-    white-space: nowrap;
-    padding: 2px;
-    color: #FFFFFF;
-    cursor: pointer;
-}
-
-div.contextmenu a:hover {
-	background-color: #CCCCCC;
-	color: #5C5B5B
+    color: #EEEEEE;
 }
 
 /* Shortcuts manipulation */
@@ -57,12 +38,12 @@ div.contextmenu a:hover {
 }
 
 /* ================ */
-table#shortcuts {
+#shortcuts {
     border-bottom: 0;
     border-collapse: separate;
 }
 
-table#shortcuts tr {
+#shortcuts div {
     display: block;
     float: left;
     position: absolute;
@@ -77,7 +58,7 @@ table#shortcuts tr {
     overflow: hidden;
 }
 
-table#shortcuts tr td {
+#shortcuts span {
     margin: 0;
     text-align: center;
     color: #fff;
@@ -85,11 +66,22 @@ table#shortcuts tr td {
     padding-left: 1px;
 }
 
-table#shortcuts tr td a {
+#shortcuts a {
+}
+
+
+div.contextmenu a.customise_menu_options,
+div.contextmenu span {
     display: block;
-    height: auto;
-    font-size: 0.8em;
-    line-height: 0.7;
-    text-indent: 0;
-    text-shadow: #111 0 -1px 0;
+    text-align: left;
+    text-decoration: none;
+    white-space: nowrap;
+    padding: 2px;
+    color: #FFFFFF;
+    cursor: pointer;
+}
+
+div.contextmenu a:hover {
+	background-color: #CCCCCC;
+	color: #5C5B5B
 }
