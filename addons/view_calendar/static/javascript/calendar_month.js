@@ -211,8 +211,13 @@ MonthCalendar.prototype = {
 
             div.className = params.className;
             div.title = params.title;
-            div.style.backgroundColor = params.bg;
-            div.style.color = params.clr;
+
+            with (div.style) {
+                backgroundColor = params.bg;
+                color = params.clr;
+                borderColor = Color.fromString(params.bg).darkerColorWithLevel(0.2).toHexString();
+                textShadow = "0 -1px 0 " + borderColor;
+            }
 
             events = events.concat(div);
 
@@ -626,9 +631,7 @@ MonthCalendar.Event.prototype = {
         var d = elementDimensions('calAllDaySect');
 
         w = Math.round(w);
-        w = w * this.dayspan - 5;
-
-        x += Browser.isGecko18 ? 1 : 2;
+        w = w * this.dayspan - 6;
         y += 2;
 
         this.element.style.top = y + 'px';
