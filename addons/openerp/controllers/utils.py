@@ -139,9 +139,9 @@ def secured(fn):
             except:
                 pass
 
-            db = "trunk"#kw.get('db', db)
-            user = "admin"#kw.get('user', user)
-            password = "admin"#kw.get('password', password)
+            db = kw.get('db', db)
+            user = kw.get('user', user)
+            password = kw.get('password', password)
 
             # See if the user just tried to log in
             if rpc.session.login(db, user, password) <= 0:
