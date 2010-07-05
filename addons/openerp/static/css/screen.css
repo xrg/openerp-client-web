@@ -494,58 +494,6 @@ hr {
     text-decoration: none;
 }
 
-/* Shortcuts manipulation */
-#shortcut_add_remove {
-    height: 34px;
-    padding: 0;
-    width: 30px;
-    cursor: pointer;
-}
-
-.shortcut-add {
-    background: url(../images/add_shortcut.png) no-repeat;
-}
-.shortcut-remove {
-    background: url(../images/remove_shortcut.png) no-repeat;
-}
-
-/* ================ */
-table#shortcuts {
-    border-bottom: 0px;
-    border-collapse: expand;
-}
-
-table#shortcuts tr {
-    display: block;
-    float: left;
-    position: absolute;
-    padding: 6px 5px;
-    border-top: 1px solid #606060;
-    left: 180px;
-    top: 33px;
-    width: 100%;
-    height: auto;
-    margin: 0;
-    line-height: 1.2;
-}
-
-table#shortcuts tr td {
-    margin: 0;
-    text-align: center;
-    color: #fff;
-    border-right: 1px solid #909090;
-    padding-left: 1px;
-}
-
-table#shortcuts tr td a {
-    display: block;
-    height: auto;
-    font-size: 0.8em;
-    line-height: 0.7;
-    text-indent: 0;
-    text-shadow: #111 0 -1px 0;
-}
-
 #main_nav {
     background: url(../images/nav-bg-a.png) repeat-x;
     width: 100%;
