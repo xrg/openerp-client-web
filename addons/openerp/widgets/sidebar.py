@@ -26,14 +26,11 @@
 # You can see the MPL licence at: http://www.mozilla.org/MPL/MPL-1.1.html
 #
 ###############################################################################
+from operator import itemgetter
 
 from openerp.utils import rpc
-from openerp.utils import TinyDict
 
-from openobject.widgets import JSSource
 from openerp.widgets import TinyWidget
-
-from screen import Screen
 
 
 class Sidebar(TinyWidget):
@@ -41,13 +38,11 @@ class Sidebar(TinyWidget):
     template = "templates/sidebar.mako"
     params = ['reports', 'actions', 'relates', 'attachments', 'sub_menu', 'view_type', 'model']
 
-    def __init__(self, model, submenu=None, toolbar=None, id=None, view_type="form", multi=True, context={}, **kw):
-
+    def __init__(self, model, submenu=None, toolbar=None, id=None, view_type="form", multi=True, context=None, **kw):
         super(Sidebar, self).__init__(model=model, id=id)
         self.multi = multi
         self.context = context or {}
         self.view_type = view_type
-        act = 'client_action_multi'
         toolbar = toolbar or {}
         submenu = submenu
         self.reports = toolbar.get('print', [])
@@ -57,39 +52,37 @@ class Sidebar(TinyWidget):
         self.attachments = []
         self.sub_menu = None
 
-        proxy = rpc.RPCProxy('ir.values')
+        values = rpc.RPCProxy('ir.values')
 
+        act = 'client_action_multi'
         if self.view_type == 'form':
             act = 'tree_but_action'
 
-        actions = proxy.get('action', act, [(self.model, False)], False, self.context)
+        actions = values.get('action', act, [(self.model, False)], False, self.context)
         actions = [a[-1] for a in actions]
 
-        ids = [a['id'] for a in self.actions]
+        action_ids = [a['id'] for a in self.actions]
         for act in actions:
-            if act['id'] not in ids:
+            if act['id'] not in action_ids:
                 act['context'] = self.context
                 self.actions.append(act)
 
-        reports = proxy.get('action', 'client_print_multi', [(self.model, False)], False, self.context)
+        reports = values.get('action', 'client_print_multi', [(self.model, False)], False, self.context)
         reports = [a[-1] for a in reports]
 
-        ids = [a['id'] for a in self.reports]
+        report_ids = [a['id'] for a in self.reports]
         for rep in reports:
-            if rep['id'] not in ids:
+            if rep['id'] not in report_ids:
                 rep['context'] = self.context
                 self.reports.append(rep)
 
         if self.view_type == 'form' and id:
+            attachments = rpc.RPCProxy('ir.attachment')
+            attachment_ids = attachments.search(
+                [('res_model', '=', model), ('res_id', '=', id)],0, 0, 0, self.context)
 
-            proxy = rpc.RPCProxy('ir.attachment')
-            ids = proxy.search([('res_model', '=', model), ('res_id', '=', id)], 0, 0, 0, self.context)
-
-            if ids:
-                attach = []
-                datas = proxy.read(ids, ['datas_fname', 'name'])
-                self.attachments = [(d['id'], d['name']) for d in datas]
+            if attachment_ids:
+                self.attachments = map(itemgetter('id', 'name'),
+                                       attachments.read(attachment_ids, ['name']))
 
             self.sub_menu = submenu
-
-# vim: ts=4 sts=4 sw=4 si et
