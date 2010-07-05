@@ -905,7 +905,6 @@ WeekCalendar.AllDayEvent.prototype = {
 
         this.element.style.top = y + 'px';
         this.element.style.left = x + 'px';
-
         this.element.style.width = w + 'px';
 
         // XXX: safari hack

@@ -103,7 +103,7 @@ function getCalendar(day, mode, color_filters) {
     var req = openobject.http.post(act, params);
     req.addCallback(function(xmlHttp) {
         var newCalendar = jQuery(xmlHttp.responseText);
-        jQuery('#Calendar').replaceWith(newCalendar);
+        jQuery('#Calendar').replaceWith(newCalendar).hide();
         setTimeout(function () {
             CALENDAR_WAIT_BOX.hide();
         }, 0);
