@@ -134,7 +134,7 @@ function switch_O2M(view_type, src) {
 
     params['_terp_source'] = src;
     params['_terp_source_view_type'] = view_type;
-    params['_terp_editable'] = $(prefix + '_terp_editable').value
+    params['_terp_editable'] = $(prefix + '_terp_editable').value;
 
     if (openobject.dom.get('_terp_list')) {
         var ids = new ListView('_terp_list').getSelectedRecords();
@@ -176,7 +176,6 @@ function switch_O2M(view_type, src) {
 function show_process_view(title) {
     var model = openobject.dom.get('_terp_model').value;
     var id;
-    var title = title;
     if (openobject.dom.get('_terp_list')) {
         var list = new ListView('_terp_list');
         var ids = list.getSelectedRecords();
@@ -246,11 +245,12 @@ function validate_required(form) {
 function submit_form(action, src, target) {
 	
     if (openobject.http.AJAX_COUNT > 0) {
-        return callLater(1, submit_form, action, src, target);
+        callLater(1, submit_form, action, src, target);
+        return;
     }
 
     if (action == 'delete' && !confirm(_('Do you really want to delete this record?'))) {
-        return false;
+        return;
     }
 
     var form = document.forms['view_form'];
@@ -274,7 +274,7 @@ function submit_form(action, src, target) {
     action = get_form_action(action, args);
     
     if (/\/save(\?|\/)?/.test(action) && !validate_required(form)) {
-        return false;
+        return;
     }
 
     form.attributes['action'].value = action;
