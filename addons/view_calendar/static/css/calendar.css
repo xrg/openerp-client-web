@@ -16,7 +16,8 @@
     white-space: nowrap;
 
     font-weight: bold;
-    font-size: 12px;
+    font-size: 10px;
+    padding-top: 4px;
 }
 
 .calWeek a {
@@ -24,25 +25,30 @@
     color: black;
 }
 
-#calHeaderSect,
-#calAllDaySect {
+#calHeaderSect {
     height: 21px;
-    position: relative;
-    overflow: hidden;
-
-    background-color: #F4F4F4;
     border-top: 1px solid #DBDBDB;
-    color: #8D8D8D;
-
-    text-align: center;
+    
     text-shadow: 0 1px 0 #FFFFFF;
     text-transform: uppercase;
 }
 
+#calHeaderSect a,
+#calTimeCol {
+    color: #8D8D8D;
+}
+
+#calHeaderSect,
 #calAllDaySect {
-    margin-bottom: 6px;
-    border: 1px inset white;
-    background-color: #ffffff;
+    position: relative;
+    overflow: hidden;
+
+    min-height: 21px;
+    background-color: #F4F4F4;
+}
+
+#calAllDaySect {
+    border-top: 1px solid #FFF;
 }
 
 #calAllDaySect .droppable {
@@ -70,23 +76,25 @@
     overflow-x: hidden;
 }
 
+.calWeek .calDayHeader,
+.calWeek .calVRule {
+    border-left: 1px solid #FFF;
+}
+
 .calWeek .calVRule {
     position: absolute;
     top: 0;
     width: 1px;
-
-    border-left: 2px solid #C0C0C0;
 }
 
 .calWeek .calHRule {
     height: 19px;
     background-color: #FFFFFF;
-    border-top: 1px solid #F0F0F0;
+    border-top: 1px dotted #F0F0F0;
 }
 
 .calWeek .calHRule.even {
     height: 18px;
-    border-top: 2px solid #F0F0F0;
 }
 
 
@@ -99,9 +107,13 @@
 
 .calTimeCol div {
     height: 38px;
-    border-top: 2px solid #E0E0E0;
     padding-right: 2px;
     text-align: right;
+}
+
+.calTimeCol div,
+.calWeek .calHRule.even {
+    border-top: 1px solid #F0F0F0;
 }
 
 .calEvent,
@@ -118,11 +130,9 @@
     border-radius: 4px; 
     -moz-border-radius: 4px; 
     -webkit-border-radius: 4px;
-    background:url("../images/schedule-a-highlite.png");
-    background-repeat: repeat-x;
-    background-position: 0 0;
+    background: url("../images/schedule-a-highlite.png") repeat-x scroll 0 0 #FFF;
     border: 1px solid #FFF;
-    color: #fff;
+    color: #FFF;
 }
 
 .calWeek #calBodySect .calEvent,
@@ -130,22 +140,21 @@
     padding: 0;
     margin: 0;
 
-    font-size: 9px;
-
-    border: 2px solid black;
+    font-size: 10px;
+    color: #FFF;
+    border: 1px solid black;
     cursor: default;
 }
 
 .calEventTitle {
-    color: white;
+    color: #000;
     font-weight: bold;
-    padding-bottom: 2px;
+    padding: 2px;
     white-space: nowrap;
     cursor: move;
 }
 
 .calEventDesc {
-    color: black;
     padding: 2px;
     vertical-align: top;
     font-size: 10px;

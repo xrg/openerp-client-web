@@ -352,8 +352,13 @@ WeekCalendar.AllDayGrid.prototype = {
 
         div.className = params.className;
         div.title = params.title;
-        div.style.backgroundColor = params.bg;
-        div.style.color = params.clr;
+
+        with (div.style) {
+            backgroundColor = params.bg;
+            color = params.clr;
+            borderColor = Color.fromString(params.bg).darkerColorWithLevel(0.2).toHexString();
+            textShadow = "0 -1px 0 " + borderColor;
+        }
 
         return [div];
     },
@@ -934,7 +939,9 @@ WeekCalendar.DayEvent.prototype = {
         var tl = getElementsByTagAndClassName('div', 'calEventTitle', element)[0];
 
         element.style.borderColor = color.darkerColorWithLevel(0.2).toHexString();
-        tl.style.backgroundColor = color.darkerColorWithLevel(0.2).toHexString();
+        element.style.textShadow = "0 -1px 0 " + element.style.borderColor;
+
+        tl.style.textShadow = "0 1px 0 " + color.lighterColorWithLevel(0.2).toHexString();
 
         this.title = MochiKit.DOM.scrapeText(tl);
 
