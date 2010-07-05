@@ -494,23 +494,19 @@ hr {
     text-decoration: none;
 }
 
-/* Add Shortcut */
-td#add_shortcut {
-    width: 26px;
+/* Shortcuts manipulation */
+#shortcut_add_remove {
     height: 34px;
-    background: url(../images/add_shortcut.png) no-repeat;
     padding: 0;
     width: 30px;
     cursor: pointer;
 }
 
-td#remove_shortcut {
-    width: 26px;
-    height: 34px;
+.shortcut-add {
+    background: url(../images/add_shortcut.png) no-repeat;
+}
+.shortcut-remove {
     background: url(../images/remove_shortcut.png) no-repeat;
-    padding: 0;
-    width: 30px;
-    cursor: pointer;
 }
 
 /* ================ */

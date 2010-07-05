@@ -6,16 +6,30 @@
     <script type="text/javascript">
         var form_controller = '${path}';
         var USER_ID = '${rpc.session.uid}';
-    </script>
+        var RESOURCE_ID = '${rpc.session.active_id}';
 
-    <script type="text/javascript">
         function do_select(id, src) {
             viewRecord(id, src);
         }
     </script>
+    % if can_shortcut:
+    <script type="text/javascript">
+        jQuery(document).ready(function () {
+            jQuery('#shortcut_add_remove').click(toggle_shortcut);
+        });
+    </script>
+    % endif
 </%def>
 
 <%def name="content()">
+    <%
+        if can_shortcut:
+            if rpc.session.active_id in shortcut_ids:
+                shortcut_class = "shortcut-remove"
+            else:
+                shortcut_class = "shortcut-add"
+
+    %>
 	<table id="main_form_body" class="view" cellpadding="0" cellspacing="0" border="0" width="100%" style="border: none;">
         <tr>
             <td id="body_form_td" width="100%" valign="top">
@@ -26,37 +40,7 @@
                             <table width="100%" id="title_header">
                                 <tr>
                                 	% if can_shortcut:
-                                		% if rpc.session.active_id not in shortcut_ids:
-		                                	<td id="add_shortcut">
-			                                    <script type="text/javascript">
-			                                       jQuery('#add_shortcut').click(function() {
-			                                           jQuery.ajax({
-			                                               url: '/openerp/shortcuts/add',
-			                                               type: 'POST',
-			                                               data: {'id': '${rpc.session.active_id}'},
-			                                               success: function() {
-			                                                   window.parent.location.reload();
-			                                               }
-			                                           });
-			                                       });
-			                                    </script>
-			                                </td>
-	                                	% else:
-	                                		<td id="remove_shortcut">
-			                                    <script type="text/javascript">
-			                                       jQuery('#remove_shortcut').click(function() {
-			                                           jQuery.ajax({
-			                                               url: '/openerp/shortcuts/remove_sc',
-			                                               type: 'POST',
-			                                               data: {'id': '${rpc.session.active_id}'},
-			                                               success: function() {
-			                                                   window.parent.location.reload();
-			                                               }
-			                                           });
-			                                       });
-			                                    </script>
-			                                </td>
-	                                	% endif
+                                        <td id="shortcut_add_remove" class="${shortcut_class}"></td>
                                     % endif
 
                                     <td id="title_details" width="30%" class="content_header_space">
@@ -75,7 +59,7 @@
 									    	<div id="serverlog" style="display: none;">
 									    		<div class="serverLogHeader">
 									    			Current actions :
-									    			<img id="closeServerLog" style="cursor: pointer;" align="right" src="/openerp/static/images/attachments-a-close.png"></img>
+									    			<img id="closeServerLog" style="cursor: pointer;" align="right" src="/openerp/static/images/attachments-a-close.png">
 									    		</div>
 									    		% for log in serverLog:
 									    			<div class="logActions">

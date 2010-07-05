@@ -43,7 +43,7 @@ class ViewForm(Form):
     member_widgets = ['screen', 'search', 'sidebar']
 
     css = [CSSLink("openerp", "css/autocomplete.css")]
-    javascript = [JSLink("openerp", "javascript/form.js", location=locations.bodytop),
+    javascript = [JSLink("openerp", "javascript/form.js", location=locations.head),
                   JSLink("openerp", "javascript/form_state.js", location=locations.bodytop),
                   JSLink("openerp", "javascript/m2o.js", location=locations.bodytop),
                   JSLink("openerp", "javascript/m2m.js", location=locations.bodytop),

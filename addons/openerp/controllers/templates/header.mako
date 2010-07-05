@@ -112,12 +112,11 @@ except:
     % if logged:
         <table id="shortcuts" class="menubar" cellpadding="0" cellspacing="0">
             <tr id="sc_row">
-                % for i, sc in enumerate(shortcuts):
-                    % if i < 7:
-                        <td nowrap="nowrap">
-                            <a href="${py.url('/openerp/tree/open', id=sc['res_id'], model='ir.ui.menu')}">${sc['name']}</a>
-                        </td>
-                    % endif
+                % for sc in shortcuts[:7]:
+                    <td>
+                        <a id="shortcut_${sc['res_id']}"
+                           href="${py.url('/openerp/tree/open', id=sc['res_id'], model='ir.ui.menu')}">${sc['name']}</a>
+                    </td>
                 % endfor
                 % if len(shortcuts) >= 7:
                 <td id="shortcuts_menu" nowrap="nowrap">
@@ -125,7 +124,8 @@ except:
                         onmouseover="showMore_sc('shortcuts_menu', 'shortcuts_submenu');">>></a>
                     <div class="submenu" id="shortcuts_submenu" onmouseover="showElement(this);" onmouseout="hideElement(this);">
                         % for sc in shortcuts[7:]:
-                            <a href="${py.url('/openerp/tree/open', id=sc['res_id'], model='ir.ui.menu')}">${sc['name']}</a>
+                            <a id="shortcut_${sc['res_id']}"
+                               href="${py.url('/openerp/tree/open', id=sc['res_id'], model='ir.ui.menu')}">${sc['name']}</a>
                         % endfor
                     </div>
                 </td>

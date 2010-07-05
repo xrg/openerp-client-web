@@ -1125,3 +1125,42 @@ function error_popup(obj) {
         alert(e)
     }
 }
+
+// Setup by the view, the id of the current object
+var RESOURCE_ID;
+/**
+ * Create a shortcut bar item for the current resource
+ */
+function add_shortcut_to_bar() {
+    jQuery.getJSON('/openerp/shortcuts/by_resource', function (data) {
+        jQuery('#sc_row').append(
+            jQuery('<td>').append(
+                jQuery('<a>', {
+                    'id': 'shortcut_' + RESOURCE_ID,
+                    'href': openobject.http.getURL('/openerp/tree/open', {
+                        'id': RESOURCE_ID,
+                        'model': 'ir.ui.menu'
+                    })
+                }).text(data[RESOURCE_ID]['name'])))
+    });
+}
+/**
+ * Toggle the shortcut for the current resource (create or delete it depending on current status)
+ */
+function toggle_shortcut() {
+    var adding = jQuery(this).hasClass('shortcut-add');
+    jQuery.ajax({
+        url: adding ? '/openerp/shortcuts/add' : '/openerp/shortcuts/delete',
+        context: this,
+        type: 'POST',
+        data: {'id': RESOURCE_ID},
+        success: function() {
+            jQuery(this).toggleClass('shortcut-add shortcut-remove');
+            if (adding) {
+                add_shortcut_to_bar();
+            } else {
+                jQuery('#shortcut_' + RESOURCE_ID).parent().remove();
+            }
+        }
+    });
+}
