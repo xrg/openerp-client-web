@@ -42,64 +42,42 @@ function openRecord(id, src, target, readonly) {
     }
 
     if (kind == "one2many") {
-        return new One2Many(src).edit(id, readonly);
+        new One2Many(src).edit(id, readonly);
+        return;
     }
 
     var prefix = src && src != '_terp_list' ? src + '/' : '';
 
-    var model = openobject.dom.get(prefix + '_terp_model').value;
-    var view_ids = openobject.dom.get(prefix + '_terp_view_ids').value;
-    var view_mode = openobject.dom.get(prefix + '_terp_view_mode').value;
-
-    var ids = openobject.dom.get(prefix + '_terp_ids').value;
-
-    var offset = openobject.dom.get(prefix + '_terp_offset').value;
-    var limit = openobject.dom.get(prefix + '_terp_limit').value;
-    var count = openobject.dom.get(prefix + '_terp_count').value;
-
-    var domain = openobject.dom.get(prefix + '_terp_domain').value;
-    var context = openobject.dom.get(prefix + '_terp_context').value;
-
-    var search_domain = openobject.dom.get('_terp_search_domain');
-    search_domain = search_domain ? search_domain.value : null;
-    
-    var search_data = openobject.dom.get('_terp_search_data');
-    search_data = search_data ? search_data.value : null;
-    
-    var search_filter_domain = openobject.dom.get('_terp_filter_domain');
-    search_filter_domain = search_filter_domain ? search_filter_domain.value : [];
-
     var args = {
-        'model': model,
-        'id': id ? id : 'False',
-        'ids': ids,
-        'view_ids': view_ids,
-        'view_mode': view_mode,
-        'domain': domain,
-        'context': context,
-        'offset': offset,
-        'limit': limit,
-        'count': count,
-        'search_domain': search_domain,
-        'search_data': search_data,
-        'filter_domain' : search_filter_domain
+        'model': openobject.dom.get(prefix + '_terp_model').value,
+        'id': id || 'False',
+        'ids': openobject.dom.get(prefix + '_terp_ids').value,
+        'view_ids': openobject.dom.get(prefix + '_terp_view_ids').value,
+        'view_mode': openobject.dom.get(prefix + '_terp_view_mode').value,
+        'domain': openobject.dom.get(prefix + '_terp_domain').value,
+        'context': openobject.dom.get(prefix + '_terp_context').value,
+        'offset': openobject.dom.get(prefix + '_terp_offset').value,
+        'limit': openobject.dom.get(prefix + '_terp_limit').value,
+        'count': openobject.dom.get(prefix + '_terp_count').value,
+        'search_domain': jQuery('#_terp_search_domain').val() || null,
+        'search_data': jQuery('#_terp_search_data').val() || null,
+        'filter_domain' : jQuery('#_terp_filter_domain').val() || []
     };
 
     var action = readonly ? 'view' : 'edit';
 
     if (target == '_blank') {
         window.open(get_form_action(action, args));
-        return null;
+        return;
     }
 
     if (kind == 'many2many') {
         args['source'] = src;
         openobject.tools.openWindow(get_form_action('/openerp/openm2m/edit', args));
-        return null
+        return;
     }
 
     openLink(get_form_action(action, args));
-    return null
 }
 
 function editRecord(id, src, target) {
