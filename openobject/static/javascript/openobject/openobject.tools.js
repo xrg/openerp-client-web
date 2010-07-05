@@ -50,41 +50,41 @@ openobject.tools = {
 
         var args = [];
 
-        args.push("height=", opts.fullscreen ? screen.availHeight : opts.height, ",");
-        args.push("width=", opts.fullscreen ? screen.availWidth : opts.width, ",");
+        args.push("height=", opts.fullscreen ? screen.availHeight : opts.height);
+        args.push("width=", opts.fullscreen ? screen.availWidth : opts.width);
 
         if (!opts.center) {
             opts.x = 0;
             opts.y = 0;
-            args.push("screenx=", opts.x, ",");
-            args.push("screeny=", opts.y, ",");
-            args.push("left=", opts.x, ",");
-            args.push("top=", opts.y, ",");
+            args.push("screenx=", opts.x);
+            args.push("screeny=", opts.y);
+            args.push("left=", opts.x);
+            args.push("top=", opts.y);
         }
 
         if (opts.center && !opts.fullscreen) {
             opts.y = Math.floor((screen.availHeight - opts.height - (screen.height - screen.availHeight)) / 2);
             opts.x = Math.floor((screen.availWidth - opts.width - (screen.width - screen.availWidth)) / 2);
-            args.push("screenx=", opts.x, ",");
-            args.push("screeny=", opts.y, ",");
-            args.push("left=", opts.x, ",");
-            args.push("top=", opts.y, ",");
+            args.push("screenx=", opts.x);
+            args.push("screeny=", opts.y);
+            args.push("left=", opts.x);
+            args.push("top=", opts.y);
         }
 
         if (opts.scrollbars) {
-            args.push("scrollbars=1,");
+            args.push("scrollbars=1");
         }
         if (opts.menubar) {
-            args.push("menubar=1,");
+            args.push("menubar=1");
         }
         if (opts.locationbar) {
-            args.push("location=1,");
+            args.push("location=1");
         }
         if (opts.resizable) {
-            args.push("resizable=1,");
+            args.push("resizable=1");
         }
 
-        return window.open(openobject.http.getURL(anchor), opts.name, args.join());
+        return window.open(openobject.http.getURL(anchor), opts.name, args.join(','));
 
     },
 
