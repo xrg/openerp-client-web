@@ -60,9 +60,7 @@ openobject.tools = {
             args.push("screeny=", opts.y);
             args.push("left=", opts.x);
             args.push("top=", opts.y);
-        }
-
-        if (opts.center && !opts.fullscreen) {
+        } else if (!opts.fullscreen) {
             opts.y = Math.floor((screen.availHeight - opts.height - (screen.height - screen.availHeight)) / 2);
             opts.x = Math.floor((screen.availWidth - opts.width - (screen.width - screen.availWidth)) / 2);
             args.push("screenx=", opts.x);
