@@ -119,8 +119,7 @@ function getMiniCalendar(action) {
 
     req.addCallback(function(xmlHttp) {
         var newMiniCalendar = jQuery(xmlHttp.responseText);
-
-        jQuery('#MiniCalendar').replaceWith(newMiniCalendar);
+        jQuery('#calMini > div.minical-a').replaceWith(newMiniCalendar);
     });
 }
 

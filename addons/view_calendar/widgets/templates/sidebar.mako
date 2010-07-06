@@ -2,7 +2,7 @@
     <div class="sideheader-a">
         <h2>Navigator</h2>
     </div>
-    <div id="mini_calendar">
+    <div id="calMini">
         ${minical.display()}
     </div>
     <div id="calGroups">

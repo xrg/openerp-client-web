@@ -167,6 +167,7 @@ div.minical-a h3 a {
     background: url(../images/minical-a-arrows.gif) 0 50% no-repeat;
     font-size: 0;
     text-indent: -10001px;
+    outline: none;
 }
 
 div.minical-a h3 a.prev {
