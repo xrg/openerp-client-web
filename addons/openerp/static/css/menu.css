@@ -89,6 +89,15 @@ div.contextmenu span {
     cursor: pointer;
 }
 
+
+div.contextmenu hr {
+    margin: 1px 0 !important;
+}
+
+div.contextmenu td {
+    padding: 1px;
+}
+
 div.contextmenu a:hover,
 div.contextmenu span:hover {
     color: #FFF;

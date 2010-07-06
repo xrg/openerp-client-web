@@ -30,7 +30,6 @@ import cgitb
 import sys
 
 import cherrypy
-from openerp import widgets
 from openerp.utils import rpc, common
 
 from openobject.controllers import BaseController
@@ -38,9 +37,7 @@ from openobject.tools import expose, redirect
 
 class ErrorPage(BaseController):
 
-    _cp_path = "/openerp/errorpage"
-
-    nb = widgets.form.Notebook()
+    _cp_path = "/openerp/errorpage"    
 
     @expose()
     def index(self, *args, **kw):
@@ -77,7 +74,7 @@ class ErrorPage(BaseController):
             proxy = rpc.RPCProxy('maintenance.contract')
             maintenance = proxy.status()
 
-        return dict(title=title, error=error, maintenance=maintenance, nb=self.nb,
+        return dict(title=title, error=error, maintenance=maintenance,
                     concurrency=concurrency, all_params=all_params, target=target)
 
     @expose('json')
