@@ -1129,19 +1129,19 @@ function error_popup(obj) {
 // Setup by the view, the id of the current object
 var RESOURCE_ID;
 /**
- * Create a shortcut bar item for the current resource
+ * Create a shortcut bar item for the provided menu ID
  */
-function add_shortcut_to_bar() {
+function add_shortcut_to_bar(id) {
     jQuery.getJSON('/openerp/shortcuts/by_resource', function (data) {
         jQuery('#sc_row').append(
             jQuery('<span>').append(
                 jQuery('<a>', {
-                    'id': 'shortcut_' + RESOURCE_ID,
+                    'id': 'shortcut_' + id,
                     'href': openobject.http.getURL('/openerp/tree/open', {
-                        'id': RESOURCE_ID,
+                        'id': id,
                         'model': 'ir.ui.menu'
                     })
-                }).text(data[RESOURCE_ID]['name'])))
+                }).text(data[id]['name'])))
     });
 }
 /**
@@ -1157,7 +1157,7 @@ function toggle_shortcut() {
         success: function() {
             jQuery(this).toggleClass('shortcut-add shortcut-remove');
             if (adding) {
-                add_shortcut_to_bar();
+                add_shortcut_to_bar(RESOURCE_ID);
             } else {
                 jQuery('#shortcut_' + RESOURCE_ID).parent().remove();
             }
