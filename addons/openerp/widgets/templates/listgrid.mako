@@ -168,10 +168,10 @@ import cherrypy
 	                        % if selector:
 	                        <th width="1" class="grid-cell selector">
 	                            % if selector=='checkbox':
-	                            <input type="checkbox" class="checkbox grid-record-selector" onclick="new ListView('${name}').checkAll(!this.checked)"/>
+	                            	<input type="checkbox" class="checkbox grid-record-selector" onclick="new ListView('${name}').checkAll(!this.checked)"/>
 	                            % endif
 	                            % if selector!='checkbox':
-	                            <span>&nbsp;</span>
+	                            	<span>&nbsp;</span>
 	                            % endif
 	                        </th>
 	                        % endif

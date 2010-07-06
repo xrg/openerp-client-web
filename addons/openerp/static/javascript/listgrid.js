@@ -139,20 +139,21 @@ ListView.prototype = {
     getSelectedItems: function() {
         return filter(function(box) {
             return box.id && box.checked;
-//            $('input.grid-record-selector')
         }, openobject.dom.select('input.grid-record-selector', this.name));
     },
 
     onBooleanClicked: function(clear, value) {
         var selected_ids = this.getSelectedRecords();
-        var sb = openobject.dom.get('sidebar');
+        
         if (selected_ids.length <= 1) {
-            if (sb){
-                if(sb.style.display != '') {toggle_sidebar() };
+        	if (jQuery('div#tertiary').attr('class', 'sidebar-closed')) {
+        		toggle_sidebar();
             }
         }
         if (selected_ids.length == 0) {
-            if (sb) toggle_sidebar();
+            if (jQuery('div#tertiary').attr('class', 'sidebar-open')) {
+        		toggle_sidebar();
+            }
         }
         
        	this.selectedRow_sum();     
