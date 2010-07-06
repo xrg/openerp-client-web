@@ -596,7 +596,7 @@ MonthCalendar.Event.prototype = {
     },
 
     onClick : function(evt) {
-        if (!hasElementClass(this.element, 'dragging')) {
+        if (evt.mouse().button.left && !hasElementClass(this.element, 'dragging')) {
             new InfoBox({
                 dtStart : this.starts2,
                 dtEnd : this.ends,
