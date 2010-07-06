@@ -5,7 +5,7 @@
     <div id="mini_calendar">
         ${minical.display()}
     </div>
-    <div id="group_box">
+    <div id="calGroups">
         ${groupbox.display()}
     </div>
     <div class="sideheader-a">
