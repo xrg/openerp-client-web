@@ -179,7 +179,7 @@
 .calMonthWeek {
     position: relative;
     width: 100%;
-    height: 121px;
+    height: 134px;
 }
 
 .calMonth .calTimeCol {
@@ -199,7 +199,6 @@
 }
 
 .calMonthDay {
-    position: absolute;
     vertical-align: top;
 
     background-color: white;

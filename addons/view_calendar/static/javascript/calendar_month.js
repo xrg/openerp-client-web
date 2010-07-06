@@ -94,7 +94,7 @@ MonthCalendar.prototype = {
 
             var a = A({href: 'javascript: void(0)', onclick : "getCalendar('" + week.days[0] + "', 'week')"}, this.firstWeek + i);
 
-            appendChildNodes('calTimeCol', DIV({'style': 'height: 120px'}, a));
+            appendChildNodes('calTimeCol', DIV({'style': 'height: 133px'}, a));
 
             for (var j = 0; j < 7; j ++) {
                 dt = dt.getNext();
@@ -297,7 +297,7 @@ MonthCalendar.Header.prototype = {
 
         var d = elementDimensions('calHeaderSect');
 
-        var w = d.w / 7;
+        var w = Math.floor(d.w / 7);
         var h = d.h;
 
         for (var i = 0; i < 7; i++) {
@@ -540,7 +540,7 @@ MonthCalendar.Week.prototype = {
     adjust : function() {
         var w = elementDimensions('calGrid').w / 7;
 
-        w = Math.round(w);
+        w = Math.floor(w);
 
         for (var i = 0; i < 7; i++) {
             var e = this.elements[i];
@@ -551,7 +551,7 @@ MonthCalendar.Week.prototype = {
             e.style.left = i * w + 'px';
 
             e.style.width = w + 'px';
-            e.style.height = '121px';
+            e.style.height = '134px';
         }
 
         for (var dt in this.containers) {
@@ -630,9 +630,7 @@ MonthCalendar.Event.prototype = {
 
         y += this.row * h;
 
-        var d = elementDimensions('calAllDaySect');
-
-        w = Math.round(w);
+        w = Math.floor(w);
         w = w * this.dayspan - 6;
         y += 2;
 

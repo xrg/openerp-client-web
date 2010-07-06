@@ -891,8 +891,8 @@ WeekCalendar.AllDayEvent.prototype = {
 
     adjust : function() {
 
-        var w = this.container.calendar.colWidth;
-        var x = this.container.index * this.container.calendar.colWidth + 2;
+        var w =  elementDimensions('calGrid').w / 7;
+        var x = this.container.index * this.container.calendar.colWidth;
 
         var h = elementDimensions(this.element).h + 1;
 
@@ -900,11 +900,9 @@ WeekCalendar.AllDayEvent.prototype = {
 
         var d = elementDimensions('calAllDaySect');
 
-        w = w * this.dayspan;
+        w = Math.floor(w) * this.dayspan - 6;
 
         x += 1;
-        w -= 6;
-
         y += 1;
 
         w = Math.max(0, w);
