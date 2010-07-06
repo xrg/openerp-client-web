@@ -940,7 +940,7 @@ function do_action(action_id, field, relation, src) {
 
 function on_context_menu(evt) {
 
-    if (! evt.modifier().ctrl) {
+    if (! evt.modifier()) {
         return;
     }
 
