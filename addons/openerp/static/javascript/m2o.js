@@ -177,11 +177,11 @@ ManyToOne.prototype.open = function(id){
 
 ManyToOne.prototype.get_text = function(evt) {
 
-    if (this.field.value == '') {
+    if (this.text && this.field.value == '') {
         this.text.value = '';
     }
 
-    if (this.field.value && ! this.text.value) {
+    if (this.text && this.field.value && ! this.text.value) {
         var req = openobject.http.postJSON('/openerp/search/get_name', {model: this.relation, id : this.field.value});
         var text_field = this.text;
 
