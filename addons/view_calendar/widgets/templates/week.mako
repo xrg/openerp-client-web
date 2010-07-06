@@ -68,7 +68,7 @@
                                     nCreationId="${evt.create_uid}"
                                     nWriteDate="${evt.write_date}"
                                     nWriteId="${evt.write_uid}" 
-                                    style="background-color: ${evt.color}; -moz-border-radius: 5px;" 
+                                    style="background-color: ${evt.color};" 
                                     class="calEvent allDay">${evt.title}</div>
                             % endif
                         % endfor
@@ -83,7 +83,7 @@
                             nCreationId="${evt.create_uid}"
                             nWriteDate="${evt.write_date}"
                             nWriteId="${evt.write_uid}"
-                            style="background-color: ${evt.color}; -moz-border-radius: 5px;" 
+                            style="background-color: ${evt.color};" 
                             class="calEvent noAllDay">
                            <div style="height: 10px;" class="calEventTitle">${evt.starts.strftime('%I:%M %P')} - ${evt.title}</div>
                            <div class="calEventDesc">${evt.description}</div>

@@ -89,7 +89,7 @@ WeekCalendar.prototype = {
 
         if (!hasElementClass(element, 'calEvent')) return;
 
-        var h = parseInt(element.style.height) + 4;
+        var h = parseInt(element.style.height) + 2;
         var dt = MochiKit.DateTime.isoTimestamp(getNodeAttribute(element, 'dtStart'));
         var id = getNodeAttribute(element, 'nRecordID');
 
@@ -645,7 +645,7 @@ WeekCalendar.DayGrid.prototype = {
         var id = getNodeAttribute(draggable, 'nRecordID');
 
         var y = parseInt(draggable.style.top);
-        var h = parseInt(draggable.style.height) + 4;
+        var h = parseInt(draggable.style.height) + 2;
 
         var s = y * (30 / 20) * (60 * 1000);
         var e = (y + h) * (30 / 20) * (60 * 1000);
@@ -746,7 +746,7 @@ WeekCalendar.DayGrid.prototype = {
         if (!elem || elem.style.display == 'none') return;
 
         // set end time
-        var h = parseInt(elem.style.height) + 4;
+        var h = parseInt(elem.style.height) + 2;
         var dt = MochiKit.DateTime.isoTimestamp(getNodeAttribute(elem, 'dtStart'));
 
         var e = dt.getTime() + h * (30 / 20) * (60 * 1000);
@@ -900,7 +900,7 @@ WeekCalendar.AllDayEvent.prototype = {
 
         var d = elementDimensions('calAllDaySect');
 
-        w = Math.floor(w) * this.dayspan - 6;
+        w = Math.floor(w) * this.dayspan - 4;
 
         x += 1;
         y += 1;
@@ -998,7 +998,7 @@ WeekCalendar.DayEvent.prototype = {
     },
 
     onClick : function(evt) {
-        if (!hasElementClass(this.element, 'dragging')) {
+        if (evt.mouse().button.left && !hasElementClass(this.element, 'dragging')) {
             new InfoBox({
                 dtStart : this.starts,
                 dtEnd : this.ends,
@@ -1095,8 +1095,8 @@ WeekCalendar.DayEvent.prototype = {
         this.element.style.top = y + 'px';
         this.element.style.left = x + 'px';
 
-        w = Math.max(w - 4, 0);
-        h = Math.max(h - 4, 0);
+        w = Math.max(w - 2, 0);
+        h = Math.max(h - 2, 0);
 
         this.element.style.width = w + 'px';
         this.element.style.height = h + 'px';
