@@ -180,7 +180,8 @@ class List(SecuredController):
         source = (params.source or '') and str(params.source)
 
         params.view_type = 'form'
-
+        if params.get('_terp_clear'):
+            params.domain, params.search_domain, params.filter_domain, params.ids = [], [], [], []
         if source == '_terp_list':
             params.view_type = 'tree'
             if params.search_domain:
@@ -217,7 +218,11 @@ class List(SecuredController):
         active_clear = False
         if frm.search.listof_domain or frm.search.custom_filter_domain or frm.search.groupby:
             active_clear = True
-        return dict(ids=ids, count=count, view=ustr(wid.render()), info=info, active_clear=active_clear)
+        if params.get('_terp_clear'):
+            view=ustr(frm.render())
+        else:
+            view=ustr(wid.render())
+        return dict(ids=ids, count=count, view=view, info=info, active_clear=active_clear)
 
     @expose('json')
     def button_action(self, **kw):

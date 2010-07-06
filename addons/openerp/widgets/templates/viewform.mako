@@ -32,7 +32,7 @@
             			         css_clear = 'inactive_clear'     
             			%>
                         <td id="clear_all_filters" class="${css_clear}">
-                            <a class="button-a" title="${_('Clear all .')}" href="javascript: void(0)">${_("Clear")}</a>
+                            <a class="button-a" title="${_('Clear all .')}" href="javascript: void(0)" onclick="new ListView('_terp_list').clear()">${_("Clear")}</a>
                         </td>
             			<td id="save_filters">
                              <a class="button-a" title="${_('Save as Filters.')}" href="javascript: void(0)" onclick="save_as_filter()">${_("Save as Filter")}</a>

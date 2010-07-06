@@ -443,6 +443,10 @@ MochiKit.Base.update(ListView.prototype, {
         req.addCallback(function() {
             self.reload();
         });
+    },
+    
+    clear: function() {
+    	this.reload(-1, null, this.default_get_ctx, true)
     }
 });
 
@@ -707,7 +711,7 @@ MochiKit.Base.update(ListView.prototype, {
         this.reload();
     },
 
-    reload: function(edit_inline, concurrency_info, default_get_ctx) {
+    reload: function(edit_inline, concurrency_info, default_get_ctx, clear) {
 
         if (openobject.http.AJAX_COUNT > 0) {
             return callLater(1, bind(this.reload, this), edit_inline, concurrency_info);
@@ -742,6 +746,10 @@ MochiKit.Base.update(ListView.prototype, {
         	}
         }
         
+        if(clear) {
+        	args['_terp_clear'] = true;
+        }
+        
         var req = openobject.http.postJSON('/openerp/listgrid/get', args);
         req.addCallback(function(obj) {
             var _terp_id = openobject.dom.get(self.name + '/_terp_id') || openobject.dom.get('_terp_id');
@@ -771,8 +779,9 @@ MochiKit.Base.update(ListView.prototype, {
 
             var d = DIV();
             d.innerHTML = obj.view;
-
-            var newlist = d.getElementsByTagName('table')[0];
+            
+            var newlist = getElementsByTagAndClassName('table', 'gridview', d)[0];
+            
             var editors = self.adjustEditors(newlist);
 
             if (editors.length > 0) {
@@ -780,16 +789,25 @@ MochiKit.Base.update(ListView.prototype, {
             }
 
             self.current_record = edit_inline;
-			
-            var __listview = openobject.dom.get(self.name).__listview;
-            swapDOM(self.name, newlist);
-            openobject.dom.get(self.name).__listview = __listview;
+		    var __listview = openobject.dom.get(self.name).__listview;
+		    if(clear) {
+		    	jQuery('#view_form').replaceWith(d.innerHTML);
+		    } 
+		    else {
+		      swapDOM(self.name, newlist);
+		    } 
+		     openobject.dom.get(self.name).__listview = __listview;
 			
             var ua = navigator.userAgent.toLowerCase();
 
             if ((navigator.appName != 'Netscape') || (ua.indexOf('safari') != -1)) {
                 // execute JavaScript
-                var scripts = openobject.dom.select('script', newlist);
+                if(clear) {
+                	var scripts = openobject.dom.select('script', d.innerHTML);
+                }
+                else {
+                    var scripts = openobject.dom.select('script', newlist);
+                }
                 forEach(scripts, function(s) {
                     eval(s.innerHTML);
                 });
