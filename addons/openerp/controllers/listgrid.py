@@ -147,7 +147,6 @@ class List(SecuredController):
     def get(self, **kw):
         params, data = TinyDict.split(kw)
         groupby = params.get('_terp_group_by_ctx')
-        
         if groupby and isinstance(groupby, basestring):
             groupby = groupby.split(',')
         
@@ -214,7 +213,11 @@ class List(SecuredController):
             for m, v in getattr(cherrypy.request, 'terp_concurrency_info', {}).items():
                 for i, d in v.items():
                     info['%s,%s' % (m, i)] = d
-        return dict(ids=ids, count=count, view=ustr(wid.render()), info=info)
+                    
+        active_clear = False
+        if frm.search.listof_domain or frm.search.custom_filter_domain or frm.search.groupby:
+            active_clear = True
+        return dict(ids=ids, count=count, view=ustr(wid.render()), info=info, active_clear=active_clear)
 
     @expose('json')
     def button_action(self, **kw):

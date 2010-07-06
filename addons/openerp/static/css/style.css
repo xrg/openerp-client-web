@@ -952,6 +952,29 @@ table.attachment_bar td a {
 .pager-cell-button {
     padding: 0 0 0 5px;
 }
+
+#filter_search {
+    padding: 0;
+    float: left;
+}
+
+#save_filters, #manage_filters, #clear_all_filters {
+    padding: 0 2px 0 2px;
+    float: left;
+}
+
+.custom-filter {
+    float: right;
+    padding: 0;
+}
+
+.active_clear {
+    display: block;
+}
+
+.inactive_clear {
+    display: none;
+}
 /**
  * vim: sts=4 st=4 et 
  *

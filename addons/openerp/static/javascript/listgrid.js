@@ -757,6 +757,17 @@ MochiKit.Base.update(ListView.prototype, {
                 _terp_ids.value = '[' + obj.ids.join(',') + ']';
                 _terp_count.value = obj.count;
             }
+            
+            if(obj.active_clear) {
+            	if(jQuery('#clear_all_filters').css('display')=='none') {
+            	   jQuery('#clear_all_filters').show()	
+            	}
+            }
+            else {
+            	if(jQuery('#clear_all_filters').css('display')!='none') {
+            		jQuery('#clear_all_filters').hide()
+            	}
+            }
 
             var d = DIV();
             d.innerHTML = obj.view;

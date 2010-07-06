@@ -20,21 +20,27 @@
             <td class="view_form_options" align="left">
             	<table style="border: none; width: 100%;">
             		<tr>
-            			<td style="padding: 0; float: left;">
+            			<td id="filter_search">
             				<div class="toolbar">
 			                	<a class="button-a" title="${_('Filter records.')}" href="javascript: void(0)" onclick="search_filter()">${_("Filter")}</a>
                 			</div>
             			</td>
-            			<td style="padding: 0 2px 0 2px; float: left;">
-           			         <a class="button-a" title="${_('Clear all .')}" href="javascript: void(0)">${_("Clear")}</a>
-            			</td>
-            			<td style="padding: 0 2px 0 2px; float: left;">
+            			<%
+            			     if search.listof_domain or search.custom_filter_domain or search.groupby:
+            			         css_clear = 'active_clear'
+            			     else:
+            			         css_clear = 'inactive_clear'     
+            			%>
+                        <td id="clear_all_filters" class="${css_clear}">
+                            <a class="button-a" title="${_('Clear all .')}" href="javascript: void(0)">${_("Clear")}</a>
+                        </td>
+            			<td id="save_filters">
                              <a class="button-a" title="${_('Save as Filters.')}" href="javascript: void(0)" onclick="save_as_filter()">${_("Save as Filter")}</a>
                         </td>
-                        <td style="padding: 0 2px 0 2px; float: left;">
+                        <td id="manage_filters">
                              <a class="button-a" title="${_('Manage Filters.')}" href="javascript: void(0)" onclick="manage_filters()">${_("Manage Filter")}</a>
                         </td>
-                        <td class="custom-filter" style="float: right; padding: 0;">
+                        <td class="custom-filter">
                              <ul>
                                 <li style="padding-right: 3px;">
                                     <select name="filter_list" id="filter_list" onchange="search_filter();">
