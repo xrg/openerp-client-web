@@ -913,8 +913,8 @@ div#progress_div3 {
     text-align: center;
 }
 
-div.logActions {
-    padding: 2px;
+td.logActions {
+    padding: 0 0 1px 10px;
 }
 
 div#serverlog {
@@ -926,10 +926,11 @@ div#serverlog {
     border: 1px solid #CECBCB;
 }
 
-div.serverLogHeader {
-    font-weight: bold;
+table.serverLogHeader {
     border-bottom: 1px solid #CECBCB;
     padding: 2px;
+    color: #9A0404;
+    width: 100%;
 }
 
 div#serverlog a {

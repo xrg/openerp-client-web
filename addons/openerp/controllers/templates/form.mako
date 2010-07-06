@@ -54,31 +54,6 @@
                                     	</h1>
                                     </td>
 
-                                    %if serverLog:
-                                    	<td>
-									    	<div id="serverlog" style="display: none;">
-									    		<div class="serverLogHeader">
-									    			Current actions :
-									    			<img id="closeServerLog" style="cursor: pointer;" align="right" src="/openerp/static/images/attachments-a-close.png">
-									    		</div>
-									    		% for log in serverLog:
-									    			<div class="logActions">
-								    					<a href="${py.url('/openerp/form/edit', model=log['res_model'], id=log['res_id'])}">
-								    						${log['name']}
-								    					</a>
-									    			</div>
-									    		% endfor
-									    	</div>
-
-									    	<script type="text/javascript">
-									    		jQuery('#serverlog').fadeIn('slow');
-									    		jQuery('#closeServerLog').click(function() {
-									    			jQuery('#serverlog').fadeOut("slow");
-									    		});
-									    	</script>
-								    	</td>
-    								% endif
-
                                     <%def name="make_view_button(i, kind, name, desc, active)">
                                         <%
                                             cls = ''
@@ -102,6 +77,80 @@
 										</ul>
 									</td>                                    
                                 </tr>
+                                %if serverLog:
+	                            	<tr>
+		                              	<td colspan="2" style="width: 100%; padding: 0px;">
+									    	<div id="serverlog" style="display: none;">
+									    		<table class="serverLogHeader">
+									    			<tr>
+									    				<td style="padding: 2px 10px 0 10px; font-weight: bold;">
+									    					<img id="toggle_server_log" style="cursor: pointer; padding-bottom: 3px;" src="/openerp/static/images/server_log_close.gif"></img>
+											    			Current actions :
+											    			<td>
+											    				<img id="closeServerLog" style="cursor: pointer;" align="right" src="/openerp/static/images/attachments-a-close.png"></img>
+											    			</td>
+									    				</td>
+									    			</tr>
+									    			<tr id="actions_row">
+									    				<td style="padding: 2px 0 0 0;">
+									    					<table style="width: 100%;">
+													    		% if len(serverLog) > 3:
+														    		% for log in serverLog[-3:]:
+														    			<tr>
+														    				<td class="logActions">
+														    					<a href="${py.url('/openerp/form/edit', model=log['res_model'], id=log['res_id'])}">
+														    						${log['name']}
+														    					</a>
+														    				</td>
+														    			</tr>
+														    		% endfor
+															    	<tr>
+															    		<td style="font-weight: bold; padding: 0 0 0 10px;">
+															    			<a style="color: blue;" href="javascript: void();">
+															    				More...
+															    			</a>
+															    		</td>
+															    	</tr>
+															    % else:
+															    	% for log in serverLog:
+														    			<tr>
+														    				<td class="logActions">
+														    					<a href="${py.url('/openerp/form/edit', model=log['res_model'], id=log['res_id'])}">
+														    						${log['name']}
+														    					</a>
+														    				</td>
+														    			</tr>
+														    		% endfor
+															    % endif
+															</table>
+														</td>
+													</tr>
+												</table>
+									    	</div>
+						
+									    	<script type="text/javascript">
+									    		jQuery('#serverlog').fadeIn('slow');
+									    		jQuery('#closeServerLog').click(function() {
+									    			jQuery('#serverlog').fadeOut("slow");
+									    		});
+									    		
+									    		jQuery('img#toggle_server_log').click(function() {
+									    			var server_img_src = jQuery(this).attr('src');
+									    			if (jQuery(this).attr('src').indexOf('server_log_close') > 0) {
+									    				jQuery('tr#actions_row').css('display', 'none');
+									    				jQuery(this).attr('src', server_img_src.replace('server_log_close', 'server_log_open'));
+									    				jQuery(this).css('padding-bottom', '1px');
+									    			}
+									    			else {
+									    				jQuery('tr#actions_row').css('display', '');
+									    				jQuery(this).css('padding-bottom', '3px');
+									    				jQuery(this).attr('src', server_img_src.replace('server_log_open', 'server_log_close'));
+									    			}
+									    		});
+									    	</script>
+								    	</td>
+								    </tr>
+								% endif
                             </table>
                         </td>
                     </tr>
@@ -172,7 +221,7 @@
 		                           			 <a href="javascript: void(0)" title="${_('Translate this resource.')}" onclick="openobject.tools.openWindow(openobject.http.getURL('/openerp/translator', {_terp_model: '${form.screen.model}', _terp_id: ${form.screen.id}, _terp_context: $('_terp_context').value}));">
 		                           			      ${_('Translate')}</a>
 		                           			 <span>|</span>
-		                           			 <a href="javascript: void(0)"  title="${_('View Log.')}" onclick="openobject.tools.openWindow('${py.url('/openerp/viewlog', _terp_model=form.screen.model, _terp_id=form.screen.id)}', {width: 500, height: 300})">
+		                           			 <a href="javascript: void(0)"  title="${_('View Log.')}" onclick="openobject.tools.openWindow('${py.url('/openerp/viewlog', _terp_model=form.screen.model, _terp_id=form.screen.id)}', {width: 500, height: 300});">
 		                           			     ${_('View Log')}
 		                           			 </a> 
                             			% endif
