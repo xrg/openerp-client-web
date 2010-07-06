@@ -179,17 +179,17 @@ import cherrypy
 	                        <th class="grid-cell selector"><div style="width: 0;"></div></th>
 	                        % endif
 	                        % for (field, field_attrs) in headers:
-	                        % if field == 'button':
-	                        	<th class="grid-cell"></th>
-	                        %else: 
-	                        	<th id="grid-data-column/${(name != '_terp_list' or None) and (name + '/')}${field}" class="grid-cell ${field_attrs.get('type', 'char')}" kind="${field_attrs.get('type', 'char')}" style="cursor: pointer;" onclick="new ListView('${name}').sort_by_order('${field}')">${field_attrs['string']}</th>
-	                    	% endif
+		                        % if field == 'button':
+		                        	<th class="grid-cell"></th>
+		                        %else: 
+		                        	<th id="grid-data-column/${(name != '_terp_list' or None) and (name + '/')}${field}" class="grid-cell ${field_attrs.get('type', 'char')}" kind="${field_attrs.get('type', 'char')}" style="cursor: pointer;" onclick="new ListView('${name}').sort_by_order('${field}')">${field_attrs['string']}</th>
+		                    	% endif
 	                        % endfor
 	                        % if buttons:
-	                        <th class="grid-cell button"><div style="width: 0;"></div></th>
+	                        	<th class="grid-cell button"><div style="width: 0;"></div></th>
 	                        % endif
 	                        % if editable:
-	                        <th class="grid-cell selector"><div style="width: 0;"></div></th>
+	                        	<th class="grid-cell selector"><div style="width: 0;"></div></th>
 	                        % endif
 	                    </tr>
 	                </thead>
@@ -249,23 +249,17 @@ import cherrypy
                                 % if field == 'button':
                                     <td class="grid-cell button"><div style="width: 0;"></div></td>
                                 % else:
-                                   	% if i == 0:
-                                   	<td class="grid-cell" id="total_sum_title" nowrap="nowrap">
-                                   		<strong id="total_sum_label">Total</strong>
-                                  	</td>
-                                   	% else:
-                                   		<td class="grid-cell" id="total_sum_value" nowrap="nowrap">
-	                                         % if 'sum' in field_attrs:
-	                                             % for key, val in field_total.items():
-	                                                 % if field == key:
-	                                                 	<span id="${field}" class="sum_value_field">${val[1]}</span>
-	                                                 % endif
-	                                             % endfor
-	                                         % else:
-	                                         	 &nbsp;
-	                                         % endif
-                                         </td>
-                                    % endif
+                               		<td class="grid-cell" id="total_sum_value" nowrap="nowrap">
+                                    	% if 'sum' in field_attrs:
+                                        	% for key, val in field_total.items():
+                                            	% if field == key:
+                                              		<span id="${field}" class="sum_value_field">${val[1]}</span>
+                                              	% endif
+                                          	% endfor
+                                      	% else:
+                                      		&nbsp;
+                                      	% endif
+                                     </td>
                                 % endif
                             % endfor
                             % if editable:

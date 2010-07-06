@@ -37,11 +37,12 @@ a:hover .imglink {
     text-decoration: none;
 }
 
-td.powered {
+td.dimmed-text td.powered {
     font-weight: bold;
     font-size: 0.8em;
     text-transform: uppercase;
     color: #969494;
+    padding: 0px;
 }
 
 td.powered a {
@@ -50,6 +51,12 @@ td.powered a {
 
 td.dimmed-text {
     padding: 0 0 0 5px;
+}
+
+td.dimmed-text .footer {
+	padding: 0px;
+	width: 50%;
+	padding-left: 20px;
 }
 
 td.dimmed-text .footer a {
@@ -68,6 +75,7 @@ td.dimmed-text span {
 .dimmed-text table.form-footer {
     border: none;
     width: 100%;
+    margin: 0 5px;
 }
 
 hr {

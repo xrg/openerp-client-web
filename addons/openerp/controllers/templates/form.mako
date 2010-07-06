@@ -169,11 +169,12 @@
                             			<a href="javascript: void(0)" onclick="new ListView('_terp_list').exportData()">${_("Export")}</a>
                             			% if form.screen.view_type in ('form'):
 	                           			 <span>|</span>
-	                           			 <a href="javascript: void(0)" title="${_('Translate this resource.')}" onclick="openobject.tools.openWindow(openobject.http.getURL('/openerp/translator', {_terp_model: '${form.screen.model}', _terp_id: ${form.screen.id}, _terp_context: $('_terp_context').value}));">
-	                           			      ${_('Translate')}</a>
-	                           			 <span>|</span>
-	                           			 <a href="javascript: void(0)"  title="${_('View Log.')}" onclick="openobject.tools.openWindow('${py.url('/openerp/viewlog', _terp_model=form.screen.model, _terp_id=form.screen.id)}', {width: 500, height: 300})">
-	                           			     ${_('View Log')}</a> 
+		                           			 <a href="javascript: void(0)" title="${_('Translate this resource.')}" onclick="openobject.tools.openWindow(openobject.http.getURL('/openerp/translator', {_terp_model: '${form.screen.model}', _terp_id: ${form.screen.id}, _terp_context: $('_terp_context').value}));">
+		                           			      ${_('Translate')}</a>
+		                           			 <span>|</span>
+		                           			 <a href="javascript: void(0)"  title="${_('View Log.')}" onclick="openobject.tools.openWindow('${py.url('/openerp/viewlog', _terp_model=form.screen.model, _terp_id=form.screen.id)}', {width: 500, height: 300})">
+		                           			     ${_('View Log')}
+		                           			 </a> 
                             			% endif
                             		</td>                            		
                             		<td class="powered">
