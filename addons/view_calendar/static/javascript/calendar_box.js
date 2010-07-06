@@ -121,9 +121,8 @@ InfoBox.prototype = {
 
     show : function(evt) {
 
-        setElementDimensions(this.layer, elementDimensions(document.body));
-        //setElementDimensions(this.layer, getViewportDimensions());
-
+    	jQuery(this.layer).height(jQuery(document).height());
+    	
         var w = 350;
         var h = 145;
 
