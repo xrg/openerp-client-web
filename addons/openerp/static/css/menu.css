@@ -69,19 +69,35 @@
 #shortcuts a {
 }
 
+div.contextmenu {
+    background-color: #444;
+    border: 1px solid #000;
+    white-space: nowrap;
+    position: absolute;
+    padding: 2px;
+    z-index: 100;
+}
 
-div.contextmenu a.customise_menu_options,
+div.contextmenu a,
 div.contextmenu span {
     display: block;
     text-align: left;
     text-decoration: none;
     white-space: nowrap;
     padding: 2px;
-    color: #FFFFFF;
+    color: #FFF;
     cursor: pointer;
 }
 
-div.contextmenu a:hover {
-	background-color: #CCCCCC;
-	color: #5C5B5B
+div.contextmenu a:hover,
+div.contextmenu span:hover {
+    color: #FFF;
+    background-color: #505050;
+    text-decoration: none;
 }
+
+div.contextmenu a.disabled,
+div.contextmenu span.disabled {
+    color: #C0C0C0;
+}
+
