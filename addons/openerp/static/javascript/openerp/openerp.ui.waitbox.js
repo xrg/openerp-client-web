@@ -80,7 +80,8 @@ openerp.ui.WaitBox.prototype = {
             top: Math.max(0, y),
             left: Math.max(0, x)
         });
-
+        
+        jQuery(this.layer).height(jQuery(document).height());
         jQuery([this.layer, this.box]).show();
     },
 
