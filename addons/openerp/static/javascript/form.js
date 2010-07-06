@@ -1134,7 +1134,7 @@ var RESOURCE_ID;
 function add_shortcut_to_bar() {
     jQuery.getJSON('/openerp/shortcuts/by_resource', function (data) {
         jQuery('#sc_row').append(
-            jQuery('<td>').append(
+            jQuery('<span>').append(
                 jQuery('<a>', {
                     'id': 'shortcut_' + RESOURCE_ID,
                     'href': openobject.http.getURL('/openerp/tree/open', {
