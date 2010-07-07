@@ -694,6 +694,11 @@ GanttCalendar.GridGroup.prototype = {
             div.className = evt.className;
             div.style.backgroundColor = evt.bg;
 
+            try{
+                var bg = Color.fromString(div.style.backgroundColor).darkerColorWithLevel(0.2).toHexString();
+                div.style.borderColor = bg;
+            }catch(e){}
+
             self.events = self.events.concat(new GanttCalendar.Event(div, self));
         });
 

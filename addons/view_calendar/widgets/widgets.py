@@ -211,7 +211,7 @@ class GanttCalendar(ICalendar):
 
     params = ['title', 'level', 'groups', 'days', 'events', 'calendar_fields', 'date_format',
               'selected_day', 'mode', 'headers', 'subheaders', 'model', 'ids']
-    member_widgets = ['groupbox']
+    member_widgets = ['sidebar']
 
     level = None
     groups = None
@@ -224,6 +224,7 @@ class GanttCalendar(ICalendar):
     sidebar = None
 
     css = [CSSLink("view_calendar", 'css/calendar.css'),
+           CSSLink("view_calendar", 'css/screen.css'),
            CSSLink("view_calendar", 'css/calendar_gantt.css')]
     javascript = [JSLink("view_calendar", 'javascript/calendar_date.js'),
                   JSLink("view_calendar", 'javascript/calendar_utils.js'),
@@ -361,9 +362,13 @@ class GanttCalendar(ICalendar):
 
         self.events = self.get_events(self.days)
         self.groups = self.get_groups(self.events)
-        self.groupbox = GroupBox(self.colors, self.color_values, day,
+        
+        minical = MiniCalendar(day)
+        groupbox = GroupBox(self.colors, self.color_values, day,
                 group_relation=self.fields[self.color_field],
                 title=(self.color_field or None) and self.fields[self.color_field]['string'], mode=self.mode)
+
+        self.sidebar = Sidebar(minical, groupbox, self.use_search)
 
     def parse(self, root, fields):
 
