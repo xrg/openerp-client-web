@@ -134,27 +134,13 @@ hr {
     text-shadow: #333 0 1px 0;
 }
 
-.header_logged,.header_logged p#logo {
+#top, #logo {
     height: 65px;
 }
 
-.header_logged #company_logo {
+#company_logo {
     padding: 10px 0;
     width: 100%;
-}
-
-.header_not_logged {
-    height: 34px;
-}
-
-.header_not_logged #logo {
-    height: 33px;
-}
-
-.header_not_logged #company_logo {
-    padding: 0 10px;
-    width: 75%;
-    vertical-align: top;
 }
 
 #top table td {

@@ -32,13 +32,11 @@ except:
 </script>
 <%
     if rpc.session.is_logged():
-        header_class = "header_logged"
         logged = True
     else:
-        header_class = "header_not_logged"
         logged = False
 %>
-<div id="top" class="${header_class}">
+<div id="top">
     <div id="top-menu">
         <p id="logo">
             <a href="http://www.openerp.com" target="_blank">
