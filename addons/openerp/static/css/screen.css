@@ -2409,7 +2409,6 @@ a.button-a:hover,a.button-a:focus,a.button-a:active {
     border-color: #676767 #676767 #676767;
     background: #666666;
     color: #fff;
-    text-shadow: #fff 0 1px 0;
 }
 
 a.button-b {
