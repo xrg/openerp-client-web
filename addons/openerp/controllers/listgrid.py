@@ -186,6 +186,11 @@ class List(SecuredController):
                 if k.startswith('search_default'):
                     params.context[k] = 0
             
+            if params.context.get('group_by_no_leaf'):
+                params.context['group_by_no_leaf'] = 0
+            if params.context.get('group_by'):
+                params.context['group_by'] = []
+            params.group_by_ctx = groupby = []
         if source == '_terp_list':
             params.view_type = 'tree'
             if params.search_domain:
@@ -199,7 +204,7 @@ class List(SecuredController):
         if current and params.source_default_get:
             current.context = current.context or {}
             current.context.update(params.source_default_get)
-        
+            
         if params.wiz_id:
             res = wizard.Wizard().execute(params)
             frm = res['form']
