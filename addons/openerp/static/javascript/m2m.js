@@ -52,7 +52,7 @@ Many2Many.prototype = {
         this.text = openobject.dom.get(name + '_set');
 
         this.btnAdd = openobject.dom.get('_' + name + '_button1');
-        this.btnDel = openobject.dom.get('_' + name + '_button2');
+//        this.btnDel = openobject.dom.get('_' + name + '_button2');
 
         this.terp_ids = openobject.dom.get(name + '/_terp_ids');
         this.model = getNodeAttribute(this.id, 'relation');
@@ -163,13 +163,17 @@ Many2Many.prototype = {
         if (readonly) {
             MochiKit.DOM.addElementClass(this.id, 'readonlyfield');
             MochiKit.DOM.addElementClass(this.text, 'readonlyfield');
-            this.btnAdd.parentNode.style.display = 'none';
-            this.btnDel.parentNode.style.display = 'none';
+            if(this.btnAdd) {
+                this.btnAdd.parentNode.style.display = 'none';
+            }
+//            this.btnDel.parentNode.style.display = 'none';
         } else {
             MochiKit.DOM.removeElementClass(this.id, 'readonlyfield');
             MochiKit.DOM.removeElementClass(this.text, 'readonlyfield');
-            this.btnAdd.parentNode.style.display = '';
-            this.btnDel.parentNode.style.display = '';
+            if(this.btnAdd) {
+                this.btnAdd.parentNode.style.display = '';
+            }
+//            this.btnDel.parentNode.style.display = '';
         }
     }
 };

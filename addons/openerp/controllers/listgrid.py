@@ -216,7 +216,7 @@ class List(SecuredController):
                     info['%s,%s' % (m, i)] = d
                     
         active_clear = False
-        if frm.search.listof_domain or frm.search.custom_filter_domain or frm.search.groupby:
+        if frm.search and (frm.search.listof_domain or frm.search.custom_filter_domain or frm.search.groupby):
             active_clear = True
         if params.get('_terp_clear'):
             view=ustr(frm.render())

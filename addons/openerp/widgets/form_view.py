@@ -32,6 +32,7 @@ import cherrypy
 from search import Search
 from screen import Screen
 from sidebar import Sidebar
+from listgroup import ListGroup
 
 from openobject.widgets import Form, CSSLink, JSLink, locations
 
@@ -106,7 +107,7 @@ class ViewForm(Form):
         if params.view_type == 'tree':
             self.screen.id = False
             
-        if 'form' not in self.screen.view_mode:
+        if 'form' not in self.screen.view_mode and not isinstance(self.screen.widget, ListGroup):
             self.screen.widget.link = 0
             self.screen.editable = False
             self.screen.widget.editable = False
