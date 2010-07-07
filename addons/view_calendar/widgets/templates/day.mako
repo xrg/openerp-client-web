@@ -39,7 +39,7 @@
         </p>
         <h4>
             <span>
-                <small>${day}</small>
+                ${day}
             </span>
         </h4>
     </div>

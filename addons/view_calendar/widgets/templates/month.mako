@@ -33,9 +33,7 @@
             </span>
         </p>
         <h4>
-            <span>
-                <small>${month}</small>
-            </span>
+            <span>${month}</span>
         </h4>
     </div>
     <table border="0" id="calContainer" width="100%">

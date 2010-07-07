@@ -34,7 +34,8 @@
         </p>
         <h4>
             <span>
-                <small>${week}</small>
+                ${week}
+                <small>(${_('Week %(number)s', number=week.number)})</small>
             </span>
         </h4>
     </div>
