@@ -704,6 +704,11 @@ td.view_log_footer {
     height: 30px;
 }
 
+table.save_filter_footer {
+	background-color: #5A5858;
+	width: 470px;
+}
+
 /* view style */
 .view {
     width: 100%;
