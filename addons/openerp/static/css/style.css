@@ -755,7 +755,7 @@ td.item input,
 td.item select,
 td.item textarea,
 td.item button {
-    /*width: 99%; */    
+    /*width: 99%; */
 }
 
 td.item input {
@@ -814,7 +814,7 @@ td.item .mceSelectList {
 }
 
 td.item .checkbox,td.item .radio { /* width: auto; */
-    
+
 }
 
 #view_form .translatable {
@@ -978,12 +978,7 @@ table.attachment_bar td a {
     padding: 0 0 0 5px;
 }
 
-#filter_search {
-    padding: 0;
-    float: left;
-}
-
-#save_filters, #manage_filters, #clear_all_filters {
+#save_filters, #manage_filters, #clear_all_filters, #filter_search {
     padding: 0 2px 0 2px;
     float: left;
 }
@@ -1001,6 +996,6 @@ table.attachment_bar td a {
     display: none;
 }
 /**
- * vim: sts=4 st=4 et 
+ * vim: sts=4 st=4 et
  *
  */

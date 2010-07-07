@@ -21,15 +21,13 @@
             	<table style="border: none; width: 100%;">
             		<tr>
             			<td id="filter_search">
-            				<div class="toolbar">
-			                	<a class="button-a" title="${_('Filter records.')}" href="javascript: void(0)" onclick="search_filter()">${_("Filter")}</a>
-                			</div>
+		                	<a class="button-a" title="${_('Filter records.')}" href="javascript: void(0)" onclick="search_filter()">${_("Filter")}</a>
             			</td>
             			<%
             			     if search.listof_domain or search.custom_filter_domain or search.groupby:
             			         css_clear = 'active_clear'
             			     else:
-            			         css_clear = 'inactive_clear'     
+            			         css_clear = 'inactive_clear'
             			%>
                         <td id="clear_all_filters" class="${css_clear}">
                             <a class="button-a" title="${_('Clear all .')}" href="javascript: void(0)" onclick="new ListView('_terp_list').clear()">${_("Clear")}</a>
@@ -58,9 +56,9 @@
                         </td>
             		</tr>
             	</table>
-                
+
             </td>
-            
+
         </tr>
         % endif
         <tr>

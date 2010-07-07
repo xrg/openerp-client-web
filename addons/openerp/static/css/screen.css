@@ -619,7 +619,7 @@ hr {
 }
 
 div.three-a {
-    
+
 }
 
 div.customize {
@@ -876,7 +876,7 @@ div.comment-a blockquote p {
 }
 
 div.fields-a {
-    
+
 }
 
 div.fields-a p {
@@ -888,7 +888,7 @@ div.fields-a p {
 }
 
 div.fields-a p label {
-    
+
 }
 
 div.fields-a p input.text {
@@ -931,7 +931,7 @@ div.fields-a p span.lookup {
 }
 
 div.filter-a { /* width: 100%; margin: 0 0 5px; */
-    
+
 }
 
 div.filter-a ul {
@@ -1208,11 +1208,11 @@ div.group-a ul li span.add {
 }
 
 table.list-a {
-    
+
 }
 
 div.list-a {
-    
+
 }
 
 div.list-a div.header {
@@ -1369,7 +1369,7 @@ div.salesfields-a div.row p.tick input {
 }
 
 div.salesfields-a-boxed {
-    
+
 }
 
 div.salesfields-a-boxed div.row p {
@@ -1490,7 +1490,7 @@ table td .red {
 }
 
 table.logs-a {
-    
+
 }
 
 * html table.logs-a {
@@ -1534,7 +1534,7 @@ table.logs-a .employee input {
 }
 
 table.partners-a {
-    
+
 }
 
 table.partners-a td {
@@ -1596,7 +1596,7 @@ table.partners-a .total {
 }
 
 table.sales-a {
-    
+
 }
 
 table.sales-a td,table.sales-a th {
@@ -1964,7 +1964,7 @@ ul.sections-a li span.wrap a:hover span strong,ul.sections-a li span.wrap a:focu
     background: none;
 }
 
-#sidenav-a li .tree-grid a {    
+#sidenav-a li .tree-grid a {
     color: #FFFFFF;
 }
 
@@ -2372,7 +2372,7 @@ td#body_form_td {
 /* links */
 a.button-a {
     float: left;
-    height: 11px;
+    height: 12px;
     padding: 1px 10px 0;
     border: 1px solid #aaa9a9;
     border-color: #c6c4c4 #aaa9a9 #797878;
@@ -2387,7 +2387,7 @@ a.button-a {
     white-space: nowrap;
     font-size: 0.8em;
     font-weight: 600;
-    line-height: 11px;
+    line-height: 12px;
     text-transform: uppercase;
     text-shadow: #6a6969 0 1px 0;
 }
@@ -2406,9 +2406,9 @@ td.toolbar a.button-a {
 }
 
 a.button-a:hover,a.button-a:focus,a.button-a:active {
-    border-color: #e5e3e3 #dad9d9 #cccbcb;
-    background-position: 0 -26px;
-    color: #8d8d8d;
+    border-color: #676767 #676767 #676767;
+    background: #666666;
+    color: #fff;
     text-shadow: #fff 0 1px 0;
 }
 

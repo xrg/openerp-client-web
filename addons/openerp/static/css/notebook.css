@@ -79,7 +79,11 @@ li.notebook-tab {
     text-transform: uppercase;
 }
 
-li.notebook-tab-active { 
+li.notebook-tab:hover {
+    background: #666666;
+}
+
+li.notebook-tab-active {
     position: relative;
     float: left;
     font-size: 0.8em;
@@ -101,7 +105,7 @@ li.notebook-tab a.tab-title {
     text-shadow: None;
 }
 
-li.notebook-tab-active a.tab-title {
+li.notebook-tab-active a.tab-title, li.notebook-tab:hover a.tab-title {
     color: #fff;
 }
 
