@@ -49,7 +49,7 @@
                         <table border="0" cellpadding="0" cellspacing="0" style="width: 470px;" class="popup_footer">
                             <tr>
                                 <td width="100%" style="padding: 0 4px 0 0;">
-                                    <a class="button-a" style="float: right;"" href="javascript: void(0)" onclick="onFilterClose('filter_sc');">${_("Save")}</a>
+                                    <a class="button-a" style="float: right;" href="javascript: void(0)" onclick="onFilterClose('filter_sc');">${_("Save")}</a>
                                 </td>
                                 <td style="padding: 0 10px 0 0;">
                                     <a class="button-a" href="javascript: void(0)" onclick="window.close();">${_("Close")}</a>

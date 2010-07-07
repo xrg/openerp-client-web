@@ -691,16 +691,19 @@ td.popup_header {
     border: none;
     font-size: 1.3em;
     height: 30px;
+    -moz-border-radius: 3px 3px 3px 3px;
 }
 
 td.popup_footer,
-table.popup_footer {
+table.popup_footer,
+div.popup_footer {
 	background-color: #5A5858;
     color: white;
     font-weight: bold;
     border: none;
     font-size: 1.2em;
     height: 30px;
+    -moz-border-radius: 3px 3px 3px 3px;
 }
 
 /* view style */

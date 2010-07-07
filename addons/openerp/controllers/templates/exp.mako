@@ -175,23 +175,29 @@
 
     <table class="view" cellspacing="5" border="0" width="100%">
         <tr>
-            <td>
+            <td style="padding: 10px;">
                 <table width="100%" class="titlebar">
                     <tr>
-                        <td width="100%"><h1>${_("Export Data")}</h1></td>
+                        <td width="100%" style="padding: 0 10px 0 10px;" class="popup_header">${_("Export Data")}</td>
                     </tr>
                 </table>
             </td>
         </tr>        
         % if new_list.ids:
         <tr>
-            <td>
+            <td style="padding: 0 10px 5px 10px;">
                 <div id='exported_list' style="overflow: auto;">${new_list.display()}</div>
             </td>
         </tr>
         <tr>
-            <td class="toolbar">
-            	<a class="button-a" href="javascript: void(0)" onclick="delete_listname('view_form');">${_("Delete")}</a>
+            <td>
+            	<table class="popup_footer" width="100%">
+            		<tr>
+            			<td>
+            				<a class="button-a" href="javascript: void(0)" onclick="delete_listname('view_form');">${_("Delete")}</a>
+            			</td>
+            		</tr>
+            	</table>
             </td>
         </tr>
         % endif
@@ -297,11 +303,14 @@
         <tr>
             <td>
                 <div class="toolbar">
-                    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+                    <table border="0" cellpadding="0" cellspacing="0" width="100%" class="popup_footer">
                         <tr>
-                            <td width="100%">&nbsp;</td>
-                            <td><a class="button-a" href="javascript: void(0)" onclick="do_export('view_form')">${_("Export")}</a></td>
-                            <td><a class="button-a" href="javascript: void(0)" onclick="window.close()">${_("Close")}</a></td>
+                            <td width="100%" style="padding: 0 4px 0 0;">
+                            	<a class="button-a" style="float: right;" href="javascript: void(0)" onclick="do_export('view_form')">${_("Export")}</a>
+                            </td>
+                            <td style="padding: 0 10px 0 0;">
+                            	<a class="button-a" href="javascript: void(0)" onclick="window.close()">${_("Close")}</a>
+                            </td>
                         </tr>
                     </table>
                 </div>
