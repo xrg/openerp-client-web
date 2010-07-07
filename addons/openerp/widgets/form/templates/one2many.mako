@@ -52,4 +52,11 @@
         </td>
         % endif
     </tr>
+    % if screen.editable and not readonly:
+        % if name == source:
+            <script type="text/javascript">
+                new One2Many('${name}', jQuery('table.one2many[id=_o2m_${name}]').attr('detail')).create();
+            </script>
+        % endif
+    % endif
 </table>
