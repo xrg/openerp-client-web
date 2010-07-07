@@ -79,7 +79,7 @@
                                 </tr>
                                 %if serverLog:
 	                            	<tr>
-		                              	<td colspan="2" style="width: 100%; padding: 0px;">
+		                              	<td colspan="4" style="width: 100%; padding: 0px;">
 									    	<div id="serverlog" style="display: none;">
 									    		<table class="serverLogHeader">
 									    			<tr>
@@ -106,7 +106,7 @@
 														    		% endfor
 															    	<tr>
 															    		<td style="font-weight: bold; padding: 0 0 0 10px;">
-															    			<a style="color: blue;" href="javascript: void();">
+															    			<a style="color: blue;" href="javascript: void();" onclick="openobject.tools.openWindow('${py.url('/openerp/form')}', {width: 550, height: 340});">
 															    				More...
 															    			</a>
 															    		</td>
