@@ -618,10 +618,6 @@ hr {
     min-height: 100%;
 }
 
-div.three-a {
-
-}
-
 div.customize {
     margin-left: -10px;
     margin-right: -5px;
@@ -757,13 +753,13 @@ div.box-a,table.box-a {
 }
 
 * html div.box-a {
-    border: 1px solid #e8e6e6;
+    border: solid #e8e6e6;
     border-width: 0 1px 1px;
     border-bottom-color: #ccc;
 }
 
 *:first-child+html div.box-a {
-    border: 1px solid #e8e6e6;
+    border: solid #e8e6e6;
     border-width: 0 1px 1px;
     border-bottom-color: #ccc;
 }
@@ -875,10 +871,6 @@ div.comment-a blockquote p {
     margin: 0 0 5px;
 }
 
-div.fields-a {
-
-}
-
 div.fields-a p {
     color: #7D7979;
     font-size: 1em;
@@ -887,14 +879,10 @@ div.fields-a p {
     text-shadow: #fff 0 1px 0;
 }
 
-div.fields-a p label {
-
-}
-
 div.fields-a p input.text {
     width: 150px;
     padding: 2px;
-    border: 1px solid #cecbcb;
+    border: 1px solid;
     border-color: #cecbcb #dfdddd #fff;
     border-radius: 3px;
     -moz-border-radius: 3px;
@@ -928,10 +916,6 @@ div.fields-a p span.lookup {
 *:first-child+html div.fields-a p span.lookup {
     display: inline;
     text-indent: 0;
-}
-
-div.filter-a { /* width: 100%; margin: 0 0 5px; */
-
 }
 
 div.filter-a ul {
@@ -1111,8 +1095,6 @@ div.login_footer-a div {
     color: #777777;
 }
 
-S
-
 div.search-bar {
     overflow: hidden;
     width: 100%;
@@ -1207,14 +1189,6 @@ div.group-a ul li span.add {
     text-indent: -10001px;
 }
 
-table.list-a {
-
-}
-
-div.list-a {
-
-}
-
 div.list-a div.header {
     position: absolute;
     float: left;
@@ -1297,7 +1271,7 @@ div.more-a p a {
     border-radius: 4px;
     -moz-border-radius: 4px;
     -webkit-border-radius: 4px;
-    border: 1px solid #d1cfcf;
+    border: 1px solid;
     border-color: #e6e3e3 #d1cfcf #bcbbbb;
     background: #edebeb url(../images/more-a-button.gif) repeat-x;
     box-shadow: 0 1px 1px #fff;
@@ -1366,10 +1340,6 @@ div.salesfields-a div.row p.tick input {
     margin: 4px 0 0;
     padding: 0;
     vertical-align: middle;
-}
-
-div.salesfields-a-boxed {
-
 }
 
 div.salesfields-a-boxed div.row p {
@@ -1489,10 +1459,6 @@ table td .red {
     background-position: -16px 0;
 }
 
-table.logs-a {
-
-}
-
 * html table.logs-a {
     margin-right: -15px;
 }
@@ -1531,10 +1497,6 @@ table.logs-a .employee input {
     width: 12px;
     height: 12px;
     vertical-align: middle;
-}
-
-table.partners-a {
-
 }
 
 table.partners-a td {
@@ -1595,10 +1557,6 @@ table.partners-a .total {
     padding-left: 5px;
 }
 
-table.sales-a {
-
-}
-
 table.sales-a td,table.sales-a th {
     width: 1%;
     text-align: right;
@@ -1629,16 +1587,6 @@ table.sales-a .remove {
     border-right: none;
     text-align: left;
 }
-
-/*
-table.sales-a .remove a.delete {
-    width: 15px;
-    height: 15px;
-    background-image: url(../images/iconset-c-delete.gif);
-    border-right: none;
-    text-align: center;
-}
-*/
 
 /* lists */
 ul.inline-a {
@@ -1775,20 +1723,10 @@ ul.sections-a li span.wrap a {
     -webkit-box-shadow: 0 1px 1px #bbb;
 }
 
-* html ul.sections-a li span.wrap a {
-    border: 1px solid #dedcdc;
-    border-width: 0 1px 1px;
-    border-bottom-color: #bcbbbb;
-}
-
-*:first-child+html ul.sections-a li span.wrap a {
-    border: 1px solid #dedcdc;
-    border-width: 0 1px 1px;
-    border-bottom-color: #bcbbbb;
-}
-
+* html ul.sections-a li span.wrap a,
+*:first-child+html ul.sections-a li span.wrap a,
 .opera ul.sections-a li span.wrap a {
-    border: 1px solid #dedcdc;
+    border: solid #dedcdc;
     border-width: 0 1px 1px;
     border-bottom-color: #bcbbbb;
 }
@@ -1879,10 +1817,9 @@ ul.sections-a li span.wrap a:hover span strong,ul.sections-a li span.wrap a:focu
 .open-close-menu {
     float: left;
     cursor: pointer;
-    background: #CECBCB no-repeat scroll center center;
+    background: #CECBCB url(../images/prev.gif) no-repeat scroll center center;
     height: 100%;
     width: 11px;
-    background-image: url(../images/prev.gif);
 }
 
 .hide-menu .open-close-menu {
@@ -2374,7 +2311,7 @@ a.button-a {
     float: left;
     height: 12px;
     padding: 1px 10px 0;
-    border: 1px solid #aaa9a9;
+    border: 1px solid;
     border-color: #c6c4c4 #aaa9a9 #797878;
     border-radius: 3px;
     -moz-border-radius: 3px;
@@ -2415,7 +2352,7 @@ a.button-b {
     float: left;
     height: 11px;
     padding: 1px 10px 0;
-    border: 1px solid #aaa9a9;
+    border: 1px solid;
     border-color: #e5e3e3 #dad9d9 #cccbcb;
     border-radius: 3px;
     -moz-border-radius: 3px;
