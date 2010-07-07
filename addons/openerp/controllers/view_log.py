@@ -52,7 +52,6 @@ class View_Log(SecuredController):
 
         values = {}
         if _terp_id:
-            message = None
             res = rpc.session.execute('object', 'execute', _terp_model,
                                       'perm_read', [_terp_id], rpc.session.context)
 
@@ -62,9 +61,7 @@ class View_Log(SecuredController):
                         line[field] = line[field][1]
 
                     values[field] = ustr(line.get(field) or '/')
-        else:
-            message = _("No resource is selected...")
 
-        return {'values':values, 'fields':self.fields, 'message':message}
+        return {'values':values, 'fields':self.fields}
 
 # vim: ts=4 sts=4 sw=4 si et

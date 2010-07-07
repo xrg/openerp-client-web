@@ -8,17 +8,16 @@
 <%def name="content()">
     <table class="view" cellspacing="5" border="0" width="100%">
         <tr>
-            <td>
-                <table width="100%" class="titlebar">
+            <td align="center" style="padding: 10px 0 0 0;">
+                <table>
                     <tr>
-                        <td width="100%"><h1>${_("Information")}</h1></td>
+                        <td class="view_log_header" style="padding: 0px;">${_("Information")}</td>
                     </tr>
                 </table>
             </td>
         </tr>
         <tr>
-            <td>
-                % if not message:
+            <td style="padding: 0px;">
                 <div class="box2">
                     <table border="0" width="100%" align="center">
                         % for field, description in fields:
@@ -29,22 +28,11 @@
                         % endfor
                     </table>
                 </div>
-                % else:
-                <div class="toolbar">
-                    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+                <div class="toolbar" align="center">
+                    <table border="0" cellpadding="0" cellspacing="0">
                         <tr>
-                            <td style="text-align: center;" width="100%">${message}</td>
-                        </tr>
-                    </table>
-                </div><br/>
-                % endif
-                <div class="toolbar">
-                    <table border="0" cellpadding="0" cellspacing="0" width="100%">
-                        <tr>
-                            <td width="100%">
-                            </td>
-                            <td>
-                            	<a class="button-a" href="javascript: void(0)" onclick="window.close()">${_("OK")}</a>
+                            <td class="view_log_footer">
+                            	<a class="button-a" style="float: right;" href="javascript: void(0)" onclick="window.close()">${_("OK")}</a>
                             </td>
                         </tr>
                     </table>
