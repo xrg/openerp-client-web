@@ -38,11 +38,17 @@ import cherrypy
     % endif
 </%def>
 
-<%def name="make_row(data)">
+<%def name="make_row(data, row_num)">
+	<%
+		if row_num % 2:
+			row_class = 'grid-row-even'
+		else:
+			row_class = 'grid-row-odd'
+	%>
 	% if editors:
-    	<tr class="grid-row inline_editors" record="${data['id']}">
+    	<tr class="grid-row inline_editors ${row_class}" record="${data['id']}">
     % else:
-    	<tr class="grid-row" record="${data['id']}">
+    	<tr class="grid-row ${row_class}" record="${data['id']}">
     % endif
         % if selector:
             <td class="grid-cell selector">
@@ -114,7 +120,7 @@ import cherrypy
 	        			            <script type="text/javascript">
                                         jQuery('a.button-a[id*=${name}_btn]').click(function() {
                                             new One2Many('${name}', jQuery('table.one2many[id$=${name}]').attr('detail')).create();
-                                        }); 
+                                        });
                                     </script>
 	        			        % else:
 	        			            <a id="${name}_new" class="button-a" href="javascript: void(0)" title="${_('Create new record.')}">${_('new')}<a/>
@@ -123,7 +129,7 @@ import cherrypy
 	        			                    jQuery('#${name}_new').click(function() {
 	        			                        new ListView('_terp_list').create();
 	        			                    });
-	        			                    
+
 	        			                </script>
 	        			            % else:
 	        			                <script type="text/javascript">
@@ -151,7 +157,7 @@ import cherrypy
                                 });
                             </script>
                         </td>
-	        			
+
         				<td class="pager-cell" style="width: 90%">
         					${pager.display()}
         				</td>
@@ -181,7 +187,7 @@ import cherrypy
 	                        % for (field, field_attrs) in headers:
 		                        % if field == 'button':
 		                        	<th class="grid-cell"></th>
-		                        %else: 
+		                        %else:
 		                        	<th id="grid-data-column/${(name != '_terp_list' or None) and (name + '/')}${field}" class="grid-cell ${field_attrs.get('type', 'char')}" kind="${field_attrs.get('type', 'char')}" style="cursor: pointer;" onclick="new ListView('${name}').sort_by_order('${field}')">${field_attrs['string']}</th>
 		                    	% endif
 	                        % endfor
@@ -193,7 +199,7 @@ import cherrypy
 	                        % endif
 	                    </tr>
 	                </thead>
-	
+
 	                <tbody>
                         % if edit_inline == -1:
                             ${make_editors()}
@@ -202,7 +208,7 @@ import cherrypy
                             % if d['id'] == edit_inline:
                                 ${make_editors(d)}
                             % else:
-                                ${make_row(d)}
+                                ${make_row(d, i)}
                             % endif
                         % endfor
                         % if concurrency_info:
@@ -235,7 +241,7 @@ import cherrypy
 	                        </tr>
                         % endfor
 	                </tbody>
-	
+
 	                % if field_total:
                     <tfoot>
                         <tr class="field_sum">
@@ -284,7 +290,7 @@ import cherrypy
                             },
                             axis: 'y'
                         });
-                        
+
                         jQuery('#${name} tr.grid-row').droppable({
                             accept: 'tr.grid-row',
                             hoverClass: 'grid-rowdrop',
@@ -292,29 +298,29 @@ import cherrypy
                                 new ListView('${name}').dragRow(ui.draggable, jQuery(this), '${name}');
                             }
                         });
-						
+
 		            }
 				</script>
-			% endif		
-            
+			% endif
+
             % if editors:
                 <script type="text/javascript">
-                	/* In editable grid, clicking on empty row will create new and on existing row will edit. */ 
-                	
+                	/* In editable grid, clicking on empty row will create new and on existing row will edit. */
+
                     jQuery('table[id=${name}_grid] tr.grid-row').each(function(index, row) {
-	                    jQuery(row).click(function(event) {                             
-	                        if (!(event.target.tagName == 'INPUT' || event.target.tagName == 'IMG')) {                              
+	                    jQuery(row).click(function(event) {
+	                        if (!(event.target.tagName == 'INPUT' || event.target.tagName == 'IMG')) {
 	                            record_id = jQuery(row).attr('record');
 	                            if (record_id > 0) {
 	                                new ListView('${name}').edit(record_id);
 	                            }
 	                            else {
 	                                new One2Many('${name}', jQuery('table.one2many[id$=${name}]').attr('detail')).create();
-	                            }                                
-	                        }   
+	                            }
+	                        }
 	                    });
                     });
-                </script>                     
+                </script>
             % else:
                 <script type="text/javascript">
                     if('${name}' == '_terp_list') {
@@ -325,7 +331,7 @@ import cherrypy
                         var view_type = jQuery('[id=${name}/_terp_view_type]').val();
                         var editable = jQuery('[id=${name}/_terp_editable]').val();
                     }
-                    
+
                     jQuery('table#${name}_grid tr.grid-row').each(function(index, row) {
                         jQuery(row).click(function(event) {
                             if (!(event.target.nodeName == 'IMG' || event.target.nodeName == 'INPUT')) {
@@ -335,9 +341,9 @@ import cherrypy
                             }
                         });
                     });
-                    
+
                     jQuery('table#${name}_grid tr.grid-row').each(function(index, row) {
-                        jQuery(row).dblclick(function(event) {                           
+                        jQuery(row).dblclick(function(event) {
                             if (!(event.target.className == 'checkbox grid-record-selector' || event.target.className == 'listImage')) {
                                 if (view_type == 'tree') {
                                     if (editable != 'True') {

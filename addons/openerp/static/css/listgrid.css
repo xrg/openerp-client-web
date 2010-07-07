@@ -12,8 +12,17 @@
     cursor: pointer;
 }
 
+.grid-row-odd{
+	background: white;
+	cursor: pointer;
+}
+.grid-row-even{
+	background: #F3F3F3;
+	cursor: pointer;
+}
+
 .grid-row:hover {
-    background-color: #F3F3F3;
+    background-color: #ddd;
 }
 
 .grid-rowdrop {
@@ -209,6 +218,6 @@ strong#total_sum_label {
     font-size: 0.9em;
 }
 /**
- * vim: sts=4 st=4 et 
+ * vim: sts=4 st=4 et
  *
  */
