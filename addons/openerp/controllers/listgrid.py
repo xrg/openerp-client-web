@@ -182,6 +182,10 @@ class List(SecuredController):
         params.view_type = 'form'
         if params.get('_terp_clear'):
             params.domain, params.search_domain, params.filter_domain, params.ids = [], [], [], []
+            for k,v in params.context.items():
+                if k.startswith('search_default'):
+                    params.context[k] = 0
+            
         if source == '_terp_list':
             params.view_type = 'tree'
             if params.search_domain:
@@ -195,7 +199,7 @@ class List(SecuredController):
         if current and params.source_default_get:
             current.context = current.context or {}
             current.context.update(params.source_default_get)
-            
+        
         if params.wiz_id:
             res = wizard.Wizard().execute(params)
             frm = res['form']
