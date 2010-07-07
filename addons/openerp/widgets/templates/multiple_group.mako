@@ -32,10 +32,14 @@ background = '#DEDEDE'
                         % if field_attrs.get('type') == 'progressbar':
                             ${grouped[j][field].display()}
                         % elif i != group_level - 1:
-                            % if field_attrs.get('type') == 'many2one' and grp_row.get(field):
-                                ${grp_row.get(field)[-1]}</span>
+                            % if grp_row.get(field):
+                                % if field_attrs.get('type') == 'many2one':
+                                    ${grp_row.get(field)[-1]}
+                                % else:
+                                    ${grp_row.get(field)}
+                                % endif
                             % else:
-                                ${grp_row.get(field)}
+                                &nbsp;
                             % endif
                         % endif
                     </span>
