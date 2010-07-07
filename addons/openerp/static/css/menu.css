@@ -43,7 +43,7 @@
     border-collapse: separate;
 }
 
-#shortcuts div {
+#shortcuts div#sc_row {
     display: block;
     float: left;
     position: absolute;
@@ -55,7 +55,6 @@
     height: auto;
     margin: 0;
     line-height: 1.2;
-    overflow: hidden;
 }
 
 #shortcuts span {
@@ -66,7 +65,31 @@
     padding-left: 1px;
 }
 
-#shortcuts a {
+#sc_row div {
+    overflow: hidden;
+}
+/* scrollers */
+#sc_row .scroller {
+    height: 100%;
+    width: 14px;
+    top: 0;
+    position: absolute;
+    display: none;
+}
+#shortcuts .scrolling {
+    padding: 6px 14px !important;
+}
+#shortcuts .scrolling .scroller {
+    display: block;
+    background: no-repeat center center;
+}
+#shortcuts #shortcuts-scroll-left {
+    left: 0;
+    background-image: url(/openerp/static/images/scroll_left.png);
+}
+#shortcuts #shortcuts-scroll-right {
+    right: 0;
+    background-image: url(/openerp/static/images/scroll_right.png);
 }
 
 div.contextmenu {

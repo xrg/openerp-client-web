@@ -1132,7 +1132,7 @@ var RESOURCE_ID;
  */
 function add_shortcut_to_bar(id) {
     jQuery.getJSON('/openerp/shortcuts/by_resource', function (data) {
-        jQuery('#sc_row').append(
+        jQuery('#sc_row > div:not(.scroller)').append(
             jQuery('<span>').append(
                 jQuery('<a>', {
                     'id': 'shortcut_' + id,
@@ -1140,7 +1140,8 @@ function add_shortcut_to_bar(id) {
                         'id': id,
                         'model': 'ir.ui.menu'
                     })
-                }).text(data[id]['name'])))
+                }).text(data[id]['name'])));
+        jQuery(document).trigger('shortcuts-alter');
     });
 }
 /**
@@ -1159,6 +1160,7 @@ function toggle_shortcut() {
                 add_shortcut_to_bar(RESOURCE_ID);
             } else {
                 jQuery('#shortcut_' + RESOURCE_ID).parent().remove();
+                jQuery(document).trigger('shortcuts-alter');
             }
         }
     });

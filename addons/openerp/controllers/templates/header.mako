@@ -20,8 +20,11 @@ except:
         var top_divWidth = jQuery('div#top-menu').width();
         var logoWidth = jQuery('p#logo').outerWidth();
 
-        var sc_rowWidth = top_divWidth - logoWidth - 10;
-        jQuery('#sc_row').css('width', sc_rowWidth);
+        var shortcuts = jQuery('#sc_row');
+        var offset = shortcuts.outerWidth() - shortcuts.width();
+
+        var sc_rowWidth = top_divWidth - logoWidth - offset;
+        shortcuts.css('width', sc_rowWidth);
     }
 
     function showMore_sc(id, submenu) {
@@ -112,12 +115,14 @@ except:
     % if logged:
         <div id="shortcuts" class="menubar" cellpadding="0" cellspacing="0">
             <div id="sc_row">
-                % for sc in shortcuts:
-                    <span>
-                        <a id="shortcut_${sc['res_id']}"
-                           href="${py.url('/openerp/tree/open', id=sc['res_id'], model='ir.ui.menu')}">${sc['name']}</a>
-                    </span>
-                % endfor
+                <div>
+                    % for sc in shortcuts:
+                        <span>
+                            <a id="shortcut_${sc['res_id']}"
+                               href="${py.url('/openerp/tree/open', id=sc['res_id'], model='ir.ui.menu')}">${sc['name']}</a>
+                        </span>
+                    % endfor
+                </div>
             </div>
         </div>
     % endif
