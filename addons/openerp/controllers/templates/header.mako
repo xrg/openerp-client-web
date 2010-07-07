@@ -27,15 +27,6 @@ except:
         shortcuts.css('width', sc_rowWidth);
     }
 
-    function showMore_sc(id, submenu) {
-        var pos = jQuery('#'+id).position().left;
-
-        jQuery('#'+submenu).css({
-            'left': pos,
-            'top': 25 + 'px'
-        }).slideToggle('slow');
-    }
-
     jQuery(document).ready(setRowWidth);
     jQuery(window).resize(setRowWidth);
 </script>
