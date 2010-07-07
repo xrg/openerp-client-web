@@ -11,7 +11,7 @@
             <td align="center" style="padding: 10px 0 0 0;">
                 <table>
                     <tr>
-                        <td class="view_log_header" style="padding: 0px;">${_("Information")}</td>
+                        <td class="popup_header" style="padding: 0px; width: 470px;">${_("Information")}</td>
                     </tr>
                 </table>
             </td>
@@ -31,7 +31,7 @@
                 <div class="toolbar" align="center">
                     <table border="0" cellpadding="0" cellspacing="0">
                         <tr>
-                            <td class="view_log_footer">
+                            <td class="popup_footer" style="width: 450px;">
                             	<a class="button-a" style="float: right;" href="javascript: void(0)" onclick="window.close()">${_("OK")}</a>
                             </td>
                         </tr>

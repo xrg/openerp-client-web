@@ -23,10 +23,10 @@
         <input type="hidden" id="group_by" name="group_by" value="${group_by}"/>
         <table class="view" width="100%" border="0">
             <tr>
-                <td align="center" style="padding: 10px 0 0 0;">
+                <td align="center" style="padding: 20px 0 0 0;">
                     <table>
                         <tr>
-                            <td class="view_log_header" style="padding: 0px;">${_("Save as a Filter")}</td>
+                            <td class="popup_header" style="padding: 0px; width: 470px;">${_("Save as a Filter")}</td>
                         </tr>
                     </table>
                 </td>
@@ -36,23 +36,23 @@
                     <div class="box2">
                         <table border="0" width="100%" align="center">
                             <tr>
-                                <td class="label" width="50%">
+                                <td class="label" style="padding: 0px;">
                                     <label for="sc_name">${_("Filter Name")}:</label>
                                 </td>
-                                <td width="50%">
-                                    <input type="text" name="sc_name" id="sc_name"/>
+                                <td width="100%">
+                                    <input type="text" name="sc_name" id="sc_name" style="width: 100%;"/>
                                 </td>
                             </tr>
                         </table>
                     </div>
                     <div class="toolbar" align="center">
-                        <table border="0" cellpadding="0" cellspacing="0" class="save_filter_footer">
+                        <table border="0" cellpadding="0" cellspacing="0" style="width: 470px;" class="popup_footer">
                             <tr>
-                                <td width="90%" align="right">
-                                    <a class="button-a" href="javascript: void(0)" onclick="window.close()" style="float: none;">${_("Close")}</a>
+                                <td width="100%" style="padding: 0 4px 0 0;">
+                                    <a class="button-a" style="float: right;"" href="javascript: void(0)" onclick="onFilterClose('filter_sc');">${_("Save")}</a>
                                 </td>
-                                <td>
-                                    <a class="button-a" href="javascript: void(0)" onclick="onFilterClose('filter_sc');">${_("Save")}</a>
+                                <td style="padding: 0 10px 0 0;">
+                                    <a class="button-a" href="javascript: void(0)" onclick="window.close();">${_("Close")}</a>
                                 </td>
                             </tr>
                         </table>
