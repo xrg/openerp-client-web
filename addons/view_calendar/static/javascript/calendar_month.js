@@ -505,8 +505,8 @@ MonthCalendar.Week.prototype = {
 
                     if (j == 7) break;
 
-                    var dt = self.days[j];
-                    var cnt = containers[dt];
+                    var d = self.days[j];
+                    var cnt = containers[d];
 
                     forEach(cnt.events, function(e) {
                         cnt.rows.push(evt.row);
@@ -529,7 +529,9 @@ MonthCalendar.Week.prototype = {
                 e = container.events[container.events.length - 1];
                 if (e.row > 5) {
                     appendChildNodes(element, DIV({'class': 'calEventInfo'},
-                            A({href: 'javascript: void(0)'}, '+ (' + (e.row - 5) + ') more...')));
+                            A({'href':'javascript: void(0)',
+                               'onclick': "getCalendar('" + dt + "', 'day')"},
+                               '+ (' + (e.row - 5) + ') more...')));
                 }
             }
         }
