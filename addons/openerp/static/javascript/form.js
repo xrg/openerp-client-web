@@ -1116,11 +1116,10 @@ function setupAttachments() {
 
 function error_popup(obj) {
     try {
-        var d = jQuery('<div>').html(obj.error);
         var error_window = window.open("", "error", "status=1, scrollbars=yes, width=550, height=400");
-        error_window.document.write('<html><head><title>Open ERP - Error</title></head><body>');
-        error_window.document.write(d.html());
-        error_window.document.write('</body></html>')
+        error_window.document.write(obj.error);
+        error_window.document.title += "Open ERP - Error"
+        error_window.document.close();
     } catch(e) {
         alert(e)
     }
