@@ -709,7 +709,7 @@ div.popup_footer {
     border: none;
 }
 
-td.one2many {
+table.o2m_box {
     background: #CCCCCC;
     border-radius: 4px;
     -moz-border-radius: 4px;
@@ -719,7 +719,7 @@ td.one2many {
     -webkit-box-shadow: 0 1px 1px #ddd;
 }
 
-td.one2many div.pagerbar-header strong {
+table.o2m_box div.pagerbar-header strong {
 	font-weight: bold;
 	font-size: 13px;
 } 

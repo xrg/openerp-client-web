@@ -1,14 +1,17 @@
-<table border="0" id="_o2m_${name}" width="100%" class="one2many" detail="${(screen.view_type == 'tree' or 0) and len(screen.widget.editors)}">
+<%
+    if view_type == 'form':
+        pager_width = '15%'
+        o2m_css_class = ''
+    else:
+        pager_width = '100%'
+        o2m_css_class = 'o2m_box'
+%>
+<table border="0" id="_o2m_${name}" width="100%" class="one2many ${o2m_css_class}" detail="${(screen.view_type == 'tree' or 0) and len(screen.widget.editors)}">
     <tr>
         <td>
             <table width="100%" class="gridview" style="border-bottom: 1px solid black;"cellpadding="0" cellspacing="0">
                 <tr class="pagebar">
-                    <%
-                        if view_type == 'form':
-                            pager_width = '15%'
-                        else:
-                            pager_width = '100%'
-                    %>
+                    
                 	<td class="pagerbar-cell" align="left" width="${pager_width}">
                 		<div class="pagerbar-header">
                 			<strong>${screen.string}</strong>
