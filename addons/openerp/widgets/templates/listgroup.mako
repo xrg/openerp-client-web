@@ -138,7 +138,7 @@ background = '#DEDEDE'
                                 % else:
                                     % if i == 0:
                                     <td class="grid-cell" id="total_sum_title" nowrap="nowrap">
-                                        <strong id="total_sum_label">Total</strong>
+                                        <strong id="total_sum_label"></strong>
                                     </td>
                                     % else:
                                         <td class="grid-cell" id="total_sum_value" nowrap="nowrap">
