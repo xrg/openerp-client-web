@@ -41,27 +41,6 @@
     % if sub_menu:
         ${make_sidebox(_("SUBMENU"), model, sub_menu, submenu=1)}
     % endif
-
-    <div class="sideheader-a">
-        <h2>${_("Customise")}</h2>
-    </div>
-    <ul class="clean-a">
-        <li>
-            <a class="customise_menu_options" title="${_('Manage views of the current object')}"
-               onclick="openobject.tools.openWindow('/openerp/viewlist?model=${model}', {height: 400})"
-               href="javascript: void(0)">${_("Manage Views")}</a>
-        </li>
-        <li>
-            <a class="customise_menu_options" title="${_('Manage workflows of the current object')}"
-               onclick="show_wkf(); return false;"
-               href="javascript: void(0)">${_("Show Workflow")}</a>
-        </li>
-        <li>
-            <a class="customise_menu_options" title="${_('Customise current object or create a new object')}"
-               onclick="openobject.tools.openWindow('/openerp/viewed/new_model/edit?model=${model}')"
-               href="javascript: void(0)">${_("Customise Object")}</a>
-        </li>
-    </ul>
     % if view_type == 'form':
     <div class="sideheader-a">
         <a href="#" id="add-attachment" class="button-a">Add</a>
@@ -90,6 +69,27 @@
         <button type="submit" id="FormSubmit" class="button-a" name="FormSubmit">${_('submit')}</button>
     </form>
     % endif
+
+    <div class="sideheader-a">
+        <h2>${_("Customise")}</h2>
+    </div>
+    <ul class="clean-a">
+        <li>
+            <a class="customise_menu_options" title="${_('Manage views of the current object')}"
+               onclick="openobject.tools.openWindow('/openerp/viewlist?model=${model}', {height: 400})"
+               href="javascript: void(0)">${_("Manage Views")}</a>
+        </li>
+        <li>
+            <a class="customise_menu_options" title="${_('Manage workflows of the current object')}"
+               onclick="show_wkf(); return false;"
+               href="javascript: void(0)">${_("Show Workflow")}</a>
+        </li>
+        <li>
+            <a class="customise_menu_options" title="${_('Customise current object or create a new object')}"
+               onclick="openobject.tools.openWindow('/openerp/viewed/new_model/edit?model=${model}')"
+               href="javascript: void(0)">${_("Customise Object")}</a>
+        </li>
+    </ul>
 </div>
 
 <div id="sidebar_hide">
