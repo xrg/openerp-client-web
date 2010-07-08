@@ -295,8 +295,7 @@ class Search(TinyInputWidget):
 
         self.filters_list = [("blk", "-- Filters --")] \
                           + sorted_filters \
-                          + [("blk", '--Actions--'),
-                             ("sf", 'Save as a Filter'),("mf", 'Manage Filters')]
+                          + [("blk", '--Actions--')]
 
         self.operators_map = [
             ('ilike', _('contains')), ('not ilike', _('doesn\'t contain')),

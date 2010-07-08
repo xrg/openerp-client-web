@@ -12,13 +12,20 @@
     cursor: pointer;
 }
 
+.grid-row-odd {
+	background: white;
+}
+.grid-row-even {
+	background: #F3F3F3;
+}
+
 .grid-row:hover {
-    background-color: #F3F3F3;
+    background-color: #DDDDDD;
 }
 
 .grid-rowdrop {
-	background-color: #C0C0C0;
-	position: relative;
+    background-color: #C0C0C0;
+    position: relative;
 }
 
 .grid-cell {
@@ -28,12 +35,10 @@
 
 .grid-cell.selector {
     width: 1%;
-
     max-width: 8px;
     min-width: 8px;
-
     text-align: center;
-    vertical-align: middle;    
+    vertical-align: middle;
 }
 
 .grid-cell.button {
@@ -43,12 +48,12 @@
 .grid-cell.button button {
     margin: 0px;
     margin-right: 1px;
-	width: auto;
+    width: auto;
 }
 
 .grid-header .grid-cell {
-    background:url(../images/gradientlinebg.gif);
-    border-bottom: 1px solid #E3E3E3; 
+    background: url(../images/gradientlinebg.gif);
+    border-bottom: 1px solid #E3E3E3;
     font-weight: bold;
     text-align: left;
 }
@@ -99,8 +104,8 @@
 }
 
 .gridview .pagerbar {
-    height:22px;
-    vertical-align: middle; 
+    height: 22px;
+    vertical-align: middle;
     overflow: hidden;
     padding: 3px 4px 1px 10px;
     text-align: right;
@@ -117,25 +122,36 @@
 }
 
 .gridview .pagerbar .pagerbar-cell .pager-table {
-	background: none;
-	border: none;
+    background: none;
+    border: none;
     width: 100%;
 }
 
-.gridview .pagerbar .pagerbar-cell .pager-table .pager-cell{
-	padding: 0;
-	white-space: nowrap;
+.gridview .pagerbar .pagerbar-cell .pager-table .pager-cell {
+    padding: 0;
+    white-space: nowrap;
 }
 
 .gridview .pagerbar .pagerbar-cell .pager .paging {
-	background: #FFFFFF none repeat scroll 0 0;
+    background: #FFFFFF none repeat scroll 0 0;
 }
+
 .gridview .pagerbar .pagerbar-cell .pager-table .pager-cell h2 {
-	background: none; margin: 0; padding: 0 10px 0 0; border: none; color: #252424; font-size: 1.1em; text-transform: none; line-height: 1;
+    background: none;
+    margin: 0;
+    padding: 0 10px 0 0;
+    border: none;
+    color: #252424;
+    font-size: 1.1em;
+    text-transform: none;
+    line-height: 1;
 }
 
 .gridview .pagerbar .pagerbar-cell .pagerbar-header ul {
-	float: left; list-style: none; margin: 0; padding: 0;
+    float: left;
+    list-style: none;
+    margin: 0;
+    padding: 0;
 }
 
 .gridview .pagerbar .pagerbar-links {
@@ -144,7 +160,7 @@
     margin: 0;
     text-transform: uppercase;
     padding: 3px 4px 1px 10px;
-    background : none;
+    background: none;
 }
 
 .gridview .pagerbar .pagerbar-links a {
@@ -167,39 +183,39 @@
 }
 
 .field_sum .grid-cell {
-	font-weight: bold;
-	color: #BAB8B8;
-	text-transform: uppercase;
+    font-weight: bold;
+    color: #BAB8B8;
+    text-transform: uppercase;
 }
 
 tr.field_sum {
-	border: none;
-	border-bottom: 1px solid #f4f2f2;	
+    border: none;
+    border-bottom: 1px solid #f4f2f2;
 }
 
 tr.field_sum td#total_sum_value {
-	text-align: right;
-	padding: 2px;	
+    text-align: right;
+    padding: 2px;
 }
 
 tr.field_sum td#total_sum_title {
-	text-align: left;
-	padding: 2px;
+    text-align: left;
+    padding: 2px;
 }
 
 strong#total_sum_label {
-	color: #7D7979;
-	font-size: 0.9em;
+    color: #7D7979;
+    font-size: 0.9em;
 }
 
 .sum_value_field {
-	border-top: 1px inset;
-	display: block;
-	padding: 0 1px;
-	color: #7D7979;
-	font-size: 0.9em;
+    border-top: 1px inset;
+    display: block;
+    padding: 0 1px;
+    color: #7D7979;
+    font-size: 0.9em;
 }
 /**
- * vim: sts=4 st=4 et 
+ * vim: sts=4 st=4 et
  *
  */

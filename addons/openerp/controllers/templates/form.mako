@@ -6,95 +6,54 @@
     <script type="text/javascript">
         var form_controller = '${path}';
         var USER_ID = '${rpc.session.uid}';
-    </script>
+        var RESOURCE_ID = '${rpc.session.active_id}';
 
-    <script type="text/javascript">
         function do_select(id, src) {
             viewRecord(id, src);
         }
     </script>
+    % if can_shortcut:
+    <script type="text/javascript">
+        jQuery(document).ready(function () {
+            jQuery('#shortcut_add_remove').click(toggle_shortcut);
+        });
+    </script>
+    % endif
 </%def>
 
 <%def name="content()">
+    <%
+        if can_shortcut:
+            if rpc.session.active_id in shortcut_ids:
+                shortcut_class = "shortcut-remove"
+            else:
+                shortcut_class = "shortcut-add"
+
+    %>
 	<table id="main_form_body" class="view" cellpadding="0" cellspacing="0" border="0" width="100%" style="border: none;">
         <tr>
             <td id="body_form_td" width="100%" valign="top">
                 <table cellpadding="0" cellspacing="0" border="0" width="100%" style="border: none;">
                     % if buttons.toolbar:
                     <tr>
-                        <td>
+                        <td style="padding: 10px 10px 5px 0;">
                             <table width="100%" id="title_header">
                                 <tr>
                                 	% if can_shortcut:
-                                		% if rpc.session.active_id not in shortcut_ids:
-		                                	<td id="add_shortcut">
-			                                    <script type="text/javascript">
-			                                       jQuery('#add_shortcut').click(function() {
-			                                           jQuery.ajax({
-			                                               url: '/openerp/shortcuts/add',
-			                                               type: 'POST',
-			                                               data: {'id': '${rpc.session.active_id}'},
-			                                               success: function() {
-			                                                   window.parent.location.reload();
-			                                               }
-			                                           });
-			                                       });
-			                                    </script>
-			                                </td>
-	                                	% else:
-	                                		<td id="remove_shortcut">	
-			                                    <script type="text/javascript">
-			                                       jQuery('#remove_shortcut').click(function() {
-			                                           jQuery.ajax({
-			                                               url: '/openerp/shortcuts/remove_sc',
-			                                               type: 'POST',
-			                                               data: {'id': '${rpc.session.active_id}'},
-			                                               success: function() {
-			                                                   window.parent.location.reload();
-			                                               }
-			                                           });
-			                                       });
-			                                    </script>
-			                                </td>
-	                                	% endif
+                                        <td id="shortcut_add_remove" class="${shortcut_class}"></td>
                                     % endif
-                                    
+
                                     <td id="title_details" width="30%" class="content_header_space">
                                     	<h1>${form.screen.string}
-                                    		<a class="help" href="javascript: void(0)" title="${_('Corporate Intelligence...')}" onclick="show_process_view()">
+                                    		<a class="help" href="javascript: void(0)" title="${_('Corporate Intelligence...')}" onclick="show_process_view('${form.screen.string}')">
                                     			<small>Help</small>
 		                              		</a>
                                             % if display_name:
 		                              		  <small class="sub">${display_name['field']} : ${display_name['value']}</small>
-                                            % endif	                              		       
+                                            % endif
                                     	</h1>
                                     </td>
-                                    
-                                    %if serverLog:
-                                    	<td>
-									    	<div id="serverlog" style="display: none;">
-									    		<div class="serverLogHeader">
-									    			Current actions :
-									    			<img id="closeServerLog" style="cursor: pointer;" align="right" src="/openerp/static/images/attachments-a-close.png"></img>
-									    		</div>
-									    		% for log in serverLog:
-									    			<div class="logActions">
-								    					<a href="${py.url('/openerp/form/edit', model=log['res_model'], id=log['res_id'])}">
-								    						${log['name']}
-								    					</a>
-									    			</div>
-									    		% endfor	
-									    	</div>
-									    	
-									    	<script type="text/javascript">
-									    		jQuery('#serverlog').fadeIn('slow');
-									    		jQuery('#closeServerLog').click(function() {
-									    			jQuery('#serverlog').fadeOut("slow");
-									    		});
-									    	</script>
-								    	</td>
-    								% endif
-                                    
+
                                     <%def name="make_view_button(i, kind, name, desc, active)">
                                         <%
                                             cls = ''
@@ -103,36 +62,95 @@
                                         %>
                                     	<li class="v${i}" title="${desc}">
                                     		% if kind in form.screen.view_mode:
-                                    			<a href="#" onclick="switchView('${kind}'); return false;" class="${cls}">${kind}</a> 
+                                    			<a href="#" onclick="switchView('${kind}'); return false;" class="${cls}">${kind}</a>
                                     		% else:
                                     		    <a class="inactive">${kind}</a>
                                     		% endif
                                     	</li>
                                     </%def>
-                                    
+
                                     <td id="view_buttons" class="content_header_space">
                                     	<ul id="view-selector">
                                     		% for i, view in enumerate(buttons.views):
 												${make_view_button(i+1, **view)}
 											% endfor
 										</ul>
-									</td>
-                                    % if form.screen.view_type in ('form'):
-	                                    <td align="center" valign="middle" width="16" class="content_header_space">
-	                                        <img 
-	                                            class="button" width="16" height="16"
-	                                            title="${_('Translate this resource.')}" 
-	                                            src="/openerp/static/images/stock/stock_translate.png" onclick="openobject.tools.openWindow(openobject.http.getURL('/openerp/translator', {_terp_model: '${form.screen.model}', _terp_id: ${form.screen.id}, _terp_context: $('_terp_context').value}));"/>
-	                                    </td>
-	                                    <td align="center" valign="middle" width="16" class="content_header_space">
-	                                        <img 
-	                                            class="button" width="16" height="16"
-	                                            title="${_('View Log.')}" 
-	                                            src="/openerp/static/images/stock/stock_log.png"
-	                                            onclick="openobject.tools.openWindow('${py.url('/openerp/viewlog', _terp_model=form.screen.model, _terp_id=form.screen.id)}', {width: 500, height: 300})"/>
-	                                    </td>
-                                    % endif
+									</td>                                    
                                 </tr>
+                                %if serverLog:
+	                            	<tr>
+		                              	<td colspan="4" style="width: 100%; padding: 0px;">
+									    	<div id="serverlog" style="display: none;">
+									    		<table class="serverLogHeader">
+									    			<tr>
+									    				<td style="padding: 2px 10px 0 10px; font-weight: bold;">
+									    					<img id="toggle_server_log" style="cursor: pointer; padding-bottom: 3px;" src="/openerp/static/images/server_log_close.gif"></img>
+											    			Current actions :
+											    			<td>
+											    				<img id="closeServerLog" style="cursor: pointer;" align="right" src="/openerp/static/images/attachments-a-close.png"></img>
+											    			</td>
+									    				</td>
+									    			</tr>
+									    			<tr id="actions_row">
+									    				<td style="padding: 2px 0 0 0;">
+									    					<table style="width: 100%;">
+													    		% if len(serverLog) > 3:
+														    		% for log in serverLog[-3:]:
+														    			<tr>
+														    				<td class="logActions">
+														    					<a href="${py.url('/openerp/form/edit', model=log['res_model'], id=log['res_id'])}">
+														    						${log['name']}
+														    					</a>
+														    				</td>
+														    			</tr>
+														    		% endfor
+															    	<tr>
+															    		<td style="font-weight: bold; padding: 0 0 0 10px;">
+															    			<a style="color: blue;" href="javascript: void();" onclick="openobject.tools.openWindow('${py.url('/openerp/form')}', {width: 550, height: 340});">
+															    				More...
+															    			</a>
+															    		</td>
+															    	</tr>
+															    % else:
+															    	% for log in serverLog:
+														    			<tr>
+														    				<td class="logActions">
+														    					<a href="${py.url('/openerp/form/edit', model=log['res_model'], id=log['res_id'])}">
+														    						${log['name']}
+														    					</a>
+														    				</td>
+														    			</tr>
+														    		% endfor
+															    % endif
+															</table>
+														</td>
+													</tr>
+												</table>
+									    	</div>
+						
+									    	<script type="text/javascript">
+									    		jQuery('#serverlog').fadeIn('slow');
+									    		jQuery('#closeServerLog').click(function() {
+									    			jQuery('#serverlog').fadeOut("slow");
+									    		});
+									    		
+									    		jQuery('img#toggle_server_log').click(function() {
+									    			var server_img_src = jQuery(this).attr('src');
+									    			if (jQuery(this).attr('src').indexOf('server_log_close') > 0) {
+									    				jQuery('tr#actions_row').css('display', 'none');
+									    				jQuery(this).attr('src', server_img_src.replace('server_log_close', 'server_log_open'));
+									    				jQuery(this).css('padding-bottom', '1px');
+									    			}
+									    			else {
+									    				jQuery('tr#actions_row').css('display', '');
+									    				jQuery(this).css('padding-bottom', '3px');
+									    				jQuery(this).attr('src', server_img_src.replace('server_log_open', 'server_log_close'));
+									    			}
+									    		});
+									    	</script>
+								    	</td>
+								    </tr>
+								% endif
                             </table>
                         </td>
                     </tr>
@@ -149,7 +167,7 @@
 		                            </li>
 	                            	% endif
 		                            % if buttons.edit:
-		                            <li title="${_('Edit this resource')}"> 
+		                            <li title="${_('Edit this resource')}">
 		                                <a href="javascript: void(0);" onclick="editRecord(${form.screen.id or 'null'})" class="button-a">${_("Edit")}</a>
 		                            </li>
 		                            % endif
@@ -157,7 +175,7 @@
 		                            <li title="${_('Save this resource')}">
 		                                <a href="javascript: void(0);" onclick="submit_form('save')" class="button-a">${_("Save")}</a>
 		                            </li>
-		                            <li title="${_('Save & Edit this resource')}"> 
+		                            <li title="${_('Save & Edit this resource')}">
 		                                <a href="javascript: void(0);" onclick="submit_form('save_and_edit')" class="button-a">${_("Save & Edit")}</a>
 		                            </li>
 		                            % endif
@@ -167,17 +185,17 @@
 		                            </li>
 		                            % endif
 		                            % if buttons.delete:
-		                            <li title="${_('Delete this resource')}"> 
+		                            <li title="${_('Delete this resource')}">
 		                                <a href="javascript: void(0);" onclick="submit_form('delete')" class="button-a">${_("Delete")}</a>
 		                            </li>
 		                            % endif
 		                            % if buttons.cancel:
-		                            <li title="${_('Cancel editing the current resource')}"> 
+		                            <li title="${_('Cancel editing the current resource')}">
 		                                <a href="javascript: void(0);" onclick="submit_form('cancel')" class="button-a">${_("Cancel")}</a>
 		                            </li>
 		                            % endif
 		                    	</ul>
-		                    	
+
 		                    	% if buttons.pager:
                                 	<p class="paging-a">
 						            	${pager.display()}
@@ -198,7 +216,16 @@
                             			<a href="javascript: void(0)" onclick="new ListView('_terp_list').importData()"">${_("Import")}</a>
                             			<span>|</span>
                             			<a href="javascript: void(0)" onclick="new ListView('_terp_list').exportData()">${_("Export")}</a>
-                            		</td>
+                            			% if form.screen.view_type in ('form'):
+	                           			 <span>|</span>
+		                           			 <a href="javascript: void(0)" title="${_('Translate this resource.')}" onclick="openobject.tools.openWindow(openobject.http.getURL('/openerp/translator', {_terp_model: '${form.screen.model}', _terp_id: ${form.screen.id}, _terp_context: $('_terp_context').value}));">
+		                           			      ${_('Translate')}</a>
+		                           			 <span>|</span>
+		                           			 <a href="javascript: void(0)"  title="${_('View Log.')}" onclick="openobject.tools.openWindow('${py.url('/openerp/viewlog', _terp_model=form.screen.model, _terp_id=form.screen.id)}', {width: 550, height: 340});">
+		                           			     ${_('View Log')}
+		                           			 </a> 
+                            			% endif
+                            		</td>                            		
                             		<td class="powered">
                             			Powered by <a href="http://www.openerp.com" target="_blank">openerp.com</a>
                             		</td>
@@ -209,9 +236,9 @@
                 </table>
             </td>
 
-            % if form.sidebar and buttons.toolbar and form.screen.view_type not in ('calendar', 'gantt'):
+            % if form.sidebar:
             <td id="main_sidebar" valign="top">
-            	<div id="tertiary">
+            	<div id="tertiary" class="sidebar-closed">
 					<div id="tertiary_wrap">
                 		${form.sidebar.display()}
                 	</div>

@@ -139,20 +139,21 @@ ListView.prototype = {
     getSelectedItems: function() {
         return filter(function(box) {
             return box.id && box.checked;
-//            $('input.grid-record-selector')
         }, openobject.dom.select('input.grid-record-selector', this.name));
     },
 
     onBooleanClicked: function(clear, value) {
         var selected_ids = this.getSelectedRecords();
-        var sb = openobject.dom.get('sidebar');
+        
         if (selected_ids.length <= 1) {
-            if (sb){
-                if(sb.style.display != '') {toggle_sidebar() };
+        	if (jQuery('div#tertiary').attr('class', 'sidebar-closed')) {
+        		toggle_sidebar();
             }
         }
         if (selected_ids.length == 0) {
-            if (sb) toggle_sidebar();
+            if (jQuery('div#tertiary').attr('class', 'sidebar-open')) {
+        		toggle_sidebar();
+            }
         }
         
        	this.selectedRow_sum();     
@@ -442,6 +443,10 @@ MochiKit.Base.update(ListView.prototype, {
         req.addCallback(function() {
             self.reload();
         });
+    },
+    
+    clear: function() {
+    	this.reload(-1, null, this.default_get_ctx, true)
     }
 });
 
@@ -706,7 +711,7 @@ MochiKit.Base.update(ListView.prototype, {
         this.reload();
     },
 
-    reload: function(edit_inline, concurrency_info, default_get_ctx) {
+    reload: function(edit_inline, concurrency_info, default_get_ctx, clear) {
 
         if (openobject.http.AJAX_COUNT > 0) {
             return callLater(1, bind(this.reload, this), edit_inline, concurrency_info);
@@ -741,6 +746,10 @@ MochiKit.Base.update(ListView.prototype, {
         	}
         }
         
+        if(clear) {
+        	args['_terp_clear'] = true;
+        }
+        
         var req = openobject.http.postJSON('/openerp/listgrid/get', args);
         req.addCallback(function(obj) {
             var _terp_id = openobject.dom.get(self.name + '/_terp_id') || openobject.dom.get('_terp_id');
@@ -756,11 +765,23 @@ MochiKit.Base.update(ListView.prototype, {
                 _terp_ids.value = '[' + obj.ids.join(',') + ']';
                 _terp_count.value = obj.count;
             }
+            
+            if(obj.active_clear) {
+            	if(jQuery('#clear_all_filters').css('display')=='none') {
+            	   jQuery('#clear_all_filters').show()	
+            	}
+            }
+            else {
+            	if(jQuery('#clear_all_filters').css('display')!='none') {
+            		jQuery('#clear_all_filters').hide()
+            	}
+            }
 
             var d = DIV();
             d.innerHTML = obj.view;
-
-            var newlist = d.getElementsByTagName('table')[0];
+            
+            var newlist = getElementsByTagAndClassName('table', 'gridview', d)[0];
+            
             var editors = self.adjustEditors(newlist);
 
             if (editors.length > 0) {
@@ -768,16 +789,25 @@ MochiKit.Base.update(ListView.prototype, {
             }
 
             self.current_record = edit_inline;
-			
-            var __listview = openobject.dom.get(self.name).__listview;
-            swapDOM(self.name, newlist);
-            openobject.dom.get(self.name).__listview = __listview;
+		    var __listview = openobject.dom.get(self.name).__listview;
+		    if(clear) {
+		    	jQuery('#view_form').replaceWith(d.innerHTML);
+		    } 
+		    else {
+		      swapDOM(self.name, newlist);
+		    } 
+		     openobject.dom.get(self.name).__listview = __listview;
 			
             var ua = navigator.userAgent.toLowerCase();
 
             if ((navigator.appName != 'Netscape') || (ua.indexOf('safari') != -1)) {
                 // execute JavaScript
-                var scripts = openobject.dom.select('script', newlist);
+                if(clear) {
+                	var scripts = openobject.dom.select('script', d.innerHTML);
+                }
+                else {
+                    var scripts = openobject.dom.select('script', newlist);
+                }
                 forEach(scripts, function(s) {
                     eval(s.innerHTML);
                 });

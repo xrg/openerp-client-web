@@ -1,15 +1,18 @@
-<table border="0" id="_o2m_${name}" width="100%" class="one2many" detail="${(screen.view_type == 'tree' or 0) and len(screen.widget.editors)}">
+<%
+    if view_type == 'form':
+        pager_width = '15%'
+        o2m_css_class = ''
+    else:
+        pager_width = '100%'
+        o2m_css_class = 'o2m_box'
+%>
+<table border="0" id="_o2m_${name}" width="100%" class="one2many ${o2m_css_class}" detail="${(screen.view_type == 'tree' or 0) and len(screen.widget.editors)}">
     <tr>
         <td>
-            <table width="100%" class="gridview" style="border-bottom: 1px solid #C0C0C0;"cellpadding="0" cellspacing="0">
+            <table width="100%" class="gridview" style="border-bottom: 1px solid black;"cellpadding="0" cellspacing="0">
                 <tr class="pagebar">
-                    <%
-                        if view_type == 'form':
-                            pager_width = '15%'
-                        else:
-                            pager_width = '25%'
-                    %>
-                	<td class="pagerbar-cell" align="right" width="${pager_width}">
+                    
+                	<td class="pagerbar-cell" align="left" width="${pager_width}">
                 		<div class="pagerbar-header">
                 			<strong>${screen.string}</strong>
                 		</div>
@@ -52,4 +55,11 @@
         </td>
         % endif
     </tr>
+    % if screen.editable and not readonly:
+        % if name == source:
+            <script type="text/javascript">
+                new One2Many('${name}', jQuery('table.one2many[id=_o2m_${name}]').attr('detail')).create();
+            </script>
+        % endif
+    % endif
 </table>

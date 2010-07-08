@@ -1,92 +1,135 @@
-table.menubar {
+.menubar {
     margin: 0;
     padding: 0;
     white-space: nowrap;
 }
 
-table.menubar td {
+.menubar span {
     margin: 0;
     padding: 0;
 }
 
-table.menubar a {
-/*  display: block; */
+.menubar a {
     text-align: center;
-/*	background-color: #666; */
     padding: 4px 2px;
     margin: 0 1px 0 0;
     color: #EEEEEE;
-    text-decoration: none;
     letter-spacing: 0;
 }
 
-table.menubar a:hover {
+.menubar a:hover {
     background-color: #707070;
-    text-decoration: none;
+    color: #EEEEEE;
 }
 
-table.menubar div.submenu {
-    background-color: #666;
-    border: 1px solid #333;
+/* Shortcuts manipulation */
+#shortcut_add_remove {
+    height: 34px;
+    padding: 0;
+    width: 30px;
+    cursor: pointer;
+}
+
+.shortcut-add {
+    background: url(../images/add_shortcut.png) no-repeat;
+}
+.shortcut-remove {
+    background: url(../images/remove_shortcut.png) no-repeat;
+}
+
+/* ================ */
+#shortcuts {
+    border-bottom: 0;
+    border-collapse: separate;
+}
+
+#shortcuts div#sc_row {
+    display: block;
+    float: left;
     position: absolute;
-    left: 0px;
-    margin-left:  -1px;
-    z-index: 3;
-    padding: 4px;
+    padding: 6px 5px;
+    border-top: 1px solid #606060;
+    left: 180px;
+    top: 33px;
+    width: 100%;
+    height: auto;
+    margin: 0;
+    line-height: 1.2;
+}
+
+#shortcuts span {
+    margin: 0;
+    text-align: center;
+    color: #fff;
+    border-right: 1px solid #909090;
+    padding-left: 1px;
+}
+
+#sc_row div {
+    overflow: hidden;
+}
+/* scrollers */
+#sc_row .scroller {
+    height: 100%;
+    width: 14px;
+    top: 0;
+    position: absolute;
     display: none;
 }
-
-table.menubar div.submenu a {
-    display: block;
-    text-align: left;
-    text-decoration: none;
-    color: #FFF;
-    margin: 0px;
-    float: none; 
-    padding: 6px 5px 6px 2px;
+#shortcuts .scrolling {
+    padding: 6px 14px !important;
 }
-
-table.menubar div.submenu a:hover {
-    background-color: #505050;
-    text-decoration: none;
+#shortcuts .scrolling .scroller {
+    display: block;
+    background: no-repeat center center;
+}
+#shortcuts #shortcuts-scroll-left {
+    left: 0;
+    background-image: url(/openerp/static/images/scroll_left.png);
+}
+#shortcuts #shortcuts-scroll-right {
+    right: 0;
+    background-image: url(/openerp/static/images/scroll_right.png);
 }
 
 div.contextmenu {
-    background-color: #5C5B5B;
-    border: 1px solid #505050;
+    background-color: #444;
+    border: 1px solid #000;
     white-space: nowrap;
     position: absolute;
     padding: 2px;
     z-index: 100;
-    text-align: right;
-    display: none;
 }
 
-div.contextmenu a.customise_menu_options,
+div.contextmenu a,
 div.contextmenu span {
     display: block;
     text-align: left;
     text-decoration: none;
     white-space: nowrap;
     padding: 2px;
-    color: #FFFFFF;
+    color: #FFF;
     cursor: pointer;
 }
 
-div.contextmenu a:hover {
-	background-color: #CCCCCC;
-	color: #5C5B5B
+
+div.contextmenu hr {
+    margin: 1px 0 !important;
 }
 
-td#shortcuts_menu {
-	border-right: 1px solid #CCCCCC;
+div.contextmenu td {
+    padding: 1px;
 }
 
-td#shortcuts_menu a.scMore_arrow {
-	padding-left: 5px;
+div.contextmenu a:hover,
+div.contextmenu span:hover {
+    color: #FFF;
+    background-color: #505050;
+    text-decoration: none;
 }
 
-/**
- * vim: sts=4 st=4 et 
- *
- */
+div.contextmenu a.disabled,
+div.contextmenu span.disabled {
+    color: #C0C0C0;
+}
+

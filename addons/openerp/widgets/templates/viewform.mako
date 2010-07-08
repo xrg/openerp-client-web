@@ -4,6 +4,7 @@
         <input type="hidden" id="_terp_search_domain" name="_terp_search_domain" value="${search_domain}"/>
         <input type="hidden" id="_terp_filter_domain" name="_terp_filter_domain" value="${filter_domain}"/>
         <input type="hidden" id="_terp_search_data" name="_terp_search_data" value="${search_data}"/>
+        <input type="hidden" id="_terp_notebook_tab" name="_terp_notebook_tab" value="${notebook_tab}"/>
 
     % for field in hidden_fields:
         ${display_member(field)}
@@ -18,26 +19,47 @@
         </tr>
         <tr>
             <td class="view_form_options" align="left">
-            	<table style="border: none;">
+            	<table style="border: none; width: 100%;">
             		<tr>
-            			<td style="padding: 0;">
-            				<div class="toolbar">
-			                	<a class="button-a" title="${_('Filter records.')}" href="javascript: void(0)" onclick="search_filter()">${_("Filter")}</a>
-                			</div>
+            			<td id="filter_search">
+		                	<a class="button-a" title="${_('Filter records.')}" href="javascript: void(0)" onclick="search_filter()">${_("Filter")}</a>
             			</td>
-            			<td>
-           			         <a class="button-b" title="${_('Clear all .')}" href="javascript: void(0)">${_("Clear")}</a>
-          			         
-            			</td>
-            			<td width="50%" align="left">
-            				<div class="message-box" style="width: 100%" width="100%" style="display:none;">
-            				</div>
-            			</td>
+            			<%
+            			     if search.listof_domain or search.custom_filter_domain or search.groupby:
+            			         css_clear = 'active_clear'
+            			     else:
+            			         css_clear = 'inactive_clear'
+            			%>
+                        <td id="clear_all_filters" class="${css_clear}">
+                            <a class="button-a" title="${_('Clear all .')}" href="javascript: void(0)" onclick="new ListView('_terp_list').clear()">${_("Clear")}</a>
+                        </td>
+            			<td id="save_filters">
+                             <a class="button-a" title="${_('Save as Filters.')}" href="javascript: void(0)" onclick="save_as_filter()">${_("Save as Filter")}</a>
+                        </td>
+                        <td id="manage_filters">
+                             <a class="button-a" title="${_('Manage Filters.')}" href="javascript: void(0)" onclick="manage_filters()">${_("Manage Filter")}</a>
+                        </td>
+                        <td class="custom-filter">
+                             <ul>
+                                <li style="padding-right: 3px;">
+                                    <select name="filter_list" id="filter_list" onchange="search_filter();">
+                                        % for f in search.filters_list:
+                                        <option value="${f[0]}">${f[1]}</option>
+                                        % endfor
+                                    </select>
+                                </li>
+                                <li>
+                                    <a class="button" href="javascript: void(0)" onclick="add_filter_row();">
+                                        <span class="add">Add</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </td>
             		</tr>
             	</table>
-                
+
             </td>
-            
+
         </tr>
         % endif
         <tr>

@@ -89,7 +89,7 @@ WeekCalendar.prototype = {
 
         if (!hasElementClass(element, 'calEvent')) return;
 
-        var h = parseInt(element.style.height) + 4;
+        var h = parseInt(element.style.height) + 2;
         var dt = MochiKit.DateTime.isoTimestamp(getNodeAttribute(element, 'dtStart'));
         var id = getNodeAttribute(element, 'nRecordID');
 
@@ -352,8 +352,13 @@ WeekCalendar.AllDayGrid.prototype = {
 
         div.className = params.className;
         div.title = params.title;
-        div.style.backgroundColor = params.bg;
-        div.style.color = params.clr;
+
+        with (div.style) {
+            backgroundColor = params.bg;
+            color = params.clr;
+            borderColor = Color.fromString(params.bg).darkerColorWithLevel(0.2).toHexString();
+            textShadow = "0 -1px 0 " + borderColor;
+        }
 
         return [div];
     },
@@ -398,7 +403,8 @@ WeekCalendar.AllDayGrid.prototype = {
                 index: i,                       // index of the container
                 grid: this,                     // reference to the grid
                 calendar: self.calendar,        // reference to the calendar
-                events: []                      // events in the day container
+                events: [],                     // events in the day container
+            	rows: []                        // mark used rows
             }
         }
 
@@ -448,7 +454,12 @@ WeekCalendar.AllDayGrid.prototype = {
                     var cnt = containers[dt];
 
                     forEach(cnt.events, function(e) {
+                    	cnt.rows.push(evt.row);
                         e.row = e.row >= evt.row ? e.row + 1 : e.row;
+                        
+                        while (cnt.rows.indexOf(e.row) > -1) {
+                            e.row = e.row + 1;
+                        }
                     });
                 }
             });
@@ -634,7 +645,7 @@ WeekCalendar.DayGrid.prototype = {
         var id = getNodeAttribute(draggable, 'nRecordID');
 
         var y = parseInt(draggable.style.top);
-        var h = parseInt(draggable.style.height) + 4;
+        var h = parseInt(draggable.style.height) + 2;
 
         var s = y * (30 / 20) * (60 * 1000);
         var e = (y + h) * (30 / 20) * (60 * 1000);
@@ -735,7 +746,7 @@ WeekCalendar.DayGrid.prototype = {
         if (!elem || elem.style.display == 'none') return;
 
         // set end time
-        var h = parseInt(elem.style.height) + 4;
+        var h = parseInt(elem.style.height) + 2;
         var dt = MochiKit.DateTime.isoTimestamp(getNodeAttribute(elem, 'dtStart'));
 
         var e = dt.getTime() + h * (30 / 20) * (60 * 1000);
@@ -880,8 +891,8 @@ WeekCalendar.AllDayEvent.prototype = {
 
     adjust : function() {
 
-        var w = this.container.calendar.colWidth;
-        var x = this.container.index * this.container.calendar.colWidth + 2;
+        var w =  elementDimensions('calGrid').w / 7;
+        var x = this.container.index * this.container.calendar.colWidth;
 
         var h = elementDimensions(this.element).h + 1;
 
@@ -889,18 +900,15 @@ WeekCalendar.AllDayEvent.prototype = {
 
         var d = elementDimensions('calAllDaySect');
 
-        w = w * this.dayspan;
+        w = Math.floor(w) * this.dayspan - 4;
 
         x += 1;
-        w -= 6;
-
         y += 1;
 
         w = Math.max(0, w);
 
         this.element.style.top = y + 'px';
         this.element.style.left = x + 'px';
-
         this.element.style.width = w + 'px';
 
         // XXX: safari hack
@@ -933,8 +941,11 @@ WeekCalendar.DayEvent.prototype = {
         var color = Color.fromString(element.style.backgroundColor);
         var tl = getElementsByTagAndClassName('div', 'calEventTitle', element)[0];
 
-        element.style.borderColor = color.darkerColorWithLevel(0.2).toHexString();
-        tl.style.backgroundColor = color.darkerColorWithLevel(0.2).toHexString();
+        try{
+            element.style.borderColor = color.darkerColorWithLevel(0.2).toHexString();
+            element.style.textShadow = "0 -1px 0 " + element.style.borderColor;
+            tl.style.textShadow = "0 1px 0 " + color.lighterColorWithLevel(0.2).toHexString();
+        }catch(e){}
 
         this.title = MochiKit.DOM.scrapeText(tl);
 
@@ -987,7 +998,7 @@ WeekCalendar.DayEvent.prototype = {
     },
 
     onClick : function(evt) {
-        if (!hasElementClass(this.element, 'dragging')) {
+        if (evt.mouse().button.left && !hasElementClass(this.element, 'dragging')) {
             new InfoBox({
                 dtStart : this.starts,
                 dtEnd : this.ends,
@@ -1084,8 +1095,8 @@ WeekCalendar.DayEvent.prototype = {
         this.element.style.top = y + 'px';
         this.element.style.left = x + 'px';
 
-        w = Math.max(w - 4, 0);
-        h = Math.max(h - 4, 0);
+        w = Math.max(w - 2, 0);
+        h = Math.max(h - 2, 0);
 
         this.element.style.width = w + 'px';
         this.element.style.height = h + 'px';

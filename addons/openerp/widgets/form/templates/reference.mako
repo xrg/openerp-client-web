@@ -56,7 +56,7 @@
 % else:
     <span>
         <span id="${name}" ${py.attrs(kind=kind, value=value, relation=relation)}>
-            <a href="${py.url('/form/view', model=relation, id=value)}">${text}</a>
+            <a href="${py.url('/openerp/form/view', model=relation, id=value)}">${text}</a>
         </span>
     </span>
 % endif

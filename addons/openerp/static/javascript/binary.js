@@ -84,31 +84,3 @@ var add_binary = function(src) {
         fld.size = 50;
     }
 };
-
-var set_binary_filename = function(src, filename) {
-
-    var src = openobject.dom.get(src);
-    var name = src.name;
-
-    var prefix = name.split('/');
-    prefix.pop();
-    var prefix = prefix.join('/');
-    prefix = prefix ? prefix + '/' : '';
-
-    var target = openobject.dom.get(prefix + filename);
-
-    var fname = src.value || '';
-
-    if (/Windows NT/.test(window.navigator.userAgent)) {
-        fname = fname.split('\\');
-        fname = fname.pop();
-    }
-    else {
-        fname = fname.split('/');
-        fname = fname.pop();
-    }
-
-    if (target) {
-        target.value = fname;
-    }
-};

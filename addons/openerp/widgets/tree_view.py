@@ -48,7 +48,7 @@ class ViewTree(Form):
     params = ['model', 'id', 'ids', 'domain', 'context', 'view_id', 'toolbar']
     member_widgets = ['tree', 'sidebar']
 
-    javascript = [JSLink("openerp", "javascript/form.js", location=locations.bodytop)]
+    javascript = [JSLink("openerp", "javascript/form.js", location=locations.head)]
 
     def __init__(self, view, model, res_id=False, domain=[], context={}, action=None, fields=None):
         super(ViewTree, self).__init__(name='view_tree', action=action)

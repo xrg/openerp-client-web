@@ -27,6 +27,7 @@
 //
 ////////////////////////////////////////////////////////////////////////////////
 
+var form_controller;
 function get_form_action(action, params) {
     var act = typeof(form_controller) == 'undefined' ? '/form' : form_controller;
     act = action && action.indexOf('/') == 0 ? action : act + '/' + action;
@@ -42,58 +43,39 @@ function openRecord(id, src, target, readonly) {
     }
 
     if (kind == "one2many") {
-        return new One2Many(src).edit(id, readonly);
+        new One2Many(src).edit(id, readonly);
+        return;
     }
 
     var prefix = src && src != '_terp_list' ? src + '/' : '';
 
-    var model = openobject.dom.get(prefix + '_terp_model').value;
-    var view_ids = openobject.dom.get(prefix + '_terp_view_ids').value;
-    var view_mode = openobject.dom.get(prefix + '_terp_view_mode').value;
-
-    var ids = openobject.dom.get(prefix + '_terp_ids').value;
-
-    var offset = openobject.dom.get(prefix + '_terp_offset').value;
-    var limit = openobject.dom.get(prefix + '_terp_limit').value;
-    var count = openobject.dom.get(prefix + '_terp_count').value;
-
-    var domain = openobject.dom.get(prefix + '_terp_domain').value;
-    var context = openobject.dom.get(prefix + '_terp_context').value;
-
-    var search_domain = openobject.dom.get('_terp_search_domain');
-    search_domain = search_domain ? search_domain.value : null;
-    
-    var search_data = openobject.dom.get('_terp_search_data');
-    search_data = search_data ? search_data.value : null;
-    
-    var search_filter_domain = openobject.dom.get('_terp_filter_domain');
-    search_filter_domain = search_filter_domain ? search_filter_domain.value : [];
-
     var args = {
-        'model': model,
-        'id': id ? id : 'False',
-        'ids': ids,
-        'view_ids': view_ids,
-        'view_mode': view_mode,
-        'domain': domain,
-        'context': context,
-        'offset': offset,
-        'limit': limit,
-        'count': count,
-        'search_domain': search_domain,
-        'search_data': search_data,
-        'filter_domain' : search_filter_domain
+        'model': openobject.dom.get(prefix + '_terp_model').value,
+        'id': id || 'False',
+        'ids': openobject.dom.get(prefix + '_terp_ids').value,
+        'view_ids': openobject.dom.get(prefix + '_terp_view_ids').value,
+        'view_mode': openobject.dom.get(prefix + '_terp_view_mode').value,
+        'domain': openobject.dom.get(prefix + '_terp_domain').value,
+        'context': openobject.dom.get(prefix + '_terp_context').value,
+        'offset': openobject.dom.get(prefix + '_terp_offset').value,
+        'limit': openobject.dom.get(prefix + '_terp_limit').value,
+        'count': openobject.dom.get(prefix + '_terp_count').value,
+        'search_domain': jQuery('#_terp_search_domain').val() || null,
+        'search_data': jQuery('#_terp_search_data').val() || null,
+        'filter_domain' : jQuery('#_terp_filter_domain').val() || []
     };
 
     var action = readonly ? 'view' : 'edit';
 
     if (target == '_blank') {
-        return window.open(get_form_action(action, args));
+        window.open(get_form_action(action, args));
+        return;
     }
 
     if (kind == 'many2many') {
         args['source'] = src;
-        return openobject.tools.openWindow(get_form_action('/openerp/openm2m/edit', args));
+        openobject.tools.openWindow(get_form_action('/openerp/openm2m/edit', args));
+        return;
     }
 
     openLink(get_form_action(action, args));
@@ -152,7 +134,7 @@ function switch_O2M(view_type, src) {
 
     params['_terp_source'] = src;
     params['_terp_source_view_type'] = view_type;
-    params['_terp_editable'] = $(prefix + '_terp_editable').value
+    params['_terp_editable'] = $(prefix + '_terp_editable').value;
 
     if (openobject.dom.get('_terp_list')) {
         var ids = new ListView('_terp_list').getSelectedRecords();
@@ -191,7 +173,7 @@ function switch_O2M(view_type, src) {
     });
 }
 
-function show_process_view() {
+function show_process_view(title) {
     var model = openobject.dom.get('_terp_model').value;
     var id;
     if (openobject.dom.get('_terp_list')) {
@@ -204,7 +186,7 @@ function show_process_view() {
         id = openobject.dom.get('_terp_id').value;
     }
     openLink(openobject.http.getURL('/view_diagram/process', {
-        res_model: model, res_id: parseInt(id, 10) || null}));
+        res_model: model, res_id: parseInt(id, 10) || null, title: title}));
 }
 
 function validate_required(form) {
@@ -263,11 +245,12 @@ function validate_required(form) {
 function submit_form(action, src, target) {
 	
     if (openobject.http.AJAX_COUNT > 0) {
-        return callLater(1, submit_form, action, src, target);
+        callLater(1, submit_form, action, src, target);
+        return;
     }
 
     if (action == 'delete' && !confirm(_('Do you really want to delete this record?'))) {
-        return false;
+        return;
     }
 
     var form = document.forms['view_form'];
@@ -291,7 +274,7 @@ function submit_form(action, src, target) {
     action = get_form_action(action, args);
     
     if (/\/save(\?|\/)?/.test(action) && !validate_required(form)) {
-        return false;
+        return;
     }
 
     form.attributes['action'].value = action;
@@ -957,7 +940,7 @@ function do_action(action_id, field, relation, src) {
 
 function on_context_menu(evt) {
 
-    if (! evt.modifier().ctrl) {
+    if (! evt.modifier()) {
         return;
     }
 
@@ -1058,42 +1041,127 @@ function show_wkf() {
     openobject.tools.openWindow(openobject.http.getURL('/view_diagram/workflow', {model: $('_terp_model').value, rec_id:id}));
 }
 
-function removeAttachment(e, element, id) {
-    var element = jQuery('#' + element);
-	var parent = element.parent();
-	
-	// set the x and y offset of the poof animation from cursor position
-	var xOffset = 100;
-    var yOffset = 19;
+/**
+ * @event click
+ *
+ * Requests the deletion of an attachment based on data provided by the trigger's parent's @data-id
+ */
+function removeAttachment () {
+    var attachment_line = jQuery(this).parent();
+    var id = attachment_line.attr('data-id');
 	
 	jQuery.ajax({
-		url: '/openerp/attachment/removeAttachment/',
+		url: '/openerp/attachment/remove/',
 		type: 'POST',
 		data: {'id': id},
 		dataType: 'json',
 		success: function(obj) {
 			if(obj.error) {
-				return alert(obj.error);
+				error_popup(obj.error);
 			}
 			
-            // remove clicked element from the document list
-            jQuery(element).fadeOut('fast');
-            jQuery(element).remove();
-            
-	       if(parent.children().length == 0) {
-	       	   parent.remove();
-	       	   jQuery('#sideheader-a').remove();
-	       }
+            jQuery(attachment_line).remove();
 		}
 	});
+
+    return false;
+}
+/**
+ * @event form submission
+ *
+ * Used by the sidebar to create a new attachment.
+ *
+ * Creates a new line in #attachments if the creation succeeds.
+ */
+function createAttachment() {
+    var form = jQuery(this);
+    form.ajaxSubmit({
+        dataType: 'json',
+        success: function (data) {
+            var attachment_line = jQuery('<li>', {
+                'id': 'attachment_item_' + data['id'],
+                'data-id': data['id']});
+
+            jQuery([
+                jQuery('<a>', {
+                    'target': '_self',
+                    'href': openobject.http.getURL(
+                        '/openerp/attachment/get', {
+                            'record': data['id']})
+                }).text(data['name']),
+                jQuery('<span>|</span>'),
+                jQuery("<a href='#' class='close'>Close</a>").click(removeAttachment)
+            ]).appendTo(attachment_line);
+
+            jQuery('#attachments').append(attachment_line);
+            form.resetForm();
+            form.hide();
+        }
+    });
+    return false;
 }
 
+function setupAttachments() {
+        jQuery('#attachments li a.close').each(function () {
+            jQuery(this).click(removeAttachment);
+        });
+
+        var attachments = jQuery('#attachment-box').hide();
+        jQuery('#datas').validate({
+            expression: "if (VAL) return true; else return false;"
+        });
+        jQuery('#add-attachment').click (function (e) { attachments.show(); e.preventDefault(); });
+        attachments.submit(createAttachment);
+    }
+
 function error_popup(obj) {
-    try{
-	    var d = DIV();
-	    d.innerHTML = obj.error    
-	    error_window= window.open("", "error", "status=1, scrollbars=yes, width=550, height=400");
-	    error_window.document.write('<html><head><title>Open ERP - Error</title></head></HTML>');
-	    error_window.document.write(d.innerHTML);
-	} catch(e) {alert(e)}
+    try {
+        var error_window = window.open("", "error", "status=1, scrollbars=yes, width=550, height=400");
+        error_window.document.write(obj.error);
+        error_window.document.title += "Open ERP - Error"
+        error_window.document.close();
+    } catch(e) {
+        alert(e)
+    }
+}
+
+// Setup by the view, the id of the current object
+var RESOURCE_ID;
+/**
+ * Create a shortcut bar item for the provided menu ID
+ */
+function add_shortcut_to_bar(id) {
+    jQuery.getJSON('/openerp/shortcuts/by_resource', function (data) {
+        jQuery('#sc_row > div:not(.scroller)').append(
+            jQuery('<span>').append(
+                jQuery('<a>', {
+                    'id': 'shortcut_' + id,
+                    'href': openobject.http.getURL('/openerp/tree/open', {
+                        'id': id,
+                        'model': 'ir.ui.menu'
+                    })
+                }).text(data[id]['name'])));
+        jQuery(document).trigger('shortcuts-alter');
+    });
+}
+/**
+ * Toggle the shortcut for the current resource (create or delete it depending on current status)
+ */
+function toggle_shortcut() {
+    var adding = jQuery(this).hasClass('shortcut-add');
+    jQuery.ajax({
+        url: adding ? '/openerp/shortcuts/add' : '/openerp/shortcuts/delete',
+        context: this,
+        type: 'POST',
+        data: {'id': RESOURCE_ID},
+        success: function() {
+            jQuery(this).toggleClass('shortcut-add shortcut-remove');
+            if (adding) {
+                add_shortcut_to_bar(RESOURCE_ID);
+            } else {
+                jQuery('#shortcut_' + RESOURCE_ID).parent().remove();
+                jQuery(document).trigger('shortcuts-alter');
+            }
+        }
+    });
 }

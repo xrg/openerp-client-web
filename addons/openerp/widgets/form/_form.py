@@ -162,7 +162,7 @@ class Frame(TinyInputWidget):
 
         if colspan > self.columns:
             colspan = self.columns
-
+        
         a = label and 1 or 0
 
         if colspan + self.x + a > self.columns:
@@ -175,7 +175,7 @@ class Frame(TinyInputWidget):
         label_table = []
         if label:
             colspan -= 1
-            attrs = {'class': 'label', 'title': getattr(widget, 'help', None), 'for': widget.name}
+            attrs = {'class': 'label', 'title': getattr(widget, 'help', None), 'for': widget.name, 'model': getattr(widget, 'model', None), 'fname':getattr(widget, 'name', None)}
             td = [attrs, label]
             if widget.full_name and self.label_position:
                 attrs['class'] = attrs.get('class', 'label') + ' search_filters search_fields'
@@ -236,8 +236,7 @@ class Frame(TinyInputWidget):
             if colspan < 2:
                 for prev_tr in self.table:
                     if len(prev_tr) > 2:
-                        attrs['colspan'] = len(prev_tr)
-                    
+                        attrs['colspan'] = len(prev_tr) 
         self.x += colspan + a
 
     def add_hidden(self, widget):

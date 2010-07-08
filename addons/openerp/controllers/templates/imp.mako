@@ -141,16 +141,16 @@
 
     <table class="view" cellspacing="5" border="0" width="100%">
         <tr>
-            <td>
+            <td style="padding: 10px 10px 0 10px;">
                 <table width="100%" class="titlebar">
                     <tr>
-                        <td width="100%"><h1>${_("Import Data")}</h1></td>
+                        <td width="100%" style="padding: 0 10px 0 10px;" class="popup_header">${_("Import Data")}</td>
                     </tr>
                 </table>
             </td>
         </tr>
         <tr>
-            <td>
+            <td style="padding: 0 10px;">
                 <table class="fields-selector" cellspacing="5" border="0">
                     <tr>
                         <th class="fields-selector-left">${_("All fields")}</th>
@@ -197,7 +197,7 @@
             </td>
         </tr>
         <tr>
-            <td>
+            <td style="padding: 0 10px;">
                 <fieldset>
                     <legend>${_("File to import")}</legend>
                     <input type="file" id="csvfile" size="50" name="csvfile" onchange="do_autodetect('import_data')"/>
@@ -205,7 +205,7 @@
             </td>
         </tr>
         <tr>
-            <td>
+            <td style="padding: 0 10px;">
                 <fieldset>
                     <legend>${_("Options")}</legend>
                     <table>
@@ -231,13 +231,16 @@
             </td>
         </tr>
         <tr>
-            <td>
-                <div class="toolbar">
-                    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+            <td style="padding: 10px 10px;">
+            	<div class="toolbar">
+                    <table border="0" cellpadding="0" cellspacing="0" width="100%" class="popup_footer">
                         <tr>
-                            <td width="100%">&nbsp;</td>
-                            <td><a class="button-a" href="javascript: void(0)" onclick="do_import('import_data')">${_("Import")}</a></td>
-                            <td><a class="button-a" href="javascript: void(0)" onclick="window.close()">${_("Close")}</a></td>
+                            <td width="100%" style="padding: 0 4px 0 0;">
+                            	<a class="button-a" style="float: right;" href="javascript: void(0)" onclick="do_import('import_data');">${_("Import")}</a>
+                            </td>
+                            <td style="padding: 0 10px 0 0;">
+                            	<a class="button-a" href="javascript: void(0)" onclick="window.close()">${_("Close")}</a>
+                            </td>
                         </tr>
                     </table>
                 </div>

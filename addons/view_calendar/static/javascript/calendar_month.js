@@ -94,7 +94,7 @@ MonthCalendar.prototype = {
 
             var a = A({href: 'javascript: void(0)', onclick : "getCalendar('" + week.days[0] + "', 'week')"}, this.firstWeek + i);
 
-            appendChildNodes('calTimeCol', DIV({'style': 'height: 120px'}, a));
+            appendChildNodes('calTimeCol', DIV({'style': 'height: 133px'}, a));
 
             for (var j = 0; j < 7; j ++) {
                 dt = dt.getNext();
@@ -211,8 +211,15 @@ MonthCalendar.prototype = {
 
             div.className = params.className;
             div.title = params.title;
+
             div.style.backgroundColor = params.bg;
             div.style.color = params.clr;
+
+            try{
+                var bg = Color.fromString(div.style.backgroundColor).darkerColorWithLevel(0.2).toHexString();
+                div.style.borderColor = bg;
+                div.style.textShadow = "0 -1px 0 " + bg;
+            }catch(e){}
 
             events = events.concat(div);
 
@@ -290,7 +297,7 @@ MonthCalendar.Header.prototype = {
 
         var d = elementDimensions('calHeaderSect');
 
-        var w = d.w / 7;
+        var w = Math.floor(d.w / 7);
         var h = d.h;
 
         for (var i = 0; i < 7; i++) {
@@ -498,8 +505,8 @@ MonthCalendar.Week.prototype = {
 
                     if (j == 7) break;
 
-                    var dt = self.days[j];
-                    var cnt = containers[dt];
+                    var d = self.days[j];
+                    var cnt = containers[d];
 
                     forEach(cnt.events, function(e) {
                         cnt.rows.push(evt.row);
@@ -522,7 +529,9 @@ MonthCalendar.Week.prototype = {
                 e = container.events[container.events.length - 1];
                 if (e.row > 5) {
                     appendChildNodes(element, DIV({'class': 'calEventInfo'},
-                            A({href: 'javascript: void(0)'}, '+ (' + (e.row - 5) + ') more...')));
+                            A({'href':'javascript: void(0)',
+                               'onclick': "getCalendar('" + dt + "', 'day')"},
+                               '+ (' + (e.row - 5) + ') more...')));
                 }
             }
         }
@@ -533,7 +542,7 @@ MonthCalendar.Week.prototype = {
     adjust : function() {
         var w = elementDimensions('calGrid').w / 7;
 
-        w = Math.round(w);
+        w = Math.floor(w);
 
         for (var i = 0; i < 7; i++) {
             var e = this.elements[i];
@@ -544,7 +553,7 @@ MonthCalendar.Week.prototype = {
             e.style.left = i * w + 'px';
 
             e.style.width = w + 'px';
-            e.style.height = '121px';
+            e.style.height = '134px';
         }
 
         for (var dt in this.containers) {
@@ -589,7 +598,7 @@ MonthCalendar.Event.prototype = {
     },
 
     onClick : function(evt) {
-        if (!hasElementClass(this.element, 'dragging')) {
+        if (evt.mouse().button.left && !hasElementClass(this.element, 'dragging')) {
             new InfoBox({
                 dtStart : this.starts2,
                 dtEnd : this.ends,
@@ -623,12 +632,8 @@ MonthCalendar.Event.prototype = {
 
         y += this.row * h;
 
-        var d = elementDimensions('calAllDaySect');
-
-        w = Math.round(w);
-        w = w * this.dayspan - 5;
-
-        x += Browser.isGecko18 ? 1 : 2;
+        w = Math.floor(w);
+        w = w * this.dayspan - 6;
         y += 2;
 
         this.element.style.top = y + 'px';

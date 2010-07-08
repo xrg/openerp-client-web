@@ -103,14 +103,8 @@ function getCalendar(day, mode, color_filters) {
     var req = openobject.http.post(act, params);
     req.addCallback(function(xmlHttp) {
         var newCalendar = jQuery(xmlHttp.responseText);
-
-        // release resources
-        CAL_INSTANCE.__delete__();
-
-        jQuery('#Calendar').replaceWith(newCalendar);
-
+        jQuery('#Calendar').replaceWith(newCalendar).hide();
         setTimeout(function () {
-            CAL_INSTANCE.onResize();
             CALENDAR_WAIT_BOX.hide();
         }, 0);
     });
@@ -125,8 +119,7 @@ function getMiniCalendar(action) {
 
     req.addCallback(function(xmlHttp) {
         var newMiniCalendar = jQuery(xmlHttp.responseText);
-
-        jQuery('#MiniCalendar').replaceWith(newMiniCalendar);
+        jQuery('#calMini > div.minical-a').replaceWith(newMiniCalendar);
     });
 }
 

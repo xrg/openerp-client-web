@@ -39,11 +39,10 @@
         <div class="toolbar">
             <table border="0" cellpadding="0" cellspacing="0" width="100%">
                 <tr>
-                    <td width="100%">
-                    </td>
+                    <td width="100%" align="right">
+                        <button class="static_buttons" onclick="window.opener ? window.close() : history.back()">${_("Cancel")}</button>
                     <td>
-                    	<a class="button-a" href="javascript: void(0)" onclick="window.opener ? window.close() : history.back()">${_("Cancel")}</a>
-                        <button type="submit">${_("OK")}</button>
+                    	<button class="static_buttons" type="submit">${_("OK")}</button>
                     </td>
                 </tr>
             </table>

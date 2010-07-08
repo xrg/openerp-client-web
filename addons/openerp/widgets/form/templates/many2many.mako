@@ -1,4 +1,4 @@
-<table border="0" width="100%" id="_m2m_${name}" class="many2many" detail="${inline}" relation="${relation}" ${py.attrs(attrs, domain=domain, context=ctx)}>
+<table border="0" width="100%" id="_m2m_${name}" class="many2many m2m_box" detail="${inline}" relation="${relation}" ${py.attrs(attrs, domain=domain, context=ctx)}>
     % if editable:
     <tr>
         <td>

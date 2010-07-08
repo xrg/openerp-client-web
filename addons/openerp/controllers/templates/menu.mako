@@ -11,30 +11,6 @@
     <script type="text/javascript" src="/openerp/static/javascript/notebook/notebook.js"></script>
     <script type="text/javascript" src="/openerp/static/javascript/scroll_scut.js"></script>
 
-    <style type="text/css">
-        .accordion-content {
-        }
-
-        .accordion {
-            border: none;
-        }
-
-        .accordion-title {
-            padding: 2px;
-        }
-
-        #menubar_container {
-            overflow: auto;
-            border: 1px solid black;
-        }
-
-        #content_iframe {
-            overflow-x: auto;
-            overflow-y: hidden;
-        }
-
-    </style>
-
     <script type="text/javascript">
         var DOCUMENT_TO_LOAD = "${load_content}";
         
@@ -49,12 +25,6 @@
             }
         });
 
-        function resize_appContent() {
-            var window_width = jQuery(window).width();
-            var secondary_width = jQuery('#secondary').width();
-            var primary_width = window_width - secondary_width ;
-            jQuery('#primary').width(primary_width - 50);
-        }
         jQuery(document).ready(function () {
             // Don't load doc if there is a hash-url, it takes precedence
             if(DOCUMENT_TO_LOAD && !hashUrl()) {
@@ -62,14 +32,12 @@
             }
 
             jQuery('.open-close-menu').click(function() {
-                jQuery(this).toggleClass('show_tools hide_tools');
-                jQuery('#secondary').toggle();
-
-                resize_appContent()
+                jQuery('#content').toggleClass('hide-menu');
+                if (CAL_INSTANCE != "undefined") {
+                    CAL_INSTANCE.onResize();
+                }
             });
-            resize_appContent();
         });
-        jQuery(window).resize(resize_appContent);
         
     </script>
 </%def>
@@ -101,43 +69,25 @@
 		</div>
 				
 	    <div id="content" class="three-a">
-		    <div id="secondary">
+		    <div id="secondary" class="sidenav-open">
 		    	<div class="wrap">
-		    		<table class="sidenav-a">
-				        <tr>
-				            <td class="accordion-title-td">
-				                <div id="menubar" class="accordion">
-				                    % for tool in tools:
-				                    <div class="accordion-block" id="block_${tool['id']}">
-				                        <table class="accordion-title" id="title_${tool['id']}">
-				                            <tr>
-				                                <td id="${tool['id']}" class="accordion-title-td" >
-                                                % if tool.get('action_id'):
-                                                  <a href="${py.url('/openerp/custom_action', action=tool['action_id'])}">
-                                                    ${tool['name']}</a>
-                                                % else:
-                                                  <span>${tool['name']}</span>
-                                                % endif
-                                              </td>
-				                            </tr>
-				                        </table>
-				                        <div class="accordion-content" id="content_${tool['id']}">
-				                            ${tool['tree'].display()}
-				                        </div>
-				                    </div>
-				                    % endfor
-				                </div>
-				                <script type="text/javascript">
-				                    new Accordion("menubar");
-				                </script>
-				            </td>
-		           		</tr>
-		        	</table>
+		    		<ul id="sidenav-a" class="accordion">
+	                    % for tool in tools:
+	                    <li class="accordion-title">
+                            <span>${tool['name']}</span>
+                        </li>
+	                    <li class="accordion-content" id="content_${tool['id']}">
+	                       ${tool['tree'].display()}
+	                    </li>
+	                    % endfor
+		        	</ul>
+		        	<script type="text/javascript">
+		                new Accordion("sidenav-a");
+		            </script>
 		    	</div>
 			</div>
 			<div class="open-close-menu hide_tools"></div>
 			<div id="primary">
-			    
 				<div class="wrap">
 					<div id="appContent"></div>
 				</div>

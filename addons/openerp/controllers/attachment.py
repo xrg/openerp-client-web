@@ -28,8 +28,9 @@
 ###############################################################################
 import base64
 
+import cherrypy
 from openerp.controllers import SecuredController
-from openerp.utils import rpc, common
+from openerp.utils import rpc, common, TinyDict
 
 from openobject.tools import expose
 
@@ -59,27 +60,40 @@ class Attachment(SecuredController):
         else:
             raise common.message(_('No record selected! You can only attach to existing record...'))
 
-        return True
-
     @expose(content_type="application/octet-stream")
-    def save_as(self, fname=None, record=False, **kw):
+    def get(self, fname=None, record=False, **kw):
         record = int(record)
         proxy = rpc.RPCProxy('ir.attachment')
 
-        data = proxy.read([record], [], rpc.session.context)
-        if len(data) and not data[0]['link'] and data[0]['datas']:
-            return base64.decodestring(data[0]['datas'])
+        data = proxy.read(record, [], rpc.session.context)
+
+        if data['type'] == 'binary':
+            cherrypy.response.headers["Content-Disposition"] = "attachment; filename=%s" % data['name']
+            return base64.decodestring(data['datas'])
         else:
             return ''
 
     @expose('json')
-    def removeAttachment(self, id=False, **kw):
+    def save(self, datas, **kwargs):
+        params, data = TinyDict.split(cherrypy.session['params'])
+        ctx = dict(rpc.session.context,
+                   default_res_model=params.model, default_res_id=params.id,
+                   active_id=False, active_ids=[])
+
+        attachment_id = rpc.RPCProxy('ir.attachment').create({
+            'name': datas.filename,
+            'datas': base64.encodestring(datas.file.read()),
+        }, ctx)
+        return {'id': attachment_id, 'name': datas.filename}
+
+    @expose('json')
+    def remove(self, id=False, **kw):
         proxy = rpc.RPCProxy('ir.attachment')
         try:
             proxy.unlink([int(id)], rpc.session.context)
-            return dict()
+            return {}
         except Exception, e:
-            return dict(error=ustr(e))
+            return {'error': ustr(e)}
 
 
 # vim: ts=4 sts=4 sw=4 si et

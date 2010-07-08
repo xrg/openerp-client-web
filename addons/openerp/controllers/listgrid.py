@@ -147,7 +147,6 @@ class List(SecuredController):
     def get(self, **kw):
         params, data = TinyDict.split(kw)
         groupby = params.get('_terp_group_by_ctx')
-        
         if groupby and isinstance(groupby, basestring):
             groupby = groupby.split(',')
         
@@ -181,7 +180,17 @@ class List(SecuredController):
         source = (params.source or '') and str(params.source)
 
         params.view_type = 'form'
-
+        if params.get('_terp_clear'):
+            params.domain, params.search_domain, params.filter_domain, params.ids = [], [], [], []
+            for k,v in params.context.items():
+                if k.startswith('search_default'):
+                    params.context[k] = 0
+            
+            if params.context.get('group_by_no_leaf'):
+                params.context['group_by_no_leaf'] = 0
+            if params.context.get('group_by'):
+                params.context['group_by'] = []
+            params.group_by_ctx = groupby = []
         if source == '_terp_list':
             params.view_type = 'tree'
             if params.search_domain:
@@ -214,7 +223,15 @@ class List(SecuredController):
             for m, v in getattr(cherrypy.request, 'terp_concurrency_info', {}).items():
                 for i, d in v.items():
                     info['%s,%s' % (m, i)] = d
-        return dict(ids=ids, count=count, view=ustr(wid.render()), info=info)
+                    
+        active_clear = False
+        if frm.search and (frm.search.listof_domain or frm.search.custom_filter_domain or frm.search.groupby):
+            active_clear = True
+        if params.get('_terp_clear'):
+            view=ustr(frm.render())
+        else:
+            view=ustr(wid.render())
+        return dict(ids=ids, count=count, view=view, info=info, active_clear=active_clear)
 
     @expose('json')
     def button_action(self, **kw):

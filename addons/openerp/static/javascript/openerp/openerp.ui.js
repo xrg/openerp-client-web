@@ -36,3 +36,81 @@ if (typeof(openerp) == "undefined") {
 }
 
 openerp.ui = {};
+
+function toggle_sidebar() {
+    function a() {
+        jQuery('#tertiary').toggleClass('sidebar-open sidebar-closed');
+    }
+    if (typeof(Notebook) == "undefined") {
+        a();
+    } else {
+        Notebook.adjustSize(a);
+    }
+
+    MochiKit.Signal.signal(document, 'toggle_sidebar');
+}
+
+jQuery(document).bind('shortcuts-alter', function () {
+    var shortcuts = jQuery('#sc_row > div:not(.scroller)');
+    var shortcuts_row = jQuery('#sc_row');
+    if(!shortcuts.length) { return; }
+    var totalWidth = shortcuts.get(0).scrollWidth;
+    var visibleWidth = shortcuts.outerWidth();
+
+    if(totalWidth > visibleWidth) {
+        if (!shortcuts_row.hasClass('scrolling')) {
+            shortcuts_row.addClass('scrolling');
+        }
+        /*
+            When resizing the window, if the bar is scrolled far to the right,
+            we're going to display emptiness on the right even though we have hidden content on the left.
+            Unscroll to fix that.
+         */
+        if(shortcuts.scrollLeft() > (totalWidth - visibleWidth)) {
+            shortcuts.scrollLeft(totalWidth - visibleWidth);
+        }
+    } else {
+        if(shortcuts_row.hasClass('scrolling')) {
+            shortcuts_row.removeClass('scrolling');
+            shortcuts.scrollLeft(0);
+        }
+    }
+    setRowWidth();
+});
+
+// trigger on window load so all other handlers (including resizer) have executed
+// further stuff will be handled when adding/removing shortcuts anyway (theoretically)
+jQuery(window).load(function () {
+    var shortcuts = jQuery('#sc_row');
+    var scrolling_left;
+    var scrolling_right;
+    var scroll_left = jQuery('<div id="shortcuts-scroll-left" class="scroller">').hover(
+        function () {
+            var scrollable = shortcuts.children('div:not(.scroller)');
+            scrolling_left = setInterval(function () {
+                if(scrollable.scrollLeft() == 0) {
+                    clearInterval(scrolling_left);
+                }
+                scrollable.scrollLeft(scrollable.scrollLeft() - 3);
+            }, 30);
+        }, function () {
+            clearInterval(scrolling_left);
+    });
+    var scroll_right = jQuery('<div id="shortcuts-scroll-right" class="scroller">').hover(
+        function () {
+            var scrollable = shortcuts.children('div:not(.scroller)');
+            scrolling_right = setInterval(function () {
+                if((scrollable.scrollLeft() + scrollable.outerWidth()) == scrollable.get(0).scrollWidth) {
+                    clearInterval(scrolling_right);
+                }
+                scrollable.scrollLeft(scrollable.scrollLeft() + 3);
+            }, 30);
+        }, function () {
+            clearInterval(scrolling_right);
+    });
+    shortcuts.prepend(scroll_left).append(scroll_right);
+    jQuery(document).trigger('shortcuts-alter');
+    jQuery(window).resize(function () {
+        jQuery(document).trigger('shortcuts-alter');
+    })
+});

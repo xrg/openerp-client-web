@@ -38,6 +38,7 @@ openerp.ui.Tips = function(elements, options) {
 openerp.ui.Tips.prototype = {
 
     __init__ : function(elements, options) {
+        jQuery('.tooltip').remove();
 
         this.options = MochiKit.Base.update({
             wait: 1,            // wait for n seconds
@@ -49,13 +50,19 @@ openerp.ui.Tips.prototype = {
 
         this.toolTitle = SPAN({'class': 'tipTitle'});
         this.toolText = P({'class': 'tipText'});
-    
-    this.toolTip = TABLE({'class': 'tooltip'},
+        this.toolModel = SPAN({'class': 'tipExtra'});
+        this.toolField = SPAN({'class': 'tipExtra'});
+        this. modelTitle = SPAN({'style': 'font-weight:bold;'}, 'Object :: ')
+        this.fieldTitle = SPAN({'style': 'font-weight:bold;'}, 'Field :: ')
+        this.toolTip = TABLE({'class': 'tooltip'},
                         TBODY(null,
                             TR(null,
                                 TD({'class': 'tip-text'}, 
                                     this.toolTitle, this.toolText),
-                                TD({'class': 'tip-r'}))
+                                TD({'class': 'tip-r'})),
+                            TR(null,
+                                TD({'class': 'tipExtra'},
+                                    this. modelTitle, this.toolModel, this.fieldTitle, this.toolField))                                
                             ));
                                 
                             
@@ -68,10 +75,13 @@ openerp.ui.Tips.prototype = {
         
             el = openobject.dom.get(el);
             el.myText = MochiKit.DOM.getNodeAttribute(el, 'title');
+            el.tipModel = MochiKit.DOM.getNodeAttribute(el, 'model');
+            el.tipField = MochiKit.DOM.getNodeAttribute(el, 'fname');
 
             if (el.myText)
                 el.removeAttribute('title');
-
+                el.removeAttribute('model');
+                el.removeAttribute('fname');
             //if (el.href){
             //    if (el.href.indexOf('http://') > -1) el.myTitle = el.href.replace('http://', '');
             //    if (el.href.length > this.options.maxTitleChars) el.myTitle = el.href.substr(0,this.options.maxTitleChars-3)+"...";
@@ -102,6 +112,8 @@ openerp.ui.Tips.prototype = {
 
         var text = el.myText;
         var title = el.myTitle;
+        var model = el.tipModel || ''
+        var fieldname = el.tipField || ''
 
         // if plain text then replace \n with <br>
         if (! /<\w+/.test(text)) {
@@ -111,6 +123,8 @@ openerp.ui.Tips.prototype = {
         title = text ? title : '';
 
         this.toolTitle.innerHTML = title;
+        this.toolModel.innerHTML = model;
+        this.toolField.innerHTML = fieldname;
 
         if (/msie/.test(navigator.userAgent.toLowerCase())) { // hack for strange IE error
             var div = document.createElement('div');
@@ -169,6 +183,9 @@ function setup_tips(){
     }
     var elements = MochiKit.Base.filter(function(e){
         var text = MochiKit.DOM.getNodeAttribute(e, 'title');
+        var model = MochiKit.DOM.getNodeAttribute(e, 'model');
+        var fname = MochiKit.DOM.getNodeAttribute(e, 'fname') || '';
+        var fieldname = fname && fname.indexOf('/') == -1 ? fname : fname.split(/[/ ]+/).pop();
         if (!text)
             return false;
 
@@ -181,6 +198,8 @@ function setup_tips(){
         }
 
         MochiKit.DOM.setNodeAttribute(e, 'title', title + '::' + text);
+        MochiKit.DOM.setNodeAttribute(e, 'model', model);
+        MochiKit.DOM.setNodeAttribute(e, 'fname', fieldname);
         return true;
 
     }, openobject.dom.select('td.label', document));

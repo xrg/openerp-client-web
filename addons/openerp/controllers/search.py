@@ -226,11 +226,11 @@ class Search(Form):
 
     @expose('json')
     def eval_domain_filter(self, **kw):
-
+        
         all_domains = kw.get('all_domains')
         custom_domains = kw.get('custom_domain')
         model = kw.get('model')
-
+        
         all_domains = eval(all_domains)
 
         domains = all_domains.get('domains')
@@ -319,18 +319,7 @@ class Search(Form):
             if selection_domain in ['blk', 'sf', 'mf']:
                 if selection_domain == 'blk':
                     selection_domain = []
-
-                if selection_domain == 'sf':
-                    return dict(flag=selection_domain, sf_dom=ustr(domain))
-
-                if selection_domain == 'mf':
-                    act = {'name':'Manage Filters',
-                         'res_model':'ir.actions.act_window',
-                         'type':'ir.actions.act_window',
-                         'view_type':'form',
-                         'view_mode':'tree,form',
-                         'domain':'[(\'filter\',\'=\',True), (\'res_model\',\'=\',\'' + model + '\'), (\'default_user_ids\',\'in\', (\'' + str(rpc.session.uid) + '\',))]'}
-                    return dict(action=act)
+                
             else:
                 selection_domain = expr_eval(selection_domain)
                 if selection_domain:
@@ -346,10 +335,14 @@ class Search(Form):
 
     @expose()
     def manage_filter(self, **kw):
-        action = kw.get('action')
-        action = eval(action)
+        act={'name':'Manage Filters',
+                 'res_model':'ir.filters',
+                 'type':'ir.actions.act_window',
+                 'view_type':'form',
+                 'view_mode':'tree,form',
+                 'domain':'[(\'model_id\',\'=\',\''+kw.get('model')+'\'),(\'user_id\',\'=\',(\''+str(rpc.session.uid)+'\',))]'}
 
-        return actions.execute(action, context=rpc.session.context)
+        return actions.execute(act, context=rpc.session.context)
 
     @expose(template="templates/save_filter.mako")
     def save_filter(self, **kw):
@@ -365,43 +358,17 @@ class Search(Form):
         name = kw.get('sc_name')
         model = kw.get('model')
         domain = kw.get('domain')
-        flag = kw.get('flag')
-
-        form_id = kw.get('form_views')
-        tree_id = kw.get('tree_views')
-        graph_id = kw.get('graph_views')
-        calendar_id = kw.get('calendar_views')
-        gantt_id = kw.get('gantt_views')
+        flag = kw.get('flag')        
 
         if name:
-            v_ids=[]
-            if kw.get('form_views'):
-                rec = {'view_mode':'form', 'view_id': form_id, 'sequence':2}
-                v_ids.append(rpc.session.execute('object', 'execute', 'ir.actions.act_window.view', 'create', rec))
-            if kw.get('tree_views'):
-                rec = {'view_mode':'tree', 'view_id':tree_id, 'sequence':1}
-                v_ids.append(rpc.session.execute('object', 'execute', 'ir.actions.act_window.view', 'create', rec))
-            if kw.get('graph_views'):
-                rec = {'view_mode':'graph', 'view_id':graph_id, 'sequence':4}
-                v_ids.append(rpc.session.execute('object', 'execute', 'ir.actions.act_window.view', 'create', rec))
-            if kw.get('calendar_views'):
-                rec = {'view_mode':'calendar', 'view_id':calendar_id, 'sequence':3}
-                v_ids.append(rpc.session.execute('object', 'execute', 'ir.actions.act_window.view', 'create', rec))
-            if kw.get('gantt_views'):
-                rec = {'view_mode':'gantt', 'view_id':gantt_id, 'sequence':5}
-                v_ids.append(rpc.session.execute('object', 'execute', 'ir.actions.act_window.view', 'create', rec))
-
-            datas = {'name': name,
-                   'res_model': model,
-                   'domain': domain,
-                   'context': str({}),
-                   'view_ids':[(6, 0, v_ids)],
-                   'filter': True,
-                   'default_user_ids': [[6, 0, [rpc.session.uid]]],
+            datas={'name':name,
+                   'model_id':model,
+                   'domain':domain,
+                   'context':str({}),
+                   'user_id':rpc.session.uid
                    }
-            action_id = rpc.session.execute('object', 'execute', 'ir.actions.act_window', 'create', datas)
-
-            return True
+            action_id = rpc.session.execute('object', 'execute', 'ir.filters', 'create', datas, rpc.session.context)
+        return 
 
     @expose('json')
     def ok(self, **kw):

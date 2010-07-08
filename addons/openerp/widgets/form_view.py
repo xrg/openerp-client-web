@@ -32,6 +32,7 @@ import cherrypy
 from search import Search
 from screen import Screen
 from sidebar import Sidebar
+from listgroup import ListGroup
 
 from openobject.widgets import Form, CSSLink, JSLink, locations
 
@@ -39,11 +40,11 @@ class ViewForm(Form):
 
     template = "templates/viewform.mako"
 
-    params = ['limit', 'offset', 'count', 'search_domain', 'search_data', 'filter_domain']
+    params = ['limit', 'offset', 'count', 'search_domain', 'search_data', 'filter_domain', 'notebook_tab']
     member_widgets = ['screen', 'search', 'sidebar']
 
     css = [CSSLink("openerp", "css/autocomplete.css")]
-    javascript = [JSLink("openerp", "javascript/form.js", location=locations.bodytop),
+    javascript = [JSLink("openerp", "javascript/form.js", location=locations.head),
                   JSLink("openerp", "javascript/form_state.js", location=locations.bodytop),
                   JSLink("openerp", "javascript/m2o.js", location=locations.bodytop),
                   JSLink("openerp", "javascript/m2m.js", location=locations.bodytop),
@@ -58,7 +59,8 @@ class ViewForm(Form):
         # save reference of params dictionary in requeste
         cherrypy.request.terp_params = params
         cherrypy.request.terp_fields = []
-
+        self.notebook_tab = params.notebook_tab or 0
+        
         editable = params.editable
         readonly = params.readonly
 
@@ -97,13 +99,16 @@ class ViewForm(Form):
         self.screen = Screen(prefix='', hastoolbar=True, hassubmenu=True, editable=editable, readonly=readonly,
                              selectable=params.selectable or 2)
         
-        self.sidebar = Sidebar(self.screen.model, self.screen.submenu, self.screen.toolbar, self.screen.id,
+        if self.screen.widget and hasattr(self.screen.widget, 'sidebar'):
+            self.sidebar = self.screen.widget.sidebar
+        else:
+            self.sidebar = Sidebar(self.screen.model, self.screen.submenu, self.screen.toolbar, self.screen.id,
                                self.screen.view_type, context=self.screen.context)
 
         if params.view_type == 'tree':
             self.screen.id = False
             
-        if 'form' not in self.screen.view_mode:
+        if 'form' not in self.screen.view_mode and not isinstance(self.screen.widget, ListGroup):
             self.screen.widget.link = 0
             self.screen.editable = False
             self.screen.widget.editable = False
