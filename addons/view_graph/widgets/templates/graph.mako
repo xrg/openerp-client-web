@@ -1,4 +1,4 @@
-<div class="graph-block" style="text-align: center; padding: 10px; min-width: $width">
+<div class="graph-block" style="text-align: center; padding: 10px; min-width: ${width}px;">
 
     <div id="${name}_"></div>
     
