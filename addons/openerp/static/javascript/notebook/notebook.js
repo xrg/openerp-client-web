@@ -409,8 +409,7 @@ Notebook.prototype = {
         this.activePage = this.getPage(tab);
         
         if (this.options.remember) {
-            openobject.dom.get('_terp_notebook_tab').value = findIdentical(this.tabs, tab);
-            openobject.http.setCookie(this.cookie, findIdentical(this.tabs, tab));
+            openobject.dom.get('_terp_notebook_tab').value = findIdentical(this.tabs, tab);            
         }
         
         MochiKit.Signal.signal(this, "activate", this, tab);
