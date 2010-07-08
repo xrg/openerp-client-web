@@ -1110,7 +1110,7 @@ function setupAttachments() {
         jQuery('#datas').validate({
             expression: "if (VAL) return true; else return false;"
         });
-        jQuery('#add-attachment').click (function () { attachments.show(); });
+        jQuery('#add-attachment').click (function (e) { attachments.show(); e.preventDefault(); });
         attachments.submit(createAttachment);
     }
 
