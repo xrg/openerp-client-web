@@ -709,7 +709,7 @@ div.popup_footer {
     border: none;
 }
 
-table.o2m_box {
+table.o2m_box, table.m2m_box {
     background: #CCCCCC;
     border-radius: 4px;
     -moz-border-radius: 4px;
