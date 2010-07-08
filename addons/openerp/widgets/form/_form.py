@@ -42,6 +42,7 @@ from openerp.utils import rpc, icons, common, TinyDict, node_attributes, get_nod
 from openerp.widgets import TinyWidget, TinyInputWidget, ConcurrencyInfo, get_widget, register_widget
 
 from _binary import Image
+from _o2m import O2M
 from openobject import tools
 from openobject.i18n import format, get_locale
 from openobject.widgets import JSLink, CSSLink
@@ -162,7 +163,7 @@ class Frame(TinyInputWidget):
 
         if colspan > self.columns:
             colspan = self.columns
-
+        
         a = label and 1 or 0
 
         if colspan + self.x + a > self.columns:
@@ -237,7 +238,9 @@ class Frame(TinyInputWidget):
                 for prev_tr in self.table:
                     if len(prev_tr) > 2:
                         attrs['colspan'] = len(prev_tr)
-                    
+                        
+        if isinstance(widget, O2M):
+            attrs['class'] = attrs.get('class', 'item') + ' one2many'      
         self.x += colspan + a
 
     def add_hidden(self, widget):

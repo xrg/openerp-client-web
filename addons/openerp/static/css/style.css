@@ -709,6 +709,21 @@ div.popup_footer {
     border: none;
 }
 
+td.one2many {
+    background: #CCCCCC;
+    border-radius: 4px;
+    -moz-border-radius: 4px;
+    -webkit-border-radius: 4px;
+    box-shadow: 0 1px 1px #ddd;
+    -moz-box-shadow: 0 1px 1px #ddd;
+    -webkit-box-shadow: 0 1px 1px #ddd;
+}
+
+td.one2many div.pagerbar-header strong {
+	font-weight: bold;
+	font-size: 13px;
+} 
+
 .view td.grid-cell table.many2many {
     border: none;
 }
