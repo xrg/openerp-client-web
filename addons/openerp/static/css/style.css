@@ -876,7 +876,7 @@ td.db_login_buttons {
 /* POPUPS */
 
 .footer_tool_box {
-    padding: 10px 15px 1px;
+    padding: 0 15px 0;
 }
 
 td.save_close {

@@ -47,7 +47,7 @@
             <td>${form.display()}</td>
         </tr>
         <tr>
-            <td>
+            <td style="padding-top: 0px;">
                 <div class="toolbar footer_tool_box">
                     <table border="0" cellpadding="0" cellspacing="0" width="100%" style="border: none;">
                         <tr>
