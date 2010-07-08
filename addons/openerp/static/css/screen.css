@@ -1892,8 +1892,7 @@ ul.sections-a li span.wrap a:hover span strong,ul.sections-a li span.wrap a:focu
 }
 
 #sidenav-a li .tree-grid .row {
-    height: 21px;
-    background: url(../images/sidenav-bg-c.gif) -1px 0 no-repeat;
+    height: 21px;                 
     color: #fff;
     font-size: 1.2em;
     line-height: 20px;
@@ -1904,15 +1903,16 @@ ul.sections-a li span.wrap a:hover span strong,ul.sections-a li span.wrap a:focu
 #sidenav-a li .tree-grid .row:hover,
 #sidenav-a li .tree-grid .row:focus,
 #sidenav-a li .tree-grid .row:active,
-#sidenav-a li .tree-grid .row.active {
-    background-position: 0 0;
-    background-repeat: repeat-x;
+#sidenav-a li .tree-grid .row.active,
+#sidenav-a li .tree-grid .row.selected {
+    background: url(../images/sidenav-bg-c.gif) repeat-x;
 }
 
 #sidenav-a li .tree-grid .row:hover a,
 #sidenav-a li .tree-grid .row:focus a,
 #sidenav-a li .tree-grid .row:active a,
-#sidenav-a li .tree-grid .row.active a {
+#sidenav-a li .tree-grid .row.active a,
+#sidenav-a li .tree-grid .row.selected a {
     color: #3f3d3d;
     text-shadow: #fff 0 1px 0;
 }
