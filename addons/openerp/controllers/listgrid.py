@@ -34,6 +34,7 @@ from openerp.widgets import listgrid, listgroup
 import form
 import wizard
 from openobject.tools import expose, ast
+import openobject.pooler as pool
 
 
 class List(SecuredController):
@@ -260,6 +261,10 @@ class List(SecuredController):
                 ctx = params.context or {}
                 ctx.update(rpc.session.context.copy())
                 res = rpc.session.execute('object', 'execute', model, name, ids, ctx)
+                
+                if res in ('Installed', 'Uninstalled') and model == 'ir.module.web':
+                    pool.restart_pool()
+                
                 if isinstance(res, dict) and res.get('type') == 'ir.actions.act_url':
                     result = res
 
