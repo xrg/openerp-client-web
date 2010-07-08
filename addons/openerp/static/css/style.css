@@ -874,8 +874,13 @@ td.db_login_buttons {
 }
 
 /* POPUPS */
+
+.footer_tool_box {
+    padding: 10px 15px 1px;
+}
+
 td.save_close {
-    padding: 0;
+    padding: 5px;
 }
 
 /* VIEWED */

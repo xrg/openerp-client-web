@@ -48,7 +48,7 @@
         </tr>
         <tr>
             <td>
-                <div class="toolbar">
+                <div class="toolbar footer_tool_box">
                     <table border="0" cellpadding="0" cellspacing="0" width="100%" style="border: none;">
                         <tr>
                             <td width="100%">
