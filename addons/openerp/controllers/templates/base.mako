@@ -8,8 +8,6 @@
     <script type="text/javascript" src="/openerp/static/javascript/ajax_stat.js"></script>
     <script type="text/javascript" src="/openerp/static/javascript/scripts.js"></script>
     
-    <link type="image/x-icon" href="favicon.ico" rel="Shortcut Icon"/>
-    
     <link rel="stylesheet" type="text/css" href="/openerp/static/css/style.css"/>
     <link rel="stylesheet" type="text/css" href="/openerp/static/css/menu.css"/>
     <link rel="stylesheet" type="text/css" href="/openerp/static/css/tips.css"/>
