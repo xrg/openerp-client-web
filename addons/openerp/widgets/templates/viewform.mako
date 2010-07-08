@@ -4,6 +4,7 @@
         <input type="hidden" id="_terp_search_domain" name="_terp_search_domain" value="${search_domain}"/>
         <input type="hidden" id="_terp_filter_domain" name="_terp_filter_domain" value="${filter_domain}"/>
         <input type="hidden" id="_terp_search_data" name="_terp_search_data" value="${search_data}"/>
+        <input type="hidden" id="_terp_notebook_tab" name="_terp_notebook_tab" value="${notebook_tab}"/>
 
     % for field in hidden_fields:
         ${display_member(field)}

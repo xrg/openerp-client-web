@@ -40,7 +40,7 @@ class ViewForm(Form):
 
     template = "templates/viewform.mako"
 
-    params = ['limit', 'offset', 'count', 'search_domain', 'search_data', 'filter_domain']
+    params = ['limit', 'offset', 'count', 'search_domain', 'search_data', 'filter_domain', 'notebook_tab']
     member_widgets = ['screen', 'search', 'sidebar']
 
     css = [CSSLink("openerp", "css/autocomplete.css")]
@@ -59,7 +59,8 @@ class ViewForm(Form):
         # save reference of params dictionary in requeste
         cherrypy.request.terp_params = params
         cherrypy.request.terp_fields = []
-
+        self.notebook_tab = params.notebook_tab or 0
+        
         editable = params.editable
         readonly = params.readonly
 

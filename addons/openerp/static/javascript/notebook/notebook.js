@@ -163,8 +163,8 @@ Notebook.prototype = {
 
         var self = this;
         MochiKit.Async.callLater(0, function() {
-            var i = self.options.remember ? parseInt(openobject.http.getCookie(self.cookie)) || 0 : 0;
-            self.show(i);
+            var i = self.options.remember ? getElement('_terp_notebook_tab').value || 0 : 0;
+            self.show(parseInt(i));
         });
 
         showElement(this.element);
@@ -409,6 +409,7 @@ Notebook.prototype = {
         this.activePage = this.getPage(tab);
         
         if (this.options.remember) {
+            openobject.dom.get('_terp_notebook_tab').value = findIdentical(this.tabs, tab);
             openobject.http.setCookie(this.cookie, findIdentical(this.tabs, tab));
         }
         
