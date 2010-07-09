@@ -74,7 +74,6 @@ jQuery(document).ready(function () {
             form.ajaxSubmit({
                 complete: function (xhr) {
                     app.html(xhr.responseText);
-                    if(CAL_INSTANCE) {setTimeout('CAL_INSTANCE.onResize()', 100)}
                     waitBox.hide();
                 }
             });
