@@ -4,3 +4,5 @@ mako_modules
 profile
 .*
 cktest.html
+bin/
+include/
