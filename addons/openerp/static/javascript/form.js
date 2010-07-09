@@ -580,16 +580,21 @@ function onChange(name) {
                         }
                         break;
                     case 'selection':
-                        var opts = [];
-                        opts.push(OPTION({'value': ''}));
-
-                        for (i in value) {
-                            var item = value[i];
-                            opts.push(OPTION({'value': item[0]}, item[1]));
-                        }
-                        MochiKit.DOM.replaceChildNodes(fld, map(function(x) {
-                            return x;
-                        }, opts));
+                        if (isArrayLike(value)) {
+	                        var opts = [];
+	                        opts.push(OPTION({'value': ''}));
+	
+	                        for (i in value) {
+	                            var item = value[i];
+	                            opts.push(OPTION({'value': item[0]}, item[1]));
+	                        }
+	                        MochiKit.DOM.replaceChildNodes(fld, map(function(x) {
+	                            return x;
+	                        }, opts));
+	                    }
+	                    else{
+	                       fld.value = value;
+	                    }
                         break;
                     default:
                         // do nothing on default
