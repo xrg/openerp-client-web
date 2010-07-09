@@ -24,7 +24,6 @@ function openLink(url /*optional afterLoad */) {
             complete: function (xhr) {
                 app.html(xhr.responseText);
                 if(afterLoad) { afterLoad(); }
-                if(CAL_INSTANCE) {setTimeout('CAL_INSTANCE.onResize()', 100)}
             }
         });
     } else {

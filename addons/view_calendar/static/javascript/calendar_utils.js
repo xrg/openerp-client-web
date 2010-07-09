@@ -70,6 +70,10 @@ function elementPosition2(elem) {
 ///////////////////////////////////////////////////////////////////////////////
 
 var CAL_INSTANCE = null;
+jQuery(document).ajaxStop(function () {
+    if(CAL_INSTANCE) {setTimeout(jQuery.proxy(CAL_INSTANCE, 'onResize'), 100)}
+});
+
 var CALENDAR_WAIT_BOX = new openerp.ui.WaitBox();
 function getCalendar(day, mode, color_filters) {
     day = day || openobject.dom.get('_terp_selected_day').value;
