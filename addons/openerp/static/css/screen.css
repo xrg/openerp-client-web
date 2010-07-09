@@ -2298,7 +2298,7 @@ a.button-a {
     height: 12px;
     padding: 1px 10px 0;
     border: 1px solid;
-    border-color: #c6c4c4 #aaa9a9 #797878;
+    border-color: #666666;
     border-radius: 3px;
     -moz-border-radius: 3px;
     -webkit-border-radius: 3px;
@@ -2319,6 +2319,17 @@ a.button-a.disable {
     background: darkGray none repeat scroll 0 0;
     color: #8D8D8D;
 }
+
+a.button-a:hover, a.button-a:focus, a.button-a:active {
+	background: #666666;	
+}
+
+td.popup_footer a.button-a:hover,
+table.popup_footer a.button-a:hover,
+div.popup_footer a.button-a:hover {
+	background: url(../images/button-a.gif) repeat-x;
+	border-color: #CCCCCC;	
+} 
 
 div.toolbar a.button-a {
     margin: 0 3px 0 0;
