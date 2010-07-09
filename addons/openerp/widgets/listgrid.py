@@ -38,6 +38,7 @@ from openerp.widgets import TinyWidget, TinyInputWidget, ConcurrencyInfo, get_wi
 
 import form
 from openobject import tools
+from openobject.tools import ast
 from openobject.i18n import format
 from openobject.widgets import CSSLink, JSLink
 from pager import Pager
@@ -489,7 +490,9 @@ class Int(Char):
 
     def get_text(self):
         if self.value:
-            return int(self.value)
+            if not isinstance(self.value, int):
+                return ast.literal_eval(self.value)
+            return self.value
 
         return 0
 
