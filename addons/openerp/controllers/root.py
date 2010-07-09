@@ -52,7 +52,7 @@ class Root(SecuredController):
         """Index page, loads the view defined by `action_id`.
         """
         if next: arguments = {'next': next}
-        else: arguments = {}
+        else: arguments = {'next': '/openerp/home'}
         raise redirect("/openerp/menu", **arguments)
     
     def user_action(self, id='action_id'):
