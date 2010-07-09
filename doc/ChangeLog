@@ -1,3 +1,24 @@
+2010-07-09: 5.0.12
+==================
+
+Bugfixes
+--------
+
+ * Not linked to a bug report:
+   * wizards: properly pass context and 'datas' to make osv_memory easier to use as first step for reports
+   * Fixed multiple email entries possible for email widget.
+ * https://launchpad.net/bugs/586751
+   * Waiting status box will not display when priting any report.
+ * https://launchpad.net/bugs/598129
+   * Context handling corrected.
+ * https://launchpad.net/bugs/599128
+   * Fixed attrs invisible on page.
+ * https://launchpad.net/bugs/598132
+   * Fixed binary size when value available.
+ * https://launchpad.net/bugs/591102
+   * Fixed binary widget size.
+
+
 2010-06-07: 5.0.11
 ==================
 
