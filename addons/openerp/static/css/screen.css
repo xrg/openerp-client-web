@@ -2328,12 +2328,6 @@ td.toolbar a.button-a {
     margin: 0 3px 0 0;
 }
 
-a.button-a:hover,a.button-a:focus,a.button-a:active {
-    border-color: #676767 #676767 #676767;
-    background: #666666;
-    color: #fff;
-}
-
 a.button-b {
     float: left;
     height: 11px;
