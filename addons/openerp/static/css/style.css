@@ -659,6 +659,7 @@ div.message {
     font-weight: bold;
     border: none;
     font-size: 1.3em;
+    -moz-border-radius: 3px 3px 3px 3px;
 }
 
 div.welcome-message {
@@ -669,6 +670,7 @@ div.welcome-message {
     text-decoration: none !important;
     text-align: center;
     font-size: 16px;
+    -moz-border-radius: 3px 3px 3px 3px;
 }
 
 td.popup_header {
@@ -873,8 +875,10 @@ div.invalid_login {
 }
 
 /* NORMAL LOGIN*/
+select.db_user_pass,
 input.db_user_pass {
     width: 300px;
+    -moz-border-radius: 3px 3px 3px 3px;
 }
 
 td.db_login_buttons {

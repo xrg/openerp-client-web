@@ -37,7 +37,7 @@
                             % if dblist is None:
                                 <input type="text" name="db" id="db" class="db_user_pass" value="${db}"/>
                             % else:
-                            <select name="db" id="db" style="width: 302px;">
+                            <select name="db" id="db" class="db_user_pass">
                                 % for v in dblist:
                                 <option value="${v}" ${v==db and "selected" or ""}>${v}</option>
                                 % endfor
