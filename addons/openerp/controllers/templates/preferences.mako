@@ -20,8 +20,8 @@
                 </tr>
                 <tr>
 	                <td style="text-align: right; padding: 0 30px 0 0;">
-	                    <button type='button' class="action_boxes" onclick="openobject.http.redirect('/openerp')">${_("Cancel")}</button>
-	                    <button type='button' class="action_boxes" onclick="submit_form('ok')">${_("Save")}</button>
+	                    <button type='button' class="static_boxes" onclick="openobject.http.redirect('/openerp')">${_("Cancel")}</button>
+	                    <button type='button' class="static_boxes" onclick="submit_form('ok')">${_("Save")}</button>
 	                </td>
 	            </tr>
             </table>

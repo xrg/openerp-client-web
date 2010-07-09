@@ -17,12 +17,13 @@ form select {
 }
 
 .fieldcol {
-	width: 70%;	
+	width: 70%;
 }
 
 .fieldcol .requiredfield {
     background-color: #CCD9FF;
     height: 18px;
+    -moz-border-radius:3px 3px 3px 3px;
 }
 
 .fielderror {
@@ -31,7 +32,8 @@ form select {
 
 input.requiredfield,
 select.selectfield {
-	width: 300px;	
+	width: 300px;
+	-moz-border-radius:3px 3px 3px 3px;	
 }
 
 td.db_action_string {

@@ -254,8 +254,8 @@ class Form(FormField):
             % endfor
         </div>
         % endif
-        <table border="0" style="background:#F1F2F1 none repeat scroll 0 0; 
-                        border:4px double; margin-top:20px; padding:5px;">
+        <table style="background:#F1F2F1 none repeat scroll 0 0; 
+                        border:4px double #5A5858; margin-top:20px; padding:5px;" width="10%">
             % for child in fields:
             <%
                 error = error_for(child)
@@ -275,7 +275,7 @@ class Form(FormField):
             % endfor
             <tr>
                 <td>&nbsp;</td>
-                <td><button type="submit" class="static_buttons">${submit_text}</button></td>
+                <td align="right"><button type="submit" class="static_boxes">${submit_text}</button></td>
             </tr>
         </table>
     </form>

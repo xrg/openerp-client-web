@@ -560,7 +560,7 @@ div#tab_content {
 }
 
 /*------------------------------------------------------------------*/
-button.action_boxes {
+button.static_boxes {
     border-radius: 3px;
     -moz-border-radius: 3px;
     -webkit-border-radius: 3px;
@@ -570,37 +570,20 @@ button.action_boxes {
     height: 20px;
     font-size: 10px;
     width: 80px;
-    white-space: nowrap;
     text-transform: uppercase;
     border: 1px solid;
-    border-color: #e5e3e3 #dad9d9 #cccbcb;
-    background: url(../images/button-a.gif) repeat-x;
+    border-color: #676767;
+    background: #5A5858;
     color: #fff;
-    font-weight: 600;
-    line-height: 20px;
-    text-shadow: #fff 0 1px 0;
-}
-
-button.action_boxes:hover, button.action_boxes:focus, button.action_boxes:active {
-	border-color: #676767 #676767 #676767;
-    background: #666666;
-    color: #fff;
-}
-
-button.static_buttons {
-    background: transparent url(/openerp/static/images/nav-bg-a.png) repeat-x scroll
-        100% 0;
-    white-space: nowrap;
-    height: 20px;
-    font-size: 10px;
-    color: #FFFFFF;
-    width: 80px;
-    text-transform: uppercase;
-}
-
-button.static_buttons:hover,
-button.static_buttons:focus {
     font-weight: bold;
+    line-height: 20px;
+}
+
+button.static_boxes:hover, button.static_boxes:focus, button.static_boxes:active {
+	border-color: #676767 #676767 #676767;
+    background: #CCCCCC;
+    color: #5A5858;
+    font-weight: normal;
 }
 
 div.vline {
@@ -679,7 +662,7 @@ div.message {
 }
 
 div.welcome-message {
-    background: url(../images/nav-bg-a.png) repeat-x;
+    background: url(../images/top-bg-a.gif) repeat-x;
     color: #FFFFFF;
     font-weight: bold;
     text-shadow: #111 0 1px 0;
