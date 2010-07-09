@@ -12,7 +12,7 @@ function setup_charts() {
     });
 }
 function onChartClick(path) {
-    openobject.http.redirect(path);
+	openLink(path)
 }
 
 jQuery(document).bind('ready ajaxStop', setup_charts);
