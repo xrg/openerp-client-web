@@ -171,8 +171,8 @@ class WikiParser(wikimarkup.Parser):
         return bits
 
     def addInternalLinks(self, text):
-        from openobject.tools import rpc
         proxy = rpc.RPCProxy('wiki.wiki')
+        
         def link(path):
             link = path.group().replace('[','').replace('[','').replace(']','').replace(']','').split("|")
             name_to_search = link[0].strip()

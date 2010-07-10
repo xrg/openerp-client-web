@@ -260,10 +260,6 @@ class List(SecuredController):
                 ctx.update(rpc.session.context.copy())
                 res = rpc.session.execute('object', 'execute', model, name, ids, ctx)
                 
-                if res in ('Installed', 'Uninstalled') and model == 'ir.module.web':
-                    import openobject.pooler as pool
-                    pool.restart_pool()
-                
                 if isinstance(res, dict) and res.get('type') == 'ir.actions.act_url':
                     result = res
 
