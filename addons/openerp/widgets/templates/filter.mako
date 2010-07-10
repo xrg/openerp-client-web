@@ -23,15 +23,28 @@
 				    ${text}
 				% endif
 				<span>&raquo;</span>
-				<input ${py.attrs(attrs)} style="display:none;"
-                    type="checkbox"
-                    id="${filter_id}"
-                    name="${filter_id}"
-                    class="grid-domain-selector"
-                    onclick="search_filter(this);"
-                    value="${filter_domain}"
-                    group_by_ctx="${group_context}"
-                    title="${help}" filter_context="${filter_context}"/>
+				% if def_checked:
+					<input ${py.attrs(attrs)} style="display:none;"
+	                    type="checkbox"
+	                    id="${filter_id}"
+	                    name="${filter_id}"
+	                    class="grid-domain-selector"
+	                    onclick="search_filter(this);"
+	                    value="${filter_domain}"
+	                    group_by_ctx="${group_context}"
+	                    checked
+	                    title="${help}" filter_context="${filter_context}"/>
+	            % else:
+	                <input ${py.attrs(attrs)} style="display:none;"
+                        type="checkbox"
+                        id="${filter_id}"
+                        name="${filter_id}"
+                        class="grid-domain-selector"
+                        onclick="search_filter(this);"
+                        value="${filter_domain}"
+                        group_by_ctx="${group_context}"
+                        title="${help}" filter_context="${filter_context}"/>
+	            % endif
 			</a>
 		</li>
 	</ul>
