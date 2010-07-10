@@ -592,7 +592,7 @@ hr {
 
 #secondary {
     position: relative;
-	float: left;
+    float: left;
     min-height: 100%;
     border-right: 1px solid #3c3c3c;
     background: #5a5858;
@@ -905,7 +905,7 @@ div.fields-a p span.lookup {
 }
 
 div.filter-a ul {
-    float: left;
+    /*float: left;
     list-style: none;
     border: 1px solid #cccbcb;
     border-radius: 4px;
@@ -914,7 +914,51 @@ div.filter-a ul {
     background: #ededed url(../images/filter-a-buttons.gif) repeat-x;
     box-shadow: 0 1px 0 #fff;
     -moz-box-shadow: 0 1px 0 #fff;
-    -webkit-box-shadow: 0 1px 0 #fff;
+    -webkit-box-shadow: 0 1px 0 #fff;*/
+    list-style: none;
+}
+
+div#search_filter_data table.fields {
+    border-collapse: separate;
+}
+
+td.group_box {
+    background: #ededed;
+    border: 1px solid #cccbcb;
+    box-shadow: 0 1px 1px #fff;
+    -moz-box-shadow: 0 1px 1px #fff;
+    -webkit-box-shadow: 0 1px 1px #fff;
+}
+
+td.group_box:hover, td.group_box:focus, td.group_box:active {
+	background: #cccbcb;
+	text-shadow: #ededed 0 1px 0;
+}
+
+td.grop_box_active {
+	background: #cbced2;
+}
+
+td.img_only {
+	background: none;
+}
+
+td.first_box {
+	border-radius: 7px;
+    -moz-border-radius-bottomleft: 7px;
+    -moz-border-radius-topleft: 7px;
+}
+
+td.last_box {
+	border-radius: 7px;
+	-moz-border-radius-bottomright: 7px;
+    -moz-border-radius-topright: 7px;
+}
+
+td.group_box div.filter-a ul {
+    background: none;
+    border: none;
+    margin-bottom: 0;
 }
 
 div.filter-a ul.filter_with_icon {
@@ -975,7 +1019,6 @@ div.filter-a ul li a {
 div.filter-a ul li a.active {
     font-size: 0.8em;
     font-weight: 600;
-    background-color: #E8E8E8;
 }
 
 div.filter-a ul li a span {
@@ -2321,14 +2364,14 @@ a.button-a.disable {
 }
 
 a.button-a:hover, a.button-a:focus, a.button-a:active {
-	background: #666666;	
+    background: #666666;    
 }
 
 td.popup_footer a.button-a:hover,
 table.popup_footer a.button-a:hover,
 div.popup_footer a.button-a:hover {
-	background: url(../images/button-a.gif) repeat-x;
-	border-color: #CCCCCC;	
+    background: url(../images/button-a.gif) repeat-x;
+    border-color: #CCCCCC;  
 } 
 
 div.toolbar a.button-a {

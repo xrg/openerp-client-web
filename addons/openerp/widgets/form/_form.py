@@ -77,7 +77,12 @@ class Frame(TinyInputWidget):
         self.table = []
 
         self.add_row()
-
+        self.filter_boxes = [] # Used for make Filter button group osx box
+        from openerp.widgets.search import Filter
+        for child in range(len(self.children)):
+            if isinstance(self.children[child], Filter):
+                self.filter_boxes.append(child)
+                
         for child in self.children:
             
             string = not child.nolabel and child.string
@@ -106,9 +111,32 @@ class Frame(TinyInputWidget):
             self.table[0] = [(a, w) for a, w in self.table[0] if getattr(w, 'visible', 1)]
 
         max_length = max([len(row) for row in self.table])
-
+        
         for row in self.table:
-
+            if len(row) == len(self.filter_boxes):
+                row[0][0]['class'] = row[0][0]['class'] + ' first_box'
+                row[-1][0]['class'] = row[-1][0]['class'] + ' last_box'
+            else:
+                for ch in range(len(row)):
+                    if ch in self.filter_boxes:
+                        if isinstance(row[ch][1], Filter):
+                            if ch == 0:
+                                row[ch][0]['class'] = row[ch][0]['class'] + ' first_box'
+                            else:
+                                if ch == len(row) -1 and ch in self.filter_boxes:
+                                    if ch -1 not in self.filter_boxes and row[ch][1].string:
+                                        row[ch][0]['class'] = row[ch][0]['class'] + ' first_box'
+                                    if row[ch][1].string:
+                                        row[ch][0]['class'] = row[ch][0]['class'] + ' last_box'
+                                    
+                    else:
+                        if ch > 0 and ch-1 in self.filter_boxes:
+                            if row[ch -1][1].string:
+                                row[ch -1][0]['class'] = row[ch -1][0]['class'] + ' last_box'
+                            
+                    
+                        
+                
             sn = len([w for a, w in row if isinstance(w, (basestring, Label, Image))])
             sw = 5                                  # label & image width
             ww = 100.00 - sw * sn                   # remaining width
@@ -159,7 +187,6 @@ class Frame(TinyInputWidget):
             cherrypy.request.terp_fields.append(widget)
 
     def add(self, widget, label=None, rowspan=1, colspan=1):
-
         if colspan > self.columns:
             colspan = self.columns
         
@@ -220,7 +247,12 @@ class Frame(TinyInputWidget):
         if not isinstance(widget, (Char, Frame, Float, DateTime, Integer, Selection, Notebook, Separator, NewLine, Label)):
             from openerp.widgets.search import Filter
             if self.label_position and (not (widget.kind or widget._name)) or (isinstance(widget, Filter) and widget.string):
-                attrs['class'] = attrs.get('class', 'item') + ' search_filters'
+                if isinstance(widget, Filter):
+                    attrs['class'] = attrs.get('class', 'item') + ' search_filters group_box'
+#                    if not widget.string:
+#                        attrs['class'] = attrs['class'] + ' img_only'
+                else:
+                    attrs['class'] = attrs.get('class', 'item') + ' search_filters'
                 attrs['nowrap'] = 'nowrap'
             
         td = [attrs, widget]

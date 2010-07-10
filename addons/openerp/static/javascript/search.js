@@ -282,6 +282,7 @@ function parse_filters(src, id) {
     }
     if(src) {
         if(filter_class == 'active') {
+        	jQuery(src).closest('td').removeClass('grop_box_active');
             jQuery(src).attr('checked',false);
             group_by = jQuery.grep(group_by, function(grp) {
                 return grp != jQuery(src).attr('group_by_ctx');
@@ -297,6 +298,7 @@ function parse_filters(src, id) {
                 }
             }
         } else {
+        	jQuery(src).closest('td').addClass('grop_box_active');
             jQuery(src).attr('checked',true);
             jQuery(set_filter).attr('class', 'active');
             jQuery(id).attr('class', 'active_filter');
