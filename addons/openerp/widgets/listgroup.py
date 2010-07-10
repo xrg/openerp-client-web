@@ -95,7 +95,8 @@ def parse_groups(group_by, grp_records, headers, ids, model,  offset, limit, con
                             if d.get('id') == id] 
             rec['child_rec'] = ch_ids
             rec['group_id'] = 'group_' + str(random.randrange(1, 10000))
-            rec['group_by_id'] = group_by[0]+'_'+str(grp_records.index(rec))
+            if group_by:
+                rec['group_by_id'] = group_by[0]+'_'+str(grp_records.index(rec))
             
     return grouped, grp_ids
 
@@ -177,6 +178,11 @@ class ListGroup(List):
         self.grp_records = proxy.read_group(self.context.get('__domain', []) + (self.domain or []),
                                                 fields.keys(), self.group_by_ctx, 0, False, self.context)   
         
+        for grp_rec in self.grp_records:
+            if not grp_rec.get('__domain'):
+                grp_rec['__domain'] = self.context.get('__domain', []) + (self.domain or [])
+            if not grp_rec.get('__context'):
+                grp_rec['__context'] = {'group_by': self.group_by_ctx}
         self.grouped, grp_ids = parse_groups(self.group_by_ctx, self.grp_records, self.headers, self.ids, model,  self.offset, self.limit, self.context, self.data)
                 
 class MultipleGroup(List):
