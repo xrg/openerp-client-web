@@ -113,7 +113,7 @@ class Frame(TinyInputWidget):
         max_length = max([len(row) for row in self.table])
         
         for row in self.table:
-            if len(row) == len(self.filter_boxes):
+            if len(row) == len(self.filter_boxes) and row:
                 row[0][0]['class'] = row[0][0]['class'] + ' first_box'
                 row[-1][0]['class'] = row[-1][0]['class'] + ' last_box'
             else:
