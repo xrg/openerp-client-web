@@ -54,11 +54,10 @@ function add_filter_row() {
         reset_id(new_tr, current_row_sequence);
 
         var qstring = new_tr.find('input.qstring').css('background', '#fff').val('');
-        jQuery('td.filter_column, select.filter_fields, select.expr', new_tr).add(qstring).each(function (index, element) {
-            reset_id(element, current_row_sequence);
-        });
-
-        var image_col = new_tr.find('td.image_col').attr('id', 'image_col/' + current_row_sequence);
+        jQuery('td.filter_column, select.filter_fields, select.expr, td.image_col', new_tr).add(qstring).each(
+                function (index, element) {
+                    reset_id(element, current_row_sequence);
+                });
 
         // remove and_or selector if it already exists
         new_tr.find('td.and_or').remove();
