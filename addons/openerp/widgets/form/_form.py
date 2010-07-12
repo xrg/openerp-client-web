@@ -249,7 +249,8 @@ class Frame(TinyInputWidget):
             if self.label_position and (not (widget.kind or widget._name)) or (isinstance(widget, Filter) and widget.string):
                 if isinstance(widget, Filter):
                     attrs['class'] = attrs.get('class', 'item') + ' search_filters group_box'
-                    if widget.default:
+                    
+                    if widget.def_checked:
                         attrs['class'] = attrs['class'] + ' grop_box_active'
                 else:
                     attrs['class'] = attrs.get('class', 'item') + ' search_filters'
