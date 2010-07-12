@@ -64,15 +64,14 @@ function add_filter_row() {
         new_tr.find('td.and_or').remove();
 
         var and_or = jQuery('<td>', {'id': 'and_or/' + old_sequence, 'class': 'and_or'});
-        and_or.insertBefore(old_tr.find('[id=image_col/' + old_sequence + ']'));
 
         var select_andor = jQuery('<select>', {'id': 'select_andor/' + old_sequence, 'class': 'select_andor'});
         jQuery.each(vals, function (index, label) {
             select_andor.append(jQuery('<option>').val(label).text(label));
         });
-
-        and_or.append(select_andor);
-        old_tr.after(new_tr);
+        select_andor.appendTo(and_or);
+        
+        old_tr.append(and_or).after(new_tr);
 
         new_tr.keydown(onKeyDown_search);
     }

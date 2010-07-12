@@ -5,6 +5,9 @@
 		% for f,k in enumerate(filter_domain):
 			% if len(k) >1:
 			    <tr id="filter_row/${x}" class="filter_row_class">
+					<td id="image_col/${x}" class="image_col">
+						<img id="img_remove" width="18" height="18" src="/openerp/static/images/stock-disabled/gtk-remove.png" onclick="remove_filter_row(this)" style="cursor: pointer;"/>
+					</td>
 					<td align="right" class="filter_column" id="filter_column/${x}">
 						<select id="filter_fields/${x}" class="filter_fields">
 							% for field in fields_list:
@@ -29,9 +32,6 @@
 						</select>
 					</td>
 					% endif
-					<td id="image_col/${x}" class="image_col">
-						<img id="img_remove" width="18" height="18" src="/openerp/static/images/stock-disabled/gtk-remove.png" onclick="remove_filter_row(this)" style="cursor: pointer;"/>
-					</td>
 			    </tr>
 			    <% x = x+1 %>
 			% endif
