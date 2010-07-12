@@ -490,9 +490,9 @@ class Int(Char):
 
     def get_text(self):
         if self.value:
-            if not isinstance(self.value, int):
+            if isinstance(self.value, (unicode, str)):
                 return ast.literal_eval(self.value)
-            return self.value
+            return int(self.value)
 
         return 0
 
