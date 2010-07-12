@@ -155,89 +155,89 @@
                         </td>
                     </tr>
                     % endif
-
-                    % if form.screen.view_type in ['form', 'diagram'] and buttons.toolbar:
-                    <tr>
-                        <td>
-                            <div class="wrapper">
-                            	<ul class="inline-b left w50">
-									% if buttons.new:
-		                            <li title="${_('Create a new resource')}">
-		                            	<a href="javascript: void(0);" onclick="editRecord(null)" class="button-a">${_("New")}</a>
-		                            </li>
-	                            	% endif
-		                            % if buttons.edit:
-		                            <li title="${_('Edit this resource')}">
-		                                <a href="javascript: void(0);" onclick="editRecord(${form.screen.id or 'null'})" class="button-a">${_("Edit")}</a>
-		                            </li>
-		                            % endif
-		                            % if buttons.save:
-		                            <li title="${_('Save this resource')}">
-		                                <a href="javascript: void(0);" onclick="submit_form('save')" class="button-a">${_("Save")}</a>
-		                            </li>
-		                            <li title="${_('Save & Edit this resource')}">
-		                                <a href="javascript: void(0);" onclick="submit_form('save_and_edit')" class="button-a">${_("Save & Edit")}</a>
-		                            </li>
-		                            % endif
-		                            % if buttons.edit:
-		                            <li title="${_('Duplicate this resource')}">
-		                                <a href="javascript: void(0);" onclick="submit_form('duplicate')" class="button-a">${_("Duplicate")}</a>
-		                            </li>
-		                            % endif
-		                            % if buttons.delete:
-		                            <li title="${_('Delete this resource')}">
-		                                <a href="javascript: void(0);" onclick="submit_form('delete')" class="button-a">${_("Delete")}</a>
-		                            </li>
-		                            % endif
-		                            % if buttons.cancel:
-		                            <li title="${_('Cancel editing the current resource')}">
-		                                <a href="javascript: void(0);" onclick="submit_form('cancel')" class="button-a">${_("Cancel")}</a>
-		                            </li>
-		                            % endif
-		                    	</ul>
-
-		                    	% if buttons.pager:
-                                	<p class="paging-a">
-						            	${pager.display()}
-									</p>
-                                % endif
-                            </div>
-                        </td>
-                    </tr>
-                    % endif
-                    <tr>
-                        <td style="padding: 2px">${form.display()}</td>
-                    </tr>
-                    <tr>
-                        <td class="dimmed-text">
-                            <table class="form-footer">
-                            	<tr>
-                            		<td class="footer">
-                            			<a href="javascript: void(0)" onclick="new ListView('_terp_list').importData()"">${_("Import")}</a>
-                            			<span>|</span>
-                            			<a href="javascript: void(0)" onclick="new ListView('_terp_list').exportData()">${_("Export")}</a>
-                            			% if form.screen.view_type in ('form'):
-	                           			<span>|</span>
-		                           			<a href="javascript: void(0)" title="${_('Translate this resource.')}" onclick="openobject.tools.openWindow(openobject.http.getURL('/openerp/translator', {_terp_model: '${form.screen.model}', _terp_id: ${form.screen.id}, _terp_context: $('_terp_context').value}));">
-		                           				${_('Translate')}</a>
-		                           			<span>|</span>
-		                           			% if form.screen.id:
-			                           			<a href="javascript: void(0)"  title="${_('View Log.')}" onclick="openobject.tools.openWindow('${py.url('/openerp/viewlog', _terp_model=form.screen.model, _terp_id=form.screen.id)}', {width: 550, height: 340});">
-			                           				${_('View Log')}
-			                           			</a>
-			                           	    % endif		 
-                            			% endif
-                            		</td>                            		
-                            		<td class="powered">
-                            			Powered by <a href="http://www.openerp.com" target="_blank">openerp.com</a>
-                            		</td>
-                            	</tr>
-                            </table>
-                        </td>
-                    </tr>
                 </table>
-            </td>
+                % if form.screen.view_type in ['form', 'diagram'] and buttons.toolbar:
+                <div class="wrapper">
+                	<ul class="inline-b left w50">
+					    % if buttons.new:
+                        <li title="${_('Create a new resource')}">
+                        	<a href="javascript: void(0);" onclick="editRecord(null)" class="button-a">${_("New")}</a>
+                        </li>
+                    	% endif
+                        % if buttons.edit:
+                        <li title="${_('Edit this resource')}">
+                            <a href="javascript: void(0);" onclick="editRecord(${form.screen.id or 'null'})" class="button-a">${_("Edit")}</a>
+                        </li>
+                        % endif
+                        % if buttons.save:
+                        <li title="${_('Save this resource')}">
+                            <a href="javascript: void(0);" onclick="submit_form('save')" class="button-a">${_("Save")}</a>
+                        </li>
+                        <li title="${_('Save & Edit this resource')}">
+                            <a href="javascript: void(0);" onclick="submit_form('save_and_edit')" class="button-a">${_("Save & Edit")}</a>
+                        </li>
+                        % endif
+                        % if buttons.edit:
+                        <li title="${_('Duplicate this resource')}">
+                            <a href="javascript: void(0);" onclick="submit_form('duplicate')" class="button-a">${_("Duplicate")}</a>
+                        </li>
+                        % endif
+                        % if buttons.delete:
+                        <li title="${_('Delete this resource')}">
+                            <a href="javascript: void(0);" onclick="submit_form('delete')" class="button-a">${_("Delete")}</a>
+                        </li>
+                        % endif
+                        % if buttons.cancel:
+                        <li title="${_('Cancel editing the current resource')}">
+                            <a href="javascript: void(0);" onclick="submit_form('cancel')" class="button-a">${_("Cancel")}</a>
+                        </li>
+                        % endif
+                	</ul>
 
+                	% if buttons.pager:
+                    	<p class="paging-a">
+		                	${pager.display()}
+					    </p>
+                    % endif
+                </div>
+                % endif
+                <div>${form.display()}</div>
+                <div class="footer-a">
+					<p class="powered">Powered by <a href="http://www.openerp.com/">openerp.com</a></p>
+					<p class="one">
+					    <a href="javascript: void(0)"
+					       onclick="new ListView('_terp_list').importData()"">${_("Import")}</a>
+					    <span>|</span>
+					    <a href="javascript: void(0)"
+					       onclick="new ListView('_terp_list').exportData()">${_("Export")}</a>
+					% if form.screen.view_type == 'form':
+					    <span>|</span>
+					    <a href="javascript: void(0)" title="${_('Translate this resource.')}"
+					       onclick="openobject.tools.openWindow(
+					        openobject.http.getURL(
+					            '/openerp/translator', {
+					                _terp_model: '${form.screen.model}',
+					                _terp_id: ${form.screen.id},
+					                _terp_context: $('_terp_context').value
+					        }));">${_('Translate')}</a>
+					% if form.screen.id:
+					    <span>|</span>
+			            <a href="javascript: void(0)"  title="${_('View Log.')}"
+			                onclick="openobject.tools.openWindow(
+			                    openobject.http.getURL('/openerp/viewlog', {
+    			                    _terp_model: '${form.screen.model}',
+	    		                    _terp_id: '${form.screen.id}'}),
+	    		                {width: 550, height: 340});">${_('View Log')}</a>
+			        % endif
+					% endif
+					</p>
+					<!--
+					<p class="two">
+					    <a href="./">Customize</a>
+				    </p>
+				    -->
+				</div>
+            </td>
             % if form.sidebar:
             <td id="main_sidebar" valign="top">
             	<div id="tertiary" class="sidebar-closed">
