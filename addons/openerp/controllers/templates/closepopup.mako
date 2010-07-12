@@ -7,8 +7,7 @@
                 window.opener.location.reload();
                 window.close();
             } else {
-            	openobject.http.redirect('/openerp/blank');
-            	window.parent.location.href = '/openerp/menu'; 
+            	window.parent.location.href = '/openerp'; 
             }
         });
     </script>
