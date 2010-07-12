@@ -904,74 +904,38 @@ div.fields-a p span.lookup {
     text-indent: 0;
 }
 
-div.filter-a ul {
-    /*float: left;
-    list-style: none;
-    border: 1px solid #cccbcb;
-    border-radius: 4px;
-    -moz-border-radius: 4px;
-    -webkit-border-radius: 4px;
-    background: #ededed url(../images/filter-a-buttons.gif) repeat-x;
-    box-shadow: 0 1px 0 #fff;
-    -moz-box-shadow: 0 1px 0 #fff;
-    -webkit-box-shadow: 0 1px 0 #fff;*/
-    list-style: none;
-}
-
 div#search_filter_data table.fields {
     border-collapse: separate;
-}
-
-td.group_box {
-    background: #ededed;
-    border: 1px solid #cccbcb;
-    box-shadow: 0 1px 1px #fff;
-    -moz-box-shadow: 0 1px 1px #fff;
-    -webkit-box-shadow: 0 1px 1px #fff;
-}
-
-td.group_box:hover, td.group_box:focus, td.group_box:active {
-	background: #cccbcb;
-	text-shadow: #ededed 0 1px 0;
-}
-
-td.grop_box_active {
-	background: #cbced2;
 }
 
 td.img_only {
 	background: none;
 }
 
-td.first_box {
+div.filter-a ul.filter_with_icon {
+    float: left;
+    list-style: none;
+    padding: 0;
+    border: 1px solid #cccbcb;
+}
+
+td.first_box div ul.filter_with_icon {
+	border: 1px solid #cccbcb;
 	border-radius: 7px;
     -moz-border-radius-bottomleft: 7px;
     -moz-border-radius-topleft: 7px;
 }
 
-td.last_box {
+td.last_box div ul.filter_with_icon {
+	border: 1px solid #cccbcb;
 	border-radius: 7px;
 	-moz-border-radius-bottomright: 7px;
     -moz-border-radius-topright: 7px;
 }
 
-td.group_box div.filter-a ul {
-    background: none;
-    border: none;
-    margin-bottom: 0;
-}
-
-div.filter-a ul.filter_with_icon {
-    padding: 0;
-}
-
 div.filter-a ul.filter_icon {
-    padding-left: 10px;
-    padding-right: 10px;
-}
-
-div.filter-a ul.filter_icon li a {
-    background-position: center;
+    list-style: none;
+    padding: 10px;
 }
 
 div.filter-a ul li {
@@ -986,12 +950,7 @@ div.filter-a ul li.first {
     border-left: none;
 }
 
-div.filter-a ul li.active_filter a {
-    font-size: 0.8em;
-    font-weight: 600;
-    cursor: pointer;
-}
-
+div.filter-a ul li.active_filter a,
 div.filter-a ul li.inactive_filter a {
     font-size: 0.8em;
     font-weight: 600;
@@ -1006,25 +965,54 @@ div.filter-a ul li.services a {
     background-image: url(../images/filter-a-icons-services.gif);
 }
 
-div.filter-a ul li a {
-    position: relative;
+div.filter-a ul.filter_with_icon li a {
+    font-size: 0.8em;
+    font-weight: 600;
+	position: relative;
     float: left;
     height: 12px;
     padding: 25px 7px 8px;
-    background-position: 50% 4px;
+    background-position: 50% 5px;
     background-repeat: no-repeat;
     white-space: nowrap;
 }
 
-div.filter-a ul li a.active {
+div.filter-a ul.filter_with_icon li a.active,
+div.filter-a ul.filter_with_icon li a.inactive:hover {
+    background-color: #cbced2;
+    color: #fff;
+}
+
+div.filter-a ul.filter_icon li a {
     font-size: 0.8em;
     font-weight: 600;
+	position: relative;
+    float: left;
+    height: 12px;
+    width: 12px;
+    padding: 10px;
+    background-position: center;
+    background-repeat: no-repeat;
+    white-space: nowrap;
+    border: 1px solid;
+    border-color: #eee;
+}
+
+
+div.filter-a ul.filter_icon li a.active,
+div.filter-a ul.filter_icon li a.inactive:hover {
+    background-color: #cbced2;
+    border-color: #cccbcb;
+    border-radius: 4px;
+    -moz-border-radius: 4px;
+    -webkit-border-radius: 4px;
+
 }
 
 div.filter-a ul li a span {
     display: none;
     position: absolute;
-    left: 45%;
+    left: 50%;
     bottom: -2px;
     overflow: hidden;
     width: 7px;
@@ -1935,7 +1923,7 @@ ul.sections-a li span.wrap a:hover span strong,ul.sections-a li span.wrap a:focu
 }
 
 #sidenav-a li .tree-grid .row {
-    height: 21px;                 
+    height: 21px;
     color: #fff;
     font-size: 1.2em;
     line-height: 20px;
@@ -2364,15 +2352,15 @@ a.button-a.disable {
 }
 
 a.button-a:hover, a.button-a:focus, a.button-a:active {
-    background: #666666;    
+    background: #666666;
 }
 
 td.popup_footer a.button-a:hover,
 table.popup_footer a.button-a:hover,
 div.popup_footer a.button-a:hover {
     background: url(../images/button-a.gif) repeat-x;
-    border-color: #CCCCCC;  
-} 
+    border-color: #CCCCCC;
+}
 
 div.toolbar a.button-a {
     margin: 0 3px 0 0;
