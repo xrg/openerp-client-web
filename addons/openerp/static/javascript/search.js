@@ -27,113 +27,72 @@
 //
 ////////////////////////////////////////////////////////////////////////////////
 /**
- * @event onaddfilter triggered when adding a filter row
  *  @target #filter_table the element holding the filter rows
  *  @argument 'the newly added (or showed for first row?) filter row'
  */
+function reset_id(element, current_row_id) {
+    element = jQuery(element);
+    return element.attr('id', element.attr('id').split('/')[0] + '/' + current_row_id);
+}
+function row_sequence(element) {
+    return parseInt(element.attr('id').split('/')[1], 10);
+}
 function add_filter_row() {
-	
-	var filter_table = getElement('filter_table');
-	var vals = [];
-	var row_id = 1;
-	
-	var first_row = getElement('filter_row/0');
-	var trs = MochiKit.DOM.getElementsByTagAndClassName('tr', null, filter_table)
-	
-	if (filter_table.style.display == 'none') {
-		filter_table.style.display = '';
-	}
-	
-	else if (first_row.style.display == 'none' && trs.length <= 1) {
-		MochiKit.DOM.getFirstElementByTagAndClassName('select', 'filter_fields', first_row).selectedIndex = 0;
-		MochiKit.DOM.getFirstElementByTagAndClassName('select', 'expr', first_row).selectedIndex = 0;
-		var old_qstring = MochiKit.DOM.getFirstElementByTagAndClassName('input', 'qstring', first_row);
-		old_qstring.value = '';
-		old_qstring.style.background = '#FFFFFF';
-		first_row.style.display = ''
-	}
-	
-	else{
-		
-		var old_tr = trs[trs.length-1];
-		var old_qstring = MochiKit.DOM.getFirstElementByTagAndClassName('input', 'qstring', old_tr);
-		old_qstring.style.background = '#FFFFFF';
-		
-		var new_tr = old_tr.cloneNode(true);
-		keys = new_tr.id.split('/');
-		id = parseInt(keys[1], 0);
-		row_id = id + row_id;
-		new_tr.id =  keys[0] +'/'+ row_id;
-		var filter_column = MochiKit.DOM.getFirstElementByTagAndClassName('td', 'filter_column', new_tr);
-		
-		var filter_fields = MochiKit.DOM.getFirstElementByTagAndClassName('select', 'filter_fields', new_tr);
-		var expr = MochiKit.DOM.getFirstElementByTagAndClassName('select', 'expr', new_tr);
-		var qstring = MochiKit.DOM.getFirstElementByTagAndClassName('input', 'qstring', new_tr);
-		
-		filter_column.id = filter_column.id.split('/')[0] + '/' + row_id;
-		filter_fields.id = filter_fields.id.split('/')[0] + '/' + row_id;
-		expr.id = expr.id.split('/')[0] + '/' + row_id;
-		qstring.id = qstring.id.split('/')[0] + '/' + row_id;
-		qstring.style.background = '#FFFFFF';
-		qstring.value = '';
-		
-		var image_col = MochiKit.DOM.getFirstElementByTagAndClassName('td', 'image_col', new_tr);
-		image_col.id = 'image_col/' + row_id;
-		
-		var and_or = MochiKit.DOM.getFirstElementByTagAndClassName('td', 'and_or', new_tr);
-		if (and_or){removeElement(and_or); }
-		
-		var and_or = MochiKit.DOM.createDOM('td');
-		and_or.id = 'and_or/' + id;
-		and_or.className = 'and_or';
-		
-		var select_andor = MochiKit.DOM.createDOM('select');
-		select_andor.id = 'select_andor/' + id;
-		select_andor.className = 'select_andor';
-		
-		var option = MochiKit.DOM.createDOM('option');
-		
-		vals.push('AND');
-		vals.push('OR');
-		
-		option = map(function(x){return OPTION({'value': x}, x)}, vals);
-		image_replace = openobject.dom.get('image_col/'+ id);
-		if(MochiKit.DOM.getFirstElementByTagAndClassName('td', 'and_or', old_tr) == null){
-			insertSiblingNodesBefore(image_replace, and_or)
-		}
-		
-		appendChildNodes(select_andor, option);
-		appendChildNodes(and_or, select_andor);
-		insertSiblingNodesAfter(old_tr, new_tr);
-		
-		MochiKit.Signal.connect(new_tr, 'onkeydown', this, onKeyDown_search);
-		MochiKit.Signal.signal(filter_table, 'onaddfilter', new_tr || first_row);
-	}
+    var filter_table = jQuery('#filter_table');
+    var vals = ['AND', 'OR'];
+
+    if(filter_table.is(':hidden')) {
+        filter_table.show();
+    } else {
+        var old_tr = filter_table.find('tr:last');
+        old_tr.find('input.qstring').css('background', '#FFF');
+
+        var new_tr = old_tr.clone();
+        var old_sequence = row_sequence(new_tr);
+        // create id for new row
+        var current_row_sequence = old_sequence + 1;
+        reset_id(new_tr, current_row_sequence);
+
+        var qstring = new_tr.find('input.qstring').css('background', '#fff').val('');
+        jQuery('td.filter_column, select.filter_fields, select.expr', new_tr).add(qstring).each(function (index, element) {
+            reset_id(element, current_row_sequence);
+        });
+
+        var image_col = new_tr.find('td.image_col').attr('id', 'image_col/' + current_row_sequence);
+
+        // remove and_or selector if it already exists
+        new_tr.find('td.and_or').remove();
+
+        var and_or = jQuery('<td>', {'id': 'and_or/' + old_sequence, 'class': 'and_or'});
+        and_or.insertBefore(old_tr.find('[id=image_col/' + old_sequence + ']'));
+
+        var select_andor = jQuery('<select>', {'id': 'select_andor/' + old_sequence, 'class': 'select_andor'});
+        jQuery.each(vals, function (index, label) {
+            select_andor.append(jQuery('<option>').val(label).text(label));
+        });
+
+        and_or.append(select_andor);
+        old_tr.after(new_tr);
+
+        new_tr.keydown(onKeyDown_search);
+    }
 }
 
 /**
- * @event onremovefilter triggered when removing a filter row
  *  @target #filter_table the element holding the filter rows
  *  @argument 'the removed (or hidden) filter row'
  */
-function remove_row(id) {
-	
-	var node = jQuery(id).closest('tr');
-	if (node.attr('id') != 'filter_row/0') {
-		jQuery(node).remove();
-	}
-	else {
-		node.css('display', 'none');
-		if (jQuery('#and_or/0')) {
-			jQuery('#and_or/0').remove();
-		}
-		if(jQuery('#qstring/0')) {
-			jQuery('#qstring/0').val('');
-			jQuery('#qstring/0').css('background', '#FFFFFF');   
-		}
-	}
-	
-//	MochiKit.Signal.signal(filter_table, 'onremovefilter', node);
+function remove_row(element) {
+    var node = jQuery(element).closest('tr');
+    if(node.is(':only-child')) {
+        node.find('[id^=qstring]').css('background', '#FFF').val('');
+        jQuery('#filter_table').hide();
+    } else {
+        if(node.is(':last-child')) {
+            node.prev().find('[id^=and_or]').remove();
+        }
+        node.remove();
+    }
 }
 // Direct click on icon.
 function search_image_filter(src, id) {
@@ -143,7 +102,7 @@ function search_image_filter(src, id) {
 
 function onKey_Event() {
 	
-	dom = openobject.dom.get('search_filter_data');
+	var dom = openobject.dom.get('search_filter_data');
 	
 	var editors = [];
 	
@@ -155,16 +114,14 @@ function onKey_Event() {
         return e.type != 'hidden' && !e.disabled
     }, editors);
 
-    forEach(active_editors, function(e){
-        MochiKit.Signal.connect(e, 'onkeydown', self, onKeyDown_search);
+    jQuery(active_editors).each(function(i, e){
+        jQuery(e).keydown(onKeyDown_search);
     });
 }
 
-function onKeyDown_search(evt) {
-	var key = evt.key();
-    var src = evt.src();
-    
-    if (key.string == "KEY_ENTER"){
+var ENTER_KEY = 13;
+function onKeyDown_search(e) {
+    if (e.which == ENTER_KEY){
     	search_filter();
     }
 }
