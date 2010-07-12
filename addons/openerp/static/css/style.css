@@ -247,8 +247,9 @@ table#filter_table td.and_or select.select_andor {
 	vertical-align: middle;
 }
 
-table#filter_table td.image_col {
-    padding-left: 4px;
+#filter_table .image_col {
+    padding-left: 0;
+    padding-right: 2px;
     text-align: left;
 }
 
