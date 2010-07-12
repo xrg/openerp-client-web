@@ -181,6 +181,7 @@ class List(SecuredController):
         params.view_type = 'form'
         if params.get('_terp_clear'):
             params.domain, params.search_domain, params.filter_domain, params.ids = [], [], [], []
+            params.search_data = {}
             for k,v in params.context.items():
                 if k.startswith('search_default'):
                     params.context[k] = 0
