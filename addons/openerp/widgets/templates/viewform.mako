@@ -28,7 +28,7 @@
             <td class="view_form_options" align="left">
                 <div>
                     <button onclick="add_filter_row(); return false;">
-                        <img src="/openerp/static/images/button-b-icons-add.gif" alt="Add custom filtering">
+                        <img src="/openerp/static/images/button-b-icons-add.gif" alt="Add custom filtering row">
                     </button>
                 </div>
                 <div>
