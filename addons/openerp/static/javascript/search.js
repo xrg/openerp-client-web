@@ -316,15 +316,13 @@ function parse_filters(src, id) {
 
 function search_filter(src, id) {
 	all_domains = parse_filters(src, id);
-    if(jQuery('#filter_table').css('display') != 'none' || jQuery('#_terp_filter_domain').val() != '[]') {
-        
-        if (jQuery('#filter_table').css('display') == 'none'){
-            jQuery('#filter_table').css('display', '');
+    if(jQuery('#filter_table').is(':visible') || jQuery('#_terp_filter_domain').val() != '[]') {
+        if (jQuery('#filter_table').is(':hidden')){
+            jQuery('#filter_table').show();
         }
         display_Customfilters(all_domains, group_by);
-    }
-    else {
-        custom_domain = jQuery('#_terp_filter_domain').val() || '[]';       
+    } else {
+        custom_domain = jQuery('#_terp_filter_domain').val() || '[]';
         final_search_domain(custom_domain, all_domains, group_by);
     }
 }
