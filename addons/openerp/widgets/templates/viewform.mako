@@ -39,8 +39,8 @@
                             >${_("Clear")}</button>
                     <button title="${_('Save as Filters.')}" onclick="save_as_filter(); return false;"
                             >${_("Save as Filter")}</button>
-                    <button title="${_('Manage Filters.')}" onclick="manage_filters(); return false;"
-                            >${_("Manage Filter")}</button>
+                    <button title="${_('Manage Filter.')}" onclick="manage_filters(); return false;"
+                            >${_("Manage Filters")}</button>
                     <select class="custom-filter" name="filter_list" id="filter_list"
                             onchange="search_filter(); return false;">
                         % for f in search.filters_list:
