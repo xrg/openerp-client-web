@@ -160,19 +160,6 @@ div.group-data table.fields {
     width: 0%;
 }
 
-button.btn_filter {
-    border: solid 1px #888888;
-    background: url(/static/images/button_bg.png) repeat-x left bottom;
-    color: #000;
-    padding: 0px 2px;
-    font-size: 11px;
-    cursor: pointer;
-}
-
-button.btn_filter:hover {
-    background: url(/static/images/button_bg2.png) repeat-x left top;
-}
-
 table#filter_table {
     margin: 0;
 }
