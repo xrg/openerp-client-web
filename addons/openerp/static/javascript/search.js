@@ -82,7 +82,7 @@ function add_filter_row() {
  *  @target #filter_table the element holding the filter rows
  *  @argument 'the removed (or hidden) filter row'
  */
-function remove_row(element) {
+function remove_filter_row(element) {
     var node = jQuery(element).closest('tr');
     if(node.is(':only-child')) {
         node.find('[id^=qstring]').css('background', '#FFF').val('');

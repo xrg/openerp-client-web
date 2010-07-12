@@ -30,7 +30,7 @@
 					</td>
 					% endif
 					<td id="image_col/${x}" class="image_col">
-						<img id="img_remove" width="18" height="18" src="/openerp/static/images/stock-disabled/gtk-remove.png" onclick="remove_row(this)" style="cursor: pointer;"/>
+						<img id="img_remove" width="18" height="18" src="/openerp/static/images/stock-disabled/gtk-remove.png" onclick="remove_filter_row(this)" style="cursor: pointer;"/>
 					</td>
 			    </tr>
 			    <% x = x+1 %>
