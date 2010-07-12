@@ -145,7 +145,7 @@ import cherrypy
 	        			    <a id="${name}_delete_record" class="button-a" href="javascript: void(0)" title="${_('Delete record(s).')}">${_('delete')}<a/>
 	        			    <script type="text/javascript">
 	        			        jQuery('#${name}_delete_record').click(function() {
--                                        new ListView('_terp_list').remove(null,this);
+                                        new ListView('_terp_list').remove(null,this);
                                 });
 	        			    </script>
 	        			</td>
@@ -153,7 +153,7 @@ import cherrypy
                             <a id="${name}_edit_record" class="button-a" href="javascript: void(0)" title="${_('Edit record(s).')}">${_('edit')}<a/>
                             <script type="text/javascript">
                                 jQuery('#${name}_edit_record').click(function() {
--                                       editSelectedRecord();
+                                       editSelectedRecord();
                                 });
                             </script>
                         </td>
