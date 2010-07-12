@@ -498,7 +498,7 @@ ManyToOne.prototype.displayResults = function(result) {
             }
             var currentRow = TR({"class": "autoTextNormalRow", "name": "autoComplete" + this.name + "_" + i, "id": "autoComplete" + this.name + "_" + i},
                     TD({'id':textItems.values[i][0]},
-                            createDOM("nobr", null, SPAN({'id':textItems.values[i][0]}, currentItem))));
+                            createDOM("nobr", null, SPAN({'id':textItems.values[i][0], 'style':'text-transform:none;'}, currentItem))));
 			
             if (this.hasHiddenValue)
                 appendChildNodes(currentRow, TD({"class": "autoTextHidden", 'id':textItems.values[i][0]}, SPAN({'id':textItems.values[i][0]}, currentItemValue)));
