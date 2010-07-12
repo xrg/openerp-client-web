@@ -3,13 +3,11 @@
 		if def_checked:
 			filter_class = "active_filter"
 			a_class = "active"
-			checked_default = "true"
 		else:
 			filter_class = "inactive_filter"
 			a_class = "inactive"
-			checked_default = "false"
 			
-		if help!=text_val:
+		if help != text_val:
 			text = text_val
 			ul_class="filter_with_icon"
 		else:
