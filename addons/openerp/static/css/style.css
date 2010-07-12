@@ -442,12 +442,12 @@ td.custom-filter ul li a.button:active {
     color: #fff;
 }
 
-td.custom-filter ul li span.add {
-    display: block;
+td.custom-filter ul li .add {
     overflow: hidden;
-    width: 6px;
+    width: 100%;
+    height: 100%;
     margin: 0 -2px;
-    background: url(../images/button-b-icons-add.gif) 0 50% no-repeat;
+    background: url(../images/button-b-icons-add.gif) no-repeat 0 50%;
     font-size: 0;
     text-indent: -10001px;
 }
@@ -864,7 +864,10 @@ table.m2o_readonly {
 }
 
 td.view_form_options {
-    padding: 0px 10px 3px 10px;
+    padding: 0 10px 3px 10px;
+}
+.view_form_options div {
+    margin: 3px 0;
 }
 
 /* treebar */
@@ -1011,18 +1014,9 @@ table.attachment_bar td a {
     padding: 0 0 0 5px;
 }
 
-#save_filters, #manage_filters, #clear_all_filters, #filter_search {
-    padding: 0 2px 0 2px;
-    float: left;
-}
-
 .custom-filter {
     float: right;
     padding: 0;
-}
-
-.active_clear {
-    display: block;
 }
 
 .inactive_clear {

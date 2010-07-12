@@ -766,14 +766,9 @@ MochiKit.Base.update(ListView.prototype, {
             }
             
             if(obj.active_clear) {
-            	if(jQuery('#clear_all_filters').css('display')=='none') {
-            	   jQuery('#clear_all_filters').show()	
-            	}
-            }
-            else {
-            	if(jQuery('#clear_all_filters').css('display')!='none') {
-            		jQuery('#clear_all_filters').hide()
-            	}
+                jQuery('#clear_all_filters').removeClass('inactive_clear');
+            } else {
+            	jQuery('#clear_all_filters').addClass('inactive_clear');
             }
 
             var d = DIV();
