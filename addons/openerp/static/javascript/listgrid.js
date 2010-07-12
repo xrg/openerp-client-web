@@ -44,27 +44,26 @@ var ListView = function(name) {
 ListView.prototype = {
 
     __init__: function(name) {
-
         var prefix = name == '_terp_list' ? '' : name + '/';
 
         this.name = name;
-        this.model = $('[id*="'+prefix + '_terp_model'+'"]').get() ? $('[id*="'+prefix + '_terp_model'+'"]').val() : null;        
+        this.model = jQuery('[id*="'+prefix + '_terp_model'+'"]').get() ? jQuery('[id*="'+prefix + '_terp_model'+'"]').val() : null;
         this.current_record = null;
 
-        this.ids = $('[id*="'+prefix + '_terp_ids'+'"]').val();
+        this.ids = jQuery('[id*="'+prefix + '_terp_ids'+'"]').val();
 
-        this.view_ids = $('[id*="'+prefix + '_terp_view_ids'+'"]').get() ? $('[id*="'+prefix + '_terp_view_ids'+'"]').val() : null;
-        this.view_mode = $('[id*="'+prefix + '_terp_view_mode'+'"]').get() ? $('[id*="'+prefix + '_terp_view_mode'+'"]').val() : null;
+        this.view_ids = jQuery('[id*="'+prefix + '_terp_view_ids'+'"]').get() ? jQuery('[id*="'+prefix + '_terp_view_ids'+'"]').val() : null;
+        this.view_mode = jQuery('[id*="'+prefix + '_terp_view_mode'+'"]').get() ? jQuery('[id*="'+prefix + '_terp_view_mode'+'"]').val() : null;
 
         // if o2m
         
-        this.m2m = $('[id*="'+ name + '_set' + '"]');
-		this.default_get_ctx = $('[id*="' + prefix + '_terp_default_get_ctx' + '"]').get() ? $('[id*="' + prefix + '_terp_default_get_ctx' + '"]').val() : null;
+        this.m2m = jQuery('[id*="'+ name + '_set' + '"]');
+		this.default_get_ctx = jQuery('[id*="' + prefix + '_terp_default_get_ctx' + '"]').get() ? jQuery('[id*="' + prefix + '_terp_default_get_ctx' + '"]').val() : null;
 		this.sort_key = null;
 		this.sort_key_order = null;
 		this.sort_domain = "[]";
         // save the reference
-        $('[id*="'+name+'"]:first').__listview = this;
+        jQuery('[id*="'+name+'"]:first').__listview = this;
     },
 
     checkAll: function(clear) {
