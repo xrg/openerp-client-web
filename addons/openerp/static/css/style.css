@@ -844,6 +844,18 @@ td.item .checkbox,td.item .radio { /* width: auto; */
     background-color: #EEEEEE;
 }
 
+table.readonlyfield .pagerbar .pagerbar-cell .pager-table .pager-cell h2 {
+	color: DarkGray;
+}
+
+table.readonlyfield table.grid .grid-cell {
+	color: DarkGray;
+}
+
+table.m2o_readonly {
+	color: DarkGray;
+}
+
 td.view_form_options {
     padding: 0px 10px 3px 10px;
 }
