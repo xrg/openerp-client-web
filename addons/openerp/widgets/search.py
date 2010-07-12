@@ -198,9 +198,6 @@ class M2O_search(M2O):
         if attrs.get('default', False) == 'uid':
             attrs['default'] = rpc.session.uid
         super(M2O_search, self).__init__(**attrs)
-    
-    def set_value(self, value):
-        return
 
 class Search(TinyInputWidget):
     template = "templates/search.mako"
@@ -406,6 +403,8 @@ class Search(TinyInputWidget):
                     if name:
                         default_search = get_search_default(fields[name], self.context, self.domain)
                         if default_search:
+                            if name in values:
+                               values[name] = default_search  
                             domain = []
                             field.set_value(default_search)
                             if field.kind == 'char':
