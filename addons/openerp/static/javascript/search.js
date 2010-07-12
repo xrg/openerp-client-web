@@ -59,9 +59,6 @@ function add_filter_row() {
                     reset_id(element, current_row_sequence);
                 });
 
-        // remove and_or selector if it already exists
-        new_tr.find('td.and_or').remove();
-
         var and_or = jQuery('<td>', {'id': 'and_or/' + old_sequence, 'class': 'and_or'});
 
         var select_andor = jQuery('<select>', {'id': 'select_andor/' + old_sequence, 'class': 'select_andor'});
