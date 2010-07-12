@@ -14,6 +14,13 @@
 % if screen:
 	<table border="0" cellpadding="0" cellspacing="0" width="100%" style="border: none;">
         % if search:
+        <%
+             if search.listof_domain or search.custom_filter_domain or search.groupby:
+                 css_clear = 'active_clear'
+             else:
+                 css_clear = 'inactive_clear'
+        %>
+
         <tr>
             <td valign="top">${display_member(search)}</td>
         </tr>
@@ -22,44 +29,41 @@
             	<table style="border: none; width: 100%;">
             		<tr>
             			<td id="filter_search">
-		                	<a class="button-a" title="${_('Filter records.')}" href="javascript: void(0)" onclick="search_filter()">${_("Filter")}</a>
+		                	<button title="${_('Filter records.')}" onclick="search_filter(); return false;"
+                                >${_("Filter")}</button>
             			</td>
-            			<%
-            			     if search.listof_domain or search.custom_filter_domain or search.groupby:
-            			         css_clear = 'active_clear'
-            			     else:
-            			         css_clear = 'inactive_clear'
-            			%>
                         <td id="clear_all_filters" class="${css_clear}">
-                            <a class="button-a" title="${_('Clear all .')}" href="javascript: void(0)" onclick="new ListView('_terp_list').clear()">${_("Clear")}</a>
+                            <button title="${_('Clear all .')}"
+                                    onclick="new ListView('_terp_list').clear(); return false;"
+                                >${_("Clear")}</button>
                         </td>
             			<td id="save_filters">
-                             <a class="button-a" title="${_('Save as Filters.')}" href="javascript: void(0)" onclick="save_as_filter()">${_("Save as Filter")}</a>
+                             <button title="${_('Save as Filters.')}" onclick="save_as_filter(); return false;"
+                                 >${_("Save as Filter")}</button>
                         </td>
                         <td id="manage_filters">
-                             <a class="button-a" title="${_('Manage Filters.')}" href="javascript: void(0)" onclick="manage_filters()">${_("Manage Filter")}</a>
+                             <button title="${_('Manage Filters.')}" onclick="manage_filters(); return false;"
+                                 >${_("Manage Filter")}</button>
                         </td>
                         <td class="custom-filter">
                              <ul>
                                 <li style="padding-right: 3px;">
-                                    <select name="filter_list" id="filter_list" onchange="search_filter();">
+                                    <select name="filter_list" id="filter_list" onchange="search_filter(); return false;">
                                         % for f in search.filters_list:
                                         <option value="${f[0]}">${f[1]}</option>
                                         % endfor
                                     </select>
                                 </li>
                                 <li>
-                                    <a class="button" href="javascript: void(0)" onclick="add_filter_row();">
+                                    <button onclick="add_filter_row(); return false;">
                                         <span class="add">Add</span>
-                                    </a>
+                                    </button>
                                 </li>
                             </ul>
                         </td>
             		</tr>
             	</table>
-
             </td>
-
         </tr>
         % endif
         <tr>

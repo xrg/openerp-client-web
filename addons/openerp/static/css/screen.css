@@ -2238,13 +2238,7 @@ p.paging-a a.next {
     width: 100%;
 }
 
-#sidebar button {
-    display: block;
-    margin: 5px auto;
-    font-size: 10px;
-    height: 14px;
-    line-height: 13px;
-    padding: 0 10px;
+button {
 }
 
 #sidebar #add-attachment {
@@ -2324,12 +2318,11 @@ td#body_form_td {
 }
 
 /* links */
-a.button-a {
+.button-a {
     float: left;
     height: 12px;
     padding: 1px 10px 0;
-    border: 1px solid;
-    border-color: #666666;
+    border: 1px solid #666666;
     border-radius: 3px;
     -moz-border-radius: 3px;
     -webkit-border-radius: 3px;
@@ -2346,23 +2339,29 @@ a.button-a {
     text-shadow: #6a6969 0 1px 0;
 }
 
-a.button-a.disable {
+#sidebar button {
+    float: none;
+    display: block;
+    margin: 5px auto;
+}
+
+.button-a.disable {
     background: darkGray none repeat scroll 0 0;
     color: #8D8D8D;
 }
 
-a.button-a:hover, a.button-a:focus, a.button-a:active {
+.button-a:hover, .button-a:focus, .button-a:active {
     background: #666666;
 }
 
-td.popup_footer a.button-a:hover,
-table.popup_footer a.button-a:hover,
-div.popup_footer a.button-a:hover {
+td.popup_footer .button-a:hover,
+table.popup_footer .button-a:hover,
+div.popup_footer .button-a:hover {
     background: url(../images/button-a.gif) repeat-x;
     border-color: #CCCCCC;
 }
 
-div.toolbar a.button-a {
+div.toolbar .button-a {
     margin: 0 3px 0 0;
 }
 
