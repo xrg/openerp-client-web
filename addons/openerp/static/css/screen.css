@@ -980,7 +980,7 @@ div.filter-a ul.filter_with_icon li a {
 div.filter-a ul.filter_with_icon li a.active,
 div.filter-a ul.filter_with_icon li a.inactive:hover {
     background-color: #cbced2;
-    color: #fff;
+    color: #000000;
 }
 
 div.filter-a ul.filter_icon li a {
