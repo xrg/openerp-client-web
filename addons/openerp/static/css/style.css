@@ -1,38 +1,3 @@
-a.imglink {
-    text-decoration: none;
-}
-
-a:hover .imglink {
-    border: none;
-}
-
-hr {
-    border: 0px;
-    background-color: #888;
-    height: 1px;
-}
-
-input,select,textarea {
-    background-color: #fff;
-    color: #000;
-    border: 1px solid #999999;
-}
-
-input:focus,select:focus,textarea:focus {
-    border-color: #990033;
-}
-
-input.checkbox,input.radio {
-    background-color: transparent;
-    border: none;
-    margin: 0px;
-}
-
-fieldset {
-    border: solid 1px #888888;
-    padding: 3px;
-}
-
 div.message-box {
     background: transparent url(../images/nav-bg-a.png) repeat-x scroll 0 0;
     border-radius: 3px;

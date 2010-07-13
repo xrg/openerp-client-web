@@ -33,129 +33,120 @@
 	<table id="main_form_body" class="view" cellpadding="0" cellspacing="0" border="0" width="100%" style="border: none;">
         <tr>
             <td id="body_form_td" width="100%" valign="top">
-                <table cellpadding="0" cellspacing="0" border="0" width="100%" style="border: none;">
-                    % if buttons.toolbar:
-                    <tr>
-                        <td style="padding: 10px 10px 5px 0;">
-                            <table width="100%" id="title_header">
-                                <tr>
-                                	% if can_shortcut:
-                                        <td id="shortcut_add_remove" class="${shortcut_class}"></td>
-                                    % endif
+                % if buttons.toolbar:
+                
+                <%def name="make_view_button(i, kind, name, desc, active)">
+                    <%
+                        cls = ''
+                        if form.screen.view_type == kind:
+                            cls = 'active'
+                    %>
+                	<li class="v${i}" title="${desc}">
+                		% if kind in form.screen.view_mode:
+                			<a href="#" onclick="switchView('${kind}'); return false;"
+                			   class="${cls}">${kind}</a>
+                		% else:
+                		    <a class="inactive">${kind}</a>
+                		% endif
+                	</li>
+                </%def>
 
-                                    <td id="title_details" width="30%" class="content_header_space">
-                                    	<h1>${form.screen.string}
-                                    		<a class="help" href="javascript: void(0)" title="${_('Corporate Intelligence...')}" onclick="show_process_view('${form.screen.string}')">
-                                    			<small>Help</small>
-		                              		</a>
-                                            % if display_name:
-		                              		  <small class="sub">${display_name['field']} : ${display_name['value']}</small>
-                                            % endif
-                                    	</h1>
-                                    </td>
-
-                                    <%def name="make_view_button(i, kind, name, desc, active)">
-                                        <%
-                                            cls = ''
-                                            if form.screen.view_type == kind:
-                                                cls = 'active'
-                                        %>
-                                    	<li class="v${i}" title="${desc}">
-                                    		% if kind in form.screen.view_mode:
-                                    			<a href="#" onclick="switchView('${kind}'); return false;" class="${cls}">${kind}</a>
-                                    		% else:
-                                    		    <a class="inactive">${kind}</a>
-                                    		% endif
-                                    	</li>
-                                    </%def>
-
-                                    <td id="view_buttons" class="content_header_space">
-                                    	<ul id="view-selector">
-                                    		% for i, view in enumerate(buttons.views):
-												${make_view_button(i+1, **view)}
-											% endfor
-										</ul>
-									</td>                                    
-                                </tr>
-                                %if serverLog:
-	                            	<tr>
-		                              	<td colspan="4" style="width: 100%; padding: 0px;">
-									    	<div id="serverlog" style="display: none;">
-									    		<table class="serverLogHeader">
-									    			<tr>
-									    				<td style="padding: 2px 10px 0 10px; font-weight: bold;">
-									    					<img id="toggle_server_log" style="cursor: pointer; padding-bottom: 3px;" src="/openerp/static/images/server_log_close.gif"></img>
-											    			Current actions :
-											    			<td>
-											    				<img id="closeServerLog" style="cursor: pointer;" align="right" src="/openerp/static/images/attachments-a-close.png"></img>
-											    			</td>
-									    				</td>
-									    			</tr>
-									    			<tr id="actions_row">
-									    				<td style="padding: 2px 0 0 0;">
-									    					<table style="width: 100%;">
-													    		% if len(serverLog) > 3:
-														    		% for log in serverLog[-3:]:
-														    			<tr>
-														    				<td class="logActions">
-														    					<a href="${py.url('/openerp/form/edit', model=log['res_model'], id=log['res_id'])}">
-														    						${log['name']}
-														    					</a>
-														    				</td>
-														    			</tr>
-														    		% endfor
-															    	<tr>
-															    		<td style="font-weight: bold; padding: 0 0 0 10px;">
-															    			<a style="color: blue;" href="javascript: void();" onclick="openobject.tools.openWindow('${py.url('/openerp/form')}', {width: 550, height: 340});">
-															    				More...
-															    			</a>
-															    		</td>
-															    	</tr>
-															    % else:
-															    	% for log in serverLog:
-														    			<tr>
-														    				<td class="logActions">
-														    					<a href="${py.url('/openerp/form/edit', model=log['res_model'], id=log['res_id'])}">
-														    						${log['name']}
-														    					</a>
-														    				</td>
-														    			</tr>
-														    		% endfor
-															    % endif
-															</table>
-														</td>
-													</tr>
-												</table>
-									    	</div>
-						
-									    	<script type="text/javascript">
-									    		jQuery('#serverlog').fadeIn('slow');
-									    		jQuery('#closeServerLog').click(function() {
-									    			jQuery('#serverlog').fadeOut("slow");
-									    		});
-									    		
-									    		jQuery('img#toggle_server_log').click(function() {
-									    			var server_img_src = jQuery(this).attr('src');
-									    			if (jQuery(this).attr('src').indexOf('server_log_close') > 0) {
-									    				jQuery('tr#actions_row').css('display', 'none');
-									    				jQuery(this).attr('src', server_img_src.replace('server_log_close', 'server_log_open'));
-									    				jQuery(this).css('padding-bottom', '1px');
-									    			}
-									    			else {
-									    				jQuery('tr#actions_row').css('display', '');
-									    				jQuery(this).css('padding-bottom', '3px');
-									    				jQuery(this).attr('src', server_img_src.replace('server_log_open', 'server_log_close'));
-									    			}
-									    		});
-									    	</script>
-								    	</td>
-								    </tr>
-								% endif
-                            </table>
-                        </td>
-                    </tr>
+            	<ul id="view-selector">
+        		% for i, view in enumerate(buttons.views):
+					${make_view_button(i+1, **view)}
+				% endfor
+				</ul>
+                % endif
+                
+            	<h1>
+            	    % if can_shortcut:
+                    <a id="shortcut_add_remove" href="javascript: void(0)" class="${shortcut_class}"></a>
                     % endif
-                </table>
+            	    ${form.screen.string}
+            		<a class="help" href="javascript: void(0)"
+            		   title="${_('Corporate Intelligence...')}"
+            		   onclick="show_process_view('${form.screen.string}')">
+            			<small>Help</small>
+              		</a>
+                    % if display_name:
+              		<small class="sub">${display_name['field']} : ${display_name['value']}</small>
+                    % endif
+            	</h1>
+            	
+            	%if serverLog:
+                <div id="serverlog" style="display: none;">
+	                <table class="serverLogHeader">
+		                <tr>
+			                <td style="padding: 2px 10px 0 10px; font-weight: bold;">
+				                <img id="toggle_server_log" style="cursor: pointer; padding-bottom: 3px;"
+				                     src="/openerp/static/images/server_log_close.gif"></img>
+                    			Current actions :
+                    			<td>
+                    				<img id="closeServerLog" style="cursor: pointer;" align="right" 
+                    				     src="/openerp/static/images/attachments-a-close.png"></img>
+                    			</td>
+			                </td>
+		                </tr>
+		                <tr id="actions_row">
+			                <td style="padding: 2px 0 0 0;">
+				                <table style="width: 100%;">
+		                    		% if len(serverLog) > 3:
+			                    		% for log in serverLog[-3:]:
+			                    			<tr>
+			                    				<td class="logActions">
+			                    					<a href="${py.url('/openerp/form/edit', model=log['res_model'], id=log['res_id'])}">
+			                    						${log['name']}
+			                    					</a>
+			                    				</td>
+			                    			</tr>
+			                    		% endfor
+				                    	<tr>
+				                    		<td style="font-weight: bold; padding: 0 0 0 10px;">
+				                    			<a style="color: blue;" href="javascript: void();"
+				                    			   onclick="openobject.tools.openWindow('${py.url('/openerp/form')}', {width: 550, height: 340});">
+				                    				More...
+				                    			</a>
+				                    		</td>
+				                    	</tr>
+				                    % else:
+				                    	% for log in serverLog:
+			                    			<tr>
+			                    				<td class="logActions">
+			                    					<a href="${py.url('/openerp/form/edit', model=log['res_model'], id=log['res_id'])}">
+			                    						${log['name']}
+			                    					</a>
+			                    				</td>
+			                    			</tr>
+			                    		% endfor
+				                    % endif
+				                </table>
+			                </td>
+		                </tr>
+	                </table>
+                </div>
+
+                <script type="text/javascript">
+	                jQuery('#serverlog').fadeIn('slow');
+	                jQuery('#closeServerLog').click(function() {
+		                jQuery('#serverlog').fadeOut("slow");
+	                });
+	
+	                jQuery('img#toggle_server_log').click(function() {
+		                var server_img_src = jQuery(this).attr('src');
+		                if (jQuery(this).attr('src').indexOf('server_log_close') > 0) {
+			                jQuery('tr#actions_row').css('display', 'none');
+			                jQuery(this).attr('src', server_img_src.replace('server_log_close', 'server_log_open'));
+			                jQuery(this).css('padding-bottom', '1px');
+		                }
+		                else {
+			                jQuery('tr#actions_row').css('display', '');
+			                jQuery(this).css('padding-bottom', '3px');
+			                jQuery(this).attr('src', server_img_src.replace('server_log_open', 'server_log_close'));
+		                }
+	                });
+                </script>
+                % endif
+
                 % if form.screen.view_type in ['form', 'diagram'] and buttons.toolbar:
                 <div class="wrapper">
                 	<ul class="inline-b left w50">

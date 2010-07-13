@@ -1,7 +1,8 @@
 /*
  * Project:   OpenERP
  * Date:      2010/03/16
-/* ---------------------------------------- */
+ * ---------------------------------------- */
+ 
 * {
     margin: 0;
     padding: 0;
@@ -618,8 +619,10 @@ h1,h2,h3,h4,h5,h6 {
 }
 
 h1 {
-    font-size: 1.6em;
-    font-weight: normal;
+    background:url("../images/sep-a.gif") repeat-x scroll 0 100% transparent;
+    font-size:2em;
+    font-weight:normal;
+    padding:0 0 5px;
 }
 
 h2 {
@@ -2313,7 +2316,7 @@ button {
 }
 
 td#body_form_td {
-    padding: 0px;
+    padding: 10px 4px 0 0;
     border-color: #EAE7E7;
 }
 
