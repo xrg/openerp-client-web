@@ -518,9 +518,7 @@ td.label {
 }
 
 td.item input,
-td.item select,
-td.item textarea,
-td.item button {
+td.item select {
     /*width: 99%; */
     min-width: 150px;
 }
