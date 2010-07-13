@@ -1,4 +1,5 @@
 % if editable:
+<div>
     <input type="hidden" id="${name}" name="${name}" class="${css_class}" value="${value}"
         ${py.attrs(attrs, kind=kind, domain=domain, context=ctx, relation=relation)}/>
     <input type="text" id="${name}_text" class="${css_class}"
@@ -16,6 +17,7 @@
 	<img id="${name}_open" alt="${_('Open')}" title="${_('Open a resource')}"
 	   src="/openerp/static/images/iconset-d-drop.gif" class="${css_class} m2o_open"/>
 	% endif
+</div>
 % endif
 
 % if editable:

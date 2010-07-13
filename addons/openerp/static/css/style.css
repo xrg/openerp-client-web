@@ -507,6 +507,7 @@ table.o2m_box div.pagerbar-header strong {
 td.label,
 td.item {
     padding: 4px 2px;
+    white-space: nowrap;
 }
 
 td.label {
@@ -514,7 +515,6 @@ td.label {
     font-weight: bold;
     text-transform: uppercase;
     text-align: right;
-    white-space: nowrap;
 }
 
 td.item input,
@@ -522,6 +522,7 @@ td.item select,
 td.item textarea,
 td.item button {
     /*width: 99%; */
+    min-width: 150px;
 }
 
 td.item input {
