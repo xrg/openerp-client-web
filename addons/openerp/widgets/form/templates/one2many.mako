@@ -11,19 +11,19 @@
         <td>
             <table width="100%" class="gridview" style="border-bottom: 1px solid black;"cellpadding="0" cellspacing="0">
                 <tr class="pagebar">
-                    
+
                 	<td class="pagerbar-cell" align="left" width="${pager_width}">
                 		<div class="pagerbar-header">
                 			<strong>${screen.string}</strong>
                 		</div>
                 	</td>
-                	
+
                 	% if screen.editable and not readonly and view_type == 'form':
                 	   <td>
-                	       <a class="button-a" href="javascript: void(0)" title="${_('Create new record...')}" onclick="new One2Many('${name}', ${(screen.view_type == 'tree' or 0) and len(screen.widget.editors)}).create()">${_('New')}</a>
+                	       <a class="button-a" href="javascript: void(0)" title="${_('Create new record...')}" onclick="new One2Many('${name}', ${(screen.view_type == 'tree' or 0) and len(screen.widget.editors)}).create(); return false;">${_('New')}</a>
                 	   </td>
                 	% endif
-                	
+
                     % if pager_info:
                     <td width="75%" style="text-align: left" align="left">
                         <div class="pager">
@@ -31,13 +31,13 @@
                                 <a class="prev" title="${_('Previous record...')}" href="javascript: void(0)" onclick="submit_form('previous', '${name}')"></a>
                                 <font>${pager_info}</font>
                                 <a class="next" title="${_('Next record...')}" href="javascript: void(0)" onclick="submit_form('next', '${name}')"></a>
-                            </p>                            
+                            </p>
                         </div>
                     </td>
                     % endif
                     <td>
                         % if not screen.editable and screen.view_type=='form':
-                        <img class="button" title="${_('Translate me.')}" alt="${_('Translate me.')}" 
+                        <img class="button" title="${_('Translate me.')}" alt="${_('Translate me.')}"
                              src="/openerp/static/images/stock/stock_translate.png" width="16" height="16"
                              onclick="openobject.tools.openWindow(openobject.http.getURL('/openerp/translator', {_terp_model: '${screen.model}', _terp_id: ${screen.id}, _terp_context: $('_terp_context').value}));"/>
                         % endif
@@ -55,7 +55,7 @@
         </td>
         % endif
     </tr>
-    % if screen.editable and not readonly:
+    % if screen.editable and not readonly and view_type == 'tree':
         % if name == source:
             <script type="text/javascript">
                 new One2Many('${name}', jQuery('table.one2many[id=_o2m_${name}]').attr('detail')).create();
