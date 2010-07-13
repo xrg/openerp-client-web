@@ -34,7 +34,7 @@
 
             jQuery('.open-close-menu').click(function() {
                 jQuery('#content').toggleClass('hide-menu');
-                if (CAL_INSTANCE != "undefined") {
+                if (CAL_INSTANCE && CAL_INSTANCE != "undefined") {
                     CAL_INSTANCE.onResize();
                 }
             });

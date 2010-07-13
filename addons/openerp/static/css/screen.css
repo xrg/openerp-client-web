@@ -919,18 +919,22 @@ div.filter-a ul.filter_with_icon {
     float: left;
     list-style: none;
     padding: 0;
-    border: 1px solid #cccbcb;
+}
+
+div ul.filter_with_icon {
+	border-width: 1px 0px 1px 0.5px;
+    border-style: solid;
+    border-color: #cccbcb;
 }
 
 td.first_box div ul.filter_with_icon {
-	border: 1px solid #cccbcb;
 	border-radius: 7px;
     -moz-border-radius-bottomleft: 7px;
     -moz-border-radius-topleft: 7px;
 }
 
 td.last_box div ul.filter_with_icon {
-	border: 1px solid #cccbcb;
+	border-right: 1px solid #cccbcb;
 	border-radius: 7px;
 	-moz-border-radius-bottomright: 7px;
     -moz-border-radius-topright: 7px;
