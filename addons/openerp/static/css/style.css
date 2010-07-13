@@ -524,17 +524,10 @@ td.item input {
     -moz-border-radius-bottomright: 3px;
     -moz-border-radius-topleft: 3px;
     -moz-border-radius-topright: 3px;
-    padding: 1px 3px;
+    padding: 2px 3px;
     background: #FFFFFF none repeat scroll 0 0;
     border: 1px solid #CECBCB;
     vertical-align: middle;
-}
-
-table#m2o_table td#m2o input {
-    height: 16px;
-    width: 100px;
-    position: relative;
-    border-right: none;
 }
 
 img.m2o_select {
@@ -542,11 +535,12 @@ img.m2o_select {
     -moz-border-radius-bottomright: 3px;
     -moz-border-radius-topleft: 3px;
     -moz-border-radius-topright: 3px;
-    border: 1px solid #CECBCB;
+    margin-left: -21px;
+}
+img.m2o_select,
+img.m2o_open {
     vertical-align: middle;
-    margin-left: -4px;
-    height: 18px;
-    border-left: none;
+    cursor: pointer;
 }
 
 td.item select {

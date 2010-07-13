@@ -196,32 +196,13 @@ ListView.prototype = {
 MochiKit.Base.update(ListView.prototype, {
 
     adjustEditors: function(newlist) {
-
         var editors = this.getEditors(false, newlist);
-        forEach(editors, function(e) {
-            // disable autocomplete (Firefox < 2.0 focus bug)
-            setNodeAttribute(e, 'autocomplete', 'OFF');
+        jQuery(editors).each(function(){
+        	var e = jQuery(this);
+        	var c = e.parent('.grid-cell');
+        	e.attr('autocomplete', 'OFF').width(c.width());
         });
-
-        if (/MSIE/.test(navigator.userAgent)) {
-            return editors;
-        }
-
-        var columnWidths = {};
-        // set the column widths of the newlist
-        forEach(this.getColumns(), function(c) {
-            columnWidths[c.id] = parseInt(c.offsetWidth) - 8;
-        });
-
-        forEach(this.getColumns(newlist), function(c) {
-            c.style.width = columnWidths[c.id] + 'px';
-        });
-
-        var editorWidths = {};
-        forEach(this.getEditors(), function(e) {
-            editorWidths[e.id] = parseInt(e.offsetWidth);
-        });
-
+        
         return editors;
     },
 
@@ -487,7 +468,7 @@ MochiKit.Base.update(ListView.prototype, {
             return this.save(this.current_record);
         }
 
-        var editors = openobject.dom.select('listfields', this.name);
+        var editors = jQuery('#' + this.name + ' .listfields').get();
 
         var first = editors.shift();
         var last = editors.pop();
@@ -777,12 +758,6 @@ MochiKit.Base.update(ListView.prototype, {
             
             var newlist = getElementsByTagAndClassName('table', 'gridview', d)[0];
             
-            var editors = self.adjustEditors(newlist);
-
-            if (editors.length > 0) {
-                self.bindKeyEventsToEditors(editors);
-            }
-
             self.current_record = edit_inline;
 		    var __listview = openobject.dom.get(self.name).__listview;
 		    if(clear) {
@@ -790,24 +765,15 @@ MochiKit.Base.update(ListView.prototype, {
 		    } 
 		    else {
 		      swapDOM(self.name, newlist);
-		    } 
-		     openobject.dom.get(self.name).__listview = __listview;
-			
-            var ua = navigator.userAgent.toLowerCase();
-
-            if ((navigator.appName != 'Netscape') || (ua.indexOf('safari') != -1)) {
-                // execute JavaScript
-                if(clear) {
-                	var scripts = openobject.dom.select('script', d.innerHTML);
-                }
-                else {
-                    var scripts = openobject.dom.select('script', newlist);
-                }
-                forEach(scripts, function(s) {
-                    eval(s.innerHTML);
-                });
+		    }
+		    
+		    var editors = self.adjustEditors(newlist);
+            if (editors.length > 0) {
+                self.bindKeyEventsToEditors(editors);
             }
-
+		    
+		    openobject.dom.get(self.name).__listview = __listview;
+			
             // update concurrency info
             for (var key in obj.info) {
                 try {
