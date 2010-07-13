@@ -13,6 +13,7 @@
 
     <script type="text/javascript">
         var DOCUMENT_TO_LOAD = "${load_content}";
+        var CAL_INSTANCE = null;
         
         jQuery(document).ready(function() {
             var total_width = 0;
