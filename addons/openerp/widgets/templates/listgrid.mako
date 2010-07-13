@@ -110,7 +110,7 @@ import cherrypy
 	        			    <td class="pager-cell-button">
 	        			        % if m2m:
 	        			            <button title="${_('Add records...')}" id="${name}_button1"
-                                            onclick="open_search_window(jQuery('#_m2m_${name}').attr('relation'), jQuery('#_m2m_${name}').attr('domain'), jQuery('#_m2m_${name}').attr('context'),'${name}', 2, jQuery('#${name}_set').val()); return false;"
+                                            onclick="open_search_window(jQuery('[id=_m2m_${name}]').attr('relation'), jQuery('[id=_m2m_${name}]').attr('domain'), jQuery('#_m2m_${name}').attr('context'),'${name}', 2, jQuery('[id=${name}_set]').val()); return false;"
                                         >${_('add')}</button>
 	        			        % elif o2m:
 	        			            <button title="${_('Create new record.')}" id="${name}_btn_"
