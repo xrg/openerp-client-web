@@ -64,6 +64,8 @@ class M2O(TinyInputWidget):
 
         if value and isinstance(value, (tuple, list)):
             self.default, self.text = value
+        elif value and isinstance(value, basestring):
+            self.text = value
         else:
             self.default = value
             self.text = rpc.name_get(self.relation, self.default)

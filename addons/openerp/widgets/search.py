@@ -406,8 +406,6 @@ class Search(TinyInputWidget):
                     if name:
                         default_search = get_search_default(fields[name], self.context, self.domain)
                         if default_search:
-                            if name in values:
-                               values[name] = default_search  
                             domain = []
                             field.set_value(default_search)
                             if field.kind == 'char':
