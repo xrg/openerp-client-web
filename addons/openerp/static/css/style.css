@@ -504,11 +504,16 @@ table.o2m_box div.pagerbar-header strong {
     background-color: turquoise;
 }
 
+td.label,
+td.item {
+    padding: 4px 2px;
+}
+
 td.label {
     color: #777777;
-    font-size: 10px;
     font-weight: bold;
     text-transform: uppercase;
+    text-align: right;
     white-space: nowrap;
 }
 
