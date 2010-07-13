@@ -1,8 +1,11 @@
 .search_filters {
-    padding: 0;
     white-space: nowrap;
     border-collapse: separate;
     width: auto;
+}
+
+.search_filters.group_box {
+    padding: 0 !important;
 }
 
 td.search_fields {
@@ -18,6 +21,7 @@ table.view {
 
 table#search_table td {
     font-weight: bold;
+    text-align: left !important;
 }
 
 .filter_item {
