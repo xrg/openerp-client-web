@@ -131,7 +131,7 @@ class Frame(TinyInputWidget):
                                     
                     else:
                         if ch > 0 and ch-1 in self.filter_boxes:
-                            if row[ch -1][1].string:
+                            if isinstance(row[ch-1][1], Filter) and row[ch -1][1].string :
                                 row[ch -1][0]['class'] = row[ch -1][0]['class'] + ' last_box'
                             
                     
