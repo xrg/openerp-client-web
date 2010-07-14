@@ -70,8 +70,6 @@ function add_filter_row() {
         });
 
         old_tr.after(new_tr);
-
-        new_tr.keydown(onKeyDown_search);
     }
 }
 
@@ -89,32 +87,6 @@ function remove_filter_row(element) {
             node.prev().find('[id^=and_or]').remove();
         }
         node.remove();
-    }
-}
-
-function onKey_Event() {
-	
-	var dom = openobject.dom.get('search_filter_data');
-	
-	var editors = [];
-	
-	editors = editors.concat(getElementsByTagAndClassName('input', null, dom));
-    editors = editors.concat(getElementsByTagAndClassName('select', null, dom));
-    editors = editors.concat(getElementsByTagAndClassName('textarea', null, dom));
-    
-    var active_editors = filter(function(e){
-        return e.type != 'hidden' && !e.disabled
-    }, editors);
-
-    jQuery(active_editors).each(function(i, e){
-        jQuery(e).keydown(onKeyDown_search);
-    });
-}
-
-var ENTER_KEY = 13;
-function onKeyDown_search(e) {
-    if (e.which == ENTER_KEY){
-    	search_filter();
     }
 }
 
@@ -409,6 +381,17 @@ function expand_group_option(id, element) {
             action);
 }
 
+
+var ENTER_KEY = 13;
+function search_on_return(e) {
+    if (e.which == ENTER_KEY){
+        // Avoid submitting form when using RETURN on a random form element
+        if(!jQuery(e.target).is('button')) {
+            e.preventDefault();
+        }
+    	search_filter();
+    }
+}
 jQuery(document).ready(function() {
     var filter_table = jQuery('#filter_table');
     var fil_dom = jQuery('#_terp_filter_domain');
@@ -417,5 +400,5 @@ jQuery(document).ready(function() {
             (fil_dom.length && fil_dom.val() != '[]')) {
         filter_table.show();
     }
-    onKey_Event();
+    jQuery('#search_filter_data').keydown(search_on_return);
 });
