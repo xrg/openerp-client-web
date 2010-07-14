@@ -304,7 +304,12 @@ import cherrypy
 	                                new ListView('${name}').edit(record_id);
 	                            }
 	                            else {
-	                                new One2Many('${name}', jQuery('table.one2many[id$=${name}]').attr('detail')).create();
+	                                if ('${name}' == '_terp_list'){
+	                                   new ListView('_terp_list').create(); return false;
+	                                }
+	                                else{
+	                                   new One2Many('${name}', jQuery('table.one2many[id$=${name}]').attr('detail')).create();
+	                                }
 	                            }
 	                        }
 	                    });
