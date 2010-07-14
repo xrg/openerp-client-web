@@ -304,7 +304,7 @@ function parse_filters(src, id) {
     check_domain = checked_button.length > 0? checked_button.replace(/(]\,\[)/g, ', ') : 'None';
     all_domains['check_domain'] = check_domain;
     
-    if ($('filter_list')) {
+    if (openobject.dom.get('filter_list')) {
         all_domains['selection_domain'] = jQuery('#filter_list').val();
     }
     

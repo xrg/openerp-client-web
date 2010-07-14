@@ -366,7 +366,7 @@ button.static_boxes:hover, button.static_boxes:focus, button.static_boxes:active
 	border-color: #676767 #676767 #676767;
     background: #CCCCCC;
     color: #5A5858;
-    font-weight: normal;
+    font-weight: bold;
 }
 
 div.box,div.box2 {
