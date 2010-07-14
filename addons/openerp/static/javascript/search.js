@@ -187,8 +187,7 @@ function parse_filters(src, id) {
     var all_boxes = [];
     var domain = 'None';
     var set_filter = jQuery(id).find("a")[0];
-    
-    var filter_class = jQuery(set_filter).attr('class');
+
     var check_groups = jQuery('#_terp_group_by_ctx').val();
     if(check_groups!='[]') {
         check_groups = eval(check_groups)
@@ -199,36 +198,35 @@ function parse_filters(src, id) {
         }   
     }
     if(src) {
-        if(filter_class == 'active') {
-        	jQuery(src).closest('td').removeClass('grop_box_active');
-            jQuery(src).attr('checked',false);
+        var source = jQuery(src);
+        if(jQuery(set_filter).hasClass('active')) {
+            source.closest('td').removeClass('grop_box_active');
+            source.attr('checked', false);
             group_by = jQuery.grep(group_by, function(grp) {
                 return grp != jQuery(src).attr('group_by_ctx');
             });
 
-            jQuery(set_filter).attr('class', 'inactive');
-            jQuery(id).attr('class', 'inactive_filter');
-            
-            if(jQuery(src).attr('filter_context') && jQuery(src).attr('filter_context')!='{}') {
+
+            if(source.attr('filter_context') && jQuery(src).attr('filter_context') != '{}') {
                 var filter_index = jQuery.inArray(jQuery(src).attr('filter_context'), filter_context);
                 if(filter_index >= 0) {
                     filter_context.splice(filter_index, 1);
                 }
             }
         } else {
-        	jQuery(src).closest('td').addClass('grop_box_active');
-            jQuery(src).attr('checked',true);
-            jQuery(set_filter).attr('class', 'active');
-            jQuery(id).attr('class', 'active_filter');
+            source.closest('td').addClass('grop_box_active');
+            source.attr('checked', true);
 
-            if(jQuery(src).attr('group_by_ctx') && jQuery(src).attr('group_by_ctx')!='False' && jQuery(src).attr('group_by_ctx')!='') {
-                group_by.push(jQuery(src).attr('group_by_ctx'));
+            if(source.attr('group_by_ctx') && source.attr('group_by_ctx') != 'False' && source.attr('group_by_ctx') != '') {
+                group_by.push(source.attr('group_by_ctx'));
             }
-            
-            if(jQuery(src).attr('filter_context') && jQuery(src).attr('filter_context')!='{}') {
-                filter_context.push(jQuery(src).attr('filter_context'));
+
+            if(source.attr('filter_context') && source.attr('filter_context') != '{}') {
+                filter_context.push(source.attr('filter_context'));
             }
         }
+        jQuery(set_filter).toggleClass('active inactive');
+        jQuery(id).toggleClass('active_filter inactive_filter');
     }
     
     jQuery('#_terp_filters_context').val(filter_context);
@@ -277,9 +275,10 @@ function parse_filters(src, id) {
 
 function search_filter(src, id) {
 	var all_domains = parse_filters(src, id);
-    if(jQuery('#filter_table').is(':visible') || jQuery('#_terp_filter_domain').val() != '[]') {
-        if (jQuery('#filter_table').is(':hidden')){
-            jQuery('#filter_table').show();
+    var filters = jQuery('#filter_table');
+    if(filters.is(':visible') || jQuery('#_terp_filter_domain').val() != '[]') {
+        if (filters.is(':hidden')){
+            filters.show();
         }
         display_Customfilters(all_domains, group_by);
     } else {
@@ -291,8 +290,11 @@ function search_filter(src, id) {
 function save_filter() {
     var domain_list = parse_filters();
     var custom_domain = jQuery('#_terp_filter_domain').val() || '[]';
-    var params = {'all_domains': domain_list, 'source': '_terp_list', 'custom_domain': custom_domain, 'group_by_ctx': group_by}
-    var req = openobject.http.postJSON('/openerp/search/eval_domain_filter', params);
+    var req = openobject.http.postJSON('/openerp/search/eval_domain_filter', {
+        'all_domains': domain_list,
+        'source': '_terp_list',
+        'custom_domain': custom_domain,
+        'group_by_ctx': group_by});
     req.addCallback(function(obj) {
         var sf_params = {'model': jQuery('#_terp_model').val(), 'domain': obj.domain, 'group_by': group_by, 'flag': 'sf'};
         openobject.tools.openWindow(openobject.http.getURL('/openerp/search/save_filter', sf_params), {
@@ -304,8 +306,8 @@ function save_filter() {
 }
 
 function manage_filters() {
-    var params = {'model': jQuery('#_terp_model').val()}
-    openLink(openobject.http.getURL('/openerp/search/manage_filter', params));
+    openLink(openobject.http.getURL('/openerp/search/manage_filter', {
+        'model': jQuery('#_terp_model').val()}));
 }
 
 function final_search_domain(custom_domain, all_domains, group_by_ctx) {
