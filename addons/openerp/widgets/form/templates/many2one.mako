@@ -15,7 +15,7 @@
     <img id="${name}_select" alt="${_('Search')}" title="${_('Search')}"
         src="/openerp/static/images/fields-a-lookup-a.gif" class="${css_class} m2o_select"/>
 	<img id="${name}_open" alt="${_('Open')}" title="${_('Open a resource')}"
-	   src="/openerp/static/images/iconset-d-drop.gif" class="${css_class} m2o_open"/>
+	   src="/openerp/static/images/iconset-d-drop.gif" class="m2o_open"/>
 	% endif
 </div>
 % endif
