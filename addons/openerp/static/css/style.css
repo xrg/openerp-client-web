@@ -530,15 +530,20 @@ td.item table.fields {
     width: 100%;
 }
 
-td.item input {
+td.item input,
+td.item select,
+td.item textarea {
     -moz-border-radius-bottomleft: 3px;
     -moz-border-radius-bottomright: 3px;
     -moz-border-radius-topleft: 3px;
     -moz-border-radius-topright: 3px;
-    padding: 2px 3px;
     background: #FFFFFF none repeat scroll 0 0;
     border: 1px solid #CECBCB;
     vertical-align: middle;
+}
+    
+td.item input {
+    padding: 2px 3px;
 }
 
 td.item input.m2o,
@@ -548,26 +553,13 @@ td.item input.reference {
 }
 
 img.m2o_select {
-    -moz-border-radius-bottomleft: 3px;
-    -moz-border-radius-bottomright: 3px;
-    -moz-border-radius-topleft: 3px;
-    -moz-border-radius-topright: 3px;
     margin-left: -21px;
 }
+
 img.m2o_select,
 img.m2o_open {
     vertical-align: middle;
     cursor: pointer;
-}
-
-td.item select {
-    -moz-border-radius-bottomleft: 3px;
-    -moz-border-radius-bottomright: 3px;
-    -moz-border-radius-topleft: 3px;
-    -moz-border-radius-topright: 3px;
-    background: #FFFFFF none repeat scroll 0 0;
-    border: 1px solid #CECBCB;
-    vertical-align: middle;
 }
 
 td.item ul.item-wrapper {
@@ -602,7 +594,6 @@ td.item .checkbox,td.item .radio {
 
 #view_form .translatable {
     background: url(../images/stock/stock_translate.png) no-repeat right center;
-    padding-right: 18px;
 }
 
 #view_form .fielderror,
