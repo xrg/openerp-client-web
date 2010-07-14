@@ -509,7 +509,7 @@ table.o2m_box div.pagerbar-header strong {
 
 td.label,
 td.item {
-    padding: 4px 2px;
+    padding: 4px;
     white-space: nowrap;
 }
 
@@ -526,6 +526,10 @@ td.item select {
     min-width: 150px;
 }
 
+td.item table.fields {
+    width: 100%;
+}
+
 td.item input {
     -moz-border-radius-bottomleft: 3px;
     -moz-border-radius-bottomright: 3px;
@@ -535,6 +539,12 @@ td.item input {
     background: #FFFFFF none repeat scroll 0 0;
     border: 1px solid #CECBCB;
     vertical-align: middle;
+}
+
+td.item input.m2o,
+td.item input.reference {
+    padding-right: 18px;
+    min-width: 132px;
 }
 
 img.m2o_select {
@@ -592,6 +602,7 @@ td.item .checkbox,td.item .radio {
 
 #view_form .translatable {
     background: url(../images/stock/stock_translate.png) no-repeat right center;
+    padding-right: 18px;
 }
 
 #view_form .fielderror,
@@ -748,11 +759,6 @@ table.serverLogHeader {
 
 div#serverlog a {
     color: #511712;
-}
-
-table.reference td {
-    padding: 0;
-    white-space: nowrap;
 }
 
 .pager-cell-button {
