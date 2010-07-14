@@ -410,7 +410,7 @@ class Search(TinyInputWidget):
                             field.set_value(default_search)
                             if field.kind == 'char':
                                 domain = [(name,fields[name].get('comparator','ilike'),default_search)]
-                            if field.kind == 'selection':
+                            if field.kind == 'selection' or field.kind == 'many2one':
                                 domain = [(name, '=', default_search)]
                             self.listof_domain += [i for i in domain if not i in self.listof_domain]
     
