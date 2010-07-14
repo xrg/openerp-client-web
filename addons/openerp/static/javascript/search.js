@@ -91,11 +91,6 @@ function remove_filter_row(element) {
         node.remove();
     }
 }
-// Direct click on icon.
-function search_image_filter(src, id) {
-	domain = getNodeAttribute(id, 'value');
-	search_filter(src);
-}
 
 function onKey_Event() {
 	
@@ -125,21 +120,18 @@ function onKeyDown_search(e) {
 
 function display_Customfilters(all_domains, group_by_ctx){
 
-	var filter_table = getElement('filter_table');
-	
-	var params = {};
+    var params = {};
 	var record = {};
-	
-	children = MochiKit.DOM.getElementsByTagAndClassName('tr', 'filter_row_class', filter_table);
-	forEach(children, function(ch){
-		
-		var ids = ch['id'];	// row id...
+
+    jQuery('#filter_table tr.filter_row_class').each(function () {
+		var ids = this.id;	// row id...
 		var id = ids.split('/')[1];
 		var qid = 'qstring/' + id;
 		var fid = 'filter_fields/' + id;
-		var eid = 'expr/' + id;
+
+        var rec = null;
 		if ($(qid) && $(qid).value) {
-			var rec = {};
+			rec = {};
 			rec[$(fid).value] = $(qid).value;
 			params['_terp_model'] = openobject.dom.get('_terp_model').value;
 		}
@@ -270,9 +262,8 @@ function parse_filters(src, id) {
     jQuery('#_terp_filters_context').val(filter_context);
     
     var filter_table = getElement('filter_table');
-    datas = $$('[name]', 'search_filter_data');
-    
-    forEach(datas, function(d) {
+    forEach($$('[name]', 'search_filter_data'), function(d) {
+        var value;
         if (d.type != 'checkbox' && d.name && d.value && d.name.indexOf('_terp_') == -1  && d.name != 'filter_list') {
             value = d.value;
             if (getNodeAttribute(d, 'kind') == 'selection') {
@@ -289,10 +280,10 @@ function parse_filters(src, id) {
         }
     });
     domains = serializeJSON(domains);
-//  search_context = serializeJSON(search_context);
+
     all_domains['domains'] = domains;
     all_domains['search_context'] =  search_context;
-    selected_boxes = getElementsByTagAndClassName('input', 'grid-domain-selector');
+    var selected_boxes = getElementsByTagAndClassName('input', 'grid-domain-selector');
     
     forEach(selected_boxes, function(box){
         if (box.id && box.checked && box.value != '[]') {
@@ -300,7 +291,7 @@ function parse_filters(src, id) {
         }
     });
     
-    checked_button = all_boxes.toString();
+    var checked_button = all_boxes.toString();
     check_domain = checked_button.length > 0? checked_button.replace(/(]\,\[)/g, ', ') : 'None';
     all_domains['check_domain'] = check_domain;
     
@@ -313,21 +304,21 @@ function parse_filters(src, id) {
 }
 
 function search_filter(src, id) {
-	all_domains = parse_filters(src, id);
+	var all_domains = parse_filters(src, id);
     if(jQuery('#filter_table').is(':visible') || jQuery('#_terp_filter_domain').val() != '[]') {
         if (jQuery('#filter_table').is(':hidden')){
             jQuery('#filter_table').show();
         }
         display_Customfilters(all_domains, group_by);
     } else {
-        custom_domain = jQuery('#_terp_filter_domain').val() || '[]';
+        var custom_domain = jQuery('#_terp_filter_domain').val() || '[]';
         final_search_domain(custom_domain, all_domains, group_by);
     }
 }
 
 function save_filter() {
-    domain_list = parse_filters()
-    custom_domain = jQuery('#_terp_filter_domain').val() || '[]';
+    var domain_list = parse_filters();
+    var custom_domain = jQuery('#_terp_filter_domain').val() || '[]';
     var params = {'all_domains': domain_list, 'source': '_terp_list', 'custom_domain': custom_domain, 'group_by_ctx': group_by}
     var req = openobject.http.postJSON('/openerp/search/eval_domain_filter', params);
     req.addCallback(function(obj) {
@@ -418,17 +409,13 @@ function expand_group_option(id, element) {
             action);
 }
 
-jQuery(document).ready(function(){
+jQuery(document).ready(function() {
+    var filter_table = jQuery('#filter_table');
+    var fil_dom = jQuery('#_terp_filter_domain');
 
-	var filter_table = openobject.dom.get('filter_table');
-	var fil_dom = openobject.dom.get('_terp_filter_domain');
-
-	if (filter_table) {
-		if(filter_table.style.display == '' || fil_dom && fil_dom.value != '[]') {
-			if(filter_table.style.display == 'none'){
-				filter_table.style.display = '';
-			}
-		}
-	}
-	onKey_Event();	
+    if((filter_table.length && filter_table.is(':hidden')) &&
+            (fil_dom.length && fil_dom.val() != '[]')) {
+        filter_table.show();
+    }
+    onKey_Event();
 });
