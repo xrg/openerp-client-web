@@ -325,7 +325,7 @@ function search_filter(src, id) {
     }
 }
 
-function save_as_filter() {
+function save_filter() {
     domain_list = parse_filters()
     custom_domain = jQuery('#_terp_filter_domain').val() || '[]';
     var params = {'all_domains': domain_list, 'source': '_terp_list', 'custom_domain': custom_domain, 'group_by_ctx': group_by}

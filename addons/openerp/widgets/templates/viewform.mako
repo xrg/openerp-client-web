@@ -38,9 +38,9 @@
                             onclick="new ListView('_terp_list').clear(); return false;"
                             >${_("Clear")}</button>
                     <div class="custom-filter">
-                        <button title="${_('Save as Filters.')}"
-                                onclick="save_as_filter(); return false;"
-                                >${_("Save as Filter")}</button>
+                        <button title="${_('Save Filter.')}"
+                                onclick="save_filter(); return false;"
+                                >${_("Save Filter")}</button>
                         <button title="${_('Manage Filter.')}"
                                 onclick="manage_filters(); return false;"
                                 >${_("Manage Filters")}</button>
