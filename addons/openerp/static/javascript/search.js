@@ -358,30 +358,6 @@ function final_search_domain(custom_domain, all_domains, group_by_ctx) {
 	});
 }
 
-/**
- * @event groupby-toggle triggered when changing the display state of the groupby options
- *  @target #search_filter_data the element holding the filter rows
- *  @argument 'the action performed ("expand" or "collapse")
- */
-function expand_group_option(id, element) {
-    var groupbyElement = getElement(id);
-    var action;
-    if (groupbyElement.style.display == '') {
-        groupbyElement.style.display = 'none';
-        element.className = 'group-expand';
-        action = 'collapse';
-    } else {
-        groupbyElement.style.display = '';
-        element.className = 'group-collapse';
-        action = 'expand';
-    }
-    MochiKit.Signal.signal(
-            $('search_filter_data'),
-            'groupby-toggle',
-            action);
-}
-
-
 var ENTER_KEY = 13;
 function search_on_return(e) {
     if (e.which == ENTER_KEY){
