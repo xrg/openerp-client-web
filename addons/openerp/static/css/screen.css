@@ -922,22 +922,24 @@ div.filter-a ul.filter_with_icon {
 }
 
 div ul.filter_with_icon {
-	border-width: 1px 0px 1px 0.5px;
+	border-width: 1px 1px 1px 0;
     border-style: solid;
     border-color: #cccbcb;
 }
 
 td.first_box div ul.filter_with_icon {
-	border-radius: 7px;
+	border-left: 1px solid #cccbcb;
     -moz-border-radius-bottomleft: 7px;
     -moz-border-radius-topleft: 7px;
+    -webkit-border-top-left-radius:  7px;
+    -webkit-border-bottom-left-radius:  7px;
 }
 
 td.last_box div ul.filter_with_icon {
-	border-right: 1px solid #cccbcb;
-	border-radius: 7px;
 	-moz-border-radius-bottomright: 7px;
     -moz-border-radius-topright: 7px;
+    -webkit-border-top-right-radius:  7px;
+    -webkit-border-bottom-right-radius:  7px;
 }
 
 div.filter-a ul.filter_icon {
