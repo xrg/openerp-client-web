@@ -561,6 +561,21 @@ td.item select {
     vertical-align: middle;
 }
 
+td.item ul.item-wrapper {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+td.item ul.item-wrapper li {
+    list-style: none;
+    display: inline;
+}
+
+td.item ul.item-wrapper li img {
+    vertical-align: middle;
+}
+
 .resizable-textarea .grip {
     background: #EEEEEE url(../images/textarea-grip.png) no-repeat scroll center 2px;
     border-color: #DDDDDD;

@@ -1,23 +1,26 @@
 % if editable:
-<div>
-    <input type="hidden" id="${name}" name="${name}" class="${css_class}" value="${value}"
-        ${py.attrs(attrs, kind=kind, domain=domain, context=ctx, relation=relation)}/>
-    <input type="text" id="${name}_text" class="${css_class}"
-        ${py.attrs(attrs, kind=kind, relation=relation, value=text)}/>
-       
-    <input type="hidden" id="_hidden_${name}" value=""/>
-    <div id="autoCompleteResults_${name}" class="autoTextResults"></div>
-    % if error:
-    <span class="fielderror">${error}</span>
-    % endif
-
-    % if not inline:
-    <img id="${name}_select" alt="${_('Search')}" title="${_('Search')}"
-        src="/openerp/static/images/fields-a-lookup-a.gif" class="${css_class} m2o_select"/>
-	<img id="${name}_open" alt="${_('Open')}" title="${_('Open a resource')}"
-	   src="/openerp/static/images/iconset-d-drop.gif" class="m2o_open"/>
-	% endif
-</div>
+<ul class="item-wrapper">
+    <li>
+        <input type="hidden" id="${name}" name="${name}" class="${css_class}" value="${value}"
+            ${py.attrs(attrs, kind=kind, domain=domain, context=ctx, relation=relation)}/>
+        <input type="text" id="${name}_text" class="${css_class}"
+            ${py.attrs(attrs, kind=kind, relation=relation, value=text)}/>
+           
+        <input type="hidden" id="_hidden_${name}" value=""/>
+        <div id="autoCompleteResults_${name}" class="autoTextResults"></div>
+        % if error:
+        <span class="fielderror">${error}</span>
+        % endif
+    </li>
+    <li>
+        <img id="${name}_select" alt="${_('Search')}" title="${_('Search')}"
+            src="/openerp/static/images/fields-a-lookup-a.gif" class="${css_class} m2o_select"/>
+    </li>
+    <li>
+	    <img id="${name}_open" alt="${_('Open')}" title="${_('Open a resource')}"
+    	    src="/openerp/static/images/iconset-d-drop.gif" class="m2o_open"/>
+    </li>
+</ul>
 % endif
 
 % if editable:
