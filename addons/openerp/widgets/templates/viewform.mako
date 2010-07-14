@@ -37,16 +37,20 @@
                     <button title="${_('Clear all .')}" id="clear_all_filters" class="${css_clear}"
                             onclick="new ListView('_terp_list').clear(); return false;"
                             >${_("Clear")}</button>
-                    <button title="${_('Save as Filters.')}" onclick="save_as_filter(); return false;"
-                            >${_("Save as Filter")}</button>
-                    <button title="${_('Manage Filter.')}" onclick="manage_filters(); return false;"
-                            >${_("Manage Filters")}</button>
-                    <select class="custom-filter" name="filter_list" id="filter_list"
-                            onchange="search_filter(); return false;">
-                        % for f in search.filters_list:
-                        <option value="${f[0]}">${f[1]}</option>
-                        % endfor
-                    </select>
+                    <div class="custom-filter">
+                        <button title="${_('Save as Filters.')}"
+                                onclick="save_as_filter(); return false;"
+                                >${_("Save as Filter")}</button>
+                        <button title="${_('Manage Filter.')}"
+                                onclick="manage_filters(); return false;"
+                                >${_("Manage Filters")}</button>
+                        <select name="filter_list" id="filter_list"
+                                onchange="search_filter(); return false;">
+                            % for f in search.filters_list:
+                            <option value="${f[0]}">${f[1]}</option>
+                            % endfor
+                        </select>
+                    </div>
                 </div>
             </td>
         </tr>
