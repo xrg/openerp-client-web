@@ -105,9 +105,9 @@ class Search(Form):
         domain = kw.get('_terp_domain', [])
         context = params.context or {}
 
-        parent_context = params.parent_context or {}
-        parent_context.update(rpc.session.context.copy())
-        if 'group_by' in parent_context.keys():
+        parent_context = dict(params.parent_context or {},
+                              **rpc.session.context)
+        if 'group_by' in parent_context:
             if isinstance(params.group_by, str):
                 parent_context['group_by'] = [params.group_by]
             else:
@@ -252,33 +252,26 @@ class Search(Form):
 
         search_data = {}
         if domains:
-            for key in domains:
-                if '/' in key:
-                    check = key.split('/')
-                    if check[1] == 'from':
-                        domain.append((check[0], '>=', domains[key]))
-                        if check[0] in search_data.keys():
-                            search_data[check[0]]['from'] = domains[key]
-                        else:
-                            search_data[check[0]] = {'from': domains[key]}
+            for field, value in domains.iteritems():
+                if '/' in field:
+                    fieldname, bound = field.split('/')
 
-                    if check[1] == 'to':
-                        domain += [(check[0], '<=', domains[key])]
-                        if check[0] in search_data.keys():
-                            search_data[check[0]]['to'] = domains[key]
-                        else:
-                            search_data[check[0]] = {'to': domains[key]}
+                    if bound in ('from', 'to'):
+                        if bound == 'from': test = '>='
+                        else: test = '<='
 
-                if isinstance(domains[key], bool) and domains[key]:
-                    domains[key] = int(domains[key])
-                    search_data[key] = domains[key]
+                        domain.append((fieldname, test, value))
+                        search_data.setdefault(fieldname, {})[bound] = value
 
-                elif isinstance(domains[key], int) and not isinstance(domains[key], bool):
-                    domain.append((key, '=', domains[key]))
-                    search_data[key] = domains[key]
+                elif isinstance(value, bool) and value:
+                    search_data[field] = 1
+
+                elif isinstance(value, int) and not isinstance(value, bool):
+                    domain.append((field, '=', value))
+                    search_data[field] = value
                 else:
-                    domain.append((key, 'ilike', domains[key]))
-                    search_data[key] = domains[key]
+                    domain.append((field, 'ilike', value))
+                    search_data[field] = value
 
         inner_domain = []
         if custom_domains:
