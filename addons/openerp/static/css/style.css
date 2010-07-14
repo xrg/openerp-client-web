@@ -59,7 +59,6 @@ button:hover, .button:hover,
 button:focus, .button:focus,
 button:active, .button:active {
     background: #666;
-    color: black;
 }
 
 .toolbar button {
