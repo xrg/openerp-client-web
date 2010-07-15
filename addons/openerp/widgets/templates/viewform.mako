@@ -62,11 +62,14 @@
     % if screen.view_type == 'tree':
 	    <script type="text/javascript">
 	        jQuery(document).ready(function() {
-	            if(jQuery('#${name} div.filter-a').length) {
-	                jQuery('#${name} div.filter-a:first button').focus();
-	            }
+	           var filter_box_index = jQuery('#${name} div.filter-a').closest('td.item:first').index();
+	           var input_index = jQuery('#${name} input[type!="hidden"][type="text"]:first').closest('td.label').index();
+	           
+	           if(filter_box_index >= 0 && (filter_box_index <  input_index)) {
+                    jQuery('#${name} div.filter-a:first button').focus();
+	           }
 	            else {
-	                jQuery('#${name} input[type!="hidden"]:first').focus();
+                    jQuery('#${name} input[type!="hidden"][type="text"]:first').focus();
 	            }
 	        });
 	    </script>
