@@ -218,13 +218,10 @@ function parse_filters(src, id) {
     var all_domains = {};
     var check_domain = 'None';
     var domains = {};
-    
     var search_context = {};
     var all_boxes = [];
     var domain = 'None';
-    var set_filter = jQuery(id).find("a")[0];
     
-    var filter_class = jQuery(set_filter).attr('class');
     var check_groups = jQuery('#_terp_group_by_ctx').val();
     if(check_groups!='[]') {
         check_groups = eval(check_groups)
@@ -234,28 +231,14 @@ function parse_filters(src, id) {
             }
         }   
     }
+    
     if(src) {
-        if(filter_class == 'active') {
-        	jQuery(src).closest('td').removeClass('grop_box_active');
-            jQuery(src).attr('checked',false);
-            group_by = jQuery.grep(group_by, function(grp) {
-                return grp != jQuery(src).attr('group_by_ctx');
-            });
-
-            jQuery(set_filter).attr('class', 'inactive');
-            jQuery(id).attr('class', 'inactive_filter');
-            
-            if(jQuery(src).attr('filter_context') && jQuery(src).attr('filter_context')!='{}') {
-                var filter_index = jQuery.inArray(jQuery(src).attr('filter_context'), filter_context);
-                if(filter_index >= 0) {
-                    filter_context.splice(filter_index, 1);
-                }
-            }
-        } else {
-        	jQuery(src).closest('td').addClass('grop_box_active');
+    	
+    	if(jQuery(id).attr('class').indexOf('inactive') > 0) {
+    		
+    		jQuery(src).closest('td').addClass('grop_box_active');
             jQuery(src).attr('checked',true);
-            jQuery(set_filter).attr('class', 'active');
-            jQuery(id).attr('class', 'active_filter');
+            jQuery(id).attr('class', jQuery(id).attr('class').replace('inactive', 'active'))
 
             if(jQuery(src).attr('group_by_ctx') && jQuery(src).attr('group_by_ctx')!='False' && jQuery(src).attr('group_by_ctx')!='') {
                 group_by.push(jQuery(src).attr('group_by_ctx'));
@@ -264,7 +247,23 @@ function parse_filters(src, id) {
             if(jQuery(src).attr('filter_context') && jQuery(src).attr('filter_context')!='{}') {
                 filter_context.push(jQuery(src).attr('filter_context'));
             }
-        }
+    	}
+    	else {
+    		jQuery(src).closest('td').removeClass('grop_box_active');
+    		jQuery(src).attr('checked',false);
+    		jQuery(id).attr('class', jQuery(id).attr('class').replace('active', 'inactive'));
+    		
+    		group_by = jQuery.grep(group_by, function(grp) {
+                return grp != jQuery(src).attr('group_by_ctx');
+            });
+            
+            if(jQuery(src).attr('filter_context') && jQuery(src).attr('filter_context')!='{}') {
+                var filter_index = jQuery.inArray(jQuery(src).attr('filter_context'), filter_context);
+                if(filter_index >= 0) {
+                    filter_context.splice(filter_index, 1);
+                }
+            }
+    	}
     }
     
     jQuery('#_terp_filters_context').val(filter_context);
