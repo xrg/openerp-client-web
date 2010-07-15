@@ -370,7 +370,7 @@ function search_on_return(e) {
     	search_filter();
     }
 }
-jQuery(document).ready(function() {
+function initialize_search() {
     var filter_table = jQuery('#filter_table');
     var fil_dom = jQuery('#_terp_filter_domain');
 
@@ -379,4 +379,5 @@ jQuery(document).ready(function() {
         filter_table.show();
     }
     jQuery('#search_filter_data').keydown(search_on_return);
-});
+}
+jQuery(document).ready(initialize_search);

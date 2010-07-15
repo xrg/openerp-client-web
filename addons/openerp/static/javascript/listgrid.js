@@ -753,21 +753,17 @@ MochiKit.Base.update(ListView.prototype, {
             	jQuery('#clear_all_filters').addClass('inactive_clear');
             }
 
-            var d = DIV();
-            d.innerHTML = obj.view;
-            
-            var newlist = getElementsByTagAndClassName('table', 'gridview', d)[0];
-            
+            var newlist = jQuery(obj.view).find('table.gridview');
             self.current_record = edit_inline;
 		    var __listview = openobject.dom.get(self.name).__listview;
-		    if(clear) {
-		    	jQuery('#view_form').replaceWith(d.innerHTML);
-		    } 
-		    else {
-		      swapDOM(self.name, newlist);
-		    }
-		    
-		    var editors = self.adjustEditors(newlist);
+            if(clear) {
+                jQuery('#view_form').replaceWith(obj.view);
+                initialize_search();
+            } else {
+                jQuery('#' + self.name).replaceWith(newlist);
+            }
+
+            var editors = self.adjustEditors(newlist.get(0));
             if (editors.length > 0) {
                 self.bindKeyEventsToEditors(editors);
             }
