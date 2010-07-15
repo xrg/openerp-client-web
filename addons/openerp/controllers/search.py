@@ -105,9 +105,9 @@ class Search(Form):
         domain = kw.get('_terp_domain', [])
         context = params.context or {}
 
-        parent_context = params.parent_context or {}
-        parent_context.update(rpc.session.context.copy())
-        if 'group_by' in parent_context.keys():
+        parent_context = dict(params.parent_context or {},
+                              **rpc.session.context)
+        if 'group_by' in parent_context:
             if isinstance(params.group_by, str):
                 parent_context['group_by'] = [params.group_by]
             else:
@@ -157,13 +157,12 @@ class Search(Form):
 
 #           Fixed many2one pop up in listgrid when value is None.
             for key, val in context.items():
-                if val==None:
+                if val is None:
                     context[key] = False
                     
         if isinstance(context, dict):
             context = expr_eval(context, ctx)
 
-        ctx2 = parent_context
         parent_context.update(context)
         if not isinstance(params.group_by, list):
             params.group_by = [params.group_by]
@@ -176,7 +175,6 @@ class Search(Form):
         params, data = TinyDict.split(kw)
 
         model = params.model
-        context = rpc.session.context
 
         record = kw.get('record')
         record = eval(record)
@@ -189,7 +187,6 @@ class Search(Form):
         values = {}
 
         for key, val in record.items():
-            id = key
             for field in val:
                 fld = {}
                 datas = {}
@@ -229,8 +226,7 @@ class Search(Form):
         
         all_domains = kw.get('all_domains')
         custom_domains = kw.get('custom_domain')
-        model = kw.get('model')
-        
+
         all_domains = eval(all_domains)
 
         domains = all_domains.get('domains')
@@ -249,44 +245,33 @@ class Search(Form):
             ctx.update(context)
 
         domain = []
-        check_domain = []
         check_domain = all_domains.get('check_domain')
 
         if check_domain and isinstance(check_domain, basestring):
-            domain = expr_eval(check_domain, context)
-
-        if domain == None:
-            domain = []
+            domain = expr_eval(check_domain, context) or []
 
         search_data = {}
         if domains:
-            for key in domains:
-                if '/' in key:
-                    check = key.split('/')
-                    if check[1] == 'from':
-                        domain += [(check[0], '>=', domains[key])]
-                        if check[0] in search_data.keys():
-                            search_data[check[0]]['from'] = domains[key]
-                        else:
-                            search_data[check[0]] = {'from': domains[key]}
+            for field, value in domains.iteritems():
+                if '/' in field:
+                    fieldname, bound = field.split('/')
 
-                    if check[1] == 'to':
-                        domain += [(check[0], '<=', domains[key])]
-                        if check[0] in search_data.keys():
-                            search_data[check[0]]['to'] = domains[key]
-                        else:
-                            search_data[check[0]] = {'to': domains[key]}
+                    if bound in ('from', 'to'):
+                        if bound == 'from': test = '>='
+                        else: test = '<='
 
-                if isinstance(domains[key], bool) and domains[key]:
-                    domains[key] = int(domains[key])
-                    search_data[key] = domains[key]
+                        domain.append((fieldname, test, value))
+                        search_data.setdefault(fieldname, {})[bound] = value
 
-                elif isinstance(domains[key], int) and not isinstance(domains[key], bool):
-                    domain += [(key, '=', domains[key])]
-                    search_data[key] = domains[key]
+                elif isinstance(value, bool) and value:
+                    search_data[field] = 1
+
+                elif isinstance(value, int) and not isinstance(value, bool):
+                    domain.append((field, '=', value))
+                    search_data[field] = value
                 else:
-                    domain += [(key, 'ilike', domains[key])]
-                    search_data[key] = domains[key]
+                    domain.append((field, 'ilike', value))
+                    search_data[field] = value
 
         inner_domain = []
         if custom_domains:
@@ -307,7 +292,7 @@ class Search(Form):
 
             if tmp_domain :
                 cust_domain = tmp_domain.replace('][', ', ')
-                inner_domain += eval(cust_domain)
+                inner_domain.extend(eval(cust_domain))
 
                 if len(inner_domain)>1 and inner_domain[-2] in ['&','|']:
                     if len(inner_domain) == 2:
@@ -315,15 +300,10 @@ class Search(Form):
                     else:
                         inner_domain = inner_domain[:-2] + inner_domain[-1:]
 
-        if selection_domain:
-            if selection_domain in ['blk', 'sf', 'mf']:
-                if selection_domain == 'blk':
-                    selection_domain = []
-                
-            else:
-                selection_domain = expr_eval(selection_domain)
-                if selection_domain:
-                    domain += selection_domain
+        if selection_domain and selection_domain not in ['blk', 'sf', 'mf']:
+            selection_domain = expr_eval(selection_domain)
+            if selection_domain:
+                domain.extend(selection_domain)
 
         if not domain:
             domain = None
@@ -382,25 +362,16 @@ class Search(Form):
         return dict(name=rpc.name_get(model, id))
 
     @expose('json')
-    def get_matched(self, model, text, **kw):
+    def get_matched(self, model, text, limit=10, **kw):
         params, data = TinyDict.split(kw)
-        limit = kw.get('limit', 10)
 
-        domain = params.domain or []
-        context = params.context or {}
+        ctx = dict(rpc.session.context,
+                   **(params.context or {}))
 
-        ctx = rpc.session.context.copy()
-        ctx.update(context)
-
-        error = None
-        values = False
         try:
-            proxy = rpc.RPCProxy(model)
-            values = proxy.name_search(text, domain, 'ilike', ctx, int(limit))
+            return {
+                'values': rpc.RPCProxy(model).name_search(text, (params.domain or []), 'ilike', ctx, int(limit)),
+                'error': None
+            }
         except Exception, e:
-            error=ustr(e)
-
-        return dict(values=values, error= error)
-
-
-# vim: ts=4 sts=4 sw=4 si et
+            return {'error': ustr(e), 'values': False}
