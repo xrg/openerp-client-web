@@ -522,7 +522,6 @@ td.label {
 
 td.item input,
 td.item select {
-    /*width: 99%; */
     min-width: 150px;
 }
 
@@ -562,18 +561,13 @@ img.m2o_open {
     cursor: pointer;
 }
 
-td.item ul.item-wrapper {
-    list-style: none;
+td.item table.item-wrapper td {
     padding: 0;
-    margin: 0;
+    padding-right: 2px;
+    white-space: nowrap;
 }
 
-td.item ul.item-wrapper li {
-    list-style: none;
-    display: inline;
-}
-
-td.item ul.item-wrapper li img {
+td.item table.item-wrapper td img {
     vertical-align: middle;
 }
 

@@ -1,6 +1,7 @@
 % if editable:
-<ul class="item-wrapper reference">
-    <li>
+<table class="item-wrapper reference">
+<tr>
+    <td>
         <input type="hidden" id='${name}' name='${name}' class="${css_class}"
                 ${py.attrs(attrs, kind=kind, domain=domain, context=ctx, relation=relation, value=value)}/>
         <select id="${name}_reference" name='${name}'>
@@ -16,25 +17,26 @@
                 % endif
             % endfor
         </select>
-    </li>
-    <li>
+    </td>
+    <td>
         <input type="text" id='${name}_text' class="${css_class}"
             ${py.attrs(attrs, kind=kind, relation=relation, value=text)}/>
         % if error:
         <span class="fielderror">${error}</span>
 	    % endif
-	</li>
+	</td>
     % if not inline:
-    <li>
+    <td>
         <img id="${name}_select" alt="${_('Search')}" title="${_('Search')}"
             src="/openerp/static/images/fields-a-lookup-a.gif" class="${css_class} m2o_select"/>
-    </li>
+    </td>
     % endif
-    <li>
+    <td width="18px">
         <img id="${name}_open" alt="${_('Open')}" title="${_('Open a resource')}"
     	    src="/openerp/static/images/iconset-d-drop.gif" class="m2o_open"/>
-    </li>
-</ul>
+    </td>
+</tr>
+</table>
 % endif
 
 % if editable:

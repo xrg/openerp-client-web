@@ -1,6 +1,7 @@
 % if editable:
-<ul class="item-wrapper">
-    <li>
+<table class="item-wrapper">
+<tr>
+    <td>
         <input type="hidden" id="${name}" name="${name}" class="${css_class}" value="${value}"
             ${py.attrs(attrs, kind=kind, domain=domain, context=ctx, relation=relation)}/>
         <input type="text" id="${name}_text" class="${css_class}"
@@ -11,16 +12,17 @@
         % if error:
         <span class="fielderror">${error}</span>
         % endif
-    </li>
-    <li>
+    </td>
+    <td>
         <img id="${name}_select" alt="${_('Search')}" title="${_('Search')}"
             src="/openerp/static/images/fields-a-lookup-a.gif" class="${css_class} m2o_select"/>
-    </li>
-    <li>
+    </td>
+    <td class="item-image">
 	    <img id="${name}_open" alt="${_('Open')}" title="${_('Open a resource')}"
     	    src="/openerp/static/images/iconset-d-drop.gif" class="m2o_open"/>
-    </li>
-</ul>
+    </td>
+</tr>
+</table>
 % endif
 
 % if editable:
