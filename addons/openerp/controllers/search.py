@@ -362,25 +362,16 @@ class Search(Form):
         return dict(name=rpc.name_get(model, id))
 
     @expose('json')
-    def get_matched(self, model, text, **kw):
+    def get_matched(self, model, text, limit=10, **kw):
         params, data = TinyDict.split(kw)
-        limit = kw.get('limit', 10)
 
-        domain = params.domain or []
-        context = params.context or {}
+        ctx = dict(rpc.session.context,
+                   **(params.context or {}))
 
-        ctx = rpc.session.context.copy()
-        ctx.update(context)
-
-        error = None
-        values = False
         try:
-            proxy = rpc.RPCProxy(model)
-            values = proxy.name_search(text, domain, 'ilike', ctx, int(limit))
+            return {
+                'values': rpc.RPCProxy(model).name_search(text, (params.domain or []), 'ilike', ctx, int(limit)),
+                'error': None
+            }
         except Exception, e:
-            error=ustr(e)
-
-        return dict(values=values, error= error)
-
-
-# vim: ts=4 sts=4 sw=4 si et
+            return {'error': ustr(e), 'values': False}
