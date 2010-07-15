@@ -523,7 +523,24 @@ class Form(SecuredController):
 
             if isinstance(res, dict):
                 from openerp.controllers import actions
-                return actions.execute(res, ids=[id])
+                result = actions.execute(res, ids=[id])
+                
+                if result is None or type(result) == type({}):
+                    return """<html>
+                                <head>
+                                    <script type="text/javascript">
+                                        window.onload = function(evt){
+                                            if (window.opener) {
+                                                window.opener.setTimeout("window.location.reload()", 0);
+                                                window.close();
+                                            } else {
+                                                window.location.href = '/';
+                                            }
+                                        }
+                                    </script>
+                                </head>
+                                <body></body>
+                            </html>"""
 
         elif btype == 'action':
             from openerp.controllers import actions
