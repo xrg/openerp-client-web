@@ -650,15 +650,13 @@ function eval_domain_context_request(options) {
     if (prefix[0] == '_terp_listfields') {
         prefix.shift();
     }
-    prefix = prefix.join('/');
-
-    var params = getFormData(1);
-
-    params['_terp_domain'] = options.domain;
-    params['_terp_context'] = options.context;
-    params['_terp_prefix'] = prefix;
-    params['_terp_active_id'] = prefix ? openobject.dom.get(prefix + '/_terp_id').value : openobject.dom.get('_terp_id').value;
-    params['_terp_active_ids'] = prefix ? openobject.dom.get(prefix + '/_terp_ids').value : openobject.dom.get('_terp_ids').value;
+    var params = jQuery.extend(getFormData(1), {
+        '_terp_domain': options.domain,
+        '_terp_context': options.context,
+        '_terp_prefix': prefix.join('/'),
+        '_terp_active_id': openobject.dom.get(prefix.concat('_terp_id').join('/')).value,
+        '_terp_active_ids': openobject.dom.get(prefix.concat('_terp_ids').join('/')).value
+    });
 
     if(options.group_by_ctx && options.group_by_ctx.length > 0)
         params['_terp_group_by'] = options.group_by_ctx;
@@ -670,7 +668,7 @@ function eval_domain_context_request(options) {
         params['_terp_active_ids'] = options.active_ids;
     }
 
-    var parent_context = prefix ? openobject.dom.get(prefix + '/_terp_context') : openobject.dom.get('_terp_context');
+    var parent_context = openobject.dom.get(prefix.concat('_terp_context').join('/'));
 
     if (parent_context) {
         params['_terp_parent_context'] = parent_context.value;
@@ -725,18 +723,7 @@ function open_search_window(relation, domain, context, source, kind, text) {
     });
 }
 
-function showCustomizeMenu(src, elem) {
-
-	var pos = jQuery('#show_customize_menu').position();
-	var left_position = pos.left - 50 + 'px';
-
-    jQuery('#'+elem).css('left', left_position);
-    jQuery('#'+elem).slideToggle('slow');
-}
-
 function makeContextMenu(id, kind, relation, val) {
-
-    var form = document.forms['view_form'];
     var act = get_form_action('get_context_menu');
 
     var prefix = id.indexOf('/') > -1 ? id.slice(0, id.lastIndexOf('/')) + '/' : '';
