@@ -59,7 +59,7 @@
             <td valign="top">${display_member(screen)}</td>
         </tr>
     </table>
-    % if self.screen.view_type == 'tree':
+    % if screen.view_type == 'tree':
 	    <script type="text/javascript">
 	        jQuery(document).ready(function() {
 	            if(jQuery('#${name} div.filter-a').length) {
