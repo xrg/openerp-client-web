@@ -248,7 +248,7 @@ class Search(Form):
         check_domain = all_domains.get('check_domain')
 
         if check_domain and isinstance(check_domain, basestring):
-            domain = expr_eval(check_domain, context)
+            domain = expr_eval(check_domain, context) or []
 
         search_data = {}
         if domains:
