@@ -102,7 +102,7 @@
 			                    		% endfor
 				                    	<tr>
 				                    		<td style="padding: 0 0 0 10px;">
-				                    			<a style="color: blue; font-weight: bold;" href="javascript: void();"
+				                    			<a style="color: blue; font-weight: bold;" href="javascript: void(0);"
 				                    			   onclick="jQuery('#more_logs').slideToggle('slow')">
 				                    				More...
 				                    			</a>
