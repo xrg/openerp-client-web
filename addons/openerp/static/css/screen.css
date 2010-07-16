@@ -995,6 +995,17 @@ div.login_footer-a div {
     color: #777777;
 }
 
+div.footer-a {
+	border-top: 1px solid black; 
+	font-weight: bold; 
+	font-size: 0.9em;
+	color: #777777;
+}
+
+div.footer-a a {
+	color: blue;
+}
+
 div.search-bar {
     overflow: hidden;
     width: 100%;
