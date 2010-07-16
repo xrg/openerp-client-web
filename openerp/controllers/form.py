@@ -541,6 +541,8 @@ class Form(SecuredController):
                                 </head>
                                 <body></body>
                             </html>"""
+                else:
+                    return result
 
         elif btype == 'action':
             from openerp.controllers import actions
