@@ -208,7 +208,7 @@
 					        openobject.http.getURL(
 					            '/openerp/translator', {
 					                _terp_model: '${form.screen.model}',
-					                _terp_id: ${form.screen.id},
+					                _terp_id: '${form.screen.id}',
 					                _terp_context: $('_terp_context').value
 					        }));">${_('Translate')}</a>
 					% if form.screen.id:
