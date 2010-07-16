@@ -111,7 +111,9 @@ function getCalendar(day, mode, color_filters) {
     req.addCallback(function(xmlHttp) {
         var newCalendar = jQuery(xmlHttp.responseText);
         jQuery('#Calendar').replaceWith(newCalendar).hide();
-        jQuery('#calGridC').scrollTop(sTop).scrollLeft(sLeft);
+        try{
+            jQuery('#calGridC').scrollTop(sTop).scrollLeft(sLeft);
+        }catch(e){}
         setTimeout(function () {
             CALENDAR_WAIT_BOX.hide();
         }, 0);
