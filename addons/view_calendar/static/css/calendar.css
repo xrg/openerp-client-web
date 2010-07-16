@@ -1,9 +1,11 @@
 .calMonth,
 .calWeek {
-    background-color: #E0E0E0;
-    padding: 8px;
-    padding-top: 4px;
     position: relative;
+}
+
+.calMonth td,
+.calWeek td {
+    padding: 0;
 }
 
 .calDayHeader {
@@ -14,7 +16,8 @@
     white-space: nowrap;
 
     font-weight: bold;
-    font-size: 12px;
+    font-size: 10px;
+    padding-top: 4px;
 }
 
 .calWeek a {
@@ -22,17 +25,30 @@
     color: black;
 }
 
+#calHeaderSect {
+    height: 21px;
+    border-top: 1px solid #DBDBDB;
+    
+    text-shadow: 0 1px 0 #FFFFFF;
+    text-transform: uppercase;
+}
+
+#calHeaderSect a,
+#calTimeCol {
+    color: #8D8D8D;
+}
+
 #calHeaderSect,
 #calAllDaySect {
-    height: 21px;
     position: relative;
     overflow: hidden;
+
+    min-height: 21px;
+    background-color: #F4F4F4;
 }
 
 #calAllDaySect {
-    margin-bottom: 6px;
-    border: 1px inset white;
-    background-color: #ffffff;
+    border-top: 1px solid #FFF;
 }
 
 #calAllDaySect .droppable {
@@ -51,8 +67,6 @@
 
 #calBodySect {
     position: relative;
-    border: 1px inset white;
-    background-color: #ffffff;
 }
 
 .calWeek #calBodySect {
@@ -62,25 +76,22 @@
     overflow-x: hidden;
 }
 
+.calWeek .calDayHeader,
+.calWeek .calVRule {
+    border-left: 1px solid #FFF;
+}
+
 .calWeek .calVRule {
     position: absolute;
-    top: 0pt;
+    top: 0;
     width: 1px;
-
-    border-left: 2px solid #C0C0C0;
 }
 
 .calWeek .calHRule {
     height: 19px;
     background-color: #FFFFFF;
-    border-top: 1px solid #F0F0F0;
+    border-top: 1px dotted #F0F0F0;
 }
-
-.calWeek .calHRule.even {
-    height: 18px;
-    border-top: 2px solid #F0F0F0;
-}
-
 
 .calTimeCol {
     width: 70px;
@@ -90,48 +101,54 @@
 }
 
 .calTimeCol div {
-    height: 38px;
-    border-top: 2px solid #E0E0E0;
-    background-color: #F3F3F3;
+    height: 39px;
     padding-right: 2px;
     text-align: right;
+}
+
+.calTimeCol div,
+.calWeek .calHRule.even {
+    border-top: 1px solid #F0F0F0;
 }
 
 .calEvent,
 .calEventNew {
     position: absolute;
     z-index: 100;
-
-    padding-left: 2px;
-
-    font-size: 10px;
+    padding: 2px;
+    font-weight: 600;
+    line-height: 1em;
     white-space: nowrap;
     overflow: hidden;
-
     cursor: pointer;
+    border-radius: 5px; 
+    -moz-border-radius: 5px; 
+    -webkit-border-radius: 5px;
+    background: url("../images/schedule-a-highlite.png") repeat-x scroll 0 0 #FFF;
+    border: 1px solid #FFF;
+    color: #FFF;
 }
 
 .calWeek #calBodySect .calEvent,
 .calWeek #calBodySect .calEventNew {
-    padding: 0px;
-    margin: 0px;
+    padding: 0;
+    margin: 0;
 
-    font-size: 9px;
-
-    border: 2px solid black;
+    font-size: 10px;
+    color: #FFF;
+    border: 1px solid black;
     cursor: default;
 }
 
 .calEventTitle {
-    color: white;
+    color: #000;
     font-weight: bold;
-    padding-bottom: 2px;
+    padding: 2px;
     white-space: nowrap;
     cursor: move;
 }
 
 .calEventDesc {
-    color: black;
     padding: 2px;
     vertical-align: top;
     font-size: 10px;
@@ -139,7 +156,7 @@
 
 .calEventGrip {
     position: absolute;
-    padding: 0px;
+    padding: 0;
 
     left: 0;
     bottom: 1px;
@@ -151,20 +168,12 @@
     cursor: s-resize;
 }
 
-#calLoading {
-    color: maroon;
-    font-weight: bold;
-    padding-left: 20px;
-    background: url("../images/calLoading.gif") no-repeat left;
-    display: none;
-}
-
 /**************************************/
 
 .calMonthWeek {
     position: relative;
     width: 100%;
-    height: 121px;
+    height: 134px;
 }
 
 .calMonth .calTimeCol {
@@ -175,8 +184,7 @@
 }
 
 .calMonth .calTimeCol div {
-    background-color: #E0E0E0;
-    border-top: 1px solid #C0C0C0;
+    border-top: 1px solid #E9E9E9;
 }
 
 .calMonth .calGrid {
@@ -185,17 +193,16 @@
 }
 
 .calMonthDay {
-    position: absolute;
     vertical-align: top;
 
     background-color: white;
-    border-left: 1px solid #C0C0C0;
+    border-left: 1px solid #E9E9E9;
 
     font-size: 10px;
 }
 
 .calMonthDay.dayOff {
-    background-color: #E9E9E9;
+    background-color: #F9F9F9;
 }
 
 .calMonthDay.dayThis {
@@ -204,13 +211,13 @@
 
 .calMonthDayTitle {
     height: 16px;
-    font-size: 10px;
+    font-size: 1em;
     font-weight: bold;
-    text-align: right;
-    padding-right: 4px;
-
-    border-top: 1px solid #C0C0C0;
-    background-color: #D9D9D9;
+    background-color: #F4F4F4;
+    border-top: 1px solid #E9E9E9;
+    color: #8D8D8D;
+    text-align: center;
+    text-shadow: 0 1px 0 #FFFFFF;
 }
 
 .calMonthDay.dayThis .calMonthDayTitle {
@@ -233,7 +240,10 @@
 
 .calMonthDay .calEventInfo,
 .calMonthDay .calEventInfo a {
-    color: navy;
+    color: #000;
+    font-size: .9em;
+    font-weight: 600;
+    text-shadow: 0 1px 0 #FFF;
     padding-left: 2px;
 }
 
@@ -278,95 +288,14 @@
 #calInfoBox .calInfoDesc {
     padding: 2px;
 }
+.calInfoDesc {
+ border-bottom: 2px solid #696969;
+}
 
 #calInfoBox .calInfoButtons {
     position: absolute;
-    bottom: 0pt;
+    bottom: 0;
     padding: 2px;
     border-top: 2px solid #696969;
 }
 
-/**
- * Mini Calendar
- */
-
-#MiniCalendar {
-    background-color: #E0E0E0;
-    padding: 8px;
-}
-
-.calMini {
-    font-size: 10px;
-    text-align: center;
-}
-
-.calMiniTitles td {
-    width: 14%;
-}
-
-.calMiniDays {
-    background-color: white;
-}
-
-.calMiniDays .dayOff {
-    background-color: #E9E9E9;
-}
-
-.calMiniDays .dayThis {
-    background-color: #FFFFDF;
-}
-
-.calMini .weekSelected td,
-.calMini td.daySelected {
-    background-color: navy;
-}
-
-.calMini .weekSelected td a,
-.calMini td.daySelected a {
-    color: white;
-}
-
-.calMini .button {
-    cursor: pointer;
-}
-
-/**
- * Group Box
- */
-
-#MiniCalendar {
-    margin-bottom: 5px;
-}
-
-#calSearchOptions,
-#calGroups {
-    margin: 0pt;
-    margin-bottom: 5px;
-    padding: 8px;
-    background-color: #E0E0E0;
-}
-
-#calSearchOptions {
-    padding-left: 12px;
-}
-
-#calGroups dt {
-    font-weight: bold;
-    margin-bottom: 2px;
-}
-
-#calGroups dd {
-    margin-left: 4px;
-}
-
-.calMini a,
-.calMonth a,
-.calWeek a {
-    text-decoration: none;
-    color: black;
-}
-
-/**
- * vim: sts=4 st=4 et
- *
- */

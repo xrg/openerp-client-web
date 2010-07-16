@@ -1,12 +1,6 @@
-<%inherit file="/openerp/controllers/templates/base.mako"/>
+<%inherit file="/openerp/controllers/templates/base_dispatch.mako"/>
 
 <%def name="header()">
-    <title>
-        % if form:
-            ${form.screen.string}
-        % endif
-    </title>
-
     <script type="text/javascript" src="/openerp/static/javascript/openerp/openerp.ui.waitbox.js"></script>
     <script type="text/javascript" src="/openerp/static/javascript/wizard.js"></script>
 
@@ -31,7 +25,7 @@
     
     <div class="toolbar" style="text-align: right;">
         % for state in buttons:
-        <button onclick="wizardAction('${state[0]}')">
+        <button class="button_wid" onclick="wizardAction('${state[0]}')">
             <table align="center" cellspacing="0">
                 <tr>
                     % if len(state) >= 3:

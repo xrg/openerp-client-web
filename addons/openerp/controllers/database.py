@@ -157,7 +157,7 @@ class Database(BaseController):
                     if progress == 1.0:
                         for x in users:
                             if x['login'] == 'admin':
-                                rpc.session.login(dbname, 'admin', password)
+                                rpc.session.login(dbname, 'admin', x['password'])
                                 ok = True
                         break
                     else:
@@ -176,7 +176,7 @@ class Database(BaseController):
                 raise common.warning(_("Could not create database."))
 
         if ok:
-            raise redirect('/openerp/menu', {'db': True})
+            raise redirect('/openerp/menu', {'next': '/openerp/home'})
         raise redirect('/openerp/login', db=dbname)
 
     @expose(template="templates/database.mako")

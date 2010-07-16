@@ -53,7 +53,7 @@ TreeGrid.prototype = {
     __init__ : function(elem, options) {
         this.id = openobject.dom.get(elem).id;
         
-        this.options = MochiKit.Base.update({
+        this.options = MochiKit.Base.merge({
             'showheaders': true,
             'expandall' : false,
             'onselect' : function() {},
@@ -148,11 +148,11 @@ TreeGrid.prototype = {
         this.thead = MochiKit.DOM.THEAD({'class': 'tree-head'});
         this.tbody = MochiKit.DOM.TBODY({'class': 'tree-body'});
         this.table = MochiKit.DOM.TABLE({id: this.id, 'class': 'tree-grid'}, this.thead, this.tbody);
-        
+
         if (this.options.showheaders) {
             this._makeHeader();
         }
-        
+
         this._makeBody();
 
         if (openobject.dom.get(this.id) != this.table) {
@@ -352,59 +352,37 @@ TreeNode.prototype = {
                     row.push(this.element_i);
                 }
 
-                value = A({'href': 'javascript: void();'}, value);
+                value = A({'href': '#'}, value);
                 this.element_a = value;
 
                 this.eventOnKeyDown = MochiKit.Signal.connect(value, 'onkeydown', this, this.onKeyDown);
-                
+
+                var link = jQuery(value);
                 if (record.action) {
-                	
-                    MochiKit.DOM.setNodeAttribute(value, 'href', record.action);
-                    MochiKit.Signal.connect(value, 'onclick', function (e) {
-                    
-                    	var treebody = getFirstParentByTagAndClassName(value, 'tbody', 'tree-body');
-	                	var treerows = getElementsByTagAndClassName('tr', 'row', treebody);
-	                	
-	                	forEach(treerows, function(row){
-	                 		if(MochiKit.DOM.hasElementClass(row, 'selected')) {
-	                 			MochiKit.DOM.removeElementClass(row, "selected");
-	                 			row.style.background = 'none';
-				 	 		    row.onmouseover = setNodeAttribute(row, 'style', 'background:"url(/openerp/static/images/sidenav-bg-c.gif) repeat-x"');
-	                 		}
-	                 	});
-                                        	
-	                 	var selected_row = getFirstParentByTagAndClassName(value, 'tr', 'row');
-	                 	MochiKit.DOM.addElementClass(selected_row, "selected");
-	                 	
-	                 	selected_row.style.background = 'url(/openerp/static/images/sidenav-bg-c.gif) repeat-x';
-                    	
-                        MochiKit.Signal.signal(e.src().tree, "onaction", e.src());
-                        var frame = jQuery('#appFrame');
-                        if (frame.contentWindow) {
-                            frame.contentWindow.location.replace(record.action);
-                        } else if (frame.contentDocument) {
-                            frame.contentDocument.location.replace(record.action);
-                        } else {
-                            // just in case there's still a browser needing DOM0 frames
-                            window.frames[0].location.replace(record.action);
-                        }
-                        e.stop();
+                    link.attr('href', record.action).click(function () {
+                        link.parents('tbody.tree-body').find('tr.row').each(function (index, row) {
+                            jQuery(row).removeClass('selected')
+                        });
+                        link.parents('tr.row').addClass('selected');
+
+                        MochiKit.Signal.signal(this.tree, "onaction", this);
                     });
                 } else {
-                    MochiKit.Signal.connect(value, "onclick", function (e) {
-                        e.src().toggle();
-                        e.stop();
+                    link.click(function () {
+                        if(this.toggle) {
+                            this.toggle();
+                        }
+                        // no action, stop everything
+                        return false;
                     });
                 }
 
-                if (record.target) {
-                    MochiKit.DOM.setNodeAttribute(value, 'target', record.target);
-                } else if (this.tree.options.linktarget) {
-                    MochiKit.DOM.setNodeAttribute(value, 'target', this.tree.options.linktarget);
+                if (record.target || this.tree.options.linktarget) {
+                    link.attr('target', record.target || this.tree.options.linktarget);
                 }
-
+                
                 if (record.required) {
-                    MochiKit.DOM.setNodeAttribute(value, 'class', 'requiredfield');
+                    link.addClass('requiredfield');
                 }
 
                 row.push(value);
@@ -431,7 +409,6 @@ TreeNode.prototype = {
                         value.onclick = MochiKit.Base.bind(this.onButtonClick, this);
                         break;
                     default:
-                        throw 'Unknown header type ' + header.type;
                 }
 
             }
@@ -503,7 +480,6 @@ TreeNode.prototype = {
                         b.innerHTML = MochiKit.DOM.escapeHTML(value);
                         break;
                     default:
-                        throw "Unknown header type " + header.type;
                 }
             }
         }
@@ -563,11 +539,11 @@ TreeNode.prototype = {
     },
     
     onSelect : function(evt) {
-    
+
         if (this.tree._ajax_counter > 0) {
             return;
         }
-                
+        
         var trg = evt ? evt.target() : this.element;
     
         if (MochiKit.Base.findValue(['collapse', 'expand', 'loading'], trg.className) > -1) {

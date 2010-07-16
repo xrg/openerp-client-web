@@ -1,4 +1,4 @@
-<%inherit file="/openerp/controllers/templates/base.mako"/>
+<%inherit file="/openerp/controllers/templates/base_dispatch.mako"/>
 
 <%def name="header()">
     <title>View Editor</title>
@@ -17,7 +17,7 @@
             <td>
                 <table width="100%" class="titlebar">
                     <tr>
-                        <td width="100%">${_("View Editor %s - %s") % (view_id, model)}</td>
+                        <td width="100%"><h1>${_("View Editor %s - %s") % (view_id, model)}</h1></td>
                     </tr>
                 </table>
                 <input type="hidden" id="view_model" value="${model}"/>

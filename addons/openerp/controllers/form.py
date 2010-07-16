@@ -32,9 +32,9 @@ import re
 import cherrypy
 from openerp import utils, widgets as tw, validators
 from openerp.controllers import SecuredController
-from openerp.utils import rpc, cache, common, TinyDict, TinyForm
+from openerp.utils import rpc, common, TinyDict, TinyForm
 from openerp.widgets.form import generate_url_for_picture
-
+from error_page import _ep
 from openobject.tools import expose, redirect, validate, error_handler, exception_handler
 
 def make_domain(name, value, kind='char'):
@@ -117,7 +117,7 @@ def search(model, offset=0, limit=20, domain=[], context={}, data={}):
         count = len(ids)
     else:
         count = proxy.search_count(search_domain, ctx)
-        
+
     if isinstance(ids, list):
         count = len(ids)
 
@@ -182,9 +182,9 @@ class Form(SecuredController):
     def create_form(self, params, tg_errors=None):
         if tg_errors:
             return cherrypy.request.terp_form
-        
+
         cherrypy.session['params'] = params
-        
+
         params.offset = params.offset or 0
         params.limit = params.limit or 20
         params.count = params.count or 0
@@ -196,12 +196,9 @@ class Form(SecuredController):
     def create(self, params, tg_errors=None):
 
         params.view_type = params.view_type or params.view_mode[0]
-        
+
         if params.view_type == 'tree':
             params.editable = True
-
-        can_shortcut = True
-        
         form = self.create_form(params, tg_errors)
 
         if not tg_errors:
@@ -213,7 +210,6 @@ class Form(SecuredController):
         editable = form.screen.editable
         mode = form.screen.view_type
         id = form.screen.id
-
         buttons = TinyDict()    # toolbar
         buttons.new = not editable or mode == 'tree'
         buttons.edit = not editable and mode == 'form'
@@ -222,7 +218,6 @@ class Form(SecuredController):
         buttons.delete = not editable and mode == 'form'
         buttons.pager =  mode == 'form' or mode == 'diagram'# Pager will visible in edit and non-edit mode in form view.
         buttons.can_attach = id and mode == 'form'
-        buttons.has_attach = buttons.can_attach and form.sidebar and form.sidebar.attachments
         buttons.i18n = not editable and mode == 'form'
 
         from openerp.widgets import get_registered_views
@@ -235,7 +230,6 @@ class Form(SecuredController):
 
         target = getattr(cherrypy.request, '_terp_view_target', None)
         buttons.toolbar = (target != 'new' and not form.is_dashboard) or mode == 'diagram'
-
         pager = None
         if buttons.pager:
             pager = tw.pager.Pager(id=form.screen.id, ids=form.screen.ids, offset=form.screen.offset,
@@ -243,20 +237,30 @@ class Form(SecuredController):
 
         can_shortcut = self.can_shortcut_create()
         shortcut_ids = []
-        
+
         if cherrypy.session.get('terp_shortcuts'):
             for sc in cherrypy.session['terp_shortcuts']:
                 if isinstance(sc['res_id'], tuple):
                     shortcut_ids.append(sc['res_id'][0])
                 else:
                     shortcut_ids.append(sc['res_id'])
-                    
-        return dict(form=form, pager=pager, buttons=buttons, path=self.path, can_shortcut=can_shortcut, shortcut_ids=shortcut_ids)
 
-    @expose()
-    def edit(self, model, id=False, ids=None, view_ids=None, view_mode=['form', 'tree'],source=None, domain=[],
-             context={}, offset=0, limit=20, count=0, search_domain=None, search_data=None, filter_domain=None, **kw):
+        # Server log will display in flash message in form view for any server action like wizard.
+        serverLog = rpc.RPCProxy('res.log').get() or None
+        display_name = {}
+        if params.view_type is 'form':
+            if params.id:
+                if form.screen.view.get('fields') and form.screen.view['fields'].get('name'):
+                    display_name = {'field': form.screen.view['fields']['name']['string'], 'value': form.screen.view['fields']['name']['value']}
 
+        return dict(form=form, pager=pager, buttons=buttons, path=self.path, can_shortcut=can_shortcut, shortcut_ids=shortcut_ids, serverLog=serverLog,display_name=display_name)
+
+    def _read_form(self, context, count, domain, filter_domain, id, ids, kw,
+                   limit, model, offset, search_data, search_domain, source,
+                   view_ids, view_mode, editable=False):
+        """ Extract parameters for form reading/creation common to both
+        self.edit and self.view
+        """
         params, data = TinyDict.split({'_terp_model': model,
                                        '_terp_id' : id,
                                        '_terp_ids' : ids,
@@ -272,8 +276,11 @@ class Form(SecuredController):
                                        '_terp_search_data': search_data,
                                        '_terp_filter_domain': filter_domain})
 
-        params.editable = True
+        params.editable = editable
         params.view_type = 'form'
+
+        if kw.get('default_date'):
+            params.context.update({'default_date' : kw['default_date']})
 
         cherrypy.request._terp_view_target = kw.get('target')
 
@@ -284,8 +291,23 @@ class Form(SecuredController):
             params.view_type = 'form'
 
         if not params.ids:
-            params.count = 0
             params.offset = 0
+
+        return params
+
+    @expose()
+    def edit(self, model, id=False, ids=None, view_ids=None,
+             view_mode=['form', 'tree'],source=None, domain=[], context={},
+             offset=0, limit=20, count=0, search_domain=None,
+             search_data=None, filter_domain=None, **kw):
+
+        params = self._read_form(context, count, domain, filter_domain, id,
+                                 ids, kw, limit, model, offset, search_data,
+                                 search_domain, source, view_ids, view_mode,
+                                 editable=True)
+
+        if not params.ids:
+            params.count = 0
 
         # On New O2M
         if params.source:
@@ -296,37 +318,17 @@ class Form(SecuredController):
         return self.create(params)
 
     @expose()
-    def view(self, model, id, ids=None, view_ids=None, view_mode=['form', 'tree'], source=None, domain=[],
-             context={}, offset=0, limit=20, count=0, search_domain=None, search_data=None, filter_domain=None, **kw):
-        params, data = TinyDict.split({'_terp_model': model,
-                                       '_terp_id' : id,
-                                       '_terp_ids' : ids,
-                                       '_terp_view_ids' : view_ids,
-                                       '_terp_view_mode' : view_mode,
-                                       '_terp_source' : source,
-                                       '_terp_domain' : domain,
-                                       '_terp_context' : context,
-                                       '_terp_offset': offset,
-                                       '_terp_limit': limit,
-                                       '_terp_count': count,
-                                       '_terp_search_domain': search_domain,
-                                       '_terp_search_data': search_data,
-                                       '_terp_filter_domain': filter_domain})
+    def view(self, model, id, ids=None, view_ids=None,
+             view_mode=['form', 'tree'], source=None, domain=[], context={},
+             offset=0, limit=20, count=0, search_domain=None,
+             search_data=None, filter_domain=None, **kw):
 
-        params.editable = False
-        params.view_type = 'form'
-
-        cherrypy.request._terp_view_target = kw.get('target')
-
-        if params.view_mode and 'form' not in params.view_mode:
-            params.view_type = params.view_mode[-1]
-
-        if params.view_type == 'tree':
-            params.view_type = 'form'
+        params = self._read_form(context, count, domain, filter_domain, id,
+                                 ids, kw, limit, model, offset, search_data,
+                                 search_domain, source, view_ids, view_mode)
 
         if not params.ids:
             params.count = 1
-            params.offset = 0
 
         return self.create(params)
 
@@ -384,7 +386,8 @@ class Form(SecuredController):
             proxy = rpc.RPCProxy(params.model)
 
             if not params.id:
-                id = proxy.create(data, params.context)
+                ctx = dict((params.context or {}), **rpc.session.context)
+                id = proxy.create(data, ctx)
                 params.ids = (params.ids or []) + [int(id)]
                 params.id = int(id)
                 params.count += 1
@@ -451,7 +454,6 @@ class Form(SecuredController):
 
         if params.editable or params.source or params.return_edit:
             raise redirect(self.path + '/edit', source=params.source, **args)
-
         raise redirect(self.path + '/view', **args)
 
     def button_action(self, params):
@@ -467,6 +469,9 @@ class Form(SecuredController):
 
         id = (id or False) and int(id)
         ids = (id or []) and [id]
+
+        ctx = dict((params.context or {}), **rpc.session.context)
+        ctx.update(button.context or {})
 
         if btype == 'cancel':
             if name:
@@ -489,8 +494,7 @@ class Form(SecuredController):
                 return actions.execute(res, ids=[id])
 
         elif btype == 'object':
-            ctx = params.context or {}
-            ctx.update(rpc.session.context.copy())
+
             res = rpc.session.execute('object', 'execute', model, name, ids, ctx)
 
             if isinstance(res, dict):
@@ -509,7 +513,7 @@ class Form(SecuredController):
 
             res = actions.execute_by_id(action_id, type=action_type,
                                         model=model, id=id, ids=ids,
-                                        context=params.context or {})
+                                        context=ctx or {})
             if res:
                 return res
 
@@ -607,33 +611,7 @@ class Form(SecuredController):
         res = proxy.read([params.id],[params.field], rpc.session.context)
 
         return base64.decodestring(res[0][params.field])
-    
-    @expose()
-    def save_attachment(self, **kw):
-        params, data = TinyDict.split(cherrypy.session['params'])
-        datas = base64.encodestring(kw.get('datas').file.read())
-        file_name = kw.get('datas').filename
-        ctx = rpc.session.context.copy()
-        ctx.update({'default_res_model': params.model, 'default_res_id': params.id, 'active_id': False, 'active_ids': []})
-        
-        add_attachment = rpc.RPCProxy('ir.attachment').create({'name': kw.get('datas_fname'), 'description': False, 'datas': datas, 'datas_fname': file_name}, ctx)
-        
-        args = {'model': params.model,
-                'id': params.id,
-                'ids': ustr(params.ids),
-                'view_ids': ustr(params.view_ids),
-                'view_mode': ustr(params.view_mode),
-                'domain': ustr(params.domain),
-                'context': ustr(params.context),
-                'offset': params.offset,
-                'limit': params.limit,
-                'count': params.count,
-                'search_domain': ustr(params.search_domain),
-                'search_data': ustr(params.search_data),
-                'filter_domain': ustr(params.filter_domain)}
-        
-        raise redirect(self.path + '/edit', source=params.source, **args)
-    
+
     @expose()
     def clear_binary_data(self, **kw):
         params, data = TinyDict.split(kw)
@@ -861,7 +839,7 @@ class Form(SecuredController):
         model = params.model
 
         id = params.id or False
-        ids = params.ids or []
+        ids = params.selection or params.ids or []
 
         if params.view_type == 'form':
             #TODO: save current record
@@ -978,7 +956,7 @@ class Form(SecuredController):
         try:
             response = getattr(proxy, func_name)(ids, *args)
         except Exception, e:
-            return dict(error=ustr(e))
+             return dict(error=_ep.render())
 
         if response is False: # response is False when creating new record for inherited view.
             response = {}
@@ -994,11 +972,19 @@ class Form(SecuredController):
         for k, v in values.items():
             key = ((prefix or '') and prefix + '/') + k
 
+            kind = data.get(key, {}).get('type', '')
+
             if key in data and key != 'id':
                 values2[k] = data[key]
                 values2[k]['value'] = v
             else:
                 values2[k] = {'value': v}
+
+            if kind == 'float':
+                field = proxy.fields_get([k], ctx2)
+                digit = field[k].get('digits')
+                if digit: digit = digit[1]
+                values2[k]['digit'] = digit or 2
 
         values = TinyForm(**values2).from_python().make_plain()
 

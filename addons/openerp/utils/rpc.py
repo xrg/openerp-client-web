@@ -307,7 +307,9 @@ class RPCSession(object):
         self.open = True
 
         # read the full name of the user
-        self.user_name = self.execute('object', 'execute', 'res.users', 'read', [uid], ['name'])[0]['name']
+        res_users = self.execute('object', 'execute', 'res.users', 'read', [uid], ['name', 'company_id'])[0]
+        self.user_name = res_users['name']
+        self.company_id = res_users['company_id'][1]
 
         # set the context
         self.context_reload()

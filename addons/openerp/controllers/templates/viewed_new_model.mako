@@ -1,20 +1,17 @@
-<%inherit file="/openerp/controllers/templates/base.mako"/>
+<%inherit file="/openerp/controllers/templates/base_dispatch.mako"/>
 
 <%def name="header()">
     <title>${form.screen.string}</title>
 
     <script type="text/javascript">
         var form_controller = '/openerp/viewed/new_model';
-    </script>
-    
-    <script type="text/javascript">
 
         function do_select(id, src) {
             viewRecord(id, src);
         }
 
         var createNewModel = function() { 
-            window.location.href = get_form_action('edit'); 
+            openLink(get_form_action('edit')); 
         }
     </script>
 </%def>
@@ -25,7 +22,7 @@
             <td>
                 <table width="100%" class="titlebar">
                     <tr>
-                        <td width="100%">${form.screen.string}</td>
+                        <td width="100%"><h1>${form.screen.string}</h1></td>
                     </tr>
                 </table>
             </td>

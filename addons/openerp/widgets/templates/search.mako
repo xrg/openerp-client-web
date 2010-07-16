@@ -20,8 +20,8 @@
 					</td>
 					% if len(filter_domain[f -1]) == 1:
 					<td class="and_or" id="and_or/${x}">
-						<select id="select_andor/${x}" class="and_or">
-						% if filter_domain[f -1] == '&':
+						<select id="select_andor/${x}" class="select_andor">
+						% if filter_domain[f-1] == '&':
 							<option value="AND">AND</option>
 						%else:
 							<option value="OR">OR</option>
@@ -37,21 +37,4 @@
 			% endif
 		% endfor
 	</table>
-	<div class="custom-filter">
-		<ul>
-			<li>
-				<select name="filter_list" id="filter_list" onchange="search_filter();">
-	                % for f in filters_list:
-	                <option value="${f[0]}">${f[1]}</option>
-	                % endfor
-	            </select>
-			</li>
-			<li>
-				<a class="button" href="javascript: void(0)" onclick="add_filter_row();">
-					<span class="add">Add</span>
-				</a>
-				
-			</li>
-		</ul>
-	</div>
 </div>

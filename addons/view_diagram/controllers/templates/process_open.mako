@@ -1,4 +1,4 @@
-<%inherit file="/openerp/controllers/templates/base.mako"/>
+<%inherit file="/openerp/controllers/templates/base_dispatch.mako"/>
 
 <%def name="header()">
     <title>${form.screen.string}</title>
@@ -9,7 +9,7 @@
 
     <script type="text/javascript">
 
-        MochiKit.DOM.addLoadEvent(function(evt){
+        jQuery(document).ready(function(){
 
             var id = parseInt(openobject.dom.get('_terp_id').value) || 0;
             var lc = openobject.dom.get('_terp_load_counter').value;

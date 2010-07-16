@@ -7,17 +7,17 @@
 // Developed by Tiny (http://openerp.com) and Axelor (http://axelor.com).
 //
 // The OpenERP web client is distributed under the "OpenERP Public License".
-// It's based on Mozilla Public License Version (MPL) 1.1 with following
+// It's based on Mozilla Public License Version (MPL) 1.1 with following 
 // restrictions:
 //
-// -   All names, links and logos of Tiny, Open ERP and Axelor must be
-//     kept as in original distribution without any changes in all software
-//     screens, especially in start-up page and the software header, even if
-//     the application source code has been changed or updated or code has been
+// -   All names, links and logos of Tiny, Open ERP and Axelor must be 
+//     kept as in original distribution without any changes in all software 
+//     screens, especially in start-up page and the software header, even if 
+//     the application source code has been changed or updated or code has been 
 //     added.
 //
 // -   All distributions of the software must keep source code with OEPL.
-//
+// 
 // -   All integrations to any other software must keep source code with OEPL.
 //
 // If you need commercial licence to remove this kind of restriction please
@@ -27,8 +27,8 @@
 //
 ////////////////////////////////////////////////////////////////////////////////
 
+var form_controller;
 function get_form_action(action, params) {
-
     var act = typeof(form_controller) == 'undefined' ? '/form' : form_controller;
     act = action && action.indexOf('/') == 0 ? action : act + '/' + action;
     return openobject.http.getURL(act, params);
@@ -43,61 +43,42 @@ function openRecord(id, src, target, readonly) {
     }
 
     if (kind == "one2many") {
-        return new One2Many(src).edit(id, readonly);
+        new One2Many(src).edit(id, readonly);
+        return;
     }
 
     var prefix = src && src != '_terp_list' ? src + '/' : '';
 
-    var model = openobject.dom.get(prefix + '_terp_model').value;
-    var view_ids = openobject.dom.get(prefix + '_terp_view_ids').value;
-    var view_mode = openobject.dom.get(prefix + '_terp_view_mode').value;
-
-    var ids = openobject.dom.get(prefix + '_terp_ids').value;
-
-    var offset = openobject.dom.get(prefix + '_terp_offset').value;
-    var limit = openobject.dom.get(prefix + '_terp_limit').value;
-    var count = openobject.dom.get(prefix + '_terp_count').value;
-
-    var domain = openobject.dom.get(prefix + '_terp_domain').value;
-    var context = openobject.dom.get(prefix + '_terp_context').value;
-
-    var search_domain = openobject.dom.get('_terp_search_domain');
-    search_domain = search_domain ? search_domain.value : null;
-
-    var search_data = openobject.dom.get('_terp_search_data');
-    search_data = search_data ? search_data.value : null;
-
-    var search_filter_domain = openobject.dom.get('_terp_filter_domain');
-    search_filter_domain = search_filter_domain ? search_filter_domain.value : [];
-
     var args = {
-        'model': model,
-        'id': id ? id : 'False',
-        'ids': ids,
-        'view_ids': view_ids,
-        'view_mode': view_mode,
-        'domain': domain,
-        'context': context,
-        'offset': offset,
-        'limit': limit,
-        'count': count,
-        'search_domain': search_domain,
-        'search_data': search_data,
-        'filter_domain' : search_filter_domain
+        'model': openobject.dom.get(prefix + '_terp_model').value,
+        'id': id || 'False',
+        'ids': openobject.dom.get(prefix + '_terp_ids').value,
+        'view_ids': openobject.dom.get(prefix + '_terp_view_ids').value,
+        'view_mode': openobject.dom.get(prefix + '_terp_view_mode').value,
+        'domain': openobject.dom.get(prefix + '_terp_domain').value,
+        'context': openobject.dom.get(prefix + '_terp_context').value,
+        'offset': openobject.dom.get(prefix + '_terp_offset').value,
+        'limit': openobject.dom.get(prefix + '_terp_limit').value,
+        'count': openobject.dom.get(prefix + '_terp_count').value,
+        'search_domain': jQuery('#_terp_search_domain').val() || null,
+        'search_data': jQuery('#_terp_search_data').val() || null,
+        'filter_domain' : jQuery('#_terp_filter_domain').val() || []
     };
 
     var action = readonly ? 'view' : 'edit';
 
     if (target == '_blank') {
-        return window.open(get_form_action(action, args));
+        window.open(get_form_action(action, args));
+        return;
     }
 
     if (kind == 'many2many') {
         args['source'] = src;
-        return openobject.tools.openWindow(get_form_action('/openerp/openm2m/edit', args));
+        openobject.tools.openWindow(get_form_action('/openerp/openm2m/edit', args));
+        return;
     }
 
-    window.location.href = get_form_action(action, args);
+    openLink(get_form_action(action, args));
 }
 
 function editRecord(id, src, target) {
@@ -127,23 +108,17 @@ function editSelectedRecord() {
 }
 
 function switchView(view_type, src) {
-
-    var prefix = src ? src + '/' : '';
-    var form = document.forms['view_form'];
-
-    var params = {
-        '_terp_source': src,
-        '_terp_source_view_type': view_type
-    };
-
     if (openobject.dom.get('_terp_list')) {
         var ids = new ListView('_terp_list').getSelectedRecords();
         if (ids.length > 0) {
             openobject.dom.get('_terp_id').value = ids[0];
         }
     }
-
-    submit_form(get_form_action('switch', params));
+    
+    submit_form(get_form_action('switch', {
+        '_terp_source': src,
+        '_terp_source_view_type': view_type
+    }));
 }
 
 function switch_O2M(view_type, src) {
@@ -159,6 +134,7 @@ function switch_O2M(view_type, src) {
 
     params['_terp_source'] = src;
     params['_terp_source_view_type'] = view_type;
+    params['_terp_editable'] = $(prefix + '_terp_editable').value;
 
     if (openobject.dom.get('_terp_list')) {
         var ids = new ListView('_terp_list').getSelectedRecords();
@@ -197,19 +173,20 @@ function switch_O2M(view_type, src) {
     });
 }
 
-function show_process_view() {
-	var model = openobject.dom.get('_terp_model').value;
-	var id = openobject.dom.get('_terp_id').value;
-	
-	if (openobject.dom.get('_terp_list')) {
-		 var list = new ListView('_terp_list');
-		 var ids = list.getSelectedRecords();
-		 if (ids.length) {
-			id = ids[0];
-		 }
-	}
-	id = parseInt(id) || null;
-	window.location.href = openobject.http.getURL('/view_diagram/process', {res_model: model, res_id: id})
+function show_process_view(title) {
+    var model = openobject.dom.get('_terp_model').value;
+    var id;
+    if (openobject.dom.get('_terp_list')) {
+        var list = new ListView('_terp_list');
+        var ids = list.getSelectedRecords();
+        if (ids.length) {
+            id = ids[0];
+        }
+    } else {
+        id = openobject.dom.get('_terp_id').value;
+    }
+    openLink(openobject.http.getURL('/view_diagram/process', {
+        res_model: model, res_id: parseInt(id, 10) || null, title: title}));
 }
 
 function validate_required(form) {
@@ -244,6 +221,13 @@ function validate_required(form) {
         }
 
         if (!value) {
+        	if(jQuery(elem2).attr('kind') == 'many2one') {
+                var select_id = jQuery(elem2).attr('id').split("_text")[0];
+                var img_select = jQuery('#'+select_id+'_select');
+                var img_class = img_select.attr('class');
+                img_select.attr('class', img_class+' errorfield');
+            }
+            
             addElementClass(elem2, 'errorfield');
             result = false;
         } else if (hasElementClass(elem2, 'errorfield')) {
@@ -259,13 +243,14 @@ function validate_required(form) {
 }
 
 function submit_form(action, src, target) {
-
+	
     if (openobject.http.AJAX_COUNT > 0) {
-        return callLater(1, submit_form, action, src, target);
+        callLater(1, submit_form, action, src, target);
+        return;
     }
 
     if (action == 'delete' && !confirm(_('Do you really want to delete this record?'))) {
-        return false;
+        return;
     }
 
     var form = document.forms['view_form'];
@@ -285,15 +270,15 @@ function submit_form(action, src, target) {
         action = 'save';
         args['_terp_return_edit'] = 1;
     }
-
+    
     action = get_form_action(action, args);
-
+    
     if (/\/save(\?|\/)?/.test(action) && !validate_required(form)) {
-        return false;
+        return;
     }
 
     form.attributes['action'].value = action;
-    form.submit();
+    jQuery(form).submit();
 }
 
 function pager_action(action, src) {
@@ -301,7 +286,6 @@ function pager_action(action, src) {
 }
 
 function buttonClicked(name, btype, model, id, sure, target) {
-
     if (sure && !confirm(sure)) {
         return;
     }
@@ -313,8 +297,20 @@ function buttonClicked(name, btype, model, id, sure, target) {
         '_terp_button/id': id
     };
 
-    var act = get_form_action(btype == 'cancel' ? 'cancel' : 'save', params);
-    submit_form(act, null, target);
+    var context = jQuery(document.getElementById(name)).attr('context');
+    if (!context || context == "{}") {
+        var act = get_form_action(btype == 'cancel' ? 'cancel' : 'save', params);
+        submit_form(act, null, target);
+        return;
+    }
+    
+    var req = eval_domain_context_request({source: "", domain: "[]", context: context});
+    req.addCallback(function(obj) {
+        params['_terp_button/context'] = obj.context || 0;
+
+        var act = get_form_action(btype == 'cancel' ? 'cancel' : 'save', params);
+        submit_form(act, null, target);
+     });
 }
 
 function onBooleanClicked(name) {
@@ -442,9 +438,11 @@ function getFormData(extended) {
             }
 
             if (kind == 'text_html') {
-                attrs['value'] = tinyMCE.get(e.name).getContent();
+                if(tinyMCE.get(e.name)){
+                    attrs['value'] =  tinyMCE.get(e.name).getContent();
+                }
             }
-            
+
             if (kind == 'reference' && value) { 
                 attrs['value'] = "[" + value + ",'" + getNodeAttribute(e, 'relation') + "']";
             }
@@ -522,7 +520,7 @@ function onChange(name) {
     req.addCallback(function(obj) {
 
         if (obj.error) {
-            return alert(obj.error);
+            return error_popup(obj)
         }
 
         values = obj['value'];
@@ -577,7 +575,9 @@ function onChange(name) {
                         openobject.dom.get(prefix + k + '_checkbox_').checked = value || false;
                         break;
                     case 'text_html':
-                        tinyMCE.execInstanceCommand(k, 'mceSetContent', false, value || '');
+                        if(tinyMCE.get(prefix + k)){
+                            tinyMCE.execInstanceCommand(prefix + k, 'mceSetContent', false, value || '')
+                        }
                         break;
                     case 'selection':
                         var opts = [];
@@ -611,17 +611,14 @@ function onChange(name) {
 /**
  * This function will be used by many2one field to get display name.
  *
- * @param name: name/instance of the widget
- * @param relation: the OpenERP model
- *
- * @return string
+ * @param name name/instance of the widget
+ * @param relation the OpenERP model
  */
 function getName(name, relation) {
-
     var value_field = openobject.dom.get(name);
     var text_field = openobject.dom.get(value_field.name + '_text');
 
-    relation = relation ? relation : getNodeAttribute(value_field, 'relation');
+    relation = relation ? relation : jQuery(value_field).attr('relation');
 
     if (value_field.value == '') {
         text_field.value = ''
@@ -657,12 +654,12 @@ function eval_domain_context_request(options) {
     params['_terp_prefix'] = prefix;
     params['_terp_active_id'] = prefix ? openobject.dom.get(prefix + '/_terp_id').value : openobject.dom.get('_terp_id').value;
     params['_terp_active_ids'] = prefix ? openobject.dom.get(prefix + '/_terp_ids').value : openobject.dom.get('_terp_ids').value;
-    
+
     if(options.group_by_ctx && options.group_by_ctx.length > 0)
         params['_terp_group_by'] = options.group_by_ctx;
     else
         params['_terp_group_by'] = '[]';
-    
+
     if (options.active_id) {
         params['_terp_active_id'] = options.active_id;
         params['_terp_active_ids'] = options.active_ids;
@@ -692,7 +689,7 @@ function eval_domain_context_request(options) {
         }
 
         if (obj.error) {
-            return alert(obj.error);
+            return error_popup(obj.error)
         }
 
         return obj;
@@ -724,10 +721,10 @@ function open_search_window(relation, domain, context, source, kind, text) {
 }
 
 function showCustomizeMenu(src, elem) {
-	
+
 	var pos = jQuery('#show_customize_menu').position();
 	var left_position = pos.left - 50 + 'px';
-        
+
     jQuery('#'+elem).css('left', left_position);
     jQuery('#'+elem).slideToggle('slow');
 }
@@ -943,7 +940,7 @@ function do_action(action_id, field, relation, src) {
 
 function on_context_menu(evt) {
 
-    if (! evt.modifier().ctrl) {
+    if (! evt.modifier()) {
         return;
     }
 
@@ -1021,11 +1018,11 @@ function open_url(site) {
 }
 
 function submenu_action(action_id, model) {
-    window.location.href = openobject.http.getURL("/openerp/form/action_submenu", {
+    openLink(openobject.http.getURL("/openerp/form/action_submenu", {
         _terp_action_id: action_id,
         _terp_model: model,
         _terp_id: $('_terp_id').value
-    });
+    }));
 }
 
 function show_wkf() {
@@ -1033,69 +1030,138 @@ function show_wkf() {
     if ($('_terp_list')) {
         var lst = new ListView('_terp_list');
         var ids = lst.getSelectedRecords();
-
+        
         if (ids.length < 1)
             return alert(_('You must select at least one record.'));
-        id = ids[0]
+        id = ids[0]            
     } else {
-        id = $('_terp_id') && $('_terp_id').value!='False' ? $('_terp_id').value : null;        
+        id = $('_terp_id') && $('_terp_id').value != 'False' ? $('_terp_id').value : null;        
     }
     
     openobject.tools.openWindow(openobject.http.getURL('/view_diagram/workflow', {model: $('_terp_model').value, rec_id:id}));
 }
 
-function removeAttachment(e, element, id) {
-    var element = jQuery('#' + element);
-	var parent = element.parent();
-	
-	// set the x and y offset of the poof animation from cursor position
-	var xOffset = 100;
-    var yOffset = 19;
+/**
+ * @event click
+ *
+ * Requests the deletion of an attachment based on data provided by the trigger's parent's @data-id
+ */
+function removeAttachment () {
+    var attachment_line = jQuery(this).parent();
+    var id = attachment_line.attr('data-id');
 	
 	jQuery.ajax({
-		url: '/openerp/attachment/removeAttachment/',
+		url: '/openerp/attachment/remove/',
 		type: 'POST',
 		data: {'id': id},
 		dataType: 'json',
 		success: function(obj) {
+			if(obj.error) {
+				error_popup(obj.error);
+			}
 			
-            // remove clicked element from the document tree
-            jQuery(element).fadeOut('fast');
-            jQuery(element).remove();
-            
-            jQuery('.poof').css({
-                left: e.pageX - xOffset + 'px',
-                top: e.pageY - yOffset + 'px'
-            }).show(); // display the poof
-            
-            animatePoof()
-            
-	       if(parent.children().length == 0) {
-	       	   parent.remove();
-	       	   jQuery('#sideheader-a').remove();
-	       	   
-	       	   var attach_src = jQuery('#attachments').attr('src'); 
-               jQuery('#attachments').attr('src', attach_src.replace('gtk-paste-v', 'gtk-paste'));
-	       }
+            jQuery(attachment_line).remove();
 		}
 	});
+
+    return false;
+}
+/**
+ * @event form submission
+ *
+ * Used by the sidebar to create a new attachment.
+ *
+ * Creates a new line in #attachments if the creation succeeds.
+ */
+function createAttachment() {
+    var form = jQuery(this);
+    form.ajaxSubmit({
+        dataType: 'json',
+        success: function (data) {
+            var attachment_line = jQuery('<li>', {
+                'id': 'attachment_item_' + data['id'],
+                'data-id': data['id']});
+
+            jQuery([
+                jQuery('<a>', {
+                    'target': '_self',
+                    'href': openobject.http.getURL(
+                        '/openerp/attachment/get', {
+                            'record': data['id']})
+                }).text(data['name']),
+                jQuery('<span>|</span>'),
+                jQuery("<a href='#' class='close'>Close</a>").click(removeAttachment)
+            ]).appendTo(attachment_line);
+
+            jQuery('#attachments').append(attachment_line);
+            form.resetForm();
+            form.hide();
+        }
+    });
+    return false;
 }
 
-function animatePoof() {
-	var bgTop = 0; // initial background-position for the poof sprit is '0 0'
-    var frames = 5; // number of frames in the sprite animation
-    var frameSize = 32; // size of poof <div> in pixels (32 x 32 px in this example)
-    var frameRate = 80; // set length of time each frame in the animation will display (in milliseconds)
+function setupAttachments() {
+        jQuery('#attachments li a.close').each(function () {
+            jQuery(this).click(removeAttachment);
+        });
 
-    // loop through amination frames
-    // and display each frame by resetting the background-position of the poof <div>
-    for(i=1; i<frames; i++) {
-        jQuery('.poof').animate({
-            backgroundPosition: '0 ' + (bgTop - frameSize) + 'px'
-        }, frameRate);
-        bgTop -= frameSize; // update bgPosition to reflect the new background-position of our poof <div>
+        var attachments = jQuery('#attachment-box').hide();
+        jQuery('#datas').validate({
+            expression: "if (VAL) return true; else return false;"
+        });
+        jQuery('#add-attachment').click (function (e) { attachments.show(); e.preventDefault(); });
+        attachments.submit(createAttachment);
     }
-    
-    // wait until the animation completes and then hide the poof <div>
-    setTimeout("jQuery('.poof').hide()", frames * frameRate);
+
+function error_popup(obj) {
+    try {
+        var error_window = window.open("", "error", "status=1, scrollbars=yes, width=550, height=400");
+        error_window.document.write(obj.error);
+        error_window.document.title += "Open ERP - Error"
+        error_window.document.close();
+    } catch(e) {
+        alert(e)
+    }
+}
+
+// Setup by the view, the id of the current object
+var RESOURCE_ID;
+/**
+ * Create a shortcut bar item for the provided menu ID
+ */
+function add_shortcut_to_bar(id) {
+    jQuery.getJSON('/openerp/shortcuts/by_resource', function (data) {
+        jQuery('#sc_row > div:not(.scroller)').append(
+            jQuery('<span>').append(
+                jQuery('<a>', {
+                    'id': 'shortcut_' + id,
+                    'href': openobject.http.getURL('/openerp/tree/open', {
+                        'id': id,
+                        'model': 'ir.ui.menu'
+                    })
+                }).text(data[id]['name'])));
+        jQuery(document).trigger('shortcuts-alter');
+    });
+}
+/**
+ * Toggle the shortcut for the current resource (create or delete it depending on current status)
+ */
+function toggle_shortcut() {
+    var adding = jQuery(this).hasClass('shortcut-add');
+    jQuery.ajax({
+        url: adding ? '/openerp/shortcuts/add' : '/openerp/shortcuts/delete',
+        context: this,
+        type: 'POST',
+        data: {'id': RESOURCE_ID},
+        success: function() {
+            jQuery(this).toggleClass('shortcut-add shortcut-remove');
+            if (adding) {
+                add_shortcut_to_bar(RESOURCE_ID);
+            } else {
+                jQuery('#shortcut_' + RESOURCE_ID).parent().remove();
+                jQuery(document).trigger('shortcuts-alter');
+            }
+        }
+    });
 }

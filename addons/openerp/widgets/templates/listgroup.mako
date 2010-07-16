@@ -52,7 +52,15 @@ background = '#DEDEDE'
                                     % if field_attrs.get('type') == 'progressbar':
                                         <span>${grouped[j][field].display()}</span>
                                     % else:
-                                        <span>${grp_row.get(field)}</span>
+                                        % if grp_row.get(field):
+                                            % if field_attrs.get('type') == 'many2one':
+                                                <span>${grp_row.get(field)[-1]}</span>
+                                            % else:
+                                                <span>${grp_row.get(field)}</span>    
+                                            % endif
+                                        % else:
+                                            <span>&nbsp;</span>
+                                        % endif                                    
                                     % endif
                                 </td>
                             % else:
@@ -130,7 +138,7 @@ background = '#DEDEDE'
                                 % else:
                                     % if i == 0:
                                     <td class="grid-cell" id="total_sum_title" nowrap="nowrap">
-                                        <strong id="total_sum_label">Total</strong>
+                                        <strong id="total_sum_label"></strong>
                                     </td>
                                     % else:
                                         <td class="grid-cell" id="total_sum_value" nowrap="nowrap">

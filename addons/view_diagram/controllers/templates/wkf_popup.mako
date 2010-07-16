@@ -1,4 +1,4 @@
-<%inherit file="/openerp/controllers/templates/base.mako"/>
+<%inherit file="/openerp/controllers/templates/base_dispatch.mako"/>
 
 <%def name="header()">
     <title>${form.screen.string} </title>
@@ -23,7 +23,7 @@
             }
         }
 
-        addLoadEvent(on_load);
+        jQuery(document).ready(on_load);
     </script>
 </%def>
 

@@ -1,117 +1,156 @@
-<%inherit file="/openerp/controllers/templates/base.mako"/>
+<%inherit file="/openerp/controllers/templates/base_dispatch.mako"/>
 
 <%def name="header()">
     <title>${form.screen.string}</title>
 
     <script type="text/javascript">
         var form_controller = '${path}';
-    </script>
+        var USER_ID = '${rpc.session.uid}';
+        var RESOURCE_ID = '${rpc.session.active_id}';
 
-    <script type="text/javascript">
         function do_select(id, src) {
             viewRecord(id, src);
         }
     </script>
+    % if can_shortcut:
+    <script type="text/javascript">
+        jQuery(document).ready(function () {
+            jQuery('#shortcut_add_remove').click(toggle_shortcut);
+        });
+    </script>
+    % endif
 </%def>
 
 <%def name="content()">
+    <%
+        if can_shortcut:
+            if rpc.session.active_id in shortcut_ids:
+                shortcut_class = "shortcut-remove"
+            else:
+                shortcut_class = "shortcut-add"
+
+    %>
 	<table id="main_form_body" class="view" cellpadding="0" cellspacing="0" border="0" width="100%" style="border: none;">
         <tr>
             <td id="body_form_td" width="100%" valign="top">
                 <table cellpadding="0" cellspacing="0" border="0" width="100%" style="border: none;">
                     % if buttons.toolbar:
                     <tr>
-                        <td>
+                        <td style="padding: 10px 10px 5px 0;">
                             <table width="100%" id="title_header">
                                 <tr>
                                 	% if can_shortcut:
-                                		% if rpc.session.active_id not in shortcut_ids:
-                                	<td id="add_shortcut" style="padding: 0; width: 30px;">	
-	                                    <a href="javascript: void(0)" id="menu_header" 
-	                                    	title="${_('Add as shortcut')}" 
-	                                    	class="add_shortcut">
-	                                    </a>
-	                                    <script type="text/javascript">
-	                                       jQuery('#menu_header').click(function() {
-	                                           jQuery.ajax({
-	                                               url: '/openerp/shortcuts/add',
-	                                               type: 'POST',
-	                                               data: {'id': '${rpc.session.active_id}'},
-	                                               success: function() {
-	                                                   window.parent.location.reload();
-	                                               }
-	                                           });
-	                                       });
-	                                    </script>
-	                                </td>
-	                                	% endif
+                                        <td id="shortcut_add_remove" class="${shortcut_class}"></td>
                                     % endif
-                                    
-                                    <td id="title_details" width="50%" class="content_header_space">
+
+                                    <td id="title_details" width="30%" class="content_header_space">
                                     	<h1>${form.screen.string}
-                                    		<a target="appFrame" class="help" href="javascript: void(0)" title="${_('Corporate Intelligence...')}" onclick="show_process_view()">
+                                    		<a class="help" href="javascript: void(0)" title="${_('Corporate Intelligence...')}" onclick="show_process_view('${form.screen.string}')">
                                     			<small>Help</small>
 		                              		</a>
+                                            % if display_name:
+		                              		  <small class="sub">${display_name['field']} : ${display_name['value']}</small>
+                                            % endif
                                     	</h1>
                                     </td>
-                                    
+
                                     <%def name="make_view_button(i, kind, name, desc, active)">
+                                        <%
+                                            cls = ''
+                                            if form.screen.view_type == kind:
+                                                cls = 'active'
+                                        %>
                                     	<li class="v${i}" title="${desc}">
-                                    		% if form.screen.view_type == kind:
-                                    			<a href="javascript: void(0);" onclick="switchView('${kind}')" class="active">${kind}</a>
+                                    		% if kind in form.screen.view_mode:
+                                    			<a href="#" onclick="switchView('${kind}'); return false;" class="${cls}">${kind}</a>
                                     		% else:
-                                    			<a href="javascript: void(0);" onclick="switchView('${kind}')">${kind}</a>
+                                    		    <a class="inactive">${kind}</a>
                                     		% endif
                                     	</li>
                                     </%def>
-                                    
+
                                     <td id="view_buttons" class="content_header_space">
-                                    	<ul class="views-a">
+                                    	<ul id="view-selector">
                                     		% for i, view in enumerate(buttons.views):
 												${make_view_button(i+1, **view)}
 											% endfor
 										</ul>
-									</td>
-									
-									<!-- <td class="content_header_space" cursor: pointer;">
-	                                    <a target="appFrame" onclick="show_process_view()">
-		                              		<img title="${_('Corporate Intelligence...')}" class="button" border="0" src="/openerp/static/images/stock/gtk-help.png" width="16" height="16"/>
-		                              	</a>
-                                    </td> -->
-                                  
-                                    % if buttons.can_attach and not buttons.has_attach:
-                                    <td align="center" valign="middle" width="16" class="content_header_space">
-                                        <img 
-                                            class="button" width="16" height="16"
-                                            title="${_('Show attachments.')}" 
-                                            src="/openerp/static/images/stock/gtk-paste.png" 
-                                            onclick="window.open(openobject.http.getURL('/openerp/attachment', {model: '${form.screen.model}', id: ${form.screen.id}}))"/>
-                                    </td>
-                                    % endif
-                                    % if buttons.can_attach and buttons.has_attach:
-                                    <td align="center" valign="middle" width="16" class="content_header_space">
-                                        <img id="attachments"
-                                            class="button" width="16" height="16"
-                                            title="${_('Show attachments.')}" 
-                                            src="/openerp/static/images/stock/gtk-paste-v.png" onclick="window.open(openobject.http.getURL('/openerp/attachment', {model: '${form.screen.model}', id: '${form.screen.id}'}))"/>
-                                    </td>
-                                    % endif
-                                    % if form.screen.view_type in ('form'):
-	                                    <td align="center" valign="middle" width="16" class="content_header_space">
-	                                        <img 
-	                                            class="button" width="16" height="16"
-	                                            title="${_('Translate this resource.')}" 
-	                                            src="/openerp/static/images/stock/stock_translate.png" onclick="openobject.tools.openWindow('${py.url('/openerp/translator', _terp_model=form.screen.model, _terp_id=form.screen.id)}')"/>
-	                                    </td>
-	                                    <td align="center" valign="middle" width="16" class="content_header_space">
-	                                        <img 
-	                                            class="button" width="16" height="16"
-	                                            title="${_('View Log.')}" 
-	                                            src="/openerp/static/images/stock/stock_log.png"
-	                                            onclick="openobject.tools.openWindow('${py.url('/openerp/viewlog', _terp_model=form.screen.model, _terp_id=form.screen.id)}', {width: 500, height: 300})"/>
-	                                    </td>
-                                    % endif
+									</td>                                    
                                 </tr>
+                                %if serverLog:
+	                            	<tr>
+		                              	<td colspan="4" style="width: 100%; padding: 0px;">
+									    	<div id="serverlog" style="display: none;">
+									    		<table class="serverLogHeader">
+									    			<tr>
+									    				<td style="padding: 2px 10px 0 10px; font-weight: bold;">
+									    					<img id="toggle_server_log" style="cursor: pointer; padding-bottom: 3px;" src="/openerp/static/images/server_log_close.gif"></img>
+											    			Current actions :
+											    			<td>
+											    				<img id="closeServerLog" style="cursor: pointer;" align="right" src="/openerp/static/images/attachments-a-close.png"></img>
+											    			</td>
+									    				</td>
+									    			</tr>
+									    			<tr id="actions_row">
+									    				<td style="padding: 2px 0 0 0;">
+									    					<table style="width: 100%;">
+													    		% if len(serverLog) > 3:
+														    		% for log in serverLog[-3:]:
+														    			<tr>
+														    				<td class="logActions">
+														    					<a href="${py.url('/openerp/form/edit', model=log['res_model'], id=log['res_id'])}">
+														    						${log['name']}
+														    					</a>
+														    				</td>
+														    			</tr>
+														    		% endfor
+															    	<tr>
+															    		<td style="font-weight: bold; padding: 0 0 0 10px;">
+															    			<a style="color: blue;" href="javascript: void();" onclick="openobject.tools.openWindow('${py.url('/openerp/form')}', {width: 550, height: 340});">
+															    				More...
+															    			</a>
+															    		</td>
+															    	</tr>
+															    % else:
+															    	% for log in serverLog:
+														    			<tr>
+														    				<td class="logActions">
+														    					<a href="${py.url('/openerp/form/edit', model=log['res_model'], id=log['res_id'])}">
+														    						${log['name']}
+														    					</a>
+														    				</td>
+														    			</tr>
+														    		% endfor
+															    % endif
+															</table>
+														</td>
+													</tr>
+												</table>
+									    	</div>
+						
+									    	<script type="text/javascript">
+									    		jQuery('#serverlog').fadeIn('slow');
+									    		jQuery('#closeServerLog').click(function() {
+									    			jQuery('#serverlog').fadeOut("slow");
+									    		});
+									    		
+									    		jQuery('img#toggle_server_log').click(function() {
+									    			var server_img_src = jQuery(this).attr('src');
+									    			if (jQuery(this).attr('src').indexOf('server_log_close') > 0) {
+									    				jQuery('tr#actions_row').css('display', 'none');
+									    				jQuery(this).attr('src', server_img_src.replace('server_log_close', 'server_log_open'));
+									    				jQuery(this).css('padding-bottom', '1px');
+									    			}
+									    			else {
+									    				jQuery('tr#actions_row').css('display', '');
+									    				jQuery(this).css('padding-bottom', '3px');
+									    				jQuery(this).attr('src', server_img_src.replace('server_log_open', 'server_log_close'));
+									    			}
+									    		});
+									    	</script>
+								    	</td>
+								    </tr>
+								% endif
                             </table>
                         </td>
                     </tr>
@@ -128,7 +167,7 @@
 		                            </li>
 	                            	% endif
 		                            % if buttons.edit:
-		                            <li title="${_('Edit this resource')}"> 
+		                            <li title="${_('Edit this resource')}">
 		                                <a href="javascript: void(0);" onclick="editRecord(${form.screen.id or 'null'})" class="button-a">${_("Edit")}</a>
 		                            </li>
 		                            % endif
@@ -136,7 +175,7 @@
 		                            <li title="${_('Save this resource')}">
 		                                <a href="javascript: void(0);" onclick="submit_form('save')" class="button-a">${_("Save")}</a>
 		                            </li>
-		                            <li title="${_('Save & Edit this resource')}"> 
+		                            <li title="${_('Save & Edit this resource')}">
 		                                <a href="javascript: void(0);" onclick="submit_form('save_and_edit')" class="button-a">${_("Save & Edit")}</a>
 		                            </li>
 		                            % endif
@@ -146,17 +185,17 @@
 		                            </li>
 		                            % endif
 		                            % if buttons.delete:
-		                            <li title="${_('Delete this resource')}"> 
+		                            <li title="${_('Delete this resource')}">
 		                                <a href="javascript: void(0);" onclick="submit_form('delete')" class="button-a">${_("Delete")}</a>
 		                            </li>
 		                            % endif
 		                            % if buttons.cancel:
-		                            <li title="${_('Cancel editing the current resource')}"> 
+		                            <li title="${_('Cancel editing the current resource')}">
 		                                <a href="javascript: void(0);" onclick="submit_form('cancel')" class="button-a">${_("Cancel")}</a>
 		                            </li>
 		                            % endif
 		                    	</ul>
-		                    	
+
 		                    	% if buttons.pager:
                                 	<p class="paging-a">
 						            	${pager.display()}
@@ -169,33 +208,26 @@
                     <tr>
                         <td style="padding: 2px">${form.display()}</td>
                     </tr>
-                    
                     <tr>
                         <td class="dimmed-text">
-                            <table style="border: none;">
+                            <table class="form-footer">
                             	<tr>
                             		<td class="footer">
                             			<a href="javascript: void(0)" onclick="new ListView('_terp_list').importData()"">${_("Import")}</a>
                             			<span>|</span>
                             			<a href="javascript: void(0)" onclick="new ListView('_terp_list').exportData()">${_("Export")}</a>
-                            		</td>
+                            			% if form.screen.view_type in ('form'):
+	                           			 <span>|</span>
+		                           			 <a href="javascript: void(0)" title="${_('Translate this resource.')}" onclick="openobject.tools.openWindow(openobject.http.getURL('/openerp/translator', {_terp_model: '${form.screen.model}', _terp_id: ${form.screen.id}, _terp_context: $('_terp_context').value}));">
+		                           			      ${_('Translate')}</a>
+		                           			 <span>|</span>
+		                           			 <a href="javascript: void(0)"  title="${_('View Log.')}" onclick="openobject.tools.openWindow('${py.url('/openerp/viewlog', _terp_model=form.screen.model, _terp_id=form.screen.id)}', {width: 550, height: 340});">
+		                           			     ${_('View Log')}
+		                           			 </a> 
+                            			% endif
+                            		</td>                            		
                             		<td class="powered">
-                            			Powered by <a href="http://www.openerp.com"  target="_blank">openerp.com</a>
-                            		</td>
-                            		<td class="footer" style="text-align: right;">
-                            			<a id="show_customize_menu" onmouseover="showCustomizeMenu(this, 'customise_menu_')" 
-                                			onmouseout="hideElement('customise_menu_');" href="javascript: void(0)">${_("Customise")}</a><br/>
-			                            <div id="customise_menu_" class="contextmenu" onmouseover="showElement(this);" onmouseout="hideElement(this);">
-			                                <a class="customise_menu_options" title="${_('Manage views of the current object')}" 
-			                                   	onclick="openobject.tools.openWindow('/openerp/viewlist?model=${form.screen.model}', {height: 400})" 
-			                                   href="javascript: void(0)">${_("Manage Views")}</a>
-			                                <a class="customise_menu_options" title="${_('Manage workflows of the current object')}" 
-			                                   	onclick="javascript: show_wkf()" 
-			                                   href="javascript: void(0)">${_("Show Workflow")}</a>
-			                                <a class="customise_menu_options" title="${_('Customise current object or create a new object')}" 
-			                                   	onclick="openobject.tools.openWindow('/openerp/viewed/new_model/edit?model=${form.screen.model}')" 
-			                                   href="javascript: void(0)">${_("Customise Object")}</a>
-			                            </div>
+                            			Powered by <a href="http://www.openerp.com" target="_blank">openerp.com</a>
                             		</td>
                             	</tr>
                             </table>
@@ -204,9 +236,9 @@
                 </table>
             </td>
 
-            % if form.sidebar and buttons.toolbar and form.screen.view_type not in ('calendar', 'gantt'):
+            % if form.sidebar:
             <td id="main_sidebar" valign="top">
-            	<div id="tertiary">
+            	<div id="tertiary" class="sidebar-closed">
 					<div id="tertiary_wrap">
                 		${form.sidebar.display()}
                 	</div>

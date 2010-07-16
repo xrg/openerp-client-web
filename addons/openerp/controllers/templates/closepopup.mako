@@ -1,8 +1,8 @@
-<%inherit file="/openerp/controllers/templates/base.mako"/>
+<%inherit file="/openerp/controllers/templates/base_dispatch.mako"/>
 
 <%def name="header()">
     <script type="text/javascript">    
-        MochiKit.DOM.addLoadEvent(function(evt){
+        jQuery(document).ready(function(){
             if (window.opener) {
                 window.opener.location.reload();
                 window.close();

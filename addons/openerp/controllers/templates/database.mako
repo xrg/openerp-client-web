@@ -1,4 +1,4 @@
-<%inherit file="/openerp/controllers/templates/base.mako"/>
+<%inherit file="/openerp/controllers/templates/base_dispatch.mako"/>
 
 <%def name="header()">
     <title>${form.string}</title>
@@ -10,20 +10,18 @@
 
     <script type="text/javascript">
 
-        var WAITBOX = null;
+        var WAIT_BOX = null;
 
-        MochiKit.DOM.addLoadEvent(function(evt){
-            WAITBOX = new openerp.ui.WaitBox();
+        jQuery(document).ready(function(){
+            WAIT_BOX = new openerp.ui.WaitBox();
         });
 
         var dbView = function(name) {
             window.location.href = "${py.url('/openerp/database/')}" + name;
-        }
+        };
 
         var on_create = function() {
-            MochiKit.Async.callLater(2, function(){
-                WAITBOX.show();
-            });
+            WAIT_BOX.showAfter(2000);
             return true;
         }
 
@@ -36,7 +34,7 @@
 
     <table cellpadding="0" cellspacing="0" border="0" width="100%">
         <tr>
-            <td style="padding-top: 65px;" valign="top">
+            <td valign="top">
                 <table width="100%" class="titlebar">
                     <tr>
                         <td width="32px" align="center">

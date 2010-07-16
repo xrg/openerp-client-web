@@ -40,31 +40,34 @@ class Process(SecuredController):
     _cp_path = "/view_diagram/process"
 
     @expose(template="templates/process.mako")
-    def default(self, id=False, res_model=None, res_id=False):
+    def default(self, id=False, res_model=None, res_id=False, title=None):
 
         id = (id or False) and int(id)
         res_id = int(res_id)
 
-        title = _("Select Workflow")
+        title = title
         selection = None
 
         proxy = rpc.RPCProxy('process.process')
+        fields = proxy.fields_get([], {})
         if id:
             res = proxy.read([id], ['name'], rpc.session.context)[0]
-            title = res['name']
+            selection = proxy.search_by_model(False, rpc.session.context)
+
         else:
             selection = proxy.search_by_model(res_model, rpc.session.context)
             if res_model and not selection:
                 selection = proxy.search_by_model(False, rpc.session.context)
 
             if len(selection) == 1:
-                id, title = selection[0]
-                selection = None
+                id = selection[0]
+#                selection = None
+                selection = proxy.search_by_model(False, rpc.session.context)
 
-        return dict(id=id, res_model=res_model, res_id=res_id, title=title, selection=selection)
+        return dict(fields=fields, id=id, res_model=res_model, res_id=res_id, title=title, selection=selection)
 
     @expose('json')
-    def get(self, id, res_model=None, res_id=False):
+    def get(self, id, res_model=None, res_id=False, title=None):
 
         id = int(id)
         res_id = int(res_id)
@@ -105,5 +108,10 @@ class Process(SecuredController):
             node['res']['perm'] = update_perm(node['res']['perm'] or {})
 
         return graph
+
+    @expose(template="templates/process_tip.mako")
+    def open_tip(self, **kw):
+        title_tip = kw.get('title_tip')
+        return dict(id=None, res_model=None, res_id=None, title=None, selection=None, title_tip=title_tip)
 
 # vim: ts=4 sts=4 sw=4 si et

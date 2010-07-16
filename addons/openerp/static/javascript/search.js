@@ -31,14 +31,13 @@
  *  @target #filter_table the element holding the filter rows
  *  @argument 'the newly added (or showed for first row?) filter row'
  */
-var add_filter_row = function() {
+function add_filter_row() {
 	
 	var filter_table = getElement('filter_table');
 	var vals = [];
 	var row_id = 1;
 	
 	var first_row = getElement('filter_row/0');
-	
 	var trs = MochiKit.DOM.getElementsByTagAndClassName('tr', null, filter_table)
 	
 	if (filter_table.style.display == 'none') {
@@ -56,14 +55,14 @@ var add_filter_row = function() {
 	
 	else{
 		
-		var old_tr = trs[trs.length-1]
+		var old_tr = trs[trs.length-1];
 		var old_qstring = MochiKit.DOM.getFirstElementByTagAndClassName('input', 'qstring', old_tr);
 		old_qstring.style.background = '#FFFFFF';
 		
 		var new_tr = old_tr.cloneNode(true);
 		keys = new_tr.id.split('/');
 		id = parseInt(keys[1], 0);
-		row_id = id + row_id
+		row_id = id + row_id;
 		new_tr.id =  keys[0] +'/'+ row_id;
 		var filter_column = MochiKit.DOM.getFirstElementByTagAndClassName('td', 'filter_column', new_tr);
 		
@@ -79,7 +78,7 @@ var add_filter_row = function() {
 		qstring.value = '';
 		
 		var image_col = MochiKit.DOM.getFirstElementByTagAndClassName('td', 'image_col', new_tr);
-		image_col.id = 'image_col/' + row_id
+		image_col.id = 'image_col/' + row_id;
 		
 		var and_or = MochiKit.DOM.getFirstElementByTagAndClassName('td', 'and_or', new_tr);
 		if (and_or){removeElement(and_or); }
@@ -117,31 +116,32 @@ var add_filter_row = function() {
  *  @target #filter_table the element holding the filter rows
  *  @argument 'the removed (or hidden) filter row'
  */
-var remove_row = function(id) {
+function remove_row(id) {
 	
-	var filter_table = $('filter_table');
-	
-	node = MochiKit.DOM.getFirstParentByTagAndClassName(id, 'tr', 'filter_row_class');
-	
-	if (node.id != 'filter_row/0') {
-		removeElement(node);
+	var node = jQuery(id).closest('tr');
+	if (node.attr('id') != 'filter_row/0') {
+		jQuery(node).remove();
 	}
 	else {
-		node.style.display = 'none';
-		if ($('and_or/0'))
-			removeElement($('and_or/0'));
-		$('qstring/0').value = '';
-		$('qstring/0').style.background = '#FFFFFF';
+		node.css('display', 'none');
+		if (jQuery('#and_or/0')) {
+			jQuery('#and_or/0').remove();
+		}
+		if(jQuery('#qstring/0')) {
+			jQuery('#qstring/0').val('');
+			jQuery('#qstring/0').css('background', '#FFFFFF');   
+		}
 	}
-	MochiKit.Signal.signal(filter_table, 'onremovefilter', node);
+	
+//	MochiKit.Signal.signal(filter_table, 'onremovefilter', node);
 }
 // Direct click on icon.
-var search_image_filter = function(src, id) {
+function search_image_filter(src, id) {
 	domain = getNodeAttribute(id, 'value');
 	search_filter(src);
 }
 
-var onKey_Event = function(evt) {
+function onKey_Event() {
 	
 	dom = openobject.dom.get('search_filter_data');
 	
@@ -160,7 +160,7 @@ var onKey_Event = function(evt) {
     });
 }
 
-var onKeyDown_search = function(evt) {
+function onKeyDown_search(evt) {
 	var key = evt.key();
     var src = evt.src();
     
@@ -169,7 +169,7 @@ var onKeyDown_search = function(evt) {
     }
 }
 
-var display_Customfilters = function(all_domains, group_by_ctx){
+function display_Customfilters(all_domains, group_by_ctx){
 
 	var filter_table = getElement('filter_table');
 	
@@ -201,7 +201,7 @@ var display_Customfilters = function(all_domains, group_by_ctx){
 	search_req.addCallback(function(obj){
 		if (obj.error) {
 			forEach(children, function(child){
-				var cids = child['id']
+				var cids = child['id'];
 				var id = cids.split('/')[1];
 				var fid = 'filter_fields/' + id;
 				if ($(fid).value == obj.error_field) {
@@ -258,19 +258,20 @@ var display_Customfilters = function(all_domains, group_by_ctx){
 }
 
 var group_by = new Array();
+var filter_context = [];
 
-var search_filter = function(src, id) {
-	var all_domains = {};
-	var check_domain = 'None';
-	var domains = {};
-	
-	var search_context = {};
-	var all_boxes = [];
-	var domain = 'None';
-	var set_filter = jQuery(id).find("a")[0];
-	
-	var filter_class = jQuery(set_filter).attr('class');
-	var check_groups = jQuery('#_terp_group_by_ctx').val();
+function parse_filters(src, id) {
+    var all_domains = {};
+    var check_domain = 'None';
+    var domains = {};
+    
+    var search_context = {};
+    var all_boxes = [];
+    var domain = 'None';
+    var set_filter = jQuery(id).find("a")[0];
+    
+    var filter_class = jQuery(set_filter).attr('class');
+    var check_groups = jQuery('#_terp_group_by_ctx').val();
     if(check_groups!='[]') {
         check_groups = eval(check_groups)
         for(i in check_groups) {
@@ -279,99 +280,125 @@ var search_filter = function(src, id) {
             }
         }   
     }
-	if(src) {
-		if(filter_class == 'active') {
-			jQuery(src).attr('checked',false);
-			group_by = jQuery.grep(group_by, function(grp) {
+    if(src) {
+        if(filter_class == 'active') {
+            jQuery(src).attr('checked',false);
+            group_by = jQuery.grep(group_by, function(grp) {
                 return grp != jQuery(src).attr('group_by_ctx');
             });
-            
+
             jQuery(set_filter).attr('class', 'inactive');
             jQuery(id).attr('class', 'inactive_filter');
-		}
-		else {
-			jQuery(src).attr('checked',true);
-			jQuery(set_filter).attr('class', 'active');
+            
+            if(jQuery(src).attr('filter_context') && jQuery(src).attr('filter_context')!='{}') {
+                var filter_index = jQuery.inArray(jQuery(src).attr('filter_context'), filter_context);
+                if(filter_index >= 0) {
+                    filter_context.splice(filter_index, 1);
+                }
+            }
+        } else {
+            jQuery(src).attr('checked',true);
+            jQuery(set_filter).attr('class', 'active');
             jQuery(id).attr('class', 'active_filter');
-            
-            
+
             if(jQuery(src).attr('group_by_ctx') && jQuery(src).attr('group_by_ctx')!='False' && jQuery(src).attr('group_by_ctx')!='') {
                 group_by.push(jQuery(src).attr('group_by_ctx'));
-                
             }
             
-		}
-	}
-	
-	if(group_by.length)
-	   jQuery('#_terp_group_by_ctx').val(group_by.toSource());
-   else
-       jQuery('#_terp_group_by_ctx').val('[]');
-   
-	var filter_table = getElement('filter_table');
-	datas = $$('[name]', 'search_filter_data');
-	
-	forEach(datas, function(d) {
-		if (d.type != 'checkbox' && d.name && d.value && d.name.indexOf('_terp_') == -1  && d.name != 'filter_list') {
-			value = d.value;
-			if (getNodeAttribute(d, 'kind') == 'selection') {
-				value = parseInt(d.value);
-				if(getNodeAttribute(d, 'search_context')) {
-					search_context['context'] = getNodeAttribute(d, 'search_context');
-					search_context['value'] = value;
-				}
-			}
-			if (getNodeAttribute(d, 'kind') == 'many2one'){
-				value = openobject.dom.get(d.name+'_text').value || value;
-			}
-			domains[d.name] = value;
-		}
-	});
-	domains = serializeJSON(domains);
-//	search_context = serializeJSON(search_context);
-	all_domains['domains'] = domains;
-	all_domains['search_context'] =  search_context;
-	selected_boxes = getElementsByTagAndClassName('input', 'grid-domain-selector');
-	
-	forEach(selected_boxes, function(box){
-		if (box.id && box.checked && box.value != '[]') {
-			all_boxes = all_boxes.concat(box.value);
-		}
-	});
-	
-	checked_button = all_boxes.toString();
-	check_domain = checked_button.length > 0? checked_button.replace(/(]\,\[)/g, ', ') : 'None';
-	all_domains['check_domain'] = check_domain;
-	
-	if ($('filter_list')) {
-		all_domains['selection_domain'] = jQuery('[id=filter_list]').val();
-	}
-	
-	all_domains = serializeJSON(all_domains);
-//	var fil_dom = openobject.dom.get('_terp_filter_domain');
-
-	if(jQuery('table[id=filter_table]').css('display') != 'none' || jQuery('[id=_terp_filter_domain]').val() != '[]') {
-		
-		if (jQuery('table[id=filter_table]').css('display') == 'none'){
-			jQuery('table[id=filter_table]').css('display','');
-		}		
-		display_Customfilters(all_domains, group_by);
-	}
-	else {
-		custom_domain = jQuery('[id=_terp_filter_domain]').val() || '[]';		
-		final_search_domain(custom_domain, all_domains, group_by);
-	}
+            if(jQuery(src).attr('filter_context') && jQuery(src).attr('filter_context')!='{}') {
+                filter_context.push(jQuery(src).attr('filter_context'));
+            }
+        }
+    }
+    
+    jQuery('#_terp_filters_context').val(filter_context);
+    
+    var filter_table = getElement('filter_table');
+    datas = $$('[name]', 'search_filter_data');
+    
+    forEach(datas, function(d) {
+        if (d.type != 'checkbox' && d.name && d.value && d.name.indexOf('_terp_') == -1  && d.name != 'filter_list') {
+            value = d.value;
+            if (getNodeAttribute(d, 'kind') == 'selection') {
+                value = parseInt(d.value);
+                if(getNodeAttribute(d, 'search_context')) {
+                    search_context['context'] = getNodeAttribute(d, 'search_context');
+                    search_context['value'] = value;
+                }
+            }
+            if (getNodeAttribute(d, 'kind') == 'many2one'){
+                value = openobject.dom.get(d.name+'_text').value || value;
+            }
+            domains[d.name] = value;
+        }
+    });
+    domains = serializeJSON(domains);
+//  search_context = serializeJSON(search_context);
+    all_domains['domains'] = domains;
+    all_domains['search_context'] =  search_context;
+    selected_boxes = getElementsByTagAndClassName('input', 'grid-domain-selector');
+    
+    forEach(selected_boxes, function(box){
+        if (box.id && box.checked && box.value != '[]') {
+            all_boxes = all_boxes.concat(box.value);
+        }
+    });
+    
+    checked_button = all_boxes.toString();
+    check_domain = checked_button.length > 0? checked_button.replace(/(]\,\[)/g, ', ') : 'None';
+    all_domains['check_domain'] = check_domain;
+    
+    if ($('filter_list')) {
+        all_domains['selection_domain'] = jQuery('#filter_list').val();
+    }
+    
+    all_domains = serializeJSON(all_domains);
+    return all_domains;
 }
 
-var final_search_domain = function(custom_domain, all_domains, group_by_ctx) {
+function search_filter(src, id) {
+	all_domains = parse_filters(src, id);
+    if(jQuery('#filter_table').css('display') != 'none' || jQuery('#_terp_filter_domain').val() != '[]') {
+        
+        if (jQuery('#filter_table').css('display') == 'none'){
+            jQuery('#filter_table').css('display', '');
+        }
+        display_Customfilters(all_domains, group_by);
+    }
+    else {
+        custom_domain = jQuery('#_terp_filter_domain').val() || '[]';       
+        final_search_domain(custom_domain, all_domains, group_by);
+    }
+}
+
+function save_as_filter() {
+    domain_list = parse_filters()
+    custom_domain = jQuery('#_terp_filter_domain').val() || '[]';
+    var params = {'all_domains': domain_list, 'source': '_terp_list', 'custom_domain': custom_domain, 'group_by_ctx': group_by}
+    var req = openobject.http.postJSON('/openerp/search/eval_domain_filter', params);
+    req.addCallback(function(obj) {
+        var sf_params = {'model': jQuery('#_terp_model').val(), 'domain': obj.domain, 'group_by': group_by, 'flag': 'sf'};
+        openobject.tools.openWindow(openobject.http.getURL('/openerp/search/save_filter', sf_params), {
+                width: 500,
+                height: 240
+            });
+    });
+    
+}
+
+function manage_filters() {
+    var params = {'model': jQuery('#_terp_model').val()}
+    openLink(openobject.http.getURL('/openerp/search/manage_filter', params));
+}
+
+function final_search_domain(custom_domain, all_domains, group_by_ctx) {
 	var req = openobject.http.postJSON('/openerp/search/eval_domain_filter', 
 		{source: '_terp_list',
-		model: $('_terp_model').value, 
+		model: jQuery('#_terp_model').val(), 
 		custom_domain: custom_domain,
 		all_domains: all_domains,
 		group_by_ctx: group_by_ctx
 	});
-	
 	req.addCallback(function(obj){
 		if (obj.flag) {
 			var params = {'domain': obj.sf_dom,
@@ -387,10 +414,10 @@ var final_search_domain = function(custom_domain, all_domains, group_by_ctx) {
 			});
 		}
 		
-		if (obj.action) { // For manage Filter
-			action = serializeJSON(obj.action);
-			window.location.href = openobject.http.getURL('/openerp/search/manage_filter', {action: action});
-		}
+        if (obj.action) { // For manage Filter
+            openLink(openobject.http.getURL('/openerp/search/manage_filter', {
+                action: serializeJSON(obj.action)}));
+        }
 		
 		if (obj.domain) { // For direct search
 			var in_req = eval_domain_context_request({
@@ -405,6 +432,7 @@ var final_search_domain = function(custom_domain, all_domains, group_by_ctx) {
 		    	openobject.dom.get('_terp_search_data').value = obj.search_data;
 		    	openobject.dom.get('_terp_context').value = in_obj.context;
 		    	openobject.dom.get('_terp_filter_domain').value = obj.filter_domain;
+		    	jQuery('#_terp_group_by_ctx').val(in_obj.group_by)
 		    	if (getElement('_terp_list') != null){
 		    		new ListView('_terp_list').reload();
 		    	}
@@ -436,11 +464,11 @@ function expand_group_option(id, element) {
             action);
 }
 
-MochiKit.DOM.addLoadEvent(function(evt){
+jQuery(document).ready(function(){
 
 	var filter_table = openobject.dom.get('filter_table');
 	var fil_dom = openobject.dom.get('_terp_filter_domain');
-	
+
 	if (filter_table) {
 		if(filter_table.style.display == '' || fil_dom && fil_dom.value != '[]') {
 			if(filter_table.style.display == 'none'){
@@ -448,5 +476,5 @@ MochiKit.DOM.addLoadEvent(function(evt){
 			}
 		}
 	}
-	onKey_Event(evt);	
+	onKey_Event();	
 });

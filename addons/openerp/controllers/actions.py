@@ -42,8 +42,6 @@ from selection import Selection
 from tree import Tree
 from wizard import Wizard
 
-from openobject.tools import redirect
-
 def execute_window(view_ids, model, res_id=False, domain=None, view_type='form', context=None,
                    mode='form,tree', name=None, target=None, limit=None, search_view=None):
     """Performs `actions.act_window` action.
@@ -71,6 +69,8 @@ def execute_window(view_ids, model, res_id=False, domain=None, view_type='form',
 
     cherrypy.request._terp_view_name = name or None
     cherrypy.request._terp_view_target = target or None
+    if name:
+        params.context['_terp_view_name'] = name
 
     if params.ids and not isinstance(params.ids, list):
         params.ids = [params.ids]
@@ -110,7 +110,13 @@ PRINT_FORMATS = {
      'doc' : 'application/vnd.ms-word',
      'html': 'text/html',
      'sxw' : 'application/vnd.sun.xml.writer',
-     'odt' : 'application/vnd.sun.xml.writer',
+     'odt' : 'application/vnd.oasis.opendocument.text',
+     'ods' : 'application/vnd.oasis.opendocument.spreadsheet',
+     'xls' : 'application/vnd.ms-excel',
+     'doc' : 'application/msword',
+     'csv' : 'text/csv',
+     'rtf' : 'application/rtf',
+     'txt' : 'text/plain',
 }
 
 def _print_data(data):
@@ -147,7 +153,9 @@ def execute_report(name, **data):
         datas['id'] = ids[0]
 
     try:
-        report_id = rpc.session.execute('report', 'report', name, ids, datas, rpc.session.context)
+        ctx = dict(rpc.session.context)
+        ctx.update(datas.get('context', {}))
+        report_id = rpc.session.execute('report', 'report', name, ids, datas, ctx)
         state = False
         attempt = 0
         while not state:
@@ -191,7 +199,7 @@ def execute(action, **data):
         #raise common.error('Error', 'Invalid action...')
         return close_popup()
 
-    data.get('context', {}).update(expr_eval(action.get('context','{}'), data.get('context', {}).copy()))
+    data.setdefault('context', {}).update(expr_eval(action.get('context','{}'), data.get('context', {}).copy()))
     if action['type'] == 'ir.actions.act_window_close':
         return close_popup()
 
@@ -224,6 +232,7 @@ def execute(action, **data):
         ctx.update({'active_id': data.get('id', False), 'active_ids': data.get('ids', []), 'active_model': data.get('model',False)})
         ctx.update(expr_eval(action.get('context', '{}'), ctx.copy()))
 
+
         search_view = action.get('search_view_id')
         if search_view:
             if isinstance(search_view, (list, tuple)):
@@ -234,10 +243,7 @@ def execute(action, **data):
         # save active_id in session
         rpc.session.active_id = data.get('id')
 
-        a = ctx.copy()
-        a['time'] = time
-        a['datetime'] = datetime
-        domain = expr_eval(action['domain'], a)
+        domain = expr_eval(action['domain'], dict(ctx, time=time, datetime=datetime))
 
         if data.get('domain', False):
             domain.append(data['domain'])
@@ -265,7 +271,13 @@ def execute(action, **data):
 
         res = rpc.RPCProxy('ir.actions.server').run([action['id']], ctx)
         if res:
-            return execute(res, **data)
+            if not isinstance(res, list):
+                res = [res]
+                
+            output = ''
+            for r in res:
+                output = execute(r, **data)
+            return output
         else:
             return ''
 
@@ -278,17 +290,17 @@ def execute(action, **data):
 
         ctx1.update(ctx2)
 
-        data['context'] = ctx2
+        data['context'] = ctx1
 
         return execute_wizard(action['wiz_name'], **data)
 
     elif action['type']=='ir.actions.report.custom':
+        data.update(action.get('datas',{}))
         data['report_id'] = action['report_id']
         return execute_report('custom', **data)
 
     elif action['type']=='ir.actions.report.xml':
-        if not data.get('datas'):
-            data = action.get('datas',[])
+        data.update(action.get('datas',{}))
         return execute_report(action['report_name'], **data)
 
     elif action['type']=="ir.actions.act_url":
@@ -333,8 +345,10 @@ def execute_by_id(act_id, type=None, **data):
 
     if type is None:
         type = get_action_type(act_id)
+        
+    ctx = dict(rpc.session.context, **(data.get('context') or {}))   
 
-    res = rpc.session.execute('object', 'execute', type, 'read', act_id, False, rpc.session.context)
+    res = rpc.session.execute('object', 'execute', type, 'read', act_id, False, ctx)
     return execute(res, **data)
 
 def execute_by_keyword(keyword, adds=None, **data):

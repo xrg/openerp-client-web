@@ -1,10 +1,10 @@
-<%inherit file="/openerp/controllers/templates/base.mako"/>
+<%inherit file="/openerp/controllers/templates/base_dispatch.mako"/>
 
 <%def name="header()">
     <title>${_("Field Preferences")}</title>
     
     <script type="text/javascript">
-        addLoadEvent(function(evt){            
+        jQuery(document).ready(function(){
             if(openobject.dom.get('click_ok').value)
                 window.close();
         });

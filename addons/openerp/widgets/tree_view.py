@@ -48,7 +48,7 @@ class ViewTree(Form):
     params = ['model', 'id', 'ids', 'domain', 'context', 'view_id', 'toolbar']
     member_widgets = ['tree', 'sidebar']
 
-    javascript = [JSLink("openerp", "javascript/form.js", location=locations.bodytop)]
+    javascript = [JSLink("openerp", "javascript/form.js", location=locations.head)]
 
     def __init__(self, view, model, res_id=False, domain=[], context={}, action=None, fields=None):
         super(ViewTree, self).__init__(name='view_tree', action=action)
@@ -99,7 +99,7 @@ class ViewTree(Form):
         self.headers = []
         self.parse(root, fields)
 
-        self.tree = treegrid.TreeGrid(name="tree_%s" % (id),
+        self.tree = treegrid.TreeGrid(name="tree_%d" % (id),
                                       model=self.model,
                                       headers=self.headers,
                                       url=url("/openerp/tree/data"),
@@ -121,7 +121,7 @@ class ViewTree(Form):
             self.sidebar = Sidebar(self.model, submenu, toolbar, context=self.context)
 
         # get the correct view title
-        self.string = getattr(cherrypy.request, '_terp_view_name', self.string)
+        self.string = self.context.get('_terp_view_name', self.string) or self.string
 
     def parse(self, root, fields=None):
 

@@ -49,9 +49,9 @@ var Notebook = function(element, options) {
     if (!(this instanceof cls)) {
         return new cls(element, options);
     }
-  
+
     return this.__init__(element, options);
-}
+};
 
 Notebook.prototype = {
 
@@ -163,8 +163,8 @@ Notebook.prototype = {
 
         var self = this;
         MochiKit.Async.callLater(0, function() {
-            var i = self.options.remember ? parseInt(openobject.http.getCookie(self.cookie)) || 0 : 0;
-            self.show(i);
+            var i = self.options.remember ? getElement('_terp_notebook_tab').value || 0 : 0;
+            self.show(parseInt(i));
         });
 
         showElement(this.element);
@@ -409,6 +409,7 @@ Notebook.prototype = {
         this.activePage = this.getPage(tab);
         
         if (this.options.remember) {
+            openobject.dom.get('_terp_notebook_tab').value = findIdentical(this.tabs, tab);
             openobject.http.setCookie(this.cookie, findIdentical(this.tabs, tab));
         }
         
@@ -575,7 +576,7 @@ Notebook.prototype = {
         });*/
     }
 
-}
+};
 
 Notebook.adjustSize = function(callback) {
 
@@ -593,7 +594,7 @@ Notebook.adjustSize = function(callback) {
     MochiKit.Iter.forEach(elems, function(e){
         e.notebook.adjustSize();
     });
-}
+};
 
 //==============================================================================
 

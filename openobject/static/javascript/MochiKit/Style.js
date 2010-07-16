@@ -422,7 +422,7 @@ MochiKit.Base.update(MochiKit.Style, {
         if (contentSize) {
             var tableCell = 'colSpan' in elem && 'rowSpan' in elem;
             var collapse = (tableCell && elem.parentNode && self.getStyle(
-                    elem.parentNode, 'borderCollapse') == 'collapse')
+                    elem.parentNode, 'borderCollapse') == 'collapse');
             if (collapse) {
                 if (/MSIE/.test(navigator.userAgent)) {
                     var borderLeftQuota = elem.previousSibling? 0.5 : 1;

@@ -41,7 +41,7 @@ class O2M(TinyInputWidget):
     """One2Many widget
     """
     template = "templates/one2many.mako"
-    params = ['id', 'parent_id', 'new_attrs', 'pager_info', 'switch_to', 'default_get_ctx', 'source']
+    params = ['id', 'parent_id', 'new_attrs', 'pager_info', 'switch_to', 'default_get_ctx', 'source', 'view_type']
     member_widgets = ['screen']
 
     form = None
@@ -86,7 +86,8 @@ class O2M(TinyInputWidget):
 
         view_mode = mode
         view_type = mode[0]
-
+        self.view_type = view_type
+        
         if not current:
             current = TinyDict()
 
@@ -111,6 +112,9 @@ class O2M(TinyInputWidget):
 
         if ids and isinstance(ids[0], dict):
             ids = []
+            
+        if ids and isinstance(ids[0], tuple):
+            ids = [i[1] for i in ids]
 
         id = (ids or None) and ids[0]
 
@@ -163,7 +167,7 @@ class O2M(TinyInputWidget):
 
         self.screen = Screen(current, prefix=self.name, views_preloaded=view,
                              editable=self.editable, readonly=self.readonly,
-                             selectable=0, nolinks=self.link)
+                             selectable=0, nolinks=self.link, **{'_o2m': 1})
         self.id = id
         self.ids = ids
 

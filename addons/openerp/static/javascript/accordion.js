@@ -35,7 +35,7 @@ var Accordion = function(container, options) {
     }
 
     this.__init__(container, options);
-}
+};
 
 Accordion.prototype = {
 
@@ -47,30 +47,33 @@ Accordion.prototype = {
 
         if (!this.element) {
             throw(container + " doesn't exist!");
-            return false;
         }
 
         MochiKit.DOM.addElementClass(this.element, "accordion");
 
         this.options = MochiKit.Base.update({
-            duration: 0.5
+            duration: 0.1
         }, options || {});
-
-        var accordions = MochiKit.DOM.getElementsByTagAndClassName(null, "accordion-block", container);
-
-        MochiKit.Iter.forEach(accordions, function(accordion) {
-
-            var title = getElementsByTagAndClassName(null, "accordion-title", accordion)[0];
-            var content = getElementsByTagAndClassName(null, "accordion-content", accordion)[0];
-
+        
+        var titles = MochiKit.DOM.getElementsByTagAndClassName(null, "accordion-title", container);
+        var contents = MochiKit.DOM.getElementsByTagAndClassName(null, "accordion-content", container);
+        
+        for (var i=0; i<titles.length; i++) {
+            var title = titles[i];
+            var content = contents[i];
+            
             title._content = content;
-
+            
             MochiKit.Signal.connect(title, "onclick", this, partial(this.activate, title));
-            MochiKit.Style.hideElement(content);
-
-            this.current = title;
-
-        }, this);
+            
+            if (i > 0) {
+            	MochiKit.Style.hideElement(content);
+            }
+            else {
+            	this.current = title;
+            }
+			
+        }
     },
 
     activate : function(title) {
@@ -124,7 +127,4 @@ Accordion.prototype = {
 
     toString: MochiKit.Base.forwardCall("repr")
 
-}
-
-// vim: ts=4 sts=4 sw=4 si et
-
+};
