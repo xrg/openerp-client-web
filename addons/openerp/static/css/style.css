@@ -490,7 +490,7 @@ table.o2m_box, table.m2m_box {
 table.o2m_box div.pagerbar-header strong {
 	font-weight: bold;
 	font-size: 13px;
-} 
+}
 
 .view td.grid-cell table.many2many {
     border: none;
@@ -540,7 +540,7 @@ td.item textarea {
     border: 1px solid #CECBCB;
     vertical-align: middle;
 }
-    
+
 td.item input {
     padding: 2px 3px;
 }
@@ -802,6 +802,8 @@ div.filter-a button.filter_icon {
     border: none;
     margin: 15px 0 0 0;
     min-height: 25px;
+    max-height: 30px;
+    max-width: 30px;
 }
 
 div.filter-a button.filter_icon:active,
