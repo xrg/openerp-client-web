@@ -443,6 +443,9 @@ GanttCalendar.List.prototype = {
         });
 
         appendChildNodes('calListC', DIV({'id': 'calList'}, elements));
+        
+        //XXX: MochiKit bug #140 (http://trac.mochikit.com/ticket/140)
+        MochiKit.Position.includeScrollOffsets = true;
 
         forEach(elements, function(elem) {
             MochiKit.Sortable.Sortable.create(elem, {
