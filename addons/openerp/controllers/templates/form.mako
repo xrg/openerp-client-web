@@ -101,13 +101,23 @@
 			                    			</tr>
 			                    		% endfor
 				                    	<tr>
-				                    		<td style="font-weight: bold; padding: 0 0 0 10px;">
-				                    			<a style="color: blue;" href="javascript: void();"
-				                    			   onclick="openobject.tools.openWindow('${py.url('/openerp/form')}', {width: 550, height: 340});">
+				                    		<td style="padding: 0 0 0 10px;">
+				                    			<a style="color: blue; font-weight: bold;" href="javascript: void();"
+				                    			   onclick="jQuery('#more_logs').slideToggle('slow')">
 				                    				More...
 				                    			</a>
+				                    			<div id="more_logs">
+				                    			     % for log in serverLog[:-3]:
+				                    			         <div>
+				                    			             <a href="${py.url('/openerp/form/edit', model=log['res_model'], id=log['res_id'])}">
+                                                                ${log['name']}
+                                                             </a>
+				                    			         </div>
+				                    			     % endfor
+				                    			</div>
 				                    		</td>
 				                    	</tr>
+				                    	
 				                    % else:
 				                    	% for log in serverLog:
 			                    			<tr>

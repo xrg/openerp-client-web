@@ -726,6 +726,10 @@ td.logActions {
     padding: 0 0 1px 10px;
 }
 
+div#more_logs {
+	display: none;
+}
+
 div#serverlog {
     -moz-border-radius-bottomleft: 3px;
     -moz-border-radius-bottomright: 3px;
