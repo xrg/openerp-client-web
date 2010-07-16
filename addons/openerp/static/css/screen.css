@@ -1002,6 +1002,10 @@ div.footer-a {
 	color: #777777;
 }
 
+div.footer-a div {
+	margin:10px 0 0 0;
+}
+
 div.footer-a a {
 	color: blue;
 }
