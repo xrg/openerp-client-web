@@ -36,6 +36,7 @@ import time
 import cherrypy
 from openerp.utils import rpc, common, expr_eval, TinyDict
 
+from openobject.tools import redirect
 from form import Form
 from openobject import tools
 from selection import Selection
@@ -249,7 +250,7 @@ def execute(action, **data):
             domain.append(data['domain'])
             
         if 'menu' in data['res_model'] and action.get('name') == 'Menu':
-            return close_popup()
+            raise redirect('/openerp/blank')
         
         res = execute_window(view_ids,
                              data['res_model'],

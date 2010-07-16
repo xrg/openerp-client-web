@@ -13,6 +13,7 @@
 
     <script type="text/javascript">
         var DOCUMENT_TO_LOAD = "${load_content}";
+        var CAL_INSTANCE = null;
         
         jQuery(document).ready(function() {
             var total_width = 0;
@@ -33,7 +34,7 @@
 
             jQuery('.open-close-menu').click(function() {
                 jQuery('#content').toggleClass('hide-menu');
-                if (CAL_INSTANCE != "undefined") {
+                if (CAL_INSTANCE && CAL_INSTANCE != "undefined") {
                     CAL_INSTANCE.onResize();
                 }
             });
@@ -73,12 +74,16 @@
 		    	<div class="wrap">
 		    		<ul id="sidenav-a" class="accordion">
 	                    % for tool in tools:
-	                    <li class="accordion-title">
-                            <span>${tool['name']}</span>
-                        </li>
-	                    <li class="accordion-content" id="content_${tool['id']}">
-	                       ${tool['tree'].display()}
-	                    </li>
+	                        % if tool.get('action'):
+		                      <li class="accordion-title" id="${tool['id']}">
+		                    % else:
+		                      <li class="accordion-title">
+		                    % endif
+	                            <span>${tool['name']}</span>
+	                        </li>
+		                    <li class="accordion-content" id="content_${tool['id']}">
+		                       ${tool['tree'].display()}
+		                    </li>
 	                    % endfor
 		        	</ul>
 		        	<script type="text/javascript">

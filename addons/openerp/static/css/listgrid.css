@@ -88,7 +88,7 @@
 .grid-row.editors input,
 .grid-row.editors select,
 .grid-row.editors textarea {
-    width: 99%;
+    /*width: 99%;*/
 }
 
 .grid .float,

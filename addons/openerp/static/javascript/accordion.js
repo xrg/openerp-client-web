@@ -105,6 +105,10 @@ Accordion.prototype = {
         });
 
         MochiKit.DOM.addElementClass(title, "accordion-title-active");
+        
+        if(title.id) {
+            openLink(openobject.http.getURL('/openerp/custom_action', {'action':title.id}))
+        }
     },
 
     deactivate : function(title) {

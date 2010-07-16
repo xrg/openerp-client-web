@@ -1,31 +1,28 @@
-<style type="text/css">
-	
-</style>
 % if editable:
-
-    <table id="m2o_table" cellpadding="0" cellspacing="0" style="width: auto;">
-        <tr>
-            <td id="m2o" style="border-left: none; padding: 0;">
-                <input type="hidden" id="${name}" name="${name}" class="${css_class}" value="${value}"
-                    ${py.attrs(attrs, kind=kind, domain=domain, context=ctx, relation=relation)}/>
-                <input type="text" id="${name}_text" class="${css_class}"
-                    ${py.attrs(attrs, kind=kind, relation=relation, value=text)}/>
-                   
-                <input type="hidden" id="_hidden_${name}" value=""/>
-                <div id="autoCompleteResults_${name}" class="autoTextResults"></div>
-                % if error:
-                <span class="fielderror">${error}</span>
-                % endif
-            </td>
-            <td style="border-left: none; padding: 0;">
-                <img id="${name}_select" src="/openerp/static/images/fields-a-lookup-a.gif" style="cursor: pointer;" title="${_('Search')}" alt="${_('Search')}" class="${css_class} m2o_select"/>
-            </td>
-            <td>                           
-            	<img id="${name}_open" src="/openerp/static/images/iconset-d-drop.gif" style="cursor: pointer;" alt="${_('Open')}" title="${_('Open a resource')}"/>
-            </td>
-            
-        </tr>
-    </table>
+<table class="item-wrapper">
+<tr>
+    <td>
+        <input type="hidden" id="${name}" name="${name}" class="${css_class}" value="${value}"
+            ${py.attrs(attrs, kind=kind, domain=domain, context=ctx, relation=relation)}/>
+        <input type="text" id="${name}_text" class="${css_class}"
+            ${py.attrs(attrs, kind=kind, relation=relation, value=text)}/>
+           
+        <input type="hidden" id="_hidden_${name}" value=""/>
+        <div id="autoCompleteResults_${name}" class="autoTextResults"></div>
+        % if error:
+        <span class="fielderror">${error}</span>
+        % endif
+    </td>
+    <td>
+        <img id="${name}_select" alt="${_('Search')}" title="${_('Search')}"
+            src="/openerp/static/images/fields-a-lookup-a.gif" class="${css_class} m2o_select"/>
+    </td>
+    <td class="item-image">
+	    <img id="${name}_open" alt="${_('Open')}" title="${_('Open a resource')}"
+    	    src="/openerp/static/images/iconset-d-drop.gif" class="m2o_open"/>
+    </td>
+</tr>
+</table>
 % endif
 
 % if editable:

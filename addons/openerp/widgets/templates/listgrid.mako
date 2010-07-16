@@ -109,25 +109,20 @@ import cherrypy
 	        			% if editable:
 	        			    <td class="pager-cell-button">
 	        			        % if m2m:
-	        			            <a class="button-a" href="javascript: void(0)" title="${_('Add records...')}" id="${name}_button1">${_('add')}</a>
-	        			            <script type="text/javascript">
-	        			                jQuery('#${name}_button1').click(function() {
-	        			                    open_search_window(jQuery('#_m2m_${name}').attr('relation'), jQuery('#_m2m_${name}').attr('domain'), jQuery('#_m2m_${name}').attr('context'),'${name}', 2, jQuery('#${name}_set').val())
-	        			                });
-	        			            </script>
+	        			            <button title="${_('Add records...')}" id="${name}_button1"
+                                            onclick="open_search_window(jQuery('[id=_m2m_${name}]').attr('relation'), jQuery('[id=_m2m_${name}]').attr('domain'), jQuery('#_m2m_${name}').attr('context'),'${name}', 2, jQuery('[id=${name}_set]').val()); return false;"
+                                        >${_('add')}</button>
 	        			        % elif o2m:
-	        			            <a class="button-a" href="javascript: void(0)" title="${_('Create new record.')}" id="${name}_btn_">${_('new')}</a>
-	        			            <script type="text/javascript">
-                                        jQuery('a.button-a[id*=${name}_btn]').click(function() {
-                                            new One2Many('${name}', jQuery('table.one2many[id$=${name}]').attr('detail')).create();
-                                        });
-                                    </script>
+	        			            <button title="${_('Create new record.')}" id="${name}_btn_"
+                                            onclick="new One2Many('${name}', jQuery('table.one2many[id$=${name}]').attr('detail')).create(); return false;"
+                                        >${_('new')}</button>
 	        			        % else:
-	        			            <a id="${name}_new" class="button-a" href="javascript: void(0)" title="${_('Create new record.')}">${_('new')}<a/>
+	        			            <button id="${name}_new" title="${_('Create new record.')}">${_('new')}<a/>
 	        			            % if editors:
 	        			                <script type="text/javascript">
 	        			                    jQuery('#${name}_new').click(function() {
 	        			                        new ListView('_terp_list').create();
+                                                return false;
 	        			                    });
 
 	        			                </script>
@@ -135,6 +130,7 @@ import cherrypy
 	        			                <script type="text/javascript">
 	        			                    jQuery('#${name}_new').click(function() {
 	        			                        editRecord(null);
+                                                return false;
 	        			                    });
 	        			                </script>
 	        			            % endif
@@ -142,20 +138,13 @@ import cherrypy
 	        			    </td>
 	        			% endif
 	        			<td class="pager-cell-button" style="display: none;">
-	        			    <a id="${name}_delete_record" class="button-a" href="javascript: void(0)" title="${_('Delete record(s).')}">${_('delete')}<a/>
-	        			    <script type="text/javascript">
-	        			        jQuery('#${name}_delete_record').click(function() {
--                                        new ListView('_terp_list').remove(null,this);
-                                });
-	        			    </script>
+	        			    <button id="${name}_delete_record" title="${_('Delete record(s).')}"
+                                    onclick="new ListView('_terp_list').remove(null,this); return false;"
+                                >${_('delete')}</button>
 	        			</td>
 	        			<td class="pager-cell-button" style="display: none;">
-                            <a id="${name}_edit_record" class="button-a" href="javascript: void(0)" title="${_('Edit record(s).')}">${_('edit')}<a/>
-                            <script type="text/javascript">
-                                jQuery('#${name}_edit_record').click(function() {
--                                       editSelectedRecord();
-                                });
-                            </script>
+                            <button id="${name}_edit_record" title="${_('Edit record(s).')}"
+                                    onclick="editSelectedRecord(); return false;">${_('edit')}</button>
                         </td>
 
         				<td class="pager-cell" style="width: 90%">
@@ -315,7 +304,12 @@ import cherrypy
 	                                new ListView('${name}').edit(record_id);
 	                            }
 	                            else {
-	                                new One2Many('${name}', jQuery('table.one2many[id$=${name}]').attr('detail')).create();
+	                                if ('${name}' == '_terp_list'){
+	                                   new ListView('_terp_list').create(); return false;
+	                                }
+	                                else{
+	                                   new One2Many('${name}', jQuery('table.one2many[id$=${name}]').attr('detail')).create();
+	                                }
 	                            }
 	                        }
 	                    });

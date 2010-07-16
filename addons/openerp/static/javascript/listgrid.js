@@ -44,27 +44,26 @@ var ListView = function(name) {
 ListView.prototype = {
 
     __init__: function(name) {
-
         var prefix = name == '_terp_list' ? '' : name + '/';
 
         this.name = name;
-        this.model = $('[id*="'+prefix + '_terp_model'+'"]').get() ? $('[id*="'+prefix + '_terp_model'+'"]').val() : null;        
+        this.model = jQuery('[id*="'+prefix + '_terp_model'+'"]').get() ? jQuery('[id*="'+prefix + '_terp_model'+'"]').val() : null;
         this.current_record = null;
 
-        this.ids = $('[id*="'+prefix + '_terp_ids'+'"]').val();
+        this.ids = jQuery('[id*="'+prefix + '_terp_ids'+'"]').val();
 
-        this.view_ids = $('[id*="'+prefix + '_terp_view_ids'+'"]').get() ? $('[id*="'+prefix + '_terp_view_ids'+'"]').val() : null;
-        this.view_mode = $('[id*="'+prefix + '_terp_view_mode'+'"]').get() ? $('[id*="'+prefix + '_terp_view_mode'+'"]').val() : null;
+        this.view_ids = jQuery('[id*="'+prefix + '_terp_view_ids'+'"]').get() ? jQuery('[id*="'+prefix + '_terp_view_ids'+'"]').val() : null;
+        this.view_mode = jQuery('[id*="'+prefix + '_terp_view_mode'+'"]').get() ? jQuery('[id*="'+prefix + '_terp_view_mode'+'"]').val() : null;
 
         // if o2m
         
-        this.m2m = $('[id*="'+ name + '_set' + '"]');
-		this.default_get_ctx = $('[id*="' + prefix + '_terp_default_get_ctx' + '"]').get() ? $('[id*="' + prefix + '_terp_default_get_ctx' + '"]').val() : null;
+        this.m2m = jQuery('[id*="'+ name + '_set' + '"]');
+		this.default_get_ctx = jQuery('[id*="' + prefix + '_terp_default_get_ctx' + '"]').get() ? jQuery('[id*="' + prefix + '_terp_default_get_ctx' + '"]').val() : null;
 		this.sort_key = null;
 		this.sort_key_order = null;
 		this.sort_domain = "[]";
         // save the reference
-        $('[id*="'+name+'"]:first').__listview = this;
+        jQuery('[id*="'+name+'"]:first').__listview = this;
     },
 
     checkAll: function(clear) {
@@ -197,32 +196,13 @@ ListView.prototype = {
 MochiKit.Base.update(ListView.prototype, {
 
     adjustEditors: function(newlist) {
-
         var editors = this.getEditors(false, newlist);
-        forEach(editors, function(e) {
-            // disable autocomplete (Firefox < 2.0 focus bug)
-            setNodeAttribute(e, 'autocomplete', 'OFF');
+        jQuery(editors).each(function(){
+        	var e = jQuery(this);
+        	var c = e.parent('.grid-cell');
+        	e.attr('autocomplete', 'OFF').width(c.width());
         });
-
-        if (/MSIE/.test(navigator.userAgent)) {
-            return editors;
-        }
-
-        var columnWidths = {};
-        // set the column widths of the newlist
-        forEach(this.getColumns(), function(c) {
-            columnWidths[c.id] = parseInt(c.offsetWidth) - 8;
-        });
-
-        forEach(this.getColumns(newlist), function(c) {
-            c.style.width = columnWidths[c.id] + 'px';
-        });
-
-        var editorWidths = {};
-        forEach(this.getEditors(), function(e) {
-            editorWidths[e.id] = parseInt(e.offsetWidth);
-        });
-
+        
         return editors;
     },
 
@@ -446,6 +426,8 @@ MochiKit.Base.update(ListView.prototype, {
     },
     
     clear: function() {
+    	group_by = new Array();
+		filter_context = [];
     	this.reload(-1, null, this.default_get_ctx, true)
     }
 });
@@ -486,7 +468,7 @@ MochiKit.Base.update(ListView.prototype, {
             return this.save(this.current_record);
         }
 
-        var editors = openobject.dom.select('listfields', this.name);
+        var editors = jQuery('#' + this.name + ' .listfields').get();
 
         var first = editors.shift();
         var last = editors.pop();
@@ -656,8 +638,7 @@ MochiKit.Base.update(ListView.prototype, {
         }
 
         if (ids.length == 0) {
-        	jQuery('div.message-box').show().html(_('You must select at least one record.')); // show and set the message
-        	return setTimeout(function(){ jQuery('div.message-box').fadeOut("slow").html('')}, 3000);
+        	return alert(_('You must select at least one record.'));
         } 
         else if (!confirm(_('Do you really want to delete selected record(s) ?'))) {
             return false;
@@ -767,52 +748,28 @@ MochiKit.Base.update(ListView.prototype, {
             }
             
             if(obj.active_clear) {
-            	if(jQuery('#clear_all_filters').css('display')=='none') {
-            	   jQuery('#clear_all_filters').show()	
-            	}
-            }
-            else {
-            	if(jQuery('#clear_all_filters').css('display')!='none') {
-            		jQuery('#clear_all_filters').hide()
-            	}
+                jQuery('#clear_all_filters').removeClass('inactive_clear');
+            } else {
+            	jQuery('#clear_all_filters').addClass('inactive_clear');
             }
 
-            var d = DIV();
-            d.innerHTML = obj.view;
-            
-            var newlist = getElementsByTagAndClassName('table', 'gridview', d)[0];
-            
-            var editors = self.adjustEditors(newlist);
+            var newlist = jQuery(obj.view).find('table.gridview');
+            self.current_record = edit_inline;
+		    var __listview = openobject.dom.get(self.name).__listview;
+            if(clear) {
+                jQuery('#view_form').replaceWith(obj.view);
+                initialize_search();
+            } else {
+                jQuery('#' + self.name).replaceWith(newlist);
+            }
 
+            var editors = self.adjustEditors(newlist.get(0));
             if (editors.length > 0) {
                 self.bindKeyEventsToEditors(editors);
             }
-
-            self.current_record = edit_inline;
-		    var __listview = openobject.dom.get(self.name).__listview;
-		    if(clear) {
-		    	jQuery('#view_form').replaceWith(d.innerHTML);
-		    } 
-		    else {
-		      swapDOM(self.name, newlist);
-		    } 
-		     openobject.dom.get(self.name).__listview = __listview;
+		    
+		    openobject.dom.get(self.name).__listview = __listview;
 			
-            var ua = navigator.userAgent.toLowerCase();
-
-            if ((navigator.appName != 'Netscape') || (ua.indexOf('safari') != -1)) {
-                // execute JavaScript
-                if(clear) {
-                	var scripts = openobject.dom.select('script', d.innerHTML);
-                }
-                else {
-                    var scripts = openobject.dom.select('script', newlist);
-                }
-                forEach(scripts, function(s) {
-                    eval(s.innerHTML);
-                });
-            }
-
             // update concurrency info
             for (var key in obj.info) {
                 try {

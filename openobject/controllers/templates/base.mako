@@ -2,6 +2,7 @@
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <link rel="shortcut icon" href="/openobject/static/images/favicon.ico">
     
 % for css in widget_css:
     ${css.display()}

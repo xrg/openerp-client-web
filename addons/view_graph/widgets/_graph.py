@@ -69,12 +69,9 @@ def choice_colors(n):
 class Graph(TinyWidget):
 
     template = "templates/graph.mako"
-    javascript = [JSSource("""
-    var onChartClick = function(path) {
-        openobject.http.redirect(path);
-    }
-    """),
-    JSLink("view_graph", "javascript/swfobject.js")]
+    javascript = [
+        JSLink("view_graph", "javascript/swfobject.js"),
+        JSLink("view_graph", "javascript/graph.js")]
 
     params = ['width', 'height', 'data']
     width = 500

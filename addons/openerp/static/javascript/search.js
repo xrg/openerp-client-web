@@ -27,165 +27,83 @@
 //
 ////////////////////////////////////////////////////////////////////////////////
 /**
- * @event onaddfilter triggered when adding a filter row
  *  @target #filter_table the element holding the filter rows
  *  @argument 'the newly added (or showed for first row?) filter row'
  */
+function reset_id(element, current_row_id) {
+    element = jQuery(element);
+    return element.attr('id', element.attr('id').split('/')[0] + '/' + current_row_id);
+}
+function row_sequence(element) {
+    return parseInt(element.attr('id').split('/')[1], 10);
+}
 function add_filter_row() {
-	
-	var filter_table = getElement('filter_table');
-	var vals = [];
-	var row_id = 1;
-	
-	var first_row = getElement('filter_row/0');
-	var trs = MochiKit.DOM.getElementsByTagAndClassName('tr', null, filter_table)
-	
-	if (filter_table.style.display == 'none') {
-		filter_table.style.display = '';
-	}
-	
-	else if (first_row.style.display == 'none' && trs.length <= 1) {
-		MochiKit.DOM.getFirstElementByTagAndClassName('select', 'filter_fields', first_row).selectedIndex = 0;
-		MochiKit.DOM.getFirstElementByTagAndClassName('select', 'expr', first_row).selectedIndex = 0;
-		var old_qstring = MochiKit.DOM.getFirstElementByTagAndClassName('input', 'qstring', first_row);
-		old_qstring.value = '';
-		old_qstring.style.background = '#FFFFFF';
-		first_row.style.display = ''
-	}
-	
-	else{
-		
-		var old_tr = trs[trs.length-1];
-		var old_qstring = MochiKit.DOM.getFirstElementByTagAndClassName('input', 'qstring', old_tr);
-		old_qstring.style.background = '#FFFFFF';
-		
-		var new_tr = old_tr.cloneNode(true);
-		keys = new_tr.id.split('/');
-		id = parseInt(keys[1], 0);
-		row_id = id + row_id;
-		new_tr.id =  keys[0] +'/'+ row_id;
-		var filter_column = MochiKit.DOM.getFirstElementByTagAndClassName('td', 'filter_column', new_tr);
-		
-		var filter_fields = MochiKit.DOM.getFirstElementByTagAndClassName('select', 'filter_fields', new_tr);
-		var expr = MochiKit.DOM.getFirstElementByTagAndClassName('select', 'expr', new_tr);
-		var qstring = MochiKit.DOM.getFirstElementByTagAndClassName('input', 'qstring', new_tr);
-		
-		filter_column.id = filter_column.id.split('/')[0] + '/' + row_id;
-		filter_fields.id = filter_fields.id.split('/')[0] + '/' + row_id;
-		expr.id = expr.id.split('/')[0] + '/' + row_id;
-		qstring.id = qstring.id.split('/')[0] + '/' + row_id;
-		qstring.style.background = '#FFFFFF';
-		qstring.value = '';
-		
-		var image_col = MochiKit.DOM.getFirstElementByTagAndClassName('td', 'image_col', new_tr);
-		image_col.id = 'image_col/' + row_id;
-		
-		var and_or = MochiKit.DOM.getFirstElementByTagAndClassName('td', 'and_or', new_tr);
-		if (and_or){removeElement(and_or); }
-		
-		var and_or = MochiKit.DOM.createDOM('td');
-		and_or.id = 'and_or/' + id;
-		and_or.className = 'and_or';
-		
-		var select_andor = MochiKit.DOM.createDOM('select');
-		select_andor.id = 'select_andor/' + id;
-		select_andor.className = 'select_andor';
-		
-		var option = MochiKit.DOM.createDOM('option');
-		
-		vals.push('AND');
-		vals.push('OR');
-		
-		option = map(function(x){return OPTION({'value': x}, x)}, vals);
-		image_replace = openobject.dom.get('image_col/'+ id);
-		if(MochiKit.DOM.getFirstElementByTagAndClassName('td', 'and_or', old_tr) == null){
-			insertSiblingNodesBefore(image_replace, and_or)
-		}
-		
-		appendChildNodes(select_andor, option);
-		appendChildNodes(and_or, select_andor);
-		insertSiblingNodesAfter(old_tr, new_tr);
-		
-		MochiKit.Signal.connect(new_tr, 'onkeydown', this, onKeyDown_search);
-		MochiKit.Signal.signal(filter_table, 'onaddfilter', new_tr || first_row);
-	}
+    var filter_table = jQuery('#filter_table');
+    var vals = ['AND', 'OR'];
+
+    if(filter_table.is(':hidden')) {
+        filter_table.show();
+    } else {
+        var old_tr = filter_table.find('tr:last');
+        old_tr.find('input.qstring').css('background', '#FFF');
+
+        var new_tr = old_tr.clone();
+        var old_sequence = row_sequence(new_tr);
+        // create id for new row
+        var current_row_sequence = old_sequence + 1;
+        reset_id(new_tr, current_row_sequence);
+
+        var qstring = new_tr.find('input.qstring').css('background', '#fff').val('');
+        jQuery('td.filter_column, select.filter_fields, select.expr, td.image_col', new_tr).add(qstring).each(
+                function (index, element) {
+                    reset_id(element, current_row_sequence);
+                });
+
+        var and_or = jQuery('<td>', {'id': 'and_or/' + old_sequence, 'class': 'and_or'}).appendTo(old_tr);
+
+        var select_andor = jQuery('<select>', {
+            'id': 'select_andor/' + old_sequence,
+            'class': 'select_andor'
+        }).appendTo(and_or);
+        jQuery.each(vals, function (index, label) {
+            select_andor.append(jQuery('<option>').val(label).text(label));
+        });
+
+        old_tr.after(new_tr);
+    }
 }
 
 /**
- * @event onremovefilter triggered when removing a filter row
  *  @target #filter_table the element holding the filter rows
  *  @argument 'the removed (or hidden) filter row'
  */
-function remove_row(id) {
-	
-	var node = jQuery(id).closest('tr');
-	if (node.attr('id') != 'filter_row/0') {
-		jQuery(node).remove();
-	}
-	else {
-		node.css('display', 'none');
-		if (jQuery('#and_or/0')) {
-			jQuery('#and_or/0').remove();
-		}
-		if(jQuery('#qstring/0')) {
-			jQuery('#qstring/0').val('');
-			jQuery('#qstring/0').css('background', '#FFFFFF');   
-		}
-	}
-	
-//	MochiKit.Signal.signal(filter_table, 'onremovefilter', node);
-}
-// Direct click on icon.
-function search_image_filter(src, id) {
-	domain = getNodeAttribute(id, 'value');
-	search_filter(src);
-}
-
-function onKey_Event() {
-	
-	dom = openobject.dom.get('search_filter_data');
-	
-	var editors = [];
-	
-	editors = editors.concat(getElementsByTagAndClassName('input', null, dom));
-    editors = editors.concat(getElementsByTagAndClassName('select', null, dom));
-    editors = editors.concat(getElementsByTagAndClassName('textarea', null, dom));
-    
-    var active_editors = filter(function(e){
-        return e.type != 'hidden' && !e.disabled
-    }, editors);
-
-    forEach(active_editors, function(e){
-        MochiKit.Signal.connect(e, 'onkeydown', self, onKeyDown_search);
-    });
-}
-
-function onKeyDown_search(evt) {
-	var key = evt.key();
-    var src = evt.src();
-    
-    if (key.string == "KEY_ENTER"){
-    	search_filter();
+function remove_filter_row(element) {
+    var node = jQuery(element).closest('tr');
+    if(node.is(':only-child')) {
+        node.find('[id^=qstring]').css('background', '#FFF').val('');
+        jQuery('#filter_table').hide();
+    } else {
+        if(node.is(':last-child')) {
+            node.prev().find('[id^=and_or]').remove();
+        }
+        node.remove();
     }
 }
 
 function display_Customfilters(all_domains, group_by_ctx){
 
-	var filter_table = getElement('filter_table');
-	
-	var params = {};
+    var params = {};
 	var record = {};
-	
-	children = MochiKit.DOM.getElementsByTagAndClassName('tr', 'filter_row_class', filter_table);
-	forEach(children, function(ch){
-		
-		var ids = ch['id'];	// row id...
+
+    jQuery('#filter_table tr.filter_row_class').each(function () {
+		var ids = this.id;	// row id...
 		var id = ids.split('/')[1];
 		var qid = 'qstring/' + id;
 		var fid = 'filter_fields/' + id;
-		var eid = 'expr/' + id;
+
+        var rec = null;
 		if ($(qid) && $(qid).value) {
-			var rec = {};
+			rec = {};
 			rec[$(fid).value] = $(qid).value;
 			params['_terp_model'] = openobject.dom.get('_terp_model').value;
 		}
@@ -264,16 +182,13 @@ function parse_filters(src, id) {
     var all_domains = {};
     var check_domain = 'None';
     var domains = {};
-    
     var search_context = {};
     var all_boxes = [];
     var domain = 'None';
-    var set_filter = jQuery(id).find("a")[0];
     
-    var filter_class = jQuery(set_filter).attr('class');
     var check_groups = jQuery('#_terp_group_by_ctx').val();
     if(check_groups!='[]') {
-        check_groups = eval(check_groups)
+        check_groups = eval(check_groups);
         for(i in check_groups) {
             if(jQuery.inArray(check_groups[i], group_by) < 0) {
                 group_by.push(check_groups[i])
@@ -281,42 +196,40 @@ function parse_filters(src, id) {
         }   
     }
     if(src) {
-        if(filter_class == 'active') {
-            jQuery(src).attr('checked',false);
-            group_by = jQuery.grep(group_by, function(grp) {
-                return grp != jQuery(src).attr('group_by_ctx');
-            });
+        var source = jQuery(src);
+        if(jQuery(id).hasClass('inactive')) {
+            source.closest('td').addClass('grop_box_active');
+            jQuery(src).attr('checked', true);
+            if(source.attr('group_by_ctx') && source.attr('group_by_ctx') != 'False') {
+                group_by.push(source.attr('group_by_ctx'));
+            }
 
-            jQuery(set_filter).attr('class', 'inactive');
-            jQuery(id).attr('class', 'inactive_filter');
+            if(source.attr('filter_context') && source.attr('filter_context') != '{}') {
+                filter_context.push(source.attr('filter_context'));
+            }
+        } else {
+            source.closest('td').removeClass('grop_box_active');
+    		jQuery(src).attr('checked', false);
+    		
+    		group_by = jQuery.grep(group_by, function(grp) {
+                return grp != source.attr('group_by_ctx');
+            });
             
-            if(jQuery(src).attr('filter_context') && jQuery(src).attr('filter_context')!='{}') {
-                var filter_index = jQuery.inArray(jQuery(src).attr('filter_context'), filter_context);
+            if(source.attr('filter_context') && source.attr('filter_context')!='{}') {
+                var filter_index = jQuery.inArray(source.attr('filter_context'), filter_context);
                 if(filter_index >= 0) {
                     filter_context.splice(filter_index, 1);
                 }
             }
-        } else {
-            jQuery(src).attr('checked',true);
-            jQuery(set_filter).attr('class', 'active');
-            jQuery(id).attr('class', 'active_filter');
-
-            if(jQuery(src).attr('group_by_ctx') && jQuery(src).attr('group_by_ctx')!='False' && jQuery(src).attr('group_by_ctx')!='') {
-                group_by.push(jQuery(src).attr('group_by_ctx'));
-            }
-            
-            if(jQuery(src).attr('filter_context') && jQuery(src).attr('filter_context')!='{}') {
-                filter_context.push(jQuery(src).attr('filter_context'));
-            }
-        }
+    	}
+        jQuery(id).toggleClass('active inactive');
     }
     
     jQuery('#_terp_filters_context').val(filter_context);
     
     var filter_table = getElement('filter_table');
-    datas = $$('[name]', 'search_filter_data');
-    
-    forEach(datas, function(d) {
+    forEach($$('[name]', 'search_filter_data'), function(d) {
+        var value;
         if (d.type != 'checkbox' && d.name && d.value && d.name.indexOf('_terp_') == -1  && d.name != 'filter_list') {
             value = d.value;
             if (getNodeAttribute(d, 'kind') == 'selection') {
@@ -333,10 +246,10 @@ function parse_filters(src, id) {
         }
     });
     domains = serializeJSON(domains);
-//  search_context = serializeJSON(search_context);
+
     all_domains['domains'] = domains;
     all_domains['search_context'] =  search_context;
-    selected_boxes = getElementsByTagAndClassName('input', 'grid-domain-selector');
+    var selected_boxes = getElementsByTagAndClassName('input', 'grid-domain-selector');
     
     forEach(selected_boxes, function(box){
         if (box.id && box.checked && box.value != '[]') {
@@ -344,11 +257,11 @@ function parse_filters(src, id) {
         }
     });
     
-    checked_button = all_boxes.toString();
+    var checked_button = all_boxes.toString();
     check_domain = checked_button.length > 0? checked_button.replace(/(]\,\[)/g, ', ') : 'None';
     all_domains['check_domain'] = check_domain;
     
-    if ($('filter_list')) {
+    if (openobject.dom.get('filter_list')) {
         all_domains['selection_domain'] = jQuery('#filter_list').val();
     }
     
@@ -357,25 +270,27 @@ function parse_filters(src, id) {
 }
 
 function search_filter(src, id) {
-	all_domains = parse_filters(src, id);
-    if(jQuery('#filter_table').css('display') != 'none' || jQuery('#_terp_filter_domain').val() != '[]') {
-        
-        if (jQuery('#filter_table').css('display') == 'none'){
-            jQuery('#filter_table').css('display', '');
+    var all_domains = parse_filters(src, id);
+    var filters = jQuery('#filter_table');
+    if(filters.is(':visible') || jQuery('#_terp_filter_domain').val() != '[]') {
+        if (filters.is(':hidden')){
+            filters.show();
         }
         display_Customfilters(all_domains, group_by);
-    }
-    else {
-        custom_domain = jQuery('#_terp_filter_domain').val() || '[]';       
+    } else {
+        var custom_domain = jQuery('#_terp_filter_domain').val() || '[]';
         final_search_domain(custom_domain, all_domains, group_by);
     }
 }
 
-function save_as_filter() {
-    domain_list = parse_filters()
-    custom_domain = jQuery('#_terp_filter_domain').val() || '[]';
-    var params = {'all_domains': domain_list, 'source': '_terp_list', 'custom_domain': custom_domain, 'group_by_ctx': group_by}
-    var req = openobject.http.postJSON('/openerp/search/eval_domain_filter', params);
+function save_filter() {
+    var domain_list = parse_filters();
+    var custom_domain = jQuery('#_terp_filter_domain').val() || '[]';
+    var req = openobject.http.postJSON('/openerp/search/eval_domain_filter', {
+        'all_domains': domain_list,
+        'source': '_terp_list',
+        'custom_domain': custom_domain,
+        'group_by_ctx': group_by});
     req.addCallback(function(obj) {
         var sf_params = {'model': jQuery('#_terp_model').val(), 'domain': obj.domain, 'group_by': group_by, 'flag': 'sf'};
         openobject.tools.openWindow(openobject.http.getURL('/openerp/search/save_filter', sf_params), {
@@ -387,8 +302,8 @@ function save_as_filter() {
 }
 
 function manage_filters() {
-    var params = {'model': jQuery('#_terp_model').val()}
-    openLink(openobject.http.getURL('/openerp/search/manage_filter', params));
+    openLink(openobject.http.getURL('/openerp/search/manage_filter', {
+        'model': jQuery('#_terp_model').val()}));
 }
 
 function final_search_domain(custom_domain, all_domains, group_by_ctx) {
@@ -441,40 +356,24 @@ function final_search_domain(custom_domain, all_domains, group_by_ctx) {
 	});
 }
 
-/**
- * @event groupby-toggle triggered when changing the display state of the groupby options
- *  @target #search_filter_data the element holding the filter rows
- *  @argument 'the action performed ("expand" or "collapse")
- */
-function expand_group_option(id, element) {
-    var groupbyElement = getElement(id);
-    var action;
-    if (groupbyElement.style.display == '') {
-        groupbyElement.style.display = 'none';
-        element.className = 'group-expand';
-        action = 'collapse';
-    } else {
-        groupbyElement.style.display = '';
-        element.className = 'group-collapse';
-        action = 'expand';
+var ENTER_KEY = 13;
+function search_on_return(e) {
+    if (e.which == ENTER_KEY){
+        // Avoid submitting form when using RETURN on a random form element
+        if(!jQuery(e.target).is('button')) {
+            e.preventDefault();
+        }
+    	search_filter();
     }
-    MochiKit.Signal.signal(
-            $('search_filter_data'),
-            'groupby-toggle',
-            action);
 }
+function initialize_search() {
+    var filter_table = jQuery('#filter_table');
+    var fil_dom = jQuery('#_terp_filter_domain');
 
-jQuery(document).ready(function(){
-
-	var filter_table = openobject.dom.get('filter_table');
-	var fil_dom = openobject.dom.get('_terp_filter_domain');
-
-	if (filter_table) {
-		if(filter_table.style.display == '' || fil_dom && fil_dom.value != '[]') {
-			if(filter_table.style.display == 'none'){
-				filter_table.style.display = '';
-			}
-		}
-	}
-	onKey_Event();	
-});
+    if((filter_table.length && filter_table.is(':hidden')) &&
+            (fil_dom.length && fil_dom.val() != '[]')) {
+        filter_table.show();
+    }
+    jQuery('#search_filter_data').keydown(search_on_return);
+}
+jQuery(document).ready(initialize_search);

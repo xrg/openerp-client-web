@@ -14,57 +14,65 @@
 % if screen:
 	<table border="0" cellpadding="0" cellspacing="0" width="100%" style="border: none;">
         % if search:
+        <%
+             if not (search.listof_domain or search.custom_filter_domain or search.groupby):
+                 css_clear = 'inactive_clear'
+             else:
+                 css_clear = ''
+        %>
+
         <tr>
             <td valign="top">${display_member(search)}</td>
         </tr>
         <tr>
             <td class="view_form_options" align="left">
-            	<table style="border: none; width: 100%;">
-            		<tr>
-            			<td id="filter_search">
-		                	<a class="button-a" title="${_('Filter records.')}" href="javascript: void(0)" onclick="search_filter()">${_("Filter")}</a>
-            			</td>
-            			<%
-            			     if search.listof_domain or search.custom_filter_domain or search.groupby:
-            			         css_clear = 'active_clear'
-            			     else:
-            			         css_clear = 'inactive_clear'
-            			%>
-                        <td id="clear_all_filters" class="${css_clear}">
-                            <a class="button-a" title="${_('Clear all .')}" href="javascript: void(0)" onclick="new ListView('_terp_list').clear()">${_("Clear")}</a>
-                        </td>
-            			<td id="save_filters">
-                             <a class="button-a" title="${_('Save as Filters.')}" href="javascript: void(0)" onclick="save_as_filter()">${_("Save as Filter")}</a>
-                        </td>
-                        <td id="manage_filters">
-                             <a class="button-a" title="${_('Manage Filters.')}" href="javascript: void(0)" onclick="manage_filters()">${_("Manage Filter")}</a>
-                        </td>
-                        <td class="custom-filter">
-                             <ul>
-                                <li style="padding-right: 3px;">
-                                    <select name="filter_list" id="filter_list" onchange="search_filter();">
-                                        % for f in search.filters_list:
-                                        <option value="${f[0]}">${f[1]}</option>
-                                        % endfor
-                                    </select>
-                                </li>
-                                <li>
-                                    <a class="button" href="javascript: void(0)" onclick="add_filter_row();">
-                                        <span class="add">Add</span>
-                                    </a>
-                                </li>
-                            </ul>
-                        </td>
-            		</tr>
-            	</table>
-
+                <div>
+                    <button onclick="add_filter_row(); return false;">
+                        <img src="/openerp/static/images/button-b-icons-add.gif" alt="Add custom filtering row">
+                    </button>
+                </div>
+                <div>
+                    <button title="${_('Filter records.')}" onclick="search_filter(); return false;"
+                            >${_("Filter")}</button>
+                    <button title="${_('Clear all .')}" id="clear_all_filters" class="${css_clear}"
+                            onclick="new ListView('_terp_list').clear(); return false;"
+                            >${_("Clear")}</button>
+                    <div class="custom-filter">
+                        <button title="${_('Save Filter.')}"
+                                onclick="save_filter(); return false;"
+                                >${_("Save Filter")}</button>
+                        <button title="${_('Manage Filter.')}"
+                                onclick="manage_filters(); return false;"
+                                >${_("Manage Filters")}</button>
+                        <select name="filter_list" id="filter_list"
+                                onchange="search_filter(); return false;">
+                            % for f in search.filters_list:
+                            <option value="${f[0]}">${f[1]}</option>
+                            % endfor
+                        </select>
+                    </div>
+                </div>
             </td>
-
         </tr>
         % endif
         <tr>
             <td valign="top">${display_member(screen)}</td>
         </tr>
     </table>
+    % if screen.view_type == 'tree':
+	    <script type="text/javascript">
+	        jQuery(document).ready(function() {
+	           var filter_box_index = jQuery('#${name} div.filter-a').closest('td.item:first').index();
+	           var input_index = jQuery('#${name} input[type!="hidden"][type="text"]:first').closest('td.label').index();
+	           
+	           if(filter_box_index >= 0 && (filter_box_index <  input_index)) {
+                    jQuery('#${name} div.filter-a:first button').focus();
+	           }
+	            else {
+                    jQuery('#${name} input[type!="hidden"][type="text"]:first').focus();
+	            }
+	        });
+	    </script>
+    % endif
 % endif
 </form>

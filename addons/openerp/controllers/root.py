@@ -52,7 +52,7 @@ class Root(SecuredController):
         """Index page, loads the view defined by `action_id`.
         """
         if next: arguments = {'next': next}
-        else: arguments = {}
+        else: arguments = {'next': '/openerp/home'}
         raise redirect("/openerp/menu", **arguments)
     
     def user_action(self, id='action_id'):
@@ -132,10 +132,6 @@ class Root(SecuredController):
         for tool in tools:
             tid = tool['id']
             tool['icon'] = icons.get_icon(tool['icon'])
-            
-            if tool['action']:
-                tool['action_id'] = tid
-                
             tool['tree'] = tree = tree_view.ViewTree(view, 'ir.ui.menu', tid,
                                     domain=[('parent_id', '=', tid)],
                                     context=ctx, action="/openerp/tree/action", fields=fields)

@@ -24,10 +24,11 @@
 
 /* Shortcuts manipulation */
 #shortcut_add_remove {
-    height: 34px;
+    height: 20px;
     padding: 0;
-    width: 30px;
+    width: 24px;
     cursor: pointer;
+    display: inline-block;
 }
 
 .shortcut-add {

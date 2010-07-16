@@ -90,16 +90,7 @@
                        }
                     }
                     window.close()
-                }
-                
-                function do_create(){
-		            act = openobject.http.getURL('/openerp/openm2m/new', {_terp_model: '${params.model}', 
-		                                           _terp_source: '${params.source}',
-		                                           _terp_m2m: '${params.source}',
-		                                           _terp_domain: openobject.dom.get('_terp_domain').value,
-		                                           _terp_context: openobject.dom.get('_terp_context').value});
-		            window.location.href = act;
-		        }
+                }               
             </script>
         % else:
 		    <script type="text/javascript">
@@ -134,7 +125,17 @@
 		            window.close();
 		        }
 		    </script>
-        % endif		    
+        % endif
+         <script type="text/javascript">
+                function do_create(){
+                    act = openobject.http.getURL('/openerp/openm2m/new', {_terp_model: '${params.model}', 
+                                                   _terp_source: '${params.source}',
+                                                   _terp_m2m: '${params.source}',
+                                                   _terp_domain: openobject.dom.get('_terp_domain').value,
+                                                   _terp_context: openobject.dom.get('_terp_context').value});
+                    window.location.href = act;
+                }
+          </script>        		    
     % endif
 </%def>
 

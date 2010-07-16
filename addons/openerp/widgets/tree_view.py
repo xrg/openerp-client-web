@@ -58,8 +58,7 @@ class ViewTree(Form):
         self.context = context or {}
         self.domain = []
         
-        fields_info = {}
-        fields_info.update(fields)
+        fields_info = dict(fields)
 
         self.field_parent = view.get("field_parent") or None
 
@@ -71,8 +70,8 @@ class ViewTree(Form):
 
         proxy = rpc.RPCProxy(self.model)
 
-        ctx = self.context.copy();
-        ctx.update(rpc.session.context)
+        ctx = dict(self.context,
+                   **rpc.session.context)
                 
         dom = xml.dom.minidom.parseString(view['arch'].encode('utf-8'))
 
@@ -135,6 +134,6 @@ class ViewTree(Form):
             field = fields.get(attrs['name'])
             field.update(attrs)
 
-            self.headers += [field]
+            self.headers.append(field)
 
 # vim: ts=4 sts=4 sw=4 si et

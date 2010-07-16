@@ -34,7 +34,7 @@
 
     <table cellpadding="0" cellspacing="0" border="0" width="100%">
         <tr>
-            <td valign="top">
+            <td valign="top" style="padding: 0px;">
                 <table width="100%" class="titlebar">
                     <tr>
                         <td width="32px" align="center">
@@ -45,27 +45,30 @@
                             <button type="button" 
                                 title="${_('Create database')}"
                                 ${py.disabled(form.name=='create')}
-                                onclick="dbView('create')" class="static_buttons">${_("Create")}</button>
+                                onclick="dbView('create')" class="static_boxes">${_("Create")}</button>
                             <button type="button" 
                                 title="${_('Drop database')}"
                                 ${py.disabled(form.name=='drop')}
-                                onclick="dbView('drop')" class="static_buttons">${_("Drop")}</button>
+                                onclick="dbView('drop')" class="static_boxes">${_("Drop")}</button>
                             <button type="button" 
                                 title="${_('Backup database')}"
                                 ${py.disabled(form.name=='backup')}
-                                onclick="dbView('backup')" class="static_buttons">${_("Backup")}</button>
+                                onclick="dbView('backup')" class="static_boxes">${_("Backup")}</button>
                             <button type="button" 
                                 title="${_('Restore database')}"
                                 ${py.disabled(form.name=='restore')}
-                                onclick="dbView('restore')" class="static_buttons">${_("Restore")}</button>
+                                onclick="dbView('restore')" class="static_boxes">${_("Restore")}</button>
                             <button type="button" 
                                 title="${_('Change Administrator Password')}"
                                 ${py.disabled(form.name=='password')}
-                                onclick="dbView('password')" class="static_buttons">${_("Password")}</button>
+                                onclick="dbView('password')" class="static_boxes">${_("Password")}</button>
                         </td>
                     </tr>
                 </table>
             </td>
+        </tr>
+        <tr>
+        	<td style="padding: 0px;"><hr style="margin: 0 0 !important;"/></td>
         </tr>
         <tr>
             <td valign="top" align="center">${form.display()}</td>

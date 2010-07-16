@@ -13,6 +13,17 @@ class Root(BaseController):
 
     @expose()
     def default(self, *args, **kw):
+        
+        try:
+            obj = pooler.get_pool().get_controller("/openerp/modules")
+            module_list = obj.get_installed_modules()
+        except Exception, e:
+            module_list = []
+            pass
+        
+        if module_list:
+            pooler.restart_pool()
+            
         request = cherrypy.request
         func, vpath = self.find_handler()
                 

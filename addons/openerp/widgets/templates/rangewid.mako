@@ -3,8 +3,8 @@
         <td width="50%" style="padding: 0px;">
             ${display_member(from_field)}
         </td>
-        <td align="center" width="10px" style="padding: 0px;"><b style="padding-right: 5px;">-</b></td>
-        <td width="50%" style="padding: 0px;">
+        <td align="center" width="10px" style="padding: 0 3px 0 3px;"><b style="padding-right: 5px;">-</b></td>
+        <td width="50%" style="padding: 0 5px 0 0;">
             ${display_member(to_field)}
         </td>
     </tr>

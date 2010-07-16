@@ -37,7 +37,7 @@
                             % if dblist is None:
                                 <input type="text" name="db" id="db" class="db_user_pass" value="${db}"/>
                             % else:
-                            <select name="db" id="db" style="width: 302px;">
+                            <select name="db" id="db" class="db_user_pass">
                                 % for v in dblist:
                                 <option value="${v}" ${v==db and "selected" or ""}>${v}</option>
                                 % endfor
@@ -59,9 +59,9 @@
                         <td></td>
                         <td class="db_login_buttons">
                             % if cp.config('dbbutton.visible', 'openobject-web'):
-	                            <button type="button" class="static_buttons" tabindex="-1" onclick="location.href='${py.url('/openerp/database')}'">${_("Databases")}</button>
+	                            <button type="button" class="static_boxes" tabindex="-1" onclick="location.href='${py.url('/openerp/database')}'">${_("Databases")}</button>
                             % endif
-                            <button type="submit" class="static_buttons">${_("Login")}</button>
+                            <button type="submit" class="static_boxes">${_("Login")}</button>
                         </td>
                     </tr>
                 </table>                

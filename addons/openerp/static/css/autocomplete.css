@@ -8,8 +8,6 @@ div.autoTextResults {
 }
 
 table.autoTextTable {
-	position: absolute;
-    background-color: white;    
     border: none;
     font-family: arial, sans-serif;
     font-size: 13px;
@@ -19,8 +17,6 @@ table.autoTextTable {
 }
 
 table.autoTextTable tr.autoTextNormalRow td {
-    background-color: #505050;
-    color: #FFF;
 }
 
 table.autoTextTable tr.autoTextSelectedRow td {
