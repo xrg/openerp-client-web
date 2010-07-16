@@ -25,6 +25,6 @@
 % if not stock and not id and editable and not src:
     <input type="file" class="${css_class}" id="${name}" ${py.attrs(attrs)} name="${name}"/>
 % else:
-    <img src="data:image/png;base64,${src}" class="${css_class}" id="${name}" ${py.attrs(attrs)} name="${name}"/>
+    <img src="data:image/png;base64,${src}" class="${css_class}" id="${name}" ${py.attrs(attrs)} name="${name}" width="${width}" height="${height}"/>
 % endif
 
