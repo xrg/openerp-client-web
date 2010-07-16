@@ -35,6 +35,7 @@ import random
 import xml.dom.minidom
 
 import cherrypy
+import copy
 from openerp.utils import rpc, cache, icons, node_attributes, expr_eval
 from openerp.widgets import TinyInputWidget
 from openerp.widgets.form import Char, Frame, Float, DateTime, Integer, Selection, Notebook, Separator, Group, NewLine
@@ -67,11 +68,12 @@ def get_search_default(attrs={}, screen_context=None, default_domain=[]):
             domain =  expr_eval(attrs.get('domain'))
             for d in domain:
                 if d in default_domain:                    
-                    default_val = 1
+                    default_val = default_search = True
+                    
                 else:                    
-                    default_val = 0
+                    default_val = default_search = False
         else:            
-            default_val = 0
+            default_val = default_search =  False
             
         if attrs.get('context'):
             ctx =  expr_eval(attrs.get('context', "{}"), {'self':attrs.get('name', False)})
@@ -144,7 +146,7 @@ class Filter(TinyInputWidget):
         self.def_checked = False        
         self.groupcontext = []
         
-        default_search = get_search_default(attrs, screen_context)
+        default_search = get_search_default(attrs, screen_context, default_domain)
             
         # context implemented only for group_by.
         self.group_context = None
@@ -218,7 +220,7 @@ class Search(TinyInputWidget):
 
         super(Search, self).__init__(model=model)
         
-        self.domain = domain or []
+        self.domain = copy.deepcopy(domain) or []
         self.listof_domain = domain or []
         self.filter_domain = filter_domain or []
         self.custom_filter_domain = []
