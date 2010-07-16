@@ -1,4 +1,4 @@
-<div class="footer-a">
+<div class="footer_a">
     <div align="center">
         &copy; 2008-2010 <a target="_blank" href="http://openerp.com">OpenERP</a> SA. All Rights Reserved.
         <br/>

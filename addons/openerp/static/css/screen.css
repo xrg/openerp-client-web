@@ -995,18 +995,18 @@ div.login_footer-a div {
     color: #777777;
 }
 
-div.footer-a {
+div.footer_a {
 	border-top: 1px solid black; 
 	font-weight: bold; 
 	font-size: 0.9em;
 	color: #777777;
 }
 
-div.footer-a div {
+div.footer_a div {
 	margin:10px 0 0 0;
 }
 
-div.footer-a a {
+div.footer_a a {
 	color: blue;
 }
 
