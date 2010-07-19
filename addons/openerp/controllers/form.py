@@ -248,7 +248,7 @@ class Form(SecuredController):
         # Server log will display in flash message in form view for any server action like wizard.
         serverLog = rpc.RPCProxy('res.log').get() or None
         display_name = {}
-        if params.view_type is 'form':
+        if params.view_type == 'form':
             if params.id:
                 if form.screen.view.get('fields') and form.screen.view['fields'].get('name'):
                     display_name = {'field': form.screen.view['fields']['name']['string'], 'value': form.screen.view['fields']['name']['value']}
