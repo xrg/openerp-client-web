@@ -241,6 +241,9 @@ function parse_filters(src, id) {
             }
             if (getNodeAttribute(d, 'kind') == 'many2one'){
                 value = openobject.dom.get(d.name+'_text').value || value;
+                if (getNodeAttribute(d, 'm2o_filter_domain')){
+                    value = 'm2o_'+ value
+                }
             }
             domains[d.name] = value;
         }

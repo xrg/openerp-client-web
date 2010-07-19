@@ -185,9 +185,9 @@ class M2O_search(M2O):
             <tr>
                 <td>
                     <input type="hidden" id="${name}" name="${name}" class="${css_class}" value="${value}"
-                        ${py.attrs(attrs, kind=kind, domain=domain, context=ctx, relation=relation)}/>
+                        ${py.attrs(attrs, kind=kind, domain=domain, context=ctx, relation=relation, m2o_filter_domain=filter_domain)}/>
                     <input type="text" id="${name}_text" class="${css_class}" 
-                        ${py.attrs(attrs, kind=kind, relation=relation, value=text)}/>
+                        ${py.attrs(attrs, kind=kind, relation=relation, value=text, m2o_filter_domain=filter_domain)}/>
                     <input type="hidden" id="_hidden_${name}" value=""/>
                     <div id="autoCompleteResults_${name}" class="autoTextResults"></div>
                     % if error:
@@ -209,10 +209,15 @@ class M2O_search(M2O):
         </script>
     """
     javascript = [JSLink("openerp", "javascript/m2o.js", location=locations.bodytop)]
+    params = ['filter_domain']
     
     def __init__(self, **attrs):
         if attrs.get('default', False) == 'uid':
             attrs['default'] = rpc.session.uid
+            
+        filter_domain = None
+        if attrs.get('filter_domain'):
+            filter_domain = attrs['filter_domain']
         super(M2O_search, self).__init__(**attrs)
 
 class Search(TinyInputWidget):
@@ -429,18 +434,24 @@ class Search(TinyInputWidget):
                         field.options = [(1, 'Yes'),(0, 'No')]
                         field.validator.if_empty = ''
                         
+                    default_search = None 
                     if name:
                         default_search = get_search_default(fields[name], self.context, self.domain)
-                        if default_search:
+                        s = default_search or values.get(name)
+                        if s:
                             domain = []
-                            field.set_value(default_search)
-                            if field.kind == 'char':
-                                domain = [(name,fields[name].get('comparator','ilike'),default_search)]
-                            if field.kind == 'selection' or field.kind == 'many2one':
-                                domain = [(name, '=', default_search)]
+                            if attrs.get('filter_domain'):
+                                domain = expr_eval(attrs['filter_domain'], {'self': s})
+                            else:                            
+                                if field.kind == 'char':
+                                    domain = [(name,fields[name].get('comparator','ilike'), s)]
+                                if field.kind == 'selection' or field.kind == 'many2one':
+                                    domain = [(name, '=', s)]
+                            field.set_value(s)
                             self.listof_domain += [i for i in domain if not i in self.listof_domain]
-    
-                    if name in values and isinstance(field, (TinyInputWidget, RangeWidget)):
+                            self.context.update(expr_eval(attrs.get('context',"{}"), {'self': s}))
+                            
+                    if (not default_search) and name in values and isinstance(field, (TinyInputWidget, RangeWidget)):
                         field.set_value(values[name])
     
                     views.append(field)
