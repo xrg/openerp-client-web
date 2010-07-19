@@ -2144,6 +2144,9 @@ button {
 #sidebar #add-attachment {
     position: absolute;
     top: 4px;
+    right: 1px;
+}
+#sidebar > div:first-child #add-attachment {
     right: 24px;
 }
 
