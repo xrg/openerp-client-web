@@ -30,13 +30,6 @@
  *  @target #filter_table the element holding the filter rows
  *  @argument 'the newly added (or showed for first row?) filter row'
  */
-function reset_id(element, current_row_id) {
-    element = jQuery(element);
-    return element.attr('id', element.attr('id').split('/')[0] + '/' + current_row_id);
-}
-function row_sequence(element) {
-    return parseInt(element.attr('id').split('/')[1], 10);
-}
 function add_filter_row() {
     var filter_table = jQuery('#filter_table');
     var vals = ['AND', 'OR'];
@@ -48,21 +41,12 @@ function add_filter_row() {
         old_tr.find('input.qstring').css('background', '#FFF');
 
         var new_tr = old_tr.clone();
-        var old_sequence = row_sequence(new_tr);
-        // create id for new row
-        var current_row_sequence = old_sequence + 1;
-        reset_id(new_tr, current_row_sequence);
 
         var qstring = new_tr.find('input.qstring').css('background', '#fff').val('');
-        jQuery('td.filter_column, select.filter_fields, select.expr, td.image_col', new_tr).add(qstring).each(
-                function (index, element) {
-                    reset_id(element, current_row_sequence);
-                });
 
-        var and_or = jQuery('<td>', {'id': 'and_or/' + old_sequence, 'class': 'and_or'}).appendTo(old_tr);
+        var and_or = jQuery('<td>', {'class': 'and_or'}).appendTo(old_tr);
 
         var select_andor = jQuery('<select>', {
-            'id': 'select_andor/' + old_sequence,
             'class': 'select_andor'
         }).appendTo(and_or);
         jQuery.each(vals, function (index, label) {
@@ -80,11 +64,11 @@ function add_filter_row() {
 function remove_filter_row(element) {
     var node = jQuery(element).closest('tr');
     if(node.is(':only-child')) {
-        node.find('[id^=qstring]').css('background', '#FFF').val('');
+        node.find('input.qstring').css('background', '#FFF').val('');
         jQuery('#filter_table').hide();
     } else {
         if(node.is(':last-child')) {
-            node.prev().find('[id^=and_or]').remove();
+            node.prev().find('.and_or').remove();
         }
         node.remove();
     }
