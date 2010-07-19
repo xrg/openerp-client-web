@@ -77,6 +77,12 @@
             		   onclick="show_process_view('${form.screen.string}')">
             			<small>Help</small>
               		</a>
+              		% if serverLog:
+              		   <a id="show_server_logs" class="help" href="javascript: void(0)"
+                       title="${_('Show Logs...')}">
+                            <small>Help</small>
+                        </a> 
+              		% endif
                     % if display_name:
               		<small class="sub">${display_name['field']} : ${display_name['value']}</small>
                     % endif
@@ -86,14 +92,9 @@
                 <div id="serverlog" style="display: none;">
 	                <table class="serverLogHeader">
 		                <tr>
-			                <td style="padding: 2px 10px 0 10px; font-weight: bold;">
-				                <img id="toggle_server_log" style="cursor: pointer; padding-bottom: 3px;"
-				                     src="/openerp/static/images/server_log_close.gif"></img>
-                    			Current actions :
-                    			<td>
-                    				<img id="closeServerLog" style="cursor: pointer;" align="right" 
-                    				     src="/openerp/static/images/attachments-a-close.png"></img>
-                    			</td>
+                            <td>
+                                <img id="closeServerLog" style="cursor: pointer;" align="right" 
+                                    src="/openerp/static/images/attachments-a-close.png"></img>
 			                </td>
 		                </tr>
 		                <tr id="actions_row">
@@ -149,19 +150,9 @@
 	                jQuery('#closeServerLog').click(function() {
 		                jQuery('#serverlog').fadeOut("slow");
 	                });
-	
-	                jQuery('img#toggle_server_log').click(function() {
-		                var server_img_src = jQuery(this).attr('src');
-		                if (jQuery(this).attr('src').indexOf('server_log_close') > 0) {
-			                jQuery('tr#actions_row').css('display', 'none');
-			                jQuery(this).attr('src', server_img_src.replace('server_log_close', 'server_log_open'));
-			                jQuery(this).css('padding-bottom', '1px');
-		                }
-		                else {
-			                jQuery('tr#actions_row').css('display', '');
-			                jQuery(this).css('padding-bottom', '3px');
-			                jQuery(this).attr('src', server_img_src.replace('server_log_open', 'server_log_close'));
-		                }
+	                
+	                jQuery('#show_server_logs').click(function() {
+	                   jQuery('#serverlog').fadeIn("slow");
 	                });
                 </script>
                 % endif
