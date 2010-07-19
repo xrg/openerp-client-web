@@ -1,14 +1,17 @@
 <%inherit file="/openerp/controllers/templates/base_dispatch.mako"/>
 
 <%def name="header()">
-    <title>${form.screen.string}</title>
-    % if form.screen.view_type == 'form' and display_name:
-        <script type="text/javascript">
-            jQuery(document).ready(function() {
-                document.title = "${display_name['field']}" + ":" + "${display_name['value']}" + "- OpenERP";
-            });
-        </script>
-    % endif
+    <%
+        if form.screen.view_type == 'form' and display_name:
+            title= display_name['field'] + ':' + display_name['value']
+        else:
+            title = form.screen.string
+    %>
+    <script type="text/javascript">
+        jQuery(document).ready(function() {
+            document.title = '${title}' + '- OpenERP';
+        });
+    </script>
     <script type="text/javascript">
         var form_controller = '${path}';
         var USER_ID = '${rpc.session.uid}';
