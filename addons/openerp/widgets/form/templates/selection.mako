@@ -5,7 +5,9 @@
         name="${name}" 
         class="${css_class}"
         search_context="${search_context}" ${py.attrs(attrs)}>
-        <option value=""></option>
+        % if not required:
+            <option value=""></option>
+        % endif
         % for (k, v) in options:
         <option value="${k}" ${py.selector(k==value)}>${v}</option>
         % endfor
