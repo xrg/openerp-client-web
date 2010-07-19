@@ -8,8 +8,8 @@
                 openobject.http.getURL('/openerp/search/new',
                 {
                     'model': '${grp_model}',
-                    'domain': '${grp_domain}',
-                    'context': '${grp_context}',
+                    'domain': "${grp_domain}",
+                    'context': "${grp_context}",
                     'source': 'None',
                     'kind': 2,
                     'text': '',
