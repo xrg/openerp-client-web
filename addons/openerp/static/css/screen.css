@@ -947,7 +947,8 @@ div.footer-a p a {
 
 div.footer-a p span {
     padding: 0 5px;
-    color: #cccbcb;
+    color: #1F1F1F;
+    font-weight: normal;
 }
 
 div.footer-a p.powered {

@@ -211,10 +211,8 @@
                 <div>${form.display()}</div>
                 <div class="footer-a">
 					<p class="powered">Powered by <a href="http://www.openerp.com/">openerp.com</a></p>
-					<p class="one">				    
-					
-					
-					
+					<p class="one">
+					   ${_("Running Server:")} <span>${rpc.session.protocol}://${rpc.session.host}:${rpc.session.port} - database: ${rpc.session.db or 'N/A'}</span>
 					</p>
 				</div>
             </td>

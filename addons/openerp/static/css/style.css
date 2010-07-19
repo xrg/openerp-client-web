@@ -839,6 +839,10 @@ td.last_box div.filter-a button.filter_with_icon {
     -webkit-border-bottom-left-radius:  0;
 }
 
+button.filter_with_icon table td {
+	font-size: 1.3em;
+}
+
 /**
  * vim: sts=4 st=4 et
  *
