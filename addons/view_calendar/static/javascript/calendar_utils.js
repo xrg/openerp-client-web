@@ -107,17 +107,19 @@ function getCalendar(day, mode, color_filters) {
     var sTop = jQuery('#calGridC').scrollTop();
     var sLeft = jQuery('#calGridC').scrollLeft();
 
-    var req = openobject.http.post(act, params);
-    req.addCallback(function(xmlHttp) {
-        var newCalendar = jQuery(xmlHttp.responseText);
+    var req = openobject.http.postJSON(act, params);
+    
+    req.addCallback(function(obj) {
+        var newCalendar = jQuery(obj.calendar);
+        var newSidebar = jQuery(obj.sidebar);
         jQuery('#Calendar').replaceWith(newCalendar).hide();
+        jQuery('#sidebar').replaceWith(newSidebar);
         try{
             jQuery('#calGridC').scrollTop(sTop).scrollLeft(sLeft);
         }catch(e){}
         setTimeout(function () {
             CALENDAR_WAIT_BOX.hide();
         }, 0);
-        
     });
 
     req.addErrback(function(e) {
