@@ -26,10 +26,7 @@
 // You can see the MPL licence at: http://www.mozilla.org/MPL/MPL-1.1.html
 //
 ////////////////////////////////////////////////////////////////////////////////
-/**
- *  @target #filter_table the element holding the filter rows
- *  @argument 'the newly added (or showed for first row?) filter row'
- */
+
 function add_filter_row() {
     var filter_table = jQuery('#filter_table');
     var vals = ['AND', 'OR'];
@@ -57,10 +54,6 @@ function add_filter_row() {
     }
 }
 
-/**
- *  @target #filter_table the element holding the filter rows
- *  @argument 'the removed (or hidden) filter row'
- */
 function remove_filter_row(element) {
     var node = jQuery(element).closest('tr');
     if(node.is(':only-child')) {
