@@ -211,38 +211,11 @@
                 <div>${form.display()}</div>
                 <div class="footer-a">
 					<p class="powered">Powered by <a href="http://www.openerp.com/">openerp.com</a></p>
-					<p class="one">
-					    <a href="javascript: void(0)"
-					       onclick="new ListView('_terp_list').importData()"">${_("Import")}</a>
-					    <span>|</span>
-					    <a href="javascript: void(0)"
-					       onclick="new ListView('_terp_list').exportData()">${_("Export")}</a>
-					% if form.screen.view_type == 'form':
-					    <span>|</span>
-					    <a href="javascript: void(0)" title="${_('Translate this resource.')}"
-					       onclick="openobject.tools.openWindow(
-					        openobject.http.getURL(
-					            '/openerp/translator', {
-					                _terp_model: '${form.screen.model}',
-					                _terp_id: '${form.screen.id}',
-					                _terp_context: $('_terp_context').value
-					        }));">${_('Translate')}</a>
-					% if form.screen.id:
-					    <span>|</span>
-			            <a href="javascript: void(0)"  title="${_('View Log.')}"
-			                onclick="openobject.tools.openWindow(
-			                    openobject.http.getURL('/openerp/viewlog', {
-    			                    _terp_model: '${form.screen.model}',
-	    		                    _terp_id: '${form.screen.id}'}),
-	    		                {width: 550, height: 340});">${_('View Log')}</a>
-			        % endif
-					% endif
+					<p class="one">				    
+					
+					
+					
 					</p>
-					<!--
-					<p class="two">
-					    <a href="./">Customize</a>
-				    </p>
-				    -->
 				</div>
             </td>
             % if form.sidebar:

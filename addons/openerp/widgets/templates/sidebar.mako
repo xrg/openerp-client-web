@@ -90,6 +90,40 @@
                href="javascript: void(0)">${_("Customise Object")}</a>
         </li>
     </ul>
+    
+    <div class="sideheader-a">
+        <h2>${_("Other Options")}</h2>
+    </div>
+    <ul class="clean-a">
+        <li>
+            <a href="javascript: void(0)" onclick="new ListView('_terp_list').importData()"">${_("Import")}</a>                        
+        </li>
+        <li>
+            <a href="javascript: void(0)" onclick="new ListView('_terp_list').exportData()">${_("Export")}</a>
+        </li>
+         % if view_type == 'form':
+			<li>      
+			  <a href="javascript: void(0)" title="${_('Translate this resource.')}"
+			     onclick="openobject.tools.openWindow(
+			      openobject.http.getURL(
+			          '/openerp/translator', {
+			              _terp_model: '${model}',
+			              _terp_id: '${id}',
+			              _terp_context: $('ctx')
+			      }));">${_('Translate')}</a>
+			</li>
+         % endif         
+         % if id:
+			<li>                
+			   <a href="javascript: void(0)"  title="${_('View Log.')}"
+			       onclick="openobject.tools.openWindow(
+			           openobject.http.getURL('/openerp/viewlog', {
+			               _terp_model: '${model}',
+			               _terp_id: '${id}'}),
+			           {width: 550, height: 340});">${_('View Log')}</a>
+			</li>
+         % endif
+    </ul>
 </div>
 
 <div id="sidebar_hide">
