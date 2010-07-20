@@ -1787,7 +1787,6 @@ ul.sections-a li span.wrap a:hover span strong,ul.sections-a li span.wrap a:focu
     font-size: 1em;
     display: block;
     overflow: hidden;
-    width: 180px;
 }
 
 #sidenav-a li {
@@ -1798,10 +1797,9 @@ ul.sections-a li span.wrap a:hover span strong,ul.sections-a li span.wrap a:focu
 
 #sidenav-a li > span {
     display: block;
-    width: 160px;
     height: 20px;
     padding: 0 0 0 20px;
-    background: url(../images/sidenav-link-a.png) no-repeat;
+    background: url(../images/sidenav-link-a.png) 0 100% repeat-x;
     color: #fff;
     line-height: 20px;
     font-weight: bold;
