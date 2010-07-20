@@ -1097,17 +1097,24 @@ function createAttachment() {
 }
 
 function setupAttachments() {
-        jQuery('#attachments li a.close').each(function () {
-            jQuery(this).click(removeAttachment);
-        });
+    jQuery('#attachments li a.close').each(function () {
+        jQuery(this).click(removeAttachment);
+    });
 
-        var attachments = jQuery('#attachment-box').hide();
-        jQuery('#datas').validate({
-            expression: "if (VAL) return true; else return false;"
-        });
-        jQuery('#add-attachment').click (function (e) { attachments.show(); e.preventDefault(); });
-        attachments.submit(createAttachment);
-    }
+    var attachments = jQuery('#attachment-box').hide();
+    jQuery('#datas').validate({
+        expression: "if (VAL) return true; else return false;"
+    });
+    jQuery('#add-attachment').click(function (e) {
+        attachments.show();
+        e.preventDefault();
+    });
+    attachments.bind({
+        change: createAttachment,
+        // leave that one just in case, but should generally not activate
+        submit: createAttachment
+    });
+}
 
 function error_popup(obj) {
     try {

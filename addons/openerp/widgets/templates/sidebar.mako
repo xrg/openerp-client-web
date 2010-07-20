@@ -67,7 +67,6 @@
         <input type="file" id="datas" class="binary"
                onchange="onChange(this);"
                name="datas" kind="binary" size="5"/>
-        <button type="submit" id="FormSubmit" name="FormSubmit">${_('submit')}</button>
     </form>
     % endif
 
