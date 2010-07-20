@@ -28,7 +28,7 @@
 			            <input type="hidden" name="${key}" value="${value}"/>
 			            % endfor
 			            <input type="hidden" name="login_action" value="login"/>
-						<fieldset style="background-color: #f6f6f6;">
+						<fieldset class="box">
 						<legend><b style="padding: 4px;">
 			            	<img src="/openerp/static/images/stock/stock_person.png"/></b>
 			            </legend>
