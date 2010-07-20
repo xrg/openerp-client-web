@@ -194,9 +194,7 @@
                 	</ul>
 
                 	% if buttons.pager:
-                    	<p class="paging-a">
-		                	${pager.display()}
-					    </p>
+                        ${pager.display()}
                     % endif
                 </div>
                 % endif

@@ -33,7 +33,6 @@ from openerp.utils import TinyDict, expr_eval
 from openerp.widgets import TinyInputWidget, register_widget
 from openerp.widgets.screen import Screen
 
-
 __all__ = ["O2M"]
 
 
@@ -110,11 +109,11 @@ class O2M(TinyInputWidget):
         if not isinstance(ids, list):
             ids = [ids]
 
-        if ids and isinstance(ids[0], dict):
-            ids = []
-            
-        if ids and isinstance(ids[0], tuple):
-            ids = [i[1] for i in ids]
+        if ids:
+            if isinstance(ids[0], dict):
+                ids = []
+            elif isinstance(ids[0], tuple):
+                ids = [current[1] for current in ids]
 
         id = (ids or None) and ids[0]
 
@@ -167,23 +166,20 @@ class O2M(TinyInputWidget):
 
         self.screen = Screen(current, prefix=self.name, views_preloaded=view,
                              editable=self.editable, readonly=self.readonly,
-                             selectable=0, nolinks=self.link, **{'_o2m': 1})
+                             selectable=0, nolinks=self.link, _o2m=1)
         self.id = id
         self.ids = ids
 
         if view_type == 'tree':
-            #self.screen.widget.pageable=False
             self.id = None
 
-        pager_info = None
-        if view_type == 'form':
-            c = (self.screen.ids or 0) and len(self.screen.ids)
-            i = 0
+        elif view_type == 'form':
+            records_count = len(self.screen.ids or [])
 
-            if c and self.screen.id in self.screen.ids:
-                i = self.screen.ids.index(self.screen.id) + 1
-
-            self.pager_info = '[%s/%s]' % (i, c)
+            current_record = 0
+            if records_count and self.screen.id in self.screen.ids:
+                current_record = self.screen.ids.index(self.screen.id) + 1
+            self.pager_info = '[%s/%s]' % (current_record, records_count)
 
     def get_value(self):
 

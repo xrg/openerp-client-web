@@ -132,8 +132,8 @@
     white-space: nowrap;
 }
 
-.gridview .pagerbar .pagerbar-cell .pager .paging {
-    background: #FFFFFF none repeat scroll 0 0;
+.gridview .pagerbar .pager .paging {
+    background: #FFF;
 }
 
 .gridview .pagerbar .pagerbar-cell .pager-table .pager-cell h2 {
@@ -152,25 +152,6 @@
     list-style: none;
     margin: 0;
     padding: 0;
-}
-
-.gridview .pagerbar .pagerbar-links {
-    float: left;
-    font-weight: bold;
-    margin: 0;
-    text-transform: uppercase;
-    padding: 3px 4px 1px 10px;
-    background: none;
-}
-
-.gridview .pagerbar .pagerbar-links a {
-    color: #5C5B5B;
-    text-decoration: none;
-    font-size: 0.8em;
-}
-
-.gridview .pagerbar .pagerbar-links a:hover {
-    text-decoration: none;
 }
 
 .listButton {
