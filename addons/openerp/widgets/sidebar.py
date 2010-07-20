@@ -84,7 +84,6 @@ class Sidebar(TinyWidget):
                 [('res_model', '=', model), ('res_id', '=', id)],0, 0, 0, self.context)
 
             if attachment_ids:
-                self.attachments = map(itemgetter('id', 'name'),
-                                       attachments.read(attachment_ids, ['name']))
+                self.attachments = attachments.read(attachment_ids, ['name'])
 
             self.sub_menu = submenu
