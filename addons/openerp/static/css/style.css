@@ -555,7 +555,8 @@ td.item input.reference {
     min-width: 132px;
 }
 
-img.m2o_select {
+td.item img.m2o_select,
+td.item img.datetime {
     margin-left: -21px;
 }
 
@@ -591,7 +592,9 @@ td.item .checkbox,td.item .radio {
 }
 
 #view_form .translatable {
-    background: url(../images/stock/stock_translate.png) no-repeat right center;
+    background-image: url(../images/stock/stock_translate.png);
+    background-position: right center;
+    background-repeat: no-repeat;
 }
 
 #view_form .fielderror,

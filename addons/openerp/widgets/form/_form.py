@@ -541,13 +541,13 @@ class DTLink(JSLink):
         super(DTLink, self).update_params(d)
 
         lang = get_locale()
-        link = "calendar/lang/calendar-%s.js" % lang
+        link = "jscal/lang/calendar-%s.js" % lang
 
         if os.path.exists(tools.find_resource("openobject", "static", link)):
             d.link = tools.url(["/openobject/static", link])
         else:
             lang = lang.split('_')[0]
-            link = "calendar/lang/calendar-%s.js" % lang
+            link = "jscal/lang/calendar-%s.js" % lang
             if os.path.exists(tools.find_resource("openobject", "static", link)):
                 d.link = tools.url(["/openobject/static", link])
 
@@ -555,11 +555,11 @@ class DateTime(TinyInputWidget):
 
     template = "templates/datetime.mako"
 
-    javascript = [JSLink("openerp", "calendar/calendar.js"),
-                  JSLink("openerp", "calendar/calendar-setup.js"),
-                  DTLink("openerp", "calendar/lang/calendar-en.js")]
+    javascript = [JSLink("openerp", "jscal/calendar.js"),
+                  JSLink("openerp", "jscal/calendar-setup.js"),
+                  DTLink("openerp", "jscal/lang/calendar-en.js")]
 
-    css = [CSSLink("openerp", "calendar/skins/aqua/theme.css")]
+    css = [CSSLink("openerp", "jscal/calendar-blue.css")]
 
     params = ["format", "picker_shows_time"]
 

@@ -11,9 +11,13 @@ div.calendar { position: relative; }
   font-family: tahoma,verdana,sans-serif;
 }
 
+.calendar table {
+    border-collapse: separate !important;
+}
+
 /* Header part -- contains navigation buttons and day names. */
 
-.calendar .button { /* "<<", "<", ">", ">>" buttons have this class */
+.calendar .jscal-button { /* "<<", "<", ">", ">>" buttons have this class */
   text-align: center;    /* They are the navigation buttons */
   padding: 2px;          /* Make the buttons seem like they're pressing */
 }
@@ -124,6 +128,7 @@ div.calendar { position: relative; }
 
 .calendar tbody .emptycell { /* Empty cells (the best is to hide them) */
   visibility: hidden;
+  padding: 0;
 }
 
 .calendar tbody .emptyrow { /* Empty row (some months need less than 6 rows) */
