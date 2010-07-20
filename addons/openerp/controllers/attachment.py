@@ -32,7 +32,7 @@ import cherrypy
 from openerp.controllers import SecuredController
 from openerp.utils import rpc, common, TinyDict
 
-from openobject.tools import expose
+from openobject.tools import expose, redirect
 
 
 class Attachment(SecuredController):
@@ -70,8 +70,9 @@ class Attachment(SecuredController):
         if data['type'] == 'binary':
             cherrypy.response.headers["Content-Disposition"] = "attachment; filename=%s" % data['name']
             return base64.decodestring(data['datas'])
-        else:
-            return ''
+        elif data['type'] == 'url':
+            raise redirect(data['url'])
+        raise Exception('Unknown attachment type %(type)s for attachment name %(name)s' % data)
 
     @expose('json')
     def save(self, datas, **kwargs):
