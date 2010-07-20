@@ -1804,6 +1804,7 @@ ul.sections-a li span.wrap a:hover span strong,ul.sections-a li span.wrap a:focu
     font-size: 1em;
     display: block;
     overflow: hidden;
+    min-width: 180px;
 }
 
 #sidenav-a li {
@@ -1824,6 +1825,7 @@ ul.sections-a li span.wrap a:hover span strong,ul.sections-a li span.wrap a:focu
     text-transform: uppercase;
     overflow: hidden;
     cursor: pointer;
+    min-width: 160px;
 }
 
 #sidenav-a .tree-grid,
