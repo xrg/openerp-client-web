@@ -77,6 +77,7 @@ li.notebook-tab {
     position: relative;
     float: left;
     font-size: 1em;
+    font-weight: bold;
     text-transform: uppercase;
     margin-right: 2px;
     background: transperant;
@@ -96,12 +97,12 @@ li.notebook-tab a.tab-title {
     float: left;
     height: 17px;
     padding: 7px 7px 0 7px;
-    color: #1F1F1F;
+    color: #55555;
     text-shadow: None;
 }
 
 li.notebook-tab-active a.tab-title, li.notebook-tab:hover a.tab-title {
-    color: #1F1F1F;
+    color: #55555;
 }
 
 li.notebook-tab span.tab-close {
