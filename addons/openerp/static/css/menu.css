@@ -32,11 +32,11 @@
 }
 
 .shortcut-add {
-    background: url(../images/icons/add-shortcut.png) no-repeat;
+    background: url(../images/add-shortcut.png) no-repeat;
     background-position: bottom;
 }
 .shortcut-remove {
-    background: url(../images/icons/add-shortcut-remove.png) no-repeat;
+    background: url(../images/remove-shortcut.png) no-repeat;
     background-position: bottom;
 }
 
@@ -60,11 +60,18 @@
     line-height: 1.2;
 }
 
-#shortcuts span {
+#shortcuts span.sc_rest {
     margin: 0;
     text-align: center;
     color: #fff;
-    border-right: 1px solid #909090;
+    border-left: 1px solid #909090;
+    padding-left: 1px;
+}
+
+#shortcuts span.sc_last {
+    margin: 0;
+    text-align: center;
+    color: #fff;
     padding-left: 1px;
 }
 

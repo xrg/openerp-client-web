@@ -105,11 +105,18 @@ except:
         <div id="shortcuts" class="menubar" cellpadding="0" cellspacing="0">
             <div id="sc_row">
                 <div>
-                    % for sc in shortcuts:
-                        <span>
-                            <a id="shortcut_${sc['res_id']}"
-                               href="${py.url('/openerp/tree/open', id=sc['res_id'], model='ir.ui.menu')}">${sc['name']}</a>
-                        </span>
+                    % for i, sc in enumerate(shortcuts):
+                    	% if i == 0:
+                    		<span class="sc_last">
+	                            <a id="shortcut_${sc['res_id']}"
+	                               href="${py.url('/openerp/tree/open', id=sc['res_id'], model='ir.ui.menu')}">${sc['name']}</a>
+	                        </span>
+                    	% else:
+	                        <span class="sc_rest">
+	                            <a id="shortcut_${sc['res_id']}"
+	                               href="${py.url('/openerp/tree/open', id=sc['res_id'], model='ir.ui.menu')}">${sc['name']}</a>
+	                        </span>
+	                    % endif
                     % endfor
                 </div>
             </div>

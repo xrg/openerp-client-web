@@ -247,13 +247,14 @@ class Form(SecuredController):
 
         # Server log will display in flash message in form view for any server action like wizard.
         serverLog = rpc.RPCProxy('res.log').get() or None
+        
         display_name = {}
         if params.view_type == 'form':
             if params.id:
                 if form.screen.view.get('fields') and form.screen.view['fields'].get('name'):
                     display_name = {'field': form.screen.view['fields']['name']['string'], 'value': form.screen.view['fields']['name']['value']}
 
-        return dict(form=form, pager=pager, buttons=buttons, path=self.path, can_shortcut=can_shortcut, shortcut_ids=shortcut_ids, serverLog=serverLog,display_name=display_name)
+        return dict(form=form, pager=pager, buttons=buttons, path=self.path, can_shortcut=can_shortcut, shortcut_ids=shortcut_ids, serverLog=serverLog, display_name=display_name)
 
     def _read_form(self, context, count, domain, filter_domain, id, ids, kw,
                    limit, model, offset, search_data, search_domain, source,

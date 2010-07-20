@@ -1123,18 +1123,35 @@ var RESOURCE_ID;
  * Create a shortcut bar item for the provided menu ID
  */
 function add_shortcut_to_bar(id) {
-    jQuery.getJSON('/openerp/shortcuts/by_resource', function (data) {
-        jQuery('#sc_row > div:not(.scroller)').append(
-            jQuery('<span>').append(
-                jQuery('<a>', {
-                    'id': 'shortcut_' + id,
-                    'href': openobject.http.getURL('/openerp/tree/open', {
-                        'id': id,
-                        'model': 'ir.ui.menu'
-                    })
-                }).text(data[id]['name'])));
-        jQuery(document).trigger('shortcuts-alter');
-    });
+	var sc_len = jQuery('div#shortcuts div#sc_row').find('span').length;
+	
+	if (sc_len == 0) {
+	    jQuery.getJSON('/openerp/shortcuts/by_resource', function (data) {
+	        jQuery('#sc_row > div:not(.scroller)').append(
+	            jQuery('<span>', {'class': 'sc_last'}).append(
+	                jQuery('<a>', {
+	                    'id': 'shortcut_' + id,
+	                    'href': openobject.http.getURL('/openerp/tree/open', {
+	                        'id': id,
+	                        'model': 'ir.ui.menu'
+	                    })
+	                }).text(data[id]['name'])));
+	        jQuery(document).trigger('shortcuts-alter');
+	    });
+	} else {
+		jQuery.getJSON('/openerp/shortcuts/by_resource', function (data) {
+	        jQuery('#sc_row > div:not(.scroller)').append(
+	            jQuery('<span>', {'class': 'sc_rest'}).append(
+	                jQuery('<a>', {
+	                    'id': 'shortcut_' + id,
+	                    'href': openobject.http.getURL('/openerp/tree/open', {
+	                        'id': id,
+	                        'model': 'ir.ui.menu'
+	                    })
+	                }).text(data[id]['name'])));
+	        jQuery(document).trigger('shortcuts-alter');
+	    });
+	}
 }
 /**
  * Toggle the shortcut for the current resource (create or delete it depending on current status)

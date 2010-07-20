@@ -9,7 +9,7 @@
     %>
     <script type="text/javascript">
         jQuery(document).ready(function() {
-            document.title = '${title}' + '- OpenERP';
+            document.title = '${title}' + ' - OpenERP';
         });
     </script>
     <script type="text/javascript">
