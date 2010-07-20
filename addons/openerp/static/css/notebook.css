@@ -54,9 +54,9 @@ div.notebook-tabs-wrap {
     -webkit-border-top-right-radius: 7px;
     -moz-border-radius-topleft: 7px;
     -webkit-border-top-left-radius: 7px;
-    box-shadow: 0 1px 1px #ddd;
-    -moz-box-shadow: 0 1px 1px #ddd;
-    -webkit-box-shadow: 0 1px 1px #ddd;
+    box-shadow: 0 1px 1px #FFFFFF;
+    -moz-box-shadow: 0 1px 1px #FFFFFF;
+    -webkit-box-shadow: 0 1px 1px #FFFFFF;
 }
 
 div.notebook-tabs-wrap-scrollable {
@@ -80,9 +80,9 @@ li.notebook-tab {
     text-transform: uppercase;
     margin-right: 2px;
     background: transperant;
-    border-radius: 7px;
-    -moz-border-radius: 7px;
-    -webkit-border-radius: 7px;
+    border-radius: 7px 7px 0 0;
+    -moz-border-radius: 7px 7px 0 0;
+    -webkit-border-radius: 7px 7px 0 0;
 }
 
 li.notebook-tab-active, li.notebook-tab:hover {
