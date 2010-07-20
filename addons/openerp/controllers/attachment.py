@@ -32,7 +32,7 @@ import cherrypy
 from openerp.controllers import SecuredController
 from openerp.utils import rpc, common, TinyDict
 
-from openobject.tools import expose
+from openobject.tools import expose, redirect
 
 
 class Attachment(SecuredController):
@@ -61,17 +61,16 @@ class Attachment(SecuredController):
             raise common.message(_('No record selected! You can only attach to existing record...'))
 
     @expose(content_type="application/octet-stream")
-    def get(self, fname=None, record=False, **kw):
+    def get(self, record=False):
         record = int(record)
-        proxy = rpc.RPCProxy('ir.attachment')
+        attachment = rpc.RPCProxy('ir.attachment').read(record, [], rpc.session.context)
 
-        data = proxy.read(record, [], rpc.session.context)
-
-        if data['type'] == 'binary':
-            cherrypy.response.headers["Content-Disposition"] = "attachment; filename=%s" % data['name']
-            return base64.decodestring(data['datas'])
-        else:
-            return ''
+        if attachment['type'] == 'binary':
+            cherrypy.response.headers["Content-Disposition"] = "attachment; filename=%s" % attachment['name']
+            return base64.decodestring(attachment['datas'])
+        elif attachment['type'] == 'url':
+            raise redirect(attachment['url'])
+        raise Exception('Unknown attachment type %(type)s for attachment name %(name)s' % attachment)
 
     @expose('json')
     def save(self, datas, **kwargs):
