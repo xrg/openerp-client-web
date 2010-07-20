@@ -1085,7 +1085,7 @@ function createAttachment() {
                     'class': 'attachment-file'
                 }).text(data['name']),
                 jQuery('<span>|</span>'),
-                jQuery("<a href='#' class='close'>Close</a>").click(removeAttachment)
+                jQuery("<a href='#' class='close'>Close</a>")
             ]).appendTo(attachment_line);
 
             jQuery('#attachments').append(attachment_line);
@@ -1097,19 +1097,17 @@ function createAttachment() {
 }
 
 function setupAttachments() {
-    jQuery('#attachments li a.close').each(function () {
-        jQuery(this).click(removeAttachment);
-    });
+    jQuery('#attachments').delegate('li a.close', 'click', removeAttachment);
 
-    var attachments = jQuery('#attachment-box').hide();
+    var attachmentsForm = jQuery('#attachment-box').hide();
     jQuery('#datas').validate({
         expression: "if (VAL) return true; else return false;"
     });
     jQuery('#add-attachment').click(function (e) {
-        attachments.show();
+        attachmentsForm.show();
         e.preventDefault();
     });
-    attachments.bind({
+    attachmentsForm.bind({
         change: createAttachment,
         // leave that one just in case, but should generally not activate
         submit: createAttachment
