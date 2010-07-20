@@ -541,7 +541,7 @@ hr {
     float: left;
     min-width: 60px;
     height: 23px;
-    padding: 0 3px 0 0;
+    padding: 0 6px 0 6px;
     background: url(../images/nav-items-a.png) 100% 0 no-repeat;
     line-height: 22px;
     cursor: pointer;
