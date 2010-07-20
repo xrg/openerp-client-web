@@ -211,6 +211,8 @@
 				</div>
             </td>
             % if form.sidebar:
+            <td class="toggle_sidebar sidebar_close">
+            </td>
             <td id="main_sidebar" valign="top">
             	<div id="tertiary" class="sidebar-closed">
 					<div id="tertiary_wrap">
@@ -218,6 +220,12 @@
                 	</div>
                 </div>
             </td>
+            <script type="text/javascript">
+                jQuery('td.toggle_sidebar').click(function() {
+                    jQuery(this).toggleClass('sidebar_open sidebar_close')
+                    toggle_sidebar();
+                });
+            </script>
             % endif
         </tr>
     </table>

@@ -116,10 +116,6 @@
         % endif
     </ul>
 </div>
-
-<div id="sidebar_hide">
-    <a id="toggle-click" href="javascript: void(0)" onclick="toggle_sidebar();">Toggle</a>
-</div>
 <script type="text/javascript">
     jQuery(document).ready(setupAttachments);
 </script>

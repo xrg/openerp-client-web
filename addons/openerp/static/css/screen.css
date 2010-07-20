@@ -599,11 +599,6 @@ hr {
     display: block;
 }
 
-#tertiary {
-    float: right;
-    min-height: 100%;
-}
-
 div.customize {
     margin-left: -10px;
     margin-right: -5px;
@@ -2060,6 +2055,8 @@ p.paging-a a.next {
 /* sidebar */
 #tertiary {
     position: relative;
+    float: right;
+    min-height: 100%;
 }
 
 #sidebar {
@@ -2068,8 +2065,21 @@ p.paging-a a.next {
 
 #main_sidebar {
     padding: 0;
-    background: #eae7e7 url(../images/tertiary-bg-a.gif) repeat-y;
-    border-left: 1px solid #d2cfcf;
+}
+
+.toggle_sidebar {
+	cursor: pointer;
+    height: 100%;
+    width: 11px;
+    padding: 0 5px;
+}
+
+.sidebar_close {
+	background: #CECBCB url(../images/prev.gif) no-repeat scroll center center;
+}
+
+.sidebar_open {
+	background: #CECBCB url(../images/next.gif) no-repeat scroll center center;
 }
 
 .sideheader-a {
@@ -2147,13 +2157,8 @@ button {
     right: 24px;
 }
 
-
 .sidebar-open {
     width: 180px;
-}
-
-.sidebar-closed {
-    width: 21px;
 }
 
 .sidebar-closed #sidebar {
