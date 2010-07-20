@@ -84,7 +84,7 @@
 					        	<td style="padding-left:0px;" ><h3> Top Contributor:</h3></td>
 					        </tr>
 					        <tr>
-						        <td style="padding-left:0px;" ><img class="image_size" src="/openerp/static/images/axelor_logo.png"/></td>
+						        <td style="padding-left:0px;" ><img src="/openerp/static/images/axelor_logo.png"/></td>
 			            	</tr>
 			            </table>
 			        </div>
