@@ -1,43 +1,29 @@
 #WaitBoxLayer {
     display: none;
-
     position: absolute;
     top: 0;
     left: 0;
     z-index: 199;
-
     width: 100%;
     height: 100%;
-
     background-color: gray;
-    opacity: 0.3;
+    opacity: 0.7;
 }
 
 #WaitBox {
     display: none;
     position: absolute;
     z-index: 200;
-
     margin: auto;
-    width: 350px;
+    width: 150px;
     border-radius: 4px;
     -moz-border-radius: 4px;
     -webkit-border-radius: 4px;
-    background-color: white;
-    border: 2px solid #696969;
-}
-
-#WaitBox .WaitTitle {
-    padding: 2px;
-    background: transparent url(/openerp/static/images/nav-bg-a.png) repeat-x scroll 0 0;
-    color: white;
-    font-weight: bold;
 }
 
 #WaitBox .WaitImage {
     padding: 4px;
-    height: 70px;
-    background: transparent url(/openerp/static/images/progress.gif) no-repeat center 65%;
-
+    height: 100px;
+    background: transparent url(/openerp/static/images/progress2.gif) no-repeat center 65%;
     text-align: center;
 }

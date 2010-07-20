@@ -38,25 +38,18 @@ openerp.ui.WaitBox = function(options) {
 openerp.ui.WaitBox.prototype = {
 
     __init__ : function(options) {
-
-        this.options = MochiKit.Base.update({
-        }, options || {});
-
+    
         this.layer = document.getElementById('WaitBoxLayer');
         this.box = document.getElementById('WaitBox');
 
         if (!this.layer) {
-            var title = this.options.title || _("Please wait...");
-            var desc = this.options.description || _("This operation may take a while...");
-
+        
             this.layer = DIV({id: 'WaitBoxLayer'});
             this.box = DIV({id: 'WaitBox'});
 
             jQuery([this.layer, this.box]).appendTo(document.body);
 
-            jQuery(this.box).append(DIV(null,
-                    DIV({'class': 'WaitTitle'}, title),
-                    DIV({'class': 'WaitImage'}, desc)));
+            jQuery(this.box).append(DIV(null, DIV({'class': 'WaitImage'})));
         }
     },
 
