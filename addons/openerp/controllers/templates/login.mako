@@ -19,10 +19,9 @@
 
 <%include file="header.mako"/>
 
-    <div class="view" style="padding-top: 25px;">
-		<table>
+		<table class="view" style="padding-top: 25px;">
 			<tr>
-				<td align="left">
+				<td class="login_frame" align="left" valign="top" width="30%" height="auto">
 			        <form action="${py.url(target)}" method="post" name="loginform" id="loginform">
 			            % for key, value in origArgs.items():
 			            <input type="hidden" name="${key}" value="${value}"/>
@@ -89,75 +88,48 @@
 			            </table>
 			        </div>
 				</td>
-
-				<td class="login_text" >
+				<td class="login_text" height="auto">
+					<p>We think that daily job activities can be more intuitive, efficient, automated, .. and even fun.</p>
+					<p><h3>OpenERP's vision to be:</h3></p>
 					<table>
 						<tr>
-							<td>
-								<div>
-									<p>We think that daily job activities can be more intuitive, efficient, automated, .. and even fun.</p>
-									<p><h3>OpenERP's vision to be:</h3></p>
-								</div>
+							<td class="feature-image">
+								<img src="/openerp/static/images/icons/product.png"/>
+							</td>
+						 	<td class="feature-description">
+								<b>Full featured</b>
+								<br/>
+								Today's enterprise challenges are multiple. We provide one module for each need.
 							</td>
 						</tr>
 						<tr>
-							<td>
-								<table>
-									<tr>
-										<td valign="top" ><img src="/openerp/static/images/icons/product.png"/></td>
-									 	<td>
-											<div>
-												<p><h3>Full featured</h3></p>
-												<p>Today's enterprise challenges are multiple. We provide one module for each need.</p>
-											</div>
-										</td>
-									</tr>
-								</table>
+							<td class="feature-image">
+								<img src="/openerp/static/images/icons/accessories-archiver.png"/>
+							</td>
+						 	<td class="feature-description">
+								<b>Open Source</b>
+								<br/>
+								To Build a great product, we rely on the knowledge of thousands of contributors.
 							</td>
 						</tr>
 						<tr>
-							<td>
-								<table>
-									<tr>
-										<td valign="top" ><img src="/openerp/static/images/icons/accessories-archiver.png"/></td>
-									 	<td>
-											<div>
-												<p><h3>Open Source</h3></p>
-												<p>To Build a great product, we rely on the knowledge of thousands of contributors.</p>
-											</div>
-										</td>
-									</tr>
-								</table>
+							<td class="feature-image">
+								<img src="/openerp/static/images/icons/partner.png"/>
 							</td>
-						</tr>
-						<tr>
-							<td>
-								<table>
-									<tr>
-										<td valign="top" ><img src="/openerp/static/images/icons/partner.png"/></td>
-									 	<td>
-											<div>
-												<p><h3>User Friendly</h3></p>
-												<p>In order to be productive, people need clean and easy to use interface.</p>
-											</div>
-										</td>
-									</tr>
-								</table>
-							</td>
-						</tr>
-						<tr>
-							<td>
-								<div>
-									<p><h3>Latest OpenERP News</h3></p>
-									<p>Working in progress...</p>
-									<p>Not uploaded any news yet....</p>
-								</div>
+						 	<td class="feature-description">
+								<b>User Friendly</b>
+								<br/>
+								In order to be productive, people need clean and easy to use interface.
 							</td>
 						</tr>
 					</table>
+					<div style="padding-top: 25px;">
+						<p><h3>Latest OpenERP News</h3></p>
+						<p>Working in progress...</p>
+						<p>Not uploaded any news yet....</p>
+					</div>
 				</td>
 			</tr>
 		</table>
-    </div>
 <%include file="footer.mako"/>
 </%def>

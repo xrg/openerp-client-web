@@ -78,7 +78,24 @@ img {
 }
 
 .login_text{
+	padding-top: 25px;
 	position: absolute;
+}
+
+.login_frame{
+	padding-top: 25px;
+}
+
+.feature-image{
+	padding: 15px 0 0;
+	text-align: right;
+	vertical-align: top;
+}
+
+.feature-description{
+	padding: 15px 0 0 10px;
+	text-align: left;
+	vertical-align: top;
 }
 
 pre {
