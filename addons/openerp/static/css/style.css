@@ -365,9 +365,7 @@ button.inactive {
 }
 
 div.box,div.box2 {
-    background-color: #F6F6F6;
-    border-top: 1px solid #999999;
-    border-bottom: 1px solid #999999;
+    background-color: #f6f6f6;
 }
 
 div.box {
@@ -378,11 +376,11 @@ div.box {
 
 div.box2 {
     padding: 10px;
-    width: 450px;
-    margin-left: auto;
-    margin-right: auto;
-    margin-top: 10px;
-    margin-bottom: 10px;
+}
+
+.image_size{
+	height: 55px;
+	width: 110px;
 }
 
 td.errorbox {

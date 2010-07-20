@@ -77,6 +77,10 @@ img {
     -ms-interpolation-mode: bicubic;
 }
 
+.login_text{
+	position: absolute;
+}
+
 pre {
     font-family: "Courier New", monospace;
     white-space: pre-wrap;
@@ -926,6 +930,7 @@ div.footer-a {
     overflow: hidden;
     width: 100%;
     margin: 0 0 10px;
+    padding-top: 10px;
 }
 
 div.footer-a p {
@@ -993,8 +998,8 @@ div.login_footer-a div {
 }
 
 div.footer_a {
-	border-top: 1px solid black; 
-	font-weight: bold; 
+	border-top: 1px solid black;
+	font-weight: bold;
 	font-size: 0.9em;
 	color: #777777;
 }
