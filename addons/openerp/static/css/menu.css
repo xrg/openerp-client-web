@@ -60,7 +60,7 @@
     line-height: 1.2;
 }
 
-#shortcuts span.sc_rest {
+#shortcuts span {
     margin: 0;
     text-align: center;
     color: #fff;
@@ -68,11 +68,9 @@
     padding-left: 1px;
 }
 
-#shortcuts span.sc_last {
-    margin: 0;
-    text-align: center;
-    color: #fff;
-    padding-left: 1px;
+#shortcuts span:first-child,
+#shortcuts span.first {
+    border-left: none;
 }
 
 #sc_row div {
