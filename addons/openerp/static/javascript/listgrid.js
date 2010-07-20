@@ -731,92 +731,100 @@ MochiKit.Base.update(ListView.prototype, {
         	args['_terp_clear'] = true;
         }
         
-        var req = openobject.http.postJSON('/openerp/listgrid/get', args);
-        req.addCallback(function(obj) {
-            var _terp_id = openobject.dom.get(self.name + '/_terp_id') || openobject.dom.get('_terp_id');
-            var _terp_ids = openobject.dom.get(self.name + '/_terp_ids') || openobject.dom.get('_terp_ids');
-            var _terp_count = openobject.dom.get(self.name + '/_terp_count') || openobject.dom.get('_terp_count');
-            _terp_id.value = current_id > 0 ? current_id : 'False';
+        jQuery.ajax({
+            url: '/openerp/listgrid/get', 
+            data: args,
+            dataType: 'json',
+            type: 'POST',
+            success: function(obj) {
             
-            if (obj.ids) {
-                if (typeof(current_id) == "undefined" && obj.ids.length) {
-                    current_id = obj.ids[0];
-                }
+                var _terp_id = openobject.dom.get(self.name + '/_terp_id') || openobject.dom.get('_terp_id');
+                var _terp_ids = openobject.dom.get(self.name + '/_terp_ids') || openobject.dom.get('_terp_ids');
+                var _terp_count = openobject.dom.get(self.name + '/_terp_count') || openobject.dom.get('_terp_count');
                 _terp_id.value = current_id > 0 ? current_id : 'False';
-                _terp_ids.value = '[' + obj.ids.join(',') + ']';
-                _terp_count.value = obj.count;
-            }
-            
-            if(obj.active_clear) {
-                jQuery('#clear_all_filters').removeClass('inactive_clear');
-            } else {
-            	jQuery('#clear_all_filters').addClass('inactive_clear');
-            }
-
-            var newlist = jQuery(obj.view).find('table.gridview');
-            self.current_record = edit_inline;
-		    var __listview = openobject.dom.get(self.name).__listview;
-            if(clear) {
-                jQuery('#view_form').replaceWith(obj.view);
-                initialize_search();
-            } else {
-                jQuery('#' + self.name).replaceWith(newlist);
-            }
-
-            var editors = self.adjustEditors(newlist.get(0));
-            if (editors.length > 0) {
-                self.bindKeyEventsToEditors(editors);
-            }
-		    
-		    openobject.dom.get(self.name).__listview = __listview;
-			
-            // update concurrency info
-            for (var key in obj.info) {
-                try {
-                    var items = openobject.dom.select("[name=_terp_concurrency_info][value*=" + key + "]");
-                    var value = "('" + key + "', '" + obj.info[key] + "')";
-                    for (var i = 0; i < items.length; i++) {
-                        items[i].value = value;
+                
+                if (obj.ids) {
+                    if (typeof(current_id) == "undefined" && obj.ids.length) {
+                        current_id = obj.ids[0];
                     }
-                } catch(e) {
+                    _terp_id.value = current_id > 0 ? current_id : 'False';
+                    _terp_ids.value = '[' + obj.ids.join(',') + ']';
+                    _terp_count.value = obj.count;
                 }
-            }
-
-            // set focus on the first field
-            var first = jQuery('input.listfields')[0] || null;
-            if (first) {
-                first.focus();
-                first.select();
-            }
-
-            // call on_change for default values
-            if (editors.length && edit_inline == -1) {
-                forEach(editors, function(e) {
-                    if (e.value && getNodeAttribute(e, 'callback')) {
-                        MochiKit.Signal.signal(e, 'onchange');
+                
+                if(obj.active_clear) {
+                    jQuery('#clear_all_filters').removeClass('inactive_clear');
+                } else {
+                	jQuery('#clear_all_filters').addClass('inactive_clear');
+                }
+                
+                self.current_record = edit_inline;
+		        var __listview = openobject.dom.get(self.name).__listview;
+		        
+                if(clear) {
+                    jQuery('#view_form').replaceWith(obj.view);
+                    initialize_search();
+                } else {
+                    jQuery('#' + self.name).parent().replaceWith(obj.view);
+                }
+                
+                var newlist = jQuery('#' + self.name);
+    
+                var editors = self.adjustEditors(newlist.get(0));
+                if (editors.length > 0) {
+                    self.bindKeyEventsToEditors(editors);
+                }
+		        
+		        openobject.dom.get(self.name).__listview = __listview;
+			
+                // update concurrency info
+                for (var key in obj.info) {
+                    try {
+                        var items = openobject.dom.select("[name=_terp_concurrency_info][value*=" + key + "]");
+                        var value = "('" + key + "', '" + obj.info[key] + "')";
+                        for (var i = 0; i < items.length; i++) {
+                            items[i].value = value;
+                        }
+                    } catch(e) {
                     }
-                });
-            }
+                }
 
-            MochiKit.Signal.signal(__listview, 'onreload');
-            
-            if(self.sort_key != null) {
-            	if(self.name !='_terp_list') {
-            		var th = jQuery('th[id= grid-data-column/' + self.name + '/' + self.sort_key + ']').get();
-            	}	
-            	else {
-            		var th = jQuery('th[id= grid-data-column/' + self.sort_key + ']').get();
-            	}	
-            		
-            	var detail = jQuery(th).html();
-            	
-				if(self.sort_key_order == 'asc') {
-					jQuery(th).html(detail + '&nbsp; <img src="/openerp/static/images/listgrid/arrow_down.gif" style="vertical-align: middle;"/>');
-				}
-				else { 
-					jQuery(th).html(detail + '&nbsp; <img src="/openerp/static/images/listgrid/arrow_up.gif" style="vertical-align: middle;"/>');
-				}		
-			}
+                // set focus on the first field
+                var first = jQuery('input.listfields')[0] || null;
+                if (first) {
+                    first.focus();
+                    first.select();
+                }
+
+                // call on_change for default values
+                if (editors.length && edit_inline == -1) {
+                    forEach(editors, function(e) {
+                        if (e.value && getNodeAttribute(e, 'callback')) {
+                            MochiKit.Signal.signal(e, 'onchange');
+                        }
+                    });
+                }
+
+                MochiKit.Signal.signal(__listview, 'onreload');
+                
+                if(self.sort_key != null) {
+                	if(self.name !='_terp_list') {
+                		var th = jQuery('th[id= grid-data-column/' + self.name + '/' + self.sort_key + ']').get();
+                	}	
+                	else {
+                		var th = jQuery('th[id= grid-data-column/' + self.sort_key + ']').get();
+                	}	
+                		
+                	var detail = jQuery(th).html();
+                	
+				    if(self.sort_key_order == 'asc') {
+					    jQuery(th).html(detail + '&nbsp; <img src="/openerp/static/images/listgrid/arrow_down.gif" style="vertical-align: middle;"/>');
+				    }
+				    else { 
+					    jQuery(th).html(detail + '&nbsp; <img src="/openerp/static/images/listgrid/arrow_up.gif" style="vertical-align: middle;"/>');
+				    }		
+			    }
+            }
         });
     }
 });
