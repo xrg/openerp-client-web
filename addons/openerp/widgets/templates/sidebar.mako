@@ -51,7 +51,8 @@
         % for attachment in attachments:
             <!-- don't forget to also change jquery template in form.js/createAttachment -->
             <li id="attachment_item_${attachment['id']}" data-id="${attachment['id']}">
-                <a class="attachment-file" target="_self" href="${py.url('/openerp/attachment/get', record=attachment['id'])}">
+                <a class="attachment-file" rel="external"
+                   href="${attachment['url'] or py.url('/openerp/attachment/get', record=attachment['id'])}">
                     ${attachment['name']}
                 </a>
                 <span>|</span>

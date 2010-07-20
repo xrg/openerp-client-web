@@ -1076,7 +1076,7 @@ function createAttachment() {
 
             jQuery([
                 jQuery('<a>', {
-                    'target': '_self',
+                    'rel': 'external',
                     'href': openobject.http.getURL(
                         '/openerp/attachment/get', {
                             'record': data['id']})
