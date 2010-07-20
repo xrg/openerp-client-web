@@ -58,7 +58,7 @@ class TinyCalendar(Form):
 
         return minical.render()
 
-    @expose()
+    @expose('json')
     def get(self, day, mode, **kw):
 
         params, data = TinyDict.split(kw)
@@ -90,7 +90,10 @@ class TinyCalendar(Form):
         params.kalendar = options
 
         form = self.create_form(params)
-        return form.screen.widget.render()
+        
+        return dict(
+            calendar=ustr(form.screen.widget.render()),
+            sidebar=ustr(form.sidebar.render()))
 
     @expose('json')
     def delete(self, **kw):

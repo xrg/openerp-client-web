@@ -26,17 +26,7 @@
 // You can see the MPL licence at: http://www.mozilla.org/MPL/MPL-1.1.html
 //
 ////////////////////////////////////////////////////////////////////////////////
-/**
- *  @target #filter_table the element holding the filter rows
- *  @argument 'the newly added (or showed for first row?) filter row'
- */
-function reset_id(element, current_row_id) {
-    element = jQuery(element);
-    return element.attr('id', element.attr('id').split('/')[0] + '/' + current_row_id);
-}
-function row_sequence(element) {
-    return parseInt(element.attr('id').split('/')[1], 10);
-}
+
 function add_filter_row() {
     var filter_table = jQuery('#filter_table');
     var vals = ['AND', 'OR'];
@@ -48,21 +38,12 @@ function add_filter_row() {
         old_tr.find('input.qstring').css('background', '#FFF');
 
         var new_tr = old_tr.clone();
-        var old_sequence = row_sequence(new_tr);
-        // create id for new row
-        var current_row_sequence = old_sequence + 1;
-        reset_id(new_tr, current_row_sequence);
 
         var qstring = new_tr.find('input.qstring').css('background', '#fff').val('');
-        jQuery('td.filter_column, select.filter_fields, select.expr, td.image_col', new_tr).add(qstring).each(
-                function (index, element) {
-                    reset_id(element, current_row_sequence);
-                });
 
-        var and_or = jQuery('<td>', {'id': 'and_or/' + old_sequence, 'class': 'and_or'}).appendTo(old_tr);
+        var and_or = jQuery('<td>', {'class': 'and_or'}).appendTo(old_tr);
 
         var select_andor = jQuery('<select>', {
-            'id': 'select_andor/' + old_sequence,
             'class': 'select_andor'
         }).appendTo(and_or);
         jQuery.each(vals, function (index, label) {
@@ -73,106 +54,109 @@ function add_filter_row() {
     }
 }
 
-/**
- *  @target #filter_table the element holding the filter rows
- *  @argument 'the removed (or hidden) filter row'
- */
 function remove_filter_row(element) {
     var node = jQuery(element).closest('tr');
     if(node.is(':only-child')) {
-        node.find('[id^=qstring]').css('background', '#FFF').val('');
+        node.find('input.qstring').css('background', '#FFF').val('');
         jQuery('#filter_table').hide();
     } else {
         if(node.is(':last-child')) {
-            node.prev().find('[id^=and_or]').remove();
+            node.prev().find('.and_or').remove();
         }
         node.remove();
     }
 }
 
-function display_Customfilters(all_domains, group_by_ctx){
+/**
+ * Checks if a type is considered order-able, so that we can setup the right search operators for the operand
+ * @param type the field's type to consider for operator replacement
+ */
+function isOrderable(type) {
+    return jQuery.inArray(type, ['integer', 'float', 'date', 'datetime', 'boolean']) != -1;
+}
+function display_Customfilters(all_domains, group_by_ctx) {
+    var record = {};
 
-    var params = {};
-	var record = {};
+    var children = jQuery('#filter_table tr.filter_row_class');
+    children.each(function () {
+        var $constraint_value = jQuery(this).find('input.qstring');
+        var $fieldname = jQuery(this).find('select.filter_fields');
 
-    jQuery('#filter_table tr.filter_row_class').each(function () {
-		var ids = this.id;	// row id...
-		var id = ids.split('/')[1];
-		var qid = 'qstring/' + id;
-		var fid = 'filter_fields/' + id;
+        var id = jQuery(this).parent().find('> .filter_row_class').index(this);
 
-        var rec = null;
-		if ($(qid) && $(qid).value) {
-			rec = {};
-			rec[$(fid).value] = $(qid).value;
-			params['_terp_model'] = openobject.dom.get('_terp_model').value;
-		}
-		if (rec) {
-			record[ids] = rec;
-		}
-	});
-	
-	record = serializeJSON(record);
-	params['record'] = record;
-	var custom_domain = [];
-	var search_req = openobject.http.postJSON('/openerp/search/get', params);
-	search_req.addCallback(function(obj){
-		if (obj.error) {
-			forEach(children, function(child){
-				var cids = child['id'];
-				var id = cids.split('/')[1];
-				var fid = 'filter_fields/' + id;
-				if ($(fid).value == obj.error_field) {
-					f = fid.split('/')[1];
-					$('qstring/'+f).style.background = '#FF6666';
-					$('qstring/'+f).value = obj.error;
-				}
-			});
-		}
-		if (obj.frm) {
-   			for (var i in obj.frm) {
-   				var temp_domain = [];
-   				var operator = 'None';
-   				
-				var id = serializeJSON(i).split('/')[1];
-				id = parseInt(id, 10);
-				
-				var fid = 'filter_fields/' + id;
-				var eid = 'expr/' + id;
-				var select_andor = 'select_andor/' + id;
-				var type = obj.frm[i].type;
-				
-				if($(select_andor)){
-					var operator = $(select_andor).value == 'AND'? '&': '|';
-				}
-				  				
-   				if (operator != 'None') {
-   					temp_domain.push(operator);
-   				}
-   				
-   				var first_text = obj.frm[i].rec;
-   				var expression = $(eid).value;
-   				var right_text = obj.frm[i].rec_val;
-   				
-   				if (expression=='ilike'||expression=='not ilike'){
-   					if (type=='integer'||type=='float'||type=='date'||type=='datetime'||type=='boolean'){
-   						expression = expression == 'ilike'? '=': '!=';
-   					}
-   				}
-   				if ((expression == '<' || expression == '>') && (type!='integer'||type!='float'||type!='date'||type!='datetime'||type!='boolean')){
-   					expression = '=';
-   				}
-   				if (expression == 'in' || expression == 'not in'){
-   					right_text = typeof right_text == 'string'? right_text.split(',') : right_text[right_text.length-1][right_text[right_text.length-1].length-1];
-   				}
-   				
-				temp_domain.push(first_text, expression, right_text);
-				custom_domain.push(temp_domain);
-   			}
-		}
-		custom_domain = serializeJSON(custom_domain);
-		final_search_domain(custom_domain, all_domains, group_by_ctx);
-	});	
+        if($constraint_value.val()) {
+            var rec = {};
+            rec[$fieldname.val()] = $constraint_value.val();
+            record[id] = rec;
+        }
+    });
+
+    openobject.http.postJSON('/openerp/search/get', {
+        record: serializeJSON(record),
+        _terp_model: jQuery('#_terp_model').val()
+    }).addCallback(function(obj) {
+        var custom_domain = [];
+        if(obj.error) {
+            children.each(function () {
+                if(jQuery(this).find('select.filter_fields').val() == obj['error_field']) {
+                    jQuery(this).find('input.qstring').css('background', '#f66').val(obj.error);
+                }
+            });
+        }
+        var form_result = obj.frm;
+        if(form_result) {
+            // By property, we get incorrect ordering
+            for(var index = 0; ; ++index) {
+                if(!(index in form_result)) { break; }
+
+                var return_record = form_result[index];
+                var temp_domain = [];
+
+                var $row = jQuery('tr.filter_row_class').eq(index);
+
+                var type = return_record.type;
+
+                var grouping = $row.find('select.select_andor').val();
+                if(grouping) {
+                    temp_domain.push(grouping == 'AND' ? '&' : '|');
+                }
+
+                var field = return_record['rec'];
+                var comparison = $row.find('select.expr').val();
+                var value = return_record['rec_val'];
+
+                switch (comparison) {
+                    case 'ilike':
+                    case 'not ilike':
+                        if(isOrderable(type)) {
+                            comparison = (comparison == 'ilike' ? '=' : '!=');
+                        }
+                        break;
+                    case '<':
+                    case '>':
+                        if(!isOrderable(type)) {
+                            comparison = '=';
+                        }
+                        break;
+                    case 'in':
+                    case 'not in':
+                        if(typeof value == 'string') {
+                            value = value.split(',');
+                        } else {
+                            /* very weird array-type construct
+                               looks a bit like [[6, 0, [list of ids here]]]
+                             */
+                            value = value[value.length - 1][value[value.length - 1].length - 1]
+                        }
+                        break;
+                }
+
+                temp_domain.push(field, comparison, value);
+                custom_domain.push(temp_domain);
+            }
+        }
+        final_search_domain(serializeJSON(custom_domain), all_domains, group_by_ctx);
+    });
 }
 
 var group_by = new Array();
@@ -241,6 +225,9 @@ function parse_filters(src, id) {
             }
             if (getNodeAttribute(d, 'kind') == 'many2one'){
                 value = openobject.dom.get(d.name+'_text').value || value;
+                if (getNodeAttribute(d, 'm2o_filter_domain')){
+                    value = 'm2o_'+ value
+                }
             }
             domains[d.name] = value;
         }

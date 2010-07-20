@@ -35,6 +35,7 @@ import random
 import xml.dom.minidom
 
 import cherrypy
+import copy
 from openerp.utils import rpc, cache, icons, node_attributes, expr_eval
 from openerp.widgets import TinyInputWidget
 from openerp.widgets.form import Char, Frame, Float, DateTime, Integer, Selection, Notebook, Separator, Group, NewLine
@@ -67,11 +68,12 @@ def get_search_default(attrs={}, screen_context=None, default_domain=[]):
             domain =  expr_eval(attrs.get('domain'))
             for d in domain:
                 if d in default_domain:                    
-                    default_val = 1
+                    default_val = default_search = True
+                    
                 else:                    
-                    default_val = 0
+                    default_val = default_search = False
         else:            
-            default_val = 0
+            default_val = default_search =  False
             
         if attrs.get('context'):
             ctx =  expr_eval(attrs.get('context', "{}"), {'self':attrs.get('name', False)})
@@ -144,7 +146,7 @@ class Filter(TinyInputWidget):
         self.def_checked = False        
         self.groupcontext = []
         
-        default_search = get_search_default(attrs, screen_context)
+        default_search = get_search_default(attrs, screen_context, default_domain)
             
         # context implemented only for group_by.
         self.group_context = None
@@ -183,14 +185,22 @@ class M2O_search(M2O):
             <tr>
                 <td>
                     <input type="hidden" id="${name}" name="${name}" class="${css_class}" value="${value}"
-                        ${py.attrs(attrs, kind=kind, domain=domain, context=ctx, relation=relation)}/>
+                        ${py.attrs(attrs, kind=kind, domain=domain, context=ctx, relation=relation, m2o_filter_domain=filter_domain)}/>
                     <input type="text" id="${name}_text" class="${css_class}" 
-                        ${py.attrs(attrs, kind=kind, relation=relation, value=text)}/>
+                        ${py.attrs(attrs, kind=kind, relation=relation, value=text, m2o_filter_domain=filter_domain)}/>
                     <input type="hidden" id="_hidden_${name}" value=""/>
                     <div id="autoCompleteResults_${name}" class="autoTextResults"></div>
                     % if error:
                         <span class="fielderror">${error}</span>
                     % endif
+                </td>
+                <td>
+                    <img id="${name}_select" alt="${_('Search')}" title="${_('Search')}"
+                        src="/openerp/static/images/fields-a-lookup-a.gif" class="${css_class} m2o_select"/>
+                </td>
+                <td class="item-image">
+                    <img id="${name}_open" alt="${_('Open')}" title="${_('Open a resource')}"
+                        src="/openerp/static/images/iconset-d-drop.gif" class="m2o_open"/>
                 </td>
             </tr>
         </table>
@@ -199,10 +209,15 @@ class M2O_search(M2O):
         </script>
     """
     javascript = [JSLink("openerp", "javascript/m2o.js", location=locations.bodytop)]
+    params = ['filter_domain']
     
     def __init__(self, **attrs):
         if attrs.get('default', False) == 'uid':
             attrs['default'] = rpc.session.uid
+            
+        filter_domain = None
+        if attrs.get('filter_domain'):
+            filter_domain = attrs['filter_domain']
         super(M2O_search, self).__init__(**attrs)
 
 class Search(TinyInputWidget):
@@ -218,7 +233,7 @@ class Search(TinyInputWidget):
 
         super(Search, self).__init__(model=model)
         
-        self.domain = domain or []
+        self.domain = copy.deepcopy(domain) or []
         self.listof_domain = domain or []
         self.filter_domain = filter_domain or []
         self.custom_filter_domain = []
@@ -256,7 +271,7 @@ class Search(TinyInputWidget):
         if self.fields_list:
             self.fields_list.sort(lambda x, y: cmp(x[1], y[1]))
 
-        dom = xml.dom.minidom.parseString(self.search_view['arch'].encode('utf-8'))
+        dom = xml.dom.minidom.parseString(self.search_view['arch'])
         self.view_type = dom.firstChild.localName
         self.string = dom.documentElement.getAttribute('string')
 
@@ -419,18 +434,24 @@ class Search(TinyInputWidget):
                         field.options = [(1, 'Yes'),(0, 'No')]
                         field.validator.if_empty = ''
                         
+                    default_search = None 
                     if name:
                         default_search = get_search_default(fields[name], self.context, self.domain)
-                        if default_search:
+                        s = default_search or values.get(name)
+                        if s:
                             domain = []
-                            field.set_value(default_search)
-                            if field.kind == 'char':
-                                domain = [(name,fields[name].get('comparator','ilike'),default_search)]
-                            if field.kind == 'selection' or field.kind == 'many2one':
-                                domain = [(name, '=', default_search)]
+                            if attrs.get('filter_domain'):
+                                domain = expr_eval(attrs['filter_domain'], {'self': s})
+                            else:                            
+                                if field.kind == 'char':
+                                    domain = [(name,fields[name].get('comparator','ilike'), s)]
+                                if field.kind == 'selection' or field.kind == 'many2one':
+                                    domain = [(name, '=', s)]
+                            field.set_value(s)
                             self.listof_domain += [i for i in domain if not i in self.listof_domain]
-    
-                    if name in values and isinstance(field, (TinyInputWidget, RangeWidget)):
+                            self.context.update(expr_eval(attrs.get('context',"{}"), {'self': s}))
+                            
+                    if (not default_search) and name in values and isinstance(field, (TinyInputWidget, RangeWidget)):
                         field.set_value(values[name])
     
                     views.append(field)

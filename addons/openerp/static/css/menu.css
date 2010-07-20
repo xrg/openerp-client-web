@@ -32,10 +32,10 @@
 }
 
 .shortcut-add {
-    background: url(../images/add_shortcut.png) no-repeat;
+    background: url(../images/icons/rating-rated.png) no-repeat;
 }
 .shortcut-remove {
-    background: url(../images/remove_shortcut.png) no-repeat;
+    background: url(../images/stock-disabled/gtk-about.png) no-repeat;
 }
 
 /* ================ */

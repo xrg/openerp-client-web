@@ -270,8 +270,11 @@ class Search(Form):
                     domain.append((field, '=', value))
                     search_data[field] = value
                 else:
-                    domain.append((field, 'ilike', value))
-                    search_data[field] = value
+                    if not 'm2o_' in value:
+                        domain.append((field, 'ilike', value))
+                        search_data[field] = value
+                    else:
+                        search_data[field] = value.split('m2o_')[1]
 
         inner_domain = []
         if custom_domains:

@@ -181,7 +181,7 @@ import cherrypy
 		                    	% endif
 	                        % endfor
 	                        % if buttons:
-	                        	<th class="grid-cell button"><div style="width: 0;"></div></th>
+	                        	<th class="grid-cell"><div style="width: 0;"></div></th>
 	                        % endif
 	                        % if editable:
 	                        	<th class="grid-cell selector"><div style="width: 0;"></div></th>
@@ -219,7 +219,7 @@ import cherrypy
 	                            % endif
 	                            % for i, (field, field_attrs) in enumerate(headers):
 	                                % if field == 'button':
-	                                    <td class="grid-cell button">&nbsp;</td>
+	                                    <td class="grid-cell">&nbsp;</td>
 	                                % else:
 	                                    <td class="grid-cell">&nbsp;</td>
 	                                % endif
@@ -242,7 +242,7 @@ import cherrypy
                             % endif
                             % for i, (field, field_attrs) in enumerate(headers):
                                 % if field == 'button':
-                                    <td class="grid-cell button"><div style="width: 0;"></div></td>
+                                    <td class="grid-cell"><div style="width: 0;"></div></td>
                                 % else:
                                		<td class="grid-cell" id="total_sum_value" nowrap="nowrap">
                                     	% if 'sum' in field_attrs:
