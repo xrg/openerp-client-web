@@ -91,12 +91,6 @@
             	%if serverLog:
                 <div id="serverlog" style="display: none;">
 	                <table class="serverLogHeader">
-		                <tr>
-                            <td>
-                                <img id="closeServerLog" style="cursor: pointer;" align="right" 
-                                    src="/openerp/static/images/attachments-a-close.png"></img>
-			                </td>
-		                </tr>
 		                <tr id="actions_row">
 			                <td style="padding: 2px 0 0 0;">
 				                <table style="width: 100%;">
@@ -141,6 +135,10 @@
 				                    % endif
 				                </table>
 			                </td>
+			                <td style="padding: 0;">
+                                <img id="closeServerLog" style="cursor: pointer;" align="right" 
+                                    src="/openerp/static/images/attachments-a-close.png"></img>
+                            </td>
 		                </tr>
 	                </table>
                 </div>
