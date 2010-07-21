@@ -1298,10 +1298,6 @@ table {
     border-bottom: 1px solid #f4f2f2;
 }
 
-table th,table td {
-    padding: 5px 10px;
-}
-
 table thead th {
     border-bottom: 1px solid #f4f2f2;
     color: #3a3939;
