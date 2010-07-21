@@ -117,11 +117,11 @@ import cherrypy
                                             onclick="new One2Many('${name}', jQuery('table.one2many[id$=${name}]').attr('detail')).create(); return false;"
                                         >${_('new')}</button>
 	        			        % else:
-	        			            <button id="${name}_new" title="${_('Create new record.')}">${_('new')}<a/>
+	        			            <button id="${name}_new" title="${_('Create new record.')}">${_('new')}</button>
 	        			            % if editors:
 	        			                <script type="text/javascript">
 	        			                    jQuery('#${name}_new').click(function() {
-	        			                        new ListView('_terp_list').create();
+	        			                        new ListView('${name}').create();
                                                 return false;
 	        			                    });
 
