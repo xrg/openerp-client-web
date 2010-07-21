@@ -36,6 +36,10 @@ select.selectfield {
 	-moz-border-radius:3px 3px 3px 3px;	
 }
 
+.db-form {
+	padding-bottom: 15px;
+}
+
 .db-form .action {
 	color: #777777;
 	font-size: 12px;

@@ -46,7 +46,7 @@
                 </tr>
             </table>
         </div>
-        <hr style="margin: 0 0 !important;">
+        <hr style="margin: 0 0 !important; background-color: #5A5858;">
         <div>${form.display()}</div>
     </div>
 <%include file="footer.mako"/>    
