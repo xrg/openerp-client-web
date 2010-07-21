@@ -148,7 +148,7 @@ hr {
 }
 
 #top {
-    background: #7d7b7b url(../images/top-bg-a.gif) 0 100% repeat-x;
+    background: url(../images/top-bg-a.gif) scroll repeat-x top #7d7b7b;
     color: #fff;
     text-transform: uppercase;
     letter-spacing: 0.5px;
@@ -170,7 +170,7 @@ hr {
 
 #logo {
     float: left;
-    width: 172px;
+    width: 174px;
     margin: 0 10px 0 0;
     padding: 0 0 0 10px;
     background: url(../images/logo-bg.png) repeat-y;
@@ -381,7 +381,7 @@ hr {
     display: none;
     position: absolute;
     left: -51px;
-    top: 34px;
+    top: 32px;
     list-style: none;
     width: 130px;
     height: auto;

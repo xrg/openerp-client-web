@@ -1132,16 +1132,20 @@ var RESOURCE_ID;
  */
 function add_shortcut_to_bar(id) {
     jQuery.getJSON('/openerp/shortcuts/by_resource', function (data) {
-        var shortcuts = jQuery('#sc_row > div:not(.scroller)');
+        var shortcuts = jQuery('#shortcuts > ul');
         shortcuts.append(
-            jQuery('<span>', {'class': shortcuts.children().length ? '' : 'first'}).append(
+            jQuery('<li>', {'class': shortcuts.children().length ? '' : 'first'}).append(
                 jQuery('<a>', {
                     'id': 'shortcut_' + id,
                     'href': openobject.http.getURL('/openerp/tree/open', {
                         'id': id,
                         'model': 'ir.ui.menu'
                     })
-                }).text(data[id]['name'])));
+                }).append(
+                    jQuery('<span>').text(data[id]['name'])
+                )
+            )
+        );
         jQuery(document).trigger('shortcuts-alter');
     });
 }
