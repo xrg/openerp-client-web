@@ -1750,7 +1750,7 @@ ul.sections-a li span.wrap a:hover span strong,ul.sections-a li span.wrap a:focu
 .open-close-menu {
     float: left;
     cursor: pointer;
-    background: #CECBCB url(../images/prev.gif) no-repeat scroll center center;
+    background: #CECBCB url(../images/prev.gif) no-repeat scroll center 0.5%;
     height: 100%;
     width: 11px;
 }
@@ -2096,11 +2096,11 @@ p.paging-a a.next {
 }
 
 .sidebar_close {
-	background: #CECBCB url(../images/prev.gif) no-repeat scroll center center;
+	background: #CECBCB url(../images/prev.gif) no-repeat scroll center 0.5%;
 }
 
 .sidebar_open {
-	background: #CECBCB url(../images/next.gif) no-repeat scroll center center;
+	background: #CECBCB url(../images/next.gif) no-repeat scroll center 0.5%;
 }
 
 .sideheader-a {
