@@ -178,6 +178,7 @@ class Filter(TinyInputWidget):
         
         self.first_box = attrs.get('first_box')
         self.last_box = attrs.get('last_box')
+        self.first_last_box = attrs.get('first_last_box')
 
 class M2O_search(M2O):
     template = """
@@ -370,10 +371,14 @@ class Search(TinyInputWidget):
                 attrs['screen_context'] = self.context
                 if values and values.get('group_by_ctx'):
                     attrs['group_by_ctx'] = values['group_by_ctx']
-                if filter_boxes[0] == root.childNodes.index(node):
-                    attrs['first_box'] = True
-                if filter_boxes[-1] ==  root.childNodes.index(node):
-                    attrs['last_box'] = True
+                if len(filter_boxes) > 1:
+                    if filter_boxes[0] == root.childNodes.index(node):
+                        attrs['first_box'] = True
+                    if filter_boxes[-1] ==  root.childNodes.index(node):
+                        attrs['last_box'] = True
+                else:
+                    if filter_boxes[0] == root.childNodes.index(node):
+                        attrs['first_last_box'] = True
                     
                 v = Filter(**attrs)
                 if v.groupcontext and v.groupcontext not in self.groupby:

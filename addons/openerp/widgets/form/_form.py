@@ -220,6 +220,8 @@ class Frame(TinyInputWidget):
             if self.label_position and (not (widget.kind or widget._name)) or (isinstance(widget, Filter) and widget.string):
                 if isinstance(widget, Filter):
                     attrs['class'] = attrs.get('class', 'item') + ' search_filters group_box'
+                    if getattr(widget, 'first_last_box'):
+                        attrs['class'] = attrs['class'] + ' first_last_box'
                     if getattr(widget, 'first_box'):
                         attrs['class'] = attrs['class'] + ' first_box'
                     if getattr(widget, 'last_box'):

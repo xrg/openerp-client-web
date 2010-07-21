@@ -174,12 +174,10 @@ div.group-expand {
     cursor: pointer;
     overflow: hidden;
     width: 100%;
-    padding: 5px;
     white-space: nowrap;
 }
 
 div.group-expand h2 {
-    margin: 3px;
     padding: 0 0 0 10px;
     background: url(../images/group-a-header-a.png) 0 50% no-repeat;
     color: #7d7979;
@@ -836,6 +834,13 @@ td.last_box div.filter-a button.filter_with_icon {
     -moz-border-radius: 0 7px 7px 0;
     -webkit-border-radius: 0 7px 7px 0;
 }
+
+td.first_last_box div.filter-a button.filter_with_icon {
+	border-left: 1px solid #cccbcb;
+	border-radius: 7px;
+    -moz-border-radius: 7px;
+    -webkit-border-radius: 7px;
+}                                                      
 
 button.filter_with_icon table td {
 	font-size: 1.3em;
