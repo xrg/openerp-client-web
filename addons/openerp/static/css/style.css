@@ -582,8 +582,10 @@ td.item table.item-wrapper td img {
     overflow: hidden;
 }
 
-td.item .checkbox,td.item .radio {
-    /* width: auto; */
+td.item .checkbox,
+td.item .radio {
+    width: auto;
+    min-width: 10px;
 }
 
 #view_form .translatable {
