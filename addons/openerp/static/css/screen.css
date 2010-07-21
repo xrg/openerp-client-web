@@ -77,13 +77,13 @@ img {
     -ms-interpolation-mode: bicubic;
 }
 
-.login_text{
-	padding-top: 25px;
-	position: absolute;
+.login-frame {
+	padding: 35px 0 0 45px;	
 }
 
-.login_frame{
-	padding-top: 25px;
+.login_text{
+	padding-top: 40px;
+	position: absolute;
 }
 
 .feature-image{
