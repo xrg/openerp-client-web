@@ -785,10 +785,6 @@ div.box-a h2,div.box-a h3 {
     text-transform: uppercase;
 }
 
-div.box-a div.inner {
-    padding: 10px 10px 5px;
-}
-
 div.box-a div.scroll {
     overflow-y: auto;
     overflow-x: hidden;
@@ -947,7 +943,6 @@ div.footer-a {
     overflow: hidden;
     width: 100%;
     margin: 0 0 5px;
-    padding-top: 5px;
 }
 
 div.footer-a p {
@@ -984,6 +979,7 @@ div.footer-a p.powered a {
 
 div.footer-a p.one {
     float: left;
+    text-transform: none;
 }
 
 div.footer-a p.two {
@@ -1824,7 +1820,7 @@ ul.sections-a li span.wrap a:hover span strong,ul.sections-a li span.wrap a:focu
     text-transform: uppercase;
     overflow: hidden;
     cursor: pointer;
-    min-width: 160px;
+    min-width: 165px;
 }
 
 #sidenav-a .tree-grid,
