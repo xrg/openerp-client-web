@@ -2,7 +2,7 @@
 <div style="display: none;">${display_member(w)}</div>
 % endfor
 
-<table border="0" class='fields'>
+<table border="0" class='fields' width="100%">
     % for row in table:
     <tr>
         % for attrs, widget  in row:
@@ -11,7 +11,7 @@
                 % if attrs.get('label_position'):
                 <table id="search_table">
                     <tr>
-                        <td ${py.attrs(attrs.get('widget_item')[0])} width="${attrs.get('width')}">                            
+                        <td ${py.attrs(attrs.get('widget_item')[0])} width="${attrs.get('width')}">
                             <label for="${attrs.get('for')}">
                                 ${(widget or '') and widget}
                             </label>
@@ -33,11 +33,11 @@
                                     </table>
                                 % else:
                                     ${display_member(attrs.get('widget_item')[1])}
-                                % endif             
+                                % endif
                          </td>
                     </tr>
                 </table>
-                % else:                    
+                % else:
                     ${(widget or '') and widget}
                     % if attrs.get('title'):
                         <sup style="color: darkgreen;">?</sup>
