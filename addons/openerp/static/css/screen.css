@@ -637,7 +637,7 @@ h1 {
     background:url("../images/sep-a.gif") repeat-x scroll 0 90% transparent;
     font-size:2em;
     font-weight:normal;
-    padding:0 0 5px;
+    padding:0 0 5px 10px;
 }
 
 h2 {
@@ -697,6 +697,7 @@ h1 small.sub {
     font-size: 0.5em;
     font-weight: bold;
     text-transform: uppercase;
+    padding-bottom: 2px;
 }
 
 h1 br {
@@ -1543,7 +1544,7 @@ ul.inline-b {
     overflow: hidden;
     list-style: none;
     width: 100%;
-    padding: 0;
+    padding: 0 0 0 10px;
 }
 
 ul.inline-b li {
