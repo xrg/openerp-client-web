@@ -155,7 +155,7 @@
                 </script>
                 % endif
 
-                % if form.screen.view_type in ['form', 'diagram'] and buttons.toolbar:
+                % if form.screen.view_type in ['form', 'diagram'] and buttons.toolbar and form.screen.model != 'board.board':
                 <div class="wrapper">
                 	<ul class="inline-b left w50">
 					    % if buttons.new:

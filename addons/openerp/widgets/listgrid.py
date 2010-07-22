@@ -49,7 +49,7 @@ class List(TinyWidget):
     template = "templates/listgrid.mako"
     params = ['name', 'data', 'columns', 'headers', 'model', 'selectable', 'editable',
               'pageable', 'selector', 'source', 'offset', 'limit', 'show_links', 'editors', 'view_mode',
-              'hiddens', 'edit_inline', 'field_total', 'link', 'checkbox_name', 'm2m', 'min_rows', 'string', 'o2m']
+              'hiddens', 'edit_inline', 'field_total', 'link', 'checkbox_name', 'm2m', 'min_rows', 'string', 'o2m', 'dashboard']
 
     member_widgets = ['pager', 'buttons', 'editors', 'concurrency_info']
 
@@ -79,19 +79,26 @@ class List(TinyWidget):
     def __init__(self, name, model, view, ids=[], domain=[], context={}, **kw):
 
         super(List, self).__init__(name=name, model=model, ids=ids)
-
+        
         self.context = context or {}
         self.domain = domain or []
         
         custom_search_domain = getattr(cherrypy.request, 'custom_search_domain', [])
-        custom_filter_domain = getattr(cherrypy.request, 'custom_filter_domain', [])        
+        custom_filter_domain = getattr(cherrypy.request, 'custom_filter_domain', [])
         
         if name.endswith('/'):
             self._name = name[:-1]
-
         if name != '_terp_list':
             self.source = self.name.replace('/', '/') or None
-
+            
+        #this Condition is for Dashboard to avoid new, edit, delete operation
+        self.dashboard = 0
+        terp_params = getattr(cherrypy.request, 'terp_params', [])
+        if terp_params:
+            if terp_params.get('_terp_model'):
+                if terp_params['_terp_model'] == 'board.board':
+                    self.dashboard = 1
+                        
         self.selectable = kw.get('selectable', 0)
         self.editable = kw.get('editable', False)
         self.pageable = kw.get('pageable', True)
@@ -149,7 +156,6 @@ class List(TinyWidget):
                 ids = proxy.search(search_param, 0, 0, 0, context)
                 
             self.count = proxy.search_count(domain, context)
-                
         self.data_dict = {}
         data = []
 

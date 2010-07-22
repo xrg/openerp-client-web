@@ -117,22 +117,24 @@ import cherrypy
 		                                            onclick="new One2Many('${name}', jQuery('table.one2many[id$=${name}]').attr('detail')).create(); return false;"
 		                                        >${_('new')}</button>
 			        			        % else:
-			        			            <button id="${name}_new" title="${_('Create new record.')}">${_('new')}</button>
-			        			            % if editors:
-			        			                <script type="text/javascript">
-			        			                    jQuery('#${name}_new').click(function() {
-			        			                        new ListView('${name}').create();
-		                                                return false;
-			        			                    });
-		
-			        			                </script>
-			        			            % else:
-			        			                <script type="text/javascript">
-			        			                    jQuery('#${name}_new').click(function() {
-			        			                        editRecord(null);
-		                                                return false;
-			        			                    });
-			        			                </script>
+			        			            % if not dashboard:
+			        			              <button id="${name}_new" title="${_('Create new record.')}">${_('new')}</button>
+			        			              % if editors:
+                                                <script type="text/javascript">
+                                                    jQuery('#${name}_new').click(function() {
+                                                        new ListView('${name}').create();
+                                                        return false;
+                                                    });
+        
+                                                </script>
+                                               % else:
+                                                <script type="text/javascript">
+                                                    jQuery('#${name}_new').click(function() {
+                                                        editRecord(null);
+                                                        return false;
+                                                    });
+                                                </script>
+                                                % endif
 			        			            % endif
 			        			        % endif
 			        			    </td>
@@ -316,41 +318,43 @@ import cherrypy
 	                    });
 	                </script>
 	            % else:
-	                <script type="text/javascript">
-	                    if('${name}' == '_terp_list') {
-	                        var view_type = jQuery('#_terp_view_type').val();
-	                        var editable = jQuery('#_terp_editable').val();
-	                    }
-	                    else {
-	                        var view_type = jQuery('[id=${name}/_terp_view_type]').val();
-	                        var editable = jQuery('[id=${name}/_terp_editable]').val();
-	                    }
-	
-	                    jQuery('table#${name}_grid tr.grid-row').each(function(index, row) {
-	                        jQuery(row).click(function(event) {
-	                            if (!(event.target.nodeName == 'IMG' || event.target.nodeName == 'INPUT')) {
-	                                if (view_type == 'tree') {
-	                                    do_select(jQuery(row).attr('record'));
-	                                }
-	                            }
-	                        });
-	                    });
-	
-	                    jQuery('table#${name}_grid tr.grid-row').each(function(index, row) {
-	                        jQuery(row).dblclick(function(event) {
-	                            if (!(event.target.className == 'checkbox grid-record-selector' || event.target.className == 'listImage')) {
-	                                if (view_type == 'tree') {
-	                                    if (editable != 'True') {
-	                                        do_select(jQuery(row).attr('record'));
-	                                    }
-	                                    else {
-	                                        editRecord(jQuery(row).attr('record'));
-	                                    }
-	                                }
-	                            }
-	                        });
-	                    });
-	                </script>
+	                % if not dashboard:
+		                <script type="text/javascript">
+		                    if('${name}' == '_terp_list') {
+		                        var view_type = jQuery('#_terp_view_type').val();
+		                        var editable = jQuery('#_terp_editable').val();
+		                    }
+		                    else {
+		                        var view_type = jQuery('[id=${name}/_terp_view_type]').val();
+		                        var editable = jQuery('[id=${name}/_terp_editable]').val();
+		                    }
+		                   
+		                    jQuery('table#${name}_grid tr.grid-row').each(function(index, row) {
+		                        jQuery(row).click(function(event) {
+		                            if (!(event.target.nodeName == 'IMG' || event.target.nodeName == 'INPUT')) {
+		                                if (view_type == 'tree') {
+		                                    do_select(jQuery(row).attr('record'));
+		                                }
+		                            }
+		                        });
+		                    });
+		
+		                    jQuery('table#${name}_grid tr.grid-row').each(function(index, row) {
+		                        jQuery(row).dblclick(function(event) {
+		                            if (!(event.target.className == 'checkbox grid-record-selector' || event.target.className == 'listImage')) {
+		                                if (view_type == 'tree') {
+		                                    if (editable != 'True') {
+		                                        do_select(jQuery(row).attr('record'));
+		                                    }
+		                                    else {
+		                                        editRecord(jQuery(row).attr('record'));
+		                                    }
+		                                }
+		                            }
+		                        });
+		                    });
+		                </script>
+                    % endif
 	            % endif
 		        </td>
 		    </tr>
