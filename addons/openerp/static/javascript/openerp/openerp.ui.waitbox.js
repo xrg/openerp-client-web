@@ -69,13 +69,13 @@ openerp.ui.WaitBox.prototype = {
         var x = (viewPort.width() / 2) - (box.outerWidth() / 2);
         var y = (viewPort.height() / 2) - (box.outerHeight() / 2);
 
-        box.offset({
-            top: Math.max(0, y),
-            left: Math.max(0, x)
-        });
-        
         jQuery(this.layer).height(jQuery(document).height());
         jQuery([this.layer, this.box]).show();
+
+        box.offset({
+            top: Math.max(0, Math.round(y)),
+            left: Math.max(0, Math.round(x))
+        });
     },
 
     /**
