@@ -23,12 +23,13 @@
     display: -moz-inline-stack;
     display: inline-block;
     overflow: hidden;
-    height: 12px;
+    height: 8px;
     margin: 1px 5px;
     font-size: 0;
     text-align: left;
     text-indent: -10001px;
     vertical-align: middle;
+    width: 8px;
 }
 
 .pager p.paging a.new {
@@ -37,23 +38,19 @@
 
 .pager .paging .first {
     margin: 0;
-    width: 12px;
     background: url(../images/first.png) no-repeat;
 }
 
 .pager .paging .prev {
-	width: 9px;
     background: url(../images/left.png) no-repeat;
 }
 
 .pager .paging .last {
     margin: 0;
-    width: 12px;
     background: url(../images/last.png) no-repeat;
 }
 
 .pager .paging .next {
-	width: 9px;
     background: url(../images/right.png) no-repeat;
 }
 
