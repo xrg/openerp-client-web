@@ -276,7 +276,12 @@ ManyToOne.prototype.on_keydown = function(evt) {
     
     if(evt.src()) {
         if(evt.target().tagName == 'INPUT') {
-            width  = jQuery(evt.src()).width() + jQuery('#'+this.name+'_select').width();
+            if(jQuery('#search_filter_data').is(':visible')){
+                width = jQuery(evt.src()).width()
+            }
+            else{
+                width  = jQuery(evt.src()).width() + jQuery('#'+this.name+'_select').width();
+            }
             jQuery('#autoCompleteResults_' + this.name).width(width);
         }
     }
