@@ -23,7 +23,6 @@
     display: -moz-inline-stack;
     display: inline-block;
     overflow: hidden;
-    width: 12px;
     height: 12px;
     margin: 1px 5px;
     font-size: 0;
@@ -38,20 +37,24 @@
 
 .pager .paging .first {
     margin: 0;
-    background: url(../images/first.gif) no-repeat;
+    width: 12px;
+    background: url(../images/first.png) no-repeat;
 }
 
 .pager .paging .prev {
-    background: url(../images/left.gif) no-repeat;
+	width: 9px;
+    background: url(../images/left.png) no-repeat;
 }
 
 .pager .paging .last {
     margin: 0;
-    background: url(../images/last.gif) no-repeat;
+    width: 12px;
+    background: url(../images/last.png) no-repeat;
 }
 
 .pager .paging .next {
-    background: url(../images/right.gif) no-repeat;
+	width: 9px;
+    background: url(../images/right.png) no-repeat;
 }
 
 * html .paging a {
