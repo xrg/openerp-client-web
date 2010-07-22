@@ -52,60 +52,61 @@ except:
         <li><a href="#content" accesskey="c">Skip to content [c]</a></li>
         <li><a href="#footer" accesskey="f">Skip to footer [f]</a></li>
     </ul>
-    <div id="corner">
-        <ul class="tools">
-            <li><a href="${py.url('/openerp/home')}" class="home">Home</a>
-                <ul>
-                    <li class="first last"><a href="javascript: void(0);">Home</a></li>
-                </ul>
-            </li>
-            % if logged:
-            <li>
-                <a href="${py.url('/openerp/requests')}" class="messages">Messages<small>${total_mess}</small></a>
-                <ul>
-                    <li class="first last"><a href="javascript: void(0);">Requests</a></li>
-                </ul>
-            </li>
-
-            <li><a href="${py.url('/openerp/pref/create')}" class="preferences">Preferences</a>
-                <ul>
-                    <li class="first last"><a href="javascript: void(0);">Edit Preferences</a></li>
-                </ul>
-            </li>
-            % endif
-            <li><a href="javascript: void(0);" class="info">About</a>
-                <ul>
-                    <li class="first last"><a href="javascript: void(0);">About</a></li>
-                </ul>
-            </li>
-
-            <li><a href="javascript: void(0);" class="help">Help</a>
-                <ul>
-                    <li class="first last"><a href="javascript: void(0);">Help</a></li>
-                </ul>
-            </li>
-
-            % if cp.config('server.environment', 'openobject-web') == 'production':
-                <li id="clear_cache"><a href="${py.url('/openerp/pref/clear_cache')}" class="clear_cache">Clear Cache</a>
-                    <ul>
-                        <li class="first last"><a href="javascript: void(0);">Clear Cache</a></li>
-                    </ul>
-                </li>
-            % endif
-        </ul>
-        <p class="logout"><a href="${py.url('/openerp/logout')}" target="_top">${_("Logout")}</a></p>
-    </div>
+    % if logged:
+	    <div id="corner">
+	        <ul class="tools">
+	            <li><a href="${py.url('/openerp/home')}" class="home">Home</a>
+	                <ul>
+	                    <li class="first last"><a href="javascript: void(0);">Home</a></li>
+	                </ul>
+	            </li>
+	            <li>
+	                <a href="${py.url('/openerp/requests')}" class="messages">Messages<small>${total_mess}</small></a>
+	                <ul>
+	                    <li class="first last"><a href="javascript: void(0);">Requests</a></li>
+	                </ul>
+	            </li>
+	
+	            <li><a href="${py.url('/openerp/pref/create')}" class="preferences">Preferences</a>
+	                <ul>
+	                    <li class="first last"><a href="javascript: void(0);">Edit Preferences</a></li>
+	                </ul>
+	            </li>
+	            <li><a href="javascript: void(0);" class="info">About</a>
+	                <ul>
+	                    <li class="first last"><a href="javascript: void(0);">About</a></li>
+	                </ul>
+	            </li>
+	
+	            <li><a href="javascript: void(0);" class="help">Help</a>
+	                <ul>
+	                    <li class="first last"><a href="javascript: void(0);">Help</a></li>
+	                </ul>
+	            </li>
+	
+	            % if cp.config('server.environment', 'openobject-web') == 'production':
+	                <li id="clear_cache"><a href="${py.url('/openerp/pref/clear_cache')}" class="clear_cache">Clear Cache</a>
+	                    <ul>
+	                        <li class="first last"><a href="javascript: void(0);">Clear Cache</a></li>
+	                    </ul>
+	                </li>
+	            % endif
+	        </ul>
+	        <p class="logout"><a href="${py.url('/openerp/logout')}" target="_top">${_("Logout")}</a></p>
+	    </div>
+	% endif
+	
     <div id="shortcuts" class="menubar" cellpadding="0" cellspacing="0">
     % if logged:
         <ul>
-        % for i, sc in enumerate(shortcuts):
-            <li class="${i == 0 and 'first' or ''}">
-                <a id="shortcut_${sc['res_id']}"
-                   href="${py.url('/openerp/tree/open', id=sc['res_id'], model='ir.ui.menu')}">
-                   <span>${sc['name']}</span>
-                </a>
-            </li>
-        % endfor
+	        % for i, sc in enumerate(shortcuts):
+	            <li class="${i == 0 and 'first' or ''}">
+	                <a id="shortcut_${sc['res_id']}"
+	                   href="${py.url('/openerp/tree/open', id=sc['res_id'], model='ir.ui.menu')}">
+	                   <span>${sc['name']}</span>
+	                </a>
+	            </li>
+	        % endfor
         </ul>
     % endif
     </div>
