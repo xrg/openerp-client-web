@@ -46,8 +46,7 @@
 }
 
 .grid-cell.button button {
-    margin: 0px;
-    margin-right: 1px;
+    margin: 0 1px 0 0;
     width: auto;
 }
 
