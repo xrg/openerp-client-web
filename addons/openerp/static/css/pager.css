@@ -23,9 +23,9 @@
     display: -moz-inline-stack;
     display: inline-block;
     overflow: hidden;
-    width: 9px;
-    height: 11px;
-    margin: 0 5px;
+    width: 12px;
+    height: 12px;
+    margin: 1px 5px;
     font-size: 0;
     text-align: left;
     text-indent: -10001px;
@@ -42,8 +42,7 @@
 }
 
 .pager .paging .prev {
-    width: 7px;
-    background: url(../images/prev.gif) no-repeat;
+    background: url(../images/left.gif) no-repeat;
 }
 
 .pager .paging .last {
@@ -52,8 +51,7 @@
 }
 
 .pager .paging .next {
-    width: 5px;
-    background: url(../images/next.gif) no-repeat;
+    background: url(../images/right.gif) no-repeat;
 }
 
 * html .paging a {
