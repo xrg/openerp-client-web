@@ -735,10 +735,9 @@ div#more_logs {
 }
 
 div#serverlog {
-    -moz-border-radius-bottomleft: 3px;
-    -moz-border-radius-bottomright: 3px;
-    -moz-border-radius-topleft: 3px;
-    -moz-border-radius-topright: 3px;
+    border-radius: 3px;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
     background: #FFFFFF none repeat scroll 0 0;
     border: 1px solid #CECBCB;
 }

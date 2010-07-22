@@ -1,12 +1,16 @@
 div.autoTextResults {
     position: absolute;
     z-index: 1000;
-    background-color: #DADADA;
-    border-right: 1px solid #333;
-    border-left : 1px solid #333;
-    border-bottom: 1px solid #333;
+    background-color: #fff;
+    border: 1px solid #333;
     display: none;
-    padding: 0 5px 0 5px;
+    padding: 0 2px 0 2px;
+    min-width: 132px;
+    border-radius: 3px;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+    color: #1F1F1F;
+    overflow: hidden;
 }
 
 table.autoTextTable {
@@ -16,14 +20,15 @@ table.autoTextTable {
     font-style: normal;
     font-variant: normal;
     font-weight: normal;
+    width: 100%;   
 }
 
 table.autoTextTable tr.autoTextNormalRow td {
 }
 
 table.autoTextTable tr.autoTextSelectedRow td {
-    background-color: #333333;
-    color: #FFF;
+    background-color: DarkGray;
+    color: #1F1F1F;
     cursor: pointer;
 }
 

@@ -274,6 +274,13 @@ ManyToOne.prototype.on_keydown = function(evt) {
     // Used to stop processing of further key functions
     this.specialKeyPressed = false;
     
+    if(evt.src()) {
+        if(evt.target().tagName == 'INPUT') {
+            width  = jQuery(evt.src()).width() + jQuery('#'+this.name+'_select').width();
+            jQuery('#autoCompleteResults_' + this.name).width(width);
+        }
+    }
+    
     if (this.numResultRows > 0) {
         switch (key) {
             // Enter Key
@@ -498,7 +505,7 @@ ManyToOne.prototype.displayResults = function(result) {
             }
             var currentRow = TR({"class": "autoTextNormalRow", "name": "autoComplete" + this.name + "_" + i, "id": "autoComplete" + this.name + "_" + i},
                     TD({'id':textItems.values[i][0]},
-                            createDOM("nobr", null, SPAN({'id':textItems.values[i][0], 'style':'text-transform:none;'}, currentItem))));
+                            createDOM("nobr", null, SPAN({'id':textItems.values[i][0], 'style':'text-transform:none;', 'title': currentItem}, currentItem))));
 			
             if (this.hasHiddenValue)
                 appendChildNodes(currentRow, TD({"class": "autoTextHidden", 'id':textItems.values[i][0]}, SPAN({'id':textItems.values[i][0]}, currentItemValue)));
