@@ -24,7 +24,7 @@
 				<table>
 					<tr>
 						<td align="left" valign="top">
-					        <form action="${py.url(target)}" method="post" name="loginform" id="loginform">
+					        <form action="${py.url(target)}" method="post" name="loginform" id="loginform" style="padding-bottom: 5px;">
 					            
 					            % for key, value in origArgs.items():
 					            	<input type="hidden" name="${key}" value="${value}"/>
@@ -83,7 +83,7 @@
 					        	<div class="information">${info|n}</div>
 					        % endif
 					        
-					        <div style="padding-top: 30px;">
+					        <div>
 					        	<table>
 					        		<tr>
 							        	<td style="padding-left:0px;" ><h3> Top Contributor:</h3></td>
