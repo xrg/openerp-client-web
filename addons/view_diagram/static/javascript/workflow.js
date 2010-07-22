@@ -45,13 +45,12 @@ openobject.workflow.Workflow.prototype = $merge(openobject.workflow.Workflow.pro
 openobject.workflow.Workflow.implement({
 	
 	initialize : function(canvas) {
-		
 		draw2d.Workflow.call(this, canvas);
 		this.getCommandStack().setUndoLimit(0);
         this.setEnableSmoothFigureHandling(true);
-
+        
         // enable grid by default
-        this.setBackgroundImage(openobject.http.getURL('/images/grid_10.jpg'), true);
+        this.setBackgroundImage('/view_diagram/static/images/grid_10.jpg', true);
         this.setGridWidth(10, 10);
         this.setSnapToGrid(true);
 		
@@ -66,7 +65,7 @@ openobject.workflow.Workflow.implement({
 		this.connectors = new draw2d.ArrayList();		
 		this.selected = null;
 		
-		if ($('_terp_editable').value=='True') {
+		if (getElement('_terp_editable').value=='True') {
 			var tbar = new openobject.workflow.Toolbar();
 			this.toolPalette = tbar;
 			tbar.setWorkflow(this);
@@ -80,7 +79,7 @@ openobject.workflow.Workflow.implement({
 			
 	        MochiKit.DOM.appendChildNodes('toolbox', tbar);
 		}else {
-            this.workitems = eval($('workitems').value);
+            this.workitems = eval(getElement('workitems').value);
             removeElement('toolbox');
 		}
 		
@@ -103,7 +102,7 @@ openobject.workflow.Workflow.implement({
             this.draw_graph(openobject.dom.get('wkf_id').value);
         else {            
             openobject.dom.get('loading').style.display = 'none';
-        }   	    
+        }   	 
 	},
 	
     draw_graph : function(wkf_id) {
@@ -111,13 +110,12 @@ openobject.workflow.Workflow.implement({
 		this.id = wkf_id;
 		var self = this;
 		
-		req = openobject.http.postJSON('/view_diagram/workflow/get_info',{id:wkf_id, model:$('_terp_model').value,
+		req = openobject.http.postJSON('/view_diagram/workflow/get_info',{id:wkf_id, model:getElement('_terp_model').value,
 		                                                      node_obj: self.node_obj, conn_obj:self.connector_obj,
 		                                                      src_node: self.src_node_nm, des_node:self.des_node_nm,
 		                                                      node_flds_v: this.node_flds_v, node_flds_h: this.node_flds_h, conn_flds: this.conn_flds,
 		                                                      bgcolors: this.bgcolors, shapes: this.shapes});
 		req.addCallback(function(obj) {	
-			
 			for(i in obj.nodes) {
                 var node = obj.nodes[i];
 

@@ -74,7 +74,7 @@ InfoBox.prototype = {
                                         TD(null, btnDelete),
                                         TD({'align': 'right', 'width': '100%'}, btnCancel)))));
 
-        if ($('_terp_editable').value == 'False') {
+        if (getElement('_terp_editable').value == 'False') {
             removeElement(btnEdit);
             removeElement(btnDelete)
         }

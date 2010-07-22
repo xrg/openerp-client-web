@@ -38,6 +38,7 @@ if (typeof(openobject.workflow) == "undefined") {
 }
 
 colors = {
+'gray': [155, 155, 155],
 'grey': [155, 155, 155],
 'red': [236, 20, 60],
 'white': [255, 255, 255]
@@ -68,7 +69,7 @@ openobject.workflow.StateBase.prototype = {
         this.setLineWidth(2);
               
         if (!color)
-            var c = 'white';
+            var c = colors['white'];
         else                 
             var c = colors[color];
             
@@ -123,10 +124,10 @@ openobject.workflow.StateBase.prototype = {
     },  
     
     edit : function() {
-        
         params = {
             '_terp_model' : WORKFLOW.node_obj,
-            '_terp_wkf_id' : WORKFLOW.id
+            '_terp_o2m_model': getElement('_terp_model').value,
+            '_terp_o2m_id' : WORKFLOW.id
         };
         
         if (!isUndefinedOrNull(this.act_id))
@@ -174,7 +175,6 @@ openobject.workflow.StateOval.prototype = $merge(openobject.workflow.StateOval.p
 openobject.workflow.StateOval.implement({
     
     initialize : function(params, workitems) {
-        
         openobject.workflow.StateBase.call(this, params.id, params.action, params.kind, params.name, params.options);
         draw2d.Oval.call(this); 
         
