@@ -541,7 +541,7 @@ function onChange(name) {
             fld = openobject.dom.get(prefix + k);
 
             if (!fld) {
-            	if(values['progress']) {
+            	if(k == 'progress') {
                     jQuery('#progress_div2').css('width', values['progress'])
                     jQuery('#progress_div3').html(values['progress'])
                 }
