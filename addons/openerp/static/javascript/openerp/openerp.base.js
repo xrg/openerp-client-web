@@ -22,6 +22,10 @@ function openLink(url /*optional afterLoad */) {
             complete: function (xhr) {
                 app.html(xhr.responseText);
                 if(afterLoad) { afterLoad(); }
+            },
+            error: function (xhr, status, error) {
+                if(!console) return;
+                console.warn("Failed to load ", url, ":", status, error);
             }
         });
     } else {
@@ -73,6 +77,10 @@ jQuery(document).ready(function () {
                 complete: function (xhr) {
                     app.html(xhr.responseText);
                     waitBox.hide();
+                },
+                error: function (xhr, status, error) {
+                    if(!console) return;
+                    console.warn("Failed to load ", form.attr('method') || 'GET', form.attr('action'), ":", status, error);
                 }
             });
             return false;
