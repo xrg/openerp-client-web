@@ -43,7 +43,7 @@ from openerp.widgets import TinyWidget, TinyInputWidget, ConcurrencyInfo, get_wi
 
 from _binary import Image
 from openobject import tools
-from openobject.i18n import get_locale
+from openobject.i18n import get_locale, format
 from openobject.widgets import JSLink
 
 
