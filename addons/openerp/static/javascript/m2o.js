@@ -274,15 +274,16 @@ ManyToOne.prototype.on_keydown = function(evt) {
     // Used to stop processing of further key functions
     this.specialKeyPressed = false;
     
-    if(evt.src()) {
+    if(evt.src()) {        
         if(evt.target().tagName == 'INPUT') {
+            //IMP: jQuery('#this.name_select') will not work because of '/' in id.
             if(jQuery('#search_filter_data').is(':visible')){
-                width = jQuery(evt.src()).width()
+                w = jQuery(evt.src()).width()
             }
             else{
-                width  = jQuery(evt.src()).width() + jQuery('#'+this.name+'_select').width();
+                w  = jQuery(evt.src()).width() + jQuery('[id="'+this.name+'_select'+'"]').width();
             }
-            jQuery('#autoCompleteResults_' + this.name).width(width);
+            jQuery('div.autoTextResults[id$="'+this.name+'"]').width(w)
         }
     }
     
