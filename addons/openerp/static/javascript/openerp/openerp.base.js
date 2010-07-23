@@ -1,3 +1,6 @@
+var console;
+// cache for the current hash url so we can know if it's changed
+var currentUrl;
 /**
  * Opens the provided URL in the application content section.
  *
@@ -6,13 +9,8 @@
  *
  * @param url the URL to GET and insert into #appContent
  * @default afterLoad callback to execute after URL has been loaded and
- *                    inserted, if any. Takes the parameters provided
- *                    by jQuery.load: responseText, textStatus and
- *                    XMLHttpRequest
+ *                    inserted, if any.
  */
-var console;
-// cache for the current hash url so we can know if it's changed
-var currentUrl;
 function openLink(url /*optional afterLoad */) {
     var app = jQuery('#appContent');
     var afterLoad = arguments[1];
