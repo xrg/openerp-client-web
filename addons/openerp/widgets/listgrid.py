@@ -40,7 +40,7 @@ import form
 from openobject import tools
 from openobject.tools import ast
 from openobject.i18n import format
-from openobject.widgets import CSSLink, JSLink
+from openobject.widgets import JSLink
 from pager import Pager
 
 
@@ -72,7 +72,6 @@ class List(TinyWidget):
     checkbox_name = True
     min_rows = 5
 
-    css = [CSSLink("openerp", 'css/listgrid.css')]
     javascript = [JSLink("openerp", 'javascript/listgrid.js'),
                   JSLink("openerp", 'javascript/sortablegrid.js')]
 

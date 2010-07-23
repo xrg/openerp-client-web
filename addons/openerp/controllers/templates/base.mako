@@ -13,6 +13,15 @@
     <link rel="stylesheet" type="text/css" href="/openerp/static/css/tips.css"/>
     <link rel="stylesheet" type="text/css" href="/openerp/static/css/waitbox.css"/>
     <link rel="stylesheet" type="text/css" href="/openerp/static/css/screen.css"/>
+
+    <link rel="stylesheet" type="text/css" href="/openerp/static/jscal/calendar-blue.css"/>
+    <link rel="stylesheet" type="text/css" href="/openerp/static/css/dashboard.css"/>
+    <link rel="stylesheet" type="text/css" href="/openerp/static/css/treegrid.css"/>
+    <link rel="stylesheet" type="text/css" href="/openerp/static/css/notebook.css"/>
+        
+    <link rel="stylesheet" type="text/css" href="/openerp/static/css/pager.css"/>
+    <link rel="stylesheet" type="text/css" href="/openerp/static/css/listgrid.css"/>
+    <link rel="stylesheet" type="text/css" href="/openerp/static/css/autocomplete.css"/>
     
     <!--[if IE]>
     <link rel="stylesheet" type="text/css" href="/openerp/static/css/style-ie.css"/>

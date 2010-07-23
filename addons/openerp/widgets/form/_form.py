@@ -43,8 +43,8 @@ from openerp.widgets import TinyWidget, TinyInputWidget, ConcurrencyInfo, get_wi
 
 from _binary import Image
 from openobject import tools
-from openobject.i18n import format, get_locale
-from openobject.widgets import JSLink, CSSLink
+from openobject.i18n import get_locale
+from openobject.widgets import JSLink
 
 
 class Frame(TinyInputWidget):
@@ -261,7 +261,6 @@ class Notebook(TinyInputWidget):
     template = "templates/notebook.mako"
 
     javascript = [JSLink("openerp", "javascript/notebook/notebook.js")]
-    css = [CSSLink("openerp", 'css/notebook.css')]
 
     params = ['fake_widget']
     member_widgets = ['children']
@@ -561,8 +560,6 @@ class DateTime(TinyInputWidget):
                   JSLink("openerp", "jscal/calendar-setup.js"),
                   DTLink("openerp", "jscal/lang/calendar-en.js")]
 
-    css = [CSSLink("openerp", "jscal/calendar-blue.css")]
-
     params = ["format", "picker_shows_time"]
 
     format = '%Y-%m-%d %H:%M:%S'
@@ -675,7 +672,6 @@ class Dashbar(TinyInputWidget):
     template = "templates/dashbar.mako"
 
     javascript = [JSLink("openerp", "javascript/dashboard.js")]
-    css = [CSSLink("openerp", 'css/dashboard.css')]
 
     member_widgets = ['children']
 
