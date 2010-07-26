@@ -34,6 +34,8 @@ from openerp.utils import rpc, common, TinyDict
 
 from openobject.tools import expose, redirect
 
+import actions
+
 
 class Attachment(SecuredController):
 
@@ -45,17 +47,17 @@ class Attachment(SecuredController):
         id = int(id)
 
         if id:
-            ctx = {}
-            ctx.update(rpc.session.context.copy())
+            ctx = dict(rpc.session.context)
 
             action = rpc.session.execute('object', 'execute', 'ir.attachment', 'action_get', ctx)
 
-            action['domain'] = [('res_model', '=', model), ('res_id', '=', id)]
-            ctx['default_res_model'] = model
-            ctx['default_res_id'] = id
-            action['context'] = ctx
+            action.update(
+                domain=[('res_model', '=', model), ('res_id', '=', id)],
+                context=dict(ctx,
+                     default_res_model=model,
+                     default_res_id=id
+             ))
 
-            import actions
             return actions.execute(action)
         else:
             raise common.message(_('No record selected! You can only attach to existing record...'))
