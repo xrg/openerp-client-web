@@ -509,7 +509,6 @@ table.o2m_box div.pagerbar-header strong {
 td.label,
 td.item {
     padding: 4px;
-    white-space: nowrap;
 }
 
 td.label {
