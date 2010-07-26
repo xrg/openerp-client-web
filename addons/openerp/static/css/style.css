@@ -516,6 +516,7 @@ td.label {
     font-weight: bold;
     text-transform: uppercase;
     text-align: right;
+    white-space: nowrap;
 }
 
 td.item input,
