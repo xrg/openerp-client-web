@@ -841,7 +841,11 @@ td.first_last_box div.filter-a button.filter_with_icon {
 	border-radius: 7px;
     -moz-border-radius: 7px;
     -webkit-border-radius: 7px;
-}                                                      
+}
+
+div.filter-a button table {
+    margin: 4px;
+}
 
 button.filter_with_icon table td {
 	font-size: 1.3em;
