@@ -272,7 +272,7 @@ class Search(TinyInputWidget):
         if self.fields_list:
             self.fields_list.sort(lambda x, y: cmp(x[1], y[1]))
 
-        dom = xml.dom.minidom.parseString(self.search_view['arch'])
+        dom = xml.dom.minidom.parseString(self.search_view['arch'].encode('utf-8'))
         self.view_type = dom.firstChild.localName
         self.string = dom.documentElement.getAttribute('string')
 
