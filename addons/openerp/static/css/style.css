@@ -201,7 +201,7 @@ div.group-expand h2:hover {
 }
 
 #groupdata_table td {
-    padding: 0pt;
+    padding: 0;
 }
 
 div.group-collapse {
@@ -213,7 +213,7 @@ div.group-collapse {
 
 div.group-collapse h2 {
     background: url(../images/group-a-header-b.png) 0 50% no-repeat;
-    margin: 3px;
+    margin-bottom: 3px;
     padding: 0 0 0 10px;
     color: #7d7979;
     font-size: 0.8em;
@@ -245,7 +245,7 @@ td.custom-filter ul li {
     display: inline;
     float: left;
     margin: 0;
-    padding-right: 0 5px 0 0;
+    padding-right: 5px;
 }
 
 td.custom-filter ul li select {
