@@ -42,7 +42,6 @@ from openerp.widgets.form import Char, Frame, Float, DateTime, Integer, Selectio
 from openerp.widgets.form import M2O
 
 from openobject.widgets import JSLink, locations
-from openobject.tools import ast
 
 
 def get_search_default(attrs={}, screen_context=None, default_domain=[]):
@@ -102,9 +101,6 @@ class RangeWidget(TinyInputWidget):
         self.from_field = RANGE_WIDGETS[kind](**from_attrs)
         self.to_field = RANGE_WIDGETS[kind](**to_attrs)
 
-        #self.from_field.validator.if_invalid = False
-        #self.to_field.validator.if_invalid = False
-
         # in search view fields should be writable
         self.from_field.readonly = False
         self.to_field.readonly = False
@@ -129,12 +125,8 @@ class Filter(TinyInputWidget):
 
     def __init__(self, **attrs):
         super(Filter, self).__init__(**attrs)
-        flag = True
-        if cherrypy.request.path_info == '/openerp/tree/open':
-            flag = False
 
         default_domain = attrs.get('default_domain')
-        group_by_ctx = attrs.get('group_by_ctx', [])
         self.global_domain = []
         self.icon = attrs.get('icon')
         self.filter_domain = attrs.get('domain', [])
