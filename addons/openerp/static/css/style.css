@@ -507,7 +507,8 @@ table.o2m_box div.pagerbar-header strong {
 }
 
 td.label,
-td.item {
+td.item,
+#groupdata_table td.item {
     padding: 4px;
 }
 
@@ -823,24 +824,23 @@ div.filter-a button.filter_icon:focus {
     -webkit-border-radius: 4px;
 }
 
-td.first_box div.filter-a button.filter_with_icon {
+.filters-group .group_box:first-child button {
     border-left: 1px solid #cccbcb;
-    border-radius: 7px 0 0 7px;
-    -moz-border-radius: 7px 0 0 7px;
-    -webkit-border-radius: 7px 0 0 7px;
+    -webkit-border-top-left-radius: 7px;
+    -webkit-border-bottom-left-radius: 7px;
+    -moz-border-radius-topleft: 7px;
+    -moz-border-radius-bottomleft: 7px;
+    border-top-left-radius: 7px;
+    border-bottom-left-radius: 7px;
 }
 
-td.last_box div.filter-a button.filter_with_icon {
-    border-radius: 0 7px 7px 0;
-    -moz-border-radius: 0 7px 7px 0;
-    -webkit-border-radius: 0 7px 7px 0;
-}
-
-td.first_last_box div.filter-a button.filter_with_icon {
-	border-left: 1px solid #cccbcb;
-	border-radius: 7px;
-    -moz-border-radius: 7px;
-    -webkit-border-radius: 7px;
+.filters-group .group_box:last-child button {
+    -webkit-border-top-right-radius: 7px;
+    -webkit-border-bottom-right-radius: 7px;
+    -moz-border-radius-topright: 7px;
+    -moz-border-radius-bottomright: 7px;
+    border-top-right-radius: 7px;
+    border-bottom-right-radius: 7px;
 }
 
 div.filter-a button table {

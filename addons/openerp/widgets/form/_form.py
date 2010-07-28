@@ -221,12 +221,6 @@ class Frame(TinyInputWidget):
                 classes = [attrs.get('class', 'item'), 'search_filters']
                 if isinstance(widget, Filter):
                     classes.append('group_box')
-                    if widget.first_last_box:
-                        classes.append('first_last_box')
-                    if widget.first_box:
-                        classes.append('first_box')
-                    if widget.last_box:
-                        classes.append('last_box')
                     if widget.def_checked:
                         classes.append('grop_box_active')
 
@@ -665,6 +659,13 @@ class Group(TinyInputWidget):
         self.expand_grp_id = 'expand_grp_%s' % (random.randint(0,10000))
         
 register_widget(Group, ["group"])
+
+class FiltersGroup(Group):
+    """ Special group for groups of *filters*, in order to generate
+    the right markup and style the buttons correctly.
+    """
+    template = "templates/filters_group.mako"
+register_widget(FiltersGroup, ["filters_group"])
 
 
 class Dashbar(TinyInputWidget):

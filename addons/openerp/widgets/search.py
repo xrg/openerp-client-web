@@ -38,8 +38,8 @@ import cherrypy
 import copy
 from openerp.utils import rpc, cache, icons, node_attributes, expr_eval
 from openerp.widgets import TinyInputWidget
-from openerp.widgets.form import Char, Frame, Float, DateTime, Integer, Selection, Notebook, Separator, Group, NewLine
-from openerp.widgets.form import M2O
+from openerp.widgets.form import Char, Frame, Float, DateTime, Integer, Selection, Notebook
+from openerp.widgets.form import Separator, FiltersGroup, Group, NewLine, M2O
 
 from openobject.widgets import JSLink, locations
 
@@ -328,17 +328,15 @@ class Search(TinyInputWidget):
 
         views = []
         search_model = model
-        filter_boxes = [] # Used for make Filter button group osx box
-        for node in root.childNodes:
-            if node.localName == 'filter':
-                attrs = node_attributes(node)
-                if not attrs.get('invisible') and attrs.get('string'):
-                    filter_boxes.append(root.childNodes.index(node))
 
+        filters_run = []
         for node in root.childNodes:
-
             if not node.nodeType==node.ELEMENT_NODE:
                 continue
+
+            if filters_run and node.localName != 'filter':
+                views.append(FiltersGroup(children=filters_run))
+                filters_run = []
 
             attrs = node_attributes(node)
             attrs.update(label_position='True',
@@ -363,26 +361,18 @@ class Search(TinyInputWidget):
                 views.append(NewLine(**attrs))
 
             elif node.localName=='filter':
-                attrs['model'] = search_model
-                attrs['default_domain'] = self.domain
-                attrs['screen_context'] = self.context
+                attrs.update(
+                    model=search_model,
+                    default_domain=self.domain,
+                    screen_context=self.context)
                 if values and values.get('group_by_ctx'):
                     attrs['group_by_ctx'] = values['group_by_ctx']
-                if len(filter_boxes) > 1:
-                    if filter_boxes[0] == root.childNodes.index(node):
-                        attrs['first_box'] = True
-                    if filter_boxes[-1] ==  root.childNodes.index(node):
-                        attrs['last_box'] = True
-                else:
-                    if filter_boxes[0] == root.childNodes.index(node):
-                        attrs['first_last_box'] = True
 
                 v = Filter(**attrs)
                 if v.groupcontext and v.groupcontext not in self.groupby:
                     self.groupby.append(v.groupcontext)
-                self.listof_domain += [i for i in v.global_domain if not i in self.listof_domain]
-                views.append(v)
-
+                self.listof_domain.extend(i for i in v.global_domain if not i in self.listof_domain)
+                filters_run.append(v)
 
             elif node.localName == 'field':
                 val  = attrs.get('select', False) or fields[str(attrs['name'])].get('select', False) or self.view_type == 'search'
@@ -474,7 +464,8 @@ class Search(TinyInputWidget):
                                     self.groupby.append(filter_field.groupcontext)
                                 self.listof_domain += [i for i in filter_field.global_domain if not i in self.listof_domain]
                                 views.append(filter_field)
-
+        if filters_run:
+            views.append(FiltersGroup(children=filters_run))
         return views
 
 RANGE_WIDGETS = {
