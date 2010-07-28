@@ -218,18 +218,19 @@ class Frame(TinyInputWidget):
         if not isinstance(widget, (Char, Frame, Float, DateTime, Integer, Selection, Notebook, Separator, NewLine, Label)):
             from openerp.widgets.search import Filter
             if self.label_position and (not (widget.kind or widget._name)) or (isinstance(widget, Filter) and widget.string):
+                classes = [attrs.get('class', 'item'), 'search_filters']
                 if isinstance(widget, Filter):
-                    attrs['class'] = attrs.get('class', 'item') + ' search_filters group_box'
-                    if getattr(widget, 'first_last_box'):
-                        attrs['class'] = attrs['class'] + ' first_last_box'
-                    if getattr(widget, 'first_box'):
-                        attrs['class'] = attrs['class'] + ' first_box'
-                    if getattr(widget, 'last_box'):
-                        attrs['class'] = attrs['class'] + ' last_box'
+                    classes.append('group_box')
+                    if widget.first_last_box:
+                        classes.append('first_last_box')
+                    if widget.first_box:
+                        classes.append('first_box')
+                    if widget.last_box:
+                        classes.append('last_box')
                     if widget.def_checked:
-                        attrs['class'] = attrs['class'] + ' grop_box_active'
-                else:
-                    attrs['class'] = attrs.get('class', 'item') + ' search_filters'
+                        classes.append('grop_box_active')
+
+                attrs['class'] = ' '.join(classes)
                 attrs['nowrap'] = 'nowrap'
             
         td = [attrs, widget]
@@ -293,15 +294,14 @@ class Separator(TinyInputWidget):
     """
 
     template = "templates/separator.mako"
-    params = ["orientation", "position"]
+    params = ["orientation"]
 
     def __init__(self, **attrs):
         super(Separator, self).__init__(**attrs)
         self.colspan = int(attrs.get('colspan', 4))
-        self.orientation = attrs.get('orientation', False)
+        self.orientation = attrs.get('orientation', 'horizontal')
         self.rowspan = int(attrs.get('rowspan', 1))
         self.nolabel = True
-        self.position = attrs.get('position', 'horizontal')
 
 register_widget(Separator, ["separator"])
 

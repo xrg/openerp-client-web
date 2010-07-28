@@ -1,5 +1,5 @@
 <%
-    if position == 'vertical':
+    if orientation == 'vertical':
         css_class = "separator_vertical"
     else:
         css_class = "separator"
@@ -11,8 +11,8 @@
     </tr>
 </table>
 
-% if position == 'vertical': 
+% if orientation == 'vertical':
 <script type="text/javascript">
     jQuery('table.separator_vertical').parent().empty().css('border-left','1px solid #666666');
 </script>
-% endif
+%endif
