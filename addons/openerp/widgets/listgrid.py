@@ -165,14 +165,20 @@ class List(TinyWidget):
 
             ctx = rpc.session.context.copy()
             ctx.update(context)
-
-            data = proxy.read(ids, fields.keys() + ['__last_update'], ctx)
+            
+            try:    
+                data = proxy.read(ids, fields.keys() + ['__last_update'], ctx)
+            except:
+                pass
+            
             self._update_concurrency_info(self.model, data)
             self.concurrency_info = ConcurrencyInfo(self.model, ids)
+            
             order_data = [(d['id'], d) for d in data]
             orderer = dict(zip(ids, count()))
             ordering = sorted(order_data, key=lambda object: orderer[object[0]])
             data = [i[1] for i in ordering]
+            
             for item in data:
                 self.data_dict[item['id']] = item.copy()
 
