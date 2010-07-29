@@ -1,6 +1,7 @@
 <div class="dashbar" id="${name}">
     % for dashlet in children:
     <div class="dashlet" id="dashlet_${dashlet.name}">
+    % if not getattr(dashlet, 'btype', False):
         <div class="dashlet-title">
             <table>
                 <tr>
@@ -13,6 +14,7 @@
                 </tr>
             </table>
         </div>
+    % endif
         <div class="dashlet-content">${display_member(dashlet)}</div>
     </div>
     % endfor
