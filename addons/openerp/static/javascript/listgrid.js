@@ -646,14 +646,17 @@ MochiKit.Base.update(ListView.prototype, {
 
         args['_terp_model'] = this.model;
         args['_terp_ids'] = ids;
-
         var req = openobject.http.postJSON('/openerp/listgrid/remove', args);
 
         req.addCallback(function(obj) {
             if (obj.error) {
                 alert(obj.error);
-            } else {
+            }
+            else {
                 self.reload();
+                if(obj.ids) {
+                    jQuery('div#corner ul.tools li a.messages small').text(obj.ids.length)
+                }
             }
         });
     },
