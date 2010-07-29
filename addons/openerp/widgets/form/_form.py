@@ -914,9 +914,6 @@ class Form(TinyInputWidget):
                 if not get_widget(kind):
                     continue
 
-                if kind in ('text', 'text_tag') and attrs.get('html'):
-                    kind = 'text_html'
-
                 if name in self.view_fields:
                     print "-"*30
                     print " malformed view for:", self.model
