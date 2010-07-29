@@ -415,22 +415,29 @@ class Char(TinyWidget):
 class M2O(Char):
 
     template = """\
-        <span>
+        <span id="${name}" class="m2o" name="${name}" ${py.attrs(value=val, relation=relation, context=ctx, domain=domain, link=link)}>
             % if link:
-                <a href="${link}">${text}</a>
+                <a href="javascript: void(0)" onclick="new ManyToOne('${name}').open_record('${val}')">${text}</a>
             % else:
                 ${text}
             % endif
         </span>
     """
+    
+    params=['relation', 'text', 'domain', 'context', 'link', 'readonly', 'val']
+    
+    def __init__(self, **attrs):        
+        super(M2O, self).__init__(**attrs)
 
     def get_text(self):
 
         if isinstance(self.value, int):
             from many2one import get_name as _m2o_get_name
             self.value = self.value, _m2o_get_name(self.attrs['relation'], self.value)
-
+            
+        self.val = self.value
         if self.value and len(self.value) > 0:
+            self.val = self.value[0]
             return self.value[-1]
 
         return ''
@@ -439,7 +446,7 @@ class M2O(Char):
         m2o_link = int(self.attrs.get('link', 1))
 
         if m2o_link == 1:
-            return tools.url('/form/view', model=self.attrs['relation'], id=(self.value or False) and self.value[0], context=self.context)
+            return m2o_link
         else:
             return None
 

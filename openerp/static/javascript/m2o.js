@@ -50,7 +50,7 @@ ManyToOne.prototype.__init__ = function(name){
     this.field = $(name);
     this.relation = getNodeAttribute(this.field, 'relation');
     this.editable = getElement('_terp_editable') ? getElement('_terp_editable').value : 'True';
-    if (this.editable == 'True'){
+    if (this.editable == 'True' && this.field.tagName.toLowerCase() != 'span'){
 	    this.text = $(name + '_text');
 	
 	    this.select_img = $(name + '_select');    
@@ -116,7 +116,7 @@ ManyToOne.prototype.open = function(id){
     var source = this.name;
     var editable = this.editable || 'True';
     
-    if (editable ==  'True'){
+    if (editable ==  'True' && this.field.tagName.toLowerCase() != 'span'){
 	    // To open popup form in readonly mode.
 	    if (this.field_class.indexOf('readonlyfield') != -1) {
 	        var editable = 'False';
@@ -124,9 +124,10 @@ ManyToOne.prototype.open = function(id){
 	}
 
     var req = eval_domain_context_request({source: source, domain: domain, context: context});
-
+    var self = this;
     req.addCallback(function(obj){
 		if (editable == 'True'){
+		    var editable =  self.field.tagName.toLowerCase() != 'span'? 'False': 'True';
 			openWindow(getURL('/openm2o/edit', {_terp_model: model, _terp_id: id,
 	                                            _terp_domain: obj.domain, _terp_context: obj.context,
 	                                            _terp_m2o: source, _terp_editable: editable}));
