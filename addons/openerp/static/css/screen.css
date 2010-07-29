@@ -2249,9 +2249,9 @@ td#body_form_td {
     border-radius: 3px;
     -moz-border-radius: 3px;
     -webkit-border-radius: 3px;
-    box-shadow: 0 1px 0 #fff;
-    -moz-box-shadow: 0 1px 0 #fff;
-    -webkit-box-shadow: 0 1px 0 #fff;
+    box-shadow: 0 1px 0 transperant;
+    -moz-box-shadow: 0 1px 0 transperant;
+    -webkit-box-shadow: 0 1px 0 transperant;
     background: url(../images/button-a.gif) repeat-x;
     color: #fff;
     white-space: nowrap;
@@ -2301,9 +2301,9 @@ a.button-b {
     border-radius: 3px;
     -moz-border-radius: 3px;
     -webkit-border-radius: 3px;
-    box-shadow: 0 1px 0 #fff;
-    -moz-box-shadow: 0 1px 0 #fff;
-    -webkit-box-shadow: 0 1px 0 #fff;
+    box-shadow: 0 1px 0 transperant;
+    -moz-box-shadow: 0 1px 0 transperant;
+    -webkit-box-shadow: 0 1px 0 transperant;
     background: url(../images/button-a.gif) 0 -26px repeat-x;
     color: #8d8d8d;
     white-space: nowrap;
