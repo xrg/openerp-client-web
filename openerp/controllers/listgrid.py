@@ -121,6 +121,10 @@ class List(SecuredController):
                     res = proxy.unlink(params.ids, ctx)
                 else:
                     res = proxy.unlink([params.ids], ctx)
+                if params.model == 'res.request':
+                    ids, ids2 = rpc.RPCProxy(params.model).request_get()
+                    cherrypy.session['terp_requests'] = (ids, ids2)
+                    return dict(msg = _('%s request(s)') % len(ids))
             except Exception, e:
                 error = ustr(e)
 

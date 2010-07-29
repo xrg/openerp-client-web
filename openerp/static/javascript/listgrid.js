@@ -436,7 +436,11 @@ MochiKit.Base.update(ListView.prototype, {
             if (obj.error){
                 alert(obj.error);
             } else {
+                if(obj.msg) {
+                    getElement('request_messages').innerHTML = obj.msg
+                }
                 self.reload();
+                
             }
         });
     },

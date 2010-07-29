@@ -56,7 +56,6 @@ class Requests(SecuredController):
 
         if len(ids2):
             msg += _(' - %s pending request(s)') % len(ids2)
-
         return ids, msg
 
     @expose()
