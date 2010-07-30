@@ -32,7 +32,7 @@ body {
 
 body,textarea,input,select,option {
     color: #1f1f1f;
-    font-family: Myriad Pro, Lucida Grande, Lucida Sans Unicode, sans-serif;
+    font-family: "Myriad Pro", "Lucida Grande", "Lucida Sans Unicode", "Droid Sans", sans-serif;
     line-height: 1.25;
 }
 
@@ -2256,7 +2256,7 @@ td#body_form_td {
     color: #fff;
     white-space: nowrap;
     font-size: 0.8em;
-    font-weight: 600;
+    font-weight: bold;
     line-height: 12px;
     text-transform: uppercase;
     text-shadow: #6a6969 0 1px 0;
@@ -2308,7 +2308,7 @@ a.button-b {
     color: #8d8d8d;
     white-space: nowrap;
     font-size: 0.8em;
-    font-weight: 600;
+    font-weight: bold;
     line-height: 11px;
     text-transform: uppercase;
     text-shadow: #fff 0 1px 0;

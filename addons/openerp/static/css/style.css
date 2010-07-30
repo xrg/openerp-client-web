@@ -45,7 +45,7 @@ button, .button {
     color: #fff;
     white-space: nowrap;
     font-size: 0.8em !important;
-    font-weight: 600;
+    font-weight: bold;
     line-height: 12px;
     text-transform: uppercase;
     text-shadow: #6a6969 0 1px 0;
@@ -65,7 +65,7 @@ button:active, .button:active {
 td.item button table {
     margin: 0;
     border: none;
-    font-weight: 600;
+    font-weight: bold;
     font-size: 0.8em;
 }
 
@@ -263,7 +263,7 @@ td.custom-filter ul li select {
     color: #8d8d8d;
     white-space: nowrap;
     font-size: 1em;
-    font-weight: 600;
+    font-weight: bold;
     line-height: 11px;
     text-shadow: #fff 0 1px 0;
 }
@@ -285,7 +285,7 @@ td.custom-filter ul li a.button {
     color: #8d8d8d;
     white-space: nowrap;
     font-size: 1em;
-    font-weight: 600;
+    font-weight: bold;
     line-height: 11px;
     text-transform: uppercase;
     text-shadow: #fff 0 1px 0;
