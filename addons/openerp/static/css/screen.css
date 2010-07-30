@@ -1748,7 +1748,7 @@ ul.sections-a li span.wrap a:hover span strong,ul.sections-a li span.wrap a:focu
     float: left;
     cursor: pointer;
     background: #CECBCB url(../images/left.png) no-repeat scroll center 0.5%;
-    height: 100%;
+    min-height: 100%;
     width: 11px;
 }
 
