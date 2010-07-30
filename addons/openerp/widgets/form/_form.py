@@ -685,7 +685,7 @@ class HPaned(TinyInputWidget):
     <table width="100%" class="hpaned">
         <tr>
             % for child in children:
-            <td valign="top">
+            <td style="padding: 0 3px 0 0;" valign="top">
                 ${display_member(child)}
             </td>
             % endfor
@@ -708,7 +708,7 @@ class VPaned(TinyInputWidget):
     <table width="100%" class="vpaned">
         % for child in children:
         <tr>
-            <td valign="top">
+            <td style="padding: 0 3px 0 0;" valign="top">
                 ${display_member(child)}
             </td>
         </tr>

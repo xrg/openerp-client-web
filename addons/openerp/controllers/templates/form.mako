@@ -22,11 +22,11 @@
         }
     </script>
     % if can_shortcut:
-    <script type="text/javascript">
-        jQuery(document).ready(function () {
-            jQuery('#shortcut_add_remove').click(toggle_shortcut);
-        });
-    </script>
+	    <script type="text/javascript">
+	        jQuery(document).ready(function () {
+	            jQuery('#shortcut_add_remove').click(toggle_shortcut);
+	        });
+	    </script>
     % endif
 </%def>
 
@@ -69,7 +69,7 @@
                 
             	<h1>
             	    % if can_shortcut:
-                    <a id="shortcut_add_remove" href="javascript: void(0)" class="${shortcut_class}"></a>
+                    	<a id="shortcut_add_remove" href="javascript: void(0)" class="${shortcut_class}"></a>
                     % endif
             	    ${form.screen.string}
             		<a class="help" href="javascript: void(0)"
@@ -84,7 +84,7 @@
                         </a> 
               		% endif
                     % if display_name:
-              		<small class="sub">${display_name['field']} : ${display_name['value']}</small>
+              			<small class="sub">${display_name['field']} : ${display_name['value']}</small>
                     % endif
             	</h1>
             	

@@ -33,8 +33,10 @@ This module implementes heirarchical tree view for a tiny model having
 """
 import time
 import simplejson
+import cherrypy
 
 import actions
+import form
 from openerp.controllers import SecuredController
 from openerp.utils import rpc, cache, icons, common, TinyDict
 from openerp.widgets import tree_view
@@ -88,8 +90,24 @@ class Tree(SecuredController):
                 id = tool['id']
                 ids = proxy.read([id], [tree.field_parent])[0][tree.field_parent]
                 tool['ids'] = ids
+            
+        can_shortcut = self.can_shortcut_create()
+        shortcut_ids = []
+
+        if cherrypy.session.get('terp_shortcuts'):
+            for sc in cherrypy.session['terp_shortcuts']:
+                if isinstance(sc['res_id'], tuple):
+                    shortcut_ids.append(sc['res_id'][0])
+                else:
+                    shortcut_ids.append(sc['res_id'])
         
-        return {'tree': tree, 'model': model}
+        return {'tree': tree, 'model': model, 'can_shortcut': can_shortcut, 'shortcut_ids': shortcut_ids}
+
+    def can_shortcut_create(self):
+        return (rpc.session.is_logged() and
+                rpc.session.active_id and
+                cherrypy.request.path_info == '/openerp/tree/open' and
+                cherrypy.request.params.get('model') == 'ir.ui.menu')
 
     @expose()
     def default(self, id, model, view_id, domain, context):
