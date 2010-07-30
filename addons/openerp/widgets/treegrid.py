@@ -30,7 +30,7 @@
 import simplejson
 
 from openerp.widgets import TinyWidget
-from openobject.widgets import CSSLink, JSLink
+from openobject.widgets import JSLink
 
 
 class TreeGrid(TinyWidget):
@@ -39,7 +39,6 @@ class TreeGrid(TinyWidget):
     params = ['headers', 'showheaders', 'expandall', 'linktarget',
     'onselection', 'onbuttonclick', 'onheaderclick', 'url', 'url_params']
 
-    css = [CSSLink("openerp", "css/treegrid.css")]
     javascript = [JSLink("openerp", "javascript/treegrid.js")]
 
     def __init__(self, name, model, headers, url, field_parent=None, ids=[], domain=[], context={}, **kw):

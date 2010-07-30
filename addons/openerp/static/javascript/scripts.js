@@ -44,19 +44,10 @@ jQuery(function($) {
 					}
 				});
 			}
-		},
-		design : {
-			equalize : function() {
-				var highest = 0;
-				$('#content > div').each(function() {
-					if($(this).height() > highest) highest = $(this).height();
-				}).height(highest);
-			}
 		}
 	};
 
 	Engine.utils.links();
 	Engine.utils.mails();
-	Engine.design.equalize();
 	
 });

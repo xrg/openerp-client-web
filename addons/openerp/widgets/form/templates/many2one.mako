@@ -15,7 +15,7 @@
     </td>
     <td>
         <img id="${name}_select" alt="${_('Search')}" title="${_('Search')}"
-            src="/openerp/static/images/fields-a-lookup-a.gif" class="${css_class} m2o_select"/>
+            src="/openerp/static/images/fields-a-lookup-a.gif" class="m2o_select"/>
     </td>
     <td class="item-image">
 	    <img id="${name}_open" alt="${_('Open')}" title="${_('Open a resource')}"

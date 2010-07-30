@@ -15,7 +15,7 @@
         % if prev:
         </a>
         % endif
-        <span onclick="jQuery('#_${name+str(pager_id)}_link_span').hide(); jQuery('#_${name+str(pager_id)}_limit_span').show();">${page_info}</span>
+        <span onclick="jQuery('[id=_${name+str(pager_id)}_link_span]').hide(); jQuery('[id=_${name+str(pager_id)}_limit_span]').show();">${page_info}</span>
         % if next:
         <a href="#next" onclick="pager_action('next', '${name}'); return false;">
         % endif
@@ -32,11 +32,11 @@
 
     <div id="_${name+str(pager_id)}_limit_span" style="display: none" align="right">
         <label for="_${name+str(pager_id)}_limit"
-               onclick="jQuery('#_${name+str(pager_id)}_limit_span').hide(); jQuery('#_${name+str(pager_id)}_link_span').show();">${_("Change Limit:")}</label>&nbsp;
+               onclick="jQuery('[id=_${name+str(pager_id)}_limit_span]').hide(); jQuery('[id=_${name+str(pager_id)}_link_span]').show();">${_("Change Limit:")}</label>&nbsp;
         <select id='_${name+str(pager_id)}_limit'
-                onchange="jQuery('#${name_base}_terp_limit').val(jQuery(this).val());
-                          jQuery('#${name_base}_terp_offset').val(0);
-                      pager_action('filter', '${name}')">
+                onchange="jQuery('[id=${name_base}_terp_limit]').val(jQuery(this).val());
+                          jQuery('[id=${name_base}_terp_offset]').val(0);
+                      pager_action('filter', '${name}')" style="min-width: 25px;">
             <option value=""></option>
             % for k in pager_options:
                 <option value="${k}" ${py.selector(limit=='${k]}')}>${k}</option>

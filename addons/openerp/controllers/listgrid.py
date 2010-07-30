@@ -122,6 +122,9 @@ class List(SecuredController):
                     res = proxy.unlink(params.ids, ctx)
                 else:
                     res = proxy.unlink([params.ids], ctx)
+                if params.model == 'res.request':
+                    ids, ids2 = rpc.RPCProxy(params.model).request_get()
+                    return dict(ids = ids)
             except Exception, e:
                 error = ustr(e)
                 

@@ -34,7 +34,7 @@ from screen import Screen
 from sidebar import Sidebar
 from listgroup import ListGroup
 
-from openobject.widgets import Form, CSSLink, JSLink, locations
+from openobject.widgets import Form, JSLink, locations
 
 class ViewForm(Form):
 
@@ -43,7 +43,6 @@ class ViewForm(Form):
     params = ['limit', 'offset', 'count', 'search_domain', 'search_data', 'filter_domain', 'notebook_tab']
     member_widgets = ['screen', 'search', 'sidebar']
 
-    css = [CSSLink("openerp", "css/autocomplete.css")]
     javascript = [JSLink("openerp", "javascript/form.js", location=locations.head),
                   JSLink("openerp", "javascript/form_state.js", location=locations.bodytop),
                   JSLink("openerp", "javascript/m2o.js", location=locations.bodytop),

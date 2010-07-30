@@ -26,8 +26,6 @@
 # You can see the MPL licence at: http://www.mozilla.org/MPL/MPL-1.1.html
 #
 ###############################################################################
-
-from openobject.widgets import CSSLink
 from openerp.widgets import TinyWidget
 
 
@@ -35,8 +33,6 @@ class Pager(TinyWidget):
 
     template = "templates/pager.mako"
     params = ['offset', 'limit', 'count', 'prev', 'next', 'page_info', 'pager_id', 'pager_options']
-
-    css = [CSSLink("openerp", 'css/pager.css')]
 
     page_info = None
     pager_id = 1

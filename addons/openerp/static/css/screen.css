@@ -47,9 +47,9 @@ li,dt,dd,p,th,td,caption,pre {
     font-size: 1em;
 }
 
-ul,ol,dl,pre,h1,h2,h3,h4,h5,h6 {
+/*ul,ol,dl,pre,h1,h2,h3,h4,h5,h6 {
     margin-bottom: 10px;
-}
+}*/
 
 a {
     color: #555;
@@ -75,6 +75,27 @@ li *,li p,li li,dt *,dd *,p *,th *,td * {
 img {
     border: none;
     -ms-interpolation-mode: bicubic;
+}
+
+.login-frame {
+	padding: 35px 0 0 45px;	
+}
+
+.login_text{
+	padding-top: 40px;
+	position: absolute;
+}
+
+.feature-image{
+	padding: 15px 0 0;
+	text-align: right;
+	vertical-align: top;
+}
+
+.feature-description{
+	padding: 15px 0 0 10px;
+	text-align: left;
+	vertical-align: top;
 }
 
 pre {
@@ -127,7 +148,7 @@ hr {
 }
 
 #top {
-    background: #7d7b7b url(../images/top-bg-a.gif) 0 100% repeat-x;
+    background: url(../images/top-bg-a.gif) scroll repeat-x top #7d7b7b;
     color: #fff;
     text-transform: uppercase;
     letter-spacing: 0.5px;
@@ -149,7 +170,7 @@ hr {
 
 #logo {
     float: left;
-    width: 172px;
+    width: 174px;
     margin: 0 10px 0 0;
     padding: 0 0 0 10px;
     background: url(../images/logo-bg.png) repeat-y;
@@ -360,7 +381,7 @@ hr {
     display: none;
     position: absolute;
     left: -51px;
-    top: 34px;
+    top: 32px;
     list-style: none;
     width: 130px;
     height: auto;
@@ -537,7 +558,7 @@ hr {
     float: left;
     min-width: 60px;
     height: 23px;
-    padding: 0 3px 0 0;
+    padding: 0 6px 0 6px;
     background: url(../images/nav-items-a.png) 100% 0 no-repeat;
     line-height: 22px;
     cursor: pointer;
@@ -613,10 +634,10 @@ h1,h2,h3,h4,h5,h6 {
 }
 
 h1 {
-    background:url("../images/sep-a.gif") repeat-x scroll 0 100% transparent;
+    background:url("../images/sep-a.gif") repeat-x scroll 0 90% transparent;
     font-size:2em;
     font-weight:normal;
-    padding:0 0 5px;
+    padding:0 0 5px 10px;
 }
 
 h2 {
@@ -676,6 +697,7 @@ h1 small.sub {
     font-size: 0.5em;
     font-weight: bold;
     text-transform: uppercase;
+    padding-bottom: 2px;
 }
 
 h1 br {
@@ -762,10 +784,6 @@ div.box-a h2,div.box-a h3 {
     font-weight: bold;
     text-shadow: #fff 0 1px 0;
     text-transform: uppercase;
-}
-
-div.box-a div.inner {
-    padding: 10px 10px 5px;
 }
 
 div.box-a div.scroll {
@@ -925,7 +943,7 @@ div.footer-a {
     position: relative;
     overflow: hidden;
     width: 100%;
-    margin: 0 0 10px;
+    margin: 0 0 5px;
 }
 
 div.footer-a p {
@@ -962,6 +980,7 @@ div.footer-a p.powered a {
 
 div.footer-a p.one {
     float: left;
+    text-transform: none;
 }
 
 div.footer-a p.two {
@@ -993,8 +1012,8 @@ div.login_footer-a div {
 }
 
 div.footer_a {
-	border-top: 1px solid black; 
-	font-weight: bold; 
+	border-top: 1px solid #5A5858;
+	font-weight: bold;
 	font-size: 0.9em;
 	color: #777777;
 }
@@ -1525,8 +1544,7 @@ ul.inline-b {
     overflow: hidden;
     list-style: none;
     width: 100%;
-    margin: 0 0 10px;
-    padding: 0;
+    padding: 0 0 0 10px;
 }
 
 ul.inline-b li {
@@ -1729,13 +1747,13 @@ ul.sections-a li span.wrap a:hover span strong,ul.sections-a li span.wrap a:focu
 .open-close-menu {
     float: left;
     cursor: pointer;
-    background: #CECBCB url(../images/prev.gif) no-repeat scroll center center;
-    height: 100%;
+    background: #CECBCB url(../images/left.png) no-repeat scroll center 0.5%;
+    min-height: 100%;
     width: 11px;
 }
 
 .hide-menu .open-close-menu {
-    background-image: url(../images/next.gif);
+    background-image: url(../images/right.png);
 }
 
 .hide-menu #primary {
@@ -1782,7 +1800,7 @@ ul.sections-a li span.wrap a:hover span strong,ul.sections-a li span.wrap a:focu
     font-size: 1em;
     display: block;
     overflow: hidden;
-    width: 180px;
+    min-width: 180px;
 }
 
 #sidenav-a li {
@@ -1793,10 +1811,9 @@ ul.sections-a li span.wrap a:hover span strong,ul.sections-a li span.wrap a:focu
 
 #sidenav-a li > span {
     display: block;
-    width: 160px;
     height: 20px;
     padding: 0 0 0 20px;
-    background: url(../images/sidenav-link-a.png) no-repeat;
+    background: url(../images/sidenav-link-a.png) 0 100% repeat-x;
     color: #fff;
     line-height: 20px;
     font-weight: bold;
@@ -1804,6 +1821,7 @@ ul.sections-a li span.wrap a:hover span strong,ul.sections-a li span.wrap a:focu
     text-transform: uppercase;
     overflow: hidden;
     cursor: pointer;
+    min-width: 165px;
 }
 
 #sidenav-a .tree-grid,
@@ -2075,11 +2093,11 @@ p.paging-a a.next {
 }
 
 .sidebar_close {
-	background: #CECBCB url(../images/prev.gif) no-repeat scroll center center;
+	background: #CECBCB url(../images/left.png) no-repeat scroll center 0.5%;
 }
 
 .sidebar_open {
-	background: #CECBCB url(../images/next.gif) no-repeat scroll center center;
+	background: #CECBCB url(../images/right.png) no-repeat scroll center 0.5%;
 }
 
 .sideheader-a {
@@ -2231,9 +2249,9 @@ td#body_form_td {
     border-radius: 3px;
     -moz-border-radius: 3px;
     -webkit-border-radius: 3px;
-    box-shadow: 0 1px 0 #fff;
-    -moz-box-shadow: 0 1px 0 #fff;
-    -webkit-box-shadow: 0 1px 0 #fff;
+    box-shadow: 0 1px 0 transperant;
+    -moz-box-shadow: 0 1px 0 transperant;
+    -webkit-box-shadow: 0 1px 0 transperant;
     background: url(../images/button-a.gif) repeat-x;
     color: #fff;
     white-space: nowrap;
@@ -2283,9 +2301,9 @@ a.button-b {
     border-radius: 3px;
     -moz-border-radius: 3px;
     -webkit-border-radius: 3px;
-    box-shadow: 0 1px 0 #fff;
-    -moz-box-shadow: 0 1px 0 #fff;
-    -webkit-box-shadow: 0 1px 0 #fff;
+    box-shadow: 0 1px 0 transperant;
+    -moz-box-shadow: 0 1px 0 transperant;
+    -webkit-box-shadow: 0 1px 0 transperant;
     background: url(../images/button-a.gif) 0 -26px repeat-x;
     color: #8d8d8d;
     white-space: nowrap;
@@ -2356,7 +2374,7 @@ a.cta-a strong {
 .wrapper {
     overflow: hidden;
     width: 100%;
-    padding-top: 5px;
+    padding-top: 3px;
 }
 
 .left {

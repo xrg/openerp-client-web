@@ -9,7 +9,7 @@
     %>
     <script type="text/javascript">
         jQuery(document).ready(function() {
-            document.title = '${title}' + '- OpenERP';
+            document.title = '${title}' + ' - OpenERP';
         });
     </script>
     <script type="text/javascript">
@@ -91,12 +91,6 @@
             	%if serverLog:
                 <div id="serverlog" style="display: none;">
 	                <table class="serverLogHeader">
-		                <tr>
-                            <td>
-                                <img id="closeServerLog" style="cursor: pointer;" align="right" 
-                                    src="/openerp/static/images/attachments-a-close.png"></img>
-			                </td>
-		                </tr>
 		                <tr id="actions_row">
 			                <td style="padding: 2px 0 0 0;">
 				                <table style="width: 100%;">
@@ -141,6 +135,10 @@
 				                    % endif
 				                </table>
 			                </td>
+			                <td style="padding: 0;">
+                                <img id="closeServerLog" style="cursor: pointer;" align="right" 
+                                    src="/openerp/static/images/attachments-a-close.png"></img>
+                            </td>
 		                </tr>
 	                </table>
                 </div>
@@ -157,7 +155,7 @@
                 </script>
                 % endif
 
-                % if form.screen.view_type in ['form', 'diagram'] and buttons.toolbar:
+                % if form.screen.view_type in ['form', 'diagram'] and buttons.toolbar and form.screen.model != 'board.board':
                 <div class="wrapper">
                 	<ul class="inline-b left w50">
 					    % if buttons.new:
@@ -196,9 +194,7 @@
                 	</ul>
 
                 	% if buttons.pager:
-                    	<p class="paging-a">
-		                	${pager.display()}
-					    </p>
+                        ${pager.display()}
                     % endif
                 </div>
                 % endif
@@ -206,7 +202,7 @@
                 <div class="footer-a">
 					<p class="powered">Powered by <a href="http://www.openerp.com/">openerp.com</a></p>
 					<p class="one">
-						<span>${rpc.session.protocol}://${rpc.session.host}:${rpc.session.port} - database: ${rpc.session.db or 'N/A'}</span>
+						<span>${rpc.session.protocol}://${_("%(user)s", user=rpc.session.loginname)}@${rpc.session.host}:${rpc.session.port}/${rpc.session.db or 'N/A'}</span>
 					</p>
 				</div>
             </td>
@@ -224,6 +220,9 @@
                 jQuery('td.toggle_sidebar').click(function() {
                     jQuery(this).toggleClass('sidebar_open sidebar_close')
                     toggle_sidebar();
+                    if (CAL_INSTANCE && CAL_INSTANCE != "undefined") {
+                        CAL_INSTANCE.onResize();
+                    }
                 });
             </script>
             % endif

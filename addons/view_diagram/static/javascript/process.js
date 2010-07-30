@@ -144,15 +144,6 @@ MochiKit.Base.update(openobject.process.Workflow.prototype, {
         // check whether any node overlaps the notes
         var npos = getElementPosition(note, note.parentNode);
         var ndim = getElementDimensions(note);
-        var mx = 0;
-
-        for(var id in nodes){
-    		var data = nodes[id];
-            if ((data.x >= npos.x && data.x <= npos.x + ndim.w) && (data.y >= npos.y && data.y <= npos.y + ndim.h)) {
-                mx = Math.max(mx, npos.y + ndim.h - data.y);
-            }
-        }
-        canvas.style.marginTop = mx + 4 + 'px';
 
         // set title
         openobject.dom.get('process_title').innerHTML = title;

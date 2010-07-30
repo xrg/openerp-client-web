@@ -43,8 +43,8 @@ from openerp.widgets import TinyWidget, TinyInputWidget, ConcurrencyInfo, get_wi
 
 from _binary import Image
 from openobject import tools
-from openobject.i18n import format, get_locale
-from openobject.widgets import JSLink, CSSLink
+from openobject.i18n import get_locale, format
+from openobject.widgets import JSLink
 
 
 class Frame(TinyInputWidget):
@@ -218,16 +218,13 @@ class Frame(TinyInputWidget):
         if not isinstance(widget, (Char, Frame, Float, DateTime, Integer, Selection, Notebook, Separator, NewLine, Label)):
             from openerp.widgets.search import Filter
             if self.label_position and (not (widget.kind or widget._name)) or (isinstance(widget, Filter) and widget.string):
+                classes = [attrs.get('class', 'item'), 'search_filters']
                 if isinstance(widget, Filter):
-                    attrs['class'] = attrs.get('class', 'item') + ' search_filters group_box'
-                    if getattr(widget, 'first_box'):
-                        attrs['class'] = attrs['class'] + ' first_box'
-                    if getattr(widget, 'last_box'):
-                        attrs['class'] = attrs['class'] + ' last_box'
+                    classes.append('group_box')
                     if widget.def_checked:
-                        attrs['class'] = attrs['class'] + ' grop_box_active'
-                else:
-                    attrs['class'] = attrs.get('class', 'item') + ' search_filters'
+                        classes.append('grop_box_active')
+
+                attrs['class'] = ' '.join(classes)
                 attrs['nowrap'] = 'nowrap'
             
         td = [attrs, widget]
@@ -259,7 +256,6 @@ class Notebook(TinyInputWidget):
     template = "templates/notebook.mako"
 
     javascript = [JSLink("openerp", "javascript/notebook/notebook.js")]
-    css = [CSSLink("openerp", 'css/notebook.css')]
 
     params = ['fake_widget']
     member_widgets = ['children']
@@ -292,15 +288,14 @@ class Separator(TinyInputWidget):
     """
 
     template = "templates/separator.mako"
-    params = ["orientation", "position"]
+    params = ["orientation"]
 
     def __init__(self, **attrs):
         super(Separator, self).__init__(**attrs)
         self.colspan = int(attrs.get('colspan', 4))
-        self.orientation = attrs.get('orientation', False)
+        self.orientation = attrs.get('orientation', 'horizontal')
         self.rowspan = int(attrs.get('rowspan', 1))
         self.nolabel = True
-        self.position = attrs.get('position', 'horizontal')
 
 register_widget(Separator, ["separator"])
 
@@ -541,13 +536,13 @@ class DTLink(JSLink):
         super(DTLink, self).update_params(d)
 
         lang = get_locale()
-        link = "calendar/lang/calendar-%s.js" % lang
+        link = "jscal/lang/calendar-%s.js" % lang
 
         if os.path.exists(tools.find_resource("openobject", "static", link)):
             d.link = tools.url(["/openobject/static", link])
         else:
             lang = lang.split('_')[0]
-            link = "calendar/lang/calendar-%s.js" % lang
+            link = "jscal/lang/calendar-%s.js" % lang
             if os.path.exists(tools.find_resource("openobject", "static", link)):
                 d.link = tools.url(["/openobject/static", link])
 
@@ -555,11 +550,9 @@ class DateTime(TinyInputWidget):
 
     template = "templates/datetime.mako"
 
-    javascript = [JSLink("openerp", "calendar/calendar.js"),
-                  JSLink("openerp", "calendar/calendar-setup.js"),
-                  DTLink("openerp", "calendar/lang/calendar-en.js")]
-
-    css = [CSSLink("openerp", "calendar/skins/aqua/theme.css")]
+    javascript = [JSLink("openerp", "jscal/calendar.js"),
+                  JSLink("openerp", "jscal/calendar-setup.js"),
+                  DTLink("openerp", "jscal/lang/calendar-en.js")]
 
     params = ["format", "picker_shows_time"]
 
@@ -667,13 +660,19 @@ class Group(TinyInputWidget):
         
 register_widget(Group, ["group"])
 
+class FiltersGroup(Group):
+    """ Special group for groups of *filters*, in order to generate
+    the right markup and style the buttons correctly.
+    """
+    template = "templates/filters_group.mako"
+register_widget(FiltersGroup, ["filters_group"])
+
 
 class Dashbar(TinyInputWidget):
 
     template = "templates/dashbar.mako"
 
     javascript = [JSLink("openerp", "javascript/dashboard.js")]
-    css = [CSSLink("openerp", 'css/dashboard.css')]
 
     member_widgets = ['children']
 
@@ -914,9 +913,6 @@ class Form(TinyInputWidget):
 
                 if not get_widget(kind):
                     continue
-
-                if kind in ('text', 'text_tag') and attrs.get('html'):
-                    kind = 'text_html'
 
                 if name in self.view_fields:
                     print "-"*30

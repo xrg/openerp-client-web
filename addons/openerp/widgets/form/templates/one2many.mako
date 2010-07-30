@@ -10,7 +10,7 @@
     <tr>
         <td>
             <table width="100%" class="gridview" style="border-bottom: 1px solid black;"cellpadding="0" cellspacing="0">
-                <tr class="pagebar">
+                <tr class="pagerbar">
 
                 	<td class="pagerbar-cell" align="left" width="${pager_width}">
                 		<div class="pagerbar-header">
@@ -25,12 +25,12 @@
                 	% endif
 
                     % if pager_info:
-                    <td width="75%" style="text-align: left" align="left">
+                    <td width="85%" style="text-align: left" align="left">
                         <div class="pager">
                             <p id="_${name}_link_span" class="paging">
-                                <a class="prev" title="${_('Previous record...')}" href="javascript: void(0)" onclick="submit_form('previous', '${name}')"></a>
-                                <font>${pager_info}</font>
-                                <a class="next" title="${_('Next record...')}" href="javascript: void(0)" onclick="submit_form('next', '${name}')"></a>
+                                <a class="prev nav" title="${_('Previous record...')}" href="javascript: void(0)" onclick="submit_form('previous', '${name}')"></a>
+                                ${pager_info}
+                                <a class="next nav" title="${_('Next record...')}" href="javascript: void(0)" onclick="submit_form('next', '${name}')"></a>
                             </p>
                         </div>
                     </td>

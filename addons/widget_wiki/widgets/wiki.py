@@ -118,7 +118,7 @@ class WikiParser(wikimarkup.Parser):
     def attachDoc(self, text, id):
         def document(path):
             file = path.group().replace('attach:','')
-            if file.startswith('http') or file.startswith('ftp') or file.startswith('http'):
+            if file.startswith('http') or file.startswith('ftp'):
                 return "<a href='%s'>Download File</a>" % (file)
             else:
                 proxy = rpc.RPCProxy('ir.attachment')
@@ -134,7 +134,7 @@ class WikiParser(wikimarkup.Parser):
     def addImage(self, text, id):
         def image(path):
             file = path.group().replace('img:','')
-            if file.startswith('http') or file.startswith('ftp') or file.startswith('http'):
+            if file.startswith('http') or file.startswith('ftp'):
                 return "<img src='%s'/>" % (file)
             else:
                 proxy = rpc.RPCProxy('ir.attachment')

@@ -26,9 +26,8 @@
 # You can see the MPL licence at: http://www.mozilla.org/MPL/MPL-1.1.html
 #
 ###############################################################################
-
+import itertools
 import re
-import cherrypy
 
 from openerp import validators
 
@@ -119,6 +118,25 @@ class TinyDict(dict):
     def __setitem__(self, name, value):
         value = self._eval(value)
         super(TinyDict, self).__setitem__(name, value)
+
+    def update(self, d=(), **kwargs):
+        if isinstance(d, dict):
+            seq = d.iteritems()
+        else:
+            seq = d
+        for k, v in itertools.chain(seq, kwargs.iteritems()):
+            self[k] = v
+
+    def updateAttrs(self, d=(), **kwattrs):
+        """ Updates the TinyDict's attrs in bulk, as if using attr access (rather than item access which can be
+        performed via setitem)
+        """
+        if isinstance(d, dict):
+            seq = d.iteritems()
+        else:
+            seq = d
+        for k, v in itertools.chain(seq, kwattrs.iteritems()):
+            setattr(self, k, v)
 
     def chain_get(self, name, default=None):
         names = re.split('\.|/', ustr(name))

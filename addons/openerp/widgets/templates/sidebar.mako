@@ -48,11 +48,12 @@
         <h2>${_("Attachments")}</h2>
     </div>
     <ul id="attachments" class="attachments-a">
-        % for item in attachments:
+        % for attachment in attachments:
             <!-- don't forget to also change jquery template in form.js/createAttachment -->
-            <li id="attachment_item_${item[0]}" data-id="${item[0]}">
-                <a class="attachment-file" target="_self" href="${py.url('/openerp/attachment/get', record=item[0])}">
-                    ${item[1]}
+            <li id="attachment_item_${attachment['id']}" data-id="${attachment['id']}">
+                <a class="attachment-file" rel="external"
+                   href="${attachment['url'] or py.url('/openerp/attachment/get', record=attachment['id'])}">
+                    ${attachment['name']}
                 </a>
                 <span>|</span>
                 <a href="#" class="close" title="${_('Delete')}">Close</a>
@@ -66,7 +67,6 @@
         <input type="file" id="datas" class="binary"
                onchange="onChange(this);"
                name="datas" kind="binary" size="5"/>
-        <button type="submit" id="FormSubmit" name="FormSubmit">${_('submit')}</button>
     </form>
     % endif
 
