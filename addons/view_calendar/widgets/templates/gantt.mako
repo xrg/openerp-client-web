@@ -97,6 +97,7 @@
     <script type="text/javascript">
         if (window.CAL_INSTANCE) {
             window.CAL_INSTANCE.__delete__();
+            window.CAL_INSTANCE = null;
         }
         jQuery(function(){
             window.CAL_INSTANCE = new GanttCalendar();

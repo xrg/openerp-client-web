@@ -69,11 +69,9 @@ function elementPosition2(elem) {
 
 ///////////////////////////////////////////////////////////////////////////////
 
-var CAL_INSTANCE = null;
-
 jQuery(document).ajaxStop(function () {
-    if(CAL_INSTANCE) {
-        setTimeout(jQuery.proxy(CAL_INSTANCE, 'onResize'), 100);
+    if(window.CAL_INSTANCE) {
+        setTimeout(jQuery.proxy(window.CAL_INSTANCE, 'onResize'), 100);
     }
 });
 

@@ -34,9 +34,9 @@
 
             jQuery('.open-close-menu').click(function() {
                 jQuery('#content').toggleClass('hide-menu');
-                if (CAL_INSTANCE && CAL_INSTANCE != "undefined") {
-                    CAL_INSTANCE.onResize();
-                }
+                try{
+                    window.CAL_INSTANCE.onResize();
+                }catch(e){}
             });
         });
         
@@ -45,59 +45,59 @@
 
 <%def name="content()">
 
-	<div id="root">
-	    <%include file="header.mako"/>
-	    
-	    <div id="main_nav">
-		    <a id="scroll_left" class="scroll_right" style="float: left; padding-top: 12px;" href="javascript: void(0);">
-		    	<img src="/openerp/static/images/scroll_left.png" alt="">
-		    </a>
-		    <a id="scroll_right" class="scroll_right" style="float: right; margin-right: 0; padding: 12px 5px 0 0;" href="javascript: void(0);">
-		    	<img src="/openerp/static/images/scroll_right.png" alt="">
-		    </a>
-		    <div id="nav" class="sc_menu">
-				<ul class="sc_menu">
-					%for parent in parents:
-						<li id="${parent['id']}" class="menu_tabs">
-							<a href="${py.url('/openerp/menu', active=parent['id'])}" target="_top" class="${parent.get('active', '')}">
-								<span>${parent['name']}</span>
-							</a>
-							<em>[1]</em>
-						</li>
-					% endfor
-				</ul>
-			</div>
-		</div>
-				
-	    <div id="content" class="three-a">
-		    <div id="secondary" class="sidenav-open">
-		    	<div class="wrap">
-		    		<ul id="sidenav-a" class="accordion">
-	                    % for tool in tools:
-	                        % if tool.get('action'):
-		                      <li class="accordion-title" id="${tool['id']}">
-		                    % else:
-		                      <li class="accordion-title">
-		                    % endif
-	                            <span>${tool['name']}</span>
-	                        </li>
-		                    <li class="accordion-content" id="content_${tool['id']}">
-		                       ${tool['tree'].display()}
-		                    </li>
-	                    % endfor
-		        	</ul>
-		        	<script type="text/javascript">
-		                new Accordion("sidenav-a");
-		            </script>
-		    	</div>
-			</div>
-			<div class="open-close-menu hide_tools"></div>
-			<div id="primary">
-				<div class="wrap">
-					<div id="appContent"></div>
-				</div>
-			</div>
-		</div>
-	</div>
+    <div id="root">
+        <%include file="header.mako"/>
+        
+        <div id="main_nav">
+            <a id="scroll_left" class="scroll_right" style="float: left; padding-top: 12px;" href="javascript: void(0);">
+                <img src="/openerp/static/images/scroll_left.png" alt="">
+            </a>
+            <a id="scroll_right" class="scroll_right" style="float: right; margin-right: 0; padding: 12px 5px 0 0;" href="javascript: void(0);">
+                <img src="/openerp/static/images/scroll_right.png" alt="">
+            </a>
+            <div id="nav" class="sc_menu">
+                <ul class="sc_menu">
+                    %for parent in parents:
+                        <li id="${parent['id']}" class="menu_tabs">
+                            <a href="${py.url('/openerp/menu', active=parent['id'])}" target="_top" class="${parent.get('active', '')}">
+                                <span>${parent['name']}</span>
+                            </a>
+                            <em>[1]</em>
+                        </li>
+                    % endfor
+                </ul>
+            </div>
+        </div>
+                
+        <div id="content" class="three-a">
+            <div id="secondary" class="sidenav-open">
+                <div class="wrap">
+                    <ul id="sidenav-a" class="accordion">
+                        % for tool in tools:
+                            % if tool.get('action'):
+                              <li class="accordion-title" id="${tool['id']}">
+                            % else:
+                              <li class="accordion-title">
+                            % endif
+                                <span>${tool['name']}</span>
+                            </li>
+                            <li class="accordion-content" id="content_${tool['id']}">
+                               ${tool['tree'].display()}
+                            </li>
+                        % endfor
+                    </ul>
+                    <script type="text/javascript">
+                        new Accordion("sidenav-a");
+                    </script>
+                </div>
+            </div>
+            <div class="open-close-menu hide_tools"></div>
+            <div id="primary">
+                <div class="wrap">
+                    <div id="appContent"></div>
+                </div>
+            </div>
+        </div>
+    </div>
 </%def>
 
