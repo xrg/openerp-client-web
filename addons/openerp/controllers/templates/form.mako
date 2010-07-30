@@ -220,9 +220,7 @@
                 jQuery('td.toggle_sidebar').click(function() {
                     jQuery(this).toggleClass('sidebar_open sidebar_close')
                     toggle_sidebar();
-                    try{
-                        window.CAL_INSTANCE.onResize();
-                    }catch(e){}
+                    jQuery(window).trigger('on-appcontent-resize');
                 });
             </script>
             % endif

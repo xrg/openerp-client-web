@@ -20,7 +20,9 @@ function openLink(url /*optional afterLoad */) {
         jQuery.ajax({
             url: url,
             complete: function (xhr) {
+                jQuery(window).trigger('before-appcontent-change');
                 app.html(xhr.responseText);
+                jQuery(window).trigger('after-appcontent-change');
                 if(afterLoad) { afterLoad(); }
             },
             error: function (xhr, status, error) {
@@ -75,7 +77,9 @@ jQuery(document).ready(function () {
             waitBox.showAfter(FORM_WAIT_NO_ACTIVITY);
             form.ajaxSubmit({
                 complete: function (xhr) {
+                    jQuery(window).trigger('before-appcontent-change');
                     app.html(xhr.responseText);
+                    jQuery(window).trigger('after-appcontent-change');
                     waitBox.hide();
                 },
                 error: function (xhr, status, error) {

@@ -75,6 +75,19 @@ jQuery(document).ajaxStop(function () {
     }
 });
 
+jQuery(window).bind('before-appcontent-change', function () {
+    try{
+        window.CAL_INSTANCE.__delete__();
+        window.CAL_INSTANCE = null;
+    }catch(e){}
+});
+
+jQuery(window).bind('after-appcontent-change on-appcontent-resize', function () {
+    try{
+        window.CAL_INSTANCE.onResize();
+    }catch(e){}
+});
+
 jQuery(function(){
     window.CALENDAR_WAIT_BOX = new openerp.ui.WaitBox();
 });

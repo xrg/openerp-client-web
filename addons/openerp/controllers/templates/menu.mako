@@ -34,9 +34,7 @@
 
             jQuery('.open-close-menu').click(function() {
                 jQuery('#content').toggleClass('hide-menu');
-                try{
-                    window.CAL_INSTANCE.onResize();
-                }catch(e){}
+                jQuery(window).trigger('on-appcontent-resize');
             });
         });
         
