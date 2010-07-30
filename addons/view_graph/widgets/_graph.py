@@ -158,7 +158,18 @@ class GraphData(object):
                             res[x] = i[1]
                 elif fields[x]['type'] == 'date':
                     if value[x]:
-                        date = time.strptime(value[x], DT_FORMAT)
+                        date = time.strptime(value[x], DHM_FORMAT)
+                        if 'tz' in rpc.session.context:
+                            try:
+                                import pytz
+                                lzone = pytz.timezone(rpc.session.context['tz'])
+                                szone = pytz.timezone(rpc.session.timezone)
+                                dt = DT.datetime(date[0], date[1], date[2], date[3], date[4], date[5], date[6])
+                                sdt = szone.localize(dt, is_dst=True)
+                                ldt = sdt.astimezone(lzone)
+                                date = ldt.timetuple()
+                            except:
+                                pass
                         res[x] = time.strftime(locale.nl_langinfo(locale.D_FMT).replace('%y', '%Y'), date)
                     else:
                         res[x] = ''
