@@ -25,6 +25,10 @@
         .fields-selector-center {
             width: 15%;
         }
+        
+        .fields-selector-center a.button-a {
+            float: none;
+        }
 
         .fields-selector-right {
             width: 45%;
@@ -216,22 +220,22 @@
                         <td class="fields-selector-center">
                         	<table border="0" cellpadding="0" cellspacing="0" width="100%">
                         		<tr>
-                        			<td>
+                        			<td align="center">
                         				<a class="button-a" href="javascript: void(0)" onclick="add_fields()">${_("Add")}</a>
                         			</td>
                         		</tr>
                         		<tr>
-                        			<td>
+                        			<td align="center">
                         				<a class="button-a" href="javascript: void(0)" onclick="del_fields()">${_("Remove")}</a>
                         			</td>
                         		</tr>
                         		<tr>
-                        			<td>
+                        			<td align="center">
                         				<a class="button-a" href="javascript: void(0)" onclick="del_fields(true)">${_("Nothing")}</a>
                         			</td>
                         		</tr>
                         		<tr>
-                        			<td>
+                        			<td align="center">
                         				<a class="button-a" href="javascript: void(0)" onclick="open_savelist('savelist')">${_("Save List")}</a>
                         			</td>
                         		</tr>

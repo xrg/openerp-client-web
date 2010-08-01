@@ -50,7 +50,7 @@
                         <tr>
                             <td width="100%">
                             </td>
-                            <td>
+                            <td nowrap="nowrap">
                                 <button type="button" onclick="window.close()">${_("Close")}</button>                                
                                 <button type="button" onclick="submit_form('save');">${_("Save")}</button>
                             </td>

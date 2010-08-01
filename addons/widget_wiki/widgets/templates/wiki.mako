@@ -1,6 +1,6 @@
 % if editable and not inline:
     <textarea rows="10" id="${name}" name="${name}" class="${css_class}"
-        ${py.attrs(attrs, kind=kind)}>${value}</textarea>
+        ${py.attrs(attrs, kind=kind)} style="width: 99%;">${value}</textarea>
     <script type="text/javascript">
         if (!window.browser.isWebKit) {
             new openerp.ui.TextArea('${name}');

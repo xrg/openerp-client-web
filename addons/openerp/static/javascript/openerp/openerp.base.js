@@ -1,3 +1,6 @@
+var console;
+// cache for the current hash url so we can know if it's changed
+var currentUrl;
 /**
  * Opens the provided URL in the application content section.
  *
@@ -6,13 +9,8 @@
  *
  * @param url the URL to GET and insert into #appContent
  * @default afterLoad callback to execute after URL has been loaded and
- *                    inserted, if any. Takes the parameters provided
- *                    by jQuery.load: responseText, textStatus and
- *                    XMLHttpRequest
+ *                    inserted, if any.
  */
-var console;
-// cache for the current hash url so we can know if it's changed
-var currentUrl;
 function openLink(url /*optional afterLoad */) {
     var app = jQuery('#appContent');
     var afterLoad = arguments[1];
@@ -22,8 +20,14 @@ function openLink(url /*optional afterLoad */) {
         jQuery.ajax({
             url: url,
             complete: function (xhr) {
+                jQuery(window).trigger('before-appcontent-change');
                 app.html(xhr.responseText);
+                jQuery(window).trigger('after-appcontent-change');
                 if(afterLoad) { afterLoad(); }
+            },
+            error: function (xhr, status, error) {
+                if(!console) return;
+                console.warn("Failed to load ", url, ":", status, error);
             }
         });
     } else {
@@ -59,7 +63,7 @@ jQuery(document).ready(function () {
         var waitBox = new openerp.ui.WaitBox();
         // open un-targeted links in #appContent via xhr. Links with @target are considered
         // external links. Ignore hash-links.
-        jQuery(document).delegate('a[href]:not([target]):not([href^="#"]):not([href^="javascript"])', 'click', function () {
+        jQuery(document).delegate('a[href]:not([target]):not([href^="#"]):not([href^="javascript"]):not([rel=external])', 'click', function () {
             waitBox.showAfter(LINK_WAIT_NO_ACTIVITY);
             openLink(jQuery(this).attr('href'),
                      jQuery.proxy(waitBox, 'hide'));
@@ -73,8 +77,14 @@ jQuery(document).ready(function () {
             waitBox.showAfter(FORM_WAIT_NO_ACTIVITY);
             form.ajaxSubmit({
                 complete: function (xhr) {
+                    jQuery(window).trigger('before-appcontent-change');
                     app.html(xhr.responseText);
+                    jQuery(window).trigger('after-appcontent-change');
                     waitBox.hide();
+                },
+                error: function (xhr, status, error) {
+                    if(!console) return;
+                    console.warn("Failed to load ", form.attr('method') || 'GET', form.attr('action'), ":", status, error);
                 }
             });
             return false;

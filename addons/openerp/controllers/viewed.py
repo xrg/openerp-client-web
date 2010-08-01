@@ -102,8 +102,7 @@ class NewModel(Form):
 
         id = params.id
         if not id:
-            proxy = rpc.RPCProxy('ir.model')
-            res = proxy.search([('model', '=', params.model)])
+            res = rpc.RPCProxy('ir.model').search([('model', '=', params.model)])
 
             id = (res or False) and res[0]
 
@@ -152,9 +151,6 @@ def xml_locate(expr, ref):
     parts = expr.split('/')
     for part in parts:
         if part in ('', '.'):
-#            for node in ref.childNodes:
-#               if node.nodeType == node.ELEMENT_NODE:
-#                   ref = node
             continue
         ref = xml_locate(part, ref)
 
@@ -179,24 +175,20 @@ def _get_model(node, parent_model):
     while pnode:
 
         if pnode.localName == 'field':
-
-            ch = []
-            ch += utils.xml_locate('./form[1]', pnode)
-            ch += utils.xml_locate('./tree[1]', pnode)
-            ch += utils.xml_locate('./graph[1]', pnode)
-            ch += utils.xml_locate('./calendar[1]', pnode)
+            ch = utils.xml_locate('./form[1]', pnode) \
+               + utils.xml_locate('./tree[1]', pnode) \
+               + utils.xml_locate('./graph[1]', pnode) \
+               + utils.xml_locate('./calendar[1]', pnode)
 
             if ch:
-                parents += [pnode.getAttribute('name')]
+                parents.append(pnode.getAttribute('name'))
 
         pnode = pnode.parentNode
 
     parents.reverse()
 
     for parent in parents:
-
-        proxy = rpc.RPCProxy(parent_model)
-        field = proxy.fields_get([parent])
+        field = rpc.RPCProxy(parent_model).fields_get([parent])
 
         if field:
             if field[parent].get('relation'):
@@ -212,8 +204,7 @@ def _get_field_attrs(node, parent_model):
     model = _get_model(node, parent_model)
 
     name = node.getAttribute('name')
-    proxy = rpc.RPCProxy(model)
-    field = proxy.fields_get([name])
+    field = rpc.RPCProxy(model).fields_get([name])
 
     if field:
          field = field[name]
@@ -235,8 +226,7 @@ class ViewEd(SecuredController):
         if isinstance(view_id, basestring) or not view_id:
             raise common.message(_("Invalid view id."))
 
-        proxy = rpc.RPCProxy('ir.ui.view')
-        res = proxy.read([view_id], ['model', 'type'])[0]
+        res = rpc.RPCProxy('ir.ui.view').read([view_id], ['model', 'type'])[0]
 
         model = res['model']
         view_type = res['type']
@@ -302,13 +292,13 @@ class ViewEd(SecuredController):
                     raise AttributeError, "Couldn't find tag '%s' in parent view!" % tag
             return doc_src.toxml().replace('\t', '')
 
-        proxy = rpc.RPCProxy('ir.ui.view')
-        res = proxy.read([view_id])[0]
+        views = rpc.RPCProxy('ir.ui.view')
+        res = views.read([view_id])[0]
 
         def _inherit_apply_rec(result, inherit_id):
             # get all views which inherit from (ie modify) this view
-            inherit_ids = proxy.search([('inherit_id', '=', inherit_id)], 0, 0, 'priority')
-            inherit_res = proxy.read(inherit_ids, ['arch', 'id'])
+            inherit_ids = views.search([('inherit_id', '=', inherit_id)], 0, 0, 'priority')
+            inherit_res = views.read(inherit_ids, ['arch', 'id'])
 
             for res2 in inherit_res:
                 result = _inherit_apply(result, res2['arch'], res2['id'])
@@ -323,12 +313,12 @@ class ViewEd(SecuredController):
         new_doc.documentElement.setAttribute('view_id', str(view_id))
         new_doc.documentElement.appendChild(doc_arch.documentElement)
 
-        res = {'model': res['model'],
-               'view_id' : view_id,
-               'view_type': res['type'],
-               'arch' : new_doc.toxml().replace('\t', '')}
-
-        return res
+        return {
+            'model': res['model'],
+            'view_id': view_id,
+            'view_type': res['type'],
+            'arch': new_doc.toxml().replace('\t', '')
+        }
 
     def get_node_instance(self, node, model, view_id=False, view_type='form'):
 
@@ -373,7 +363,7 @@ class ViewEd(SecuredController):
             node_instance = self.get_node_instance(node, model=model, view_id=view_id, view_type=view_type)
             node_instance.children = children
 
-            result += [node_instance]
+            result.append(node_instance)
 
         return result
 
@@ -427,7 +417,7 @@ class ViewEd(SecuredController):
                 pass
             properties = _PROPERTIES_FIELDS.get(kind) or properties
         properties = properties[:]
-        properties += list(set(attrs.keys()) - set(properties))
+        properties.extend(list(set(attrs.keys()) - set(properties)))
 
         for prop in properties:
             if field.localName == 'action' and prop == 'name':
@@ -438,7 +428,7 @@ class ViewEd(SecuredController):
                 ed = get_property_widget(prop, attrs.get(prop))
 
             ed.label = prop
-            editors += [ed]
+            editors.append(ed)
 
         return dict(view_id=view_id, xpath_expr=xpath_expr, editors=editors)
 
@@ -446,8 +436,7 @@ class ViewEd(SecuredController):
     def add(self, view_id, xpath_expr):
         view_id = int(view_id)
 
-        proxy = rpc.RPCProxy('ir.ui.view')
-        res = proxy.read([view_id], ['model', 'arch'])[0]
+        res = rpc.RPCProxy('ir.ui.view').read([view_id], ['model', 'arch'])[0]
 
         doc = xml.dom.minidom.parseString(res['arch'].encode('utf-8'))
         model = res['model']
@@ -456,8 +445,7 @@ class ViewEd(SecuredController):
         model = _get_model(field_node, parent_model=model)
 
         # get the fields
-        proxy = rpc.RPCProxy(model)
-        fields = proxy.fields_get().keys()
+        fields = rpc.RPCProxy(model).fields_get().keys()
 
         nodes = _CHILDREN.keys()
         nodes.remove('view')
@@ -532,8 +520,7 @@ class ViewEd(SecuredController):
         view_id = int(view_id)
 
         if view_id:
-            proxy = rpc.RPCProxy('ir.ui.view')
-            proxy.unlink(view_id)
+            rpc.RPCProxy('ir.ui.view').unlink(view_id)
 
         try:
             cache.clear()
@@ -620,10 +607,9 @@ class ViewEd(SecuredController):
             node_instance.children = self.parse(new_node or node, model, view_id, view_type)
             record = node_instance.get_record()
 
-        data = dict(arch=doc.toxml(encoding="utf-8"))
         try:
-            res = proxy.write([view_id], data)
-        except Exception, e:
+            proxy.write([view_id], {'arch': doc.toxml(encoding="utf-8")})
+        except Exception:
             return dict(error=_("Unable to update the view."))
 
         try:
@@ -635,15 +621,12 @@ class ViewEd(SecuredController):
 
     @expose()
     def update_dashboard(self, view_id, dst, src, ref=None):
-
         error = None
-        reload = False
 
         view_id = int(view_id)
-        rec_id = view_id
 
-        proxy = rpc.RPCProxy('ir.ui.view')
-        data = proxy.read([view_id])[0]
+        views = rpc.RPCProxy('ir.ui.view')
+        data = views.read([view_id])[0]
 
         doc = xml.dom.minidom.parseString(data['arch'].encode('utf-8'))
         pnode = utils.xml_locate(dst, doc)[0]
@@ -654,7 +637,7 @@ class ViewEd(SecuredController):
         del data['id']
 
         try:
-            proxy.write(view_id, dict(arch=doc.toxml(encoding="utf-8")))
+            views.write(view_id, {'arch': doc.toxml(encoding="utf-8")})
         except Exception, e:
             error = str(e)
         return dict(error=error)
@@ -685,10 +668,11 @@ class Node(object):
                  'view_id' : self.view_id,
                  'delete': icons.get_icon('gtk-remove')}
 
-        if self.localName not in ('view'):
-            items['add'] = icons.get_icon('gtk-add')
-            items['up'] = icons.get_icon('gtk-go-up')
-            items['down'] = icons.get_icon('gtk-go-down')
+        if self.localName != 'view':
+            items.update(
+                add=icons.get_icon('gtk-add'),
+                up=icons.get_icon('gtk-go-up'),
+                down=icons.get_icon('gtk-go-down'))
 
         if self.localName not in ('view', 'newline'):
             items['edit'] = icons.get_icon('gtk-edit')
@@ -923,6 +907,3 @@ _PROPERTY_WIDGETS_BUTTON = {
 def get_property_widget(name, value=None):
     wid = _PROPERTY_WIDGETS.get(name, widgets.TextField)
     return wid(name=name, default=value)
-
-
-# vim: ts=4 sts=4 sw=4 si et

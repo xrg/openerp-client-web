@@ -19,5 +19,4 @@ class DiagramView(TinyView):
                                         ids= ((screen.id or []) and [screen.id]) or screen.ids[:1],
                                         domain=screen.domain,
                                         context=screen.context)
-        screen.ids = widget.ids
         return widget

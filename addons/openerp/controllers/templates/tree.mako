@@ -2,69 +2,92 @@
 
 <%def name="header()">
     <script type="text/javascript" src="/openerp/static/javascript/treeview.js"></script>
+    
+    <script type="text/javascript">
+        var RESOURCE_ID = '${rpc.session.active_id}';
+    </script>
+    
+    % if can_shortcut:
+	    <script type="text/javascript">
+	        jQuery(document).ready(function () {
+	            jQuery('#shortcut_add_remove').click(toggle_shortcut);
+	        });
+	    </script>
+    % endif
 </%def>
+
 <%def name="content()">
-
-<table id="treeview" class="view" width="100%" border="0" cellpadding="0" cellspacing="0">
-    <tr>
-        <td width="100%" valign="top">
-            <table cellpadding="0" cellspacing="0" border="0" width="100%">
-                <tr>
-                    <td colspan="2">
-                        <table width="100%" class="titlebar">
-                            <tr>
-                                <td width="100%"><h1>${tree.string}</h1></td>
-                                <!--td nowrap="nowrap">
-                                <button type="button" title="${_('Switch current view: form/list')}" onclick="TREEVIEW.switchItem()">${_("Switch")}</button>
-                                </td-->
-                                <td align="center" valign="middle" width="16">
-                                    <a target="new" href="${py.url('http://doc.openerp.com/index.php', model=tree.model, lang=rpc.session.context.get('lang', 'en'))}"><img border="0" src="/openerp/static/images/stock/gtk-help.png" width="16" height="16"/></a>
-                                </td>
-                            </tr>
-                         </table>
-                     </td>
-                 </tr>
-                 <tr>
-                    % if tree.toolbar:
-                    <td class="treebar" valign="top" style="padding-right: 4px">
-                        <table width="100%" cellpadding="0" cellspacing="0" class="tree-grid">
-                            <thead>
-                                <tr class="header">
-                                    <th>${_("Toolbar")}</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                % for tool in tree.toolbar:
-                                <tr class="${'row_tree_toolbar' + ((tree.id == tool['id'] or '') and ' selected')}" onclick="TREEVIEW.openTree(${tool['id']}, ${tool['ids']}, this)">
-                                    <td>
-                                        <table border="0" cellpadding="0" cellspacing="0" class="tree-field">
-                                            <tr>
-                                                % if tool['icon']:
-                                                <td><img alt="" src="${tool['icon']}"
-                                                         width="32" height="32" align="left"/></td>
-                                                % endif
-                                                <td>${tool['name']}</td>
-                                            </tr>
-                                        </table>
-                                    </td>
-                                </tr>
-                                % endfor
-                            </tbody>
-                        </table>
-                    </td>
-                    % endif
-                    <td width="100%" valign="top">${tree.display()}</td>
-                 </tr>
-            </table>
-        </td>
-        % if tree.sidebar:
-        <td width="163" valign="top">${tree.sidebar.display()}</td>
-        % endif
-    </tr>
-</table>
-
-<script type="text/javascript">
-    var TREEVIEW = new TreeView(${tree.id});
-</script>
+	<%
+	    if can_shortcut:
+	        if rpc.session.active_id in shortcut_ids:
+	            shortcut_class = "shortcut-remove"
+	        else:
+	            shortcut_class = "shortcut-add"
+	%>
+	<table id="treeview" class="view" width="100%" border="0" cellpadding="0" cellspacing="0">
+	    <tr>
+	        <td id="body_form_td" width="100%" valign="top">
+	            <h1>
+		            % if can_shortcut:
+		            	<a id="shortcut_add_remove" href="javascript: void(0)" class="${shortcut_class}"></a>
+		            % endif
+		            
+		            ${tree.string}
+		            <a class="help" href="javascript: void(0)" title="${_('Corporate Intelligence...')}" onclick="show_process_view('${tree.string}')">
+		     			<small>Help</small>
+		       		</a>
+	            </h1>
+	            
+	            <div>
+		            <table cellpadding="0" cellspacing="0" border="0" width="100%">
+		                <tr>
+		                    % if tree.toolbar:
+			                    <td class="treebar" valign="top" style="padding-right: 4px">
+			                        <table width="100%" cellpadding="0" cellspacing="0" class="tree-grid">
+			                            <thead>
+			                                <tr class="header">
+			                                    <th>${_("Toolbar")}</th>
+			                                </tr>
+			                            </thead>
+			                            <tbody>
+			                                % for tool in tree.toolbar:
+			                                <tr class="${'row_tree_toolbar' + ((tree.id == tool['id'] or '') and ' selected')}" onclick="TREEVIEW.openTree(${tool['id']}, ${tool['ids']}, this)">
+			                                    <td>
+			                                        <table border="0" cellpadding="0" cellspacing="0" class="tree-field">
+			                                            <tr>
+			                                                % if tool['icon']:
+			                                                <td><img alt="" src="${tool['icon']}"
+			                                                         width="32" height="32" align="left"/></td>
+			                                                % endif
+			                                                <td>${tool['name']}</td>
+			                                            </tr>
+			                                        </table>
+			                                    </td>
+			                                </tr>
+			                                % endfor
+			                            </tbody>
+			                        </table>
+			                    </td>
+		                    % endif
+		                    <td width="100%" valign="top">${tree.display()}</td>
+		                 </tr>
+		            </table>
+		            <div class="footer-a">
+						<p class="powered">Powered by <a href="http://www.openerp.com/">openerp.com</a></p>
+						<p class="one">
+							<span>${rpc.session.protocol}://${_("%(user)s", user=rpc.session.loginname)}@${rpc.session.host}:${rpc.session.port}/${rpc.session.db or 'N/A'}</span>
+						</p>
+					</div>
+		    	</div>
+	        </td>
+	        % if tree.sidebar:
+	        	<td width="163" valign="top">${tree.sidebar.display()}</td>
+	        % endif
+	    </tr>
+	</table>
+	
+	<script type="text/javascript">
+	    var TREEVIEW = new TreeView(${tree.id});
+	</script>
 
 </%def>

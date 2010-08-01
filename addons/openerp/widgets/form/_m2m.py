@@ -81,9 +81,7 @@ class M2M(TinyInputWidget):
 
         self.relation = attrs.get('relation', '')
         self.domain = attrs.get('domain', [])
-        self.context = attrs.get('context', {}) or {}
-
-        self.domain  = attrs.get('domain',{})
+        self.context = attrs.get('context', {}) or {}        
 
         view = attrs.get('views', {})
         mode = str(attrs.get('mode', 'tree,form')).split(',')

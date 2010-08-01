@@ -8,13 +8,20 @@
     <script type="text/javascript" src="/openerp/static/javascript/ajax_stat.js"></script>
     <script type="text/javascript" src="/openerp/static/javascript/scripts.js"></script>
     
-    <link type="image/x-icon" href="favicon.ico" rel="Shortcut Icon"/>
-    
     <link rel="stylesheet" type="text/css" href="/openerp/static/css/style.css"/>
     <link rel="stylesheet" type="text/css" href="/openerp/static/css/menu.css"/>
     <link rel="stylesheet" type="text/css" href="/openerp/static/css/tips.css"/>
     <link rel="stylesheet" type="text/css" href="/openerp/static/css/waitbox.css"/>
     <link rel="stylesheet" type="text/css" href="/openerp/static/css/screen.css"/>
+
+    <link rel="stylesheet" type="text/css" href="/openerp/static/jscal/calendar-blue.css"/>
+    <link rel="stylesheet" type="text/css" href="/openerp/static/css/dashboard.css"/>
+    <link rel="stylesheet" type="text/css" href="/openerp/static/css/treegrid.css"/>
+    <link rel="stylesheet" type="text/css" href="/openerp/static/css/notebook.css"/>
+        
+    <link rel="stylesheet" type="text/css" href="/openerp/static/css/pager.css"/>
+    <link rel="stylesheet" type="text/css" href="/openerp/static/css/listgrid.css"/>
+    <link rel="stylesheet" type="text/css" href="/openerp/static/css/autocomplete.css"/>
     
     <!--[if IE]>
     <link rel="stylesheet" type="text/css" href="/openerp/static/css/style-ie.css"/>

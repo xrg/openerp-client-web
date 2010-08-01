@@ -24,71 +24,96 @@
 
 /* Shortcuts manipulation */
 #shortcut_add_remove {
-    height: 34px;
+    height: 20px;
     padding: 0;
-    width: 30px;
+    width: 24px;
     cursor: pointer;
+    display: inline-block;
 }
 
 .shortcut-add {
-    background: url(../images/add_shortcut.png) no-repeat;
+    background: url(../images/add-shortcut.png) no-repeat;
+    background-position: bottom;
 }
 .shortcut-remove {
-    background: url(../images/remove_shortcut.png) no-repeat;
+    background: url(../images/remove-shortcut.png) no-repeat;
+    background-position: bottom;
 }
 
 /* ================ */
 #shortcuts {
-    border-bottom: 0;
-    border-collapse: separate;
-}
-
-#shortcuts div#sc_row {
-    display: block;
-    float: left;
+    
     position: absolute;
-    padding: 6px 5px;
-    border-top: 1px solid #606060;
-    left: 180px;
-    top: 33px;
-    width: 100%;
-    height: auto;
+    float: left;
+    
     margin: 0;
+    padding: 6px 5px;
+    
+    top: 35px;
+    left: 183px;
+    width: 100%;
+    height: 30px;
     line-height: 1.2;
+
+    background: url(../images/top-bg-b.gif) scroll repeat-x top transparent;
 }
 
-#shortcuts span {
+#shortcuts ul {
+    display: block;
+    overflow: hidden;
+    list-style: none;
+    white-space: nowrap;
+    padding: 0;
     margin: 0;
-    text-align: center;
+}
+
+#shortcuts li {
+    display: inline-block;
+    list-style: none;
     color: #fff;
-    border-right: 1px solid #909090;
+    text-align: center;
+    border-left: 1px solid #909090;
     padding-left: 1px;
 }
 
-#sc_row div {
-    overflow: hidden;
+#shortcuts li:first-child,
+#shortcuts li.first {
+    border-left: none;
 }
+
+#shortcuts a {
+    display: inline-block;
+    padding: 0;
+    margin: 0;
+}
+
+#shortcuts a span {
+    display: inline-block;
+    line-height: 18px;
+    padding: 0 6px;
+}
+
 /* scrollers */
-#sc_row .scroller {
-    height: 100%;
-    width: 14px;
-    top: 0;
+#shortcuts .scroller {
     position: absolute;
+    top: 10px;
+    height: 10px;
+    width: 7px;
     display: none;
 }
-#shortcuts .scrolling {
+#shortcuts.scrolling {
     padding: 6px 14px !important;
 }
-#shortcuts .scrolling .scroller {
+#shortcuts.scrolling .scroller {
     display: block;
     background: no-repeat center center;
 }
 #shortcuts #shortcuts-scroll-left {
-    left: 0;
+    left: 4px;
     background-image: url(/openerp/static/images/scroll_left.png);
 }
 #shortcuts #shortcuts-scroll-right {
-    right: 0;
+    right: 4px;
     background-image: url(/openerp/static/images/scroll_right.png);
 }
 

@@ -48,11 +48,12 @@
         <h2>${_("Attachments")}</h2>
     </div>
     <ul id="attachments" class="attachments-a">
-        % for item in attachments:
+        % for attachment in attachments:
             <!-- don't forget to also change jquery template in form.js/createAttachment -->
-            <li id="attachment_item_${item[0]}" data-id="${item[0]}">
-                <a class="attachment-file" target="_self" href="${py.url('/openerp/attachment/get', record=item[0])}">
-                    ${item[1]}
+            <li id="attachment_item_${attachment['id']}" data-id="${attachment['id']}">
+                <a class="attachment-file" rel="external"
+                   href="${attachment['url'] or py.url('/openerp/attachment/get', record=attachment['id'])}">
+                    ${attachment['name']}
                 </a>
                 <span>|</span>
                 <a href="#" class="close" title="${_('Delete')}">Close</a>
@@ -66,7 +67,6 @@
         <input type="file" id="datas" class="binary"
                onchange="onChange(this);"
                name="datas" kind="binary" size="5"/>
-        <button type="submit" id="FormSubmit" class="button-a" name="FormSubmit">${_('submit')}</button>
     </form>
     % endif
 
@@ -90,10 +90,31 @@
                href="javascript: void(0)">${_("Customise Object")}</a>
         </li>
     </ul>
-</div>
-
-<div id="sidebar_hide">
-    <a id="toggle-click" href="javascript: void(0)" onclick="toggle_sidebar();">Toggle</a>
+    
+    <div class="sideheader-a">
+        <h2>${_("Other Options")}</h2>
+    </div>
+    <ul class="clean-a">
+        <li>
+            <a href="javascript: void(0)" onclick="new ListView('_terp_list').importData()">${_("Import")}</a>
+        </li>
+        <li>
+            <a href="javascript: void(0)" onclick="new ListView('_terp_list').exportData()">${_("Export")}</a>
+        </li>
+        % if view_type == 'form':
+        <li>
+            <a href="${py.url('/openerp/translator', _terp_model=model, _terp_id=id, _terp_context=ctx)}"
+               target="_blank">${_('Translate')}</a>
+        </li>
+        % endif
+        % if id:
+        <li>
+            <a href="${py.url('/openerp/viewlog', _terp_id=id, _terp_model=model)}" target="_blank"
+               onclick="openobject.tools.openWindow(this.href, {width: 550, height: 340}); return false;"
+                    >${_('View Log')}</a>
+        </li>
+        % endif
+    </ul>
 </div>
 <script type="text/javascript">
     jQuery(document).ready(setupAttachments);

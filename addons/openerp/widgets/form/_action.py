@@ -26,18 +26,10 @@
 # You can see the MPL licence at: http://www.mozilla.org/MPL/MPL-1.1.html
 #
 ###############################################################################
-
 import cherrypy
 
-from openerp.utils import rpc
-from openerp.utils import icons
-from openerp.utils import expr_eval
-
-from openerp.utils import TinyDict
-
-from openerp.widgets import screen
-from openerp.widgets import TinyInputWidget
-from openerp.widgets import register_widget
+from openerp.utils import rpc, expr_eval, TinyDict
+from openerp.widgets import screen, TinyInputWidget, register_widget
 
 
 __all__ = ["Action"]
@@ -86,27 +78,30 @@ class Action(TinyInputWidget):
             view_mode = self.action.get('view_mode', 'tree,form').split(',')
             view_ids = map(lambda x: views.get(x, False), view_mode)
 
-            if self.action['view_type']=='form':
+            if self.action['view_type'] == 'form':
 
                 params = TinyDict()
-                params.model = self.action['res_model']
-                params.id = False
-                params.ids = None
-                params.view_ids = view_ids
-                params.view_mode = view_mode
-                params.context = self.context
-                params.domain = self.domain
-
-                params.offset = params.offset or 0
-                params.limit = params.limit or 20
+                params.updateAttrs(
+                    model=self.action['res_model'],
+                    id=False,
+                    ids=None,
+                    view_ids=view_ids,
+                    view_mode=view_mode,
+                    context=self.context,
+                    domain=self.domain,
+                    offset = 0,
+                    limit = 20
+                )
 
                 # get pager vars if set
                 if hasattr(cherrypy.request, 'terp_params'):
                     current = cherrypy.request.terp_params
                     current = current.chain_get(self.name or '') or current
 
-                    params.offset = current.offset
-                    params.limit = current.limit
+                    params.updateAttrs(
+                        offset=current.offset,
+                        limit=current.limit
+                    )
 
                 self.screen = screen.Screen(params, prefix=self.name, editable=True, selectable=3)
 

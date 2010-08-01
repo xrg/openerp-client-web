@@ -17,12 +17,13 @@ form select {
 }
 
 .fieldcol {
-	width: 70%;	
+	width: 70%;
 }
 
 .fieldcol .requiredfield {
     background-color: #CCD9FF;
     height: 18px;
+    -moz-border-radius:3px 3px 3px 3px;
 }
 
 .fielderror {
@@ -31,13 +32,38 @@ form select {
 
 input.requiredfield,
 select.selectfield {
-	width: 300px;	
+	width: 300px;
+	-moz-border-radius:3px 3px 3px 3px;	
 }
 
-td.db_action_string {
+.db-form {
+	padding-bottom: 15px;
+}
+
+.db-form .action {
 	color: #777777;
 	font-size: 12px;
 	font-weight: bold;
 	padding: 0 4px;
-	text-transform: uppercase;	
-} 
+	text-transform: uppercase;
+}
+
+.db-form .form-container {
+    margin: 0 auto;
+}
+
+.db-form .static_boxes {
+    display: inline-block;
+    padding: 0;
+    text-align: center;
+    margin: 0 3px;
+}
+
+.db-form .current {
+    background: #CCCCCC;
+}
+
+.db-form .links {
+    white-space: nowrap;
+    text-align: right;
+}

@@ -69,8 +69,29 @@ function elementPosition2(elem) {
 
 ///////////////////////////////////////////////////////////////////////////////
 
-var CAL_INSTANCE = null;
-var CALENDAR_WAIT_BOX = new openerp.ui.WaitBox();
+jQuery(document).ajaxStop(function () {
+    if(window.CAL_INSTANCE) {
+        setTimeout(jQuery.proxy(window.CAL_INSTANCE, 'onResize'), 100);
+    }
+});
+
+jQuery(window).bind('before-appcontent-change', function () {
+    try{
+        window.CAL_INSTANCE.__delete__();
+        window.CAL_INSTANCE = null;
+    }catch(e){}
+});
+
+jQuery(window).bind('after-appcontent-change on-appcontent-resize', function () {
+    try{
+        window.CAL_INSTANCE.onResize();
+    }catch(e){}
+});
+
+jQuery(function(){
+    window.CALENDAR_WAIT_BOX = new openerp.ui.WaitBox();
+});
+
 function getCalendar(day, mode, color_filters) {
     day = day || openobject.dom.get('_terp_selected_day').value;
     mode = mode || openobject.dom.get('_terp_selected_mode').value;
@@ -99,11 +120,18 @@ function getCalendar(day, mode, color_filters) {
     params['_terp_color_values'] = values.join(",");
 
     CALENDAR_WAIT_BOX.showAfter(300);
+    
+    var sTop = jQuery('#calGridC').scrollTop();
+    var sLeft = jQuery('#calGridC').scrollLeft();
 
-    var req = openobject.http.post(act, params);
-    req.addCallback(function(xmlHttp) {
-        var newCalendar = jQuery(xmlHttp.responseText);
-        jQuery('#Calendar').replaceWith(newCalendar).hide();
+    var req = openobject.http.postJSON(act, params);
+    
+    req.addCallback(function(obj) {
+        jQuery('#Calendar').replaceWith(obj.calendar).hide();
+        jQuery('#sidebar').replaceWith(obj.sidebar);
+        try{
+            jQuery('#calGridC').scrollTop(sTop).scrollLeft(sLeft);
+        }catch(e){}
         setTimeout(function () {
             CALENDAR_WAIT_BOX.hide();
         }, 0);
@@ -153,20 +181,17 @@ function saveCalendarRecord(record_id, starts, ends) {
     });
 }
 
-var editCalendarRecord = function(record_id, date){
-
-    var params = {
-        'id': record_id,
-        'model': openobject.dom.get('_terp_model').value,
-        'view_mode': openobject.dom.get('_terp_view_mode').value,
-        'view_ids': openobject.dom.get('_terp_view_ids').value,
-        'domain': openobject.dom.get('_terp_domain').value,
-        'context': openobject.dom.get('_terp_context').value,
-        'default_date': date
-    }
-
-    var act = openobject.http.getURL('/view_calendar/calpopup/edit', params);
-    openobject.tools.openWindow(act);
+function editCalendarRecord(record_id, date) {
+    openobject.tools.openWindow(
+        openobject.http.getURL('/view_calendar/calpopup/edit', {
+            'id': record_id,
+            'model': openobject.dom.get('_terp_model').value,
+            'view_mode': openobject.dom.get('_terp_view_mode').value,
+            'view_ids': openobject.dom.get('_terp_view_ids').value,
+            'domain': openobject.dom.get('_terp_domain').value,
+            'context': openobject.dom.get('_terp_context').value,
+            'default_date': date
+    }));
 }
 
 function copyCalendarRecord(record_id) {

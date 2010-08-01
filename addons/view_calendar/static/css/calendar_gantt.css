@@ -12,11 +12,12 @@
     margin-right: 17px;
     margin-bottom: 4px;
     border: 1px inset white;
+    font-size: 1em;
+    font-weight: 600;
+    text-shadow: 0 1px 0 #FFFFFF;
 }
 
 .calGantt .calHeader {
-    font-size: 10px;
-    font-weight: bold;
     text-align: center;
     position: relative;
     height: 18px;
@@ -31,8 +32,7 @@
     border-top: 1px dotted #b0b0b0;
     border-left: 1px dotted #b0b0b0;
 
-    font-size: 8px;
-    font-weight: normal;
+    font-size: .9em;
     
     padding: 2px 0px;
 }
@@ -111,7 +111,7 @@
 
 .calGantt .calGroupLabel,
 .calGantt .calEventLabel {
-    height: 14px;
+    height: 16px;
     padding-top: 1px;
     padding-left: 4px;
     padding-right: 4px;

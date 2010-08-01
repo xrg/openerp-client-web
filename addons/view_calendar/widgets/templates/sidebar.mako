@@ -19,15 +19,4 @@
         </li>
     </ul>
 </div>
-<div id="sidebar_hide">
-    <a id="toggle-click" class="off" href="javascript: void(0)">
-        Toggle
-    </a>
-    <script type="text/javascript">
-        jQuery('#toggle-click').click(function() {
-            toggle_sidebar();
-            CAL_INSTANCE.onResize();
-        });
-    </script>
-</div>
 

@@ -41,27 +41,38 @@ class State(Form):
 
     @expose(template="templates/wkf_popup.mako")
     def create(self, params, tg_errors=None):
-
+        
         params.path = self.path
         params.function = 'create_state'
 
         if params.id and cherrypy.request.path_info == self.path + '/view':
             params.load_counter = 2
-
-        params.hidden_fields = [tw.form.Hidden(name='wkf_id', default=params.wkf_id)]
+        else:
+            params.context = {'o2m_model': params.o2m_model}
+            
+        proxy_field = rpc.RPCProxy('ir.model.fields')
+        field_ids = proxy_field.search([('model', '=', params.o2m_model or params.context.get('o2m_model')), ('relation', '=', params.model)], 0, 0, 0, rpc.session.context)
+        state_field = proxy_field.read(field_ids, ['relation_field'], rpc.session.context)[0]['relation_field']
+        
+        params.hidden_fields = [tw.form.Hidden(name=state_field, default=params.o2m_id), 
+                                tw.form.Hidden(name='_terp_o2m_model', default=params.o2m_model)]
         form = self.create_form(params, tg_errors)
-
-        field = form.screen.widget.get_widgets_by_name('wkf_id')[0]
-        field.set_value(params.wkf_id or False)
-        field.readonly = True
+        
+        field = form.screen.widget.get_widgets_by_name(state_field)
+        if field:
+            field[0].set_value(params.o2m_id or False)
+            field[0].readonly = True
 
         vals = getattr(cherrypy.request, 'terp_validators', {})
-        vals['wkf_id'] = validators.Int()
+        vals[state_field] = validators.Int()
 
         hide = []
-
-        hide += form.screen.widget.get_widgets_by_name('out_transitions')
-        hide += form.screen.widget.get_widgets_by_name('in_transitions')
+        tr_ids = proxy_field.search([('ttype', '=', 'one2many'), ('model', '=', params.model)], 0, 0, 0, rpc.session.context)
+        tr_fields = proxy_field.read(tr_ids, ['name'], rpc.session.context)
+        
+        for field in tr_fields:#to hide one2many fields from form
+            hide += form.screen.widget.get_widgets_by_name(field['name'])
+        
         hide += form.screen.widget.get_widgets_by_name('', kind=tw.form.Separator)
 
         for w in hide:
@@ -71,7 +82,6 @@ class State(Form):
 
     @expose()
     def edit(self, **kw):
-
         params, data = TinyDict.split(kw)
 
         if not params.model:
@@ -240,6 +250,7 @@ class Workflow(Form):
 
     @expose(template="templates/workflow.mako")
     def index(self, model, rec_id=None):
+        
         proxy = rpc.RPCProxy("workflow")
         result = proxy.get_active_workitems(model, rec_id)
         wkf = result['wkf']
@@ -259,7 +270,6 @@ class Workflow(Form):
         params.update(d)      
         
         form = tw.form_view.ViewForm(params, name="view_form", action="")
-
         return dict(form=form, name=wkf['name'] ,workitems=result['workitems'].keys())
 
     @expose('json')
@@ -268,8 +278,8 @@ class Workflow(Form):
         node_flds_visible = eval(kw.get('node_flds_v', '[]'))
         node_flds_hidden = eval(kw.get('node_flds_h', '[]'))
         conn_flds = eval(kw.get('conn_flds', '[]'))
-        
         bgcolors = {}
+        
         for color_spec in kw.get('bgcolors', '').split(';'):
             if color_spec:
                 colour, test = color_spec.split(':')
@@ -283,9 +293,15 @@ class Workflow(Form):
 
         proxy = rpc.RPCProxy('ir.ui.view')
         graph_search = proxy.graph_get(int(id), model, node_obj, conn_obj, src_node, des_node, False, (140, 180), rpc.session.context)
-        
         nodes = graph_search['nodes']
         transitions = graph_search['transitions']
+        isolate_nodes = {}
+         
+        for node in graph_search['blank_nodes']:
+            isolate_nodes[node['id']] = node
+        else:
+            y = map(lambda t: t['y'],filter(lambda x: x['y'] if x['x']==20 else None, nodes.values()))
+            y_max = (y and max(y)) or 120
         
         connectors = {}
         list_tr = [];
@@ -300,10 +316,10 @@ class Workflow(Form):
 
         proxy_tr = rpc.RPCProxy(conn_obj)
         search_trs = proxy_tr.search([('id', 'in', list_tr)], 0, 0, 0, rpc.session.context)
-        data_trs = proxy_tr.read(search_trs, conn_flds + [src_node, des_node], rpc.session.context)
-        
+        data_trs = proxy_tr.read(search_trs, conn_flds, rpc.session.context)
+
         for tr in data_trs:
-            t = connectors.get(str(tr['id'])) 
+            t = connectors.get(str(tr['id']))
             t.update({
                       'source': tr[src_node][1],
                       'destination': tr[des_node][1],
@@ -313,12 +329,22 @@ class Workflow(Form):
             for fld in conn_flds:
                 t['options'][fld.title()] = tr[fld]
         
-        proxy_act = rpc.RPCProxy(node_obj)
-        search_acts = proxy_act.search([('wkf_id', '=', int(id))], 0, 0, 0, rpc.session.context)
+        proxy_field = rpc.RPCProxy('ir.model.fields')
+        field_ids = proxy_field.search([('model', '=', model), ('relation', '=', node_obj)], 0, 0, 0, rpc.session.context)
+        field_data = proxy_field.read(field_ids, ['relation_field'], rpc.session.context)
+        
+        proxy_act = rpc.RPCProxy(node_obj)        
+        search_acts = proxy_act.search([(field_data[0]['relation_field'], '=', int(id))], 0, 0, 0, rpc.session.context)
         data_acts = proxy_act.read(search_acts, node_flds_hidden + node_flds_visible, rpc.session.context)
-    
+        
         for act in data_acts:
-            n = nodes.get(str(act['id']))
+            n = nodes.get(str(act['id']))            
+            if not n:
+                n = isolate_nodes.get(act['id'], {})
+                y_max += 140
+                n.update({'x': 20, 'y': y_max})
+                nodes[act['id']] = n
+                
             n.update({
                       'id': act['id'],
                       'color': 'white',

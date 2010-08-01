@@ -21,7 +21,7 @@ background = '#DEDEDE'
                         % endif
                         % for (field, field_attrs) in headers:
                             % if field == 'button':
-                                <th class="grid-cell button"><div style="width: 0;"></div></th>
+                                <th class="grid-cell"><div style="width: 0;"></div></th>
                             % else:
                                 <th id="grid-data-column/${(name != '_terp_list' or None) and (name + '/')}${field}" class="grid-cell ${field_attrs.get('type', 'char')}" kind="${field_attrs.get('type', 'char')}" style="cursor: pointer;" onclick="new ListView('${name}').sort_by_order('${field}')">${field_attrs['string']}</th>
                             % endif
@@ -64,7 +64,7 @@ background = '#DEDEDE'
                                     % endif
                                 </td>
                             % else:
-                                <td class="grid-cell button" nowrap="nowrap" style="background-color: ${background};">
+                                <td class="grid-cell" nowrap="nowrap" style="background-color: ${background};">
                                     <span></span>
                                 </td>
                             % endif
@@ -94,7 +94,7 @@ background = '#DEDEDE'
                                     <span>${ch[field].display()}</span>
                                 </td>
                             % else:
-                                <td class="grid-cell button" nowrap="nowrap">
+                                <td class="grid-cell" nowrap="nowrap">
                                     ${buttons[field_attrs-1].display(parent_grid=name, **buttons[field_attrs-1].params_from(ch))}
                                 </td>
                             % endif
@@ -134,7 +134,7 @@ background = '#DEDEDE'
                             % endif
                             % for i, (field, field_attrs) in enumerate(headers):
                                 % if field == 'button':
-                                    <td class="grid-cell button"><div style="width: 0;"></div></td>
+                                    <td class="grid-cell"><div style="width: 0;"></div></td>
                                 % else:
                                     % if i == 0:
                                     <td class="grid-cell" id="total_sum_title" nowrap="nowrap">

@@ -81,7 +81,7 @@ class ListView(TinyView):
 
     def __call__(self, screen):
         
-        if screen.group_by_ctx or screen.context.get('group_by'):
+        if screen.group_by_ctx or screen.context.get('group_by') or screen.context.get('group_by_no_leaf'):
             widget = listgroup.ListGroup(screen.name or '_terp_list',
                                         model=screen.model,
                                         view=screen.view,

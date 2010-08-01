@@ -118,7 +118,7 @@ class WikiParser(wikimarkup.Parser):
     def attachDoc(self, text, id):
         def document(path):
             file = path.group().replace('attach:','')
-            if file.startswith('http') or file.startswith('ftp') or file.startswith('http'):
+            if file.startswith('http') or file.startswith('ftp'):
                 return "<a href='%s'>Download File</a>" % (file)
             else:
                 proxy = rpc.RPCProxy('ir.attachment')
@@ -134,7 +134,7 @@ class WikiParser(wikimarkup.Parser):
     def addImage(self, text, id):
         def image(path):
             file = path.group().replace('img:','')
-            if file.startswith('http') or file.startswith('ftp') or file.startswith('http'):
+            if file.startswith('http') or file.startswith('ftp'):
                 return "<img src='%s'/>" % (file)
             else:
                 proxy = rpc.RPCProxy('ir.attachment')
@@ -171,8 +171,8 @@ class WikiParser(wikimarkup.Parser):
         return bits
 
     def addInternalLinks(self, text):
-        from openobject.tools import rpc
         proxy = rpc.RPCProxy('wiki.wiki')
+        
         def link(path):
             link = path.group().replace('[','').replace('[','').replace(']','').replace(']','').split("|")
             name_to_search = link[0].strip()

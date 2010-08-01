@@ -51,8 +51,8 @@ function toggle_sidebar() {
 }
 
 jQuery(document).bind('shortcuts-alter', function () {
-    var shortcuts = jQuery('#sc_row > div:not(.scroller)');
-    var shortcuts_row = jQuery('#sc_row');
+    var shortcuts = jQuery('#shortcuts > ul');
+    var shortcuts_row = jQuery('#shortcuts');
     if(!shortcuts.length) { return; }
     var totalWidth = shortcuts.get(0).scrollWidth;
     var visibleWidth = shortcuts.outerWidth();
@@ -81,12 +81,10 @@ jQuery(document).bind('shortcuts-alter', function () {
 // trigger on window load so all other handlers (including resizer) have executed
 // further stuff will be handled when adding/removing shortcuts anyway (theoretically)
 jQuery(window).load(function () {
-    var shortcuts = jQuery('#sc_row');
-    var scrolling_left;
-    var scrolling_right;
+    var shortcuts = jQuery('#shortcuts');
     var scroll_left = jQuery('<div id="shortcuts-scroll-left" class="scroller">').hover(
         function () {
-            var scrollable = shortcuts.children('div:not(.scroller)');
+            var scrollable = shortcuts.children('ul');
             scrolling_left = setInterval(function () {
                 if(scrollable.scrollLeft() == 0) {
                     clearInterval(scrolling_left);
@@ -98,7 +96,7 @@ jQuery(window).load(function () {
     });
     var scroll_right = jQuery('<div id="shortcuts-scroll-right" class="scroller">').hover(
         function () {
-            var scrollable = shortcuts.children('div:not(.scroller)');
+            var scrollable = shortcuts.children('ul');
             scrolling_right = setInterval(function () {
                 if((scrollable.scrollLeft() + scrollable.outerWidth()) == scrollable.get(0).scrollWidth) {
                     clearInterval(scrolling_right);
@@ -108,7 +106,7 @@ jQuery(window).load(function () {
         }, function () {
             clearInterval(scrolling_right);
     });
-    shortcuts.prepend(scroll_left).append(scroll_right);
+    shortcuts.prepend(scroll_right).prepend(scroll_left);
     jQuery(document).trigger('shortcuts-alter');
     jQuery(window).resize(function () {
         jQuery(document).trigger('shortcuts-alter');

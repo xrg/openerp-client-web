@@ -221,13 +221,6 @@ function validate_required(form) {
         }
 
         if (!value) {
-        	if(jQuery(elem2).attr('kind') == 'many2one') {
-                var select_id = jQuery(elem2).attr('id').split("_text")[0];
-                var img_select = jQuery('#'+select_id+'_select');
-                var img_class = img_select.attr('class');
-                img_select.attr('class', img_class+' errorfield');
-            }
-            
             addElementClass(elem2, 'errorfield');
             result = false;
         } else if (hasElementClass(elem2, 'errorfield')) {
@@ -541,6 +534,10 @@ function onChange(name) {
             fld = openobject.dom.get(prefix + k);
 
             if (!fld) {
+            	if(k == 'progress') {
+                    jQuery('#progress_div2').css('width', values['progress'])
+                    jQuery('#progress_div3').html(values['progress'])
+                }
                 continue;
             }
 
@@ -580,16 +577,21 @@ function onChange(name) {
                         }
                         break;
                     case 'selection':
-                        var opts = [];
-                        opts.push(OPTION({'value': ''}));
-
-                        for (i in value) {
-                            var item = value[i];
-                            opts.push(OPTION({'value': item[0]}, item[1]));
-                        }
-                        MochiKit.DOM.replaceChildNodes(fld, map(function(x) {
-                            return x;
-                        }, opts));
+                        if (isArrayLike(value)) {
+	                        var opts = [];
+	                        opts.push(OPTION({'value': ''}));
+	
+	                        for (i in value) {
+	                            var item = value[i];
+	                            opts.push(OPTION({'value': item[0]}, item[1]));
+	                        }
+	                        MochiKit.DOM.replaceChildNodes(fld, map(function(x) {
+	                            return x;
+	                        }, opts));
+	                    }
+	                    else{
+	                       fld.value = value;
+	                    }
                         break;
                     default:
                         // do nothing on default
@@ -645,15 +647,13 @@ function eval_domain_context_request(options) {
     if (prefix[0] == '_terp_listfields') {
         prefix.shift();
     }
-    prefix = prefix.join('/');
-
-    var params = getFormData(1);
-
-    params['_terp_domain'] = options.domain;
-    params['_terp_context'] = options.context;
-    params['_terp_prefix'] = prefix;
-    params['_terp_active_id'] = prefix ? openobject.dom.get(prefix + '/_terp_id').value : openobject.dom.get('_terp_id').value;
-    params['_terp_active_ids'] = prefix ? openobject.dom.get(prefix + '/_terp_ids').value : openobject.dom.get('_terp_ids').value;
+    var params = jQuery.extend(getFormData(1), {
+        '_terp_domain': options.domain,
+        '_terp_context': options.context,
+        '_terp_prefix': prefix.join('/'),
+        '_terp_active_id': openobject.dom.get(prefix.concat('_terp_id').join('/')).value,
+        '_terp_active_ids': openobject.dom.get(prefix.concat('_terp_ids').join('/')).value
+    });
 
     if(options.group_by_ctx && options.group_by_ctx.length > 0)
         params['_terp_group_by'] = options.group_by_ctx;
@@ -665,7 +665,7 @@ function eval_domain_context_request(options) {
         params['_terp_active_ids'] = options.active_ids;
     }
 
-    var parent_context = prefix ? openobject.dom.get(prefix + '/_terp_context') : openobject.dom.get('_terp_context');
+    var parent_context = openobject.dom.get(prefix.concat('_terp_context').join('/'));
 
     if (parent_context) {
         params['_terp_parent_context'] = parent_context.value;
@@ -720,18 +720,7 @@ function open_search_window(relation, domain, context, source, kind, text) {
     });
 }
 
-function showCustomizeMenu(src, elem) {
-
-	var pos = jQuery('#show_customize_menu').position();
-	var left_position = pos.left - 50 + 'px';
-
-    jQuery('#'+elem).css('left', left_position);
-    jQuery('#'+elem).slideToggle('slow');
-}
-
 function makeContextMenu(id, kind, relation, val) {
-
-    var form = document.forms['view_form'];
     var act = get_form_action('get_context_menu');
 
     var prefix = id.indexOf('/') > -1 ? id.slice(0, id.lastIndexOf('/')) + '/' : '';
@@ -1049,20 +1038,22 @@ function show_wkf() {
 function removeAttachment () {
     var attachment_line = jQuery(this).parent();
     var id = attachment_line.attr('data-id');
-	
-	jQuery.ajax({
-		url: '/openerp/attachment/remove/',
-		type: 'POST',
-		data: {'id': id},
-		dataType: 'json',
-		success: function(obj) {
-			if(obj.error) {
-				error_popup(obj.error);
-			}
-			
-            jQuery(attachment_line).remove();
-		}
-	});
+    if(confirm('Do you really want to delete the attachment {' +
+               jQuery.trim(attachment_line.find('> a.attachment-file').text()) + '} ?')) {
+        jQuery.ajax({
+            url: '/openerp/attachment/remove/',
+            type: 'POST',
+            data: {'id': id},
+            dataType: 'json',
+            success: function(obj) {
+                if(obj.error) {
+                    error_popup(obj.error);
+                }
+
+                jQuery(attachment_line).remove();
+            }
+        });
+    }
 
     return false;
 }
@@ -1084,13 +1075,14 @@ function createAttachment() {
 
             jQuery([
                 jQuery('<a>', {
-                    'target': '_self',
+                    'rel': 'external',
                     'href': openobject.http.getURL(
                         '/openerp/attachment/get', {
-                            'record': data['id']})
+                            'record': data['id']}),
+                    'class': 'attachment-file'
                 }).text(data['name']),
                 jQuery('<span>|</span>'),
-                jQuery("<a href='#' class='close'>Close</a>").click(removeAttachment)
+                jQuery("<a href='#' class='close'>Close</a>")
             ]).appendTo(attachment_line);
 
             jQuery('#attachments').append(attachment_line);
@@ -1102,17 +1094,22 @@ function createAttachment() {
 }
 
 function setupAttachments() {
-        jQuery('#attachments li a.close').each(function () {
-            jQuery(this).click(removeAttachment);
-        });
+    jQuery('#attachments').delegate('li a.close', 'click', removeAttachment);
 
-        var attachments = jQuery('#attachment-box').hide();
-        jQuery('#datas').validate({
-            expression: "if (VAL) return true; else return false;"
-        });
-        jQuery('#add-attachment').click (function (e) { attachments.show(); e.preventDefault(); });
-        attachments.submit(createAttachment);
-    }
+    var attachmentsForm = jQuery('#attachment-box').hide();
+    jQuery('#datas').validate({
+        expression: "if (VAL) return true; else return false;"
+    });
+    jQuery('#add-attachment').click(function (e) {
+        attachmentsForm.show();
+        e.preventDefault();
+    });
+    attachmentsForm.bind({
+        change: createAttachment,
+        // leave that one just in case, but should generally not activate
+        submit: createAttachment
+    });
+}
 
 function error_popup(obj) {
     try {
@@ -1132,15 +1129,20 @@ var RESOURCE_ID;
  */
 function add_shortcut_to_bar(id) {
     jQuery.getJSON('/openerp/shortcuts/by_resource', function (data) {
-        jQuery('#sc_row > div:not(.scroller)').append(
-            jQuery('<span>').append(
+        var shortcuts = jQuery('#shortcuts > ul');
+        shortcuts.append(
+            jQuery('<li>', {'class': shortcuts.children().length ? '' : 'first'}).append(
                 jQuery('<a>', {
                     'id': 'shortcut_' + id,
                     'href': openobject.http.getURL('/openerp/tree/open', {
                         'id': id,
                         'model': 'ir.ui.menu'
                     })
-                }).text(data[id]['name'])));
+                }).append(
+                    jQuery('<span>').text(data[id]['name'])
+                )
+            )
+        );
         jQuery(document).trigger('shortcuts-alter');
     });
 }

@@ -212,6 +212,7 @@ MonthCalendar.prototype = {
             div.className = params.className;
             div.title = params.title;
 
+            div.style.position = 'absolute';
             div.style.backgroundColor = params.bg;
             div.style.color = params.clr;
 

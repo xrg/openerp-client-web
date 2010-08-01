@@ -150,6 +150,7 @@ One2Many.prototype = {
         var edit=MochiKit.DOM.getElement(this.name + '/_terp_editable');
         
         if (readonly) {
+            jQuery('table.one2many[id$="'+this.name+'"]').addClass('m2o_readonly')	
             if(btn){btn.style.display='none';}
             MochiKit.Base.map(function (el) {el.style.display='none'},MochiKit.Selector.findChildElements(grid,['.selector']));
             edit.value= 0;

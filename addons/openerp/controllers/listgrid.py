@@ -35,7 +35,6 @@ import form
 import wizard
 from openobject.tools import expose, ast
 
-
 class List(SecuredController):
 
     _cp_path = "/openerp/listgrid"
@@ -123,6 +122,9 @@ class List(SecuredController):
                     res = proxy.unlink(params.ids, ctx)
                 else:
                     res = proxy.unlink([params.ids], ctx)
+                if params.model == 'res.request':
+                    ids, ids2 = rpc.RPCProxy(params.model).request_get()
+                    return dict(ids = ids)
             except Exception, e:
                 error = ustr(e)
                 
@@ -182,6 +184,7 @@ class List(SecuredController):
         params.view_type = 'form'
         if params.get('_terp_clear'):
             params.domain, params.search_domain, params.filter_domain, params.ids = [], [], [], []
+            params.search_data = {}
             for k,v in params.context.items():
                 if k.startswith('search_default'):
                     params.context[k] = 0
@@ -260,6 +263,7 @@ class List(SecuredController):
                 ctx = params.context or {}
                 ctx.update(rpc.session.context.copy())
                 res = rpc.session.execute('object', 'execute', model, name, ids, ctx)
+                
                 if isinstance(res, dict) and res.get('type') == 'ir.actions.act_url':
                     result = res
 

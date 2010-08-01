@@ -36,15 +36,17 @@ from openerp.widgets import TinyWidget
 class Sidebar(TinyWidget):
 
     template = "templates/sidebar.mako"
-    params = ['reports', 'actions', 'relates', 'attachments', 'sub_menu', 'view_type', 'model']
+    params = ['reports', 'actions', 'relates', 'attachments', 'sub_menu', 'view_type', 'model', 'id', 'ctx']
 
     def __init__(self, model, submenu=None, toolbar=None, id=None, view_type="form", multi=True, context=None, **kw):
         super(Sidebar, self).__init__(model=model, id=id)
         self.multi = multi
         self.context = context or {}
+        self.ctx = context
         self.view_type = view_type
         toolbar = toolbar or {}
         submenu = submenu
+        self.id = id or None 
         self.reports = toolbar.get('print', [])
         self.actions = toolbar.get('action', [])
         self.relates = toolbar.get('relate', [])
@@ -82,7 +84,6 @@ class Sidebar(TinyWidget):
                 [('res_model', '=', model), ('res_id', '=', id)],0, 0, 0, self.context)
 
             if attachment_ids:
-                self.attachments = map(itemgetter('id', 'name'),
-                                       attachments.read(attachment_ids, ['name']))
+                self.attachments = attachments.read(attachment_ids, ['name', 'url', 'type'])
 
             self.sub_menu = submenu

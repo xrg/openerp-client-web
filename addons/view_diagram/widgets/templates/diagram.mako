@@ -11,7 +11,7 @@
 
 <table width="100%">
     <tr>
-        <td>
+        <td style="padding: 0px;">
             <table width="100%">
                 <tr>
                     <input type="hidden" id="wkf_id" name="wkf_id" value="${dia_id}"/>
@@ -26,9 +26,9 @@
                     <input type="hidden" id="conn_flds" name="conn_flds" value="${conn_flds}"/>
                     
                     <td width="36px" valign="top" id="toolbox"></td>
-                    <td height="500" width="auto" valign="top">
-                        <div id="viewport" style="position: relative; width: 100%; height: 500px; border: 1px solid gray; overflow: auto;">
-                            <div id="canvas" style="position: absolute;  width: 3000px; height: 3000px;">
+                    <td height="100%" width="100%" valign="top" style="padding: 0px;">                        
+                        <div id="viewport" style="position: relative; width: 100%; height: 550px; border: 1px solid gray; overflow: auto;">
+                            <div id="canvas" style="position: absolute;  width: auto; height: auto;">
                                 <span id="loading" style="color: red; width:100%;" align="right">${_("Loading...")}</span>
                             </div>
                         </div>
@@ -38,14 +38,6 @@
         </td>
     </tr>
     <tr class="toolbar">
-        <td align="right" colspan="2">
-            <div class="toolbar">
-                <table border="0" cellpadding="0" cellspacing="0" width="100%">
-                    <tr>
-                        <td align="left" id="status" style="width: 100%; ">&nbsp;</td>                       
-                    </tr>
-                </table>
-            </div>
-        </td>
+        <td align="left" id="status" style="width: 100%; height: 24px; background-color: #808080;">&nbsp;</td>                       
     </tr>
 </table>

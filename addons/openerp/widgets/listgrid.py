@@ -38,8 +38,9 @@ from openerp.widgets import TinyWidget, TinyInputWidget, ConcurrencyInfo, get_wi
 
 import form
 from openobject import tools
+from openobject.tools import ast
 from openobject.i18n import format
-from openobject.widgets import CSSLink, JSLink
+from openobject.widgets import JSLink
 from pager import Pager
 
 
@@ -48,7 +49,7 @@ class List(TinyWidget):
     template = "templates/listgrid.mako"
     params = ['name', 'data', 'columns', 'headers', 'model', 'selectable', 'editable',
               'pageable', 'selector', 'source', 'offset', 'limit', 'show_links', 'editors', 'view_mode',
-              'hiddens', 'edit_inline', 'field_total', 'link', 'checkbox_name', 'm2m', 'min_rows', 'string', 'o2m']
+              'hiddens', 'edit_inline', 'field_total', 'link', 'checkbox_name', 'm2m', 'min_rows', 'string', 'o2m', 'dashboard']
 
     member_widgets = ['pager', 'buttons', 'editors', 'concurrency_info']
 
@@ -71,26 +72,32 @@ class List(TinyWidget):
     checkbox_name = True
     min_rows = 5
 
-    css = [CSSLink("openerp", 'css/listgrid.css')]
     javascript = [JSLink("openerp", 'javascript/listgrid.js'),
                   JSLink("openerp", 'javascript/sortablegrid.js')]
 
     def __init__(self, name, model, view, ids=[], domain=[], context={}, **kw):
 
         super(List, self).__init__(name=name, model=model, ids=ids)
-
+        
         self.context = context or {}
         self.domain = domain or []
         
         custom_search_domain = getattr(cherrypy.request, 'custom_search_domain', [])
-        custom_filter_domain = getattr(cherrypy.request, 'custom_filter_domain', [])        
+        custom_filter_domain = getattr(cherrypy.request, 'custom_filter_domain', [])
         
         if name.endswith('/'):
             self._name = name[:-1]
-
         if name != '_terp_list':
             self.source = self.name.replace('/', '/') or None
-
+            
+        #this Condition is for Dashboard to avoid new, edit, delete operation
+        self.dashboard = 0
+        terp_params = getattr(cherrypy.request, 'terp_params', [])
+        if terp_params:
+            if terp_params.get('_terp_model'):
+                if terp_params['_terp_model'] == 'board.board':
+                    self.dashboard = 1
+                        
         self.selectable = kw.get('selectable', 0)
         self.editable = kw.get('editable', False)
         self.pageable = kw.get('pageable', True)
@@ -148,7 +155,6 @@ class List(TinyWidget):
                 ids = proxy.search(search_param, 0, 0, 0, context)
                 
             self.count = proxy.search_count(domain, context)
-                
         self.data_dict = {}
         data = []
 
@@ -159,14 +165,20 @@ class List(TinyWidget):
 
             ctx = rpc.session.context.copy()
             ctx.update(context)
-
-            data = proxy.read(ids, fields.keys() + ['__last_update'], ctx)
+            
+            try:    
+                data = proxy.read(ids, fields.keys() + ['__last_update'], ctx)
+            except:
+                pass
+            
             self._update_concurrency_info(self.model, data)
             self.concurrency_info = ConcurrencyInfo(self.model, ids)
+            
             order_data = [(d['id'], d) for d in data]
             orderer = dict(zip(ids, count()))
             ordering = sorted(order_data, key=lambda object: orderer[object[0]])
             data = [i[1] for i in ordering]
+            
             for item in data:
                 self.data_dict[item['id']] = item.copy()
 
@@ -249,8 +261,7 @@ class List(TinyWidget):
         fields = [name for name, _ in chain(self.headers, self.hiddens)]
 
         proxy = rpc.RPCProxy(self.model)
-
-        if self.edit_inline > 0:
+        if self.edit_inline > 0 and isinstance(self.edit_inline, int):
             values = self.data_dict[self.edit_inline]
         else:
             values = dict(proxy.default_get(fields, ctx))
@@ -489,6 +500,8 @@ class Int(Char):
 
     def get_text(self):
         if self.value:
+            if isinstance(self.value, (unicode, str)):
+                return ast.literal_eval(self.value)
             return int(self.value)
 
         return 0

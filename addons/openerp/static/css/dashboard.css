@@ -14,7 +14,6 @@ div.dashlet {
 }
 
 div.dashlet-title {
-	background: url(../images/grdline1.gif) repeat-x left top;
     padding: 2px;
     white-space: nowrap;
     cursor: move;

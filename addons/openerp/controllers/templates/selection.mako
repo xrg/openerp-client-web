@@ -40,9 +40,9 @@
             <table border="0" cellpadding="0" cellspacing="0" width="100%">
                 <tr>
                     <td width="100%" align="right">
-                        <button class="static_buttons" onclick="window.opener ? window.close() : history.back()">${_("Cancel")}</button>
+                        <button class="static_boxes" onclick="window.opener ? window.close() : history.back()">${_("Cancel")}</button>
                     <td>
-                    	<button class="static_buttons" type="submit">${_("OK")}</button>
+                    	<button class="static_boxes" type="submit">${_("OK")}</button>
                     </td>
                 </tr>
             </table>
