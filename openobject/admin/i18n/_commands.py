@@ -248,7 +248,7 @@ openobject.gettext.update(
 
         m = [o for o in [options.a, options.x, options.u, options.c, options.k] if o]
         if not m:
-            self.parser.error("Reqiored one of '--init, --extract, --update, --compile, --clean'")
+            self.parser.error("Required one of '--init, --extract, --update, --compile, --clean'")
 
 
         if options.k:
