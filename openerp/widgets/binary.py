@@ -84,7 +84,7 @@ class Image(TinyInputWidget):
             self.stock = False
             self.field = self.name.split('/')[-1]
             if self.id:
-                self.src = tools.url('/openerp/image/get_image', model=self.model, id=self.id, field=self.field)
+                self.src = tools.url('/image/get_image', model=self.model, id=self.id, field=self.field)
             else:
                 self.src = attrs.get('value')
             self.height = attrs.get('img_height', attrs.get('height', 160))
