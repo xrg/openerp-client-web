@@ -43,7 +43,7 @@
     % endif
     % if view_type == 'form':
     <div class="sideheader-a">
-        <a href="#" id="add-attachment" class="button-a">Add</a>
+        <a href="#" id="add-attachment" class="button-a">${_("Add")}</a>
 
         <h2>${_("Attachments")}</h2>
     </div>
@@ -56,7 +56,7 @@
                     ${attachment['name']}
                 </a>
                 <span>|</span>
-                <a href="#" class="close" title="${_('Delete')}">Close</a>
+                <a href="#" class="close" title="${_('Delete')}">${_("Close")}</a>
             </li>
         % endfor
     </ul>

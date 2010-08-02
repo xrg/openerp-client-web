@@ -108,7 +108,7 @@
                                             <td style="padding: 0 0 0 10px;">
                                                 <a style="color: blue; font-weight: bold;" href="javascript: void(0);"
                                                    onclick="jQuery('#more_logs').slideToggle('slow')">
-                                                    More...
+                                                    ${_('More...')}
                                                 </a>
                                                 <div id="more_logs">
                                                      % for log in serverLog[:-3]:
@@ -200,7 +200,8 @@
                 % endif
                 <div>${form.display()}</div>
                 <div class="footer-a">
-                    <p class="powered">Powered by <a href="http://www.openerp.com/">openerp.com</a></p>
+                    <p class="powered">${_("Powered by %(openerp)s ",
+                    					openerp="""<a href="http://www.openerp.com/">openerp.com</a>""")|n}</p>
                     <p class="one">
                         <span>${rpc.session.protocol}://${_("%(user)s", user=rpc.session.loginname)}@${rpc.session.host}:${rpc.session.port}/${rpc.session.db or 'N/A'}</span>
                     </p>

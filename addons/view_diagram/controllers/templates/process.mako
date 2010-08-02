@@ -48,8 +48,8 @@
 			    				<td>
 									<div>
 										<a class="help-button-a" href="javascript: void(0)">
-											Buy a Support Contract
-											<small>By Chat / Mail / Phone</small>
+											${_("Buy a Support Contract %(by)s",
+											by="""<small>By Chat / Mail / Phone</small>""")|n}
 										</a>
 									</div>
 								</td>
@@ -58,8 +58,8 @@
 								<td>
 									<div>
 										<a class="help-button-a" href="javascript: void(0)">
-											Get Books
-											<small>Available in Amazon</small>
+											${_("Get Books %(available)s",
+											available="""<small>Available in Amazon</small>""")|n}
 										</a>
 									</div>
 								</td>
@@ -68,8 +68,8 @@
 								<td>
 									<div>
 										<a class="help-button-a" href="javascript: void(0)">
-											Community Forum
-											<small>Join Community Discussion</small>
+											${_("Community Forum %(community)s",
+											community="""<small>Join Community Discussion</small>""")|n}
 										</a>
 									</div>
 								</td>
@@ -84,7 +84,7 @@
 		<td>
 			<table class="view" width="100%" border="0" cellpadding="0" cellspacing="0">
 				<tr>
-					<td align="left" style="font-size: 14px; font-weight: bold;">Process</td>
+					<td align="left" style="font-size: 14px; font-weight: bold;">${_("Process")}</td>
 				</tr>
 				<tr>
 					<td>
@@ -133,7 +133,7 @@
     	<td>
     		<table>
     			<tr>
-    				<td align="left" style="font-size: 14px; font-weight: bold;">Fields</td>
+    				<td align="left" style="font-size: 14px; font-weight: bold;">${_("Fields")}</td>
     			</tr>
     			<tr>
     				<td align="left">

@@ -104,7 +104,7 @@ import cherrypy
 			        	<table class="pager-table">
 			        		<tr>
 			        			<td class="pager-cell">
-			        				<h2>${string} List</h2>
+			        				<h2>${string} ${_("List")}</h2>
 			        			</td>
 			        			% if editable:
 			        			    <td class="pager-cell-button">

@@ -55,39 +55,39 @@ except:
     % if logged:
 	    <div id="corner">
 	        <ul class="tools">
-	            <li><a href="${py.url('/openerp/home')}" class="home">Home</a>
+	            <li><a href="${py.url('/openerp/home')}" class="home">${_("Home")}</a>
 	                <ul>
-	                    <li class="first last"><a href="javascript: void(0);">Home</a></li>
+	                    <li class="first last"><a href="javascript: void(0);">${_("Home")}</a></li>
 	                </ul>
 	            </li>
 	            <li>
-	                <a href="${py.url('/openerp/requests')}" class="messages">Messages<small>${total_mess}</small></a>
+	                <a href="${py.url('/openerp/requests')}" class="messages">${_("messages")}<small>${total_mess}</small></a>
 	                <ul>
-	                    <li class="first last"><a href="javascript: void(0);">Requests</a></li>
+	                    <li class="first last"><a href="javascript: void(0);">${_("Requests")}</a></li>
 	                </ul>
 	            </li>
 	
-	            <li><a href="${py.url('/openerp/pref/create')}" class="preferences">Preferences</a>
+	            <li><a href="${py.url('/openerp/pref/create')}" class="preferences">${_("Preferences")}</a>
 	                <ul>
-	                    <li class="first last"><a href="javascript: void(0);">Edit Preferences</a></li>
+	                    <li class="first last"><a href="javascript: void(0);">${_("Edit Preferences")}</a></li>
 	                </ul>
 	            </li>
-	            <li><a href="javascript: void(0);" class="info">About</a>
+	            <li><a href="javascript: void(0);" class="info">${_("About")}About</a>
 	                <ul>
-	                    <li class="first last"><a href="javascript: void(0);">About</a></li>
+	                    <li class="first last"><a href="javascript: void(0);">${_("About")}</a></li>
 	                </ul>
 	            </li>
 	
-	            <li><a href="javascript: void(0);" class="help">Help</a>
+	            <li><a href="javascript: void(0);" class="help">${_("Help")}</a>
 	                <ul>
-	                    <li class="first last"><a href="javascript: void(0);">Help</a></li>
+	                    <li class="first last"><a href="javascript: void(0);">${_("Help")}</a></li>
 	                </ul>
 	            </li>
 	
 	            % if cp.config('server.environment', 'openobject-web') == 'production':
-	                <li id="clear_cache"><a href="${py.url('/openerp/pref/clear_cache')}" class="clear_cache">Clear Cache</a>
+	                <li id="clear_cache"><a href="${py.url('/openerp/pref/clear_cache')}" class="clear_cache">${_("Clear Cache")}</a>
 	                    <ul>
-	                        <li class="first last"><a href="javascript: void(0);">Clear Cache</a></li>
+	                        <li class="first last"><a href="javascript: void(0);">${_("Clear Cache")}</a></li>
 	                    </ul>
 	                </li>
 	            % endif
@@ -111,4 +111,3 @@ except:
     % endif
     </div>
 </div>
-
