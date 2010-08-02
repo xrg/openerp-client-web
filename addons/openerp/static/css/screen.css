@@ -2052,22 +2052,22 @@ p.paging-a a {
 
 p.paging-a a.first {
     margin: 0;
-    background: url(../images/first.gif) no-repeat;
+    background: url(../images/first.png) no-repeat;
 }
 
 p.paging-a a.last {
     margin: 0;
-    background: url(../images/last.gif) no-repeat;
+    background: url(../images/last.png) no-repeat;
 }
 
 p.paging-a a.prev {
     width: 7px;
-    background: url(../images/prev.gif) no-repeat;
+    background: url(../images/left.png) no-repeat;
 }
 
 p.paging-a a.next {
     width: 5px;
-    background: url(../images/next.gif) no-repeat;
+    background: url(../images/right.png) no-repeat;
 }
 
 /* sidebar */
