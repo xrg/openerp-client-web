@@ -237,7 +237,7 @@ class Widget(object):
     
     def __repr__(self):
         return self.__class__.__name__
-        return "%s(%s)" % (self.__class__.__name__, ', '.join(
+        return "%s(%s)" % (self.__class__.__name__, ','.join(
             ["%s=%r" % (var, getattr(self, var))
                 for var in ['name'] + list(self.__class__.params)]))
 

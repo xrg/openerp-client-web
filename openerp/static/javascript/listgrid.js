@@ -416,7 +416,7 @@ MochiKit.Base.update(ListView.prototype, {
         if(!ids) {
             var ids = this.getSelectedRecords();
             if(ids.length > 0){
-                ids = '[' + ids.join(', ') + ']';
+                ids = '[' + ids.join(',') + ']';
             }
         }
         
