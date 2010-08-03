@@ -630,7 +630,7 @@ class Button(TinyInputWidget):
             self.icon = icons.get_icon(self.icon)
         
         # This is for google_map module.    
-        if not attrs.get('state') and not attrs.get('states'):
+        if not attrs.get('state') and not attrs.get('states') and attrs.get('id'):
             ctx = rpc.session.context.copy()
             res = rpc.RPCProxy(attrs.get('model')).read([int(attrs.get('id',0))], ['street', 'street2', 'city', 'country_id', 'state_id', 'zip'], ctx)[0]
             
