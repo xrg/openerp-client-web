@@ -50,10 +50,34 @@ class Sidebar(TinyWidget):
         self.reports = toolbar.get('print', [])
         self.actions = toolbar.get('action', [])
         self.relates = toolbar.get('relate', [])
-
         self.attachments = []
         self.sub_menu = None
-
+        
+        # This is for google_map module.
+        if self.actions:
+            for act in self.actions:
+                if act.get('wiz_name') and act['wiz_name'] == 'google_map_launch':
+                    if not self.id:
+                        ids = rpc.RPCProxy(self.model).search([],0, 0, 0, self.context)
+                        search_id = ids[0]
+                    else:
+                        search_id = self.id
+                    res = rpc.RPCProxy(self.model).read([search_id], ['street', 'street2', 'city', 'country_id', 'state_id', 'zip'], self.context)[0]
+                    url="http://maps.google.com/maps?oi=map&q="
+                    if res.get('street'):
+                        url+=res['street'].replace(' ','+')
+                    if res.get('street2'):
+                        url+='+'+res['street2'].replace(' ','+')
+                    if res.get('city'):
+                        url+='+'+res['city'].replace(' ','+')
+                    if res.get('state_id'):
+                        url+='+'+res['state_id'][1].replace(' ','+')
+                    if res.get('country_id'):
+                        url+='+'+res['country_id'][1].replace(' ','+')
+                    if res.get('zip'):
+                        url+='+'+res['zip'].replace(' ','+')
+                    act.update(**{'url': url})
+                    
         values = rpc.RPCProxy('ir.values')
 
         act = 'client_action_multi'
@@ -62,22 +86,21 @@ class Sidebar(TinyWidget):
 
         actions = values.get('action', act, [(self.model, False)], False, self.context)
         actions = [a[-1] for a in actions]
-
+        
         action_ids = [a['id'] for a in self.actions]
         for act in actions:
             if act['id'] not in action_ids:
                 act['context'] = self.context
                 self.actions.append(act)
-
         reports = values.get('action', 'client_print_multi', [(self.model, False)], False, self.context)
         reports = [a[-1] for a in reports]
-
+        
         report_ids = [a['id'] for a in self.reports]
         for rep in reports:
             if rep['id'] not in report_ids:
                 rep['context'] = self.context
                 self.reports.append(rep)
-
+                
         if self.view_type == 'form' and id:
             attachments = rpc.RPCProxy('ir.attachment')
             attachment_ids = attachments.search(

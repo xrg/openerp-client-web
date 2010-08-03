@@ -1,8 +1,14 @@
 <%def name="sidebox_action_item(item, model, submenu)">
     % if submenu != 1:
-	    <li onclick="do_action(${item['id']}, '_terp_id', '${model}', this);">
-	    	<a href="javascript: void(0)" onclick="return false">${item['name']}</a>
-	    </li>
+    	%if item.get('url'):
+		    <li onclick="window.open('${item['url']}')">
+		    	<a href="javascript: void(0)" onclick="return false">${item['name']}</a>
+		    </li>
+	    % else:
+	    	<li onclick="do_action(${item['id']}, '_terp_id', '${model}', this);">
+	    		<a href="javascript: void(0)" onclick="return false">${item['name']}</a>
+	    	</li>
+	    % endif
 	% else:
 		<li data="${item}">
 	   		% if item['name']:
