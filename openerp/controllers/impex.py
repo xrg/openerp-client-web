@@ -136,7 +136,8 @@ class ImpEx(SecuredController):
         views = {}
         if params.view_mode and params.view_ids:
             for i, view in enumerate(params.view_mode):
-                views[view] = params.view_ids[i]
+                if params.view_ids[i]:
+                    views[view] = params.view_ids[i]
 
 
         proxy = rpc.RPCProxy('ir.exports')
@@ -325,7 +326,6 @@ class ImpEx(SecuredController):
             f1 = proxy.fields_view_get(False, 'tree', context)['fields']
             f2 = proxy.fields_view_get(False, 'form', context)['fields']
 
-            fields = {}
             fields.update(f1)
             fields.update(f2)
 
