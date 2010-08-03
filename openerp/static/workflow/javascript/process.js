@@ -63,10 +63,6 @@ MochiKit.Base.update(openerp.process.Workflow.prototype, {
 
     load: function(id, res_model, res_id) {
 
-        if (window.browser.isOpera) {
-            return;
-        }
-
         this.process_id = id;
         this.res_model = res_model;
         this.res_id = res_id;

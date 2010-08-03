@@ -33,9 +33,9 @@
     <script type="text/javascript">
         MochiKit.DOM.addLoadEvent(function(evt){
     
-            var id = parseInt(getElement('id').value) || 0;
+            var id = parseInt(getElement('id').value, 10) || 0;
             var res_model = getElement('res_model').value;
-            var res_id = getElement('res_id').value;
+            var res_id = parseInt(getElement('res_id').value, 10) || 0;
 
             if (id) {
                 var wkf = new openerp.process.Workflow('process_canvas');
