@@ -176,7 +176,10 @@ class Wizard(SecuredController):
             params = cherrypy.session['wizard_parent_params']
 
             frm = eval('cherrypy.request.app.root' + frm.replace('/', '.'))
-            return frm.create(params)
+            try:
+                return frm.create(params)
+            except:
+                pass  
 
         return """<html>
             <head>

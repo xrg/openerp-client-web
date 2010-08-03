@@ -178,6 +178,7 @@ class List(SecuredController):
         error = None
         reload = (params.context or {}).get('reload', False)
         result = {}
+        wiz_result = None
 
         name = params.button_name
         btype = params.button_type
@@ -210,18 +211,18 @@ class List(SecuredController):
                     cherrypy.session['wizard_parent_form'] = '/form'
                     cherrypy.session['wizard_parent_params'] = params
 
-                res = actions.execute_by_id(action_id, type=action_type, model=model, id=id, ids=ids)
+                res = actions.execute_by_id(action_id, type=action_type, model=model, id=id, ids=ids)                
                 if isinstance(res, dict) and res.get('type') == 'ir.actions.act_url':
                     result = res
-                elif res:
-                    error = "Button action has returned another view..."
-
+                elif isinstance(res, basestring):                    
+                    wiz_result = {'model': model, 'action_id': action_id, 'id': id}
+                    
             else:
                 error = "Unallowed button type"
         except Exception, e:
             error = ustr(e)
 
-        return dict(error=error, result=result, reload=reload)
+        return dict(error=error, result=result, reload=reload, wiz_result=wiz_result)
 
     @expose('json')
     def moveUp(self, **kw):
