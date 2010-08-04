@@ -54,7 +54,8 @@ ListView.prototype = {
 
         this.view_ids = jQuery('[id*="'+prefix + '_terp_view_ids'+'"]').get() ? jQuery('[id*="'+prefix + '_terp_view_ids'+'"]').val() : null;
         this.view_mode = jQuery('[id*="'+prefix + '_terp_view_mode'+'"]').get() ? jQuery('[id*="'+prefix + '_terp_view_mode'+'"]').val() : null;
-
+		this.view_type = jQuery('[id*="'+prefix + '_terp_view_type'+'"]').get() ? jQuery('[id*="'+prefix + '_terp_view_type'+'"]').val() : null;
+		
         // if o2m
         
         this.m2m = jQuery('[id*="'+ name + '_set' + '"]');
@@ -760,15 +761,21 @@ MochiKit.Base.update(ListView.prototype, {
                 } else {
                 	jQuery('#clear_all_filters').addClass('inactive_clear');
                 }
-                
                 self.current_record = edit_inline;
-		        var __listview = openobject.dom.get(self.name).__listview;
 		        
                 if(clear) {
                     jQuery('#view_form').replaceWith(obj.view);
                     initialize_search();
                 } else {
-                    jQuery('#' + self.name).parent().replaceWith(obj.view);
+                	if(self.view_type == 'graph') {
+                		jQuery('div.graph-block').replaceWith(obj.view);
+		                return;
+                	}
+                	
+                	else {
+                		var __listview = openobject.dom.get(self.name).__listview;
+                    	jQuery('#' + self.name).parent().replaceWith(obj.view);
+                	}
                 }
                 
                 var newlist = jQuery('#' + self.name);

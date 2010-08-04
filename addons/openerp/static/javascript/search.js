@@ -214,7 +214,7 @@ function parse_filters(src, id) {
     var filter_table = getElement('filter_table');
     forEach($$('[name]', 'search_filter_data'), function(d) {
         var value;
-        if (d.type != 'checkbox' && d.name && d.value && d.name.indexOf('_terp_') == -1  && d.name != 'filter_list') {
+        if (d.type != 'checkbox' && d.name && d.value && d.name.indexOf('_terp_') == -1 && !d.name in {'filter_list': '', 'flashvars': '', 'wmode': ''}) {
             value = d.value;
             if (getNodeAttribute(d, 'kind') == 'selection') {
                 value = parseInt(d.value);
@@ -233,7 +233,6 @@ function parse_filters(src, id) {
         }
     });
     domains = serializeJSON(domains);
-
     all_domains['domains'] = domains;
     all_domains['search_context'] =  search_context;
     var selected_boxes = getElementsByTagAndClassName('input', 'grid-domain-selector');
@@ -335,9 +334,7 @@ function final_search_domain(custom_domain, all_domains, group_by_ctx) {
 		    	openobject.dom.get('_terp_context').value = in_obj.context;
 		    	openobject.dom.get('_terp_filter_domain').value = obj.filter_domain;
 		    	jQuery('#_terp_group_by_ctx').val(in_obj.group_by)
-		    	if (getElement('_terp_list') != null){
-		    		new ListView('_terp_list').reload();
-		    	}
+	    		new ListView('_terp_list').reload();
 			});	
 		}
 	});

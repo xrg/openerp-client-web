@@ -148,6 +148,7 @@ class List(SecuredController):
     @expose('json')
     def get(self, **kw):
         params, data = TinyDict.split(kw)
+        
         groupby = params.get('_terp_group_by_ctx')
         if groupby and isinstance(groupby, basestring):
             groupby = groupby.split(',')
@@ -180,8 +181,8 @@ class List(SecuredController):
             params.ids = None
             
         source = (params.source or '') and str(params.source)
-
-        params.view_type = 'form'
+        if not params.view_type == 'graph':
+            params.view_type = 'form'
         if params.get('_terp_clear'):
             params.domain, params.search_domain, params.filter_domain, params.ids = [], [], [], []
             params.search_data = {}
@@ -195,13 +196,14 @@ class List(SecuredController):
                 params.context['group_by'] = []
             params.group_by_ctx = groupby = []
         if source == '_terp_list':
-            params.view_type = 'tree'
+            if not params.view_type == 'graph':
+                params.view_type = 'tree'
             if params.search_domain:
                 params.domain += params.search_domain
                 
             if params.filter_domain:
                 params.domain += params.filter_domain
-
+        
         # default_get context
         current = params.chain_get(source)
         if current and params.source_default_get:
@@ -213,8 +215,11 @@ class List(SecuredController):
             frm = res['form']
         else:
             frm = form.Form().create_form(params)
-
-        wid = frm.screen.get_widgets_by_name(source, kind=listgrid.List)[0]
+        if params.view_type == 'tree':
+            wid = frm.screen.get_widgets_by_name(source, kind=listgrid.List)[0]
+        if params.view_type == 'graph':
+            wid = frm.screen.widget
+            
         ids = wid.ids
         count = wid.count
         

@@ -77,14 +77,13 @@ class Graph(TinyWidget):
     width = 500
     height = 350
 
-    def __init__(self, model, view=False, view_id=False, ids=[], domain=[], context={}, width=500, height=350):
+    def __init__(self, model, view=False, view_id=False, ids=[], domain=[], context={}, group_by=[], width=500, height=350):
 
         name = 'graph_%s' % (random.randint(0,10000))
         super(Graph, self).__init__(name=name, model=model, width=width, height=height)
-
+        
         ctx = rpc.session.context.copy()
         ctx.update(context or {})
-
         view = view or cache.fields_view_get(model, view_id, 'graph', ctx)
 
         dom = xml.dom.minidom.parseString(view['arch'].encode('utf-8'))
@@ -98,7 +97,7 @@ class Graph(TinyWidget):
         self.ids = ids
         if ids is None:
             self.ids = rpc.RPCProxy(model).search(domain, 0, 0, 0, ctx)
-
+        self.count = rpc.RPCProxy(model).search_count(domain, ctx)
         if chart_type == "bar":
             self.data = BarChart(model, view, view_id, ids, domain, context)
         else:
