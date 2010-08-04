@@ -301,7 +301,9 @@ class Search(TinyInputWidget):
                                                 'selectable': new_field['selectable']}
             self.fields.update(field_dict)
 
-        self.frame = self.parse(model, dom, self.fields, values)[0]
+        self.frame = self.parse(model, dom, self.fields, values)
+        if self.frame:
+            self.frame = self.frame[0]
 
         my_acts = rpc.session.execute('object', 'execute', 'ir.filters', 'get_filters', model)
 
