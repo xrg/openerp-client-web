@@ -612,10 +612,10 @@ class Hidden(TinyInputWidget):
 class Button(TinyInputWidget):
 
     template = "templates/button.mako"
-    params = ["btype", "id", "confirm", "icon", "target", "context", "url", "default_focus"]
+    params = ["btype", "id", "confirm", "icon", "target", "context", "default_focus"]
 
     visible = True
-    
+    target="current"
     def __init__(self, **attrs):
         super(Button, self).__init__(**attrs)
         
@@ -628,32 +628,6 @@ class Button(TinyInputWidget):
 
         if self.icon:
             self.icon = icons.get_icon(self.icon)
-        
-        # This is for google_map module.    
-        if not attrs.get('state') and not attrs.get('states') and attrs.get('id'):
-            ctx = rpc.session.context.copy()
-            res = rpc.RPCProxy(attrs.get('model')).read([int(attrs.get('id',0))], ['street', 'street2', 'city', 'country_id', 'state_id', 'zip'], ctx)[0]
-            
-            url="http://maps.google.com/maps?oi=map&q="
-            if res.get('street'):
-                url+=res['street'].replace(' ','+')
-            if res.get('street2'):
-                url+='+'+res['street2'].replace(' ','+')
-            if res.get('city'):
-                url+='+'+res['city'].replace(' ','+')
-            if res.get('state_id'):
-                url+='+'+res['state_id'][1].replace(' ','+')
-            if res.get('country_id'):
-                url+='+'+res['country_id'][1].replace(' ','+')
-            if res.get('zip'):
-                url+='+'+res['zip'].replace(' ','+')
-                
-            self.target = "_blank"
-            self.url = url
-        else:
-            self.target = "current"
-            self.url = ''
-            
         self.default_focus = attrs.get('default_focus', 0)
 
     def set_state(self, state):

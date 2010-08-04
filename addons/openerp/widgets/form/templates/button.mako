@@ -1,30 +1,18 @@
-% if url and target == "_blank":
-	<a ${py.attrs(attrs, context=ctx)} 
-		class="button-b"
-		id="${name}"
-		target="${target}"
-		href="${url}"
-		height="17px"
-		style="height: 17px;"
-	
-% else:
-	<a ${py.attrs(attrs, context=ctx)} 
+<a ${py.attrs(attrs, context=ctx)} 
 		class="button-b" 
 		id="${name}" 
 		href="javascript: void(0)" 
 		onclick="buttonClicked('${name}', '${btype}', '${model}', '${id}', '${confirm}', '${target}', getNodeAttribute(this, 'context'));" style="height: 18px;">
-	
-% endif
-	% if string:
-		% if icon:
-			<div class="button_wid_string" style="background-image: url(${icon}); padding-top: 3px;">${string}</div>
-		% else:
-			<div style="text-align: center; padding-top: 3px;">${string}</div>
+		% if string:
+			% if icon:
+				<div class="button_wid_string" style="background-image: url(${icon}); padding-top: 3px;">${string}</div>
+			% else:
+				<div style="text-align: center; padding-top: 3px;">${string}</div>
+			% endif
+		%else:
+			<img align="center" src="${icon}" width="16" height="16"/>
 		% endif
-	%else:
-		<img align="center" src="${icon}" width="16" height="16"/>
-	% endif
-	</a>
+</a>
 % if default_focus:
     <script type="text/javascript">
        jQuery('#${name}').focus();

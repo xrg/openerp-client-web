@@ -52,31 +52,6 @@ class Sidebar(TinyWidget):
         self.relates = toolbar.get('relate', [])
         self.attachments = []
         self.sub_menu = None
-        
-        # This is for google_map module.
-        if self.actions:
-            for act in self.actions:
-                if act.get('wiz_name') and act['wiz_name'] == 'google_map_launch':
-                    if not self.id:
-                        ids = rpc.RPCProxy(self.model).search([],0, 0, 0, self.context)
-                        search_id = ids[0]
-                    else:
-                        search_id = self.id
-                    res = rpc.RPCProxy(self.model).read([search_id], ['street', 'street2', 'city', 'country_id', 'state_id', 'zip'], self.context)[0]
-                    url="http://maps.google.com/maps?oi=map&q="
-                    if res.get('street'):
-                        url+=res['street'].replace(' ','+')
-                    if res.get('street2'):
-                        url+='+'+res['street2'].replace(' ','+')
-                    if res.get('city'):
-                        url+='+'+res['city'].replace(' ','+')
-                    if res.get('state_id'):
-                        url+='+'+res['state_id'][1].replace(' ','+')
-                    if res.get('country_id'):
-                        url+='+'+res['country_id'][1].replace(' ','+')
-                    if res.get('zip'):
-                        url+='+'+res['zip'].replace(' ','+')
-                    act.update(**{'url': url})
                     
         values = rpc.RPCProxy('ir.values')
 

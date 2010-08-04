@@ -16,7 +16,7 @@
 #     the application source code has been changed or updated or code has been
 #     added.
 #
-# -   All distributions of the software must keep source code with OEPL.
+# -   All distributions of     the software must keep source code with OEPL.
 #
 # -   All integrations to any other software must keep source code with OEPL.
 #
@@ -316,8 +316,19 @@ def execute_url(**data):
 
     if not ('://' in url or url.startswith('/')):
         raise common.message(_('Relative URLs are not supported!'))
-
-    raise tools.redirect(url)
+    
+    """ Unknown URL required to open in new window/tab.
+    """
+    
+    return """<html>
+            <head>
+                <script language="javascript" type="text/javascript">
+                    window.open('%s')
+                </script>
+            </head>
+            <body></body>
+            </html>
+            """ % (tools.redirect(url)[0][0])
 
 def get_action_type(act_id):
     """Get the action type for the given action id.
