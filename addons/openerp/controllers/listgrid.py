@@ -252,6 +252,8 @@ class List(SecuredController):
 
         name = params.button_name
         btype = params.button_type
+        
+        ctx = dict((params.context or {}), **rpc.session.context)
 
         id = params.id
         model = params.model
@@ -282,7 +284,7 @@ class List(SecuredController):
                     cherrypy.session['wizard_parent_form'] = '/form'
                     cherrypy.session['wizard_parent_params'] = params
 
-                res = actions.execute_by_id(action_id, type=action_type, model=model, id=id, ids=ids)
+                res = actions.execute_by_id(action_id, type=action_type, model=model, id=id, ids=ids, context=ctx or {})
                 if isinstance(res, dict) and res.get('type') == 'ir.actions.act_url':
                     result = res
                 elif isinstance(res, basestring):
