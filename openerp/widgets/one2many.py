@@ -115,7 +115,9 @@ class O2M(TinyInputWidget):
             id = current.id
 
         id = id or None
-
+        if current and current.ids != ids:
+            ids = current.ids
+                
         current.model = self.model
         current.id = id
         current.ids = ids
