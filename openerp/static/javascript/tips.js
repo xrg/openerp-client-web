@@ -153,7 +153,11 @@ __init__ : function(elements, options) {
             x -= x + md.w - vd.w;
             x -= 20;
         }
-
+        
+		if(x < 0) {
+			x = x * -1;
+		}
+			
         this.toolTip.style.top = y + 'px';
         this.toolTip.style.left = x + 'px';
     },
