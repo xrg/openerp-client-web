@@ -122,7 +122,7 @@ import cherrypy
 	                                                	jQuery('#${name}_new').click(function() {
 	                                                    	new ListView('${name}').create();
 	                                                        return false;
-	                                                    });       
+	                                                    });
 	                                                </script>
                                               	% else:
 	                                                <script type="text/javascript">
@@ -145,7 +145,7 @@ import cherrypy
 		                            <button id="${name}_edit_record" title="${_('Edit record(s).')}"
 		                                    onclick="editSelectedRecord(); return false;">${_('edit')}</button>
 		                        </td>
-		
+
 		        				<td class="pager-cell" style="width: 90%">
 		        					${pager.display()}
 		        				</td>
@@ -187,7 +187,7 @@ import cherrypy
 		                        % endif
 		                    </tr>
 		                </thead>
-	
+
 		                <tbody>
 	                        % if edit_inline == -1:
 	                            ${make_editors()}
@@ -229,7 +229,7 @@ import cherrypy
 		                        </tr>
 	                        % endfor
 		                </tbody>
-	
+
 		                % if field_total:
 	                    <tfoot>
 	                        <tr class="field_sum">
@@ -267,7 +267,7 @@ import cherrypy
 					<script type="text/javascript">
 						// flag is used to check sorting is active or not //
 	                    var flag = "${'_terp_sort_key' in cherrypy.request.params.keys()}";
-	
+
 			            if(flag == 'False') {
 	                        jQuery('#${name} tr.grid-row').draggable({
 	                            revert: 'valid',
@@ -278,7 +278,7 @@ import cherrypy
 	                            },
 	                            axis: 'y'
 	                        });
-	
+
 	                        jQuery('#${name} tr.grid-row').droppable({
 	                            accept: 'tr.grid-row',
 	                            hoverClass: 'grid-rowdrop',
@@ -286,15 +286,15 @@ import cherrypy
 	                                new ListView('${name}').dragRow(ui.draggable, jQuery(this), '${name}');
 	                            }
 	                        });
-	
+
 			            }
 					</script>
 				% endif
-	
+
 	            % if editors:
 	                <script type="text/javascript">
 	                	/* In editable grid, clicking on empty row will create new and on existing row will edit. */
-	
+
 	                    jQuery('table[id=${name}_grid] tr.grid-row').each(function(index, row) {
 		                    jQuery(row).click(function(event) {
 		                        if (!(event.target.tagName == 'INPUT' || event.target.tagName == 'IMG')) {
@@ -325,23 +325,23 @@ import cherrypy
 		                        var view_type = jQuery('[id=${name}/_terp_view_type]').val();
 		                        var editable = jQuery('[id=${name}/_terp_editable]').val();
 		                    }
-		                   
+
 		                    jQuery('table#${name}_grid tr.grid-row').each(function(index, row) {
 		                        jQuery(row).click(function(event) {
 		                            if (!(event.target.nodeName == 'IMG' || event.target.nodeName == 'INPUT')) {
 		                                if (view_type == 'tree') {
-		                                    do_select(jQuery(row).attr('record'));
+		                                    do_select(jQuery(row).attr('record'),'${name}');
 		                                }
 		                            }
 		                        });
 		                    });
-		
+
 		                    jQuery('table#${name}_grid tr.grid-row').each(function(index, row) {
 		                        jQuery(row).dblclick(function(event) {
 		                            if (!(event.target.className == 'checkbox grid-record-selector' || event.target.className == 'listImage')) {
 		                                if (view_type == 'tree') {
 		                                    if (editable != 'True') {
-		                                        do_select(jQuery(row).attr('record'));
+		                                        do_select(jQuery(row).attr('record'),'${name}');
 		                                    }
 		                                    else {
 		                                        editRecord(jQuery(row).attr('record'));
@@ -355,7 +355,7 @@ import cherrypy
 	            % endif
 		        </td>
 		    </tr>
-	
+
 		    % if pageable:
 			    <tr class="pagerbar">
 			        <td class="pagerbar-cell" align="right">${pager.display(pager_id=2)}</td>
