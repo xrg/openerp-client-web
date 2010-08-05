@@ -123,7 +123,7 @@ class Wizard(SecuredController):
             elif res['type']=='action':
                 import actions
                 # If configuration is done 
-                if res.get('action') and res.get('action').get('res_model') and res['state'] == 'end':
+                if res.get('action') and res.get('action').get('res_model') == 'ir.ui.menu' and res['state'] == 'end':
                     return self.end()
                 act_res = actions.execute(res['action'], **datas)
                 if act_res:
