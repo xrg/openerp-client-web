@@ -8,13 +8,13 @@
     </script>
 
     <script type="text/javascript">
-        
+
         function do_select(id, src) {
             viewRecord(id, src);
         }
-        
+
         MochiKit.DOM.addLoadEvent(function(evt) {
-        
+
             var id = parseInt(MochiKit.DOM.getElement('_terp_id').value) || null;
             var lc = parseInt(MochiKit.DOM.getElement('_terp_load_counter').value) || 1;
 
@@ -43,6 +43,14 @@
                         </td>
                         <td width="100%">${form.screen.string}
                         </td>
+                        % if form.screen.view_type in ('form'):
+	                        <td align="center" valign="middle" width="16">
+	                            <img
+	                                class="button" width="16" height="16"
+	                                title="${_('Translate this resource.')}"
+	                                src="/static/images/stock/stock_translate.png" onclick="openWindow(getURL('/translator', {_terp_model: '${form.screen.model}', _terp_id: ${form.screen.id}, _terp_context: $('_terp_context').value}));"/>
+	                        </td>
+                        % endif
                     </tr>
                 </table>
             </td>

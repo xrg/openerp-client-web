@@ -24,7 +24,7 @@
 
                     var m2m = Many2Many('${params.m2m}');
                     var ids = m2m.getValue();
-                    
+
                     if (MochiKit.Base.findIdentical(ids, id) == -1)
                         ids.push(id);
 
@@ -52,6 +52,14 @@
                         </td>
                         <td width="100%">${form.screen.string}
                         </td>
+                        % if form.screen.view_type in ('form'):
+	                        <td align="center" valign="middle" width="16">
+	                           <img
+	                                class="button" width="16" height="16"
+	                                title="${_('Translate this resource.')}"
+	                                src="/static/images/stock/stock_translate.png" onclick="openWindow(getURL('/translator', {_terp_model: '${form.screen.model}', _terp_id: ${form.screen.id}, _terp_context: $('_terp_context').value}));"/>
+	                        </td>
+                        % endif
                     </tr>
                 </table>
             </td>
