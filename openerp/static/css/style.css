@@ -504,6 +504,10 @@ div .chart_resize {
     overflow:hidden;    
 }
 
+div.graph-block {
+	z-index: 100;
+}
+
 /* ------------- End side bar ------- */
 
 /**
