@@ -47,7 +47,7 @@ from openobject.i18n import get_locale, format
 from openobject.widgets import JSLink
 
 
-class Frame(TinyInputWidget):
+class Frame(TinyWidget):
     """Frame widget layouts the widgets in a table.
     """
 
@@ -175,7 +175,7 @@ class Frame(TinyInputWidget):
             colspan -= 1
             attrs = {'class': 'label', 'title': getattr(widget, 'help', None), 'for': widget.name, 'model': getattr(widget, 'model', None), 'fname':getattr(widget, 'name', None)}
             td = [attrs, label]
-            if widget.full_name and self.label_position:
+            if getattr(widget, 'full_name', None) and self.label_position:
                 attrs['class'] = attrs.get('class', 'label') + ' search_filters search_fields'
                 label_table = td
             tr.append(td)
@@ -217,7 +217,9 @@ class Frame(TinyInputWidget):
 
         if not isinstance(widget, (Char, Frame, Float, DateTime, Integer, Selection, Notebook, Separator, NewLine, Label)):
             from openerp.widgets.search import Filter
-            if self.label_position and (not (widget.kind or widget._name)) or (isinstance(widget, Filter) and widget.string):
+            if self.label_position \
+               and (not (getattr(widget, 'kind', None) or widget._name)) \
+               or (isinstance(widget, Filter) and widget.string):
                 classes = [attrs.get('class', 'item'), 'search_filters']
                 if isinstance(widget, Filter):
                     classes.append('group_box')
@@ -228,7 +230,7 @@ class Frame(TinyInputWidget):
                 attrs['nowrap'] = 'nowrap'
 
         td = [attrs, widget]
-        if widget.full_name and self.label_position:
+        if getattr(widget, 'full_name', None) and self.label_position:
             if label_table:
                 label_table[0]['widget_item'] = td
                 label_table[0]['label_position'] = self.label_position
@@ -248,7 +250,7 @@ class Frame(TinyInputWidget):
             self._add_validator(widget)
         self.hiddens.append(widget)
 
-class Notebook(TinyInputWidget):
+class Notebook(TinyWidget):
     """Notebook widget, contains list of frames. Each frame will be displayed as a
     page of the the Notebook.
     """
@@ -283,7 +285,7 @@ class Page(Frame):
 register_widget(Page, ["page"])
 
 
-class Separator(TinyInputWidget):
+class Separator(TinyWidget):
     """Separator widget.
     """
 
@@ -300,7 +302,7 @@ class Separator(TinyInputWidget):
 register_widget(Separator, ["separator"])
 
 
-class NewLine(TinyInputWidget):
+class NewLine(TinyWidget):
     """NewLine widget just tells the Frame widget to start new row during
     layout process.
     """
@@ -309,7 +311,7 @@ class NewLine(TinyInputWidget):
 register_widget(NewLine, ["newline"])
 
 
-class Label(TinyInputWidget):
+class Label(TinyWidget):
 
     template = """
     <div style="text-align: ${align}; width: 100%;">
@@ -615,7 +617,7 @@ class Button(TinyInputWidget):
     params = ["btype", "id", "confirm", "icon", "target", "context", "default_focus"]
 
     visible = True
-    target="current"
+    target = "current"
     def __init__(self, **attrs):
         super(Button, self).__init__(**attrs)
 
@@ -637,7 +639,7 @@ class Button(TinyInputWidget):
 register_widget(Button, ["button"])
 
 
-class Group(TinyInputWidget):
+class Group(TinyWidget):
 
     template = "templates/group.mako"
     params = ["expand_grp_id", "default", "view_type"]
@@ -665,7 +667,7 @@ class FiltersGroup(Group):
 register_widget(FiltersGroup, ["filters_group"])
 
 
-class Dashbar(TinyInputWidget):
+class Dashbar(TinyWidget):
 
     template = "templates/dashbar.mako"
 
@@ -676,7 +678,7 @@ class Dashbar(TinyInputWidget):
 register_widget(Dashbar, ["dashbar"])
 
 
-class HPaned(TinyInputWidget):
+class HPaned(TinyWidget):
 
     template = """
     <table width="100%" class="hpaned">
@@ -699,7 +701,7 @@ class HPaned(TinyInputWidget):
 register_widget(HPaned, ["hpaned"])
 
 
-class VPaned(TinyInputWidget):
+class VPaned(TinyWidget):
 
     template = """
     <table width="100%" class="vpaned">
