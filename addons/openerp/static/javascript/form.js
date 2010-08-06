@@ -143,7 +143,7 @@ function switch_O2M(view_type, src) {
         }
     }
 
-    req = openobject.http.post('/openerp/form/switch_o2m', params);
+    var req = openobject.http.post('/openerp/form/switch_o2m', params);
     req.addCallback(function(xmlHttp) {
 
         var text = xmlHttp.responseText;
@@ -205,26 +205,26 @@ function validate_required(form) {
 
     var result = true;
 
-    for (var i = 0; i < elements.length; i++) {
-
-        var elem = elem2 = elements[i];
+    for(var i = 0; i < elements.length; i++) {
+        var elem = elements[i];
+        var elem2 = elem;
         var value = elem.value;
-        var kind = MochiKit.DOM.getNodeAttribute(elem, 'kind');
+        var kind = jQuery(elem).attr('kind');
 
-        if (kind == 'many2many') {
+        if(kind == 'many2many') {
             elem2 = openobject.dom.get(elem.name + '_set') || elem;
             value = value == '[]' ? '' : value;
         }
 
-        if (kind == 'many2one' || kind == 'reference') {
+        if(kind == 'many2one' || kind == 'reference') {
             elem2 = openobject.dom.get(elem.id + '_text') || elem;
         }
 
-        if (!value) {
-            addElementClass(elem2, 'errorfield');
+        if(!value) {
+            jQuery(elem2).addClass('errorfield');
             result = false;
-        } else if (hasElementClass(elem2, 'errorfield')) {
-            removeElementClass(elem2, 'errorfield');
+        } else if(jQuery(elem2).hasClass('errorfield')) {
+            jQuery(elem2).removeClass('errorfield');
         }
     }
 
@@ -246,8 +246,6 @@ function submit_form(action, src, target) {
         return;
     }
 
-    var form = document.forms['view_form'];
-    setNodeAttribute(form, 'target', '');
 
     var source = src ? (typeof(src) == "string" ? src : src.name) : null;
 
@@ -255,8 +253,12 @@ function submit_form(action, src, target) {
         _terp_source: source
     };
 
+    var form = document.forms['view_form'];
+    var $form = jQuery(form);
     if (target == "new" || target == "_blank") {
-        setNodeAttribute(form, 'target', '_blank');
+        $form.attr('target', '_blank');
+    } else {
+        $form.attr('target', '');
     }
 
     if (action == 'save_and_edit') {
@@ -270,8 +272,7 @@ function submit_form(action, src, target) {
         return;
     }
 
-    form.attributes['action'].value = action;
-    jQuery(form).submit();
+    $form.attr('action', action).submit();
 }
 
 function pager_action(action, src) {
@@ -340,7 +341,7 @@ function getFormData(extended) {
     }
 
     fields = fields.concat(filter(function(e) {
-        return getNodeAttribute(e, 'kind') == 'picture';
+        return jQuery(e).attr('kind') == 'picture';
     }, openobject.dom.select('img', parentNode)));
 
     for (var i = 0; i < fields.length; i++) {
@@ -496,19 +497,20 @@ function onChange(name) {
     var prefix = caller.name || caller.id;
     prefix = prefix.slice(0, prefix.lastIndexOf('/') + 1);
 
-    var params = getFormData(1);
     var model = is_list ? openobject.dom.get(prefix.slice(17) + '_terp_model').value : openobject.dom.get(prefix + '_terp_model').value;
     var context = is_list ? openobject.dom.get(prefix.slice(17) + '_terp_context').value : openobject.dom.get(prefix + '_terp_context').value;
     var id = is_list ? openobject.dom.get(prefix.slice(17) + '_terp_id').value : openobject.dom.get(prefix + '_terp_id').value;
 
-    params['_terp_caller'] = is_list ? caller.id.slice(17) : caller.id;
-    params['_terp_callback'] = callback;
-    params['_terp_model'] = model;
-    params['_terp_context'] = context;
-    params['_terp_value'] = caller.value;
-    params['id'] = id;
-
-    var req = openobject.http.postJSON(callback ? '/openerp/form/on_change' : '/openerp/form/change_default_get', params);
+    var req = openobject.http.postJSON(
+        callback ? '/openerp/form/on_change' : '/openerp/form/change_default_get',
+        jQuery.extend({}, getFormData(1), {
+            _terp_caller: is_list ? caller.id.slice(17) : caller.id,
+            _terp_callback: callback,
+            _terp_model: model,
+            _terp_context: context,
+            _terp_value: caller.value,
+            id: id
+    }));
 
     req.addCallback(function(obj) {
 
@@ -516,26 +518,28 @@ function onChange(name) {
             return error_popup(obj)
         }
 
-        values = obj['value'];
-        domains = obj['domain'];
+        var values = obj['value'];
+        var domains = obj['domain'];
 
         domains = domains ? domains : {};
-
+        var fld;
         for (var domain in domains) {
             fld = openobject.dom.get(prefix + domain);
             if (fld) {
-                setNodeAttribute(fld, 'domain', domains[domain]);
+                jQuery(fld).attr('domain', domains[domain]);
             }
         }
 
-        for (var k in values) {
+        var flag;
+        var value;
+        for(var k in values) {
 
             flag = false;
             fld = openobject.dom.get(prefix + k);
 
-            if (!fld) {
-            	if(k == 'progress') {
-                    jQuery('#progress_div2').css('width', values['progress'])
+            if(!fld) {
+                if(k == 'progress') {
+                    jQuery('#progress_div2').css('width', values['progress']);
                     jQuery('#progress_div3').html(values['progress'])
                 }
                 continue;
@@ -547,15 +551,15 @@ function onChange(name) {
             // prevent recursive onchange
             fld.__lock_onchange = true;
 
-            if (openobject.dom.get(prefix + k + '_id')) {
+            if(openobject.dom.get(prefix + k + '_id')) {
                 fld = openobject.dom.get(prefix + k + '_id');
                 flag = true;
             }
 
-            if ((fld.value !== value) || flag) {
+            if((fld.value !== value) || flag) {
                 fld.value = value;
 
-                var kind = getNodeAttribute(fld, 'kind');
+                var kind = jQuery(fld).attr('kind');
 
                 switch (kind) {
                     case 'picture':
@@ -572,29 +576,29 @@ function onChange(name) {
                         openobject.dom.get(prefix + k + '_checkbox_').checked = value || false;
                         break;
                     case 'text_html':
-                        if(tinyMCE.get(prefix + k)){
+                        if(tinyMCE.get(prefix + k)) {
                             tinyMCE.execInstanceCommand(prefix + k, 'mceSetContent', false, value || '')
                         }
                         break;
                     case 'selection':
-                        if (isArrayLike(value)) {
-	                        var opts = [];
-	                        opts.push(OPTION({'value': ''}));
-	
-	                        for (i in value) {
-	                            var item = value[i];
-	                            opts.push(OPTION({'value': item[0]}, item[1]));
-	                        }
-	                        MochiKit.DOM.replaceChildNodes(fld, map(function(x) {
-	                            return x;
-	                        }, opts));
-	                    }
-	                    else{
-	                       fld.value = value;
-	                    }
+                        if(isArrayLike(value)) {
+                            var opts = [];
+                            opts.push(OPTION({'value': ''}));
+
+                            for(i in value) {
+                                var item = value[i];
+                                opts.push(OPTION({'value': item[0]}, item[1]));
+                            }
+                            MochiKit.DOM.replaceChildNodes(fld, map(function(x) {
+                                return x;
+                            }, opts));
+                        }
+                        else {
+                            fld.value = value;
+                        }
                         break;
                     default:
-                        // do nothing on default
+                    // do nothing on default
                 }
 
                 MochiKit.Signal.signal(fld, 'onchange');
@@ -678,7 +682,7 @@ function eval_domain_context_request(options) {
 
             var fld = openobject.dom.get(obj.error_field) || openobject.dom.get('_terp_listfields/' + obj.error_field);
 
-            if (fld && getNodeAttribute(fld, 'kind') == 'many2one') {
+            if (fld && jQuery(fld).attr('kind') == 'many2one') {
                 fld = openobject.dom.get(fld.id + '_text');
             }
 
