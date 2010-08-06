@@ -168,7 +168,10 @@ class List(TinyWidget):
 
             ctx = rpc.session.context.copy()
             ctx.update(context)
-
+            
+            if ids and len(ids) > self.limit and self.limit != -1 :
+                ids = ids[self.offset:self.offset+self.limit]
+            
             data = proxy.read(ids, fields.keys() + ['__last_update'], ctx)
             self._update_concurrency_info(self.model, data)
             self.concurrency_info = ConcurrencyInfo(self.model, ids)
