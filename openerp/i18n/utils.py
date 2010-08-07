@@ -68,7 +68,6 @@ def get_locale(locale=None):
     try:
         from openerp import rpc
         locale = rpc.session.locale
-        if locale: return locale
     except:
         pass
     
