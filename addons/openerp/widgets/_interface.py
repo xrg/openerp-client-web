@@ -158,7 +158,6 @@ class TinyInputWidget(TinyWidget, InputWidget):
     states = None
     callback = None
     change_default = None
-    onchange = 'onChange(this)'
     kind=None
 
     def __init__(self, **attrs):

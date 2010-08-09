@@ -43,9 +43,7 @@ class ViewForm(Form):
     params = ['limit', 'offset', 'count', 'search_domain', 'search_data', 'filter_domain', 'notebook_tab']
     member_widgets = ['screen', 'search', 'sidebar']
 
-    javascript = [JSLink("openerp", "javascript/form.js", location=locations.head),
-                  JSLink("openerp", "javascript/form_state.js", location=locations.bodytop),
-                  JSLink("openerp", "javascript/m2o.js", location=locations.bodytop),
+    javascript = [JSLink("openerp", "javascript/m2o.js", location=locations.bodytop),
                   JSLink("openerp", "javascript/m2m.js", location=locations.bodytop),
                   JSLink("openerp", "javascript/o2m.js", location=locations.bodytop),
                   JSLink("openerp", "javascript/openerp/openerp.ui.textarea.js", location=locations.bodytop),

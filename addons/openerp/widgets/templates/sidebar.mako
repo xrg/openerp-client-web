@@ -65,7 +65,6 @@
           enctype="multipart/form-data">
         <label for="datas">${_("File")}:</label>
         <input type="file" id="datas" class="binary"
-               onchange="onChange(this);"
                name="datas" kind="binary" size="5"/>
     </form>
     % endif

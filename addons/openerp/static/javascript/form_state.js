@@ -372,6 +372,8 @@ function form_setVisible(container, field, visible) {
 
 jQuery(document).ready(function(){
     form_hookContextMenu();
+});
+jQuery(document).ajaxStop(function () {
     form_hookStateChange();
     form_hookAttrChange();
     form_hookOnChange();

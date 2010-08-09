@@ -483,11 +483,10 @@ function getFormParams(name) {
     return frm;
 }
 
-function onChange(name) {
-
-    var caller = openobject.dom.get(name);
-    var callback = getNodeAttribute(caller, 'callback');
-    var change_default = getNodeAttribute(caller, 'change_default');
+function onChange(caller) {
+    caller = openobject.dom.get(caller);
+    var callback = jQuery(caller).attr('callback');
+    var change_default = jQuery(caller).attr('change_default');
 
     if (!(callback || change_default) || caller.__lock_onchange) {
         return;
@@ -533,7 +532,6 @@ function onChange(name) {
         var flag;
         var value;
         for(var k in values) {
-
             flag = false;
             fld = openobject.dom.get(prefix + k);
 

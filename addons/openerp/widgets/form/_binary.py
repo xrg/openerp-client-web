@@ -58,7 +58,7 @@ class Binary(TinyInputWidget):
     def __init__(self, **attrs):
         super(Binary, self).__init__(**attrs)
         self.validator = validators.Binary()
-        self.onchange = "onChange(this); set_binary_filename(this, '%s');" % (self.filename or '')
+        self.onchange = "set_binary_filename(this, '%s');" % (self.filename or '')
 
     def set_value(self, value):
         #XXX: server bug work-arround

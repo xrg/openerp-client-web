@@ -103,3 +103,10 @@ jQuery(document).ready(function () {
     jQuery(window).trigger('hashchange');
 });
 
+// Hook onchange for all elements
+var onChange;
+jQuery(document).delegate('[callback], [onchange_default]', 'change', function () {
+    if(onChange) {
+        onChange(this);
+    }
+});
