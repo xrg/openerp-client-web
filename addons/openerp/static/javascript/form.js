@@ -329,84 +329,78 @@ function getFormData(extended) {
     var parentNode = openobject.dom.get('_terp_list') || document.forms['view_form'];
 
     var frm = {};
-    var fields = [];
 
-    var is_editable = openobject.dom.get('_terp_editable').value == 'True';
+    var is_editable = jQuery('#_terp_editable').val() == 'True';
 
+    var $fields = jQuery(parentNode).find('img[kind=picture]');
     if (is_editable) {
-        fields = openobject.dom.select("input, textarea, select", parentNode);
+        $fields = $fields.add('input, textarea, select', parentNode);
     } else {
-        fields = fields.concat(openobject.dom.select('kind=value'));
-        fields = fields.concat(openobject.dom.select('[name$=/__id]'));
+        $fields = $fields.add('[kind=value], [name$=/__id]');
     }
 
-    fields = fields.concat(filter(function(e) {
-        return jQuery(e).attr('kind') == 'picture';
-    }, openobject.dom.select('img', parentNode)));
+    $fields.each(function () {
+        var $this = jQuery(this);
+        var name = is_editable ? this.name : this.id;
 
-    for (var i = 0; i < fields.length; i++) {
-
-        var e = fields[i];
-        var n = is_editable ? e.name : e.id;
-
-        if (e.tagName.toLowerCase() != 'img' && !n) {
-            continue;
+        if (this.tagName.toLowerCase() != 'img' && !name) {
+            return;
         }
 
-        n = n.replace('_terp_listfields/', '');
+        name = name.replace('_terp_listfields/', '');
 
         // don't include _terp_ fields except _terp_id
-        if (/_terp_/.test(n) && ! /_terp_id$/.test(n)) {
-            continue;
+        if (/_terp_/.test(name) && ! /_terp_id$/.test(name)) {
+            return;
         }
 
         // work around to skip o2m values (list mode)
         var value;
-        if (n.indexOf('/__id') > 0) {
+        if (name.indexOf('/__id') > 0) {
 
-            n = n.replace('/__id', '');
+            name = name.replace('/__id', '');
 
-            if (openobject.dom.get(n + '/_terp_view_type').value == 'form') {
-                frm[n + '/__id'] = openobject.dom.get(n + '/__id').value;
-                continue;
+            if (openobject.dom.get(name + '/_terp_view_type').value == 'form') {
+                frm[name + '/__id'] = openobject.dom.get(name + '/__id').value;
+                return;
             }
             // skip if editable list's editors are visible
-            if (openobject.dom.select("[name^=_terp_listfields/" + n + "]").length) {
-                continue;
+            if (openobject.dom.select("[name^=_terp_listfields/" + name + "]").length) {
+                return;
             }
 
-            value = openobject.dom.get(n + '/_terp_ids').value;
+            value = openobject.dom.get(name + '/_terp_ids').value;
             if (extended) {
-                value = {'value': value,
+                value = serializeJSON({
+                    'value': value,
                     'type': 'one2many',
-                    'relation': openobject.dom.get(n + '/_terp_model').value};
-                value = serializeJSON(value);
+                    'relation': openobject.dom.get(name + '/_terp_model').value
+                });
             }
 
-            frm[n] = value;
-            continue;
+            frm[name] = value;
+            return;
         }
 
-        if (extended && n.indexOf('/__id') == -1) {
-
+        if (extended && name.indexOf('/__id') == -1) {
             var attrs = {};
 
-            value = (is_editable ? e.value : getNodeAttribute(e, 'value')) || "";
-            var kind = getNodeAttribute(e, 'kind') || "char";
+            value = (is_editable ? this.value : $this.attr('value')) || "";
+            var kind = $this.attr('kind') || "char";
 
             //take care of _terp_id
-            if (/_terp_id$/.test(n)) {
+            if (/_terp_id$/.test(name)) {
 
                 //  only the resource id and all O2M
-                n = n.replace(/_terp_id$/, '');
-                if (n && !openobject.dom.get(n + '__id')) {
-                    continue;
+                name = name.replace(/_terp_id$/, '');
+                if (name && !openobject.dom.get(name + '__id')) {
+                    return;
                 }
 
-                n = n + 'id';
+                name = name + 'id';
 
-                if (!openobject.dom.get(n)) {
-                    continue;
+                if (!openobject.dom.get(name)) {
+                    return;
                 }
 
                 kind = 'integer';
@@ -420,34 +414,34 @@ function getFormData(extended) {
             }
 
             if (extended && (kind == 'many2one' || kind == 'many2many')) {
-                attrs['relation'] = getNodeAttribute(e, 'relation');
+                attrs['relation'] = $this.attr('relation');
             }
 
-            if (extended > 1 && hasElementClass(e, 'requiredfield')) {
+            if (extended > 1 && $this.hasClass('requiredfield')) {
                 attrs['required'] = 1;
             }
 
-            if (kind == "picture") {
-                n = e.id;
-            }
-
-            if (kind == 'text_html') {
-                if(tinyMCE.get(e.name)){
-                    attrs['value'] =  tinyMCE.get(e.name).getContent();
-                }
-            }
-
-            if (kind == 'reference' && value) { 
-                attrs['value'] = "[" + value + ",'" + getNodeAttribute(e, 'relation') + "']";
+            switch (kind) {
+                case "picture":
+                    name = this.id;
+                    break;
+                case 'text_html':
+                    if(!tinyMCE.get(this.name)) { break; }
+                    attrs['value'] = tinyMCE.get(this.name).getContent();
+                    break;
+                case 'reference':
+                    if(!value) { break; }
+                    attrs['value'] = "[" + value + ",'" + $this.attr('relation') + "']";
+                    break;
             }
 
             // stringify the attr object
-            frm[n] = serializeJSON(attrs);
+            frm[name] = serializeJSON(attrs);
 
         } else {
-            frm[n] = e.value;
+            frm[name] = this.value;
         }
-    }
+    });
 
     return frm;
 }
