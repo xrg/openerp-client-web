@@ -38,6 +38,8 @@ from openerp.utils import TinyDict
 from interface import TinyInputWidget
 from screen import Screen
 from pager import Pager
+from sets import Set 
+
 
 class O2M(TinyInputWidget):
     """One2Many widget
@@ -115,8 +117,10 @@ class O2M(TinyInputWidget):
             id = current.id
 
         id = id or None
-        if current and current.ids != ids:
-            ids = current.ids
+        if current and current.ids:
+            new_ids = ids[:]
+            new_ids.extend(current.ids)
+            ids = list(Set(new_ids))
                 
         current.model = self.model
         current.id = id
