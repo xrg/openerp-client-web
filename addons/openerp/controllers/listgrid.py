@@ -63,10 +63,10 @@ class List(SecuredController):
             frm = TinyForm(**kw).to_python()
             data = {}
             ctx = context_with_concurrency_info(params.parent.context, params.concurrency_info)
-            
+
             source = params.source
             if source and source != '_terp_list':
-                
+
                 data = frm.chain_get(source)
 
                 if '__id' in data: data.pop('__id')
@@ -105,17 +105,17 @@ class List(SecuredController):
     def remove(self, **kw):
         params, data = TinyDict.split(kw)
         sc_ids = [i['id'] for i in cherrypy.session['terp_shortcuts']]
-                
+
         error = None
         proxy = rpc.RPCProxy(params.model)
         if params.ids:
-            
+
             if params.model == 'ir.ui.view_sc' and cherrypy.session.get('terp_shortcuts'):
                 for sc in cherrypy.session.get('terp_shortcuts'):
                     for id in params.ids:
                         if id == sc['id']:
                             cherrypy.session['terp_shortcuts'].remove(sc)
-            
+
             try:
                 ctx = context_with_concurrency_info(params.context, params.concurrency_info)
                 if isinstance(params.ids, list):
@@ -127,9 +127,9 @@ class List(SecuredController):
                     return dict(ids = ids)
             except Exception, e:
                 error = ustr(e)
-                
+
         return dict(error=error)
-    
+
     @expose()
     def multiple_groupby(self, model, name, grp_domain, group_by, view_id, view_type, parent_group, group_level, groups, no_leaf):
         grp_domain = ast.literal_eval(grp_domain)
@@ -138,34 +138,34 @@ class List(SecuredController):
         domain = grp_domain
         group_level = ast.literal_eval(group_level)
         groups = ast.literal_eval(groups)
-        
+
         context = {'group_by_no_leaf': int(no_leaf), 'group_by': group_by, '__domain': domain}
         args = {'editable': True, 'view_mode': ['tree', 'form', 'calendar', 'graph'], 'nolinks': 1, 'group_by_ctx': group_by, 'selectable': 2, 'multiple_group_by': True}
-        
+
         listgrp = listgroup.MultipleGroup(name, model, view, ids=None, domain= domain, parent_group=parent_group, group_level=group_level, groups=groups, context=context, **args)
         return listgrp.render()
-    
+
     @expose('json')
     def get(self, **kw):
         params, data = TinyDict.split(kw)
-        
+
         groupby = params.get('_terp_group_by_ctx')
         if groupby and isinstance(groupby, basestring):
             groupby = groupby.split(',')
-        
+
         if params.get('_terp_filters_context'):
             if isinstance(params.filters_context, (list, tuple)):
                 for filter_ctx in params.filters_context:
                     params.context.update(filter_ctx)
             else:
                 params.context.update(params.filters_context)
-            
-        params['_terp_group_by_ctx'] = groupby        
+
+        params['_terp_group_by_ctx'] = groupby
         if '_terp_sort_key' in params:
             proxy = rpc.RPCProxy(params.model)
             if params.search_domain is None:
                 params.search_domain = "[]"
-            
+
             ids = self.sort_by_order(params.sort_model, params.sort_key, str(params.sort_domain), str(params.search_domain) or '[]', str(params.filter_domain) or '[]', params.sort_order)
             sort_ids = ast.literal_eval(ids)
             if params.sort_model != params.model:
@@ -175,11 +175,11 @@ class List(SecuredController):
                     ids = params[parent][child].ids
                 else:
                     ids = params[params.o2m].ids
-            else:    
+            else:
                 params.ids = sort_ids['ids']
         else:
             params.ids = None
-            
+
         source = (params.source or '') and str(params.source)
         if not params.view_type == 'graph':
             params.view_type = 'form'
@@ -189,7 +189,7 @@ class List(SecuredController):
             for k,v in params.context.items():
                 if k.startswith('search_default'):
                     params.context[k] = 0
-            
+
             if params.context.get('group_by_no_leaf'):
                 params.context['group_by_no_leaf'] = 0
             if params.context.get('group_by'):
@@ -200,29 +200,30 @@ class List(SecuredController):
                 params.view_type = 'tree'
             if params.search_domain:
                 params.domain += params.search_domain
-                
+
             if params.filter_domain:
                 params.domain += params.filter_domain
-        
+
         # default_get context
         current = params.chain_get(source)
         if current and params.source_default_get:
             current.context = current.context or {}
             current.context.update(params.source_default_get)
-            
+
         if params.wiz_id:
             res = wizard.Wizard().execute(params)
             frm = res['form']
         else:
             frm = form.Form().create_form(params)
-        if params.view_type == 'tree':
-            wid = frm.screen.get_widgets_by_name(source, kind=listgrid.List)[0]
+
         if params.view_type == 'graph':
             wid = frm.screen.widget
-            
+        else:
+            wid = frm.screen.get_widgets_by_name(source, kind=listgrid.List)[0]
+
         ids = wid.ids
         count = wid.count
-        
+
         if params.edit_inline:
             wid.edit_inline = params.edit_inline
 
@@ -231,7 +232,7 @@ class List(SecuredController):
             for m, v in getattr(cherrypy.request, 'terp_concurrency_info', {}).items():
                 for i, d in v.items():
                     info['%s,%s' % (m, i)] = d
-                    
+
         active_clear = False
         if frm.search and (frm.search.listof_domain or frm.search.custom_filter_domain or frm.search.groupby):
             active_clear = True
@@ -252,7 +253,7 @@ class List(SecuredController):
 
         name = params.button_name
         btype = params.button_type
-        
+
         ctx = dict((params.context or {}), **rpc.session.context)
 
         id = params.id
@@ -270,7 +271,7 @@ class List(SecuredController):
                 ctx = params.context or {}
                 ctx.update(rpc.session.context.copy())
                 res = rpc.session.execute('object', 'execute', model, name, ids, ctx)
-                
+
                 if isinstance(res, dict) and res.get('type') == 'ir.actions.act_url':
                     result = res
 
@@ -308,7 +309,7 @@ class List(SecuredController):
             domain.extend(search_domain)
         if filter_domain:
             domain.extend(filter_domain)
-            
+
         try:
             proxy = rpc.RPCProxy(model)
             ids = proxy.search(domain, 0, 0, column+' '+order)
@@ -333,10 +334,10 @@ class List(SecuredController):
         id = params.id
         swap_id = params.swap_id
         ids = params.ids
-        
+
         proxy = rpc.RPCProxy(params.model)
         ctx = rpc.session.context.copy()
-        
+
         res_ids = []
         if ids.index(id) < ids.index(swap_id):
             if ids[:ids.index(id)]:
@@ -345,7 +346,7 @@ class List(SecuredController):
                 res_ids.extend(ids[ids.index(id)+1:ids.index(swap_id)+1])
             res_ids.append(id)
             if ids[ids.index(swap_id)+1:]:
-                res_ids.extend(ids[ids.index(swap_id)+1:]) 
+                res_ids.extend(ids[ids.index(swap_id)+1:])
         else:
             if ids[:ids.index(swap_id)]:
                 res_ids.extend(ids[:ids.index(swap_id)])
@@ -354,35 +355,35 @@ class List(SecuredController):
                 res_ids.extend(ids[ids.index(swap_id):ids.index(id)])
             if ids[ids.index(id)+1:]:
                 res_ids.extend(ids[ids.index(id)+1:])
-                
+
         res = proxy.read(res_ids, ['sequence'], ctx)
         for r in res:
-            proxy.write([r['id']], {'sequence': res_ids.index(r['id'])+1}, ctx)  
+            proxy.write([r['id']], {'sequence': res_ids.index(r['id'])+1}, ctx)
         return dict()
-    
+
     @expose('json')
     def count_sum(self, model, ids, sum_fields):
         selected_ids = ast.literal_eval(ids)
         sum_fields = sum_fields.split(",")
         ctx = rpc.session.context.copy()
-        
+
         proxy = rpc.RPCProxy(model)
         res = proxy.read(selected_ids, sum_fields, ctx)
-        
+
         total = []
         for field in sum_fields:
            total.append([])
-        
+
         for i in range(len(selected_ids)):
             for k in range(len(sum_fields)):
                 total[k].append(res[i][sum_fields[k]])
-        
+
         total_sum = []
         for s in total:
             total_sum.append(sum(s))
-            
+
         return dict(sum = total_sum)
-    
+
     @expose('json')
     def moveUp(self, **kw):
 

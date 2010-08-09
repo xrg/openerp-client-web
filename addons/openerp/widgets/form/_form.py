@@ -61,15 +61,15 @@ class Frame(TinyInputWidget):
     def __init__(self, **attrs):
 
         super(Frame, self).__init__(**attrs)
-        
+
         if attrs.get('label_position'):
             self.columns = 200
         else:
             self.columns = int(attrs.get('col', 4))
- 
+
         self.nolabel = True
         self.label_position = attrs.get('label_position')
-        
+
         self.x = 0
         self.y = 0
 
@@ -77,9 +77,9 @@ class Frame(TinyInputWidget):
         self.table = []
 
         self.add_row()
-        
+
         for child in self.children:
-            
+
             string = not child.nolabel and child.string
             rowspan = child.rowspan or 1
             colspan = child.colspan or 1
@@ -107,7 +107,7 @@ class Frame(TinyInputWidget):
 
         max_length = max([len(row) for row in self.table])
         for row in self.table:
-            
+
             sn = len([w for a, w in row if isinstance(w, (basestring, Label, Image))])
             sw = 5                                  # label & image width
             ww = 100.00 - sw * sn                   # remaining width
@@ -133,7 +133,7 @@ class Frame(TinyInputWidget):
                     a['width'] = '2%'
                 else:
                     a['width'] = '%d%%' % (w)
-                    
+
     def add_row(self):
 
         if len(self.table) and len(self.table[-1]) == 0:
@@ -160,7 +160,7 @@ class Frame(TinyInputWidget):
     def add(self, widget, label=None, rowspan=1, colspan=1):
         if colspan > self.columns:
             colspan = self.columns
-        
+
         a = label and 1 or 0
 
         if colspan + self.x + a > self.columns:
@@ -214,7 +214,7 @@ class Frame(TinyInputWidget):
         if getattr(widget, 'attributes', False):
             attrs['attrs'] = str(widget.attributes)
             attrs['widget'] = widget.name
-            
+
         if not isinstance(widget, (Char, Frame, Float, DateTime, Integer, Selection, Notebook, Separator, NewLine, Label)):
             from openerp.widgets.search import Filter
             if self.label_position and (not (widget.kind or widget._name)) or (isinstance(widget, Filter) and widget.string):
@@ -226,7 +226,7 @@ class Frame(TinyInputWidget):
 
                 attrs['class'] = ' '.join(classes)
                 attrs['nowrap'] = 'nowrap'
-            
+
         td = [attrs, widget]
         if widget.full_name and self.label_position:
             if label_table:
@@ -240,7 +240,7 @@ class Frame(TinyInputWidget):
             if colspan < 2:
                 for prev_tr in self.table:
                     if len(prev_tr) > 2:
-                        attrs['colspan'] = len(prev_tr) 
+                        attrs['colspan'] = len(prev_tr)
         self.x += colspan + a
 
     def add_hidden(self, widget):
@@ -514,7 +514,7 @@ class Selection(TinyInputWidget):
             d.setdefault('css_classes', []).append('selection_search')
 
     def set_value(self, value):
-        
+
         if not value:
             value=''
 
@@ -618,10 +618,10 @@ class Button(TinyInputWidget):
     target="current"
     def __init__(self, **attrs):
         super(Button, self).__init__(**attrs)
-        
+
         # remove mnemonic
         self.string = re.sub('_(?!_)', '', self.string or '')
-        
+
         self.btype = attrs.get('special', attrs.get('type', 'workflow'))
         self.context = attrs.get("context", {})
         self.nolabel = True
@@ -650,11 +650,11 @@ class Group(TinyInputWidget):
         self.frame = Frame(**attrs)
         self.nolabel = True
         self.view_type = cherrypy.request.terp_params.get('_terp_view_type')
-        
+
         if attrs.get('group_by_ctx'):
             self.default = 1
         self.expand_grp_id = 'expand_grp_%s' % (random.randint(0,10000))
-        
+
 register_widget(Group, ["group"])
 
 class FiltersGroup(Group):
@@ -799,7 +799,10 @@ class Form(TinyInputWidget):
             values.update(view['datas'])
 
         elif not self.nodefault: # default
-            defaults = proxy.default_get(fields.keys(), ctx)
+            try:
+                defaults = proxy.default_get(fields.keys(), ctx)
+            except:
+                pass
 
         elif 'state' in fields: # if nodefault and state get state only
             defaults = proxy.default_get(['state'], ctx)
@@ -891,7 +894,7 @@ class Form(TinyInputWidget):
                 n = self.parse(prefix=prefix, root=node, fields=fields, values=values)
                 views.append(Page(children=n, **attrs))
 
-            elif node.localName=='group':                
+            elif node.localName=='group':
                 n = self.parse(prefix=prefix, root=node, fields=fields, values=values)
                 views.append(Group(children=n, **attrs))
 
