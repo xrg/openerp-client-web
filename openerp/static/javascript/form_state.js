@@ -232,7 +232,7 @@ var form_evalExpr = function(prefix, expr) {
         
         var op = ex[1];
         var val = ex[2];
-        var elem_value = elem.value || getNodeAttribute(elem, 'value') || elem.innerHTML;
+        var elem_value = elem.value || getNodeAttribute(elem, 'value');
         
         switch (op.toLowerCase()) {
             
