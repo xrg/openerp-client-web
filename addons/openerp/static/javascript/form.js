@@ -535,14 +535,6 @@ function onChange(caller) {
             flag = false;
             fld = openobject.dom.get(prefix + k);
 
-            if(!fld) {
-                if(k == 'progress') {
-                    jQuery('#progress_div2').css('width', values['progress']);
-                    jQuery('#progress_div3').html(values['progress'])
-                }
-                continue;
-            }
-
             value = values[k];
             value = value === false || value === null ? '' : value;
 
@@ -594,6 +586,12 @@ function onChange(caller) {
                         else {
                             fld.value = value;
                         }
+                        break;
+                    case 'progress':
+                        var progress = values['progress'].toString() + '%';
+                        jQuery('#progress').text(progress).append(
+                            jQuery('<div>', {'width': progress})
+                        );
                         break;
                     default:
                     // do nothing on default
