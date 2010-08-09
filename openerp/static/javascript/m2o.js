@@ -161,7 +161,7 @@ ManyToOne.prototype.on_change = function(evt){
     if (this.callback) {
         onChange(this.name);
     }
-
+	form_hookAttrChange();
     this.change_icon();
 }
 
