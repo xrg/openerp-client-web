@@ -72,7 +72,7 @@ except:
 	                    <li class="first last"><a href="javascript: void(0);">${_("Edit Preferences")}</a></li>
 	                </ul>
 	            </li>
-	            <li><a href="javascript: void(0);" class="info">${_("About")}About</a>
+	            <li><a href="javascript: void(0);" class="info">${_("About")}</a>
 	                <ul>
 	                    <li class="first last"><a href="javascript: void(0);">${_("About")}</a></li>
 	                </ul>
