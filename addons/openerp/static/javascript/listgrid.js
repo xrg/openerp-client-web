@@ -239,7 +239,6 @@ MochiKit.Base.update(ListView.prototype, {
         var self = this;
         if(jQuery(field).find('img').length) {
         	var $field = jQuery(field).find('img')
-        	console.log('img id', $field.attr('id'))
         	if($field.attr('id') == 'asc') {
 	        	this.sort_key_order = 'desc';
         	}
