@@ -27,7 +27,6 @@
 //
 ////////////////////////////////////////////////////////////////////////////////
 
-
 var ManyToOne = function(name) {
     var elem = openobject.dom.get(name);
     if(elem._m2o) {
@@ -113,14 +112,14 @@ ManyToOne.prototype.__init__ = function(name) {
         }
         bindMethods(this);
     }
-}
+};
 
 ManyToOne.prototype.gotFocus = function(evt) {
     this.hasFocus = true;
     if(!this.minChars) this.on_keyup(evt);
 };
 
-ManyToOne.prototype.lostFocus = function(evt) {
+ManyToOne.prototype.lostFocus = function() {
     this.hasFocus = false;
     if(!this.sugestionBoxMouseOver || this.lastKey == 9) {
         this.lastKey = null;
@@ -128,28 +127,27 @@ ManyToOne.prototype.lostFocus = function(evt) {
     }
 };
 
-ManyToOne.prototype.select = function(evt) {
+ManyToOne.prototype.select = function() {
     if(this.field.disabled) {
         return;
     }
     if(this.field_class.indexOf('readonlyfield') == -1) {
         this.get_matched();
     }
-}
+};
 
-ManyToOne.prototype.open_record = function(evt) {
+ManyToOne.prototype.open_record = function() {
     this.field.value = this.field.value || getNodeAttribute(this.field, 'value');
     if(this.field.value) {
         this.open(this.field.value);
     }
-}
+};
 
-ManyToOne.prototype.create = function(evt) {
+ManyToOne.prototype.create = function() {
     this.open();
-}
+};
 
 ManyToOne.prototype.open = function(id) {
-
     var domain = getNodeAttribute(this.field, 'domain');
     var context = getNodeAttribute(this.field, 'context');
 
@@ -160,7 +158,7 @@ ManyToOne.prototype.open = function(id) {
     if(editable == 'True') {
         // To open popup form in readonly mode.
         if(this.field_class.indexOf('readonlyfield') != -1) {
-            var editable = 'False';
+            editable = 'False';
         }
     }
     var req = eval_domain_context_request({source: source, domain: domain, context: context});
@@ -173,8 +171,7 @@ ManyToOne.prototype.open = function(id) {
     });
 };
 
-ManyToOne.prototype.get_text = function(evt) {
-
+ManyToOne.prototype.get_text = function() {
     if(this.text && this.field.value == '') {
         this.text.value = '';
     }
@@ -190,7 +187,6 @@ ManyToOne.prototype.get_text = function(evt) {
 };
 
 ManyToOne.prototype.on_change = function(evt) {
-
     this.get_text(evt);
 
     if(this.callback) {
@@ -209,7 +205,7 @@ ManyToOne.prototype.on_change_text = function(evt) {
     }
 };
 
-ManyToOne.prototype.on_reference_changed = function(evt) {
+ManyToOne.prototype.on_reference_changed = function() {
     this.text.value = '';
     this.field.value = '';
 
@@ -221,7 +217,7 @@ ManyToOne.prototype.on_reference_changed = function(evt) {
     this.change_icon();
 };
 
-ManyToOne.prototype.change_icon = function(evt) {
+ManyToOne.prototype.change_icon = function() {
     if(!this.field.value && this.open_img) {
         this.open_img.style.cursor = '';
     }
@@ -237,7 +233,7 @@ ManyToOne.prototype.change_icon = function(evt) {
     }
 };
 
-ManyToOne.prototype.on_keyup = function(evt) {
+ManyToOne.prototype.on_keyup = function() {
     // Stop processing if a special key has been pressed. Or if the last search requested the same string
     if(this.specialKeyPressed || (this.text.value == this.lastSearch)) return false;
 
@@ -261,7 +257,7 @@ ManyToOne.prototype.on_keyup = function(evt) {
 };
 
 ManyToOne.prototype.on_keydown = function(evt) {
-    event = evt.event() || window.evt.event();
+    var event = evt.event() || window.evt.event();
 
     var key = event.keyCode || event.which;
     this.lastKey = key;
@@ -270,11 +266,11 @@ ManyToOne.prototype.on_keydown = function(evt) {
 
     if(evt.src()) {
         if(evt.target().tagName == 'INPUT') {
+            var w;
             //IMP: jQuery('#this.name_select') will not work because of '/' in id.
             if(jQuery('#search_filter_data').is(':visible')) {
                 w = jQuery(evt.src()).width()
-            }
-            else {
+            } else {
                 w = jQuery(evt.src()).width() + jQuery('[id="' + this.name + '_select' + '"]').width();
             }
             jQuery('div.autoTextResults[id$="' + this.name + '"]').width(w)
@@ -374,7 +370,6 @@ ManyToOne.prototype.on_keydown = function(evt) {
 };
 
 ManyToOne.prototype.on_keypress = function(evt) {
-
     if(evt.event().keyCode == 9 || evt.modifier().ctrl) {
         return;
     }
@@ -401,7 +396,7 @@ ManyToOne.prototype.get_matched = function() {
     var req = eval_domain_context_request({source: this.name, domain: domain, context: context});
 
     req.addCallback(function(obj) {
-        text = m2o.field.value ? '' : m2o.text.value;
+        var text = m2o.field.value ? '' : m2o.text.value;
 
         var req2 = openobject.http.postJSON('/openerp/search/get_matched', {model: m2o.relation, text: text,
             _terp_domain: obj.domain,
@@ -412,7 +407,7 @@ ManyToOne.prototype.get_matched = function() {
                 return alert(obj2.error);
             }
             if(text && obj2.values.length == 1) {
-                val = obj2.values[0];
+                var val = obj2.values[0];
                 m2o.field.value = val[0];
                 m2o.text.value = val[1];
                 m2o.on_change();
@@ -458,16 +453,14 @@ ManyToOne.prototype.doDelayedRequest = function () {
         return false;
     }
 
-    // Get what we are searching for    
-    var element = {}
+    // Get what we are searching for
     this.processCount++;
 
     this.lastSearch = this.text.value;
-    element['text'] = val
-    element['model'] = this.relation;
-
-    var d = loadJSONDoc('/openerp/search/get_matched' + "?" + queryString(element));
-    d.addCallback(this.displayResults);
+    loadJSONDoc('/openerp/search/get_matched' + "?" + queryString({
+        text: val,
+        model: this.relation
+    })).addCallback(this.displayResults);
     return true;
 };
 
@@ -482,8 +475,7 @@ ManyToOne.prototype.displayResults = function(result) {
         var fancyTable = TABLE({"class": "autoTextTable","name": "autoCompleteTable" + this.name,
             "id": "autoCompleteTable" + this.name}, null);
         var fancyTableBody = TBODY(null, null);
-        var textItems = result;
-        this.numResultRows = textItems.values.length;
+        this.numResultRows = result.values.length;
 
         if(this.onlySuggest)
             this.selectedResultRow = null;
@@ -491,21 +483,18 @@ ManyToOne.prototype.displayResults = function(result) {
             this.selectedResultRow = 0;
 
         this.isShowingResults = false;
-        this.hasHiddenValue = isArrayLike(textItems[0]);
+        this.hasHiddenValue = isArrayLike(result[0]);
 
-        for(i = 0; i <= (textItems.values.length - 1); i++) {
-            var currentItem = textItems.values[i][1];
-            var currentItemValue = textItems.values[i][1];
-            if(this.hasHiddenValue) {
-                currentItem = currentItem;
-                currentItemValue = currentItemValue;
-            }
+        for(var i = 0; i <= (result.values.length - 1); i++) {
+            var currentItem = result.values[i][1];
+            var currentItemValue = result.values[i][1];
+
             var currentRow = TR({"class": "autoTextNormalRow", "name": "autoComplete" + this.name + "_" + i, "id": "autoComplete" + this.name + "_" + i},
-                    TD({'id':textItems.values[i][0]},
-                            createDOM("nobr", null, SPAN({'id':textItems.values[i][0], 'style':'text-transform:none;', 'title': currentItem}, currentItem))));
+                    TD({'id':result.values[i][0]},
+                            createDOM("nobr", null, SPAN({'id':result.values[i][0], 'style':'text-transform:none;', 'title': currentItem}, currentItem))));
 
             if(this.hasHiddenValue)
-                appendChildNodes(currentRow, TD({"class": "autoTextHidden", 'id':textItems.values[i][0]}, SPAN({'id':textItems.values[i][0]}, currentItemValue)));
+                appendChildNodes(currentRow, TD({"class": "autoTextHidden", 'id':result.values[i][0]}, SPAN({'id':result.values[i][0]}, currentItemValue)));
 
             connect(currentRow, 'onmouseover', this, this.getMouseover);
             connect(currentRow, 'onclick', this, this.getOnclick);
