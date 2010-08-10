@@ -70,11 +70,11 @@
                                 % if maintenance['status'] == 'none':
                                 <pre>
 
-<b>${_("You do not have a valid Open ERP maintenance contract !")}</b><br/><br/>
-${_("""If you are using Open ERP in production, it is recommended to have
+<b>${_("You do not have a valid OpenERP maintenance contract !")}</b><br/><br/>
+${_("""If you are using OpenERP in production, it is recommended to have
 a maintenance program.
 
-The Open ERP maintenance contract provides you with bug fix guarantees and an
+The OpenERP maintenance contract provides you with bug fix guarantees and an
 automatic migration system so that we can start working on your problems within a few
 hours.
 
@@ -94,13 +94,13 @@ ${MAINTENANCE_CONTRACTS_LINK|n}
                                 <pre>
 
 ${_("""Your maintenance contract does not cover all modules installed in your system !
-If you are using Open ERP in production, it is highly suggested to upgrade your
+If you are using OpenERP in production, it is highly suggested to upgrade your
 contract.
 
 If you have developed your own modules or installed third party module, we
 can provide you an additional maintenance contract for these modules. After
 having reviewed your modules, our quality team will ensure they will migrate
-automatically for all future stable versions of Open ERP at no extra cost.
+automatically for all future stable versions of OpenERP at no extra cost.
 
 Here is the list of modules not covered by your maintenance contract:""")}
 

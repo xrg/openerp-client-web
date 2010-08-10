@@ -10,7 +10,7 @@
 // It's based on Mozilla Public License Version (MPL) 1.1 with following 
 // restrictions:
 //
-// -   All names, links and logos of Tiny, Open ERP and Axelor must be 
+// -   All names, links and logos of Tiny, OpenERP and Axelor must be 
 //     kept as in original distribution without any changes in all software 
 //     screens, especially in start-up page and the software header, even if 
 //     the application source code has been changed or updated or code has been 
@@ -1110,7 +1110,7 @@ function error_popup(obj) {
     try {
         var error_window = window.open("", "error", "status=1, scrollbars=yes, width=550, height=400");
         error_window.document.write(obj.error);
-        error_window.document.title += "Open ERP - Error"
+        error_window.document.title += "OpenERP - Error"
         error_window.document.close();
     } catch(e) {
         alert(e)
