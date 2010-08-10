@@ -264,7 +264,10 @@ class ICalendar(TinyWidget):
         result = proxy.read(ids, self.fields.keys()+['__last_update'], ctx)
         self._update_concurrency_info(self.model, result)
         self.concurrency_info = ConcurrencyInfo(self.model, ids)
-
+        
+        if not self.color_values:
+            self.colors = {}
+        
         if self.color_field:
 
             for evt in result:
