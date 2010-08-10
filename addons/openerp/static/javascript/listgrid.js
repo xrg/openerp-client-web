@@ -235,26 +235,21 @@ MochiKit.Base.update(ListView.prototype, {
 // pagination & reordering
 MochiKit.Base.update(ListView.prototype, {
 	
-    sort_by_order: function(column) {
+    sort_by_order: function(column, field) {
         var self = this;
-        
-        if(this.sort_key == column) {
-        	if(this.sort_key_order == 'asc') {
-        		order = 'desc';
+        if(jQuery(field).find('img').length) {
+        	var $field = jQuery(field).find('img')
+        	console.log('img id', $field.attr('id'))
+        	if($field.attr('id') == 'asc') {
+	        	this.sort_key_order = 'desc';
         	}
         	else {
-        		order = 'asc';
+        		this.sort_key_order = 'asc';
         	}
-        }	
-    	else {
-    		this.sort_key_order = null;
-    		if(this.sort_key_order == 'asc') {
-        		order = 'desc';
-        	}
-        	else {
-        		order = 'asc';
-        	}
-    	}
+        }
+        else {
+        	this.sort_key_order = 'asc';
+        }
         
         if(jQuery('input[id$="' + this.name + '/_terp_ids'+'"]').get().length > 0) {
         	ids = jQuery('input[id$="' + this.name + '/_terp_ids' + '"]').val();
@@ -274,7 +269,7 @@ MochiKit.Base.update(ListView.prototype, {
         if(eval(ids).length > 0) {
         	jQuery.post(
     			'/openerp/listgrid/sort_by_order',
-    			{'model': this.model, 'column': column, 'domain': domain, 'search_domain': search_domain, 'filter_domain': filter_domain, 'order': order},
+    			{'model': this.model, 'column': column, 'domain': domain, 'search_domain': search_domain, 'filter_domain': filter_domain, 'order': this.sort_key_order},
     			function(obj) {
     				if(obj.error) {
     					alert('error' + obj.error)
@@ -290,7 +285,6 @@ MochiKit.Base.update(ListView.prototype, {
     			"json"
         	);
         	this.sort_key = column;
-        	this.sort_key_order = order;
         }
     },
 
@@ -828,10 +822,10 @@ MochiKit.Base.update(ListView.prototype, {
                 	var detail = jQuery(th).html();
                 	
 				    if(self.sort_key_order == 'asc') {
-					    jQuery(th).html(detail + '&nbsp; <img src="/openerp/static/images/listgrid/arrow_down.gif" style="vertical-align: middle;"/>');
+					    jQuery(th).html(detail + '&nbsp; <img src="/openerp/static/images/listgrid/arrow_down.gif" id="asc" style="vertical-align: middle;"/>');
 				    }
 				    else { 
-					    jQuery(th).html(detail + '&nbsp; <img src="/openerp/static/images/listgrid/arrow_up.gif" style="vertical-align: middle;"/>');
+					    jQuery(th).html(detail + '&nbsp; <img src="/openerp/static/images/listgrid/arrow_up.gif" id="desc" style="vertical-align: middle;"/>');
 				    }		
 			    }
             }

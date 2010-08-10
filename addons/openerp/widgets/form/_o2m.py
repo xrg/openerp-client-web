@@ -121,10 +121,10 @@ class O2M(TinyInputWidget):
             id = current.id
 
         id = id or None
-
-        if current and current.ids:
-            ids = list(set(ids + current.ids))
-
+        if not '_terp_sort_domain' in params:
+            if current and current.ids:
+                ids = list(set(ids + current.ids))
+                
         current.model = self.model
         current.id = id
         current.ids = ids
