@@ -32,7 +32,6 @@ import cherrypy
 from openerp.utils import TinyDict, expr_eval
 from openerp.widgets import TinyInputWidget, register_widget
 from openerp.widgets.screen import Screen
-from sets import Set
 
 __all__ = ["O2M"]
 
@@ -122,12 +121,10 @@ class O2M(TinyInputWidget):
             id = current.id
 
         id = id or None
-        
+
         if current and current.ids:
-            new_ids = ids[:]
-            new_ids.extend(current.ids)
-            ids = list(Set(new_ids))
-        
+            ids = list(set(ids + current.ids))
+
         current.model = self.model
         current.id = id
         current.ids = ids
