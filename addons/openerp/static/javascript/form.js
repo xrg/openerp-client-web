@@ -307,13 +307,14 @@ function buttonClicked(name, btype, model, id, sure, target) {
      });
 }
 
+/**
+ * Transpose status of a clicked boolean widget (checkbox) to the associated hidden input
+ * @param name the identifier of the hidden input (postfixed by `_checkbox_` on the checkbox)
+ */
 function onBooleanClicked(name) {
-
-    var source = openobject.dom.get(name + '_checkbox_');
-    var target = openobject.dom.get(name);
-
-    target.value = source.checked ? 1 : '';
-    MochiKit.Signal.signal(target, 'onchange');
+    var $source = jQuery(openobject.dom.get(name + '_checkbox_'));
+    var $target = jQuery(openobject.dom.get(name));
+    $target.val($source.is(':checked') ? 1 : '').change();
 }
 
 /**
