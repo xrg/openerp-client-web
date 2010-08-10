@@ -376,5 +376,5 @@ jQuery(document).ready(function(){
 jQuery(document).ajaxStop(function () {
     form_hookStateChange();
     form_hookAttrChange();
-    form_hookOnChange();
+    //form_hookOnChange();
 });
