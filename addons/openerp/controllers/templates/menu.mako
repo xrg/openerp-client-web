@@ -89,7 +89,7 @@
                     </script>
                 </div>
             </div>
-            <div class="open-close-menu hide_tools"></div>
+            <div id="toggle_accordion" class="open-close-menu hide_tools"></div>
             <div id="primary">
                 <div class="wrap">
                     <div id="appContent"></div>
