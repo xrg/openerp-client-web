@@ -155,7 +155,7 @@ hr {
     text-shadow: #333 0 1px 0;
 }
 
-#top, p#logo {
+#top, p#cmp_logo {
     height: 65px;
 }
 
@@ -168,7 +168,7 @@ hr {
     padding: 0;
 }
 
-p#logo {
+p#cmp_logo {
     float: left;
     width: 174px;
     margin: 0 10px 0 0;

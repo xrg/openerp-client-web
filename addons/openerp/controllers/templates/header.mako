@@ -36,7 +36,7 @@ except:
         logged = False
 %>
 <div id="top">
-    <p id="logo">
+    <p id="cmp_logo">
         <a href="http://www.openerp.com" target="_blank">
             <img alt="OpenERP" id="company_logo" src="/openerp/static/images/openerp_small.png"/>
         </a>
