@@ -99,7 +99,8 @@ function form_onStateChange(container, widget, states, evt) {
     var value = typeof(src.value) == "undefined" ? getNodeAttribute(src, 'value') || src.innerHTML : src.value;
 
     if (MochiKit.Base.isArrayLike(states)) {
-        return form_setVisible(container, widget, findIdentical(states, value) > -1);
+        form_setVisible(container, widget, findIdentical(states, value) > -1);
+        return;
     }
 
     var has_readonly = false;
@@ -187,7 +188,7 @@ function form_hookAttrChange() {
     }
 }
 
-function form_onAttrChange(container, widgetName, attr, expr, evt) {
+function form_onAttrChange(container, widgetName, attr, expr) {
     var prefix = widgetName.slice(0, widgetName.lastIndexOf('/') + 1);
     var widget = openobject.dom.get(widgetName);
 
@@ -278,7 +279,8 @@ function form_setReadonly(container, fieldName, readonly) {
             openobject.dom.get(field.id + '_id') && 
             MochiKit.DOM.getElement(field.id + '_set') &&
             MochiKit.DOM.getNodeAttribute(field.id + '_id', 'kind') == "many2many") {
-        return Many2Many(field.id).setReadonly(readonly);
+         Many2Many(field.id).setReadonly(readonly)
+        return;
     }
     
     var type = MochiKit.DOM.getNodeAttribute(field, 'type');
@@ -292,12 +294,13 @@ function form_setReadonly(container, fieldName, readonly) {
     }
     
     if (field.type == 'hidden' && kind == 'many2one') {
-        //form_setReadonly(container, getElement(field.name + '_text'), readonly);
-        return ManyToOne(field).setReadonly(readonly);
+        ManyToOne(field).setReadonly(readonly);
+        return
     }
     
     if (!kind && MochiKit.DOM.getElement(field.id + '_btn_') || MochiKit.DOM.getElement('_o2m_'+field.id)) { // one2many
-        return new One2Many(field.id).setReadonly(readonly);
+        new One2Many(field.id).setReadonly(readonly);
+        return
     }
     
     if (kind == 'date' || kind == 'datetime' || kind == 'time') {
@@ -330,7 +333,8 @@ function form_setVisible(container, field, visible) {
         var nb = container.parentNode.parentNode.notebook;
         
         if (!nb)  {
-           return MochiKit.Async.callLater(0, form_setVisible, container, field, visible);
+           MochiKit.Async.callLater(0, form_setVisible, container, field, visible);
+           return;
         }
         
         var i = findIdentical(nb.pages, container);
