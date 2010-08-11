@@ -39,8 +39,8 @@ function form_hookOnChange() {
         prefix = openobject.dom.get('_terp_o2m').value + '/';
     }catch(e){}
 
-    var view_type = openobject.dom.get('_terp_view_type').value;
-    var editable = openobject.dom.get('_terp_editable').value;
+    var view_type = jQuery('#_terp_view_type').val();
+    var editable = jQuery('#_terp_editable').val();
 
     if (!(view_type == 'form' || editable == 'True')) {
         return;
