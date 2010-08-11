@@ -329,23 +329,8 @@ import cherrypy
 		                    jQuery('table#${name}_grid tr.grid-row').each(function(index, row) {
 		                        jQuery(row).click(function(event) {
 		                            if (!(event.target.nodeName == 'IMG' || event.target.nodeName == 'INPUT')) {
-		                                if (view_type == 'tree') {
+		                                if (view_type == 'tree' && jQuery(row).attr('record')) {
 		                                    do_select(jQuery(row).attr('record'),'${name}');
-		                                }
-		                            }
-		                        });
-		                    });
-
-		                    jQuery('table#${name}_grid tr.grid-row').each(function(index, row) {
-		                        jQuery(row).dblclick(function(event) {
-		                            if (!(event.target.className == 'checkbox grid-record-selector' || event.target.className == 'listImage')) {
-		                                if (view_type == 'tree') {
-		                                    if (editable != 'True') {
-		                                        do_select(jQuery(row).attr('record'),'${name}');
-		                                    }
-		                                    else {
-		                                        editRecord(jQuery(row).attr('record'));
-		                                    }
 		                                }
 		                            }
 		                        });
