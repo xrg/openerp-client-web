@@ -315,27 +315,28 @@ import cherrypy
 	                    });
 	                </script>
 	            % else:
-	                % if not dashboard:
-		                <script type="text/javascript">
-		                    if('${name}' == '_terp_list') {
-		                        var view_type = jQuery('#_terp_view_type').val();
-		                        var editable = jQuery('#_terp_editable').val();
-		                    }
-		                    else {
-		                        var view_type = jQuery('[id=${name}/_terp_view_type]').val();
-		                        var editable = jQuery('[id=${name}/_terp_editable]').val();
-		                    }
+                    % if not dashboard:
+                        <script type="text/javascript">
+                            var view_type, editable;
+                            if('${name}' == '_terp_list') {
+                                view_type = jQuery('#_terp_view_type').val();
+                                editable = jQuery('#_terp_editable').val();
+                            } else {
+                                view_type = jQuery('[id=${name}/_terp_view_type]').val();
+                                editable = jQuery('[id=${name}/_terp_editable]').val();
+                            }
 
-		                    jQuery('table#${name}_grid tr.grid-row').each(function(index, row) {
-		                        jQuery(row).click(function(event) {
-		                            if (!(event.target.nodeName == 'IMG' || event.target.nodeName == 'INPUT')) {
-		                                if (view_type == 'tree' && jQuery(row).attr('record')) {
-		                                    do_select(jQuery(row).attr('record'),'${name}');
-		                                }
-		                            }
-		                        });
-		                    });
-		                </script>
+                            jQuery('table#${name}_grid tr.grid-row').each(function() {
+                                var $this = jQuery(this);
+                                $this.click(function(event) {
+                                    if(!(jQuery(event.target).is('img, input'))) {
+                                        if(view_type == 'tree' && $this.attr('record')) {
+                                            do_select($this.attr('record'), '${name}');
+                                        }
+                                    }
+                                });
+                            });
+                        </script>
                     % endif
 	            % endif
 		        </td>
