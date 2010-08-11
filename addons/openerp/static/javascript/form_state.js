@@ -34,13 +34,11 @@ function form_hookContextMenu(){
 }
 
 function form_hookOnChange() {
-
     var prefix = '';
     try {
         prefix = openobject.dom.get('_terp_o2m').value + '/';
     }catch(e){}
-    
-    var id = openobject.dom.get(prefix + '_terp_id').value;
+
     var view_type = openobject.dom.get('_terp_view_type').value;
     var editable = openobject.dom.get('_terp_editable').value;
 
@@ -49,11 +47,7 @@ function form_hookOnChange() {
     }
 
     var fields = getFormData();
-    //TODO: remove onchange="${onchange}" from all templates and register onChange here
-
-    // signal fake onchange events for default value in new record form
-    id = parseInt(id) || 0;
-    if (id) return;
+    if (parseInt(openobject.dom.get(prefix + '_terp_id').value, 10) || 0) return;
 
     for(var name in fields) {
         var field = openobject.dom.get(name);
@@ -68,35 +62,27 @@ function form_hookOnChange() {
 }
 
 function form_hookStateChange() {
-    
-    var items = [];
-    
-    items = items.concat(openobject.dom.select('td.item'));
-    items = items.concat(openobject.dom.select('td.label'));
-    items = items.concat(openobject.dom.select('div.tabbertab'));
-    
-    items = MochiKit.Base.filter(function(e){
-        return getNodeAttribute(e, 'states');
-    }, items);
-
     var fields = {};
 
-    forEach(items, function(e) {
-        var widget = getNodeAttribute(e, 'widget');
-        var states = getNodeAttribute(e, 'states');
+    jQuery('td.item, td.label, div.tabbertab').filter(function(){
+        return jQuery(this).attr('states');
+    }).each(function() {
+        var $this = jQuery(this);
+        var widget = $this.attr('widget');
         var prefix = widget.slice(0, widget.lastIndexOf('/')+1) || '';
 
-        // conver to JS
-        states = states.replace(/u'/g, "'");
-        states = states.replace(/True/g, '1');
-        states = states.replace(/False/g, '0');
-        states = eval('(' + states + ')');
+        // convert states from Python serialization to JS/JSON
+        var states = eval(
+                '(' + $this.attr('states')
+                      .replace(/u'/g, "'")
+                      .replace(/True/g, '1')
+                      .replace(/False/g, '0') + ')');
 
         var state = openobject.dom.get(prefix + 'state') || openobject.dom.get(prefix + 'x_state');
         if (state) {
             fields[state.id] = state;
-            MochiKit.Signal.connect(state, 'onStateChange', MochiKit.Base.partial(form_onStateChange, e, widget, states));
-            MochiKit.Signal.connect(state, 'onchange', function(evt){
+            MochiKit.Signal.connect(state, 'onStateChange', MochiKit.Base.partial(form_onStateChange, this, widget, states));
+            MochiKit.Signal.connect(state, 'onchange', function (){
                 MochiKit.Signal.signal(field, 'onStateChange');
             });
         }
@@ -372,9 +358,7 @@ function form_setVisible(container, field, visible) {
 
 jQuery(document).ready(function(){
     form_hookContextMenu();
-});
-jQuery(document).ajaxStop(function () {
     form_hookStateChange();
     form_hookAttrChange();
-    //form_hookOnChange();
+    form_hookOnChange();
 });
