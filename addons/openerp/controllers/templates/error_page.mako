@@ -3,8 +3,7 @@
     MAINTENANCE_CONTRACTS_LINK = '<a href="http://www.openerp.com/" target="_blank">See more about maintenance contracts.</a>'
 %>
 <%def name="header()">
-    <link href="/openerp/static/css/style.css" rel="stylesheet" type="text/css"/>
-
+    % if maintenance:
     <script type="text/javascript" src="/openerp/static/javascript/openerp/openerp.ui.textarea.js"></script>
 
     <script type="text/javascript">
@@ -40,6 +39,7 @@
             });
         });
     </script>
+    % endif
 </%def>
 
 <%def name="content()">
