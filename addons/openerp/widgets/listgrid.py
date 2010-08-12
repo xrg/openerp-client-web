@@ -154,7 +154,7 @@ class List(TinyWidget):
             else:
                 ids = proxy.search(search_param, 0, 0, 0, context)
                 
-            self.count = proxy.search_count(domain, context)
+            self.count = proxy.search_count(search_param, context)
         self.data_dict = {}
         data = []
 
