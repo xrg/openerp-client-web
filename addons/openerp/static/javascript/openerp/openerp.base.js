@@ -106,7 +106,7 @@ jQuery(document).ready(function () {
 // Hook onclick for boolean alteration propagation
 var onBooleanClicked;
 jQuery(document).delegate(
-        'input.checkbox:enabled[callback], input.checkbox:enabled[onchange_default]',
+        'input.checkbox:enabled',
         'click', function () {
     if(onBooleanClicked) {
         onBooleanClicked(jQuery(this).attr('id').replace(/_checkbox_$/, ''));

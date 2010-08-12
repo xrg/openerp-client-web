@@ -13,8 +13,7 @@
         kind="${kind}" 
         class="checkbox"
         id="${name}_checkbox_" 
-        ${py.checker(value)}
-        onclick="onBooleanClicked('${name}')">
+        ${py.checker(value)}">
 % endif
 
 % if editable and error:
