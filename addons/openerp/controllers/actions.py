@@ -319,16 +319,26 @@ def execute_url(**data):
     
     """ Unknown URL required to open in new window/tab.
     """
+    if url.startswith('http://') or url.startswith('http://'):
+        return """<html>
+                <head>
+                    <script language="javascript" type="text/javascript">
+                        window.open('%s')
+                    </script>
+                </head>
+                <body></body>
+                </html>
+                """ % (tools.redirect(url)[0][0])
+    else:
+        return """<html>
+                    <head>
+                        <script language="javascript" type="text/javascript">
+                            openLink('%s')
+                        </script>
+                    </head>
+                </html>
+                """ % (tools.redirect(url)[0][0])
     
-    return """<html>
-            <head>
-                <script language="javascript" type="text/javascript">
-                    window.open('%s')
-                </script>
-            </head>
-            <body></body>
-            </html>
-            """ % (tools.redirect(url)[0][0])
 
 def get_action_type(act_id):
     """Get the action type for the given action id.
