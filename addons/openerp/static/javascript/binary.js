@@ -27,60 +27,55 @@
 //
 ////////////////////////////////////////////////////////////////////////////////
 
-var save_binary_data = function(src, filename) {
+function save_binary_data(src, filename) {
 
     var name = openobject.dom.get(src) ? openobject.dom.get(src).name : src;
 
     var prefix = name.split('/');
     name = prefix.pop();
-    var prefix = prefix.join('/');
+    prefix = prefix.join('/');
     prefix = prefix ? prefix + '/' : '';
 
     var fname = openobject.dom.get(prefix + filename) || openobject.dom.get(prefix + 'name');
 
     fname = fname ? fname.value || fname.innerHTML : null;
 
-    var act = get_form_action('save_binary_data');
+    var act = get_form_action('save_binary_data', undefined);
     act = fname ? act + '/' + fname : act;
 
-    act = openobject.http.getURL(act, {_terp_field: name,
+    submit_form(openobject.http.getURL(act, {
+        _terp_field: name,
         _terp_model: openobject.dom.get(prefix + '_terp_model').value,
-        _terp_id: openobject.dom.get(prefix + '_terp_id').value});
+        _terp_id: openobject.dom.get(prefix + '_terp_id').value
+    }), undefined, '_blank');
+}
 
-    submit_form(act);
-};
-
-var clear_binary_data = function(src, filename) {
+function clear_binary_data(src, filename) {
 
     var name = openobject.dom.get(src) ? openobject.dom.get(src).name : src;
 
     var prefix = name.split('/');
     name = prefix.pop();
-    var prefix = prefix.join('/');
+    prefix = prefix.join('/');
     prefix = prefix ? prefix + '/' : '';
 
-    var act = get_form_action('clear_binary_data');
-    act = openobject.http.getURL(act, {_terp_field: name,
+    submit_form(openobject.http.getURL(get_form_action('clear_binary_data', undefined), {
+        _terp_field: name,
         _terp_fname: filename || null,
         _terp_model: openobject.dom.get(prefix + '_terp_model').value,
-        _terp_id: openobject.dom.get(prefix + '_terp_id').value});
+        _terp_id: openobject.dom.get(prefix + '_terp_id').value
+    }), undefined, undefined);
+}
 
-    submit_form(act);
-};
+function add_binary(src) {
+    jQuery(openobject.dom.get(src + '_binary_add')).show();
+    jQuery(openobject.dom.get(src + '_binary_buttons')).hide();
 
-var add_binary = function(src) {
-
-    binary_add = openobject.dom.get(src + '_binary_add');
-    binary_buttons = openobject.dom.get(src + '_binary_buttons');
-
-    binary_add.style.display = "";
-    binary_buttons.style.display = "none";
-
-    fld = openobject.dom.get(src);
+    var fld = openobject.dom.get(src);
     fld.disabled = false;
 
     // Firefox problem (bug: 324408)
     if (browser.isGecko) {
         fld.size = 50;
     }
-};
+}

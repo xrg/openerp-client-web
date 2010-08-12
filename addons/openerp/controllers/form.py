@@ -602,7 +602,7 @@ class Form(SecuredController):
     def save_binary_data(self, _fname='file.dat', **kw):
         params, data = TinyDict.split(kw)
 
-        cherrypy.response.headers['Content-Disposition'] = 'filename="%s"' % _fname;
+        cherrypy.response.headers['Content-Disposition'] = 'attachment; filename="%s"' % _fname
 
         if params.datas:
             form = params.datas['form']
