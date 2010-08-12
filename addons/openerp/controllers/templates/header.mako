@@ -18,7 +18,7 @@ except:
 <script type="text/javascript">
     function setRowWidth() {
         var topWidth = jQuery('div#top').width();
-        var logoWidth = jQuery('p#logo').outerWidth();
+        var logoWidth = jQuery('p#cmp_logo').outerWidth();
 
         var shortcuts = jQuery('#shortcuts');
         var offset = shortcuts.outerWidth() - shortcuts.width();
