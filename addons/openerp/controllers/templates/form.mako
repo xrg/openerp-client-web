@@ -211,7 +211,7 @@
                     <p class="powered">${_("Powered by %(openerp)s ",
                     					openerp="""<a href="http://www.openerp.com/">openerp.com</a>""")|n}</p>
                     <p class="one">
-                        <span>${rpc.session.protocol}://${_("%(user)s", user=rpc.session.loginname)}@${rpc.session.host}:${rpc.session.port}/${rpc.session.db or 'N/A'}</span>
+                        <span>${rpc.session.protocol}://${_("%(user)s", user=rpc.session.loginname)}@${rpc.session.host}:${rpc.session.port}</span>
                     </p>
                 </div>
             </td>
