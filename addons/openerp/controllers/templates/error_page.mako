@@ -3,11 +3,10 @@
     MAINTENANCE_CONTRACTS_LINK = '<a href="http://www.openerp.com/" target="_blank">See more about maintenance contracts.</a>'
 %>
 <%def name="header()">
-    % if maintenance:
     <script type="text/javascript" src="/openerp/static/javascript/openerp/openerp.ui.textarea.js"></script>
 
     <script type="text/javascript">
-        
+        % if maintenance:
         var send_maintenance_request = function() {
             var args = {
                 explanation: openobject.dom.get('explanation').value,
@@ -38,8 +37,19 @@
                 jQuery(this).parent().toggleClass('expanded-error collapsed-error');
             });
         });
+        % endif
+        function close_error_window() {
+            if (jQuery.fancybox) {
+                jQuery.fancybox.close();
+                return;
+            }
+            if (history.length > 1) {
+                history.back()
+            } else {
+                window.close();
+            }
+        }
     </script>
-    % endif
 </%def>
 
 <%def name="content()">
@@ -186,7 +196,7 @@ Choose:
                             <tr>
                                 <td class="errorbox" align="right">
                                     <a class="button-a" href="javascript: void(0)"
-                                       onclick="history.length > 1 ? history.back() : window.close()">${_("Cancel")}</a>
+                                       onclick="close_error_window()">${_("Cancel")}</a>
                                     <button type="submit">${_("Write Anyway")}</button>
                                 </td>
                             </tr>
@@ -213,7 +223,7 @@ Choose:
                             <tr>
                                 <td class="errorbox" align="right">
                                     <a class="button-a" href="javascript: void(0)"
-                                       onclick="history.length > 1 ? history.back() : window.close()">OK</a>
+                                       onclick="close_error_window()">OK</a>
                                 </td>
                             </tr>
                         </table>

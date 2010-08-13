@@ -73,6 +73,7 @@ class ErrorPage(BaseController):
         if isinstance(value, common.TinyError):
             proxy = rpc.RPCProxy('maintenance.contract')
             maintenance = proxy.status()
+            cherrypy.response.headers['X-Maintenance-Error'] = "1"
 
         return dict(title=title, error=error, maintenance=maintenance,
                     concurrency=concurrency, all_params=all_params, target=target)
