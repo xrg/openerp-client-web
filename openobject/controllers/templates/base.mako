@@ -4,7 +4,8 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <link rel="shortcut icon" href="/openobject/static/images/favicon.ico">
     
-    <link type="text/css" rel="stylesheet" href="/openobject/static/css/jquery-ui/smoothness/jquery-ui-1.8.2.custom.css"/> 
+    <link type="text/css" rel="stylesheet" href="/openobject/static/css/jquery-ui/smoothness/jquery-ui-1.8.2.custom.css"/>
+    <link type="text/css" rel="stylesheet" href="/openobject/static/css/jquery.fancybox-1.3.1.css"/>
     
 % for css in widget_css:
     ${css.display()}
@@ -21,6 +22,7 @@
     <script type="text/javascript" src="/openobject/static/javascript/jQuery/jquery.ba-hashchange.js"></script>
     <script type="text/javascript" src="/openobject/static/javascript/jQuery/jquery.blockUI.js"></script>
     <script type="text/javascript" src="/openobject/static/javascript/jQuery/jquery.validate.js"></script>
+    <script type="text/javascript" src="/openobject/static/javascript/jQuery/jquery.fancybox-1.3.1.js"></script>
     
     <script type="text/javascript">
         jQuery.noConflict();
