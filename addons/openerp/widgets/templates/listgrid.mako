@@ -329,10 +329,12 @@ import cherrypy
                             jQuery('table#${name}_grid tr.grid-row').each(function() {
                                 var $this = jQuery(this);
                                 $this.click(function(event) {
-                                    if(!(jQuery(event.target).is('img, input'))) {
-                                        if(view_type == 'tree' && $this.attr('record')) {
-                                            do_select($this.attr('record'), '${name}');
-                                        }
+                                	if(event.detail == 1) {
+	                                    if(!(jQuery(event.target).is('img, input'))) {
+	                                        if(view_type == 'tree' && $this.attr('record')) {
+	                                            do_select($this.attr('record'), '${name}');
+	                                        }
+	                                    }
                                     }
                                 });
                             });
