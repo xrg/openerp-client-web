@@ -683,7 +683,6 @@ MochiKit.Base.update(ListView.prototype, {
     },
 
     reload: function(edit_inline, concurrency_info, default_get_ctx, clear) {
-
         if (openobject.http.AJAX_COUNT > 0) {
             return callLater(1, bind(this.reload, this), edit_inline, concurrency_info);
         }
