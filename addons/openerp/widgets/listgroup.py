@@ -132,7 +132,7 @@ class ListGroup(List):
             self.domain.extend(i for i in custom_filter_domain if i not in domain)
         
         
-        if ids == None:
+        if ids is None:
             if self.limit > 0:
                 ids = proxy.search(self.domain, self.offset, self.limit, 0, self.context)
             else:
@@ -248,4 +248,3 @@ class MultipleGroup(List):
                                                 fields.keys(), self.group_by_ctx, 0, False, self.context)   
 
         self.grouped, grp_ids = parse_groups(self.group_by_ctx, self.grp_records, self.headers, self.ids, model,  self.offset, self.limit, rpc.session.context.copy(), self.data)                            
-                
