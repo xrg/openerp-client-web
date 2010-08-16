@@ -50,16 +50,16 @@ background = '#DEDEDE'
                                 <td class="grid-cell ${field_attrs.get('type', 'char')}"
                                     style="background-color: ${background};">
                                     % if field_attrs.get('type') == 'progressbar':
-                                        <span>${grouped[j][field].display()}</span>
+                                        ${grouped[j][field].display()}
                                     % else:
                                         % if grp_row.get(field):
                                             % if field_attrs.get('type') == 'many2one':
-                                                <span>${grp_row.get(field)[-1]}</span>
+                                                ${grp_row.get(field)[-1]}
                                             % else:
-                                                <span>${grp_row.get(field)}</span>    
+                                                ${grp_row.get(field)}
                                             % endif
                                         % else:
-                                            <span>&nbsp;</span>
+                                            <span style="color: #888;">${(i == 0) and "undefined" or "&nbsp;"|n}</span>
                                         % endif                                    
                                     % endif
                                 </td>
