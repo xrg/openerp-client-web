@@ -112,7 +112,6 @@ TreeGrid.prototype = {
         }
 
         this.records = records;
-
         if (typeof(records) == 'string') {
 
             this.ajax_url = records;
@@ -120,9 +119,6 @@ TreeGrid.prototype = {
 
             var self = this;
             var req = openobject.http.postJSON(this.ajax_url, this.ajax_params);
-
-            var div = DIV({id: this.id}, _("Loading..."));
-            MochiKit.DOM.swapDOM(this.id, div);
 
             self._ajax_counter += 1;
 
@@ -134,7 +130,6 @@ TreeGrid.prototype = {
             req.addBoth(function() {
                 self._ajax_counter -= 1;
             });
-
         }
 
     },
