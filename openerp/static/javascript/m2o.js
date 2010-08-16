@@ -252,29 +252,28 @@ ManyToOne.prototype.on_keypress = function(evt){
 }
 
 ManyToOne.prototype.get_matched = function(){
-    
+
     if (Ajax.COUNT > 0) {
         return callLater(1, this.get_matched);
     }
-    
+
     if (!this.relation) {
         return;
     }
 
     var m2o = this;
 
-    var domain = getNodeAttribute(this.field, 'domain');
     var context = getNodeAttribute(this.field, 'context');
 
-    var req = eval_domain_context_request({source: this.name, domain: domain, context: context});
+    var req = eval_domain_context_request({source: this.name, domain: '[]', context: context});
 
     req.addCallback(function(obj){
         text = m2o.field.value ? '' : m2o.text.value;
-        
-        var req2 = Ajax.JSON.post('/search/get_matched', {model: m2o.relation, text: text, 
-                                                         _terp_domain: obj.domain, 
+
+        var req2 = Ajax.JSON.post('/search/get_matched', {model: m2o.relation, text: text,
+                                                         _terp_domain: obj.domain,
                                                          _terp_context: obj.context});
-        
+
         req2.addCallback(function(obj2){
             if (text && obj2.values.length == 1) {
                 val = obj2.values[0];
@@ -282,7 +281,7 @@ ManyToOne.prototype.get_matched = function(){
                 m2o.text.value = val[1];
                 m2o.on_change();
             }else{
-                open_search_window(m2o.relation, domain, context, m2o.name, 1, text);
+                open_search_window(m2o.relation, obj.domain, obj.context, m2o.name, 1, text);
             }
         });
     });
