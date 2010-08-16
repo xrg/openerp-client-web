@@ -27,8 +27,9 @@
 //
 ////////////////////////////////////////////////////////////////////////////////
 
-if (typeof(openerp.ui) == "undefined") {
-    throw "openerp.ui is required by 'openerp.ui.textarea'.";
+var openerp;
+if (!openerp && !openerp.ui) {
+    throw "openerp.ui is required by openerp.ui.waitbox.";
 }
 
 openerp.ui.WaitBox = function(options) {

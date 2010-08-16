@@ -31,6 +31,10 @@
 // Bubble Tooltips (http://web-graphics.com/mtarchive/001717.php) 
 // by Alessandro Fulcitiniti (http://web-graphics.com)
 
+var openerp;
+if (!openerp && !openerp.ui) {
+    throw "openerp.ui is required by openerp.ui.tips.";
+}
 openerp.ui.Tips = function(elements, options) {
     this.__init__(elements, options);
 };

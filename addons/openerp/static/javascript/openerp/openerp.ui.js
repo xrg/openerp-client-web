@@ -27,11 +27,12 @@
 //
 ////////////////////////////////////////////////////////////////////////////////
 
-if (typeof(openobject.dom) == "undefined") {
+var openobject;
+if (!openobject && !openobject.dom) {
     throw "openobject.dom is required by 'openerp.ui'.";
 }
-
-if (typeof(openerp) == "undefined") {
+var openerp;
+if (!openerp) {
     openerp = {};
 }
 
