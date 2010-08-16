@@ -762,11 +762,11 @@ MochiKit.Base.update(ListView.prototype, {
                 	
                 	else {
                 		var __listview = openobject.dom.get(self.name).__listview;
-                    	jQuery('#' + self.name).parent().replaceWith(obj.view);
+                    	jQuery('[id="'+self.name+'"]').parent().replaceWith(obj.view);
                 	}
                 }
                 
-                var newlist = jQuery('#' + self.name);
+                var newlist = jQuery('[id="'+self.name+'"]');
     
                 var editors = self.adjustEditors(newlist.get(0));
                 if (editors.length > 0) {
