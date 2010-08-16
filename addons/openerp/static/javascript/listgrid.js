@@ -513,7 +513,7 @@ MochiKit.Base.update(ListView.prototype, {
             _terp_button_type : btype
         };
 
-        var req = eval_domain_context_request({source: this.name, context : context || '{}'});
+        var req = eval_domain_context_request({source: this.name, context : context || '{}',active_id: id, active_ids: openobject.dom.get(prefix + '_terp_ids').value});
         req.addCallback(function(res) {
             params['_terp_context'] = res.context;
             var req = openobject.http.postJSON('/openerp/listgrid/button_action', params);
