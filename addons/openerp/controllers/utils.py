@@ -118,7 +118,7 @@ def secured(fn):
         """The wrapper function to secure exposed methods
         """
 
-        if rpc.session.is_logged():
+        if rpc.session.is_logged() and kw.get('login_action') != 'login':
             # User is logged in; allow access
             clear_login_fields(kw)
             return fn(*args, **kw)
