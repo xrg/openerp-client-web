@@ -396,7 +396,12 @@ class Form(SecuredController):
             else:
                 ctx = utils.context_with_concurrency_info(params.context, params.concurrency_info)
                 id = proxy.write([params.id], data, ctx)
-
+                
+        elif params.button and params.editable and params.id:
+            proxy = rpc.RPCProxy(params.model)
+            ctx = utils.context_with_concurrency_info(params.context, params.concurrency_info)
+            id = proxy.write([params.id], data, ctx)
+            
         button = params.button
 
         # perform button action
