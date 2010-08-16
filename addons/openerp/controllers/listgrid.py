@@ -165,8 +165,14 @@ class List(SecuredController):
             proxy = rpc.RPCProxy(params.model)
             if params.search_domain is None:
                 params.search_domain = "[]"
-
-            ids = self.sort_by_order(params.sort_model, params.sort_key, str(params.sort_domain), str(params.search_domain) or '[]', str(params.filter_domain) or '[]', params.sort_order)
+            if params.sort_model != params.model:
+                offset = params[params.o2m].offset
+                limit = params[params.o2m].limit
+            else:
+                offset = params.offset
+                limit = params.limit
+                
+            ids = self.sort_by_order(params.sort_model, params.sort_key, str(params.sort_domain), str(params.search_domain) or '[]', str(params.filter_domain) or '[]', params.sort_order, offset, limit)
             sort_ids = ast.literal_eval(ids)
             if params.sort_model != params.model:
                 if len(params.o2m.split('/')) > 1:
@@ -301,7 +307,7 @@ class List(SecuredController):
         return dict(error=error, result=result, reload=reload, wiz_result=wiz_result)
 
     @expose('json')
-    def sort_by_order(self, model, column, domain, search_domain, filter_domain, order):
+    def sort_by_order(self, model, column, domain, search_domain, filter_domain, order, offset, limit):
         domain = ast.literal_eval(domain)
         search_domain = ast.literal_eval(search_domain)
         filter_domain = ast.literal_eval(filter_domain)
@@ -312,7 +318,7 @@ class List(SecuredController):
 
         try:
             proxy = rpc.RPCProxy(model)
-            ids = proxy.search(domain, 0, 0, column+' '+order)
+            ids = proxy.search(domain, int(offset), int(limit), column+' '+order, rpc.session.context)
             return dict(ids = ids)
         except Exception , e:
             return dict(error = e.message)

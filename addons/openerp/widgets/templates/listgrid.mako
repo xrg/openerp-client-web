@@ -104,7 +104,10 @@ import cherrypy
 			        	<table class="pager-table">
 			        		<tr>
 			        			<td class="pager-cell">
-			        				<h2>${string} ${_("List")}</h2>
+			        				<h2>${string}</h2>
+			        			</td>
+			        			<td id="${name}" class="loading-list" style="display: none;">
+			        				<img src="/openerp/static/images/load.gif" width="16" height="16" title="loading..."/>
 			        			</td>
 			        			% if editable:
 			        			    <td class="pager-cell-button">
