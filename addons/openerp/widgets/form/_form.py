@@ -617,7 +617,6 @@ class Button(TinyInputWidget):
     params = ["btype", "id", "confirm", "icon", "target", "context", "default_focus"]
 
     visible = True
-    target = "current"
     def __init__(self, **attrs):
         super(Button, self).__init__(**attrs)
 
@@ -627,10 +626,12 @@ class Button(TinyInputWidget):
         self.btype = attrs.get('special', attrs.get('type', 'workflow'))
         self.context = attrs.get("context", {})
         self.nolabel = True
-
+        self.target = "current"
         if self.icon:
             self.icon = icons.get_icon(self.icon)
         self.default_focus = attrs.get('default_focus', 0)
+        if self.btype == 'action':
+            self.target = 'new'
 
     def set_state(self, state):
         if self.states:
