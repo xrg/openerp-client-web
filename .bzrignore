@@ -5,6 +5,6 @@ profile
 *.egg-info
 .*
 cktest.html
-bin/
-include/
+dist/
+build/
 

@@ -1,10 +1,9 @@
 exclude .project .pydevproject clean.sh
-include openerp-web.py openerp-web.cfg run-tests.py admin.py Makefile
-include ChangeLog LICENSE.txt README.txt
-include lib/populate.sh
+include openerp-web.py run-tests.py admin.py Makefile
 recursive-include openobject *
 recursive-include addons *
 recursive-include scripts *
+recursive-include doc *
 prune win32
 prune build
 prune dist

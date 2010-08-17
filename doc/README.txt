@@ -66,7 +66,7 @@ all other dependencies will be installed automatically by setuptools...
 
 Configuration:
 
-Locate the ``openerp-web.cfg`` in the installed EGG, and make appropriate
+Locate the ``doc/openerp-web.cfg`` in the installed EGG, and make appropriate
 changes, especially:
 
 .. sourcecode:: ini
@@ -107,7 +107,7 @@ Run as service (Linux):
 This has been tested on Ubuntu only::
 
     $ sudo cp /path/to/openerp_web-6.0-py2.5.egg/openerp-web/scripts/init.d/openerp-web /etc/init.d/
-    $ sudo cp /path/to/openerp_web-6.0-py2.5.egg/openerp-web/openerp-web.cfg /etc/
+    $ sudo cp /path/to/openerp_web-6.0-py2.5.egg/openerp-web/doc/openerp-web.cfg /etc/
 
 edit ``/etc/init.d/openerp-web``:
 

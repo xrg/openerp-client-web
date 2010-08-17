@@ -6,7 +6,7 @@ from setuptools import setup
 
 execfile(os.path.join("openobject", "release.py"))
 
-if sys.argv[1] == 'bdist_rpm':
+if 'bdist_rpm' in sys.argv:
     version = version.split('-')[0]
 
 
@@ -21,7 +21,7 @@ setup(
     download_url=download_url,
     copyright=copyright,
     license=license,
-    install_requires=[
+    install_requires2=[
         "CherryPy >= 3.1.2",
         "Mako >= 0.2.4",
         "Babel >= 0.9.4",
@@ -31,21 +31,17 @@ setup(
     ],
     zip_safe=False,
     packages=[
-        'openerp-web.scripts',
         'openerp-web.openobject', 
-        'openerp-web.addons'],
+        'openerp-web.addons',
+        'openerp-web.scripts',
+        'openerp-web.doc',],
     package_dir={
         'openerp-web.scripts': 'scripts',
         'openerp-web.openobject': 'openobject',
         'openerp-web.addons': 'addons',
+        'openerp-web.doc': 'doc',
     },
     include_package_data=True,
-    data_files = [
-        ('openerp-web', ['openerp-web.cfg', 
-                         'ChangeLog', 
-                         'LICENSE.txt', 
-                         'README.txt']),
-    ],
     classifiers=[
         'Development Status :: 5 - Production/Stable',
         'Operating System :: OS Independent',
