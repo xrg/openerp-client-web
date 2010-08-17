@@ -207,11 +207,14 @@ class Connector(Form):
     @expose('json')
     def auto_create(self, conn_obj, src, des, act_from, act_to, **kw):
         conn_flds = eval(kw.get('conn_flds', '[]'))
-
         proxy_tr = rpc.RPCProxy(conn_obj)
         id = proxy_tr.create({src: act_from, des: act_to})
-        result = proxy_tr.read(id, [src, des] + conn_flds, rpc.session.context);
-        
+
+        if src not in conn_flds: conn_flds.append(src)
+        if des not in conn_flds: conn_flds.append(des)
+
+        result = proxy_tr.read(id, conn_flds, rpc.session.context)
+
         data = {
             'id': result['id'],
             's_id': result[src][0],
