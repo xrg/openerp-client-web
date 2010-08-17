@@ -272,7 +272,10 @@ function submit_form(action, src, target) {
         return;
     }
 
-    $form.attr('action', action).submit();
+    // Cant use $form.attr due to http://dev.jquery.com/ticket/3113 as there is a form with a field called
+    // action when creating an activity
+    form.attributes['action'].value = action;
+    $form.submit();
 }
 
 function pager_action(action, src) {
