@@ -65,7 +65,7 @@ def parse(group_by, hiddens, headers, group_level, groups):
     
     return group_by, hiddens, headers
 
-def parse_groups(group_by, grp_records, headers, ids, model,  offset, limit, context, data):
+def parse_groups(group_by, grp_records, headers, ids, model,  offset, limit, context, data, fields):
     proxy = rpc.RPCProxy(model)
     grouped = []
     grp_ids = []
@@ -79,12 +79,20 @@ def parse_groups(group_by, grp_records, headers, ids, model,  offset, limit, con
         grouped.append(inner)
         
     child = len(group_by) == 1
-        
+    digits = (16,2)
+    if fields:
+        for key, val in fields.items():
+            if val.get('digits'):
+                digits = val['digits']
+    if isinstance(digits, basestring):
+            digits = eval(digits)
+    integer, digit = digits
+    
     if grp_records:
         for rec in grp_records:
             for key, val in rec.items():
                 if isinstance(val, float):
-                    rec[key] = format.format_decimal(val or 0.0, 2)
+                    rec[key] = format.format_decimal(val or 0.0, digit)
                 
             for grp_by in group_by:
                 if not rec.get(grp_by):
@@ -160,7 +168,6 @@ class ListGroup(List):
             self.group_by_ctx = [self.group_by_ctx]
             
         fields = view['fields']
-
         self.grp_records = []
         group_field = None
         
@@ -189,7 +196,7 @@ class ListGroup(List):
             if not grp_rec.get('__context'):
                 grp_rec['__context'] = {'group_by': self.group_by_ctx}
         
-        self.grouped, grp_ids = parse_groups(self.group_by_ctx, self.grp_records, self.headers, self.ids, model,  self.offset, self.limit, self.context, self.data)
+        self.grouped, grp_ids = parse_groups(self.group_by_ctx, self.grp_records, self.headers, self.ids, model,  self.offset, self.limit, self.context, self.data, fields)
                 
 class MultipleGroup(List):
     
@@ -237,7 +244,7 @@ class MultipleGroup(List):
             self.group_by_ctx = [self.group_by_ctx]
 
         fields = view['fields']
-
+        
         self.grp_records = []
         group_field = None
         super(MultipleGroup, self).__init__(
@@ -253,4 +260,4 @@ class MultipleGroup(List):
         self.grp_records = proxy.read_group(self.context.get('__domain', []),
                                                 fields.keys(), self.group_by_ctx, 0, False, self.context)   
 
-        self.grouped, grp_ids = parse_groups(self.group_by_ctx, self.grp_records, self.headers, self.ids, model,  self.offset, self.limit, rpc.session.context.copy(), self.data)                            
+        self.grouped, grp_ids = parse_groups(self.group_by_ctx, self.grp_records, self.headers, self.ids, model,  self.offset, self.limit, rpc.session.context.copy(), self.data, fields)                            
