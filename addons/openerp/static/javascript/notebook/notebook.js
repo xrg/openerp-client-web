@@ -159,7 +159,7 @@ Notebook.prototype = {
         this.evtStripClick = MochiKit.Signal.connect(this.elemStrip, 'onclick', this, this.onStripClick);
         this.rendered = true;
         
-        this.adjustSize();
+//        this.adjustSize();
 
         var self = this;
         MochiKit.Async.callLater(0, function() {
@@ -169,7 +169,7 @@ Notebook.prototype = {
 
         showElement(this.element);
         
-        this.adjustSize();
+        setTimeout(jQuery.proxy(this, 'adjustSize'), 0);
     },
     
     getTab: function(tab) {
