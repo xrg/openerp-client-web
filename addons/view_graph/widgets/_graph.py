@@ -526,7 +526,6 @@ class BarChart(GraphData):
                       "stroke": 2 }
         else:
             axis_y = {"steps": yopts['y_steps'], "max": yopts['y_max'], "min": yopts['y_min'],
-                      "grid-colour": "#FFFFFF",
                       'stroke': 2 }
 
         if len(axis_group) > 1:
@@ -559,10 +558,9 @@ class BarChart(GraphData):
                                      "keys": [key for key in all_keys]}],
                         "x_axis": {"colour": "#909090",
                                    "labels": { "labels": [ lbl for lbl in stack_labels ], "rotate": "diagonal", "colour": "#ff0000"},
-                                   "grid-colour" : "#FFFFFF",
                                    "3d": 3},
                         "y_axis": axis_y,
-                        "bg_colour": "#FFFFFF",
+                        "bg_colour": "#F0EEEE",
                         "tooltip": {"mouse": 2 }}
 
         else:
@@ -587,11 +585,10 @@ class BarChart(GraphData):
             result = {"y_axis": axis_y,
                       "title": {"text": ""},
                       "elements": [i for i in dataset],
-                      "bg_colour": "#FFFFFF",
+                      "bg_colour": "#F0EEEE",
                       "x_axis": {"colour": "#909090",
                                  "stroke": 1,
                                  "tick-height": 5,
-                                 "grid-colour" : "#FFFFFF",
                                  "steps": 1, "labels": { "rotate": "diagonal", "colour": "#ff0000", "labels": [l for l in temp_lbl]},
                                  "3d": 3
                                  }
@@ -671,7 +668,7 @@ class PieChart(GraphData):
                              "visible": 'true'
                              },
                   "elements": [d for d in dataset],
-                  "bg_colour": "#FFFFFF"}
+                  "bg_colour": "#F0EEEE"}
 
         return result
 
