@@ -939,14 +939,16 @@ div.filter-a div.fields-a p label {
     margin: 0 0 1px;
 }
 
-div.footer-a {
+div.footer-a,
+div.footer-b {
     position: relative;
     overflow: hidden;
     width: 100%;
     margin: 0 0 5px;
 }
 
-div.footer-a p {
+div.footer-a p,
+div.footer-b p {
     margin: 0;
     padding: 0 15px;
     font-size: 0.9em;
@@ -974,7 +976,14 @@ div.footer-a p.powered {
     text-align: center;
 }
 
-div.footer-a p.powered a {
+div.footer-b p.powered {
+    left: 50%;
+    color: #969494;
+    text-align: center;
+}
+
+div.footer-a p.powered a,
+div.footer-b p.powered a {
     color: #969494;
 }
 

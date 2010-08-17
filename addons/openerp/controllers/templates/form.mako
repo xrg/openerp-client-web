@@ -207,34 +207,37 @@
                 </div>
                 % endif
                 <div>${form.display()}</div>
-                <div class="footer-a">
-                    <p class="powered">${_("Powered by %(openerp)s ",
-                    					openerp="""<a href="http://www.openerp.com/">openerp.com</a>""")|n}</p>
-                    					
-                    % if cp.config('server.environment', 'openobject-web') == 'production':
-	                    <p class="one">
+                % if cp.config('server.environment') == 'development':
+	                <div class="footer-a">
+	                	<p class="one">
 	                        <span>${rpc.session.protocol}://${_("%(user)s", user=rpc.session.loginname)}@${rpc.session.host}:${rpc.session.port}</span>
 	                    </p>
-	                % endif
-                </div>
+	                    <p class="powered">${_("Powered by %(openerp)s ",
+	                    					openerp="""<a href="http://www.openerp.com/">openerp.com</a>""")|n}</p>
+	                </div>
+	            % else:
+	            	<div class="footer-b">
+	                    <p class="powered">${_("Powered by %(openerp)s ",
+	                    					openerp="""<a href="http://www.openerp.com/">openerp.com</a>""")|n}</p>
+	                </div>
+	            % endif
             </td>
             % if form.sidebar:
-            <td class="toggle_sidebar sidebar_close">
-            </td>
-            <td id="main_sidebar" valign="top">
-                <div id="tertiary" class="sidebar-closed">
-                    <div id="tertiary_wrap">
-                        ${form.sidebar.display()}
-                    </div>
-                </div>
-            </td>
-            <script type="text/javascript">
-                jQuery('td.toggle_sidebar').click(function() {
-                    jQuery(this).toggleClass('sidebar_open sidebar_close')
-                    toggle_sidebar();
-                    jQuery(window).trigger('on-appcontent-resize');
-                });
-            </script>
+	            <td class="toggle_sidebar sidebar_close"></td>
+	            <td id="main_sidebar" valign="top">
+	                <div id="tertiary" class="sidebar-closed">
+	                    <div id="tertiary_wrap">
+	                        ${form.sidebar.display()}
+	                    </div>
+	                </div>
+	            </td>
+	            <script type="text/javascript">
+	                jQuery('td.toggle_sidebar').click(function() {
+	                    jQuery(this).toggleClass('sidebar_open sidebar_close')
+	                    toggle_sidebar();
+	                    jQuery(window).trigger('on-appcontent-resize');
+	                });
+	            </script>
             % endif
         </tr>
     </table>

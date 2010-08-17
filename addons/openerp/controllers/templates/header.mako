@@ -84,7 +84,7 @@ except:
 	                </ul>
 	            </li>
 	
-	            % if cp.config('server.environment', 'openobject-web') == 'production':
+	            % if cp.config('server.environment') == 'production':
 	                <li id="clear_cache"><a href="${py.url('/openerp/pref/clear_cache')}" class="clear_cache">${_("Clear Cache")}</a>
 	                    <ul>
 	                        <li class="first last"><a href="javascript: void(0);">${_("Clear Cache")}</a></li>

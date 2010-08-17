@@ -63,9 +63,13 @@ def redirect(_cppath, _cpparams=None, **kw):
     return cherrypy.HTTPRedirect(url(_cppath, _cpparams, **kw))
 
 
-def config(key, section, default=None):
+def config(key, section='global', default=None):
     """A handy function to access config values.
     """
+    
+    if section == 'global':
+        return cherrypy.config.get(key)
+    
     return cherrypy.request.app.config.get(section, {}).get(key, default)
 
 
