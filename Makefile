@@ -13,6 +13,9 @@ run:
 release:
 	python setup.py release sdist
 
+install:
+	python setup.py release install
+
 clean:
 	@find . -name '*.pyc' -exec rm -f {} +
 	@find . -name '*.pyo' -exec rm -f {} +
