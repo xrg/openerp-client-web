@@ -1,7 +1,7 @@
 #!/bin/sh
 
 ### BEGIN INIT INFO
-# Provides:             openobject-web
+# Provides:             openerp-web
 # Required-Start:       $syslog
 # Required-Stop:        $syslog
 # Should-Start:         $network
@@ -13,15 +13,15 @@
 ### END INIT INFO
 
 PATH=/sbin:/bin:/usr/sbin:/usr/bin
-DAEMON=/usr/bin/openobject-web
-NAME=openobject-web
-DESC=openobject-web
+DAEMON=/usr/bin/openerp-web
+NAME=openerp-web
+DESC=openerp-web
 
-# Specify the user name (Default: openobject).
-USER="openobject"
+# Specify the user name (Default: openerp).
+USER="openerp"
 
-# Specify an alternate config file (Default: /etc/openobject-web.cfg).
-CONFIGFILE="/etc/openobject-web.cfg"
+# Specify an alternate config file (Default: /etc/openerp-web.cfg).
+CONFIGFILE="/etc/openerp-web.cfg"
 
 # pidfile
 PIDFILE=/var/run/$NAME.pid

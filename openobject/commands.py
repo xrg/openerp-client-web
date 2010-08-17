@@ -13,10 +13,10 @@ class ConfigurationError(Exception):
 
 def get_config_file():
     setupdir = os.path.dirname(os.path.dirname(__file__))
-    configfile = os.path.join(setupdir, "config", "openobject-web.cfg")
+    configfile = os.path.join(setupdir, "openerp-web.cfg")
     if os.path.exists(configfile):
         return configfile
-    return None
+    return '/etc/openerp-web.cfg'
 
 def start():
 
