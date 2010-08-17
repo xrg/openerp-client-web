@@ -31,6 +31,7 @@ import cherrypy
 
 from openerp.utils import rpc
 from openerp.widgets import get_widget
+from openobject.i18n import format
 
 from listgrid import List, CELLTYPES
 
@@ -78,13 +79,16 @@ def parse_groups(group_by, grp_records, headers, ids, model,  offset, limit, con
         grouped.append(inner)
         
     child = len(group_by) == 1
-    
+        
     if grp_records:
         for rec in grp_records:
+            for key, val in rec.items():
+                if isinstance(val, float):
+                    rec[key] = format.format_decimal(val or 0.0, 2)
+                
             for grp_by in group_by:
                 if not rec.get(grp_by):
                     rec[grp_by] = ''
-
             
             ch_ids = []
             if child:
@@ -178,11 +182,13 @@ class ListGroup(List):
         self.grp_records = proxy.read_group(self.context.get('__domain', []) + (self.domain or []),
                                                 fields.keys(), self.group_by_ctx, 0, False, self.context)   
         
+        
         for grp_rec in self.grp_records:
             if not grp_rec.get('__domain'):
                 grp_rec['__domain'] = self.context.get('__domain', []) + (self.domain or [])
             if not grp_rec.get('__context'):
                 grp_rec['__context'] = {'group_by': self.group_by_ctx}
+        
         self.grouped, grp_ids = parse_groups(self.group_by_ctx, self.grp_records, self.headers, self.ids, model,  self.offset, self.limit, self.context, self.data)
                 
 class MultipleGroup(List):
