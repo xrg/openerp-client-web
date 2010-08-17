@@ -28,11 +28,10 @@
 ###############################################################################
 import cherrypy
 from openerp import widgets as tw, validators
-from openerp.controllers import SecuredController
 from openerp.utils import rpc, common, TinyDict
 
 from openerp.controllers.form import Form
-from openobject.tools import expose, redirect
+from openobject.tools import expose
 
 
 class State(Form):
@@ -227,10 +226,10 @@ class Connector(Form):
         for fld in conn_flds:
             data['options'][fld.title()] = result[fld]
         
-        if id>0:
-            return dict(flag=True,data=data)
+        if id > 0:
+            return {'flag': True, 'data': data}
         else:
-            return dict(flag=False)
+            return {'flag': False}
 
     @expose('json')
     def get_info(self, conn_obj, id, **kw):
@@ -243,7 +242,7 @@ class Connector(Form):
     @expose('json')
     def change_ends(self, conn_obj, id, field, value):
         proxy_tr = rpc.RPCProxy(conn_obj)
-        id = proxy_tr.write([int(id)], {field: int(value)}, rpc.session.context)
+        proxy_tr.write([int(id)], {field: int(value)}, rpc.session.context)
         return dict()
 
 
@@ -261,16 +260,15 @@ class Workflow(Form):
         if not wkf:
             raise common.message(_('No workflow associated!'))
                 
-        d = {'_terp_view_type': 'diagram',
-            '_terp_model': 'workflow',
-            '_terp_ids': [wkf['id']],  
-            '_terp_editable': False, 
-            '_terp_id': wkf['id'],
-            '_terp_view_mode': ['tree', 'form', 'diagram']
-            }
-        
         params = TinyDict()
-        params.update(d)      
+        params.update(
+            _terp_view_type='diagram',
+            _terp_model='workflow',
+            _terp_ids=[wkf['id']],
+            _terp_editable=False,
+            _terp_id=wkf['id'],
+            _terp_view_mode=['tree', 'form', 'diagram']
+        )
         
         form = tw.form_view.ViewForm(params, name="view_form", action="")
         return dict(form=form, name=wkf['name'] ,workitems=result['workitems'].keys())
@@ -307,7 +305,7 @@ class Workflow(Form):
             y_max = (y and max(y)) or 120
         
         connectors = {}
-        list_tr = [];
+        list_tr = []
 
         for tr in transitions:
             list_tr.append(tr)
@@ -348,12 +346,12 @@ class Workflow(Form):
                 n.update({'x': 20, 'y': y_max})
                 nodes[act['id']] = n
                 
-            n.update({
-                      'id': act['id'],
-                      'color': 'white',
-                      'shape': 'ellipse',                    
-                      'options': {}
-                      })
+            n.update(
+                id=act['id'],
+                color='white',
+                shape='ellipse',
+                options={}
+            )
             
             for color, expr in bgcolors.items():
                 if eval(expr, act):
