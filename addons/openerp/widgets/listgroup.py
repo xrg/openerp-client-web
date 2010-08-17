@@ -65,7 +65,7 @@ def parse(group_by, hiddens, headers, group_level, groups):
     
     return group_by, hiddens, headers
 
-def parse_groups(group_by, grp_records, headers, ids, model,  offset, limit, context, data, fields):
+def parse_groups(group_by, grp_records, headers, ids, model,  offset, limit, context, data, total_fields, fields):
     proxy = rpc.RPCProxy(model)
     grouped = []
     grp_ids = []
@@ -88,6 +88,14 @@ def parse_groups(group_by, grp_records, headers, ids, model,  offset, limit, con
             digits = eval(digits)
     integer, digit = digits
     
+    if grp_records and total_fields:
+        for sum_key, sum_val in total_fields.items():
+            if grp_records[0].has_key(sum_key):
+                value = sum(map(lambda x: x[sum_key], grp_records))
+                if isinstance(value, float):
+                    total_fields[sum_key][1] = format.format_decimal(value or 0.0, digit)
+                else:    
+                    total_fields[sum_key][1] = value
     if grp_records:
         for rec in grp_records:
             for key, val in rec.items():
@@ -196,7 +204,7 @@ class ListGroup(List):
             if not grp_rec.get('__context'):
                 grp_rec['__context'] = {'group_by': self.group_by_ctx}
         
-        self.grouped, grp_ids = parse_groups(self.group_by_ctx, self.grp_records, self.headers, self.ids, model,  self.offset, self.limit, self.context, self.data, fields)
+        self.grouped, grp_ids = parse_groups(self.group_by_ctx, self.grp_records, self.headers, self.ids, model,  self.offset, self.limit, self.context, self.data, self.field_total, fields)
                 
 class MultipleGroup(List):
     
@@ -259,5 +267,5 @@ class MultipleGroup(List):
                                          
         self.grp_records = proxy.read_group(self.context.get('__domain', []),
                                                 fields.keys(), self.group_by_ctx, 0, False, self.context)   
-
-        self.grouped, grp_ids = parse_groups(self.group_by_ctx, self.grp_records, self.headers, self.ids, model,  self.offset, self.limit, rpc.session.context.copy(), self.data, fields)                            
+        
+        self.grouped, grp_ids = parse_groups(self.group_by_ctx, self.grp_records, self.headers, self.ids, model,  self.offset, self.limit, rpc.session.context.copy(), self.data, self.field_total, fields)                            
