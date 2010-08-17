@@ -210,9 +210,12 @@
                 <div class="footer-a">
                     <p class="powered">${_("Powered by %(openerp)s ",
                     					openerp="""<a href="http://www.openerp.com/">openerp.com</a>""")|n}</p>
-                    <p class="one">
-                        <span>${rpc.session.protocol}://${_("%(user)s", user=rpc.session.loginname)}@${rpc.session.host}:${rpc.session.port}</span>
-                    </p>
+                    					
+                    % if cp.config('server.environment', 'openobject-web') == 'production':
+	                    <p class="one">
+	                        <span>${rpc.session.protocol}://${_("%(user)s", user=rpc.session.loginname)}@${rpc.session.host}:${rpc.session.port}</span>
+	                    </p>
+	                % endif
                 </div>
             </td>
             % if form.sidebar:
