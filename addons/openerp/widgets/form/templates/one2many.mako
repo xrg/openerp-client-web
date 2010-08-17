@@ -7,6 +7,7 @@
         o2m_css_class = 'o2m_box'
 %>
 <table border="0" id="_o2m_${name}" width="100%" class="one2many ${o2m_css_class}" detail="${(screen.view_type == 'tree' or 0) and len(screen.widget.editors)}">
+    % if screen.editable and not readonly and view_type == 'form':
     <tr>
         <td>
             <table width="100%" class="gridview" style="border-bottom: 1px solid black;"cellpadding="0" cellspacing="0">
@@ -18,11 +19,11 @@
                 		</div>
                 	</td>
 
-                	% if screen.editable and not readonly and view_type == 'form':
+                	
                 	   <td>
                 	       <a class="button-a" href="javascript: void(0)" title="${_('Create new record...')}" onclick="new One2Many('${name}', ${(screen.view_type == 'tree' or 0) and len(screen.widget.editors)}).create(); return false;">${_('New')}</a>
                 	   </td>
-                	% endif
+                	
 
                     % if pager_info:
                     <td width="85%" style="text-align: left" align="left">
@@ -46,6 +47,7 @@
             </table>
         </td>
     </tr>
+    % endif
     <tr>
         % if screen:
         <td>

@@ -103,11 +103,9 @@ import cherrypy
 			        <td colspan="2" class="pagerbar-cell" align="right">
 			        	<table class="pager-table">
 			        		<tr>
-			        			% if not o2m and not m2m:
 			        			<td class="pager-cell">
 			        				<h2>${string}</h2>
-			        			</td>
-			        			% endif
+			        			</td>			        			
 			        			<td id="${name}" class="loading-list" style="display: none;">
 			        				<img src="/openerp/static/images/load.gif" width="16" height="16" title="loading..."/>
 			        			</td>

@@ -1,7 +1,7 @@
 <table border="0" width="100%" id="_m2m_${name}" class="many2many m2m_box" detail="${inline}" relation="${relation}" ${py.attrs(attrs, domain=domain, context=ctx)}>
     % if editable:
     <tr>
-        <td>
+        <td style="display:none;">
         	% if inline:
 	            <input type="hidden" class="${css_class}" kind="${kind}" id='${name}_id' value="${screen.ids}" ${py.attrs(attrs)} relation="${relation}"/>
 	            <input type="hidden" kind="${kind}" name="${name}" id="${name}" value="${screen.ids}" relation="${relation}"/>
