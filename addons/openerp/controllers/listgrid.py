@@ -386,7 +386,7 @@ class List(SecuredController):
 
         total_sum = []
         for s in total:
-            total_sum.append(sum(s))
+            total_sum.append(str(sum(s)))
 
         return dict(sum = total_sum)
 

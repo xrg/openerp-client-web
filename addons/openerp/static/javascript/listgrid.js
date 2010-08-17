@@ -132,7 +132,15 @@ ListView.prototype = {
 
     getSelectedRecords: function() {
         return map(function(box) {
-            return box.value;
+        	var box_val;
+        	if(box.value) {
+        		box_val = box.value
+        	}
+        	else {
+        		box_id = box.id.split('/')
+        		box_val = box_id[box_id.length-1]
+        	}
+            return box_val;
         }, this.getSelectedItems());
     },
 
@@ -156,7 +164,7 @@ ListView.prototype = {
             }
         }
         
-       	this.selectedRow_sum();     
+       	this.selectedRow_sum(); 
     },
 
     getColumns: function(dom) {
