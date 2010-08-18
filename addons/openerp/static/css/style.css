@@ -19,6 +19,10 @@ table.view {
     border: none;
 }
 
+div.wizard_toolbar {
+	float: right;
+}
+
 table#search_table td {
     font-weight: bold;
     text-align: left !important;
