@@ -78,7 +78,7 @@ img {
 }
 
 .login-frame {
-	padding: 35px 0 0 45px;	
+	padding: 35px 0 0 45px;
 }
 
 .login_text{
@@ -2253,7 +2253,7 @@ td#body_form_td {
 .button-a {
     float: left;
     height: 12px;
-    padding: 1px 10px 0;
+    padding: 1px 10px;
     border: 1px solid #666666;
     border-radius: 3px;
     -moz-border-radius: 3px;
