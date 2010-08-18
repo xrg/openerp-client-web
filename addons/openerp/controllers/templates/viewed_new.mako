@@ -36,27 +36,27 @@
                     </tr>
                 </table>
             </td>
-        </tr>
+        </tr> 
         <tr>
-            <td>${form.display()}</td>
-        </tr>
-        <tr>
-            <td>
-                <div class="toolbar">
+            <td style="padding: 0px 10px;">
+                <div class="toolbar footer_tool_box">
                     <table border="0" cellpadding="0" cellspacing="0" width="100%">
                         <tr>
-                            <td width="100%">
+                            <td class="save_close">
+                            	<a class="button-a" href="javascript: void(0)" onclick="submit_form('save')">${_("Save")}</a>
                             </td>
-                            <td>
+                            <td class="save_close">
                             	<a class="button-a" href="javascript: void(0)" onclick="window.close()">${_("Close")}</a>
                             </td>
-                            <td>
-                            	<a class="button-a" href="javascript: void(0)" onclick="submit_form('save')">${_("Save")}</a>
+                            <td width="100%">
                             </td>
                         </tr>
                     </table>
                 </div>
             </td>
+        </tr>
+        <tr>
+            <td>${form.display()}</td>
         </tr>
     </table>
 </%def>

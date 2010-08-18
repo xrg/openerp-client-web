@@ -164,7 +164,7 @@
                 <td>${form.search.display()}</td>
             </tr>
             <tr>
-                <td class="toolbar">
+                <td class="toolbar" style="padding:0px">
                     <table cellpadding="0" cellspacing="0">
                         <tr>
                             <td width="100%">
