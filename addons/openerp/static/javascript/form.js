@@ -730,22 +730,21 @@ function makeContextMenu(id, kind, relation, val) {
     var req = openobject.http.postJSON(act, params);
 
     req.addCallback(function(obj) {
-
+        var r, o, a;
         var rows = [];
 
-        for (var r in obj.defaults) {
-            var o = obj.defaults[r];
-            var a = SPAN({onclick: 'hideElement("contextmenu"); return ' + o.action}, o.text);
+        for (r in obj.defaults) {
+            o = obj.defaults[r];
+            a = SPAN({onclick: 'hideElement("contextmenu"); return ' + o.action}, o.text);
             rows = rows.concat(a);
         }
-
         if (obj.actions.length > 0) {
             rows = rows.concat(HR());
 
-            for (var r in obj.actions) {
-                var o = obj.actions[r];
+            for (r in obj.actions) {
+                o = obj.actions[r];
 
-                var a = SPAN({
+                a = SPAN({
                     'class': o.action ? '' : 'disabled',
                     'onclick': o.action ? 'hideElement("contextmenu"); return ' + o.action : ''
                 }, o.text);
@@ -757,10 +756,10 @@ function makeContextMenu(id, kind, relation, val) {
         if (obj.relates.length > 0) {
             rows = rows.concat(HR());
 
-            for (var r in obj.relates) {
-                var o = obj.relates[r];
+            for (r in obj.relates) {
+                o = obj.relates[r];
 
-                var a = SPAN({
+                a = SPAN({
                     'class': o.action ? '' : 'disabled',
                     'onclick': o.action ? 'hideElement(\'contextmenu\'); return ' + o.action : '',
                     'domain': o.domain,
