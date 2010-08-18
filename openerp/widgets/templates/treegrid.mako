@@ -1,4 +1,4 @@
-<span id="${name}"/>
+<span id="${name}">
     <script type="text/javascript">
     
         var ${name} = new TreeGrid('${name}');
