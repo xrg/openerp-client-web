@@ -184,42 +184,46 @@ class Search(Form):
 
         frm = {}
         error = ''
-        values = {}
-
-        for key, val in record.items():
-            for field in val:
-                fld = {}
-                datas = {}
-                res = proxy.fields_get(field)
-
-                fld['value'] = val[field]
-                fld['type'] = res[field].get('type')
-
-                data[field] = fld
-                try:
-                    frm = TinyForm(**data).to_python()
-                except Exception, e:
-                    error = ustr(e)
-                    error_field = ustr(e.field)
-                    return dict(error=error, error_field=error_field)
-
-                datas['rec'] = field
-
-                if fld['type'] == 'many2one':
-                    datas['rec_val'] = fld['value']
-                    frm[field] = 'many2one'
-                elif isinstance(frm[field], bool):
-                    if frm[field]:
-                        datas['rec_val'] = 1
+        All_values = {}
+        
+        for k, v in record.items():
+            values = {}
+            for key, val in v.items():                
+                for field in val:
+                    fld = {}
+                    datas = {}
+                    res = proxy.fields_get(field)
+    
+                    fld['value'] = val[field]
+                    fld['type'] = res[field].get('type')
+    
+                    data[field] = fld
+                    try:
+                        frm = TinyForm(**data).to_python()
+                    except Exception, e:
+                        error = ustr(e)
+                        error_field = ustr(e.field)
+                        return dict(error=error, error_field=error_field)
+    
+                    datas['rec'] = field
+    
+                    if fld['type'] == 'many2one':
+                        datas['rec_val'] = fld['value']
+                        frm[field] = 'many2one'
+                    elif isinstance(frm[field], bool):
+                        if frm[field]:
+                            datas['rec_val'] = 1
+                        else:
+                            datas['rec_val'] = 0
                     else:
-                        datas['rec_val'] = 0
-                else:
-                    datas['rec_val'] = frm[field]
+                        datas['rec_val'] = frm[field]
+    
+                datas['type'] = fld['type']
+                values[key] = datas
+                
+            All_values[k] = values
 
-            datas['type'] = fld['type']
-            values[key] = datas
-
-        return dict(frm=values, error=error)
+        return dict(frm=All_values, error=error)
 
     @expose('json')
     def eval_domain_filter(self, **kw):
@@ -275,28 +279,55 @@ class Search(Form):
                         search_data[field] = value
                     else:
                         search_data[field] = value.split('m2o_')[1]
+                        
+        def get_domain(x):
+            tempdomain = ""
+                        
+            if len(x)== 1:
+                if isinstance(x[0], (int, list)):                    
+                    tempdomain +=  ",'" + ustr(x[0]) + "',"
+                else:
+                    tempdomain +=  ",'" + x[0] + "',"
+
+            elif len(x) == 4:
+                if isinstance(x[3], (int, list)):                                    
+                    tempdomain += '[\'' + x[0] + '\', (\'' + x[1] + '\', \'' + x[2] + '\', ' + ustr(x[3]) + '\')]'                                                                
+                else:                                    
+                    tempdomain += '[\'' + x[0] + '\', (\'' + x[1] + '\', \'' + x[2] + '\', \'' + x[3] + '\')]'
+                                                
+            elif len(x) == 3:                               
+                if isinstance(x[2], (int, list)):
+                    tempdomain += '[(\'' + x[0] + '\', \'' + x[1] + '\', ' + ustr(x[2]) + ')]'
+                else:
+                    tempdomain += '[(\'' + x[0] + '\', \'' + x[1] + '\', \'' + x[2] + '\')]'
+            
+            return tempdomain
 
         inner_domain = []
         if custom_domains:
-            tmp_domain = ''
-
+            tmp_domain = ''            
             custom_domains = eval(custom_domains)
-            for inner in custom_domains:
-                if len(inner) == 4:
-                    if isinstance(inner[3], (int, list)):
-                        tmp_domain += '[\'' + inner[0] + '\', (\'' + inner[1] + '\', \'' + inner[2] + '\', ' + ustr(inner[3]) + ')]'
+            for i in custom_domains[:-1]:
+                if len(i):
+                    i.insert(0, '|')
+                 
+            for i in custom_domains:                
+                for inner in i:        
+                    if len(inner) == 1 and len([x for x in inner if isinstance(x, list)]) == 0:
+                        tmp_domain += ",'" + inner[0] +"',"
+                    elif len([x for x in inner if isinstance(x, list)]):
+                        for d in inner:
+                            tmp_domain += get_domain(d)                    
                     else:
-                        tmp_domain += '[\'' + inner[0] + '\', (\'' + inner[1] + '\', \'' + inner[2] + '\', \'' + inner[3] + '\')]'
-                elif len(inner) == 3:
-                    if isinstance(inner[2], (int, list)):
-                        tmp_domain += '[(\'' + inner[0] + '\', \'' + inner[1] + '\', ' + ustr(inner[2]) + ')]'
-                    else:
-                        tmp_domain += '[(\'' + inner[0] + '\', \'' + inner[1] + '\', \'' + inner[2] + '\')]'
-
+                        tmp_domain += get_domain(inner)
+            
             if tmp_domain :
-                cust_domain = tmp_domain.replace('][', ', ')
+                cust_domain = tmp_domain                      
+                if cust_domain.find('|') != -1 or cust_domain.find('&') != -1:                
+                    tmp_domain = tmp_domain.lstrip(',')
+                    cust_domain = (tmp_domain).replace("][", ",").replace("[", "").replace("]", "")
+                                                   
                 inner_domain.extend(eval(cust_domain))
-
                 if len(inner_domain)>1 and inner_domain[-2] in ['&','|']:
                     if len(inner_domain) == 2:
                         inner_domain = [inner_domain[1]]
