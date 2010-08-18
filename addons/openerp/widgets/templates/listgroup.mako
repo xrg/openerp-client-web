@@ -7,7 +7,21 @@ background = '#DEDEDE'
 <table id="${name}" groups="${group_by_ctx}" class="gridview" width="100%" cellspacing="0" cellpadding="0">
     % if pageable:
     <tr class="pagerbar">
-        <td colspan="2" class="pagerbar-cell" align="right">${pager.display()}</td>
+        <td colspan="2" class="pagerbar-cell" align="right">
+        	<table class="pager-table">
+        		<tr>
+        			<td class="pager-cell">
+        				<h2>${string}</h2>
+        			</td>
+        			<td id="${name}" class="loading-list" style="display: none;">
+        				<img src="/openerp/static/images/load.gif" width="16" height="16" title="loading..."/>
+        			</td>
+        			<td class="pager-cell" style="width: 90%">
+    					${pager.display()}
+    				</td>
+        		</tr>
+        	</table>
+        </td>
     </tr>
     % endif
     
@@ -23,7 +37,7 @@ background = '#DEDEDE'
                             % if field == 'button':
                                 <th class="grid-cell"><div style="width: 0;"></div></th>
                             % else:
-                                <th id="grid-data-column/${(name != '_terp_list' or None) and (name + '/')}${field}" class="grid-cell ${field_attrs.get('type', 'char')}" kind="${field_attrs.get('type', 'char')}" style="cursor: pointer;" onclick="new ListView('${name}').sort_by_order('${field}')">${field_attrs['string']}</th>
+                                <th id="grid-data-column/${(name != '_terp_list' or None) and (name + '/')}${field}" class="grid-cell ${field_attrs.get('type', 'char')}" kind="${field_attrs.get('type', 'char')}" style="cursor: pointer;" onclick="new ListView('${name}').sort_by_order('${field}', this)">${field_attrs['string']}</th>
                             % endif
                         % endfor
                         % if editable:
