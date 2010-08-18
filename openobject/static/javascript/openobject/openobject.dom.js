@@ -31,6 +31,21 @@ if (typeof(jQuery) == "undefined") {
     throw "jQuery is required by 'openobject.dom'.";
 }
 
+/**
+ * Escapes a DOM id so it's suitable for usage as a CSS selector
+ * @param id the DOM id
+ */
+function escapeId(id) {
+    return id.replace(/[^\r\n\f0-9a-f]/ig, "\\$&");
+}
+/**
+ * Transforms a node id in the corresponding CSS selector: escapes the id and prefixes with '#'.
+ * @param nodeId the DOM id to transform into selector
+ */
+function idSelector(nodeId) {
+    return '#' + escapeId(nodeId);
+}
+
 openobject.dom = {
 
     /**
