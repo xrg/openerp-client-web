@@ -746,7 +746,7 @@ MochiKit.Base.update(ListView.prototype, {
         if(clear) {
         	args['_terp_clear'] = true;
         }
-        jQuery('[id="'+self.name+'"].loading-list').show()
+        jQuery('#'+self.name).find('.loading-list').show();
         jQuery.ajax({
             url: '/openerp/listgrid/get', 
             data: args,
