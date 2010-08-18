@@ -114,8 +114,10 @@
                                         % endfor
                                         <tr>
                                             <td style="padding: 0 0 0 10px;">
-                                                <a style="color: blue; font-weight: bold;" href="javascript: void(0);"
-                                                   onclick="jQuery('#more_logs').slideToggle('slow')">
+                                                <a id="more" style="color: blue; font-weight: bold;" href="javascript: void(0);"
+                                                   onclick="jQuery(this).hide();
+                                                   			jQuery('#more_logs').slideDown('slow');
+                                                   			jQuery('#less').show();">
                                                     ${_('More...')}
                                                 </a>
                                                 <div id="more_logs">
@@ -126,6 +128,12 @@
                                                              </a>
                                                          </div>
                                                      % endfor
+                                                     <a id="less" style="color: blue; font-weight: bold;" href="javascript: void(0);"
+                                                   onclick="jQuery(this).hide();
+                                                   			jQuery('#more_logs').slideUp('slow');
+                                                   			jQuery('#more').show();">
+                                                    ${_('Less...')}
+                                                	</a>
                                                 </div>
                                             </td>
                                         </tr>
