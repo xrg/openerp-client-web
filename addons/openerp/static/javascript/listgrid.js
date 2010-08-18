@@ -534,6 +534,13 @@ MochiKit.Base.update(ListView.prototype, {
                     window.open(obj.result.url);
                 }
                 
+                if(obj.res) {
+                	var popup_win = openobject.tools.openWindow("");
+                	popup_win.document.write(obj.res);
+                	popup_win.document.close();
+                	return;
+                }
+                
                 if(obj.wiz_result){
                 	var act = get_form_action('action');
                 	MochiKit.Base.update(params, {

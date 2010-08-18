@@ -256,7 +256,6 @@ class List(SecuredController):
         reload = (params.context or {}).get('reload', False)
         result = {}
         wiz_result = None
-
         name = params.button_name
         btype = params.button_type
 
@@ -277,10 +276,15 @@ class List(SecuredController):
                 ctx = params.context or {}
                 ctx.update(rpc.session.context.copy())
                 res = rpc.session.execute('object', 'execute', model, name, ids, ctx)
-
-                if isinstance(res, dict) and res.get('type') == 'ir.actions.act_url':
-                    result = res
-
+                
+                if isinstance(res, dict) and res.get('type'):
+                    if  res['type'] == 'ir.actions.act_url':
+                        result = res
+                    elif res['type'] == 'ir.actions.act_window':
+                        import actions
+                        res  = actions.execute(res)
+                        return dict(res = res)
+                        
             elif btype == 'action':
                 import actions
 
