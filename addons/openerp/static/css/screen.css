@@ -2175,7 +2175,7 @@ button {
 
 #sidebar #add-attachment {
     position: absolute;
-    top: 4px;
+    top: 3px;
     right: 1px;
 }
 
@@ -2261,7 +2261,7 @@ td#body_form_td {
     white-space: nowrap;
     font-size: 0.8em;
     font-weight: bold;
-    line-height: 12px;
+    line-height: 11px;
     text-transform: uppercase;
     text-shadow: #6a6969 0 1px 0;
 }
