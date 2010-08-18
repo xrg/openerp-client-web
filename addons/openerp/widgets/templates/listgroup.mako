@@ -92,7 +92,7 @@ background = '#DEDEDE'
                     </tr>
 
                     % for ch in grp_row.get('child_rec'):
-                    <tr class="grid-row-group" id="grid-row ${grp_row.get('group_id')}" parent_grp_id="${grp_row.get('group_by_id')}" 
+                    <tr class="grid-row grid-row-group" id="${grp_row.get('group_id')}" parent_grp_id="${grp_row.get('group_by_id')}" 
                     	record="${ch.get('id')}" style="cursor: pointer; display: none;">
                         % if editable:
                             <td class="grid-cell">

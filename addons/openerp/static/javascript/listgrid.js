@@ -310,7 +310,7 @@ MochiKit.Base.update(ListView.prototype, {
         var total_groups = jQuery('#' + this.name).attr('groups');
         
         if (group_by_context == '[]') {
-            jQuery('[parent_grp_id="' + id + '"][id$="' + record + '"]').toggle();
+            jQuery('#' + record + '[parent_grp_id="' + id + '"]').toggle();
         } else {
             if (jQuery(group).hasClass('group-expand')) {
                 jQuery.ajax({
