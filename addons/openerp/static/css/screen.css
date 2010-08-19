@@ -2084,21 +2084,8 @@ p.paging-a a.next {
 
 #main_sidebar {
     padding: 0;
-}
-
-.toggle_sidebar {
-	cursor: pointer;
-    height: 100%;
-    width: 11px;
-    padding: 0 5px;
-}
-
-.sidebar_close {
-	background: #CECBCB url(../images/left.png) no-repeat scroll center 0.5%;
-}
-
-.sidebar_open {
-	background: #CECBCB url(../images/right.png) no-repeat scroll center 0.5%;
+    background: #eae7e7 url(../images/tertiary-bg-a.gif) repeat-y;
+    border-left: 1px solid #d2cfcf;
 }
 
 .sideheader-a {
@@ -2178,6 +2165,10 @@ button {
 
 .sidebar-open {
     width: 180px;
+}
+
+.sidebar-closed {
+	width: 21px;
 }
 
 .sidebar-closed #sidebar {
