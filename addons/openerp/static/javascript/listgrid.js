@@ -536,9 +536,15 @@ MochiKit.Base.update(ListView.prototype, {
                 
                 if(obj.res) {
                 	var popup_win = openobject.tools.openWindow("");
-                	popup_win.document.write(obj.res);
-                	popup_win.document.close();
-                	return;
+                	if(window.browser.isGecko) {
+                		popup_win.document.write(obj.res);
+                		popup_win.document.close();
+                	}
+                	else {
+            			popup_win.document.close();
+            			popup_win.document.write(obj.res);
+                	}
+                	return false;
                 }
                 
                 if(obj.wiz_result){
