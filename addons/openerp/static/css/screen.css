@@ -2198,12 +2198,7 @@ button {
 }
 
 .sidebar-closed {
-    width: 0px;
-}
-
-.sidebar-closed #sidebar {
     display: none;
-
 }
 
 #sidebar_hide {
