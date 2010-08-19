@@ -51,6 +51,14 @@ class Process(SecuredController):
         proxy = rpc.RPCProxy('process.process')
 #        fields = proxy.fields_get([], {})
         fields = rpc.RPCProxy(res_model).fields_get([], {})
+
+        help_ids = rpc.session.execute('object', 'execute', 'ir.actions.act_window', 'search', [('res_model','=',res_model)])
+        help = 'Help: Not Defined'
+        for h_id in help_ids:
+            field = rpc.session.execute('object', 'execute', 'ir.actions.act_window', 'read', h_id)
+            if field['help'] and (field['name'] == title):
+                help = field['help']
+
         if id:
             res = proxy.read([id], ['name'], rpc.session.context)[0]
             selection = proxy.search_by_model(False, rpc.session.context)
@@ -65,7 +73,7 @@ class Process(SecuredController):
 #                selection = None
                 selection = proxy.search_by_model(False, rpc.session.context)
 
-        return dict(fields=fields, id=id, res_model=res_model, res_id=res_id, title=title, selection=selection)
+        return dict(id=id, res_model=res_model, res_id=res_id, title=title, selection=selection, fields=fields, help=help)
 
     @expose('json')
     def get(self, id, res_model=None, res_id=False, title=None):

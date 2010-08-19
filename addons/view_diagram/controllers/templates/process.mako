@@ -40,6 +40,11 @@
 			                <tr>
 			                    <td width="100%" id="process_title" align="left" style="font-size: 14px; font-weight: bold;">${title}</td>
 			                </tr>
+			                <tr>
+			                	<td>
+			                		<p><i>${help}</i></p>
+			                	</td>
+			                </tr>
 			            </table>
 			        </td>
 			    	<td width="20%" align="center" >
