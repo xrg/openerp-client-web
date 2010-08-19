@@ -4,17 +4,16 @@
 	<script type="text/javascript">
         jQuery(document).ready(function() {
             document.title = '${title}' + ' - OpenERP';
-        	var prim_height = jQuery('#primary').height();
+            
         	var form_height = jQuery('table#main_form_body').height();
-        	var set_height;
-        	if(prim_height > form_height) {
-        		set_height = prim_height;
-        	}
-        	else {
-        		set_height = form_height;
-        	}
+        	jQuery('#secondary, #toggle_accordion').height(form_height);
         	
-        	jQuery('#secondary, #toggle_accordion').height(set_height);
+        	var form_width = jQuery('table#main_form_body').width();
+            var accordion_width = jQuery('#secondary').width();
+            var left_bar = jQuery('#toggle_accordion').width();
+            
+            var footer_width = form_width + accordion_width + left_bar;
+        	jQuery('#footer_section').width(footer_width);
         	
         	adjustTopWidth();
         });
@@ -162,24 +161,6 @@
 	                });
 	            </script>
             % endif
-        </tr>
-        <tr>
-        	<td>
-        		% if cp.config('server.environment') == 'development':
-	                <div class="footer-a">
-	                	<p class="one">
-	                        <span>${rpc.session.protocol}://${_("%(user)s", user=rpc.session.loginname)}@${rpc.session.host}:${rpc.session.port}</span>
-	                    </p>
-	                    <p class="powered">${_("Powered by %(openerp)s ",
-	                    					openerp="""<a href="http://www.openerp.com/">openerp.com</a>""")|n}</p>
-	                </div>
-	            % else:
-	            	<div class="footer-b">
-	                    <p class="powered">${_("Powered by %(openerp)s ",
-	                    					openerp="""<a href="http://www.openerp.com/">openerp.com</a>""")|n}</p>
-	                </div>
-	            % endif
-        	</td>
         </tr>
     </table>
 </%def>

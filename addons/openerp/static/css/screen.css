@@ -588,12 +588,8 @@ p#cmp_logo {
     width: 2%;
 }
 
-#content {
-    height: 100%;
-}
-
 #content div.wrap {
-    padding: 0 0 5px;
+    padding: 0;
 }
 
 #primary {
@@ -936,10 +932,14 @@ div.filter-a div.fields-a p label {
 
 div.footer-a,
 div.footer-b {
-    position: relative;
-    overflow: hidden;
-    width: 100%;
-    margin: 0 0 5px;
+    background:none repeat scroll 0 0 #CCCCCC;
+	border:1px solid #AAAAAA;
+	display:block;
+	margin:0 -2px;
+	overflow:hidden;
+	padding:5px 0;
+	position:relative;
+	width:100%;
 }
 
 div.footer-a p,
@@ -957,7 +957,7 @@ div.footer-a p a {
 
 div.footer-a p span {
     padding: 0 5px;
-    color: #969494;
+    color: #666666;
     font-weight: bold;
 }
 
@@ -966,19 +966,19 @@ div.footer-a p.powered {
     left: 50%;
     width: 200px;
     margin: 0 0 0 -100px;
-    color: #969494;
+    color: #666666;
     text-align: center;
 }
 
 div.footer-b p.powered {
     left: 50%;
-    color: #969494;
+    color: #666666;
     text-align: center;
 }
 
 div.footer-a p.powered a,
 div.footer-b p.powered a {
-    color: #969494;
+    color: #666666;
 }
 
 div.footer-a p.one {

@@ -95,6 +95,22 @@
                     <div id="appContent"></div>
                 </div>
             </div>
+            <div id="footer_section" style="float: left;">
+		   		% if cp.config('server.environment') == 'development':
+		            <div class="footer-a">
+		            	<p class="one">
+		                    <span>${rpc.session.protocol}://${_("%(user)s", user=rpc.session.loginname)}@${rpc.session.host}:${rpc.session.port}</span>
+		                </p>
+		                <p class="powered">${_("Powered by %(openerp)s ",
+		                					openerp="""<a href="http://www.openerp.com/">openerp.com</a>""")|n}</p>
+		            </div>
+		        % else:
+		        	<div class="footer-b">
+		                <p class="powered">${_("Powered by %(openerp)s ",
+		                					openerp="""<a href="http://www.openerp.com/">openerp.com</a>""")|n}</p>
+		            </div>
+		        % endif
+	        </div>
         </div>
     </div>
 </%def>

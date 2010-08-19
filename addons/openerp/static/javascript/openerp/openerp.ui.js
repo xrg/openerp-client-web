@@ -67,6 +67,8 @@ function adjustTopWidth() {
     var shortcuts = jQuery('#shortcuts');
     var offset = shortcuts.outerWidth() - shortcuts.width();
     shortcuts.css('width', setWidth - logoWidth - offset);
+    
+    jQuery('#footer_section').width(setWidth)
 }
 
 jQuery(document).bind('shortcuts-alter', function () {
