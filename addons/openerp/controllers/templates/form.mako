@@ -94,82 +94,11 @@
                           <small class="sub">${display_name['field']} : ${display_name['value']}</small>
                     % endif
                 </h1>
-                
-                %if serverLog:
-                <div id="serverlog" style="display: none;">
-                    <table class="serverLogHeader">
-                        <tr id="actions_row">
-                            <td style="padding: 2px 0 0 0;">
-                                <table style="width: 100%;">
-                                    % if len(serverLog) > 3:
-                                        % for log in serverLog[-3:]:
-                                            <tr>
-                                                <td class="logActions">
-                                                    <a href="${py.url('/openerp/form/edit', model=log['res_model'], id=log['res_id'])}">
-                                                        ${log['name']}
-                                                    </a>
-                                                </td>
-                                            </tr>
-                                        % endfor
-                                        <tr>
-                                            <td style="padding: 0 0 0 10px;">
-                                                <a id="more" style="color: blue; font-weight: bold;" href="javascript: void(0);"
-                                                   onclick="jQuery(this).hide();
-                                                   			jQuery('#more_logs').slideDown('slow');
-                                                   			jQuery('#less').show();">
-                                                    ${_('More...')}
-                                                </a>
-                                                <div id="more_logs">
-                                                     % for log in serverLog[:-3]:
-                                                         <div>
-                                                             <a href="${py.url('/openerp/form/edit', model=log['res_model'], id=log['res_id'])}">
-                                                                ${log['name']}
-                                                             </a>
-                                                         </div>
-                                                     % endfor
-                                                     <a id="less" style="color: blue; font-weight: bold;" href="javascript: void(0);"
-                                                   onclick="jQuery(this).hide();
-                                                   			jQuery('#more_logs').slideUp('slow');
-                                                   			jQuery('#more').show();">
-                                                    ${_('Less...')}
-                                                	</a>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                        
-                                    % else:
-                                        % for log in serverLog:
-                                            <tr>
-                                                <td class="logActions">
-                                                    <a href="${py.url('/openerp/form/edit', model=log['res_model'], id=log['res_id'])}">
-                                                        ${log['name']}
-                                                    </a>
-                                                </td>
-                                            </tr>
-                                        % endfor
-                                    % endif
-                                </table>
-                            </td>
-                            <td style="padding: 0;" valign="top">
-                                <img id="closeServerLog" style="cursor: pointer;" align="right" 
-                                    src="/openerp/static/images/attachments-a-close.png"></img>
-                            </td>
-                        </tr>
-                    </table>
-                </div>
-
-                <script type="text/javascript">
-                    jQuery('#serverlog').fadeIn('slow');
-                    jQuery('#closeServerLog').click(function() {
-                        jQuery('#serverlog').fadeOut("slow");
-                    });
-                    
-                    jQuery('#show_server_logs').click(function() {
-                       jQuery('#serverlog').fadeIn("slow");
-                    });
-                </script>
-                % endif
-
+				% if form.screen.view_type == 'form':
+					% if form.logs.logs:
+						${form.logs.display()}
+					% endif
+				% endif
                 % if form.screen.view_type in ['form', 'diagram'] and buttons.toolbar and form.screen.model != 'board.board':
                 <div class="wrapper">
                     <ul class="inline-b left w50">

@@ -33,6 +33,7 @@ from search import Search
 from screen import Screen
 from sidebar import Sidebar
 from listgroup import ListGroup
+from logs import Logs
 
 from openobject.widgets import Form, JSLink, locations
 
@@ -41,7 +42,7 @@ class ViewForm(Form):
     template = "templates/viewform.mako"
 
     params = ['limit', 'offset', 'count', 'search_domain', 'search_data', 'filter_domain', 'notebook_tab']
-    member_widgets = ['screen', 'search', 'sidebar']
+    member_widgets = ['screen', 'search', 'sidebar', 'logs']
 
     javascript = [JSLink("openerp", "javascript/m2o.js", location=locations.bodytop),
                   JSLink("openerp", "javascript/m2m.js", location=locations.bodytop),
@@ -96,6 +97,9 @@ class ViewForm(Form):
         self.screen = Screen(prefix='', hastoolbar=True, hassubmenu=True, editable=editable, readonly=readonly,
                              selectable=params.selectable or 2)
         
+        if self.screen.widget and self.screen.view_type in ['form', 'tree']:
+            self.logs = Logs()
+            
         if self.screen.widget and hasattr(self.screen.widget, 'sidebar'):
             self.sidebar = self.screen.widget.sidebar
         else:

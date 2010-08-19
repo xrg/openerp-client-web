@@ -246,7 +246,10 @@ class List(SecuredController):
             view=ustr(frm.render())
         else:
             view=ustr(wid.render())
-        return dict(ids=ids, count=count, view=view, info=info, active_clear=active_clear)
+        server_logs = ''
+        if frm.logs.logs and frm.screen.view_type == 'tree':
+            server_logs = ustr(frm.logs.render())
+        return dict(ids=ids, count=count, view=view, info=info, active_clear=active_clear, logs=server_logs)
 
     @expose('json')
     def button_action(self, **kw):

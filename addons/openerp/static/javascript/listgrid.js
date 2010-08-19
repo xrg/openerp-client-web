@@ -779,7 +779,9 @@ MochiKit.Base.update(ListView.prototype, {
                 	jQuery('#clear_all_filters').addClass('inactive_clear');
                 }
                 self.current_record = edit_inline;
-		        
+		        if(obj.logs) {
+		        	jQuery('div#server_logs').replaceWith(obj.logs)
+		        }
                 if(clear) {
                     jQuery('#view_form').replaceWith(obj.view);
                     initialize_search();
