@@ -192,7 +192,7 @@ function show_process_view(title) {
 function validate_required(form) {
 
     if (typeof form == 'string') {
-        form = document.forms[form];
+        form = jQuery('#' + form).get(0);
     }
 
     if (!form) {
@@ -253,8 +253,7 @@ function submit_form(action, src, target) {
         _terp_source: source
     };
 
-    var form = document.forms['view_form'];
-    var $form = jQuery(form);
+    var $form = jQuery('#view_form');
     if (target == "new" || target == "_blank") {
         $form.attr('target', '_blank');
     } else {
@@ -268,13 +267,13 @@ function submit_form(action, src, target) {
     
     action = get_form_action(action, args);
     
-    if (/\/save(\?|\/)?/.test(action) && !validate_required(form)) {
+    if (/\/save(\?|\/)?/.test(action) && !validate_required($form.get(0))) {
         return;
     }
 
     // Cant use $form.attr due to http://dev.jquery.com/ticket/3113 as there is a form with a field called
     // action when creating an activity
-    form.attributes['action'].value = action;
+    $form.get(0).setAttribute('action', action);
     $form.submit();
 }
 
