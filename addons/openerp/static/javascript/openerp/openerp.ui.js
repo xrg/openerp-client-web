@@ -47,8 +47,26 @@ function toggle_sidebar() {
     } else {
         Notebook.adjustSize(a);
     }
-
+	adjustTopWidth();
     MochiKit.Signal.signal(document, 'toggle_sidebar');
+}
+
+function adjustTopWidth() {
+	var docWidth = jQuery(document).width();
+	var accordionWidth = jQuery('#secondary').width();
+	var formWidth = jQuery('table#main_form_body').width();
+	var toggle_accordion_width = jQuery('#toggle_accordion').width();
+	var totalWidth = accordionWidth + toggle_accordion_width + formWidth;
+	
+	var setWidth;
+	if(totalWidth < docWidth) setWidth = totalWidth;
+	else setWidth = docWidth;
+	
+	jQuery('div#top, #main_nav').width(setWidth);
+	var logoWidth = jQuery('p#cmp_logo').outerWidth();
+    var shortcuts = jQuery('#shortcuts');
+    var offset = shortcuts.outerWidth() - shortcuts.width();
+    shortcuts.css('width', setWidth - logoWidth - offset);
 }
 
 jQuery(document).bind('shortcuts-alter', function () {

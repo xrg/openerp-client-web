@@ -1,4 +1,4 @@
-<%inherit file="/openerp/controllers/templates/base_dispatch.mako"/>
+	<%inherit file="/openerp/controllers/templates/base_dispatch.mako"/>
 
 <%def name="header()">
 	<script type="text/javascript">
@@ -13,8 +13,10 @@
         	else {
         		set_height = form_height;
         	}
+        	
         	jQuery('#secondary, #toggle_accordion').height(set_height);
         	
+        	adjustTopWidth();
         });
     </script>
     <script type="text/javascript">
