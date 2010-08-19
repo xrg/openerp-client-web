@@ -88,6 +88,10 @@ class Screen(TinyInputWidget):
         self.m2m = kw.get('_m2m', 0)
         self.o2m = kw.get('_o2m', 0)
         
+        self.custom_columns = []
+        if params.get('_terp_custom_columns'):
+            self.custom_columns = params['_terp_custom_columns'].split(',')
+        
         while len(self.view_ids) < len(self.view_mode):
             self.view_ids += [False]
 

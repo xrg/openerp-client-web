@@ -510,7 +510,19 @@ function parse_filters(src, id) {
     return all_domains;
 }
 
+var custom_columns = new Array();
 function search_filter(src, id) {
+    if(jQuery('#custom_columns input:not(:checked)').get().length) {
+        var c_columns = [];
+        jQuery('#custom_columns input:not(:checked)').each(function() {
+            c_columns.push(jQuery(this).attr('id'))
+        });
+        custom_columns = c_columns.join(',');
+    }
+    else{
+        custom_columns = new Array();
+    }
+    
     var all_domains = parse_filters(src, id);
     var filters = jQuery('#filter_table');    
     
@@ -518,7 +530,7 @@ function search_filter(src, id) {
         display_Customfilters(all_domains, group_by);
     } else {
         var custom_domain = jQuery('#_terp_filter_domain').val() || '[]';
-        final_search_domain(custom_domain, all_domains, group_by);
+        final_search_domain(custom_domain, all_domains, group_by, custom_columns);
     }
 }
 
@@ -545,7 +557,7 @@ function manage_filters() {
         'model': jQuery('#_terp_model').val()}));
 }
 
-function final_search_domain(custom_domain, all_domains, group_by_ctx) {
+function final_search_domain(custom_domain, all_domains, group_by_ctx, custom_columns) {
 	var req = openobject.http.postJSON('/openerp/search/eval_domain_filter', 
 		{source: '_terp_list',
 		model: jQuery('#_terp_model').val(), 
