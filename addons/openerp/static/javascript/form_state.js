@@ -312,6 +312,10 @@ function form_setReadonly(container, fieldName, readonly) {
 
 function form_setRequired(container, field, required) {
     
+    if (!field) {
+        field = container;
+    }
+    
     if (required) {
         MochiKit.DOM.addElementClass(field, 'requiredfield');
     } else {
