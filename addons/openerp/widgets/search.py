@@ -181,44 +181,12 @@ class Filter(TinyInputWidget):
                 self.def_checked = True
 
 class M2O_search(M2O):
-    template = """
-        <table width="100%" cellpadding="0" cellspacing="0">
-            <tr>
-                <td>
-                    <input type="hidden" id="${name}" name="${name}" class="${css_class}" value="${value}"
-                        ${py.attrs(attrs, kind=kind, domain=domain, relation=relation, m2o_filter_domain=filter_domain)}/>
-                    <input type="text" id="${name}_text" class="${css_class}"
-                        name="${name}"
-                        ${py.attrs(attrs, kind=kind, relation=relation, value=text, m2o_filter_domain=filter_domain)}/>
-                    <input type="hidden" id="_hidden_${name}" value=""/>
-                    <div id="autoCompleteResults_${name}" class="autoTextResults"></div>
-                    % if error:
-                        <span class="fielderror">${error}</span>
-                    % endif
-                </td>
-                <td>
-                    <img id="${name}_select" alt="${_('Search')}" title="${_('Search')}"
-                        src="/openerp/static/images/fields-a-lookup-a.gif" class="${css_class} m2o_select"/>
-                </td>
-                <td class="item-image">
-                    <img id="${name}_open" alt="${_('Open')}" title="${_('Open a resource')}"
-                        src="/openerp/static/images/iconset-d-drop.gif" class="m2o_open"/>
-                </td>
-            </tr>
-        </table>
-        <script type="text/javascript">
-            new ManyToOne('${name}');
-        </script>
-    """
-    params = ['filter_domain']
-
     def __init__(self, **attrs):
         if attrs.get('default', False) == 'uid':
             attrs['default'] = rpc.session.uid
 
-        filter_domain = None
-        if attrs.get('filter_domain'):
-            filter_domain = attrs['filter_domain']
+        attrs['m2o_filter_domain'] = attrs.get('filter_domain')
+
         super(M2O_search, self).__init__(**attrs)
 
 class Search(TinyInputWidget):
@@ -257,13 +225,13 @@ class Search(TinyInputWidget):
 
         if isinstance (self.search_view, basestring):
             self.search_view = eval(self.search_view)
-        
+
         if not self.search_view:
-            self.search_view = cache.fields_view_get(self.model, view_id, 'search', ctx, True)            
-            
+            self.search_view = cache.fields_view_get(self.model, view_id, 'search', ctx, True)
+
         self.fields_list = []
-        fields = self.search_view.get('fields')       
-        
+        fields = self.search_view['fields']
+
         try:
             dom = xml.dom.minidom.parseString(self.search_view['arch'])
         except:
@@ -309,8 +277,8 @@ class Search(TinyInputWidget):
         sorted_filters.sort(lambda x, y: cmp(x[1], y[1]))
 
         self.filters_list = [("blk", "-- Filters --", "")] \
-                          + sorted_filters                          
-                          
+                          + sorted_filters
+
         self.operators_map = [
             ('ilike', _('contains')), ('not ilike', _('doesn\'t contain')),
             ('=', _('is equal to')), ('<>', _('is not equal to')),

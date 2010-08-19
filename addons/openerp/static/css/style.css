@@ -607,7 +607,14 @@ td.item input.reference {
     min-width: 100%;
 }
 
-img.m2o_select,
+.m2o {
+    position: relative;
+}
+.m2o_select {
+    position: absolute;
+    right: 2px;
+    top: 0;
+}
 img.datetime {
     margin-left: -13px;
 }
