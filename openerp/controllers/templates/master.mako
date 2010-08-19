@@ -67,7 +67,7 @@ except:
 <table id="container" border="0" cellpadding="0" cellspacing="0">
     % if context.get('show_header_footer', self.attr.show_header_footer):
     <tr>
-           <td>
+    	<td>
             <table id="header_" class="header" cellpadding="0" cellspacing="0" border="0">
                 <tr>
                     <td rowspan="2">
@@ -81,7 +81,7 @@ except:
                                         <img src="/static/images/openerp_small.png" border="0" width="86" height="24"/></a>
                                 </td>
                                 <td width="26" style="background: transparent url(/static/images/diagonal_right.gif) no-repeat scroll right;" nowrap="nowrap">
-                                    <div style="width: 26px;"/>
+                                    <div style="width: 26px;"></div>
                                 </td>
                                 <td class="menu_connection_welcome" nowrap="nowrap">
                                     ${_("Welcome %(user)s", user=rpc.session.user_name or 'guest')}
@@ -114,7 +114,7 @@ except:
                                 <td width="5%" id="menu_header_shortcuts" nowrap="nowrap">
                                     <a href="/shortcuts">${_("SHORTCUTS")}</a>
                                 </td>
-                                <td width="26" style="background: transparent url(/static/images/diagonal_left.gif) no-repeat scroll left;" nowrap="nowrap"/>
+                                <td width="26" style="background: transparent url(/static/images/diagonal_left.gif) no-repeat scroll left;" nowrap="nowrap"></td>
                                 % if rpc.session.is_logged():
                                 <td nowrap="nowrap">
                                     <table id="shortcuts" class="menubar" border="0" cellpadding="0" cellspacing="0">
