@@ -367,14 +367,10 @@ div.box,div.box2 {
     background-color: #f6f6f6;
 }
 
-fieldset.box {
-	background-color: #f6f6f6;
+fieldset.box {	
 	border-radius: 10px;
     -moz-border-radius: 10px;
-    -webkit-border-radius: 10px;
-    box-shadow: 0 1px 1px #fff;
-    -moz-box-shadow: 0 1px 1px #fff;
-    -webkit-box-shadow: 0 1px 1px #fff;
+    -webkit-border-radius: 10px;    
     border-color: DarkGray;
 }
 
