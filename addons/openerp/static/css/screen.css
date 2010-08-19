@@ -1750,13 +1750,13 @@ ul.sections-a li span.wrap a:hover span strong,ul.sections-a li span.wrap a:focu
 .open-close-menu {
     float: left;
     cursor: pointer;
-    background: #CECBCB url(../images/left.png) no-repeat scroll center 0.5%;
     min-height: 100%;
-    width: 11px;
+    background: #eae7e7 url(../images/toggle-a-bg.png) no-repeat 0 0;
+    width: 21px;
 }
 
 .hide-menu .open-close-menu {
-    background-image: url(../images/right.png);
+    background-position: -21px 0;
 }
 
 .hide-menu #primary {
