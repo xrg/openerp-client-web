@@ -302,7 +302,7 @@ p#cmp_logo {
     display: inline-block;
     margin: 8px 5px 0;
     padding: 0 6px;
-    border: 1px solid #4c4a4a;
+    border: 1px solid;
     border-color: #424141 #4c4a4a #5a5858;
     border-radius: 3px;
     -moz-border-radius: 3px;
@@ -593,7 +593,7 @@ p#cmp_logo {
 }
 
 #content div.wrap {
-    padding: 0px 0 5px;
+    padding: 0 0 5px;
 }
 
 #primary {
@@ -603,7 +603,7 @@ p#cmp_logo {
 }
 
 #primary div.wrap {
-    padding-top: 0px;
+    padding-top: 0;
 }
 
 #secondary {
@@ -958,7 +958,6 @@ div.footer-a p a {
 div.footer-a p span {
     padding: 0 5px;
     color: #969494;
-    font-weight: normal;
     font-weight: bold;
 }
 
@@ -1972,7 +1971,7 @@ ul.split-a .two {
 }
 
 table#title_header {
-    margin-bottom: 0px;
+    margin-bottom: 0;
     padding: 0 0 5px;
     background: url(../images/sep-a.gif) 0 100% repeat-x;
 }
@@ -2251,9 +2250,9 @@ td#body_form_td {
     border-radius: 3px;
     -moz-border-radius: 3px;
     -webkit-border-radius: 3px;
-    box-shadow: 0 1px 0 transperant;
-    -moz-box-shadow: 0 1px 0 transperant;
-    -webkit-box-shadow: 0 1px 0 transperant;
+    box-shadow: 0 1px 0 transparent;
+    -moz-box-shadow: 0 1px 0 transparent;
+    -webkit-box-shadow: 0 1px 0 transparent;
     background: url(../images/button-a.gif) repeat-x;
     color: #fff;
     white-space: nowrap;
@@ -2303,9 +2302,9 @@ a.button-b {
     border-radius: 3px;
     -moz-border-radius: 3px;
     -webkit-border-radius: 3px;
-    box-shadow: 0 1px 0 transperant;
-    -moz-box-shadow: 0 1px 0 transperant;
-    -webkit-box-shadow: 0 1px 0 transperant;
+    box-shadow: 0 1px 0 transparent;
+    -moz-box-shadow: 0 1px 0 transparent;
+    -webkit-box-shadow: 0 1px 0 transparent;
     background: url(../images/button-a.gif) 0 -26px repeat-x;
     color: #8d8d8d;
     white-space: nowrap;
