@@ -250,7 +250,7 @@ def execute(action, **data):
             domain.append(data['domain'])
             
         if 'menu' in data['res_model'] and action.get('name') == 'Menu':
-            raise redirect('/openerp/blank')
+            return close_popup()
         
         res = execute_window(view_ids,
                              data['res_model'],
