@@ -156,10 +156,8 @@ div #content {
 }
 
 #footer_section {
-	float: left;
+	clear: left;
 	vertical-align: bottom;
-	width: 100%;
-	display: none;
 }
 
 #company_logo {
@@ -951,12 +949,9 @@ div.footer-a,
 div.footer-b {
     background:none repeat scroll 0 0 #CCCCCC;
 	border:1px solid #AAAAAA;
-	display:block;
-	margin:0 -2px;
 	overflow:hidden;
 	padding:5px 0;
 	position:relative;
-	width:100%;
 }
 
 div.footer-a p,

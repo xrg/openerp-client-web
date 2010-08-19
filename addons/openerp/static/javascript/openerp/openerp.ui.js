@@ -47,66 +47,6 @@ function toggle_sidebar() {
     } else {
         Notebook.adjustSize(a);
     }
-    jQuery('td.toggle_sidebar').toggleClass('sidebar_open sidebar_close');
-    
-    adjustTopWidth();
-    
-}
-
-function adjustTopWidth() {
-    var docWidth = jQuery(document).width();
-    var accordionWidth = jQuery('#secondary div.wrap').width();
-    var accordionHeight = jQuery('#secondary div.wrap').height();
-    var $form = jQuery('#appContent table:first');
-
-    if (!$form.length) {
-        $form = jQuery('#appContent');
-    }
-
-    var formWidth = $form.width();
-    var formHeight = $form.height();
-    var toggle_accordion_width = jQuery('#toggle_accordion').width();
-    var totalWidth = accordionWidth + toggle_accordion_width + formWidth;
-
-    var adjust_Width;
-    var adjust_Height;
-
-    if(totalWidth < docWidth ) adjust_Width = totalWidth;
-    else adjust_Width = docWidth;
-
-    if(accordionHeight > formHeight) adjust_Height = accordionHeight;
-    else adjust_Height = formHeight;
-
-    jQuery('div#top, #main_nav').width(adjust_Width);
-    var logoWidth = jQuery('p#cmp_logo').outerWidth();
-    var shortcuts = jQuery('#shortcuts');
-    var offset = shortcuts.outerWidth() - shortcuts.width();
-    shortcuts.css('width', adjust_Width - logoWidth - offset);
-
-    if (!window.browser.isGecko) {
-        if ($form.length && $form.get(0).tagName == 'TABLE') {
-
-            $form.parent().css('float', 'left');
-            if (formWidth > 750)
-                $form.parent().width(700)
-        }
-    }
-    jQuery('#secondary, #toggle_accordion').height(adjust_Height);
-
-    jQuery('#footer_section').width(adjust_Width);
-    jQuery('#footer_section').show();
-
-    var total_width = 0;
-    jQuery('ul.sc_menu li').each(function() {
-        total_width = parseFloat(total_width) + parseFloat(jQuery('ul.sc_menu li').width());
-    });
-
-    if(jQuery('div.sc_menu').width() < jQuery('ul.sc_menu').width()) {
-        jQuery('a.scroll_right').css('display', 'block');
-    }
-    else {
-        jQuery('a.scroll_right').css('display', 'none');
-    }
 }
 
 jQuery(document).bind('shortcuts-alter', function () {
@@ -134,7 +74,6 @@ jQuery(document).bind('shortcuts-alter', function () {
             shortcuts.scrollLeft(0);
         }
     }
-    setRowWidth();
 });
 
 // trigger on window load so all other handlers (including resizer) have executed
@@ -168,7 +107,7 @@ jQuery(window).load(function () {
     });
     shortcuts.prepend(scroll_right).prepend(scroll_left);
     jQuery(document).trigger('shortcuts-alter');
-    jQuery(window).resize(function () {
-        jQuery(document).trigger('shortcuts-alter');
-    })
+});
+jQuery(window).resize(function () {
+    jQuery(document).trigger('shortcuts-alter');
 });

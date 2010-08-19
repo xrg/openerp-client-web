@@ -73,7 +73,6 @@ jQuery(document).ajaxStop(function () {
     if(window.CAL_INSTANCE) {
         setTimeout(function() {
 			jQuery.proxy(window.CAL_INSTANCE, 'onResize')
-			adjustTopWidth();
 		}, 100);
     }
 });

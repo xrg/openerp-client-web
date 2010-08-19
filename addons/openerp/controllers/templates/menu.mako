@@ -22,7 +22,6 @@
             }
 
             jQuery('.open-close-menu').click(function() {
-            	setTimeout("adjustTopWidth()", 0);
                 jQuery('#content').toggleClass('hide-menu');
                 jQuery(window).trigger('on-appcontent-resize');
             });

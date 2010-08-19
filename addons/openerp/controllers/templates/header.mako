@@ -13,27 +13,11 @@ except:
     shortcuts = []
     requests = []
     requests_message = None
-%>
 
-<script type="text/javascript">
-    function setRowWidth() {
-        var topWidth = jQuery('div#top').width();
-        var logoWidth = jQuery('p#cmp_logo').outerWidth();
-
-        var shortcuts = jQuery('#shortcuts');
-        var offset = shortcuts.outerWidth() - shortcuts.width();
-
-        shortcuts.css('width', topWidth - logoWidth - offset);
-    }
-
-    jQuery(document).ready(setRowWidth);
-    jQuery(window).resize(setRowWidth);
-</script>
-<%
-    if rpc.session.is_logged():
-        logged = True
-    else:
-        logged = False
+if rpc.session.is_logged():
+    logged = True
+else:
+    logged = False
 %>
 <div id="top">
     <p id="cmp_logo">

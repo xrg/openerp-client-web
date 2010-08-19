@@ -475,7 +475,6 @@ Notebook.prototype = {
             }
             
         }
-        setTimeout("adjustTopWidth()", 0);
     },
     
     activateScrollers: function() {
