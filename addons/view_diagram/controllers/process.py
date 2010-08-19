@@ -49,7 +49,8 @@ class Process(SecuredController):
         selection = None
 
         proxy = rpc.RPCProxy('process.process')
-        fields = proxy.fields_get([], {})
+#        fields = proxy.fields_get([], {})
+        fields = rpc.RPCProxy(res_model).fields_get([], {})
         if id:
             res = proxy.read([id], ['name'], rpc.session.context)[0]
             selection = proxy.search_by_model(False, rpc.session.context)
