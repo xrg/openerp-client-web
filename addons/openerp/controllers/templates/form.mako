@@ -6,19 +6,6 @@
             document.title = '${title}' + ' - OpenERP';
             
         });
-        
-		jQuery(document).scroll(function() {
-			var prim_height = jQuery('#primary').height();
-			var doc_height = jQuery(this).height();
-			var set_height;
-			if(doc_height < prim_height) {
-				set_height = doc_height;
-			}
-			else {
-				set_height = prim_height;
-			}
-			jQuery('#secondary, #toggle_accordion').height(set_height);
-		});
     </script>
     <script type="text/javascript">
         var form_controller = '${path}';

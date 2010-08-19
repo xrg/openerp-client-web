@@ -1803,8 +1803,6 @@ ul.sections-a li span.wrap a:hover span strong,ul.sections-a li span.wrap a:focu
     background: url(../images/sidenav-bg-a.gif) 0 100% repeat-x;
     font-size: 1em;
     display: block;
-    overflow: hidden;
-    min-width: 180px;
 }
 
 #sidenav-a li {
@@ -1823,9 +1821,7 @@ ul.sections-a li span.wrap a:hover span strong,ul.sections-a li span.wrap a:focu
     font-weight: bold;
     text-decoration: none !important;
     text-transform: uppercase;
-    overflow: hidden;
     cursor: pointer;
-    min-width: 165px;
 }
 
 #sidenav-a .tree-grid,
