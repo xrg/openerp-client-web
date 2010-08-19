@@ -89,6 +89,7 @@ a.help-button-a small {
 
 .node-bottom table {
     border-collapse: collapse;
+    border: 0;
 }
 
 .node-bottom img {
@@ -96,3 +97,10 @@ a.help-button-a small {
     margin: 0px 2px;
 }
 
+.node-buttons {
+	padding: 0 0 0 5px;
+}
+
+.process_table {
+	border: 0;
+}

@@ -45,8 +45,8 @@ class Process(SecuredController):
         id = (id or False) and int(id)
         res_id = int(res_id)
 
-        title = title
         selection = None
+        process_title = None
 
         proxy = rpc.RPCProxy('process.process')
 #        fields = proxy.fields_get([], {})
@@ -57,23 +57,24 @@ class Process(SecuredController):
         for h_id in help_ids:
             field = rpc.session.execute('object', 'execute', 'ir.actions.act_window', 'read', h_id)
             if field['help'] and (field['name'] == title):
+                p_title = field['name']
                 help = field['help']
 
         if id:
             res = proxy.read([id], ['name'], rpc.session.context)[0]
-            selection = proxy.search_by_model(False, rpc.session.context)
-
+            process_title = res['name']
         else:
             selection = proxy.search_by_model(res_model, rpc.session.context)
             if res_model and not selection:
                 selection = proxy.search_by_model(False, rpc.session.context)
 
             if len(selection) == 1:
-                id = selection[0]
-#                selection = None
-                selection = proxy.search_by_model(False, rpc.session.context)
+                id, title = selection[0]
+                process_title = title
+                selection = None
+#                selection = proxy.search_by_model(False, rpc.session.context)
 
-        return dict(id=id, res_model=res_model, res_id=res_id, title=title, selection=selection, fields=fields, help=help)
+        return dict(id=id, res_model=res_model, res_id=res_id, title=title, selection=selection, fields=fields, help=help, process_title=process_title)
 
     @expose('json')
     def get(self, id, res_model=None, res_id=False, title=None):
