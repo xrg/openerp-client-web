@@ -4,7 +4,17 @@
 	<script type="text/javascript">
         jQuery(document).ready(function() {
             document.title = '${title}' + ' - OpenERP';
-            
+        	var prim_height = jQuery('#primary').height();
+        	var form_height = jQuery('table#main_form_body').height();
+        	var set_height;
+        	if(prim_height > form_height) {
+        		set_height = prim_height;
+        	}
+        	else {
+        		set_height = form_height;
+        	}
+        	jQuery('#secondary, #toggle_accordion').height(set_height);
+        	
         });
     </script>
     <script type="text/javascript">
