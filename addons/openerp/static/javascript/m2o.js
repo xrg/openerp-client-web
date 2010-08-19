@@ -490,7 +490,7 @@ ManyToOne.prototype.displayResults = function(result) {
             var currentItemValue = result.values[i][1];
 
             var currentRow = TR({"class": "autoTextNormalRow", "name": "autoComplete" + this.name + "_" + i, "id": "autoComplete" + this.name + "_" + i},
-                    TD({'id':result.values[i][0]},
+                    TD({'id':result.values[i][0], 'class': 'm2o_coplition'},
                             createDOM("nobr", null, SPAN({'id':result.values[i][0], 'style':'text-transform:none;', 'title': currentItem}, currentItem))));
 
             if(this.hasHiddenValue)
