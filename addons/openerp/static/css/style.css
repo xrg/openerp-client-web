@@ -175,6 +175,17 @@ div#search_filter_data select.selection {
     color: #000;
     border: 1px solid #999999;
     width: 95px;
+    min-width: 95px;
+}
+#search_filter_data button,
+#search_filter_data .button {
+    padding: 0;
+}
+#search_filter_data .fields {
+    width: 100%;
+}
+#search_filter_data .fields .filters-group .fields {
+    width: 1px;
 }
 
 div.inactive_filter {
