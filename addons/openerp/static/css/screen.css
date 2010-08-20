@@ -163,6 +163,7 @@ div #content {
 	float: left;
 	vertical-align: bottom;
 	width: 100%;
+	display: none;
 }
 
 #company_logo {

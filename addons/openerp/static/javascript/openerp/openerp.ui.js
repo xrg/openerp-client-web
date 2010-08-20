@@ -52,23 +52,29 @@ function toggle_sidebar() {
 }
 
 function adjustTopWidth() {
+	setTimeout(jQuery.proxy(adjustTopWidth), 0)
 	var docWidth = jQuery(document).width();
 	var accordionWidth = jQuery('#secondary').width();
 	var formWidth = jQuery('table#main_form_body').width();
 	var toggle_accordion_width = jQuery('#toggle_accordion').width();
 	var totalWidth = accordionWidth + toggle_accordion_width + formWidth;
-	
 	var setWidth;
+	
 	if(totalWidth < docWidth) setWidth = totalWidth;
 	else setWidth = docWidth;
 	
 	jQuery('div#top, #main_nav').width(setWidth);
+	
 	var logoWidth = jQuery('p#cmp_logo').outerWidth();
     var shortcuts = jQuery('#shortcuts');
     var offset = shortcuts.outerWidth() - shortcuts.width();
     shortcuts.css('width', setWidth - logoWidth - offset);
     
-    jQuery('#footer_section').width(setWidth)
+    jQuery('#footer_section').width(setWidth);
+    jQuery('#footer_section').show();
+    
+    jQuery('#secondary, #toggle_accordion').height(jQuery('table#main_form_body').height())
+    
 }
 
 jQuery(document).bind('shortcuts-alter', function () {

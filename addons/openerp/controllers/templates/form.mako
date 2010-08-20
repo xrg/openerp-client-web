@@ -4,12 +4,10 @@
 	<script type="text/javascript">
         jQuery(document).ready(function() {
             document.title = '${title}' + ' - OpenERP';
-            
-        	var form_height = jQuery('table#main_form_body').height();
-        	jQuery('#secondary, #toggle_accordion').height(form_height);
-        	adjustTopWidth();
+            adjustTopWidth(); 
         });
     </script>
+    
     <script type="text/javascript">
         var form_controller = '${path}';
         var USER_ID = '${rpc.session.uid}';
