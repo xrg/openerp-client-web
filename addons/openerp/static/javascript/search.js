@@ -280,8 +280,8 @@ function save_filter() {
     req.addCallback(function(obj) {
         var sf_params = {'model': jQuery('#_terp_model').val(), 'domain': obj.domain, 'group_by': group_by, 'flag': 'sf'};
         openobject.tools.openWindow(openobject.http.getURL('/openerp/search/save_filter', sf_params), {
-                width: 500,
-                height: 240
+                width:400,
+                height:150
             });
     });
     

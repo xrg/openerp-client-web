@@ -429,13 +429,13 @@ div.welcome-message {
     -moz-border-radius: 3px 3px 3px 3px;
 }
 
-td.popup_header {
-	background-color: #5A5858;
-    color: white;
+td.popup_header,
+table.popup_header {
+	background-color: #bbbbbb;
+    color: DarkRed;
     text-align: center;
     font-weight: bold;
     border: none;
-    font-size: 1.3em;
     height: 30px;
     -moz-border-radius: 3px 3px 3px 3px;
 }
@@ -451,6 +451,12 @@ div.popup_footer {
     height: 30px;
     -moz-border-radius: 3px 3px 3px 3px;
 }
+
+td.pop_head_font{
+	font-size: 1.5em;
+	}
+	
+
 
 /* view style */
 .view {
@@ -841,6 +847,19 @@ div.filter-a button table {
 
 button.filter_with_icon table td {
 	font-size: 1.3em;
+}
+
+td.exp-header,
+td.imp-header,
+td.save-filter-header {
+	padding:0 0 0 10px;
+	width: 30%;
+}
+
+td.exp-header a,
+td.imp-header a,
+td.save-filter-header a{
+	margin: 2px;
 }
 
 /**

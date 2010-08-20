@@ -2278,9 +2278,11 @@ td#body_form_td {
     background: #666666;
 }
 
+
 td.popup_footer .button-a:hover,
 table.popup_footer .button-a:hover,
-div.popup_footer .button-a:hover {
+div.popup_footer .button-a:hover
+ {
     background: url(../images/button-a.gif) repeat-x;
     border-color: #CCCCCC;
 }
