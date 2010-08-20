@@ -72,20 +72,6 @@
 		                    <td width="100%" valign="top">${tree.display()}</td>
 		                 </tr>
 		            </table>
-		            % if cp.config('server.environment') == 'development':
-		                <div class="footer-a">
-		                	<p class="one">
-		                        <span>${rpc.session.protocol}://${_("%(user)s", user=rpc.session.loginname)}@${rpc.session.host}:${rpc.session.port}</span>
-		                    </p>
-		                    <p class="powered">${_("Powered by %(openerp)s ",
-		                    					openerp="""<a href="http://www.openerp.com/">openerp.com</a>""")|n}</p>
-		                </div>
-		            % else:
-		            	<div class="footer-b">
-		                    <p class="powered">${_("Powered by %(openerp)s ",
-		                    					openerp="""<a href="http://www.openerp.com/">openerp.com</a>""")|n}</p>
-		                </div>
-		            % endif
 		    	</div>
 	        </td>
 	        % if tree.sidebar:
