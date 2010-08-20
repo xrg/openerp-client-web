@@ -48,22 +48,25 @@ class State(Form):
             params.load_counter = 2
         else:
             params.context = {'o2m_model': params.o2m_model}
-            
+
         proxy_field = rpc.RPCProxy('ir.model.fields')
         field_ids = proxy_field.search([('model', '=', params.o2m_model or params.context.get('o2m_model')), ('relation', '=', params.model)], 0, 0, 0, rpc.session.context)
-        state_field = proxy_field.read(field_ids, ['relation_field'], rpc.session.context)[0]['relation_field']
-        
-        params.hidden_fields = [tw.form.Hidden(name=state_field, default=params.o2m_id), 
-                                tw.form.Hidden(name='_terp_o2m_model', default=params.o2m_model)]
+        m2o_field = proxy_field.read(field_ids, ['relation_field'],
+                                     rpc.session.context)[0]['relation_field']
+
+        params.hidden_fields = [tw.form.Hidden(name=m2o_field,
+                                               default=params.o2m_id),
+                                tw.form.Hidden(name='_terp_o2m_model',
+                                               default=params.o2m_model)]
         form = self.create_form(params, tg_errors)
-        
-        field = form.screen.widget.get_widgets_by_name(state_field)
+
+        field = form.screen.widget.get_widgets_by_name(m2o_field)
         if field:
             field[0].set_value(params.o2m_id or False)
             field[0].readonly = True
 
         vals = getattr(cherrypy.request, 'terp_validators', {})
-        vals[state_field] = validators.Int()
+        vals[m2o_field] = validators.Int()
 
         hide = []
         tr_ids = proxy_field.search([('ttype', '=', 'one2many'), ('model', '=', params.model)], 0, 0, 0, rpc.session.context)
@@ -160,22 +163,37 @@ class Connector(Form):
         if params.id and cherrypy.request.path_info == self.path + '/view':
             params.load_counter = 2
 
-        params.hidden_fields = [tw.form.Hidden(name='act_from', default=params.start),
-                                tw.form.Hidden(name='act_to', default=params.end)]
+        proxy_field = rpc.RPCProxy('ir.model.fields')
+        field_ids = proxy_field.search([('ttype', '=', 'many2one'),
+                                        ('model', '=', params.model),
+                                        ('relation', '=', params.m2o_model)])
+        fields = map(lambda field: field['name'],
+                     proxy_field.read(field_ids, ['name'],
+                                      rpc.session.context))
+
+        connector = rpc.RPCProxy(params.model).read(params.id, fields,
+                                                    rpc.session.context)
+
+        params.hidden_fields = [tw.form.Hidden(name=fields[0],
+                                               default=connector[fields[0]]),
+                                tw.form.Hidden(name=fields[1],
+                                               default=connector[fields[1]]),
+                                tw.form.Hidden(name='_terp_m2o_model',
+                                               default=params.m2o_model),]
 
         form = self.create_form(params, tg_errors)
 
-        field_act_from = form.screen.widget.get_widgets_by_name('act_from')[0]
+        field_act_from = form.screen.widget.get_widgets_by_name(fields[0])[0]
         field_act_from.set_value(params.start or False)
         field_act_from.readonly = True
 
-        field_act_to = form.screen.widget.get_widgets_by_name('act_to')[0]
+        field_act_to = form.screen.widget.get_widgets_by_name(fields[1])[0]
         field_act_to.set_value(params.end or False)
         field_act_to.readonly = True
 
         vals = getattr(cherrypy.request, 'terp_validators', {})
-        vals['act_from'] = validators.Int()
-        vals['act_to'] = validators.Int()
+        vals[fields[0]] = validators.Int()
+        vals[fields[1]] = validators.Int()
 
         return dict(form=form, params=params)
 

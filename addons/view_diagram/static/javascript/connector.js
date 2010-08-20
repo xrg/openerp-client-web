@@ -99,11 +99,11 @@ openobject.workflow.Connector.prototype.onmouseOut = function(event) {
 };
 
 openobject.workflow.Connector.prototype.edit = function() {
-	
     params = {
         '_terp_model' : WORKFLOW.connector_obj,//'workflow.transition',
         '_terp_start' : this.getSource().getParent().get_act_id(),
-        '_terp_end' : this.getTarget().getParent().get_act_id()
+        '_terp_end' : this.getTarget().getParent().get_act_id(),
+        '_terp_m2o_model': WORKFLOW.node_obj
     };
 	
     if (!isUndefinedOrNull(this.tr_id))
