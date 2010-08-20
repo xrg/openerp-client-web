@@ -622,14 +622,13 @@ TreeNode.prototype = {
         if (this._ajax_counter) {
             return false;
         }
-
+		
         if (this.expanded) {
-            this.collapse();
+        	this.collapse();
         } else {
-
-            this.expand();
+        	this.expand();
         }
-
+		adjustTopWidth();
         return true;
     },
 

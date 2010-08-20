@@ -55,7 +55,18 @@ function adjustTopWidth() {
 	setTimeout(jQuery.proxy(adjustTopWidth), 0)
 	var docWidth = jQuery(document).width();
 	var accordionWidth = jQuery('#secondary').width();
-	var formWidth = jQuery('table#main_form_body').width();
+	var formWidth;
+	var formHeight;
+	
+	if(jQuery('table#main_form_body').get().length) {
+		formWidth = jQuery('table#main_form_body').width();
+		formHeight = jQuery('table#main_form_body').height();
+	}	
+	else {
+		formWidth = jQuery('#appContent table:first').width();
+		formHeight = jQuery('#appContent table:first').height();
+	} 
+	
 	var toggle_accordion_width = jQuery('#toggle_accordion').width();
 	var totalWidth = accordionWidth + toggle_accordion_width + formWidth;
 	var setWidth;
@@ -70,10 +81,10 @@ function adjustTopWidth() {
     var offset = shortcuts.outerWidth() - shortcuts.width();
     shortcuts.css('width', setWidth - logoWidth - offset);
     
-    jQuery('#footer_section').width(setWidth);
+    var accordionHeight = jQuery('#secondary div.wrap').height();
+	
+	jQuery('#footer_section').width(setWidth);
     jQuery('#footer_section').show();
-    
-    jQuery('#secondary, #toggle_accordion').height(jQuery('table#main_form_body').height())
     
 }
 
