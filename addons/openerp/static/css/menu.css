@@ -101,10 +101,10 @@
     width: 7px;
     display: none;
 }
-#shortcuts.scrolling {
+#shortcuts .scrolling {
     padding: 6px 14px !important;
 }
-#shortcuts.scrolling .scroller {
+#shortcuts .scrolling .scroller {
     display: block;
     background: no-repeat center center;
 }

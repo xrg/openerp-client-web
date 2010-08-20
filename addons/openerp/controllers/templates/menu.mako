@@ -18,9 +18,8 @@
         jQuery(document).ready(function() {
             var total_width = 0;
             jQuery('ul.sc_menu li').each(function() {
-                total_width = parseFloat(total_width) + parseFloat(jQuery(this).css('width').split('px')[0]);
+                total_width = parseFloat(total_width) + parseFloat(jQuery('ul.sc_menu li').width());
             });
-            
             if(jQuery('div.sc_menu').width() > total_width) {
                 jQuery('a.scroll_right').css('display', 'none');
             }
