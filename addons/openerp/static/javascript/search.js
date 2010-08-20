@@ -294,7 +294,7 @@ function manage_filters() {
 
 function final_search_domain(custom_domain, all_domains, group_by_ctx) {
 	var waitBox = new openerp.ui.WaitBox();
-	waitBox.show();
+	waitBox.showAfter(500);
 	jQuery.ajax({
 		url: '/openerp/search/eval_domain_filter',
 		type: 'POST',
