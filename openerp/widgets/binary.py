@@ -79,7 +79,10 @@ class Image(TinyInputWidget):
         super(Image, self).__init__(**attrs)
 
         self.filename = attrs.get('filename', '')
-
+        if getattr(self,'size', ''):
+            self.img_size = True
+        else:
+            self.img_size = False
         if 'widget' in attrs:
             self.stock = False
             self.field = self.name.split('/')[-1]
@@ -92,6 +95,9 @@ class Image(TinyInputWidget):
             self.validator = validators.Binary()
         else:
             self.src =  icons.get_icon(icon)
+        
+        if self.readonly:
+            self.editable = False
             
 
 @cache.memoize(1000, force=True)
