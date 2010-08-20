@@ -277,6 +277,11 @@ var form_setReadonly = function(container, field, readonly) {
     }
     
     var kind = MochiKit.DOM.getNodeAttribute(field, 'kind');
+    
+    if (kind == 'boolean') {        
+        var i = MochiKit.DOM.getElement(field)
+        field = MochiKit.DOM.getElement(i.id + '_checkbox_')
+    }
 
     if (!kind && 
             MochiKit.DOM.getElement(field.id + '_id') && 
