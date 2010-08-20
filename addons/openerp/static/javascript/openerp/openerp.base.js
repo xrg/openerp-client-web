@@ -138,7 +138,7 @@ jQuery(document).ready(function () {
 // Hook onclick for boolean alteration propagation
 var onBooleanClicked;
 jQuery(document).delegate(
-        'input.checkbox:enabled',
+        'input.checkbox:enabled:not(.grid-record-selector)',
         'click', function () {
     if(onBooleanClicked) {
         onBooleanClicked(jQuery(this).attr('id').replace(/_checkbox_$/, ''));
