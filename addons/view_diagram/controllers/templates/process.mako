@@ -44,13 +44,13 @@
 </%def>
 
 <%def name="content()">
-<table class="view, process_table" width="100%" cellpadding="0" cellspacing="0">
+<table class="view process_table" width="100%" cellpadding="0" cellspacing="0">
 	<tr>
 	    <td>
 		    <table width="100%" class="process_table">
 			    <tr>
 			        <td width="80%" valign="top">
-			            <table width="100%" class="titlebar, process_table">
+			            <table width="100%" class="titlebar process_table">
 			                <tr>
 			                    <td width="100%" id="process_title" align="left" style="font-size: 14px; font-weight: bold;">${title}</td>
 			                </tr>
@@ -101,7 +101,7 @@
     </tr>
 	<tr>
 		<td>
-			<table class="view, process_table" width="100%" cellpadding="0" cellspacing="0">
+			<table class="view process_table" width="100%" cellpadding="0" cellspacing="0">
 				<tr>
 					<td align="left" style="font-size: 14px; font-weight: bold;">${_("Process")}: ${process_title}</td>
 				</tr>
@@ -169,7 +169,7 @@
     % endif
     <tr>
        <td class="dimmed-text">
-           <table class="form-footer, process_table">
+           <table class="form-footer process_table">
                 <tr>
 	                <td class="footer" style="text-align: right;">
 	                    <a target="_blank" id="show_customize_menu" href="${py.url('/openerp/form/edit', model='process.process', id=id)}">${_("Customise")}</a><br/>
