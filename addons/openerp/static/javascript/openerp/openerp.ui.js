@@ -57,12 +57,14 @@ function adjustTopWidth() {
 	var accordionWidth = jQuery('#secondary').width();
 	var formWidth;
 	var formHeight;
-	
+	var $form;
 	if(jQuery('table#main_form_body').get().length) {
+		$form = jQuery('table#main_form_body')
 		formWidth = jQuery('table#main_form_body').width();
 		formHeight = jQuery('table#main_form_body').height();
 	}	
 	else {
+		$form = jQuery('#appContent table:first');
 		formWidth = jQuery('#appContent table:first').width();
 		formHeight = jQuery('#appContent table:first').height();
 	} 
@@ -81,8 +83,24 @@ function adjustTopWidth() {
     var offset = shortcuts.outerWidth() - shortcuts.width();
     shortcuts.css('width', setWidth - logoWidth - offset);
     
+    
     var accordionHeight = jQuery('#secondary div.wrap').height();
-	
+	if(accordionHeight > formHeight) {
+    	jQuery('#secondary, #toggle_accordion, #main_form_body').height(accordionHeight);
+    	if(!window.browser.isGecko) {
+	    	var countWidth = docWidth - totalWidth;
+	    	
+	    	if(countWidth > 0)
+	    		$form.width(formWidth - toggle_accordion_width)
+			else if(countWidth < 0) {
+				countWidth = countWidth * -1;
+				$form.width(formWidth - countWidth - toggle_accordion_width)
+			}
+    	}
+    }
+	else {
+		jQuery('#secondary, #toggle_accordion').height(formHeight);	
+	}
 	jQuery('#footer_section').width(setWidth);
     jQuery('#footer_section').show();
     
