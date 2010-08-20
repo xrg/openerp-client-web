@@ -67,8 +67,7 @@ class Process(SecuredController):
                 selection = proxy.search_by_model(False, rpc.session.context)
 
             if len(selection) == 1:
-                id, title = selection[0]
-                process_title = title
+                id, process_title = selection[0]
                 selection = None
 
         return dict(id=id, res_model=res_model, res_id=res_id, title=title, selection=selection, fields=fields, help=help, process_title=process_title)
