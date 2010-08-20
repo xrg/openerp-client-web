@@ -7,14 +7,6 @@
             
         	var form_height = jQuery('table#main_form_body').height();
         	jQuery('#secondary, #toggle_accordion').height(form_height);
-        	
-        	var form_width = jQuery('table#main_form_body').width();
-            var accordion_width = jQuery('#secondary').width();
-            var left_bar = jQuery('#toggle_accordion').width();
-            
-            var footer_width = form_width + accordion_width + left_bar;
-        	jQuery('#footer_section').width(footer_width);
-        	
         	adjustTopWidth();
         });
     </script>

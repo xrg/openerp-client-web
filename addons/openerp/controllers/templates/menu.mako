@@ -95,7 +95,8 @@
                     <div id="appContent"></div>
                 </div>
             </div>
-            <div id="footer_section" style="float: left;">
+        </div>
+        <div id="footer_section">
 		   		% if cp.config('server.environment') == 'development':
 		            <div class="footer-a">
 		            	<p class="one">
@@ -110,7 +111,6 @@
 		                					openerp="""<a href="http://www.openerp.com/">openerp.com</a>""")|n}</p>
 		            </div>
 		        % endif
-	        </div>
         </div>
     </div>
 </%def>

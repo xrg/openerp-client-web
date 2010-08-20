@@ -154,6 +154,17 @@ hr {
     height: 65px;
 }
 
+div #content {
+	float: left;
+	width: 100%;
+}
+
+#footer_section {
+	float: left;
+	vertical-align: bottom;
+	width: 100%;
+}
+
 #company_logo {
     padding: 10px 0;
     width: 100%;
