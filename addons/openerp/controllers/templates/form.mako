@@ -83,7 +83,7 @@
                        onclick="show_process_view('${form.screen.string}')">
                         <small>Help</small>
                       </a>
-                      % if serverLog:
+                      % if form.screen.view_type == 'form' and form.logs.logs:
                          <a id="show_server_logs" class="help" href="javascript: void(0)"
                        title="${_('Show Logs...')}">
                             <small>Help</small>
