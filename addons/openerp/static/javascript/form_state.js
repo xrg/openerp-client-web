@@ -274,6 +274,13 @@ function form_setReadonly(container, fieldName, readonly) {
     }
     
     var kind = MochiKit.DOM.getNodeAttribute(field, 'kind');
+    
+    if (kind == 'boolean') {
+        var boolean_id = jQuery(fieldName).attr('id')
+        var boolean_field = jQuery('input#'+boolean_id+'_checkbox_')
+        boolean_field.attr('disabled', readonly)
+        boolean_field.attr('readOnly', readonly)
+    }
 
     if (!kind && 
             openobject.dom.get(field.id + '_id') && 
