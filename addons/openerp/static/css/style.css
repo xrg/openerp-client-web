@@ -783,8 +783,8 @@ div.filter-a button.filter_with_icon {
     line-height: 1.25;
     white-space: nowrap;
     padding: 0;
-    min-height: 40px;
-    min-width: 30px;
+    min-height: 45px;
+    min-width: 45px;
 }
 
 td.grop_box_active div.filter-a button.active {
