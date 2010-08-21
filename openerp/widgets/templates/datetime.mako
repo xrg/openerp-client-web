@@ -1,7 +1,7 @@
 % if editable:
     <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-            <td>
+            <td width="100%">
                 <input type="text" id="${name}" name="${name}" 
                 class="${css_class}" ${py.attrs(attrs, kind=kind, value=value)}/>
                 % if error:
