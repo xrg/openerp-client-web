@@ -80,18 +80,22 @@ function adjustTopWidth() {
     
     var accordionHeight = jQuery('#secondary div.wrap').height();
 	if(accordionHeight > formHeight) {
-    	jQuery('#secondary, #toggle_accordion, #main_form_body').height(accordionHeight);
+    	jQuery('#secondary, #toggle_accordion').height(accordionHeight);
+    	$form.height(accordionHeight);
+    	
     	if(!window.browser.isGecko) {
 	    	var countWidth = docWidth - totalWidth;
 	    	
 	    	if(countWidth > 0)
-	    		$form.width(formWidth - toggle_accordion_width)
+	    		$form.width(formWidth - toggle_accordion_width);
+	    		
 			else if(countWidth < 0) {
 				countWidth = countWidth * -1;
-				$form.width(formWidth - countWidth - toggle_accordion_width)
+				$form.width(formWidth - countWidth - toggle_accordion_width);
 			}
     	}
     }
+    
 	else {
 		jQuery('#secondary, #toggle_accordion').height(formHeight);	
 	}

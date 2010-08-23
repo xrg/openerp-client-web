@@ -23,7 +23,8 @@
             if(jQuery('div.sc_menu').width() > total_width) {
                 jQuery('a.scroll_right').css('display', 'none');
             }
-            adjustTopWidth();
+            
+            setTimeout("adjustTopWidth()", 0);
         });
 
         jQuery(document).ready(function () {
