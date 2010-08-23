@@ -1777,6 +1777,7 @@ ul.sections-a li span.wrap a:hover span strong,ul.sections-a li span.wrap a:focu
 
 .hide-menu #secondary {
     display: none;
+    width: 0;
 }
 
 .hide-menu #sidenav_hide a {
