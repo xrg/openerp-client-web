@@ -321,7 +321,7 @@ class Search(TinyInputWidget):
             ('>', _('greater than')), ('<', _('less than')),
             ('in', _('in')), ('not in', _('not in'))]
 
-        if self.filter_domain == []:
+        if self.filter_domain == [] and self.fields_list and self.operators_map:
             self.filter_domain.append((self.fields_list[0][0], self.operators_map[0][0], ''))
         else:
             self.custom_filter_domain = self.filter_domain
