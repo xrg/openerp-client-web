@@ -10,6 +10,7 @@ function setup_charts() {
         swfobject.embedSWF(openobject.http.getURL("/view_graph/static/open-flash-chart.swf"), name, 500, 350, "9.0.0",
             "expressInstall.swf", {'get-data': 'get_chart', 'id': chart_id}, {'wmode': 'transparent'});
     });
+    setTimeout("adjustTopWidth()", 0);
 }
 function onChartClick(path) {
 	openLink(path)

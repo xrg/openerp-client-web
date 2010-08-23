@@ -4,7 +4,7 @@
 	<script type="text/javascript">
         jQuery(document).ready(function() {
             document.title = '${title}' + ' - OpenERP';
-            adjustTopWidth(); 
+            adjustTopWidth();
         });
     </script>
     

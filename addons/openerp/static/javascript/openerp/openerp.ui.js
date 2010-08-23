@@ -48,26 +48,22 @@ function toggle_sidebar() {
         Notebook.adjustSize(a);
     }
 	adjustTopWidth();
-    MochiKit.Signal.signal(document, 'toggle_sidebar');
+    
 }
 
 function adjustTopWidth() {
-	setTimeout(jQuery.proxy(adjustTopWidth), 0)
 	var docWidth = jQuery(document).width();
 	var accordionWidth = jQuery('#secondary').width();
 	var formWidth;
 	var formHeight;
-	var $form;
-	if(jQuery('table#main_form_body').get().length) {
-		$form = jQuery('table#main_form_body')
-		formWidth = jQuery('table#main_form_body').width();
-		formHeight = jQuery('table#main_form_body').height();
-	}	
-	else {
-		$form = jQuery('#appContent table:first');
-		formWidth = jQuery('#appContent table:first').width();
-		formHeight = jQuery('#appContent table:first').height();
-	} 
+	var $form = jQuery('#appContent table:first');
+	
+	if(!$form.get().length) {
+		$form = jQuery('#appContent');
+	}
+	
+	formWidth = $form.width();
+	formHeight = $form.height();
 	
 	var toggle_accordion_width = jQuery('#toggle_accordion').width();
 	var totalWidth = accordionWidth + toggle_accordion_width + formWidth;
@@ -77,12 +73,10 @@ function adjustTopWidth() {
 	else setWidth = docWidth;
 	
 	jQuery('div#top, #main_nav').width(setWidth);
-	
 	var logoWidth = jQuery('p#cmp_logo').outerWidth();
     var shortcuts = jQuery('#shortcuts');
     var offset = shortcuts.outerWidth() - shortcuts.width();
     shortcuts.css('width', setWidth - logoWidth - offset);
-    
     
     var accordionHeight = jQuery('#secondary div.wrap').height();
 	if(accordionHeight > formHeight) {
