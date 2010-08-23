@@ -140,9 +140,19 @@ import cherrypy
 			        			    </td>
 			        			% endif
 			        			<td class="pager-cell-button" style="display: none;">
-			        			    <button id="${name}_delete_record" title="${_('Delete record(s).')}"
-		                                    onclick="new ListView('_terp_list').remove(null,this); return false;"
-		                                >${_('delete')}</button>
+			        			% if '${name}' == "_terp_list":
+				        			<button id="${name}_delete_record" title="${_('Delete record(s).')}" 
+				        			onclick="new ListView('_terp_list').remove(null,this); return false;"
+				        			>${_('delete')}</button>
+				        		% elif m2m:
+									<button id="${name}_delete_record" title="${_('Delete record(s).')}"
+									onclick="new Many2Many('${name}').remove(); return false;"
+									>${_('delete')}</button>
+							    % else:
+									<button id="${name}_delete_record" title="${_('Delete record(s).')}"
+									onclick="new ListView('${name}').remove(null,this); return false;"
+									>${_('delete')}</button>
+							    % endif
 			        			</td>
 			        			<td class="pager-cell-button" style="display: none;">
 		                            <button id="${name}_edit_record" title="${_('Edit record(s).')}"
