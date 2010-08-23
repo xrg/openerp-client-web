@@ -29,6 +29,7 @@
     width: 24px;
     cursor: pointer;
     display: inline-block;
+    display: inline; /*IE7 */
 }
 
 .shortcut-add {
@@ -69,6 +70,7 @@
 
 #shortcuts li {
     display: inline-block;
+    display: inline; /*IE7 */
     list-style: none;
     color: #fff;
     text-align: center;
@@ -83,12 +85,14 @@
 
 #shortcuts a {
     display: inline-block;
+    display: inline; /*IE7 */
     padding: 0;
     margin: 0;
 }
 
 #shortcuts a span {
     display: inline-block;
+    display: inline; /*IE7 */
     line-height: 18px;
     padding: 0 2px;
 }
