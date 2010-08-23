@@ -136,6 +136,7 @@ jQuery(document).bind('shortcuts-alter', function () {
 // further stuff will be handled when adding/removing shortcuts anyway (theoretically)
 jQuery(window).load(function () {
     var shortcuts = jQuery('#shortcuts');
+    var scrolling_left, scrolling_right;
     var scroll_left = jQuery('<div id="shortcuts-scroll-left" class="scroller">').hover(
         function () {
             var scrollable = shortcuts.children('ul');
