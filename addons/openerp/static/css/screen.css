@@ -667,8 +667,8 @@ h6 {
 h1 a.help {
     display: -moz-inline-stack;
     cursor: pointer;
-    display: inline-block;
     display: inline; /*IE7 */
+    display: inline-block;
     overflow: hidden;
     width: 14px;
     height: 14px;
@@ -680,8 +680,8 @@ h1 a.help {
 
 h1 img {
     display: -moz-inline-stack;
-    display: inline-block;
     display: inline; /*IE7 */
+    display: inline-block;
     overflow: hidden;
     width: 14px;
     height: 14px;
@@ -1350,8 +1350,8 @@ table .marked td {
 
 table td .icon {
     display: -moz-inline-stack;
+    display: inline; /*IE7 */
     display: inline-block;
-    display: inline; /*IE7*/
     overflow: hidden;
     width: 13px;
     height: 13px;

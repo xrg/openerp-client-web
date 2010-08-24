@@ -53,8 +53,8 @@ select.selectfield {
 }
 
 .db-form .static_boxes {
-    display: inline-block;
     display: inline; /*IE7 */
+    display: inline-block;
     padding: 0;
     text-align: center;
     margin: 0 3px;
