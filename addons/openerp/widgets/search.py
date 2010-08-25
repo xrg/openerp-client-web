@@ -38,7 +38,7 @@ import cherrypy
 import copy
 from openerp.utils import rpc, cache, icons, node_attributes, expr_eval
 from openerp.widgets import TinyInputWidget, InputWidgetLabel
-from openerp.widgets.form import Char, Frame, Float, DateTime, Integer, Selection, Notebook
+from openerp.widgets.form import Char, Frame, Float, DateTime, Integer, Selection
 from openerp.widgets.form import Separator, FiltersGroup, Group, NewLine, M2O
 
 from openobject.widgets import JSLink, locations
@@ -195,8 +195,6 @@ class Search(TinyInputWidget):
 
     params = ['fields_type', 'filters_list', 'operators_map', 'fields_list', 'filter_domain', 'flt_domain', 'source']
     member_widgets = ['frame']
-
-    _notebook = Notebook(name="search_notebook")
 
     def __init__(self, source, model, domain=None, context=None, values={}, filter_domain=None, search_view=None, group_by_ctx=[], **kw):
 
