@@ -62,13 +62,13 @@
 </div>
 
 <script type="text/javascript">
-    jQuery('#serverlog').fadeIn('slow');
+    jQuery('#serverlog').show();
     jQuery('#closeServerLog').click(function() {
-        jQuery('#serverlog').fadeOut("slow");
+        jQuery('#serverlog').hide();
     });
     
     jQuery('#show_server_logs').click(function() {
-       jQuery('#serverlog').fadeIn("slow");
+       jQuery('#serverlog').show();
     });
 </script>
 % endif
