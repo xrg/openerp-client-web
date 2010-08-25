@@ -28,11 +28,6 @@ div.wizard_toolbar {
 	float: right;
 }
 
-.search_table td {
-    font-weight: bold;
-    text-align: left !important;
-}
-
 .filter_item {
     padding: 0;
 }
@@ -124,7 +119,7 @@ div.group-data table.fields {
     text-align: left;
 }
 
-table#filter_option_table label.and_or {
+#filter_option_table .and_or {
     padding-left: 5px;
     text-align: left;
     color: #777777;
@@ -287,7 +282,23 @@ td.custom-filter ul {
     padding: 0 5px 0 0;
 }
 
-table#search_table td {
+.search_table .filter-a {
+    display: inline;
+}
+.search_table .filter-a .filter_icon {
+    vertical-align: bottom;
+    margin: 0;
+    min-width: 16px;
+    min-height: 16px;
+    height: 18px;
+}
+.search_table td {
+    text-align: left !important;
+}
+.search_table label {
+    font-weight: bold;
+}
+.search_table span.item {
     padding: 2px 0;
 }
 

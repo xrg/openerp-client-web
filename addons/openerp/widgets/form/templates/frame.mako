@@ -19,16 +19,15 @@
                         <tr>
                              <td ${py.attrs(attrs.get('widget_item')[0])} width="${attrs.get('width')}">
                                 % if widget_item.kind in ('char', 'selection', 'one2many', 'many2many'):
-                                    <table>
-                                        <tr>
-                                            <td class="filter_item">
-                                                ${display_member(widget_item)}
-                                            </td>
-                                        </tr>
-                                    </table>
+                                    <span class="filter_item">
+                                        ${display_member(widget_item)}
+                                    </span>
                                 % else:
                                     ${display_member(widget_item)}
                                 % endif
+                                % for filter_widget in attrs.get('widget_item')[1].filters:
+                                    ${display_member(filter_widget)}
+                                % endfor
                              </td>
                         </tr>
                     </table>

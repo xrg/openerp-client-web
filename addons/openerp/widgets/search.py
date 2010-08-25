@@ -414,20 +414,23 @@ class Search(TinyInputWidget):
                     views.append(field)
                     for n in node.childNodes:
                         if n.localName=='filter':
-                            attrs_child = node_attributes(n)
-                            attrs_child['default_domain'] = self.domain
-                            attrs_child['screen_context'] = self.context
-                            if attrs_child.get('string'):
-                                attrs_child['string'] = ''
+                            attrs_child = dict(
+                                node_attributes(n),
+                                default_domain=self.domain,
+                                screen_context=self.context)
+                            if 'string' in attrs_child: del attrs_child['string']
                             if values and values.get('group_by_ctx'):
                                 attrs['group_by_ctx'] = values['group_by_ctx']
+
                             filter_field = Filter(**attrs_child)
                             filter_field.onchange = None
                             filter_field.callback = None
+
                             if filter_field.groupcontext and filter_field.groupcontext not in self.groupby:
                                 self.groupby.append(filter_field.groupcontext)
-                            self.listof_domain += [i for i in filter_field.global_domain if not i in self.listof_domain]
-                            views.append(filter_field)
+                            self.listof_domain.extend(i for i in filter_field.global_domain
+                                                        if i not in self.listof_domain)
+                            field.filters.append(filter_field)
         if filters_run:
             views.append(FiltersGroup(children=filters_run))
         return views
