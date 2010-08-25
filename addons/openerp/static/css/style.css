@@ -829,7 +829,7 @@ div#serverlog a {
     display: none;
 }
 
-div.filter-a button.filter_with_icon {
+.filter-a .filter_with_icon {
     -moz-border-radius: 0;
     -webkit-border-radius: 0;
     border-radius: 0;
@@ -844,21 +844,28 @@ div.filter-a button.filter_with_icon {
     color: #1F1F1F;
     line-height: 1.25;
     white-space: nowrap;
-    padding: 0;
     min-height: 40px;
     min-width: 30px;
+
+    padding: 2px 4px !important;
 }
-div.filter-a button.filter_with_icon:focus,
-div.filter-a button.filter_with_icon:hover {
+
+.filter-a .filter_with_icon img {
+    display: block;
+    margin: 1px auto 2px;
+}
+
+.filter-a .filter_with_icon:focus,
+.filter-a .filter_with_icon:hover {
     background-color: #e6e6e6;
     color: #000000;
 }
-div.filter-a button.filter_with_icon.active {
+.filter-a .filter_with_icon.active {
     background-color: #aaadb1;
     color: #000000;
 }
 
-div.filter-a button.filter_icon {
+.filter-a .filter_icon {
     background: none;
     border: none;
     margin: 15px 0 0 0;
@@ -868,16 +875,18 @@ div.filter-a button.filter_icon {
     border-radius: 4px;
     -moz-border-radius: 4px;
     -webkit-border-radius: 4px;
+
+    padding: 2px 4px 2px 0 !important;
 }
-div.filter-a button.filter_icon:hover,
-div.filter-a button.filter_icon:focus {
+.filter-a .filter_icon:hover,
+.filter-a .filter_icon:focus {
     background-color: #e6e6e6;
 }
-div.filter-a button.filter_icon.active {
+.filter-a .filter_icon.active {
     background-color: #aaadb1;
 }
 
-div.filter-a button.filter_icon table {
+.filter-a .filter_icon table {
     margin: 0;
 }
 
