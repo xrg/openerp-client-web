@@ -69,8 +69,9 @@
 }
 
 #shortcuts li {
-    display: inline; /*IE7 */
+    display: -moz-inline-stack;    
     display: inline-block;
+    display: inline; /*IE7 */
     list-style: none;
     color: #fff;
     text-align: center;
