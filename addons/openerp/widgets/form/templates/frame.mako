@@ -10,7 +10,7 @@
             % if isinstance(widget, basestring):
                 <% widget_item = attrs['widget_item'][1] %>
                 % if attrs.get('label_position'):
-                    <table id="search_table">
+                    <table class="search_table">
                         <tr>
                             <td ${py.attrs(attrs.get('widget_item')[0])} width="${attrs.get('width')}">
                                 ${widget_item.label.display()}
@@ -35,8 +35,7 @@
                 % else:
                     ${widget_item.label.display()}
                 % endif
-            % endif
-            % if not isinstance(widget, basestring) and widget.visible:
+            % elif widget.visible:
                 ${display_member(widget)}
             % endif
         </td>

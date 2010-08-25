@@ -1,10 +1,10 @@
 td.label,
-td.item {
-    padding: 0px 2px;
+.item {
+    padding: 0 2px;
 }
 
 td.label {
-    padding: 0px 4px;
+    padding: 0 4px;
 }
 
 img.imgSelect {
@@ -13,11 +13,11 @@ img.imgSelect {
 
 table.tree-grid th,
 table.tree-grid td {
-    padding: 0px 5px;
+    padding: 0 5px;
 }
 
 div.box2 button {
-    margin: 0px 2px;
+    margin: 0 2px;
 }
 
 /* range widgets */
@@ -29,10 +29,10 @@ div.box2 button {
     width: 98%;
 }
 
-td.item input,
-td.item select,
-td.item textarea,
-td.item button {
+.item input,
+.item select,
+.item textarea,
+.item button {
     width: 98%;
 }
 
@@ -45,7 +45,7 @@ td.item button {
 }
 
 .grid-cell.selector {
-    padding: 0px 4px;
+    padding: 0 4px;
 }
 
 /* http://dean.edwards.name/my/base64-sordid.html */

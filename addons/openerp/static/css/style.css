@@ -28,7 +28,7 @@ div.wizard_toolbar {
 	float: right;
 }
 
-table#search_table td {
+.search_table td {
     font-weight: bold;
     text-align: left !important;
 }
@@ -37,7 +37,7 @@ table#search_table td {
     padding: 0;
 }
 
-td.item table {
+.item table {
     border: none;
 }
 
@@ -72,14 +72,14 @@ button:active, .button:active {
     font-size: 0.9em;
 }
 
-td.item button table {
+.item button table {
     margin: 0;
     border: none;
     font-weight: bold;
     font-size: 0.8em;
 }
 
-td.item button table td {
+.item button table td {
     border: none;
     padding: 0;
 }
@@ -92,24 +92,24 @@ div.group-data table.fields {
     width: 0%;
 }
 
-table#filter_option_table {
+#filter_option_table {
     margin: 0;
 }
 
-table#filter_option_table td.filter_column {
+#filter_option_table .filter_column {
     padding: 0;
     text-align:right;
     white-space:nowrap;
 }
 
-table#filter_option_table td.filter_column select {
+#filter_option_table .filter_column select {
     width: 80px;
 }
 
-table#filter_option_table td.filter_column input.qstring,
-table#filter_option_table td.filter_column select.filter_fields,
-table#filter_option_table td.filter_column select.expr,
-table#filter_option_table td.and_or select.select_andor {
+#filter_option_table .filter_column .qstring,
+#filter_option_table .filter_column .filter_fields,
+#filter_option_table .filter_column .expr,
+#filter_option_table .and_or select. {
     width: 100px;
     -moz-border-radius: 3px;
     -webkit-border-radius: 3px;
@@ -125,7 +125,7 @@ table#filter_option_table td.and_or select.select_andor {
 }
 
 table#filter_option_table label.and_or {
-    padding-right: 5px;
+    padding-left: 5px;
     text-align: left;
     color: #777777;
     font-weight: bold;
@@ -288,7 +288,7 @@ td.custom-filter ul {
 }
 
 table#search_table td {
-    padding: 2px 0 2px 2px;
+    padding: 2px 0;
 }
 
 td.custom-filter ul li {
@@ -562,17 +562,17 @@ table.o2m_box div.pagerbar-header strong {
     background-color: turquoise;
 }
 
-td.item,
-.action-buttons label,
-#groupdata_table td.item {
-    padding: 2px 5px;
+.label,
+.item,
+#groupdata_table .item {
+    padding: 2px 4px;
 }
 
-td.label {
+.label {
 	padding: 2px 2px 2px 6px;
 }
 
-td.label,
+.label,
 .action-buttons label {
     color: #777777;
     font-weight: bold;
@@ -581,25 +581,18 @@ td.label,
     white-space: nowrap;
 }
 
-.action-buttons label {
-    display: block;
-}
-.action-buttons label input {
-    vertical-align: text-top;
+.item input,
+.item select {
+    min-width: 150px;
 }
 
-td.item input,
-td.item select {
-    min-width: 100%;
-}
-
-td.item table.fields {
+.item .fields {
     width: 100%;
 }
 
-td.item input,
-td.item select,
-td.item textarea {
+.item input,
+.item select,
+.item textarea {
     border-radius: 3px;
     -moz-border-radius: 3px;
     -webkit-border-radius: 3px;
@@ -608,14 +601,14 @@ td.item textarea {
     vertical-align: middle;
 }
 
-td.item input {
+.item input {
     padding: 2px 3px;
 }
 
-td.item input.m2o,
-td.item input.reference {
-    padding-right: 0px;
-    min-width: 100%;
+.item input.m2o,
+.item input.reference {
+    padding-right: 18px;
+    min-width: 132px;
 }
 
 .m2o {
@@ -626,8 +619,8 @@ td.item input.reference {
     right: 2px;
     top: 0;
 }
-img.datetime {
-    margin-left: -13px;
+.item img.datetime {
+    margin-left: -18px;
 }
 
 img.m2o_select,
@@ -636,17 +629,13 @@ img.m2o_open {
     cursor: pointer;
 }
 
-.item-image {
-	padding: 0px;
-}
-
-td.item table.item-wrapper td {
+.item .item-wrapper td {
     padding: 0;
     padding-right: 2px;
     white-space: nowrap;
 }
 
-td.item table.item-wrapper td img {
+.item .item-wrapper td img {
     vertical-align: middle;
 }
 
@@ -661,8 +650,8 @@ td.item table.item-wrapper td img {
     overflow: hidden;
 }
 
-td.item .checkbox,
-td.item .radio {
+.item .checkbox,
+.item .radio {
     width: auto;
     min-width: 10px;
 }
@@ -856,8 +845,8 @@ div.filter-a button.filter_with_icon {
     line-height: 1.25;
     white-space: nowrap;
     padding: 0;
-    min-height: 45px;
-    min-width: 45px;
+    min-height: 40px;
+    min-width: 30px;
 }
 div.filter-a button.filter_with_icon:focus,
 div.filter-a button.filter_with_icon:hover {
