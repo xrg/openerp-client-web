@@ -37,9 +37,8 @@ import xml.dom.minidom
 import cherrypy
 import copy
 from openerp.utils import rpc, cache, icons, node_attributes, expr_eval
-from openerp.widgets import TinyInputWidget, InputWidgetLabel
-from openerp.widgets.form import Char, Frame, Float, DateTime, Integer, Selection
-from openerp.widgets.form import Separator, FiltersGroup, Group, NewLine, M2O
+from openerp.widgets import TinyInputWidget
+from openerp.widgets import form
 
 from openobject.widgets import JSLink, locations
 
@@ -180,7 +179,7 @@ class Filter(TinyInputWidget):
             if self.group_context in attrs['group_by_ctx']:
                 self.def_checked = True
 
-class M2O_search(M2O):
+class M2O_search(form.M2O):
     def __init__(self, **attrs):
         if attrs.get('default', False) == 'uid':
             attrs['default'] = rpc.session.uid
@@ -433,6 +432,17 @@ class Search(TinyInputWidget):
             views.append(FiltersGroup(children=filters_run))
         return views
 
+class Char(form.Char): pass
+class DateTime(form.DateTime): pass
+class FiltersGroup(form.FiltersGroup): pass
+class Float(form.Float): pass
+class Frame(form.Frame): pass
+class Group(form.Group): pass
+class Integer(form.Integer): pass
+class NewLine(form.NewLine): pass
+class Selection(form.Selection): pass
+class Separator(form.Separator): pass
+
 RANGE_WIDGETS = {
     'date': DateTime,
     'time': DateTime,
@@ -459,5 +469,3 @@ WIDGETS = {
     'url' : Char,
     'separator': Separator
 }
-
-# vim: ts=4 sts=4 sw=4 si et
