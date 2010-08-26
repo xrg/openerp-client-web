@@ -71,7 +71,10 @@ function elementPosition2(elem) {
 
 jQuery(document).ajaxStop(function () {
     if(window.CAL_INSTANCE) {
-        setTimeout(jQuery.proxy(window.CAL_INSTANCE, 'onResize'), 100);
+        setTimeout(function() {
+			jQuery.proxy(window.CAL_INSTANCE, 'onResize')
+			adjustTopWidth();
+		}, 100);
     }
 });
 

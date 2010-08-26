@@ -101,6 +101,7 @@ Accordion.prototype = {
             afterFinish: MochiKit.Base.bind(function() {
                 this.animate = false;
                 MochiKit.Signal.signal(this, "activate", this, title);
+                setTimeout(function() {adjustTopWidth();}, 500);
             }, this)
         });
 

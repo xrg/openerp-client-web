@@ -24,7 +24,7 @@
                 jQuery('a.scroll_right').css('display', 'none');
             }
             
-            setTimeout("adjustTopWidth()", 0);
+            setTimeout("adjustTopWidth()", 100);
         });
 
         jQuery(document).ready(function () {
