@@ -1011,19 +1011,25 @@ function submenu_action(action_id, model) {
 }
 
 function show_wkf() {
-
-    if ($('_terp_list')) {
+    var id;
+    if(jQuery('#_terp_list').length) {
         var lst = new ListView('_terp_list');
         var ids = lst.getSelectedRecords();
-        
-        if (ids.length < 1)
-            return alert(_('You must select at least one record.'));
-        id = ids[0]            
+
+        if(ids.length < 1) {
+            alert(_('You must select at least one record.'));
+            return;
+        }
+        id = ids[0];
     } else {
-        id = $('_terp_id') && $('_terp_id').value != 'False' ? $('_terp_id').value : null;        
+        var element = jQuery('#_terp_id');
+        id = element && element.val() != 'False' ? element.val() : null;
     }
-    
-    openobject.tools.openWindow(openobject.http.getURL('/view_diagram/workflow', {model: $('_terp_model').value, rec_id:id}));
+
+    openobject.tools.openWindow(openobject.http.getURL('/view_diagram/workflow', {
+        model: jQuery('#_terp_model').val(),
+        rec_id:id
+    }));
 }
 
 /**

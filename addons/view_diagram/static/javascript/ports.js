@@ -50,10 +50,10 @@ openobject.workflow.Port.implement({
 		var html = this.getHTMLElement();
 		html.style.backgroundColor = '#990200';
 		html.style.zIndex = '1000';
-        
-        if($('_terp_editable').value=='False')
+
+        if(jQuery('#_terp_editable').val() == 'False')
             this.setCanDrag(false);
-	},	
+    },
 	
 	onDrop : function(port) {
 		
