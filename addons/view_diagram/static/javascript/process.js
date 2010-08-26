@@ -152,6 +152,7 @@ MochiKit.Base.update(openobject.process.Workflow.prototype, {
         if (elems.length) {
             new openerp.ui.Tips(elems);
         }
+        adjustTopWidth();
     },
 
     _create_note:  function(notes, subflows, perm, related) {
