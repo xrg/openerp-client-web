@@ -406,7 +406,7 @@ class Search(TinyInputWidget):
                             self.listof_domain += [i for i in domain if not i in self.listof_domain]
                             self.context.update(expr_eval(attrs.get('context',"{}"), {'self': s}))
 
-                    if (not default_search) and name in values and isinstance(field, (TinyInputWidget, RangeWidget)):
+                    if (not default_search) and name in values and isinstance(field, TinyInputWidget):
                         field.set_value(values[name])
 
                     views.append(field)
