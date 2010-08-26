@@ -161,7 +161,7 @@ ${MAINTENANCE_CONTRACTS_LINK|n}
                                 % endif
                             </div>
                         </div>
-                    </div>                   
+                    </div>
                 </form>
             </td>
         % else:
@@ -197,7 +197,7 @@ Choose:
                                 <td class="errorbox" align="right">
                                     <a class="button-a" href="javascript: void(0)"
                                        onclick="close_error_window()">${_("Cancel")}</a>
-                                    <button type="submit">${_("Write Anyway")}</button>
+                                    <button type="submit" onclick="close_error_window()">${_("Write Anyway")}</button>
                                 </td>
                             </tr>
                         </table>
