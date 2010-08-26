@@ -10,29 +10,29 @@
                 <table id="filter_option_table" style="display:none;">
 	                <tbody id="filter_table" style="display:none;">					
 					    <tr class="filter_row_class">
-		                    <td class="image_col">
+		                    <td colspan="1" class="image_col" width="25%">
 		                        <button onclick="remove_filter_row(this); return false;">
 		                            <img alt="Remove filter row" src="/openerp/static/images/button-b-icons-remove.gif"/>
 		                        </button>
 		                    </td>
-		                    <td class="filterlabel">
-                                   <label id="filterlabel" value="" class="filterlabel"></label>
-                               </td>
-                               <td>
+		                    <td colspan="1" class="filterlabel">
+                                <label id="filterlabel" value="" class="filterlabel"></label>
+                            </td>
+                            <td colspan="1">
                                 <select class="expr">
-                                     % for operator, description in operators_map:
-                                         <option value="${operator}" >${description}</option>
-                                     % endfor
+                                    % for operator, description in operators_map:
+                                        <option value="${operator}" >${description}</option>
+                                    % endfor
                                 </select>
-                               </td>
-							<td align="right" class="filter_column">
-							    <input type="text" class='qstring' value="" />
-							</td>
+                            </td>
+                            <td colspan="2" align="right" class="filter_column">
+                                <input type="text" class='qstring' value="" />
+                            </td>
 					    </tr>
 					</tbody>
 					<tbody class="actions">
 						<tr class="actions">
-	                        <td style="white-space:nowrap;">
+	                        <td colspan="2">
 	                            <label for="add_filter_and">And</label>
 	                            <select class="filter_fields_and" onchange="add_filter_row(this); return jQuery('select.filter_fields_and').val('');">
 	                               <option></option>

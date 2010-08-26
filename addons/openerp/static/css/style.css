@@ -106,7 +106,6 @@ table#filter_option_table td.and_or select.select_andor {
 }
 
 #filter_option_table .image_col {
-    padding-left: 0;
     padding-right: 2px;
     text-align: left;
 }
