@@ -222,7 +222,7 @@ class Search(TinyInputWidget):
 
     _notebook = Notebook(name="search_notebook")
 
-    def __init__(self, model, domain=None, context=None, values={}, filter_domain=None, search_view=None, group_by_ctx=[]):
+    def __init__(self, model, domain=None, context=None, values={}, filter_domain=None, search_view=None, group_by_ctx=[], **kw):
 
         super(Search, self).__init__(model=model)
 
@@ -246,7 +246,7 @@ class Search(TinyInputWidget):
         ctx = dict(rpc.session.context, **self.context)
 
         view_id = ctx.get('search_view') or False
-        if getattr(cherrypy.request,'terp_params') and not view_id:
+        if getattr(cherrypy.request,'terp_params') and not view_id and not kw.get('clear'):
             view_id = cherrypy.request.terp_params.get('_terp_view_id', False)
 
         if isinstance (self.search_view, basestring):
