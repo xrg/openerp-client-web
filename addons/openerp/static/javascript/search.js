@@ -625,4 +625,13 @@ function initialize_search() {
     }
     jQuery('#search_filter_data').keydown(search_on_return);
 }
+
+function collapse_expand(div_id, grp_id, id) {
+    
+    jQuery(div_id).toggleClass('group-collapse group-expand', 100);
+    jQuery(grp_id).toggle();
+    if (id)
+        jQuery(id).css('display', 'block');
+}
+
 jQuery(document).ready(initialize_search);

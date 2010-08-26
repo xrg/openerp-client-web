@@ -63,12 +63,11 @@
         % if screen.widget:
 	        <tr>
 	            <td id="custom_columns" style="display: none;">
-	               <fieldset>
-	                   <legend>
-	                       ${_("Custom Columns")}
-	                   </legend>
+	               <div id="customcolumns" class="group-collapse" onclick="collapse_expand(this, '#custcols');" style="padding-left:4px;">
+	                   <h2><span>${_("Custom Columns")}</span></h2>
+	               </div>
 	                   % if getattr(screen.widget,'headers', []):
-	                   <table>
+	                   <table id="custcols">
 	                       <tr>
 	                           % for i, (field, field_attrs) in enumerate(screen.widget.headers):
 	                               % if field != 'button':
@@ -81,7 +80,6 @@
 	                       </tr>
 	                   </table>
 	                   % endif
-	               </fieldset>
 	            </td>
 	        </tr>
 	    % endif
@@ -92,6 +90,7 @@
     </table>
     % if screen.view_type == 'tree':
 	    <script type="text/javascript">
+	           
 	        jQuery(document).ready(function() {
 	           var filter_box_index = jQuery('#${name} div.filter-a').closest('td.item:first').index();
 	           var input_index = jQuery('#${name} input[type!="hidden"][type="text"]:first').closest('td.label').index();

@@ -6,7 +6,7 @@
 	<table>
         <tr>
            <td style="padding:4px; white-space:nowrap;">
-                <div id="filters" class="group-expand"><h2><span>Filters</span></h2></div>
+                <div id="filters" onclick="collapse_expand(this, '#filter_option_table');" class="group-expand"><h2><span>Filters</span></h2></div>
                 <table id="filter_option_table" style="display:none;">
 	                <tbody id="filter_table" style="display:none;">					
 					    <tr class="filter_row_class">
@@ -57,13 +57,7 @@
 	    </tr>
     </table>
     <script type="text/javascript">
-		jQuery('#filters').click(function() {
-		    jQuery(this).toggleClass('group-expand group-collapse');
-		    jQuery('#filter_option_table').toggle();		    
-		});
-		
-		jQuery(document).ready(function () {
-		    
+        jQuery(document).ready(function () {		    
             switch_searchView("${flt_domain | n}");
 		});
     </script>	
