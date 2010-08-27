@@ -48,15 +48,11 @@ class Requests(SecuredController):
             cherrypy.session['terp_requests'] = (ids, ids2)
 
         total_mess = 0
-        msg = _("No request")
-        if len(ids):
-            msg = _('%s request(s)') % len(ids)
 
         if len(ids2):
-            msg += _(' - %s pending request(s)') % len(ids2)
             total_mess = len(ids)
-
-        return ids, msg, total_mess
+            
+        return ids, total_mess
 
     @expose()
     def default(self):
