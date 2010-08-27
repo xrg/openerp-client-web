@@ -111,7 +111,7 @@ class Search(Form):
             if isinstance(params.group_by, str):
                 parent_context['group_by'] = [params.group_by]
             else:
-                parent_context['group_by'] = params.group_by    
+                parent_context['group_by'] = params.group_by
         try:
             ctx = TinyForm(**kw).to_python()
             pctx = ctx
@@ -159,14 +159,14 @@ class Search(Form):
             for key, val in context.items():
                 if val is None:
                     context[key] = False
-                    
+
         if isinstance(context, dict):
             context = expr_eval(context, ctx)
 
         parent_context.update(context)
         if not isinstance(params.group_by, list):
             params.group_by = [params.group_by]
-        
+
         return dict(domain=ustr(domain), context=ustr(parent_context), group_by = ustr(params.group_by))
 
     @expose('json')
@@ -184,19 +184,19 @@ class Search(Form):
 
         frm = {}
         error = ''
-        All_values = {}
-        
+        all_values = {}
+
         for k, v in record.items():
             values = {}
-            for key, val in v.items():                
+            for key, val in v.items():
                 for field in val:
                     fld = {}
                     datas = {}
                     res = proxy.fields_get(field)
-    
+
                     fld['value'] = val[field]
                     fld['type'] = res[field].get('type')
-    
+
                     data[field] = fld
                     try:
                         frm = TinyForm(**data).to_python()
@@ -204,7 +204,7 @@ class Search(Form):
                         error = ustr(e)
                         error_field = ustr(e.field)
                         return dict(error=error, error_field=error_field)
-    
+
                     datas['rec'] = field
     
                     if fld['type'] == 'many2one':
@@ -217,13 +217,13 @@ class Search(Form):
                             datas['rec_val'] = 0
                     else:
                         datas['rec_val'] = frm[field]
-    
+
                 datas['type'] = fld['type']
                 values[key] = datas
-                
-            All_values[k] = values
 
-        return dict(frm=All_values, error=error)
+            all_values[k] = values
+
+        return dict(frm=all_values, error=error)
 
     @expose('json')
     def eval_domain_filter(self, **kw):
@@ -279,60 +279,49 @@ class Search(Form):
                         search_data[field] = value
                     else:
                         search_data[field] = value.split('m2o_')[1]
-                        
+
         def get_domain(x):
-            tempdomain = ""
-                        
-            if len(x)== 1:
-                if isinstance(x[0], (int, list)):                    
-                    tempdomain +=  ",'" + ustr(x[0]) + "',"
-                else:
-                    tempdomain +=  ",'" + x[0] + "',"
+            if len(x) == 1:
+                if isinstance(x[0], (int, list)):
+                    return ustr(x[0])
+                return x[0]
 
             elif len(x) == 4:
-                if isinstance(x[3], (int, list)):                                    
-                    tempdomain += '[\'' + x[0] + '\', (\'' + x[1] + '\', \'' + x[2] + '\', ' + ustr(x[3]) + '\')]'                                                                
-                else:                                    
-                    tempdomain += '[\'' + x[0] + '\', (\'' + x[1] + '\', \'' + x[2] + '\', \'' + x[3] + '\')]'
-                                                
-            elif len(x) == 3:                               
-                if isinstance(x[2], (int, list)):
-                    tempdomain += '[(\'' + x[0] + '\', \'' + x[1] + '\', ' + ustr(x[2]) + ')]'
+                if isinstance(x[3], (int, list)):
+                    tuple_val = x[1], x[2], ustr(x[3])                                                                             
                 else:
-                    tempdomain += '[(\'' + x[0] + '\', \'' + x[1] + '\', \'' + x[2] + '\')]'
-            
-            return tempdomain
+                    tuple_val = x[1], x[2], x[3]
+                return [x[0], tuple_val]
 
-        inner_domain = []
+            else:
+                if isinstance(x[2], (int, list)):
+                    tuple_val = x[0], x[1], ustr(x[2])      
+                else:
+                    tuple_val = x[0], x[1], x[2]
+                return [tuple_val]
+
         if custom_domains:
-            tmp_domain = ''            
             custom_domains = eval(custom_domains)
-            for i in custom_domains[:-1]:
-                if len(i):
-                    i.insert(0, '|')
-                 
-            for i in custom_domains:                
-                for inner in i:        
+            for val in custom_domains[:-1]:
+                if len(val):
+                    val.insert(0, '|')
+
+            cust_domain = []
+            for cs_dom in custom_domains:
+                for inner in cs_dom:
                     if len(inner) == 1 and len([x for x in inner if isinstance(x, list)]) == 0:
-                        tmp_domain += ",'" + inner[0] +"',"
+                        cust_domain += inner[0]
                     elif len([x for x in inner if isinstance(x, list)]):
                         for d in inner:
-                            tmp_domain += get_domain(d)                    
+                            cust_domain += (get_domain(d))
                     else:
-                        tmp_domain += get_domain(inner)
-            
-            if tmp_domain :
-                cust_domain = tmp_domain                      
-                if cust_domain.find('|') != -1 or cust_domain.find('&') != -1:                
-                    tmp_domain = tmp_domain.lstrip(',')
-                    cust_domain = (tmp_domain).replace("][", ",").replace("[", "").replace("]", "")
-                                                   
-                inner_domain.extend(eval(cust_domain))
-                if len(inner_domain)>1 and inner_domain[-2] in ['&','|']:
-                    if len(inner_domain) == 2:
-                        inner_domain = [inner_domain[1]]
-                    else:
-                        inner_domain = inner_domain[:-2] + inner_domain[-1:]
+                        cust_domain += (get_domain(inner))
+
+            if len(cust_domain)>1 and cust_domain[-2] in ['&','|']:
+                if len(cust_domain) == 2:
+                    cust_domain = [cust_domain[1]]
+                else:
+                    cust_domain = cust_domain[:-2] + cust_domain[-1:]
 
         if selection_domain and selection_domain not in ['blk', 'sf', 'mf']:
             selection_domain = expr_eval(selection_domain)
@@ -345,7 +334,7 @@ class Search(Form):
             group_by_ctx = [group_by_ctx]
         if group_by_ctx:
             search_data['group_by_ctx'] = group_by_ctx
-        return dict(domain=ustr(domain), context=ustr(ctx), search_data=ustr(search_data), filter_domain=ustr(inner_domain))
+        return dict(domain=ustr(domain), context=ustr(ctx), search_data=ustr(search_data), filter_domain=ustr(cust_domain))
 
     @expose()
     def manage_filter(self, **kw):
@@ -372,7 +361,7 @@ class Search(Form):
         name = kw.get('sc_name')
         model = kw.get('model')
         domain = kw.get('domain')
-        flag = kw.get('flag')        
+        flag = kw.get('flag')
 
         if name:
             datas={'name':name,
