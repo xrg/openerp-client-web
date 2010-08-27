@@ -664,18 +664,26 @@ h6 {
     font-size: 1.0em;
 }
 
-h1 a.help {
+h1 a.help,
+h1 a.log {
     display: -moz-inline-stack;
     cursor: pointer;
     display: inline; /*IE7 */
     display: inline-block;
     overflow: hidden;
-    width: 14px;
-    height: 14px;
-    background: url(../images/iconset-a-help.gif) no-repeat;
+    width: 16px;
+    height: 16px;
     font-size: 0;
     text-indent: -10001px;
     vertical-align: middle;
+}
+
+h1 a.help {
+    background: url(../images/iconset-a-help.png) no-repeat;
+}
+
+h1 a.log {
+    background: url(../images/iconset-a-log.gif) no-repeat;
 }
 
 h1 img {
@@ -688,11 +696,13 @@ h1 img {
     vertical-align: middle;
 }
 
-* html h1 a.help {
+* html h1 a.help,
+* html h1 a.log {
     display: inline;
 }
 
-*:first-child+html h1 a.help {
+*:first-child+html h1 a.help,
+*:first-child+html h1 a.log {
     display: inline;
 }
 
