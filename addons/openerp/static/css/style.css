@@ -843,6 +843,7 @@ div.filter-a button.filter_icon:focus {
 
 div.filter-a button table {
     margin: 4px;
+    text-align: center;
 }
 
 button.filter_with_icon table td {
