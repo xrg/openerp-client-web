@@ -125,6 +125,14 @@ function addOrBlock(elem){
     jQuery(tbody).after(newtbody);   
 }
 
+function collapse_expand(div_id, grp_id, id) {
+
+    jQuery(div_id).toggleClass('group-collapse group-expand', 100);
+    jQuery(grp_id).toggle();
+    if (id)
+        jQuery(id).css('display', 'block');
+}
+
 function switch_searchView(d) {
 
     var domain = eval(d);
@@ -217,38 +225,40 @@ function switch_searchView(d) {
 function remove_filter_row(element) {
 
     var node = jQuery(element).closest('tr');
-    var t = jQuery(node).closest('tbody')
-    var $paren = t.parent()
-    var prev_body = jQuery($paren.children('tbody')[t.index()-1])
-    var next_body = jQuery($paren.children('tbody')[t.index()+1])   
+    var $tby = jQuery(node).closest('tbody');
+    var $paren = $tby.parent();
+    var prev_body = jQuery($paren.children('tbody')[$tby.index()-1]);
+    var next_body = jQuery($paren.children('tbody')[$tby.index()+1]);
+    var $filter_opt_tbl = jQuery('#filter_option_table');
+    var $filter_table = jQuery('#filter_table');
 
-    if (t.find('tr.filter_row_class').length <= 1 && t.attr('id')!='filter_table') {
+    if ($tby.find('tr.filter_row_class').length <= 1 && $tby.attr('id')!='filter_table') {
                 
-        if (!(next_body.length >= 1) || !(prev_body.length >= 1)) {        
-            jQuery(prev_body.find('td.filter_column')).show();
+        if (!(next_body.length >= 1) || !(prev_body.length >= 1)) {
+            prev_body.find('td.filter_column').show();
         }
 
-        jQuery(node).closest('tbody').remove();
-        
-        if (jQuery('#filter_option_table tbody:visible').length == 2 ) {            
-            var body_next = jQuery('#filter_option_table').find('tbody:first')
-            jQuery(body_next).find('#or').remove()
-        }        
+        $tby.remove();
+        if ($filter_opt_tbl.find('tbody:visible').length == 2 ) {
+            var $body_next = $filter_opt_tbl.find('tbody:first');
+            $body_next.find('#or').remove();
+        }
     }
-    
+
     if(node.is(':only-child')) {
 
-        if (jQuery('#filter_option_table tbody:visible').length >= 1 && node.closest("tbody").siblings().length > 1){            
-            jQuery('#filter_table').next().hide()
-            jQuery('#filter_option_table').find('tr#or:first').hide()
+        if ($filter_opt_tbl.find('tbody:visible').length >= 1 && node.closest("tbody").siblings().length > 1){
+            $filter_table.next().hide();
+            $filter_opt_tbl.find('tr#or:first').hide();
         }
 
         node.find('input.qstring').css('background', '#FFF').val('');
-        jQuery('label#filterlabel').text('')
-        jQuery('label#filterlabel').attr('value', '')
-        jQuery('select#filter_fields_or').attr('disabled', true)
-        jQuery('#filter_table').hide();        
-	    
+        var filter_lbl = jQuery('#filterlabel');
+        filter_lbl.text('');
+        filter_lbl.attr('value', '');
+        jQuery('select#filter_fields_or').attr('disabled', true);
+        $filter_table.hide();
+
     } else {
 
         if(node.is(':last-child')) {
@@ -259,15 +269,16 @@ function remove_filter_row(element) {
              node.next().remove();
         }
         else{
-			if (jQuery('#filter_option_table tbody:visible').length == 0) {
-			    jQuery('tbody.actions').show()
-			    jQuery('tbody.actions').find('tr.actions').find('td.filter_column').show()                
-			}
-			
-			if (jQuery('#filter_option_table tbody:visible').length == 1){   
-	           jQuery('#filter_option_table').find('tr#or:first').hide()
-	        }
-	        node.remove();            
+            if ($filter_opt_tbl.find('tbody:visible').length == 0) {
+                var $actions_tby = jQuery('tbody.actions');
+                $actions_tby.show();
+                $actions_tby.find('tr.actions').find('td.filter_column').show();
+            }
+
+            if ($filter_opt_tbl.find('tbody:visible').length == 1){
+                $filter_opt_tbl.find('tr#or:first').hide();
+            }
+            node.remove();
         }
     }
 }
@@ -629,14 +640,6 @@ function initialize_search() {
         filter_table.show();
     }
     jQuery('#search_filter_data').keydown(search_on_return);
-}
-
-function collapse_expand(div_id, grp_id, id) {
-    
-    jQuery(div_id).toggleClass('group-collapse group-expand', 100);
-    jQuery(grp_id).toggle();
-    if (id)
-        jQuery(id).css('display', 'block');
 }
 
 jQuery(document).ready(initialize_search);
