@@ -28,63 +28,64 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 function add_filter_row(elem) {
-    
-    var filter_table = jQuery('#filter_table');
-    var filter_opt_tbl = jQuery('#filter_option_table')
-    var $cls_tbody = jQuery(elem).closest("tbody")
 
-    if (jQuery(filter_opt_tbl).find('tbody:visible').length == 1 && jQuery($cls_tbody).siblings().length == 1) {
-	    if(filter_table.is(':hidden')) {
-	        if (jQuery('label#filterlabel').text() == ''){
-	            jQuery('label#filterlabel').text(jQuery('select.filter_fields_and option:selected').text())
-	            jQuery('label#filterlabel').attr('value', jQuery(elem).val())
-	        }
-	        filter_table.show();
-	    }
-    } else {
-        var position_tr = jQuery($cls_tbody).find('tr:last').prev();
+    var $filter_table = jQuery('#filter_table');
+    var $filter_opt_tbl = jQuery('#filter_option_table');
+    var $cls_tbody = jQuery(elem).closest("tbody");
+    var $element = jQuery(elem);
+    var selected_txt = $element.find('option:selected').text();
 
-        if (jQuery($cls_tbody).prev().attr('id') == 'filter_table') {
-            var position_tr = filter_table.find('tr:last');
+    if ($filter_opt_tbl.find('tbody:visible').length == 1 &&
+        $cls_tbody.siblings().length == 1) {
+        if($filter_table.is(':hidden')) {
+            var $filterlabel = jQuery('#filterlabel');
+            if ($filterlabel.text() == '') {
+                $filterlabel.text(selected_txt);
+                $filterlabel.attr('value', $element.val());
+            }
+            $filter_table.show();
         }
-        
-        var old_tr = jQuery(filter_opt_tbl).find('tbody:first').find('tr.filter_row_class:first')            
-        old_tr.find('input.qstring').css('background', '#FFF');        
+    } else {
+        var $position_tr = $cls_tbody.find('tr:last').prev();
+        if ($cls_tbody.prev().attr('id') == 'filter_table') {
+            $position_tr = $filter_table.find('tr:last');
+        }
+        var old_tr = $filter_opt_tbl.find('tbody:first').find('tr.filter_row_class:first');
 
         var new_tr = old_tr.clone();
-        new_tr.find('label#filterlabel').text(jQuery('select.filter_fields_and option:selected').text());
-        new_tr.find('label#filterlabel').attr('value', jQuery(elem).val());
-        new_tr.find('input.qstring').css('background', '#fff').val('');
+        var new_tr_lbl = new_tr.find('#filterlabel');
+        new_tr_lbl.text(selected_txt);
+        new_tr_lbl.attr('value', $element.val());
+
+        var new_tr_qstring = new_tr.find('input.qstring');
+        new_tr_qstring.css('background', '#fff').val('');
         if (new_tr.is(':hidden')) {
-            new_tr.show()
+            new_tr.show();
         }
-        
+
         var index_row;
-        var $curr_body = position_tr.closest('tbody')
-        $curr_body.find('label.filterlabel').each(function(i, v) {
-	        var theValue = jQuery(v).text();
-	        if (theValue == jQuery('select.filter_fields_and option:selected').text()){                          
-	            index_row = i
-	            new_tr.find('select.expr').hide()
-	            new_tr.find('label#filterlabel').hide()	           
-	            new_tr.find('label.and_or').remove()
-	            
-	            var select_andor = jQuery('<label>', {'class': 'and_or'}).text('OR');               
-	            select_andor.insertBefore(new_tr.find('input.qstring'));              
-	        }
+        var $curr_body = $position_tr.closest('tbody');
+        $curr_body.find('label.filterlabel').each(function(k, v) {
+
+            if (jQuery(v).text() != selected_txt) { return; }
+            index_row = k;
+            new_tr.find('select.expr').hide();
+            new_tr_lbl.hide();
+            new_tr.find('label.and_or').remove();
+            jQuery('<label>', {'class': 'and_or'}).text('OR').insertBefore(new_tr_qstring);
         });
 
         if(index_row >= 0) {
-             position_tr = $curr_body.find('tr.filter_row_class')[index_row];                        
+            $position_tr = $curr_body.find('tr.filter_row_class')[index_row];
         }
-
-        jQuery(position_tr).after(new_tr);
+        jQuery($position_tr).after(new_tr);
     }
     
-    if (!jQuery('select.filter_fields_or').closest("tbody").siblings().length) {
-        jQuery('select#filter_fields_or').attr('disabled', true);
+    var select_or = jQuery('select.filter_fields_or');
+    if (!select_or.closest("tbody").siblings().length) {
+        select_or.attr('disabled', true);
     }else{
-        jQuery('select#filter_fields_or').attr('disabled', false);
+        select_or.attr('disabled', false);
     }
 }
 
