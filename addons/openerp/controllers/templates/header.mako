@@ -6,7 +6,7 @@ try:
     REQUESTS = cp.request.pool.get_controller("/openerp/requests")
 
     shortcuts = SHORTCUTS.my()
-    requests, total_mess = REQUESTS.my()
+    requests, total_request = REQUESTS.my()
 except:
     ROOT = None
 
@@ -61,7 +61,7 @@ except:
 	                </ul>
 	            </li>
 	            <li>
-	                <a href="${py.url('/openerp/requests')}" class="messages"><small>${total_mess}</small></a>
+	                <a href="${py.url('/openerp/requests')}" class="messages"><small>${total_request}</small></a>
 	                <ul>
 	                    <li class="first last"><a href="javascript: void(0);">${_("Requests")}</a></li>
 	                </ul>

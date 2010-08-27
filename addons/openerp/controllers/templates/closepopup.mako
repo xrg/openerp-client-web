@@ -7,7 +7,7 @@
                 window.opener.location.reload();
                 window.close();
             } else {
-            	window.parent.location.href = '/openerp'; 
+            	window.location.href='/openerp/menu';
             }
         });
     </script>
