@@ -13,10 +13,11 @@ class ConfigurationError(Exception):
 
 def get_config_file():
     setupdir = os.path.dirname(os.path.dirname(__file__))
-    configfile = os.path.join(setupdir, "config", "openobject-web.cfg")
-    if os.path.exists(configfile):
-        return configfile
-    return None
+    isdevdir = os.path.isfile(os.path.join(setupdir, 'setup.py'))
+    configfile = '/etc/openerp-web.cfg'
+    if isdevdir or not os.path.exists(configfile):
+        configfile = os.path.join(setupdir, 'doc', 'openerp-web.cfg')
+    return configfile
 
 def start():
 
@@ -47,7 +48,7 @@ def start():
             cherrypy.config['server.socket_port'] = int(options.port)
         except:
             pass
-    
+
+    cherrypy.log.error(options.config, 'CONFIG')
     cherrypy.engine.start()
     cherrypy.engine.block()
-    

@@ -10,7 +10,7 @@
 # It's based on Mozilla Public License Version (MPL) 1.1 with following
 # restrictions:
 #
-# -   All names, links and logos of Tiny, Open ERP and Axelor must be
+# -   All names, links and logos of Tiny, OpenERP and Axelor must be
 #     kept as in original distribution without any changes in all software
 #     screens, especially in start-up page and the software header, even if
 #     the application source code has been changed or updated or code has been
@@ -26,33 +26,11 @@
 # You can see the MPL licence at: http://www.mozilla.org/MPL/MPL-1.1.html
 #
 ###############################################################################
-
-import time
-import math
-import copy
-import locale
 import xml.dom.minidom
 
-import cherrypy
-
-from openobject import tools
-
-from openobject.i18n import format
 from openobject.widgets import CSSLink, JSLink
-
-from openerp.utils import rpc
-from openerp.utils import icons
-from openerp.utils import common
-from openerp.utils import expr_eval
 from openerp.utils import node_attributes
-
-
 from openerp.widgets import TinyWidget
-from openerp.widgets import TinyInputWidget
-from openerp.widgets import ConcurrencyInfo
-
-from openerp.widgets import get_widget
-from openerp.widgets import register_widget
 
 
 class Diagram(TinyWidget):
@@ -87,7 +65,8 @@ class Diagram(TinyWidget):
                   JSLink("view_diagram", 'javascript/state.js'),
                   JSLink("view_diagram", 'javascript/infobox.js')]
     
-    def __init__(self, name, model, view, ids=[], domain=[], context={}, **kw):
+    def __init__(self, name, model, view,
+                 ids=None, domain=None, context=None, **kw):
         
         super(Diagram, self).__init__(name=name, model=model, ids=ids)
         
@@ -129,7 +108,3 @@ class Diagram(TinyWidget):
                 for fld in node.childNodes:
                     if fld.nodeName == 'field':                        
                         self.conn_flds.append(str(node_attributes(fld)['name']))
-
-# vim: ts=4 sts=4 sw=4 si et
-        
-                

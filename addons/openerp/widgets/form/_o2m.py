@@ -10,7 +10,7 @@
 # It's based on Mozilla Public License Version (MPL) 1.1 with following
 # restrictions:
 #
-# -   All names, links and logos of Tiny, Open ERP and Axelor must be
+# -   All names, links and logos of Tiny, OpenERP and Axelor must be
 #     kept as in original distribution without any changes in all software
 #     screens, especially in start-up page and the software header, even if
 #     the application source code has been changed or updated or code has been
@@ -121,7 +121,10 @@ class O2M(TinyInputWidget):
             id = current.id
 
         id = id or None
-
+        if not '_terp_sort_domain' in params:
+            if current and current.ids:
+                ids = list(set(ids + current.ids))
+                
         current.model = self.model
         current.id = id
         current.ids = ids

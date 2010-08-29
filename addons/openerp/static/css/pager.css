@@ -21,6 +21,7 @@
 
 .pager .paging .nav {
     display: -moz-inline-stack;
+    display: inline; /*IE7 */
     display: inline-block;
     overflow: hidden;
     height: 8px;

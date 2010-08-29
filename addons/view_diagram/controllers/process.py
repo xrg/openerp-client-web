@@ -10,7 +10,7 @@
 # It's based on Mozilla Public License Version (MPL) 1.1 with following
 # restrictions:
 #
-# -   All names, links and logos of Tiny, Open ERP and Axelor must be
+# -   All names, links and logos of Tiny, OpenERP and Axelor must be
 #     kept as in original distribution without any changes in all software
 #     screens, especially in start-up page and the software header, even if
 #     the application source code has been changed or updated or code has been
@@ -45,26 +45,32 @@ class Process(SecuredController):
         id = (id or False) and int(id)
         res_id = int(res_id)
 
-        title = title
         selection = None
+        process_title = None
+
+        fields = rpc.RPCProxy(res_model).fields_get([], {})
+
+        help = 'Help: Not Defined'
+        help_ids = rpc.session.execute('object', 'execute', 'ir.actions.act_window', 'search', [('res_model','=',res_model)])
+        for help_id in help_ids:
+            field = rpc.session.execute('object', 'execute', 'ir.actions.act_window', 'read', help_id)
+            if field['help'] and (field['name'] == title):
+                help = field['help']
 
         proxy = rpc.RPCProxy('process.process')
-        fields = proxy.fields_get([], {})
         if id:
             res = proxy.read([id], ['name'], rpc.session.context)[0]
-            selection = proxy.search_by_model(False, rpc.session.context)
-
+            process_title = res['name']
         else:
             selection = proxy.search_by_model(res_model, rpc.session.context)
             if res_model and not selection:
                 selection = proxy.search_by_model(False, rpc.session.context)
 
             if len(selection) == 1:
-                id = selection[0]
-#                selection = None
-                selection = proxy.search_by_model(False, rpc.session.context)
+                id, process_title = selection[0]
+                selection = None
 
-        return dict(fields=fields, id=id, res_model=res_model, res_id=res_id, title=title, selection=selection)
+        return dict(id=id, res_model=res_model, res_id=res_id, title=title, selection=selection, fields=fields, help=help, process_title=process_title)
 
     @expose('json')
     def get(self, id, res_model=None, res_id=False, title=None):

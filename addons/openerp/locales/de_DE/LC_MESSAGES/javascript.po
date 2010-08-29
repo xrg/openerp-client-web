@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2009-11-18 17:42+0530\n"
-"PO-Revision-Date: 2009-11-18 17:47+0530\n"
+"PO-Revision-Date: 2010-08-02 17:53+0530\n"
 "Last-Translator: Amit Mendapara <mendapara.amit@gmail.com>\n"
 "Language-Team: de_DE <LL@li.org>\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
@@ -17,32 +17,29 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel None\n"
 
-#: static/javascript/ajax_stat.js:63
-#: static/javascript/treegrid.js:102
+#: static/javascript/ajax_stat.js:63 static/javascript/treegrid.js:124
 msgid "Loading..."
 msgstr "Ladevorgang läuft ..."
 
-#: static/javascript/form.js:107
+#: static/javascript/form.js:98
 #, python-format
 msgid "You selected to open %(tabs)s tabs - do you want to continue?"
 msgstr ""
 
-#: static/javascript/form.js:242
+#: static/javascript/form.js:232
 msgid "Invalid form, correct red fields !"
 msgstr "ungültiges Formular, korrigieren Sie die roten Felder!"
 
-#: static/javascript/form.js:254
-#: static/tinycalendar/javascript/calendar_box.js:158
+#: static/javascript/form.js:245
 msgid "Do you really want to delete this record?"
 msgstr "Wollen Sie diesen Datensatz wirklich löschen?"
 
-#: static/javascript/form.js:898
-#: static/javascript/listgrid.js:422
-#: static/javascript/treeview.js:63
+#: static/javascript/form.js:896 static/javascript/form.js:1024
+#: static/javascript/listgrid.js:641 static/javascript/treeview.js:58
 msgid "You must select at least one record."
 msgstr "Wählen Sie mindestens einen Datensatz"
 
-#: static/javascript/listgrid.js:424
+#: static/javascript/listgrid.js:643
 msgid "Do you really want to delete selected record(s) ?"
 msgstr "Wollen Sie die ausgewählten Datensätze wirklich löschen"
 
@@ -54,59 +51,45 @@ msgstr "Wollen Sie diesen Knoten wirklich löschen?"
 msgid "Do you really wants to create an inherited view here?"
 msgstr "Wollen Sie hier wirklich eine vererbte Sicht erstellen?"
 
-#: static/javascript/openobject/openobject.ui.waitbox.js:53
-msgid "Please wait..."
-msgstr "Bitte warten..."
+#~ msgid "Please wait..."
+#~ msgstr "Bitte warten..."
 
-#: static/javascript/openobject/openobject.ui.waitbox.js:54
-msgid "This operation may take a while..."
-msgstr "Dieser Vorgang kann eine Weile dauern"
+#~ msgid "This operation may take a while..."
+#~ msgstr "Dieser Vorgang kann eine Weile dauern"
 
-#: static/tinycalendar/javascript/calendar_box.js:48
-msgid "Cancel"
-msgstr "Abbrechen"
+#~ msgid "Cancel"
+#~ msgstr "Abbrechen"
 
-#: static/tinycalendar/javascript/calendar_box.js:49
-msgid "Edit"
-msgstr "Bearbeiten"
+#~ msgid "Edit"
+#~ msgstr "Bearbeiten"
 
-#: static/tinycalendar/javascript/calendar_box.js:50
-msgid "Duplicate"
-msgstr "Duplizieren"
+#~ msgid "Duplicate"
+#~ msgstr "Duplizieren"
 
-#: static/tinycalendar/javascript/calendar_box.js:51
-msgid "Delete"
-msgstr "Löschen"
+#~ msgid "Delete"
+#~ msgstr "Löschen"
 
-#: static/workflow/javascript/process.js:190
-msgid "Notes:"
-msgstr "Bemerkungen:"
+#~ msgid "Notes:"
+#~ msgstr "Bemerkungen:"
 
-#: static/workflow/javascript/process.js:198
-msgid "Subflows:"
-msgstr "untergeordnete Flussdiagramme"
+#~ msgid "Subflows:"
+#~ msgstr "untergeordnete Flussdiagramme"
 
-#: static/workflow/javascript/process.js:202
-msgid "Related:"
-msgstr "Verbunden:"
+#~ msgid "Related:"
+#~ msgstr "Verbunden:"
 
-#: static/workflow/javascript/process.js:287
-msgid "Help"
-msgstr "Hilfe"
+#~ msgid "Help"
+#~ msgstr "Hilfe"
 
-#: static/workflow/javascript/process.js:291
-msgid "Open"
-msgstr "Öffnen"
+#~ msgid "Open"
+#~ msgstr "Öffnen"
 
-#: static/workflow/javascript/process.js:292
-msgid "Print"
-msgstr "Drucken"
+#~ msgid "Print"
+#~ msgstr "Drucken"
 
-#: static/workflow/javascript/process.js:299
-msgid "Print workflow"
-msgstr "Arbeitsfluss Drucken"
+#~ msgid "Print workflow"
+#~ msgstr "Arbeitsfluss Drucken"
 
-#: static/workflow/javascript/process.js:305
-msgid "Documents"
-msgstr "Dokumente"
+#~ msgid "Documents"
+#~ msgstr "Dokumente"
 

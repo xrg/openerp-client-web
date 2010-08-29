@@ -16,7 +16,7 @@
 	%>
 	
 	<button type="button" class="${ul_class} ${a_class}" title="${help}" onclick="search_filter(jQuery('#${filter_id}'), this);">
-	   <table>
+	   <table align="center">
 	       % if icon:
 	       <tr>
 	           <td>

@@ -1,5 +1,5 @@
-<div id="progress_div1">&nbsp;
-    <div id="progress_div2" style="width: ${value}%;"></div>
-    <div id="progress_div3">${value}%</div>
+<div id="progress" kind="progress">&nbsp;
+    ${value}%
+    <div style="width: ${value}%;"></div>
 </div>
 

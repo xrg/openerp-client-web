@@ -20,10 +20,8 @@
             }
         }
     </script>
-
     % if params.selectable == 1:
     <script type="text/javascript">
-
         function do_select(res_id){
             if (!res_id) {
                 var ids = new ListView('_terp_list').getSelectedRecords();
@@ -51,18 +49,16 @@
                     MochiKit.Signal.signal(value_field, 'onchange');
                 }
             }
-            
             window.close();
         }
         
-        
         function do_create(){
-            act = openobject.http.getURL('/openerp/openm2o/edit', {_terp_model: '${params.model}', 
-                                           _terp_source: '${params.source}',
-                                           _terp_m2o: '${params.source}',
-                                           _terp_domain: openobject.dom.get('_terp_domain').value,
-                                           _terp_context: openobject.dom.get('_terp_context').value});
-            window.location.href = act;
+            openLink(openobject.http.getURL('/openerp/openm2o/edit', {
+                _terp_model: '${params.model}',
+                _terp_source: '${params.source}',
+                _terp_m2o: '${params.source}',
+                _terp_domain: openobject.dom.get('_terp_domain').value,
+                _terp_context: openobject.dom.get('_terp_context').value}));
         }
     </script>
     % elif params.selectable == 2:
@@ -128,14 +124,14 @@
         % endif
          <script type="text/javascript">
                 function do_create(){
-                    act = openobject.http.getURL('/openerp/openm2m/new', {_terp_model: '${params.model}', 
-                                                   _terp_source: '${params.source}',
-                                                   _terp_m2m: '${params.source}',
-                                                   _terp_domain: openobject.dom.get('_terp_domain').value,
-                                                   _terp_context: openobject.dom.get('_terp_context').value});
-                    window.location.href = act;
+                    openLink(openobject.http.getURL('/openerp/openm2m/new', {
+                        _terp_model: '${params.model}',
+                        _terp_source: '${params.source}',
+                        _terp_m2m: '${params.source}',
+                        _terp_domain: openobject.dom.get('_terp_domain').value,
+                        _terp_context: openobject.dom.get('_terp_context').value}));
                 }
-          </script>        		    
+          </script>
     % endif
 </%def>
 
@@ -164,7 +160,7 @@
                 <td>${form.search.display()}</td>
             </tr>
             <tr>
-                <td class="toolbar">
+                <td class="toolbar" style="padding:0px">
                     <table cellpadding="0" cellspacing="0">
                         <tr>
                             <td width="100%">

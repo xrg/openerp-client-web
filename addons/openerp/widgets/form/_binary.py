@@ -10,7 +10,7 @@
 # It's based on Mozilla Public License Version (MPL) 1.1 with following
 # restrictions:
 #
-# -   All names, links and logos of Tiny, Open ERP and Axelor must be
+# -   All names, links and logos of Tiny, OpenERP and Axelor must be
 #     kept as in original distribution without any changes in all software
 #     screens, especially in start-up page and the software header, even if
 #     the application source code has been changed or updated or code has been
@@ -58,7 +58,7 @@ class Binary(TinyInputWidget):
     def __init__(self, **attrs):
         super(Binary, self).__init__(**attrs)
         self.validator = validators.Binary()
-        self.onchange = "onChange(this); set_binary_filename(this, '%s');" % (self.filename or '')
+        self.onchange = "set_binary_filename(this, '%s');" % (self.filename or '')
 
     def set_value(self, value):
         #XXX: server bug work-arround
@@ -74,7 +74,7 @@ class Image(TinyInputWidget):
 
     template = "templates/image.mako"
 
-    params = ["src", "width", "height", "model", "id", "field", "stock"]
+    params = ["src", "width", "height", "model", "id", "field", "stock", 'img_size']
     src = ""
     width = 32
     height = 32
@@ -86,20 +86,37 @@ class Image(TinyInputWidget):
         attrs['name'] = attrs.get('name', 'Image').replace("-","_")
 
         super(Image, self).__init__(**attrs)
-
         self.filename = attrs.get('filename', '')
+        self.state = attrs.get('state')
+        
+        if getattr(self,'size', ''):
+            self.img_size = True
+        else:
+            self.img_size = False
+            
         if 'widget' in attrs:
             self.stock = False
             self.field = self.name.split('/')[-1]
             if self.id:
                 self.src = tools.url('/openerp/image/get_image', model=self.model, id=self.id, field=self.field)
             else:
-                self.src =attrs.get('value')
+                if self.model == 'base.setup.company' and self.field == 'logo':
+                    self.model = 'res.company'
+                    proxy = rpc.RPCProxy('res.company')
+                    user_proxy = rpc.RPCProxy('res.users')
+                    act_id = user_proxy.read([rpc.session.uid], ['company_id'], rpc.session.context)
+                    self.id = id = act_id[0]['company_id'][0]
+                    self.src = tools.url('/openerp/image/get_image', model='res.company', id=act_id[0]['company_id'][0], field=self.field)
+                    self.img_size = True
+                else: 
+                    self.src =attrs.get('value')
             self.height = attrs.get('img_height', attrs.get('height', 160))
             self.width = attrs.get('img_width', attrs.get('width', 200))
             self.validator = validators.Binary()
         else:
             self.src =  icons.get_icon(icon)
+        if self.readonly:
+            self.editable = False
         
 register_widget(Image, ["image"])
 

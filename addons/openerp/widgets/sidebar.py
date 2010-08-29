@@ -10,7 +10,7 @@
 # It's based on Mozilla Public License Version (MPL) 1.1 with following
 # restrictions:
 #
-# -   All names, links and logos of Tiny, Open ERP and Axelor must be
+# -   All names, links and logos of Tiny, OpenERP and Axelor must be
 #     kept as in original distribution without any changes in all software
 #     screens, especially in start-up page and the software header, even if
 #     the application source code has been changed or updated or code has been
@@ -50,10 +50,9 @@ class Sidebar(TinyWidget):
         self.reports = toolbar.get('print', [])
         self.actions = toolbar.get('action', [])
         self.relates = toolbar.get('relate', [])
-
         self.attachments = []
         self.sub_menu = None
-
+                    
         values = rpc.RPCProxy('ir.values')
 
         act = 'client_action_multi'
@@ -62,22 +61,21 @@ class Sidebar(TinyWidget):
 
         actions = values.get('action', act, [(self.model, False)], False, self.context)
         actions = [a[-1] for a in actions]
-
+        
         action_ids = [a['id'] for a in self.actions]
         for act in actions:
             if act['id'] not in action_ids:
                 act['context'] = self.context
                 self.actions.append(act)
-
         reports = values.get('action', 'client_print_multi', [(self.model, False)], False, self.context)
         reports = [a[-1] for a in reports]
-
+        
         report_ids = [a['id'] for a in self.reports]
         for rep in reports:
             if rep['id'] not in report_ids:
                 rep['context'] = self.context
                 self.reports.append(rep)
-
+                
         if self.view_type == 'form' and id:
             attachments = rpc.RPCProxy('ir.attachment')
             attachment_ids = attachments.search(

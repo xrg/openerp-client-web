@@ -3,12 +3,10 @@
     MAINTENANCE_CONTRACTS_LINK = '<a href="http://www.openerp.com/" target="_blank">See more about maintenance contracts.</a>'
 %>
 <%def name="header()">
-    <link href="/openerp/static/css/style.css" rel="stylesheet" type="text/css"/>
-
     <script type="text/javascript" src="/openerp/static/javascript/openerp/openerp.ui.textarea.js"></script>
 
     <script type="text/javascript">
-        
+        % if maintenance:
         var send_maintenance_request = function() {
             var args = {
                 explanation: openobject.dom.get('explanation').value,
@@ -39,6 +37,18 @@
                 jQuery(this).parent().toggleClass('expanded-error collapsed-error');
             });
         });
+        % endif
+        function close_error_window() {
+            if (jQuery.fancybox) {
+                jQuery.fancybox.close();
+                return;
+            }
+            if (history.length > 1) {
+                history.back()
+            } else {
+                window.close();
+            }
+        }
     </script>
 </%def>
 
@@ -70,11 +80,11 @@
                                 % if maintenance['status'] == 'none':
                                 <pre>
 
-<b>${_("You do not have a valid Open ERP maintenance contract !")}</b><br/><br/>
-${_("""If you are using Open ERP in production, it is recommended to have
+<b>${_("You do not have a valid OpenERP maintenance contract !")}</b><br/><br/>
+${_("""If you are using OpenERP in production, it is recommended to have
 a maintenance program.
 
-The Open ERP maintenance contract provides you with bug fix guarantees and an
+The OpenERP maintenance contract provides you with bug fix guarantees and an
 automatic migration system so that we can start working on your problems within a few
 hours.
 
@@ -94,13 +104,13 @@ ${MAINTENANCE_CONTRACTS_LINK|n}
                                 <pre>
 
 ${_("""Your maintenance contract does not cover all modules installed in your system !
-If you are using Open ERP in production, it is highly suggested to upgrade your
+If you are using OpenERP in production, it is highly suggested to upgrade your
 contract.
 
 If you have developed your own modules or installed third party module, we
 can provide you an additional maintenance contract for these modules. After
 having reviewed your modules, our quality team will ensure they will migrate
-automatically for all future stable versions of Open ERP at no extra cost.
+automatically for all future stable versions of OpenERP at no extra cost.
 
 Here is the list of modules not covered by your maintenance contract:""")}
 
@@ -123,7 +133,7 @@ ${MAINTENANCE_CONTRACTS_LINK|n}
                                             <td class="label" width="5%" nowrap="nowrap"><label for="explanation">
                                                 ${_("Explain what you did:")}</label></td>
                                             <td class="item">
-                                                <textarea id="explanation" name="explanation" class="text" rows="10"></textarea>
+                                                <textarea id="explanation" name="explanation" class="text"></textarea>
                                                 <script type="text/javascript">
                                                     new openerp.ui.TextArea('explanation');
                                                 </script>
@@ -132,7 +142,7 @@ ${MAINTENANCE_CONTRACTS_LINK|n}
                                         <tr>
                                             <td class="label"><label for="remarks">${_("Other Comments:")}</label></td>
                                             <td class="item">
-                                                <textarea id="remarks" class="text" name="remarks" rows="10"></textarea>
+                                                <textarea id="remarks" class="text" name="remarks"></textarea>
                                                 <script type="text/javascript">
                                                     new openerp.ui.TextArea('remarks');
                                                 </script>
@@ -151,7 +161,7 @@ ${MAINTENANCE_CONTRACTS_LINK|n}
                                 % endif
                             </div>
                         </div>
-                    </div>                   
+                    </div>
                 </form>
             </td>
         % else:
@@ -186,8 +196,8 @@ Choose:
                             <tr>
                                 <td class="errorbox" align="right">
                                     <a class="button-a" href="javascript: void(0)"
-                                       onclick="history.length > 1 ? history.back() : window.close()">${_("Cancel")}</a>
-                                    <button type="submit">${_("Write Anyway")}</button>
+                                       onclick="close_error_window()">${_("Cancel")}</a>
+                                    <button type="submit" onclick="close_error_window()">${_("Write Anyway")}</button>
                                 </td>
                             </tr>
                         </table>
@@ -213,7 +223,7 @@ Choose:
                             <tr>
                                 <td class="errorbox" align="right">
                                     <a class="button-a" href="javascript: void(0)"
-                                       onclick="history.length > 1 ? history.back() : window.close()">OK</a>
+                                       onclick="close_error_window()">OK</a>
                                 </td>
                             </tr>
                         </table>

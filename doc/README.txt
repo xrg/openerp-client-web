@@ -60,14 +60,16 @@ Python::
 
 OpenERP Web::
 
-    $ sudo easy_install -U openobject-web
+    $ sudo easy_install -U openerp-web
 
 all other dependencies will be installed automatically by setuptools...
 
 Configuration:
 
-Locate the ``config/openobject-web.cfg`` in the installed EGG, and
-make appropriate changes, especially::
+Locate the ``doc/openerp-web.cfg`` in the installed EGG, and make appropriate
+changes, especially:
+
+.. sourcecode:: ini
 
     [openobject]
     server = "localhost"
@@ -80,15 +82,14 @@ where:
 * port is the OpenERP server port
 * protocol is the protocol to be used (socket, http or https)
 
-Now start the web server with ``openobject-web`` command::
+Now start the web server with ``openerp-web`` command::
 
-    $ openobject-web
+    $ openerp-web
 
 If you see message showing ``IOError: Port 8080 not free on '0.0.0.0'`` make
 sure no other application is running on the specified port (8080 is default).
 
-You can change port by changing ``server.socket_port`` value in
-``config/openobject-web.cfg``.
+You can change port by changing ``server.socket_port`` value in ``openerp-web.cfg``.
 
 If everything is fine, open your favourite web browser and type
 http://localhost:8080/, and your can see welcome page with login screen.
@@ -105,28 +106,32 @@ Run as service (Linux):
 
 This has been tested on Ubuntu only::
 
-    $ sudo cp /path/to/openobject_web-5.0.2-py2.5.egg/scripts/openobject-web /etc/init.d/
-    $ sudo cp /path/to/openobject_web-5.0.2-py2.5.egg/config/openobject-web.cfg /etc/
+    $ sudo cp /path/to/openerp_web-6.0-py2.5.egg/openerp-web/scripts/init.d/openerp-web /etc/init.d/
+    $ sudo cp /path/to/openerp_web-6.0-py2.5.egg/openerp-web/doc/openerp-web.cfg /etc/
 
-edit ``/etc/init.d/openobject-web``::
+edit ``/etc/init.d/openerp-web``:
 
-    USER="openobject"
+.. sourcecode:: ini
 
-and ``/etc/openobject-web.cfg``::
+    USER="openerp"
 
-    log.access_file = "/var/log/openobject-web/access.log"
-    log.error_file = "/var/log/openobject-web/error.log"
+and ``/etc/openerp-web.cfg``:
+
+.. sourcecode:: ini
+
+    log.access_file = "/var/log/openerp-web/access.log"
+    log.error_file = "/var/log/openerp-web/error.log"
 
 Now run following command to start the OpenERP Web automatically on
 system startup::
 
-    $ sudo mkdir /var/log/openobject-web
-    $ sudo chown -R openobject /var/log/openobject-web
-    $ sudo update-rc.d openobject-web
+    $ sudo mkdir /var/log/openerp-web
+    $ sudo chown -R openerp /var/log/openerp-web
+    $ sudo update-rc.d openerp-web
 
 Start the deamon::
 
-    $ sudo /etc/init.d/openobject-web start
+    $ sudo /etc/init.d/openerp-web start
 
 Windows Installation
 --------------------
@@ -146,16 +151,16 @@ Python:
 Download and Install Python 2.5 and make sure that the dirs
 ``C:\Python25;C:\Python25\Script`` are in PATH environment.
 
-Setuptools:
+Setuptools (or distribute):
 
-Install setuptools package from http://cheeseshop.python.org/packages/2.5/s/setuptools/setuptools-0.6c9.win32-py2.5.exe
-::
+Follow the `distribute installation`_ instructions for more details. This will install
+recent version of ``easy_install`` tools.
 
-    > easy_install "TurboGears==1.0.8"
+.. _distribute installation: http://pypi.python.org/pypi/distribute/0.6.14#distribute-setup-py
 
 OpenERP Web::
 
-    > easy_install -U openobject-web
+    > easy_install -U openerp-web
 
 Configuration:
 
@@ -211,13 +216,13 @@ On Linux do this::
 .. note::
     This method only works if you want your OpenERP Web application at the
     root of your server (https://www.example.com). OpenERP Web currently can't
-    be deployed under a subdirectory, e.g. http://www.example.com/openobject.
+    be deployed under a subdirectory, e.g. http://www.example.com/openerp.
 
     To overcome with the issue you can go with ``subdomain``, like:
 
-        https://openobject.example.com
+        https://openerp.example.com
 
-    See: http://openobject.org/wiki/index.php/InstallationManual/WebClientHTTPS
+    See: http://openerp.org/wiki/index.php/InstallationManual/WebClientHTTPS
 
 OpenERP Web as a WSGI Application
 ---------------------------------
@@ -232,7 +237,7 @@ want. For instance using ``wsgiref.simple_server``::
     import openobject
 
     server = make_server('localhost', 8080, openobject.application)
-    openobject.configure(as_dict('config/openobject-web.cfg'))
+    openobject.configure(as_dict('openobject-web.cfg'))
     openobject.enable_static_paths() # serve static file via the wsgi server
     server.serve_forever()
 

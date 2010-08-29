@@ -1,5 +1,7 @@
 <div id="search_filter_data">
-	${display_member(frame)}
+	% if frame:
+		${display_member(frame)}
+	% endif
 	<table id="filter_table" style="display: none;">
 		% for f,k in enumerate(filter_domain):
 			% if len(k) >1:

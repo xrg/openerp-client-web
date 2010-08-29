@@ -16,8 +16,8 @@
             <a href="javascript: void(0)" title="${_('Week Calendar...')}"
                 onclick="getCalendar(null, 'week')">${_("Week")}</a>
         </li>
-        <li>
-            <a class="active" href="javascript: void(0)"
+        <li class="active-tab">
+            <a href="javascript: void(0)"
                 title="${_('Day Calendar...')}">${_("Day")}</a>
         </li>
     </ul>

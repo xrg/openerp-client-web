@@ -34,11 +34,7 @@ class Link(Resource):
         self._filename = filename
 
     def get_link(self):
-        link = "/%s/static/%s" % (self.modname, self.filename)
-        if cherrypy.config.get('server.environment') == 'development':
-            # prevent local resource caching
-            link = "%s?%s" % (link, uuid.uuid4().hex)
-        return tools.url(link)
+        return tools.url('/%s/static/%s' % (self.modname, self.filename))
 
     def get_file(self):
         return self._filename

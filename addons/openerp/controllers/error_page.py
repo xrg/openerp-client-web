@@ -10,7 +10,7 @@
 # It's based on Mozilla Public License Version (MPL) 1.1 with following
 # restrictions:
 #
-# -   All names, links and logos of Tiny, Open ERP and Axelor must be
+# -   All names, links and logos of Tiny, OpenERP and Axelor must be
 #     kept as in original distribution without any changes in all software
 #     screens, especially in start-up page and the software header, even if
 #     the application source code has been changed or updated or code has been
@@ -73,6 +73,7 @@ class ErrorPage(BaseController):
         if isinstance(value, common.TinyError):
             proxy = rpc.RPCProxy('maintenance.contract')
             maintenance = proxy.status()
+            cherrypy.response.headers['X-Maintenance-Error'] = "1"
 
         return dict(title=title, error=error, maintenance=maintenance,
                     concurrency=concurrency, all_params=all_params, target=target)

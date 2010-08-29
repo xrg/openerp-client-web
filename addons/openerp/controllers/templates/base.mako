@@ -5,8 +5,9 @@
     <script type="text/javascript" src="/openerp/static/javascript/openerp/openerp.ui.js"></script>
     <script type="text/javascript" src="/openerp/static/javascript/openerp/openerp.ui.tips.js"></script>
     <script type="text/javascript" src="/openerp/static/javascript/openerp/openerp.ui.waitbox.js"></script>
-    <script type="text/javascript" src="/openerp/static/javascript/ajax_stat.js"></script>
     <script type="text/javascript" src="/openerp/static/javascript/scripts.js"></script>
+    <script type="text/javascript" src="/openerp/static/javascript/form.js"></script>
+    <script type="text/javascript" src="/openerp/static/javascript/form_state.js"></script>
     
     <link rel="stylesheet" type="text/css" href="/openerp/static/css/style.css"/>
     <link rel="stylesheet" type="text/css" href="/openerp/static/css/menu.css"/>

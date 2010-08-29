@@ -1,14 +1,14 @@
 # Translations template for PROJECT.
-# Copyright (C) 2009 ORGANIZATION
+# Copyright (C) 2010 ORGANIZATION
 # This file is distributed under the same license as the PROJECT project.
-# FIRST AUTHOR <EMAIL@ADDRESS>, 2009.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2010.
 #
 #, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2009-11-18 17:42+0530\n"
+"POT-Creation-Date: 2010-08-02 17:52+0530\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,291 +17,270 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel None\n"
 
-#: commands.py:127
-#, python-format
-msgid "Could not find configuration file: %s"
-msgstr ""
-
-#: addons/base/controllers/actions.py:95
+#: controllers/actions.py:92
 msgid "Invalid View!"
 msgstr ""
 
-#: addons/base/controllers/actions.py:123
+#: controllers/actions.py:126
 msgid "Error no report"
 msgstr ""
 
-#: addons/base/controllers/actions.py:149
+#: controllers/actions.py:152
 msgid "Nothing to print!"
 msgstr ""
 
-#: addons/base/controllers/actions.py:164
+#: controllers/actions.py:169
 msgid "Printing aborted, too long delay!"
 msgstr ""
 
-#: addons/base/controllers/actions.py:281
+#: controllers/actions.py:318
 msgid "Relative URLs are not supported!"
 msgstr ""
 
-#: addons/base/controllers/actions.py:294
-#: addons/base/widgets/form/_action.py:65
+#: controllers/actions.py:333 widgets/form/_action.py:58
 msgid "Action not found!"
 msgstr ""
 
-#: addons/base/controllers/actions.py:340
+#: controllers/actions.py:381
 msgid "No action defined!"
 msgstr ""
 
-#: addons/base/controllers/attachment.py:64
+#: controllers/attachment.py:63
 msgid "No record selected! You can only attach to existing record..."
 msgstr ""
 
-#: addons/base/controllers/database.py:78
-#: addons/base/controllers/templates/database.mako:48
-msgid "Create new database"
+#: controllers/database.py:70
+msgid "Create database"
 msgstr ""
 
-#: addons/base/controllers/database.py:80
-#: addons/base/controllers/database.py:96
-#: addons/base/controllers/database.py:105
-#: addons/base/controllers/database.py:113
-#: addons/base/controllers/database.py:122
-#: addons/base/controllers/templates/exp.mako:228
-#: addons/base/controllers/templates/fieldpref.mako:106
-#: addons/base/controllers/templates/selection.mako:53
-#: addons/base/controllers/templates/view_log.mako:48
+#: controllers/database.py:72 controllers/database.py:88
+#: controllers/database.py:97 controllers/database.py:105
+#: controllers/database.py:114 controllers/templates/exp.mako:263
+#: controllers/templates/fieldpref.mako:103
+#: controllers/templates/selection.mako:45
+#: controllers/templates/view_log.mako:35
 msgid "OK"
 msgstr ""
 
-#: addons/base/controllers/database.py:83
+#: controllers/database.py:75
 msgid "Super admin password:"
 msgstr ""
 
-#: addons/base/controllers/database.py:84
-#: addons/base/controllers/database.py:116
+#: controllers/database.py:76 controllers/database.py:108
 msgid "New database name:"
 msgstr ""
 
-#: addons/base/controllers/database.py:85
+#: controllers/database.py:77
 msgid "Load Demonstration data:"
 msgstr ""
 
-#: addons/base/controllers/database.py:86
+#: controllers/database.py:78
 msgid "Default Language:"
 msgstr ""
 
-#: addons/base/controllers/database.py:87
+#: controllers/database.py:79
 msgid "Administrator password:"
 msgstr ""
 
-#: addons/base/controllers/database.py:88
+#: controllers/database.py:80
 msgid "Confirm password:"
 msgstr ""
 
-#: addons/base/controllers/database.py:94
-#: addons/base/controllers/templates/database.mako:52
+#: controllers/database.py:86
 msgid "Drop database"
 msgstr ""
 
-#: addons/base/controllers/database.py:98
-#: addons/base/controllers/database.py:106
-#: addons/base/controllers/templates/login.mako:39
+#: controllers/database.py:90 controllers/database.py:98
+#: controllers/templates/login.mako:43
 msgid "Database:"
 msgstr ""
 
-#: addons/base/controllers/database.py:99
-#: addons/base/controllers/database.py:107
-#: addons/base/controllers/database.py:115
-#: addons/base/controllers/templates/login.mako:56
-#: addons/base/controllers/templates/login_ajax.mako:78
-#: addons/base/controllers/templates/login_ajax.mako:98
+#: controllers/database.py:91 controllers/database.py:99
+#: controllers/database.py:107 controllers/templates/login.mako:61
+#: controllers/templates/login_ajax.mako:78
+#: controllers/templates/login_ajax.mako:98
 msgid "Password:"
 msgstr ""
 
-#: addons/base/controllers/database.py:103
-#: addons/base/controllers/templates/database.mako:56
+#: controllers/database.py:95
 msgid "Backup database"
 msgstr ""
 
-#: addons/base/controllers/database.py:111
-#: addons/base/controllers/templates/database.mako:60
+#: controllers/database.py:103
 msgid "Restore database"
 msgstr ""
 
-#: addons/base/controllers/database.py:114
+#: controllers/database.py:106
 msgid "File:"
 msgstr ""
 
-#: addons/base/controllers/database.py:120
-#: addons/base/controllers/templates/database.mako:64
+#: controllers/database.py:112
 msgid "Change Administrator Password"
 msgstr ""
 
-#: addons/base/controllers/database.py:123
+#: controllers/database.py:115
 msgid "Old Password:"
 msgstr ""
 
-#: addons/base/controllers/database.py:124
+#: controllers/database.py:116
 msgid "New Password:"
 msgstr ""
 
-#: addons/base/controllers/database.py:125
+#: controllers/database.py:117
 msgid "Confirm Password:"
 msgstr ""
 
-#: addons/base/controllers/database.py:157
+#: controllers/database.py:149
 msgid ""
 "The database name must contain only normal characters or \"_\".\n"
 "You must avoid all accents, space or special characters."
 msgstr ""
 
-#: addons/base/controllers/database.py:157
+#: controllers/database.py:149
 msgid "Bad database name!"
 msgstr ""
 
-#: addons/base/controllers/database.py:181
-#: addons/base/controllers/database.py:186
-#: addons/base/controllers/database.py:188
+#: controllers/database.py:169 controllers/database.py:174
+#: controllers/database.py:176
 msgid "Could not create database."
 msgstr ""
 
-#: addons/base/controllers/database.py:181
+#: controllers/database.py:169
 msgid "Database already exists!"
 msgstr ""
 
-#: addons/base/controllers/database.py:183
+#: controllers/database.py:171
 msgid ""
 "The server crashed during installation.\n"
 "We suggest you to drop this database."
 msgstr ""
 
-#: addons/base/controllers/database.py:184
+#: controllers/database.py:172
 msgid "Error during database creation!"
 msgstr ""
 
-#: addons/base/controllers/database.py:186
-#: addons/base/controllers/database.py:207
-#: addons/base/controllers/database.py:247
+#: controllers/database.py:174 controllers/database.py:195
+#: controllers/database.py:235
 msgid "Bad database administrator password!"
 msgstr ""
 
-#: addons/base/controllers/database.py:207
+#: controllers/database.py:195
 msgid "Could not drop database."
 msgstr ""
 
-#: addons/base/controllers/database.py:209
+#: controllers/database.py:197
 msgid "Couldn't drop database"
 msgstr ""
 
-#: addons/base/controllers/database.py:229
+#: controllers/database.py:217
 msgid "Could not create backup."
 msgstr ""
 
-#: addons/base/controllers/database.py:247
+#: controllers/database.py:235
 msgid "Could not restore database."
 msgstr ""
 
-#: addons/base/controllers/database.py:249
+#: controllers/database.py:237
 msgid "Couldn't restore database"
 msgstr ""
 
-#: addons/base/controllers/database.py:266
+#: controllers/database.py:254
 msgid "Could not change super admin password."
 msgstr ""
 
-#: addons/base/controllers/database.py:266
+#: controllers/database.py:254
 msgid "Bad password provided!"
 msgstr ""
 
-#: addons/base/controllers/database.py:268
+#: controllers/database.py:256
 msgid "Error, password not changed."
 msgstr ""
 
-#: addons/base/controllers/error_page.py:95
+#: controllers/error_page.py:85
 msgid ""
 "Your problem has been sent to the quality team!\n"
 "We will recontact you after analysing the problem."
 msgstr ""
 
-#: addons/base/controllers/error_page.py:97
+#: controllers/error_page.py:87
 #, python-format
 msgid ""
 "Your problem could not be sent to the quality team!\n"
 "Please report this error manually at %s"
 msgstr ""
 
-#: addons/base/controllers/form.py:492
+#: controllers/form.py:522
 msgid "Invalid button type"
 msgstr ""
 
-#: addons/base/controllers/form.py:823 addons/base/controllers/tree.py:245
+#: controllers/form.py:856 controllers/tree.py:244
 msgid "No record selected!"
 msgstr ""
 
-#: addons/base/controllers/form.py:828
-msgid "Print Screen"
-msgstr ""
-
-#: addons/base/controllers/form.py:850
+#: controllers/form.py:878
 msgid "You must save this record to use the sidebar button!"
 msgstr ""
 
-#: addons/base/controllers/form.py:889
-#: addons/base/controllers/templates/error_page.mako:149
-#: addons/base/widgets/listgrid.py:315 addons/base/widgets/form/_form.py:875
-#: tools/rpc.py:141 tools/rpc.py:144
+#: controllers/form.py:917 utils/rpc.py:139 utils/rpc.py:142
+#: widgets/listgrid.py:323 widgets/form/_form.py:922
 msgid "Application Error!"
 msgstr ""
 
-#: addons/base/controllers/form.py:889
+#: controllers/form.py:917
 #, python-format
 msgid "Wrong on_change trigger: %s"
 msgstr ""
 
-#: addons/base/controllers/impex.py:85
+#: controllers/impex.py:71
 msgid ""
 "Operation failed!\n"
 "I/O error"
 msgstr ""
 
-#: addons/base/controllers/impex.py:358
+#: controllers/impex.py:356
 msgid "Export Error!"
 msgstr ""
 
-#: addons/base/controllers/impex.py:369
+#: controllers/impex.py:367
 msgid ""
 "Please Install xlwt Library.\n"
 "To create spreadsheet files compatible with MS Excel."
 msgstr ""
 
-#: addons/base/controllers/impex.py:369 addons/base/controllers/impex.py:471
+#: controllers/impex.py:367 controllers/impex.py:482
 msgid "Import Error."
 msgstr ""
 
-#: addons/base/controllers/impex.py:457
+#: controllers/impex.py:466
 msgid "Error opening .CSV file"
 msgstr ""
 
-#: addons/base/controllers/impex.py:457
+#: controllers/impex.py:466
 msgid "Input Error."
 msgstr ""
 
-#: addons/base/controllers/impex.py:471
+#: controllers/impex.py:479
+#, python-format
+msgid "You cannot import this field %s, because we cannot auto-detect it"
+msgstr ""
+
+#: controllers/impex.py:482
 #, python-format
 msgid ""
 "Error processing your first line of the file.\n"
 "Field %s is unknown!"
 msgstr ""
 
-#: addons/base/controllers/impex.py:497
+#: controllers/impex.py:509
 msgid "XML-RPC error!"
 msgstr ""
 
-#: addons/base/controllers/impex.py:499
+#: controllers/impex.py:511
 #, python-format
 msgid "Imported %d objects!"
 msgstr ""
 
-#: addons/base/controllers/impex.py:504
+#: controllers/impex.py:516
 #, python-format
 msgid ""
 "Error trying to import this record:\n"
@@ -312,211 +291,179 @@ msgid ""
 "%s"
 msgstr ""
 
-#: addons/base/controllers/impex.py:505
+#: controllers/impex.py:517
 msgid "Importation Error !"
 msgstr ""
 
-#: addons/base/controllers/listgrid.py:66
+#: controllers/listgrid.py:56
 msgid "Parent record doesn't exists..."
 msgstr ""
 
-#: addons/base/controllers/preferences.py:72
-#: addons/base/controllers/templates/header.mako:32
+#: controllers/preferences.py:64
 msgid "Preferences"
 msgstr ""
 
-#: addons/base/controllers/process.py:70
-msgid "Select Workflow"
-msgstr ""
-
-#: addons/base/controllers/process.py:101
-#, python-format
-msgid "%(name)s - Resource: %(resource)s, State: %(state)s"
-msgstr ""
-
-#: addons/base/controllers/process.py:113
-msgid "Last modified by:"
-msgstr ""
-
-#: addons/base/controllers/requests.py:56
+#: controllers/requests.py:51
 msgid "No request"
 msgstr ""
 
-#: addons/base/controllers/requests.py:58
+#: controllers/requests.py:53
 #, python-format
 msgid "%s request(s)"
 msgstr ""
 
-#: addons/base/controllers/requests.py:61
+#: controllers/requests.py:56
 #, python-format
 msgid " - %s pending request(s)"
 msgstr ""
 
-#: addons/base/controllers/root.py:71
+#: controllers/root.py:68
 msgid ""
 "You can not log into the system!\n"
 "Ask the administrator to verify\n"
 "you have an action defined for your user."
 msgstr ""
 
-#: addons/base/controllers/root.py:71
+#: controllers/root.py:68
 msgid "Access Denied!"
 msgstr ""
 
-#: addons/base/controllers/root.py:148
-msgid "Developped by Axelor and Tiny"
-msgstr ""
-
-#: addons/base/controllers/root.py:171
+#: controllers/root.py:178
 #, python-format
 msgid "Version %s"
 msgstr ""
 
-#: addons/base/controllers/translator.py:143
+#: controllers/translator.py:140
 msgid "You need to save the resource before adding translations."
 msgstr ""
 
-#: addons/base/controllers/tree.py:277
+#: controllers/tree.py:275
 msgid "No resource selected!"
 msgstr ""
 
-#: addons/base/controllers/utils.py:55
+#: controllers/utils.py:52
 msgid "Could not connect to server!"
 msgstr ""
 
-#: addons/base/controllers/utils.py:146
-#: addons/base/controllers/templates/login_ajax.mako:111
+#: controllers/utils.py:150 controllers/templates/login_ajax.mako:111
 msgid "Bad username or password!"
 msgstr ""
 
-#: addons/base/controllers/view_log.py:65
+#: controllers/view_log.py:40
 msgid "ID"
 msgstr ""
 
-#: addons/base/controllers/view_log.py:66
+#: controllers/view_log.py:41
 msgid "Creation User"
 msgstr ""
 
-#: addons/base/controllers/view_log.py:67
+#: controllers/view_log.py:42
 msgid "Creation Date"
 msgstr ""
 
-#: addons/base/controllers/view_log.py:68
+#: controllers/view_log.py:43
 msgid "Latest Modification by"
 msgstr ""
 
-#: addons/base/controllers/view_log.py:69
+#: controllers/view_log.py:44
 msgid "Latest Modification Date"
 msgstr ""
 
-#: addons/base/controllers/view_log.py:70
+#: controllers/view_log.py:45
 msgid "Owner"
 msgstr ""
 
-#: addons/base/controllers/view_log.py:71
+#: controllers/view_log.py:46
 msgid "Group Owner"
 msgstr ""
 
-#: addons/base/controllers/view_log.py:72
+#: controllers/view_log.py:47
 msgid "Access Level"
 msgstr ""
 
-#: addons/base/controllers/view_log.py:81
-msgid "No resource is selected..."
-msgstr ""
-
-#: addons/base/controllers/viewed.py:247
+#: controllers/viewed.py:227
 msgid "Invalid view id."
 msgstr ""
 
-#: addons/base/controllers/viewed.py:526
+#: controllers/viewed.py:503
 msgid "Unable to create inherited view."
 msgstr ""
 
-#: addons/base/controllers/viewed.py:528
+#: controllers/viewed.py:505
 msgid "Can't create inherited view here."
 msgstr ""
 
-#: addons/base/controllers/viewed.py:531
+#: controllers/viewed.py:508
 msgid "Not implemented yet!"
 msgstr ""
 
-#: addons/base/controllers/viewed.py:638
+#: controllers/viewed.py:613
 msgid "Unable to update the view."
 msgstr ""
 
-#: addons/base/controllers/viewed.py:895
+#: controllers/viewed.py:867
 msgid "New Window"
 msgstr ""
 
-#: addons/base/controllers/viewed.py:907
+#: controllers/viewed.py:879
 msgid "Save Button"
 msgstr ""
 
-#: addons/base/controllers/viewed.py:907
+#: controllers/viewed.py:879
 msgid "Cancel Button"
 msgstr ""
 
-#: addons/base/controllers/viewed.py:907
+#: controllers/viewed.py:879
 msgid "Open Button"
 msgstr ""
 
-#: addons/base/controllers/viewed.py:913
+#: controllers/viewed.py:885
 msgid "Left"
 msgstr ""
 
-#: addons/base/controllers/viewed.py:913
+#: controllers/viewed.py:885
 msgid "Center"
 msgstr ""
 
-#: addons/base/controllers/viewed.py:913
+#: controllers/viewed.py:885
 msgid "Right"
 msgstr ""
 
-#: addons/base/controllers/workflow.py:104
-#: addons/base/controllers/workflow.py:171
-msgid "Could not delete state"
-msgstr ""
-
-#: addons/base/controllers/workflow.py:218
-msgid "No workflow associated!"
-msgstr ""
-
-#: addons/base/controllers/templates/about.mako:4
+#: controllers/templates/about.mako:4
 msgid "About the OpenERP Web"
 msgstr ""
 
-#: addons/base/controllers/templates/about.mako:17
+#: controllers/templates/about.mako:15
 msgid "OpenERP Web"
 msgstr ""
 
-#: addons/base/controllers/templates/about.mako:23
+#: controllers/templates/about.mako:21
 msgid "Copyright &copy; 2006-TODAY Tiny ERP Pvt. Ltd. All Rights Reserved."
 msgstr ""
 
-#: addons/base/controllers/templates/about.mako:24
+#: controllers/templates/about.mako:22
 msgid "OpenERP is a trademark of the Tiny Company."
 msgstr ""
 
-#: addons/base/controllers/templates/about.mako:26
+#: controllers/templates/about.mako:24
 #, python-format
 msgid "%(ooweb)s is jointly developed by %(tiny)s and %(axelor)s."
 msgstr ""
 
-#: addons/base/controllers/templates/about.mako:33
+#: controllers/templates/about.mako:31
 #, python-format
 msgid "Licenced under the terms of %(license)s"
 msgstr ""
 
-#: addons/base/controllers/templates/about.mako:39
+#: controllers/templates/about.mako:37
 msgid "About OpenERP"
 msgstr ""
 
-#: addons/base/controllers/templates/about.mako:44
+#: controllers/templates/about.mako:42
 #, python-format
 msgid ""
-"%(openobject)s is a free enterprise-scale software system that is designed "
-"to boost\n"
+"%(openobject)s is a free enterprise-scale software system that is "
+"designed to boost\n"
 "productivity and profit through data integration. It connects, improves "
 "and\n"
 "manages business processes in areas such as sales, finance, supply chain,"
@@ -524,7 +471,7 @@ msgid ""
 "project management, production, services, CRM, etc..\n"
 msgstr ""
 
-#: addons/base/controllers/templates/about.mako:52
+#: controllers/templates/about.mako:50
 msgid ""
 "The system is platform-independent, and can be installed on Windows, Mac "
 "OS X,\n"
@@ -534,149 +481,124 @@ msgid ""
 "production system and migration to a new version to be straightforward."
 msgstr ""
 
-#: addons/base/controllers/templates/about.mako:59
+#: controllers/templates/about.mako:57
 msgid ""
 "Depending on your needs, OpenERP is available through a web or "
 "application client."
 msgstr ""
 
-#: addons/base/controllers/templates/about.mako:64
+#: controllers/templates/about.mako:62
 msgid "Links"
 msgstr ""
 
-#: addons/base/controllers/templates/about.mako:70
+#: controllers/templates/about.mako:68
 msgid "The Axelor Company"
 msgstr ""
 
-#: addons/base/controllers/templates/about.mako:71
+#: controllers/templates/about.mako:69
 msgid "The Tiny Company"
 msgstr ""
 
-#: addons/base/controllers/templates/about.mako:85
+#: controllers/templates/about.mako:83
 msgid "RESOURCES"
 msgstr ""
 
-#: addons/base/controllers/templates/about.mako:93
+#: controllers/templates/about.mako:91
 msgid "Homepage"
 msgstr ""
 
-#: addons/base/controllers/templates/about.mako:97
+#: controllers/templates/about.mako:95
 msgid "Download"
 msgstr ""
 
-#: addons/base/controllers/templates/about.mako:101
+#: controllers/templates/about.mako:99
 msgid "Documentation"
 msgstr ""
 
-#: addons/base/controllers/templates/about.mako:105
+#: controllers/templates/about.mako:103
 msgid "Modules"
 msgstr ""
 
-#: addons/base/controllers/templates/about.mako:109
+#: controllers/templates/about.mako:107
 msgid "Screencasts"
 msgstr ""
 
-#: addons/base/controllers/templates/about.mako:113
+#: controllers/templates/about.mako:111
 msgid "Community"
 msgstr ""
 
-#: addons/base/controllers/templates/about.mako:117
+#: controllers/templates/about.mako:115
 msgid "SaaS Offers"
 msgstr ""
 
-#: addons/base/controllers/templates/about.mako:121
+#: controllers/templates/about.mako:119
 msgid "Trainings"
 msgstr ""
 
-#: addons/base/controllers/templates/about.mako:125
+#: controllers/templates/about.mako:123
 msgid "Services"
 msgstr ""
 
-#: addons/base/controllers/templates/calpopup.mako:88
-#: addons/base/controllers/templates/exp.mako:279
-#: addons/base/controllers/templates/fieldpref.mako:103
-#: addons/base/controllers/templates/image.mako:66
-#: addons/base/controllers/templates/imp.mako:218
-#: addons/base/controllers/templates/openm2m.mako:70
-#: addons/base/controllers/templates/openm2o.mako:61
-#: addons/base/controllers/templates/openo2m.mako:88
-#: addons/base/controllers/templates/process_open.mako:57
-#: addons/base/controllers/templates/search.mako:172
-#: addons/base/controllers/templates/translator.mako:43
-#: addons/base/controllers/templates/translator.mako:108
-#: addons/base/controllers/templates/viewed.mako:43
-#: addons/base/controllers/templates/viewed_new.mako:54
-#: addons/base/controllers/templates/viewed_new_model.mako:49
-#: addons/base/controllers/templates/viewed_preview.mako:36
-#: addons/base/controllers/templates/viewlist.mako:130
-#: addons/base/controllers/templates/wkf_list.mako:131
-#: addons/base/controllers/templates/wkf_popup.mako:57
-#: addons/base/controllers/templates/workflow.mako:78
-msgid "Close"
+#: controllers/templates/database.mako:34 controllers/templates/login.mako:4
+#: controllers/templates/login.mako:70 controllers/templates/login_ajax.mako:85
+#: controllers/templates/login_ajax.mako:104
+msgid "Login"
 msgstr ""
 
-#: addons/base/controllers/templates/calpopup.mako:89
-#: addons/base/controllers/templates/form.mako:145
-#: addons/base/controllers/templates/image.mako:61
-#: addons/base/controllers/templates/openm2m.mako:71
-#: addons/base/controllers/templates/openm2o.mako:63
-#: addons/base/controllers/templates/openo2m.mako:90
-#: addons/base/controllers/templates/preferences.mako:25
-#: addons/base/controllers/templates/process_open.mako:58
-#: addons/base/controllers/templates/translator.mako:42
-#: addons/base/controllers/templates/translator.mako:107
-#: addons/base/controllers/templates/viewed_new.mako:55
-#: addons/base/controllers/templates/viewed_new_model.mako:50
-#: addons/base/controllers/templates/viewlist.mako:187
-#: addons/base/controllers/templates/wkf_list.mako:181
-#: addons/base/controllers/templates/wkf_popup.mako:58
-msgid "Save"
-msgstr ""
-
-#: addons/base/controllers/templates/database.mako:50
+#: controllers/templates/database.mako:36
 msgid "Create"
 msgstr ""
 
-#: addons/base/controllers/templates/database.mako:54
+#: controllers/templates/database.mako:38
 msgid "Drop"
 msgstr ""
 
-#: addons/base/controllers/templates/database.mako:58
+#: controllers/templates/database.mako:40
 msgid "Backup"
 msgstr ""
 
-#: addons/base/controllers/templates/database.mako:62
+#: controllers/templates/database.mako:42
 msgid "Restore"
 msgstr ""
 
-#: addons/base/controllers/templates/database.mako:66
+#: controllers/templates/database.mako:44
 msgid "Password"
 msgstr ""
 
-#: addons/base/controllers/templates/error_page.mako:67
-msgid "Maintenance"
+#: controllers/templates/error_page.mako:60
+msgid "An "
 msgstr ""
 
-#: addons/base/controllers/templates/error_page.mako:70
-#: addons/base/controllers/templates/error_page.mako:93
-msgid "An unknown error has been reported."
+#: controllers/templates/error_page.mako:60
+msgid "has been reported."
 msgstr ""
 
-#: addons/base/controllers/templates/error_page.mako:72
+#: controllers/templates/error_page.mako:62
+msgid "Let me fix it"
+msgstr ""
+
+#: controllers/templates/error_page.mako:68
+msgid "Fix it for me"
+msgstr ""
+
+#: controllers/templates/error_page.mako:73
 msgid "You do not have a valid Open ERP maintenance contract !"
 msgstr ""
 
-#: addons/base/controllers/templates/error_page.mako:73
+#: controllers/templates/error_page.mako:74
 msgid ""
-"If you are using Open ERP in production, it is highly suggested to "
-"subscribe\n"
+"If you are using Open ERP in production, it is recommended to have\n"
 "a maintenance program.\n"
 "\n"
-"The Open ERP maintenance contract provides you a bugfix guarantee and an\n"
-"automatic migration system so that we can fix your problems within a few\n"
-"hours. If you had a maintenance contract, this error would have been sent"
+"The Open ERP maintenance contract provides you with bug fix guarantees "
+"and an\n"
+"automatic migration system so that we can start working on your problems "
+"within a few\n"
+"hours.\n"
 "\n"
-"to the quality team of the Open ERP editor.\n"
+"With a maintenance contract, errors such as this one can be sent directly"
+" to the OpenERP\n"
+"team for review and evaluation.\n"
 "\n"
 "The maintenance program offers you:\n"
 "* Automatic migrations on new versions,\n"
@@ -684,13 +606,9 @@ msgid ""
 "* Monthly announces of potential bugs and their fixes,\n"
 "* Security alerts by email and automatic migration,\n"
 "* Access to the customer portal.\n"
-"\n"
-"You can use the link bellow for more information. The detail of the error"
-"\n"
-"is displayed on the second tab."
 msgstr ""
 
-#: addons/base/controllers/templates/error_page.mako:95
+#: controllers/templates/error_page.mako:96
 msgid ""
 "Your maintenance contract does not cover all modules installed in your "
 "system !\n"
@@ -698,1035 +616,801 @@ msgid ""
 "upgrade your\n"
 "contract.\n"
 "\n"
-"If you have developped your own modules or installed third party module, "
+"If you have developed your own modules or installed third party module, "
 "we\n"
 "can provide you an additional maintenance contract for these modules. "
 "After\n"
 "having reviewed your modules, our quality team will ensure they will "
 "migrate\n"
-"automatically for all futur stable versions of Open ERP at no extra cost."
-"\n"
+"automatically for all future stable versions of Open ERP at no extra "
+"cost.\n"
 "\n"
 "Here is the list of modules not covered by your maintenance contract:"
 msgstr ""
 
-#: addons/base/controllers/templates/error_page.mako:109
-msgid ""
-"You can use the link bellow for more information. The detail of the error"
-"\n"
-"is displayed on the second tab."
-msgstr ""
-
-#: addons/base/controllers/templates/error_page.mako:117
+#: controllers/templates/error_page.mako:118
 msgid "Maintenance contract."
 msgstr ""
 
-#: addons/base/controllers/templates/error_page.mako:118
+#: controllers/templates/error_page.mako:119
 msgid ""
 "Your request will be sent to OpenERP and maintenance team will reply you "
 "shortly."
 msgstr ""
 
-#: addons/base/controllers/templates/error_page.mako:122
+#: controllers/templates/error_page.mako:124
 msgid "Explain what you did:"
 msgstr ""
 
-#: addons/base/controllers/templates/error_page.mako:131
+#: controllers/templates/error_page.mako:133
 msgid "Other Comments:"
 msgstr ""
 
-#: addons/base/controllers/templates/error_page.mako:142
+#: controllers/templates/error_page.mako:145
 msgid "Send to Maintenance Team"
 msgstr ""
 
-#: addons/base/controllers/templates/error_page.mako:170
+#: controllers/templates/error_page.mako:174
 msgid "Write concurrency warning :"
 msgstr ""
 
-#: addons/base/controllers/templates/error_page.mako:171
+#: controllers/templates/error_page.mako:175
 msgid ""
 "This document has been modified while you were editing it.\n"
 "Choose:\n"
 "\n"
-"\t- \"Cancel\" to cancel saving.\n"
-"\t- \"Write anyway\" to save your current version."
+"    - \"Cancel\" to cancel saving.\n"
+"    - \"Write anyway\" to save your current version."
 msgstr ""
 
-#: addons/base/controllers/templates/error_page.mako:182
-#: addons/base/controllers/templates/form.mako:167
-#: addons/base/controllers/templates/preferences.mako:24
-#: addons/base/controllers/templates/selection.mako:52
-#: addons/base/controllers/templates/viewlist.mako:188
-#: addons/base/controllers/templates/wkf_list.mako:182
-#: addons/base/widgets/templates/listgrid.mako:60
+#: controllers/templates/error_page.mako:189
+#: controllers/templates/form.mako:191
+#: controllers/templates/preferences.mako:23
+#: controllers/templates/selection.mako:43
+#: controllers/templates/viewlist.mako:190 widgets/templates/listgrid.mako:34
 msgid "Cancel"
 msgstr ""
 
-#: addons/base/controllers/templates/error_page.mako:183
+#: controllers/templates/error_page.mako:190
 msgid "Write Anyway"
 msgstr ""
 
-#: addons/base/controllers/templates/exp.mako:174
+#: controllers/templates/exp.mako:185
 msgid "Export Data"
 msgstr ""
 
-#: addons/base/controllers/templates/exp.mako:187
-#: addons/base/controllers/templates/form.mako:161
-#: addons/base/controllers/templates/image.mako:63
-#: addons/base/widgets/templates/listgrid.mako:115
-#: addons/base/widgets/templates/viewform.mako:25
+#: controllers/templates/exp.mako:201 controllers/templates/form.mako:186
+#: controllers/templates/image.mako:60 widgets/templates/listgrid.mako:91
+#: widgets/templates/listgroup.mako:106
+#: widgets/templates/multiple_group.mako:85 widgets/templates/sidebar.mako:59
 msgid "Delete"
 msgstr ""
 
-#: addons/base/controllers/templates/exp.mako:195
-#: addons/base/controllers/templates/imp.mako:151
+#: controllers/templates/exp.mako:212 controllers/templates/imp.mako:160
 msgid "All fields"
 msgstr ""
 
-#: addons/base/controllers/templates/exp.mako:197
+#: controllers/templates/exp.mako:214
 msgid "Fields to export"
 msgstr ""
 
-#: addons/base/controllers/templates/exp.mako:204
-#: addons/base/controllers/templates/imp.mako:160
+#: controllers/templates/exp.mako:224 controllers/templates/imp.mako:172
 msgid "Add"
 msgstr ""
 
-#: addons/base/controllers/templates/exp.mako:205
-#: addons/base/controllers/templates/imp.mako:161
-#: addons/base/controllers/templates/viewlist.mako:126
-#: addons/base/controllers/templates/wkf_list.mako:126
+#: controllers/templates/exp.mako:229 controllers/templates/imp.mako:177
+#: controllers/templates/viewlist.mako:128
 msgid "Remove"
 msgstr ""
 
-#: addons/base/controllers/templates/exp.mako:206
-#: addons/base/controllers/templates/imp.mako:162
+#: controllers/templates/exp.mako:234 controllers/templates/imp.mako:182
 msgid "Nothing"
 msgstr ""
 
-#: addons/base/controllers/templates/exp.mako:207
-#: addons/base/controllers/templates/exp.mako:220
+#: controllers/templates/exp.mako:239 controllers/templates/exp.mako:255
 msgid "Save List"
 msgstr ""
 
-#: addons/base/controllers/templates/exp.mako:223
+#: controllers/templates/exp.mako:258
 msgid "Name of This Export:"
 msgstr ""
 
-#: addons/base/controllers/templates/exp.mako:239
-#: addons/base/controllers/templates/imp.mako:188
+#: controllers/templates/exp.mako:274 controllers/templates/imp.mako:214
 msgid "Options"
 msgstr ""
 
-#: addons/base/controllers/templates/exp.mako:244
+#: controllers/templates/exp.mako:279
 msgid "Export as CSV"
 msgstr ""
 
-#: addons/base/controllers/templates/exp.mako:245
+#: controllers/templates/exp.mako:280
 msgid "Export as Excel"
 msgstr ""
 
-#: addons/base/controllers/templates/exp.mako:251
+#: controllers/templates/exp.mako:286
 msgid "Add field names"
 msgstr ""
 
-#: addons/base/controllers/templates/exp.mako:260
+#: controllers/templates/exp.mako:295
 msgid "Select an Option to Export"
 msgstr ""
 
-#: addons/base/controllers/templates/exp.mako:266
+#: controllers/templates/exp.mako:301
 msgid "Import Compatible"
 msgstr ""
 
-#: addons/base/controllers/templates/exp.mako:278
-#: addons/base/widgets/templates/listgrid.mako:206
+#: controllers/templates/exp.mako:313 widgets/templates/sidebar.mako:102
 msgid "Export"
 msgstr ""
 
-#: addons/base/controllers/templates/fieldpref.mako:4
-#: addons/base/controllers/templates/fieldpref.mako:32
+#: controllers/templates/exp.mako:316 controllers/templates/fieldpref.mako:100
+#: controllers/templates/image.mako:63 controllers/templates/imp.mako:246
+#: controllers/templates/openm2m.mako:66 controllers/templates/openm2o.mako:57
+#: controllers/templates/openo2m.mako:85
+#: controllers/templates/save_filter.mako:55
+#: controllers/templates/search.mako:174
+#: controllers/templates/translator.mako:42
+#: controllers/templates/translator.mako:110
+#: controllers/templates/viewed.mako:46
+#: controllers/templates/viewed_new.mako:51
+#: controllers/templates/viewed_new_model.mako:43
+#: controllers/templates/viewed_preview.mako:33
+#: controllers/templates/viewlist.mako:132
+msgid "Close"
+msgstr ""
+
+#: controllers/templates/fieldpref.mako:4
+#: controllers/templates/fieldpref.mako:29
 msgid "Field Preferences"
 msgstr ""
 
-#: addons/base/controllers/templates/fieldpref.mako:42
+#: controllers/templates/fieldpref.mako:39
 msgid "Field Name:"
 msgstr ""
 
-#: addons/base/controllers/templates/fieldpref.mako:46
+#: controllers/templates/fieldpref.mako:43
 msgid "Domain:"
 msgstr ""
 
-#: addons/base/controllers/templates/fieldpref.mako:50
+#: controllers/templates/fieldpref.mako:47
 msgid "Default Value:"
 msgstr ""
 
-#: addons/base/controllers/templates/fieldpref.mako:60
+#: controllers/templates/fieldpref.mako:57
 msgid "Value applicable for:"
 msgstr ""
 
-#: addons/base/controllers/templates/fieldpref.mako:66
+#: controllers/templates/fieldpref.mako:63
 msgid "Only for you"
 msgstr ""
 
-#: addons/base/controllers/templates/fieldpref.mako:70
+#: controllers/templates/fieldpref.mako:67
 msgid "For all"
 msgstr ""
 
-#: addons/base/controllers/templates/fieldpref.mako:79
+#: controllers/templates/fieldpref.mako:76
 msgid "Value applicable if:"
 msgstr ""
 
-#: addons/base/controllers/templates/fieldpref.mako:82
+#: controllers/templates/fieldpref.mako:79
 msgid "Always applicable!"
 msgstr ""
 
-#: addons/base/controllers/templates/footer.mako:2
-msgid "Copyright &copy; 2007-TODAY Tiny ERP Pvt. Ltd. All Rights Reserved."
-msgstr ""
-
-#: addons/base/controllers/templates/footer.mako:3
-#, python-format
-msgid "More Information on %s"
-msgstr ""
-
-#: addons/base/controllers/templates/footer.mako:5
-#, python-format
-msgid "The web client is developed by %(axelor)s and %(tiny)s."
-msgstr ""
-
-#: addons/base/controllers/templates/footer.mako:9
-msgid "Running Server:"
-msgstr ""
-
-#: addons/base/controllers/templates/form.mako:46
-msgid "Tree View..."
-msgstr ""
-
-#: addons/base/controllers/templates/form.mako:48
-#: addons/base/widgets/form/templates/many2one.mako:28
-#: addons/base/widgets/form/templates/many2one.mako:29
-#: addons/base/widgets/form/templates/many2one.mako:36
-#: addons/base/widgets/form/templates/many2one.mako:37
-#: addons/base/widgets/form/templates/reference.mako:40
-msgid "Search"
-msgstr ""
-
-#: addons/base/controllers/templates/form.mako:51
-msgid "Form View..."
-msgstr ""
-
-#: addons/base/controllers/templates/form.mako:53
-msgid "Form"
-msgstr ""
-
-#: addons/base/controllers/templates/form.mako:56
-msgid "Calendar View..."
-msgstr ""
-
-#: addons/base/controllers/templates/form.mako:58
-msgid "Calendar"
-msgstr ""
-
-#: addons/base/controllers/templates/form.mako:61
-msgid "Gantt View..."
-msgstr ""
-
-#: addons/base/controllers/templates/form.mako:63
-msgid "Gantt"
-msgstr ""
-
-#: addons/base/controllers/templates/form.mako:66
-msgid "Graph View..."
-msgstr ""
-
-#: addons/base/controllers/templates/form.mako:68
-msgid "Graph"
-msgstr ""
-
-#: addons/base/controllers/templates/form.mako:72
+#: controllers/templates/form.mako:76 controllers/templates/tree.mako:36
 msgid "Corporate Intelligence..."
 msgstr ""
 
-#: addons/base/controllers/templates/form.mako:73
-#: addons/base/controllers/templates/process.mako:4
-msgid "Process"
+#: controllers/templates/form.mako:82
+msgid "Show Logs..."
 msgstr ""
 
-#: addons/base/controllers/templates/form.mako:81
-#: addons/base/controllers/templates/form.mako:90
-msgid "Show attachments."
-msgstr ""
-
-#: addons/base/controllers/templates/form.mako:98
-msgid "Translate this resource."
-msgstr ""
-
-#: addons/base/controllers/templates/form.mako:106
-msgid "View Log."
-msgstr ""
-
-#: addons/base/controllers/templates/form.mako:132
+#: controllers/templates/form.mako:162
 msgid "Create a new resource"
 msgstr ""
 
-#: addons/base/controllers/templates/form.mako:133
-#: addons/base/controllers/templates/search.mako:168
-#: addons/base/controllers/templates/viewed_new_model.mako:45
-#: addons/base/controllers/templates/viewlist.mako:124
-#: addons/base/controllers/templates/wkf_list.mako:124
-#: addons/base/widgets/form/_o2m.py:64
-#: addons/base/widgets/templates/viewform.mako:33
-#: addons/base/widgets/templates/viewform.mako:37
+#: controllers/templates/form.mako:163 controllers/templates/search.mako:172
+#: controllers/templates/viewed_new_model.mako:39
+#: controllers/templates/viewlist.mako:122 widgets/form/_o2m.py:55
+#: widgets/form/templates/one2many.mako:23
 msgid "New"
 msgstr ""
 
-#: addons/base/controllers/templates/form.mako:138
+#: controllers/templates/form.mako:167
 msgid "Edit this resource"
 msgstr ""
 
-#: addons/base/controllers/templates/form.mako:139
-#: addons/base/controllers/templates/viewlist.mako:125
-#: addons/base/controllers/templates/wkf_list.mako:125
-#: addons/base/widgets/templates/listgrid.mako:76
-#: addons/base/widgets/templates/listgrid.mako:78
-#: addons/base/widgets/templates/listgrid.mako:81
-#: addons/base/widgets/templates/viewform.mako:29
+#: controllers/templates/form.mako:168 controllers/templates/viewlist.mako:125
+#: widgets/templates/listgrid.mako:65 widgets/templates/listgrid.mako:69
+#: widgets/templates/listgroup.mako:86 widgets/templates/multiple_group.mako:66
 msgid "Edit"
 msgstr ""
 
-#: addons/base/controllers/templates/form.mako:144
+#: controllers/templates/form.mako:172
 msgid "Save this resource"
 msgstr ""
 
-#: addons/base/controllers/templates/form.mako:148
+#: controllers/templates/form.mako:173 controllers/templates/image.mako:58
+#: controllers/templates/openm2m.mako:69 controllers/templates/openm2o.mako:61
+#: controllers/templates/openo2m.mako:89
+#: controllers/templates/preferences.mako:24
+#: controllers/templates/save_filter.mako:52
+#: controllers/templates/translator.mako:40
+#: controllers/templates/translator.mako:108
+#: controllers/templates/viewed_new.mako:54
+#: controllers/templates/viewed_new_model.mako:46
+#: controllers/templates/viewlist.mako:187
+msgid "Save"
+msgstr ""
+
+#: controllers/templates/form.mako:175
 msgid "Save & Edit this resource"
 msgstr ""
 
-#: addons/base/controllers/templates/form.mako:149
+#: controllers/templates/form.mako:176
 msgid "Save & Edit"
 msgstr ""
 
-#: addons/base/controllers/templates/form.mako:154
+#: controllers/templates/form.mako:180
 msgid "Duplicate this resource"
 msgstr ""
 
-#: addons/base/controllers/templates/form.mako:155
+#: controllers/templates/form.mako:181
 msgid "Duplicate"
 msgstr ""
 
-#: addons/base/controllers/templates/form.mako:160
+#: controllers/templates/form.mako:185
 msgid "Delete this resource"
 msgstr ""
 
-#: addons/base/controllers/templates/form.mako:166
+#: controllers/templates/form.mako:190
 msgid "Cancel editing the current resource"
 msgstr ""
 
-#: addons/base/controllers/templates/form.mako:186
-msgid "Customise"
-msgstr ""
-
-#: addons/base/controllers/templates/form.mako:189
-msgid "Manage views of the current object"
-msgstr ""
-
-#: addons/base/controllers/templates/form.mako:191
-msgid "Manage Views"
-msgstr ""
-
-#: addons/base/controllers/templates/form.mako:192
-msgid "Manage workflows of the current object"
-msgstr ""
-
-#: addons/base/controllers/templates/form.mako:194
-msgid "Manage Workflows"
-msgstr ""
-
-#: addons/base/controllers/templates/form.mako:195
-msgid "Customise current object or create a new object"
-msgstr ""
-
-#: addons/base/controllers/templates/form.mako:197
-msgid "Customise Object"
-msgstr ""
-
-#: addons/base/controllers/templates/header.mako:28
+#: controllers/templates/form.mako:205 controllers/templates/header.mako:47
+#: controllers/templates/tree.mako:78
 #, python-format
-msgid "Welcome %(user)s"
+msgid "%(user)s"
 msgstr ""
 
-#: addons/base/controllers/templates/header.mako:31
-msgid "Home"
+#: controllers/templates/header.mako:46
+#, python-format
+msgid "%(company_id)s"
 msgstr ""
 
-#: addons/base/controllers/templates/header.mako:33
-msgid "About"
-msgstr ""
-
-#: addons/base/controllers/templates/header.mako:34
+#: controllers/templates/header.mako:95
 msgid "Logout"
 msgstr ""
 
-#: addons/base/controllers/templates/header.mako:43
-msgid "Requests:"
-msgstr ""
-
-#: addons/base/controllers/templates/header.mako:67
-msgid "MAIN MENU"
-msgstr ""
-
-#: addons/base/controllers/templates/header.mako:70
-msgid "SHORTCUTS"
-msgstr ""
-
-#: addons/base/controllers/templates/header.mako:108
-msgid "[ADD]"
-msgstr ""
-
-#: addons/base/controllers/templates/image.mako:4
-#: addons/base/controllers/templates/image.mako:36
+#: controllers/templates/image.mako:4 controllers/templates/image.mako:33
 msgid "Image"
 msgstr ""
 
-#: addons/base/controllers/templates/image.mako:51
+#: controllers/templates/image.mako:48
 msgid "Add Resource:"
 msgstr ""
 
-#: addons/base/controllers/templates/image.mako:62
-#: addons/base/widgets/form/templates/binary.mako:16
+#: controllers/templates/image.mako:59 widgets/form/templates/binary.mako:16
 msgid "Save As"
 msgstr ""
 
-#: addons/base/controllers/templates/imp.mako:142
+#: controllers/templates/imp.mako:151
 msgid "Import Data"
 msgstr ""
 
-#: addons/base/controllers/templates/imp.mako:153
+#: controllers/templates/imp.mako:162
 msgid "Fields to import"
 msgstr ""
 
-#: addons/base/controllers/templates/imp.mako:164
+#: controllers/templates/imp.mako:187
 msgid "Auto Detect"
 msgstr ""
 
-#: addons/base/controllers/templates/imp.mako:180
+#: controllers/templates/imp.mako:206
 msgid "File to import"
 msgstr ""
 
-#: addons/base/controllers/templates/imp.mako:191
+#: controllers/templates/imp.mako:217
 msgid "Separator:"
 msgstr ""
 
-#: addons/base/controllers/templates/imp.mako:193
+#: controllers/templates/imp.mako:219
 msgid "Delimiter:"
 msgstr ""
 
-#: addons/base/controllers/templates/imp.mako:197
+#: controllers/templates/imp.mako:223
 msgid "Encoding:"
 msgstr ""
 
-#: addons/base/controllers/templates/imp.mako:204
+#: controllers/templates/imp.mako:230
 msgid "Lines to skip:"
 msgstr ""
 
-#: addons/base/controllers/templates/imp.mako:217
-#: addons/base/widgets/templates/listgrid.mako:206
+#: controllers/templates/imp.mako:243 widgets/templates/sidebar.mako:99
 msgid "Import"
 msgstr ""
 
-#: addons/base/controllers/templates/login.mako:4
-#: addons/base/controllers/templates/login.mako:65
-#: addons/base/controllers/templates/login_ajax.mako:85
-#: addons/base/controllers/templates/login_ajax.mako:104
-msgid "Login"
-msgstr ""
-
-#: addons/base/controllers/templates/login.mako:27
-msgid "Welcome to OpenERP"
-msgstr ""
-
-#: addons/base/controllers/templates/login.mako:34
-msgid "Server:"
-msgstr ""
-
-#: addons/base/controllers/templates/login.mako:51
-#: addons/base/controllers/templates/login_ajax.mako:72
-#: addons/base/controllers/templates/login_ajax.mako:94
+#: controllers/templates/login.mako:57 controllers/templates/login_ajax.mako:72
+#: controllers/templates/login_ajax.mako:94
 msgid "User:"
 msgstr ""
 
-#: addons/base/controllers/templates/login.mako:63
+#: controllers/templates/login.mako:68
 msgid "Databases"
 msgstr ""
 
-#: addons/base/controllers/templates/process.mako:59
-msgid "Select Process"
+#: controllers/templates/modules.mako:4
+msgid "Module Management"
 msgstr ""
 
-#: addons/base/controllers/templates/process.mako:65
-#: addons/base/controllers/templates/search.mako:169
-#: addons/base/widgets/form/templates/datetime.mako:13
-msgid "Select"
+#: controllers/templates/save_filter.mako:29
+msgid "Save as a Filter"
 msgstr ""
 
-#: addons/base/controllers/templates/process.mako:79
-msgid "Help"
+#: controllers/templates/save_filter.mako:40
+msgid "Filter Name"
 msgstr ""
 
-#: addons/base/controllers/templates/process.mako:96
-msgid "Customize"
-msgstr ""
-
-#: addons/base/controllers/templates/search.mako:154
+#: controllers/templates/search.mako:157
 #, python-format
 msgid "Search %(name)s"
 msgstr ""
 
-#: addons/base/controllers/templates/search.mako:167
-#: addons/base/widgets/templates/viewform.mako:22
+#: controllers/templates/search.mako:171 widgets/templates/viewform.mako:36
 msgid "Filter"
 msgstr ""
 
-#: addons/base/controllers/templates/selection.mako:4
+#: controllers/templates/search.mako:173
+#: widgets/form/templates/datetime.mako:13
+msgid "Select"
+msgstr ""
+
+#: controllers/templates/selection.mako:4
 msgid "Select action"
 msgstr ""
 
-#: addons/base/controllers/templates/selection.mako:30
+#: controllers/templates/selection.mako:23
 msgid "Select your action"
 msgstr ""
 
-#: addons/base/controllers/templates/translator.mako:4
+#: controllers/templates/server_log.mako:4
+msgid "Server Actions..."
+msgstr ""
+
+#: controllers/templates/server_log.mako:14
+msgid "Server Actions"
+msgstr ""
+
+#: controllers/templates/translator.mako:4
 msgid "Add Translations"
 msgstr ""
 
-#: addons/base/controllers/templates/translator.mako:22
+#: controllers/templates/translator.mako:19
 msgid "Add Translation"
 msgstr ""
 
-#: addons/base/controllers/templates/translator.mako:32
+#: controllers/templates/translator.mako:29
 msgid "Add Translation for:"
 msgstr ""
 
-#: addons/base/controllers/templates/translator.mako:35
+#: controllers/templates/translator.mako:33
 msgid "Fields"
 msgstr ""
 
-#: addons/base/controllers/templates/translator.mako:36
+#: controllers/templates/translator.mako:34
 msgid "Labels"
 msgstr ""
 
-#: addons/base/controllers/templates/translator.mako:37
+#: controllers/templates/translator.mako:35
 msgid "Relates"
 msgstr ""
 
-#: addons/base/controllers/templates/translator.mako:55
+#: controllers/templates/translator.mako:55
 msgid "Field"
 msgstr ""
 
-#: addons/base/controllers/templates/tree.mako:25
-msgid "Switch current view: form/list"
-msgstr ""
-
-#: addons/base/controllers/templates/tree.mako:25
-msgid "Switch"
-msgstr ""
-
-#: addons/base/controllers/templates/tree.mako:40
+#: controllers/templates/tree.mako:49
 msgid "Toolbar"
 msgstr ""
 
-#: addons/base/controllers/templates/view_log.mako:4
-#: addons/base/controllers/templates/view_log.mako:14 tools/common.py:55
+#: controllers/templates/view_log.mako:4 controllers/templates/view_log.mako:14
+#: utils/common.py:55
 msgid "Information"
 msgstr ""
 
-#: addons/base/controllers/templates/viewed.mako:22
+#: controllers/templates/viewed.mako:20
 #, python-format
 msgid "View Editor %s - %s"
 msgstr ""
 
-#: addons/base/controllers/templates/viewed.mako:40
+#: controllers/templates/viewed.mako:39
 msgid "Create a new inherited view"
 msgstr ""
 
-#: addons/base/controllers/templates/viewed.mako:40
+#: controllers/templates/viewed.mako:39
 msgid "Inherited View"
 msgstr ""
 
-#: addons/base/controllers/templates/viewed.mako:42
+#: controllers/templates/viewed.mako:43
 msgid "Preview"
 msgstr ""
 
-#: addons/base/controllers/templates/viewed_add.mako:6
+#: controllers/templates/viewed_add.mako:6
 msgid "Node Type:"
 msgstr ""
 
-#: addons/base/controllers/templates/viewed_add.mako:23
+#: controllers/templates/viewed_add.mako:23
 msgid "New Field"
 msgstr ""
 
-#: addons/base/controllers/templates/viewed_add.mako:27
+#: controllers/templates/viewed_add.mako:27
 msgid "Position:"
 msgstr ""
 
-#: addons/base/controllers/templates/viewlist.mako:4
-#: addons/base/controllers/templates/viewlist.mako:110
+#: controllers/templates/viewlist.mako:4
+#: controllers/templates/viewlist.mako:108
 #, python-format
 msgid "Manage Views (%s)"
 msgstr ""
 
-#: addons/base/controllers/templates/viewlist.mako:147
+#: controllers/templates/viewlist.mako:146
 #, python-format
 msgid "Create a view (%s)"
 msgstr ""
 
-#: addons/base/controllers/templates/viewlist.mako:158
+#: controllers/templates/viewlist.mako:157
 msgid "View Name:"
 msgstr ""
 
-#: addons/base/controllers/templates/viewlist.mako:162
+#: controllers/templates/viewlist.mako:161
 msgid "View Type:"
 msgstr ""
 
-#: addons/base/controllers/templates/viewlist.mako:173
+#: controllers/templates/viewlist.mako:172
 msgid "Priority:"
 msgstr ""
 
-#: addons/base/controllers/templates/wkf_list.mako:4
-#: addons/base/controllers/templates/wkf_list.mako:110
-#, python-format
-msgid "Manage Workflows %s"
+#: utils/common.py:45 utils/common.py:72
+msgid "Error"
 msgstr ""
 
-#: addons/base/controllers/templates/wkf_list.mako:127
-msgid "Activate"
+#: utils/common.py:50 utils/common.py:75
+msgid "Warning"
 msgstr ""
 
-#: addons/base/controllers/templates/wkf_list.mako:148
-#, python-format
-msgid "Create a Workflow (%s)"
+#: utils/rpc.py:128
+msgid "Connection refused!"
 msgstr ""
 
-#: addons/base/controllers/templates/wkf_list.mako:159
-msgid "Workflow Name:"
+#: utils/rpc.py:137
+msgid "Access Denied"
 msgstr ""
 
-#: addons/base/controllers/templates/wkf_list.mako:163
-msgid "Resource Model:"
+#: utils/rpc.py:244
+msgid "Unsupported protocol."
 msgstr ""
 
-#: addons/base/controllers/templates/wkf_list.mako:167
-msgid "On Create:"
+#: utils/rpc.py:346
+msgid ""
+"You select a timezone but OpenERP could not find pytz library!\n"
+"The timezone functionality will be disable."
 msgstr ""
 
-#: addons/base/controllers/templates/workflow.mako:4
-msgid "Workflow"
+#: utils/rpc.py:353
+msgid "Not logged..."
 msgstr ""
 
-#: addons/base/controllers/templates/workflow.mako:50
-#, python-format
-msgid "Workflow (%s)"
+#: utils/rpc.py:353
+msgid "Authorization Error!"
 msgstr ""
 
-#: addons/base/controllers/templates/workflow.mako:64
-#: addons/base/widgets/tinycalendar/templates/day.mako:3
-#: addons/base/widgets/tinycalendar/templates/month.mako:3
-#: addons/base/widgets/tinycalendar/templates/week.mako:3
-msgid "Loading..."
+#: utils/rpc.py:418
+msgid "== Access Denied =="
 msgstr ""
 
-#: addons/base/validators/validators.py:158
-#: addons/base/validators/validators.py:163
-#: addons/base/validators/validators.py:287
+#: validators/validators.py:81
+msgid "Invalid literal for float"
+msgstr ""
+
+#: validators/validators.py:120 validators/validators.py:125
+#: validators/validators.py:258
 msgid "Invalid datetime format"
 msgstr ""
 
-#: addons/base/validators/validators.py:206
+#: validators/validators.py:168
 msgid "Please select a file."
 msgstr ""
 
-#: addons/base/validators/validators.py:272
+#: validators/validators.py:243
 msgid "Please enter an email address"
 msgstr ""
 
-#: addons/base/validators/validators.py:273
+#: validators/validators.py:244
 msgid "An email address must contain a single @"
 msgstr ""
 
-#: addons/base/validators/validators.py:274
+#: validators/validators.py:245
 #, python-format
 msgid ""
 "The username portion of the email address is invalid (the portion before "
 "the @: %(username)s)"
 msgstr ""
 
-#: addons/base/validators/validators.py:275
+#: validators/validators.py:246
 #, python-format
 msgid ""
 "The domain portion of the email address is invalid (the portion after the"
 " @: %(domain)s)"
 msgstr ""
 
-#: addons/base/validators/validators.py:279
+#: validators/validators.py:250
 msgid "You must start your URL with http://, https://, etc"
 msgstr ""
 
-#: addons/base/validators/validators.py:280
+#: validators/validators.py:251
 msgid "That is not a valid URL"
 msgstr ""
 
-#: addons/base/validators/validators.py:281
+#: validators/validators.py:252
 #, python-format
 msgid "You must provide a full domain name (like %(domain)s.com)"
 msgstr ""
 
-#: addons/base/validators/validators.py:285
+#: validators/validators.py:256
 msgid "Please enter an integer value"
 msgstr ""
 
-#: addons/base/validators/validators.py:286
+#: validators/validators.py:257
 msgid "Please enter a number"
 msgstr ""
 
-#: addons/base/widgets/listgrid.py:315 addons/base/widgets/form/_form.py:875
+#: widgets/_views.py:47
+msgid "Form"
+msgstr ""
+
+#: widgets/_views.py:48
+msgid "Form view..."
+msgstr ""
+
+#: widgets/_views.py:78 widgets/form/templates/many2one.mako:17
+#: widgets/form/templates/reference.mako:30
+msgid "Search"
+msgstr ""
+
+#: widgets/_views.py:79
+msgid "Search view..."
+msgstr ""
+
+#: widgets/listgrid.py:323 widgets/form/_form.py:922
 #, python-format
 msgid "Invalid view, duplicate field: %s"
 msgstr ""
 
-#: addons/base/widgets/pager.py:66
+#: widgets/pager.py:67
 #, python-format
 msgid "[%s/%s]"
 msgstr ""
 
-#: addons/base/widgets/pager.py:77
+#: widgets/pager.py:78
 #, python-format
 msgid "[%s - %s of %s]"
 msgstr ""
 
-#: addons/base/widgets/form/_o2m.py:64
-#: addons/base/widgets/templates/viewform.mako:32
-#: addons/base/widgets/templates/viewform.mako:36
+#: widgets/search.py:317
+msgid "contains"
+msgstr ""
+
+#: widgets/search.py:317
+msgid "doesn't contain"
+msgstr ""
+
+#: widgets/search.py:318
+msgid "is equal to"
+msgstr ""
+
+#: widgets/search.py:318
+msgid "is not equal to"
+msgstr ""
+
+#: widgets/search.py:319
+msgid "greater than"
+msgstr ""
+
+#: widgets/search.py:319
+msgid "less than"
+msgstr ""
+
+#: widgets/search.py:320
+msgid "in"
+msgstr ""
+
+#: widgets/search.py:320
+msgid "not in"
+msgstr ""
+
+#: widgets/form/_o2m.py:55 widgets/templates/listgrid.mako:115
+#: widgets/templates/listgrid.mako:119
 msgid "Create new record."
 msgstr ""
 
-#: addons/base/widgets/form/_o2m.py:79
+#: widgets/form/_o2m.py:68
 msgid "Save/New"
 msgstr ""
 
-#: addons/base/widgets/form/_o2m.py:79
+#: widgets/form/_o2m.py:68
 msgid "Save parent record."
 msgstr ""
 
-#: addons/base/widgets/form/templates/binary.mako:19
-msgid "Change"
+#: widgets/form/templates/binary.mako:19
+msgid "add attachment"
 msgstr ""
 
-#: addons/base/widgets/form/templates/email.mako:9
-#: addons/base/widgets/form/templates/url.mako:9
-msgid "Go!"
-msgstr ""
-
-#: addons/base/widgets/form/templates/many2one.mako:17
-#: addons/base/widgets/form/templates/reference.mako:32
+#: widgets/form/templates/many2one.mako:21
+#: widgets/form/templates/reference.mako:35
 msgid "Open"
 msgstr ""
 
-#: addons/base/widgets/form/templates/many2one.mako:18
-#: addons/base/widgets/form/templates/reference.mako:33
+#: widgets/form/templates/many2one.mako:21
+#: widgets/form/templates/reference.mako:35
 msgid "Open a resource"
 msgstr ""
 
-#: addons/base/widgets/form/templates/one2many.mako:19
+#: widgets/form/templates/one2many.mako:23
+msgid "Create new record..."
+msgstr ""
+
+#: widgets/form/templates/one2many.mako:31
 msgid "Previous record..."
 msgstr ""
 
-#: addons/base/widgets/form/templates/one2many.mako:29
+#: widgets/form/templates/one2many.mako:33
 msgid "Next record..."
 msgstr ""
 
-#: addons/base/widgets/form/templates/one2many.mako:33
-msgid "Switch view..."
-msgstr ""
-
-#: addons/base/widgets/form/templates/one2many.mako:39
+#: widgets/form/templates/one2many.mako:40
 msgid "Translate me."
 msgstr ""
 
-#: addons/base/widgets/templates/listgrid.mako:52
+#: widgets/templates/listgrid.mako:19
 msgid "Update"
 msgstr ""
 
-#: addons/base/widgets/templates/listgrid.mako:100
-msgid "Move Up"
+#: widgets/templates/listgrid.mako:112
+msgid "Add records..."
 msgstr ""
 
-#: addons/base/widgets/templates/listgrid.mako:101
-msgid "Move Down"
+#: widgets/templates/listgrid.mako:113
+msgid "add"
 msgstr ""
 
-#: addons/base/widgets/templates/pager.mako:6
+#: widgets/templates/listgrid.mako:116 widgets/templates/listgrid.mako:119
+msgid "new"
+msgstr ""
+
+#: widgets/templates/listgrid.mako:140
+msgid "Delete record(s)."
+msgstr ""
+
+#: widgets/templates/listgrid.mako:142
+msgid "delete"
+msgstr ""
+
+#: widgets/templates/listgrid.mako:145
+msgid "Edit record(s)."
+msgstr ""
+
+#: widgets/templates/listgrid.mako:146
+msgid "edit"
+msgstr ""
+
+#: widgets/templates/pager.mako:9
 msgid "<< First"
 msgstr ""
 
-#: addons/base/widgets/templates/pager.mako:11
+#: widgets/templates/pager.mako:14
 msgid "< Previous"
 msgstr ""
 
-#: addons/base/widgets/templates/pager.mako:19
+#: widgets/templates/pager.mako:22
 msgid "Next >"
 msgstr ""
 
-#: addons/base/widgets/templates/pager.mako:24
+#: widgets/templates/pager.mako:27
 msgid "Last >>"
 msgstr ""
 
-#: addons/base/widgets/templates/pager.mako:33
+#: widgets/templates/pager.mako:35
 msgid "Change Limit:"
 msgstr ""
 
-#: addons/base/widgets/templates/search.mako:5
-msgid "Basic Search"
-msgstr ""
-
-#: addons/base/widgets/templates/search.mako:10
-msgid "Advanced Search"
-msgstr ""
-
-#: addons/base/widgets/templates/sidebar.mako:48
+#: widgets/templates/sidebar.mako:30
 msgid "REPORTS"
 msgstr ""
 
-#: addons/base/widgets/templates/sidebar.mako:52
+#: widgets/templates/sidebar.mako:34
 msgid "ACTIONS"
 msgstr ""
 
-#: addons/base/widgets/templates/sidebar.mako:56
+#: widgets/templates/sidebar.mako:38
 msgid "LINKS"
 msgstr ""
 
-#: addons/base/widgets/templates/sidebar.mako:60
-msgid "ATTACHMENTS"
+#: widgets/templates/sidebar.mako:42
+msgid "SUBMENU"
 msgstr ""
 
-#: addons/base/widgets/templates/viewform.mako:21
+#: widgets/templates/sidebar.mako:48
+msgid "Attachments"
+msgstr ""
+
+#: widgets/templates/sidebar.mako:66
+msgid "File"
+msgstr ""
+
+#: widgets/templates/sidebar.mako:74
+msgid "Customise"
+msgstr ""
+
+#: widgets/templates/sidebar.mako:78
+msgid "Manage views of the current object"
+msgstr ""
+
+#: widgets/templates/sidebar.mako:80
+msgid "Manage Views"
+msgstr ""
+
+#: widgets/templates/sidebar.mako:83
+msgid "Manage workflows of the current object"
+msgstr ""
+
+#: widgets/templates/sidebar.mako:85
+msgid "Show Workflow"
+msgstr ""
+
+#: widgets/templates/sidebar.mako:88
+msgid "Customise current object or create a new object"
+msgstr ""
+
+#: widgets/templates/sidebar.mako:90
+msgid "Customise Object"
+msgstr ""
+
+#: widgets/templates/sidebar.mako:95
+msgid "Other Options"
+msgstr ""
+
+#: widgets/templates/sidebar.mako:107
+msgid "Translate"
+msgstr ""
+
+#: widgets/templates/sidebar.mako:114
+msgid "View Log"
+msgstr ""
+
+#: widgets/templates/viewform.mako:35
 msgid "Filter records."
 msgstr ""
 
-#: addons/base/widgets/templates/viewform.mako:24
-msgid "Delete selected records."
+#: widgets/templates/viewform.mako:37
+msgid "Clear all ."
 msgstr ""
 
-#: addons/base/widgets/templates/viewform.mako:28
-msgid "Edit selected records."
+#: widgets/templates/viewform.mako:39
+msgid "Clear"
 msgstr ""
 
-#: addons/base/widgets/tinycalendar/utils.py:34
-msgid "Monday"
+#: widgets/templates/viewform.mako:41
+msgid "Save Filter."
 msgstr ""
 
-#: addons/base/widgets/tinycalendar/utils.py:35
-msgid "Tuesday"
+#: widgets/templates/viewform.mako:43
+msgid "Save Filter"
 msgstr ""
 
-#: addons/base/widgets/tinycalendar/utils.py:36
-msgid "Wednesday"
+#: widgets/templates/viewform.mako:44
+msgid "Manage Filter."
 msgstr ""
 
-#: addons/base/widgets/tinycalendar/utils.py:37
-msgid "Thursday"
-msgstr ""
-
-#: addons/base/widgets/tinycalendar/utils.py:38
-msgid "Friday"
-msgstr ""
-
-#: addons/base/widgets/tinycalendar/utils.py:39
-msgid "Saturday"
-msgstr ""
-
-#: addons/base/widgets/tinycalendar/utils.py:40
-msgid "Sunday"
-msgstr ""
-
-#: addons/base/widgets/tinycalendar/utils.py:43
-msgid "January"
-msgstr ""
-
-#: addons/base/widgets/tinycalendar/utils.py:44
-msgid "February"
-msgstr ""
-
-#: addons/base/widgets/tinycalendar/utils.py:45
-msgid "March"
-msgstr ""
-
-#: addons/base/widgets/tinycalendar/utils.py:46
-msgid "April"
-msgstr ""
-
-#: addons/base/widgets/tinycalendar/utils.py:47
-msgid "May"
-msgstr ""
-
-#: addons/base/widgets/tinycalendar/utils.py:48
-msgid "June"
-msgstr ""
-
-#: addons/base/widgets/tinycalendar/utils.py:49
-msgid "July"
-msgstr ""
-
-#: addons/base/widgets/tinycalendar/utils.py:50
-msgid "August"
-msgstr ""
-
-#: addons/base/widgets/tinycalendar/utils.py:51
-msgid "September"
-msgstr ""
-
-#: addons/base/widgets/tinycalendar/utils.py:52
-msgid "October"
-msgstr ""
-
-#: addons/base/widgets/tinycalendar/utils.py:53
-msgid "November"
-msgstr ""
-
-#: addons/base/widgets/tinycalendar/utils.py:54
-msgid "December"
-msgstr ""
-
-#: addons/base/widgets/tinycalendar/widgets.py:263
-#, python-format
-msgid "%s, Week %s"
-msgstr ""
-
-#: addons/base/widgets/tinycalendar/widgets.py:275
-#, python-format
-msgid "%s - %s"
-msgstr ""
-
-#: addons/base/widgets/tinycalendar/widgets.py:277
-#: addons/base/widgets/tinycalendar/widgets.py:307
-#: addons/base/widgets/tinycalendar/widgets.py:351
-#, python-format
-msgid "Week %s"
-msgstr ""
-
-#: addons/base/widgets/tinycalendar/widgets.py:296
-#, python-format
-msgid "%s, Qtr %s"
-msgstr ""
-
-#: addons/base/widgets/tinycalendar/widgets.py:318
-#, python-format
-msgid "W %s"
-msgstr ""
-
-#: addons/base/widgets/tinycalendar/widgets.py:326
-#: addons/base/widgets/tinycalendar/widgets.py:340
-#, python-format
-msgid "Year %s to Year %s"
-msgstr ""
-
-#: addons/base/widgets/tinycalendar/templates/day.mako:8
-#: addons/base/widgets/tinycalendar/templates/gantt.mako:11
-#: addons/base/widgets/tinycalendar/templates/month.mako:8
-#: addons/base/widgets/tinycalendar/templates/week.mako:8
-msgid "Today..."
-msgstr ""
-
-#: addons/base/widgets/tinycalendar/templates/day.mako:8
-#: addons/base/widgets/tinycalendar/templates/gantt.mako:12
-#: addons/base/widgets/tinycalendar/templates/month.mako:8
-#: addons/base/widgets/tinycalendar/templates/week.mako:8
-msgid "Today"
-msgstr ""
-
-#: addons/base/widgets/tinycalendar/templates/day.mako:12
-#: addons/base/widgets/tinycalendar/templates/month.mako:12
-#: addons/base/widgets/tinycalendar/templates/week.mako:12
-msgid "Day Calendar..."
-msgstr ""
-
-#: addons/base/widgets/tinycalendar/templates/day.mako:12
-#: addons/base/widgets/tinycalendar/templates/month.mako:12
-#: addons/base/widgets/tinycalendar/templates/week.mako:12
-msgid "Day"
-msgstr ""
-
-#: addons/base/widgets/tinycalendar/templates/day.mako:13
-#: addons/base/widgets/tinycalendar/templates/month.mako:13
-#: addons/base/widgets/tinycalendar/templates/week.mako:13
-msgid "Week Calendar..."
-msgstr ""
-
-#: addons/base/widgets/tinycalendar/templates/day.mako:13
-#: addons/base/widgets/tinycalendar/templates/month.mako:13
-#: addons/base/widgets/tinycalendar/templates/week.mako:13
-msgid "Week"
-msgstr ""
-
-#: addons/base/widgets/tinycalendar/templates/day.mako:14
-#: addons/base/widgets/tinycalendar/templates/month.mako:14
-#: addons/base/widgets/tinycalendar/templates/week.mako:14
-msgid "Month Calendar..."
-msgstr ""
-
-#: addons/base/widgets/tinycalendar/templates/day.mako:14
-#: addons/base/widgets/tinycalendar/templates/month.mako:14
-#: addons/base/widgets/tinycalendar/templates/week.mako:14
-msgid "Month"
-msgstr ""
-
-#: addons/base/widgets/tinycalendar/templates/day.mako:34
-#: addons/base/widgets/tinycalendar/templates/gantt.mako:95
-#: addons/base/widgets/tinycalendar/templates/month.mako:34
-#: addons/base/widgets/tinycalendar/templates/week.mako:34
-msgid "Apply search filter"
-msgstr ""
-
-#: addons/base/widgets/tinycalendar/templates/gantt.mako:21
-#: addons/base/widgets/tinycalendar/templates/gantt.mako:24
-msgid "Zoom In"
-msgstr ""
-
-#: addons/base/widgets/tinycalendar/templates/gantt.mako:29
-#: addons/base/widgets/tinycalendar/templates/gantt.mako:32
-msgid "Zoom Out"
-msgstr ""
-
-#: tools/common.py:45 tools/common.py:72
-msgid "Error"
-msgstr ""
-
-#: tools/common.py:50 tools/common.py:75
-msgid "Warning"
-msgstr ""
-
-#: tools/rpc.py:132
-msgid "Connection refused!"
-msgstr ""
-
-#: tools/rpc.py:246
-msgid "Unsupported protocol."
-msgstr ""
-
-#: tools/rpc.py:342
-msgid ""
-"You select a timezone but OpenERP could not find pytz library!\n"
-"The timezone functionality will be disable."
-msgstr ""
-
-#: tools/rpc.py:349
-msgid "Not logged..."
-msgstr ""
-
-#: tools/rpc.py:349
-msgid "Authorization Error!"
-msgstr ""
-
-#: tools/rpc.py:414
-msgid "== Access Denied =="
+#: widgets/templates/viewform.mako:46
+msgid "Manage Filters"
 msgstr ""
 

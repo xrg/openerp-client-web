@@ -28,7 +28,6 @@ background = '#DEDEDE'
                 <td class="grid-cell ${subgroup_class} ${field_attrs.get('type', 'char')}"
                     style="background-color: ${background};"
                     onclick="${subgroup_expander}">
-                    <span>
                         % if field_attrs.get('type') == 'progressbar':
                             ${grouped[j][field].display()}
                         % elif i != group_level - 1:
@@ -39,10 +38,9 @@ background = '#DEDEDE'
                                     ${grp_row.get(field)}
                                 % endif
                             % else:
-                                &nbsp;
+                                <span style="color: #888;">${(i == group_level) and "undefined" or "&nbsp;"|n}</span>
                             % endif
                         % endif
-                    </span>
                 </td>
             % else:
                 <td class="grid-cell button" nowrap="nowrap" style="background-color: ${background};">
@@ -57,7 +55,7 @@ background = '#DEDEDE'
         % endif
     </tr>
     % for ch in grp_row.get('child_rec'):
-        <tr class="grid-row-group" id="grid-row ${grp_row.get('group_id')}" parent="${parent_group}"
+        <tr class="grid-row grid-row-group" id="${grp_row.get('group_id')}" parent="${parent_group}"
             parent_grp_id="${grp_row.get('group_by_id')}" record="${ch.get('id')}"
             style="cursor: pointer; display:none;">
             % if editable:

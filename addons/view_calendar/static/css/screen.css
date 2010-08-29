@@ -39,45 +39,48 @@ div.box-a p.side,table.box-a p.side {
     margin: 5px 5px 0 0;
 }
 
-div.box-a ul.head,table.box-a td ul.head {
-    list-style: none;
+div.calendar-a ul.head,table.calendar-a ul.head {
+	list-style: none;
     height: 24px;
     margin: 0 0 5px;
-    padding: 0 0 0 15px;
-    border-top-left-radius: 4px;
-    -moz-border-radius-topleft: 4px;
-    -webkit-border-top-left-radius: 4px;
-    border-top-right-radius: 4px;
-    -moz-border-radius-topright: 4px;
-    -webkit-border-top-right-radius: 4px;
-    background: url(../images/calendar-a-head.gif) repeat-x;
+    padding: 0;
+    background: #ddd;
 }
 
-div.box-a ul.head li,table.box-a td ul.head li {
-    float: left;
-    padding-right: 15px;
+div.calendar-a ul.head li, table.calendar-a ul.head li {
+	float: left;
+	padding: 0 5px 0 5px;
     color: #9f9f9f;
     font-size: 0.9em;
     font-weight: bold;
     text-transform: uppercase;
 }
 
-div.box-a ul.head li a,table.box-a td ul.head li a {
-    float: left;
+div.calendar-a ul.head li.active-tab, div.calendar-a ul.head li:hover {
+	background: #fff;
+}
+
+div.calendar-a ul.head,table.calendar-a ul.head, 
+div.calendar-a ul.head li.active-tab, 
+div.calendar-a ul.head li:hover {
+	border-top-left-radius: 4px;
+    -moz-border-radius-topleft: 4px;
+    -webkit-border-top-left-radius: 4px;
+    border-top-right-radius: 4px;
+    -moz-border-radius-topright: 4px;
+    -webkit-border-top-right-radius: 4px;
+}
+
+div.calendar-a ul.head li.active-tab a, div.calendar-a ul.head li:hover a {
+	color: #555;
+}
+
+div.calendar-a ul.head li a, table.calendar-a ul.head li a {
+	float: left;
     height: 17px;
     padding: 7px 0 0;
-    color: #9f9f9f;
-    background: url(../images/calendar-a-head-active.gif) -10001px 100% no-repeat;
     text-shadow: #fff 0 1px 0;
-}
-
-div.box-a ul.head li a.active,table.box-a td ul.head li a.active {
-    color: #555;
-    background-position: 50% 100%;
-}
-
-div.calendar-a {
-    
+    color: #9f9f9f;
 }
 
 div.calendar-a h4,

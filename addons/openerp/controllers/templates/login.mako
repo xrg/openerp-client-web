@@ -98,7 +98,7 @@
 				</table>
 			</td>
 			
-			<td class="login_text">
+			<td>
 				<p>We think that daily job activities can be more intuitive, efficient, automated, .. and even fun.</p>
 				<p><h3>OpenERP's vision to be:</h3></p>
 				

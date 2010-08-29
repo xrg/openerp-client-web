@@ -10,13 +10,13 @@
 # It's based on Mozilla Public License Version (MPL) 1.1 with following
 # restrictions:
 #
-# -   All names, links and logos of Tiny, Open ERP and Axelor must be
+# -   All names, links and logos of Tiny, OpenERP and Axelor must be
 #     kept as in original distribution without any changes in all software
 #     screens, especially in start-up page and the software header, even if
 #     the application source code has been changed or updated or code has been
 #     added.
 #
-# -   All distributions of the software must keep source code with OEPL.
+# -   All distributions of     the software must keep source code with OEPL.
 #
 # -   All integrations to any other software must keep source code with OEPL.
 #
@@ -250,7 +250,7 @@ def execute(action, **data):
             domain.append(data['domain'])
             
         if 'menu' in data['res_model'] and action.get('name') == 'Menu':
-            raise redirect('/openerp/blank')
+            return close_popup()
         
         res = execute_window(view_ids,
                              data['res_model'],
@@ -316,8 +316,29 @@ def execute_url(**data):
 
     if not ('://' in url or url.startswith('/')):
         raise common.message(_('Relative URLs are not supported!'))
-
-    raise tools.redirect(url)
+    
+    """ Unknown URL required to open in new window/tab.
+    """
+    if url.startswith('http://') or url.startswith('http://'):
+        return """<html>
+                <head>
+                    <script language="javascript" type="text/javascript">
+                        window.open('%s')
+                    </script>
+                </head>
+                <body></body>
+                </html>
+                """ % (tools.redirect(url)[0][0])
+    else:
+        return """<html>
+                    <head>
+                        <script language="javascript" type="text/javascript">
+                            openLink('%s')
+                        </script>
+                    </head>
+                </html>
+                """ % (tools.redirect(url)[0][0])
+    
 
 def get_action_type(act_id):
     """Get the action type for the given action id.

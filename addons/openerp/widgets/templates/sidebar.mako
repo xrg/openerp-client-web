@@ -1,7 +1,7 @@
 <%def name="sidebox_action_item(item, model, submenu)">
     % if submenu != 1:
-	    <li onclick="do_action(${item['id']}, '_terp_id', '${model}', this);">
-	    	<a href="javascript: void(0)" onclick="return false">${item['name']}</a>
+    	<li onclick="do_action(${item['id']}, '_terp_id', '${model}', this);">
+	    		<a href="javascript: void(0)" onclick="return false">${item['name']}</a>
 	    </li>
 	% else:
 		<li data="${item}">
@@ -43,7 +43,7 @@
     % endif
     % if view_type == 'form':
     <div class="sideheader-a">
-        <a href="#" id="add-attachment" class="button-a">Add</a>
+        <a href="#" id="add-attachment" class="button-a">${_("Add")}</a>
 
         <h2>${_("Attachments")}</h2>
     </div>
@@ -56,7 +56,7 @@
                     ${attachment['name']}
                 </a>
                 <span>|</span>
-                <a href="#" class="close" title="${_('Delete')}">Close</a>
+                <a href="#" class="close" title="${_('Delete')}">${_("Close")}</a>
             </li>
         % endfor
     </ul>
@@ -65,7 +65,6 @@
           enctype="multipart/form-data">
         <label for="datas">${_("File")}:</label>
         <input type="file" id="datas" class="binary"
-               onchange="onChange(this);"
                name="datas" kind="binary" size="5"/>
     </form>
     % endif

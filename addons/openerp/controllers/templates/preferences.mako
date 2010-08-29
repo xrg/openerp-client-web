@@ -1,8 +1,8 @@
 <%inherit file="/openerp/controllers/templates/base_dispatch.mako"/>
 
 <%def name="header()">
-    <title>${params.string}</title>
     <script type="text/javascript">
+    	document.title = '${params.string}' + ' - OpenERP';
         var form_controller = '/openerp/pref';
     </script>
 </%def>

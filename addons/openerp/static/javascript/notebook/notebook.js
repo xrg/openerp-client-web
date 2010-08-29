@@ -10,7 +10,7 @@
 // It's based on Mozilla Public License Version (MPL) 1.1 with following 
 // restrictions:
 //
-// -   All names, links and logos of Tiny, Open ERP and Axelor must be 
+// -   All names, links and logos of Tiny, OpenERP and Axelor must be 
 //     kept as in original distribution without any changes in all software 
 //     screens, especially in start-up page and the software header, even if 
 //     the application source code has been changed or updated or code has been 
@@ -159,7 +159,7 @@ Notebook.prototype = {
         this.evtStripClick = MochiKit.Signal.connect(this.elemStrip, 'onclick', this, this.onStripClick);
         this.rendered = true;
         
-        this.adjustSize();
+//        this.adjustSize();
 
         var self = this;
         MochiKit.Async.callLater(0, function() {
@@ -169,7 +169,7 @@ Notebook.prototype = {
 
         showElement(this.element);
         
-        this.adjustSize();
+        setTimeout(jQuery.proxy(this, 'adjustSize'), 0);
     },
     
     getTab: function(tab) {
@@ -475,6 +475,7 @@ Notebook.prototype = {
             }
             
         }
+        setTimeout("adjustTopWidth()", 0);
     },
     
     activateScrollers: function() {

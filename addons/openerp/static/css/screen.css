@@ -78,12 +78,7 @@ img {
 }
 
 .login-frame {
-	padding: 35px 0 0 45px;	
-}
-
-.login_text{
-	padding-top: 40px;
-	position: absolute;
+	padding: 35px 0 0 45px;
 }
 
 .feature-image{
@@ -155,8 +150,20 @@ hr {
     text-shadow: #333 0 1px 0;
 }
 
-#top, #logo {
+#top, p#cmp_logo {
     height: 65px;
+}
+
+div #content {
+	float: left;
+	width: 100%;
+}
+
+#footer_section {
+	float: left;
+	vertical-align: bottom;
+	width: 100%;
+	display: none;
 }
 
 #company_logo {
@@ -168,7 +175,7 @@ hr {
     padding: 0;
 }
 
-#logo {
+p#cmp_logo {
     float: left;
     width: 174px;
     margin: 0 10px 0 0;
@@ -307,7 +314,7 @@ hr {
     display: inline-block;
     margin: 8px 5px 0;
     padding: 0 6px;
-    border: 1px solid #4c4a4a;
+    border: 1px solid;
     border-color: #424141 #4c4a4a #5a5858;
     border-radius: 3px;
     -moz-border-radius: 3px;
@@ -593,12 +600,8 @@ hr {
     width: 2%;
 }
 
-#content {
-    height: 100%;
-}
-
 #content div.wrap {
-    padding: 0px 0 5px;
+    padding: 0;
 }
 
 #primary {
@@ -608,7 +611,7 @@ hr {
 }
 
 #primary div.wrap {
-    padding-top: 0px;
+    padding-top: 0;
 }
 
 #secondary {
@@ -661,9 +664,10 @@ h6 {
     font-size: 1.0em;
 }
 
-h1 a.help {
+h1 a.help{
     display: -moz-inline-stack;
     cursor: pointer;
+    display: inline; /*IE7 */
     display: inline-block;
     overflow: hidden;
     width: 14px;
@@ -676,6 +680,7 @@ h1 a.help {
 
 h1 img {
     display: -moz-inline-stack;
+    display: inline; /*IE7 */
     display: inline-block;
     overflow: hidden;
     width: 14px;
@@ -939,14 +944,20 @@ div.filter-a div.fields-a p label {
     margin: 0 0 1px;
 }
 
-div.footer-a {
-    position: relative;
-    overflow: hidden;
-    width: 100%;
-    margin: 0 0 5px;
+div.footer-a,
+div.footer-b {
+    background:none repeat scroll 0 0 #CCCCCC;
+	border:1px solid #AAAAAA;
+	display:block;
+	margin:0 -2px;
+	overflow:hidden;
+	padding:5px 0;
+	position:relative;
+	width:100%;
 }
 
-div.footer-a p {
+div.footer-a p,
+div.footer-b p {
     margin: 0;
     padding: 0 15px;
     font-size: 0.9em;
@@ -960,8 +971,7 @@ div.footer-a p a {
 
 div.footer-a p span {
     padding: 0 5px;
-    color: #969494;
-    font-weight: normal;
+    color: #666666;
     font-weight: bold;
 }
 
@@ -970,12 +980,19 @@ div.footer-a p.powered {
     left: 50%;
     width: 200px;
     margin: 0 0 0 -100px;
-    color: #969494;
+    color: #666666;
     text-align: center;
 }
 
-div.footer-a p.powered a {
-    color: #969494;
+div.footer-b p.powered {
+    left: 50%;
+    color: #666666;
+    text-align: center;
+}
+
+div.footer-a p.powered a,
+div.footer-b p.powered a {
+    color: #666666;
 }
 
 div.footer-a p.one {
@@ -1333,6 +1350,7 @@ table .marked td {
 
 table td .icon {
     display: -moz-inline-stack;
+    display: inline; /*IE7 */
     display: inline-block;
     overflow: hidden;
     width: 13px;
@@ -1762,6 +1780,7 @@ ul.sections-a li span.wrap a:hover span strong,ul.sections-a li span.wrap a:focu
 
 .hide-menu #secondary {
     display: none;
+    width: 0;
 }
 
 .hide-menu #sidenav_hide a {
@@ -1799,7 +1818,6 @@ ul.sections-a li span.wrap a:hover span strong,ul.sections-a li span.wrap a:focu
     background: url(../images/sidenav-bg-a.gif) 0 100% repeat-x;
     font-size: 1em;
     display: block;
-    overflow: hidden;
     min-width: 180px;
 }
 
@@ -1819,7 +1837,6 @@ ul.sections-a li span.wrap a:hover span strong,ul.sections-a li span.wrap a:focu
     font-weight: bold;
     text-decoration: none !important;
     text-transform: uppercase;
-    overflow: hidden;
     cursor: pointer;
     min-width: 165px;
 }
@@ -1970,7 +1987,7 @@ ul.split-a .two {
 }
 
 table#title_header {
-    margin-bottom: 0px;
+    margin-bottom: 0;
     padding: 0 0 5px;
     background: url(../images/sep-a.gif) 0 100% repeat-x;
 }
@@ -2052,22 +2069,22 @@ p.paging-a a {
 
 p.paging-a a.first {
     margin: 0;
-    background: url(../images/first.gif) no-repeat;
+    background: url(../images/first.png) no-repeat;
 }
 
 p.paging-a a.last {
     margin: 0;
-    background: url(../images/last.gif) no-repeat;
+    background: url(../images/last.png) no-repeat;
 }
 
 p.paging-a a.prev {
     width: 7px;
-    background: url(../images/prev.gif) no-repeat;
+    background: url(../images/left.png) no-repeat;
 }
 
 p.paging-a a.next {
     width: 5px;
-    background: url(../images/next.gif) no-repeat;
+    background: url(../images/right.png) no-repeat;
 }
 
 /* sidebar */
@@ -2171,7 +2188,7 @@ button {
 
 #sidebar #add-attachment {
     position: absolute;
-    top: 4px;
+    top: 3px;
     right: 1px;
 }
 
@@ -2244,20 +2261,20 @@ td#body_form_td {
 .button-a {
     float: left;
     height: 12px;
-    padding: 1px 10px 0;
+    padding: 1px 10px;
     border: 1px solid #666666;
     border-radius: 3px;
     -moz-border-radius: 3px;
     -webkit-border-radius: 3px;
-    box-shadow: 0 1px 0 transperant;
-    -moz-box-shadow: 0 1px 0 transperant;
-    -webkit-box-shadow: 0 1px 0 transperant;
+    box-shadow: 0 1px 0 transparent;
+    -moz-box-shadow: 0 1px 0 transparent;
+    -webkit-box-shadow: 0 1px 0 transparent;
     background: url(../images/button-a.gif) repeat-x;
     color: #fff;
     white-space: nowrap;
     font-size: 0.8em;
     font-weight: bold;
-    line-height: 12px;
+    line-height: 11px;
     text-transform: uppercase;
     text-shadow: #6a6969 0 1px 0;
 }
@@ -2277,9 +2294,11 @@ td#body_form_td {
     background: #666666;
 }
 
+
 td.popup_footer .button-a:hover,
 table.popup_footer .button-a:hover,
-div.popup_footer .button-a:hover {
+div.popup_footer .button-a:hover
+ {
     background: url(../images/button-a.gif) repeat-x;
     border-color: #CCCCCC;
 }
@@ -2301,9 +2320,9 @@ a.button-b {
     border-radius: 3px;
     -moz-border-radius: 3px;
     -webkit-border-radius: 3px;
-    box-shadow: 0 1px 0 transperant;
-    -moz-box-shadow: 0 1px 0 transperant;
-    -webkit-box-shadow: 0 1px 0 transperant;
+    box-shadow: 0 1px 0 transparent;
+    -moz-box-shadow: 0 1px 0 transparent;
+    -webkit-box-shadow: 0 1px 0 transparent;
     background: url(../images/button-a.gif) 0 -26px repeat-x;
     color: #8d8d8d;
     white-space: nowrap;
@@ -2312,6 +2331,16 @@ a.button-b {
     line-height: 11px;
     text-transform: uppercase;
     text-shadow: #fff 0 1px 0;
+}
+
+a.wizard_button {
+	float: left;
+	height: 17px;
+	margin: 2px 5px;
+}
+
+a.wizard_button td {
+	padding: 1px;
 }
 
 a.button-b:hover,a.button-b:focus,a.button-b:active {

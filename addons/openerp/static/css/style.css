@@ -19,6 +19,10 @@ table.view {
     border: none;
 }
 
+div.wizard_toolbar {
+	float: right;
+}
+
 table#search_table td {
     font-weight: bold;
     text-align: left !important;
@@ -49,7 +53,7 @@ button, .button {
     line-height: 12px;
     text-transform: uppercase;
     text-shadow: #6a6969 0 1px 0;
-    padding: 0 10px;
+    padding: 1px 10px;
     cursor: pointer;
 }
 button:hover, .button:hover,
@@ -363,14 +367,10 @@ div.box,div.box2 {
     background-color: #f6f6f6;
 }
 
-fieldset.box {
-	background-color: #f6f6f6;
+fieldset.box {	
 	border-radius: 10px;
     -moz-border-radius: 10px;
-    -webkit-border-radius: 10px;
-    box-shadow: 0 1px 1px #fff;
-    -moz-box-shadow: 0 1px 1px #fff;
-    -webkit-box-shadow: 0 1px 1px #fff;
+    -webkit-border-radius: 10px;    
     border-color: DarkGray;
 }
 
@@ -429,13 +429,13 @@ div.welcome-message {
     -moz-border-radius: 3px 3px 3px 3px;
 }
 
-td.popup_header {
-	background-color: #5A5858;
-    color: white;
+td.popup_header,
+table.popup_header {
+	background-color: #bbbbbb;
+    color: DarkRed;
     text-align: center;
     font-weight: bold;
     border: none;
-    font-size: 1.3em;
     height: 30px;
     -moz-border-radius: 3px 3px 3px 3px;
 }
@@ -451,6 +451,12 @@ div.popup_footer {
     height: 30px;
     -moz-border-radius: 3px 3px 3px 3px;
 }
+
+td.pop_head_font{
+	font-size: 1.5em;
+	}
+	
+
 
 /* view style */
 .view {
@@ -673,11 +679,11 @@ td.db_login_buttons {
 /* POPUPS */
 
 .footer_tool_box {
-    padding: 0 15px 0;
+    padding: 0 15px;
 }
 
 td.save_close {
-    padding: 5px;
+    padding: 0 5px 0 0;
 }
 
 /* VIEWED */
@@ -703,28 +709,20 @@ div.button_wid_string {
     height: 17px;
 }
 
-/* Progreds Bar Widget */
-div#progress_div1 {
+/* Progress Bar Widget */
+#progress {
     position: relative;
     border: 1px solid gray;
     font-size: 11px;
-}
-
-div#progress_div2 {
-    position: absolute;
-    top: 0px;
-    left: 0px;
-    background: #afafaf;
-    height: 100%;
-}
-
-div#progress_div3 {
-    position: absolute;
-    top: 0px;
-    left: 0px;
-    width: 100%;
-    height: 100%;
     text-align: center;
+}
+#progress div {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    background: #afafaf;
+    z-index: -1;
 }
 
 td.logActions {
@@ -785,8 +783,8 @@ div.filter-a button.filter_with_icon {
     line-height: 1.25;
     white-space: nowrap;
     padding: 0;
-    min-height: 40px;
-    min-width: 30px;
+    min-height: 45px;
+    min-width: 45px;
 }
 
 td.grop_box_active div.filter-a button.active {
@@ -845,10 +843,24 @@ div.filter-a button.filter_icon:focus {
 
 div.filter-a button table {
     margin: 4px;
+    text-align: center;
 }
 
 button.filter_with_icon table td {
 	font-size: 1.3em;
+}
+
+td.exp-header,
+td.imp-header,
+td.save-filter-header {
+	padding:0 0 0 10px;
+	width: 30%;
+}
+
+td.exp-header a,
+td.imp-header a,
+td.save-filter-header a{
+	margin: 2px;
 }
 
 /**

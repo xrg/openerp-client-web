@@ -44,27 +44,27 @@
             </td>
         </tr>
         <tr>
-            <td>${form.display()}</td>
-        </tr>
-        <tr>
-            <td style="padding-top: 0px;">
+            <td style="padding: 0px 10px;">
                 <div class="toolbar footer_tool_box">
                     <table border="0" cellpadding="0" cellspacing="0" width="100%" style="border: none;">
                         <tr>
-                            <td width="100%">
-                            </td>
+                        	% if form.screen.editable:
+	                            <td class="save_close">
+	                            	<a class="button-a" onclick="submit_form('save')" href="javascript: void(0)">${_("Save")}</a>
+	                            </td>
+                            % endif
                             <td class="save_close">
                             	<a class="button-a" onclick="window.close()" href="javascript: void(0)">${_("Close")}</a>
                             </td>
-                            % if form.screen.editable:
-                            <td class="save_close">
-                            	<a class="button-a" onclick="submit_form('save')" href="javascript: void(0)">${_("Save")}</a>
+                            <td width="100%">
                             </td>
-                            % endif
                         </tr>
                     </table>
                 </div>
             </td>
+        </tr>
+        <tr>
+            <td>${form.display()}</td>
         </tr>
     </table>
 </%def>

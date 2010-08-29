@@ -104,7 +104,10 @@ import cherrypy
 			        	<table class="pager-table">
 			        		<tr>
 			        			<td class="pager-cell">
-			        				<h2>${string} List</h2>
+			        				<h2>${string}</h2>
+			        			</td>			        			
+			        			<td class="loading-list" style="display: none;">
+			        				<img src="/openerp/static/images/load.gif" width="16" height="16" title="loading..."/>
 			        			</td>
 			        			% if editable:
 			        			    <td class="pager-cell-button">
@@ -122,7 +125,7 @@ import cherrypy
 	                                                	jQuery('#${name}_new').click(function() {
 	                                                    	new ListView('${name}').create();
 	                                                        return false;
-	                                                    });       
+	                                                    });
 	                                                </script>
                                               	% else:
 	                                                <script type="text/javascript">
@@ -137,15 +140,25 @@ import cherrypy
 			        			    </td>
 			        			% endif
 			        			<td class="pager-cell-button" style="display: none;">
-			        			    <button id="${name}_delete_record" title="${_('Delete record(s).')}"
-		                                    onclick="new ListView('_terp_list').remove(null,this); return false;"
-		                                >${_('delete')}</button>
+			        			% if '${name}' == "_terp_list":
+				        			<button id="${name}_delete_record" title="${_('Delete record(s).')}" 
+				        			onclick="new ListView('_terp_list').remove(null,this); return false;"
+				        			>${_('delete')}</button>
+				        		% elif m2m:
+									<button id="${name}_delete_record" title="${_('Delete record(s).')}"
+									onclick="new Many2Many('${name}').remove(); return false;"
+									>${_('delete')}</button>
+							    % else:
+									<button id="${name}_delete_record" title="${_('Delete record(s).')}"
+									onclick="new ListView('${name}').remove(null,this); return false;"
+									>${_('delete')}</button>
+							    % endif
 			        			</td>
 			        			<td class="pager-cell-button" style="display: none;">
 		                            <button id="${name}_edit_record" title="${_('Edit record(s).')}"
 		                                    onclick="editSelectedRecord(); return false;">${_('edit')}</button>
 		                        </td>
-		
+
 		        				<td class="pager-cell" style="width: 90%">
 		        					${pager.display()}
 		        				</td>
@@ -176,7 +189,7 @@ import cherrypy
 			                        % if field == 'button':
 			                        	<th class="grid-cell"></th>
 			                        %else:
-			                        	<th id="grid-data-column/${(name != '_terp_list' or None) and (name + '/')}${field}" class="grid-cell ${field_attrs.get('type', 'char')}" kind="${field_attrs.get('type', 'char')}" style="cursor: pointer;" onclick="new ListView('${name}').sort_by_order('${field}')">${field_attrs['string']}</th>
+			                        	<th id="grid-data-column/${(name != '_terp_list' or None) and (name + '/')}${field}" class="grid-cell ${field_attrs.get('type', 'char')}" kind="${field_attrs.get('type', 'char')}" style="cursor: pointer;" onclick="new ListView('${name}').sort_by_order('${field}', this)">${field_attrs['string']}</th>
 			                    	% endif
 		                        % endfor
 		                        % if buttons:
@@ -187,7 +200,7 @@ import cherrypy
 		                        % endif
 		                    </tr>
 		                </thead>
-	
+
 		                <tbody>
 	                        % if edit_inline == -1:
 	                            ${make_editors()}
@@ -229,7 +242,7 @@ import cherrypy
 		                        </tr>
 	                        % endfor
 		                </tbody>
-	
+
 		                % if field_total:
 	                    <tfoot>
 	                        <tr class="field_sum">
@@ -267,7 +280,7 @@ import cherrypy
 					<script type="text/javascript">
 						// flag is used to check sorting is active or not //
 	                    var flag = "${'_terp_sort_key' in cherrypy.request.params.keys()}";
-	
+
 			            if(flag == 'False') {
 	                        jQuery('#${name} tr.grid-row').draggable({
 	                            revert: 'valid',
@@ -278,7 +291,7 @@ import cherrypy
 	                            },
 	                            axis: 'y'
 	                        });
-	
+
 	                        jQuery('#${name} tr.grid-row').droppable({
 	                            accept: 'tr.grid-row',
 	                            hoverClass: 'grid-rowdrop',
@@ -286,19 +299,19 @@ import cherrypy
 	                                new ListView('${name}').dragRow(ui.draggable, jQuery(this), '${name}');
 	                            }
 	                        });
-	
+
 			            }
 					</script>
 				% endif
-	
+
 	            % if editors:
 	                <script type="text/javascript">
 	                	/* In editable grid, clicking on empty row will create new and on existing row will edit. */
-	
+
 	                    jQuery('table[id=${name}_grid] tr.grid-row').each(function(index, row) {
 		                    jQuery(row).click(function(event) {
-		                        if (!(event.target.tagName == 'INPUT' || event.target.tagName == 'IMG')) {
-		                            record_id = jQuery(row).attr('record');
+		                        if (!jQuery(event.target).is(':input, img, option, span, td.m2o_coplition')) {
+		                            var record_id = jQuery(row).attr('record');
 		                            if (record_id > 0) {
 		                                new ListView('${name}').edit(record_id);
 		                            }
@@ -315,47 +328,35 @@ import cherrypy
 	                    });
 	                </script>
 	            % else:
-	                % if not dashboard:
-		                <script type="text/javascript">
-		                    if('${name}' == '_terp_list') {
-		                        var view_type = jQuery('#_terp_view_type').val();
-		                        var editable = jQuery('#_terp_editable').val();
-		                    }
-		                    else {
-		                        var view_type = jQuery('[id=${name}/_terp_view_type]').val();
-		                        var editable = jQuery('[id=${name}/_terp_editable]').val();
-		                    }
-		                   
-		                    jQuery('table#${name}_grid tr.grid-row').each(function(index, row) {
-		                        jQuery(row).click(function(event) {
-		                            if (!(event.target.nodeName == 'IMG' || event.target.nodeName == 'INPUT')) {
-		                                if (view_type == 'tree') {
-		                                    do_select(jQuery(row).attr('record'));
-		                                }
-		                            }
-		                        });
-		                    });
-		
-		                    jQuery('table#${name}_grid tr.grid-row').each(function(index, row) {
-		                        jQuery(row).dblclick(function(event) {
-		                            if (!(event.target.className == 'checkbox grid-record-selector' || event.target.className == 'listImage')) {
-		                                if (view_type == 'tree') {
-		                                    if (editable != 'True') {
-		                                        do_select(jQuery(row).attr('record'));
-		                                    }
-		                                    else {
-		                                        editRecord(jQuery(row).attr('record'));
-		                                    }
-		                                }
-		                            }
-		                        });
-		                    });
-		                </script>
+                    % if not dashboard:
+                        <script type="text/javascript">
+                            var view_type, editable;
+                            if('${name}' == '_terp_list') {
+                                view_type = jQuery('#_terp_view_type').val();
+                                editable = jQuery('#_terp_editable').val();
+                            } else {
+                                view_type = jQuery('[id=${name}/_terp_view_type]').val();
+                                editable = jQuery('[id=${name}/_terp_editable]').val();
+                            }
+
+                            jQuery('table#${name}_grid tr.grid-row').each(function() {
+                                var $this = jQuery(this);
+                                $this.click(function(event) {
+                                	if(event.detail == 1) {
+	                                    if(!(jQuery(event.target).is('img, input'))) {
+	                                        if(view_type == 'tree' && $this.attr('record')) {
+	                                            do_select($this.attr('record'), '${name}');
+	                                        }
+	                                    }
+                                    }
+                                });
+                            });
+                        </script>
                     % endif
 	            % endif
 		        </td>
 		    </tr>
-	
+
 		    % if pageable:
 			    <tr class="pagerbar">
 			        <td class="pagerbar-cell" align="right">${pager.display(pager_id=2)}</td>

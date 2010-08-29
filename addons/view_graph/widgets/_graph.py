@@ -11,7 +11,7 @@
 # It's based on Mozilla Public License Version (MPL) 1.1 with following
 # restrictions:
 #
-# -   All names, links and logos of Tiny, Open ERP and Axelor must be
+# -   All names, links and logos of Tiny, OpenERP and Axelor must be
 #     kept as in original distribution without any changes in all software
 #     screens, especially in start-up page and the software header, even if
 #     the application source code has been changed or updated or code has been
@@ -52,10 +52,10 @@ if not hasattr(locale, 'D_FMT'):
     locale.D_FMT = None
 
 
-COLOR_PALETTE = ['#f57900', '#cc0000', '#d400a8', '#75507b', '#3465a4', '#73d216', '#c17d11', '#edd400',
-                 '#fcaf3e', '#ef2929', '#ff00c9', '#ad7fa8', '#729fcf', '#8ae234', '#e9b96e', '#fce94f',
+COLOR_PALETTE = ['#75507b', '#3465a4', '#73d216', '#c17d11', '#edd400', '#fcaf3e', '#ef2929', '#ff00c9',
+                 '#ad7fa8', '#729fcf', '#8ae234', '#e9b96e', '#fce94f', '#f57900', '#cc0000', '#d400a8',
                  '#ff8e00', '#ff0000', '#b0008c', '#9000ff', '#0078ff', '#00ff00', '#e6ff00', '#ffff00',
-                 '#905000', '#9b0000', '#840067', '#510090', '#0000c9', '#009b00', '#9abe00', '#ffc900',]
+                 '#905000', '#9b0000', '#840067', '#9abe00', '#ffc900', '#510090', '#0000c9', '#009b00']
 
 _colorline = ['#%02x%02x%02x' % (25+((r+10)%11)*23,5+((g+1)%11)*20,25+((b+4)%11)*23) for r in range(11) for g in range(11) for b in range(11) ]
 def choice_colors(n):
@@ -77,14 +77,13 @@ class Graph(TinyWidget):
     width = 500
     height = 350
 
-    def __init__(self, model, view=False, view_id=False, ids=[], domain=[], context={}, width=500, height=350):
+    def __init__(self, model, view=False, view_id=False, ids=[], domain=[], context={}, group_by=[], width=500, height=350):
 
         name = 'graph_%s' % (random.randint(0,10000))
         super(Graph, self).__init__(name=name, model=model, width=width, height=height)
-
+        
         ctx = rpc.session.context.copy()
         ctx.update(context or {})
-
         view = view or cache.fields_view_get(model, view_id, 'graph', ctx)
 
         dom = xml.dom.minidom.parseString(view['arch'].encode('utf-8'))
@@ -98,7 +97,7 @@ class Graph(TinyWidget):
         self.ids = ids
         if ids is None:
             self.ids = rpc.RPCProxy(model).search(domain, 0, 0, 0, ctx)
-
+        self.count = rpc.RPCProxy(model).search_count(domain, ctx)
         if chart_type == "bar":
             self.data = BarChart(model, view, view_id, ids, domain, context)
         else:
@@ -527,7 +526,6 @@ class BarChart(GraphData):
                       "stroke": 2 }
         else:
             axis_y = {"steps": yopts['y_steps'], "max": yopts['y_max'], "min": yopts['y_min'],
-                      "grid-colour": "#FFFFFF",
                       'stroke': 2 }
 
         if len(axis_group) > 1:
@@ -560,10 +558,9 @@ class BarChart(GraphData):
                                      "keys": [key for key in all_keys]}],
                         "x_axis": {"colour": "#909090",
                                    "labels": { "labels": [ lbl for lbl in stack_labels ], "rotate": "diagonal", "colour": "#ff0000"},
-                                   "grid-colour" : "#FFFFFF",
                                    "3d": 3},
                         "y_axis": axis_y,
-                        "bg_colour": "#FFFFFF",
+                        "bg_colour": "#F0EEEE",
                         "tooltip": {"mouse": 2 }}
 
         else:
@@ -588,11 +585,10 @@ class BarChart(GraphData):
             result = {"y_axis": axis_y,
                       "title": {"text": ""},
                       "elements": [i for i in dataset],
-                      "bg_colour": "#FFFFFF",
+                      "bg_colour": "#F0EEEE",
                       "x_axis": {"colour": "#909090",
                                  "stroke": 1,
                                  "tick-height": 5,
-                                 "grid-colour" : "#FFFFFF",
                                  "steps": 1, "labels": { "rotate": "diagonal", "colour": "#ff0000", "labels": [l for l in temp_lbl]},
                                  "3d": 3
                                  }
@@ -672,7 +668,7 @@ class PieChart(GraphData):
                              "visible": 'true'
                              },
                   "elements": [d for d in dataset],
-                  "bg_colour": "#FFFFFF"}
+                  "bg_colour": "#F0EEEE"}
 
         return result
 

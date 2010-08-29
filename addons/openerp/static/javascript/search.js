@@ -10,7 +10,7 @@
 // It's based on Mozilla Public License Version (MPL) 1.1 with following 
 // restrictions:
 //
-// -   All names, links and logos of Tiny, Open ERP and Axelor must be 
+// -   All names, links and logos of Tiny, OpenERP and Axelor must be 
 //     kept as in original distribution without any changes in all software 
 //     screens, especially in start-up page and the software header, even if 
 //     the application source code has been changed or updated or code has been 
@@ -214,7 +214,7 @@ function parse_filters(src, id) {
     var filter_table = getElement('filter_table');
     forEach($$('[name]', 'search_filter_data'), function(d) {
         var value;
-        if (d.type != 'checkbox' && d.name && d.value && d.name.indexOf('_terp_') == -1  && d.name != 'filter_list') {
+        if (d.type != 'checkbox' && d.name && d.value && d.name.indexOf('_terp_') == -1 && d.name != 'filter_list' && d.name != 'flashvars' && d.name != 'wmode') {
             value = d.value;
             if (getNodeAttribute(d, 'kind') == 'selection') {
                 value = parseInt(d.value);
@@ -233,7 +233,6 @@ function parse_filters(src, id) {
         }
     });
     domains = serializeJSON(domains);
-
     all_domains['domains'] = domains;
     all_domains['search_context'] =  search_context;
     var selected_boxes = getElementsByTagAndClassName('input', 'grid-domain-selector');
@@ -281,8 +280,8 @@ function save_filter() {
     req.addCallback(function(obj) {
         var sf_params = {'model': jQuery('#_terp_model').val(), 'domain': obj.domain, 'group_by': group_by, 'flag': 'sf'};
         openobject.tools.openWindow(openobject.http.getURL('/openerp/search/save_filter', sf_params), {
-                width: 500,
-                height: 240
+                width:400,
+                height:150
             });
     });
     
@@ -294,51 +293,61 @@ function manage_filters() {
 }
 
 function final_search_domain(custom_domain, all_domains, group_by_ctx) {
-	var req = openobject.http.postJSON('/openerp/search/eval_domain_filter', 
-		{source: '_terp_list',
-		model: jQuery('#_terp_model').val(), 
-		custom_domain: custom_domain,
-		all_domains: all_domains,
-		group_by_ctx: group_by_ctx
-	});
-	req.addCallback(function(obj){
-		if (obj.flag) {
-			var params = {'domain': obj.sf_dom,
-				'model': openobject.dom.get('_terp_model').value,
-				'flag': obj.flag};
-							
-			if(group_by_ctx!=''){
-				params['group_by'] = group_by_ctx;
-			}				
-			openobject.tools.openWindow(openobject.http.getURL('/openerp/search/save_filter', params), {
-				width: 400,
-				height: 250
-			});
-		}
-		
-        if (obj.action) { // For manage Filter
-            openLink(openobject.http.getURL('/openerp/search/manage_filter', {
-                action: serializeJSON(obj.action)}));
-        }
-		
-		if (obj.domain) { // For direct search
-			var in_req = eval_domain_context_request({
-				source: '_terp_list', 
-				domain: obj.domain, 
-				context: obj.context,
-				group_by_ctx: group_by_ctx
-			});
+	var waitBox = new openerp.ui.WaitBox();
+	waitBox.showAfter(500);
+	jQuery.ajax({
+		url: '/openerp/search/eval_domain_filter',
+		type: 'POST',
+		dataType: 'json',
+		data:{source: '_terp_list',
+			model: jQuery('#_terp_model').val(),
+			custom_domain: custom_domain,
+			all_domains: all_domains,
+			group_by_ctx: group_by_ctx
+			},
+		complete: jQuery.proxy(waitBox, 'hide'),
+		success: function(obj) {
+			if (obj.flag) {
+				var params = {'domain': obj.sf_dom, 
+							'model': openobject.dom.get('_terp_model').value,
+							'flag': obj.flag};
+				if(group_by_ctx!=''){
+					params['group_by'] = group_by_ctx;
+				}
+				
+				openobject.tools.openWindow(
+					openobject.http.getURL('/openerp/search/save_filter', params), {
+					width: 400,
+					height: 250
+				});
+			}
 			
-			in_req.addCallback(function(in_obj){
-		    	openobject.dom.get('_terp_search_domain').value = in_obj.domain;
-		    	openobject.dom.get('_terp_search_data').value = obj.search_data;
-		    	openobject.dom.get('_terp_context').value = in_obj.context;
-		    	openobject.dom.get('_terp_filter_domain').value = obj.filter_domain;
-		    	jQuery('#_terp_group_by_ctx').val(in_obj.group_by)
-		    	if (getElement('_terp_list') != null){
+			 if (obj.action) { // For manage Filter
+			 	openLink(
+			 		openobject.http.getURL('/openerp/search/manage_filter', {
+                	action: serializeJSON(obj.action)
+            	}));
+			 }
+			 
+			 if (obj.domain) { // For direct search
+				
+			 	var in_req = eval_domain_context_request({
+					source: '_terp_list', 
+					domain: obj.domain, 
+					context: obj.context,
+					group_by_ctx: group_by_ctx
+				});
+				
+				in_req.addCallback(function(in_obj){
+					openobject.dom.get('_terp_domain').value = obj.domain;
+			    	openobject.dom.get('_terp_search_domain').value = in_obj.domain;
+			    	openobject.dom.get('_terp_search_data').value = obj.search_data;
+			    	openobject.dom.get('_terp_context').value = in_obj.context;
+			    	openobject.dom.get('_terp_filter_domain').value = obj.filter_domain;
+			    	jQuery('#_terp_group_by_ctx').val(in_obj.group_by)
 		    		new ListView('_terp_list').reload();
-		    	}
-			});	
+				});	
+			 }
 		}
 	});
 }

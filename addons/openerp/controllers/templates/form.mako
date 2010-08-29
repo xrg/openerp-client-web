@@ -1,17 +1,13 @@
-<%inherit file="/openerp/controllers/templates/base_dispatch.mako"/>
+	<%inherit file="/openerp/controllers/templates/base_dispatch.mako"/>
 
 <%def name="header()">
-    <%
-        if form.screen.view_type == 'form' and display_name:
-            title= display_name['field'] + ':' + display_name['value']
-        else:
-            title = form.screen.string
-    %>
-    <script type="text/javascript">
+	<script type="text/javascript">
         jQuery(document).ready(function() {
             document.title = '${title}' + ' - OpenERP';
+            adjustTopWidth();
         });
     </script>
+
     <script type="text/javascript">
         var form_controller = '${path}';
         var USER_ID = '${rpc.session.uid}';
@@ -43,7 +39,7 @@
         <tr>
             <td id="body_form_td" width="100%" valign="top">
                 % if buttons.toolbar:
-                
+
                 <%def name="make_view_button(i, kind, name, desc, active)">
                     <%
                         cls = ''
@@ -66,10 +62,10 @@
                 % endfor
                 </ul>
                 % endif
-                
+
                 <h1>
                     % if can_shortcut:
-                        <a id="shortcut_add_remove" href="javascript: void(0)" class="${shortcut_class}"></a>
+                        <a id="shortcut_add_remove" title="${_('Add / Remove Shortcut...')}" href="javascript: void(0)" class="${shortcut_class}"></a>
                     % endif
                     ${form.screen.string}
                     <a class="help" href="javascript: void(0)"
@@ -77,84 +73,21 @@
                        onclick="show_process_view('${form.screen.string}')">
                         <small>Help</small>
                       </a>
-                      % if serverLog:
+                      % if form.screen.view_type == 'form' and form.logs.logs:
                          <a id="show_server_logs" class="help" href="javascript: void(0)"
                        title="${_('Show Logs...')}">
                             <small>Help</small>
-                        </a> 
+                        </a>
                       % endif
                     % if display_name:
                           <small class="sub">${display_name['field']} : ${display_name['value']}</small>
                     % endif
                 </h1>
-                
-                %if serverLog:
-                <div id="serverlog" style="display: none;">
-                    <table class="serverLogHeader">
-                        <tr id="actions_row">
-                            <td style="padding: 2px 0 0 0;">
-                                <table style="width: 100%;">
-                                    % if len(serverLog) > 3:
-                                        % for log in serverLog[-3:]:
-                                            <tr>
-                                                <td class="logActions">
-                                                    <a href="${py.url('/openerp/form/edit', model=log['res_model'], id=log['res_id'])}">
-                                                        ${log['name']}
-                                                    </a>
-                                                </td>
-                                            </tr>
-                                        % endfor
-                                        <tr>
-                                            <td style="padding: 0 0 0 10px;">
-                                                <a style="color: blue; font-weight: bold;" href="javascript: void(0);"
-                                                   onclick="jQuery('#more_logs').slideToggle('slow')">
-                                                    More...
-                                                </a>
-                                                <div id="more_logs">
-                                                     % for log in serverLog[:-3]:
-                                                         <div>
-                                                             <a href="${py.url('/openerp/form/edit', model=log['res_model'], id=log['res_id'])}">
-                                                                ${log['name']}
-                                                             </a>
-                                                         </div>
-                                                     % endfor
-                                                </div>
-                                            </td>
-                                        </tr>
-                                        
-                                    % else:
-                                        % for log in serverLog:
-                                            <tr>
-                                                <td class="logActions">
-                                                    <a href="${py.url('/openerp/form/edit', model=log['res_model'], id=log['res_id'])}">
-                                                        ${log['name']}
-                                                    </a>
-                                                </td>
-                                            </tr>
-                                        % endfor
-                                    % endif
-                                </table>
-                            </td>
-                            <td style="padding: 0;">
-                                <img id="closeServerLog" style="cursor: pointer;" align="right" 
-                                    src="/openerp/static/images/attachments-a-close.png"></img>
-                            </td>
-                        </tr>
-                    </table>
-                </div>
-
-                <script type="text/javascript">
-                    jQuery('#serverlog').fadeIn('slow');
-                    jQuery('#closeServerLog').click(function() {
-                        jQuery('#serverlog').fadeOut("slow");
-                    });
-                    
-                    jQuery('#show_server_logs').click(function() {
-                       jQuery('#serverlog').fadeIn("slow");
-                    });
-                </script>
-                % endif
-
+				% if form.screen.view_type == 'form':
+					% if form.logs.logs:
+						${form.logs.display()}
+					% endif
+				% endif
                 % if form.screen.view_type in ['form', 'diagram'] and buttons.toolbar and form.screen.model != 'board.board':
                 <div class="wrapper">
                     <ul class="inline-b left w50">
@@ -199,30 +132,27 @@
                 </div>
                 % endif
                 <div>${form.display()}</div>
-                <div class="footer-a">
-                    <p class="powered">Powered by <a href="http://www.openerp.com/">openerp.com</a></p>
-                    <p class="one">
-                        <span>${rpc.session.protocol}://${_("%(user)s", user=rpc.session.loginname)}@${rpc.session.host}:${rpc.session.port}/${rpc.session.db or 'N/A'}</span>
-                    </p>
-                </div>
+
             </td>
             % if form.sidebar:
-            <td class="toggle_sidebar sidebar_close">
-            </td>
-            <td id="main_sidebar" valign="top">
-                <div id="tertiary" class="sidebar-closed">
-                    <div id="tertiary_wrap">
-                        ${form.sidebar.display()}
-                    </div>
-                </div>
-            </td>
-            <script type="text/javascript">
-                jQuery('td.toggle_sidebar').click(function() {
-                    jQuery(this).toggleClass('sidebar_open sidebar_close')
-                    toggle_sidebar();
-                    jQuery(window).trigger('on-appcontent-resize');
-                });
-            </script>
+	            <td class="toggle_sidebar sidebar_close"></td>
+	            <td id="main_sidebar" valign="top">
+	                <div id="tertiary" class="sidebar-closed">
+	                    <div id="tertiary_wrap">
+	                        ${form.sidebar.display()}
+	                    </div>
+	                </div>
+	            </td>
+	            <script type="text/javascript">
+	                jQuery('td.toggle_sidebar').click(function() {
+	                    jQuery(this).toggleClass('sidebar_open sidebar_close')
+	                    toggle_sidebar();
+	                    jQuery(window).trigger('on-appcontent-resize');
+
+	                    var total_win_width = jQuery('#main_form_body').width();
+	                    jQuery(window).scrollLeft(total_win_width);
+	                });
+	            </script>
             % endif
         </tr>
     </table>

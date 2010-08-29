@@ -10,7 +10,7 @@
 # It's based on Mozilla Public License Version (MPL) 1.1 with following
 # restrictions:
 #
-# -   All names, links and logos of Tiny, Open ERP and Axelor must be
+# -   All names, links and logos of Tiny, OpenERP and Axelor must be
 #     kept as in original distribution without any changes in all software
 #     screens, especially in start-up page and the software header, even if
 #     the application source code has been changed or updated or code has been
@@ -222,7 +222,7 @@ class Search(TinyInputWidget):
 
     _notebook = Notebook(name="search_notebook")
 
-    def __init__(self, model, domain=None, context=None, values={}, filter_domain=None, search_view=None, group_by_ctx=[]):
+    def __init__(self, model, domain=None, context=None, values={}, filter_domain=None, search_view=None, group_by_ctx=[], **kw):
 
         super(Search, self).__init__(model=model)
 
@@ -246,7 +246,7 @@ class Search(TinyInputWidget):
         ctx = dict(rpc.session.context, **self.context)
 
         view_id = ctx.get('search_view') or False
-        if getattr(cherrypy.request,'terp_params') and not view_id:
+        if getattr(cherrypy.request,'terp_params') and not view_id and not kw.get('clear'):
             view_id = cherrypy.request.terp_params.get('_terp_view_id', False)
 
         if isinstance (self.search_view, basestring):
@@ -301,7 +301,9 @@ class Search(TinyInputWidget):
                                                 'selectable': new_field['selectable']}
             self.fields.update(field_dict)
 
-        self.frame = self.parse(model, dom, self.fields, values)[0]
+        self.frame = self.parse(model, dom, self.fields, values)
+        if self.frame:
+            self.frame = self.frame[0]
 
         my_acts = rpc.session.execute('object', 'execute', 'ir.filters', 'get_filters', model)
 
@@ -319,8 +321,8 @@ class Search(TinyInputWidget):
             ('>', _('greater than')), ('<', _('less than')),
             ('in', _('in')), ('not in', _('not in'))]
 
-        if self.filter_domain == []:
-            self.filter_domain += [(self.fields_list[0][0], self.operators_map[0][0], '')]
+        if self.filter_domain == [] and self.fields_list and self.operators_map:
+            self.filter_domain.append((self.fields_list[0][0], self.operators_map[0][0], ''))
         else:
             self.custom_filter_domain = self.filter_domain
 
@@ -412,8 +414,7 @@ class Search(TinyInputWidget):
                     if kind == 'many2one':
                         attrs['relation'] = fields[name]['relation']
                         attrs['type'] = fields[name]['type']
-                        string = attrs.get('string', None)
-                        if not string:
+                        if not attrs.get('string'):
                             attrs['string'] = fields[name]['string']
 
                     self.fields_type[name] = kind
@@ -437,7 +438,7 @@ class Search(TinyInputWidget):
                             else:
                                 if field.kind == 'char':
                                     domain = [(name,fields[name].get('comparator','ilike'), s)]
-                                if field.kind == 'selection' or field.kind == 'many2one':
+                                elif field.kind in ('selection', 'many2one'):
                                     domain = [(name, '=', s)]
                             field.set_value(s)
                             self.listof_domain += [i for i in domain if not i in self.listof_domain]
@@ -447,23 +448,22 @@ class Search(TinyInputWidget):
                         field.set_value(values[name])
 
                     views.append(field)
-                    if node.childNodes:
-                        for n in node.childNodes:
-                            if n.localName=='filter':
-                                attrs_child = node_attributes(n)
-                                attrs_child['default_domain'] = self.domain
-                                attrs_child['screen_context'] = self.context
-                                if attrs_child.get('string'):
-                                    attrs_child['string'] = ''
-                                if values and values.get('group_by_ctx'):
-                                    attrs['group_by_ctx'] = values['group_by_ctx']
-                                filter_field = Filter(**attrs_child)
-                                filter_field.onchange = None
-                                filter_field.callback = None
-                                if filter_field.groupcontext and filter_field.groupcontext not in self.groupby:
-                                    self.groupby.append(filter_field.groupcontext)
-                                self.listof_domain += [i for i in filter_field.global_domain if not i in self.listof_domain]
-                                views.append(filter_field)
+                    for n in node.childNodes:
+                        if n.localName=='filter':
+                            attrs_child = node_attributes(n)
+                            attrs_child['default_domain'] = self.domain
+                            attrs_child['screen_context'] = self.context
+                            if attrs_child.get('string'):
+                                attrs_child['string'] = ''
+                            if values and values.get('group_by_ctx'):
+                                attrs['group_by_ctx'] = values['group_by_ctx']
+                            filter_field = Filter(**attrs_child)
+                            filter_field.onchange = None
+                            filter_field.callback = None
+                            if filter_field.groupcontext and filter_field.groupcontext not in self.groupby:
+                                self.groupby.append(filter_field.groupcontext)
+                            self.listof_domain += [i for i in filter_field.global_domain if not i in self.listof_domain]
+                            views.append(filter_field)
         if filters_run:
             views.append(FiltersGroup(children=filters_run))
         return views

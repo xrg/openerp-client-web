@@ -10,7 +10,7 @@
 # It's based on Mozilla Public License Version (MPL) 1.1 with following
 # restrictions:
 #
-# -   All names, links and logos of Tiny, Open ERP and Axelor must be
+# -   All names, links and logos of Tiny, OpenERP and Axelor must be
 #     kept as in original distribution without any changes in all software
 #     screens, especially in start-up page and the software header, even if
 #     the application source code has been changed or updated or code has been
@@ -243,18 +243,17 @@ class Form(SecuredController):
                 if isinstance(sc['res_id'], tuple):
                     shortcut_ids.append(sc['res_id'][0])
                 else:
-                    shortcut_ids.append(sc['res_id'])
-
-        # Server log will display in flash message in form view for any server action like wizard.
-        serverLog = rpc.RPCProxy('res.log').get() or None
+                    shortcut_ids.append(sc['res_id'])        
         
+        title = form.screen.string or ''
         display_name = {}
         if params.view_type == 'form':
             if params.id:
                 if form.screen.view.get('fields') and form.screen.view['fields'].get('name'):
-                    display_name = {'field': form.screen.view['fields']['name']['string'], 'value': form.screen.view['fields']['name']['value']}
-
-        return dict(form=form, pager=pager, buttons=buttons, path=self.path, can_shortcut=can_shortcut, shortcut_ids=shortcut_ids, serverLog=serverLog, display_name=display_name)
+                    display_name = {'field': form.screen.view['fields']['name']['string'], 'value': ustr(form.screen.view['fields']['name']['value'])}
+                    title= ustr(display_name['field']) + ':' + ustr(display_name['value'])
+                    
+        return dict(form=form, pager=pager, buttons=buttons, path=self.path, can_shortcut=can_shortcut, shortcut_ids=shortcut_ids, display_name=display_name, title=title)
 
     def _read_form(self, context, count, domain, filter_domain, id, ids, kw,
                    limit, model, offset, search_data, search_domain, source,
@@ -395,7 +394,12 @@ class Form(SecuredController):
             else:
                 ctx = utils.context_with_concurrency_info(params.context, params.concurrency_info)
                 id = proxy.write([params.id], data, ctx)
-
+                
+        elif params.button and params.editable and params.id:
+            proxy = rpc.RPCProxy(params.model)
+            ctx = utils.context_with_concurrency_info(params.context, params.concurrency_info)
+            id = proxy.write([params.id], data, ctx)
+            
         button = params.button
 
         # perform button action
@@ -601,7 +605,7 @@ class Form(SecuredController):
     def save_binary_data(self, _fname='file.dat', **kw):
         params, data = TinyDict.split(kw)
 
-        cherrypy.response.headers['Content-Disposition'] = 'filename="%s"' % _fname;
+        cherrypy.response.headers['Content-Disposition'] = 'attachment; filename="%s"' % _fname
 
         if params.datas:
             form = params.datas['form']

@@ -28,7 +28,7 @@
                     <td width="36px" valign="top" id="toolbox"></td>
                     <td height="100%" width="100%" valign="top" style="padding: 0px;">                        
                         <div id="viewport" style="position: relative; width: 100%; height: 550px; border: 1px solid gray; overflow: auto;">
-                            <div id="canvas" style="position: absolute;  width: auto; height: auto;">
+                            <div id="canvas" style="position: absolute;  width: 1500px; height: 1500px;">
                                 <span id="loading" style="color: red; width:100%;" align="right">${_("Loading...")}</span>
                             </div>
                         </div>

@@ -7,7 +7,21 @@ background = '#DEDEDE'
 <table id="${name}" groups="${group_by_ctx}" class="gridview" width="100%" cellspacing="0" cellpadding="0">
     % if pageable:
     <tr class="pagerbar">
-        <td colspan="2" class="pagerbar-cell" align="right">${pager.display()}</td>
+        <td colspan="2" class="pagerbar-cell" align="right">
+        	<table class="pager-table">
+        		<tr>
+        			<td class="pager-cell">
+        				<h2>${string}</h2>
+        			</td>
+        			<td id="${name}" class="loading-list" style="display: none;">
+        				<img src="/openerp/static/images/load.gif" width="16" height="16" title="loading..."/>
+        			</td>
+        			<td class="pager-cell" style="width: 90%">
+    					${pager.display()}
+    				</td>
+        		</tr>
+        	</table>
+        </td>
     </tr>
     % endif
     
@@ -23,7 +37,7 @@ background = '#DEDEDE'
                             % if field == 'button':
                                 <th class="grid-cell"><div style="width: 0;"></div></th>
                             % else:
-                                <th id="grid-data-column/${(name != '_terp_list' or None) and (name + '/')}${field}" class="grid-cell ${field_attrs.get('type', 'char')}" kind="${field_attrs.get('type', 'char')}" style="cursor: pointer;" onclick="new ListView('${name}').sort_by_order('${field}')">${field_attrs['string']}</th>
+                                <th id="grid-data-column/${(name != '_terp_list' or None) and (name + '/')}${field}" class="grid-cell ${field_attrs.get('type', 'char')}" kind="${field_attrs.get('type', 'char')}" style="cursor: pointer;" onclick="new ListView('${name}').sort_by_order('${field}', this)">${field_attrs['string']}</th>
                             % endif
                         % endfor
                         % if editable:
@@ -36,9 +50,10 @@ background = '#DEDEDE'
 					% for j, grp_row in enumerate(grp_records):
 					<tr class="grid-row-group" grp_by_id="${grp_row.get('group_by_id')}" records="${grp_row.get('group_id')}" style="cursor: pointer;" ch_records="${map(lambda x: x['id'], grp_row['child_rec'])}" grp_domain="${grp_row['__domain']}" grp_context="${grp_row['__context']['group_by']}">
                         % if editable:
+                        
                             % if len(group_by_ctx) == 1 and group_by_no_leaf:
                                 <td class="grid-cell" style="background-color: ${background};"></td>
-                            % else:
+                            % elif len(group_by_ctx) > 0:
 	                            <td class="grid-cell group-expand" style="background-color: ${background};"
 	                                onclick="new ListView('${name}').group_by('${grp_row.get('group_by_id')}', '${grp_row.get('group_id')}', '${group_by_no_leaf}', this);">
 	                            </td>
@@ -50,16 +65,16 @@ background = '#DEDEDE'
                                 <td class="grid-cell ${field_attrs.get('type', 'char')}"
                                     style="background-color: ${background};">
                                     % if field_attrs.get('type') == 'progressbar':
-                                        <span>${grouped[j][field].display()}</span>
+                                        ${grouped[j][field].display()}
                                     % else:
                                         % if grp_row.get(field):
                                             % if field_attrs.get('type') == 'many2one':
-                                                <span>${grp_row.get(field)[-1]}</span>
+                                                ${grp_row.get(field)[-1]}
                                             % else:
-                                                <span>${grp_row.get(field)}</span>    
+                                                ${grp_row.get(field)}
                                             % endif
                                         % else:
-                                            <span>&nbsp;</span>
+                                            <span style="color: #888;">${(i == 0) and "undefined" or "&nbsp;"|n}</span>
                                         % endif                                    
                                     % endif
                                 </td>
@@ -78,7 +93,7 @@ background = '#DEDEDE'
                     </tr>
 
                     % for ch in grp_row.get('child_rec'):
-                    <tr class="grid-row-group" id="grid-row ${grp_row.get('group_id')}" parent_grp_id="${grp_row.get('group_by_id')}" 
+                    <tr class="grid-row grid-row-group" id="${grp_row.get('group_id')}" parent_grp_id="${grp_row.get('group_by_id')}" 
                     	record="${ch.get('id')}" style="cursor: pointer; display: none;">
                         % if editable:
                             <td class="grid-cell">

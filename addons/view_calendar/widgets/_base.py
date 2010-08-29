@@ -10,7 +10,7 @@
 # It's based on Mozilla Public License Version (MPL) 1.1 with following
 # restrictions:
 #
-# -   All names, links and logos of Tiny, Open ERP and Axelor must be
+# -   All names, links and logos of Tiny, OpenERP and Axelor must be
 #     kept as in original distribution without any changes in all software
 #     screens, especially in start-up page and the software header, even if
 #     the application source code has been changed or updated or code has been
@@ -91,10 +91,10 @@ class TinyEvent(TinyWidget):
         self.title = title
         self.description = description
         self.color = color
-        self.create_date = record['create_date']
-        self.create_uid = record['create_uid']
-        self.write_uid = record['write_uid']
-        self.write_date = record['write_date']
+        self.create_date = record.get('create_date')
+        self.create_uid = record.get('create_uid')
+        self.write_uid = record.get('write_uid')
+        self.write_date = record.get('write_date')
 
 class ICalendar(TinyWidget):
     """ Base Calendar calss
@@ -373,15 +373,15 @@ class ICalendar(TinyWidget):
 
         title = title.strip()
         description = ', '.join(description).strip()
-        
-        event_log = rpc.session.execute('object', 'execute', self.model, 'perm_read', [event['id']])[0]
-        
-        event['create_date'] = event_log['create_date']
-        event['create_uid'] = event_log['create_uid'][1]
-        if isinstance(event_log['write_uid'], tuple):
-            event_log['write_uid'] = event_log['write_uid'][1]
-        event['write_uid'] = event_log['write_uid']
-        event['write_date'] = event_log['write_date']
+        if isinstance(event['id'], int):
+            event_log = rpc.session.execute('object', 'execute', self.model, 'perm_read', [event['id']])[0]
+            
+            event['create_date'] = event_log['create_date']
+            event['create_uid'] = event_log['create_uid'][1]
+            if isinstance(event_log['write_uid'], tuple):
+                event_log['write_uid'] = event_log['write_uid'][1]
+            event['write_uid'] = event_log['write_uid']
+            event['write_date'] = event_log['write_date']
         return TinyEvent(event, starts, ends, title, description, dayspan=span, color=(color or None) and color[-1])
 
 

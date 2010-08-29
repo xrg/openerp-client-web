@@ -10,7 +10,7 @@
 # It's based on Mozilla Public License Version (MPL) 1.1 with following
 # restrictions:
 #
-# -   All names, links and logos of Tiny, Open ERP and Axelor must be
+# -   All names, links and logos of Tiny, OpenERP and Axelor must be
 #     kept as in original distribution without any changes in all software
 #     screens, especially in start-up page and the software header, even if
 #     the application source code has been changed or updated or code has been
@@ -28,11 +28,10 @@
 ###############################################################################
 import cherrypy
 from openerp import widgets as tw, validators
-from openerp.controllers import SecuredController
 from openerp.utils import rpc, common, TinyDict
 
 from openerp.controllers.form import Form
-from openobject.tools import expose, redirect
+from openobject.tools import expose
 
 
 class State(Form):
@@ -49,22 +48,25 @@ class State(Form):
             params.load_counter = 2
         else:
             params.context = {'o2m_model': params.o2m_model}
-            
+
         proxy_field = rpc.RPCProxy('ir.model.fields')
         field_ids = proxy_field.search([('model', '=', params.o2m_model or params.context.get('o2m_model')), ('relation', '=', params.model)], 0, 0, 0, rpc.session.context)
-        state_field = proxy_field.read(field_ids, ['relation_field'], rpc.session.context)[0]['relation_field']
-        
-        params.hidden_fields = [tw.form.Hidden(name=state_field, default=params.o2m_id), 
-                                tw.form.Hidden(name='_terp_o2m_model', default=params.o2m_model)]
+        m2o_field = proxy_field.read(field_ids, ['relation_field'],
+                                     rpc.session.context)[0]['relation_field']
+
+        params.hidden_fields = [tw.form.Hidden(name=m2o_field,
+                                               default=params.o2m_id),
+                                tw.form.Hidden(name='_terp_o2m_model',
+                                               default=params.o2m_model)]
         form = self.create_form(params, tg_errors)
-        
-        field = form.screen.widget.get_widgets_by_name(state_field)
+
+        field = form.screen.widget.get_widgets_by_name(m2o_field)
         if field:
             field[0].set_value(params.o2m_id or False)
             field[0].readonly = True
 
         vals = getattr(cherrypy.request, 'terp_validators', {})
-        vals[state_field] = validators.Int()
+        vals[m2o_field] = validators.Int()
 
         hide = []
         tr_ids = proxy_field.search([('ttype', '=', 'one2many'), ('model', '=', params.model)], 0, 0, 0, rpc.session.context)
@@ -161,22 +163,37 @@ class Connector(Form):
         if params.id and cherrypy.request.path_info == self.path + '/view':
             params.load_counter = 2
 
-        params.hidden_fields = [tw.form.Hidden(name='act_from', default=params.start),
-                                tw.form.Hidden(name='act_to', default=params.end)]
+        proxy_field = rpc.RPCProxy('ir.model.fields')
+        field_ids = proxy_field.search([('ttype', '=', 'many2one'),
+                                        ('model', '=', params.model),
+                                        ('relation', '=', params.m2o_model)])
+        fields = map(lambda field: field['name'],
+                     proxy_field.read(field_ids, ['name'],
+                                      rpc.session.context))
+
+        connector = rpc.RPCProxy(params.model).read(params.id, fields,
+                                                    rpc.session.context)
+
+        params.hidden_fields = [tw.form.Hidden(name=fields[0],
+                                               default=connector[fields[0]]),
+                                tw.form.Hidden(name=fields[1],
+                                               default=connector[fields[1]]),
+                                tw.form.Hidden(name='_terp_m2o_model',
+                                               default=params.m2o_model),]
 
         form = self.create_form(params, tg_errors)
 
-        field_act_from = form.screen.widget.get_widgets_by_name('act_from')[0]
+        field_act_from = form.screen.widget.get_widgets_by_name(fields[0])[0]
         field_act_from.set_value(params.start or False)
         field_act_from.readonly = True
 
-        field_act_to = form.screen.widget.get_widgets_by_name('act_to')[0]
+        field_act_to = form.screen.widget.get_widgets_by_name(fields[1])[0]
         field_act_to.set_value(params.end or False)
         field_act_to.readonly = True
 
         vals = getattr(cherrypy.request, 'terp_validators', {})
-        vals['act_from'] = validators.Int()
-        vals['act_to'] = validators.Int()
+        vals[fields[0]] = validators.Int()
+        vals[fields[1]] = validators.Int()
 
         return dict(form=form, params=params)
 
@@ -207,11 +224,14 @@ class Connector(Form):
     @expose('json')
     def auto_create(self, conn_obj, src, des, act_from, act_to, **kw):
         conn_flds = eval(kw.get('conn_flds', '[]'))
-
         proxy_tr = rpc.RPCProxy(conn_obj)
         id = proxy_tr.create({src: act_from, des: act_to})
-        result = proxy_tr.read(id, [src, des] + conn_flds, rpc.session.context);
-        
+
+        if src not in conn_flds: conn_flds.append(src)
+        if des not in conn_flds: conn_flds.append(des)
+
+        result = proxy_tr.read(id, conn_flds, rpc.session.context)
+
         data = {
             'id': result['id'],
             's_id': result[src][0],
@@ -224,10 +244,10 @@ class Connector(Form):
         for fld in conn_flds:
             data['options'][fld.title()] = result[fld]
         
-        if id>0:
-            return dict(flag=True,data=data)
+        if id > 0:
+            return {'flag': True, 'data': data}
         else:
-            return dict(flag=False)
+            return {'flag': False}
 
     @expose('json')
     def get_info(self, conn_obj, id, **kw):
@@ -240,7 +260,7 @@ class Connector(Form):
     @expose('json')
     def change_ends(self, conn_obj, id, field, value):
         proxy_tr = rpc.RPCProxy(conn_obj)
-        id = proxy_tr.write([int(id)], {field: int(value)}, rpc.session.context)
+        proxy_tr.write([int(id)], {field: int(value)}, rpc.session.context)
         return dict()
 
 
@@ -258,16 +278,15 @@ class Workflow(Form):
         if not wkf:
             raise common.message(_('No workflow associated!'))
                 
-        d = {'_terp_view_type': 'diagram',
-            '_terp_model': 'workflow',
-            '_terp_ids': [wkf['id']],  
-            '_terp_editable': False, 
-            '_terp_id': wkf['id'],
-            '_terp_view_mode': ['tree', 'form', 'diagram']
-            }
-        
         params = TinyDict()
-        params.update(d)      
+        params.update(
+            _terp_view_type='diagram',
+            _terp_model='workflow',
+            _terp_ids=[wkf['id']],
+            _terp_editable=False,
+            _terp_id=wkf['id'],
+            _terp_view_mode=['tree', 'form', 'diagram']
+        )
         
         form = tw.form_view.ViewForm(params, name="view_form", action="")
         return dict(form=form, name=wkf['name'] ,workitems=result['workitems'].keys())
@@ -304,7 +323,7 @@ class Workflow(Form):
             y_max = (y and max(y)) or 120
         
         connectors = {}
-        list_tr = [];
+        list_tr = []
 
         for tr in transitions:
             list_tr.append(tr)
@@ -345,12 +364,12 @@ class Workflow(Form):
                 n.update({'x': 20, 'y': y_max})
                 nodes[act['id']] = n
                 
-            n.update({
-                      'id': act['id'],
-                      'color': 'white',
-                      'shape': 'ellipse',                    
-                      'options': {}
-                      })
+            n.update(
+                id=act['id'],
+                color='white',
+                shape='ellipse',
+                options={}
+            )
             
             for color, expr in bgcolors.items():
                 if eval(expr, act):

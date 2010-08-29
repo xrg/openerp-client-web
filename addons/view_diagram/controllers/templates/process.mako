@@ -2,6 +2,7 @@
 
 <%def name="header()">
     <title>${_("Process")}</title>
+
     <link type="text/css" rel="stylesheet" href="/view_diagram/static/css/process.css"/>
 
     <script src="/view_diagram/static/javascript/draw2d/wz_jsgraphics.js"></script>
@@ -25,31 +26,49 @@
             openLink(openobject.http.getURL("/view_diagram/process", {id: id, res_model: res_model, res_id: res_id, title: '${title}'}));
         }
     </script>
+    % else:
+    <script type="text/javascript">
+        jQuery(document).ready(function(evt){
+
+            var id = parseInt(openobject.dom.get('id').value, 10) || 0;
+            var res_model = openobject.dom.get('res_model').value;
+            var res_id = openobject.dom.get('res_id').value || 0;
+
+            if (id) {
+                var wkf = new openobject.process.Workflow('process_canvas');
+                wkf.load(id, res_model, res_id, '${title}');
+            }
+        });
+    </script>
     % endif
 </%def>
 
 <%def name="content()">
-
-<table class="view" width="100%" border="0" cellpadding="0" cellspacing="0">
+<table class="view process_table" width="100%" cellpadding="0" cellspacing="0">
 	<tr>
 	    <td>
-		    <table width="100%">
+		    <table width="100%" class="process_table">
 			    <tr>
 			        <td width="80%" valign="top">
-			            <table width="100%" class="titlebar">
+			            <table width="100%" class="titlebar process_table">
 			                <tr>
 			                    <td width="100%" id="process_title" align="left" style="font-size: 14px; font-weight: bold;">${title}</td>
+			                </tr>
+			                <tr>
+			                	<td>
+			                		<p><i>${help}</i></p>
+			                	</td>
 			                </tr>
 			            </table>
 			        </td>
 			    	<td width="20%" align="center" >
-				    	<table>
+				    	<table class="process_table">
 			    			<tr>
 			    				<td>
 									<div>
 										<a class="help-button-a" href="javascript: void(0)">
-											Buy a Support Contract
-											<small>By Chat / Mail / Phone</small>
+											${_("Buy a Support Contract %(by)s",
+											by="""<small>By Chat / Mail / Phone</small>""")|n}
 										</a>
 									</div>
 								</td>
@@ -58,8 +77,8 @@
 								<td>
 									<div>
 										<a class="help-button-a" href="javascript: void(0)">
-											Get Books
-											<small>Available in Amazon</small>
+											${_("Get Books %(available)s",
+											available="""<small>Available in Amazon</small>""")|n}
 										</a>
 									</div>
 								</td>
@@ -68,8 +87,8 @@
 								<td>
 									<div>
 										<a class="help-button-a" href="javascript: void(0)">
-											Community Forum
-											<small>Join Community Discussion</small>
+											${_("Community Forum %(community)s",
+											community="""<small>Join Community Discussion</small>""")|n}
 										</a>
 									</div>
 								</td>
@@ -82,11 +101,12 @@
     </tr>
 	<tr>
 		<td>
-			<table class="view" width="100%" border="0" cellpadding="0" cellspacing="0">
+			<table class="view process_table" width="100%" cellpadding="0" cellspacing="0">
 				<tr>
-					<td align="left" style="font-size: 14px; font-weight: bold;">Process</td>
+					<td align="left" style="font-size: 14px; font-weight: bold;">${_("Process")}: ${process_title}</td>
 				</tr>
 				<tr>
+					% if selection:
 					<td>
 					    <input type="hidden" id="res_model" value="${res_model}"/>
 					    <input type="hidden" id="res_id" value="${res_id}"/>
@@ -100,44 +120,28 @@
 					        <button class="button" type="button" onclick="select_workflow()">${_("Select")}</button>
 					    </fieldset>
 				    </td>
-			    </tr>
-		    </table>
-		</td>
-	</tr>
-	<tr>
-		<td>
-			<table class="view" width="100%" border="0" cellpadding="0" cellspacing="0">
-			    <tr>
-			        <td align="center">
+				    %else:
+				    <td align="center">
 			            <input type="hidden" id="id" value="${id}"/>
 			            <input type="hidden" id="res_model" value="${res_model}"/>
 			            <input type="hidden" id="res_id" value="${res_id}"/>
 			            <div id="process_canvas" style="margin-top: 00px"></div>
-			            <script type="text/javascript">
-			                var id = parseInt(openobject.dom.get('id').value, 10) || 0;
-			                var res_model = openobject.dom.get('res_model').value;
-			                var res_id = openobject.dom.get('res_id').value;
-
-			                if (id) {
-			                    var wkf = new openobject.process.Workflow('process_canvas');
-			                    wkf.load(id, res_model, res_id,'${title}');
-			                }
-			            </script>
 			        </td>
+				    % endif
 			    </tr>
-			</table>
+		    </table>
 		</td>
 	</tr>
 	% if fields:
     <tr>
     	<td>
-    		<table>
+    		<table class="process_table">
     			<tr>
-    				<td align="left" style="font-size: 14px; font-weight: bold;">Fields</td>
+    				<td align="left" style="font-size: 14px; font-weight: bold;">${_("Fields")}</td>
     			</tr>
     			<tr>
     				<td align="left">
-			            <table>
+			            <table class="process_table">
 						% for k, v in fields.items():
 							<tr>
 								<td valign="top">
@@ -165,7 +169,7 @@
     % endif
     <tr>
        <td class="dimmed-text">
-           <table class="form-footer">
+           <table class="form-footer process_table">
                 <tr>
 	                <td class="footer" style="text-align: right;">
 	                    <a target="_blank" id="show_customize_menu" href="${py.url('/openerp/form/edit', model='process.process', id=id)}">${_("Customise")}</a><br/>

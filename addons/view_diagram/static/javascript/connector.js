@@ -10,7 +10,7 @@
 // It's based on Mozilla Public License Version (MPL) 1.1 with following 
 // restrictions:
 //
-// -   All names, links and logos of Tiny, Open ERP and Axelor must be 
+// -   All names, links and logos of Tiny, OpenERP and Axelor must be 
 //     kept as in original distribution without any changes in all software 
 //     screens, especially in start-up page and the software header, even if 
 //     the application source code has been changed or updated or code has been 
@@ -99,11 +99,11 @@ openobject.workflow.Connector.prototype.onmouseOut = function(event) {
 };
 
 openobject.workflow.Connector.prototype.edit = function() {
-	
     params = {
         '_terp_model' : WORKFLOW.connector_obj,//'workflow.transition',
         '_terp_start' : this.getSource().getParent().get_act_id(),
-        '_terp_end' : this.getTarget().getParent().get_act_id()
+        '_terp_end' : this.getTarget().getParent().get_act_id(),
+        '_terp_m2o_model': WORKFLOW.node_obj
     };
 	
     if (!isUndefinedOrNull(this.tr_id))

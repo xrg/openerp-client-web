@@ -28,6 +28,7 @@
     padding: 0;
     width: 24px;
     cursor: pointer;
+    display: inline; /*IE7 */
     display: inline-block;
 }
 
@@ -68,7 +69,9 @@
 }
 
 #shortcuts li {
+    display: -moz-inline-stack;    
     display: inline-block;
+    display: inline; /*IE7 */
     list-style: none;
     color: #fff;
     text-align: center;
@@ -82,15 +85,17 @@
 }
 
 #shortcuts a {
+    display: inline; /*IE7 */
     display: inline-block;
     padding: 0;
     margin: 0;
 }
 
 #shortcuts a span {
+    display: inline; /*IE7 */
     display: inline-block;
     line-height: 18px;
-    padding: 0 6px;
+    padding: 0 2px;
 }
 
 /* scrollers */

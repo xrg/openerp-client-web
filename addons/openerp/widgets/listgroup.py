@@ -10,7 +10,7 @@
 # It's based on Mozilla Public License Version (MPL) 1.1 with following
 # restrictions:
 #
-# -   All names, links and logos of Tiny, Open ERP and Axelor must be
+# -   All names, links and logos of Tiny, OpenERP and Axelor must be
 #     kept as in original distribution without any changes in all software
 #     screens, especially in start-up page and the software header, even if
 #     the application source code has been changed or updated or code has been
@@ -31,6 +31,7 @@ import cherrypy
 
 from openerp.utils import rpc
 from openerp.widgets import get_widget
+from openobject.i18n import format
 
 from listgrid import List, CELLTYPES
 
@@ -64,7 +65,7 @@ def parse(group_by, hiddens, headers, group_level, groups):
     
     return group_by, hiddens, headers
 
-def parse_groups(group_by, grp_records, headers, ids, model,  offset, limit, context, data):
+def parse_groups(group_by, grp_records, headers, ids, model,  offset, limit, context, data, total_fields, fields):
     proxy = rpc.RPCProxy(model)
     grouped = []
     grp_ids = []
@@ -78,13 +79,32 @@ def parse_groups(group_by, grp_records, headers, ids, model,  offset, limit, con
         grouped.append(inner)
         
     child = len(group_by) == 1
+    digits = (16,2)
+    if fields:
+        for key, val in fields.items():
+            if val.get('digits'):
+                digits = val['digits']
+    if isinstance(digits, basestring):
+            digits = eval(digits)
+    integer, digit = digits
     
+    if grp_records and total_fields:
+        for sum_key, sum_val in total_fields.items():
+            if grp_records[0].has_key(sum_key):
+                value = sum(map(lambda x: x[sum_key], grp_records))
+                if isinstance(value, float):
+                    total_fields[sum_key][1] = format.format_decimal(value or 0.0, digit)
+                else:    
+                    total_fields[sum_key][1] = value
     if grp_records:
         for rec in grp_records:
+            for key, val in rec.items():
+                if isinstance(val, float):
+                    rec[key] = format.format_decimal(val or 0.0, digit)
+                
             for grp_by in group_by:
                 if not rec.get(grp_by):
                     rec[grp_by] = ''
-
             
             ch_ids = []
             if child:
@@ -132,7 +152,7 @@ class ListGroup(List):
             self.domain.extend(i for i in custom_filter_domain if i not in domain)
         
         
-        if ids == None:
+        if ids is None:
             if self.limit > 0:
                 ids = proxy.search(self.domain, self.offset, self.limit, 0, self.context)
             else:
@@ -156,7 +176,6 @@ class ListGroup(List):
             self.group_by_ctx = [self.group_by_ctx]
             
         fields = view['fields']
-
         self.grp_records = []
         group_field = None
         
@@ -178,12 +197,14 @@ class ListGroup(List):
         self.grp_records = proxy.read_group(self.context.get('__domain', []) + (self.domain or []),
                                                 fields.keys(), self.group_by_ctx, 0, False, self.context)   
         
+        
         for grp_rec in self.grp_records:
             if not grp_rec.get('__domain'):
                 grp_rec['__domain'] = self.context.get('__domain', []) + (self.domain or [])
             if not grp_rec.get('__context'):
                 grp_rec['__context'] = {'group_by': self.group_by_ctx}
-        self.grouped, grp_ids = parse_groups(self.group_by_ctx, self.grp_records, self.headers, self.ids, model,  self.offset, self.limit, self.context, self.data)
+        
+        self.grouped, grp_ids = parse_groups(self.group_by_ctx, self.grp_records, self.headers, self.ids, model,  self.offset, self.limit, self.context, self.data, self.field_total, fields)
                 
 class MultipleGroup(List):
     
@@ -231,7 +252,7 @@ class MultipleGroup(List):
             self.group_by_ctx = [self.group_by_ctx]
 
         fields = view['fields']
-
+        
         self.grp_records = []
         group_field = None
         super(MultipleGroup, self).__init__(
@@ -246,6 +267,5 @@ class MultipleGroup(List):
                                          
         self.grp_records = proxy.read_group(self.context.get('__domain', []),
                                                 fields.keys(), self.group_by_ctx, 0, False, self.context)   
-
-        self.grouped, grp_ids = parse_groups(self.group_by_ctx, self.grp_records, self.headers, self.ids, model,  self.offset, self.limit, rpc.session.context.copy(), self.data)                            
-                
+        
+        self.grouped, grp_ids = parse_groups(self.group_by_ctx, self.grp_records, self.headers, self.ids, model,  self.offset, self.limit, rpc.session.context.copy(), self.data, self.field_total, fields)                            

@@ -10,7 +10,7 @@
 // It's based on Mozilla Public License Version (MPL) 1.1 with following
 // restrictions:
 //
-// -   All names, links and logos of Tiny, Open ERP and Axelor must be
+// -   All names, links and logos of Tiny, OpenERP and Axelor must be
 //     kept as in original distribution without any changes in all software
 //     screens, especially in start-up page and the software header, even if
 //     the application source code has been changed or updated or code has been
@@ -28,7 +28,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 var ListView = function(name) {
-    var elem = jQuery('#'+name).get()
+    var elem = jQuery('#'+name).get();
     
     if (elem.__listview) {
         return elem.__listview;
@@ -54,7 +54,8 @@ ListView.prototype = {
 
         this.view_ids = jQuery('[id*="'+prefix + '_terp_view_ids'+'"]').get() ? jQuery('[id*="'+prefix + '_terp_view_ids'+'"]').val() : null;
         this.view_mode = jQuery('[id*="'+prefix + '_terp_view_mode'+'"]').get() ? jQuery('[id*="'+prefix + '_terp_view_mode'+'"]').val() : null;
-
+		this.view_type = jQuery('[id*="'+prefix + '_terp_view_type'+'"]').get() ? jQuery('[id*="'+prefix + '_terp_view_type'+'"]').val() : null;
+		
         // if o2m
         
         this.m2m = jQuery('[id*="'+ name + '_set' + '"]');
@@ -98,7 +99,7 @@ ListView.prototype = {
 		    	});
 	    	 
 		    	var selected_fields = sum_fields.join(",");
-		    	var selected_ids = '[' + selected_ids.join(',') + ']';
+		    	selected_ids = '[' + selected_ids.join(',') + ']';
 		    	if(selected_ids == '[]') {
 		    		if(this.ids) {
 		    		 selected_ids =this.ids;
@@ -131,7 +132,15 @@ ListView.prototype = {
 
     getSelectedRecords: function() {
         return map(function(box) {
-            return box.value;
+        	var box_val;
+        	if(box.value) {
+        		box_val = box.value
+        	}
+        	else {
+        		box_id = box.id.split('/')
+        		box_val = box_id[box_id.length-1]
+        	}
+            return box_val;
         }, this.getSelectedItems());
     },
 
@@ -141,7 +150,7 @@ ListView.prototype = {
         }, openobject.dom.select('input.grid-record-selector', this.name));
     },
 
-    onBooleanClicked: function(clear, value) {
+    onBooleanClicked: function() {
         var selected_ids = this.getSelectedRecords();
         
         if (selected_ids.length <= 1) {
@@ -155,7 +164,7 @@ ListView.prototype = {
             }
         }
         
-       	this.selectedRow_sum();     
+       	this.selectedRow_sum(); 
     },
 
     getColumns: function(dom) {
@@ -182,7 +191,7 @@ ListView.prototype = {
             var pattern = prefix + '_terp_';
 
             forEach(items, function(item) {
-                if (item.name.match("^" + pattern) == pattern && !item.name.match('^_terp_listfields/')) {
+                if (item.name.match("^" + pattern) == pattern && !item.name.match(/^_terp_listfields\//)) {
                     args[item.name] = item.value;
                 }
             });
@@ -219,12 +228,12 @@ MochiKit.Base.update(ListView.prototype, {
     },
 
     getEditors: function(named, dom) {
-        var dom = dom ? dom : this.name;
+        dom = dom ? dom : this.name;
 
         var editors = openobject.dom.select("input, select, textarea", dom);
 
         return filter(function(e) {
-            name = named ? e.name : e.id;
+            var name = named ? e.name : e.id;
             return name && name.indexOf('_terp_listfields') == 0;
         }, editors);
     }
@@ -234,26 +243,28 @@ MochiKit.Base.update(ListView.prototype, {
 // pagination & reordering
 MochiKit.Base.update(ListView.prototype, {
 	
-    sort_by_order: function(column) {
+    sort_by_order: function(column, field) {
         var self = this;
-        
-        if(this.sort_key == column) {
-        	if(this.sort_key_order == 'asc') {
-        		order = 'desc';
+        if(self.name == '_terp_list') {
+        	var offset = jQuery('#_terp_offset').val();
+        	var limit = jQuery('#_terp_limit').val()
+        }
+        else {
+        	var offset = jQuery('[id="'+self.name+'/_terp_offset'+'"]').val()
+        	var limit = jQuery('[id="'+self.name+'/_terp_limit'+'"]').val()
+        }
+        if(jQuery(field).find('img').length) {
+        	var $field = jQuery(field).find('img');
+        	if($field.attr('id') == 'asc') {
+	        	this.sort_key_order = 'desc';
         	}
         	else {
-        		order = 'asc';
+        		this.sort_key_order = 'asc';
         	}
-        }	
-    	else {
-    		this.sort_key_order = null;
-    		if(this.sort_key_order == 'asc') {
-        		order = 'desc';
-        	}
-        	else {
-        		order = 'asc';
-        	}
-    	}
+        }
+        else {
+        	this.sort_key_order = 'asc';
+        }
         
         if(jQuery('input[id$="' + this.name + '/_terp_ids'+'"]').get().length > 0) {
         	ids = jQuery('input[id$="' + this.name + '/_terp_ids' + '"]').val();
@@ -273,7 +284,7 @@ MochiKit.Base.update(ListView.prototype, {
         if(eval(ids).length > 0) {
         	jQuery.post(
     			'/openerp/listgrid/sort_by_order',
-    			{'model': this.model, 'column': column, 'domain': domain, 'search_domain': search_domain, 'filter_domain': filter_domain, 'order': order},
+    			{'model': this.model, 'column': column, 'domain': domain, 'search_domain': search_domain, 'filter_domain': filter_domain, 'order': this.sort_key_order, 'offset': offset, 'limit': limit},
     			function(obj) {
     				if(obj.error) {
     					alert('error' + obj.error)
@@ -289,7 +300,6 @@ MochiKit.Base.update(ListView.prototype, {
     			"json"
         	);
         	this.sort_key = column;
-        	this.sort_key_order = order;
         }
     },
 
@@ -300,7 +310,7 @@ MochiKit.Base.update(ListView.prototype, {
         var total_groups = jQuery('#' + this.name).attr('groups');
         
         if (group_by_context == '[]') {
-            jQuery('[parent_grp_id="' + id + '"][id$="' + record + '"]').toggle();
+            jQuery('#' + record + '[parent_grp_id="' + id + '"]').toggle();
         } else {
             if (jQuery(group).hasClass('group-expand')) {
                 jQuery.ajax({
@@ -492,20 +502,13 @@ MochiKit.Base.update(ListView.prototype, {
         if (btype == "open") {
             return window.open(get_form_action('/openerp/form/edit', {
                 id: id,
-//                ids: $('[id*="'+prefix + '_terp_ids'+'"]').val(),
                 ids: openobject.dom.get(prefix + '_terp_ids').value,
                 model: openobject.dom.get(prefix + '_terp_model').value,
-//                model: $('[id*="'+prefix + '_terp_model'+'"]').val(),
                 view_ids: openobject.dom.get(prefix + '_terp_view_ids').value,
-//                view_ids: $('[id*="'+prefix + '_terp_view_ids'+'"]').val(),
                 domain: openobject.dom.get(prefix + '_terp_domain').value,
-//                domain: $('[id*="'+prefix + '_terp_domain'+'"]').val(),
                 context: openobject.dom.get(prefix + '_terp_context').value,
-//                context: $('[id*="'+prefix + '_terp_context'+'"]').val(),
                 limit: openobject.dom.get(prefix + '_terp_limit').value,
-//                limit: $('[id*="'+prefix + '_terp_limit'+'"]').val(),
                 offset: openobject.dom.get(prefix + '_terp_offset').value,
-//                offset: $('[id*="'+prefix + '_terp_offset'+'"]').val(),
                 count: openobject.dom.get(prefix + '_terp_count').value}));
         }
 
@@ -518,7 +521,7 @@ MochiKit.Base.update(ListView.prototype, {
             _terp_button_type : btype
         };
 
-        var req = eval_domain_context_request({source: this.name, context : context || '{}'});
+        var req = eval_domain_context_request({source: this.name, context : context || '{}',active_id: id, active_ids: openobject.dom.get(prefix + '_terp_ids').value});
         req.addCallback(function(res) {
             params['_terp_context'] = res.context;
             var req = openobject.http.postJSON('/openerp/listgrid/button_action', params);
@@ -529,6 +532,19 @@ MochiKit.Base.update(ListView.prototype, {
 
                 if (obj.result && obj.result.url) {
                     window.open(obj.result.url);
+                }
+                
+                if(obj.res) {
+                	var popup_win = openobject.tools.openWindow("");
+                	if(window.browser.isGecko) {
+                		popup_win.document.write(obj.res);
+                		popup_win.document.close();
+                	}
+                	else {
+            			popup_win.document.close();
+            			popup_win.document.write(obj.res);
+                	}
+                	return false;
                 }
                 
                 if(obj.wiz_result){
@@ -631,7 +647,7 @@ MochiKit.Base.update(ListView.prototype, {
 
 
         if (!ids) {
-            var ids = this.getSelectedRecords();
+            ids = this.getSelectedRecords();
             if (ids.length > 0) {
                 ids = '[' + ids.join(', ') + ']';
             }
@@ -696,35 +712,38 @@ MochiKit.Base.update(ListView.prototype, {
     },
 
     reload: function(edit_inline, concurrency_info, default_get_ctx, clear) {
-
         if (openobject.http.AJAX_COUNT > 0) {
             return callLater(1, bind(this.reload, this), edit_inline, concurrency_info);
         }
 
         var self = this;
-        var args = this.makeArgs();
         
         var current_id = edit_inline ? (parseInt(edit_inline) || 0) : edit_inline;
-        
-        // add args
-        args['_terp_source'] = this.name;
-        args['_terp_edit_inline'] = edit_inline;
-        args['_terp_source_default_get'] = default_get_ctx;
-        args['_terp_concurrency_info'] = concurrency_info;
-        args['_terp_editable'] = openobject.dom.get('_terp_editable').value;
-        args['_terp_group_by_ctx'] = openobject.dom.get('_terp_group_by_ctx').value;
-        
+
+        var args = jQuery.extend(this.makeArgs(), {
+            _terp_source: this.name,
+            _terp_edit_inline: edit_inline,
+            _terp_source_default_get: default_get_ctx,
+            _terp_concurrency_info: concurrency_info,
+            _terp_editable: openobject.dom.get('_terp_editable').value,
+            _terp_group_by_ctx: openobject.dom.get('_terp_group_by_ctx').value
+        });
+
         if (this.name == '_terp_list') {
-            args['_terp_search_domain'] = openobject.dom.get('_terp_search_domain').value;
-            args['_terp_search_data'] = openobject.dom.get('_terp_search_data').value;
-            args['_terp_filter_domain'] = openobject.dom.get('_terp_filter_domain').value;
+            jQuery.extend(args, {
+                _terp_search_domain: openobject.dom.get('_terp_search_domain').value,
+                _terp_search_data: openobject.dom.get('_terp_search_data').value,
+                _terp_filter_domain: openobject.dom.get('_terp_filter_domain').value
+            });
         }
-        
+	
         if(this.sort_key) {
-        	args['_terp_sort_key'] = this.sort_key;
-        	args['_terp_sort_order'] = this.sort_key_order;
-        	args['_terp_sort_model'] = self.model;
-        	args['_terp_sort_domain'] = this.sort_domain;
+            jQuery.extend(args, {
+                _terp_sort_key: this.sort_key,
+                _terp_sort_order: this.sort_key_order,
+                _terp_sort_model: self.model,
+                _terp_sort_domain: this.sort_domain
+            });
         	if(self.name !='_terp_list') {
         		args['_terp_o2m'] = self.name;
         	}
@@ -733,14 +752,14 @@ MochiKit.Base.update(ListView.prototype, {
         if(clear) {
         	args['_terp_clear'] = true;
         }
-        
+        jQuery('#'+self.name).find('.loading-list').show();
         jQuery.ajax({
             url: '/openerp/listgrid/get', 
             data: args,
             dataType: 'json',
             type: 'POST',
+            complete: function() {adjustTopWidth();},
             success: function(obj) {
-            
                 var _terp_id = openobject.dom.get(self.name + '/_terp_id') || openobject.dom.get('_terp_id');
                 var _terp_ids = openobject.dom.get(self.name + '/_terp_ids') || openobject.dom.get('_terp_ids');
                 var _terp_count = openobject.dom.get(self.name + '/_terp_count') || openobject.dom.get('_terp_count');
@@ -760,18 +779,26 @@ MochiKit.Base.update(ListView.prototype, {
                 } else {
                 	jQuery('#clear_all_filters').addClass('inactive_clear');
                 }
-                
                 self.current_record = edit_inline;
-		        var __listview = openobject.dom.get(self.name).__listview;
-		        
+		        if(obj.logs) {
+		        	jQuery('div#server_logs').replaceWith(obj.logs)
+		        }
                 if(clear) {
                     jQuery('#view_form').replaceWith(obj.view);
                     initialize_search();
                 } else {
-                    jQuery('#' + self.name).parent().replaceWith(obj.view);
+                	if(self.view_type == 'graph') {
+                		jQuery('div.graph-block').replaceWith(obj.view);
+		                return;
+                	}
+                	
+                	else {
+                		var __listview = openobject.dom.get(self.name).__listview;
+                    	jQuery('[id="'+self.name+'"]').parent().replaceWith(obj.view);
+                	}
                 }
                 
-                var newlist = jQuery('#' + self.name);
+                var newlist = jQuery('[id="'+self.name+'"]');
     
                 var editors = self.adjustEditors(newlist.get(0));
                 if (editors.length > 0) {
@@ -801,32 +828,31 @@ MochiKit.Base.update(ListView.prototype, {
 
                 // call on_change for default values
                 if (editors.length && edit_inline == -1) {
-                    forEach(editors, function(e) {
-                        if (e.value && getNodeAttribute(e, 'callback')) {
-                            MochiKit.Signal.signal(e, 'onchange');
+                    jQuery(editors).each(function () {
+                        var $this = jQuery(this);
+                        if ($this.val() && $this.attr('callback')) {
+                            MochiKit.Signal.signal(this, 'onchange');
                         }
                     });
                 }
 
                 MochiKit.Signal.signal(__listview, 'onreload');
-                
+
                 if(self.sort_key != null) {
-                	if(self.name !='_terp_list') {
-                		var th = jQuery('th[id= grid-data-column/' + self.name + '/' + self.sort_key + ']').get();
-                	}	
-                	else {
-                		var th = jQuery('th[id= grid-data-column/' + self.sort_key + ']').get();
-                	}	
-                		
-                	var detail = jQuery(th).html();
-                	
-				    if(self.sort_key_order == 'asc') {
-					    jQuery(th).html(detail + '&nbsp; <img src="/openerp/static/images/listgrid/arrow_down.gif" style="vertical-align: middle;"/>');
-				    }
-				    else { 
-					    jQuery(th).html(detail + '&nbsp; <img src="/openerp/static/images/listgrid/arrow_up.gif" style="vertical-align: middle;"/>');
-				    }		
-			    }
+                    if(self.name != '_terp_list') {
+                        var th = jQuery('th[id= grid-data-column/' + self.name + '/' + self.sort_key + ']').get();
+                    }
+                    else {
+                        var th = jQuery('th[id= grid-data-column/' + self.sort_key + ']').get();
+                    }
+                    
+                    var detail = jQuery(th).html();
+                    if(self.sort_key_order == 'asc') {
+                        jQuery(th).html(detail + '&nbsp; <img src="/openerp/static/images/listgrid/arrow_down.gif" id="asc" style="vertical-align: middle;"/>');
+                    } else {
+                        jQuery(th).html(detail + '&nbsp; <img src="/openerp/static/images/listgrid/arrow_up.gif" id="desc" style="vertical-align: middle;"/>');
+                    }
+                }
             }
         });
     }
@@ -845,20 +871,22 @@ MochiKit.Base.update(ListView.prototype, {
 
         ids = '[' + ids.join(',') + ']';
 
-        openobject.tools.openWindow(openobject.http.getURL('/openerp/impex/exp', {_terp_model: this.model,
+        openobject.tools.openWindow(openobject.http.getURL('/openerp/impex/exp', {
+            _terp_model: this.model,
             _terp_source: this.name,
             _terp_context: $('_terp_context').value,
             _terp_search_domain: openobject.dom.get('_terp_search_domain').value,
             _terp_ids: ids,
             _terp_view_ids : this.view_ids,
-            _terp_view_mode : this.view_mode}));
+            _terp_view_mode : this.view_mode}),{width: 700, height: 610});
     },
 
     importData: function() {
-        openobject.tools.openWindow(openobject.http.getURL('/openerp/impex/imp', {_terp_model: this.model,
+        openobject.tools.openWindow(openobject.http.getURL('/openerp/impex/imp', {
+            _terp_model: this.model,
             _terp_context: $('_terp_context').value,
             _terp_source: this.name,
             _terp_view_ids : this.view_ids,
-            _terp_view_mode : this.view_mode}));
+            _terp_view_mode : this.view_mode}),{width: 700, height: 500});
     }
 });

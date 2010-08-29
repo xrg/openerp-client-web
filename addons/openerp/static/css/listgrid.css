@@ -9,14 +9,15 @@
 
 .grid-row {
     background-color: white;
-    cursor: pointer;
 }
 
 .grid-row-odd {
 	background: white;
+    cursor: pointer;
 }
 .grid-row-even {
 	background: #F3F3F3;
+    cursor: pointer;
 }
 
 .grid-row:hover {

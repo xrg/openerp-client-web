@@ -14,7 +14,7 @@
             <td valign="top">
                 <table width="100%" class="titlebar">
                     <tr>
-                        <td nowrap="nowrap"><h1>Web Modules</h1></td>
+                        <td nowrap="nowrap"><h1>${_("Web Modules")}</h1></td>
                      <tr>
                  </table>
              </td>

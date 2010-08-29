@@ -67,7 +67,7 @@ div.notebook-tabs-wrap-scrollable {
 ul.notebook-tabs-strip {
     display: block;
     float: left;
-    width: 5000px;
+    /*width: 5000px;*/
     background: transparent;
     padding: 0;
     margin: 0;

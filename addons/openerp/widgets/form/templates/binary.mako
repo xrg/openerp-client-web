@@ -15,7 +15,7 @@
         % if text:
         <a class="button-a" href="javascript: void(0)" onclick="save_binary_data('${name}', '${filename}')">${_("Save As")}</a>
         % endif
-        % if editable:
+        % if editable and not readonly:
         <a class="button-a" href="javascript: void(0)" onclick="add_binary('${name}')">${_("add attachment")}</a>
         % endif
     </div>

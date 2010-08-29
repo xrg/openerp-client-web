@@ -58,12 +58,18 @@ def url_plus(_cppath, _cpparams=None, **kw):
 
 
 def redirect(_cppath, _cpparams=None, **kw):
+    if isinstance(_cppath, unicode):
+        _cppath = _cppath.encode('utf-8')
     return cherrypy.HTTPRedirect(url(_cppath, _cpparams, **kw))
 
 
-def config(key, section, default=None):
+def config(key, section='global', default=None):
     """A handy function to access config values.
     """
+    
+    if section == 'global':
+        return cherrypy.config.get(key)
+    
     return cherrypy.request.app.config.get(section, {}).get(key, default)
 
 

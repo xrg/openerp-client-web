@@ -18,12 +18,13 @@
         jQuery(document).ready(function() {
             var total_width = 0;
             jQuery('ul.sc_menu li').each(function() {
-                total_width = parseFloat(total_width) + parseFloat(jQuery(this).css('width').split('px')[0]);
+                total_width = parseFloat(total_width) + parseFloat(jQuery('ul.sc_menu li').width());
             });
-            
             if(jQuery('div.sc_menu').width() > total_width) {
                 jQuery('a.scroll_right').css('display', 'none');
             }
+            
+            setTimeout("adjustTopWidth()", 100);
         });
 
         jQuery(document).ready(function () {
@@ -33,6 +34,7 @@
             }
 
             jQuery('.open-close-menu').click(function() {
+            	setTimeout("adjustTopWidth()", 0);
                 jQuery('#content').toggleClass('hide-menu');
                 jQuery(window).trigger('on-appcontent-resize');
             });
@@ -89,12 +91,28 @@
                     </script>
                 </div>
             </div>
-            <div class="open-close-menu hide_tools"></div>
+            <div id="toggle_accordion" class="open-close-menu hide_tools"></div>
             <div id="primary">
                 <div class="wrap">
                     <div id="appContent"></div>
                 </div>
             </div>
+        </div>
+        <div id="footer_section">
+		   		% if cp.config('server.environment') == 'development':
+		            <div class="footer-a">
+		            	<p class="one">
+		                    <span>${rpc.session.protocol}://${_("%(user)s", user=rpc.session.loginname)}@${rpc.session.host}:${rpc.session.port}</span>
+		                </p>
+		                <p class="powered">${_("Powered by %(openerp)s ",
+		                					openerp="""<a href="http://www.openerp.com/">openerp.com</a>""")|n}</p>
+		            </div>
+		        % else:
+		        	<div class="footer-b">
+		                <p class="powered">${_("Powered by %(openerp)s ",
+		                					openerp="""<a href="http://www.openerp.com/">openerp.com</a>""")|n}</p>
+		            </div>
+		        % endif
         </div>
     </div>
 </%def>

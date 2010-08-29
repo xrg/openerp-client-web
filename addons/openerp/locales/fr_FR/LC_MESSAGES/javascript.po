@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2009-11-18 17:42+0530\n"
-"PO-Revision-Date: 2009-11-18 17:43+0530\n"
+"PO-Revision-Date: 2010-08-02 17:53+0530\n"
 "Last-Translator: Amit Mendapara <mendapara.amit@gmail.com>\n"
 "Language-Team: fr_FR <LL@li.org>\n"
 "Plural-Forms: nplurals=2; plural=(n > 1)\n"
@@ -17,32 +17,29 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel None\n"
 
-#: static/javascript/ajax_stat.js:63
-#: static/javascript/treegrid.js:102
+#: static/javascript/ajax_stat.js:63 static/javascript/treegrid.js:124
 msgid "Loading..."
 msgstr "Chargement..."
 
-#: static/javascript/form.js:107
+#: static/javascript/form.js:98
 #, python-format
 msgid "You selected to open %(tabs)s tabs - do you want to continue?"
 msgstr ""
 
-#: static/javascript/form.js:242
+#: static/javascript/form.js:232
 msgid "Invalid form, correct red fields !"
 msgstr ""
 
-#: static/javascript/form.js:254
-#: static/tinycalendar/javascript/calendar_box.js:158
+#: static/javascript/form.js:245
 msgid "Do you really want to delete this record?"
 msgstr "Voulez-vous vraiment supprimer cet enregistrement?"
 
-#: static/javascript/form.js:898
-#: static/javascript/listgrid.js:422
-#: static/javascript/treeview.js:63
+#: static/javascript/form.js:896 static/javascript/form.js:1024
+#: static/javascript/listgrid.js:641 static/javascript/treeview.js:58
 msgid "You must select at least one record."
 msgstr "Vous devez sélectionner au moins un enregistrement."
 
-#: static/javascript/listgrid.js:424
+#: static/javascript/listgrid.js:643
 msgid "Do you really want to delete selected record(s) ?"
 msgstr "Voulez-vous vraiment supprimer le(s) enregistrement(s) sélectionné(s)?"
 
@@ -54,59 +51,45 @@ msgstr "Voulez-vous vraiment supprimer ce nœud?"
 msgid "Do you really wants to create an inherited view here?"
 msgstr "Voulez-vous vraiment créer une vue héritée ici ?"
 
-#: static/javascript/openobject/openobject.ui.waitbox.js:53
-msgid "Please wait..."
-msgstr "Veuillez patienter..."
+#~ msgid "Please wait..."
+#~ msgstr "Veuillez patienter..."
 
-#: static/javascript/openobject/openobject.ui.waitbox.js:54
-msgid "This operation may take a while..."
-msgstr "Cette opération peut prendre un certain temps..."
+#~ msgid "This operation may take a while..."
+#~ msgstr "Cette opération peut prendre un certain temps..."
 
-#: static/tinycalendar/javascript/calendar_box.js:48
-msgid "Cancel"
-msgstr "Annuler"
+#~ msgid "Cancel"
+#~ msgstr "Annuler"
 
-#: static/tinycalendar/javascript/calendar_box.js:49
-msgid "Edit"
-msgstr "Modifier"
+#~ msgid "Edit"
+#~ msgstr "Modifier"
 
-#: static/tinycalendar/javascript/calendar_box.js:50
-msgid "Duplicate"
-msgstr "Dupliquer"
+#~ msgid "Duplicate"
+#~ msgstr "Dupliquer"
 
-#: static/tinycalendar/javascript/calendar_box.js:51
-msgid "Delete"
-msgstr "Supprimer"
+#~ msgid "Delete"
+#~ msgstr "Supprimer"
 
-#: static/workflow/javascript/process.js:190
-msgid "Notes:"
-msgstr "Remarques :"
+#~ msgid "Notes:"
+#~ msgstr "Remarques :"
 
-#: static/workflow/javascript/process.js:198
-msgid "Subflows:"
-msgstr "Sous-processus"
+#~ msgid "Subflows:"
+#~ msgstr "Sous-processus"
 
-#: static/workflow/javascript/process.js:202
-msgid "Related:"
-msgstr "Associé :"
+#~ msgid "Related:"
+#~ msgstr "Associé :"
 
-#: static/workflow/javascript/process.js:287
-msgid "Help"
-msgstr "Aide"
+#~ msgid "Help"
+#~ msgstr "Aide"
 
-#: static/workflow/javascript/process.js:291
-msgid "Open"
-msgstr "Ouvrir"
+#~ msgid "Open"
+#~ msgstr "Ouvrir"
 
-#: static/workflow/javascript/process.js:292
-msgid "Print"
-msgstr "Imprimer"
+#~ msgid "Print"
+#~ msgstr "Imprimer"
 
-#: static/workflow/javascript/process.js:299
-msgid "Print workflow"
-msgstr "Imprimer le workflow"
+#~ msgid "Print workflow"
+#~ msgstr "Imprimer le workflow"
 
-#: static/workflow/javascript/process.js:305
-msgid "Documents"
-msgstr "Documents"
+#~ msgid "Documents"
+#~ msgstr "Documents"
 

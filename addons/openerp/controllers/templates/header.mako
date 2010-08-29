@@ -6,7 +6,7 @@ try:
     REQUESTS = cp.request.pool.get_controller("/openerp/requests")
 
     shortcuts = SHORTCUTS.my()
-    requests, requests_message, total_mess = REQUESTS.my()
+    requests, total_request = REQUESTS.my()
 except:
     ROOT = None
 
@@ -18,7 +18,7 @@ except:
 <script type="text/javascript">
     function setRowWidth() {
         var topWidth = jQuery('div#top').width();
-        var logoWidth = jQuery('p#logo').outerWidth();
+        var logoWidth = jQuery('p#cmp_logo').outerWidth();
 
         var shortcuts = jQuery('#shortcuts');
         var offset = shortcuts.outerWidth() - shortcuts.width();
@@ -36,14 +36,14 @@ except:
         logged = False
 %>
 <div id="top">
-    <p id="logo">
+    <p id="cmp_logo">
         <a href="http://www.openerp.com" target="_blank">
             <img alt="OpenERP" id="company_logo" src="/openerp/static/images/openerp_small.png"/>
         </a>
     </p>
     % if logged:
         <h1 id="title-menu">
-           ${_("%(company_id)s", company_id=rpc.session.company_id or '')}
+           ${_("%(company_id)s", company_id=rpc.session.company_id or '')} (${rpc.session.db})
            <small>${_("%(user)s", user=rpc.session.user_name)}</small>
         </h1>
     % endif
@@ -55,39 +55,39 @@ except:
     % if logged:
 	    <div id="corner">
 	        <ul class="tools">
-	            <li><a href="${py.url('/openerp/home')}" class="home">Home</a>
+	            <li><a href="${py.url('/openerp/home')}" class="home">${_("Home")}</a>
 	                <ul>
-	                    <li class="first last"><a href="javascript: void(0);">Home</a></li>
+	                    <li class="first last"><a href="javascript: void(0);">${_("Home")}</a></li>
 	                </ul>
 	            </li>
 	            <li>
-	                <a href="${py.url('/openerp/requests')}" class="messages">Messages<small>${total_mess}</small></a>
+	                <a href="${py.url('/openerp/requests')}" class="messages"><small>${total_request}</small></a>
 	                <ul>
-	                    <li class="first last"><a href="javascript: void(0);">Requests</a></li>
+	                    <li class="first last"><a href="javascript: void(0);">${_("Requests")}</a></li>
 	                </ul>
 	            </li>
 	
-	            <li><a href="${py.url('/openerp/pref/create')}" class="preferences">Preferences</a>
+	            <li><a href="${py.url('/openerp/pref/create')}" class="preferences">${_("Preferences")}</a>
 	                <ul>
-	                    <li class="first last"><a href="javascript: void(0);">Edit Preferences</a></li>
+	                    <li class="first last"><a href="javascript: void(0);">${_("Edit Preferences")}</a></li>
 	                </ul>
 	            </li>
-	            <li><a href="javascript: void(0);" class="info">About</a>
+	            <li><a href="javascript: void(0);" class="info">${_("About")}</a>
 	                <ul>
-	                    <li class="first last"><a href="javascript: void(0);">About</a></li>
-	                </ul>
-	            </li>
-	
-	            <li><a href="javascript: void(0);" class="help">Help</a>
-	                <ul>
-	                    <li class="first last"><a href="javascript: void(0);">Help</a></li>
+	                    <li class="first last"><a href="javascript: void(0);">${_("About")}</a></li>
 	                </ul>
 	            </li>
 	
-	            % if cp.config('server.environment', 'openobject-web') == 'production':
-	                <li id="clear_cache"><a href="${py.url('/openerp/pref/clear_cache')}" class="clear_cache">Clear Cache</a>
+	            <li><a href="javascript: void(0);" class="help">${_("Help")}</a>
+	                <ul>
+	                    <li class="first last"><a href="javascript: void(0);">${_("Help")}</a></li>
+	                </ul>
+	            </li>
+	
+	            % if cp.config('server.environment') == 'production':
+	                <li id="clear_cache"><a href="${py.url('/openerp/pref/clear_cache')}" class="clear_cache">${_("Clear Cache")}</a>
 	                    <ul>
-	                        <li class="first last"><a href="javascript: void(0);">Clear Cache</a></li>
+	                        <li class="first last"><a href="javascript: void(0);">${_("Clear Cache")}</a></li>
 	                    </ul>
 	                </li>
 	            % endif
@@ -111,4 +111,3 @@ except:
     % endif
     </div>
 </div>
-

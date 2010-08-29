@@ -111,30 +111,30 @@
             </td>
         </tr>
         <tr>
-            <td>${screen.display()}</td>
-        </tr>
-        <tr>
-            <td>
+            <td style="padding: 0px 10px;">
                 <div class="toolbar">
                     <table border="0" cellpadding="0" cellspacing="0" width="100%">
                         <tr>
-                            <td>
+                            <td class="save_close">
                             	<a class="button-a" href="javascript: void(0)" onclick="onNew()">${_("New")}</a>
                             </td>
-                            <td>
+                            <td class="save_close">
                             	<a class="button-a" href="javascript: void(0)" onclick="onEdit()">${_("Edit")}</a>
                             </td>
-                            <td>
+                            <td class="save_close">
                             	<a class="button-a" href="javascript: void(0)" onclick="onRemove()">${_("Remove")}</a>
                             </td>
                             <td width="100%"></td>
-                            <td>
+                            <td style="padding: 0px;">
                             	<a class="button-a" href="javascript: void(0)" onclick="doClose()">${_("Close")}</a>
                             </td>
                         </tr>
                     </table>
                 </div>
             </td>
+        </tr>
+        <tr>
+            <td>${screen.display()}</td>
         </tr>
     </table>
     
@@ -146,6 +146,23 @@
                         <td width="100%"><h1>${_("Create a view (%s)") % (model)}</h1></td>
                     </tr>
                 </table>
+            </td>
+        </tr>
+        <tr>
+            <td style="padding: 0pt 5px;">
+                <div class="toolbar footer_tool_box">
+                    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+                        <tr>                            
+                            <td class="save_close">
+                            	<a class="button-a" href="javascript: void(0)" onclick="doCreate()">${_("Save")}</a>
+                            </td>
+                            <td class="save_close">
+                            	<a class="button-a" href="javascript: void(0)" onclick="doCancel()">${_("Cancel")}</a>
+                            </td>
+                            <td width="100%"></td>
+                        </tr>
+                    </table>
+                </div>
             </td>
         </tr>
         <tr>
@@ -177,22 +194,6 @@
                 </form>
             </td>
         </tr>
-        <tr>
-            <td>
-                <div class="toolbar">
-                    <table border="0" cellpadding="0" cellspacing="0" width="100%">
-                        <tr>
-                            <td width="100%"></td>
-                            <td>
-                            	<a class="button-a" href="javascript: void(0)" onclick="doCreate()">${_("Save")}</a>
-                            </td>
-                            <td>
-                            	<a class="button-a" href="javascript: void(0)" onclick="doCancel()">${_("Cancel")}</a>
-                            </td>
-                        </tr>
-                    </table>
-                </div>
-            </td>
-        </tr>
+        
     </table>
 </%def>

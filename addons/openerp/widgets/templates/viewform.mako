@@ -12,6 +12,7 @@
     </div>
 
 % if screen:
+	<div id="server_logs"></div>
 	<table border="0" cellpadding="0" cellspacing="0" width="100%" style="border: none;">
         % if search:
         <%

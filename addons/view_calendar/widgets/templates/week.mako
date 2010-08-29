@@ -8,8 +8,8 @@
             <a href="javascript: void(0)" title="${_('Month Calendar...')}" 
                 onclick="getCalendar(null, 'month')">${_("Month")}</a>
         </li>
-        <li>
-            <a class="active" href="javascript: void(0)" title="${_('Week Calendar...')}">${_("Week")}</a>
+        <li class="active-tab">
+            <a href="javascript: void(0)" title="${_('Week Calendar...')}">${_("Week")}</a>
         </li>
         <li>
             <a href="javascript: void(0)" title="${_('Day Calendar...')}" 

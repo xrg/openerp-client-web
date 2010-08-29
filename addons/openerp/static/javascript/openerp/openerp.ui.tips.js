@@ -10,7 +10,7 @@
 // It's based on Mozilla Public License Version (MPL) 1.1 with following 
 // restrictions:
 //
-// -   All names, links and logos of Tiny, Open ERP and Axelor must be 
+// -   All names, links and logos of Tiny, OpenERP and Axelor must be 
 //     kept as in original distribution without any changes in all software 
 //     screens, especially in start-up page and the software header, even if 
 //     the application source code has been changed or updated or code has been 
@@ -31,6 +31,10 @@
 // Bubble Tooltips (http://web-graphics.com/mtarchive/001717.php) 
 // by Alessandro Fulcitiniti (http://web-graphics.com)
 
+var openerp;
+if (!openerp && !openerp.ui) {
+    throw "openerp.ui is required by openerp.ui.tips.";
+}
 openerp.ui.Tips = function(elements, options) {
     this.__init__(elements, options);
 };

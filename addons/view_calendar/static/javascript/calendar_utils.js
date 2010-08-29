@@ -10,7 +10,7 @@
 // It's based on Mozilla Public License Version (MPL) 1.1 with following 
 // restrictions:
 //
-// -   All names, links and logos of Tiny, Open ERP and Axelor must be 
+// -   All names, links and logos of Tiny, OpenERP and Axelor must be 
 //     kept as in original distribution without any changes in all software 
 //     screens, especially in start-up page and the software header, even if 
 //     the application source code has been changed or updated or code has been 
@@ -71,7 +71,10 @@ function elementPosition2(elem) {
 
 jQuery(document).ajaxStop(function () {
     if(window.CAL_INSTANCE) {
-        setTimeout(jQuery.proxy(window.CAL_INSTANCE, 'onResize'), 100);
+        setTimeout(function() {
+			jQuery.proxy(window.CAL_INSTANCE, 'onResize')
+			adjustTopWidth();
+		}, 100);
     }
 });
 

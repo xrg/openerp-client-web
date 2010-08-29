@@ -4,8 +4,8 @@
             onclick="getCalendar('${selected_day.today().isoformat()}', 'day')">${_("Today")}</a>
     </p>
     <ul class="head">
-        <li>
-            <a class="active" href="javascript: void(0)" title="${_('Month Calendar...')}">${_("Month")}</a>
+        <li class="active-tab">
+            <a href="javascript: void(0)" title="${_('Month Calendar...')}">${_("Month")}</a>
         </li>
         <li>
             <a href="javascript: void(0)" title="${_('Week Calendar...')}" 

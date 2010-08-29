@@ -1,7 +1,7 @@
 table.tree-grid {
     background-color:#E3E3E3;
     border-collapse: collapse;
-    width:100%;
+    min-width: 180px;
 }
 
 table.tree-grid th,
@@ -18,6 +18,7 @@ table.tree-grid td {
 
 table.tree-field {
 	border-bottom: none;
+	margin-top: -2px;
 }
 
 table.tree-grid .tree-field td {

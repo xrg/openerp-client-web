@@ -26,28 +26,29 @@
             </td>
         </tr>
         <tr>
-            <td id="view_tr" height="500" width="auto">
-                <div class="viewed_tree">${tree.display()}</div>
-            </td>
-        </tr>
-        <tr class="toolbar">
-            <td align="right">
+            <td style="padding: 0px 10px;">
                 <div class="toolbar">
                     <table border="0" cellpadding="0" cellspacing="0" width="100%">
                         <tr>
-                            <td>
+                            <td class="save_close">
                             	<a class="button-a" href="javascript: void(0)" title="${_('Create a new inherited view')}" onclick="onInherit('${model}')">${_("Inherited View")}</a>
                            	</td>
-                            <td width="100%">&nbsp;</td>
-                            <td>
+                            <td class="save_close">
                             	<a class="button-a" href="javascript: void(0)" onclick="onPreview()">${_("Preview")}</a>
                            	</td>
-                            <td>
+                            <td class="save_close">
                             	<a class="button-a" href="javascript: void(0)" onclick="onClose()">${_("Close")}</a>
+                           	</td>
+                           	<td width="100%">
                            	</td>
                         </tr>
                     </table>
                 </div>
+            </td>
+        </tr>
+        <tr>
+            <td id="view_tr" height="500" width="auto">
+                <div class="viewed_tree">${tree.display()}</div>
             </td>
         </tr>
     </table>
