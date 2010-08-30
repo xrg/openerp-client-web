@@ -53,6 +53,7 @@ ListView.prototype = {
         this.ids = jQuery('[id*="'+prefix + '_terp_ids'+'"]').val();
 
         this.view_ids = jQuery('[id*="'+prefix + '_terp_view_ids'+'"]').get() ? jQuery('[id*="'+prefix + '_terp_view_ids'+'"]').val() : null;
+		this.view_id = jQuery('[id="'+prefix + '_terp_view_id'+'"]').get() ? jQuery('[id="'+prefix + '_terp_view_id'+'"]').val() : null;
         this.view_mode = jQuery('[id*="'+prefix + '_terp_view_mode'+'"]').get() ? jQuery('[id*="'+prefix + '_terp_view_mode'+'"]').val() : null;
 		this.view_type = jQuery('[id*="'+prefix + '_terp_view_type'+'"]').get() ? jQuery('[id*="'+prefix + '_terp_view_type'+'"]').val() : null;
 		
@@ -308,7 +309,6 @@ MochiKit.Base.update(ListView.prototype, {
         var group_by_context = jQuery(group_record).attr('grp_context');
         var domain = jQuery(group_record).attr('grp_domain');
         var total_groups = jQuery('#' + this.name).attr('groups');
-        
         if (group_by_context == '[]') {
             jQuery('#' + record + '[parent_grp_id="' + id + '"]').toggle();
         } else {
@@ -318,8 +318,8 @@ MochiKit.Base.update(ListView.prototype, {
                     type: 'POST',
                     data: { 'model': this.model, 'name': this.name,
                             'grp_domain': domain, 'group_by': group_by_context,
-                            'view_id': jQuery('#_terp_view_id').val(),
-                            'view_type': jQuery('#_terp_view_type').val(),
+                            'view_id': this.view_id,
+                            'view_type': this.view_type,
                             'parent_group': record,
                             'group_level': jQuery(group).index() + 1,
                             'groups': total_groups,

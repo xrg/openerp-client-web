@@ -174,7 +174,7 @@ class ListGroup(List):
         
         if not isinstance(self.group_by_ctx, list):
             self.group_by_ctx = [self.group_by_ctx]
-            
+        
         fields = view['fields']
         self.grp_records = []
         group_field = None
@@ -186,16 +186,20 @@ class ListGroup(List):
             context=self.context, limit=self.limit, count=self.count,
             offset=self.offset, editable=self.editable,
             selectable=self.selectable)
-        
         if self.group_by_ctx:
             self.context['group_by'] = self.group_by_ctx
         else: 
             self.group_by_ctx = self.context.get('group_by')
-        
+            
         self.group_by_ctx, self.hiddens, self.headers = parse(self.group_by_ctx, self.hiddens, self.headers, None, self.group_by_ctx)
         
+        if self.headers:
+            search_fields = map(lambda x: x[0], self.headers)
+        else:
+            search_fields = fields.keys()
+        
         self.grp_records = proxy.read_group(self.context.get('__domain', []) + (self.domain or []),
-                                                fields.keys(), self.group_by_ctx, 0, False, self.context)   
+                                                search_fields, self.group_by_ctx, 0, False, self.context)   
         
         
         for grp_rec in self.grp_records:
@@ -250,7 +254,7 @@ class MultipleGroup(List):
 
         if not isinstance(self.group_by_ctx, list):
             self.group_by_ctx = [self.group_by_ctx]
-
+            
         fields = view['fields']
         
         self.grp_records = []
@@ -264,8 +268,14 @@ class MultipleGroup(List):
         self.group_by_no_leaf = self.context.get('group_by_no_leaf', 0)
         
         self.group_by_ctx, self.hiddens, self.headers = parse(self.group_by_ctx, self.hiddens, self.headers, self.group_level, groups)
-                                         
+        
+        
+        if self.headers:
+            search_fields = map(lambda x: x[0], self.headers)
+        else:
+            search_fields = fields.keys()
+            
         self.grp_records = proxy.read_group(self.context.get('__domain', []),
-                                                fields.keys(), self.group_by_ctx, 0, False, self.context)   
+                                                search_fields, self.group_by_ctx, 0, False, self.context)   
         
         self.grouped, grp_ids = parse_groups(self.group_by_ctx, self.grp_records, self.headers, self.ids, model,  self.offset, self.limit, rpc.session.context.copy(), self.data, self.field_total, fields)                            

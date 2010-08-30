@@ -133,7 +133,7 @@ class List(SecuredController):
     @expose()
     def multiple_groupby(self, model, name, grp_domain, group_by, view_id, view_type, parent_group, group_level, groups, no_leaf):
         grp_domain = ast.literal_eval(grp_domain)
-        view = cache.fields_view_get(model, view_id, view_type, rpc.session.context.copy(), True, True)
+        view = cache.fields_view_get(model, view_id, view_type, rpc.session.context.copy())
         group_by = ast.literal_eval(group_by)
         domain = grp_domain
         group_level = ast.literal_eval(group_level)
