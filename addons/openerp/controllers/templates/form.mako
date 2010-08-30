@@ -82,9 +82,9 @@
                         <small>Help</small>
                       </a>
                       % if form.screen.view_type == 'form' and form.logs.logs:
-                         <a id="show_server_logs" class="help" href="javascript: void(0)"
+                         <a id="show_server_logs" class="logs" href="javascript: void(0)"
                        title="${_('Show Logs...')}">
-                            <small>Help</small>
+                            <small>Logs</small>
                         </a>
                       % endif
                     % if display_name:

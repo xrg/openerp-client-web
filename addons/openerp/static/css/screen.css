@@ -664,7 +664,8 @@ h6 {
     font-size: 1.0em;
 }
 
-h1 a.help{
+h1 a.help,
+h1 a.logs {
     display: -moz-inline-stack;
     cursor: pointer;
     display: inline; /*IE7 */
@@ -672,12 +673,18 @@ h1 a.help{
     overflow: hidden;
     width: 14px;
     height: 14px;
-    background: url(../images/iconset-a-help.gif) no-repeat;
     font-size: 0;
     text-indent: -10001px;
     vertical-align: middle;
 }
 
+h1 a.help {
+    background: url(../images/iconset-a-help.gif) no-repeat;
+}
+
+h1 a.logs {
+    background: url(../images/iconset-a-log.png) no-repeat;
+}
 h1 img {
     display: -moz-inline-stack;
     display: inline; /*IE7 */
