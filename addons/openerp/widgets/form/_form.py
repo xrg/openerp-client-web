@@ -922,7 +922,7 @@ class Form(TinyInputWidget):
                     print " malformed view for:", self.model
                     print " duplicate field:", name
                     print "-"*30
-                    raise common.error(_('Application Error!'), _('Invalid view, duplicate field: %s') % name)
+                    raise common.error(_('Application Error'), _('Invalid view, duplicate field: %s') % name)
 
                 self.view_fields.append(name)
 

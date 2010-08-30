@@ -68,7 +68,7 @@ def export_csv(fields, result, write_title=False):
 
         return data
     except IOError, (errno, strerror):
-        raise common.message(_("Operation failed!\nI/O error")+"(%s)" % (errno,))
+        raise common.message(_("Operation failed\nI/O error")+"(%s)" % (errno,))
 
 def _fields_get_all(model, views, context=None):
     
@@ -353,7 +353,7 @@ class ImpEx(SecuredController):
         result = datas_read(ids, params.model, fields, context=ctx)
 
         if result.get('warning', False):
-            common.warning(unicode(result.get('warning', False)), _('Export Error!'))
+            common.warning(unicode(result.get('warning', False)), _('Export Error'))
             return False
         result = result.get('datas',[])
 
@@ -479,7 +479,7 @@ class ImpEx(SecuredController):
                         raise common.warning(_("You cannot import this field %s, because we cannot auto-detect it" % (word,)))
                 break
         except:
-            raise common.warning(_('Error processing your first line of the file.\nField %s is unknown!') % (word,), _('Import Error.'))
+            raise common.warning(_('Error processing your first line of the file.\nField %s is unknown') % (word,), _('Import Error.'))
 
         kw['fields'] = fields
         return self.imp(**kw)
@@ -506,15 +506,15 @@ class ImpEx(SecuredController):
         try:
             res = rpc.session.execute('object', 'execute', params.model, 'import_data', fields, datas, 'init', '', False, ctx)
         except Exception, e:
-            raise common.warning(ustr(e), _('XML-RPC error!'))
+            raise common.warning(ustr(e), _('XML-RPC error'))
         if res[0]>=0:
-            raise common.message(_('Imported %d objects!') % (res[0],))
+            raise common.message(_('Imported %d objects') % (res[0],))
         else:
             d = ''
             for key,val in res[1].items():
                 d+= ('\t%s: %s\n' % (ustr(key),ustr(val)))
             error = _('Error trying to import this record:\n%s\nError Message:\n%s\n\n%s') % (d,res[2],res[3])
-            raise common.warning(unicode(error), _('Importation Error !'))
+            raise common.warning(unicode(error), _('Importation Error'))
 
         return self.imp(**kw)
 
