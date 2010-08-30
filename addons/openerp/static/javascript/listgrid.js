@@ -341,6 +341,7 @@ MochiKit.Base.update(ListView.prototype, {
         }
         
         jQuery(group).toggleClass('group-collapse group-expand');
+		setTimeout(function() {adjustTopWidth();}, 100)
     },
 
     groupbyDrag: function(drag, drop, view) {
