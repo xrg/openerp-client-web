@@ -315,75 +315,78 @@ class List(TinyWidget):
                 if 'name' in attrs:
 
                     name = attrs['name']
-                    if not name in self.custom_columns:
-                        if name in myfields:
-                            print "-"*30
-                            print " malformed view for:", self.model
-                            print " duplicate field:", name
-                            print "-"*30
-                            raise common.error(_('Application Error!'), _('Invalid view, duplicate field: %s') % name)
-    
-                        myfields.append(name)
-    
-                        if attrs.get('widget', False):
-                            if attrs['widget']=='one2many_list':
-                                attrs['widget']='one2many'
-                            attrs['type'] = attrs['widget']
-    
-                        try:
-                            fields[name].update(attrs)
-                        except:
-                            print "-"*30,"\n malformed tag for:", attrs
-                            print "-"*30
-                            raise
-    
-                        kind = fields[name]['type']
-    
-                        if kind not in CELLTYPES:
-                            kind = 'char'
-    
+
+                    if name in self.custom_columns:
+                        continue
+
+                    if name in myfields:
+                        print "-"*30
+                        print " malformed view for:", self.model
+                        print " duplicate field:", name
+                        print "-"*30
+                        raise common.error(_('Application Error!'), _('Invalid view, duplicate field: %s') % name)
+
+                    myfields.append(name)
+
+                    if attrs.get('widget'):
+                        if attrs['widget']=='one2many_list':
+                            attrs['widget']='one2many'
+                        attrs['type'] = attrs['widget']
+
+                    try:
                         fields[name].update(attrs)
-    
-                        invisible = False
-                        try:
-                            visval = fields[name].get('invisible', 'False')
-                            invisible = eval(visval, {'context': self.context})
-                        except:
-                            pass
-    
-                        if invisible:
-                            hiddens += [(name, fields[name])]
-    #                        continue
-    
-                        if 'sum' in attrs:
-                            field_total[name] = [attrs['sum'], 0.0]
-    
-                        for i, row in enumerate(data):
-    
-                            row_value = values[i]
-                            cell = CELLTYPES[kind](value=row_value.get(name, False), **fields[name])
-    
-                            for color, expr in self.colors.items():
-                                try:
-    
-                                    d = row_value.copy()
-                                    d['current_date'] = time.strftime('%Y-%m-%d')
-                                    d['time'] = time
-                                    d['active_id'] = rpc.session.active_id or False
-    
-                                    if expr_eval(expr, d):
-                                        cell.color = color
-                                        break
-                                except:
-                                    pass
-    
-                            row[name] = cell
-    
-                        if invisible:
-                            continue
-    
-                        headers += [(name, fields[name])]
-                    
+                    except:
+                        print "-"*30,"\n malformed tag for:", attrs
+                        print "-"*30
+                        raise
+
+                    kind = fields[name]['type']
+
+                    if kind not in CELLTYPES:
+                        kind = 'char'
+
+                    fields[name].update(attrs)
+
+                    invisible = False
+                    try:
+                        visval = fields[name].get('invisible', 'False')
+                        invisible = eval(visval, {'context': self.context})
+                    except:
+                        pass
+
+                    if invisible:
+                        hiddens += [(name, fields[name])]
+#                        continue
+
+                    if 'sum' in attrs:
+                        field_total[name] = [attrs['sum'], 0.0]
+
+                    for i, row in enumerate(data):
+
+                        row_value = values[i]
+                        cell = CELLTYPES[kind](value=row_value.get(name, False), **fields[name])
+
+                        for color, expr in self.colors.items():
+                            try:
+
+                                d = row_value.copy()
+                                d['current_date'] = time.strftime('%Y-%m-%d')
+                                d['time'] = time
+                                d['active_id'] = rpc.session.active_id or False
+
+                                if expr_eval(expr, d):
+                                    cell.color = color
+                                    break
+                            except:
+                                pass
+
+                        row[name] = cell
+
+                    if invisible:
+                        continue
+
+                    headers += [(name, fields[name])]
+
         return headers, hiddens, data, field_total, buttons
 
 class Char(TinyWidget):

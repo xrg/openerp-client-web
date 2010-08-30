@@ -302,39 +302,39 @@ jQuery.extend({
     }
 })
 
-function display_Customfilters(all_domains, group_by_ctx) {    
+function display_Customfilters(all_domains, group_by_ctx, custom_columns) {
     var Allrecords = {};
     var parent_tbody = jQuery('#filter_option_table > tbody')
 
     parent_tbody.each(function () {
-	    var children = jQuery(this).find('> .filter_row_class');	    
-	    var record = {};
-	    var pid = jQuery(this).index()
+        var children = jQuery(this).children('.filter_row_class');
+        var record = {};
+        var pid = jQuery(this).index()
 
-	    children.each(function () {
-	        var $constraint_value = jQuery(this).find('input.qstring');
-	        var $fieldname = jQuery(this).find('label.filterlabel');
-	        var id = jQuery(this).parent().find('> .filter_row_class').index(this);
+        children.each(function () {
+            var $constraint_value = jQuery(this).find('input.qstring');
+            var $fieldname = jQuery(this).find('label.filterlabel');
+            var id = jQuery(this).parent().find('> .filter_row_class').index(this);
 
-	        if($constraint_value.val()) {
-	            var rec = {};
-	            rec[$fieldname.attr('value')] = $constraint_value.val();
-	            record[id] = rec;
-	        }
-	    });
+            if($constraint_value.val()) {
+                var rec = {};
+                rec[$fieldname.attr('value')] = $constraint_value.val();
+                record[id] = rec;
+            }
+        });
 
-	    if (jQuery.keys(record).length != 0){
-	       Allrecords[pid] = record;
-	    }
+        if (jQuery.keys(record).length != 0){
+            Allrecords[pid] = record;
+        }
     });
-    
+
     openobject.http.postJSON('/openerp/search/get', {
         record: serializeJSON(Allrecords),
         _terp_model: jQuery('#_terp_model').val()
     }).addCallback(function(obj) {
         var custom_domain = [];
         if(obj.error) {
-            var children = jQuery('#filter_option_table tbody').find('> .filter_row_class')
+            var children = jQuery('#filter_option_table tbody > .filter_row_class');
             children.each(function () {
                 if(jQuery(this).find('label.filterlabel').attr('value') == obj['error_field']) {
                     jQuery(this).find('input.qstring').css('background', '#f66').val(obj.error);
@@ -353,22 +353,22 @@ function display_Customfilters(all_domains, group_by_ctx) {
                 var trs_keys = jQuery.unique(jQuery.keys(tbody_frm_ind)); //sort trs
 
                 for(index = 0; index<trs_keys.length ; index++) {
-	                var return_record = tbody_frm_ind[trs_keys[index]];
-	                var $curr_body = jQuery('#filter_option_table > tbody').eq(tbody_keys[ind]);              	                
-	                var $row = jQuery($curr_body.find('> .filter_row_class').eq(trs_keys[index]));                	                
-	                var $next_row = []
+                    var return_record = tbody_frm_ind[trs_keys[index]];
+                    var $curr_body = jQuery('#filter_option_table > tbody').eq(tbody_keys[ind]);
+                    var $row = $curr_body.find('> .filter_row_class').eq(trs_keys[index]);
+                    var $next_row = []
 
-	                if (jQuery($row.next('tr.filter_row_class')).find('input.qstring').val() != ''){
-	                       $next_row = jQuery($row.next());
-	                }
+                    if ($row.next('tr.filter_row_class').find('input.qstring').val() != ''){
+                        $next_row = jQuery($row.next());
+                    }
 
-	                var type = return_record.type;	                
-	                var temp_domain = [];
-	                var grouping = $next_row.length != 0 ? $next_row.find('label.and_or').text(): null;
+                    var type = return_record.type;
+                    var temp_domain = [];
+                    var grouping = $next_row.length != 0 ? $next_row.find('label.and_or').text(): null;
 
-	                if (group.length==0) {
+                    if (group.length==0) {
                         var new_grp = $curr_body.find('tr.filter_row_class:gt('+trs_keys[index]+')')
-                        new_grp = new_grp.find('td.filter_column:not(:has(label))').find('input.qstring[value]')                        
+                        new_grp = new_grp.find('td.filter_column:not(:has(label))').find('input.qstring[value]')
                         if (new_grp.length){
                             group.push('&')
                         }
@@ -423,10 +423,10 @@ function display_Customfilters(all_domains, group_by_ctx) {
 
 	            if (All_domain.length) {
 	               custom_domain.push(All_domain);
-	            }
+                }
             };
         }
-        final_search_domain(serializeJSON(custom_domain), all_domains, group_by_ctx);
+        final_search_domain(serializeJSON(custom_domain), all_domains, group_by_ctx, custom_columns);
     });
 }
 
@@ -526,24 +526,17 @@ function parse_filters(src, id) {
     return all_domains;
 }
 
-var custom_columns = new Array();
 function search_filter(src, id) {
-    if(jQuery('#custom_columns input:not(:checked)').get().length) {
-        var c_columns = [];
-        jQuery('#custom_columns input:not(:checked)').each(function() {
-            c_columns.push(jQuery(this).attr('id'))
-        });
-        custom_columns = c_columns.join(',');
-    }
-    else{
-        custom_columns = new Array();
-    }
-    
+    var custom_columns = "";
+    custom_columns = (jQuery('#custom_columns input:not(:checked)').map(function() {
+        return this.id;
+    }).get().join(','));
+
     var all_domains = parse_filters(src, id);
-    var filters = jQuery('#filter_table');    
-    
-    if(filters.is(':visible') || jQuery('#_terp_filter_domain').val() != '[]') {        
-        display_Customfilters(all_domains, group_by);
+    var filters = jQuery('#filter_table');
+
+    if(filters.is(':visible') || jQuery('#_terp_filter_domain').val() != '[]') {
+        display_Customfilters(all_domains, group_by, custom_columns);
     } else {
         var custom_domain = jQuery('#_terp_filter_domain').val() || '[]';
         final_search_domain(custom_domain, all_domains, group_by, custom_columns);
@@ -560,12 +553,11 @@ function save_filter() {
         'group_by_ctx': group_by});
     req.addCallback(function(obj) {
         var sf_params = {'model': jQuery('#_terp_model').val(), 'domain': obj.domain, 'group_by': group_by, 'flag': 'sf'};
-        openobject.tools.openWindow(openobject.http.getURL('/openerp/search/save_filter', sf_params), {
+            openobject.tools.openWindow(openobject.http.getURL('/openerp/search/save_filter', sf_params), {
                 width: 500,
                 height: 240
             });
     });
-    
 }
 
 function manage_filters() {
@@ -574,49 +566,49 @@ function manage_filters() {
 }
 
 function final_search_domain(custom_domain, all_domains, group_by_ctx, custom_columns) {
-	var req = openobject.http.postJSON('/openerp/search/eval_domain_filter', 
-		{source: '_terp_list',
-		model: jQuery('#_terp_model').val(), 
-		custom_domain: custom_domain,
-		all_domains: all_domains,
-		group_by_ctx: group_by_ctx
-	});
-	req.addCallback(function(obj){
-		if (obj.flag) {
-			var params = {'domain': obj.sf_dom,
-				'model': openobject.dom.get('_terp_model').value,
-				'flag': obj.flag};
-							
-			if(group_by_ctx!=''){
-				params['group_by'] = group_by_ctx;
-			}				
-			openobject.tools.openWindow(openobject.http.getURL('/openerp/search/save_filter', params), {
-				width: 400,
-				height: 250
-			});
-		}
-		
+
+    var req = openobject.http.postJSON('/openerp/search/eval_domain_filter',
+        {source: '_terp_list',
+        model: jQuery('#_terp_model').val(),
+        custom_domain: custom_domain,
+        all_domains: all_domains,
+        group_by_ctx: group_by_ctx
+    });
+    req.addCallback(function(obj){
+        if (obj.flag) {
+            var params = {'domain': obj.sf_dom,
+                'model': openobject.dom.get('_terp_model').value,
+                'flag': obj.flag};
+            if(group_by_ctx!='') {
+                params['group_by'] = group_by_ctx;
+            }
+            openobject.tools.openWindow(openobject.http.getURL('/openerp/search/save_filter', params), {
+                width: 400,
+                height: 250
+            });
+        }
+
         if (obj.action) { // For manage Filter
             openLink(openobject.http.getURL('/openerp/search/manage_filter', {
                 action: serializeJSON(obj.action)}));
         }
-		
-		if (obj.domain) { // For direct search
-			var in_req = eval_domain_context_request({
-				source: '_terp_list', 
-				domain: obj.domain, 
-				context: obj.context,
-				group_by_ctx: group_by_ctx
+
+        if (obj.domain) { // For direct search
+            var in_req = eval_domain_context_request({
+                source: '_terp_list',
+                domain: obj.domain,
+                context: obj.context,
+                group_by_ctx: group_by_ctx
+            });
+            in_req.addCallback(function(in_obj){
+                openobject.dom.get('_terp_search_domain').value = in_obj.domain;
+                openobject.dom.get('_terp_search_data').value = obj.search_data;
+                openobject.dom.get('_terp_context').value = in_obj.context;
+                openobject.dom.get('_terp_filter_domain').value = obj.filter_domain;
+                openobject.dom.get('_terp_custom_columns').value = custom_columns;
+                jQuery('#_terp_group_by_ctx').val(in_obj.group_by)
+                new ListView('_terp_list').reload();
 			});
-			
-			in_req.addCallback(function(in_obj){
-		    	openobject.dom.get('_terp_search_domain').value = in_obj.domain;
-		    	openobject.dom.get('_terp_search_data').value = obj.search_data;
-		    	openobject.dom.get('_terp_context').value = in_obj.context;
-		    	openobject.dom.get('_terp_filter_domain').value = obj.filter_domain;
-		    	jQuery('#_terp_group_by_ctx').val(in_obj.group_by)
-	    		new ListView('_terp_list').reload();
-			});	
 		}
 	});
 }

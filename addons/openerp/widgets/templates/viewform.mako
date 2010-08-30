@@ -25,65 +25,63 @@
             <td valign="top">${display_member(search)}</td>
         </tr>
         <tr>
-			<td class="view_form_options" width="100%">
-			    <table width="100%">
-			        <tr>
-			            <td align="left">                
-				             <button title="${_('Custom Columns.')}" 
-				                 onclick="jQuery('#custom_columns').toggle(); return false;"
-				                 style="font-size: 0.9em;">
-				                 ${_('Custom Columns')}
-				             </button>
-				             <button title="${_('Save Filter.')}"
-				                     onclick="save_filter(); return false;"
-				                     >${_("Save Filter")}</button>
-				             <button title="${_('Manage Filter.')}"
-				                     onclick="manage_filters(); return false;"
-				                     >${_("Manage Filters")}</button>
-				             <select name="filter_list" id="filter_list"
-				                     onchange="search_filter(); return false;">
-				                 % for f in search.filters_list:
-				                 <option value="${f[0]}">${f[1]}</option>
-				                 % endfor
-				             </select>
-			            </td>
-			            <td align="right">
-			                 <button title="${_('Filter records.')}" onclick="search_filter(); return false;">
-			                 ${_("Search")}</button>
-			                 <button title="${_('Clear all .')}" id="clear_all_filters" class="${css_clear}"
-			                 onclick="new ListView('_terp_list').clear(); return false;"
-			                 >${_("Clear")}</button>
-			            </td>
-			        </tr>
-			    </table>
-			</td>            
+            <td class="view_form_options" width="100%">
+                <table width="100%">
+                    <tr>
+                        <td align="left">
+                             <button title="${_('Filter records.')}" onclick="search_filter(); return false;">
+                             ${_("Search")}</button>
+                             <button title="${_('Clear all .')}" id="clear_all_filters" class="${css_clear}"
+                             onclick="new ListView('_terp_list').clear(); return false;"
+                             >${_("Clear")}</button>
+                        </td>
+                        <td align="right">
+                            <button title="${_('Custom Columns.')}"
+                                onclick="jQuery('#custom_columns').toggle(); return false;"
+                                style="font-size: 0.9em;">
+                                ${_('Custom Columns')}
+                            </button>
+                            <button title="${_('Save Filter.')}"
+                                onclick="save_filter(); return false;"
+                                >${_("Save Filter")}</button>
+                            <button title="${_('Manage Filter.')}"
+                                onclick="manage_filters(); return false;"
+                                >${_("Manage Filters")}</button>
+                            <select name="filter_list" id="filter_list"
+                                onchange="search_filter(); return false;">
+                                % for f in search.filters_list:
+                                    <option value="${f[0]}">${f[1]}</option>
+                                % endfor
+                            </select>
+                        </td>
+                    </tr>
+                </table>
+            </td>
         </tr>
         % endif
-        % if screen.view_type == 'tree':
-        % if screen.widget:
-	        <tr>
-	            <td id="custom_columns" style="display: none;">
-	               <div id="customcolumns" class="group-collapse" onclick="collapse_expand(this, '#custcols');" style="padding-left:4px;">
-	                   <h2><span>${_("Custom Columns")}</span></h2>
-	               </div>
-	                   % if getattr(screen.widget,'headers', []):
-	                   <table id="custcols">
-	                       <tr>
-	                           % for i, (field, field_attrs) in enumerate(screen.widget.headers):
-	                               % if field != 'button':
-	                               <td>
-	                                   <input type="checkbox" checked id="${field}" onclick="search_filter()"/>
-	                                   ${field_attrs['string']}
-	                               </td>
-	                               % endif
-	                           % endfor
-	                       </tr>
-	                   </table>
-	                   % endif
-	            </td>
-	        </tr>
-	    % endif
-	    % endif
+        % if screen.view_type == 'tree' and screen.widget:
+            <tr>
+                <td id="custom_columns" style="display: none;">
+                    <div id="customcolumns" class="group-collapse" onclick="collapse_expand(this, '#custcols');" style="padding-left:4px;">
+                        <h2><span>${_("Custom Columns")}</span></h2>
+                    </div>
+                    % if getattr(screen.widget,'headers', []):
+                        <table id="custcols">
+                            <tr>
+                                % for i, (field, field_attrs) in enumerate(screen.widget.headers):
+                                % if field != 'button':
+                                    <td>
+                                        <input type="checkbox" checked id="${field}" onclick="search_filter()"/>
+                                        ${field_attrs['string']}
+                                    </td>
+                                % endif
+                                % endfor
+                            </tr>
+                        </table>
+                    % endif
+                </td>
+            </tr>
+        % endif
         <tr>
             <td valign="top">${display_member(screen)}</td>
         </tr>

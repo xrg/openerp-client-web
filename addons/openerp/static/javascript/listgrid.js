@@ -746,11 +746,7 @@ MochiKit.Base.update(ListView.prototype, {
         if(clear) {
         	args['_terp_clear'] = true;
         }
-        
-        if(custom_columns.length) {
-            args['_terp_custom_columns'] = custom_columns;
-        }
-        
+
         jQuery('[id="'+self.name+'"].loading-list').show()
         jQuery.ajax({
             url: '/openerp/listgrid/get', 
