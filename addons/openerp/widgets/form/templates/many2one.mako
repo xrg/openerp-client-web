@@ -6,7 +6,7 @@
             ${py.attrs(attrs, kind=kind, domain=domain, context=ctx, relation=relation)}/>
         <input type="text" id="${name}_text" class="${css_class}"
             ${py.attrs(attrs, kind=kind, relation=relation, value=text)}/>
-           
+
         <input type="hidden" id="_hidden_${name}" value=""/>
         <div id="autoCompleteResults_${name}" class="autoTextResults"></div>
         % if error:
@@ -34,7 +34,7 @@
 % if not editable and link:
     % if link=='1':
         <span id="${name}" name="${name}" ${py.attrs(kind=kind, value=value, relation=relation, context=ctx, domain=domain, link=link)}>
-            <a href="javascript: void(0)" onclick="new ManyToOne('${name}').open_record('${value}')">${text}</a>
+            <a style="color:#9A0404;" href="javascript: void(0)" onclick="new ManyToOne('${name}').open_record('${value}')">${text}</a>
         </span>
     % endif
     % if link=='0':

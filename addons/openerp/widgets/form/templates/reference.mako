@@ -42,11 +42,11 @@
 % if editable:
     <script type="text/javascript">
         new ManyToOne('${name}');
-    </script>    
+    </script>
 % else:
     <span>
         <span id="${name}" ${py.attrs(kind=kind, value=value, relation=relation)}>
-            <a href="${py.url('/openerp/form/view', model=relation, id=value)}">${text}</a>
+            <a style="color:#9A0404;" href="${py.url('/openerp/form/view', model=relation, id=value)}">${text}</a>
         </span>
     </span>
 % endif
