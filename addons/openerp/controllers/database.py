@@ -166,12 +166,12 @@ class Database(BaseController):
                     raise Exception('DbFailed')
         except Exception, e:
             if e.args == ('DbExist',):
-                raise common.warning(_("Could not create database."), _('Database already exists!'))
+                raise common.warning(_("Could not create database."), _('Database already exists'))
             elif e.args == ('DbFailed'):
                 raise common.warning(_("The server crashed during installation.\nWe suggest you to drop this database."),
-                                     _("Error during database creation!"))
+                                     _("Error during database creation"))
             elif getattr(e, 'faultCode', False) == 'AccessDenied':
-                raise common.warning(_('Bad database administrator password!'), _("Could not create database."))
+                raise common.warning(_('Bad database administrator password'), _("Could not create database."))
             else:
                 raise common.warning(_("Could not create database."))
 
@@ -251,7 +251,7 @@ class Database(BaseController):
             res = rpc.session.execute_db('change_admin_password', old_password, new_password)
         except Exception,e:
             if getattr(e, 'faultCode', False) == 'AccessDenied':
-                raise common.warning(_("Could not change super admin password."), _('Bad password provided!'))
+                raise common.warning(_("Could not change super admin password."), _('Bad password provided'))
             else:
                 raise common.warning(_("Error, password not changed."))
 

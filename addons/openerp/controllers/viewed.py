@@ -289,7 +289,7 @@ class ViewEd(SecuredController):
                         if attr != 'position'
                     ])
                     tag = "<%s%s>" % (node2.localName, attrs)
-                    raise AttributeError, "Couldn't find tag '%s' in parent view!" % tag
+                    raise AttributeError, "Couldn't find tag '%s' in parent view" % tag
             return doc_src.toxml().replace('\t', '')
 
         views = rpc.RPCProxy('ir.ui.view')

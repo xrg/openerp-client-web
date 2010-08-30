@@ -136,10 +136,10 @@ class RPCGateway(object):
             elif err.code == 'AccessDenied':
                 raise common.error(_('Access Denied'), err.code)
             else:
-                raise common.error(_('Application Error!'), err.backtrace)
+                raise common.error(_('Application Error'), err.backtrace)
 
         except Exception, e:
-            raise common.error(_('Application Error!'), str(e))
+            raise common.error(_('Application Error'), str(e))
 
     def execute(self, obj, method, *args):
         """Excecute the method of the obj with the given arguments.
@@ -350,7 +350,7 @@ class RPCSession(object):
 
     def execute(self, obj, method, *args):
         if not self.is_logged():
-            raise common.warning(_('Not logged...'), _('Authorization Error!'))
+            raise common.warning(_('Not logged...'), _('Authorization Error'))
 
         return self.gateway.execute(obj, method, *args)
 

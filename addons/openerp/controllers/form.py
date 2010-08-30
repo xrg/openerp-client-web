@@ -918,7 +918,7 @@ class Form(SecuredController):
         match = re.match('^(.*?)\((.*)\)$', callback)
 
         if not match:
-            raise common.error(_('Application Error!'), _('Wrong on_change trigger: %s') % callback)
+            raise common.error(_('Application Error'), _('Wrong on_change trigger: %s') % callback)
 
         for k, v in data.items():
             try:
