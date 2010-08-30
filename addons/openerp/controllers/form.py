@@ -257,7 +257,7 @@ class Form(SecuredController):
 
     def _read_form(self, context, count, domain, filter_domain, id, ids, kw,
                    limit, model, offset, search_data, search_domain, source,
-                   view_ids, view_mode, editable=False):
+                   view_ids, view_mode, notebook_tab, editable=False):
         """ Extract parameters for form reading/creation common to both
         self.edit and self.view
         """
@@ -274,7 +274,8 @@ class Form(SecuredController):
                                        '_terp_count': count,
                                        '_terp_search_domain': search_domain,
                                        '_terp_search_data': search_data,
-                                       '_terp_filter_domain': filter_domain})
+                                       '_terp_filter_domain': filter_domain,
+                                       '_terp_notebook_tab': notebook_tab})
 
         params.editable = editable
         params.view_type = 'form'
@@ -301,10 +302,11 @@ class Form(SecuredController):
              offset=0, limit=20, count=0, search_domain=None,
              search_data=None, filter_domain=None, **kw):
 
+        notebook_tab = kw.get('notebook_tab') or 0
         params = self._read_form(context, count, domain, filter_domain, id,
                                  ids, kw, limit, model, offset, search_data,
                                  search_domain, source, view_ids, view_mode,
-                                 editable=True)
+                                 notebook_tab, editable=True)
 
         if not params.ids:
             params.count = 0
@@ -323,9 +325,11 @@ class Form(SecuredController):
              offset=0, limit=20, count=0, search_domain=None,
              search_data=None, filter_domain=None, **kw):
 
+        notebook_tab = kw.get('notebook_tab') or 0
         params = self._read_form(context, count, domain, filter_domain, id,
                                  ids, kw, limit, model, offset, search_data,
-                                 search_domain, source, view_ids, view_mode)
+                                 search_domain, source, view_ids, view_mode,
+                                 notebook_tab)
 
         if not params.ids:
             params.count = 1
@@ -455,7 +459,8 @@ class Form(SecuredController):
                 'count': params.count,
                 'search_domain': ustr(params.search_domain),
                 'search_data': ustr(params.search_data),
-                'filter_domain': ustr(params.filter_domain)}
+                'filter_domain': ustr(params.filter_domain),
+                'notebook_tab': params.notebook_tab}
 
         if params.editable or params.source or params.return_edit:
             raise redirect(self.path + '/edit', source=params.source, **args)

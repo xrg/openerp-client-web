@@ -62,7 +62,8 @@ function openRecord(id, src, target, readonly) {
         'count': openobject.dom.get(prefix + '_terp_count').value,
         'search_domain': jQuery('#_terp_search_domain').val() || null,
         'search_data': jQuery('#_terp_search_data').val() || null,
-        'filter_domain' : jQuery('#_terp_filter_domain').val() || []
+        'filter_domain' : jQuery('#_terp_filter_domain').val() || [],
+        'notebook_tab': jQuery('#_terp_notebook_tab').val() || 0
     };
 
     var action = readonly ? 'view' : 'edit';
