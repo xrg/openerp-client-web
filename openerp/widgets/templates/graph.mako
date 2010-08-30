@@ -1,4 +1,4 @@
-<div class="graph-block" style="text-align: center; padding: 10px; min-width: $width">
+<div class="graph-block" style="text-align: center; padding: 10px; min-width: ${width}px;">
 
     <div id="${name}_"></div>
     
@@ -11,7 +11,7 @@
     
     <object classid="clsid:d27cdb6e-ae6d-11cf-96b8-444553540000"
             codebase="http://fpdownload.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=8,0,0,0"
-            width="${width}"
+            width="100%"
 		    height="${height}" id="${name}" align="middle" wmode="transparent">
      
 	    <param name="movie" value="${py.url('/static/ofc2/open-flash-chart.swf')}" />
@@ -21,7 +21,7 @@
 	    <param name="flashvars" value="get-data=get_chart_${name}"/>
 	    
 	    <embed src="${py.url('/static/ofc2/open-flash-chart.swf')}"
-		       width="${width}"
+		       width="100%"
 		       height="${height}"
 		       bgcolor="#FFFFFF"
 		       name="${name}"
