@@ -107,7 +107,7 @@ function addOrBlock(elem){
     
     var newtbody = jQuery('<tbody>');    
     var tr = jQuery('<tr id="or">');
-    var td = jQuery('<td>', {'colspan': '4'});
+    var td = jQuery('<td>', {'colspan': '6'});
     td.append(jQuery('<div class="filter-lsep">').append(jQuery('<hr class="filter-hr"/>')));
     td.append(jQuery('<div class="filter-msep">Or</div>'));
     td.append(jQuery('<div class="filter-rsep">').append(jQuery('<hr class="filter-hr"/>')));    
@@ -352,7 +352,7 @@ function display_Customfilters(all_domains, group_by_ctx, custom_columns) {
                 var tbody_frm_ind = form_result[tbody_keys[ind]]; //tbody dictionary
                 var trs_keys = jQuery.unique(jQuery.keys(tbody_frm_ind)); //sort trs
 
-                for(index = 0; index<trs_keys.length ; index++) {
+                for(var index = 0; index<trs_keys.length ; index++) {
                     var return_record = tbody_frm_ind[trs_keys[index]];
                     var $curr_body = jQuery('#filter_option_table > tbody').eq(tbody_keys[ind]);
                     var $row = $curr_body.find('> .filter_row_class').eq(trs_keys[index]);
@@ -444,7 +444,7 @@ function parse_filters(src, id) {
     var check_groups = jQuery('#_terp_group_by_ctx').val();
     if(check_groups!='[]') {
         check_groups = eval(check_groups);
-        for(i in check_groups) {
+        for(var i in check_groups) {
             if(jQuery.inArray(check_groups[i], group_by) < 0) {
                 group_by.push(check_groups[i])
             }

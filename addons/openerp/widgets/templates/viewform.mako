@@ -24,6 +24,29 @@
         <tr>
             <td valign="top">${display_member(search)}</td>
         </tr>
+         % if screen.view_type == 'tree' and screen.widget:
+            <tr>
+                <td id="custom_columns">
+                    <div id="customcolumns" class="group-expand" onclick="collapse_expand(this, '#custcols');" style="padding-left:4px;">
+                        <h2><span>${_("Hide Columns")}</span></h2>
+                    </div>
+                    % if getattr(screen.widget,'headers', []):
+                        <table id="custcols" style="display:none;">
+                            <tr>
+                                % for i, (field, field_attrs) in enumerate(screen.widget.headers):
+                                % if field != 'button':
+                                    <td>
+                                        <input type="checkbox" checked id="${field}" onclick="search_filter()"/>
+                                        ${field_attrs['string']}
+                                    </td>
+                                % endif
+                                % endfor
+                            </tr>
+                        </table>
+                    % endif
+                </td>
+            </tr>
+        % endif
         <tr>
             <td class="view_form_options" width="100%">
                 <table width="100%">
@@ -36,11 +59,6 @@
                              >${_("Clear")}</button>
                         </td>
                         <td align="right">
-                            <button title="${_('Custom Columns.')}"
-                                onclick="jQuery('#custom_columns').toggle(); return false;"
-                                style="font-size: 0.9em;">
-                                ${_('Custom Columns')}
-                            </button>
                             <button title="${_('Save Filter.')}"
                                 onclick="save_filter(); return false;"
                                 >${_("Save Filter")}</button>
@@ -58,29 +76,6 @@
                 </table>
             </td>
         </tr>
-        % endif
-        % if screen.view_type == 'tree' and screen.widget:
-            <tr>
-                <td id="custom_columns" style="display: none;">
-                    <div id="customcolumns" class="group-collapse" onclick="collapse_expand(this, '#custcols');" style="padding-left:4px;">
-                        <h2><span>${_("Custom Columns")}</span></h2>
-                    </div>
-                    % if getattr(screen.widget,'headers', []):
-                        <table id="custcols">
-                            <tr>
-                                % for i, (field, field_attrs) in enumerate(screen.widget.headers):
-                                % if field != 'button':
-                                    <td>
-                                        <input type="checkbox" checked id="${field}" onclick="search_filter()"/>
-                                        ${field_attrs['string']}
-                                    </td>
-                                % endif
-                                % endfor
-                            </tr>
-                        </table>
-                    % endif
-                </td>
-            </tr>
         % endif
         <tr>
             <td valign="top">${display_member(screen)}</td>
