@@ -37,7 +37,7 @@
                                 % if field != 'button':
                                     <td for= "${field}">
                                         <input type="checkbox" checked id="${field}" onclick="search_filter();"/>
-                                        <label for= "${field}" onclick="jQuery('#${field}[type=checkbox]').trigger('click'); return false;">
+                                        <label onclick="jQuery('#${field}[type=checkbox]').trigger('click'); return false;">
                                             ${field_attrs['string']}
                                         </label>
                                     </td>
