@@ -18,7 +18,7 @@
     % if not inline:
     <tr>
         % if screen:
-    	<td id='${name}_container'>
+    	<td id='${name}_container' class="m2m_cell">
             ${screen.display()}
             <!-- IMP: IE problem, openobject.dom.get('some_name') returns field with name="some_id" instead of id="some_id" -->
             % if not editable:

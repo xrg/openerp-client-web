@@ -487,11 +487,11 @@ table.o2m_box, table.m2m_box {
     border-radius: 4px;
     -moz-border-radius: 4px;
     -webkit-border-radius: 4px;
-    box-shadow: 0 1px 1px #ddd;
-    -moz-box-shadow: 0 1px 1px #ddd;
-    -webkit-box-shadow: 0 1px 1px #ddd;
 }
 
+table.o2m_box td.o2m_cell, table.m2m_box td.m2m_cell {
+	padding: 4px;
+}
 table.o2m_box div.pagerbar-header strong {
 	font-weight: bold;
 	font-size: 13px;
