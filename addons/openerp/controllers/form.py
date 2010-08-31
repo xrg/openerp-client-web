@@ -388,7 +388,6 @@ class Form(SecuredController):
         if not (params.button and params.editable and params.id):
 
             proxy = rpc.RPCProxy(params.model)
-
             if not params.id:
                 ctx = dict((params.context or {}), **rpc.session.context)
                 id = proxy.create(data, ctx)
@@ -655,7 +654,10 @@ class Form(SecuredController):
     @exception_handler(default_exception_handler)
     def filter(self, **kw):
         params, data = TinyDict.split(kw)
-
+        if params.get('_terp_save_current_id'):
+            ctx = dict((params.context or {}), **rpc.session.context)
+            rpc.RPCProxy(params.model).write([params.id], data, ctx)
+            
         l = params.limit or 20
         o = params.offset or 0
         c = params.count or 0
@@ -765,15 +767,20 @@ class Form(SecuredController):
         return self.filter(**kw)
 
     @expose()
+    @validate(form=get_validation_schema)
+    @error_handler(default_error_handler)
+    @exception_handler(default_exception_handler)
     def previous_o2m(self, **kw):
         params, data = TinyDict.split(kw)
-
+        
+        if params.get('_terp_save_current_id'):
+            ctx = dict((params.context or {}), **rpc.session.context)
+            rpc.RPCProxy(params.model).write([params.id], data, ctx)
+        
         current = params.chain_get(params.source or '') or params
-
         idx = -1
-
+        
         if current.id:
-
             # save current record
             if params.editable:
                 self.save(terp_save_only=True, **kw)
@@ -793,11 +800,9 @@ class Form(SecuredController):
     def next_o2m(self, **kw):
         params, data = TinyDict.split(kw)
         c = params.count or 0
-
         current = params.chain_get(params.source or '') or params
 
         idx = 0
-
         if current.id:
 
             # save current record
@@ -816,9 +821,12 @@ class Form(SecuredController):
         return self.create(params)
 
     @expose()
+    @validate(form=get_validation_schema)
     def switch(self, **kw):
         params, data = TinyDict.split(kw)
-
+        if params.get('_terp_save_current_id'):
+            ctx = dict((params.context or {}), **rpc.session.context)
+            rpc.RPCProxy(params.model).write([params.id], data, ctx)
         # switch the view
         params.view_type = params.source_view_type
         return self.create(params)

@@ -7,7 +7,17 @@
             adjustTopWidth();
         });
     </script>
-
+	% if form.screen.view_type == 'form':
+		<script type="text/javascript">
+			var is_form_changed = false;
+			jQuery(document).ready(function() {
+				var form_view = jQuery('#view_form table tr td:first')
+				jQuery(form_view).find('input:not([type=hidden]), select').change(function() {
+					is_form_changed = true;
+				});
+			});
+		</script>
+	% endif
     <script type="text/javascript">
         var form_controller = '${path}';
         var USER_ID = '${rpc.session.uid}';

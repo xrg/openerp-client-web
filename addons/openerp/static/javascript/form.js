@@ -109,17 +109,16 @@ function editSelectedRecord() {
 }
 
 function switchView(view_type, src) {
+	var args = {'_terp_source': src, '_terp_source_view_type': view_type}
+		
     if (openobject.dom.get('_terp_list')) {
         var ids = new ListView('_terp_list').getSelectedRecords();
         if (ids.length > 0) {
             openobject.dom.get('_terp_id').value = ids[0];
         }
     }
-    
-    submit_form(get_form_action('switch', {
-        '_terp_source': src,
-        '_terp_source_view_type': view_type
-    }));
+    var get_action = validate_action('switch', args);
+    submit_form(get_action);
 }
 
 function switch_O2M(view_type, src) {
@@ -236,6 +235,13 @@ function validate_required(form) {
     return result;
 }
 
+function o2m_pager_action(action, src) {
+	var source = src ? (typeof(src) == "string" ? src : src.name) : null;
+	var args = {_terp_source: source}
+	var get_action = validate_action(action, args)
+	submit_form(get_action);
+}
+
 function submit_form(action, src, target) {
 	
     if (openobject.http.AJAX_COUNT > 0) {
@@ -279,7 +285,8 @@ function submit_form(action, src, target) {
 }
 
 function pager_action(action, src) {
-    return src ? new ListView(src).go(action) : submit_form(action ? action : 'find');
+	var get_action = validate_action(action ? action : 'find', {})
+    return src ? new ListView(src).go(action) : submit_form(get_action);
 }
 
 function buttonClicked(name, btype, model, id, sure, target) {
@@ -1169,4 +1176,14 @@ function toggle_shortcut() {
             }
         }
     });
+}
+
+function validate_action(action, args) {
+	var args = args;
+	if(is_form_changed) {
+		if(confirm('This record has been modified \n Do you want to save it')) {
+			args['_terp_save_current_id'] = 1;
+		}
+	}
+	return get_form_action(action, args)
 }
