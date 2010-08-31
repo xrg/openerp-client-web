@@ -35,9 +35,11 @@
                             <tr>
                                 % for i, (field, field_attrs) in enumerate(screen.widget.headers):
                                 % if field != 'button':
-                                    <td>
-                                        <input type="checkbox" checked id="${field}" onclick="search_filter()"/>
-                                        ${field_attrs['string']}
+                                    <td for= "${field}">
+                                        <input type="checkbox" checked id="${field}" onclick="search_filter();"/>
+                                        <label for= "${field}" onclick="jQuery('#${field}[type=checkbox]').trigger('click'); return false;">
+                                            ${field_attrs['string']}
+                                        </label>
                                     </td>
                                 % endif
                                 % endfor
