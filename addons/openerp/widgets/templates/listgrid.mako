@@ -190,7 +190,7 @@ import cherrypy
 			    </tr>
 		    % endif
 		    <tr>
-		        <td colspan="2" style="border: none;">
+		        <td colspan="2" style="border: none; padding: 2px 5px;">
 		            <table id="${name}_grid" class="grid" width="100%" cellspacing="0" cellpadding="0" style="background: none;">
 		                <thead>
 		                    <tr class="grid-header">

@@ -115,6 +115,7 @@
 
 .gridview .pagerbar .pagerbar-cell {
     vertical-align: middle;
+    padding: 2px 5px;
 }
 
 .gridview .pagerbar .pagerbar-cell.footer .pager {

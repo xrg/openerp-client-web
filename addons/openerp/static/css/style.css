@@ -490,7 +490,7 @@ table.o2m_box, table.m2m_box {
 }
 
 table.o2m_box td.o2m_cell, table.m2m_box td.m2m_cell {
-	padding: 4px;
+	padding: 1px;
 }
 table.o2m_box div.pagerbar-header strong {
 	font-weight: bold;
