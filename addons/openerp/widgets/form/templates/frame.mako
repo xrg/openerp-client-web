@@ -38,11 +38,15 @@
                     </tr>
                 </table>
                 % else:
-                    ${(widget or '') and widget}
                     % if attrs.get('title'):
-                        <sup style="color: darkgreen;">?</sup>
+	                    <sup>${(widget or '') and widget}
+	                        <sup style="color: darkgreen;">?</sup>
+	                    :
+	                    </sup>
+                    % else:
+	                    ${(widget or '') and widget}
+	                    :
                     % endif
-                    :
                 % endif
             % endif
             % if not isinstance(widget, basestring) and widget.visible:
