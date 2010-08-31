@@ -193,13 +193,8 @@ class ListGroup(List):
             
         self.group_by_ctx, self.hiddens, self.headers = parse(self.group_by_ctx, self.hiddens, self.headers, None, self.group_by_ctx)
         
-        if self.headers:
-            search_fields = map(lambda x: x[0], self.headers)
-        else:
-            search_fields = fields.keys()
-        
         self.grp_records = proxy.read_group(self.context.get('__domain', []) + (self.domain or []),
-                                                search_fields, self.group_by_ctx, 0, False, self.context)   
+                                                fields.keys(), self.group_by_ctx, 0, False, self.context)   
         
         
         for grp_rec in self.grp_records:
@@ -269,13 +264,7 @@ class MultipleGroup(List):
         
         self.group_by_ctx, self.hiddens, self.headers = parse(self.group_by_ctx, self.hiddens, self.headers, self.group_level, groups)
         
-        
-        if self.headers:
-            search_fields = map(lambda x: x[0], self.headers)
-        else:
-            search_fields = fields.keys()
-            
         self.grp_records = proxy.read_group(self.context.get('__domain', []),
-                                                search_fields, self.group_by_ctx, 0, False, self.context)   
+                                                fields.keys(), self.group_by_ctx, 0, False, self.context)   
         
         self.grouped, grp_ids = parse_groups(self.group_by_ctx, self.grp_records, self.headers, self.ids, model,  self.offset, self.limit, rpc.session.context.copy(), self.data, self.field_total, fields)                            
