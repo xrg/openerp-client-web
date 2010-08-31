@@ -5,7 +5,7 @@ import cherrypy
 
 <%def name="make_editors(data=None)">
     % if editable and editors:
-        <tr class="grid-row editors">
+        <tr class="grid-row editors" record="${(data and data['id']) or -1}">
             % if selector:
             	<td class="grid-cell selector">&nbsp;</td>
             % endif
@@ -122,8 +122,30 @@ import cherrypy
 			        			            	<button id="${name}_new" title="${_('Create new record.')}">${_('new')}</button>
 			        			              	% if editors:
                                               		<script type="text/javascript">
+                                              			var flag = false;
+														var current_id = -1;
+                                              			jQuery(document).ready(function() {
+															var grid = jQuery("table.grid[id='${name}_grid']")
+															var tds = jQuery(grid).find('tr.grid-row td:not([class$=selector])')
+															var check = jQuery(tds).find('input, select');
+															if(check.length) {
+																jQuery(check).change(function() {
+																	flag = true;
+																	if(jQuery(this).closest('tr').attr('record')) {
+																		current_id = jQuery(this).closest('tr').attr('record')
+																	}
+																});
+															}
+														})
 	                                                	jQuery('#${name}_new').click(function() {
-	                                                    	new ListView('${name}').create();
+															if(flag) {
+																if (confirm('This record has been modified \n Do you really want to save it?')) {
+																	new ListView('${name}').save(current_id)
+																}
+															}
+															else {
+																new ListView('${name}').create();
+															}
 	                                                        return false;
 	                                                    });
 	                                                </script>
@@ -317,7 +339,15 @@ import cherrypy
 		                            }
 		                            else {
 		                                if ('${name}' == '_terp_list'){
-		                                   new ListView('_terp_list').create(); return false;
+											if (flag) {
+												if (confirm('This record has been modified \n Do you really want to save it?')) {
+													new ListView('${name}').save(current_id)
+												} 
+											}
+											else {
+												new ListView('${name}').create(); 
+											}
+											return false;
 		                                }
 		                                else{
 		                                   new One2Many('${name}', jQuery('table.one2many[id$=${name}]').attr('detail')).create();
