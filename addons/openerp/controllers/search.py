@@ -300,22 +300,22 @@ class Search(Form):
                     tuple_val = x[0], x[1], x[2]
                 return [tuple_val]
 
+        cust_domain = []
         if custom_domains:
             custom_domains = eval(custom_domains)
             for val in custom_domains[:-1]:
-                if len(val):
+                if val:
                     val.insert(0, '|')
 
-            cust_domain = []
             for cs_dom in custom_domains:
                 for inner in cs_dom:
                     if len(inner) == 1 and len([x for x in inner if isinstance(x, list)]) == 0:
                         cust_domain += inner[0]
                     elif len([x for x in inner if isinstance(x, list)]):
                         for d in inner:
-                            cust_domain += (get_domain(d))
+                            cust_domain += get_domain(d)
                     else:
-                        cust_domain += (get_domain(inner))
+                        cust_domain += get_domain(inner)
 
             if len(cust_domain)>1 and cust_domain[-2] in ['&','|']:
                 if len(cust_domain) == 2:

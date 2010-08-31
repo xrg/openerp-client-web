@@ -527,8 +527,8 @@ function parse_filters(src, id) {
 }
 
 function search_filter(src, id) {
-    var custom_columns = "";
-    custom_columns = (jQuery('#custom_columns input:not(:checked)').map(function() {
+
+    var custom_columns = (jQuery('#custom_columns input:not(:checked)').map(function() {
         return this.id;
     }).get().join(','));
 

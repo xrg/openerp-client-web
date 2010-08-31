@@ -609,7 +609,10 @@ class Button(TinyInputWidget):
 
         if self.states:
             state = data.get('state')
-            state = ((state or False) and state.value) or 'draft'
+            try:
+                state = ((state or False) and state.value) or 'draft'
+            except:
+                state = ustr(state)
             visible = state in self.states
 
         return dict(id=id, visible=visible)

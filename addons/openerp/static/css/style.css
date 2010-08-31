@@ -86,8 +86,10 @@ table#filter_option_table {
     margin: 0;
 }
 
-table#filter_option_table td.filter_column {    
+table#filter_option_table td.filter_column {
     padding: 0;
+    text-align:right;
+    white-space:nowrap;
 }
 
 table#filter_option_table td.filter_column select {
