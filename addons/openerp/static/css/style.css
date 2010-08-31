@@ -515,7 +515,7 @@ table.o2m_box div.pagerbar-header strong {
 td.label,
 td.item,
 #groupdata_table td.item {
-    padding: 4px;
+    padding: 2px 4px;
 }
 
 td.label {
