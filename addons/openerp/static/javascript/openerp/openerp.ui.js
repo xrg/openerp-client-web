@@ -47,6 +47,7 @@ function toggle_sidebar() {
     } else {
         Notebook.adjustSize(a);
     }
+    jQuery('td.toggle_sidebar').toggleClass('sidebar_open sidebar_close');
 	adjustTopWidth();
     
 }

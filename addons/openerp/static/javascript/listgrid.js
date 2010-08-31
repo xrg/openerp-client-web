@@ -76,8 +76,14 @@ ListView.prototype = {
 			$(this).attr('checked', clear)
 		});
         
-        var sb = openobject.dom.get('sidebar');
-        if (sb) toggle_sidebar();
+        var selected_ids = this.getSelectedRecords();
+        
+       	if (jQuery('div#tertiary').attr('class') == 'sidebar-closed') {
+       		toggle_sidebar();
+           }
+        if (selected_ids.length == 0) {
+        	toggle_sidebar();
+        }
         
         this.selectedRow_sum();
     },
@@ -155,12 +161,12 @@ ListView.prototype = {
         var selected_ids = this.getSelectedRecords();
         
         if (selected_ids.length <= 1) {
-        	if (jQuery('div#tertiary').attr('class', 'sidebar-closed')) {
+        	if (jQuery('div#tertiary').attr('class') == 'sidebar-closed') {
         		toggle_sidebar();
             }
         }
         if (selected_ids.length == 0) {
-            if (jQuery('div#tertiary').attr('class', 'sidebar-open')) {
+            if (jQuery('div#tertiary').attr('class') == 'sidebar-open') {
         		toggle_sidebar();
             }
         }

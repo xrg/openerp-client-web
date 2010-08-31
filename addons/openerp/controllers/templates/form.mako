@@ -163,10 +163,8 @@
 	            </td>
 	            <script type="text/javascript">
 	                jQuery('td.toggle_sidebar').click(function() {
-	                    jQuery(this).toggleClass('sidebar_open sidebar_close')
 	                    toggle_sidebar();
 	                    jQuery(window).trigger('on-appcontent-resize');
-
 	                    var total_win_width = jQuery('#main_form_body').width();
 	                    jQuery(window).scrollLeft(total_win_width);
 	                });
