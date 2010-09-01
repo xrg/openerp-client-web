@@ -126,6 +126,9 @@
 			            <input type="hidden" id="res_model" value="${res_model}"/>
 			            <input type="hidden" id="res_id" value="${res_id}"/>
 			            <div id="process_canvas" style="margin-top: 00px"></div>
+			            <div align="left">
+		                    <a target="_blank" id="show_customize_menu" href="${py.url('/openerp/form/edit', model='process.process', id=id)}">${_("[Edit Process]")}</a><br/>
+					    </div>
 			        </td>
 				    % endif
 			    </tr>
@@ -167,16 +170,5 @@
     	</td>
     </tr>
     % endif
-    <tr>
-       <td class="dimmed-text">
-           <table class="form-footer process_table">
-                <tr>
-	                <td class="footer" style="text-align: right;">
-	                    <a target="_blank" id="show_customize_menu" href="${py.url('/openerp/form/edit', model='process.process', id=id)}">${_("Customise")}</a><br/>
-	                </td>
-                </tr>
-            </table>
-       </td>
-   </tr>
 </table>
 </%def>
