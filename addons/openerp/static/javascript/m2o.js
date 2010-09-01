@@ -46,7 +46,7 @@ ManyToOne.prototype.__init__ = function(name) {
 
     this.field = openobject.dom.get(name);
     this.text = openobject.dom.get(name + '_text');
-    this.editable = getElement('_terp_editable') ? getElement('_terp_editable').value : 'True';
+    this.editable = this.field.tagName.toLowerCase() == 'span' ? 'False' : 'True';
     //for autocomplete
     this.auto_hidden_id = openobject.dom.get('_hidden_' + name);
 
