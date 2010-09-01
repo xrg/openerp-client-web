@@ -533,9 +533,7 @@ function search_filter(src, id) {
     }).get().join(','));
 
     var all_domains = parse_filters(src, id);
-    var filters = jQuery('#filter_table');
-
-    if(filters.is(':visible') || jQuery('#_terp_filter_domain').val() != '[]') {
+    if(jQuery('#filter_table').is(':visible') || jQuery('#_terp_filter_domain').val() != '[]') {
         display_Customfilters(all_domains, group_by, custom_columns);
     } else {
         var custom_domain = jQuery('#_terp_filter_domain').val() || '[]';
