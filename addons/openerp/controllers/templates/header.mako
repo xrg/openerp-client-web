@@ -66,24 +66,24 @@ except:
 	                    <li class="first last"><a href="javascript: void(0);">${_("Requests")}</a></li>
 	                </ul>
 	            </li>
-	
+
 	            <li><a href="${py.url('/openerp/pref/create')}" class="preferences">${_("Preferences")}</a>
 	                <ul>
 	                    <li class="first last"><a href="javascript: void(0);">${_("Edit Preferences")}</a></li>
 	                </ul>
 	            </li>
-	            <li><a href="javascript: void(0);" class="info">${_("About")}</a>
+	            <li><a target="_blank" href="/openerp/about" class="info">${_("About")}</a>
 	                <ul>
 	                    <li class="first last"><a href="javascript: void(0);">${_("About")}</a></li>
 	                </ul>
 	            </li>
-	
-	            <li><a href="javascript: void(0);" class="help">${_("Help")}</a>
+
+	            <li><a target="_blank" href="http://doc.openerp.com/" class="help">${_("Help")}</a>
 	                <ul>
 	                    <li class="first last"><a href="javascript: void(0);">${_("Help")}</a></li>
 	                </ul>
 	            </li>
-	
+
 	            % if cp.config('server.environment') == 'production':
 	                <li id="clear_cache"><a href="${py.url('/openerp/pref/clear_cache')}" class="clear_cache">${_("Clear Cache")}</a>
 	                    <ul>
