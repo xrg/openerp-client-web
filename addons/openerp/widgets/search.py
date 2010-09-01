@@ -246,8 +246,8 @@ class Search(TinyInputWidget):
         ctx = dict(rpc.session.context, **self.context)
 
         view_id = ctx.get('search_view') or False
-        if getattr(cherrypy.request,'terp_params') and not view_id and not kw.get('clear'):
-            view_id = cherrypy.request.terp_params.get('_terp_view_id', False)
+#        if getattr(cherrypy.request,'terp_params') and not view_id and not kw.get('clear'):
+#            view_id = cherrypy.request.terp_params.get('_terp_view_id', False)
 
         if isinstance (self.search_view, basestring):
             self.search_view = eval(self.search_view)

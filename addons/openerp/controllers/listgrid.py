@@ -247,7 +247,8 @@ class List(SecuredController):
         else:
             view=ustr(wid.render())
         server_logs = ''
-        if frm.logs.logs and frm.screen.view_type == 'tree':
+        
+        if frm.logs and frm.screen.view_type == 'tree':
             server_logs = ustr(frm.logs.render())
         return dict(ids=ids, count=count, view=view, info=info, active_clear=active_clear, logs=server_logs)
 
