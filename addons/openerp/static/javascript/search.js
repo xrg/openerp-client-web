@@ -529,7 +529,7 @@ function parse_filters(src, id) {
 function search_filter(src, id) {
 
     var custom_columns = (jQuery('#custom_columns input:not(:checked)').map(function() {
-        return this.id;
+        return this.getAttribute('id').replace(/^display_column_/, '');
     }).get().join(','));
 
     var all_domains = parse_filters(src, id);
