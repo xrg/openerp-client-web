@@ -1772,13 +1772,13 @@ ul.sections-a li span.wrap a:hover span strong,ul.sections-a li span.wrap a:focu
 .open-close-menu {
     float: left;
     cursor: pointer;
-    background: #CECBCB url(../images/left.png) no-repeat scroll center 0.5%;
+    background: #CECBCB url(../images/arrow_left.png) no-repeat scroll 20% 50%;
     min-height: 100%;
     width: 11px;
 }
 
 .hide-menu .open-close-menu {
-    background-image: url(../images/right.png);
+    background:#CECBCB url(../images/arrow_right.png) no-repeat scroll 80% 50%;
 }
 
 .hide-menu #primary {
@@ -2117,11 +2117,11 @@ p.paging-a a.next {
 }
 
 .sidebar_close {
-	background: #CECBCB url(../images/left.png) no-repeat scroll center 0.5%;
+	background: #CECBCB url(../images/arrow_left.png) no-repeat scroll 20% 50%;
 }
 
 .sidebar_open {
-	background: #CECBCB url(../images/right.png) no-repeat scroll center 0.5%;
+	background: #CECBCB url("../images/arrow_right.png") no-repeat scroll 80% 50% 
 }
 
 .sideheader-a {
