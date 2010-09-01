@@ -7,7 +7,7 @@ class GraphView(TinyView):
     _type = "graph"
     _name = _("Graph")
     _desc = _("Graph view...")
-    _priority = 3
+    _priority = 2
 
     def __call__(self, screen):
 
