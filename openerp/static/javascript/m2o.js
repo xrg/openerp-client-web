@@ -267,7 +267,6 @@ ManyToOne.prototype.get_matched = function(){
     var context = getNodeAttribute(this.field, 'context');
 
 	var req = eval_domain_context_request({source: this.name, domain: domain, context: context});
-    var req = eval_domain_context_request({source: this.name, domain: '[]', context: context});
 
     req.addCallback(function(obj){
         text = m2o.field.value ? '' : m2o.text.value;
