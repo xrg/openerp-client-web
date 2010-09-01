@@ -523,10 +523,10 @@ class BarChart(GraphData):
 
         if y_grid_color:
             axis_y = {"steps": yopts['y_steps'], "max": yopts['y_max'], "min": yopts['y_min'],
-                      "stroke": 2 }
+                      "stroke": 2 , "grid-colour": "#F0EEEE"}
         else:
             axis_y = {"steps": yopts['y_steps'], "max": yopts['y_max'], "min": yopts['y_min'],
-                      'stroke': 2 }
+                      'stroke': 2 , "grid-colour": "#F0EEEE"}
 
         if len(axis_group) > 1:
             ChartColors = choice_colors(len(axis_group))
@@ -558,7 +558,7 @@ class BarChart(GraphData):
                                      "keys": [key for key in all_keys]}],
                         "x_axis": {"colour": "#909090",
                                    "labels": { "labels": [ lbl for lbl in stack_labels ], "rotate": "diagonal", "colour": "#ff0000"},
-                                   "3d": 3},
+                                   "3d": 3, "grid-colour": "#F0EEEE"},
                         "y_axis": axis_y,
                         "bg_colour": "#F0EEEE",
                         "tooltip": {"mouse": 2 }}
@@ -590,10 +590,10 @@ class BarChart(GraphData):
                                  "stroke": 1,
                                  "tick-height": 5,
                                  "steps": 1, "labels": { "rotate": "diagonal", "colour": "#ff0000", "labels": [l for l in temp_lbl]},
-                                 "3d": 3
+                                 "3d": 3,
+                                 "grid-colour": "#F0EEEE"
                                  }
                       }
-
         return result
 
 
