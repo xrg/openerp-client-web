@@ -89,18 +89,21 @@ ListView.prototype = {
     },
 	
 	selectedRow_sum: function() {
-		var selected_ids = this.getSelectedRecords();
-		if(selected_ids.length) {
-			jQuery('#'+this.name+'_delete_record').parent().show()
-			jQuery('#'+this.name+'_edit_record').parent().show()
-	   }
-	   else {
-	   	   jQuery('#'+this.name+'_delete_record').parent().hide()
-           jQuery('#'+this.name+'_edit_record').parent().hide()
-	   }	
+        var selected_ids = this.getSelectedRecords();
+        var del_btn = jQuery('[id="'+this.name+'_delete_record'+'"]')
+        var edit_btn = jQuery('[id="'+this.name+'_edit_record'+'"]')
+
+        if(selected_ids.length) {
+            del_btn.parent().show();
+            edit_btn.parent().show();
+        }
+        else {
+            del_btn.parent().hide();
+            edit_btn.parent().hide();
+        }
 		if(jQuery('tr.field_sum td.grid-cell span').length>0) {
 		    	var sum_fields = [];
-		    	 
+
 		    	jQuery('tr.field_sum td.grid-cell span').each(function() {
 		    		sum_fields.push(jQuery(this).attr('id'))
 		    	});
