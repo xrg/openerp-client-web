@@ -214,8 +214,7 @@ function parse_filters(src, id) {
     }
     
     jQuery('#_terp_filters_context').val(filter_context);
-    
-    var filter_table = getElement('filter_table');
+
     forEach($$('[name]', 'search_filter_data'), function(d) {
         var value;
         if (d.type != 'checkbox' && d.name && d.value && d.name.indexOf('_terp_') == -1 && d.name != 'filter_list' && d.name != 'flashvars' && d.name != 'wmode') {
@@ -276,12 +275,11 @@ function search_filter(src, id) {
 function save_filter() {
     var domain_list = parse_filters();
     var custom_domain = jQuery('#_terp_filter_domain').val() || '[]';
-    var req = openobject.http.postJSON('/openerp/search/eval_domain_filter', {
+    openobject.http.postJSON('/openerp/search/eval_domain_filter', {
         'all_domains': domain_list,
         'source': '_terp_list',
         'custom_domain': custom_domain,
-        'group_by_ctx': group_by});
-    req.addCallback(function(obj) {
+        'group_by_ctx': group_by}).addCallback(function(obj) {
         var sf_params = {'model': jQuery('#_terp_model').val(), 'domain': obj.domain, 'group_by': group_by, 'flag': 'sf'};
         openobject.tools.openWindow(openobject.http.getURL('/openerp/search/save_filter', sf_params), {
                 width:400,
