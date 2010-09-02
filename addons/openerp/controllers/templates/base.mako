@@ -11,7 +11,6 @@
     <script type="text/javascript" src="/openerp/static/javascript/form.js"></script>
     <script type="text/javascript" src="/openerp/static/javascript/form_state.js"></script>
     <script type="text/javascript" src="/openerp/static/javascript/listgrid.js"></script>
-    <script type="text/javascript" src="/openerp/static/javascript/sortablegrid.js"></script>
 
     <script type="text/javascript" src="/openerp/static/javascript/m2o.js"></script>
     <script type="text/javascript" src="/openerp/static/javascript/m2m.js"></script>
