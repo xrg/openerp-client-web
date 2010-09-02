@@ -31,74 +31,23 @@ function initialize_dashboard() {
     if (window.browser.isIE) {
         return;
     }
+    jQuery('div.dashbar').each(function () {
+        new Droppable(this, {
+            'ondrop': onDrop,
+            'hoverclass': 'dashbar-hover',
+            'accept': ['dashlet']});
 
-    var dashbars = openobject.dom.select('div.dashbar');
-    MochiKit.Iter.forEach(dashbars, function(bar){
-        
-        new Droppable(bar, {'ondrop': onDrop, 
-                            'hoverclass': 'dashbar-hover',
-                            'accept': ['dashlet']});
-        
-        var dashlets = openobject.dom.select('div.dashlet', bar);      
-        MochiKit.Iter.forEach(dashlets, function(dashlet){
-            new Draggable(dashlet, {'handle': 'dashlet-title', 
-                                    'starteffect': null, 
-                                    'endeffect': null, 
-                                    'revert': true});
-        });        
+        jQuery(this).find('div.dashlet').each(function () {
+            new Draggable(this, {
+                'handle': 'dashlet-title',
+                'starteffect': null,
+                'endeffect': null,
+                'revert': true});
+        })
     });
-
-    function onDrop(src, dst, evt) {
-
-        var xy = MochiKit.DOM.elementPosition(src, dst);
-        var ref = null;
-
-        var divs = openobject.dom.select('div.dashlet', dst);
-
-        for(var i=0; i < divs.length; i++) {
-
-            var el = divs[i];
-            var dim = MochiKit.DOM.elementDimensions(el);
-            var pos = MochiKit.DOM.elementPosition(el);
-
-            if ((pos.y > xy.y) && (xy.y < (pos.y + dim.h))) {
-                ref = el;
-                break;
-            }
-        }
-        
-        dst.insertBefore(src, ref);
-
-        src.style.position = 'relative';
-        src.style.top = 'auto';
-        src.style.left = 'auto';
-        src.style.width = '100%';
-
-        if (src && ref != src) {
-            
-            var src_id = src.id.replace('dashlet_', '');
-            var ref_id = ref ? ref.id.replace('dashlet_', '') : null;
-
-            var args = {src: src_id, dst: dst.id, ref: ref_id};
-            args['view_id'] = openobject.dom.get('_terp_view_id').value;
-
-            var req = openobject.http.postJSON('/openerp/viewed/update_dashboard', args); 
-            req.addCallback(function(obj) {
-
-                if (obj.error) {
-                    return alert(obj.error);    
-                }
-
-                if (obj.reload) {
-                    window.location.reload();    
-                }
-            });
-        }
-    }
 
     MochiKit.Signal.connect(MochiKit.DragAndDrop.Draggables, 'start', function() {
             var embeds = openobject.dom.select('embeds');
-            
             MochiKit.Iter.forEach(embeds, function(e){
                 MochiKit.DOM.hideElement(e);
             });
@@ -106,11 +55,58 @@ function initialize_dashboard() {
 
     MochiKit.Signal.connect(MochiKit.DragAndDrop.Draggables, 'end', function(){
             var embeds = openobject.dom.select('embeds');
-      
             MochiKit.Iter.forEach(embeds, function(e){
                 MochiKit.DOM.showElement(e);
             });
     });
+}
+
+function onDrop(src, dst, evt) {
+    console.log('ondrop', src, dst, evt);
+    var xy = MochiKit.DOM.elementPosition(src, dst);
+    var ref = null;
+
+    var divs = openobject.dom.select('div.dashlet', dst);
+
+    for(var i=0; i < divs.length; i++) {
+
+        var el = divs[i];
+        var dim = MochiKit.DOM.elementDimensions(el);
+        var pos = MochiKit.DOM.elementPosition(el);
+
+        if ((pos.y > xy.y) && (xy.y < (pos.y + dim.h))) {
+            ref = el;
+            break;
+        }
+    }
+
+    dst.insertBefore(src, ref);
+
+    src.style.position = 'relative';
+    src.style.top = 'auto';
+    src.style.left = 'auto';
+    src.style.width = '100%';
+
+    if (src && ref != src) {
+
+        var src_id = src.id.replace('dashlet_', '');
+        var ref_id = ref ? ref.id.replace('dashlet_', '') : null;
+
+        var args = {src: src_id, dst: dst.id, ref: ref_id};
+        args['view_id'] = openobject.dom.get('_terp_view_id').value;
+
+        var req = openobject.http.postJSON('/openerp/viewed/update_dashboard', args);
+        req.addCallback(function(obj) {
+
+            if (obj.error) {
+                return alert(obj.error);
+            }
+
+            if (obj.reload) {
+                window.location.reload();
+            }
+        });
+    }
 }
 
 jQuery(document).ready(initialize_dashboard);
