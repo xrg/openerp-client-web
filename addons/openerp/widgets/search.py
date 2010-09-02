@@ -201,7 +201,6 @@ class M2O_search(M2O):
             new ManyToOne('${name}');
         </script>
     """
-    javascript = [JSLink("openerp", "javascript/m2o.js", location=locations.bodytop)]
     params = ['filter_domain']
 
     def __init__(self, **attrs):

@@ -552,9 +552,7 @@ class DateTime(TinyInputWidget):
 
     template = "templates/datetime.mako"
 
-    javascript = [JSLink("openerp", "jscal/calendar.js"),
-                  JSLink("openerp", "jscal/calendar-setup.js"),
-                  DTLink("openerp", "jscal/lang/calendar-en.js")]
+    javascript = [DTLink("openerp", "jscal/lang/calendar-en.js")]
 
     params = ["format", "picker_shows_time"]
 

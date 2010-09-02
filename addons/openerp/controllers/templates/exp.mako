@@ -2,8 +2,6 @@
 
 <%def name="header()">
     <title>Export Data</title>
-    <link href="/openerp/static/css/listgrid.css" rel="stylesheet" type="text/css"/>
-    <script type="text/javascript" src="/openerp/static/javascript/listgrid.js"></script>
 
     <style type="text/css">
         .fields-selector {

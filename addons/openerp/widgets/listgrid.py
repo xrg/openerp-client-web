@@ -72,9 +72,6 @@ class List(TinyWidget):
     checkbox_name = True
     min_rows = 5
 
-    javascript = [JSLink("openerp", 'javascript/listgrid.js'),
-                  JSLink("openerp", 'javascript/sortablegrid.js')]
-
     def __init__(self, name, model, view, ids=[], domain=[], context={}, **kw):
 
         super(List, self).__init__(name=name, model=model, ids=ids)

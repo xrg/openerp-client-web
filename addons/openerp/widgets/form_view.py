@@ -44,12 +44,6 @@ class ViewForm(Form):
     params = ['limit', 'offset', 'count', 'search_domain', 'search_data', 'filter_domain', 'notebook_tab']
     member_widgets = ['screen', 'search', 'sidebar', 'logs']
 
-    javascript = [JSLink("openerp", "javascript/m2o.js", location=locations.bodytop),
-                  JSLink("openerp", "javascript/m2m.js", location=locations.bodytop),
-                  JSLink("openerp", "javascript/o2m.js", location=locations.bodytop),
-                  JSLink("openerp", "javascript/openerp/openerp.ui.textarea.js", location=locations.bodytop),
-                  JSLink("openerp", "javascript/binary.js", location=locations.bodytop)]
-
     def __init__(self, params, **kw):
 
         super(ViewForm, self).__init__(**kw)
