@@ -29,19 +29,15 @@
 
 // Based on MochiKit `sortable_table` demo
 
-mouseOverFunc = function () {
-    try{
-        addElementClass(this, "over");
-    } catch(e){}
-};
+function mouseOverFunc() {
+    jQuery(this).addClass('over');
+}
 
-mouseOutFunc = function () {
-    try{
-        removeElementClass(this, "over");
-    } catch(e){}
-};
+function mouseOutFunc() {
+    jQuery(this).removeClass('over');
+}
 
-ignoreEvent = function (ev) {
+function ignoreEvent(ev) {
     if (ev && ev.preventDefault) {
         ev.preventDefault();
         ev.stopPropagation();
@@ -49,7 +45,7 @@ ignoreEvent = function (ev) {
         event.cancelBubble = false;
         event.returnValue = false;
     }
-};
+}
 
 SortableGrid = function (table, options) {
     this.__init__(table, options);
