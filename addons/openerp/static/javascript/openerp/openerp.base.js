@@ -1,4 +1,3 @@
-var console;
 // cache for the current hash url so we can know if it's changed
 var currentUrl;
 /**
@@ -25,7 +24,7 @@ function openLink(url /*optional afterLoad */) {
             success: doLoadingSuccess(app),
             error: function (xhr, status, error) {
                 if(xhr.status != 500) {
-                    if(console) {
+                    if(window.console) {
                         console.warn("Failed to load ", url, ":", status, error);
                     }
                     return;
@@ -111,7 +110,7 @@ jQuery(document).ready(function () {
                 success: doLoadingSuccess($app),
                 error: function (xhr, status, error) {
                     if(xhr.status != 500) {
-                        if(console) {
+                        if(window.console) {
                             console.warn("Failed to load ", form.attr('method') || 'GET', form.attr('action'), ":", status, error);
                         }
                         return;
