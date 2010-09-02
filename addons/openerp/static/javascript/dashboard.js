@@ -45,24 +45,9 @@ function initialize_dashboard() {
                 'revert': true});
         })
     });
-
-    MochiKit.Signal.connect(MochiKit.DragAndDrop.Draggables, 'start', function() {
-            var embeds = openobject.dom.select('embeds');
-            MochiKit.Iter.forEach(embeds, function(e){
-                MochiKit.DOM.hideElement(e);
-            });
-    });
-
-    MochiKit.Signal.connect(MochiKit.DragAndDrop.Draggables, 'end', function(){
-            var embeds = openobject.dom.select('embeds');
-            MochiKit.Iter.forEach(embeds, function(e){
-                MochiKit.DOM.showElement(e);
-            });
-    });
 }
 
 function onDrop(src, dst, evt) {
-    console.log('ondrop', src, dst, evt);
     var xy = MochiKit.DOM.elementPosition(src, dst);
     var ref = null;
 
@@ -79,7 +64,6 @@ function onDrop(src, dst, evt) {
             break;
         }
     }
-
     dst.insertBefore(src, ref);
 
     src.style.position = 'relative';
