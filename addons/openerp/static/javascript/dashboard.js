@@ -31,15 +31,6 @@ function initialize_dashboard() {
     if (window.browser.isIE) {
         return;
     }
-    
-    var dashtabs = openobject.dom.select('div.dashlet-title');
-    
-    if (window.browser.isIE || window.browser.isIE6 || window.browser.isIE7) {
-        forEach(dashtabs, function(tabs){
-            tabs.style.cursor = 'normal';    
-        });
-        return;
-    }
 
     var dashbars = openobject.dom.select('div.dashbar');
     MochiKit.Iter.forEach(dashbars, function(bar){
