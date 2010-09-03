@@ -133,10 +133,8 @@
                                                         var is_list_changed = false;
                                                         var current_id = -1;
                                                         jQuery(document).ready(function() {
-                                                            var $grid = jQuery("table.grid[id='${name}_grid']");
-                                                            var $tds = $grid.find('tr.grid-row td:not(.selector)');
-                                                            var check = $tds.find('input, select');
-                                                            jQuery(check).change(function() {
+                                                            var $check = jQuery("table.grid[id='${name}_grid'] tr.grid-row td:not(.selector)").find('input, select');
+                                                            $check.change(function() {
                                                                 is_list_changed = true;
                                                                 current_id = jQuery(this).closest('tr').attr('record') || -1;
                                                             });
@@ -146,8 +144,7 @@
                                                                 if (confirm('This record has been modified \n Do you really want to save it?')) {
                                                                     new ListView('${name}').save(current_id)
                                                                 }
-                                                            }
-                                                            else {
+                                                            } else {
                                                                 new ListView('${name}').create();
                                                             }
                                                             return false;
