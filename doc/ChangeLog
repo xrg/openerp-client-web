@@ -1,3 +1,94 @@
+2010-09-03: 5.0.13
+==================
+
+Bugfixes
+--------
+
+* Not linked to a bug report:
+
+  * Fixed date widget size when attrs applied.
+  * Fixes for image issues.
+  * Removed self closed tag.
+  * Revert changes (2908).
+  * Revert changes (Rev: 2911).
+  * Fixed o2m list of ids issue.
+  * attrs onchange in readonly mode .
+  * Fixed O2M widget limit.
+  * Fixed z-index issues for graph.
+  * Improved Image widget (IE8 Issue.)
+  * Fix popup on list's first column in wizard (Ref. ksh-axelor)
+  * Fixed process view for opera.
+  * Fixed Export.
+  * Some minor changes.
+  * Fixed dashboard for Button action.
+  * Fixed seletion widget for required.
+  * Fixed image size.
+  * Fixed default value for binary fields.
+  * Fixed return for osv memory on success.
+  * Fixed reloading parent form when osv memory result is none.
+
+* https://launchpad.net/bugs/609672
+  * Fixed attrs read-only problem for checkboxes.
+
+* https://launchpad.net/bugs/607645
+  * Fixed wrong domain convention.
+
+* https://launchpad.net/bugs/508347
+  * Fixed Calendar groups issue.
+
+* https://launchpad.net/bugs/555681
+
+* https://launchpad.net/bugs/594861
+  * Fixed url redirects for Accented characters.
+
+* https://launchpad.net/bugs/626312
+  * Fixed graph width 100%.
+
+* https://launchpad.net/bugs/610478
+  * Fix attrschange m2o issue.
+
+* https://launchpad.net/bugs/610852
+  * Fix Locale issue(unKnown Locale).
+
+* https://launchpad.net/bugs/612827
+  * Fixed listgrid wizard action.
+
+* https://launchpad.net/bugs/619792
+  * Removed wrong closing tag.
+
+* https://launchpad.net/bugs/604618
+  * Fixed O2M widget limit.
+
+* https://launchpad.net/bugs/435684
+  * Fixed request updated when deleted.
+
+* https://launchpad.net/bugs/615352
+  * Fixed Listview limit problem.
+
+* https://launchpad.net/bugs/585348
+  * Fixed translation for popup.
+
+* https://launchpad.net/bugs/532635
+  * Fixed active_id, active_ids problem.
+
+* https://launchpad.net/bugs/571773
+  * Fixed multiple one2many, wrong elements on list reload after list change.
+
+* https://launchpad.net/bugs/512224
+  * Fixed tooltips issue.
+
+* https://launchpad.net/bugs/570778
+
+* https://launchpad.net/bugs/611701
+  * Fixed wrong path for image.
+
+
+Improvements
+------------
+
+* Improved m2o search.
+
+
 2010-07-09: 5.0.12
 ==================
 
