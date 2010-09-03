@@ -161,30 +161,7 @@ class List(SecuredController):
                 params.context.update(params.filters_context)
 
         params['_terp_group_by_ctx'] = groupby
-        if '_terp_sort_key' in params:
-            proxy = rpc.RPCProxy(params.model)
-            if params.search_domain is None:
-                params.search_domain = "[]"
-            if params.sort_model != params.model:
-                offset = params[params.o2m].offset
-                limit = params[params.o2m].limit
-            else:
-                offset = params.offset
-                limit = params.limit
-                
-            ids = self.sort_by_order(params.sort_model, params.sort_key, str(params.sort_domain), str(params.search_domain) or '[]', str(params.filter_domain) or '[]', params.sort_order, offset, limit)
-            sort_ids = ast.literal_eval(ids)
-            if params.sort_model != params.model:
-                if len(params.o2m.split('/')) > 1:
-                    parent = params.o2m.split('/')[0]
-                    child = params.o2m.split('/')[1]
-                    ids = params[parent][child].ids
-                else:
-                    ids = params[params.o2m].ids
-            else:
-                params.ids = sort_ids['ids']
-        else:
-            params.ids = None
+        params.ids = None
 
         source = (params.source or '') and str(params.source)
         if not params.view_type == 'graph':
@@ -313,24 +290,7 @@ class List(SecuredController):
         except Exception, e:
             error = ustr(e)
 
-        return dict(error=error, result=result, reload=reload, wiz_result=wiz_result)
-
-    @expose('json')
-    def sort_by_order(self, model, column, domain, search_domain, filter_domain, order, offset, limit):
-        domain = ast.literal_eval(domain)
-        search_domain = ast.literal_eval(search_domain)
-        filter_domain = ast.literal_eval(filter_domain)
-        if search_domain:
-            domain.extend(search_domain)
-        if filter_domain:
-            domain.extend(filter_domain)
-
-        try:
-            proxy = rpc.RPCProxy(model)
-            ids = proxy.search(domain, int(offset), int(limit), column+' '+order, rpc.session.context)
-            return dict(ids = ids)
-        except Exception , e:
-            return dict(error = e.message)
+        return dict(error=error, result=result, reload=reload, wiz_result=wiz_result)    
 
     @expose('json')
     def groupbyDrag(self, model, children, domain):

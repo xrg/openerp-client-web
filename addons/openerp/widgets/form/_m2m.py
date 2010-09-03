@@ -98,11 +98,15 @@ class M2M(TinyInputWidget):
             ids = attrs.get('value', [])
 
         id = (ids or None) and ids[0]
-
+        
         pprefix = ''
         if '/' in self.name:
             pprefix = self.name[:self.name.rindex('/')]
-
+        
+        if self.name == params.source and params.sort_key and ids:
+            self.domain.append(('id', 'in', ids))
+            ids = rpc.RPCProxy(self.model).search(self.domain, 0, 0, params.sort_key+ ' '+params.sort_order, self.context)
+            id = ids[0]
         current = params.chain_get(self.name)
 
         if not current:

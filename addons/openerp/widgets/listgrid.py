@@ -78,7 +78,6 @@ class List(TinyWidget):
         
         self.context = context or {}
         self.domain = domain or []
-        
         custom_search_domain = getattr(cherrypy.request, 'custom_search_domain', [])
         custom_filter_domain = getattr(cherrypy.request, 'custom_filter_domain', [])
         
@@ -86,15 +85,12 @@ class List(TinyWidget):
             self._name = name[:-1]
         if name != '_terp_list':
             self.source = self.name.replace('/', '/') or None
-            
+        
+        self.sort_order = ''
+        self.sort_key = ''
         #this Condition is for Dashboard to avoid new, edit, delete operation
         self.dashboard = 0
-        terp_params = getattr(cherrypy.request, 'terp_params', [])
-        if terp_params:
-            if terp_params.get('_terp_model'):
-                if terp_params['_terp_model'] == 'board.board':
-                    self.dashboard = 1
-                        
+        
         self.selectable = kw.get('selectable', 0)
         self.editable = kw.get('editable', False)
         self.pageable = kw.get('pageable', True)
@@ -109,7 +105,17 @@ class List(TinyWidget):
         self.concurrency_info = None
         self.selector = None
         self.custom_columns = kw.get('custom_columns', [])
-
+        
+        terp_params = getattr(cherrypy.request, 'terp_params', [])
+        if terp_params:
+            if terp_params.get('_terp_model'):
+                if terp_params['_terp_model'] == 'board.board':
+                    self.dashboard = 1
+            if terp_params.get('_terp_source'):
+                if (str(terp_params.source) == self.source) or (terp_params.source == '_terp_list' and terp_params.sort_key):
+                    self.sort_key = terp_params.sort_key
+                    self.sort_order = terp_params.sort_order
+        
         if self.selectable == 1:
             self.selector = 'radio'
 
@@ -148,11 +154,15 @@ class List(TinyWidget):
         
         if ids is None:
             if self.limit > 0:
-                ids = proxy.search(search_param, self.offset, self.limit, 0, context)
+                if self.sort_key:
+                    ids = proxy.search(search_param, self.offset, self.limit, self.sort_key + ' ' +self.sort_order, context)
+                else:
+                    ids = proxy.search(search_param, self.offset, self.limit, 0, context)
             else:
                 ids = proxy.search(search_param, 0, 0, 0, context)
                 
             self.count = proxy.search_count(search_param, context)
+        
         self.data_dict = {}
         data = []
 
