@@ -164,10 +164,10 @@
                     <table cellpadding="0" cellspacing="0">
                         <tr>
                             <td width="100%">
+                            	<a class="button-a" style="margin-right:10px;" href="javascript: void(0)" onclick="do_select()">${_("Select")}</a>
                             	<a class="button-a" href="javascript: void(0)" onclick="search_filter()">${_("Filter")}</a>
                            	    <a class="button-a" href="javascript: void(0)" onclick="do_create()">${_("New")}</a>
-                            	<a class="button-a" href="javascript: void(0)" onclick="do_select()">${_("Select")}</a>
-                            	<a class="button-a" href="javascript: void(0)" onclick="window.close()">${_("Close")}</a>
+                            	<a class="button-a" style="margin-left:10px;" href="javascript: void(0)" onclick="window.close()">${_("Close")}</a>
                             </td>
                         </tr>
                     </table>
