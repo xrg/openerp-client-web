@@ -206,7 +206,8 @@ class List(SecuredController):
                 params.view_type = 'tree'
             if params.search_domain:
                 params.domain += params.search_domain
-
+                
+            params.domain = params.domain or []
             if params.filter_domain:
                 params.domain += params.filter_domain
 

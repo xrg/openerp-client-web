@@ -1180,6 +1180,8 @@ function toggle_shortcut() {
 
 function validate_action(action, args) {
 	var args = args;
+	
+	var is_form_changed = is_form_changed || false;
 	if(is_form_changed) {
 		if(confirm('This record has been modified \n Do you want to save it')) {
 			args['_terp_save_current_id'] = 1;

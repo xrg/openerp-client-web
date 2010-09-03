@@ -108,6 +108,7 @@ class List(TinyWidget):
         self.o2m = kw.get('o2m', 0)
         self.concurrency_info = None
         self.selector = None
+        self.custom_columns = kw.get('custom_columns', [])
 
         if self.selectable == 1:
             self.selector = 'radio'
@@ -312,6 +313,9 @@ class List(TinyWidget):
 
                     name = attrs['name']
 
+                    if name in self.custom_columns:
+                        continue
+
                     if name in myfields:
                         print "-"*30
                         print " malformed view for:", self.model
@@ -321,7 +325,7 @@ class List(TinyWidget):
 
                     myfields.append(name)
 
-                    if attrs.get('widget', False):
+                    if attrs.get('widget'):
                         if attrs['widget']=='one2many_list':
                             attrs['widget']='one2many'
                         attrs['type'] = attrs['widget']
@@ -379,7 +383,7 @@ class List(TinyWidget):
                         continue
 
                     headers += [(name, fields[name])]
-                    
+
         return headers, hiddens, data, field_total, buttons
 
 class Char(TinyWidget):
@@ -602,7 +606,10 @@ class Button(TinyInputWidget):
 
         if self.states:
             state = data.get('state')
-            state = ((state or False) and state.value) or 'draft'
+            try:
+                state = ((state or False) and state.value) or 'draft'
+            except:
+                state = ustr(state)
             visible = state in self.states
 
         return dict(id=id, visible=visible)

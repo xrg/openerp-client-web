@@ -2,41 +2,63 @@
 	% if frame:
 		${display_member(frame)}
 	% endif
-	<table id="filter_table" style="display: none;">
-		% for f,k in enumerate(filter_domain):
-			% if len(k) >1:
-			    <tr class="filter_row_class">
-                    <td class="image_col">
-                        <button onclick="remove_filter_row(this); return false;">
-                            <img alt="Remove filter row" src="/openerp/static/images/button-b-icons-remove.gif"/>
-                        </button>
-                    </td>
-					<td align="right" class="filter_column">
-						<select class="filter_fields">
-							% for field in fields_list:
-								<option kind="${field[2]}" value="${field[0]}" ${py.selector(field[0]==k[0])}>${field[1]}</option>
-							% endfor
-					       </select>
-						<select class="expr">
-							% for operator, description in operators_map:
-								<option value="${operator}" ${py.selector(operator==k[1])}>${description}</option>
-							% endfor
-						</select>
-					       <input type="text" class='qstring' value="${k[2] or ''}" />
-					</td>
-					% if len(filter_domain[f -1]) == 1:
-					<td class="and_or">
-						<select class="select_andor">
-						% if filter_domain[f-1] == '&':
-							<option value="AND">AND</option>
-						%else:
-							<option value="OR">OR</option>
-						% endif
-						</select>
-					</td>
-					% endif
-			    </tr>
-			% endif
-		% endfor
-	</table>
+	
+	<table>
+        <tr>
+           <td style="padding:4px; white-space:nowrap;">
+                <div id="filters" onclick="collapse_expand(this, '#filter_option_table');" class="group-expand"><h2><span>Filters</span></h2></div>
+                <table id="filter_option_table" style="display:none;">
+                    <tbody id="filter_table" style="display:none;">
+                        <tr class="filter_row_class">
+                            <td class="image_col">
+                                <button onclick="remove_filter_row(this); return false;">
+                                    <img alt="Remove filter row" src="/openerp/static/images/button-b-icons-remove.gif"/>
+                                </button>
+                            </td>
+                            <td class="filterlabel">
+                                <label id="filterlabel" value="" class="filterlabel"></label>
+                            </td>
+                            <td>
+                                <select class="expr">
+                                    % for operator, description in operators_map:
+                                        <option value="${operator}" >${description}</option>
+                                    % endfor
+                                </select>
+                            </td>
+                            <td colspan="2" align="right" class="filter_column">
+                                <input type="text" class='qstring' value="" />
+                            </td>
+                        </tr>
+                    </tbody>
+                    <tbody class="actions">
+                        <tr class="actions">
+                            <td colspan="2">
+                                <label for="add_filter_and">And</label>
+                                <select class="filter_fields_and" onchange="add_filter_row(this); return jQuery('select.filter_fields_and').val('');">
+	                               <option></option>
+	                               % for field in fields_list:
+	                                   <option kind="${field[2]}" value="${field[0]}">${field[1]}</option>
+	                               % endfor
+	                            </select>
+                            </td>
+                            <td class="filter_column" colspan="2">
+                                <label for="add_filter_or">Or</label>
+                                <select id="filter_fields_or" disabled="disabled" class="filter_fields_or" onchange="addOrBlock(this); return jQuery('select.filter_fields_or').val('');">
+                                    <option></option>
+                                    % for field in fields_list:
+                                        <option kind="${field[2]}" value="${field[0]}">${field[1]}</option>
+                                    % endfor
+                                </select>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </td>
+        </tr>
+    </table>
+    <script type="text/javascript">
+        jQuery(document).ready(function () {
+            switch_searchView("${flt_domain | n}");
+		});
+    </script>
 </div>

@@ -86,23 +86,24 @@ div.group-data table.fields {
     width: 0%;
 }
 
-table#filter_table {
+table#filter_option_table {
     margin: 0;
 }
 
-table#filter_table td.filter_column {
-    text-align: left;
+table#filter_option_table td.filter_column {
     padding: 0;
+    text-align:right;
+    white-space:nowrap;
 }
 
-table#filter_table td.filter_column select {
+table#filter_option_table td.filter_column select {
     width: 80px;
 }
 
-table#filter_table td.filter_column input.qstring,
-table#filter_table td.filter_column select.filter_fields,
-table#filter_table td.filter_column select.expr,
-table#filter_table td.and_or select.select_andor {
+table#filter_option_table td.filter_column input.qstring,
+table#filter_option_table td.filter_column select.filter_fields,
+table#filter_option_table td.filter_column select.expr,
+table#filter_option_table td.and_or select.select_andor {
     width: 100px;
     -moz-border-radius: 3px 3px 3px 3px;
 	background: none repeat scroll 0 0 #FFFFFF;
@@ -110,19 +111,42 @@ table#filter_table td.and_or select.select_andor {
 	vertical-align: middle;
 }
 
-#filter_table .image_col {
-    padding-left: 0;
+#filter_option_table .image_col {
     padding-right: 2px;
     text-align: left;
 }
 
-table#filter_table td.and_or {
+table#filter_option_table label.and_or {
     padding-left: 5px;
     text-align: left;
 }
 
-table#filter_table td.and_or select {
-    width: 55px;
+#filter_option_table td .filter-lsep {
+	float:left;
+	line-height:50%;
+	width:47%;
+}
+
+#filter_option_table td .filter-msep {
+	float:left;
+	text-align:center;
+	width:5%;
+}
+
+#filter_option_table td .filter-rsep {
+	float:right;
+	line-height:50%;
+	width:47%;
+}
+
+#filter_option_table td .filter-hr{
+	background-color:#CCCCCC;
+	border:medium none;
+	color:#CCCCCC;
+	height:1px;
+	margin:5px 0 !important;
+	overflow:hidden;
+	padding:0;
 }
 
 /* ============== SEARCH FORM start ==============*/

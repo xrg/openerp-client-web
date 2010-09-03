@@ -93,7 +93,8 @@ class ListView(TinyView):
                                         selectable=screen.selectable,
                                         offset=screen.offset, limit=screen.limit,
                                         count=screen.count, nolinks=screen.link,
-                                        group_by_ctx=screen.group_by_ctx)
+                                        group_by_ctx=screen.group_by_ctx,
+                                        custom_columns = screen.custom_columns)
         else:
             widget = listgrid.List(screen.name or '_terp_list',
                                     model=screen.model,
@@ -106,7 +107,8 @@ class ListView(TinyView):
                                     selectable=screen.selectable,
                                     offset=screen.offset, limit=screen.limit,
                                     count=screen.count, nolinks=screen.link,
-                                    m2m=screen.m2m, o2m=screen.o2m)
+                                    m2m=screen.m2m, o2m=screen.o2m,
+                                    custom_columns = screen.custom_columns)
 
         screen.ids = widget.ids
         screen.limit = widget.limit

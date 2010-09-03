@@ -216,7 +216,7 @@ class Search(TinyInputWidget):
     template = "templates/search.mako"
     javascript = [JSLink("openerp", "javascript/search.js", location=locations.bodytop)]
 
-    params = ['fields_type', 'filters_list', 'operators_map', 'fields_list', 'filter_domain']
+    params = ['fields_type', 'filters_list', 'operators_map', 'fields_list', 'filter_domain', 'flt_domain']
     member_widgets = ['frame']
 
     _notebook = Notebook(name="search_notebook")
@@ -250,20 +250,13 @@ class Search(TinyInputWidget):
 
         if isinstance (self.search_view, basestring):
             self.search_view = eval(self.search_view)
-
+        
         if not self.search_view:
-            self.search_view = cache.fields_view_get(self.model, view_id, 'search', ctx, True)
-
+            self.search_view = cache.fields_view_get(self.model, view_id, 'search', ctx, True)            
+            
         self.fields_list = []
-        fields = self.search_view['fields']
-
-        for k,v in fields.items():
-            if v['type'] in ('many2one', 'char', 'float', 'integer', 'date',
-                             'datetime', 'selection', 'many2many', 'boolean',
-                             'one2many') and v.get('selectable',  False):
-                self.fields_list.append((k, v['string'], v['type']))
-        if self.fields_list:
-            self.fields_list.sort(lambda x, y: cmp(x[1], y[1]))
+        fields = self.search_view.get('fields')       
+        
         try:
             dom = xml.dom.minidom.parseString(self.search_view['arch'])
         except:
@@ -299,7 +292,15 @@ class Search(TinyInputWidget):
                                                 'translate': new_field['translate'],
                                                 'selectable': new_field['selectable']}
             self.fields.update(field_dict)
-
+           
+        for k,v in self.fields.items():
+            if v['type'] in ('many2one', 'char', 'float', 'integer', 'date',
+                             'datetime', 'selection', 'many2many', 'boolean',
+                             'one2many') and v.get('selectable',  False):
+                self.fields_list.append((k, v['string'], v['type']))
+        if self.fields_list:
+            self.fields_list.sort(lambda x, y: cmp(x[1], y[1]))
+        
         self.frame = self.parse(model, dom, self.fields, values)
         if self.frame:
             self.frame = self.frame[0]
@@ -311,19 +312,17 @@ class Search(TinyInputWidget):
         sorted_filters.sort(lambda x, y: cmp(x[1], y[1]))
 
         self.filters_list = [("blk", "-- Filters --")] \
-                          + sorted_filters \
-                          + [("blk", '--Actions--')]
+                          + sorted_filters                          
 
         self.operators_map = [
             ('ilike', _('contains')), ('not ilike', _('doesn\'t contain')),
             ('=', _('is equal to')), ('<>', _('is not equal to')),
             ('>', _('greater than')), ('<', _('less than')),
             ('in', _('in')), ('not in', _('not in'))]
+        
+        self.flt_domain = str(self.filter_domain).replace("(", "[").replace(')', ']')
+        self.custom_filter_domain = self.filter_domain
 
-        if self.filter_domain == [] and self.fields_list and self.operators_map:
-            self.filter_domain.append((self.fields_list[0][0], self.operators_map[0][0], ''))
-        else:
-            self.custom_filter_domain = self.filter_domain
 
     def parse(self, model=None, root=None, fields=None, values={}):
 
