@@ -113,6 +113,10 @@ tr.row_tree_toolbar:hover {
 	background-color: #3C3C3C;
 }
 
+td.tree_grid table.tree-grid {
+    width: 100%;
+}
+
 /**
  * vim: sts=4 st=4 et 
  *
