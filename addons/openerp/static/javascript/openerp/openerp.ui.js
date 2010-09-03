@@ -60,7 +60,7 @@ function adjustTopWidth() {
     var $form = jQuery('#appContent table:first');
     
     if (!$form.get().length) {
-        var $form = jQuery('#appContent');
+        $form = jQuery('#appContent');
     }
     
     var formWidth = $form.width();
