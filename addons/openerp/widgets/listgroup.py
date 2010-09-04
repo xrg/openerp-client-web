@@ -198,13 +198,21 @@ class ListGroup(List):
         self.grp_records = proxy.read_group(self.context.get('__domain', []) + (self.domain or []),
                                                 fields.keys(), self.group_by_ctx, 0, False, self.context)   
         
-        
+        terp_params = getattr(cherrypy.request, 'terp_params', [])
+        if terp_params.sort_key:
+            from operator import itemgetter, attrgetter
+            if terp_params.sort_order == 'desc':
+                rev = True
+            else:
+                rev = False
+            self.grp_records = sorted(self.grp_records, key=itemgetter(terp_params.sort_key), reverse=rev)
+            
         for grp_rec in self.grp_records:
             if not grp_rec.get('__domain'):
                 grp_rec['__domain'] = self.context.get('__domain', []) + (self.domain or [])
             if not grp_rec.get('__context'):
                 grp_rec['__context'] = {'group_by': self.group_by_ctx}
-        
+                
         self.grouped, grp_ids = parse_groups(self.group_by_ctx, self.grp_records, self.headers, self.ids, model,  self.offset, self.limit, self.context, self.data, self.field_total, fields)
                 
 class MultipleGroup(List):
