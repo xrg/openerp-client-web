@@ -44,130 +44,90 @@
 </%def>
 
 <%def name="content()">
-<table class="view process_table" width="100%" cellpadding="0" cellspacing="0">
+<table class="view" border="0" width="100%" height="100%" cellpadding="0" cellspacing="0">
 	<tr>
-	    <td>
-		    <table width="100%" class="process_table">
-			    <tr>
-			        <td width="80%" valign="top">
-			            <table width="100%" class="titlebar process_table">
-			                <tr>
-			                    <td width="100%" id="process_title" align="left" style="font-size: 14px; font-weight: bold;">${title}</td>
-			                </tr>
-			                <tr>
-			                	<td>
-			                		<p><i>${help}</i></p>
-			                	</td>
-			                </tr>
-			            </table>
-			        </td>
-			    	<td width="20%" align="center" >
-				    	<table class="process_table">
-			    			<tr>
-			    				<td>
-									<div>
-										<a class="help-button-a" href="javascript: void(0)">
-											${_("Buy a Support Contract %(by)s",
-											by="""<small>By Chat / Mail / Phone</small>""")|n}
-										</a>
-									</div>
-								</td>
-							</tr>
-							<tr>
-								<td>
-									<div>
-										<a class="help-button-a" href="javascript: void(0)">
-											${_("Get Books %(available)s",
-											available="""<small>Available in Amazon</small>""")|n}
-										</a>
-									</div>
-								</td>
-							</tr>
-							<tr>
-								<td>
-									<div>
-										<a class="help-button-a" href="javascript: void(0)">
-											${_("Community Forum %(community)s",
-											community="""<small>Join Community Discussion</small>""")|n}
-										</a>
-									</div>
-								</td>
-							</tr>
-						</table>
-					</td>
-				</tr>
-			</table>
+        <td width="75%" valign="top" style="padding-top:10px;">
+        	<h1>Help: ${title}</h1>
+	        <div style="padding:5px 0 0 10px;">
+	        	<p><i>${help}</i></p>
+	        </div>
+        </td>
+    	<td width="25%" align="center">
+    		<div style="border-left: 2px solid; padding: 5px 10px;">
+					<a class="help-button-a" href="javascript: void(0)" style="padding-bottom:3px;">
+						${_("Buy a Support Contract %(by)s",
+						by="""<small>By Chat / Mail / Phone</small>""")|n}
+					</a>
+					<a class="help-button-a" href="javascript: void(0)" style="padding-bottom:3px;">
+						${_("Get Books %(available)s",
+						available="""<small>Available in Amazon</small>""")|n}
+					</a>
+
+					<a class="help-button-a" href="javascript: void(0)" style="padding-bottom:3px;">
+						${_("Community Forum %(community)s",
+						community="""<small>Join Community Discussion</small>""")|n}
+					</a>
+
+			</div>
 		</td>
     </tr>
 	<tr>
-		<td>
-			<table class="view process_table" width="100%" cellpadding="0" cellspacing="0">
-				<tr>
-					<td align="left" style="font-size: 14px; font-weight: bold;">${_("Process")}: ${process_title}</td>
-				</tr>
-				<tr>
-					% if selection:
-					<td>
-					    <input type="hidden" id="res_model" value="${res_model}"/>
-					    <input type="hidden" id="res_id" value="${res_id}"/>
-					    <fieldset>
-					        <legend><b style="padding: 4px;">${_("Select Process")}</b></legend>
-					        <select id="select_workflow" name="select_workflow" style="min-width: 150px">
-					            % for val, text in selection:
-					            <option value="${val}" ${val==id and "selected" or ""} >${text}</option>
-					            % endfor
-					        </select>
-					        <button class="button" type="button" onclick="select_workflow()">${_("Select")}</button>
-					    </fieldset>
-				    </td>
-				    %else:
-				    <td align="center">
-			            <input type="hidden" id="id" value="${id}"/>
-			            <input type="hidden" id="res_model" value="${res_model}"/>
-			            <input type="hidden" id="res_id" value="${res_id}"/>
-			            <div id="process_canvas" style="margin-top: 00px"></div>
-			            <div align="left">
-		                    <a target="_blank" id="show_customize_menu" href="${py.url('/openerp/form/edit', model='process.process', id=id)}">${_("[Edit Process]")}</a><br/>
-					    </div>
-			        </td>
-				    % endif
-			    </tr>
-		    </table>
+		<td colspan="2">
+			<h2 style="padding:0 0 0 10px">${process_title} ${_("Process")}</h2>
+			% if selection:
+				<div style="padding: 5px 10px;">
+				    <input type="hidden" id="res_model" value="${res_model}"/>
+				    <input type="hidden" id="res_id" value="${res_id}"/>
+				    <fieldset>
+				        <legend><b style="padding: 4px;">${_("Select Process")}</b></legend>
+				        <select id="select_workflow" name="select_workflow" style="min-width: 150px">
+				            % for val, text in selection:
+				            <option value="${val}" ${val==id and "selected" or ""} >${text}</option>
+				            % endfor
+				        </select>
+				        <button class="button" type="button" onclick="select_workflow()">${_("Select")}</button>
+				    </fieldset>
+			    </div>
+		    %else:
+			    <div align="center" style="padding: 5px 10px;">
+		            <input type="hidden" id="id" value="${id}"/>
+		            <input type="hidden" id="res_model" value="${res_model}"/>
+		            <input type="hidden" id="res_id" value="${res_id}"/>
+		            <div id="process_canvas" style="margin-top: 0"></div>
+		        </div>
+		        <div align="left" style="padding: 5px 10px;">
+	            	<a target="_blank" id="show_customize_menu" href="${py.url('/openerp/form/edit', model='process.process', id=id)}">${_("[Edit Process]")}</a><br/>
+				</div>
+		    % endif
 		</td>
 	</tr>
 	% if fields:
     <tr>
-    	<td>
-    		<table class="process_table">
-    			<tr>
-    				<td align="left" style="font-size: 14px; font-weight: bold;">${_("Fields")}</td>
-    			</tr>
-    			<tr>
-    				<td align="left">
-			            <table class="process_table">
-						% for k, v in fields.items():
-							<tr>
-								<td valign="top">
-									<b>${k}:</b>
-								</td>
-								<td valign="top">
-								% for l, m in v.items():
-									% if m:
-										% if m == True:
-											${l},
-										% else:
-											${l}: ${m},
-										% endif
-									% endif
-								% endfor
-								</td>
-							</tr>
+    	<td colspan="2">
+			<h2 style="padding: 5px 10px">${_("Fields")}</h2>
+			<div align="left" style="padding: 5px 10px;">
+	            <table border="0">
+				% for k, v in fields.items():
+					<tr>
+						<td valign="top">
+							<b>${k}:</b>
+						</td>
+						<td valign="top">
+						% for l, m in v.items():
+							% if m:
+								% if m == True:
+									${l},
+								% else:
+									${l}: ${m},
+								% endif
+							% endif
 						% endfor
-			            </table>
-					</td>
-				</tr>
-			</table>
-    	</td>
+						</td>
+					</tr>
+				% endfor
+	            </table>
+			</div>
+		</td>
     </tr>
     % endif
 </table>
