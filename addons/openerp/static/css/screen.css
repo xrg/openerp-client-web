@@ -2055,8 +2055,8 @@ p.paging-a a {
     display: -moz-inline-stack;
     display: inline-block;
     overflow: hidden;
-    width: 9px;
-    height: 7px;
+    width: 14px;
+    height: 14px;
     margin: 0 5px;
     font-size: 0;
     text-align: left;
@@ -2076,22 +2076,20 @@ p.paging-a a {
 
 p.paging-a a.first {
     margin: 0;
-    background: url(../images/first.png) no-repeat;
+    background: url(../images/cal_first.png) no-repeat;
 }
 
 p.paging-a a.last {
     margin: 0;
-    background: url(../images/last.png) no-repeat;
+    background: url(../images/cal_last.png) no-repeat;
 }
 
 p.paging-a a.prev {
-    width: 7px;
-    background: url(../images/left.png) no-repeat;
+    background: url(../images/cal_left.png) no-repeat;
 }
 
 p.paging-a a.next {
-    width: 5px;
-    background: url(../images/right.png) no-repeat;
+    background: url(../images/cal_right.png) no-repeat;
 }
 
 /* sidebar */

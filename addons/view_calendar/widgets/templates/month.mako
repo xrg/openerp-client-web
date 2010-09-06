@@ -19,7 +19,6 @@
     <div class="inner">
         <p class="paging-a">
             <span class="one">
-                <a class="first" href="javascript: void(0)"></a>
                 <small>|</small>
                 <a class="prev" href="javascript: void(0)" 
                     onclick="getCalendar('${month.prev().year}-${month.prev().month}-01')"></a>
@@ -29,7 +28,6 @@
                 <a class="next" href="javascript: void(0)" 
                     onclick="getCalendar('${month.next().year}-${month.next().month}-01')"></a>
                 <small>|</small>
-                <a class="last" href="javascript: void(0)"></a>
             </span>
         </p>
         <h4>

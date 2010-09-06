@@ -19,7 +19,6 @@
     <div class="inner">
         <p class="paging-a">
             <span class="one">
-                <a class="first" href="javascript: void(0)"></a>
                 <small>|</small>
                 <a class="prev" href="javascript: void(0)" 
                     onclick="getCalendar('${week.prev()[0].isoformat()}')"></a>
@@ -29,7 +28,6 @@
                 <a class="next" href="javascript: void(0)"
                     onclick="getCalendar('${week.next()[0].isoformat()}')"></a>
                 <small>|</small>
-                <a class="last" href="javascript: void(0)"></a>
             </span>
         </p>
         <h4>
