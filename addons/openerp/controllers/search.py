@@ -109,7 +109,7 @@ class Search(Form):
                               **rpc.session.context)
         if 'group_by' in parent_context:
             if isinstance(params.group_by, str):
-                parent_context['group_by'] = [params.group_by]
+                parent_context['group_by'] = params.group_by.split(',')
             else:
                 parent_context['group_by'] = params.group_by
         try:
@@ -165,7 +165,7 @@ class Search(Form):
 
         parent_context.update(context)
         if not isinstance(params.group_by, list):
-            params.group_by = [params.group_by]
+            params.group_by = params.group_by.split(',')
 
         return dict(domain=ustr(domain), context=ustr(parent_context), group_by = ustr(params.group_by))
 
@@ -236,7 +236,11 @@ class Search(Form):
         domains = all_domains.get('domains')
         selection_domain = all_domains.get('selection_domain')
         search_context = all_domains.get('search_context')
+        
         group_by_ctx = kw.get('group_by_ctx', [])
+        if isinstance(group_by_ctx, str):
+            group_by_ctx = group_by_ctx.split(',')
+            
         if domains:
             domains = eval(domains)
 
@@ -353,6 +357,8 @@ class Search(Form):
         domain = kw.get('domain')
         flag = kw.get('flag')
         group_by = kw.get('group_by',None)
+        if not isinstance(group_by, list) and group_by:
+            group_by = group_by.split(',')
         return dict(model=model, domain=domain, flag=flag, group_by=group_by)
 
     @expose()
@@ -362,12 +368,17 @@ class Search(Form):
         model = kw.get('model')
         domain = kw.get('domain')
         flag = kw.get('flag')
-
+        
+        group_by = kw.get('group_by', '[]')
+        if group_by:
+            context = {'group_by': group_by}
+        else:
+            context = {}
         if name:
             datas={'name':name,
                    'model_id':model,
                    'domain':domain,
-                   'context':str({}),
+                   'context':str(context),
                    'user_id':rpc.session.uid
                    }
             action_id = rpc.session.execute('object', 'execute', 'ir.filters', 'create', datas, rpc.session.context)
