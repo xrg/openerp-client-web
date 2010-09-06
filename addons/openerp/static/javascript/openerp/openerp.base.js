@@ -135,18 +135,16 @@ jQuery(document).ready(function () {
 });
 
 // Hook onclick for boolean alteration propagation
-var onBooleanClicked;
 jQuery(document).delegate(
         'input.checkbox:enabled:not(.grid-record-selector)',
         'click', function () {
-    if(onBooleanClicked) {
+    if(window.onBooleanClicked) {
         onBooleanClicked(jQuery(this).attr('id').replace(/_checkbox_$/, ''));
     }
 });
 // Hook onchange for all elements
-var onChange;
 jQuery(document).delegate('[callback], [onchange_default]', 'change', function () {
-    if(onChange && !jQuery(this).is(':input.checkbox:enabled')) {
+    if(window.onChange && !jQuery(this).is(':input.checkbox:enabled')) {
         onChange(this);
     }
 });
