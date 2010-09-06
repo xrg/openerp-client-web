@@ -178,7 +178,7 @@ class M2O_search(M2O):
             <tr>
                 <td>
                     <input type="hidden" id="${name}" name="${name}" class="${css_class}" value="${value}"
-                        ${py.attrs(attrs, kind=kind, domain=domain, context=ctx, relation=relation, m2o_filter_domain=filter_domain)}/>
+                        ${py.attrs(attrs, kind=kind, domain=domain, relation=relation, m2o_filter_domain=filter_domain)}/>
                     <input type="text" id="${name}_text" class="${css_class}"
                         ${py.attrs(attrs, kind=kind, relation=relation, value=text, m2o_filter_domain=filter_domain)}/>
                     <input type="hidden" id="_hidden_${name}" value=""/>
