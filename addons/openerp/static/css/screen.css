@@ -150,9 +150,8 @@ hr {
     height: 65px;
 }
 
-div #content {
-	float: left;
-	width: 100%;
+#content {
+    width: 100%;
 }
 
 #footer_section {
@@ -600,8 +599,8 @@ p#cmp_logo {
 
 #primary {
     min-height: 100%;
-    margin: 0 0 0 200px;
     vertical-align: top;
+    padding: 0;
 }
 
 #primary div.wrap {
@@ -609,12 +608,14 @@ p#cmp_logo {
 }
 
 #secondary {
-    position: relative;
-    float: left;
-    min-height: 100%;
     border-right: 1px solid #3c3c3c;
+    /* hack to "fix" weird space under bar */
+    border-bottom: 1px solid #5a5858;
     background: #5a5858;
-    display: block;
+    padding: 0;
+    vertical-align: top;
+    /* Takes smallest possible width */
+    width: 1px;
 }
 
 div.customize {
@@ -1761,11 +1762,13 @@ ul.sections-a li span.wrap a:hover span strong,ul.sections-a li span.wrap a:focu
 }
 
 .open-close-menu {
-    float: left;
     cursor: pointer;
     background: #CECBCB url(../images/arrow_left.png) no-repeat scroll 20% 50%;
     min-height: 100%;
     width: 11px;
+    padding: 0;
+    /* hack to fix weird space under bar */
+    border-bottom: 1px solid #CECBCB;
 }
 
 .hide-menu .open-close-menu {
@@ -1778,7 +1781,6 @@ ul.sections-a li span.wrap a:hover span strong,ul.sections-a li span.wrap a:focu
 
 .hide-menu #secondary {
     display: none;
-    width: 0;
 }
 
 .hide-menu #sidenav_hide a {
@@ -2098,19 +2100,22 @@ p.paging-a a.next {
     padding: 0;
 }
 
+/* TODO: refactor sidebar as well as the toggle_accordion/open-close-menu
+
+   Should not need to duplicate colors, borders (hack), images in open/close
+   status, width, height, padding, cursor
+*/
 .toggle_sidebar {
-	cursor: pointer;
+    cursor: pointer;
     height: 100%;
     width: 11px;
     padding: 0 5px;
 }
-
 .sidebar_close {
-	background: #CECBCB url(../images/arrow_left.png) no-repeat scroll 20% 50%;
+    background: #CECBCB url(../images/arrow_left.png) no-repeat scroll 20% 50%;
 }
-
 .sidebar_open {
-	background: #CECBCB url("../images/arrow_right.png") no-repeat scroll 80% 50%
+    background: #CECBCB url("../images/arrow_right.png") no-repeat scroll 80% 50%;
 }
 
 .sideheader-a {

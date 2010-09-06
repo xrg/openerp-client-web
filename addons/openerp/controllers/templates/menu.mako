@@ -56,35 +56,37 @@
             </div>
         </div>
                 
-        <div id="content" class="three-a">
-            <div id="secondary" class="sidenav-open">
-                <div class="wrap">
-                    <ul id="sidenav-a" class="accordion">
-                        % for tool in tools:
-                            % if tool.get('action'):
-                              <li class="accordion-title" id="${tool['id']}">
-                            % else:
-                              <li class="accordion-title">
-                            % endif
-                                <span>${tool['name']}</span>
-                            </li>
-                            <li class="accordion-content" id="content_${tool['id']}">
-                               ${tool['tree'].display()}
-                            </li>
-                        % endfor
-                    </ul>
-                    <script type="text/javascript">
-                        new Accordion("sidenav-a");
-                    </script>
-                </div>
-            </div>
-            <div id="toggle_accordion" class="open-close-menu hide_tools"></div>
-            <div id="primary">
-                <div class="wrap">
-                    <div id="appContent"></div>
-                </div>
-            </div>
-        </div>
+        <table id="content" class="three-a">
+            <tr>
+                <td id="secondary" class="sidenav-open">
+                    <div class="wrap">
+                        <ul id="sidenav-a" class="accordion">
+                            % for tool in tools:
+                                % if tool.get('action'):
+                                  <li class="accordion-title" id="${tool['id']}">
+                                % else:
+                                  <li class="accordion-title">
+                                % endif
+                                    <span>${tool['name']}</span>
+                                </li>
+                                <li class="accordion-content" id="content_${tool['id']}">
+                                   ${tool['tree'].display()}
+                                </li>
+                            % endfor
+                        </ul>
+                        <script type="text/javascript">
+                            new Accordion("sidenav-a");
+                        </script>
+                    </div>
+                </td>
+                <td id="toggle_accordion" class="open-close-menu hide_tools"></td>
+                <td id="primary">
+                    <div class="wrap">
+                        <div id="appContent"></div>
+                    </div>
+                </td>
+            </tr>
+        </table>
         <div id="footer_section">
 		   		% if cp.config('server.environment') == 'development':
 		            <div class="footer-a">
