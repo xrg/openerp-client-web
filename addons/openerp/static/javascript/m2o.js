@@ -280,7 +280,9 @@ ManyToOne.prototype.on_keydown = function(evt) {
     if(this.numResultRows > 0) {
         switch (key) {
             // Enter Key
+            //Single Click
             case 13:
+            case 1:
                 var autoCompleteSelectedRow = openobject.dom.get("autoComplete" + this.name + "_" + this.selectedResultRow);
                 if(this.onlySuggest && autoCompleteSelectedRow == null) {
                     this.clearResults();

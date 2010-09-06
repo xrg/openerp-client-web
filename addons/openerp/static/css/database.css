@@ -23,7 +23,9 @@ form select {
 .fieldcol .requiredfield {
     background-color: #CCD9FF;
     height: 18px;
-    -moz-border-radius:3px 3px 3px 3px;
+    border-radius: 3px;
+    -moz-border-radius:3px;
+    -webkit-border-radius: 3px;
 }
 
 .fielderror {
@@ -32,8 +34,10 @@ form select {
 
 input.requiredfield,
 select.selectfield {
-	width: 300px;
-	-moz-border-radius:3px 3px 3px 3px;	
+    width: 300px;
+    border-radius: 3px;
+    -moz-border-radius:3px;
+    -webkit-border-radius: 3px;	
 }
 
 .db-form {

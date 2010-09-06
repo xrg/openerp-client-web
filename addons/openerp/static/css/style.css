@@ -105,7 +105,9 @@ table#filter_option_table td.filter_column select.filter_fields,
 table#filter_option_table td.filter_column select.expr,
 table#filter_option_table td.and_or select.select_andor {
     width: 100px;
-    -moz-border-radius: 3px 3px 3px 3px;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+    border-radius: 3px;
 	background: none repeat scroll 0 0 #FFFFFF;
 	border: 1px solid #CECBCB;
 	vertical-align: middle;
@@ -439,7 +441,9 @@ div.message {
     font-weight: bold;
     border: none;
     font-size: 1.3em;
-    -moz-border-radius: 3px 3px 3px 3px;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+    border-radius: 3px;
 }
 
 div.welcome-message {
@@ -450,7 +454,9 @@ div.welcome-message {
     text-decoration: none !important;
     text-align: center;
     font-size: 16px;
-    -moz-border-radius: 3px 3px 3px 3px;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+    border-radius: 3px;
 }
 
 td.popup_header,
@@ -461,7 +467,9 @@ table.popup_header {
     font-weight: bold;
     border: none;
     height: 30px;
-    -moz-border-radius: 3px 3px 3px 3px;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+    border-radius: 3px;
 }
 
 td.popup_footer,
@@ -473,7 +481,9 @@ div.popup_footer {
     border: none;
     font-size: 1.2em;
     height: 30px;
-    -moz-border-radius: 3px 3px 3px 3px;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+    border-radius: 3px;
 }
 
 td.pop_head_font{
@@ -562,10 +572,9 @@ td.item table.fields {
 td.item input,
 td.item select,
 td.item textarea {
-    -moz-border-radius-bottomleft: 3px;
-    -moz-border-radius-bottomright: 3px;
-    -moz-border-radius-topleft: 3px;
-    -moz-border-radius-topright: 3px;
+    border-radius: 3px;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
     background: #FFFFFF none repeat scroll 0 0;
     border: 1px solid #CECBCB;
     vertical-align: middle;
@@ -692,7 +701,9 @@ div.invalid_login {
 select.db_user_pass,
 input.db_user_pass {
     width: 300px;
-    -moz-border-radius: 3px 3px 3px 3px;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+    border-radius: 3px;
 }
 
 td.db_login_buttons {
@@ -791,6 +802,7 @@ div#serverlog a {
 
 div.filter-a button.filter_with_icon {
 	-moz-border-radius: 0;
+    -webkit-border-radius: 0;
 	border-radius: 0;
 }
 
