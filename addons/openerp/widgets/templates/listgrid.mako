@@ -325,7 +325,7 @@
                             /* In editable grid, clicking on empty row will create new and on existing row will edit. */
                            jQuery('table[id=${name}_grid] tr.grid-row').each(function(index, row) {
                                jQuery(row).click(function(event) {
-                                   if (!jQuery(event.target).is(':input, img, option, span, td.m2o_coplition')) {
+                                   if (!jQuery(event.target).is(':input, img, option, td.m2o_coplition')) {
                                        var record_id = jQuery(row).attr('record');
                                        if (record_id > 0) {
                                            new ListView('${name}').edit(record_id);
