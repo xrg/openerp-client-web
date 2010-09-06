@@ -856,7 +856,8 @@ div#serverlog a {
     line-height: 1.25;
     white-space: nowrap;
     min-height: 40px;
-    min-width: 30px;
+    min-width: 45px;
+}
 
     padding: 2px 4px !important;
 }
