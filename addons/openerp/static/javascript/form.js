@@ -1179,13 +1179,13 @@ function toggle_shortcut() {
 }
 
 function validate_action(action, args) {
-	var args = args;
-	
-	var is_form_changed = is_form_changed || false;
-	if(is_form_changed) {
-		if(confirm('This record has been modified \n Do you want to save it')) {
-			args['_terp_save_current_id'] = 1;
-		}
-	}
-	return get_form_action(action, args)
+    var args = args;
+    if(typeof is_form_changed == 'undefined' || is_form_changed == 'undefined')
+        var is_form_changed = false;
+    if(is_form_changed) {
+        if(confirm('This record has been modified \n Do you want to save it')) {
+            args['_terp_save_current_id'] = 1;
+        }
+    }
+    return get_form_action(action, args)
 }
