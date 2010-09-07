@@ -40,8 +40,8 @@ class FieldPref(SecuredController):
 
         click_ok = None
         params, data = TinyDict.split(kw)
-
-        return dict(model=params.model, click_ok=click_ok, field=params.field, deps=params.deps)
+        deps = params.deps
+        return dict(model=params.model, click_ok=click_ok, field=params.field, deps=deps)
 
     @expose('json')
     def get(self, **kw):
