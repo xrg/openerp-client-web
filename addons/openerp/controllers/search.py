@@ -93,7 +93,7 @@ class Search(Form):
             else:
                 count = proxy.search_count(params.domain, ctx)
             params.count = count
-        
+
         if kw and kw.get('return_to'):
             params['return_to'] = ast.literal_eval(kw['return_to'])
         return self.create(params)
@@ -127,7 +127,7 @@ class Search(Form):
         if prefix and '/' in prefix:
             prefix = prefix.rsplit('/', 1)[0]
             pctx = pctx.chain_get(prefix)
-            
+
         #update active_id in context for links
         parent_context.update({'active_id':  params.active_id or False,
                               'active_ids':  params.active_ids or []})
@@ -206,7 +206,7 @@ class Search(Form):
                         return dict(error=error, error_field=error_field)
 
                     datas['rec'] = field
-    
+
                     if fld['type'] == 'many2one':
                         datas['rec_val'] = fld['value']
                         frm[field] = 'many2one'
@@ -227,7 +227,7 @@ class Search(Form):
 
     @expose('json')
     def eval_domain_filter(self, **kw):
-        
+
         all_domains = kw.get('all_domains')
         custom_domains = kw.get('custom_domain')
 
@@ -236,11 +236,11 @@ class Search(Form):
         domains = all_domains.get('domains')
         selection_domain = all_domains.get('selection_domain')
         search_context = all_domains.get('search_context')
-        
+
         group_by_ctx = kw.get('group_by_ctx', [])
         if isinstance(group_by_ctx, str):
             group_by_ctx = group_by_ctx.split(',')
-            
+
         if domains:
             domains = eval(domains)
 
@@ -292,14 +292,14 @@ class Search(Form):
 
             elif len(x) == 4:
                 if isinstance(x[3], (int, list)):
-                    tuple_val = x[1], x[2], ustr(x[3])                                                                             
+                    tuple_val = x[1], x[2], ustr(x[3])
                 else:
                     tuple_val = x[1], x[2], x[3]
                 return [x[0], tuple_val]
 
             else:
                 if isinstance(x[2], (int, list)):
-                    tuple_val = x[0], x[1], ustr(x[2])      
+                    tuple_val = x[0], x[1], ustr(x[2])
                 else:
                     tuple_val = x[0], x[1], x[2]
                 return [tuple_val]
@@ -347,7 +347,7 @@ class Search(Form):
                  'type':'ir.actions.act_window',
                  'view_type':'form',
                  'view_mode':'tree,form',
-                 'domain':'[(\'model_id\',\'=\',\''+kw.get('model')+'\'),(\'user_id\',\'=\',(\''+str(rpc.session.uid)+'\',))]'}
+                 'domain':'[(\'model_id\',\'=\',\''+kw.get('model')+'\'),(\'user_id\',\'=\','+str(rpc.session.uid)+')]'}
 
         return actions.execute(act, context=rpc.session.context)
 
@@ -368,7 +368,7 @@ class Search(Form):
         model = kw.get('model')
         domain = kw.get('domain')
         flag = kw.get('flag')
-        
+
         group_by = kw.get('group_by', '[]')
         if group_by:
             context = {'group_by': group_by}
@@ -382,7 +382,7 @@ class Search(Form):
                    'user_id':rpc.session.uid
                    }
             action_id = rpc.session.execute('object', 'execute', 'ir.filters', 'create', datas, rpc.session.context)
-        return 
+        return
 
     @expose('json')
     def ok(self, **kw):
