@@ -29,7 +29,7 @@
 
 var ListView = function(name) {
     var elem = jQuery('#'+name).get();
-    
+
     if (elem.__listview) {
         return elem.__listview;
     }
@@ -56,14 +56,14 @@ ListView.prototype = {
 		this.view_id = jQuery('[id="'+prefix + '_terp_view_id'+'"]').get() ? jQuery('[id="'+prefix + '_terp_view_id'+'"]').val() : null;
         this.view_mode = jQuery('[id*="'+prefix + '_terp_view_mode'+'"]').get() ? jQuery('[id*="'+prefix + '_terp_view_mode'+'"]').val() : null;
 		this.view_type = jQuery('[id*="'+prefix + '_terp_view_type'+'"]').get() ? jQuery('[id*="'+prefix + '_terp_view_type'+'"]').val() : null;
-		
+
         // if o2m
-        
+
         this.m2m = jQuery('[id*="'+ name + '_set' + '"]');
 		this.default_get_ctx = jQuery('[id*="' + prefix + '_terp_default_get_ctx' + '"]').get() ? jQuery('[id*="' + prefix + '_terp_default_get_ctx' + '"]').val() : null;
         // save the reference
         jQuery('[id*="'+name+'"]:first').__listview = this;
-        
+
         this.sort_order = null;
         this.sort_key = null;
     },
@@ -75,20 +75,20 @@ ListView.prototype = {
         $('[id*="'+this.name+'"]:first :checkbox').each(function(i) {
 			$(this).attr('checked', clear)
 		});
-        
+
         var selected_ids = this.getSelectedRecords();
-        
+
        	if (jQuery('div#tertiary').hasClass('sidebar-closed')) {
        		toggle_sidebar();
            }
-           
+
         if (!selected_ids.length) {
         	toggle_sidebar();
         }
-        
+
         this.selectedRow_sum();
     },
-	
+
 	selectedRow_sum: function() {
         var selected_ids = this.getSelectedRecords();
         var del_btn = jQuery('[id="'+this.name+'_delete_record'+'"]')
@@ -108,7 +108,7 @@ ListView.prototype = {
 		    	jQuery('tr.field_sum td.grid-cell span').each(function() {
 		    		sum_fields.push(jQuery(this).attr('id'))
 		    	});
-	    	 
+
 		    	var selected_fields = sum_fields.join(",");
 		    	selected_ids = '[' + selected_ids.join(',') + ']';
 		    	if(selected_ids == '[]') {
@@ -116,7 +116,7 @@ ListView.prototype = {
 		    		 selected_ids =this.ids;
 		    		}
 		    	}
-	    	
+
 		    	jQuery.ajax({
 		    		url: '/openerp/listgrid/count_sum',
 		    		type: 'POST',
@@ -130,7 +130,7 @@ ListView.prototype = {
 		    	});
 	        }
 	},
-	
+
     getRecords: function() {
         var records = map(function(row) {
             return parseInt(getNodeAttribute(row, 'record')) || 0;
@@ -163,16 +163,16 @@ ListView.prototype = {
 
     onBooleanClicked: function() {
         var selected_ids = this.getSelectedRecords();
-        
+
        	if (jQuery('div#tertiary').hasClass('sidebar-closed')) {
        		toggle_sidebar();
            }
-        
+
         if (!selected_ids.length) {
         	toggle_sidebar();
         	}
-        
-       	this.selectedRow_sum(); 
+
+       	this.selectedRow_sum();
     },
 
     getColumns: function(dom) {
@@ -219,7 +219,7 @@ MochiKit.Base.update(ListView.prototype, {
         	var c = e.parent('.grid-cell');
         	e.attr('autocomplete', 'OFF').width(c.width());
         });
-        
+
         return editors;
     },
 
@@ -250,7 +250,7 @@ MochiKit.Base.update(ListView.prototype, {
 
 // pagination & reordering
 MochiKit.Base.update(ListView.prototype, {
-	
+
     sort_by_order: function(column, field) {
         var self = this;
         var $field = jQuery(field);
@@ -260,7 +260,7 @@ MochiKit.Base.update(ListView.prototype, {
             else this.sort_order = 'asc';
         }
         else this.sort_order = 'asc';
-        
+
         this.sort_key = column;
         if(this.ids.length) {
             this.reload();
@@ -302,7 +302,7 @@ MochiKit.Base.update(ListView.prototype, {
                 })
             }
         }
-        
+
         jQuery(group).toggleClass('group-collapse group-expand');
 		setTimeout(function() {adjustTopWidth();}, 100)
     },
@@ -311,7 +311,7 @@ MochiKit.Base.update(ListView.prototype, {
         var _list_view = new ListView(view);
         var domain;
         var children;
-        
+
         var drop_record = drop.attr('record');
         var drag_record = drag.attr('record');
         if(drop_record) {
@@ -338,7 +338,7 @@ MochiKit.Base.update(ListView.prototype, {
 
         if((drag_record && drop_record) && (drag.attr('id')) == drop.attr('id')) {
             _list_view.dragRow(drag, drop, view);
-        } 
+        }
         else {
         	jQuery.ajax({
         		url: '/openerp/listgrid/groupbyDrag',
@@ -398,7 +398,7 @@ MochiKit.Base.update(ListView.prototype, {
             self.reload();
         });
     },
-    
+
     clear: function() {
     	group_by = new Array();
 		filter_context = [];
@@ -497,7 +497,7 @@ MochiKit.Base.update(ListView.prototype, {
                 if (obj.result && obj.result.url) {
                     window.open(obj.result.url);
                 }
-                
+
                 if(obj.res) {
                 	var popup_win = openobject.tools.openWindow("");
                 	if(window.browser.isGecko) {
@@ -510,7 +510,7 @@ MochiKit.Base.update(ListView.prototype, {
                 	}
                 	return false;
                 }
-                
+
                 if(obj.wiz_result){
                 	var act = get_form_action('action');
                 	MochiKit.Base.update(params, {
@@ -580,22 +580,24 @@ MochiKit.Base.update(ListView.prototype, {
 
         req.addCallback(function(obj) {
             if (obj.error) {
-                alert(obj.error);
-
                 if (obj.error_field) {
                     var fld = openobject.dom.get('_terp_listfields/' + obj.error_field);
-
                     if (fld && getNodeAttribute(fld, 'kind') == 'many2one') {
                         fld = openobject.dom.get(fld.id + '_text');
                     }
-
-                    if (fld) {
-                        fld.focus();
+                    if (!obj.error_field.value){
+						jQuery(fld).addClass('errorfield');
+            			result = false;
+        			} else if(jQuery(fld).hasClass('errorfield')) {
+            			jQuery(fld).removeClass('errorfield');
+        			}
+					if (!result){
+						alert(obj.error);
+						fld.focus();
                         fld.select();
-                    }
+					}
                 }
             } else {
-
                 openobject.dom.get(prefix + '_terp_id').value = obj.id;
                 openobject.dom.get(prefix + '_terp_ids').value = obj.ids;
 
@@ -619,7 +621,7 @@ MochiKit.Base.update(ListView.prototype, {
 
         if (ids.length == 0) {
         	return alert(_('You must select at least one record.'));
-        } 
+        }
         else if (!confirm(_('Do you really want to delete selected record(s) ?'))) {
             return false;
         }
@@ -681,7 +683,7 @@ MochiKit.Base.update(ListView.prototype, {
         }
 
         var self = this;
-        
+
         var current_id = edit_inline ? (parseInt(edit_inline) || 0) : edit_inline;
 
         var args = jQuery.extend(this.makeArgs(), {
@@ -700,14 +702,14 @@ MochiKit.Base.update(ListView.prototype, {
                 _terp_filter_domain: openobject.dom.get('_terp_filter_domain').value
             });
         }
-	
+
         if(this.sort_key) {
             jQuery.extend(args, {
                 _terp_sort_key: this.sort_key,
                 _terp_sort_order: this.sort_order
             });
         }
-        
+
         if(clear) {
         	args['_terp_clear'] = true;
         }
@@ -715,7 +717,7 @@ MochiKit.Base.update(ListView.prototype, {
         jQuery('[id="'+self.name+'"].loading-list').show()
 
         jQuery.ajax({
-            url: '/openerp/listgrid/get', 
+            url: '/openerp/listgrid/get',
             data: args,
             dataType: 'json',
             type: 'POST',
@@ -725,7 +727,7 @@ MochiKit.Base.update(ListView.prototype, {
                 var _terp_ids = openobject.dom.get(self.name + '/_terp_ids') || openobject.dom.get('_terp_ids');
                 var _terp_count = openobject.dom.get(self.name + '/_terp_count') || openobject.dom.get('_terp_count');
                 _terp_id.value = current_id > 0 ? current_id : 'False';
-                
+
                 if (obj.ids) {
                     if (typeof(current_id) == "undefined" && obj.ids.length) {
                         current_id = obj.ids[0];
@@ -734,7 +736,7 @@ MochiKit.Base.update(ListView.prototype, {
                     _terp_ids.value = '[' + obj.ids.join(',') + ']';
                     _terp_count.value = obj.count;
                 }
-                
+
                 if(obj.active_clear) {
                     jQuery('#clear_all_filters').removeClass('inactive_clear');
                 } else {
@@ -752,22 +754,22 @@ MochiKit.Base.update(ListView.prototype, {
                 		jQuery('div.graph-block').replaceWith(obj.view);
 		                return;
                 	}
-                	
+
                 	else {
                 		var __listview = openobject.dom.get(self.name).__listview;
                     	jQuery('[id="'+self.name+'"]').parent().replaceWith(obj.view);
                 	}
                 }
-                
+
                 var newlist = jQuery('[id="'+self.name+'"]');
-    
+
                 var editors = self.adjustEditors(newlist.get(0));
                 if (editors.length > 0) {
                     self.bindKeyEventsToEditors(editors);
                 }
-		        
+
 		        openobject.dom.get(self.name).__listview = __listview;
-			
+
                 // update concurrency info
                 for (var key in obj.info) {
                     try {
@@ -798,7 +800,7 @@ MochiKit.Base.update(ListView.prototype, {
                 }
 
                 MochiKit.Signal.signal(__listview, 'onreload');
-                
+
                 if(self.sort_key != null) {
                     if(self.name != '_terp_list') {
                         var th = jQuery('th[id= grid-data-column/' + self.name + '/' + self.sort_key + ']').get();
@@ -806,7 +808,7 @@ MochiKit.Base.update(ListView.prototype, {
                     else {
                         var th = jQuery('th[id= grid-data-column/' + self.sort_key + ']').get();
                     }
-                    
+
                     var detail = jQuery(th).html();
                     if(self.sort_order == 'asc') {
                         jQuery(th).html(detail + '&nbsp; <img src="/openerp/static/images/listgrid/arrow_down.gif" id="asc" style="vertical-align: middle;"/>');
