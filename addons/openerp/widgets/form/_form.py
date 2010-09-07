@@ -629,6 +629,8 @@ class Button(TinyInputWidget):
         self.default_focus = attrs.get('default_focus', 0)
         if self.btype == 'action':
             self.target = 'new'
+        if self.btype == 'object' and self.name == 'check_report':
+            self.target = 'new'
 
     def set_state(self, state):
         if self.states:
