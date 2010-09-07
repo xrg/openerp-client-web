@@ -548,16 +548,25 @@ table.o2m_box div.pagerbar-header strong {
 
 td.label,
 td.item,
+.action-buttons label,
 #groupdata_table td.item {
     padding: 2px 4px;
 }
 
-td.label {
+td.label,
+.action-buttons label {
     color: #777777;
     font-weight: bold;
     text-transform: uppercase;
     text-align: right;
     white-space: nowrap;
+}
+
+.action-buttons label {
+    display: block;
+}
+.action-buttons label input {
+    vertical-align: text-top;
 }
 
 td.item input,

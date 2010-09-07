@@ -107,7 +107,7 @@
 					% endif
 				% endif
                 % if form.screen.view_type in ['form', 'diagram'] and buttons.toolbar and form.screen.model != 'board.board':
-                <div class="wrapper">
+                <div class="wrapper action-buttons">
                     <ul class="inline-b left w50">
                         % if buttons.new:
                         <li title="${_('Create a new resource')}">
@@ -140,6 +140,19 @@
                         % if buttons.cancel:
                         <li title="${_('Cancel editing the current resource')}">
                             <a href="javascript: void(0);" onclick="submit_form('cancel')" class="button-a">${_("Cancel")}</a>
+                        </li>
+                        % endif
+                        % if buttons.create_node:
+                        <li title="${_('Create new node')}">
+                            <a href="javascript: void(0);" onclick="create_node()" class="button-a">${_("New Node")}</a>
+                        </li>
+                        % endif
+                        % if buttons.show_grid:
+                        <li title="${_('Show grid in workflow canvas')}">
+                            <label for="show_diagram_grid">Show grid:
+                                <input type="checkbox" checked="checked" class="checkbox" id="show_diagram_grid"
+                                       value="" onchange="show_grid(this); return false">
+                            </label>
                         </li>
                         % endif
                     </ul>

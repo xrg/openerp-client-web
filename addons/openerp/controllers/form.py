@@ -219,6 +219,8 @@ class Form(SecuredController):
         buttons.pager =  mode == 'form' or mode == 'diagram'# Pager will visible in edit and non-edit mode in form view.
         buttons.can_attach = id and mode == 'form'
         buttons.i18n = not editable and mode == 'form'
+        buttons.show_grid = mode == 'diagram'
+        buttons.create_node = mode == 'diagram'
 
         from openerp.widgets import get_registered_views
         buttons.views = []

@@ -37,7 +37,21 @@ if (typeof(openobject.workflow) == "undefined") {
     openobject.workflow = new Object;
 }
 
+var WORKFLOW;
+function show_grid(el) {
+    WORKFLOW.setBackgroundImage(
+            el.checked ? '/view_diagram/static/images/grid_10.jpg' : null,
+            el.checked);
+    WORKFLOW.setGridWidth(10, 10);
+    WORKFLOW.setSnapToGrid(el.checked);
+}
 
+function create_node() {
+    var html = WORKFLOW.state.getHTMLElement();
+    html.style.display = '';
+    WORKFLOW.state.edit();
+    html.style.display = 'none';
+}
 
 openobject.workflow.Workflow = new Class;
 openobject.workflow.Workflow.prototype = $merge(openobject.workflow.Workflow.prototype, draw2d.Workflow.prototype);
@@ -64,31 +78,17 @@ openobject.workflow.Workflow.implement({
 		this.states = new draw2d.ArrayList();
 		this.connectors = new draw2d.ArrayList();		
 		this.selected = null;
-		
-		if (getElement('_terp_editable').value=='True') {
-			var tbar = new openobject.workflow.Toolbar();
-			this.toolPalette = tbar;
-			tbar.setWorkflow(this);
-			tbar.canDrag = false;
-			
-			tbar = tbar.getHTMLElement();
-			tbar.style.position = 'relative';
-			tbar.style.top = '0px';
-			tbar.style.left = '0px';
-			tbar.style.zIndex = 0;
-			
-	        MochiKit.DOM.appendChildNodes('toolbox', tbar);
-		}else {
+
+        if(getElement('_terp_editable').value == 'False') {
             this.workitems = eval(getElement('workitems').value);
-            removeElement('toolbox');
-		}
-		
+        }
+
 //		dummy state
 		this.state = new openobject.workflow.StateOval({}, []);
         this.state.setDimension(100, 60);
 		this.state.setBackgroundColor(new draw2d.Color(255, 255, 255));
 		this.state.getHTMLElement().style.display = 'none';
-        this.addFigure(this.state, 100, 20);
+        this.addFigure(this.state, 20, 20);
 		this.state.initPort();
 		this.state.initPort();
 		
@@ -102,7 +102,7 @@ openobject.workflow.Workflow.implement({
             this.draw_graph(openobject.dom.get('wkf_id').value);
         else {            
             openobject.dom.get('loading').style.display = 'none';
-        }   	 
+        }
 	},
 	
     draw_graph : function(wkf_id) {
