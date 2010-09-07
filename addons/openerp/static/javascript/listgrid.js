@@ -864,7 +864,7 @@ MochiKit.Base.update(ListView.prototype, {
 var is_list_changed = false;
 var current_id = -1;
 
-var validList = function(_list) {
+var validateList = function(_list) {
     is_list_changed = false;
     current_id = -1;
     var $check = jQuery('table.grid[id="'+_list+'_grid'+'"] tr.grid-row td:not(.selector)').find('input, select');

@@ -130,12 +130,9 @@
                                                 <button id="${name}_new" title="${_('Create new record.')}">${_('new')}</button>
                                                 % if editors:
                                                     <script type="text/javascript">
-                                                        
                                                         jQuery('[id=${name}_new]').click(function() {
-                                                            console.log('in editors clicked')
                                                             listgridValidation('${name}', '${o2m or 0}', -1)
                                                             return false;
-                                                            //new ListView('${name}').create();
                                                         });
                                                     </script>
                                                 % else:
@@ -151,7 +148,7 @@
                                         % if not m2m and not dashboard and editors:
                                             <script type="text/javascript">
                                                 jQuery(document).ready(function() {
-                                                    validList('${name}')
+                                                    validateList('${name}')
                                                 });
                                             </script>
                                         % endif
@@ -322,8 +319,7 @@
                                jQuery(row).click(function(event) {
                                    if (!jQuery(event.target).is(':input, img, option, td.m2o_coplition')) {
                                        var record_id = parseInt(jQuery(row).attr('record'), 10) || -1;
-                                       console.log('oho clicked', record_id, typeof record_id)
-                                       listgridValidation('${name}','${o2m or 0}', record_id)
+                                       listgridValidation('${name}','${o2m or 0}', record_id);
                                    }
                                });
                            });
