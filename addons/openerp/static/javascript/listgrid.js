@@ -541,7 +541,7 @@ MochiKit.Base.update(ListView.prototype, {
         this.reload(edit_inline, null, default_get_ctx);
     },
 
-    save: function(id) {
+    save: function(id, prev_id) {
 
         if (openobject.http.AJAX_COUNT > 0) {
             return callLater(1, bind(this.save, this), id);
@@ -574,7 +574,8 @@ MochiKit.Base.update(ListView.prototype, {
         args['_terp_parent/model'] = openobject.dom.get(parent_field + '_terp_model').value;
         args['_terp_parent/context'] = openobject.dom.get(parent_field + '_terp_context').value;
         args['_terp_source'] = this.name;
-
+        
+        
         var self = this;
         var req = openobject.http.postJSON('/openerp/listgrid/save', args);
 
@@ -600,8 +601,14 @@ MochiKit.Base.update(ListView.prototype, {
             } else {
                 openobject.dom.get(prefix + '_terp_id').value = obj.id;
                 openobject.dom.get(prefix + '_terp_ids').value = obj.ids;
-
-                self.reload(id > 0 ? null : -1, prefix ? 1 : 0);
+                
+                if(prev_id != 'undefined' || typeof prev_id !='undefined') {
+                    self.reload(prev_id , prefix ? 1 : 0);
+                }
+                else {
+                    self.reload(id > 0 ? null : -1, prefix ? 1 : 0);
+                }
+                    
             }
         });
     },
@@ -853,3 +860,69 @@ MochiKit.Base.update(ListView.prototype, {
             _terp_view_mode : this.view_mode}),{width: 700, height: 500});
     }
 });
+
+var is_list_changed = false;
+var current_id = -1;
+
+var validList = function(_list) {
+    is_list_changed = false;
+    current_id = -1;
+    var $check = jQuery('table.grid[id="'+_list+'_grid'+'"] tr.grid-row td:not(.selector)').find('input, select');
+    $check.change(function() {
+        is_list_changed = true;
+        current_id = parseInt(jQuery(this).closest('tr').attr('record'), 10) || -1;
+    });
+}
+
+var listgridValidation = function(_list, o2m, record_id) {
+    var o2m = parseInt(o2m, 0)
+    if(is_list_changed) {
+        if(confirm('This record has been modified \n Do you really want to save it?')){
+            if(record_id == current_id) {
+                 new ListView(_list).save(record_id, current_id);
+            }
+            else {
+                if((record_id  > 0  && current_id > 0)) {
+                    new ListView(_list).save(current_id, record_id);
+                }
+                else {
+                    if((record_id < 0) && (current_id > 0)) {
+                        if (o2m) {
+                            new ListView(_list).save(current_id, record_id);
+                        }
+                        else {
+                            new ListView(_list).save(record_id, current_id);
+                        }
+                    }
+                    else if((record_id > 0) && (current_id < 0)) {
+                        new ListView(_list).save(current_id, record_id);
+                    }
+                }
+            }
+        }
+    }
+    else{
+        if(o2m) {
+            var detail = jQuery('table.one2many[id$="'+_list+'"]').attr('detail');
+            if(record_id == 'undefined' || typeof record_id == 'undefined') {
+                new One2Many(_list, detail).create();
+            }
+            if(record_id == current_id) {
+                if(record_id < 0) {
+                    new One2Many(_list, detail).create();
+                }
+            }
+            else if((record_id > 0) && (current_id < 0)) {
+                new ListView(_list).edit(record_id);
+            }
+        }
+        else {
+            if(record_id == current_id) {
+                new ListView(_list).create();
+            }
+            else {
+                new ListView(_list).edit(record_id);
+            }
+        }
+    }
+}

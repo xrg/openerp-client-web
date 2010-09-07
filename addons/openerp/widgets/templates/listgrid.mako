@@ -122,7 +122,7 @@
                                             </button>
                                         % elif o2m:
                                             <button title="${_('Create new record.')}" id="${name}_btn_"
-                                                onclick="new One2Many('${name}', jQuery('table.one2many[id$=${name}]').attr('detail')).create(); return false;">
+                                                onclick="listgridValidation('${name}', '${o2m or 0}', -1); return false;">
                                                     ${_('new')}
                                             </button>
                                         % else:
@@ -130,24 +130,12 @@
                                                 <button id="${name}_new" title="${_('Create new record.')}">${_('new')}</button>
                                                 % if editors:
                                                     <script type="text/javascript">
-                                                        var is_list_changed = false;
-                                                        var current_id = -1;
-                                                        jQuery(document).ready(function() {
-                                                            var $check = jQuery("table.grid[id='${name}_grid'] tr.grid-row td:not(.selector)").find('input, select');
-                                                            $check.change(function() {
-                                                                is_list_changed = true;
-                                                                current_id = jQuery(this).closest('tr').attr('record') || -1;
-                                                            });
-                                                        });
+                                                        
                                                         jQuery('[id=${name}_new]').click(function() {
-                                                            if(is_list_changed) {
-                                                                if (confirm('This record has been modified \n Do you really want to save it?')) {
-                                                                    new ListView('${name}').save(current_id)
-                                                                }
-                                                            } else {
-                                                                new ListView('${name}').create();
-                                                            }
+                                                            console.log('in editors clicked')
+                                                            listgridValidation('${name}', '${o2m or 0}', -1)
                                                             return false;
+                                                            //new ListView('${name}').create();
                                                         });
                                                     </script>
                                                 % else:
@@ -159,6 +147,13 @@
                                                     </script>
                                                 % endif
                                             % endif
+                                        % endif
+                                        % if not m2m and not dashboard and editors:
+                                            <script type="text/javascript">
+                                                jQuery(document).ready(function() {
+                                                    validList('${name}')
+                                                });
+                                            </script>
                                         % endif
                                     </td>
                                 % endif
@@ -326,26 +321,9 @@
                            jQuery('table[id=${name}_grid] tr.grid-row').each(function(index, row) {
                                jQuery(row).click(function(event) {
                                    if (!jQuery(event.target).is(':input, img, option, td.m2o_coplition')) {
-                                       var record_id = jQuery(row).attr('record');
-                                       if (record_id > 0) {
-                                           new ListView('${name}').edit(record_id);
-                                       }
-                                       else {
-                                           if ('${name}' == '_terp_list') {
-                                               if (is_list_changed) {
-                                                   if (confirm('This record has been modified \n Do you really want to save it?')) {
-                                                       new ListView('${name}').save(current_id)
-                                                   }
-                                               }
-                                               else{
-                                                   new ListView('${name}').create(); 
-                                               }
-                                               return false;
-                                           }
-                                           else {
-                                               new One2Many('${name}', jQuery('table.one2many[id$=${name}]').attr('detail')).create();
-                                           }
-                                       }
+                                       var record_id = parseInt(jQuery(row).attr('record'), 10) || -1;
+                                       console.log('oho clicked', record_id, typeof record_id)
+                                       listgridValidation('${name}','${o2m or 0}', record_id)
                                    }
                                });
                            });
