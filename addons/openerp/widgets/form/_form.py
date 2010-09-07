@@ -482,8 +482,10 @@ class Selection(TinyInputWidget):
     def __init__(self, **attrs):
         super(Selection, self).__init__(**attrs)
 
+        self.options = attrs.get('selection', [])
+
         # m2o as selection
-        if attrs.get('relation') and attrs.get('widget') == 'selection':
+        if not self.options and attrs.get('relation') and attrs.get('widget') == 'selection':
             proxy = rpc.RPCProxy(attrs['relation'])
             try:
                 domain = attrs.get('domain', [])
@@ -499,9 +501,6 @@ class Selection(TinyInputWidget):
                 self.options = proxy.name_get(ids, ctx)
             except:
                 self.options = []
-        else:
-            self.options = attrs.get('selection', [])
-
         # determine the actual type
         if self.options and isinstance(self.options[0][0], basestring):
             self.kind = 'char'
