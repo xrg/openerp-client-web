@@ -1,6 +1,5 @@
 <%!
 import itertools
-background = '#DEDEDE'
 %>
 <div class="box-a list-a">
 <div class="inner">
@@ -48,13 +47,13 @@ background = '#DEDEDE'
 
                 <tbody>
 					% for j, grp_row in enumerate(grp_records):
-					<tr class="grid-row-group" grp_by_id="${grp_row.get('group_by_id')}" records="${grp_row.get('group_id')}" style="cursor: pointer;" ch_records="${map(lambda x: x['id'], grp_row['child_rec'])}" grp_domain="${grp_row['__domain']}" grp_context="${grp_row['__context']['group_by']}">
+					<tr class="grid-row-group" grp_by_id="${grp_row.get('group_by_id')}" records="${grp_row.get('group_id')}" style="cursor: pointer; " ch_records="${map(lambda x: x['id'], grp_row['child_rec'])}" grp_domain="${grp_row['__domain']}" grp_context="${grp_row['__context']['group_by']}">
                         % if editable:
                         
                             % if len(group_by_ctx) == 1 and group_by_no_leaf:
-                                <td class="grid-cell" style="background-color: ${background};"></td>
+                                <td class="grid-cell"></td>
                             % elif len(group_by_ctx) > 0:
-	                            <td class="grid-cell group-expand" style="background-color: ${background};"
+	                            <td class="grid-cell group-expand"
 	                                onclick="new ListView('${name}').group_by('${grp_row.get('group_by_id')}', '${grp_row.get('group_id')}', '${group_by_no_leaf}', this);">
 	                            </td>
                             % endif
@@ -62,8 +61,7 @@ background = '#DEDEDE'
 
                         % for i, (field, field_attrs) in enumerate(headers):
                             % if field != 'button':
-                                <td class="grid-cell ${field_attrs.get('type', 'char')}"
-                                    style="background-color: ${background};">
+                                <td class="grid-cell ${field_attrs.get('type', 'char')}" >
                                     % if field_attrs.get('type') == 'progressbar':
                                         ${grouped[j][field].display()}
                                     % else:
@@ -79,14 +77,14 @@ background = '#DEDEDE'
                                     % endif
                                 </td>
                             % else:
-                                <td class="grid-cell" nowrap="nowrap" style="background-color: ${background};">
+                                <td class="grid-cell" nowrap="nowrap">
                                     <span></span>
                                 </td>
                             % endif
                         % endfor
                         
                         % if editable:
-                            <td class="grid-cell selector" style="background-color: ${background};">
+                            <td class="grid-cell selector" >
                                 <div style="width: 0;"></div>
                             </td>
                         % endif
