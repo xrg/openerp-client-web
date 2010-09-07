@@ -26,7 +26,6 @@ background = '#F5F5F5'
                     subgroup_class = ''
                 %>
                 <td class="grid-cell ${subgroup_class} ${field_attrs.get('type', 'char')}"
-                    
                     onclick="${subgroup_expander}">
                         % if field_attrs.get('type') == 'progressbar':
                             ${grouped[j][field].display()}
@@ -43,7 +42,7 @@ background = '#F5F5F5'
                         % endif
                 </td>
             % else:
-                <td class="grid-cell button" nowrap="nowrap" >
+                <td class="grid-cell" nowrap="nowrap" >
                     <span></span>
                 </td>
             % endif
@@ -72,7 +71,7 @@ background = '#F5F5F5'
                         <span>${ch[field].display()}</span>
                     </td>
                 % else:
-                    <td class="grid-cell button" nowrap="nowrap">
+                    <td class="grid-cell" nowrap="nowrap">
                         ${buttons[field_attrs-1].display(parent_grid=name, **buttons[field_attrs-1].params_from(ch))}
                     </td>
                 % endif

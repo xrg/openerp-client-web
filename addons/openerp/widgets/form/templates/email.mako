@@ -5,5 +5,5 @@
     <span class="fielderror">${error}</span>
     % endif
 % else:
-    <a style="color:#9A0404;" href="mailto: ${value}">${value}</a>
+    <a style="color:#9A0404;" target="_self" href="mailto: ${value}">${value}</a>
 % endif
