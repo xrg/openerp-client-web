@@ -16,7 +16,8 @@
             var args = {
                 '_terp_selection': '[' + selection + ']'
             }
-
+			
+			getElement('_terp_domain').value = '[]';
             setNodeAttribute(form, 'action', getURL('/tree/switch', args));
             form.method = 'post';
             form.submit();
