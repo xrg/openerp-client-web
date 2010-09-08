@@ -174,14 +174,16 @@ ${MAINTENANCE_CONTRACTS_LINK|n}
                             % endif
                         % endfor
 
-                        <table border="0" cellpadding="0" cellspacing="0" align="center">
+                        <table class="errorbox" align="center">
                             <tr>
                                 <td height="15px"></td>
                             </tr>
                             <tr>
-                                <td class="errorbox" style="padding: 30px;">
-                                    <pre>
-<b>${_("Write concurrency warning :")}</b><br/>
+                                <td class="welcome">${_("Write concurrency warning :")}</td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 30px;">
+                                <pre>
 ${_("""This document has been modified while you were editing it.
 Choose:
 
@@ -202,18 +204,18 @@ Choose:
                             </tr>
                         </table>
                     % else:
-                        <table border="0" cellpadding="0" cellspacing="0" align="center">
+                        <table class="errorbox" align="center">
                             <tr>
                                 <td height="15px"></td>
                             </tr>
                             <tr>
-                                <td class="errorbox welcome">${title}</td>
+                                <td class="welcome">${title}</td>
                             </tr>
                             <tr>
                                 <td height="5px"></td>
                             </tr>
                             <tr>
-                                <td class="errorbox" style="padding: 30px;">
+                                <td class="message" style="padding: 30px;">
                                     <pre>${error}</pre>
                                 </td>
                             </tr>
@@ -221,7 +223,7 @@ Choose:
                                 <td height="5px"></td>
                             </tr>
                             <tr>
-                                <td class="errorbox" align="right">
+                                <td style="float: right;">
                                     <a class="button-a" href="javascript: void(0)"
                                        onclick="close_error_window()">OK</a>
                                 </td>
