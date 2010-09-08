@@ -15,6 +15,7 @@ class GraphView(TinyView):
                        view=screen.view,
                        view_id=screen.view_id,
                        ids=screen.ids, domain=screen.domain,
+                       view_mode = screen.view_mode,
                        context=screen.context)
         screen.ids = widget.ids
         return widget

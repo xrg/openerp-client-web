@@ -77,7 +77,7 @@ class Graph(TinyWidget):
     width = 500
     height = 350
 
-    def __init__(self, model, view=False, view_id=False, ids=[], domain=[], context={}, group_by=[], width=500, height=350):
+    def __init__(self, model, view=False, view_id=False, ids=[], domain=[], context={},view_mode=[], width=500, height=350):
 
         name = 'graph_%s' % (random.randint(0,10000))
         super(Graph, self).__init__(name=name, model=model, width=width, height=height)
@@ -99,15 +99,15 @@ class Graph(TinyWidget):
             self.ids = rpc.RPCProxy(model).search(domain, 0, 0, 0, ctx)
         self.count = rpc.RPCProxy(model).search_count(domain, ctx)
         if chart_type == "bar":
-            self.data = BarChart(model, view, view_id, ids, domain, context)
+            self.data = BarChart(model, view, view_id, ids, domain, view_mode, context)
         else:
-            self.data = PieChart(model, view, view_id, ids, domain, context)
+            self.data = PieChart(model, view, view_id, ids, domain, view_mode, context)
 
         self.data = simplejson.dumps(self.data.get_data())
 
 class GraphData(object):
 
-    def __init__(self, model, view=False, view_id=False, ids=[], domain=[], context={}):
+    def __init__(self, model, view=False, view_id=False, ids=[], domain=[], view_mode=[], context={}):
 
         ctx = {}
         ctx = rpc.session.context.copy()
@@ -120,7 +120,8 @@ class GraphData(object):
         root = dom.childNodes[0]
 
         attrs = node_attributes(root)
-
+        
+        self.view_mode = view_mode
         self.model = model
         self.string = attrs.get('string', 'Unknown')
         self.kind = attrs.get('type', '')
@@ -390,8 +391,8 @@ class GraphData(object):
 
 class BarChart(GraphData):
 
-    def __init__(self, model, view=False, view_id=False, ids=[], domain=[], context={}):
-        super(BarChart, self).__init__(model, view, view_id, ids, domain, context)
+    def __init__(self, model, view=False, view_id=False, ids=[], domain=[], view_mode=[], context={}):
+        super(BarChart, self).__init__(model, view, view_id, ids, domain, view_mode, context)
         self.context = context
 
     def get_data(self):
@@ -399,7 +400,6 @@ class BarChart(GraphData):
         result = {}
         ctx =  rpc.session.context.copy()
         ctx.update(self.context)
-
         res = super(BarChart, self).get_graph_data()
 
         if len(res) > 1:
@@ -489,14 +489,14 @@ class BarChart(GraphData):
                             ids = s.split('/')[1]
                             ids = eval(ids)
                             dom = [('id', 'in', ids)]
-                            u = url_plus('/openerp/form/find', _terp_view_type='tree', _terp_view_mode="['tree', 'graph']",
+                            u = url_plus('/openerp/form/find', _terp_view_type='tree', _terp_view_mode=ustr(self.view_mode),
                                _terp_domain=ustr(dom), _terp_model=self.model, _terp_context=ustr(ctx))
 
                             url.append(u)
 
             else:
                 for dom in domain:
-                    u = url_plus('/openerp/form/find', _terp_view_type='tree', _terp_view_mode="['tree', 'graph']",
+                    u = url_plus('/openerp/form/find', _terp_view_type='tree', _terp_view_mode=ustr(self.view_mode),
                            _terp_domain=ustr(dom), _terp_model=self.model, _terp_context=ustr(ctx))
 
                     url.append(u)
@@ -599,8 +599,8 @@ class BarChart(GraphData):
 
 class PieChart(GraphData):
 
-    def __init__(self, model, view=False, view_id=False, ids=[], domain=[], context={}):
-        super(PieChart, self).__init__(model, view, view_id, ids, domain, context)
+    def __init__(self, model, view=False, view_id=False, ids=[], domain=[], view_mode=[], context={}):
+        super(PieChart, self).__init__(model, view, view_id, ids, domain, view_mode, context)
 
     def get_data(self):
 
@@ -622,9 +622,8 @@ class PieChart(GraphData):
         value = values.values()[0]
 
         url = []
-
         for dom in domain:
-            u = url_plus('/openerp/form/find', _terp_view_type='tree', _terp_view_mode="['tree', 'graph']",
+            u = url_plus('/openerp/form/find', _terp_view_type='tree', _terp_view_mode=ustr(self.view_mode),
                        _terp_domain=ustr(dom), _terp_model=self.model, _terp_context=ustr(ctx))
 
             url.append(u)
