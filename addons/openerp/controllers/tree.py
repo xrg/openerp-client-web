@@ -94,12 +94,11 @@ class Tree(SecuredController):
         can_shortcut = self.can_shortcut_create()
         shortcut_ids = []
 
-        if cherrypy.session.get('terp_shortcuts'):
-            for sc in cherrypy.session['terp_shortcuts']:
-                if isinstance(sc['res_id'], tuple):
-                    shortcut_ids.append(sc['res_id'][0])
-                else:
-                    shortcut_ids.append(sc['res_id'])
+        for sc in cherrypy.session.get('terp_shortcuts', ()):
+            if isinstance(sc['res_id'], tuple):
+                shortcut_ids.append(sc['res_id'][0])
+            else:
+                shortcut_ids.append(sc['res_id'])
         
         return {'tree': tree, 'model': model, 'can_shortcut': can_shortcut, 'shortcut_ids': shortcut_ids}
 
