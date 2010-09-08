@@ -39,7 +39,7 @@
         });
         % endif
         function close_error_window() {
-            if (jQuery.fancybox) {
+            if (jQuery('div#fancybox-wrap').is(':visible')) {
                 jQuery.fancybox.close();
                 return;
             }
