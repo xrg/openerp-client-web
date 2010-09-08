@@ -245,8 +245,6 @@ class Search(TinyInputWidget):
         ctx = dict(rpc.session.context, **self.context)
 
         view_id = ctx.get('search_view') or False
-#        if getattr(cherrypy.request,'terp_params') and not view_id and not kw.get('clear'):
-#            view_id = cherrypy.request.terp_params.get('_terp_view_id', False)
 
         if isinstance (self.search_view, basestring):
             self.search_view = eval(self.search_view)
@@ -266,38 +264,21 @@ class Search(TinyInputWidget):
         self.string = dom.documentElement.getAttribute('string')
 
         self.fields_type = {}
-
         self.fields = fields
-        dict_select = {'True':'1','False':'0','1':'1','0':'0'}
-        all_field_ids =  rpc.session.execute('object', 'execute', 'ir.model.fields', 'search', [('model','=',str(model))])
-        if len(fields) != len(all_field_ids):
-            new_fields = []
-            all_fields =  rpc.session.execute('object', 'execute', 'ir.model.fields', 'read', all_field_ids)
-            for item in all_fields:
-                new_fields.append(item)
-            field_dict = {}
-            for new_field in new_fields:
-                if isinstance(new_field['select_level'],(str,unicode)):
-                    new_field['select_level'] = eval(new_field['select_level'],dict_select)
-                if isinstance(new_field['selectable'],(str,unicode)):
-                    new_field['selectable'] = eval(new_field['selectable'],dict_select)
-
-                field_dict[new_field['name']]= {'string': new_field['field_description'],
-                                                'type' : new_field['ttype'],
-                                                'select': new_field['select_level'],
-                                                'name' : new_field['name'],
-                                                'readonly': new_field['readonly'],
-                                                'relation': new_field['relation'],
-                                                'required': new_field['required'],
-                                                'translate': new_field['translate'],
-                                                'selectable': new_field['selectable']}
+        all_fields = rpc.session.execute('object', 'execute', model, 'fields_get')
+        if len(fields) != len(all_fields):
+            common_fields = [f for f in all_fields if f in fields]
+            for f in common_fields:
+                del all_fields[f]
+            field_dict = all_fields
             self.fields.update(field_dict)
-           
+
         for k,v in self.fields.items():
             if v['type'] in ('many2one', 'char', 'float', 'integer', 'date',
                              'datetime', 'selection', 'many2many', 'boolean',
                              'one2many') and v.get('selectable',  False):
-                self.fields_list.append((k, v['string'], v['type']))
+                self.fields_list.append((k, ustr(v['string']), v['type']))
+
         if self.fields_list:
             self.fields_list.sort(lambda x, y: cmp(x[1], y[1]))
         
