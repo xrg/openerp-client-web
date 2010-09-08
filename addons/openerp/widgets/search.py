@@ -288,13 +288,20 @@ class Search(TinyInputWidget):
 
         my_acts = rpc.session.execute('object', 'execute', 'ir.filters', 'get_filters', model)
 
-        sorted_filters = [(act.get('domain', act['id']), act['name'])
-                          for act in my_acts]
+        sorted_filters = []
+        for act in my_acts:
+            action = [act['domain'], act['name']]
+            act_ctx = eval(act['context'])
+            if act_ctx and act_ctx.get('group_by'):
+                action.append(ustr(act_ctx['group_by']))
+            else:
+                action.append("[]")
+            sorted_filters.append(tuple(action))
         sorted_filters.sort(lambda x, y: cmp(x[1], y[1]))
 
-        self.filters_list = [("blk", "-- Filters --")] \
+        self.filters_list = [("blk", "-- Filters --", "")] \
                           + sorted_filters                          
-
+                          
         self.operators_map = [
             ('ilike', _('contains')), ('not ilike', _('doesn\'t contain')),
             ('=', _('is equal to')), ('<>', _('is not equal to')),
@@ -303,7 +310,6 @@ class Search(TinyInputWidget):
         
         self.flt_domain = str(self.filter_domain).replace("(", "[").replace(')', ']')
         self.custom_filter_domain = self.filter_domain
-
 
     def parse(self, model=None, root=None, fields=None, values={}):
 

@@ -6,17 +6,38 @@
     <script type="text/javascript">
 
         var onFilterClose = function(form) {
-            jQuery('#'+form).submit();
-            // window.opener.document.getElementById('filter_list').selectedIndex = 0;
-            window.close();
-            window.opener.location.reload();
+            //window.close();
+            var args = {model: jQuery('#model').val(),
+                        domain: jQuery('#domain').val(),
+                        group_by: jQuery('#group_by').val(),
+                        name: jQuery('#sc_name').val()
+                        }
+            jQuery.ajax({
+                url: '/openerp/search/do_filter_sc',
+                type: 'POST',
+                dataType: 'json',
+                data: args,
+                success: function(obj) {
+                    if(obj.filter) {
+                        console.log('obj.filter', obj.filter[0])
+                        with(window.opener) {
+                            jQuery('#filter_list').
+                                append(jQuery("<option></option>").
+                                attr("value", obj.filter[0]).
+                                attr("group_by", obj.filter[2]).
+                                text(obj.filter[1]));
+                        }
+                        window.close();
+                    }
+                }
+            });
         }
 
     </script>
 </%def>
 
 <%def name="content()">
-    <form id="filter_sc" name="filter_sc" method="POST" action="/openerp/search/do_filter_sc">
+    <form id="filter_sc" name="filter_sc" method="POST" action="return false;">
         <input type="hidden" id="model" name="model" value="${model}"/>
         <input type="hidden" id="domain" name="domain" value="${domain}"/>
         <input type="hidden" id="flag" name="flag" value="${flag}"/>
