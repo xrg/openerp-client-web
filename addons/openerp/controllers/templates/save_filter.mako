@@ -6,7 +6,6 @@
     <script type="text/javascript">
 
         var onFilterClose = function(form) {
-            //window.close();
             var args = {model: jQuery('#model').val(),
                         domain: jQuery('#domain').val(),
                         group_by: jQuery('#group_by').val(),
@@ -19,15 +18,12 @@
                 data: args,
                 success: function(obj) {
                     if(obj.filter) {
-                        console.log('obj.filter', obj.filter[0])
-                        with(window.opener) {
-                            jQuery('#filter_list').
-                                append(jQuery("<option></option>").
-                                attr("value", obj.filter[0]).
-                                attr("group_by", obj.filter[2]).
-                                text(obj.filter[1]));
-                        }
-                        window.close();
+                        jQuery('#filter_list').
+                            append(jQuery("<option></option>").
+                            attr("value", obj.filter[0]).
+                            attr("group_by", obj.filter[2]).
+                            text(obj.filter[1]));
+                        jQuery.fancybox.close();
                     }
                 }
             });
@@ -49,18 +45,17 @@
                         <tr>
                         	<td class="save-filter-header">
                         		<a class="button-a" href="javascript: void(0)" onclick="onFilterClose('filter_sc');">${_("Save")}</a>
-                                <a class="button-a" href="javascript: void(0)" onclick="window.close();">${_("Close")}</a>
+                                <a class="button-a" href="javascript: void(0)" onclick="jQuery.fancybox.close();">${_("Close")}</a>
                         	</td>
                             <td align="center" class="pop_head_font">${_("Save as a Filter")}</td>
-                            <td width="30%"></td>
                         </tr>
                     </table>
                 </td>
             </tr>
             <tr>
-                <td style="padding: 0px;">
+                <td style="padding: 10px 10px 0 10px;">
                     <div class="box2">
-                        <table border="0" width="100%" align="center" style="margin:10px 0 10px 5px">
+                        <table border="0" width="100%" align="center">
                             <tr>
                                 <td class="label" style="padding: 0px;">
                                     <label for="sc_name">${_("Filter Name")}:</label>
