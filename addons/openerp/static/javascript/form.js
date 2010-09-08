@@ -1178,10 +1178,18 @@ function toggle_shortcut() {
     });
 }
 
+
+var is_form_changed = false;
+function validateForm() {
+    is_form_changed = false;
+    jQuery('#view_form table tr td:first').find('input:not([type=hidden]), select').change(function() {
+        is_form_changed = true;
+    });
+}
+
 function validate_action(action, args) {
     var args = args;
-    if(typeof is_form_changed == 'undefined' || is_form_changed == 'undefined')
-        var is_form_changed = false;
+    
     if(is_form_changed) {
         if(confirm('This record has been modified \n Do you want to save it')) {
             args['_terp_save_current_id'] = 1;
