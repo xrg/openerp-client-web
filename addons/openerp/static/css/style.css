@@ -820,7 +820,7 @@ div.filter-a button.filter_with_icon {
     border-style: solid;
     border-color: #cccbcb;
     background: #F4F2F2;
-    font-size: 1em;
+    font-size: 1em !important;
     font-weight: bold;
     text-transform: uppercase;
     text-shadow: #fff 0 1px 0;
@@ -833,7 +833,7 @@ div.filter-a button.filter_with_icon {
 }
 
 td.grop_box_active div.filter-a button.active {
-	background-color: #cbced2;
+    background-color: #cbced2;
     color: #000000;
 }
 
@@ -889,10 +889,6 @@ div.filter-a button.filter_icon:focus {
 div.filter-a button table {
     margin: 4px;
     text-align: center;
-}
-
-button.filter_with_icon table td {
-	font-size: 1.3em;
 }
 
 td.exp-header,
