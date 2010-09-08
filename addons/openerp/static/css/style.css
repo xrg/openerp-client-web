@@ -431,7 +431,7 @@ td.welcome {
     text-transform: uppercase;
 }
 
-div.message td.message {
+div.message, td.message {
     text-align: center;
     font-weight: bold;
     border: none;
