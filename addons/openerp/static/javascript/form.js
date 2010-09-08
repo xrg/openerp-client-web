@@ -785,25 +785,11 @@ function makeContextMenu(id, kind, relation, val) {
                 }, rows)));
 
         appendChildNodes('contextmenu', tbl);
-
-        var vd = getViewportDimensions();
-        var md = elementDimensions('contextmenu');
-
-        var x = openobject.dom.get('contextmenu').style.left.slice(0, -2);
-        var y = openobject.dom.get('contextmenu').style.top.slice(0, -2);
-        x = parseInt(x);
-        y = parseInt(y);
-
-        if ((x + md.w) > vd.w) {
-            x -= x + md.w - vd.w;
-            openobject.dom.get('contextmenu').style.left = x + 'px';
-        }
-
-        if ((y + md.h) > vd.h) {
-            y -= y + md.h - vd.h;
-            openobject.dom.get('contextmenu').style.top = y + 'px';
-        }
-
+        
+        var ctx_menu = openobject.dom.get('contextmenu');
+        ctx_menu.style.left = ctx_menu.pageX  + 'px';
+        ctx_menu.style.top = ctx_menu.pageY  + 'px';		
+		
         showContextMenu();
     });
 }
