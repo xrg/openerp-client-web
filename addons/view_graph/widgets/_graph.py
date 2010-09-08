@@ -81,7 +81,7 @@ class Graph(TinyWidget):
 
         name = 'graph_%s' % (random.randint(0,10000))
         super(Graph, self).__init__(name=name, model=model, width=width, height=height)
-        
+
         ctx = rpc.session.context.copy()
         ctx.update(context or {})
         view = view or cache.fields_view_get(model, view_id, 'graph', ctx)
@@ -120,7 +120,7 @@ class GraphData(object):
         root = dom.childNodes[0]
 
         attrs = node_attributes(root)
-        
+
         self.view_mode = view_mode
         self.model = model
         self.string = attrs.get('string', 'Unknown')
@@ -236,9 +236,6 @@ class GraphData(object):
         return axis, axis_data, axis_group
 
     def get_graph_data(self):
-
-        if not self.values:
-            return dict(title=self.string)
 
         axis = self.axis
         axis_data = self.axis_data
