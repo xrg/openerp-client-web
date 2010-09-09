@@ -441,12 +441,11 @@ function parse_filters(src, id) {
     var search_context = {};
     var all_boxes = [];
     var domain = 'None';
-    
+
     if (jQuery('div.group-data').length) {
         jQuery('div.group-data:first').find('button').each(function(){
             if (jQuery(this).hasClass('active')) {
                 var _grp = jQuery(this).next('input').attr('group_by_ctx');
-                console.log('get', jQuery(this).next('input'))
                 if (jQuery.inArray(_grp, group_by) < 0) {
                     group_by.push(_grp)
                 }
