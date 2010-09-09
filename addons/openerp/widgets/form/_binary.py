@@ -88,7 +88,6 @@ class Image(TinyInputWidget):
         super(Image, self).__init__(**attrs)
         self.filename = attrs.get('filename', '')
         self.state = attrs.get('state')
-        
         if getattr(self,'size', ''):
             self.img_size = True
         else:
@@ -99,6 +98,7 @@ class Image(TinyInputWidget):
             self.field = self.name.split('/')[-1]
             if self.id:
                 self.src = tools.url('/openerp/image/get_image', model=self.model, id=self.id, field=self.field)
+                self.img_size = True
             else:
                 if self.model == 'base.setup.company' and self.field == 'logo':
                     self.model = 'res.company'
@@ -117,7 +117,7 @@ class Image(TinyInputWidget):
             self.src =  icons.get_icon(icon)
         if self.readonly:
             self.editable = False
-        
+            
 register_widget(Image, ["image"])
 
 

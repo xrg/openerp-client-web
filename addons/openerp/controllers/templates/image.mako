@@ -5,12 +5,12 @@
     <script type="text/javascript">
 
         function do_delete(form, id, field){
-            setNodeAttribute(form, 'action', openobject.http.getURL('/image/delete', {id: id}));
+            setNodeAttribute(form, 'action', openobject.http.getURL('/openerp/image/delete', {id: id}));
             jQuery('#'+form).submit();
         }
 
         function do_save(form, id){
-            setNodeAttribute(form, 'action', openobject.http.getURL('/image/save_as', {id: id}));
+            setNodeAttribute(form, 'action', openobject.http.getURL('/openerp/image/save_as', {id: id}));
             jQuery('#'+form).submit();
         }
 
