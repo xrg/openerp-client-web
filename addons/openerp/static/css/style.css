@@ -428,7 +428,6 @@ table.errorbox {
     border-radius: 3px;
 }
 
-
 td.welcome {
     text-align: center;
     font-size: 11px;
@@ -436,12 +435,25 @@ td.welcome {
     text-transform: uppercase;
 }
 
-div.message, td.message {
+td.message {
     text-align: center;
     font-weight: bold;
     border: none;
     font-size: 1.3em;
     text-align: center;
+}
+
+div.message {
+    text-align: center;
+    font-weight: bold;
+    border: none;
+    font-size: 1.3em;
+    text-align: center;
+    background-color: #9a0404;
+    color: white;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+    border-radius: 3px;
 }
 
 div.welcome-message {
