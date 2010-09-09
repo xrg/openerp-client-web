@@ -320,6 +320,7 @@
                             }
                         </script>
                     % endif
+				% if editable:
                     % if editors:
                         <script type="text/javascript">
                             /* In editable grid, clicking on empty row will create new and on existing row will edit. */
@@ -338,7 +339,7 @@
                                                    }
                                                }
                                                else{
-                                                   new ListView('${name}').create(); 
+                                                   new ListView('${name}').create();
                                                }
                                                return false;
                                            }
@@ -378,6 +379,7 @@
                             </script>
                         % endif
                     % endif
+				% endif
                 </td>
             </tr>
             % if pageable:
