@@ -19,6 +19,10 @@ table.view {
     border: none;
 }
 
+div#search_filter_data table {
+	width: auto !important;
+}
+
 div.wizard_toolbar {
 	float: right;
 }
@@ -205,6 +209,7 @@ div.group-expand {
     overflow: hidden;
     width: 100%;
     white-space: nowrap;
+    padding: 2px 0;
 }
 
 div.group-expand h2 {

@@ -27,7 +27,7 @@
         </tr>
          % if screen.view_type == 'tree' and screen.widget:
             <tr>
-                <td id="custom_columns">
+                <td id="custom_columns" style="padding: 0 0 0 10px;">
                     <div id="customcolumns" class="group-expand" onclick="collapse_expand(this, '#custcols');" style="padding-left:4px;">
                         <h2><span>${_("Hide Columns")}</span></h2>
                     </div>
