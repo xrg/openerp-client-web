@@ -25,9 +25,10 @@ class JSI18n(JSLink):
 
         translations = []
 
+        static_dir = "%sstatic%s" % (os.path.sep, os.path.sep)
         for tr in trans:
-            pr, tr = tr.split("/static/")
-            pr = pr.split("/")[-1]
+            pr, tr = tr.split(static_dir)
+            pr = pr.split(os.path.sep)[-1]
             translations.append((pr, tr))
 
         d.translations = translations
