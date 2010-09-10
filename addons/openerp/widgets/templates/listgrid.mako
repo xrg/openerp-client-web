@@ -49,7 +49,7 @@
     % else:
         <tr class="grid-row ${row_class}" record="${data['id']}">
     % endif
-    % if selector and editable:
+    % if selector:
         <td class="grid-cell selector">
             <input type="${selector}" class="${selector} grid-record-selector"
                 id="${name}/${data['id']}" name="${(checkbox_name or None) and name}"
@@ -194,7 +194,7 @@
                     <table id="${name}_grid" class="grid" width="100%" cellspacing="0" cellpadding="0" style="background: none;">
                         <thead>
                             <tr class="grid-header">
-                                % if selector and editable:
+                                % if selector:
                                     <th width="1" class="grid-cell selector">
                                         % if selector == 'checkbox':
                                             <input type="checkbox" class="checkbox grid-record-selector" onclick="new ListView('${name}').checkAll(!this.checked)"/>
@@ -320,7 +320,6 @@
                             }
                         </script>
                     % endif
-				% if editable:
                     % if editors:
                         <script type="text/javascript">
                             /* In editable grid, clicking on empty row will create new and on existing row will edit. */
@@ -379,7 +378,6 @@
                             </script>
                         % endif
                     % endif
-				% endif
                 </td>
             </tr>
             % if pageable:
