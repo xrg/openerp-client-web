@@ -61,7 +61,7 @@ table.tree-grid .expand,
 table.tree-grid .collapse,
 table.tree-grid .loading {
     float: left;
-    width: 1.5em;
+    width: 1.4em;
     min-height: 18px;
 
     background-repeat: no-repeat;

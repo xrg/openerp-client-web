@@ -342,11 +342,6 @@ TreeNode.prototype = {
 
                 row.push(arrow);
 
-                if (record.icon) {
-                    this.element_i = IMG({'src': record.icon, 'align': 'left', 'width' : 16, 'height' : 16});
-                    row.push(this.element_i);
-                }
-
                 value = MochiKit.DOM.createDOM('A', {'href': '#'}, value);
                 this.element_a = value;
 
