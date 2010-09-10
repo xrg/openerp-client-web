@@ -435,7 +435,15 @@ td.welcome {
     text-transform: uppercase;
 }
 
-.message {
+td.message {
+    text-align: center;
+    font-weight: bold;
+    border: none;
+    font-size: 1.3em;
+    text-align: center;
+}
+
+div.message {
     text-align: center;
     font-weight: bold;
     border: none;
