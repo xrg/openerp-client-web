@@ -68,7 +68,7 @@ class Concurrency(Exception):
     def __str__(self):
         return self.title
 
-def error(title, msg, details=None):
+def error(title, msg):
     raise TinyError(message=msg, title=title or _("Error"))
 
 def warning(msg, title=None):
