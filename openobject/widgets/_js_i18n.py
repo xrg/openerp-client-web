@@ -1,9 +1,7 @@
 import os
 
 from openobject import i18n
-from openobject import tools
 
-from _base import Widget
 from _resource import JSLink
 
 
@@ -28,7 +26,7 @@ class JSI18n(JSLink):
         static_dir = "%sstatic%s" % (os.path.sep, os.path.sep)
         for tr in trans:
             pr, tr = tr.split(static_dir)
-            pr = pr.split(os.path.sep)[-1]
+            _, pr = os.path.split(pr)
             translations.append((pr, tr))
 
         d.translations = translations
