@@ -703,7 +703,7 @@ MochiKit.Base.update(ListView.prototype, {
                 _terp_sort_order: this.sort_order
             });
         }
-        jQuery('[id="'+self.name+'"].loading-list').show()
+        jQuery('[id="'+self.name+'"] .loading-list').show();
 
         jQuery.ajax({
             url: '/openerp/listgrid/get',
