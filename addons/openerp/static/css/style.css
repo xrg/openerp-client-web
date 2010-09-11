@@ -609,8 +609,8 @@ td.item input.reference {
     min-width: 132px;
 }
 
-td.item img.m2o_select,
-td.item img.datetime {
+img.m2o_select,
+img.datetime {
     margin-left: -18px;
 }
 
@@ -618,6 +618,10 @@ img.m2o_select,
 img.m2o_open {
     vertical-align: middle;
     cursor: pointer;
+}
+
+.item-image {
+	padding: 0px;	
 }
 
 td.item table.item-wrapper td {

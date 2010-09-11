@@ -1,7 +1,7 @@
 % if editable:
 <table class="item-wrapper">
 <tr>
-    <td>
+    <td style="padding: 0px;">
         <input type="hidden" id="${name}" name="${name}" class="${css_class}" value="${value}"
             ${py.attrs(attrs, kind=kind, domain=domain, context=ctx, relation=relation)}/>
         <input type="text" id="${name}_text" class="${css_class}"
@@ -13,7 +13,7 @@
         <span class="fielderror">${error}</span>
         % endif
     </td>
-    <td>
+    <td style="padding: 0px;">
         <img id="${name}_select" alt="${_('Search')}" title="${_('Search')}"
             src="/openerp/static/images/fields-a-lookup-a.gif" class="m2o_select"/>
     </td>

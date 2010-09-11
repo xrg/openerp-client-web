@@ -1,7 +1,7 @@
 % if editable:
 <table class="item-wrapper reference">
 <tr>
-    <td>
+    <td style="padding: 0px;">
         <input type="hidden" id='${name}' name='${name}' class="${css_class}"
                 ${py.attrs(attrs, kind=kind, domain=domain, context=ctx, relation=relation, value=value)}/>
         <select id="${name}_reference" name='${name}'>
