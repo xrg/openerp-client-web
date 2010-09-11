@@ -56,6 +56,8 @@ import itertools
 	                            <td class="grid-cell group-expand"
 	                                onclick="new ListView('${name}').group_by('${grp_row.get('group_by_id')}', '${grp_row.get('group_id')}', '${group_by_no_leaf}', this);">
 	                            </td>
+                            % else:
+                                <td class="grid-cell"></td>
                             % endif
                         % endif
 

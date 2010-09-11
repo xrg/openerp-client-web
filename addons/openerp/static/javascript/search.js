@@ -626,6 +626,7 @@ function search_on_return(e) {
     	search_filter();
     }
 }
+
 function initialize_search() {
     var filter_table = jQuery('#filter_table');
     var fil_dom = jQuery('#_terp_filter_domain');

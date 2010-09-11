@@ -80,8 +80,7 @@ class ViewForm(Form):
         
         if params.view_type in ('tree', 'graph'):
             self.search = Search(model=params.model, domain=search_param, context=params.context, values=params.search_data or {},
-                                 filter_domain=params.filter_domain or [], search_view=params.search_view, group_by_ctx=params.group_by_ctx or [],
-                                 **{'clear': params.get('_terp_clear')})
+                                 filter_domain=params.filter_domain or [], search_view=params.search_view, group_by_ctx=params.group_by_ctx or [])
             
             cherrypy.request.custom_search_domain = self.search.listof_domain or []
             cherrypy.request.custom_filter_domain = self.search.custom_filter_domain or []
@@ -130,7 +129,7 @@ class ViewForm(Form):
     def update_params(self, d):
         super(ViewForm, self).update_params(d)
         if self.search:            
-            d.attrs['onsubmit']='submit_search_form()';    
+            d.attrs['onsubmit']='submit_search_form()';
         
 
 

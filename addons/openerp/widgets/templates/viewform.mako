@@ -15,12 +15,6 @@
 	<div id="server_logs"></div>
 	<table border="0" cellpadding="0" cellspacing="0" width="100%" style="border: none;">
         % if search:
-        <%
-             if not (search.listof_domain or search.custom_filter_domain or search.groupby):
-                 css_clear = 'inactive_clear'
-             else:
-                 css_clear = ''
-        %>
 
         <tr>
             <td valign="top">${display_member(search)}</td>
@@ -57,9 +51,6 @@
                         <td align="left">
                              <button title="${_('Filter records.')}" onclick="search_filter(); return false;">
                              ${_("Search")}</button>
-                             <button title="${_('Clear all .')}" id="clear_all_filters" class="${css_clear}"
-                             onclick="new ListView('_terp_list').clear(); return false;"
-                             >${_("Clear")}</button>
                         </td>
                         <td align="right">
                             <button title="${_('Save Filter.')}"
