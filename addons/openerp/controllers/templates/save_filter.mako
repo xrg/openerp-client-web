@@ -2,7 +2,15 @@
 
 <%def name="header()">
     <title>Save as a Shortcut</title>
-
+    <style type="text/css">
+        td.save_filter {
+            padding: 10px 10px 0 10px;;
+        }
+        
+        td.save_filter h1 {
+            padding: 0 0 5px 0;
+        }
+    </style>
     <script type="text/javascript">
 
         var onFilterClose = function(form) {
@@ -41,13 +49,17 @@
         <table class="view" width="100%" border="0">
             <tr>
                 <td style="padding: 10px 10px 0 10px;">
-                    <table class="popup_header" width="100%">
+                    <table width="100%" style="border: none;">
                         <tr>
-                        	<td class="save-filter-header">
-                        		<a class="button-a" href="javascript: void(0)" onclick="onFilterClose('filter_sc');">${_("Save")}</a>
+                            <td class="save_filter">
+                                <h1>${_("Save as a Filter")}</h1>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="save-filter-header">
+                                <a class="button-a" href="javascript: void(0)" onclick="onFilterClose('filter_sc');">${_("Save")}</a>
                                 <a class="button-a" href="javascript: void(0)" onclick="jQuery.fancybox.close();">${_("Close")}</a>
-                        	</td>
-                            <td align="center" class="pop_head_font">${_("Save as a Filter")}</td>
+                            </td>
                         </tr>
                     </table>
                 </td>
