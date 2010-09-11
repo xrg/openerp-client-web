@@ -72,13 +72,8 @@
 	    </tr>
 
 	    <tr>
-	    	<td colspan="1" style="color:green; text-align:right">
-				<span style="vertical-align:top">
-					<i><u>${_("Online Documentation...")}</u></i>
-				</span>
-				<span style="vertical-align:middle">
-	    			<img class="listImage" height="16" width="16" src="/openerp/static/images/stock/gtk-go-forward.png"/>
-	    		</span>
+	    	<td colspan="1" style="text-align:right">
+				<a target="_blank" href="${context_help}" style="color:#9a0404; font-size:1.25em; font-weight:bold; font-style:italic"><u>${_("Online Documentation...")}</u></a>
 	    	</td>
 	    </tr>
 
