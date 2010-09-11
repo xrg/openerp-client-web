@@ -878,51 +878,22 @@ var listgridValidation = function(_list, o2m, record_id) {
     var o2m = parseInt(o2m, 0)
     if(is_list_changed) {
         if(confirm('This record has been modified \n Do you really want to save it?')){
-            if(record_id == current_id) {
-                 new ListView(_list).save(record_id, current_id);
-            }
-            else {
-                if((record_id  > 0  && current_id > 0)) {
-                    new ListView(_list).save(current_id, record_id);
-                }
-                else {
-                    if((record_id < 0) && (current_id > 0)) {
-                        if (o2m) {
-                            new ListView(_list).save(current_id, record_id);
-                        }
-                        else {
-                            new ListView(_list).save(record_id, current_id);
-                        }
-                    }
-                    else if((record_id > 0) && (current_id < 0)) {
-                        new ListView(_list).save(current_id, record_id);
-                    }
-                }
-            }
+            new ListView(_list).save(current_id, record_id);
         }
     }
     else{
-        if(o2m) {
-            var detail = jQuery('table.one2many[id$="'+_list+'"]').attr('detail');
-            if(record_id == 'undefined' || typeof record_id == 'undefined') {
+        if (record_id < 1) {
+            if(o2m) {
+                var detail = jQuery('table.one2many[id$="'+_list+'"]').attr('detail');
                 new One2Many(_list, detail).create();
             }
-            if(record_id == current_id) {
-                if(record_id < 0) {
-                    new One2Many(_list, detail).create();
-                }
-            }
-            else if((record_id > 0) && (current_id < 0)) {
-                new ListView(_list).edit(record_id);
-            }
-        }
-        else {
-            if(record_id == current_id) {
+            else {
                 new ListView(_list).create();
             }
-            else {
-                new ListView(_list).edit(record_id);
-            }
+            
+        }
+        else{
+            new ListView(_list).edit(record_id);
         }
     }
 }
