@@ -870,7 +870,7 @@ var validateList = function(_list) {
     var $check = jQuery('table.grid[id="'+_list+'_grid'+'"] tr.grid-row td:not(.selector)').find('input, select');
     $check.change(function() {
         is_list_changed = true;
-        current_id = parseInt(jQuery(this).closest('tr').attr('record'), 10) || -1;
+        current_id = parseInt(jQuery(this).closest('tr.grid-row').attr('record'), 10) || -1;
     });
 }
 
