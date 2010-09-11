@@ -44,16 +44,16 @@
 </%def>
 
 <%def name="content()">
-<table class="view" border="0" width="100%" height="100%" cellpadding="0" cellspacing="0">
-	<tr>
-        <td width="75%" valign="top" style="padding-top:10px;">
-        	<h1>Help: ${title}</h1>
-	        <div style="padding:5px 10px;">
-	        	<p><i>${help}</i></p>
-	        </div>
-        </td>
-    	<td width="25%" align="center" rowspan="2" valign="top">
-    		<div style="border-left: 2px solid; padding: 0 10px;">
+	<table class="view" border="0" width="100%" height="100%" cellpadding="0" cellspacing="0">
+		<tr>
+	        <td width="75%" valign="top" style="padding-top:10px;">
+	        	<h1>Help: ${title}</h1>
+		        <div style="padding:5px 10px;">
+		        	<p><i>${help}</i></p>
+		        </div>
+	        </td>
+	    	<td width="25%" align="center" rowspan="4" valign="top">
+	    		<div style="border-left: 2px solid; padding: 0 10px;">
 					<a class="help-button-a" href="javascript: void(0)" style="padding-bottom:3px;">
 						${_("Buy a Support Contract %(by)s",
 						by="""<small>By Chat / Mail / Phone</small>""")|n}
@@ -67,77 +67,82 @@
 						${_("Community Forum %(community)s",
 						community="""<small>Join Community Discussion</small>""")|n}
 					</a>
-			</div>
-		</td>
-    </tr>
-    <tr>
-    	<td colspan="1" style="color:green; text-align:right">
-			<span style="vertical-align:top">
-				<i><u>${_("Online Documentation...")}</u></i>
-			</span>
-			<span style="vertical-align:middle">
-    			<img class="listImage" height="16" width="16" src="/openerp/static/images/stock/gtk-go-forward.png"/>
-    		</span>
-    	</td>
-    </tr>
-	<tr>
-		<td colspan="2">
-			<h2 style="padding:0 0 0 10px; font-weight:bold">${process_title} ${_("Process")}</h2>
-			% if selection:
-				<div style="padding: 5px 10px;">
-				    <input type="hidden" id="res_model" value="${res_model}"/>
-				    <input type="hidden" id="res_id" value="${res_id}"/>
-				    <fieldset>
-				        <legend><b style="padding: 4px;">${_("Select Process")}</b></legend>
-				        <select id="select_workflow" name="select_workflow" style="min-width: 150px">
-				            % for val, text in selection:
-				            <option value="${val}" ${val==id and "selected" or ""} >${text}</option>
-				            % endfor
-				        </select>
-				        <button class="button" type="button" onclick="select_workflow()">${_("Select")}</button>
-				    </fieldset>
-			    </div>
-		    %else:
-			    <div align="center" style="padding: 5px 10px;">
-		            <input type="hidden" id="id" value="${id}"/>
-		            <input type="hidden" id="res_model" value="${res_model}"/>
-		            <input type="hidden" id="res_id" value="${res_id}"/>
-		            <div id="process_canvas" style="margin-top: 0"></div>
-		        </div>
-		        <div align="left" style="padding: 5px 10px;">
-	            	<a target="_blank" id="show_customize_menu" href="${py.url('/openerp/form/edit', model='process.process', id=id)}">${_("[Edit Process]")}</a><br/>
 				</div>
-		    % endif
-		</td>
-	</tr>
-	% if fields:
-    <tr>
-    	<td colspan="2">
-			<h2 style="padding: 5px 10px; font-weight:bold">${_("Fields")}</h2>
-			<div align="left" style="padding: 5px 10px;">
-	            <table border="0">
-				% for k, v in fields.items():
-					<tr>
-						<td valign="top">
-							<b>${k}:</b>
-						</td>
-						<td valign="top">
-						% for l, m in v.items():
-							% if m:
-								% if m == True:
-									${l},
-								% else:
-									${l}: ${m},
+			</td>
+	    </tr>
+
+	    <tr>
+	    	<td colspan="1" style="color:green; text-align:right">
+				<span style="vertical-align:top">
+					<i><u>${_("Online Documentation...")}</u></i>
+				</span>
+				<span style="vertical-align:middle">
+	    			<img class="listImage" height="16" width="16" src="/openerp/static/images/stock/gtk-go-forward.png"/>
+	    		</span>
+	    	</td>
+	    </tr>
+
+		<tr>
+			<td colspan="1" style="padding-bottom:0">
+				<h2 style="padding:0 0 0 10px; font-weight:bold">${process_title} ${_("Process")}</h2>
+			</td>
+		</tr>
+
+		% if selection:
+		<tr>
+			<td>
+			    <input type="hidden" id="res_model" value="${res_model}"/>
+			    <input type="hidden" id="res_id" value="${res_id}"/>
+			    <fieldset style="margin: 0 0 10px 10px">
+			        <legend><b style="padding: 4px;">${_("Select Process")}</b></legend>
+			        <select id="select_workflow" name="select_workflow" style="min-width: 150px">
+			            % for val, text in selection:
+			            <option value="${val}" ${val==id and "selected" or ""} >${text}</option>
+			            % endfor
+			        </select>
+			        <button class="button" type="button" onclick="select_workflow()">${_("Select")}</button>
+			    </fieldset>
+			</td>
+		</tr>
+
+	    %else:
+        <input type="hidden" id="id" value="${id}"/>
+        <input type="hidden" id="res_model" value="${res_model}"/>
+        <input type="hidden" id="res_id" value="${res_id}"/>
+	    <div id="process_canvas" style="margin-top: 0"></div>
+	    <div align="left" style="padding: 5px 20px;">
+	    	<a target="_blank" id="show_customize_menu" href="${py.url('/openerp/form/edit', model='process.process', id=id)}">${_("[Edit Process]")}</a><br/>
+		</div>
+	    % endif
+
+		% if fields:
+	    <tr>
+	    	<td colspan="2">
+				<h2 style="padding: 5px 10px; font-weight:bold">${_("Fields")}</h2>
+				<div align="left" style="padding: 5px 10px;">
+		            <table border="0">
+					% for k, v in fields.items():
+						<tr>
+							<td valign="top">
+								<b>${k}:</b>
+							</td>
+							<td valign="top">
+							% for l, m in v.items():
+								% if m:
+									% if m == True:
+										${l},
+									% else:
+										${l}: ${m},
+									% endif
 								% endif
-							% endif
-						% endfor
-						</td>
-					</tr>
-				% endfor
-	            </table>
-			</div>
-		</td>
-    </tr>
-    % endif
-</table>
+							% endfor
+							</td>
+						</tr>
+					% endfor
+		            </table>
+				</div>
+			</td>
+	    </tr>
+	    % endif
+	</table>
 </%def>

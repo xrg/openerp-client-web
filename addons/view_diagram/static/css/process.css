@@ -40,6 +40,8 @@ a.help-button-a small {
 
 .process-notes dt {
     font-weight: bold;
+    margin-left: 20px;
+    margin-bottom: 4px;
 }
 
 .process-notes dd {

@@ -62,7 +62,7 @@ MochiKit.Base.update(openobject.process.Workflow.prototype, {
     },
 
     load: function(id, res_model, res_id, title) {
-    	
+
         this.process_id = id;
         this.res_model = res_model;
         this.res_id = res_id;
@@ -158,7 +158,7 @@ MochiKit.Base.update(openobject.process.Workflow.prototype, {
     _create_note:  function(notes, subflows, perm, related) {
 
         var self = this;
-        var elem = MochiKit.DOM.DIV({'class': 'process-notes'});
+        var elem = MochiKit.DOM.TR({'class': 'process-notes'});
         var perm = perm || {};
 
         var sflows = "";
