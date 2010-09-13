@@ -9,7 +9,7 @@ class JSI18n(JSLink):
 
     template = """\
     % for m, tr in translations:
-        <script type="text/javascript" src="/${m}/static/javascript/${tr}"></script>
+        <script type="text/javascript" src="/${m}/static/${tr}"></script>
     % endfor
     """
 
