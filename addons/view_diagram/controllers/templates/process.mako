@@ -52,18 +52,18 @@
 		        	<p><i>${help}</i></p>
 		        </div>
 	        </td>
-	    	<td width="25%" align="center" rowspan="4" valign="top">
+	    	<td width="25%" align="center" rowspan="3" valign="top">
 	    		<div style="border-left: 2px solid; padding: 0 10px;">
 					<a class="help-button-a" href="javascript: void(0)" style="padding-bottom:3px;">
 						${_("Buy a Support Contract %(by)s",
 						by="""<small>By Chat / Mail / Phone</small>""")|n}
 					</a>
-					<a class="help-button-a" href="javascript: void(0)" style="padding-bottom:3px;">
+					<a class="help-button-a" target="_blank" href="http://www.openerp.com/services/books" style="padding-bottom:3px;">
 						${_("Get Books %(available)s",
 						available="""<small>Available in Amazon</small>""")|n}
 					</a>
 
-					<a class="help-button-a" href="javascript: void(0)">
+					<a class="help-button-a" target="_blank" href="http://www.openobject.com/forum">
 						${_("Community Forum %(community)s",
 						community="""<small>Join Community Discussion</small>""")|n}
 					</a>
@@ -72,20 +72,20 @@
 	    </tr>
 
 	    <tr>
-	    	<td colspan="1" style="text-align:right">
+	    	<td style="text-align:right" valign="bottom">
 				<a target="_blank" href="${context_help}" style="color:#9a0404; font-size:1.25em; font-weight:bold; font-style:italic"><u>${_("Online Documentation...")}</u></a>
 	    	</td>
 	    </tr>
 
 		<tr>
-			<td colspan="1" style="padding-bottom:0">
+			<td style="padding-bottom:0" valign="bottom">
 				<h2 style="padding:0 0 0 10px; font-weight:bold">${process_title} ${_("Process")}</h2>
 			</td>
 		</tr>
 
 		% if selection:
 		<tr>
-			<td>
+			<td colspan="2">
 			    <input type="hidden" id="res_model" value="${res_model}"/>
 			    <input type="hidden" id="res_id" value="${res_id}"/>
 			    <fieldset style="margin: 0 0 10px 10px">
@@ -101,13 +101,17 @@
 		</tr>
 
 	    %else:
-        <input type="hidden" id="id" value="${id}"/>
-        <input type="hidden" id="res_model" value="${res_model}"/>
-        <input type="hidden" id="res_id" value="${res_id}"/>
-	    <div id="process_canvas" style="margin-top: 0"></div>
-	    <div align="left" style="padding: 5px 20px;">
-	    	<a target="_blank" id="show_customize_menu" href="${py.url('/openerp/form/edit', model='process.process', id=id)}">${_("[Edit Process]")}</a><br/>
-		</div>
+	    <tr>
+		    <td colspan="2">
+		        <input type="hidden" id="id" value="${id}"/>
+		        <input type="hidden" id="res_model" value="${res_model}"/>
+		        <input type="hidden" id="res_id" value="${res_id}"/>
+			    <div id="process_canvas" style="margin-top: 0"></div>
+			    <div align="left" style="padding: 5px 10px;">
+			    	<a target="_blank" id="show_customize_menu" href="${py.url('/openerp/form/edit', model='process.process', id=id)}">${_("[Edit Process]")}</a><br/>
+				</div>
+			</td>
+		</tr>
 	    % endif
 
 		% if fields:
