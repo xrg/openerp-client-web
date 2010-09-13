@@ -134,7 +134,7 @@
 </%def>
 
 <%def name="content()">
-<form name="import_data" action="/openerp/impex/import_data" method="post" enctype="multipart/form-data">
+<form name="import_data" id="import_data" action="/openerp/impex/import_data" method="post" enctype="multipart/form-data">
 
     <input type="hidden" id="_terp_source" name="_terp_source" value="${source}"/>
     <input type="hidden" id="_terp_model" name="_terp_model" value="${model}"/>
