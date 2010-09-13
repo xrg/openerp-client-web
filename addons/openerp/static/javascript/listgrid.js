@@ -28,7 +28,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 var ListView = function(name) {
-    var elem = jQuery('#'+name).get();
+    var elem = jQuery('[id="'+name+'"]').get(0);
 
     if (elem.__listview) {
         return elem.__listview;
@@ -62,7 +62,7 @@ ListView.prototype = {
         this.m2m = jQuery('[id*="'+ name + '_set' + '"]');
 		this.default_get_ctx = jQuery('[id*="' + prefix + '_terp_default_get_ctx' + '"]').get() ? jQuery('[id*="' + prefix + '_terp_default_get_ctx' + '"]').val() : null;
         // save the reference
-        jQuery('[id*="'+name+'"]:first').__listview = this;
+        jQuery('[id="'+name+'"]').get(0).__listview = this;
 
         this.sort_order = null;
         this.sort_key = null;
@@ -548,7 +548,7 @@ MochiKit.Base.update(ListView.prototype, {
         this.reload(edit_inline, null, default_get_ctx);
     },
 
-    save: function(id) {
+    save: function(id, prev_id) {
 
         if (openobject.http.AJAX_COUNT > 0) {
             return callLater(1, bind(this.save, this), id);
@@ -581,34 +581,48 @@ MochiKit.Base.update(ListView.prototype, {
         args['_terp_parent/model'] = openobject.dom.get(parent_field + '_terp_model').value;
         args['_terp_parent/context'] = openobject.dom.get(parent_field + '_terp_context').value;
         args['_terp_source'] = this.name;
-
+        
+        
         var self = this;
         var req = openobject.http.postJSON('/openerp/listgrid/save', args);
-
+        
+        var $current_record = jQuery('table[id="'+this.name+'_grid'+'"]').find('tr.grid-row[record="'+id+'"]');
         req.addCallback(function(obj) {
             if (obj.error) {
-                if (obj.error_field) {
-                    var fld = openobject.dom.get('_terp_listfields/' + obj.error_field);
-                    if (fld && getNodeAttribute(fld, 'kind') == 'many2one') {
-                        fld = openobject.dom.get(fld.id + '_text');
+                var $focus_field;
+                for (var k in data) {
+                    
+                    var $req_field = $current_record.find('td [id="'+'_terp_listfields/'+k+'"].requiredfield');
+                    if(!$req_field.length)
+                        continue;
+                    if($req_field.attr('kind') == 'many2one') {
+                        $req_field = $current_record.find('td [id="'+'_terp_listfields/'+k+'_text'+'"]');
                     }
-                    if (!obj.error_field.value){
-						jQuery(fld).addClass('errorfield');
-            			result = false;
-        			} else if(jQuery(fld).hasClass('errorfield')) {
-            			jQuery(fld).removeClass('errorfield');
-        			}
-					if (!result){
-						alert(obj.error);
-						fld.focus();
-                        fld.select();
-					}
+                    
+                    var req_value = $req_field.val();
+                    if(req_value == '') {
+                        $req_field.addClass('errorfield');
+                        if(!$focus_field) {
+                            $focus_field = $req_field;
+                        }
+                    } else if($req_field.hasClass('errorfield')) {
+                        $req_field.removeClass('errorfield');
+                    }
+                    
+                }
+                if($focus_field) {
+                    $focus_field.focus();
                 }
             } else {
                 openobject.dom.get(prefix + '_terp_id').value = obj.id;
                 openobject.dom.get(prefix + '_terp_ids').value = obj.ids;
-
-                self.reload(id > 0 ? null : -1, prefix ? 1 : 0);
+                
+                if(prev_id !== undefined) {
+                    self.reload(prev_id , prefix ? 1 : 0);
+                } else {
+                    self.reload(id > 0 ? null : -1, prefix ? 1 : 0);
+                }
+                    
             }
         });
     },
@@ -847,3 +861,37 @@ MochiKit.Base.update(ListView.prototype, {
             _terp_view_mode : this.view_mode}),{width: 700, height: 500});
     }
 });
+
+function validateList(_list) {
+    var $list = jQuery('[id="' + _list + '"]').removeAttr('current_id');
+    var $check = jQuery('table.grid[id="'+_list+'_grid'+'"] tr.grid-row td:not(.selector)').find('input, select');
+    $check.change(function() {
+        $list.attr(
+            'current_id',
+            parseInt(jQuery(this).closest('tr.grid-row').attr('record'), 10) || -1);
+    });
+}
+
+function listgridValidation(_list, o2m, record_id) {
+    o2m = parseInt(o2m, 0);
+    var current_id = jQuery('[id="' + _list + '"]').attr('current_id');
+    // not(null | undefined)
+    if(current_id != null) {
+        if(confirm('This record has been modified \n Do you really want to save it?')) {
+            new ListView(_list).save(current_id, record_id);
+        }
+    } else{
+        if(o2m) {
+            var detail = jQuery('table.one2many[id$="' + _list + '"]').attr('detail');
+            if(record_id == undefined || record_id == -1) {
+                new One2Many(_list, detail).create();
+            } else {
+                new ListView(_list).edit(record_id);
+            }
+        } else if(record_id == -1) {
+            new ListView(_list).create();
+        } else {
+            new ListView(_list).edit(record_id);
+        }
+    }
+}
