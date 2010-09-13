@@ -579,13 +579,13 @@ MochiKit.Base.update(ListView.prototype, {
         var self = this;
         var req = openobject.http.postJSON('/openerp/listgrid/save', args);
         
-        var $current_record = jQuery('table[id="'+this.name+'_grid'+'"]').find('tr.grid-row[record="'+id+'"]')
+        var $current_record = jQuery('table[id="'+this.name+'_grid'+'"]').find('tr.grid-row[record="'+id+'"]');
         req.addCallback(function(obj) {
             if (obj.error) {
-                var focus_field = [];
+                var $focus_field;
                 for (var k in data) {
                     
-                    var $req_field = $current_record.find('td [id="'+'_terp_listfields/'+k+'"].requiredfield')
+                    var $req_field = $current_record.find('td [id="'+'_terp_listfields/'+k+'"].requiredfield');
                     if(!$req_field.length)
                         continue;
                     if($req_field.attr('kind') == 'many2one') {
@@ -594,22 +594,25 @@ MochiKit.Base.update(ListView.prototype, {
                     
                     var req_value = $req_field.val();
                     if(req_value == '') {
-                        $req_field.addClass('errorfield')
-                        focus_field.push($req_field);
+                        $req_field.addClass('errorfield');
+                        if(!$focus_field) {
+                            $focus_field = $req_field;
+                        }
                     } else if($req_field.hasClass('errorfield')) {
                         $req_field.removeClass('errorfield');
                     }
                     
                 }
-                focus_field[0].focus();
+                if($focus_field) {
+                    $focus_field.focus();
+                }
             } else {
                 openobject.dom.get(prefix + '_terp_id').value = obj.id;
                 openobject.dom.get(prefix + '_terp_ids').value = obj.ids;
                 
-                if(prev_id != 'undefined' || typeof prev_id !='undefined') {
+                if(prev_id !== undefined) {
                     self.reload(prev_id , prefix ? 1 : 0);
-                }
-                else {
+                } else {
                     self.reload(id > 0 ? null : -1, prefix ? 1 : 0);
                 }
                     
