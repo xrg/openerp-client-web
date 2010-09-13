@@ -16,6 +16,18 @@
             return true;
         }
     </script>
+    % if error:
+        <script type="text/javascript">
+            jQuery(document).ready(function () {
+
+                var error_tbl = jQuery('<table class="errorbox">');
+                error_tbl.append(jQuery('<tr><td class="welcome">${error.get("title", "Warning")}</td></tr>'));
+                error_tbl.append(jQuery('<tr><td class="message"><pre>${error["message"]}</pre></td></tr>'));
+                error_tbl.append(jQuery('<tr><td><a class="button-a" id="error_btn" onclick="jQuery.fancybox.close();">OK</a></td></tr>'));
+                jQuery.fancybox(error_tbl);
+            })
+        </script>
+    % endif
 </%def>
 
 <%def name="content()">

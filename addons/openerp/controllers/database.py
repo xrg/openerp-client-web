@@ -130,23 +130,31 @@ _FORMS = {
 class Database(BaseController):
 
     _cp_path = "/openerp/database"
+    msg = {}
 
     @expose()
     def index(self, *args, **kw):
+        self.msg = {}
         raise redirect('/openerp/database/create')
 
     @expose(template="templates/database.mako")
     def create(self, tg_errors=None, **kw):
+
+        error = self.msg
+        self.msg = {}
         form = _FORMS['create']
-        return dict(form=form)
+        return dict(form=form, error=error)
 
     @expose()
     @validate(form=_FORMS['create'])
     @error_handler(create)
     def do_create(self, password, dbname, admin_password, confirm_password, demo_data=False, language=None, **kw):
 
+        self.msg = {}
         if not re.match('^[a-zA-Z][a-zA-Z0-9_]+$', dbname):
-            raise common.warning(_('The database name must contain only normal characters or "_".\nYou must avoid all accents, space or special characters.'), _('Bad database name!'))
+            self.msg = {'message': ustr(_("You must avoid all accents, space or special characters.")),
+                        'title': ustr(_('Bad database name'))}
+            raise redirect('/openerp/database/create')
 
         ok = False
         try:
@@ -166,14 +174,19 @@ class Database(BaseController):
                     raise Exception('DbFailed')
         except Exception, e:
             if e.args == ('DbExist',):
-                raise common.warning(_("Could not create database."), _('Database already exists'))
+                 self.msg = {'message': (_("Could not create database.")),
+                             'title': (_('Database already exists'))}
+
             elif e.args == ('DbFailed'):
-                raise common.warning(_("The server crashed during installation.\nWe suggest you to drop this database."),
-                                     _("Error during database creation"))
+                self.msg = {'message': (_("The server crashed during installation.\nWe suggest you to drop this database.")),
+                            'title': (_('Error during database creation'))}
             elif getattr(e, 'faultCode', False) == 'AccessDenied':
-                raise common.warning(_('Bad database administrator password'), _("Could not create database."))
+                self.msg = {'message': (_('Bad database administrator password')),
+                            'title' : (_("Could not create database."))}
             else:
-                raise common.warning(_("Could not create database."))
+                self.msg = {'message':(_("Could not create database."))}
+
+            raise redirect('/openerp/database/create')
 
         if ok:
             raise redirect('/openerp/menu', {'next': '/openerp/home'})
@@ -182,31 +195,38 @@ class Database(BaseController):
     @expose(template="templates/database.mako")
     def drop(self, tg_errors=None, **kw):
         form = _FORMS['drop']
-        return dict(form=form)
+        error = self.msg
+        self.msg = {}
+        return dict(form=form, error=error)
 
     @expose()
     @validate(form=_FORMS['drop'])
     @error_handler(drop)
     def do_drop(self, dbname, password, **kw):
+        self.msg = {}
         try:
             rpc.session.execute_db('drop', password, dbname)
         except Exception, e:
             if getattr(e, 'faultCode', False) == 'AccessDenied':
-                raise common.warning(_('Bad database administrator password!'), _("Could not drop database."))
+                self.msg = {'message': (_('Bad database administrator password!')),
+                            'title': (_("Could not drop database."))}
             else:
-                raise common.warning(_("Couldn't drop database"))
+                self.msg = {'message' : (_("Could not drop database"))}
 
         raise redirect("/openerp/database/drop")
 
     @expose(template="templates/database.mako")
     def backup(self, tg_errors=None, **kw):
         form = _FORMS['backup']
-        return dict(form=form)
+        error = self.msg
+        self.msg = {}
+        return dict(form=form, error=error)
 
     @expose()
     @validate(form=_FORMS['backup'])
     @error_handler(backup)
     def do_backup(self, dbname, password, **kw):
+        self.msg = {}
         try:
             res = rpc.session.execute_db('dump', password, dbname)
             if res:
@@ -214,47 +234,56 @@ class Database(BaseController):
                 cherrypy.response.headers['Content-Disposition'] = 'filename="' + dbname + '.dump"';
                 return base64.decodestring(res)
         except Exception, e:
-            raise common.warning(_("Could not create backup."))
-
+            self.msg = {'message' : (_("Could not create backup."))}
+            raise redirect('/openerp/database/backup')
         raise redirect('/openerp/login')
 
     @expose(template="templates/database.mako")
     def restore(self, tg_errors=None, **kw):
         form = _FORMS['restore']
-        return dict(form=form)
+        error = self.msg
+        self.msg = {}
+        return dict(form=form, error=error)
 
     @expose()
     @validate(form=_FORMS['restore'])
     @error_handler(restore)
     def do_restore(self, filename, password, dbname, **kw):
+        self.msg = {}
         try:
             data = base64.encodestring(filename.file.read())
             res = rpc.session.execute_db('restore', password, dbname, data)
         except Exception, e:
             if getattr(e, 'faultCode', False) == 'AccessDenied':
-                raise common.warning(_('Bad database administrator password!'), _("Could not restore database."))
+                self.msg = {'message': (_('Bad database administrator password!')),
+                            'title': (_("Could not restore database."))}
             else:
-                raise common.warning(_("Couldn't restore database"))
-
+                self.msg = {'message': (_("Could not restore database"))}
+                raise redirect('/openerp/database/restore')
         raise redirect('/openerp/login', db=dbname)
 
     @expose(template="templates/database.mako")
     def password(self, tg_errors=None, **kw):
         form = _FORMS['password']
-        return dict(form=form)
+        error = self.msg
+        self.msg = {}
+        return dict(form=form, error = error)
 
     @validate(form=_FORMS['password'])
     @error_handler(password)
     @expose()
     def do_password(self, old_password, new_password, confirm_password, **kw):
+        self.msg = {}
         try:
             res = rpc.session.execute_db('change_admin_password', old_password, new_password)
         except Exception,e:
             if getattr(e, 'faultCode', False) == 'AccessDenied':
-                raise common.warning(_("Could not change super admin password."), _('Bad password provided'))
+                self.msg = {'message': (_('Could not change super admin password.')),
+                            'title': (_("Bad password provided."))}
             else:
-                raise common.warning(_("Error, password not changed."))
+                self.msg = {'message': (_("Error, password not changed."))}
 
+            raise redirect('/openerp/database/password')
         raise redirect('/openerp/login')
 
 # vim: ts=4 sts=4 sw=4 si et

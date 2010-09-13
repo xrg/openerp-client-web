@@ -419,6 +419,10 @@ div.box2 {
     padding: 10px;
 }
 
+a#error_btn {
+    cursor : pointer;
+}
+
 table.errorbox {
     padding: 10px;
     white-space: nowrap;
