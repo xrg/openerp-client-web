@@ -617,7 +617,7 @@ MochiKit.Base.update(ListView.prototype, {
                 openobject.dom.get(prefix + '_terp_id').value = obj.id;
                 openobject.dom.get(prefix + '_terp_ids').value = obj.ids;
                 
-                if(prev_id !== undefined) {
+                if(prev_id != undefined) {
                     self.reload(prev_id , prefix ? 1 : 0);
                 } else {
                     self.reload(id > 0 ? null : -1, prefix ? 1 : 0);
