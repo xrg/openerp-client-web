@@ -44,7 +44,7 @@ from openerp.widgets import TinyWidget, TinyInputWidget, ConcurrencyInfo, get_wi
 from _binary import Image
 from openobject import tools
 from openobject.i18n import get_locale, format
-from openobject.widgets import JSLink
+from openobject.widgets import JSLink, locations
 
 
 class Frame(TinyWidget):
@@ -551,7 +551,7 @@ class DateTime(TinyInputWidget):
 
     template = "templates/datetime.mako"
 
-    javascript = [DTLink("openerp", "jscal/lang/calendar-en.js")]
+    javascript = [DTLink("openerp", "jscal/lang/calendar-en.js", location=locations.bodytop)]
 
     params = ["format", "picker_shows_time"]
 
