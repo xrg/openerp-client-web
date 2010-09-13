@@ -433,7 +433,7 @@ function display_Customfilters(all_domains, group_by_ctx, custom_columns) {
 
 var group_by = new Array();
 var filter_context = [];
-
+var previous_filter = 0;
 function parse_filters(src, id) {
     var all_domains = {};
     var check_domain = 'None';
@@ -452,6 +452,25 @@ function parse_filters(src, id) {
             }
         })
     }
+    
+    if (openobject.dom.get('filter_list')) {
+        all_domains['selection_domain'] = jQuery('#filter_list').val();
+        var selected_index = jQuery('#filter_list').attr('selectedIndex');
+        var filter_grps = jQuery('#filter_list option:selected').attr('group_by');
+        if(selected_index > 0) {
+            if(filter_grps && filter_grps!='[]') {
+                group_by = eval(filter_grps);
+            } else {
+                group_by = [];
+            }
+        } else {
+            if (previous_filter > 0) {
+                group_by = [];
+            }
+        }
+        previous_filter = selected_index;
+    }
+    
     if(src) {
         var $source = jQuery(src);
         if(jQuery(id).hasClass('inactive')) {
@@ -522,11 +541,6 @@ function parse_filters(src, id) {
     var checked_button = all_boxes.toString();
     check_domain = checked_button.length > 0? checked_button.replace(/(]\,\[)/g, ', ') : 'None';
     all_domains['check_domain'] = check_domain;
-    
-    if (openobject.dom.get('filter_list')) {
-        all_domains['selection_domain'] = jQuery('#filter_list').val();
-        all_domains['selection_groups'] = jQuery('#filter_list option:selected').attr('group_by')
-    }
     
     all_domains = serializeJSON(all_domains);
     return all_domains;
