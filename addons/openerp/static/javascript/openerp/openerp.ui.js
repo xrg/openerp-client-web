@@ -59,7 +59,7 @@ function adjustTopWidth() {
     var accordionHeight = jQuery('#secondary div.wrap').height();
     var $form = jQuery('#appContent table:first');
     
-    if (!$form.get().length) {
+    if (!$form.length) {
         $form = jQuery('#appContent');
     }
     
@@ -86,9 +86,9 @@ function adjustTopWidth() {
     shortcuts.css('width', adjust_Width - logoWidth - offset);
     
     if (!window.browser.isGecko) {
-        if ($form.get(0).tagName == 'TABLE') {
+        if ($form.length && $form.get(0).tagName == 'TABLE') {
             
-            $form.parent().css('float', 'left')
+            $form.parent().css('float', 'left');
             if (formWidth > 750) 
                 $form.parent().width(700)
         }
