@@ -199,7 +199,7 @@ class ListGroup(List):
                                                 fields.keys(), self.group_by_ctx, 0, False, self.context)   
         
         terp_params = getattr(cherrypy.request, 'terp_params', [])
-        if terp_params.sort_key:
+        if terp_params.sort_key and terp_params.sort_key in self.group_by_ctx and self.group_by_ctx.index(terp_params.sort_key) == 0:
             from operator import itemgetter, attrgetter
             if terp_params.sort_order == 'desc':
                 rev = True
@@ -232,10 +232,10 @@ class MultipleGroup(List):
         self.limit = kw.get('limit', 80)
         self.count = kw.get('count', 0)
         self.link = kw.get('nolinks')
-        
         self.parent_group = parent_group or None
         self.group_level = group_level or 0
-        
+        sort_key = kw.get('sort_key')
+        sort_order = kw.get('sort_order')
         proxy = rpc.RPCProxy(model)
         if ids == None:
             if self.limit > 0:
@@ -275,6 +275,13 @@ class MultipleGroup(List):
         self.group_by_ctx, self.hiddens, self.headers = parse(self.group_by_ctx, self.hiddens, self.headers, self.group_level, groups)
         
         self.grp_records = proxy.read_group(self.context.get('__domain', []),
-                                                fields.keys(), self.group_by_ctx, 0, False, self.context)   
+                                                fields.keys(), self.group_by_ctx, 0, False, self.context)
         
+        if sort_key and sort_key in self.group_by_ctx and self.group_by_ctx.index(sort_key) == 0:
+            from operator import itemgetter, attrgetter
+            if sort_order == 'desc':
+                rev = True
+            else:
+                rev = False
+            self.grp_records = sorted(self.grp_records, key=itemgetter(sort_key), reverse=rev)
         self.grouped, grp_ids = parse_groups(self.group_by_ctx, self.grp_records, self.headers, self.ids, model,  self.offset, self.limit, rpc.session.context.copy(), self.data, self.field_total, fields)                            

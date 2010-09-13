@@ -272,6 +272,17 @@ MochiKit.Base.update(ListView.prototype, {
         var group_by_context = jQuery(group_record).attr('grp_context');
         var domain = jQuery(group_record).attr('grp_domain');
         var total_groups = jQuery('#' + this.name).attr('groups');
+        var $header = jQuery('table[id="'+this.name+'_grid'+'"] tr.grid-header');
+        var check_order = eval(total_groups);
+        var sort_order;
+        var sort_key;
+        for(i in check_order) {
+            var $img = $header.find('th[id="'+'grid-data-column/'+check_order[i]+'"]').find('img')
+            if($img.length) {
+                sort_order = $img.attr('id');
+                sort_key = check_order[i];
+            }
+        }
         if (group_by_context == '[]') {
             jQuery('#' + record + '[parent_grp_id="' + id + '"]').toggle();
         } else {
@@ -286,7 +297,9 @@ MochiKit.Base.update(ListView.prototype, {
                             'parent_group': record,
                             'group_level': jQuery(group).index() + 1,
                             'groups': total_groups,
-                            'no_leaf': no_leaf},
+                            'no_leaf': no_leaf,
+                            'sort_order': sort_order,
+                            'sort_key': sort_key},
                     dataType: 'html',
                     success: function(xmlHttp) {
                         jQuery(group_record).after(xmlHttp);
