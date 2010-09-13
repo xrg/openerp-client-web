@@ -273,7 +273,7 @@ td.custom-filter ul {
 }
 
 table#search_table td {
-    padding: 2px 0;
+    padding: 2px 0 2px 2px;
 }
 
 td.custom-filter ul li {
@@ -556,11 +556,14 @@ table.o2m_box div.pagerbar-header strong {
     background-color: turquoise;
 }
 
-td.label,
 td.item,
 .action-buttons label,
 #groupdata_table td.item {
-    padding: 2px 4px;
+    padding: 2px 5px;
+}
+
+td.label {
+	padding: 2px 2px 2px 6px;	
 }
 
 td.label,
@@ -581,7 +584,7 @@ td.label,
 
 td.item input,
 td.item select {
-    min-width: 150px;
+    min-width: 100%;
 }
 
 td.item table.fields {
@@ -605,13 +608,13 @@ td.item input {
 
 td.item input.m2o,
 td.item input.reference {
-    padding-right: 18px;
-    min-width: 132px;
+    padding-right: 0px;
+    min-width: 100%;
 }
 
 img.m2o_select,
 img.datetime {
-    margin-left: -18px;
+    margin-left: -13px;
 }
 
 img.m2o_select,

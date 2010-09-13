@@ -1,5 +1,5 @@
 % if editable:
-<table class="item-wrapper">
+<table class="item-wrapper" width="100%">
 <tr>
     <td style="padding: 0px;">
         <input type="text" id="${name}" name="${name}" autocomplete="OFF"

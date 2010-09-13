@@ -2,16 +2,16 @@
    id="${name}"
    href="javascript: void(0)"
    onclick="buttonClicked('${name}', '${btype}', '${model}', '${id}', '${confirm}', '${target}', getNodeAttribute(this, 'context'));"
-   style="height: 18px;"
+   style="height: 18px; text-align: center;"
    ${py.attrs(attrs, context=ctx)}>
         % if string:
 			% if icon:
-				<div class="button_wid_string" style="background-image: url(${icon}); padding-top: 3px;">${string}</div>
+				<img style="vertical-align: middle;" src="${icon}" width="16" height="16" alt=""></img>&nbsp;${string}
 			% else:
 				<div style="text-align: center; padding-top: 3px;">${string}</div>
 			% endif
 		%else:
-			<img align="middle" src="${icon}" width="16" height="16" alt="">
+			<img align="middle" src="${icon}" width="16" height="16" alt=""></img>
 		% endif
 </a>
 % if default_focus:

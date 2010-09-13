@@ -1,5 +1,5 @@
 % if editable:
-<table class="item-wrapper">
+<table class="item-wrapper" width="100%">
 <tr>
     <td style="padding: 0px;">
         <input type="hidden" id="${name}" name="${name}" class="${css_class}" value="${value}"
@@ -13,11 +13,11 @@
         <span class="fielderror">${error}</span>
         % endif
     </td>
-    <td style="padding: 0px;">
+    <td style="padding: 0px;" width="1%">
         <img id="${name}_select" alt="${_('Search')}" title="${_('Search')}"
             src="/openerp/static/images/fields-a-lookup-a.gif" class="m2o_select"/>
     </td>
-    <td class="item-image">
+    <td class="item-image" width="1%">
 	    <img id="${name}_open" alt="${_('Open')}" title="${_('Open a resource')}"
     	    src="/openerp/static/images/iconset-d-drop.gif" class="m2o_open"/>
     </td>
