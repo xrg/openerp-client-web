@@ -3,6 +3,7 @@ General i18n utility functions.
 """
 
 import cherrypy
+import babel.core
 
 
 __all__ = ['get_locale']
@@ -68,9 +69,14 @@ def get_locale(locale=None):
     try:
         from openerp.utils import rpc
         locale = rpc.session.locale
+        babel.core.Locale.parse(locale)
         if locale:
             return locale
-    except:
+    except ImportError:
+        pass # we're at the login page and apparently it cannot get rpc
+    except babel.core.UnknownLocaleError:
+        # user created stupid locale, fallback to defaults
+
         pass
 
     try:
