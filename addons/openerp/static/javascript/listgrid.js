@@ -582,27 +582,22 @@ MochiKit.Base.update(ListView.prototype, {
         var $current_record = jQuery('table[id="'+this.name+'_grid'+'"]').find('tr.grid-row[record="'+id+'"]')
         req.addCallback(function(obj) {
             if (obj.error) {
-                alert(obj.error);
                 var focus_field = [];
                 for (var k in data) {
                     
-                    var $req_field = $current_record.find('td *[id="'+'_terp_listfields/'+k+'"]')
+                    var $req_field = $current_record.find('td [id="'+'_terp_listfields/'+k+'"].requiredfield')
+                    if(!$req_field.length)
+                        continue;
+                    if($req_field.attr('kind') == 'many2one') {
+                        $req_field = $current_record.find('td [id="'+'_terp_listfields/'+k+'_text'+'"]');
+                    }
                     
-                    if($req_field.hasClass('requiredfield')) {
-                        var req_value = $req_field.val();
-                        if($req_field.attr('kind') == 'many2one') {
-                            $req_field = $current_record.find('td *[id="'+'_terp_listfields/'+k+'_text'+'"]');
-                            req_value = $req_field.val();
-                        }
-                        
-                        if(req_value == '') {
-                            $req_field.addClass('errorfield')
-                            focus_field.push($req_field);
-                        }
-                        
-                        else if(req_value!= '' && $req_field.hasClass('errorfield')) {
-                            $req_field.removeClass('errorfield');
-                        }
+                    var req_value = $req_field.val();
+                    if(req_value == '') {
+                        $req_field.addClass('errorfield')
+                        focus_field.push($req_field);
+                    } else if($req_field.hasClass('errorfield')) {
+                        $req_field.removeClass('errorfield');
                     }
                     
                 }
