@@ -57,30 +57,30 @@ except:
 	        <ul class="tools">
 	            <li><a href="${py.url('/openerp/home')}" class="home">${_("Home")}</a>
 	                <ul>
-	                    <li class="first last"><a href="javascript: void(0);">${_("Home")}</a></li>
+	                    <li class="first last"><a>${_("Home")}</a></li>
 	                </ul>
 	            </li>
 	            <li>
 	                <a href="${py.url('/openerp/requests')}" class="messages"><small>${total_request}</small></a>
 	                <ul>
-	                    <li class="first last"><a href="javascript: void(0);">${_("Requests")}</a></li>
+	                    <li class="first last"><a>${_("Requests")}</a></li>
 	                </ul>
 	            </li>
 
 	            <li><a href="${py.url('/openerp/pref/create')}" class="preferences">${_("Preferences")}</a>
 	                <ul>
-	                    <li class="first last"><a href="javascript: void(0);">${_("Edit Preferences")}</a></li>
+	                    <li class="first last"><a>${_("Edit Preferences")}</a></li>
 	                </ul>
 	            </li>
 	            <li><a target="_blank" href="/openerp/about" class="info">${_("About")}</a>
 	                <ul>
-	                    <li class="first last"><a href="javascript: void(0);">${_("About")}</a></li>
+	                    <li class="first last"><a>${_("About")}</a></li>
 	                </ul>
 	            </li>
 
 	            <li><a target="_blank" href="http://doc.openerp.com/" class="help">${_("Help")}</a>
 	                <ul>
-	                    <li class="first last"><a href="javascript: void(0);">${_("Help")}</a></li>
+	                    <li class="first last"><a>${_("Help")}</a></li>
 	                </ul>
 	            </li>
 
@@ -95,7 +95,7 @@ except:
 	        <p class="logout"><a href="${py.url('/openerp/logout')}" target="_top">${_("Logout")}</a></p>
 	    </div>
 	% endif
-	
+
     <div id="shortcuts" class="menubar" cellpadding="0" cellspacing="0">
     % if logged:
         <ul>
