@@ -57,30 +57,30 @@ except:
 	        <ul class="tools">
 	            <li><a href="${py.url('/openerp/home')}" class="home">${_("Home")}</a>
 	                <ul>
-	                    <li class="first last"><a>${_("Home")}</a></li>
+	                    <li class="first last"><a href="${py.url('/openerp/home')}">${_("Home")}</a></li>
 	                </ul>
 	            </li>
 	            <li>
 	                <a href="${py.url('/openerp/requests')}" class="messages"><small>${total_request}</small></a>
 	                <ul>
-	                    <li class="first last"><a>${_("Requests")}</a></li>
+	                    <li class="first last"><a href="${py.url('/openerp/requests')}">${_("Requests")}</a></li>
 	                </ul>
 	            </li>
 
 	            <li><a href="${py.url('/openerp/pref/create')}" class="preferences">${_("Preferences")}</a>
 	                <ul>
-	                    <li class="first last"><a>${_("Edit Preferences")}</a></li>
+	                    <li class="first last"><a href="${py.url('/openerp/pref/create')}">${_("Edit Preferences")}</a></li>
 	                </ul>
 	            </li>
-	            <li><a target="_blank" href="/openerp/about" class="info">${_("About")}</a>
+	            <li><a href="/openerp/about" class="info">${_("About")}</a>
 	                <ul>
-	                    <li class="first last"><a>${_("About")}</a></li>
+	                    <li class="first last"><a href="/openerp/about">${_("About")}</a></li>
 	                </ul>
 	            </li>
 
 	            <li><a target="_blank" href="http://doc.openerp.com/" class="help">${_("Help")}</a>
 	                <ul>
-	                    <li class="first last"><a>${_("Help")}</a></li>
+	                    <li class="first last"><a target="_blank" href="http://doc.openerp.com/">${_("Help")}</a></li>
 	                </ul>
 	            </li>
 
