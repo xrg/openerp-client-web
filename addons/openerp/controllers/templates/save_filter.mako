@@ -1,16 +1,7 @@
 <%inherit file="/openerp/controllers/templates/base_dispatch.mako"/>
 
 <%def name="header()">
-    <title>Save as a Shortcut</title>
-    <style type="text/css">
-        td.save_filter {
-            padding: 10px 10px 0 10px;;
-        }
-        
-        td.save_filter h1 {
-            padding: 0 0 5px 0;
-        }
-    </style>
+    <title>Save as Shortcut</title>
 </%def>
 
 <%def name="content()">
@@ -20,15 +11,15 @@
         <input type="hidden" id="group_by" name="group_by" value="${group_by}"/>
         <table class="view" width="100%" border="0">
             <tr>
-                <td style="padding: 10px 10px 0 10px;">
+                <td style="padding: 0">
                     <table width="100%" style="border: none;">
                         <tr>
-                            <td class="save_filter">
-                                <h1>${_("Save as a Filter")}</h1>
+                            <td style="padding: 0 10px 5px 10px">
+                                <h1>${_("Save as Filter")}</h1>
                             </td>
                         </tr>
                         <tr>
-                            <td class="save-filter-header">
+                            <td style="padding: 0 10px 3px 10px">
                                 <button type="submit">${_("Save")}</button>
                                 <button type="reset">${_("Close")}</button>
                             </td>
@@ -37,7 +28,7 @@
                 </td>
             </tr>
             <tr>
-                <td style="padding: 10px 10px 0 10px;">
+                <td style="padding: 0 10px">
                     <div class="box2">
                         <table border="0" width="100%" align="center">
                             <tr>
