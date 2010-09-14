@@ -26,12 +26,6 @@
 # You can see the MPL licence at: http://www.mozilla.org/MPL/MPL-1.1.html
 #
 ###############################################################################
-
-"""
-This modules implements custom authorization logic for the OpenERP Web Client.
-"""
-import cherrypy
-
 from openobject import pooler
 
 __all__ = ["BaseController"]
@@ -57,7 +51,6 @@ class ControllerType(type):
 
 
 class BaseController(object):
-
     __metaclass__ = ControllerType
 
     _cp_path = None
@@ -66,7 +59,3 @@ class BaseController(object):
         return self._cp_path
 
     path = property(_get_path)
-
-
-# vim: ts=4 sts=4 sw=4 si et
-
