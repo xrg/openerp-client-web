@@ -622,9 +622,16 @@ function final_search_domain(custom_domain, all_domains, group_by_ctx, custom_co
 			    	openobject.dom.get('_terp_context').value = in_obj.context;
 			    	openobject.dom.get('_terp_filter_domain').value = obj.filter_domain;
 			    	openobject.dom.get('_terp_custom_columns').value = custom_columns;
-			    	jQuery('#_terp_group_by_ctx').val(in_obj.group_by)
-		    		new ListView('_terp_list').reload();
-				});	
+			    	jQuery('#_terp_group_by_ctx').val(in_obj.group_by);
+                    
+                    var $search_callback = jQuery('#_terp_search_callback');
+                    
+                    if($search_callback.length) {
+                        window[$search_callback.val()]();
+                    } else {
+                        new ListView('_terp_list').reload();
+                    }
+				});
 			 }
 		}
 	});

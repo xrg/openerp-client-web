@@ -150,7 +150,23 @@ class List(SecuredController):
 
         listgrp = listgroup.MultipleGroup(name, model, view, ids=None, domain= domain, parent_group=parent_group, group_level=group_level, groups=groups, context=context, **args)
         return listgrp.render()
-
+    
+    @expose('json')
+    def reload_graph(self, **kw):
+        params, data = TinyDict.split(kw)
+        view = cache.fields_view_get(params.model, params.view_id, 'graph',params.context)
+        if params.domain is None:
+            params.domain = []
+        from view_graph.widgets import _graph
+        wid = _graph.Graph(model=params.model,
+              view=view,
+              view_id=params.view_id,
+              ids=None, domain=params.domain,
+              view_mode = params.view_mode,
+              context=params.context)
+        view=ustr(wid.render())
+        return dict(view = view)
+    
     @expose('json')
     def get(self, **kw):
         params, data = TinyDict.split(kw)
