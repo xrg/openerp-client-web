@@ -389,7 +389,8 @@ button.inactive {
     font-weight: bold;
     line-height: 16px;
     text-align: center;
-    padding: 0 2px;
+    padding: 0 5px;
+    margin: 0 0 0 2px;
 }
 
 .static_boxes:hover, .static_boxes:focus, .static_boxes:active {
@@ -505,7 +506,7 @@ div.popup_footer {
 td.pop_head_font{
 	font-size: 1.5em;
 	}
-	
+
 
 
 /* view style */
