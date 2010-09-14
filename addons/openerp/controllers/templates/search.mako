@@ -23,13 +23,15 @@
     % if params.selectable == 1:
     <script type="text/javascript">
         function do_select(res_id){
-            if (!res_id) {
+            var selected_id = res_id
+
+            if (!selected_id) {
                 var ids = new ListView('_terp_list').getSelectedRecords();
 
                 if (ids.length<1)
                     return;
 
-                res_id = ids[0];
+                selected_id = ids[0];
             }
             
             with (window.opener) {
@@ -37,7 +39,7 @@
                 var value_field = openobject.dom.get('${params.source}');
                 var text_field = openobject.dom.get('${params.source}_text');
                 
-                value_field.value = res_id;
+                value_field.value = selected_id;
             
                 if (text_field){
                     text_field.value = '';
