@@ -153,13 +153,13 @@ def secured(fn):
                         db=db, user=user, action=action, origArgs=get_orig_args(kw))
 
             # Authorized. Set db, user name in cookies
-            expiration_time = time.strftime("%a, %d-%b-%Y %H:%M:%S GMT", time.gmtime(time.time() + ( 60 * 60 * 24 * 365 )))
-            cherrypy.response.cookie['terp_db'] = db
-            cherrypy.response.cookie['terp_user'] = user.encode('utf-8')
-            cherrypy.response.cookie['terp_db']['expires'] = expiration_time;
-            cherrypy.response.cookie['terp_user']['expires'] = expiration_time;
-            cherrypy.response.cookie['terp_db']['path'] = tools.url("/openerp");
-            cherrypy.response.cookie['terp_user']['path'] = tools.url("/openerp");
+            cookie = cherrypy.response.cookie
+            cookie['terp_db'] = db
+            cookie['terp_user'] = user.encode('utf-8')
+            cookie['terp_db']['max-age'] = 3600
+            cookie['terp_user']['max-age'] = 3600
+            cookie['terp_db']['path'] = '/'
+            cookie['terp_user']['path'] = '/'
 
             # User is now logged in, so show the content
             clear_login_fields(kw)
