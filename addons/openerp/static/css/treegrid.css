@@ -4,6 +4,11 @@ table.tree-grid {
     width: 180px;
 }
 
+table#import_fields,
+table#export_fields {
+    width: 100% !important;
+}
+
 table.tree-grid th,
 table.tree-grid td {
     text-align: left;
