@@ -73,7 +73,7 @@ class Preferences(Form):
 
         return dict(form=form, params=params, editable=True)
 
-    @expose()
+    @expose(methods=('POST',))
     def ok(self, **kw):
         params, data = TinyDict.split(kw)
         proxy = rpc.RPCProxy('res.users')

@@ -193,13 +193,20 @@ def render_template(template, kw):
     return utils.NoEscape(template.render_unicode(**kw))
 
 
-def expose(format='html', template=None, content_type=None, allow_json=False):
+def expose(format='html', template=None, content_type=None, allow_json=False, methods=None):
+
+    if methods is not None:
+        assert isinstance(methods, (list, tuple))
+        methods = tuple([m.upper() for m in methods])
 
     def expose_wrapper(func):
         
         template_c = load_template(template, func.__module__)
 
         def func_wrapper(*args, **kw):
+
+            if methods and cherrypy.request.method.upper() not in methods:
+                raise cherrypy.HTTPError(405)
 
             res = func(*args, **kw)
             
