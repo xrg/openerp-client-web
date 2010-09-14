@@ -2119,7 +2119,7 @@ p.paging-a a.next {
 }
 
 .sidebar_open {
-	background: #CECBCB url("../images/arrow_right.png") no-repeat scroll 80% 50% 
+	background: #CECBCB url("../images/arrow_right.png") no-repeat scroll 80% 50%
 }
 
 .sideheader-a {
@@ -2207,7 +2207,7 @@ button {
 
 .sidebar-closed #sidebar {
     display: none;
-    
+
 }
 
 #sidebar_hide {
@@ -2281,9 +2281,9 @@ td#body_form_td {
     background: url(../images/button-a.gif) repeat-x;
     color: #fff;
     white-space: nowrap;
-    font-size: 0.8em;
+    font-size: 1em;
     font-weight: bold;
-    line-height: 15px;
+    line-height: 18px;
     text-transform: uppercase;
     text-shadow: #6a6969 0 1px 0;
 }
@@ -2335,11 +2335,12 @@ a.button-b {
     background: url(../images/button-a.gif) 0 -26px repeat-x;
     color: #8d8d8d;
     white-space: nowrap;
-    font-size: 0.8em;
+    font-size: 1em;
     font-weight: bold;
-    line-height: 11px;
+    line-height: 16px;
     text-transform: uppercase;
     text-shadow: #fff 0 1px 0;
+    vertical-align: middle;
     min-width: 99%;
 }
 

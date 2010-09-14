@@ -6,7 +6,7 @@
    ${py.attrs(attrs, context=ctx)}>
         % if string:
 			% if icon:
-				<img style="vertical-align: middle;" src="${icon}" width="16" height="16" alt=""></img>&nbsp;${string}
+				<img style="vertical-align: middle; padding:1px;" src="${icon}" width="16" height="16" alt=""></img>&nbsp;<span style="vertical-align: middle;">${string}</span>
 			% else:
 				<div style="text-align: center; padding-top: 3px;">${string}</div>
 			% endif

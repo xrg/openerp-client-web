@@ -52,13 +52,14 @@ button, .button {
     background: url(../images/button-a.gif) repeat-x;
     color: #fff;
     white-space: nowrap;
-    font-size: 0.8em !important;
+    font-size: 1em !important;
     font-weight: bold;
     line-height: 12px;
     text-transform: uppercase;
     text-shadow: #6a6969 0 1px 0;
     padding: 1px 10px;
     cursor: pointer;
+    vertical-align: middle;
 }
 button:hover, .button:hover,
 button:focus, .button:focus,
@@ -381,13 +382,14 @@ button.inactive {
     -webkit-box-shadow: 0 1px 1px #fff;
     height: 20px;
     font-size: 10px;
-    width: 80px;
     text-transform: uppercase;
     border: 1px solid #676767;
     background: #5A5858;
     color: #fff;
     font-weight: bold;
-    line-height: 20px;
+    line-height: 16px;
+    text-align: center;
+    padding: 0 2px;
 }
 
 .static_boxes:hover, .static_boxes:focus, .static_boxes:active {
@@ -398,10 +400,10 @@ div.box,div.box2 {
     background-color: #f6f6f6;
 }
 
-fieldset.box {	
+fieldset.box {
 	border-radius: 10px;
     -moz-border-radius: 10px;
-    -webkit-border-radius: 10px;    
+    -webkit-border-radius: 10px;
     border-color: DarkGray;
 }
 
@@ -567,7 +569,7 @@ td.item,
 }
 
 td.label {
-	padding: 2px 2px 2px 6px;	
+	padding: 2px 2px 2px 6px;
 }
 
 td.label,
@@ -628,7 +630,7 @@ img.m2o_open {
 }
 
 .item-image {
-	padding: 0px;	
+	padding: 0px;
 }
 
 td.item table.item-wrapper td {

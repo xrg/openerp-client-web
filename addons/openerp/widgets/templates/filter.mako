@@ -26,7 +26,7 @@
 	       % endif
 	       % if text:
 	       <tr>
-	           <td>
+	           <td style="font-size: 1.1em;">
 	               ${text}
 	           </td>
 	       </tr>
