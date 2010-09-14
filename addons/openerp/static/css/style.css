@@ -124,8 +124,12 @@ table#filter_option_table td.and_or select.select_andor {
 }
 
 table#filter_option_table label.and_or {
-    padding-left: 5px;
+    padding-right: 5px;
     text-align: left;
+    color: #777777;
+    font-weight: bold;
+    text-transform: uppercase;
+    white-space: nowrap;
 }
 
 #filter_option_table td .filter-lsep {
@@ -135,9 +139,13 @@ table#filter_option_table label.and_or {
 }
 
 #filter_option_table td .filter-msep {
-	float:left;
-	text-align:center;
-	width:5%;
+    float:left;
+    text-align:center;
+    width:5%;
+    color: #777777;
+    font-weight: bold;
+    text-transform: uppercase;
+    white-space: nowrap;
 }
 
 #filter_option_table td .filter-rsep {

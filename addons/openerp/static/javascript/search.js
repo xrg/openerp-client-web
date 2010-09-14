@@ -65,7 +65,7 @@ function add_filter_row(elem) {
 
         var index_row;
         var $curr_body = $position_tr.closest('tbody');
-        $curr_body.find('label.filterlabel').each(function(k, v) {
+        $curr_body.find('#filterlabel').each(function(k, v) {
 
             if (jQuery(v).text() != selected_txt) { return; }
             index_row = k;
@@ -110,19 +110,19 @@ function addOrBlock(elem){
     var td = jQuery('<td>', {'colspan': '6'});
     td.append(jQuery('<div class="filter-lsep">').append(jQuery('<hr class="filter-hr"/>')));
     td.append(jQuery('<div class="filter-msep">Or</div>'));
-    td.append(jQuery('<div class="filter-rsep">').append(jQuery('<hr class="filter-hr"/>')));    
+    td.append(jQuery('<div class="filter-rsep">').append(jQuery('<hr class="filter-hr"/>')));
     jQuery(tr).append(td)
     jQuery(newtbody).append(tr)
-    
+
     var oldTr = filter_option_table.find('tr:first');
     var new_tr = oldTr.clone();
-    new_tr.find('label#filterlabel').text(jQuery('select.filter_fields_or option:selected').text());
-    new_tr.find('label#filterlabel').attr('value', jQuery(elem).val());    
+    new_tr.find('#filterlabel').text(jQuery('select.filter_fields_or option:selected').text());
+    new_tr.find('#filterlabel').attr('value', jQuery(elem).val());
     new_tr.find('input.qstring').css('background', '#FFF').val('');
-    
+
     jQuery(tr).after(new_tr);
-    jQuery(new_tr).after(action_tr);        
-    jQuery(tbody).after(newtbody);   
+    jQuery(new_tr).after(action_tr);
+    jQuery(tbody).after(newtbody);
 }
 
 function collapse_expand(div_id, grp_id, id) {
@@ -213,7 +213,7 @@ function switch_searchView(d) {
             tbodys[i + 1].prepend(trOr);
         }
         if (tbodys[i - 1]) {
-            tbodys[i - 1].find('tr.actions td.filter_column').hide();
+            tbodys[i - 1].find('tr.actions td#filter_column').hide();
         }
 
         var actTr = $action_tbody.find('tr.actions').clone(true);
@@ -234,9 +234,9 @@ function remove_filter_row(element) {
     var $filter_table = jQuery('#filter_table');
 
     if ($tby.find('tr.filter_row_class').length <= 1 && $tby.attr('id')!='filter_table') {
-                
+
         if (!(next_body.length >= 1) || !(prev_body.length >= 1)) {
-            prev_body.find('td.filter_column').show();
+            prev_body.find('td#filter_column').show();
         }
 
         $tby.remove();
@@ -273,7 +273,7 @@ function remove_filter_row(element) {
             if ($filter_opt_tbl.find('tbody:visible').length == 0) {
                 var $actions_tby = jQuery('tbody.actions');
                 $actions_tby.show();
-                $actions_tby.find('tr.actions').find('td.filter_column').show();
+                $actions_tby.find('tr.actions').find('td#filter_column').show();
             }
 
             if ($filter_opt_tbl.find('tbody:visible').length == 1){
@@ -314,7 +314,7 @@ function display_Customfilters(all_domains, group_by_ctx, custom_columns) {
 
         children.each(function () {
             var $constraint_value = jQuery(this).find('input.qstring');
-            var $fieldname = jQuery(this).find('label.filterlabel');
+            var $fieldname = jQuery(this).find('#filterlabel');
             var id = jQuery(this).parent().find('> .filter_row_class').index(this);
 
             if($constraint_value.val()) {
@@ -337,7 +337,7 @@ function display_Customfilters(all_domains, group_by_ctx, custom_columns) {
         if(obj.error) {
             var children = jQuery('#filter_option_table tbody > .filter_row_class');
             children.each(function () {
-                if(jQuery(this).find('label.filterlabel').attr('value') == obj['error_field']) {
+                if(jQuery(this).find('#filterlabel').attr('value') == obj['error_field']) {
                     jQuery(this).find('input.qstring').css('background', '#f66').val(obj.error);
                 }
             });
@@ -369,7 +369,7 @@ function display_Customfilters(all_domains, group_by_ctx, custom_columns) {
 
                     if (group.length==0) {
                         var new_grp = $curr_body.find('tr.filter_row_class:gt('+trs_keys[index]+')')
-                        new_grp = new_grp.find('td.filter_column:not(:has(label))').find('input.qstring[value]')
+                        new_grp = new_grp.find('td#filter_column:not(:has(label))').find('input.qstring[value]')
                         if (new_grp.length){
                             group.push('&')
                         }
