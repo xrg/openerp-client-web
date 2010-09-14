@@ -19,7 +19,10 @@ class JSI18n(JSLink):
         super(JSLink, self).update_params(d)
 
         locale = i18n.get_locale()
-        trans = i18n.get_translations(locale, domain="javascript") or []
+        try:
+            trans = i18n.get_translations(locale, domain="javascript")
+        except KeyError:
+            trans = []
 
         translations = []
 

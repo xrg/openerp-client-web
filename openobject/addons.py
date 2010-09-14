@@ -5,6 +5,12 @@ import imp
 import cherrypy
 
 ADDONS_PATH = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "addons")
+if not os.path.exists(ADDONS_PATH):
+    from pkg_resources import Requirement, resource_filename
+    ADDONS_PATH = resource_filename(Requirement.parse('openerp-web'), 'openerp-web')
+
+assert os.path.isdir(ADDONS_PATH), "Unable to locate addons."
+
 sys.path.insert(0, ADDONS_PATH)
 
 
