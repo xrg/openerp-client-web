@@ -133,20 +133,21 @@ Many2Many.prototype = {
         return [];
     },
 
-    remove: function() {
+    remove: function(remove_id) {
 
         var ids = eval(this.terp_ids.value) || [];
         var boxes = ListView(this.name).getSelectedItems();
 
-        if (boxes.length <= 0)
+        if (boxes.length <= 0 && !remove_id)
             return;
 
         boxes = MochiKit.Base.map(function(box) {
             return parseInt(box.value);
         }, boxes);
 
+        var removed_ids = remove_id ? [remove_id] : boxes;
         ids = MochiKit.Base.filter(function(id) {
-            return MochiKit.Base.findIdentical(boxes, id) == -1;
+            return MochiKit.Base.findIdentical(removed_ids, id) == -1;
         }, ids);
 
         this.id.value = this.terp_ids.value = '[' + ids.join(',') + ']';

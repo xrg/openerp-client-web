@@ -85,9 +85,15 @@
     % endfor
     % if editable:
         <td class="grid-cell selector">
-            <img src="/openerp/static/images/iconset-b-remove.gif" class="listImage"
-                border="0" title="${_('Delete')}"
-                onclick="new ListView('${name}').remove(${data['id']})"/>
+            %if m2m:
+                <img src="/openerp/static/images/iconset-b-remove.gif" class="listImage"
+                    border="0" title="${_('Delete')}"
+                    onclick="new Many2Many('${name}').remove(${data['id']}); return false;"/>
+            % else:
+                <img src="/openerp/static/images/iconset-b-remove.gif" class="listImage"
+                    border="0" title="${_('Delete')}"
+                    onclick="new ListView('${name}').remove(${data['id']})"/>
+            % endif
         </td>
     % endif
     </tr>
