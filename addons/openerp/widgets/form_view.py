@@ -74,14 +74,14 @@ class ViewForm(Form):
                     else:
                         key, op, value = element
                         search_param.append((key, op, value))
-                        
+
         cherrypy.request.custom_search_domain = []
         cherrypy.request.custom_filter_domain = []
-        
+
         if params.view_type in ('tree', 'graph'):
-            self.search = Search(model=params.model, domain=search_param, context=params.context, values=params.search_data or {},
+            self.search = Search(source=params.source, model=params.model, domain=search_param, context=params.context, values=params.search_data or {},
                                  filter_domain=params.filter_domain or [], search_view=params.search_view, group_by_ctx=params.group_by_ctx or [])
-            
+
             cherrypy.request.custom_search_domain = self.search.listof_domain or []
             cherrypy.request.custom_filter_domain = self.search.custom_filter_domain or []
             params.search_domain = self.search.listof_domain

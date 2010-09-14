@@ -216,12 +216,12 @@ class Search(TinyInputWidget):
     template = "templates/search.mako"
     javascript = [JSLink("openerp", "javascript/search.js", location=locations.bodytop)]
 
-    params = ['fields_type', 'filters_list', 'operators_map', 'fields_list', 'filter_domain', 'flt_domain']
+    params = ['fields_type', 'filters_list', 'operators_map', 'fields_list', 'filter_domain', 'flt_domain', 'source']
     member_widgets = ['frame']
 
     _notebook = Notebook(name="search_notebook")
 
-    def __init__(self, model, domain=None, context=None, values={}, filter_domain=None, search_view=None, group_by_ctx=[], **kw):
+    def __init__(self, source, model, domain=None, context=None, values={}, filter_domain=None, search_view=None, group_by_ctx=[], **kw):
 
         super(Search, self).__init__(model=model)
 
@@ -233,7 +233,7 @@ class Search(TinyInputWidget):
         self.search_view = search_view or "{}"
         self.model = model
         self.groupby = []
-
+        self.source = source
         if group_by_ctx and isinstance(group_by_ctx, basestring):
             self.groupby += group_by_ctx.split(',')
         else:

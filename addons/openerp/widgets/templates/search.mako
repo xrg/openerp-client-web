@@ -1,8 +1,9 @@
 <div id="search_filter_data">
 	% if frame:
-		${display_member(frame)}
+        ${display_member(frame)}
 	% endif
-	
+
+    % if not source:
 	<table>
         <tr>
            <td style="padding: 2px 4px; white-space:nowrap;">
@@ -56,6 +57,7 @@
             </td>
         </tr>
     </table>
+    % endif
     <script type="text/javascript">
         jQuery(document).ready(function () {
             switch_searchView("${flt_domain | n}");
