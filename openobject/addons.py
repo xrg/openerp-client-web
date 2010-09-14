@@ -192,7 +192,7 @@ def load_module_graph(db_name, graph, config):
         _loaded_addons[package.name] = True
 
     for package in graph:
-        pool.instanciate(package.name)
+        pool.load(package.name)
 
 
 _loaded = {}

@@ -23,32 +23,56 @@ def register_object(obj, key, group, auto_create=False):
 
     registry = _REGISTRY.setdefault(group, {})
     objects = registry.setdefault(module, {})
-    
-    if auto_create:
-        objects[key] = lambda: obj()
-    else:
-        objects[key] = lambda: obj
+    assert isinstance(obj, type), 'You can only register classes to the pooler'
+
+    objects[key] = (auto_create, obj)
 
 class Pool(object):
 
     def __init__(self):
         self.obj_pool = {}
+        self.ready = False
 
     def get(self, key, group):
-        return self.obj_pool.get(group, {}).get(key, None)
+        return self.get_group(group).get(key, None)
 
     def get_group(self, key):
+        assert self.ready, "This object pool isn't ready for usage yet, please finalize() it"
         return self.obj_pool.get(key, {})
 
     def get_controller(self, name):
         return self.get(name, "controllers")
 
-    def instanciate(self, package):
+    def load(self, package):
+        ''' Loads all the objects of the provided package in the current pooler
+        '''
         for group, registry in _REGISTRY.items():
             if package in registry:
-                for key, obj in registry[package].items():
+                for key, (auto_create, obj) in registry[package].items():
                     objects = self.obj_pool.setdefault(group, {})
-                    objects[key] = obj()
+                    objects.setdefault(key, []).append((auto_create, obj))
+
+    def finalize(self):
+        ''' Folds objects by handling inheritance between different modules
+        '''
+        assert not self.ready, "Don't finalize an already ready pool"
+        for objects in self.obj_pool.itervalues():
+            for key, typ in objects.iteritems():
+                if len(typ) > 1:
+                    auto_creates, types = zip(*typ)
+                    auto_create = any(auto_creates)
+                    obj_type = type(
+                            types[-1].__name__, # use name of last type in sequence
+                            tuple(reversed(types)), # MRO will use first base first, and we want last add-on first
+                            {}) # no additional variables?
+                else:
+                    auto_create, obj_type = typ[0]
+                if auto_create:
+                    objects[key] = obj_type()
+                else:
+                    objects[key] = obj_type
+        self.ready = True
+        return self
 
 pool_dict = {}
 
@@ -86,5 +110,6 @@ def get_pool():
         except:
             del pool_dict[db_name]
             raise
+        pool.finalize()
 
     return pool
