@@ -21,8 +21,8 @@
         </tr>
          % if screen.view_type == 'tree' and screen.widget:
             <tr>
-                <td id="custom_columns" style="padding: 0 0 0 10px;">
-                    <div id="customcolumns" class="group-expand" onclick="collapse_expand(this, '#custcols');" style="padding-left:4px;">
+                <td id="custom_columns" style="padding-top: 0">
+                    <div id="customcolumns" class="group-expand" onclick="collapse_expand(this, '#custcols');" style="padding:0 0 0 5px;">
                         <h2><span>${_("Hide Columns")}</span></h2>
                     </div>
                     % if getattr(screen.widget,'headers', []):
@@ -30,8 +30,8 @@
                             <tr>
                                 % for i, (field, field_attrs) in enumerate(screen.widget.headers):
                                 % if field != 'button':
-                                    <td>
-                                        <input type="checkbox" checked id="display_column_${field}" onchange="search_filter();"/>
+                                    <td class="label">
+                                        <input type="checkbox" checked id="display_column_${field}" onchange="search_filter();" style="vertical-align:top"/>
                                         <label for="display_column_${field}">
                                             ${field_attrs['string']}
                                         </label>
