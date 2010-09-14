@@ -155,9 +155,9 @@
                                     </td>
                                 % endif
                                 <td class="pager-cell-button" style="display: none;">
-                                    % if '${name}' == "_terp_list":
+                                    % if m2m:
                                         <button id="${name}_delete_record" title="${_('Delete record(s).')}"
-                                            onclick="new ListView('_terp_list').remove(null,this); return false;">
+                                            onclick="new Many2Many('${name}').remove(); return false;">
                                                 ${_('delete')}
                                         </button>
                                     % else:
