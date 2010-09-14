@@ -1061,6 +1061,9 @@ function removeAttachment () {
  * Creates a new line in #attachments if the creation succeeds.
  */
 function createAttachment() {
+	if (!jQuery('#sidebar_attachments_datas').val()) {
+		return false;
+	}
     var form = jQuery(this);
     form.ajaxSubmit({
         dataType: 'json',
@@ -1093,9 +1096,6 @@ function setupAttachments() {
     jQuery('#attachments').delegate('li a.close', 'click', removeAttachment);
 
     var attachmentsForm = jQuery('#attachment-box').hide();
-    jQuery('#datas').validate({
-        expression: "if (VAL) return true; else return false;"
-    });
     jQuery('#add-attachment').click(function (e) {
         attachmentsForm.show();
         e.preventDefault();

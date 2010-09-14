@@ -63,8 +63,8 @@
 
     <form id="attachment-box" action="/openerp/attachment/save" method="post"
           enctype="multipart/form-data">
-        <label for="datas">${_("File")}:</label>
-        <input type="file" id="datas" class="binary"
+        <label for="sidebar_attachments_datas">${_("File")}:</label>
+        <input type="file" id="sidebar_attachments_datas" class="binary"
                name="datas" kind="binary" size="5"/>
     </form>
     % endif
