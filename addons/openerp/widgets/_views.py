@@ -12,12 +12,9 @@ __all__ = ["TinyView", "FormView", "ListView",
 class ViewType(type):
 
     def __new__(cls, name, bases, attrs):
-
         obj = super(ViewType, cls).__new__(cls, name, bases, attrs)
 
-        name = attrs.get("_name")
         kind = attrs.get("_type")
-        desc = attrs.get("_desc")
 
         if kind:
             pooler.register_object(obj, key=kind, group="view_types", auto_create=True)
