@@ -29,7 +29,6 @@
 
 import os
 import re
-import types
 import fnmatch
 
 import cherrypy
@@ -135,7 +134,8 @@ def register_template_vars(callback, prefix='oo'):
 
 
 def _cp_vars():
-
+    ''' CherryPy data access in template layer
+    '''
     return {
         'session': cherrypy.session,
         'request': cherrypy.request,
@@ -144,7 +144,8 @@ def _cp_vars():
 
 
 def _py_vars():
-
+    ''' Utility functions for template layer
+    '''
     return {
         'url': utils.url,
         'attrs': utils.attrs,

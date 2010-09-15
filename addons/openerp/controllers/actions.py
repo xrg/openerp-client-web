@@ -317,8 +317,7 @@ def execute_url(**data):
     if not ('://' in url or url.startswith('/')):
         raise common.message(_('Relative URLs are not supported'))
     
-    """ Unknown URL required to open in new window/tab.
-    """
+    # Unknown URL required to open in new window/tab.
     if url.startswith('http://') or url.startswith('http://'):
         return """<html>
                 <head>
