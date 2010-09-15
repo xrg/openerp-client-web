@@ -741,7 +741,8 @@ div.invalid_login {
 /* NORMAL LOGIN*/
 select.db_user_pass,
 input.db_user_pass {
-    width: 300px;
+	width: 100%;
+	min-width: 150px;
     -moz-border-radius: 3px;
     -webkit-border-radius: 3px;
     border-radius: 3px;
