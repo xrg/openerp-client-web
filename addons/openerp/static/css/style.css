@@ -855,14 +855,14 @@ td.grop_box_active div.filter-a button.active {
     color: #000000;
 }
 
-div.filter-a button.filter_with_icon:active,
-div.filter-a button.filter_with_icon:hover {
+div.filter-a button.filter_with_icon:active {
     background-color: #cbced2;
     color: #000000;
 }
 
-div.filter-a button.filter_with_icon:focus {
-	background-color: #DCDCDC;
+div.filter-a button.filter_with_icon:focus,
+div.filter-a button.filter_with_icon:hover {
+	background-color: #e2e2e2;
 	color: #000000;
 }
 
@@ -875,14 +875,16 @@ div.filter-a button.filter_icon {
     max-width: 30px;
 }
 
-div.filter-a button.filter_icon:active,
-div.filter-a button.filter_icon:hover,
-div.filter-a button.filter_icon:focus {
+div.filter-a button.filter_icon:active {
     background-color: #cbced2;
     border-color: #cccbcb;
     border-radius: 4px;
     -moz-border-radius: 4px;
     -webkit-border-radius: 4px;
+}
+div.filter-a button.filter_icon:hover,
+div.filter-a button.filter_icon:focus {
+	background-color: #e2e2e2;
 }
 
 .filters-group .group_box:first-child button {
