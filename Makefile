@@ -9,12 +9,11 @@ all: run
 run:
 	python openerp-web.py -a ${HOST} -p ${PORT}
 
-
 release:
-	python setup.py release sdist
+	python setup.py sdist
 
 install:
-	python setup.py release install
+	python setup.py install
 
 clean:
 	@find . -name '*.pyc' -exec rm -f {} +
