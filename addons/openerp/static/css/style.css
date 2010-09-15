@@ -852,7 +852,7 @@ div.filter-a button.filter_with_icon {
 }
 
 td.grop_box_active div.filter-a button.active {
-    background-color: #cbced2;
+    background-color: #aaadb1;
     color: #000000;
 }
 
@@ -863,7 +863,7 @@ div.filter-a button.filter_with_icon:active {
 
 div.filter-a button.filter_with_icon:focus,
 div.filter-a button.filter_with_icon:hover {
-	background-color: #e2e2e2;
+	background-color: #E6E6E6;
 	color: #000000;
 }
 
