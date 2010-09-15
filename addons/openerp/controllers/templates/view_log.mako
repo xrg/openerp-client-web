@@ -8,16 +8,12 @@
 <%def name="content()">
     <table class="view" cellspacing="5" border="0" width="100%">
         <tr>
-            <td align="center" style="padding: 10px 0 0 0;">
-                <table>
-                    <tr>
-                        <td class="popup_header" style="padding: 0px; width: 470px;">${_("Information")}</td>
-                    </tr>
-                </table>
-            </td>
+        	<td>
+        		<h1>${_("Information")}</h1>
+        	</td>
         </tr>
         <tr>
-            <td style="padding: 0px;">
+            <td>
                 <div class="box2">
                     <table border="0" width="100%" align="center">
                         % for field, description in fields:
@@ -27,16 +23,7 @@
                         </tr>
                         % endfor
                     </table>
-                </div>
-                <div class="toolbar" align="center">
-                    <table border="0" cellpadding="0" cellspacing="0">
-                        <tr>
-                            <td class="popup_footer" style="width: 450px;">
-                            	<a class="button-a" style="float: right;" href="javascript: void(0)" onclick="window.close()">${_("OK")}</a>
-                            </td>
-                        </tr>
-                    </table>
-                </div>
+                </div>         
             </td>
         </tr>
     </table>

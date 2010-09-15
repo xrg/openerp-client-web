@@ -108,14 +108,26 @@
         % endif
         % if id:
         <li>
-            <a href="${py.url('/openerp/viewlog', _terp_id=id, _terp_model=model)}" target="_blank"
-               onclick="openobject.tools.openWindow(this.href, {width: 550, height: 340}); return false;"
-                    >${_('View Log')}</a>
+            <a href="javascript: void(0)" onclick="view_log('${model}', '${id}'); return false;">${_('View Log')}</a>
         </li>
         % endif
     </ul>
 </div>
 <script type="text/javascript">
     jQuery(document).ready(setupAttachments);
+    
+    function view_log(model, id) {
+    	var sf_params = {'_terp_model':model, '_terp_id':id};
+    	jQuery.ajax({
+            url:'/openerp/viewlog',
+            dataType:'html',
+            type: 'POST',
+            data: sf_params,
+            success: function(xhr) {
+            	jQuery.fancybox(xhr, {showCloseButton: false, width:550, height:340})
+            }
+        });
+    }
+    
 </script>
 
