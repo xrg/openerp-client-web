@@ -102,7 +102,8 @@ ListView.prototype = {
             del_btn.parent().hide();
             edit_btn.parent().hide();
         }
-		if(jQuery('tr.field_sum td.grid-cell span').length>0) {
+        
+		if(jQuery('table[id="'+this.name+'"] tr.field_sum td.grid-cell span').length>0) {
 		    	var sum_fields = [];
 
 		    	jQuery('tr.field_sum td.grid-cell span').each(function() {
@@ -116,7 +117,6 @@ ListView.prototype = {
 		    		 selected_ids =this.ids;
 		    		}
 		    	}
-
 		    	jQuery.ajax({
 		    		url: '/openerp/listgrid/count_sum',
 		    		type: 'POST',

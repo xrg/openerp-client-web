@@ -441,7 +441,6 @@ function parse_filters(src, id) {
     var search_context = {};
     var all_boxes = [];
     var domain = 'None';
-
     if (jQuery('div.group-data').length) {
         jQuery('div.group-data:first').find('button').each(function(){
             if (jQuery(this).hasClass('active')) {
@@ -452,7 +451,6 @@ function parse_filters(src, id) {
             }
         })
     }
-    
     if (openobject.dom.get('filter_list')) {
         all_domains['selection_domain'] = jQuery('#filter_list').val();
         var selected_index = jQuery('#filter_list').attr('selectedIndex');
@@ -470,7 +468,6 @@ function parse_filters(src, id) {
         }
         previous_filter = selected_index;
     }
-    
     if(src) {
         var $source = jQuery(src);
         if(jQuery(id).hasClass('inactive')) {
@@ -504,29 +501,32 @@ function parse_filters(src, id) {
     	}
         jQuery(id).toggleClass('active inactive');
     }
-    
+    var $all_search_fields = jQuery('#search_filter_data').find("input[name]:not([type=checkbox]):not([value='']), select[name]");
     jQuery('#_terp_filters_context').val(filter_context);
-
-    forEach($$('[name]', 'search_filter_data'), function(d) {
-        var value;
-        if (d.type != 'checkbox' && d.name && d.value && d.name.indexOf('_terp_') == -1 && d.name != 'filter_list' && d.name != 'flashvars' && d.name != 'wmode') {
-            value = d.value;
-            if (getNodeAttribute(d, 'kind') == 'selection') {
-                value = parseInt(d.value);
-                if(getNodeAttribute(d, 'search_context')) {
-                    search_context['context'] = getNodeAttribute(d, 'search_context');
-                    search_context['value'] = value;
+    $all_search_fields.each(function(fld_index, fld){
+        var $fld = jQuery(fld);
+        var kind = $fld.attr('kind');
+        var fld_value = $fld.val();
+        if(kind == 'selection') {
+            if ($fld.val() != '') {
+                fld_value = $fld.val();
+                
+                if ($fld.attr('search_context')) {
+                    search_context['context'] = $fld.attr('search_context')
+                    search_context['value'] = fld_value;
                 }
             }
-            if (getNodeAttribute(d, 'kind') == 'many2one'){
-                value = openobject.dom.get(d.name+'_text').value || value;
-                if (getNodeAttribute(d, 'm2o_filter_domain')){
-                    value = 'm2o_'+ value
-                }
+        } else if(kind == 'many2one') {
+            var m2o = $fld.attr('name');
+            fld_value = jQuery('[id="'+m2o+'_text'+'"]').val() || fld_value;
+            if($fld.attr('m2o_filter_domain')){
+                fld_value = 'm2o_'+ fld_value;
             }
-            domains[d.name] = value;
         }
-    });
+        
+        if(fld_value && fld_value!='')
+            domains[$fld.attr('name')] = fld_value;
+    })
     domains = serializeJSON(domains);
     all_domains['domains'] = domains;
     all_domains['search_context'] =  search_context;
@@ -547,7 +547,6 @@ function parse_filters(src, id) {
 }
 
 function search_filter(src, id) {
-
     var custom_columns = (jQuery('#custom_columns input:not(:checked)').map(function() {
         return this.getAttribute('id').replace(/^display_column_/, '');
     }).get().join(','));
