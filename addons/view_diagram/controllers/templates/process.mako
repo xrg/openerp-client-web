@@ -54,9 +54,9 @@
 	        </td>
 	    	<td width="25%" align="center" rowspan="3" valign="top">
 	    		<div style="border-left: 2px solid; padding: 0 10px;">
-					<a class="help-button-a" href="javascript: void(0)" style="padding-bottom:3px;">
-						${_("Buy a Support Contract %(by)s",
-						by="""<small>By Chat / Mail / Phone</small>""")|n}
+					<a class="help-button-a" target="_blank" href=" http://www.openerp.com/services/subscribe-onsite" style="padding-bottom:3px;">
+						${_("Get the OpenERP Warranty %(by)s",
+						by="""<small>More on our Website</small>""")|n}
 					</a>
 					<a class="help-button-a" target="_blank" href="http://www.openerp.com/services/books" style="padding-bottom:3px;">
 						${_("Get Books %(available)s",
