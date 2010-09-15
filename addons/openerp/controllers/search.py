@@ -378,16 +378,16 @@ class Search(Form):
         else:
             context = {}
         if name:
-            datas={'name':name,
-                   'model_id':model,
-                   'domain':domain,
-                   'context':str(context),
-                   'user_id':rpc.session.uid
-                   }
-            action_id = rpc.session.execute('object', 'execute', 'ir.filters', 'create', datas, rpc.session.context)
-            filter = (domain, name, group_by)
-            return dict(filter=filter)
-        return dict()
+            datas = {
+                'name':name,
+                'model_id':model,
+                'domain':domain,
+                'context':str(context),
+                'user_id':rpc.session.uid
+            }
+            rpc.session.execute('object', 'execute', 'ir.filters', 'create', datas, rpc.session.context)
+            return {'filter': (domain, name, group_by)}
+        return {}
 
     @expose('json')
     def ok(self, **kw):
