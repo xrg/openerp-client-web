@@ -33,20 +33,20 @@ $(function(){
 	//Get our elements for faster access and set overlay width
 	var div = $('div.sc_menu'),
 	             ul = $('ul.sc_menu');
-	
+
 	var ulWidth = 0;
 	$('ul.sc_menu li.menu_tabs').each(function(i){
 	    ulWidth += $(this).outerWidth();
 	});
-	
+
 	ulWidth = ulWidth + 10;
-	
+
 	$(ul).css('width', ulWidth + 'px');
-	
+
 	//Get menu width
 	var divWidth = div.width();
-	
-	$('#scroll_left').click(function(){
+
+	$('#scroll_right').click(function(){
 		if (divWidth < ulWidth) {
 			wd = ulWidth-divWidth;
 			if (wd < 30 ) {
@@ -59,8 +59,8 @@ $(function(){
 			}
 		}
 	});
-	
-	$('#scroll_right').click(function(){
+
+	$('#scroll_left').click(function(){
 		var left_css = $("ul.sc_menu").css('left');
 		left_css = parseInt(left_css.split('px')[0]);
 		if (left_css != 0 || left_css < 0) {

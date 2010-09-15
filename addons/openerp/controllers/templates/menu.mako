@@ -14,18 +14,6 @@
     <script type="text/javascript">
         var DOCUMENT_TO_LOAD = "${load_content}";
         var CAL_INSTANCE = null;
-        
-        jQuery(document).ready(function() {
-            var total_width = 0;
-            jQuery('ul.sc_menu li').each(function() {
-                total_width = parseFloat(total_width) + parseFloat(jQuery('ul.sc_menu li').width());
-            });
-            if(jQuery('div.sc_menu').width() > total_width) {
-                jQuery('a.scroll_right').css('display', 'none');
-            }
-            
-            setTimeout("adjustTopWidth()", 100);
-        });
 
         jQuery(document).ready(function () {
             // Don't load doc if there is a hash-url, it takes precedence
