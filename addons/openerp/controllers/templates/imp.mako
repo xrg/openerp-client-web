@@ -145,7 +145,7 @@
             <td style="padding: 10px 10px 0 10px;">
                 <table width="100%" class="popup_header">
                     <tr>
-                    	<td class="imp-header">
+                    	<td class="imp-header" align="left">
                             <a class="button-a" href="javascript: void(0)" onclick="do_import('import_data');">${_("Import")}</a>
                             <a class="button-a" href="javascript: void(0)" onclick="window.close()">${_("Close")}</a>
                         </td>

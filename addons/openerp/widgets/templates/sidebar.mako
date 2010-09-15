@@ -94,13 +94,14 @@
         <h2>${_("Other Options")}</h2>
     </div>
     <ul class="clean-a">
+        % if view_type == 'tree':
         <li>
             <a href="javascript: void(0)" onclick="new ListView('_terp_list').importData()">${_("Import")}</a>
         </li>
         <li>
             <a href="javascript: void(0)" onclick="new ListView('_terp_list').exportData()">${_("Export")}</a>
         </li>
-        % if view_type == 'form':
+        % elif view_type == 'form':
         <li>
             <a href="${py.url('/openerp/translator', _terp_model=model, _terp_id=id, _terp_context=ctx)}"
                target="_blank">${_('Translate')}</a>

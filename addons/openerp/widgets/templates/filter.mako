@@ -20,7 +20,7 @@
 	       % if icon:
 	       <tr>
 	           <td>
-	               <img src="${icon}" width="16" height="16"/>
+	               <img src="${icon}" width="16" height="16" style="margin: -4px;"/>
 	           </td>
 	       </tr>
 	       % endif

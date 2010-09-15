@@ -1,6 +1,6 @@
 <%
     if view_type == 'form':
-        pager_width = '15%'
+        pager_width = '25%'
         o2m_css_class = ''
     else:
         pager_width = '100%'
@@ -12,21 +12,14 @@
         <td class="o2m_cell">
             <table width="100%" class="gridview" style="border-bottom: 1px solid black;"cellpadding="0" cellspacing="0">
                 <tr class="pagerbar">
-
-                	<td class="pagerbar-cell" align="left" width="${pager_width}">
-                		<div class="pagerbar-header">
-                			<strong>${screen.string}</strong>
-                		</div>
-                	</td>
-
-                	
-                	   <td>
-                	       <a class="button-a" href="javascript: void(0)" title="${_('Create new record...')}" onclick="new One2Many('${name}', ${(screen.view_type == 'tree' or 0) and len(screen.widget.editors)}).create(); return false;">${_('New')}</a>
-                	   </td>
-                	
-
+	               	<td class="pagerbar-cell" align="left" width="${pager_width}">
+	               		<div class="pagerbar-header">
+	               			<strong>${screen.string}</strong><nobr>
+	               			<a class="button-a" href="javascript: void(0)" title="${_('Create new record...')}" onclick="new One2Many('${name}', ${(screen.view_type == 'tree' or 0) and len(screen.widget.editors)}).create(); return false;">${_('New')}</a>
+	               		</div>
+	               	</td>
                     % if pager_info:
-                    <td width="85%" style="text-align: left" align="left">
+                    <td width="75%" style="text-align: left" align="left">
                         <div class="pager">
                             <p id="_${name}_link_span" class="paging">
                                 <a class="prev nav" title="${_('Previous record...')}" href="javascript: void(0)" onclick="o2m_pager_action('previous', '${name}'); return false;"></a>

@@ -180,7 +180,7 @@
             <td style="padding: 10px 10px 0 10px;">
                 <table width="100%" class="popup_header">
                     <tr>
-                    	<td class="exp-header">
+                    	<td class="exp-header" align="left">
                     		<a class="button-a" href="javascript: void(0)" onclick="do_export('view_form')">${_("Export")}</a>
                             <a class="button-a" href="javascript: void(0)" onclick="window.close()">${_("Close")}</a>
                     	</td>
