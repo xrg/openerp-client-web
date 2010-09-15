@@ -51,7 +51,7 @@ def login(target, db=None, user=None, password=None, action=None, message=None, 
     except:
         message = _("Could not connect to server")
 
-    dbfilter = cherrypy.request.app.config['openobject-web'].get('dblist.filter')
+    dbfilter = cherrypy.request.app.config['openerp-web'].get('dblist.filter')
     if dbfilter:
         headers = cherrypy.request.headers
         host = headers.get('X-Forwarded-Host', headers.get('Host'))
