@@ -13,7 +13,7 @@
         <form name="view_form" id="view_form" action="/openerp/pref/ok" method="post">
             <table align="center" style="border: none;">
                 <tr>
-                    <td class="toolbar welcome">${params.string}</td>
+                    <td class="error_message_header">${params.string}</td>
                 </tr>
                 <tr>
                     <td>${form.display()}</td>

@@ -245,17 +245,17 @@ p#cmp_logo {
     text-indent: -10001px;
 }
 
-#corner ul.tools li a.messages {
+#corner ul.tools li a.req_messages {
     position: relative;
     width: 24px;
     background-position: 0 0;
 }
 
-#corner ul.tools li a.messages:hover {
+#corner ul.tools li a.req_messages:hover {
     background-position: 0 -34px;
 }
 
-#corner ul.tools li a.messages small {
+#corner ul.tools li a.req_messages small {
     position: absolute;
     right: 0;
     top: 5px;

@@ -49,7 +49,7 @@ def login(target, db=None, user=None, password=None, action=None, message=None, 
     try:
         dblist = rpc.session.listdb()
     except:
-        message = _("Could not connect to server!")
+        message = _("Could not connect to server")
 
     dbfilter = cherrypy.request.app.config['openobject-web'].get('dblist.filter')
     if dbfilter:
@@ -147,7 +147,7 @@ def secured(fn):
             if rpc.session.login(db, user, password) <= 0:
                 # Bad login attempt
                 if action == 'login':
-                    message = _("Bad username or password!")
+                    message = _("Bad username or password")
 
                 return login(cherrypy.request.path_info, message=message,
                         db=db, user=user, action=action, origArgs=get_orig_args(kw))

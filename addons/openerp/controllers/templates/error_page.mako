@@ -165,7 +165,7 @@ ${MAINTENANCE_CONTRACTS_LINK|n}
                 </form>
             </td>
         % else:
-            <td valign="top">
+            <td valign="top" style="padding: 0px;">
                 % if concurrency:
                     <form action="${target}" method="post" name="error_page" enctype="multipart/form-data">
                             % for key, value in all_params.items():
@@ -179,7 +179,7 @@ ${MAINTENANCE_CONTRACTS_LINK|n}
                                 <td height="15px"></td>
                             </tr>
                             <tr>
-                                <td class="welcome">${_("Write concurrency warning :")}</td>
+                                <td class="error_message_header">${_("Write concurrency warning :")}</td>
                             </tr>
                             <tr>
                                 <td style="padding: 30px;">
@@ -206,24 +206,16 @@ Choose:
                     % else:
                         <table class="errorbox" align="center">
                             <tr>
-                                <td height="15px"></td>
+                                <td colspan="2" class="error_message_header">${title}</td>
                             </tr>
                             <tr>
-                                <td class="welcome">${title}</td>
-                            </tr>
-                            <tr>
-                                <td height="5px"></td>
-                            </tr>
-                            <tr>
-                                <td class="message" style="padding: 30px;">
-                                    <pre>${error}</pre>
+                                <td style="padding: 4px 2px;">
+                                	<img src="/openerp/static/images/warning.png"></img>
                                 </td>
+                                <td class="error_message_content">${error}</td>
                             </tr>
                             <tr>
-                                <td height="5px"></td>
-                            </tr>
-                            <tr>
-                                <td style="float: right;">
+                                <td colspan="2" align="right">
                                     <a class="button-a" href="javascript: void(0)"
                                        onclick="close_error_window()">OK</a>
                                 </td>

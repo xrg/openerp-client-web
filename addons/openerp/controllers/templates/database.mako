@@ -20,11 +20,14 @@
         <script type="text/javascript">
             jQuery(document).ready(function () {
 
-                var error_tbl = jQuery('<table class="errorbox">');
-                error_tbl.append(jQuery('<tr><td class="welcome">${error.get("title", "Warning")}</td></tr>'));
-                error_tbl.append(jQuery('<tr><td class="message"><pre>${error["message"]}</pre></td></tr>'));
-                error_tbl.append(jQuery('<tr><td><a class="button-a" id="error_btn" onclick="jQuery.fancybox.close();">OK</a></td></tr>'));
-                jQuery.fancybox(error_tbl);
+                var error_tbl = jQuery('<table class="errorbox" width="100%" height="100%">');
+                error_tbl.append(jQuery('<tr><td class="error_message_header" colspan="2">${error.get("title", "Warning")}</td></tr>'));
+                error_tbl.append(jQuery('<tr><td style="padding: 4px 2px;" width="10%"><img src="/openerp/static/images/warning.png"></img></td><td class="error_message_content">${error["message"]}</td></tr>'));
+                error_tbl.append(jQuery('<tr><td style="padding: 0px 8px 5px 0px; vertical-align:top;" align="right" colspan="2"><a class="button-a" id="error_btn" onclick="jQuery.fancybox.close();">OK</a></td></tr>'));
+                jQuery.fancybox({
+                	content: error_tbl,
+                	showCloseButton: false,
+                	autoDimensions: true});
             })
         </script>
     % endif

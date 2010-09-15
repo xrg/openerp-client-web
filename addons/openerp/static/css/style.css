@@ -435,7 +435,6 @@ a#error_btn {
 }
 
 table.errorbox {
-    padding: 10px;
     white-space: nowrap;
     background-color: #F6F6F6;
     -moz-border-radius: 3px;
@@ -443,23 +442,23 @@ table.errorbox {
     border-radius: 3px;
 }
 
-td.welcome {
-    text-align: center;
-    font-size: 11px;
-    font-weight: bold;
-    text-transform: uppercase;
+.error_message_header {
+	color: #9a0404;
+	text-transform: uppercase;
+	font-weight: bold;
+	font-size: 1.4em;
+	text-align: center;
 }
 
-td.message {
-    text-align: center;
-    font-weight: bold;
-    border: none;
-    font-size: 1.3em;
-    text-align: center;
+.error_message_content {
+	font-size: 1.4em;
+	padding: 0px 5px 0px 0px;
+	text-align: center;
+	color: #333333;
 }
 
-div.message {
-    text-align: center;
+.login_error_message {
+	text-align: center;
     font-weight: bold;
     border: none;
     font-size: 1.3em;
@@ -469,19 +468,7 @@ div.message {
     -moz-border-radius: 3px;
     -webkit-border-radius: 3px;
     border-radius: 3px;
-}
-
-div.welcome-message {
-    background: url(../images/top-bg-a.gif) repeat-x;
-    color: #FFFFFF;
-    font-weight: bold;
-    text-shadow: #111 0 1px 0;
-    text-decoration: none !important;
-    text-align: center;
-    font-size: 16px;
-    -moz-border-radius: 3px;
-    -webkit-border-radius: 3px;
-    border-radius: 3px;
+    padding: 5px;
 }
 
 td.popup_header,
@@ -513,9 +500,7 @@ div.popup_footer {
 
 td.pop_head_font{
 	font-size: 1.5em;
-	}
-
-
+}
 
 /* view style */
 .view {

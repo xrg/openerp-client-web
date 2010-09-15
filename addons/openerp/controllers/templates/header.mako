@@ -61,7 +61,7 @@ except:
 	                </ul>
 	            </li>
 	            <li>
-	                <a href="${py.url('/openerp/requests')}" class="messages"><small>${total_request}</small></a>
+	                <a href="${py.url('/openerp/requests')}" class="req_messages"><small>${total_request}</small></a>
 	                <ul>
 	                    <li class="first last"><a href="${py.url('/openerp/requests')}">${_("Requests")}</a></li>
 	                </ul>

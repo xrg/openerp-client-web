@@ -240,7 +240,7 @@ class Tree(SecuredController):
                     name, adds=adds, model=model, id=id, ids=ids, context=ctx,
                     report_type='pdf')
         else:
-            raise common.message(_("No record selected!"))
+            raise common.message(_("No record selected"))
 
     @expose()
     def report(self, **kw):
@@ -271,7 +271,7 @@ class Tree(SecuredController):
             import actions
             return actions.execute_window(False, res_id=ids, model=params.model, domain=params.domain)
         else:
-            raise common.message(_('No resource selected!'))
+            raise common.message(_('No resource selected'))
 
     @expose()
     def open(self, **kw):

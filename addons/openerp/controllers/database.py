@@ -208,7 +208,7 @@ class Database(BaseController):
             rpc.session.execute_db('drop', password, dbname)
         except Exception, e:
             if getattr(e, 'faultCode', False) == 'AccessDenied':
-                self.msg = {'message': (_('Bad database administrator password!')),
+                self.msg = {'message': (_('Bad database administrator password')),
                             'title': (_("Could not drop database."))}
             else:
                 self.msg = {'message' : (_("Could not drop database"))}
@@ -255,7 +255,7 @@ class Database(BaseController):
             res = rpc.session.execute_db('restore', password, dbname, data)
         except Exception, e:
             if getattr(e, 'faultCode', False) == 'AccessDenied':
-                self.msg = {'message': (_('Bad database administrator password!')),
+                self.msg = {'message': (_('Bad database administrator password')),
                             'title': (_("Could not restore database."))}
             else:
                 self.msg = {'message': (_("Could not restore database"))}

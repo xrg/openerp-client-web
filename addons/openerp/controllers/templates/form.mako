@@ -34,7 +34,7 @@
 	% if form.screen.model == 'res.request' and form.screen.ids:
 		<script type="text/javascript">
 			jQuery(document).ready(function () {
-				jQuery('ul.tools li a.messages small').text('${len(form.screen.ids)}')
+				jQuery('ul.tools li a.req_messages small').text('${len(form.screen.ids)}')
 			});
 		</script>
 	% endif

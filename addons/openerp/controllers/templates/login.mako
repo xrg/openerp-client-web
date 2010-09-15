@@ -69,7 +69,7 @@
 				</fieldset>
 			</form>
 			% if message:
-	        	<div class="box2 message" id="message">${message}</div>
+	        	<div class="login_error_message" id="message">${message}</div>
 	        % endif
 
 	        % if info:

@@ -60,7 +60,7 @@ class Attachment(SecuredController):
 
             return actions.execute(action)
         else:
-            raise common.message(_('No record selected! You can only attach to existing record...'))
+            raise common.message(_('No record selected, You can only attach to existing record...'))
 
     @expose(content_type="application/octet-stream")
     def get(self, record=False):

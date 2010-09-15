@@ -89,7 +89,7 @@ def execute_window(view_ids, model, res_id=False, domain=None, view_type='form',
         return Tree().create(params)
 
     else:
-        raise common.message(_("Invalid View!"))
+        raise common.message(_("Invalid View"))
 
 def execute_wizard(name, **datas):
     """Executes given wizard with the given data
@@ -149,7 +149,7 @@ def execute_report(name, **data):
     if not ids:
         ids =  rpc.session.execute('object', 'execute', datas['model'], 'search', [])
         if ids == []:
-            raise common.message(_('Nothing to print!'))
+            raise common.message(_('Nothing to print'))
 
         datas['id'] = ids[0]
 
@@ -166,7 +166,7 @@ def execute_report(name, **data):
                 time.sleep(1)
                 attempt += 1
             if attempt>200:
-                raise common.message(_('Printing aborted, too long delay!'))
+                raise common.message(_('Printing aborted, too long delay'))
 
         # report name
         report_name = 'report'
@@ -315,7 +315,7 @@ def execute_url(**data):
     url = data.get('url') or ''
 
     if not ('://' in url or url.startswith('/')):
-        raise common.message(_('Relative URLs are not supported!'))
+        raise common.message(_('Relative URLs are not supported'))
     
     """ Unknown URL required to open in new window/tab.
     """
@@ -351,7 +351,7 @@ def get_action_type(act_id):
     res = proxy.read([act_id], ["type"], rpc.session.context)[0]
 
     if not (res and len(res)):
-        raise common.message(_('Action not found!'))
+        raise common.message(_('Action not found'))
 
     return res['type']
 
@@ -399,7 +399,7 @@ def execute_by_keyword(keyword, adds=None, **data):
     keyact.update(adds or {})
 
     if not keyact:
-        raise common.message(_('No action defined!'))
+        raise common.message(_('No action defined'))
 
     if len(keyact) == 1:
         data['context'].update(rpc.session.context)

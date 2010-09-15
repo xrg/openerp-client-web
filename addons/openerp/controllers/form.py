@@ -872,7 +872,7 @@ class Form(SecuredController):
             import actions
             return actions.execute_by_keyword(name, adds=adds, model=model, id=id, ids=ids, report_type='pdf')
         else:
-            raise common.message(_("No record selected!"))
+            raise common.message(_("No record selected"))
 
 
     @expose()
@@ -894,7 +894,7 @@ class Form(SecuredController):
         act_id = params.action
 
         if not params.selection and not params.id:
-            raise common.message(_('You must save this record to use the sidebar button!'))
+            raise common.message(_('You must save this record to use the sidebar button'))
 
         if not act_id:
             return self.do_action('client_action_multi', datas=kw)

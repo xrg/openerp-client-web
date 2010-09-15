@@ -108,7 +108,7 @@
             % endif
 
         </form>
-        <div id="message" class="invalid_login">${_("Bad username or password!")}</div>
+        <div id="message" class="invalid_login">${_("Bad username or password")}</div>
 
     </div>
 </%def>
