@@ -82,7 +82,7 @@
                     </div>
                 </td>
                 <td id="toggle_accordion" class="open-close-menu hide_tools"></td>
-                <td id="primary">
+                <td id="primary" width="100%">
                     <div class="wrap">
                         <div id="appContent"></div>
                     </div>
