@@ -21,7 +21,7 @@ setup(
     download_url=download_url,
     copyright=copyright,
     license=license,
-    install_requires2=[
+    install_requires=[
         "CherryPy >= 3.1.2",
         "Mako >= 0.2.4",
         "Babel >= 0.9.4",

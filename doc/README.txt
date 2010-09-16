@@ -166,6 +166,10 @@ Configuration:
 
 Please see `Linux Installation`_ doc for configuration/startup...
 
+.. note::
+    
+    Use ``python C:\Python25\Scripts\openerp-web`` command to startup openerp-web.
+
 Configure HTTPS (Linux)
 -----------------------
 
