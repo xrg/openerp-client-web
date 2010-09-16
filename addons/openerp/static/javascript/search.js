@@ -563,6 +563,7 @@ function search_filter(src, id) {
 function save_filter() {
     var domain_list = parse_filters();
     var grps = group_by;
+    
     if(group_by.length)
         grps = group_by.join(',')
     var custom_domain = jQuery('#_terp_filter_domain').val() || '[]';
@@ -592,6 +593,8 @@ function manage_filters() {
 
 function final_search_domain(custom_domain, all_domains, group_by_ctx, custom_columns) {
 	var waitBox = new openerp.ui.WaitBox();
+    if(group_by_ctx.length)
+        group_by_ctx = group_by_ctx.join(',')
 	waitBox.showAfter(500);
 	jQuery.ajax({
 		url: '/openerp/search/eval_domain_filter',
