@@ -57,6 +57,24 @@ var One2Many = function(name, inline) {
 
 One2Many.prototype = {
 
+	remove: function(id) {
+		
+	if (!confirm(_('Do you really want to delete record ?'))) {
+            return false;
+    }
+        
+	var req = openobject.http.postJSON('/openerp/openo2m/delete', {'model': this.model, 'id': id});
+	
+	req.addCallback(function(obj) {
+            if (obj.error) {
+                jQuery.fancybox(obj.error);
+            }
+            else {
+                window.location.reload();
+			}
+    	});
+	},
+
     create: function() {
 
         if (!this.parent_id || this.parent_id == 'False' || this.mode == 'form') {

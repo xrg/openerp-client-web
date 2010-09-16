@@ -164,5 +164,18 @@ class OpenO2M(Form):
     def edit(self, **kw):
         params, data = TinyDict.split(kw)
         return self.create(params)
+    
+    @expose('json')
+    def delete(self, model, id):
+        error = False
+        res=""
+        proxy = rpc.RPCProxy(model)
+        try:
+            if id:
+                res  = proxy.unlink([id])
+        except Exception, e:
+            error = ustr(e)
+            
+        return dict(error=error)
 
 # vim: ts=4 sts=4 sw=4 si et

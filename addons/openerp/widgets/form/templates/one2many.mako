@@ -1,6 +1,6 @@
 <%
     if view_type == 'form':
-        pager_width = '25%'
+        pager_width = '35%'
         o2m_css_class = ''
     else:
         pager_width = '100%'
@@ -16,10 +16,11 @@
 	               		<div class="pagerbar-header">
 	               			<strong>${screen.string}</strong><nobr>
 	               			<a class="button-a" href="javascript: void(0)" title="${_('Create new record...')}" onclick="new One2Many('${name}', ${(screen.view_type == 'tree' or 0) and len(screen.widget.editors)}).create(); return false;">${_('New')}</a>
+	               			<a class="button-a" href="javascript: void(0);" title="${_('Delete record...')}" onclick="new One2Many('${name}', ${(screen.view_type == 'tree' or 0) and len(screen.widget.editors)}).remove(${id}); return false;">${_("Delete")}</a>
 	               		</div>
 	               	</td>
                     % if pager_info:
-                    <td width="75%" style="text-align: left" align="left">
+                    <td width="65%" style="text-align: left" align="left">
                         <div class="pager">
                             <p id="_${name}_link_span" class="paging">
                                 <a class="prev nav" title="${_('Previous record...')}" href="javascript: void(0)" onclick="o2m_pager_action('previous', '${name}'); return false;"></a>
