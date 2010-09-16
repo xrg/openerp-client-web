@@ -358,6 +358,8 @@ class Search(TinyInputWidget):
                     screen_context=self.context)
                 if values and values.get('group_by_ctx'):
                     attrs['group_by_ctx'] = values['group_by_ctx']
+                elif self.groupby:
+                    attrs['group_by_ctx'] = self.groupby
 
                 v = Filter(**attrs)
                 if v.groupcontext and v.groupcontext not in self.groupby:
