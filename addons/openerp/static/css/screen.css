@@ -139,7 +139,7 @@ hr {
 }
 
 #top {
-    background: url(../images/top-bg-a.gif) scroll repeat-x top #7d7b7b;
+    background: url(../images/header-background.png) top left repeat-x;
     color: #fff;
     text-transform: uppercase;
     letter-spacing: 0.5px;
@@ -1315,7 +1315,7 @@ table {
     border-bottom: 1px solid #f4f2f2;
 }
 
-table th,table td {
+table th {
     padding: 5px 10px 5px 5px;
 }
 
@@ -2254,7 +2254,7 @@ button {
     text-indent: -10001px;
 }
 
-td#body_form_td {
+#body_form_td {
     padding: 10px 4px 0 0;
     border-color: #EAE7E7;
 }

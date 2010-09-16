@@ -19,7 +19,7 @@ if rpc.session.is_logged():
 else:
     logged = False
 %>
-<div id="top">
+<td id="top" colspan="3">
     <p id="cmp_logo">
         <a href="http://www.openerp.com" target="_blank">
             <img alt="OpenERP" id="company_logo" src="/openerp/static/images/openerp_small.png"/>
@@ -79,8 +79,8 @@ else:
 	        <p class="logout"><a href="${py.url('/openerp/logout')}" target="_top">${_("Logout")}</a></p>
 	    </div>
 	% endif
-
-    <div id="shortcuts" class="menubar" cellpadding="0" cellspacing="0">
+	
+    <div id="shortcuts" class="menubar">
     % if logged:
         <ul>
 	        % for i, sc in enumerate(shortcuts):
@@ -94,4 +94,4 @@ else:
         </ul>
     % endif
     </div>
-</div>
+</td>
