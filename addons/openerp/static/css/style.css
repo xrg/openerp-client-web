@@ -829,15 +829,12 @@ div#serverlog a {
 }
 
 div.filter-a button.filter_with_icon {
-	-moz-border-radius: 0;
+    -moz-border-radius: 0;
     -webkit-border-radius: 0;
-	border-radius: 0;
-}
+    border-radius: 0;
 
-div.filter-a button.filter_with_icon {
-    border-width: 1px 1px 1px 0;
-    border-style: solid;
-    border-color: #cccbcb;
+    border: 1px solid #cccbcb;
+    border-left-width: 0;
     background: #F4F2F2;
     font-size: 1em !important;
     font-weight: bold;
@@ -850,21 +847,14 @@ div.filter-a button.filter_with_icon {
     min-height: 45px;
     min-width: 45px;
 }
-
-td.grop_box_active div.filter-a button.active {
-    background-color: #aaadb1;
-    color: #000000;
-}
-
-div.filter-a button.filter_with_icon:active {
-    background-color: #cbced2;
-    color: #000000;
-}
-
 div.filter-a button.filter_with_icon:focus,
 div.filter-a button.filter_with_icon:hover {
-	background-color: #E6E6E6;
-	color: #000000;
+    background-color: #e6e6e6;
+    color: #000000;
+}
+div.filter-a button.filter_with_icon.active {
+    background-color: #aaadb1;
+    color: #000000;
 }
 
 div.filter-a button.filter_icon {
@@ -874,18 +864,16 @@ div.filter-a button.filter_icon {
     min-height: 25px;
     max-height: 30px;
     max-width: 30px;
-}
-
-div.filter-a button.filter_icon:active {
-    background-color: #cbced2;
-    border-color: #cccbcb;
     border-radius: 4px;
     -moz-border-radius: 4px;
     -webkit-border-radius: 4px;
 }
 div.filter-a button.filter_icon:hover,
 div.filter-a button.filter_icon:focus {
-	background-color: #e2e2e2;
+    background-color: #e6e6e6;
+}
+div.filter-a button.filter_icon.active {
+    background-color: #aaadb1;
 }
 
 .filters-group .group_box:first-child button {
