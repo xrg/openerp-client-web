@@ -125,11 +125,11 @@ class List(TinyWidget):
         fields = view['fields']
         dom = xml.dom.minidom.parseString(view['arch'].encode('utf-8'))
         root = dom.childNodes[0]
-        
+
         attrs = node_attributes(root)
         self.string = attrs.get('string','')
-        
-        search_param = domain or []
+
+        search_param = copy.deepcopy(domain) or []
         if custom_search_domain:
             for elem in custom_search_domain:
                 if elem not in self.domain:

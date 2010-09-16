@@ -188,7 +188,7 @@ class List(SecuredController):
         source = (params.source or '') and str(params.source)
         if not params.view_type == 'graph':
             params.view_type = 'form'
-        
+
         if source == '_terp_list':
             if not params.view_type == 'graph':
                 params.view_type = 'tree'

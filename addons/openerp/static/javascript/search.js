@@ -615,7 +615,6 @@ function final_search_domain(custom_domain, all_domains, group_by_ctx, custom_co
 				});
 				
 				in_req.addCallback(function(in_obj){
-					openobject.dom.get('_terp_domain').value = obj.domain;
 			    	openobject.dom.get('_terp_search_domain').value = in_obj.domain;
 			    	openobject.dom.get('_terp_search_data').value = obj.search_data;
 			    	openobject.dom.get('_terp_context').value = in_obj.context;
