@@ -385,7 +385,6 @@ class Form(SecuredController):
 
         # remember the current page (tab) of notebooks
         cherrypy.session['remember_notebooks'] = True
-
         # bypass save, for button action in non-editable view
         if not (params.button and params.editable and params.id):
 
@@ -658,7 +657,12 @@ class Form(SecuredController):
         params, data = TinyDict.split(kw)
         if params.get('_terp_save_current_id'):
             ctx = dict((params.context or {}), **rpc.session.context)
-            rpc.RPCProxy(params.model).write([params.id], data, ctx)
+            if params.id:
+                rpc.RPCProxy(params.model).write([params.id], data, ctx)
+            else:
+                id = rpc.RPCProxy(params.model).create(data, ctx)
+                params.ids.append(id)
+                params.count += 1
             
         l = params.limit or 20
         o = params.offset or 0
@@ -666,7 +670,6 @@ class Form(SecuredController):
 
         id = params.id or False
         ids = params.ids or []
-
         filter_action = params.filter_action
 
         if ids and filter_action == 'FIRST':
@@ -777,7 +780,12 @@ class Form(SecuredController):
         
         if params.get('_terp_save_current_id'):
             ctx = dict((params.context or {}), **rpc.session.context)
-            rpc.RPCProxy(params.model).write([params.id], data, ctx)
+            if params.id:
+                rpc.RPCProxy(params.model).write([params.id], data, ctx)
+            else:
+                id = rpc.RPCProxy(params.model).create(data, ctx)
+                params.ids.append(id)
+                params.count += 1
         
         current = params.chain_get(params.source or '') or params
         idx = -1
@@ -828,7 +836,12 @@ class Form(SecuredController):
         params, data = TinyDict.split(kw)
         if params.get('_terp_save_current_id'):
             ctx = dict((params.context or {}), **rpc.session.context)
-            rpc.RPCProxy(params.model).write([params.id], data, ctx)
+            if params.id:
+                rpc.RPCProxy(params.model).write([params.id], data, ctx)
+            else:
+                id = rpc.RPCProxy(params.model).create(data, ctx)
+                params.ids.append(id)
+                params.count += 1
         # switch the view
         params.view_type = params.source_view_type
         return self.create(params)
