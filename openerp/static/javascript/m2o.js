@@ -96,9 +96,10 @@ ManyToOne.prototype.select = function(evt){
 ManyToOne.prototype.open_record = function(evt){
 	var link = getNodeAttribute(this.field, 'link');
 	this.field.value = this.field.value || getNodeAttribute(this.field, 'value');
+	var open_rec_id = typeof(evt) == 'string'? evt : this.field.value;
 	if(!(link==0)){
-		if (this.field.value) {
-			this.open(this.field.value);
+		if (open_rec_id) {
+			this.open(open_rec_id);
 		}
 	}
 }
