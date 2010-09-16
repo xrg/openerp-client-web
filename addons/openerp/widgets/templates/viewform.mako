@@ -17,11 +17,12 @@
         % if search:
 
         <tr>
-            <td valign="top">${display_member(search)}</td>
+            <td valign="top" style="padding-bottom:2px;">${display_member(search)}</td>
         </tr>
+
          % if screen.view_type == 'tree' and screen.widget:
             <tr>
-                <td id="custom_columns" style="padding-top: 0">
+                <td id="custom_columns" style="padding-top: 2px">
                     <div id="customcolumns" class="group-expand" onclick="collapse_expand(this, '#custcols');" style="padding:0 0 0 3px;">
                         <h2><span>${_("Hide Columns")}</span></h2>
                     </div>
@@ -77,11 +78,11 @@
     </table>
     % if screen.view_type == 'tree':
 	    <script type="text/javascript">
-	           
+
 	        jQuery(document).ready(function() {
 	           var filter_box_index = jQuery('#${name} div.filter-a').closest('td.item:first').index();
 	           var input_index = jQuery('#${name} input[type!="hidden"][type="text"]:first').closest('td.label').index();
-	           
+
 	           if(filter_box_index >= 0 && (filter_box_index <  input_index)) {
                     jQuery('#${name} div.filter-a:first button').focus();
 	           }

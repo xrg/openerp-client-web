@@ -3,11 +3,10 @@
         ${display_member(frame)}
 	% endif
 
-    % if not source:
-	<table>
+	% if not source:
         <tr>
-           <td style="padding: 2px 3px; white-space:nowrap;">
-                <div id="filters" onclick="collapse_expand(this, '#filter_option_table');" class="group-expand"><h2><span>Filters</span></h2></div>
+           <td style="padding-top: 2px">
+                <div style="padding: 0 0 0 3px;" id="filters" onclick="collapse_expand(this, '#filter_option_table');" class="group-expand"><h2><span>Filters</span></h2></div>
                 <table id="filter_option_table" style="display:none;">
                     <tbody id="filter_table" style="display:none;">
                         <tr class="filter_row_class">
@@ -56,8 +55,8 @@
                 </table>
             </td>
         </tr>
-    </table>
     % endif
+
     <script type="text/javascript">
         jQuery(document).ready(function () {
             switch_searchView("${flt_domain | n}");

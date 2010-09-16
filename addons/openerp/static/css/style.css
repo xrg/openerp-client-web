@@ -238,6 +238,8 @@ div.group-expand h2 span {
 
 div.group-expand h2:hover {
     background: url(../images/group-a-header-a2.png) 0 50% no-repeat;
+    background-color: #E6E6E6;
+	color: #000000;
 }
 
 #groupdata_table {
@@ -273,6 +275,8 @@ div.group-collapse h2 span {
 
 div.group-collapse h2:hover {
     background: url(../images/group-a-header-b2.png) 0 50% no-repeat;
+    background-color: #E6E6E6;
+	color: #000000;
 }
 
 td.custom-filter ul {
