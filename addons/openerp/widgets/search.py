@@ -171,6 +171,10 @@ class Filter(TinyInputWidget):
         self.first_box = attrs.get('first_box')
         self.last_box = attrs.get('last_box')
         self.first_last_box = attrs.get('first_last_box')
+        
+        if not self.def_checked and attrs.get('group_by_ctx'):
+            if self.group_context in attrs['group_by_ctx']:
+                self.def_checked = True
 
 class M2O_search(M2O):
     template = """
