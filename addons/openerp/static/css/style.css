@@ -880,6 +880,10 @@ div.filter-a button.filter_icon.active {
     background-color: #aaadb1;
 }
 
+div.filter-a button.filter_icon table {
+    margin: 0;
+}
+
 .filters-group .group_box:first-child button {
     border-left: 1px solid #cccbcb;
     -webkit-border-top-left-radius: 7px;
