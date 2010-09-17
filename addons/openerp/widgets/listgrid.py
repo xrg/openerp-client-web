@@ -151,16 +151,17 @@ class List(TinyWidget):
                 self.colors[colour] = test
 
         proxy = rpc.RPCProxy(model)
-        
-        if self.sort_key:
-            ids = proxy.search(search_param, self.offset, self.limit, self.sort_key + ' ' +self.sort_order, context)
-        else:
-            ids = proxy.search(search_param, self.offset, self.limit, False, context)
 
-        if len(ids) < self.limit:
-            self.count = len(ids)
-        else:
-            self.count = proxy.search_count(search_param, context)
+        if not self.o2m and not self.m2m:
+            if self.sort_key:
+                ids = proxy.search(search_param, self.offset, self.limit, self.sort_key + ' ' +self.sort_order, context)
+            else:
+                ids = proxy.search(search_param, self.offset, self.limit, False, context)
+
+            if len(ids) < self.limit:
+                self.count = len(ids)
+            else:
+                self.count = proxy.search_count(search_param, context)
 
         self.data_dict = {}
         data = []
