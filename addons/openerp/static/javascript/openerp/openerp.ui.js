@@ -101,11 +101,11 @@ function adjustTopWidth() {
         total_width = parseFloat(total_width) + parseFloat(jQuery('ul.sc_menu li').width());
     });
 
-    if(jQuery('div.sc_menu').width() > jQuery('ul.sc_menu').width()) {
-        jQuery('a.scroll_right').css('display', 'none');
-    }
-	if(jQuery('div.sc_menu').width() < jQuery('ul.sc_menu').width()) {
+    if(jQuery('div.sc_menu').width() < jQuery('ul.sc_menu').width()) {
         jQuery('a.scroll_right').css('display', 'block');
+    }
+    else {
+        jQuery('a.scroll_right').css('display', 'none');
     }
 }
 
