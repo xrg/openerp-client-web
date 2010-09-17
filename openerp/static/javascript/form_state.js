@@ -155,7 +155,6 @@ var form_hookAttrChange = function() {
         var widget = getNodeAttribute(e, 'widget') || '';
         var container = e;
         var prefix = widget.slice(0, widget.lastIndexOf('/')+1) || '';
-
         // Convert Python statement into it's equivalent in JavaScript.
         attrs = attrs.replace(/\(/g, '[');
         attrs = attrs.replace(/\)/g, ']');
@@ -168,11 +167,11 @@ var form_hookAttrChange = function() {
         } catch(e){
             return;
         }
-        
+
         for (var attr in attrs) {
             var expr_fields = {}; // check if field appears more then once in the expr
-           
-            if (attrs[attr] == ''){                
+
+            if (attrs[attr] == ''){
                 return form_onAttrChange(container, widget, attr, attrs[attr]);
             }
             
@@ -334,11 +333,10 @@ var form_setRequired = function(container, field, required) {
 }
 
 var form_setVisible = function(container, field, visible) {
-    
+
     if (MochiKit.DOM.hasElementClass(container, 'tabbertab')) { // notebook page?
-    
         var tabber = container.parentNode.tabber;
-        
+
         if (!tabber)  {
            return MochiKit.Async.callLater(0, form_setVisible, container, field, visible);
         }
@@ -346,26 +344,40 @@ var form_setVisible = function(container, field, visible) {
         var tabs = getElementsByTagAndClassName('div', 'tabbertab', container.parentNode);
         var idx = findIdentical(tabs, container);
         var tab = tabber.tabs[idx];
-        
-        var active = filter(function(t){
-            return !hasElementClass(t, 'tabbertabhide');
-        }, tabs);
-        
-        active = active ? active[0] : container;
-        active = findIdentical(tabs, active);
 
-        if (visible) {            
+        if (visible && tab.li.style.display == 'none') {
             tab.li.style.display = '';
             tabber.tabShow(idx);
-        } else {
+        } else if (!visible && tab.li.style.display != 'none') {
             var tab = tabber.tabs[idx];
             tab.li.style.display = 'none';
+            var was_active = hasElementClass(tab.li, 'tabberactive');
             tabber.tabHide(idx);
             //When not define any page it display always 1st one.
             //e.g state = 'dummy' not display page.
             //if (idx == active) {
               //  tabber.tabShow(0);
             //}
+            if (!was_active) return;
+            function selectCandidate(index) {
+                // returns true if it found a candidate suitable for selection
+                // (visible tab)
+                var candidate = tabber.tabs[index];
+                if(candidate.li.style.display != 'none') {
+                    tabber.tabShow(index);
+                    return true;
+                }
+                return false;
+            }
+            var i;
+            // Search backwards for a visible tab
+            for(i = idx-1; i >= 0; --i) {
+                if(selectCandidate(i)) { return; }
+            }
+            // Not found one backwards, try forwards
+            for(i = idx+1; i < tabber.tabs.length; ++i) {
+                if(selectCandidate(i)) { return; }
+            }
         }
 
     } else {
