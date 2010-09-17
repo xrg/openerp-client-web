@@ -153,26 +153,26 @@
                                             </script>
                                         % endif
                                     </td>
+                                    <td class="pager-cell-button" style="display: none;">
+                                        % if m2m:
+                                            <button id="${name}_delete_record" title="${_('Delete record(s).')}"
+                                                onclick="new Many2Many('${name}').remove(); return false;">
+                                                    ${_('delete')}
+                                            </button>
+                                        % else:
+                                            <button id="${name}_delete_record" title="${_('Delete record(s).')}"
+                                                onclick="new ListView('${name}').remove(null,this); return false;">
+                                                    ${_('delete')}
+                                            </button>
+                                        % endif
+                                    </td>
+                                    <td class="pager-cell-button" style="display: none;">
+                                        <button id="${name}_edit_record" title="${_('Edit record(s).')}"
+                                                onclick="editSelectedRecord(); return false;">
+                                                    ${_('edit')}
+                                        </button>
+                                    </td>
                                 % endif
-                                <td class="pager-cell-button" style="display: none;">
-                                    % if m2m:
-                                        <button id="${name}_delete_record" title="${_('Delete record(s).')}"
-                                            onclick="new Many2Many('${name}').remove(); return false;">
-                                                ${_('delete')}
-                                        </button>
-                                    % else:
-                                        <button id="${name}_delete_record" title="${_('Delete record(s).')}"
-                                            onclick="new ListView('${name}').remove(null,this); return false;">
-                                                ${_('delete')}
-                                        </button>
-                                    % endif
-                                </td>
-                                <td class="pager-cell-button" style="display: none;">
-                                    <button id="${name}_edit_record" title="${_('Edit record(s).')}"
-                                            onclick="editSelectedRecord(); return false;">
-                                                ${_('edit')}
-                                    </button>
-                                </td>
                                 <td class="pager-cell" style="width: 90%">
                                     ${pager.display()}
                                 </td>
