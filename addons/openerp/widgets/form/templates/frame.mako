@@ -38,7 +38,7 @@
                     </tr>
                 </table>
                 % else:
-                <label style="vertical-align:middle">
+                <label for="${attrs.get('for')}" style="vertical-align:middle">
                 	${(widget or '') and widget}
                 </label>
                     % if attrs.get('title'):
