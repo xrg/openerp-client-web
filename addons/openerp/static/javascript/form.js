@@ -29,7 +29,7 @@
 
 var form_controller;
 function get_form_action(action, params) {
-    var act = typeof(form_controller) == 'undefined' ? '/form' : form_controller;
+    var act = typeof(form_controller) == 'undefined' ? '/openerp/form' : form_controller;
     act = action && action.indexOf('/') == 0 ? action : act + '/' + action;
     return openobject.http.getURL(act, params);
 }
