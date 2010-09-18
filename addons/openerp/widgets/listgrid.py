@@ -152,12 +152,14 @@ class List(TinyWidget):
 
         proxy = rpc.RPCProxy(model)
 
-        if not (self.o2m or self.m2m):
-            if self.sort_key:
-                ids = proxy.search(search_param, self.offset, self.limit, self.sort_key + ' ' +self.sort_order, context)
+        if not self.o2m and not self.m2m:
+            if self.limit > 0:
+                if self.sort_key:
+                    ids = proxy.search(search_param, self.offset, self.limit, self.sort_key + ' ' +self.sort_order, context)
+                else:
+                    ids = proxy.search(search_param, self.offset, self.limit, False, context)
             else:
-                ids = proxy.search(search_param, self.offset, self.limit, False, context)
-
+                ids = proxy.search(search_param, 0, 0, 0, context)
             if len(ids) < self.limit:
                 self.count = len(ids)
             else:
