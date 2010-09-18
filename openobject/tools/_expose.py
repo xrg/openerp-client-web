@@ -29,7 +29,6 @@
 
 import os
 import re
-import fnmatch
 
 import cherrypy
 import simplejson
@@ -38,38 +37,14 @@ from mako.template import Template
 from mako.lookup import TemplateLookup
 
 import _utils as utils
+import resources
 
 
-__all__ = ['find_resource', 'load_template', 'render_template', 'expose', 'register_template_vars']
-
-
-def find_resource(package_or_module, *names):
-
-    ref = package_or_module
-    if isinstance(package_or_module, basestring):
-        ref = __import__(package_or_module, globals(), locals(), \
-                package_or_module.split('.'))
-
-    return os.path.abspath(os.path.join(os.path.dirname(ref.__file__), *names))
-
-
-def find_resources(package_or_module, path=None, patterns=None):
-
-    root = find_resource("openobject")
-    path = path or ""
-    patterns = patterns or []
-
-    if path:
-        root = os.path.join(root, path)
-
-    for path, dirs, files in os.walk(os.path.abspath(root)):
-        for pattern in patterns:
-            for filename in fnmatch.filter(files, pattern):
-                yield os.path.join(path, filename)
+__all__ = ['load_template', 'render_template', 'expose', 'register_template_vars']
 
 
 # ask autoreloader to check mako templates and cfg files
-for res in find_resources("openobject", "..", ["*.mako", "*.cfg"]):
+for res in resources.find_resources("openobject", "..", ["*.mako", "*.cfg"]):
     cherrypy.engine.autoreload.files.add(res)
 
 
@@ -88,10 +63,10 @@ class TL(TemplateLookup):
         self.cache[str(uri)] = res = super(TL, self).get_template(uri)
         return res
 
-template_lookup = TL(directories=[find_resource("openobject", ".."),
-                                  find_resource("openobject", "../addons")],
+template_lookup = TL(directories=[resources.find_resource("openobject", ".."),
+                                  resources.find_resource("openobject", "../addons")],
                      default_filters=filters,
-                     imports=imports)#, module_directory="mako_modules")
+                     imports=imports)
 
 def load_template(template, module=None):
 
@@ -101,11 +76,11 @@ def load_template(template, module=None):
     if re.match('(.+)\.(html|mako)\s*$', template):
 
         if module:
-            template = find_resource(module, template)
+            template = resources.find_resource(module, template)
         else:
             template = os.path.abspath(template)
 
-        base = find_resource("openobject", "..")
+        base = resources.find_resource("openobject", "..")
         template = template.replace(base, '').replace('\\', '/')
 
         return template_lookup.get_template(template)

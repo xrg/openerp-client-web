@@ -539,12 +539,12 @@ class DTLink(JSLink):
         lang = get_locale()
         link = "jscal/lang/calendar-%s.js" % lang
 
-        if os.path.exists(tools.find_resource("openerp", "static", link)):
+        if os.path.exists(tools.resources.find_resource("openerp", "static", link)):
             d.link = tools.url(["/openerp/static", link])
         else:
             lang = lang.split('_')[0]
             link = "jscal/lang/calendar-%s.js" % lang
-            if os.path.exists(tools.find_resource("openerp", "static", link)):
+            if os.path.exists(tools.resources.find_resource("openerp", "static", link)):
                 d.link = tools.url(["/openerp/static", link])
 
 class DateTime(TinyInputWidget):
