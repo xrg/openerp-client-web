@@ -63,8 +63,10 @@ def _make_dict(data, is_params=False):
                 id = int(id)
 
                 values = _make_dict(v, is_params)
-                if values:
+                if values and any(values.itervalues()):
                     res[k] = [(id and 1, id, values)]
+                else:
+                    res[k] = []
 
             else:
                 res[k] = _make_dict(v, is_params and isinstance(v, TinyDict))
