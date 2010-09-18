@@ -33,21 +33,18 @@ __all__ = ["BaseController"]
 
 class ControllerType(type):
 
-    def __new__(cls, name, bases, attrs):
-
-        obj = super(ControllerType, cls).__new__(cls, name, bases, attrs)
-        path = attrs.get("_cp_path")
+    def __init__(cls, name, bases, attrs):
+        super(ControllerType, cls).__init__(name, bases, attrs)
         
         if "path" in attrs and name != "BaseController":
             raise Exception("Can't override 'path' attribute.")
 
+        path = attrs.get("_cp_path")
         if path:
             if not path.startswith("/"):
                 raise Exception("Invalid path '%s', should start with '/'." % (path))
 
-            pooler.register_object(obj, key=path, group="controllers", auto_create=True)
-
-        return obj
+            pooler.register_object(cls, key=path, group="controllers", auto_create=True)
 
 
 class BaseController(object):
