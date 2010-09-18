@@ -26,16 +26,18 @@
 # You can see the MPL licence at: http://www.mozilla.org/MPL/MPL-1.1.html
 #
 ###############################################################################
-
-import re
-import cgi
-import math
-import time
 import base64
+import cgi
 import locale
+import math
+import re
+import time
 
+import formencode.validators
+import formencode.api
+
+from openobject.validators import BaseValidator
 from openobject.i18n import format
-from openobject.validators import *
 
 class String(BaseValidator):
     if_empty = False
@@ -64,10 +66,10 @@ class Bool(BaseValidator):
     def _from_python(self, value, state):
         return (value or '') and 1
 
-class Int(Int):
+class Int(formencode.validators.Int):
     if_empty = False
 
-class Float(Number):
+class Float(formencode.validators.Number):
     if_empty = False
     digit = 2
 
@@ -78,7 +80,7 @@ class Float(Number):
         try:
             value = format.parse_decimal(value)
         except ValueError:
-            raise Invalid(_('Invalid literal for float'), value, state)
+            raise formencode.api.Invalid(_('Invalid literal for float'), value, state)
         return value
 
 class FloatTime(Float):
@@ -117,12 +119,12 @@ class DateTime(BaseValidator):
         try:
             res = time.strptime(value, self.format)
         except ValueError:
-            raise Invalid(_('Invalid datetime format'), value, state)
+            raise formencode.api.Invalid(_('Invalid datetime format'), value, state)
         # return str instead of real datetime object
         try:
             return format.parse_datetime(value, kind=self.kind)
         except ValueError:
-            raise Invalid(_('Invalid datetime format'), value, state)
+            raise formencode.api.Invalid(_('Invalid datetime format'), value, state)
 
     def _from_python(self, value, state):
         return format.format_datetime(value, kind=self.kind)
@@ -165,11 +167,11 @@ class Binary(BaseValidator):
             if value.filename:
                 return base64.encodestring(value.file.read())
             elif self.not_empty:
-                raise Invalid(_('Please select a file.'), value, state)
+                raise formencode.api.Invalid(_('Please select a file.'), value, state)
 
         return self.if_empty
 
-class URL(URL):
+class URL(formencode.validators.URL):
 
     if_empty = False
     require_tld = False
@@ -189,7 +191,7 @@ class URL(URL):
     def _from_python(self, value, state):
         return value or ''
 
-class Email(Email):
+class Email(formencode.validators.Email):
     if_empty = False
     
     domainRE = re.compile(r'''
@@ -233,7 +235,7 @@ class many2one(BaseValidator):
 
         return value or ''
     
-class one2many(FancyValidator):
+class one2many(formencode.validators.FancyValidator):
     
     if_empty = []
 

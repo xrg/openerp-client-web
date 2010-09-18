@@ -36,6 +36,7 @@ from openerp.utils import rpc, common, TinyDict, TinyForm
 from openerp.widgets.form import generate_url_for_picture
 from error_page import _ep
 from openobject.tools import expose, redirect, validate, error_handler, exception_handler
+import openobject
 
 def make_domain(name, value, kind='char'):
     """A helper function to generate domain for the given name, value pair.
@@ -154,7 +155,7 @@ def get_validation_schema(self):
         if k not in kw:
             vals.pop(k)
 
-    form.validator = validators.Schema(**vals)
+    form.validator = openobject.validators.Schema(**vals)
     return form
 
 def default_error_handler(self, tg_errors=None, **kw):

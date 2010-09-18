@@ -36,6 +36,7 @@ from openerp.utils import rpc, icons, TinyDict
 import form
 from openobject.tools import expose, redirect, validate, error_handler
 from openobject import pooler
+import openobject
 
 class Wizard(SecuredController):
 
@@ -193,7 +194,7 @@ class Wizard(SecuredController):
             if k not in kw:
                 vals.pop(k)
 
-        form.validator = validators.Schema(**vals)
+        form.validator = openobject.validators.Schema(**vals)
         return form
 
     @expose()

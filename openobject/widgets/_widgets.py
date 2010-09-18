@@ -4,7 +4,7 @@ from _base import *
 from _resource import *
 from _utils import make_bunch
 
-from openobject import validators
+import formencode
 
 
 def name2label(name):
@@ -142,12 +142,12 @@ class ImageButton(Input):
 
 class CheckBox(Input):
     type = "checkbox"
-    validator = validators.Bool
+    validator = formencode.validators.Bool
     def update_params(self, d):
         super(CheckBox, self).update_params(d)
         try:
             checked = self.validator.to_python(d.value)
-        except Invalid:
+        except formencode.api.Invalid:
             checked = False
         d.attrs['checked'] = checked or None
 

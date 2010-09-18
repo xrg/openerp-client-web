@@ -26,13 +26,11 @@
 # You can see the MPL licence at: http://www.mozilla.org/MPL/MPL-1.1.html
 #
 ###############################################################################
+import formencode
 
-from formencode.validators import *
-from formencode.schema import Schema
-from formencode.foreach import ForEach
+__all__ = ['BaseValidator', 'DefaultValidator', 'Schema']
 
-
-class BaseValidator(FancyValidator):
+class BaseValidator(formencode.api.FancyValidator):
     pass
 
 
@@ -40,7 +38,7 @@ class DefaultValidator(BaseValidator):
     pass
 
 
-class Schema(Schema):
+class Schema(formencode.schema.Schema):
     """Modified Schema validator.
 
     A schema validates a dictionary of values, applying different validators
