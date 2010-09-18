@@ -95,17 +95,17 @@ class TinyCalendar(Form):
         form = self.create_form(params)
         return form.screen.widget.render()
 
-    @expose('json')
+    @expose('json', methods=('POST',))
     def delete(self, **kw):
 
         params, data = TinyDict.split(kw)
 
         error = None
-        
+
         ctx = rpc.session.context.copy()
         ctx.update(params.context or {})
         ctx = tools.context_with_concurrency_info(ctx, params.concurrency_info)
-        
+
         proxy = rpc.RPCProxy(params.model)
 
         try:
@@ -115,7 +115,7 @@ class TinyCalendar(Form):
 
         return dict(error=error)
 
-    @expose('json')
+    @expose('json', methods=('POST',))
     def save(self, **kw):
         params, data = TinyDict.split(kw)
 
@@ -218,7 +218,7 @@ class TinyCalendar(Form):
 
         return dict(records=records)
 
-    @expose('json')
+    @expose('json', methods=('POST',))
     def gantt_reorder(self, **kw):
         params, data = TinyDict.split(kw)
 

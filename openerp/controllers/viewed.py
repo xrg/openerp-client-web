@@ -405,7 +405,7 @@ class ViewEd(SecuredController):
 
         return dict(records=records)
 
-    @expose(template="templates/viewed_edit.mako")
+    @expose(template="templates/viewed_edit.mako", methods=('POST',))
     def edit(self, view_id, xpath_expr):
         view_id = int(view_id)
 
@@ -482,7 +482,7 @@ class ViewEd(SecuredController):
 
         return dict(view_id=view_id, xpath_expr=xpath_expr, nodes=nodes, fields=fields, model=model, positions=positions)
 
-    @expose('json')
+    @expose('json', methods=('POST',))
     def create_view(self, view_id=False, xpath_expr=None, **kw):
 
         view_id = int(view_id)
@@ -537,7 +537,7 @@ class ViewEd(SecuredController):
 
         return dict(record=record, error=error)
 
-    @expose('json')
+    @expose('json', methods=('POST',))
     def remove_view(self, view_id, **kw):
 
         view_id = int(view_id)
@@ -553,7 +553,7 @@ class ViewEd(SecuredController):
 
         return dict()
 
-    @expose('json')
+    @expose('json', methods=('POST',))
     def save(self, _terp_what, view_id, xpath_expr, **kw):
 
         view_id = int(view_id)
@@ -644,7 +644,7 @@ class ViewEd(SecuredController):
 
         return dict(record=record)
 
-    @expose()
+    @expose(methods=('POST',))
     def update_dashboard(self, view_id, dst, src, ref=None):
 
         error = None

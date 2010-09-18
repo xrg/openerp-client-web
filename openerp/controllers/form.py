@@ -936,7 +936,7 @@ class Form(SecuredController):
 
         return self.create(current)
 
-    @expose('json')
+    @expose('json', methods=('POST',))
     def on_change(self, **kw):
 
         data = kw.copy()

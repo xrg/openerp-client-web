@@ -95,7 +95,7 @@ class State(Form):
 
         return self.create(params)
 
-    @expose()
+    @expose(methods=('POST',))
     def delete(self, id, **kw):
 
         error_msg = None
@@ -162,7 +162,7 @@ class Connector(Form):
 
         return self.create(params)
 
-    @expose('json')
+    @expose('json', methods=('POST',))
     def delete(self, id, **kw):
 
         error_msg = None
@@ -174,7 +174,7 @@ class Connector(Form):
 
         return dict(error=error_msg)
 
-    @expose('json')
+    @expose('json', methods=('POST',))
     def auto_create(self, act_from, act_to, **kw):
 
         proxy_tr = rpc.RPCProxy('workflow.transition')
@@ -195,7 +195,7 @@ class Connector(Form):
 
         return dict(data=data[0])
 
-    @expose('json')
+    @expose('json', methods=('POST',))
     def change_ends(self, id, field, value):
 
         proxy_tr = rpc.RPCProxy('workflow.transition')

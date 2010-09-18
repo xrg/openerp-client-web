@@ -47,7 +47,7 @@ import wizard
 
 class List(SecuredController):
 
-    @expose('json')
+    @expose('json', methods=('POST',))
     def save(self, **kw):
         params, data = TinyDict.split(kw)
 
@@ -109,7 +109,7 @@ class List(SecuredController):
 
         return dict(error_field=error_field, error=error, id=id, ids=str([int(i) for i in ids]))
 
-    @expose('json')
+    @expose('json', methods=('POST',))
     def remove(self, **kw):
         params, data = TinyDict.split(kw)
         error = None
@@ -224,7 +224,7 @@ class List(SecuredController):
 
         return dict(error=error, result=result, reload=reload, wiz_result=wiz_result)
 
-    @expose('json')
+    @expose('json', methods=('POST',))
     def moveUp(self, **kw):
 
         params, data = TinyDict.split(kw)
@@ -257,7 +257,7 @@ class List(SecuredController):
         except Exception, e:
             return dict(error=str(e))
 
-    @expose('json')
+    @expose('json', methods=('POST',))
     def moveDown(self, **kw):
         params, data = TinyDict.split(kw)
 
