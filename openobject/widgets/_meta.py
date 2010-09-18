@@ -1,7 +1,5 @@
 import inspect
-from new import instancemethod
 
-from _utils import OrderedSet
 from openobject.tools import load_template
 
 
