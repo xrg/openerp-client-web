@@ -41,7 +41,7 @@ class ViewForm(Form):
 
     template = "templates/viewform.mako"
 
-    params = ['limit', 'offset', 'count', 'search_domain', 'search_data', 'filter_domain', 'notebook_tab', 'target']
+    params = ['limit', 'offset', 'count', 'search_domain', 'search_data', 'filter_domain', 'notebook_tab']
     member_widgets = ['screen', 'search', 'sidebar', 'logs']
 
     def __init__(self, params, **kw):
@@ -63,7 +63,7 @@ class ViewForm(Form):
             readonly = False
        
         self.is_dashboard = getattr(cherrypy.request, '_terp_dashboard', False)
-        self.target  = getattr(cherrypy.request, '_terp_view_target', '')
+        
         self.search = None
         search_param = params.search_domain or []
         if search_param:

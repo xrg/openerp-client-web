@@ -1,4 +1,4 @@
-<form method="post" id="${name}" name="${name}" action="${action}" target="${target}" enctype="multipart/form-data">
+<form method="post" id="${name}" name="${name}" action="${action}" enctype="multipart/form-data">
 
     <div>
         <input type="hidden" id="_terp_search_domain" name="_terp_search_domain" value="${search_domain}"/>
