@@ -95,7 +95,7 @@ class TinyCalendar(Form):
             calendar=ustr(form.screen.widget.render()),
             sidebar=ustr(form.sidebar.render()))
 
-    @expose('json')
+    @expose('json', methods=('POST',))
     def delete(self, **kw):
 
         params, data = TinyDict.split(kw)
@@ -115,7 +115,7 @@ class TinyCalendar(Form):
 
         return dict(error=error)
 
-    @expose('json')
+    @expose('json', methods=('POST',))
     def save(self, **kw):
         params, data = TinyDict.split(kw)
 
@@ -217,7 +217,7 @@ class TinyCalendar(Form):
 
         return dict(records=records)
 
-    @expose('json')
+    @expose('json', methods=('POST',))
     def gantt_reorder(self, **kw):
         params, data = TinyDict.split(kw)
 

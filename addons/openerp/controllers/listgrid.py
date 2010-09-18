@@ -39,7 +39,7 @@ class List(SecuredController):
 
     _cp_path = "/openerp/listgrid"
 
-    @expose('json')
+    @expose('json', methods=('POST',))
     def save(self, **kw):
         params, data = TinyDict.split(kw)
 
@@ -101,7 +101,7 @@ class List(SecuredController):
 
         return dict(error_field=error_field, error=error, id=id, ids=str([int(i) for i in ids]))
 
-    @expose('json')
+    @expose('json', methods=('POST',))
     def remove(self, **kw):
         params, data = TinyDict.split(kw)
         sc_ids = [i['id'] for i in cherrypy.session['terp_shortcuts']]
@@ -151,7 +151,7 @@ class List(SecuredController):
         listgrp = listgroup.MultipleGroup(name, model, view, ids=None, domain= domain, parent_group=parent_group, group_level=group_level, groups=groups, context=context, **args)
         return listgrp.render()
     
-    @expose('json')
+    @expose('json', methods=('POST',))
     def reload_graph(self, **kw):
         params, data = TinyDict.split(kw)
         view = cache.fields_view_get(params.model, params.view_id, 'graph',params.context)
@@ -167,7 +167,7 @@ class List(SecuredController):
         view=ustr(wid.render())
         return dict(view = view)
     
-    @expose('json')
+    @expose('json', methods=('POST',))
     def get(self, **kw):
         params, data = TinyDict.split(kw)
 
@@ -297,7 +297,7 @@ class List(SecuredController):
 
         return dict(error=error, result=result, reload=reload, wiz_result=wiz_result)    
 
-    @expose('json')
+    @expose('json', methods=('POST',))
     def groupbyDrag(self, model, children, domain):
         domain = ast.literal_eval(domain)[0]
         children = ast.literal_eval(children)
@@ -308,7 +308,7 @@ class List(SecuredController):
         rpc.RPCProxy(model).write(children, {domain[0]: domain[2]})
         return {}
 
-    @expose('json')
+    @expose('json', methods=('POST',))
     def dragRow(self, **kw):
         params, data = TinyDict.split(kw)
         id = params.id
@@ -364,7 +364,7 @@ class List(SecuredController):
 
         return dict(sum = total_sum)
 
-    @expose('json')
+    @expose('json', methods=('POST',))
     def moveUp(self, **kw):
 
         params, data = TinyDict.split(kw)
@@ -395,7 +395,7 @@ class List(SecuredController):
         except Exception, e:
             return dict(error=str(e))
 
-    @expose('json')
+    @expose('json', methods=('POST',))
     def moveDown(self, **kw):
         params, data = TinyDict.split(kw)
 

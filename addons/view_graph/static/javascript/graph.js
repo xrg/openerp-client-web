@@ -48,7 +48,7 @@ function reload_graph() {
             _terp_search_domain: openobject.dom.get('_terp_search_domain').value,
             _terp_search_data: openobject.dom.get('_terp_search_data').value,
             _terp_filter_domain: openobject.dom.get('_terp_filter_domain').value
-        });
+	});
     jQuery.ajax({
         url: '/openerp/listgrid/reload_graph',
         dataType: 'json',
@@ -58,7 +58,7 @@ function reload_graph() {
             jQuery('div.graph-block').replaceWith(obj.view);
             return;
         }
-    })
+    });
 }
 function onChartClick(path) {
 	openLink(path)

@@ -369,7 +369,7 @@ class Form(SecuredController):
         params.view_type = 'tree'
         return self.create(params)
 
-    @expose()
+    @expose(methods=('POST',))
     @validate(form=get_validation_schema)
     @error_handler(default_error_handler)
     @exception_handler(default_exception_handler)

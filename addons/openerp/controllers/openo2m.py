@@ -165,7 +165,7 @@ class OpenO2M(Form):
         params, data = TinyDict.split(kw)
         return self.create(params)
     
-    @expose('json')
+    @expose('json', methods=('POST',))
     def delete(self, model, id):
         error = False
         res=""

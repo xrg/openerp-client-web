@@ -87,7 +87,7 @@ class Attachment(SecuredController):
         }, ctx)
         return {'id': attachment_id, 'name': datas.filename}
 
-    @expose('json')
+    @expose('json', methods=('POST',))
     def remove(self, id=False, **kw):
         proxy = rpc.RPCProxy('ir.attachment')
         try:

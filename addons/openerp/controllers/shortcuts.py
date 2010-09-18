@@ -93,7 +93,7 @@ class Shortcuts(SecuredController):
 
         raise redirect('/openerp/tree/open', id=id, model='ir.ui.menu')
     
-    @expose()
+    @expose(methods=('POST',))
     def delete(self, id):
         id = int(id)
 

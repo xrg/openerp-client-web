@@ -95,7 +95,7 @@ class State(Form):
 
         return self.create(params)
 
-    @expose('json')
+    @expose('json', methods=('POST',))
     def delete(self, node_obj, id, **kw):
 
         error_msg = None
@@ -210,7 +210,7 @@ class Connector(Form):
 
         return self.create(params)
 
-    @expose('json')
+    @expose('json', methods=('POST',))
     def delete(self, conn_obj, id, **kw):
         error_msg = None
         proxy = rpc.RPCProxy(conn_obj)
@@ -257,7 +257,7 @@ class Connector(Form):
         
         return dict(data=data[0])
 
-    @expose('json')
+    @expose('json', methods=('POST',))
     def change_ends(self, conn_obj, id, field, value):
         proxy_tr = rpc.RPCProxy(conn_obj)
         proxy_tr.write([int(id)], {field: int(value)}, rpc.session.context)
