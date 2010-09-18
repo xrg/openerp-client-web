@@ -1,7 +1,5 @@
 import inspect
 
-from openobject.tools import load_template
-
 
 class WidgetType(type):
 
@@ -9,9 +7,6 @@ class WidgetType(type):
 
         _frozenset_from_bases(attrs, bases, 'params')
         _frozenset_from_bases(attrs, bases, 'member_widgets')
-
-        if attrs.get('template'):
-            attrs['template_c'] = load_template(attrs['template'], attrs['__module__'])
 
         if '__init__' in attrs:
             attrs['__init__'] = post_init(attrs['__init__'])

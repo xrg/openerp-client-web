@@ -191,7 +191,9 @@ class Widget(object):
 
         d['css_class'] = ' '.join(set([d['css_class'] or ''] + d['css_classes']))
 
-        return tools.render_template(self.template_c, d)
+        return tools.render_template(
+                tools.load_template(
+                    self.template, self.__module__), d)
 
     def render(self, value=None, **params):
         return self.display(value, **params)

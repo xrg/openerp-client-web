@@ -174,11 +174,7 @@ def expose(format='html', template=None, content_type=None, allow_json=False, me
         methods = tuple([m.upper() for m in methods])
 
     def expose_wrapper(func):
-
-        template_c = load_template(template, func.__module__)
-
         def func_wrapper(*args, **kw):
-
             if methods and cherrypy.request.method.upper() not in methods:
                 raise cherrypy.HTTPError(405)
 
@@ -196,7 +192,7 @@ def expose(format='html', template=None, content_type=None, allow_json=False, me
                 try:
                     _template = load_template(res['cp_template'], func.__module__)
                 except:
-                    _template = template_c
+                    _template = load_template(template, func.__module__)
 
                 if _template:
 
