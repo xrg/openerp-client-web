@@ -261,10 +261,15 @@ function submit_form(action, src, target) {
     };
 
     var $form = jQuery('#view_form');
-    if (target == "new" || target == "_blank") {
-        $form.attr('target', '_blank');
-    } else {
-        $form.attr('target', '');
+    
+    var form_target = $form.attr('target');
+    if (form_target != '' && form_target!='new') {
+        if (target == "new" || target == "_blank") {
+            $form.attr('target', '_blank');
+        }
+        else {
+            $form.attr('target', '');
+        }
     }
 
     if (action == 'save_and_edit') {
@@ -277,7 +282,7 @@ function submit_form(action, src, target) {
     if (/\/save(\?|\/)?/.test(action) && !validate_required($form.get(0))) {
         return;
     }
-
+    
     // Cant use $form.attr due to http://dev.jquery.com/ticket/3113 as there is a form with a field called
     // action when creating an activity
     $form.get(0).setAttribute('action', action);
