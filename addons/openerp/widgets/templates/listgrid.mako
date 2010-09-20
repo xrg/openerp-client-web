@@ -201,14 +201,11 @@
                                 % endif
                                 % for (field, field_attrs) in headers:
                                     % if field == 'button':
-                                        <th class="grid-cell"></th>
+                                        <th class="grid-cell"><div style="width: 0;"></div></th>
                                     % else:
                                         <th id="grid-data-column/${(name != '_terp_list' or None) and (name + '/')}${field}" class="grid-cell ${field_attrs.get('type', 'char')}" kind="${field_attrs.get('type', 'char')}" style="cursor: pointer;" onclick="new ListView('${name}').sort_by_order('${field}', this)">${field_attrs['string']}</th>
                                     % endif
                                 % endfor
-                                % if buttons:
-                                    <th class="grid-cell"><div style="width: 0;"></div></th>
-                                % endif
                                 % if editable:
                                     <th class="grid-cell selector"><div style="width: 0;"></div></th>
                                 % endif
