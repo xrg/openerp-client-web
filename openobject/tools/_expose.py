@@ -212,6 +212,12 @@ def expose(format='html', template=None, content_type=None, allow_json=False, me
             if format == 'json' or (allow_json and 'allow_json' in cherrypy.request.params):
                 cherrypy.response.headers['Content-Type'] = 'text/javascript'
                 return simplejson.dumps(res)
+            elif format == 'jsonp' and 'callback' in cherrypy.request.params:
+                cherrypy.response.headers['Content-Type'] = 'text/javascript'
+                return '%(function)s(%(data)s);' % {
+                        'function': cherrypy.request.params['callback'],
+                        'data': simplejson.dumps(res)
+                    } 
 
             cherrypy.response.headers['Content-Type'] = content_type or \
             cherrypy.response.headers.get('Content-Type', 'text/html')
