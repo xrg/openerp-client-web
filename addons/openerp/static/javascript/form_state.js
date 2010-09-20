@@ -146,7 +146,7 @@ function form_hookAttrChange() {
     });
 
     for(var field in fields) {
-        jQuery(field).trigger('onAttrChange');
+        jQuery('[id="'+field+'"]').trigger('onAttrChange');
     }
 }
 
