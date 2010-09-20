@@ -13,22 +13,21 @@ class Root(BaseController):
 
     @expose()
     def default(self, *args, **kw):
-        
         try:
             obj = pooler.get_pool().get_controller("/openerp/modules")
             module_list = obj.get_installed_modules()
         except Exception, e:
             module_list = []
             pass
-        
+
         if module_list:
             pooler.restart_pool()
-            
+
         request = cherrypy.request
         func, vpath = self.find_handler()
-                
+
         if func:
-            # Decode any leftover %2F in the virtual_path atoms.
+        # Decode any leftover %2F in the virtual_path atoms.
             vpath = [x.replace("%2F", "/") for x in vpath]
             request.handler = cherrypy.dispatch.LateParamPageHandler(func, *vpath)
         else:
@@ -37,11 +36,9 @@ class Root(BaseController):
         return request.handler()
 
     def find_handler(self):
-
         request = cherrypy.request
         path = request.path_info
-        app = request.app
-        
+
         pool = request.pool = pooler.get_pool()
 
         names = [x for x in path.strip("/").split("/") if x] + ["index"]
@@ -63,18 +60,17 @@ class Root(BaseController):
         # Try successive objects (reverse order)
         num_candidates = len(trail) - 1
         for i in xrange(num_candidates, -1, -1):
-            
             curpath, candidate = trail[i]
             if candidate is None:
                 continue
-                        
+
             # Try a "default" method on the current leaf.
             if hasattr(candidate, "default"):
                 defhandler = candidate.default
                 if getattr(defhandler, 'exposed', False):
                     request.is_index = path.endswith("/")
                     return defhandler, names[i:-1]
-                    
+
             # Try the current leaf.
             if getattr(candidate, 'exposed', False):
                 if i == num_candidates:
