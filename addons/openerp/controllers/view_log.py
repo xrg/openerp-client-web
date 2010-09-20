@@ -47,7 +47,7 @@ class View_Log(SecuredController):
         ('level', _('Access Level'))
     ]
 
-    @expose(template="templates/view_log.mako")
+    @expose(template="/openerp/controllers/templates/view_log.mako")
     def index(self, id=None, model=None):
 
         values = {}

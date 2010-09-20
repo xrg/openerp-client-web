@@ -35,7 +35,7 @@ from openobject.widgets import JSLink
 
 class TreeGrid(TinyWidget):
 
-    template = "templates/treegrid.mako"
+    template = "/openerp/widgets/templates/treegrid.mako"
     params = ['headers', 'showheaders', 'expandall', 'linktarget',
     'onselection', 'onbuttonclick', 'onheaderclick', 'url', 'url_params']
 

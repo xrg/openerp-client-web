@@ -38,7 +38,7 @@ class Search(Form):
 
     _cp_path = "/openerp/search"
 
-    @expose(template="templates/search.mako")
+    @expose(template="/openerp/controllers/templates/search.mako")
     def create(self, params, tg_errors=None):
 
         params.view_mode = ['tree', 'form']
@@ -351,7 +351,7 @@ class Search(Form):
 
         return actions.execute(act, context=rpc.session.context)
 
-    @expose(template="templates/save_filter.mako")
+    @expose(template="/openerp/controllers/templates/save_filter.mako")
     def save_filter(self, **kw):
         model = kw.get('model')
         domain = kw.get('domain')

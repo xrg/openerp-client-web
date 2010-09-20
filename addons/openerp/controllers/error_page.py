@@ -54,7 +54,7 @@ class ErrorPage(BaseController):
 
         return self.__render(value)
 
-    @expose(template="templates/error_page.mako")
+    @expose(template="/openerp/controllers/templates/error_page.mako")
     def __render(self, value):
 
         maintenance = None

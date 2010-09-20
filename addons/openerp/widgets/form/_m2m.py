@@ -50,7 +50,7 @@ __all__ = ["M2M"]
 
 class M2M(TinyInputWidget):
 
-    template = "templates/many2many.mako"
+    template = "/openerp/widgets/form/templates/many2many.mako"
     params = ['relation', 'domain', 'context']
     member_widgets = ['screen']
 

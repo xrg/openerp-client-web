@@ -40,7 +40,7 @@ __all__ = ["CKEditor"]
 
 class CKEditor(TinyInputWidget):
 
-    template = "templates/ckeditor.mako"
+    template = "/widget_ckeditor/widgets/templates/ckeditor.mako"
     
     javascript = [JSLink("widget_ckeditor", "javascript/ck_editor/ckeditor.js")]
 

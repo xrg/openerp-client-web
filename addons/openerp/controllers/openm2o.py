@@ -38,7 +38,7 @@ class OpenM2O(Form):
 
     _cp_path = "/openerp/openm2o"
 
-    @expose(template="templates/openm2o.mako")
+    @expose(template="/openerp/controllers/templates/openm2o.mako")
     def create(self, params, tg_errors=None):
 
         params.editable = params.get('_terp_editable', True)

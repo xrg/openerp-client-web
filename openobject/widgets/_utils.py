@@ -1,9 +1,3 @@
-import re
-import collections
-
-from openobject import tools
-
-
 class Enum(set):
 
     def __getattr__(self, name):
@@ -14,11 +8,10 @@ class Enum(set):
 
 class OrderedSet(set):
 
-    def __init__(self, iterable=[]):
+    def __init__(self, iterable=None):
+        self._items = []
 
-        self._items = items = []
-
-        for item in iterable:
+        for item in (iterable or []):
             self.add(item)
 
     def __contains__(self, value):
@@ -35,7 +28,7 @@ class OrderedSet(set):
             self._items.append(value)
 
     def add_all(self, values):
-        [self.add(value) for value in values]
+        for value in values: self.add(value)
 
     def discard(self, value):
         if value in self._items:

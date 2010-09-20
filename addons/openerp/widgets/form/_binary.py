@@ -49,7 +49,7 @@ __all__ = ["Binary", "Image", "Picture", "get_temp_file", "generate_url_for_pict
 
 class Binary(TinyInputWidget):
 
-    template = "templates/binary.mako"
+    template = "/openerp/widgets/form/templates/binary.mako"
     params = ["name", "text", "readonly", "filename"]
 
     text = None
@@ -72,7 +72,7 @@ register_widget(Binary, ["binary"])
 
 class Image(TinyInputWidget):
 
-    template = "templates/image.mako"
+    template = "/openerp/widgets/form/templates/image.mako"
 
     params = ["src", "width", "height", "model", "id", "field", "stock", 'img_size']
     src = ""

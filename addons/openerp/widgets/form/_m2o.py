@@ -40,7 +40,7 @@ __all__ = ["M2O"]
 
 
 class M2O(TinyInputWidget):
-    template = "templates/many2one.mako"
+    template = "/openerp/widgets/form/templates/many2one.mako"
     params=['relation', 'text', 'domain', 'context', 'link', 'readonly', 'default_focus']
 
     domain = []

@@ -26,17 +26,22 @@
 # You can see the MPL licence at: http://www.mozilla.org/MPL/MPL-1.1.html
 #
 ###############################################################################
-from operator import itemgetter
-
 from openerp.utils import rpc
-
 from openerp.widgets import TinyWidget
 
 
 class Sidebar(TinyWidget):
 
-    template = "templates/sidebar.mako"
+    template = "/openerp/widgets/templates/sidebar.mako"
     params = ['reports', 'actions', 'relates', 'attachments', 'sub_menu', 'view_type', 'model', 'id', 'ctx']
+
+    def add_remote_action_values(self, action_type, current_actions):
+        actions = rpc.RPCProxy('ir.values').get(
+            'action', action_type, [(self.model, False)], False, self.context)
+        for action in [a[-1] for a in actions]:
+            if action['id'] not in [a['id'] for a in current_actions]:
+                action['context'] = self.context
+                current_actions.append(action)
 
     def __init__(self, model, submenu=None, toolbar=None, id=None, view_type="form", multi=True, context=None, **kw):
         super(Sidebar, self).__init__(model=model, id=id)
@@ -53,29 +58,13 @@ class Sidebar(TinyWidget):
         self.attachments = []
         self.sub_menu = None
                     
-        values = rpc.RPCProxy('ir.values')
-
-        act = 'client_action_multi'
+        action = 'client_action_multi'
         if self.view_type == 'form':
-            act = 'tree_but_action'
+            action = 'tree_but_action'
+        self.add_remote_action_values(action, self.actions)
 
-        actions = values.get('action', act, [(self.model, False)], False, self.context)
-        actions = [a[-1] for a in actions]
-        
-        action_ids = [a['id'] for a in self.actions]
-        for act in actions:
-            if act['id'] not in action_ids:
-                act['context'] = self.context
-                self.actions.append(act)
-        reports = values.get('action', 'client_print_multi', [(self.model, False)], False, self.context)
-        reports = [a[-1] for a in reports]
-        
-        report_ids = [a['id'] for a in self.reports]
-        for rep in reports:
-            if rep['id'] not in report_ids:
-                rep['context'] = self.context
-                self.reports.append(rep)
-                
+        self.add_remote_action_values('client_print_multi', self.reports)
+
         if self.view_type == 'form' and id:
             attachments = rpc.RPCProxy('ir.attachment')
             attachment_ids = attachments.search(

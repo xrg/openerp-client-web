@@ -101,7 +101,7 @@ class OpenO2M(Form):
 
         return form
 
-    @expose(template="templates/openo2m.mako")
+    @expose(template="/openerp/controllers/templates/openo2m.mako")
     def create(self, params, tg_errors=None):
 
         if tg_errors:

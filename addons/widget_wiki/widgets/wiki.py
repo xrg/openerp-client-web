@@ -199,7 +199,7 @@ def wiki2html(text, showToc, id):
     return p.parse(text, id)
 
 class WikiWidget(Text):
-    template = "templates/wiki.mako"
+    template = "/widget_wiki/widgets/templates/wiki.mako"
 
     params = ["data"]
 

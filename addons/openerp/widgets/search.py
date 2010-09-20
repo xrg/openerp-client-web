@@ -83,7 +83,7 @@ def get_search_default(attrs={}, screen_context=None, default_domain=[]):
     return default_search or default_val
 
 class RangeWidget(TinyInputWidget):
-    template = "templates/rangewid.mako"
+    template = "/openerp/widgets/templates/rangewid.mako"
 
     params = ["field_value"]
     member_widgets = ["from_field", "to_field"]
@@ -119,7 +119,7 @@ class RangeWidget(TinyInputWidget):
         self.to_field.set_value(end)
 
 class Filter(TinyInputWidget):
-    template = "templates/filter.mako"
+    template = "/openerp/widgets/templates/filter.mako"
 
     params = ['icon', 'filter_domain', 'help', 'filter_id', 'text_val', 'group_context', 'def_checked', 'filter_context']
 
@@ -217,7 +217,7 @@ class M2O_search(M2O):
         super(M2O_search, self).__init__(**attrs)
 
 class Search(TinyInputWidget):
-    template = "templates/search.mako"
+    template = "/openerp/widgets/templates/search.mako"
     javascript = [JSLink("openerp", "javascript/search.js", location=locations.bodytop)]
 
     params = ['fields_type', 'filters_list', 'operators_map', 'fields_list', 'filter_domain', 'flt_domain', 'source']

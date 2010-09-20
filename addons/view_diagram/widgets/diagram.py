@@ -35,7 +35,7 @@ from openerp.widgets import TinyWidget
 
 class Diagram(TinyWidget):
     
-    template = "templates/diagram.mako"
+    template = "/view_diagram/widgets/templates/diagram.mako"
     member_widgets = []
     
     params = ['dia_id', 'node', 'connector', 'src_node', 'des_node', 'node_flds', 'conn_flds', 'bgcolor', 'shapes']

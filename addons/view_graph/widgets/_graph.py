@@ -68,7 +68,7 @@ def choice_colors(n):
 
 class Graph(TinyWidget):
 
-    template = "templates/graph.mako"
+    template = "/view_graph/widgets/templates/graph.mako"
     javascript = [
         JSLink("view_graph", "javascript/swfobject.js"),
         JSLink("view_graph", "javascript/graph.js")]

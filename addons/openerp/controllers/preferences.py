@@ -38,7 +38,7 @@ class Preferences(Form):
 
     _cp_path = "/openerp/pref"
 
-    @expose(template="templates/preferences.mako")
+    @expose(template="/openerp/controllers/templates/preferences.mako")
     def create(self):
 
         tg_errors = None

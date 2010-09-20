@@ -40,7 +40,7 @@ class Image(SecuredController):
 
     _cp_path = "/openerp/image"
 
-    @expose(template="templates/image.mako")
+    @expose(template="/openerp/controllers/templates/image.mako")
     def index(self, **kw):
 
         saved = kw.get('saved') or None
@@ -74,7 +74,7 @@ class Image(SecuredController):
             raise cherrypy.HTTPError(404)
         return data
 
-    @expose(template="templates/image.mako", methods=('POST',))
+    @expose(template="/openerp/controllers/templates/image.mako", methods=('POST',))
     def add(self, upimage,  **kw):
 
         saved = kw.get('saved') or None
@@ -97,7 +97,7 @@ class Image(SecuredController):
 
         return dict(model=model, saved=saved, id=id, field=field)
 
-    @expose(template="templates/image.mako")
+    @expose(template="/openerp/controllers/templates/image.mako")
     def delete(self, **kw):
 
         saved = None

@@ -26,15 +26,10 @@
 # You can see the MPL licence at: http://www.mozilla.org/MPL/MPL-1.1.html
 #
 ###############################################################################
-
-import os
-import re
 import copy
 import cPickle
 
 import cherrypy
-
-from gettext import translation
 
 import rpc
 

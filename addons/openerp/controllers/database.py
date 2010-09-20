@@ -139,7 +139,7 @@ class Database(BaseController):
         self.msg = {}
         raise redirect('/openerp/database/create')
 
-    @expose(template="templates/database.mako")
+    @expose(template="/openerp/controllers/templates/database.mako")
     def create(self, tg_errors=None, **kw):
 
         error = self.msg
@@ -194,7 +194,7 @@ class Database(BaseController):
             raise redirect('/openerp/menu', {'next': '/openerp/home'})
         raise redirect('/openerp/login', db=dbname)
 
-    @expose(template="templates/database.mako")
+    @expose(template="/openerp/controllers/templates/database.mako")
     def drop(self, tg_errors=None, **kw):
         form = _FORMS['drop']
         error = self.msg
@@ -217,7 +217,7 @@ class Database(BaseController):
 
         raise redirect("/openerp/database/drop")
 
-    @expose(template="templates/database.mako")
+    @expose(template="/openerp/controllers/templates/database.mako")
     def backup(self, tg_errors=None, **kw):
         form = _FORMS['backup']
         error = self.msg
@@ -240,7 +240,7 @@ class Database(BaseController):
             raise redirect('/openerp/database/backup')
         raise redirect('/openerp/login')
 
-    @expose(template="templates/database.mako")
+    @expose(template="/openerp/controllers/templates/database.mako")
     def restore(self, tg_errors=None, **kw):
         form = _FORMS['restore']
         error = self.msg
@@ -264,7 +264,7 @@ class Database(BaseController):
                 raise redirect('/openerp/database/restore')
         raise redirect('/openerp/login', db=dbname)
 
-    @expose(template="templates/database.mako")
+    @expose(template="/openerp/controllers/templates/database.mako")
     def password(self, tg_errors=None, **kw):
         form = _FORMS['password']
         error = self.msg

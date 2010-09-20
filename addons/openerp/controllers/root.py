@@ -99,7 +99,7 @@ class Root(SecuredController):
     </html>
     """ % (url("/openerp/static/images/loading.gif"))
 
-    @expose(template="templates/menu.mako")
+    @expose(template="/openerp/controllers/templates/menu.mako")
     def menu(self, active=None, next=None):
         from openerp.utils import icons
         from openerp.widgets import tree_view
@@ -159,7 +159,7 @@ class Root(SecuredController):
 
         if style in ('ajax', 'ajax_small'):
             return dict(db=db, user=user, password=password, location=location,
-                    style=style, cp_template="templates/login_ajax.mako")
+                    style=style, cp_template="/openerp/controllers/templates/login_ajax.mako")
 
         return tiny_login(target=location, db=db, user=user, password=password, action="login")
 
@@ -171,7 +171,7 @@ class Root(SecuredController):
         rpc.session.logout()
         raise redirect('/openerp')
 
-    @expose(template="templates/about.mako")
+    @expose(template="/openerp/controllers/templates/about.mako")
     @unsecured
     def about(self):
         from openobject import release
