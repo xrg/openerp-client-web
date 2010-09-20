@@ -93,12 +93,12 @@
 		                    <span>${rpc.session.protocol}://${_("%(user)s", user=rpc.session.loginname)}@${rpc.session.host}:${rpc.session.port}</span>
 		                </p>
 		                <p class="powered">${_("Powered by %(openerp)s ",
-		                					openerp="""<a href="http://www.openerp.com/">openerp.com</a>""")|n}</p>
+		                					openerp="""<a target="_blank" href="http://www.openerp.com/">openerp.com</a>""")|n}</p>
 		            </div>
 		        % else:
 		        	<div class="footer-b">
 		                <p class="powered">${_("Powered by %(openerp)s ",
-		                					openerp="""<a href="http://www.openerp.com/">openerp.com</a>""")|n}</p>
+		                					openerp="""<a target="_blank" href="http://www.openerp.com/">openerp.com</a>""")|n}</p>
 		            </div>
 		        % endif
         </div>
