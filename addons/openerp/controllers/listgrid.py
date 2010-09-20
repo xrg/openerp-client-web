@@ -157,6 +157,8 @@ class List(SecuredController):
         view = cache.fields_view_get(params.model, params.view_id, 'graph',params.context)
         if params.domain is None:
             params.domain = []
+        if params.search_domain:
+            params.domain.extend(params.search_domain)
         from view_graph.widgets import _graph
         wid = _graph.Graph(model=params.model,
               view=view,
