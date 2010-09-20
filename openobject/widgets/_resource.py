@@ -1,7 +1,4 @@
 import os
-import uuid
-
-import cherrypy
 
 import openobject
 from _base import Widget
