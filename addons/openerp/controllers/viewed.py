@@ -56,7 +56,7 @@ class NewField(Form):
 
         return form
 
-    @expose(template="templates/viewed_new.mako")
+    @expose(template="/openerp/controllers/templates/viewed_new.mako")
     def create(self, params, tg_errors=None):
 
         params.editable = True
@@ -82,7 +82,7 @@ class NewModel(Form):
 
     _cp_path = "/openerp/viewed/new_model"
 
-    @expose(template="templates/viewed_new_model.mako")
+    @expose(template="/openerp/controllers/templates/viewed_new_model.mako")
     def create(self, params, tg_errors=None):
 
         params.editable = True
@@ -112,7 +112,7 @@ class Preview(Form):
 
     _cp_path = "/openerp/viewed/preview"
 
-    @expose(template="templates/viewed_preview.mako")
+    @expose(template="/openerp/controllers/templates/viewed_preview.mako")
     def create(self, params, tg_errors=None):
         form = self.create_form(params, tg_errors)
         return dict(form=form)
@@ -215,7 +215,7 @@ class ViewEd(SecuredController):
 
     _cp_path = "/openerp/viewed"
 
-    @expose(template="templates/viewed.mako")
+    @expose(template="/openerp/controllers/templates/viewed.mako")
     def default(self, view_id):
 
         try:
@@ -384,7 +384,7 @@ class ViewEd(SecuredController):
 
         return dict(records=records)
 
-    @expose(template="templates/viewed_edit.mako")
+    @expose(template="/openerp/controllers/templates/viewed_edit.mako")
     def edit(self, view_id, xpath_expr):
         view_id = int(view_id)
 
@@ -432,7 +432,7 @@ class ViewEd(SecuredController):
 
         return dict(view_id=view_id, xpath_expr=xpath_expr, editors=editors)
 
-    @expose(template="templates/viewed_add.mako")
+    @expose(template="/openerp/controllers/templates/viewed_add.mako")
     def add(self, view_id, xpath_expr):
         view_id = int(view_id)
 

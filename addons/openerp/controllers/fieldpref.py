@@ -35,7 +35,7 @@ class FieldPref(SecuredController):
 
     _cp_path = "/openerp/fieldpref"
 
-    @expose(template="templates/fieldpref.mako")
+    @expose(template="/openerp/controllers/templates/fieldpref.mako")
     def index(self, **kw): #_terp_model, _terp_field, _terp_deps
 
         click_ok = None
@@ -69,7 +69,7 @@ class FieldPref(SecuredController):
 
         return dict(text=text, deps=str(deps))
 
-    @expose(template="templates/fieldpref.mako")
+    @expose(template="/openerp/controllers/templates/fieldpref.mako")
     def save(self, **kw):
         params, data = TinyDict.split(kw)
 

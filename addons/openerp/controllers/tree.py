@@ -59,7 +59,7 @@ FORMATTERS = {
 class Tree(SecuredController):
     _cp_path = "/openerp/tree"
 
-    @expose(template="templates/tree.mako")
+    @expose(template="/openerp/controllers/templates/tree.mako")
     def create(self, params):
         view_id = (params.view_ids or False) and params.view_ids[0]
         domain = params.domain

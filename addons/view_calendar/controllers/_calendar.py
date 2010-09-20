@@ -264,7 +264,7 @@ class CalendarPopup(Form):
 
     _cp_path = "/view_calendar/calpopup"
 
-    @expose(template="templates/calpopup.mako")
+    @expose(template="/view_calendar/controllers/templates/calpopup.mako")
     def create(self, params, tg_errors=None):
         params.editable = True
 

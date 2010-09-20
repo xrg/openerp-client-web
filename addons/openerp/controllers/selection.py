@@ -36,7 +36,7 @@ class Selection(SecuredController):
 
     _cp_path = "/openerp/selection"
 
-    @expose(template="templates/selection.mako")
+    @expose(template="/openerp/controllers/templates/selection.mako")
     def create(self, values, **data):
         return dict(values=values, data=data)
 

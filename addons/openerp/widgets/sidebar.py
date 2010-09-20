@@ -32,7 +32,7 @@ from openerp.widgets import TinyWidget
 
 class Sidebar(TinyWidget):
 
-    template = "templates/sidebar.mako"
+    template = "/openerp/widgets/templates/sidebar.mako"
     params = ['reports', 'actions', 'relates', 'attachments', 'sub_menu', 'view_type', 'model', 'id', 'ctx']
 
     def add_remote_action_values(self, action_type, current_actions):

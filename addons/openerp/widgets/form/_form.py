@@ -51,7 +51,7 @@ class Frame(TinyWidget):
     """Frame widget layouts the widgets in a table.
     """
 
-    template = "templates/frame.mako"
+    template = "/openerp/widgets/form/templates/frame.mako"
 
     params = ['table']
     member_widgets = ['hiddens', 'children']
@@ -255,7 +255,7 @@ class Notebook(TinyWidget):
     page of the the Notebook.
     """
 
-    template = "templates/notebook.mako"
+    template = "/openerp/widgets/form/templates/notebook.mako"
 
     javascript = [JSLink("openerp", "javascript/notebook/notebook.js")]
 
@@ -289,7 +289,7 @@ class Separator(TinyWidget):
     """Separator widget.
     """
 
-    template = "templates/separator.mako"
+    template = "/openerp/widgets/form/templates/separator.mako"
     params = ["orientation"]
 
     def __init__(self, **attrs):
@@ -349,7 +349,7 @@ register_widget(Label, ["label"])
 
 class Char(TinyInputWidget):
 
-    template = "templates/char.mako"
+    template = "/openerp/widgets/form/templates/char.mako"
     params = ['password', 'size']
 
     def __init__(self, **attrs):
@@ -367,7 +367,7 @@ register_widget(Char, ["char"])
 
 
 class Email(TinyInputWidget):
-    template = "templates/email.mako"
+    template = "/openerp/widgets/form/templates/email.mako"
 
     def __init__(self, **attrs):
         super(Email, self).__init__(**attrs)
@@ -381,7 +381,7 @@ register_widget(Email, ["email"])
 
 
 class Text(TinyInputWidget):
-    template = "templates/text.mako"
+    template = "/openerp/widgets/form/templates/text.mako"
 
     def __init__(self, **attrs):
         super(Text, self).__init__(**attrs)
@@ -394,7 +394,7 @@ register_widget(Text, ["text", "text_tag"])
 
 
 class Integer(TinyInputWidget):
-    template = "templates/integer.mako"
+    template = "/openerp/widgets/form/templates/integer.mako"
 
     def __init__(self, **attrs):
         super(Integer, self).__init__(**attrs)
@@ -407,7 +407,7 @@ register_widget(Integer, ["integer"])
 
 
 class Boolean(TinyInputWidget):
-    template = "templates/boolean.mako"
+    template = "/openerp/widgets/form/templates/boolean.mako"
 
     def __init__(self, **attrs):
         super(Boolean, self).__init__(**attrs)
@@ -420,7 +420,7 @@ register_widget(Boolean, ["boolean"])
 
 
 class Float(TinyInputWidget):
-    template = "templates/float.mako"
+    template = "/openerp/widgets/form/templates/float.mako"
 
     def __init__(self, **attrs):
         super(Float, self).__init__(**attrs)
@@ -443,7 +443,7 @@ register_widget(Float, ["float"])
 
 
 class FloatTime(TinyInputWidget):
-    template = "templates/floattime.mako"
+    template = "/openerp/widgets/form/templates/floattime.mako"
 
     def __init__(self, **attrs):
         super(FloatTime, self).__init__(**attrs)
@@ -456,7 +456,7 @@ register_widget(FloatTime, ["float_time"])
 
 
 class ProgressBar(TinyInputWidget):
-    template = "templates/progressbar.mako"
+    template = "/openerp/widgets/form/templates/progressbar.mako"
 
     def __init__(self, **attrs):
         super(ProgressBar, self).__init__(**attrs)
@@ -473,7 +473,7 @@ register_widget(ProgressBar, ["progressbar"])
 
 
 class Selection(TinyInputWidget):
-    template = "templates/selection.mako"
+    template = "/openerp/widgets/form/templates/selection.mako"
 
     params = ['options', 'search_context']
     options = []
@@ -549,7 +549,7 @@ class DTLink(JSLink):
 
 class DateTime(TinyInputWidget):
 
-    template = "templates/datetime.mako"
+    template = "/openerp/widgets/form/templates/datetime.mako"
 
     javascript = [DTLink("openerp", "jscal/lang/calendar-en.js", location=locations.bodytop)]
 
@@ -574,7 +574,7 @@ register_widget(DateTime, ["date", "time", "datetime"])
 
 
 class URL(TinyInputWidget):
-    template = "templates/url.mako"
+    template = "/openerp/widgets/form/templates/url.mako"
 
     def __init__(self, **attrs):
         super(URL, self).__init__(**attrs)
@@ -588,7 +588,7 @@ register_widget(URL, ["url"])
 
 
 class Hidden(TinyInputWidget):
-    template = "templates/hidden.mako"
+    template = "/openerp/widgets/form/templates/hidden.mako"
 
     params = ['relation', 'field_id']
     member_widgets = ['widget']
@@ -610,7 +610,7 @@ class Hidden(TinyInputWidget):
 
 class Button(TinyInputWidget):
 
-    template = "templates/button.mako"
+    template = "/openerp/widgets/form/templates/button.mako"
     params = ["btype", "id", "confirm", "icon", "target", "context", "default_focus"]
 
     visible = True
@@ -641,7 +641,7 @@ register_widget(Button, ["button"])
 
 class Group(TinyWidget):
 
-    template = "templates/group.mako"
+    template = "/openerp/widgets/form/templates/group.mako"
     params = ["expand_grp_id", "default", "view_type"]
     member_widgets = ["frame"]
     valign = "top"
@@ -663,13 +663,13 @@ class FiltersGroup(Group):
     """ Special group for groups of *filters*, in order to generate
     the right markup and style the buttons correctly.
     """
-    template = "templates/filters_group.mako"
+    template = "/openerp/widgets/form/templates/filters_group.mako"
 register_widget(FiltersGroup, ["filters_group"])
 
 
 class Dashbar(TinyWidget):
 
-    template = "templates/dashbar.mako"
+    template = "/openerp/widgets/form/templates/dashbar.mako"
 
     javascript = [JSLink("openerp", "javascript/dashboard.js")]
 
@@ -725,7 +725,7 @@ register_widget(VPaned, ["vpaned"])
 
 class HtmlView(TinyWidget):
 
-    template = "templates/htmlview.mako"
+    template = "/openerp/widgets/form/templates/htmlview.mako"
 
     params = ['tag_name', 'args']
     member_widgets = ['children', 'frame']

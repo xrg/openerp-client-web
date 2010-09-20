@@ -407,6 +407,6 @@ def execute_by_keyword(keyword, adds=None, **data):
         return Selection().create(keyact, **data)
 
 
-@tools.expose(template="templates/closepopup.mako")
+@tools.expose(template="/openerp/controllers/templates/closepopup.mako")
 def close_popup(*args, **kw):
     return dict()

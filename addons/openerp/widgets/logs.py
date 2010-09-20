@@ -33,7 +33,7 @@ from openerp.widgets import TinyInputWidget
 
 class Logs(TinyInputWidget):
     
-    template="templates/logs.mako"
+    template="/openerp/widgets/templates/logs.mako"
     params=["logs"]
     
     def __init__(self, **kw):

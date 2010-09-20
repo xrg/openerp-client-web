@@ -31,7 +31,7 @@ from openerp.widgets import TinyWidget
 
 class Pager(TinyWidget):
 
-    template = "templates/pager.mako"
+    template = "/openerp/widgets/templates/pager.mako"
     params = ['offset', 'limit', 'count', 'prev', 'next', 'page_info', 'pager_id', 'pager_options']
 
     page_info = None

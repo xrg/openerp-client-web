@@ -38,7 +38,7 @@ class State(Form):
 
     _cp_path = "/view_diagram/workflow/state"
 
-    @expose(template="templates/wkf_popup.mako")
+    @expose(template="/view_diagram/controllers/templates/wkf_popup.mako")
     def create(self, params, tg_errors=None):
         
         params.path = self.path
@@ -154,7 +154,7 @@ class Connector(Form):
 
     _cp_path = "/view_diagram/workflow/connector"
 
-    @expose(template="templates/wkf_popup.mako")
+    @expose(template="/view_diagram/controllers/templates/wkf_popup.mako")
     def create(self, params, tg_errors=None):
 
         params.path = self.path
@@ -268,7 +268,7 @@ class Workflow(Form):
 
     _cp_path = "/view_diagram/workflow"
 
-    @expose(template="templates/workflow.mako")
+    @expose(template="/view_diagram/controllers/templates/workflow.mako")
     def index(self, model, rec_id=None):
         
         proxy = rpc.RPCProxy("workflow")

@@ -38,7 +38,7 @@ class OpenM2M(Form):
 
     _cp_path = "/openerp/openm2m"
 
-    @expose(template="templates/openm2m.mako")
+    @expose(template="/openerp/controllers/templates/openm2m.mako")
     def create(self, params, tg_errors=None):
 
         params.m2m = params.m2m or params.source

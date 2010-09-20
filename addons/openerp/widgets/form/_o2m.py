@@ -39,7 +39,7 @@ __all__ = ["O2M"]
 class O2M(TinyInputWidget):
     """One2Many widget
     """
-    template = "templates/one2many.mako"
+    template = "/openerp/widgets/form/templates/one2many.mako"
     params = ['id', 'parent_id', 'new_attrs', 'pager_info', 'switch_to', 'default_get_ctx', 'source', 'view_type']
     member_widgets = ['screen']
 

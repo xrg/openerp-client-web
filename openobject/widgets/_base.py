@@ -193,7 +193,7 @@ class Widget(object):
 
         return tools.render_template(
                 tools.load_template(
-                    self.template, self.__module__), d)
+                    self.template), d)
 
     def render(self, value=None, **params):
         return self.display(value, **params)

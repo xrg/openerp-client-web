@@ -147,7 +147,7 @@ class Wizard(SecuredController):
 
         raise redirect('/openerp/wizard/end')
 
-    @expose(template="templates/wizard.mako")
+    @expose(template="/openerp/controllers/templates/wizard.mako")
     def create(self, params, tg_errors=None):
 
         if tg_errors:

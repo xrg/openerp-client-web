@@ -39,7 +39,7 @@ class Process(SecuredController):
 
     _cp_path = "/view_diagram/process"
 
-    @expose(template="templates/process.mako")
+    @expose(template="/view_diagram/controllers/templates/process.mako")
     def default(self, id=False, res_model=None, res_id=False, title=None):
 
         id = (id or False) and int(id)
@@ -117,7 +117,7 @@ class Process(SecuredController):
 
         return graph
 
-    @expose(template="templates/process_tip.mako")
+    @expose(template="/view_diagram/controllers/templates/process_tip.mako")
     def open_tip(self, **kw):
         title_tip = kw.get('title_tip')
         return dict(id=None, res_model=None, res_id=None, title=None, selection=None, title_tip=title_tip)

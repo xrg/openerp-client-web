@@ -39,7 +39,7 @@ from openobject.widgets import Form, JSLink, locations
 
 class ViewForm(Form):
 
-    template = "templates/viewform.mako"
+    template = "/openerp/widgets/templates/viewform.mako"
 
     params = ['limit', 'offset', 'count', 'search_domain', 'search_data', 'filter_domain', 'notebook_tab']
     member_widgets = ['screen', 'search', 'sidebar', 'logs']

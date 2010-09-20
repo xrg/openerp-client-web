@@ -39,7 +39,7 @@ from openobject.tools import expose
 __all__ = ["secured", "unsecured", "login"]
 
 
-@expose(template="templates/login.mako")
+@expose(template="/openerp/controllers/templates/login.mako")
 def login(target, db=None, user=None, password=None, action=None, message=None, origArgs={}):
 
     url = rpc.session.connection_string

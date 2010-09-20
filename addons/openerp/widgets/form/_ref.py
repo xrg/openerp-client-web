@@ -39,7 +39,7 @@ __all__ = ["Reference"]
 
 class Reference(TinyInputWidget):
 
-    template = "templates/reference.mako"
+    template = "/openerp/widgets/form/templates/reference.mako"
     params = ["options", "domain", "context", "text", "relation"]
 
     options = []

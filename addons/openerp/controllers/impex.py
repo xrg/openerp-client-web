@@ -114,7 +114,7 @@ class ImpEx(SecuredController):
 
     _cp_path = "/openerp/impex"
 
-    @expose(template="templates/exp.mako")
+    @expose(template="/openerp/controllers/templates/exp.mako")
     def exp(self, **kw):
         params, data = TinyDict.split(kw)
         
@@ -398,7 +398,7 @@ class ImpEx(SecuredController):
         else:
             return export_csv(params.fields2, result, add_names)
 
-    @expose(template="templates/imp.mako")
+    @expose(template="/openerp/controllers/templates/imp.mako")
     def imp(self, **kw):
         params, data = TinyDict.split(kw)
         

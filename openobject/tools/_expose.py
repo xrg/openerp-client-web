@@ -27,7 +27,6 @@
 #
 ###############################################################################
 
-import os
 import re
 
 import cherrypy
@@ -71,23 +70,13 @@ template_lookup = TL(directories=[resources.find_resource("openobject", ".."),
                      imports=imports,
                      preprocessor=templating.edition_preprocessor)
 
-def load_template(template, module=None):
+def load_template(template):
 
     if not isinstance(template, basestring):
         return template
 
     if re.match('(.+)\.(html|mako)\s*$', template):
-
-        if module:
-            template = resources.find_resource(module, template)
-        else:
-            template = os.path.abspath(template)
-
-        base = resources.find_resource("openobject", "..")
-        template = template.replace(base, '').replace('\\', '/')
-
         return template_lookup.get_template(template)
-
     else:
         return Template(template, default_filters=filters, imports=imports)
 
@@ -193,9 +182,9 @@ def expose(format='html', template=None, content_type=None, allow_json=False, me
             if isinstance(res, dict):
 
                 try:
-                    _template = load_template(res['cp_template'], func.__module__)
+                    _template = load_template(res['cp_template'])
                 except:
-                    _template = load_template(template, func.__module__)
+                    _template = load_template(template)
 
                 if _template:
 

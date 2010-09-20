@@ -45,7 +45,7 @@ class Translator(SecuredController):
 
     _cp_path = "/openerp/translator"
 
-    @expose(template="templates/translator.mako")
+    @expose(template="/openerp/controllers/templates/translator.mako")
     def index(self, translate='fields', **kw):
         params, data = TinyDict.split(kw)
         
