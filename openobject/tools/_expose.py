@@ -159,13 +159,40 @@ def render_template(template, kw):
     return utils.NoEscape(template.render_unicode(**kw))
 
 
-def expose(format='html', template=None, content_type=None, allow_json=False, methods=None):
+def expose(format='html', template=None, content_type=None, allow_json=False, methods=None, mark_only=False):
+    """
+    :param format: the response's format. Currently understood formats are "json" and "jsonp",
+                   any other format is ignored
+    :type format: str
 
+    :param template: the path to the template to render (for format=html), from the template search path
+                     (. or ./addons), should be defined absolutely (starting with a "/")
+    :type template: str
+
+    :param content_type: the Content-Type to force on the resource being returned
+    :type content_type: str
+
+    :param allow_json: Specify whether the view should return JSON data instead of rendering the specified template
+                       if a `allow_json` GET parameter is specified (should not be used, we will probably end up
+                       doing that via the Accept header instead, cleaner)
+    :type allow_json: bool
+
+    :param methods: An iterable of HTTP method names allowed to request on this method
+    :type methods: [String]
+
+    :param mark_only: Only marks the method as being exposed, of interest mainly for controllers extensions
+                      (otherwise the extended/overridden method is not found by CherryPy, this will go away
+                      if we ever switch to a routes-based dispatcher)
+    :type mark_only: bool
+    """
     if methods is not None:
         assert isinstance(methods, (list, tuple))
         methods = tuple([m.upper() for m in methods])
 
     def expose_wrapper(func):
+        if mark_only:
+            func.exposed = True
+            return func
         def func_wrapper(*args, **kw):
             if methods and cherrypy.request.method.upper() not in methods:
                 raise cherrypy.HTTPError(405)
