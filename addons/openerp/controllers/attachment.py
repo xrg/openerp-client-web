@@ -74,7 +74,7 @@ class Attachment(SecuredController):
             raise redirect(attachment['url'])
         raise Exception('Unknown attachment type %(type)s for attachment name %(name)s' % attachment)
 
-    @expose('json')
+    @expose('json', methods=('POST',))
     def save(self, datas, **kwargs):
         params, data = TinyDict.split(cherrypy.session['params'])
         ctx = dict(rpc.session.context,

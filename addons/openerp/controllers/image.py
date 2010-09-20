@@ -74,7 +74,7 @@ class Image(SecuredController):
             raise cherrypy.HTTPError(404)
         return data
 
-    @expose(template="templates/image.mako")
+    @expose(template="templates/image.mako", methods=('POST',))
     def add(self, upimage,  **kw):
 
         saved = kw.get('saved') or None

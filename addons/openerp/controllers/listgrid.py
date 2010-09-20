@@ -138,20 +138,20 @@ class List(SecuredController):
         domain = grp_domain
         group_level = ast.literal_eval(group_level)
         groups = ast.literal_eval(groups)
-        
+
         context = {'group_by_no_leaf': int(no_leaf), 'group_by': group_by, '__domain': domain}
-        args = {'editable': True, 
-                'view_mode': ['tree', 'form', 'calendar', 'graph'], 
-                'nolinks': 1, 'group_by_ctx': group_by, 
-                'selectable': 2, 
+        args = {'editable': True,
+                'view_mode': ['tree', 'form', 'calendar', 'graph'],
+                'nolinks': 1, 'group_by_ctx': group_by,
+                'selectable': 2,
                 'multiple_group_by': True,
                 'sort_key': kw.get('sort_key'),
                 'sort_order': kw.get('sort_order')}
 
         listgrp = listgroup.MultipleGroup(name, model, view, ids=None, domain= domain, parent_group=parent_group, group_level=group_level, groups=groups, context=context, **args)
         return listgrp.render()
-    
-    @expose('json', methods=('POST',))
+
+    @expose('json')
     def reload_graph(self, **kw):
         params, data = TinyDict.split(kw)
         view = cache.fields_view_get(params.model, params.view_id, 'graph',params.context)
@@ -166,8 +166,8 @@ class List(SecuredController):
               context=params.context)
         view=ustr(wid.render())
         return dict(view = view)
-    
-    @expose('json', methods=('POST',))
+
+    @expose('json')
     def get(self, **kw):
         params, data = TinyDict.split(kw)
 

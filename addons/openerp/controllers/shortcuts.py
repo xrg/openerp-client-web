@@ -81,8 +81,8 @@ class Shortcuts(SecuredController):
     @expose('json')
     def by_resource(self):
         return self.by_res_id()
-    
-    @expose()
+
+    @expose(methods=('POST',))
     def add(self, id):
         id = int(id)
 
