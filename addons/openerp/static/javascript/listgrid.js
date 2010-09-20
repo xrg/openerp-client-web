@@ -731,11 +731,10 @@ MochiKit.Base.update(ListView.prototype, {
             });
         }
         jQuery('[id="'+self.name+'"] .loading-list').show();
-
         jQuery.ajax({
             url: '/openerp/listgrid/get',
             data: args,
-            dataType: 'json',
+            dataType: 'jsonp',
             type: 'POST',
             complete: function() {adjustTopWidth();},
             success: function(obj) {
@@ -816,7 +815,7 @@ MochiKit.Base.update(ListView.prototype, {
                     else {
                         var th = jQuery('th[id= grid-data-column/' + self.sort_key + ']').get();
                     }
-
+                    
                     var detail = jQuery(th).html();
                     if(self.sort_order == 'asc') {
                         jQuery(th).html(detail + '&nbsp; <img src="/openerp/static/images/listgrid/arrow_down.gif" id="asc" style="vertical-align: middle;"/>');

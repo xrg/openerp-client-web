@@ -168,8 +168,8 @@ class List(SecuredController):
               context=params.context)
         view=ustr(wid.render())
         return dict(view = view)
-
-    @expose('json')
+    
+    @expose('jsonp', methods=('POST',))
     def get(self, **kw):
         params, data = TinyDict.split(kw)
 
