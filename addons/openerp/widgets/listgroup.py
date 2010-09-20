@@ -48,7 +48,7 @@ def parse(group_by, hiddens, headers, group_level, groups):
                 group_by[grp] = 'group_' + group_by[grp].split("group_")[-1]
             else:
                 group_by[grp] = group_by[grp].split("group_")[-1]
-    groups = group_by
+                
     new_hidden = ()
     for grp_by in groups:
         for hidden in hiddens:
