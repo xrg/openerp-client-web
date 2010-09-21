@@ -274,9 +274,9 @@ class GraphData(object):
                 key_ids['rec_id'] = val.get('rec_id')
                 key_ids['prod_id'] = val[axis[0]]
                 lbl = val[axis[0]]
-
+                
+                val[axis[0]] = ustr(val[axis[0]])
                 key_value = val[axis[0]]
-
                 key = urllib.quote_plus(ustr(key_value).encode('utf-8'))
                 info = data_axis.setdefault(key, {})
 
@@ -542,7 +542,7 @@ class BarChart(GraphData):
                 for x, s in enumerate(stk):
                     stack = {}
                     stack['val'] = s
-                    if s != 0.0 and not ctx.get('report_id', False):
+                    if s != 0.0 and not ctx.get('report_id', False) and url:
                         stack["on-click"]= "function(){onChartClick('" + url[cnt] + "')}"
                         cnt += 1
                     stack['tip'] = s
