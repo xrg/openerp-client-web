@@ -7,16 +7,16 @@
 	% else:
 		% if default:
 			<div id="group_${expand_grp_id}" onclick="collapse_expand(this, '#${expand_grp_id}', '#groupdata_table');" class="group-collapse">
-				<h2><span>${string}</span></h2>
+				<h2>${string}</span></h2>
 			</div>
 		% else:
 			<div id="group_${expand_grp_id}" onclick="collapse_expand(this, '#${expand_grp_id}', '#groupdata_table');" class="group-expand">
-				<h2><span>${string}</span></h2>
+				<h2>${string}</span></h2>
 			</div>
 		% endif
-		
+
 		<table id="groupdata_table">
-			<tr>	
+			<tr>
 				<td>
 					% if default:
 						<div id="${expand_grp_id}" class="group-data">${display_member(frame)}</div>

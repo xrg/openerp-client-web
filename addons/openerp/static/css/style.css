@@ -231,11 +231,6 @@ div.group-expand h2 {
     text-transform: uppercase;
 }
 
-div.group-expand h2 span {
-    padding: 0 6px;
-    background: #f0eeee;
-}
-
 div.group-expand h2:hover {
     background: url(../images/group-a-header-a2.png) 0 50% no-repeat;
     background-color: #E6E6E6;
@@ -266,11 +261,6 @@ div.group-collapse h2 {
     font-size: 0.8em;
     font-weight: bold;
     text-transform: uppercase;
-}
-
-div.group-collapse h2 span {
-    padding: 0 6px;
-    background: #f0eeee;
 }
 
 div.group-collapse h2:hover {
