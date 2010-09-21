@@ -898,10 +898,10 @@ function do_report(id, relation) {
     window.open(getURL(act, params));
 }
 
-function do_action(action_id, field, relation, src) {
-    
+function do_action(action_id, field, relation, src, data) {
+
     var params = {};
-    
+
     if ($('_terp_list')) {
         var list = new ListView('_terp_list');
         var ids = list.getSelectedRecords();
@@ -930,11 +930,12 @@ function do_action(action_id, field, relation, src) {
         var act = get_form_action('action');
         MochiKit.Base.update(params, {
             '_terp_action': action_id,
-            '_terp_domain': obj.domain, 
-            '_terp_context': obj.context, 
+            '_terp_domain': obj.domain,
+            '_terp_context': obj.context,
             '_terp_id': id,
-            '_terp_model': relation});
-        
+            '_terp_model': relation,
+            'datas': data});
+
         window.open(getURL(act, params));
 
     });
