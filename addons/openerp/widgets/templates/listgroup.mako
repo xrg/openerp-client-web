@@ -74,7 +74,11 @@ import itertools
                                                 ${grp_row.get(field)}
                                             % endif
                                         % else:
-                                            <span style="color: #888;">${(i == 0) and "undefined" or "&nbsp;"|n}</span>
+                                            % if len(group_by_ctx):
+                                                <span style="color: #888;">${(i == 0) and "undefined" or "&nbsp;"|n}</span>
+                                            % else:
+                                                <span style="color: #888;">&nbsp;</span>
+                                            % endif
                                         % endif                                    
                                     % endif
                                 </td>
