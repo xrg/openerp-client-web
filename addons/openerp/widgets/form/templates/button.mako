@@ -1,8 +1,11 @@
-<a class="button-b"
+<button class="button-b"
    id="${name}"
+   name="${name}"
+   type="button"
    href="javascript: void(0)"
    onclick="buttonClicked('${name}', '${btype}', '${model}', '${id}', '${confirm}', '${target}', getNodeAttribute(this, 'context'));"
-   style="height: 18px; text-align: center;"
+   style="height: 20px; text-align: center;"
+
    ${py.attrs(attrs, context=ctx)}>
         % if string:
 			% if icon:
@@ -13,7 +16,8 @@
 		%else:
 			<img align="middle" src="${icon}" width="16" height="16" alt=""></img>
 		% endif
-</a>
+</button>
+
 % if default_focus:
     <script type="text/javascript">
        jQuery('#${name}').focus();

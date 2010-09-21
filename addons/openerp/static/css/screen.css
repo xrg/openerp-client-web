@@ -2316,7 +2316,7 @@ td.toolbar a.button-a {
     margin: 0 3px 0 0;
 }
 
-a.button-b {
+a.button-b, button.button-b {
     float: left;
     height: 11px;
     padding: 1px 1px 0;
@@ -2350,7 +2350,8 @@ a.wizard_button td {
 	padding: 1px;
 }
 
-a.button-b:hover,a.button-b:focus,a.button-b:active {
+a.button-b:hover,a.button-b:focus,a.button-b:active,
+button.button-b:hover,button.button-b:focus,button.button-b:active {
     border-color: #c6c4c4 #aaa9a9 #797878;
     background-position: 0 0;
     text-shadow: #6a6969 0 1px 0;

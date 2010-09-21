@@ -229,15 +229,15 @@ function form_evalExpr(prefix, expr) {
 }
 
 function form_setReadonly(container, fieldName, readonly) {
-    
-    var field = openobject.dom.get(fieldName);
+
+    var field = jQuery(fieldName);
 
     if (!field) {
         return;
     }
     
-    var kind = MochiKit.DOM.getNodeAttribute(field, 'kind');
-    
+    var kind = jQuery(field).attr('kind');
+
     if (kind == 'boolean') {
         var boolean_id = jQuery(fieldName).attr('id')
         var boolean_field = jQuery('input#'+boolean_id+'_checkbox_')
@@ -252,10 +252,20 @@ function form_setReadonly(container, fieldName, readonly) {
          Many2Many(field.id).setReadonly(readonly)
         return;
     }
-    
-    var type = MochiKit.DOM.getNodeAttribute(field, 'type');
-    field.readOnly = readonly;
-    field.disabled = readonly;
+
+    var type = jQuery(field).attr('type');
+
+    field.attr('disabled', readonly);
+    field.attr('readOnly', readonly);
+
+    if (readonly && (type == 'button')) {
+        field.css("cursor", "default");
+    }
+
+    if (readonly && (type != 'button')) {
+        field.removeAttr('href');
+        field.css("color", "gray");
+    }
     
     if (readonly && (type != 'button')) {
         MochiKit.DOM.addElementClass(field, 'readonlyfield');
