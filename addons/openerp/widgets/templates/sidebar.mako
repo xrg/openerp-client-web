@@ -1,17 +1,17 @@
 <%def name="sidebox_action_item(item, model, submenu)">
     % if submenu != 1:
-    	<li onclick="do_action(${item['id']}, '_terp_id', '${model}', this);">
-	    		<a href="javascript: void(0)" onclick="return false">${item['name']}</a>
-	    </li>
-	% else:
-		<li data="${item}">
-	   		% if item['name']:
-				<a href="#" onclick="submenu_action('${item['action_id']}', '${model}');">
-					${item['name']}
-				</a>
-			% endif
-		</li>
-	% endif
+    	<li data="${item}" onclick="do_action(${item['id']}, '_terp_id', '${model}', this, getNodeAttribute(this, 'data'));">
+    	   <a href="javascript: void(0)" onclick="return false">${item['name']}</a>
+        </li>
+    % else:
+        <li data="${item}">
+            % if item['name']:
+                <a href="#" onclick="submenu_action('${item['action_id']}', '${model}');">
+                    ${item['name']}
+                </a>
+            % endif
+        </li>
+    % endif
 </%def>
 
 <%def name="make_sidebox(title, model, items, submenu=0)">

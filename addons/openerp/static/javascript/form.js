@@ -922,10 +922,10 @@ function do_report(id, relation){
     window.open(openobject.http.getURL(act, params));
 }
 
-function do_action(action_id, field, relation, src){
+function do_action(action_id, field, relation, src, data){
 
     var params = {};
-    
+
     if (openobject.dom.get('_terp_list')) {
         var list = new ListView('_terp_list');
         var ids = list.getSelectedRecords();
@@ -957,11 +957,12 @@ function do_action(action_id, field, relation, src){
             '_terp_domain': obj.domain,
             '_terp_context': obj.context,
             '_terp_id': id,
-            '_terp_model': relation
+            '_terp_model': relation,
+            'datas': data
         });
-        
+
         window.open(openobject.http.getURL(act, params));
-        
+
     });
 }
 

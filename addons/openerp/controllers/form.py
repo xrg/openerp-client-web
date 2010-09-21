@@ -904,7 +904,8 @@ class Form(SecuredController):
 
         domain = params.domain or []
         context = params.context or {}
-
+        action = eval(data.get('datas'))
+        type = action.get('type')
         act_id = params.action
 
         if not params.selection and not params.id:
@@ -913,8 +914,9 @@ class Form(SecuredController):
         if not act_id:
             return self.do_action('client_action_multi', datas=kw)
 
-        action_type = rpc.RPCProxy('ir.actions.actions').read(act_id, ['type'], rpc.session.context)['type']
-        action = rpc.session.execute('object', 'execute', action_type, 'read', act_id, False, rpc.session.context)
+        if type is None:
+            action_type = rpc.RPCProxy('ir.actions.actions').read(act_id, ['type'], rpc.session.context)['type']
+            action = rpc.session.execute('object', 'execute', action_type, 'read', act_id, False, rpc.session.context)
 
         action['domain'] = domain or []
         action['context'] = context or {}
