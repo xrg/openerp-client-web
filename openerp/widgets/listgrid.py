@@ -169,7 +169,7 @@ class List(TinyWidget):
             ctx = rpc.session.context.copy()
             ctx.update(context)
             
-            if len(ids) > self.limit and self.limit != -1  and self.limit != None :
+            if self.limit and len(ids) > self.limit and self.limit != -1:
                 new_ids = ids[self.offset:self.offset+self.limit]
                 data = proxy.read(new_ids, fields.keys() + ['__last_update'], ctx)
             else:
