@@ -68,7 +68,8 @@ class Sidebar(TinyWidget):
         if self.view_type == 'form' and id:
             attachments = rpc.RPCProxy('ir.attachment')
             attachment_ids = attachments.search(
-                [('res_model', '=', model), ('res_id', '=', id)],0, 0, 0, self.context)
+                [('res_model', '=', model), ('res_id', '=', id), ('type', 'in', ['binary', 'url'])],
+                0, 0, 0, self.context)
 
             if attachment_ids:
                 self.attachments = attachments.read(attachment_ids, ['name', 'url', 'type'])
