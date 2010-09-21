@@ -184,6 +184,7 @@ class M2O_search(M2O):
                     <input type="hidden" id="${name}" name="${name}" class="${css_class}" value="${value}"
                         ${py.attrs(attrs, kind=kind, domain=domain, relation=relation, m2o_filter_domain=filter_domain)}/>
                     <input type="text" id="${name}_text" class="${css_class}"
+                        name="${name}"
                         ${py.attrs(attrs, kind=kind, relation=relation, value=text, m2o_filter_domain=filter_domain)}/>
                     <input type="hidden" id="_hidden_${name}" value=""/>
                     <div id="autoCompleteResults_${name}" class="autoTextResults"></div>
