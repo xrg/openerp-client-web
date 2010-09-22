@@ -12,11 +12,21 @@
                 <table id="search_table">
                     <tr>
                         <td ${py.attrs(attrs.get('widget_item')[0])} width="${attrs.get('width')}">
-                            <label for="${attrs.get('for')}">
-                                ${(widget or '') and widget}
-                            </label>
+							% if attrs.get('widget_item')[1].kind == 'many2one':
+								<label for="${attrs.get('for')}_text" style="vertical-align:middle">
+	                                ${(widget or '') and widget}
+	                            </label>
+                            % elif attrs.get('widget_item')[1].kind == 'boolean':
+	                            <label for="${attrs.get('for')}_checkbox_" style="vertical-align:middle">
+	                                ${(widget or '') and widget}
+	                            </label>
+                            % else:
+	                            <label for="${attrs.get('for')}" style="vertical-align:middle">
+	                                ${(widget or '') and widget}
+	                            </label>
+                            % endif
                             % if attrs.get('title'):
-                                <sup style="color: darkgreen; vertical-align: middle;">?</sup>
+                                <sup style="color: darkgreen; vertical-align:top">?</sup>
                             % endif
                             :
                         </td>
@@ -38,13 +48,23 @@
                     </tr>
                 </table>
                 % else:
-                <label for="${attrs.get('for')}" style="vertical-align:middle">
-                	${(widget or '') and widget}
-                </label>
-                    % if attrs.get('title'):
-	                	<sup style="color: darkgreen; vertical-align:top">?</sup>
-                    % endif
-                :
+	                % if attrs.get('kind') == 'many2one':
+		                <label for="${attrs.get('for')}_text" style="vertical-align:middle">
+		                	${(widget or '') and widget}
+		                </label>
+		            % elif attrs.get('kind') == 'boolean':
+		            	<label for="${attrs.get('for')}_checkbox_" style="vertical-align:middle">
+		                	${(widget or '') and widget}
+		                </label>
+	                % else:
+		                <label for="${attrs.get('for')}" style="vertical-align:middle">
+		                	${(widget or '') and widget}
+		                </label>
+	                % endif
+	                    % if attrs.get('title'):
+		                	<sup style="color: darkgreen; vertical-align:top">?</sup>
+	                    % endif
+	                :
                 % endif
             % endif
             % if not isinstance(widget, basestring) and widget.visible:
