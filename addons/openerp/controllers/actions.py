@@ -298,11 +298,11 @@ def execute(action, **data):
     elif action['type']=='ir.actions.report.custom':
         data.update(action.get('datas',{}))
         data['report_id'] = action['report_id']
-        return execute_report('custom', **data)
+        return report_link('custom', **data)
 
     elif action['type']=='ir.actions.report.xml':
         data.update(action.get('datas',{}))
-        return execute_report(action['report_name'], **data)
+        return report_link(action['report_name'], **data)
 
     elif action['type']=="ir.actions.act_url":
         data['url'] = action['url']
@@ -410,3 +410,8 @@ def execute_by_keyword(keyword, adds=None, **data):
 @tools.expose(template="/openerp/controllers/templates/closepopup.mako")
 def close_popup(*args, **kw):
     return dict()
+
+@tools.expose(template="/openerp/controllers/templates/report.mako")
+def report_link(report_name, **kw):
+    return dict(name=report_name, data=kw)
+    

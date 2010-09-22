@@ -28,7 +28,7 @@
 ###############################################################################
 import cherrypy
 from openerp.controllers import SecuredController, unsecured, actions, login as tiny_login, form
-from openerp.utils import rpc, cache, common
+from openerp.utils import rpc, cache, common, TinyDict
 
 from openobject.tools import url, expose, redirect
 
@@ -76,6 +76,11 @@ class Root(SecuredController):
     @expose()
     def home(self):
         return self.user_action('action_id')
+    
+    @expose(content_type='application/octet-stream')
+    def report(self, report_name=None, **kw):
+        import actions
+        return actions.execute_report(report_name, **TinyDict(**kw))
     
     @expose()
     def custom_action(self, action):
