@@ -907,7 +907,10 @@ class Form(SecuredController):
         id = params.id or False
         ids = params.selection or []
         context = params.context or {}
-        action = eval(data.get('datas'))
+        action = {}
+
+        if data.get('datas'):
+            action = eval(data.get('datas'))
         type = action.get('type')
         act_id = params.action
 
