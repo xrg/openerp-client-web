@@ -206,9 +206,8 @@ def get_local_addons():
               if os.path.isfile(os.path.join(ADDONS_PATH, f, "__openerp__.py"))]
 
 def load_addons(db_name, config):
-
     if db_name in _loaded:
-        return True
+        return
 
     base_addons = [m for m in get_local_addons() if get_info(m).get("active")]
 
@@ -226,4 +225,3 @@ def load_addons(db_name, config):
         load_module_graph(db_name, graph, config)
 
     _loaded[db_name] = True
-    return True
