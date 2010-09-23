@@ -180,7 +180,7 @@ def load_module_graph(db_name, graph, config):
 
         cherrypy.log("Loading module '%s'" % package.name, "INFO")
 
-        m = imp_module(package.name)
+        imp_module(package.name)
 
         static = os.path.join(ADDONS_PATH, package.name, "static")
         if os.path.isdir(static):
