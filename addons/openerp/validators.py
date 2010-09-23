@@ -168,7 +168,8 @@ class Binary(BaseValidator):
                 return base64.encodestring(value.file.read())
             elif self.not_empty:
                 raise formencode.api.Invalid(_('Please select a file.'), value, state)
-
+        elif value:
+            return value
         return self.if_empty
 
 class URL(formencode.validators.URL):

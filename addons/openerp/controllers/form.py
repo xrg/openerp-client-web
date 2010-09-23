@@ -383,7 +383,6 @@ class Form(SecuredController):
         @return: form view
         """
         params, data = TinyDict.split(kw)
-
         # remember the current page (tab) of notebooks
         cherrypy.session['remember_notebooks'] = True
         # bypass save, for button action in non-editable view
@@ -617,11 +616,14 @@ class Form(SecuredController):
             form = params.datas['form']
             res = form.get(params.field)
             return base64.decodestring(res)
-
-        proxy = rpc.RPCProxy(params.model)
-        res = proxy.read([params.id],[params.field], rpc.session.context)
-
-        return base64.decodestring(res[0][params.field])
+        
+        elif params.id:
+            proxy = rpc.RPCProxy(params.model)
+            res = proxy.read([params.id],[params.field], rpc.session.context)
+            return base64.decodestring(res[0][params.field])
+        else:
+            return base64.decodestring(data[params.field])
+        
 
     @expose()
     def clear_binary_data(self, **kw):
