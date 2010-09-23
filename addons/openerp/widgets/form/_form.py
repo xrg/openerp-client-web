@@ -39,7 +39,7 @@ import xml.dom.minidom
 import cherrypy
 from openerp import validators
 from openerp.utils import rpc, icons, common, TinyDict, node_attributes, get_node_xpath
-from openerp.widgets import TinyWidget, TinyInputWidget, ConcurrencyInfo, get_widget, register_widget
+from openerp.widgets import TinyWidget, TinyInputWidget, InputWidgetLabel, ConcurrencyInfo, get_widget, register_widget
 
 from _binary import Image
 from openobject import tools
@@ -173,7 +173,15 @@ class Frame(TinyWidget):
         label_table = []
         if label:
             colspan -= 1
-            attrs = {'class': 'label', 'kind': getattr(widget, 'kind', None), 'title': getattr(widget, 'help', None), 'for': widget.name, 'model': getattr(widget, 'model', None), 'fname':getattr(widget, 'name', None)}
+            attrs = {
+                'class': 'label',
+                'kind': getattr(widget, 'kind', None),
+                'title': getattr(widget, 'help', None),
+                'for': widget.name,
+                'model': getattr(widget, 'model', None),
+                'fname':getattr(widget, 'name', None),
+                'widget_item': ({}, widget)
+            }
             td = [attrs, label]
             if getattr(widget, 'full_name', None) and self.label_position:
                 attrs['class'] = attrs.get('class', 'label') + ' search_filters search_fields'
@@ -405,9 +413,12 @@ class Integer(TinyInputWidget):
 
 register_widget(Integer, ["integer"])
 
-
+class BooleanLabel(InputWidgetLabel):
+    template = "/openerp/widgets/form/templates/boolean_label.mako"
 class Boolean(TinyInputWidget):
     template = "/openerp/widgets/form/templates/boolean.mako"
+
+    label_type = BooleanLabel
 
     def __init__(self, **attrs):
         super(Boolean, self).__init__(**attrs)

@@ -26,18 +26,16 @@
 # You can see the MPL licence at: http://www.mozilla.org/MPL/MPL-1.1.html
 #
 ###############################################################################
-
-from openerp.utils import rpc
-from openerp.utils import common
-
 from openerp import validators
-
-from openerp.widgets import TinyInputWidget
-from openerp.widgets import register_widget
+from openerp.utils import rpc
+from openerp.widgets import TinyInputWidget, InputWidgetLabel, register_widget
 
 
 __all__ = ["M2O"]
 
+
+class M2OLabel(InputWidgetLabel):
+    template = '/openerp/widgets/form/templates/many2one_label.mako'
 
 class M2O(TinyInputWidget):
     template = "/openerp/widgets/form/templates/many2one.mako"
@@ -46,6 +44,8 @@ class M2O(TinyInputWidget):
     domain = []
     context = {}
     link = 1
+
+    label_type = M2OLabel
 
     def __init__(self, **attrs):
 

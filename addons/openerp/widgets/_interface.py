@@ -33,7 +33,8 @@ from openobject.widgets import Widget
 from openobject.widgets import InputWidget
 
 __all__ = ['TinyWidget', 'TinyInputWidget', 'ConcurrencyInfo',
-           'register_widget', 'get_widget', 'get_registered_widgets']
+           'register_widget', 'get_widget', 'get_registered_widgets',
+           'InputWidgetLabel']
 
 _attrs_boolean = {
     'select': False,
@@ -53,7 +54,6 @@ def _boolean_attr(attrs, name):
 
     return (attrs.get(name) and True) or _attrs_boolean.get(name)
 
-
 class TinyWidget(Widget):
 
     params = [
@@ -64,6 +64,7 @@ class TinyWidget(Widget):
         'visible',
         'valign',
         'model',
+        'label'
     ]
 
     colspan = 1
@@ -130,8 +131,14 @@ class TinyWidget(Widget):
         cherrypy.request.terp_concurrency_info = info
 
 
-class TinyInputWidget(TinyWidget, InputWidget):
+class InputWidgetLabel(Widget):
+    template = "/openerp/widgets/templates/label.mako"
+    params = ['string', 'help']
 
+    def __init__(self, name, string, help=None):
+        super(InputWidgetLabel, self).__init__(name=name, string=string, help=help)
+
+class TinyInputWidget(TinyWidget, InputWidget):
     params = [
         'select',
         'required',
@@ -160,6 +167,8 @@ class TinyInputWidget(TinyWidget, InputWidget):
     change_default = None
     kind=None
 
+    label_type = InputWidgetLabel
+
     def __init__(self, **attrs):
 
         super(TinyInputWidget, self).__init__(**attrs)
@@ -177,6 +186,8 @@ class TinyInputWidget(TinyWidget, InputWidget):
 
         self.callback = attrs.get('on_change', None)
         self.kind = attrs.get('type', None)
+
+        self.label = self.label_type(self.name, self.string, self.help)
 
     def set_state(self, state):
         if isinstance(self.states, dict) and state in self.states:
