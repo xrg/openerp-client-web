@@ -55,6 +55,7 @@ class Singleton(object):
 class Node(Singleton):
 
     def __init__(self, name, graph):
+        self.name = name
         self.graph = graph
         if not hasattr(self, 'children'):
             self.children = []
