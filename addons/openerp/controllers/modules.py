@@ -27,7 +27,7 @@ class ModuleForm(form.Form):
 
         from openobject import addons
 
-        modules = addons.get_module_list()
+        modules = addons.get_local_addons()
         data = []
 
         for name in modules:

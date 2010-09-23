@@ -16,7 +16,7 @@ class Root(BaseController):
         try:
             obj = pooler.get_pool().get_controller("/openerp/modules")
             module_list = obj.get_installed_modules()
-        except Exception, e:
+        except Exception:
             module_list = []
             pass
 
