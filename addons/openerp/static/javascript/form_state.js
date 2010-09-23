@@ -266,13 +266,13 @@ function form_setReadonly(container, fieldName, readonly) {
         field.removeAttr('href');
         field.css("color", "gray");
     }
-    
+
     if (readonly && (type != 'button')) {
-        MochiKit.DOM.addElementClass(field, 'readonlyfield');
+        jQuery(field).addClass('readonlyfield');
     } else {
-        MochiKit.DOM.removeElementClass(field, 'readonlyfield');
+        jQuery(field).removeClass('readonlyfield');
     }
-    
+
     if (field.type == 'hidden' && kind == 'many2one') {
         ManyToOne(field).setReadonly(readonly);
         return
