@@ -37,7 +37,7 @@ import xml.dom.minidom
 import cherrypy
 import copy
 from openerp.utils import rpc, cache, icons, node_attributes, expr_eval
-from openerp.widgets import TinyInputWidget
+from openerp.widgets import TinyInputWidget, InputWidgetLabel
 from openerp.widgets.form import Char, Frame, Float, DateTime, Integer, Selection, Notebook
 from openerp.widgets.form import Separator, FiltersGroup, Group, NewLine, M2O
 
@@ -82,11 +82,15 @@ def get_search_default(attrs={}, screen_context=None, default_domain=[]):
                 default_search = str_ctx in screen_context.get('group_by', [])
     return default_search or default_val
 
+class RangeWidgetLabel(InputWidgetLabel):
+    template = '/openerp/widgets/templates/rangewid_label.mako'
 class RangeWidget(TinyInputWidget):
     template = "/openerp/widgets/templates/rangewid.mako"
 
     params = ["field_value"]
     member_widgets = ["from_field", "to_field"]
+
+    label_type = RangeWidgetLabel
 
     def __init__(self, **attrs):
         super(RangeWidget, self).__init__(**attrs)
