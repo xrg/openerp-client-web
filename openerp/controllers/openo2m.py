@@ -158,7 +158,7 @@ class OpenO2M(Form):
 
         current.ids = all_ids
         if new_ids and params.source:
-            current.id = new_ids[0]
+            current.id = new_ids[-1]
             params.o2m_id = current.id
             
         # perform button action
