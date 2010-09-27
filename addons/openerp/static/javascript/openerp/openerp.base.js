@@ -59,7 +59,7 @@ function displayErrorOverlay(xhr) {
 function doLoadingSuccess(app) {
     return function (data, status, xhr) {
         jQuery(window).trigger('before-appcontent-change');
-        jQuery(app).html(xhr.responseText);
+        jQuery(app).html(xhr.responseText || data);
         jQuery(window).trigger('after-appcontent-change');
     }
 }
