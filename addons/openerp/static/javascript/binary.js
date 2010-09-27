@@ -79,3 +79,27 @@ function add_binary(src) {
         fld.size = 50;
     }
 }
+
+function set_binary_filename(src, filename) {
+    
+    var $src = jQuery(src);
+    
+    var name = $src.attr('name');
+    
+    var prefix = name.split('/'); prefix.pop();
+    var prefix = prefix.join('/'); prefix = prefix ? prefix + '/' : '';
+    
+    var target = getElement(prefix + filename);
+    var fname = $src.val() || '';
+    
+    if (/Windows NT/.test(window.navigator.userAgent)) {
+        fname = fname.split('\\'); fname = fname.pop(); 
+    }
+    else {
+        fname = fname.split('/'); fname = fname.pop();
+    }
+    
+    if (target) {
+        target.value = fname;
+    }
+}
