@@ -56,7 +56,9 @@
     % if screen.editable and not readonly and view_type == 'tree':
         % if name == source:
             <script type="text/javascript">
-                new One2Many('${name}', jQuery('table.one2many[id=_o2m_${name}]').attr('detail')).create();
+                jQuery(document).ready(function() {
+                    new One2Many('${name}', jQuery('table.one2many[id=_o2m_${name}]').attr('detail')).create();
+                })
             </script>
         % endif
     % endif
