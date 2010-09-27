@@ -31,7 +31,8 @@ import socket
 import cPickle
 import sys
 
-SOCKET_TIMEOUT = 450
+import cherrypy
+
 DNS_CACHE = {}
 
 class TinySocketError(Exception):
@@ -41,6 +42,7 @@ class TinySocketError(Exception):
         self.faultString = faultString
         self.args = (faultCode, faultString)
 
+SOCKET_TIMEOUT = cherrypy.config.get('openerp.server.timeout')
 socket.setdefaulttimeout(SOCKET_TIMEOUT)
 class TinySocket(object):
 
