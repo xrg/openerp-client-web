@@ -212,176 +212,176 @@ openobject.workflow.Workflow.implement({
 					conn.isOverlaping = false;
 			}
 		}
-		
+
 		return counter;
-	},	
-	
+	},
+
 	add_connection : function(start, end, params) {
-        
+
         var source = this.states.get(start);
         var destination = this.states.get(end);
- 
+
         var conn = new openobject.workflow.Connector(params.id, params.source, params.destination, params.options);
         var n = this.connectors.getSize();
-        
+
         //self connection
         if(start==end) {
             conn.setSourceAnchor(new draw2d.ConnectionAnchor);
             conn.setTargetAnchor(new draw2d.ConnectionAnchor);
-            conn.setRouter(new draw2d.BezierConnectionRouter());        
+            conn.setRouter(new draw2d.BezierConnectionRouter());
         }
-        
-        conn.isOverlaping = params.isOverlaping;       
+
+        conn.isOverlaping = params.isOverlaping;
         conn.OverlapingSeq = params.OverlapingSeq;
         conn.totalOverlaped = params.totalOverlaped;
-        
+
         var spos = source.getBounds();
         var dpos = destination.getBounds();
-    
-        //fix source and destination ports 
+
+        //fix source and destination ports
         if(spos.x<dpos.x) {
             conn.setTarget(destination.portL);
-            
-            if((spos.y + spos.h - dpos.y)>50) 
+
+            if((spos.y + spos.h - dpos.y)>50)
                 conn.setSource(source.portD);
             else if((dpos.y + dpos.h - spos.y)>50)
                 conn.setSource(source.portU);
-            else 
+            else
                 conn.setSource(source.portR);
         }
         else {
             conn.setTarget(destination.portR);
-            
-            if((spos.y + spos.h - dpos.y)>50) 
+
+            if((spos.y + spos.h - dpos.y)>50)
                 conn.setSource(source.portD);
             else if((dpos.y + dpos.h - spos.y)>50)
                 conn.setSource(source.portU);
             else
                 conn.setSource(source.portL);
         }
-        
+
         this.addFigure(conn);
         this.connectors.add(conn);
     },
-	
+
 	create_state : function(id) {
-	    
-		if(id != 0) {	
+
+		if(id != 0) {
 			var position = this.state.getPosition();
-			this.state.setPosition(100, 20);	
+			this.state.setPosition(100, 20);
 			var self = this;
-			
-			req = openobject.http.postJSON('/view_diagram/workflow/state/get_info',{node_obj: self.node_obj, id: id, 
-			                                                         node_flds_v: this.node_flds_v, 
+
+			req = openobject.http.postJSON('/view_diagram/workflow/state/get_info',{node_obj: self.node_obj, id: id,
+			                                                         node_flds_v: this.node_flds_v,
 			                                                         node_flds_h: this.node_flds_h,
-			                                                         bgcolors: this.bgcolors, 
+			                                                         bgcolors: this.bgcolors,
 			                                                         shapes: this.shapes});
 			req.addCallback(function(obj) {
 				var flag = false;
 				var index = null;
-				var n = self.states.getSize(); 
+				var n = self.states.getSize();
 				var data = obj.data;
-				
+
 				for(i=0; i<n; i++) {
 					if(self.states.get(i).get_act_id() == id) {
 						flag=true;
 						index = i;
 						break;
 					}
-				}			
-			
+				}
+
 				if(!flag) {
 			        if(!data['subflow_id'])
 			             var state = new openobject.workflow.StateOval(data, self.workitems);
 			        else
 			             var state = new openobject.workflow.StateRectangle(data, self.workitems);
-			             
+
 			        self.addFigure(state, position.x, position.y);
 			        self.states.add(state);
 			        state.initPort();
-				}else {				    
+				}else {
 					var state = self.states.get(index);
 					var span = openobject.dom.get(state.name);
 					span.innerHTML = data['name'];
 					span.id = data['name'];
-					
+
 					MochiKit.Base.update(state.options, data['options'])
-				}	
+				}
 			});
 		} else {
-			alert('state could not be created');
+			error_display('state could not be created');
 		}
 	},
-	
+
 	create_connection : function(act_from, act_to) {
-		
+
 		var self = this;
-		req = openobject.http.postJSON('/view_diagram/workflow/connector/auto_create', {conn_obj: self.connector_obj, 
-		                                                                  src: self.src_node_nm, 
-		                                                                  des: self.des_node_nm, 
-		                                                                  act_from: act_from, 
+		req = openobject.http.postJSON('/view_diagram/workflow/connector/auto_create', {conn_obj: self.connector_obj,
+		                                                                  src: self.src_node_nm,
+		                                                                  des: self.des_node_nm,
+		                                                                  act_from: act_from,
 		                                                                  act_to: act_to,
 		                                                                  conn_flds: this.conn_flds});
 		req.addCallback(function(obj) {
 			var data = obj.data;
-			
+
 			if(obj.flag) {
 				var n = self.states.getSize();
 				var start = 0;
 				var end = 0;
-				
-				for(j=0; j<n; j++) {	
+
+				for(j=0; j<n; j++) {
 					var node = self.states.get(j);
 					var id = node.get_act_id();
 					if(id==act_from)
-						start = j;							
+						start = j;
 					if(id==act_to)
 						end = j;
 				}
-				
+
 				var counter = self.get_overlaping_connection(data['s_id'], data['d_id'], 1);
 				var params = MochiKit.Base.update({}, obj.data);
-				
+
 				if(counter>1) {
 					params['isOverlaping'] = true;
 					params['OverlapingSeq'] = counter;
 					params['totalOverlaped'] = counter;
-				}		
-				
+				}
+
 				self.add_connection(start, end, params);
 			} else {
-				alert('Could not create transaction at server');
+				error_display('Could not create transaction at server');
 			}
-		});		
+		});
 	},
-	
-	update_connection : function(id) {	
-		
+
+	update_connection : function(id) {
+
 		var self = this;
 		req = openobject.http.postJSON('/view_diagram/workflow/connector/get_info',{conn_obj: self.connector_obj, id: id});
 		req.addCallback(function(obj) {
 			var n = self.connectors.getSize();
-			
+
 			for(i=0; i<n; i++) {
 				var conn = self.connectors.get(i);
 				if(id==conn.get_tr_id()) {
 					conn.signal = obj.data['signal'];
 					conn.condition = obj.data['condition'];
-					break;		
+					break;
 				}
-			}			
+			}
 		});
 	},
-	
-	remove_elem : function(elem) {	
+
+	remove_elem : function(elem) {
         if(elem instanceof openobject.workflow.StateOval || elem instanceof openobject.workflow.StateRectangle)
             this.unlink_state(elem);
         else if(elem instanceof openobject.workflow.Connector)
             this.unlink_connector(elem);
 	},
-	
+
 	unlink_state : function(state) {
-		
+
 		var self = this;
 		req = openobject.http.postJSON('/view_diagram/workflow/state/delete', {node_obj: self.node_obj, 'id': state.get_act_id()});
 		req.addCallback(function(obj) {
@@ -389,72 +389,72 @@ openobject.workflow.Workflow.implement({
 				state.__delete__();
 				self.remove_state(state);
 			} else {
-				alert(obj.error);
-			}			
+				error_display(obj.error);
+			}
 		});
 	},
-	
-	remove_state : function(state) {     
-        
+
+	remove_state : function(state) {
+
         var fig = this.getFigure(state.getId());
         var connections = null;
-                
+
         if(fig.getPorts && connections==null) {
             connections = new draw2d.ArrayList();
             var ports = fig.getPorts();
             for(var i=0; i<ports.getSize(); i++) {
-                if(ports.get(i).getConnections) {                
+                if(ports.get(i).getConnections) {
                     connections.addAll(ports.get(i).getConnections());
             }
           }
         }
-    
+
         if(connections == null)
             connections = new draw2d.ArrayList();
-      
+
         for (var i = 0; i < connections.getSize(); ++i) {
             this.removeFigure(connections.get(i));
         }
-   
+
         this.removeFigure(fig);
-        this.setCurrentSelection(null); 
+        this.setCurrentSelection(null);
         if(fig.parent!=null)
             fig.parent.removeChild(fig);
         this.states.remove(state);
 	},
-	
+
 	unlink_connector : function(conn) {
-		
+
 		var self = this;
 		req = openobject.http.postJSON('/view_diagram/workflow/connector/delete', {conn_obj: self.connector_obj, 'id': conn.get_tr_id()});
 		req.addCallback(function(obj) {
-			if(!obj.error) {				
+			if(!obj.error) {
 				conn.__delete__();
 				self.remove_conn(conn);
 			} else
-				alert(obj.error);
+				error_display(obj.error);
 		});
 	},
-	
+
 	remove_conn : function(conn) {
-		
+
 		var start = conn.getSource().getParent().get_act_id();
 		var end = conn.getTarget().getParent().get_act_id();
-		
-		this.connectors.remove(conn);		
-		if(conn.isOverlaping)	
+
+		this.connectors.remove(conn);
+		if(conn.isOverlaping)
 			this.get_overlaping_connection(start, end, 0);
-			
+
 		this.removeFigure(conn);
 	},
-	
+
 	onMouseDown : function(x, y) {
-        
+
         if (this.currentSelection instanceof draw2d.Connection)
             this.selected = this.currentSelection;
         else
-            this.selected = null;	 
-                
+            this.selected = null;
+
 	    draw2d.Workflow.prototype.onMouseDown.call(this, x, y);
 	}
 });

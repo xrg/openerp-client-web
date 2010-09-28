@@ -31,56 +31,56 @@ function onSelect(evt, node){
 }
 
 function getXPath(node) {
-    
+
     var path = node.getPath(1);
-    
+
     var xp = '';
     var nd = path.pop();
-    
+
     while (nd.record.items.localName != 'view') {
-        
+
         var similar = MochiKit.Base.filter(function(n){
-            return n.record.items.localName == nd.record.items.localName; 
+            return n.record.items.localName == nd.record.items.localName;
         }, nd.parentNode.childNodes);
-        
+
         var idx = MochiKit.Base.findIdentical(similar, nd) + 1;
-        
+
         xp = '/' + nd.record.items.localName + '[' + idx + ']' + xp;
         nd = path.pop();
     }
-    
+
     return xp;
 }
 
 function onDelete(node){
-    
+
     var tree = treeGrids['view_tree'];
     var selected = node || tree.selection[0] || null;
-    
+
     if (!selected) {
         return;
-    }        
-    
+    }
+
     var record = selected.record;
     var data = record.items;
-    
+
     if (data.localName == 'view' && !selected.parentNode.element) {
         return;
     }
-    
+
     if (!confirm(_('Do you really want to remove this node?'))) {
         return;
     }
-    
+
     var act = data.localName == 'view' ? '/openerp/viewed/remove_view' : '/openerp/viewed/save/remove';
-    
+
     var req = openobject.http.postJSON(act, {view_id: data.view_id, xpath_expr: getXPath(selected)});
     req.addCallback(function(obj){
-        
+
         if (obj.error){
-            return alert(obj.error);
+            return error_display(obj.error);
         }
-        
+
         selected.parentNode.removeChild(selected);
     });
 }
@@ -122,47 +122,47 @@ function onAdd(node){
 }
 
 function doAdd() {
-    
+
     var tree = treeGrids['view_tree'];
     var selected = tree.selection[0] || null;
-    
+
     if (!selected) {
         return;
     }
 
     var form = document.forms['view_form'];
     var params = {};
-    
+
     forEach(form.elements, function(el){
         params[el.name] = el.value;
     });
-    
+
     var act = openobject.dom.get('node').value == 'view' ? '/openerp/viewed/create_view' : '/openerp/viewed/save/node';
-    
+
     var req = openobject.http.postJSON(act, params);
     req.addCallback(function(obj) {
-        
+
         if (obj.error){
-            return alert(obj.error);
+            return error_display(obj.error);
         }
-        
+
         var node = tree.createNode(obj.record);
         var pnode = selected.parentNode;
-        
+
         var pos = openobject.dom.get('position').value;
-        
+
         if (pos == 'after') {
-            pnode.insertBefore(node, selected.nextSibling);    
+            pnode.insertBefore(node, selected.nextSibling);
         }
-        
+
         if (pos == 'before') {
             pnode.insertBefore(node, selected);
         }
-        
+
         if (pos == 'inside') {
             selected.appendChild(node);
         }
-        
+
         node.onSelect();
 
         if (obj.record.items && obj.record.items.edit)
@@ -214,51 +214,51 @@ function onEdit(node) {
 }
 
 function doEdit() {
-    
+
     var tree = treeGrids['view_tree'];
     var selected = tree.selection[0] || null;
-    
+
     if (!selected) {
         return;
     }
 
     var form = document.forms['view_form'];
     var params = {};
-    
+
     forEach(form.elements, function(el){
-        
+
         if (!el.name) return;
-        
+
         var val = el.type == 'checkbox' ? el.checked ? 1 : null : el.value;
-                        
+
         if (el.type == 'select-multiple') {
-        
+
             val = MochiKit.Base.filter(function(o){
                 return o.selected;
-            }, el.options); 
-            
+            }, el.options);
+
             val = MochiKit.Base.map(function(o){
                 return o.value;
             }, val);
-            
+
             val = val.join(',');
         }
-        
+
         if (val) {
            params[el.name] = val;
         }
     });
-    
+
     var req = openobject.http.postJSON('/openerp/viewed/save/properties', params);
     req.addCallback(function(obj){
-        
+
         if (obj.error){
-            alert(obj.error);
+            error_display(obj.error);
         }
-        
+
         selected.updateDOM(obj.record);
     });
-    
+
     req.addBoth(function(obj){
         window.mbox.hide();
     });
@@ -267,112 +267,112 @@ function doEdit() {
 }
 
 function onMove(direction, node) {
-    
+
     var tree = treeGrids['view_tree'];
     var selected = node || tree.selection[0] || null;
-    
+
     if (!selected) {
         return;
     }
-    
+
     var refNode = direction == 'up' ? selected.previousSibling : selected;
     var node = direction == 'up' ? selected : selected.nextSibling;
-    
+
     if (!node || (direction == 'up' && !refNode)) {
         return;
     }
-    
+
     var record = node.record;
     var data = record.items;
-    
+
     var params = {
-        view_id: data.view_id, 
+        view_id: data.view_id,
         xpath_expr: getXPath(node),
         xpath_ref: getXPath(refNode)
     };
-    
+
     var req = openobject.http.postJSON('/openerp/viewed/save/move', params);
-    
+
     req.addCallback(function(obj) {
-        
+
         if (obj.error){
-            return alert(obj.error);
+            return error_display(obj.error);
         }
-        
+
         var pnode = node.parentNode;
         var nnode = tree.createNode(record);
-        
+
         pnode.removeChild(node);
         pnode.insertBefore(nnode, refNode);
-        
+
         if (direction == 'up') {
             nnode.onSelect();
         } else {
             refNode.onSelect();
         }
     });
-    
+
     return true;
 }
 
 function onButtonClick(evt, node) {
-    
+
     var src = evt.src();
-    
+
     switch (src.name) {
-        case 'edit': 
+        case 'edit':
             return onEdit(node);
-        case 'delete': 
+        case 'delete':
             return onDelete(node);
         case 'add':
             return onAdd(node);
         case 'up':
-        case 'down': 
+        case 'down':
             return onMove(src.name, node);
     }
 }
 
 function onInherit() {
-    
+
     if (!confirm(_('Do you really wants to create an inherited view here?'))) {
         return;
     }
-    
+
     var tree = treeGrids['view_tree'];
     var selected = tree.selection[0] || null;
-    
+
     if (!selected) {
         return;
     }
-    
+
     params = {
         view_id: openobject.dom.get('view_id').value,
         xpath_expr: getXPath(selected)
     };
-    
+
     var req = openobject.http.postJSON('/openerp/viewed/create_view', params);
     req.addCallback(function(obj) {
-        
+
         if (obj.error){
-            return alert(obj.error);
+            return error_display(obj.error);
         }
-        
+
         var node = tree.createNode(obj.record);
         selected.appendChild(node);
     });
-    
+
     return false;
 }
 
 function onPreview() {
-   var act = openobject.http.getURL('/openerp/viewed/preview/show', {'model' : openobject.dom.get('view_model').value, 
+   var act = openobject.http.getURL('/openerp/viewed/preview/show', {'model' : openobject.dom.get('view_model').value,
                                              'view_id' : openobject.dom.get('view_id').value,
                                              'view_type' : openobject.dom.get('view_type').value});
-   
+
     if (window.browser.isGecko19) {
         return openobject.tools.openWindow(act);
-    } 
-    
+    }
+
     window.open(act);
 }
 

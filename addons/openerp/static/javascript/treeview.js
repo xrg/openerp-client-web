@@ -21,41 +21,41 @@ TreeView.prototype = {
 
         this.trees[this.current.id] = this.current;
     },
-        
+
     openTree: function(id, ids, elem) {
         if (openobject.http.AJAX_COUNT > 0) {
             return;
         }
         ids = ids == ''? 'None' : ids;
-    	
+
         var tree = this.trees['tree_' + id] || null;
 
         jQuery(this.current_button).removeClass("selected");
         jQuery('#'+this.current.id).hide();
-        
+
         if (!tree) {
             var span = jQuery('<span>', {'id': 'tree_' + id});
             jQuery(this.view_tree).append(span);
             tree = this.current.copy(span[0], null, ids);
             this.trees[tree.id] = tree;
-            
+
             tree.render();
         }
-        
+
         this.current = tree;
         this.current_button = elem;
 
         jQuery(this.current_button).addClass('selected');
-        
+
         if (tree.table) {
             jQuery(tree.table).show();
         }
     },
-    
+
     switchItem: function() {
         var selection = jQuery('#_terp_ids').val();
         if (!selection) {
-            return alert(_('You must select at least one record.'));
+            return error_display('You must select at least one record.');
         }
 
         jQuery('#view_tree').attr({

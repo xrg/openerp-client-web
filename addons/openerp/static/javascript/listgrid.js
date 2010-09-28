@@ -498,7 +498,7 @@ MochiKit.Base.update(ListView.prototype, {
             var req = openobject.http.postJSON('/openerp/listgrid/button_action', params);
             req.addCallback(function(obj) {
                 if (obj.error) {
-                    return alert(obj.error);
+                    return error_display(obj.error);
                 }
 
                 if (obj.result && obj.result.url) {
@@ -632,7 +632,7 @@ MochiKit.Base.update(ListView.prototype, {
         }
 
         if (ids.length == 0) {
-        	return alert(_('You must select at least one record.'));
+        	return error_display('You must select at least one record.');
         }
         else if (!confirm(_('Do you really want to delete selected record(s) ?'))) {
             return false;
@@ -644,7 +644,7 @@ MochiKit.Base.update(ListView.prototype, {
 
         req.addCallback(function(obj) {
             if (obj.error) {
-                alert(obj.error);
+                error_display(obj.error);
             }
             else {
                 self.reload();

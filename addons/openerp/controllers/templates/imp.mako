@@ -113,14 +113,14 @@
                 });
             } else {
                 f = d.getElementsByTagName('pre');
-                if (f[0]) alert(f[0].innerHTML);
+                if (f[0]) error_display(f[0].innerHTML);
             }
         }
 
         function do_autodetect(form){
 
             if (! openobject.dom.get('csvfile').value ){
-                return alert(_('You must select an import file first!'));
+                return error_display('You must select an import file first.');
             }
 
             jQuery('#'+form).attr({

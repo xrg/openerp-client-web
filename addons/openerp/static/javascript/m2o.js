@@ -414,7 +414,7 @@ ManyToOne.prototype.get_matched = function() {
 
         req2.addCallback(function(obj2) {
             if(obj2.error) {
-                return alert(obj2.error);
+                return error_display(obj2.error);
             }
             if(text && obj2.values.length == 1) {
                 var val = obj2.values[0];
@@ -527,7 +527,7 @@ ManyToOne.prototype.displayResults = function(result) {
         return true;
     }
     catch(e) {
-        alert('error in display::' + e)
+        error_display('error in display::' + e)
     }
 };
 

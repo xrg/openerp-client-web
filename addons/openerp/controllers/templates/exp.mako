@@ -104,37 +104,37 @@
                 '_terp_id': id,
                 '_terp_model': model
             });
-            
+
             req.addCallback(function(obj){
                 if (obj.error){
-                    alert(obj.error);
+                    error_display(obj.error);
                 } else {
                     self.reload(obj.name_list);
                 }
             });
         }
-        
+
         function delete_listname(form) {
-        
+
             var list = new ListView('_terp_list');
             var boxes = list.getSelectedItems();
-                        
+
             if (boxes.length == 0){
-                alert(_('Please select an item...'));
+                error_display('Please select an item...');
                 return;
             }
-            
+
             var id = boxes[0].value;
 
             jQuery('#'+form).attr('action', openobject.http.getURL(
                 '/openerp/impex/delete_listname', {'_terp_id' : id})
             ).submit();
         }
-        
+
         function reload(name_list) {
             var select = openobject.dom.get('fields');
 
-            forEach(name_list, function(f){                
+            forEach(name_list, function(f){
                 var text = f[1];
                 var id = f[0];
                 select.options.add(new Option(text, id));
@@ -146,7 +146,7 @@
             var options = openobject.dom.get('fields').options;
 
             if (options.length == 0){
-                alert(_('Please select fields to export...'));
+                error_display('Please select fields to export...');
                 return;
             }
 

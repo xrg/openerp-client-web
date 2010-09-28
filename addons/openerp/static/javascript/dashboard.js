@@ -83,7 +83,7 @@ function onDrop(src, dst, evt) {
         req.addCallback(function(obj) {
 
             if (obj.error) {
-                return alert(obj.error);
+                return error_display(obj.error);
             }
 
             if (obj.reload) {

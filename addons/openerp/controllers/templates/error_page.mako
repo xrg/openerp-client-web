@@ -19,11 +19,11 @@
             req.addCallback(function(obj) {
 
                 if (obj.error) {
-                    return alert(obj.error);
+                    return error_display(obj.error);
                 }
 
                 if (obj.message) {
-                    alert(obj.message)
+                    error_display(obj.message)
                 }
 
                 history.length > 1 ? history.back() : window.close()

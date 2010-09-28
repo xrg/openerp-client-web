@@ -129,43 +129,43 @@ function switch_O2M(view_type, src){
     if (openobject.http.AJAX_COUNT > 0) {
         return;
     }
-    
+
     var prefix = src ? src + '/' : '';
     var form = document.forms['view_form'];
-    
+
     var params = getFormParams();
-    
+
     params['_terp_source'] = src;
     params['_terp_source_view_type'] = view_type;
     params['_terp_editable'] = $(prefix + '_terp_editable').value;
-    
+
     if (openobject.dom.get('_terp_list')) {
         var ids = new ListView('_terp_list').getSelectedRecords();
         if (ids.length > 0) {
             openobject.dom.get('_terp_id').value = ids[0];
         }
     }
-    
+
     var req = openobject.http.post('/openerp/form/switch_o2m', params);
     req.addCallback(function(xmlHttp){
-    
+
         var text = xmlHttp.responseText;
         if (text.indexOf('ERROR: ') == 0) {
             text = text.replace('ERROR: ', '');
-            return alert(text);
+            return error_display(text);
         }
-        
+
         var frm = openobject.dom.get('_o2m_' + src);
-        
+
         var d = DIV();
         d.innerHTML = text;
-        
+
         var newo2m = d.getElementsByTagName('table')[0];
-        
+
         swapDOM(frm, newo2m);
-        
+
         var ua = navigator.userAgent.toLowerCase();
-        
+
         if ((navigator.appName != 'Netscape') || (ua.indexOf('safari') != -1)) {
             // execute JavaScript
             var scripts = openobject.dom.select('script', newo2m);
@@ -201,47 +201,81 @@ function validate_required(form){
     if (typeof form == 'string') {
         form = jQuery('#' + form).get(0);
     }
-    
+
     if (!form) {
         return true;
     }
-    
+
     var elements = MochiKit.Base.filter(function(el){
         return !el.disabled && el.id && el.name && el.id.indexOf('_terp_listfields/') == -1 && hasElementClass(el, 'requiredfield');
     }, form.elements);
-    
+
     var result = true;
-    
+
     for (var i = 0; i < elements.length; i++) {
         var elem = elements[i];
         var elem2 = elem;
         var value = elem.value;
         var kind = jQuery(elem).attr('kind');
-        
+
         if (kind == 'many2many') {
             elem2 = openobject.dom.get(elem.name + '_set') || elem;
             value = value == '[]' ? '' : value;
         }
-        
+
         if (kind == 'many2one' || kind == 'reference') {
             elem2 = openobject.dom.get(elem.id + '_text') || elem;
         }
-        
+
         if (!value) {
             jQuery(elem2).addClass('errorfield');
             result = false;
         }
-        else 
+        else
             if (jQuery(elem2).hasClass('errorfield')) {
                 jQuery(elem2).removeClass('errorfield');
             }
     }
-    
+
     if (!result) {
-        alert(_("Invalid form, correct red fields !"));
+        var msg = 'Invalid form, correct red fields.'
+        error_display(msg);
     }
-    
     return result;
+}
+
+function close_error_display() {
+    if (jQuery('div#fancybox-wrap').is(':visible')) {
+        jQuery.fancybox.close();
+        return;
+    }
+    if (history.length > 1) {
+        history.back()
+    } else {
+        window.close();
+    }
+}
+
+function error_display(msg) {
+    var elem = document.createElement("form");
+    var title = 'Warning Message';
+    elem.innerHTML =(
+    "   <table class='errorbox' align='center'>"+
+    "       <tr>"+
+    "           <td colspan='2' class='error_message_header'>"+title+"</td>"+
+    "       </tr>"+
+    "       <tr>"+
+    "           <td style='padding: 4px 2px;'>"+
+    "               <img src='/openerp/static/images/warning.png'></img>"+
+    "           </td>"+
+    "           <td class='error_message_content'>"+msg+"</td>"+
+    "           <tr>"+
+    "              <td colspan='2' align='right'>"+
+    "                 <a class='button-a' href='javascript: void(0)' onclick='close_error_display()'>OK</a>"+
+    "           </td>"+
+    "       </tr>"+
+    "   </table>");
+    jQuery.fancybox(elem);
 }
 
 function o2m_pager_action(action, src){
@@ -627,16 +661,16 @@ function onChange(caller){
                     default:
                     // do nothing on default
                 }
-                
+
                 MochiKit.Signal.signal(fld, 'onchange');
                 MochiKit.Signal.signal(window.document, 'onfieldchange', fld);
             }
-            
+
             fld.__lock_onchange = false;
         }
-        
+
         if (obj.warning && obj.warning.message) {
-            alert(obj.warning.message);
+            error_display(obj.warning.message);
         }
     });
 }
@@ -929,18 +963,18 @@ function do_action(action_id, field, relation, src, data){
     if (openobject.dom.get('_terp_list')) {
         var list = new ListView('_terp_list');
         var ids = list.getSelectedRecords();
-        
+
         if (ids.length == 0) {
-            return alert(_('You must select at least one record.'));
+            return error_display('You must select at least one record.');
         }
-        
+
         params['_terp_selection'] = '[' + ids.join(',') + ']';
     }
-    
+
     var id = openobject.dom.get(field).value;
     var domain = getNodeAttribute(src, 'domain');
     var context = getNodeAttribute(src, 'context');
-    
+
     var req = eval_domain_context_request({
         'source': openobject.dom.get(field).id,
         'active_id': id,
@@ -1061,9 +1095,9 @@ function show_wkf(){
     if (jQuery('#_terp_list').length) {
         var lst = new ListView('_terp_list');
         var ids = lst.getSelectedRecords();
-        
+
         if (ids.length < 1) {
-            alert(_('You must select at least one record.'));
+            error_display('You must select at least one record.');
             return;
         }
         id = ids[0];
@@ -1167,9 +1201,9 @@ function error_popup(obj){
         error_window.document.write(obj.error);
         error_window.document.title += "OpenERP - Error"
         error_window.document.close();
-    } 
+    }
     catch (e) {
-        alert(e)
+        error_display(e)
     }
 }
 
