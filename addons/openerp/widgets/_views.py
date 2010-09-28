@@ -126,11 +126,10 @@ def get_view_widget(kind, screen):
     return view(screen)
 
 def get_registered_views():
-
     pool = pooler.get_pool()
-    views = pool.get_group("view_types")
+    Views = pool.get_group("view_types")
 
-    views = views.items()
+    views = [(kind, ViewType()) for kind, ViewType in Views.iteritems()]
     views.sort(lambda a, b: cmp(a[1].priority, b[1].priority))
 
     return views

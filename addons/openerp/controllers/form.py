@@ -226,11 +226,9 @@ class Form(SecuredController):
         from openerp.widgets import get_registered_views
         buttons.views = []
 
-        views = get_registered_views()
-        for kind, ViewType in views:
-            view = ViewType()
+        for kind, view in get_registered_views():
             active = kind in params.view_mode and mode != kind
-            buttons.views.append(dict(kind=kind, name=view.name, desc=ViewType().desc, active=active))
+            buttons.views.append(dict(kind=kind, name=view.name, desc=view.desc, active=active))
 
         target = getattr(cherrypy.request, '_terp_view_target', None)
         buttons.toolbar = (target != 'new' and not form.is_dashboard) or mode == 'diagram'
