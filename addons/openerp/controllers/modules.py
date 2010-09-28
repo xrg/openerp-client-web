@@ -52,6 +52,8 @@ class ModuleForm(form.Form):
     def get_new_modules(self):
         modules = rpc.RPCProxy('ir.module.module')
         web_modules = modules.list_web()
+        if not web_modules: return []
+
         web_payload = modules.get_web(web_modules)
         for module in web_payload:
             # Due to the way zip_directory works on the server, we get a toplevel dir called "web" for our addon,
