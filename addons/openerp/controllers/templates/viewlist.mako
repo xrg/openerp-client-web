@@ -44,7 +44,7 @@
             var boxes = list.getSelectedItems();
 
             if (boxes.length == 0){
-                error_display('Please select a view...');
+                error_display(_('Please select a view...'));
                 return;
             }
 
@@ -63,7 +63,7 @@
             var boxes = list.getSelectedItems();
 
             if (boxes.length == 0){
-                error_display('Please select a view...');
+                error_display(_('Please select a view...'));
                 return;
             }
 

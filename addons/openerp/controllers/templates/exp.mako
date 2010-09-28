@@ -120,7 +120,7 @@
             var boxes = list.getSelectedItems();
 
             if (boxes.length == 0){
-                error_display('Please select an item...');
+                error_display(_('Please select an item...'));
                 return;
             }
 
@@ -146,7 +146,7 @@
             var options = openobject.dom.get('fields').options;
 
             if (options.length == 0){
-                error_display('Please select fields to export...');
+                error_display(_('Please select fields to export...'));
                 return;
             }
 

@@ -120,7 +120,7 @@
         function do_autodetect(form){
 
             if (! openobject.dom.get('csvfile').value ){
-                return error_display('You must select an import file first.');
+                return error_display(_('You must select an import file first.'));
             }
 
             jQuery('#'+form).attr({

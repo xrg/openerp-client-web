@@ -238,8 +238,7 @@ function validate_required(form){
     }
 
     if (!result) {
-        var msg = 'Invalid form, correct red fields.'
-        error_display(msg);
+        error_display(_("Invalid form, correct red fields."));
     }
     return result;
 }
@@ -257,12 +256,12 @@ function close_error_display() {
 }
 
 function error_display(msg) {
-    var elem = document.createElement("form");
-    var title = 'Warning Message';
+    var elem = document.createElement("table");
+    elem.setAttribute = ("class", "errorbox");
+    elem.setAttribute = ("align", "center");
     elem.innerHTML =(
-    "   <table class='errorbox' align='center'>"+
     "       <tr>"+
-    "           <td colspan='2' class='error_message_header'>"+title+"</td>"+
+    "           <td colspan='2' class='error_message_header'>"+"Warning Message"+"</td>"+
     "       </tr>"+
     "       <tr>"+
     "           <td style='padding: 4px 2px;'>"+
@@ -273,8 +272,7 @@ function error_display(msg) {
     "              <td colspan='2' align='right'>"+
     "                 <a class='button-a' href='javascript: void(0)' onclick='close_error_display()'>OK</a>"+
     "           </td>"+
-    "       </tr>"+
-    "   </table>");
+    "       </tr>");
     jQuery.fancybox(elem);
 }
 
@@ -965,7 +963,7 @@ function do_action(action_id, field, relation, src, data){
         var ids = list.getSelectedRecords();
 
         if (ids.length == 0) {
-            return error_display('You must select at least one record.');
+            return error_display(_('You must select at least one record.'));
         }
 
         params['_terp_selection'] = '[' + ids.join(',') + ']';
@@ -1097,7 +1095,7 @@ function show_wkf(){
         var ids = lst.getSelectedRecords();
 
         if (ids.length < 1) {
-            error_display('You must select at least one record.');
+            error_display(_('You must select at least one record.'));
             return;
         }
         id = ids[0];

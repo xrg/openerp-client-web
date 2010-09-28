@@ -632,7 +632,7 @@ MochiKit.Base.update(ListView.prototype, {
         }
 
         if (ids.length == 0) {
-        	return error_display('You must select at least one record.');
+        	return error_display(_('You must select at least one record.'));
         }
         else if (!confirm(_('Do you really want to delete selected record(s) ?'))) {
             return false;

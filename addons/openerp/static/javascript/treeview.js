@@ -55,7 +55,7 @@ TreeView.prototype = {
     switchItem: function() {
         var selection = jQuery('#_terp_ids').val();
         if (!selection) {
-            return error_display('You must select at least one record.');
+            return error_display(_('You must select at least one record.'));
         }
 
         jQuery('#view_tree').attr({

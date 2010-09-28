@@ -83,7 +83,7 @@
                        }
 
                        else {
-                            error_display("No record selected...");
+                            error_display(_("No record selected..."));
                             return;
                        }
                     }
@@ -109,7 +109,7 @@
 		                    var boxes = list_this.getSelectedItems();
 
 		                    if(boxes.length == 0) {
-		                        error_display("No record selected...");
+		                        error_display(_("No record selected..."));
 		                        return;
 		                    }
 
