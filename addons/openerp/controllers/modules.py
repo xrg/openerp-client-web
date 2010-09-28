@@ -54,7 +54,13 @@ class ModuleForm(form.Form):
         web_modules = modules.list_web()
         if not web_modules: return []
 
-        web_payload = modules.get_web(web_modules)
+        addons_to_download = [
+            module for module in web_modules
+            if not os.path.isdir(os.path.join(addons.ADDONS_PATH, module))
+        ]
+        # avoid querying for 0 addons if we have everything already
+        if not addons_to_download: return web_modules
+        web_payload = modules.get_web(addons_to_download)
         for module in web_payload:
             # Due to the way zip_directory works on the server, we get a toplevel dir called "web" for our addon,
             # rather than having it named "the right way". Dump to temp directory and move to right name.
