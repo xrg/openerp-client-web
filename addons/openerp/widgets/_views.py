@@ -17,7 +17,7 @@ class ViewType(type):
         kind = attrs.get("_type")
 
         if kind:
-            pooler.register_object(obj, key=kind, group="view_types", auto_create=True)
+            pooler.register_object(obj, key=kind, group="view_types")
 
         return obj
 
@@ -116,10 +116,10 @@ class ListView(TinyView):
 def get_view_widget(kind, screen):
 
     pool = pooler.get_pool()
-    views = pool.get_group("view_types")
+    Views = pool.get_group("view_types")
 
     try:
-        view = views[kind]
+        view = Views[kind]()
     except KeyError, e:
         raise Exception("view '%s' not supported." % kind)
 

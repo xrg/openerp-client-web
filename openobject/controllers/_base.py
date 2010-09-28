@@ -44,7 +44,7 @@ class ControllerType(type):
             if not path.startswith("/"):
                 raise Exception("Invalid path '%s', should start with '/'." % (path))
 
-            pooler.register_object(cls, key=path, group="controllers", auto_create=True)
+            pooler.register_object(cls, key=path, group="controllers")
 
 
 class BaseController(object):

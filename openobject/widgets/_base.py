@@ -41,11 +41,9 @@ class Widget(object):
 
     def __new__(cls, *args, **kwargs):
         pool = openobject.pooler.get_pool()
-        if pool.ready:
-            actual_cls = pool.get(cls.widget_key, group='widgets')
-        else:
-            actual_cls = cls
-        return object.__new__(actual_cls)
+        actual_cls = pool.get(cls.widget_key, group='widgets')
+        # if there is nothing in the pool yet (uh?)
+        return object.__new__(actual_cls or cls)
 
     def __init__(self, name=None, **params):
         # set each keyword args as attribute

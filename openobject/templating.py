@@ -11,17 +11,17 @@ def edition_preprocessor(template_text):
     #        .f_back         -> mako.template._compile_text or mako.template._compile_module_file
     template = inspect.currentframe().f_back.f_back.f_locals['template']
 
-    editor = pooler.get_pool().get(template.uri, group=EDITORS_GROUP)
+    Editor = pooler.get_pool().get(template.uri, group=EDITORS_GROUP)
 
-    if editor:
-        return editor.edit(template, template_text)
+    if Editor:
+        return Editor().edit(template, template_text)
     return template_text
 
 class EditorType(type):
     def __init__(cls, name, bases, attributes):
         super(EditorType, cls).__init__(name, bases, attributes)
         for template in attributes['templates']:
-            pooler.register_object(cls, template, group=EDITORS_GROUP, auto_create=True)
+            pooler.register_object(cls, template, group=EDITORS_GROUP)
 
 class TemplateEditor(object):
     """

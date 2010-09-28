@@ -60,7 +60,6 @@ class Root(SecuredController):
 
         @param id: `action_id` or `menu_id`
         """
-
         proxy = rpc.RPCProxy("res.users")
         act_id = proxy.read([rpc.session.uid], [id, 'name'], rpc.session.context)
 
