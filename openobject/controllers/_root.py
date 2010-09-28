@@ -1,7 +1,7 @@
 import cherrypy
 
 from openobject import pooler
-from openobject.tools import expose
+from openobject.tools import expose, AuthenticationError
 
 from _base import BaseController
 
@@ -15,12 +15,11 @@ class Root(BaseController):
     def default(self, *args, **kw):
         try:
             obj = pooler.get_pool().get_controller("/openerp/modules")
-            module_list = obj.get_installed_modules()
-        except Exception:
-            module_list = []
-            pass
+            new_modules = obj.get_new_modules()
+        except AuthenticationError:
+            new_modules = []
 
-        if module_list:
+        if new_modules:
             pooler.restart_pool()
 
         request = cherrypy.request

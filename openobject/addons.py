@@ -216,11 +216,11 @@ def load_addons(db_name, config):
 
     try:
         obj = pooler.get_pool().get_controller("/openerp/modules")
-        module_list = obj.get_installed_modules()
-    except Exception:
-        module_list = []
+        new_modules = obj.get_new_modules()
+    except tools.AuthenticationError:
+        new_modules = []
 
-    new_modules_in_graph = upgrade_graph(graph, module_list)
+    new_modules_in_graph = upgrade_graph(graph, new_modules)
     if new_modules_in_graph:
         load_module_graph(db_name, graph, config)
 

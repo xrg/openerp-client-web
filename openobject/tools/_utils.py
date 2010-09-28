@@ -4,8 +4,10 @@ import cherrypy
 from mako.filters import html_escape
 
 
-__all__ = ["url", "url_plus", "redirect", "config", "content", "attrs", "attr_if", "decorated"]
+__all__ = ["url", "url_plus", "redirect", "config", "content", "attrs", "attr_if", "decorated",
+           "AuthenticationError"]
 
+class AuthenticationError(Exception): pass
 
 def url(_cppath, _cpparams=None, **kw):
     """

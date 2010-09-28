@@ -30,11 +30,14 @@
 import socket
 import xmlrpclib
 
+from openobject.tools import AuthenticationError
+
 import common
 
 from tiny_socket import TinySocket
 from tiny_socket import TinySocketError
 
+class NotLoggedIn(common.TinyError, AuthenticationError): pass
 
 class RPCException(Exception):
     """A common exeption class for RPC errors.
@@ -349,7 +352,7 @@ class RPCSession(object):
 
     def execute(self, obj, method, *args):
         if not self.is_logged():
-            raise common.warning(_('Not logged...'), _('Authorization Error'))
+            raise NotLoggedIn(_('Not logged...'), _('Authorization Error'))
 
         return self.gateway.execute(obj, method, *args)
 

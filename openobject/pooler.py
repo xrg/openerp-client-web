@@ -16,7 +16,6 @@ def register_object(cls, key, group):
     >>>
     """
     assert isinstance(cls, type), 'You can only register classes to the pooler'
-
     module = None
     if hasattr(cls, '__module__'):
         module = str(cls.__module__).split('.')[0]
@@ -51,7 +50,7 @@ class Pool(object):
             if package in registry:
                 for key, typ in registry[package].iteritems():
                     types = self.types_pool.setdefault(group, {})
-                    if key in types:
+                    if key in types and typ not in types[key].mro():
                         # already have an object there, build subtype
                         types[key] = type(typ.__name__,
                                           (typ, types[key]),
