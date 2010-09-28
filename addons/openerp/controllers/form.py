@@ -227,8 +227,7 @@ class Form(SecuredController):
         buttons.views = []
 
         for kind, view in get_registered_views():
-            active = kind in params.view_mode and mode != kind
-            buttons.views.append(dict(kind=kind, name=view.name, desc=view.desc, active=active))
+            buttons.views.append(dict(kind=kind, name=view.name, desc=view.desc))
 
         target = getattr(cherrypy.request, '_terp_view_target', None)
         buttons.toolbar = (target != 'new' and not form.is_dashboard) or mode == 'diagram'

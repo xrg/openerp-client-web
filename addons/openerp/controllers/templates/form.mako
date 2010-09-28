@@ -40,7 +40,7 @@
 	% endif
 </%def>
 
-<%def name="make_view_button(kind, name, desc, active)">
+<%def name="make_view_button(kind, name, desc)">
     <%
         cls = ''
         if form.screen.view_type == kind:
