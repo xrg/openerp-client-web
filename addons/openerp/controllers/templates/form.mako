@@ -1,4 +1,4 @@
-	<%inherit file="/openerp/controllers/templates/base_dispatch.mako"/>
+<%inherit file="/openerp/controllers/templates/base_dispatch.mako"/>
 
 <%def name="header()">
 	<script type="text/javascript">
@@ -40,6 +40,22 @@
 	% endif
 </%def>
 
+<%def name="make_view_button(kind, name, desc, active)">
+    <%
+        cls = ''
+        if form.screen.view_type == kind:
+            cls = 'active'
+    %>
+    <li class="${kind}" title="${desc}">
+        % if kind in form.screen.view_mode:
+            <a href="#" onclick="switchView('${kind}'); return false;"
+               class="${cls}">${kind}</a>
+        % else:
+            <a class="inactive">${kind}</a>
+        % endif
+    </li>
+</%def>
+
 <%def name="content()">
     <%
         if can_shortcut:
@@ -47,34 +63,16 @@
                 shortcut_class = "shortcut-remove"
             else:
                 shortcut_class = "shortcut-add"
-
     %>
     <table id="main_form_body" class="view" cellpadding="0" cellspacing="0" border="0" width="100%" style="border: none;">
         <tr>
             <td id="body_form_td" width="100%" valign="top">
                 % if buttons.toolbar:
-
-                <%def name="make_view_button(i, kind, name, desc, active)">
-                    <%
-                        cls = ''
-                        if form.screen.view_type == kind:
-                            cls = 'active'
-                    %>
-                    <li class="v${i}" title="${desc}">
-                        % if kind in form.screen.view_mode:
-                            <a href="#" onclick="switchView('${kind}'); return false;"
-                               class="${cls}">${kind}</a>
-                        % else:
-                            <a class="inactive">${kind}</a>
-                        % endif
-                    </li>
-                </%def>
-
-                <ul id="view-selector">
-                % for i, view in enumerate(buttons.views):
-                    ${make_view_button(i+1, **view)}
-                % endfor
-                </ul>
+                    <ul id="view-selector">
+                    % for view in buttons.views:
+                        ${make_view_button(**view)}
+                    % endfor
+                    </ul>
                 % endif
 
                 <h1>

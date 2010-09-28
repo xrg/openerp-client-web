@@ -1910,6 +1910,8 @@ ul.split-a .two {
     display: inline;
     float: left;
     margin: 0 0 0 3px;
+    border: none;
+    padding: 0;
 }
 
 #view-selector li a {
@@ -1926,67 +1928,64 @@ ul.split-a .two {
     opacity: 0.4;
 }
 
-#view-selector li.v1 a {
+#view-selector li.tree a {
     background-position: 0 0;
 }
-
-#view-selector li.v1 a:hover,#view-selector li.v1 a:focus,#view-selector li.v1 a:active,#view-selector li.v1 a.active
-    {
+#view-selector li.tree a:hover,
+#view-selector li.tree a:focus,
+#view-selector li.tree a:active,
+#view-selector li.tree a.active {
     background-position: 0 -21px;
 }
 
-#view-selector li.v2 a {
+#view-selector li.form a {
     background-position: -22px 0;
 }
-
-#view-selector li.v2 a:hover,#view-selector li.v2 a:focus,#view-selector li.v2 a:active,#view-selector li.v2 a.active
-    {
+#view-selector li.form a:hover,
+#view-selector li.form a:focus,
+#view-selector li.form a:active,
+#view-selector li.form a.active {
     background-position: -22px -21px;
 }
 
-#view-selector li.v3 a {
+#view-selector li.graph a {
     background-position: -44px 0;
 }
-
-#view-selector li.v3 a:hover,#view-selector li.v3 a:focus,#view-selector li.v3 a:active,#view-selector li.v3 a.active
-    {
+#view-selector li.graph a:hover,
+#view-selector li.graph a:focus,
+#view-selector li.graph a:active,
+#view-selector li.graph a.active {
     background-position: -44px -21px;
 }
 
-#view-selector li.v5 a {
+#view-selector li.gantt a {
     background-position: -66px 0;
 }
-
-#view-selector li.v5 a:hover,#view-selector li.v5 a:focus,#view-selector li.v5 a:active,#view-selector li.v5 a.active
-    {
+#view-selector li.gantt a:hover,
+#view-selector li.gantt a:focus,
+#view-selector li.gantt a:active,
+#view-selector li.gantt a.active {
     background-position: -66px -21px;
 }
 
-#view-selector li.v4 a {
+#view-selector li.calendar a {
     background-position: -88px 0;
 }
-
-#view-selector li.v4 a:hover,#view-selector li.v4 a:focus,#view-selector li.v4 a:active,#view-selector li.v4 a.active
-    {
+#view-selector li.calendar a:hover,
+#view-selector li.calendar a:focus,
+#view-selector li.calendar a:active,
+#view-selector li.calendar a.active {
     background-position: -88px -21px;
 }
 
-#view-selector li.v6 a {
+#view-selector li.diagram a {
     background-position: -110px 0;
 }
-
-#view-selector li.v6 a:hover,#view-selector li.v6 a:focus,#view-selector li.v6 a:active,#view-selector li.v6 a.active
-    {
+#view-selector li.diagram a:hover,
+#view-selector li.diagram a:focus,
+#view-selector li.diagram a:active,
+#view-selector li.diagram a.active {
     background-position: -110px -21px;
-}
-
-#view-selector li.v7 a {
-    background-position: -132px 0;
-}
-
-#view-selector li.v7 a:hover,#view-selector li.v7 a:focus,#view-selector li.v7 a:active,#view-selector li.v7 a.active
-    {
-    background-position: -132px -21px;
 }
 
 table#title_header {
