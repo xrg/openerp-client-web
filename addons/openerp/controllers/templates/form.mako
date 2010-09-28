@@ -51,7 +51,7 @@
             <a href="#" onclick="switchView('${kind}'); return false;"
                class="${cls}">${kind}</a>
         % else:
-            <a class="inactive">${kind}</a>
+            <a href="#" class="inactive">${kind}</a>
         % endif
     </li>
 </%def>
