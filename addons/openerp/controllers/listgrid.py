@@ -244,10 +244,9 @@ class List(SecuredController):
         error = None
         reload = (params.context or {}).get('reload', False)
         result = {}
-        wiz_result = None
+
         name = params.button_name
         btype = params.button_type
-
         ctx = dict((params.context or {}), **rpc.session.context)
 
         id = params.id
@@ -288,7 +287,7 @@ class List(SecuredController):
                 if isinstance(res, dict) and res.get('type') == 'ir.actions.act_url':
                     result = res
                 elif isinstance(res, basestring):
-                    wiz_result = {'model': model, 'action_id': action_id, 'id': id}
+                    return dict(res = res)
                 else:
                     error = "Button action has returned another view.."
 
@@ -297,7 +296,7 @@ class List(SecuredController):
         except Exception, e:
             error = ustr(e)
 
-        return dict(error=error, result=result, reload=reload, wiz_result=wiz_result)    
+        return dict(error=error, result=result, reload=reload)
 
     @expose('json', methods=('POST',))
     def groupbyDrag(self, model, children, domain):
