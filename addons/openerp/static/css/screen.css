@@ -636,7 +636,7 @@ h1 {
     background:url("../images/sep-a.gif") repeat-x scroll 0 90% transparent;
     font-size:2em;
     font-weight:normal;
-    padding:0 0 5px 0px;;
+    padding:0 0 5px 5px;
 }
 
 h2 {
