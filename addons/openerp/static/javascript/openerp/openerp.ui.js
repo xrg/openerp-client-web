@@ -39,14 +39,7 @@ if (!openerp) {
 openerp.ui = {};
 
 function toggle_sidebar() {
-    function a() {
-        jQuery('#tertiary').toggleClass('sidebar-open sidebar-closed');
-    }
-    if (typeof(Notebook) == "undefined") {
-        a();
-    } else {
-        Notebook.adjustSize(a);
-    }
+    jQuery('#tertiary').toggleClass('sidebar-open sidebar-closed');
 }
 
 jQuery(document).bind('shortcuts-alter', function () {
