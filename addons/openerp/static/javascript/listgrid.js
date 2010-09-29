@@ -573,17 +573,18 @@ MochiKit.Base.update(ListView.prototype, {
         args['_terp_parent/context'] = openobject.dom.get(parent_field + '_terp_context').value;
         args['_terp_source'] = this.name;
         
-        
         var self = this;
         var req = openobject.http.postJSON('/openerp/listgrid/save', args);
         
         var $current_record = jQuery('table[id="'+this.name+'_grid'+'"]').find('tr.grid-row[record="'+id+'"]');
         req.addCallback(function(obj) {
             if (obj.error) {
+                error_display(obj.error);
+                
                 var $focus_field;
                 for (var k in data) {
-                    
                     var $req_field = $current_record.find('td [id="'+'_terp_listfields/'+k+'"].requiredfield');
+                    
                     if(!$req_field.length)
                         continue;
                     if($req_field.attr('kind') == 'many2one') {
@@ -599,7 +600,6 @@ MochiKit.Base.update(ListView.prototype, {
                     } else if($req_field.hasClass('errorfield')) {
                         $req_field.removeClass('errorfield');
                     }
-                    
                 }
                 if($focus_field) {
                     $focus_field.focus();
@@ -613,7 +613,6 @@ MochiKit.Base.update(ListView.prototype, {
                 } else {
                     self.reload(id > 0 ? null : -1, prefix ? 1 : 0);
                 }
-                    
             }
         });
     },

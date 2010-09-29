@@ -82,7 +82,7 @@
 
 .grid-row.editors .grid-cell {
     background-color: #FFFFBF;
-    padding: 2px;
+    padding: 2px 2px 2px 7px;
 }
 
 .grid-row.editors input,
