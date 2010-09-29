@@ -887,7 +887,7 @@ div#serverlog a {
     -moz-border-radius: 4px;
     -webkit-border-radius: 4px;
 
-    padding: 2px 4px 2px 0 !important;
+    padding: 1px 4px 2px 0 !important;
 }
 .filter-a .filter_icon:hover,
 .filter-a .filter_icon:focus {
