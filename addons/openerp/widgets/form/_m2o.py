@@ -27,7 +27,7 @@
 #
 ###############################################################################
 from openerp import validators
-from openerp.utils import rpc
+from openerp.utils import rpc, expr_eval
 from openerp.widgets import TinyInputWidget, InputWidgetLabel, register_widget
 
 
@@ -74,7 +74,11 @@ class M2O(TinyInputWidget):
         super(M2O, self).update_params(d)
 
         if d['value'] and not d['text']:
-            d['text'] = rpc.name_get(self.relation, d['value'])
+            try:
+                value = expr_eval(d['value'], {'context':rpc.session.context})
+            except:
+                value = d['value']
+            d['text'] = rpc.name_get(self.relation, value)
 
 register_widget(M2O, ["many2one"])
 
