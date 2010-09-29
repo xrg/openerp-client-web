@@ -210,8 +210,9 @@ function setup_tips(){
         return true;
 
     }, openobject.dom.select('td.label', document));
-
-    new openerp.ui.Tips(elements);
+    if (elements.length) {
+        new openerp.ui.Tips(elements);
+    }
 }
 jQuery(document).ready(setup_tips);
 jQuery(document).ajaxStop(setup_tips);
