@@ -37,8 +37,7 @@ import xml.dom.minidom
 import cherrypy
 import copy
 from openerp.utils import rpc, cache, icons, node_attributes, expr_eval
-from openerp.widgets import TinyInputWidget
-from openerp.widgets import form
+from openerp.widgets import TinyInputWidget, InputWidgetLabel, form
 
 from openobject.widgets import JSLink, locations
 
