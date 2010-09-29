@@ -13,11 +13,12 @@ form th {
 
 form select {
     min-width: 100px;
-    height: 18px;
+    height: 20px;
 }
 
 .fieldcol {
 	width: 70%;
+	padding: 3px;
 }
 
 .fieldcol .requiredfield {
@@ -70,4 +71,5 @@ select.selectfield {
 .db-form .links {
     white-space: nowrap;
     text-align: right;
+    padding: 0px 5px 0px 0px;
 }

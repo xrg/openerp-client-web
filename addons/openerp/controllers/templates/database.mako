@@ -34,9 +34,9 @@
 </%def>
 
 <%def name="content()">
-
-<%include file="header.mako"/>
-
+	<table width="100%">
+        <tr><%include file="header.mako"/></tr>
+    </table>
     <div class="db-form">
         <div>
             <table width="100%" class="titlebar">

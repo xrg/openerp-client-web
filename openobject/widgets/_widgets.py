@@ -276,7 +276,7 @@ class Form(FormField):
             % endfor
             <tr>
                 <td>&nbsp;</td>
-                <td align="right"><button type="submit" class="static_boxes">${submit_text}</button></td>
+                <td align="right" style="padding: 0px 5px 5px 0px;"><button type="submit" class="static_boxes">${submit_text}</button></td>
             </tr>
         </table>
     </form>

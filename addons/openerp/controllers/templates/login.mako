@@ -51,11 +51,11 @@
                                 </tr>
                                 <tr>
                                     <td class="label"><label for="user">${_("User:")}</label></td>
-                                    <td style="padding-left:2px;"><input type="text" id="user" name="user" class="db_user_pass" value="${user}"/></td>
+                                    <td style="padding: 0px 10px 5px 2px;"><input type="text" id="user" name="user" class="db_user_pass" value="${user}"/></td>
                                 </tr>
                                 <tr>
                                     <td class="label"><label for="password">${_("Password:")}</label></td>
-                                    <td style="padding-left:2px;"><input type="password" value="${password}" id="password" name="password" class="db_user_pass"/></td>
+                                    <td style="padding: 0px 10px 5px 2px;"><input type="password" value="${password}" id="password" name="password" class="db_user_pass"/></td>
                                 </tr>
                                 <tr>
                                     <td></td>
