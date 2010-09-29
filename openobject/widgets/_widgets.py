@@ -254,9 +254,7 @@ class Form(FormField):
             % endfor
         </div>
         % endif
-        <table style="background:#F1F2F1 none repeat scroll 0 0;
-                      border: 4px double #5A5858; margin-top:20px;
-                      padding:5px;" width="10%" class="form-container">
+        <table class="form-container">
             % for child in fields:
             <%
                 error = error_for(child)
