@@ -96,7 +96,7 @@
                             <td width="100%">
                             </td>
                             <td>
-                            	<a class="button-b" href="javascript: void(0)" onclick="window.close()">${_("Close")}</a>
+                            	<a class="button-a" href="javascript: void(0)" onclick="window.close()">${_("Close")}</a>
                             </td>
                             <td>
                                 <button type="submit">${_("OK")}</button>
