@@ -15,6 +15,7 @@ a.help-button-a {
 	line-height:1;
 	overflow:hidden;
 	padding:14px 0 0;
+	position: relative;
 	text-align:center;
 	text-decoration:none !important;
 	text-shadow:0 -1px 0 #000000;
@@ -33,7 +34,6 @@ a.help-button-a small {
     font-size: 11px;
     left: 10px;
     max-height: 250px;
-    position: relative;
     text-align: left;
     z-index: 1000;
 }

@@ -48,11 +48,11 @@
 		<tr>
 	        <td width="75%" valign="top" style="padding-top:10px;">
 	        	<h1>Help: ${title}</h1>
-		        <div style="padding:5px 10px;">
+		        <div style="padding:5px 10px; min-height:56px;">
 		        	<p><i>${help}</i></p>
 		        </div>
 	        </td>
-	    	<td width="25%" align="center" rowspan="3" valign="top">
+	    	<td width="25%" align="center" rowspan="4" valign="top">
 	    		<div style="border-left: 2px solid; padding: 0 10px;">
 					<a class="help-button-a" target="_blank" href=" http://www.openerp.com/services/subscribe-onsite" style="padding-bottom:3px;">
 						${_("Get the OpenERP Warranty %(by)s",
@@ -78,14 +78,14 @@
 	    </tr>
 
 		<tr>
-			<td style="padding-bottom:0" valign="bottom">
+			<td style="padding-bottom:0" colspan="1" valign="bottom">
 				<h2 style="padding:0 0 0 10px; font-weight:bold">${process_title} ${_("Process")}</h2>
 			</td>
 		</tr>
 
 		% if selection:
 		<tr>
-			<td colspan="2">
+			<td colspan="1">
 			    <input type="hidden" id="res_model" value="${res_model}"/>
 			    <input type="hidden" id="res_id" value="${res_id}"/>
 			    <fieldset style="margin: 0 0 10px 10px">
