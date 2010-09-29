@@ -191,7 +191,9 @@ class Frame(TinyWidget):
         if isinstance(widget, TinyInputWidget) and hasattr(cherrypy.request, 'terp_validators'):
             self._add_validator(widget)
 
-        attrs = {'class': 'item', 'for': widget.name}
+        attrs = {'for': widget.name}
+        if isinstance(widget, TinyInputWidget):
+            attrs['class'] = 'item'
         if rowspan > 1: attrs['rowspan'] = rowspan
         if colspan > 1: attrs['colspan'] = colspan
 

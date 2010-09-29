@@ -28,16 +28,11 @@ div.wizard_toolbar {
 	float: right;
 }
 
-table#search_table td {
-    font-weight: bold;
-    text-align: left !important;
-}
-
 .filter_item {
     padding: 0;
 }
 
-td.item table {
+.item table {
     border: none;
 }
 
@@ -72,14 +67,14 @@ button:active, .button:active {
     font-size: 0.9em;
 }
 
-td.item button table {
+.item button table {
     margin: 0;
     border: none;
     font-weight: bold;
     font-size: 0.8em;
 }
 
-td.item button table td {
+.item button table td {
     border: none;
     padding: 0;
 }
@@ -92,24 +87,24 @@ div.group-data table.fields {
     width: 0%;
 }
 
-table#filter_option_table {
+#filter_option_table {
     margin: 0;
 }
 
-table#filter_option_table td.filter_column {
+#filter_option_table .filter_column {
     padding: 0;
     text-align:right;
     white-space:nowrap;
 }
 
-table#filter_option_table td.filter_column select {
+#filter_option_table .filter_column select {
     width: 80px;
 }
 
-table#filter_option_table td.filter_column input.qstring,
-table#filter_option_table td.filter_column select.filter_fields,
-table#filter_option_table td.filter_column select.expr,
-table#filter_option_table td.and_or select.select_andor {
+#filter_option_table .filter_column .qstring,
+#filter_option_table .filter_column .filter_fields,
+#filter_option_table .filter_column .expr,
+#filter_option_table .and_or select. {
     width: 100px;
     -moz-border-radius: 3px;
     -webkit-border-radius: 3px;
@@ -124,8 +119,8 @@ table#filter_option_table td.and_or select.select_andor {
     text-align: left;
 }
 
-table#filter_option_table label.and_or {
-    padding-right: 5px;
+#filter_option_table .and_or {
+    padding-left: 5px;
     text-align: left;
     color: #777777;
     font-weight: bold;
@@ -175,6 +170,17 @@ div#search_filter_data select.selection {
     color: #000;
     border: 1px solid #999999;
     width: 95px;
+    min-width: 95px;
+}
+#search_filter_data button,
+#search_filter_data .button {
+    padding: 0;
+}
+#search_filter_data .fields {
+    width: 100%;
+}
+#search_filter_data .fields .filters-group .fields {
+    width: 1px;
 }
 
 div.inactive_filter {
@@ -276,8 +282,24 @@ td.custom-filter ul {
     padding: 0 5px 0 0;
 }
 
-table#search_table td {
-    padding: 2px 0 2px 2px;
+.search_table .filter-a {
+    display: inline;
+}
+.search_table .filter-a .filter_icon {
+    vertical-align: bottom;
+    margin: 0;
+    min-width: 16px;
+    min-height: 16px;
+    height: 18px;
+}
+.search_table td {
+    text-align: left !important;
+}
+.search_table label {
+    font-weight: bold;
+}
+.search_table span.item {
+    padding: 2px 0;
 }
 
 td.custom-filter ul li {
@@ -551,17 +573,17 @@ table.o2m_box div.pagerbar-header strong {
     background-color: turquoise;
 }
 
-td.item,
-.action-buttons label,
-#groupdata_table td.item {
-    padding: 2px 5px;
+.label,
+.item,
+#groupdata_table .item {
+    padding: 2px 4px;
 }
 
-td.label {
+.label {
 	padding: 2px 2px 2px 6px;
 }
 
-td.label,
+.label,
 .action-buttons label {
     color: #777777;
     font-weight: bold;
@@ -576,19 +598,18 @@ td.label,
 .action-buttons label input {
     vertical-align: text-top;
 }
-
-td.item input,
-td.item select {
+.item input,
+.item select {
     min-width: 100%;
 }
 
-td.item table.fields {
+.item .fields {
     width: 100%;
 }
 
-td.item input,
-td.item select,
-td.item textarea {
+.item input,
+.item select,
+.item textarea {
     border-radius: 3px;
     -moz-border-radius: 3px;
     -webkit-border-radius: 3px;
@@ -597,18 +618,25 @@ td.item textarea {
     vertical-align: middle;
 }
 
-td.item input {
+.item input {
     padding: 2px 3px;
 }
 
-td.item input.m2o,
-td.item input.reference {
-    padding-right: 0px;
+.item input.m2o,
+.item input.reference {
+    padding-right: 0;
     min-width: 100%;
 }
 
-img.m2o_select,
-img.datetime {
+.m2o {
+    position: relative;
+}
+.m2o_select {
+    position: absolute;
+    right: 2px;
+    top: 0;
+}
+.item img.datetime {
     margin-left: -13px;
 }
 
@@ -618,17 +646,13 @@ img.m2o_open {
     cursor: pointer;
 }
 
-.item-image {
-	padding: 0px;
-}
-
-td.item table.item-wrapper td {
+.item .item-wrapper td {
     padding: 0;
     padding-right: 2px;
     white-space: nowrap;
 }
 
-td.item table.item-wrapper td img {
+.item .item-wrapper td img {
     vertical-align: middle;
 }
 
@@ -643,8 +667,8 @@ td.item table.item-wrapper td img {
     overflow: hidden;
 }
 
-td.item .checkbox,
-td.item .radio {
+.item .checkbox,
+.item .radio {
     width: auto;
     min-width: 10px;
 }
@@ -822,7 +846,7 @@ div#serverlog a {
     display: none;
 }
 
-div.filter-a button.filter_with_icon {
+.filter-a .filter_with_icon {
     -moz-border-radius: 0;
     -webkit-border-radius: 0;
     border-radius: 0;
@@ -837,21 +861,28 @@ div.filter-a button.filter_with_icon {
     color: #1F1F1F;
     line-height: 1.25;
     white-space: nowrap;
-    padding: 0;
-    min-height: 45px;
+    min-height: 40px;
     min-width: 45px;
+
+    padding: 2px 4px !important;
 }
-div.filter-a button.filter_with_icon:focus,
-div.filter-a button.filter_with_icon:hover {
+
+.filter-a .filter_with_icon img {
+    display: block;
+    margin: 1px auto 2px;
+}
+
+.filter-a .filter_with_icon:focus,
+.filter-a .filter_with_icon:hover {
     background-color: #e6e6e6;
     color: #000000;
 }
-div.filter-a button.filter_with_icon.active {
+.filter-a .filter_with_icon.active {
     background-color: #aaadb1;
     color: #000000;
 }
 
-div.filter-a button.filter_icon {
+.filter-a .filter_icon {
     background: none;
     border: none;
     margin: 15px 0 0 0;
@@ -861,16 +892,18 @@ div.filter-a button.filter_icon {
     border-radius: 4px;
     -moz-border-radius: 4px;
     -webkit-border-radius: 4px;
+
+    padding: 1px 4px 2px 0 !important;
 }
-div.filter-a button.filter_icon:hover,
-div.filter-a button.filter_icon:focus {
+.filter-a .filter_icon:hover,
+.filter-a .filter_icon:focus {
     background-color: #e6e6e6;
 }
-div.filter-a button.filter_icon.active {
+.filter-a .filter_icon.active {
     background-color: #aaadb1;
 }
 
-div.filter-a button.filter_icon table {
+.filter-a .filter_icon table {
     margin: 0;
 }
 

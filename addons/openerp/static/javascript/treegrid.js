@@ -623,10 +623,6 @@ TreeNode.prototype = {
         } else {
         	this.expand();
         }
-		setTimeout(function() {
-			jQuery('#footer_section').hide();
-			adjustTopWidth();
-		}, 100);
         return true;
     },
 

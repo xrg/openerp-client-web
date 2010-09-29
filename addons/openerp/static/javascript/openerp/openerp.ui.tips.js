@@ -197,7 +197,7 @@ function setup_tips(){
             return false;
 
         var title;
-        var search_table = jQuery(e).find('table#search_table');
+        var search_table = jQuery(e).find('.search_table');
         if(search_table.length) {
             title = jQuery(search_table).find('td:first span').text().split(":")[0];
         } else {

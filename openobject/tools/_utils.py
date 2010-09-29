@@ -120,10 +120,7 @@ def attrs(*args, **kw):
     kv = {}
 
     for arg in args:
-        if isinstance(arg, dict):
-            kv.update(arg)
-        else:
-            raise TypeError
+        kv.update(arg)
 
     kv.update(kw)
 

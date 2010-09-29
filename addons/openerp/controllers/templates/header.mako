@@ -13,29 +13,13 @@ except:
     shortcuts = []
     requests = []
     requests_message = None
+
+if rpc.session.is_logged():
+    logged = True
+else:
+    logged = False
 %>
-
-<script type="text/javascript">
-    function setRowWidth() {
-        var topWidth = jQuery('div#top').width();
-        var logoWidth = jQuery('p#cmp_logo').outerWidth();
-
-        var shortcuts = jQuery('#shortcuts');
-        var offset = shortcuts.outerWidth() - shortcuts.width();
-
-        shortcuts.css('width', topWidth - logoWidth - offset);
-    }
-
-    jQuery(document).ready(setRowWidth);
-    jQuery(window).resize(setRowWidth);
-</script>
-<%
-    if rpc.session.is_logged():
-        logged = True
-    else:
-        logged = False
-%>
-<div id="top">
+<td id="top" colspan="3">
     <p id="cmp_logo">
         <a href="http://www.openerp.com" target="_blank">
             <img alt="OpenERP" id="company_logo" src="/openerp/static/images/openerp_small.png"/>
@@ -95,8 +79,8 @@ except:
 	        <p class="logout"><a href="${py.url('/openerp/logout')}" target="_top">${_("Logout")}</a></p>
 	    </div>
 	% endif
-
-    <div id="shortcuts" class="menubar" cellpadding="0" cellspacing="0">
+	
+    <div id="shortcuts" class="menubar">
     % if logged:
         <ul>
 	        % for i, sc in enumerate(shortcuts):
@@ -110,4 +94,4 @@ except:
         </ul>
     % endif
     </div>
-</div>
+</td>

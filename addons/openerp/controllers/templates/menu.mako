@@ -22,7 +22,6 @@
             }
 
             jQuery('.open-close-menu').click(function() {
-            	setTimeout("adjustTopWidth()", 0);
                 jQuery('#content').toggleClass('hide-menu');
                 jQuery(window).trigger('on-appcontent-resize');
             });
@@ -34,74 +33,80 @@
 <%def name="content()">
 
     <div id="root">
-        <%include file="header.mako"/>
-        
-        <div id="main_nav">
-            <a id="scroll_left" class="scroll_right" style="float: left; padding-top: 12px;" href="javascript: void(0);">
-                <img src="/openerp/static/images/scroll_left.png" alt="">
-            </a>
-            <a id="scroll_right" class="scroll_right" style="float: right; margin-right: 0; padding: 12px 5px 0 0;" href="javascript: void(0);">
-                <img src="/openerp/static/images/scroll_right.png" alt="">
-            </a>
-            <div id="nav" class="sc_menu">
-                <ul class="sc_menu">
-                    %for parent in parents:
-                        <li id="${parent['id']}" class="menu_tabs">
-                            <a href="${py.url('/openerp/menu', active=parent['id'])}" target="_top" class="${parent.get('active', '')}">
-                                <span>${parent['name']}</span>
-                            </a>
-                            <em>[1]</em>
-                        </li>
-                    % endfor
-                </ul>
-            </div>
-        </div>
-                
-        <div id="content" class="three-a">
-            <div id="secondary" class="sidenav-open">
-                <div class="wrap">
-                    <ul id="sidenav-a" class="accordion">
-                        % for tool in tools:
-                            % if tool.get('action'):
-                              <li class="accordion-title" id="${tool['id']}">
-                            % else:
-                              <li class="accordion-title">
-                            % endif
-                                <span>${tool['name']}</span>
-                            </li>
-                            <li class="accordion-content" id="content_${tool['id']}">
-                               ${tool['tree'].display()}
-                            </li>
-                        % endfor
-                    </ul>
-                    <script type="text/javascript">
-                        new Accordion("sidenav-a");
-                    </script>
-                </div>
-            </div>
-            <div id="toggle_accordion" class="open-close-menu hide_tools"></div>
-            <div id="primary">
-                <div class="wrap">
-                    <div id="appContent"></div>
-                </div>
-            </div>
-        </div>
-        <div id="footer_section">
-		   		% if cp.config('server.environment') == 'development':
-		            <div class="footer-a">
-		            	<p class="one">
-		                    <span>${rpc.session.protocol}://${_("%(user)s", user=rpc.session.loginname)}@${rpc.session.host}:${rpc.session.port}</span>
-		                </p>
-		                <p class="powered">${_("Powered by %(openerp)s ",
-		                					openerp="""<a target="_blank" href="http://www.openerp.com/">openerp.com</a>""")|n}</p>
-		            </div>
-		        % else:
-		        	<div class="footer-b">
-		                <p class="powered">${_("Powered by %(openerp)s ",
-		                					openerp="""<a target="_blank" href="http://www.openerp.com/">openerp.com</a>""")|n}</p>
-		            </div>
-		        % endif
-        </div>
+        <table id="content" class="three-a" width="100%">
+            <tr>
+                <%include file="header.mako"/>
+            </tr>
+            <tr>
+                <td id="main_nav" colspan="3">
+                    <a id="scroll_left" class="scroll_right" style="float: left; padding-top: 12px;" href="javascript: void(0);">
+                        <img src="/openerp/static/images/scroll_left.png" alt="">
+                    </a>
+                    <a id="scroll_right" class="scroll_right" style="float: right; margin-right: 0; padding: 12px 5px 0 0;" href="javascript: void(0);">
+                        <img src="/openerp/static/images/scroll_right.png" alt="">
+                    </a>
+                    <div id="nav" class="sc_menu">
+                        <ul class="sc_menu">
+                            %for parent in parents:
+                                <li id="${parent['id']}" class="menu_tabs">
+                                    <a href="${py.url('/openerp/menu', active=parent['id'])}" target="_top" class="${parent.get('active', '')}">
+                                        <span>${parent['name']}</span>
+                                    </a>
+                                    <em>[1]</em>
+                                </li>
+                            % endfor
+                        </ul>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td id="secondary" class="sidenav-open">
+                    <div class="wrap">
+                        <ul id="sidenav-a" class="accordion">
+                            % for tool in tools:
+                                % if tool.get('action'):
+                                  <li class="accordion-title" id="${tool['id']}">
+                                % else:
+                                  <li class="accordion-title">
+                                % endif
+                                    <span>${tool['name']}</span>
+                                </li>
+                                <li class="accordion-content" id="content_${tool['id']}">
+                                   ${tool['tree'].display()}
+                                </li>
+                            % endfor
+                        </ul>
+                        <script type="text/javascript">
+                            new Accordion("sidenav-a");
+                        </script>
+                    </div>
+                </td>
+                <td id="toggle_accordion" class="open-close-menu hide_tools"></td>
+                <td id="primary" width="100%">
+                    <div class="wrap">
+                        <div id="appContent"></div>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td id="footer_section" colspan="3">
+                    % if cp.config('server.environment') == 'development':
+                        <div class="footer-a">
+                            <p class="one">
+                                <span>${rpc.session.protocol}://${_("%(user)s", user=rpc.session.loginname)}@${rpc.session.host}:${rpc.session.port}</span>
+                            </p>
+                            <p class="powered">${_("Powered by %(openerp)s ",
+                                                openerp="""<a target="_blank" href="http://www.openerp.com/">openerp.com</a>""")|n}</p>
+                        </div>
+                    % else:
+                        <div class="footer-b">
+                            <p class="powered">${_("Powered by %(openerp)s ",
+                                                openerp="""<a target="_blank" href="http://www.openerp.com/">openerp.com</a>""")|n}</p>
+                        </div>
+                    % endif
+                </td>
+            </tr>
+        </table>
     </div>
 </%def>
 

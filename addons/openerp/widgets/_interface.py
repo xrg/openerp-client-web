@@ -152,6 +152,7 @@ class TinyInputWidget(TinyWidget, InputWidget):
         'change_default',
         'onchange',
         'kind',
+        'filters' # filter buttons within an input widget, part of the same implicit "group"
     ]
 
     select = False
@@ -188,6 +189,7 @@ class TinyInputWidget(TinyWidget, InputWidget):
         self.kind = attrs.get('type', None)
 
         self.label = self.label_type(self.name, self.string, self.help)
+        self.filters = []
 
     def set_state(self, state):
         if isinstance(self.states, dict) and state in self.states:

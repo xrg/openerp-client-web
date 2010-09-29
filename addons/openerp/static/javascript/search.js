@@ -131,7 +131,6 @@ function collapse_expand(div_id, grp_id, id) {
     jQuery(grp_id).toggle();
     if (id)
         jQuery(id).css('display', 'block');
-    setTimeout(function() {adjustTopWidth()}, 0);
 }
 
 function switch_searchView(d) {

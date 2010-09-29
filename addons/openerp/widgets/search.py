@@ -37,9 +37,7 @@ import xml.dom.minidom
 import cherrypy
 import copy
 from openerp.utils import rpc, cache, icons, node_attributes, expr_eval
-from openerp.widgets import TinyInputWidget, InputWidgetLabel
-from openerp.widgets.form import Char, Frame, Float, DateTime, Integer, Selection, Notebook
-from openerp.widgets.form import Separator, FiltersGroup, Group, NewLine, M2O
+from openerp.widgets import TinyInputWidget, InputWidgetLabel, form
 
 from openobject.widgets import JSLink, locations
 
@@ -180,45 +178,13 @@ class Filter(TinyInputWidget):
             if self.group_context in attrs['group_by_ctx']:
                 self.def_checked = True
 
-class M2O_search(M2O):
-    template = """
-        <table width="100%" cellpadding="0" cellspacing="0">
-            <tr>
-                <td>
-                    <input type="hidden" id="${name}" name="${name}" class="${css_class}" value="${value}"
-                        ${py.attrs(attrs, kind=kind, domain=domain, relation=relation, m2o_filter_domain=filter_domain)}/>
-                    <input type="text" id="${name}_text" class="${css_class}"
-                        name="${name}"
-                        ${py.attrs(attrs, kind=kind, relation=relation, value=text, m2o_filter_domain=filter_domain)}/>
-                    <input type="hidden" id="_hidden_${name}" value=""/>
-                    <div id="autoCompleteResults_${name}" class="autoTextResults"></div>
-                    % if error:
-                        <span class="fielderror">${error}</span>
-                    % endif
-                </td>
-                <td>
-                    <img id="${name}_select" alt="${_('Search')}" title="${_('Search')}"
-                        src="/openerp/static/images/fields-a-lookup-a.gif" class="${css_class} m2o_select"/>
-                </td>
-                <td class="item-image">
-                    <img id="${name}_open" alt="${_('Open')}" title="${_('Open a resource')}"
-                        src="/openerp/static/images/iconset-d-drop.gif" class="m2o_open"/>
-                </td>
-            </tr>
-        </table>
-        <script type="text/javascript">
-            new ManyToOne('${name}');
-        </script>
-    """
-    params = ['filter_domain']
-
+class M2O_search(form.M2O):
     def __init__(self, **attrs):
         if attrs.get('default', False) == 'uid':
             attrs['default'] = rpc.session.uid
 
-        filter_domain = None
-        if attrs.get('filter_domain'):
-            filter_domain = attrs['filter_domain']
+        attrs['m2o_filter_domain'] = attrs.get('filter_domain')
+
         super(M2O_search, self).__init__(**attrs)
 
 class Search(TinyInputWidget):
@@ -227,8 +193,6 @@ class Search(TinyInputWidget):
 
     params = ['fields_type', 'filters_list', 'operators_map', 'fields_list', 'filter_domain', 'flt_domain', 'source']
     member_widgets = ['frame']
-
-    _notebook = Notebook(name="search_notebook")
 
     def __init__(self, source, model, domain=None, context=None, values={}, filter_domain=None, search_view=None, group_by_ctx=[], **kw):
 
@@ -257,13 +221,13 @@ class Search(TinyInputWidget):
 
         if isinstance (self.search_view, basestring):
             self.search_view = eval(self.search_view)
-        
+
         if not self.search_view:
-            self.search_view = cache.fields_view_get(self.model, view_id, 'search', ctx, True)            
-            
+            self.search_view = cache.fields_view_get(self.model, view_id, 'search', ctx, True)
+
         self.fields_list = []
-        fields = self.search_view.get('fields')       
-        
+        fields = self.search_view['fields']
+
         try:
             dom = xml.dom.minidom.parseString(self.search_view['arch'])
         except:
@@ -309,8 +273,8 @@ class Search(TinyInputWidget):
         sorted_filters.sort(lambda x, y: cmp(x[1], y[1]))
 
         self.filters_list = [("blk", "-- Filters --", "")] \
-                          + sorted_filters                          
-                          
+                          + sorted_filters
+
         self.operators_map = [
             ('ilike', _('contains')), ('not ilike', _('doesn\'t contain')),
             ('=', _('is equal to')), ('<>', _('is not equal to')),
@@ -440,29 +404,43 @@ class Search(TinyInputWidget):
                             self.listof_domain += [i for i in domain if not i in self.listof_domain]
                             self.context.update(expr_eval(attrs.get('context',"{}"), {'self': s}))
 
-                    if (not default_search) and name in values and isinstance(field, (TinyInputWidget, RangeWidget)):
+                    if (not default_search) and name in values and isinstance(field, TinyInputWidget):
                         field.set_value(values[name])
 
                     views.append(field)
                     for n in node.childNodes:
                         if n.localName=='filter':
-                            attrs_child = node_attributes(n)
-                            attrs_child['default_domain'] = self.domain
-                            attrs_child['screen_context'] = self.context
-                            if attrs_child.get('string'):
-                                attrs_child['string'] = ''
+                            attrs_child = dict(
+                                node_attributes(n),
+                                default_domain=self.domain,
+                                screen_context=self.context)
+                            if 'string' in attrs_child: del attrs_child['string']
                             if values and values.get('group_by_ctx'):
                                 attrs['group_by_ctx'] = values['group_by_ctx']
+
                             filter_field = Filter(**attrs_child)
                             filter_field.onchange = None
                             filter_field.callback = None
+
                             if filter_field.groupcontext and filter_field.groupcontext not in self.groupby:
                                 self.groupby.append(filter_field.groupcontext)
-                            self.listof_domain += [i for i in filter_field.global_domain if not i in self.listof_domain]
-                            views.append(filter_field)
+                            self.listof_domain.extend(i for i in filter_field.global_domain
+                                                        if i not in self.listof_domain)
+                            field.filters.append(filter_field)
         if filters_run:
             views.append(FiltersGroup(children=filters_run))
         return views
+
+class Char(form.Char): pass
+class DateTime(form.DateTime): pass
+class FiltersGroup(form.FiltersGroup): pass
+class Float(form.Float): pass
+class Frame(form.Frame): pass
+class Group(form.Group): pass
+class Integer(form.Integer): pass
+class NewLine(form.NewLine): pass
+class Selection(form.Selection): pass
+class Separator(form.Separator): pass
 
 RANGE_WIDGETS = {
     'date': DateTime,
@@ -490,5 +468,3 @@ WIDGETS = {
     'url' : Char,
     'separator': Separator
 }
-
-# vim: ts=4 sts=4 sw=4 si et

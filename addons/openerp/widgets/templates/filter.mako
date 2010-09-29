@@ -16,43 +16,21 @@
 	%>
 	
 	<button type="button" class="${ul_class} ${a_class}" title="${help}" onclick="search_filter(jQuery('#${filter_id}'), this);">
-	   <table align="center">
-	       % if icon:
-	       <tr>
-	           <td>
-	               <img src="${icon}" width="16" height="16" style="margin: -4px;"/>
-	           </td>
-	       </tr>
-	       % endif
-	       % if text:
-	       <tr>
-	           <td style="font-size: 1.1em;">
-	               ${text}
-	           </td>
-	       </tr>
-	       % endif
-	   </table>
+       % if icon:
+           <img src="${icon}" width="16" height="16" alt="">
+       % endif
+       % if text:
+           ${text}
+       % endif
 	</button>
-	% if def_checked:
-            <input ${py.attrs(attrs)} style="display:none;"
-                type="checkbox"
-                id="${filter_id}"
-                name="${filter_id}"
-                class="grid-domain-selector"
-                onclick="search_filter(this);"
-                value="${filter_domain}"
-                group_by_ctx="${group_context}"
-                checked
-                title="${help}" filter_context="${filter_context}"/>
-        % else:
-            <input ${py.attrs(attrs)} style="display:none;"
-                type="checkbox"
-                id="${filter_id}"
-                name="${filter_id}"
-                class="grid-domain-selector"
-                onclick="search_filter(this);"
-                value="${filter_domain}"
-                group_by_ctx="${group_context}"
-                title="${help}" filter_context="${filter_context}"/>
-        % endif
+    <input ${py.attrs(attrs)} style="display:none;"
+        type="checkbox"
+        id="${filter_id}"
+        name="${filter_id}"
+        class="grid-domain-selector"
+        onclick="search_filter(this);"
+        value="${filter_domain}"
+        group_by_ctx="${group_context}"
+        title="${help}" filter_context="${filter_context}"
+        ${'checked' if def_checked else ''}/>
 </div>

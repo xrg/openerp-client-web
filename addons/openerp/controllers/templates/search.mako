@@ -146,7 +146,7 @@
         <input type="hidden" id="_terp_filter_domain" name="_terp_filter_domain" value="${params.filter_domain}"/>
         <input type="hidden" id="_terp_search_data" name="_terp_search_data" value="${params.search_data}"/>
 
-        <table width="100%" border="0" cellpadding="2" xmlns="http://www.w3.org/1999/xhtml" xmlns:py="http://purl.org/kid/ns#">
+        <table width="100%" border="0" cellpadding="2">
             <tr>
                 <td>
                     <table width="100%" class="titlebar" style="border: none;">
@@ -162,7 +162,7 @@
                 <td>${form.search.display()}</td>
             </tr>
             <tr>
-                <td class="toolbar" style="padding:0px">
+                <td class="toolbar" style="padding:0">
                     <table cellpadding="0" cellspacing="0">
                         <tr>
                             <td width="100%">
