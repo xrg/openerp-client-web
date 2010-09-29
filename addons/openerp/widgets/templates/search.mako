@@ -5,7 +5,7 @@
 
 	% if not source:
         <tr>
-           <td style="padding-top: 2px">
+           <td style="padding: 0 2px 0 3px;">
                 <div style="padding: 0 0 0 3px;" id="filters" onclick="collapse_expand(this, '#filter_option_table');" class="group-expand"><h2>Filters</h2></div>
                 <table id="filter_option_table" style="display:none;">
                     <tbody id="filter_table" style="display:none;">
