@@ -180,7 +180,7 @@ class O2M(TinyInputWidget):
                 current_record = self.screen.ids.index(self.screen.id) + 1
                 self.pager_info = '(%s/%s OF %s)' % (current_record, records_count, records_count)
             else:
-                self.pager_info = '(%s/%s OF %s)' % (records_count+1, records_count+1, records_count)
+                self.pager_info = '(%s/%s OF %s)' % (records_count+1, records_count+1, records_count+1)
 
     def get_value(self):
 
