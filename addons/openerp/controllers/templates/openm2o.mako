@@ -34,7 +34,7 @@
 <%def name="content()">
     <table class="view" cellspacing="5" border="0" width="100%" style="border: none;">
         <tr>
-            <td>
+            <td style="padding: 0pt 2px 2px 5px;">
                 <input type="hidden" id="_terp_load_counter" value="${params.load_counter or 0}"/>
                 <table width="100%" class="titlebar" style="border: none;">
                     <tr>
@@ -64,7 +64,7 @@
             </td>
         </tr>
         <tr>
-            <td>${form.display()}</td>
+            <td style="padding: 5px;">${form.display()}</td>
         </tr>
     </table>
 </%def>

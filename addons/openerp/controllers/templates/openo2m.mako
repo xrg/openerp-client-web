@@ -93,7 +93,7 @@
             </td>
         </tr>
         <tr>
-            <td>${form.display()}</td>
+            <td style="padding: 2px 5px 5px;">${form.display()}</td>
         </tr>
     </table>
 </%def>

@@ -73,7 +73,7 @@
         </tr>
         % endif
         <tr>
-            <td valign="top">${display_member(screen)}</td>
+            <td valign="top" style="padding: 2px 0 5px 5px;">${display_member(screen)}</td>
         </tr>
     </table>
     % if screen.view_type == 'tree':

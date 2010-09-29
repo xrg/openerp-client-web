@@ -162,7 +162,7 @@
                 <td>${form.search.display()}</td>
             </tr>
             <tr>
-                <td class="toolbar" style="padding:0">
+                <td class="toolbar" style="padding: 0 5px;">
                     <table cellpadding="0" cellspacing="0">
                         <tr>
                             <td width="100%">
@@ -176,7 +176,7 @@
                 </td>
             </tr>
             <tr>
-                <td>${form.screen.display()}</td>
+                <td style="padding: 5px">${form.screen.display()}</td>
             </tr>
         </table>
         <script type="text/javascript">

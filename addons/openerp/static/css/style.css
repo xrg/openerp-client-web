@@ -225,7 +225,7 @@ div.group-expand {
     overflow: hidden;
     width: 100%;
     white-space: nowrap;
-    padding: 2px 0;
+    padding: 2px 3px;
 }
 
 div.group-expand h2 {
@@ -710,7 +710,7 @@ table.m2o_readonly {
 }
 
 td.view_form_options {
-    padding: 0 0 3px;
+    padding: 0 0 3px 2px;
 }
 .view_form_options div {
     margin: 3px 0;
@@ -760,7 +760,7 @@ td.db_login_buttons {
 /* POPUPS */
 
 .footer_tool_box {
-    padding: 0 5px;
+    padding: 2px 5px;
 }
 
 td.save_close {
