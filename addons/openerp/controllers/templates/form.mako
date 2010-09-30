@@ -189,21 +189,16 @@
 
             </td>
             % if form.sidebar:
-	            <td class="toggle_sidebar sidebar_close"></td>
+	            <td class="toggle-sidebar closed"></td>
 	            <td id="main_sidebar" valign="top">
-	                <div id="tertiary" class="sidebar-closed">
+	                <div id="tertiary" class="closed">
 	                    <div id="tertiary_wrap">
 	                        ${form.sidebar.display()}
 	                    </div>
 	                </div>
 	            </td>
 	            <script type="text/javascript">
-                    jQuery('td.toggle_sidebar').click(function() {
-                        jQuery(this).toggleClass('sidebar_open sidebar_close')
-                        toggle_sidebar();
-                        jQuery(window).trigger('on-appcontent-resize');
-
-                        // Scroll to see right sidebar
+                    jQuery('.toggle-sidebar').toggler('#tertiary', function (){
                         jQuery(window).scrollLeft(
                             jQuery(document).width() - jQuery(window).width());
                     });

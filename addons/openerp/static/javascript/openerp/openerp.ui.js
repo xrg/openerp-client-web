@@ -38,9 +38,21 @@ if (!openerp) {
 
 openerp.ui = {};
 
-function toggle_sidebar() {
-    jQuery('#tertiary').toggleClass('sidebar-open sidebar-closed');
-}
+(function ($) {
+    $.fn.toggler = function toggler(to_toggle/*, callback_on_toggle*/) {
+        console.log('toggler', this.get(), $(to_toggle).get());
+        var on_toggle = arguments[1];
+        this.bind('click.toggler', function () {
+            var linked = $(to_toggle);
+            $(this).add(linked).toggleClass('open closed');
+            if(on_toggle) {
+                $.proxy(on_toggle, this)(linked);
+            }
+            $(window).trigger('on-appcontent-resize')
+        });
+        return this;
+    }
+})(jQuery);
 
 function header_actions(url) {
     // For shortcuts

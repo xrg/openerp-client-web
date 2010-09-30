@@ -1761,9 +1761,9 @@ ul.sections-a li span.wrap a:hover span strong,ul.sections-a li span.wrap a:focu
     background-position: 100% 5px;
 }
 
-.open-close-menu {
+.toggle-menu {
     cursor: pointer;
-    background: #CECBCB url(../images/arrow_left.png) no-repeat scroll 20% 50%;
+    background: #CECBCB url(../images/arrow_left.png) no-repeat scroll 50% 50%;
     min-height: 100%;
     min-width: 11px;
     width: 11px;
@@ -1772,39 +1772,18 @@ ul.sections-a li span.wrap a:hover span strong,ul.sections-a li span.wrap a:focu
     border-bottom: 1px solid #CECBCB;
 }
 
-.hide-menu .open-close-menu {
-    background:#CECBCB url(../images/arrow_right.png) no-repeat scroll 80% 50%;
+.closed .toggle-menu {
+    background-image: url(../images/arrow_right.png);
 }
 
-.hide-menu #primary {
+.closed #primary {
     margin-left: 21px;
 }
 
-.hide-menu #secondary {
+.closed #secondary {
     display: none;
 }
 
-.hide-menu #sidenav_hide a {
-     background-position: 0;
-}
-
-#sidenav_hide {
-    padding: 0;
-    position: absolute;
-    top: 0;
-    left: 0;
-    z-index: 15;
-}
-
-#sidenav_hide a {
-    display: block;
-    overflow: hidden;
-    width: 20px;
-    height: 20px;
-    background: url(../images/toggle-b-bg.png) no-repeat -20px 0;
-    text-indent: -10001px;
-    outline: none;
-}
 
 #sidenav-a {
     color:#FFFFFF;
@@ -2091,6 +2070,10 @@ p.paging-a a.next {
     position: relative;
     float: right;
     min-height: 100%;
+    width: 180px;
+}
+#tertiary.closed {
+    display: none;
 }
 
 #sidebar {
@@ -2106,17 +2089,15 @@ p.paging-a a.next {
    Should not need to duplicate colors, borders (hack), images in open/close
    status, width, height, padding, cursor
 */
-.toggle_sidebar {
+.toggle-sidebar {
     cursor: pointer;
     height: 100%;
     width: 11px;
     padding: 0 5px;
+    background: #CECBCB url("../images/arrow_right.png") no-repeat scroll 50% 50%;
 }
-.sidebar_close {
-    background: #CECBCB url(../images/arrow_left.png) no-repeat scroll 20% 50%;
-}
-.sidebar_open {
-    background: #CECBCB url("../images/arrow_right.png") no-repeat scroll 80% 50%;
+.toggle-sidebar.closed {
+    background-image: url(../images/arrow_left.png);
 }
 
 .sideheader-a {
@@ -2192,37 +2173,6 @@ button {
     position: absolute;
     top: 3px;
     right: 1px;
-}
-
-.sidebar-open {
-    width: 180px;
-}
-
-.sidebar-closed {
-    display: none;
-}
-
-#sidebar_hide {
-    padding: 0;
-    position: absolute;
-    top: 0;
-    right: 0;
-}
-
-#sidebar_hide a {
-    display: block;
-    overflow: hidden;
-    width: 21px;
-    height: 21px;
-    border: 1px solid #d2cfcf;
-    border-right-width: 0;
-    background: url(../images/toggle-a-bg.png) no-repeat -21px 0;
-    text-indent: -10001px;
-    outline: none;
-}
-
-.sidebar-closed #sidebar_hide a {
-    background-position: 0;
 }
 
 .attachments-a li {

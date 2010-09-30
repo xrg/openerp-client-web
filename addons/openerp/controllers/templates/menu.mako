@@ -21,10 +21,7 @@
                 openLink(DOCUMENT_TO_LOAD);
             }
 
-            jQuery('.open-close-menu').click(function() {
-                jQuery('#content').toggleClass('hide-menu');
-                jQuery(window).trigger('on-appcontent-resize');
-            });
+            jQuery('.toggle-menu').toggler('#content')
         });
         
     </script>
@@ -33,7 +30,7 @@
 <%def name="content()">
 
     <div id="root">
-        <table id="content" class="three-a" width="100%">
+        <table id="content" class="three-a open" width="100%">
             <tr>
                 <%include file="header.mako"/>
             </tr>
@@ -82,7 +79,7 @@
                         </script>
                     </div>
                 </td>
-                <td id="toggle_accordion" class="open-close-menu hide_tools"></td>
+                <td class="toggle-menu"></td>
                 <td id="primary" width="100%">
                     <div class="wrap">
                         <div id="appContent"></div>
