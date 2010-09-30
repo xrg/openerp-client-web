@@ -253,8 +253,25 @@ class Form(SecuredController):
                 if form.screen.view.get('fields') and form.screen.view['fields'].get('name'):
                     display_name = {'field': form.screen.view['fields']['name']['string'], 'value': ustr(form.screen.view['fields']['name']['value'])}
                     title= ustr(display_name['field']) + ':' + ustr(display_name['value'])
-                    
-        return dict(form=form, pager=pager, buttons=buttons, path=self.path, can_shortcut=can_shortcut, shortcut_ids=shortcut_ids, display_name=display_name, title=title)
+
+        tips = None
+        tips_ids = rpc.session.execute('object', 'execute', 'ir.actions.act_window', 'search', [('res_model','=',params['_terp_model'])])
+        for tips_id in tips_ids:
+            field = rpc.session.execute('object', 'execute', 'ir.actions.act_window', 'read', tips_id)
+            if field['help'] and (field['name'] == title):
+                tips = field['help']
+
+        show_menu_help = rpc.session.execute('object', 'execute',
+                    'res.users', 'read', rpc.session.uid, ['menu_tips'], rpc.session.context)
+        show_menu_help = show_menu_help.get('menu_tips', False)
+
+        return dict(form=form, pager=pager, buttons=buttons, path=self.path, can_shortcut=can_shortcut, shortcut_ids=shortcut_ids, display_name=display_name, title=title, tips = tips, show_menu_help = show_menu_help)
+
+    @expose('json')
+    def close_or_disable_tips(self):
+        rpc.session.execute('object', 'execute', 'res.users', 'write',
+                                      [rpc.session.uid], {'menu_tips':False})
+        return True
 
     def _read_form(self, context, count, domain, filter_domain, id, ids, kw,
                    limit, model, offset, search_data, search_domain, source,
