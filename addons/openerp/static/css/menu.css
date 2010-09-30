@@ -111,11 +111,11 @@
     display: block;
     background: no-repeat center center;
 }
-#shortcuts #shortcuts-scroll-left {
+#shortcuts .left.scroller {
     left: 4px;
     background-image: url(/openerp/static/images/scroll_left.png);
 }
-#shortcuts #shortcuts-scroll-right {
+#shortcuts .right.scroller {
     right: 4px;
     background-image: url(/openerp/static/images/scroll_right.png);
 }

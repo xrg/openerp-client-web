@@ -53,6 +53,111 @@ openerp.ui = {};
     }
 })(jQuery);
 
+(function ($) {
+    /**
+     * @event altered to send to the element when something happened which
+     *  might alter its visible or actual widths (addition or removal of an
+     *  item). <code>window.resize</code> is managed by the plugin, you do
+     *  not have to register it yourself.
+     */
+    var DEFAULTS = {
+        "speed": 3
+    };
+
+    function scrollable_alteration() {
+        var $scrollable = jQuery(this);
+        var $scrollable_list = $scrollable.children('ul');
+
+        var totalWidth = $scrollable_list.get(0).scrollWidth;
+        var visibleWidth = $scrollable_list.outerWidth();
+
+        if(totalWidth <= visibleWidth) {
+            if($scrollable.hasClass('scrolling')) {
+                $scrollable.removeClass('scrolling');
+                $scrollable_list.scrollLeft(0);
+            }
+            return;
+        }
+
+        if(!$scrollable.hasClass('scrolling')) {
+            $scrollable.addClass('scrolling');
+        }
+        /*
+         When widening the window, if the bar is scrolled far to the right,
+         we're going to display emptiness on the right even though we have
+         hidden content on the left. Unscroll to fix that.
+         */
+        if($scrollable_list.scrollLeft() > (totalWidth - visibleWidth)) {
+            $scrollable_list.scrollLeft(totalWidth - visibleWidth);
+        }
+    }
+
+    /**
+     * Makes an element scrollable (left-right) when the element's content is
+     * too big for the container.
+     *
+     * Should be invoked on a container (of any type) holding a list element
+     * as its direct child (untested with more than one child).
+     *
+     * Will create two elements with the class <code>.scroller</code> as
+     * direct children of the context, one with the class <code>.left</code>
+     * and one with the class <code>.right</code>.
+     *
+     * @param options An object containing configuration options for the
+     *                plugin
+     *
+     * @config {Number} speed Scrolling speed of the scrollable, in pixels per iteration, when hovering the side scrollers.
+     */
+    $.fn.scrollify = function scrollify(options) {
+        var settings = $.extend({}, DEFAULTS, options || {});
+        var $scrollable = $(this);
+        var $scrollable_list = $scrollable.children('ul');
+        if(!($scrollable.length && $scrollable_list.length)) {
+            return this;
+        }
+        var scrolling_left, scrolling_right;
+        var $left_scroller = $('<div class="left scroller">').hover(
+            function () {
+                scrolling_left = setInterval(function () {
+                    if($scrollable_list.scrollLeft() == 0) {
+                        clearInterval(scrolling_left);
+                    }
+                    $scrollable_list.scrollLeft(
+                            $scrollable_list.scrollLeft()
+                            - settings.speed);
+                }, 30);
+            }, function () {
+                clearInterval(scrolling_left);
+        });
+        var $right_scroller = $('<div class="right scroller">').hover(
+            function () {
+                scrolling_right = setInterval(function () {
+                    var scrolledMax = (
+                            ( $scrollable_list.scrollLeft()
+                            + $scrollable_list.outerWidth())
+                        == $scrollable_list.get(0).scrollWidth);
+                    if(scrolledMax) {
+                        clearInterval(scrolling_right);
+                    }
+                    $scrollable_list.scrollLeft(
+                            $scrollable_list.scrollLeft()
+                            + settings.speed);
+                }, 30);
+            }, function () {
+                clearInterval(scrolling_right);
+        });
+        $scrollable.prepend($left_scroller).prepend($right_scroller);
+
+        $scrollable.bind('altered.scrollify', scrollable_alteration);
+        $(window).bind('resize.scrollify', function () {
+            $scrollable.trigger('altered');
+        });
+        $scrollable.trigger('altered');
+
+        return this;
+    }
+})(jQuery);
+
 function header_actions(url) {
     // For shortcuts
     if(arguments[1]) {
@@ -67,66 +172,7 @@ function header_actions(url) {
     }
 }
 
-jQuery('#shortcuts').bind('altered', function () {
-    var $shortcuts = jQuery(this);
-    var $shortcuts_list = $shortcuts.children('ul');
-    if(!$shortcuts_list.length) { return; }
-
-    var totalWidth = $shortcuts_list.get(0).scrollWidth;
-    var visibleWidth = $shortcuts_list.outerWidth();
-
-    if(totalWidth > visibleWidth) {
-        if (!$shortcuts.hasClass('scrolling')) {
-            $shortcuts.addClass('scrolling');
-        }
-        /*
-            When resizing the window, if the bar is scrolled far to the right,
-            we're going to display emptiness on the right even though we have hidden content on the left.
-            Unscroll to fix that.
-         */
-        if($shortcuts_list.scrollLeft() > (totalWidth - visibleWidth)) {
-            $shortcuts_list.scrollLeft(totalWidth - visibleWidth);
-        }
-    } else {
-        if($shortcuts.hasClass('scrolling')) {
-            $shortcuts.removeClass('scrolling');
-            $shortcuts_list.scrollLeft(0);
-        }
-    }
+jQuery(document).ready(function () {
+    jQuery('#shortcuts').scrollify();
 });
 
-// trigger on window load so all other handlers (including resizer) have executed
-// further stuff will be handled when adding/removing shortcuts anyway (theoretically)
-jQuery(window).load(function () {
-    var $shortcuts = jQuery('#shortcuts');
-    var scrolling_left, scrolling_right;
-    var $scroll_right = jQuery('<div id="shortcuts-scroll-left" class="scroller">').hover(
-        function () {
-            var $scrollable = $shortcuts.children('ul');
-            scrolling_left = setInterval(function () {
-                if($scrollable.scrollLeft() == 0) {
-                    clearInterval(scrolling_left);
-                }
-                $scrollable.scrollLeft($scrollable.scrollLeft() - 3);
-            }, 30);
-        }, function () {
-            clearInterval(scrolling_left);
-    });
-    var $scroll_left = jQuery('<div id="shortcuts-scroll-right" class="scroller">').hover(
-        function () {
-            var $scrollable = $shortcuts.children('ul');
-            scrolling_right = setInterval(function () {
-                if(($scrollable.scrollLeft() + $scrollable.outerWidth()) == $scrollable.get(0).scrollWidth) {
-                    clearInterval(scrolling_right);
-                }
-                $scrollable.scrollLeft($scrollable.scrollLeft() + 3);
-            }, 30);
-        }, function () {
-            clearInterval(scrolling_right);
-    });
-    $shortcuts.prepend($scroll_right).prepend($scroll_left);
-    $shortcuts.trigger('altered');
-});
-jQuery(window).resize(function () {
-    jQuery('#shortcuts').trigger('altered');
-});
