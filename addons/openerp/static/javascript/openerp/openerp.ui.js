@@ -40,7 +40,6 @@ openerp.ui = {};
 
 (function ($) {
     $.fn.toggler = function toggler(to_toggle/*, callback_on_toggle*/) {
-        console.log('toggler', this.get(), $(to_toggle).get());
         var on_toggle = arguments[1];
         this.bind('click.toggler', function () {
             var linked = $(to_toggle);
