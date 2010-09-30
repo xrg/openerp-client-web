@@ -45,6 +45,7 @@
                     <a id="scroll_right" class="scroll_right" style="float: right; margin-right: 0; padding: 12px 5px 0 0;" href="javascript: void(0);">
                         <img src="/openerp/static/images/scroll_right.png" alt="">
                     </a>
+                    
                     <div id="nav" class="sc_menu">
                         <ul class="sc_menu">
                             %for parent in parents:

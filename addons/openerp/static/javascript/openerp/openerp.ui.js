@@ -42,6 +42,20 @@ function toggle_sidebar() {
     jQuery('#tertiary').toggleClass('sidebar-open sidebar-closed');
 }
 
+function header_actions(url) {
+    // For shortcuts
+    if(arguments[1]) {
+            url = openobject.http.getURL(url, {'id': arguments[1], 'model': arguments[2]});
+    }
+    
+    if(jQuery('#appContent').length) {
+        openLink(url)
+    }
+    else {
+        window.location.href = openobject.http.getURL('/openerp/menu', {'next': url})
+    }
+}
+
 jQuery(document).bind('shortcuts-alter', function () {
     var shortcuts = jQuery('#shortcuts > ul');
     var shortcuts_row = jQuery('#shortcuts');

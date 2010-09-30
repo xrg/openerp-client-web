@@ -39,26 +39,26 @@ else:
     % if logged:
 	    <div id="corner">
 	        <ul class="tools">
-	            <li><a href="${py.url('/openerp/home')}" class="home">${_("Home")}</a>
+	            <li><a href="javascript: void(0)" onclick="header_actions('/openerp/home')" class="home">${_("Home")}</a>
 	                <ul>
-	                    <li class="first last"><a href="${py.url('/openerp/home')}">${_("Home")}</a></li>
+	                    <li class="first last"><a href="javascript: void(0)" onclick="header_actions('/openerp/home')">${_("Home")}</a></li>
 	                </ul>
 	            </li>
 	            <li>
-	                <a href="${py.url('/openerp/requests')}" class="req_messages"><small>${total_request}</small></a>
+	                <a href="javascript: void(0)" onclick="header_actions('/openerp/requests')" class="req_messages"><small>${total_request}</small></a>
 	                <ul>
-	                    <li class="first last"><a href="${py.url('/openerp/requests')}">${_("Requests")}</a></li>
+	                    <li class="first last"><a href="javascript: void(0)" onclick="header_actions('/openerp/requests')">${_("Requests")}</a></li>
 	                </ul>
 	            </li>
 
-	            <li><a href="${py.url('/openerp/pref/create')}" class="preferences">${_("Preferences")}</a>
+	            <li><a href="javascript: void(0)" onclick="header_actions('/openerp/pref/create')" class="preferences">${_("Preferences")}</a>
 	                <ul>
-	                    <li class="first last"><a href="${py.url('/openerp/pref/create')}">${_("Edit Preferences")}</a></li>
+	                    <li class="first last"><a href="javascript: void(0)" onclick="header_actions('/openerp/pref/create')">${_("Edit Preferences")}</a></li>
 	                </ul>
 	            </li>
-	            <li><a href="/openerp/about" class="info">${_("About")}</a>
+	            <li><a href="javascript: void(0)" onclick="header_actions('/openerp/about')" class="info">${_("About")}</a>
 	                <ul>
-	                    <li class="first last"><a href="/openerp/about">${_("About")}</a></li>
+	                    <li class="first last"><a href="javascript: void(0)" onclick="header_actions('/openerp/about')">${_("About")}</a></li>
 	                </ul>
 	            </li>
 
@@ -69,7 +69,7 @@ else:
 	            </li>
 
 	            % if cp.config('server.environment') == 'production':
-	                <li id="clear_cache"><a href="${py.url('/openerp/pref/clear_cache')}" class="clear_cache">${_("Clear Cache")}</a>
+	                <li id="clear_cache"><a href="javascript: void(0)" onclick="header_actions('/openerp/pref/clear_cache')" class="clear_cache">${_("Clear Cache")}</a>
 	                    <ul>
 	                        <li class="first last"><a href="javascript: void(0);">${_("Clear Cache")}</a></li>
 	                    </ul>
@@ -86,7 +86,8 @@ else:
 	        % for i, sc in enumerate(shortcuts):
 	            <li class="${i == 0 and 'first' or ''}">
 	                <a id="shortcut_${sc['res_id']}"
-	                   href="${py.url('/openerp/tree/open', id=sc['res_id'], model='ir.ui.menu')}">
+	                   href="javascript: void(0)"
+                       onclick='header_actions("/openerp/tree/open","${sc['res_id']}", "ir.ui.menu")'>
 	                   <span>${sc['name']}</span>
 	                </a>
 	            </li>

@@ -53,7 +53,15 @@ class Root(SecuredController):
         """
         if next: arguments = {'next': next}
         else: arguments = {'next': '/openerp/home'}
-        raise redirect("/openerp/menu", **arguments)
+        
+        proxy = rpc.RPCProxy("res.users")
+        act_id = proxy.read([rpc.session.uid], ['action_id', 'name'], rpc.session.context)
+        
+        if act_id[0]['action_id'] :
+            raise redirect("/openerp/menu", **arguments)
+        else:
+            raise redirect('/openerp/dashboard')
+        
     
     def user_action(self, id='action_id'):
         """Perform default user action.
@@ -71,7 +79,14 @@ class Root(SecuredController):
             act_id = act_id[0][id][0]
             from openerp import controllers
             return controllers.actions.execute_by_id(act_id)
-
+    
+    @expose(template="/openerp/controllers/templates/dashboard.mako")
+    def dashboard(self):
+        ctx = rpc.session.context.copy()
+        proxy = rpc.RPCProxy("ir.ui.menu")
+        ids = proxy.search([('parent_id', '=', False)], 0, 0, 0, ctx)
+        parents = proxy.read(ids, ['name', 'icon', 'action'], ctx)
+        return dict(parents = parents)
     @expose()
     def home(self):
         return self.user_action('action_id')
