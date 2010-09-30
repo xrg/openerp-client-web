@@ -409,6 +409,12 @@ MochiKit.Base.update(ListView.prototype, {
         req.addCallback(function() {
             self.reload();
         });
+    },
+
+    clear: function() {
+        group_by = new Array();
+        filter_context = [];
+        this.reload(-1, null, this.default_get_ctx, true)
     }
 });
 
@@ -687,7 +693,7 @@ MochiKit.Base.update(ListView.prototype, {
         this.reload();
     },
 
-    reload: function(edit_inline, concurrency_info, default_get_ctx) {
+    reload: function(edit_inline, concurrency_info, default_get_ctx, clear) {
         if (openobject.http.AJAX_COUNT > 0) {
             return callLater(1, bind(this.reload, this), edit_inline, concurrency_info);
         }
@@ -719,6 +725,11 @@ MochiKit.Base.update(ListView.prototype, {
                 _terp_sort_order: this.sort_order
             });
         }
+
+        if(clear) {
+            args['_terp_clear'] = true;
+        }
+
         jQuery('[id="'+self.name+'"] .loading-list').show();
         jQuery.ajax({
             url: '/openerp/listgrid/get',
@@ -740,15 +751,20 @@ MochiKit.Base.update(ListView.prototype, {
                     _terp_count.value = obj.count;
                 }
 
-                
+                if(obj.active_clear) {
+                    jQuery('#clear_all_filters').removeClass('inactive_clear');
+                } else {
+                    jQuery('#clear_all_filters').addClass('inactive_clear');
+                }
+
                 self.current_record = edit_inline;
                 if(obj.logs) {
                     jQuery('div#server_logs').replaceWith(obj.logs)
                 }
-              
-                if(self.view_type == 'graph') {
-                    jQuery('div.graph-block').replaceWith(obj.view);
-                    return;
+
+                if(clear) {
+                    jQuery('#view_form').replaceWith(obj.view);
+                    initialize_search();
                 }
 
                 else {

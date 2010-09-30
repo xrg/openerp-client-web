@@ -191,6 +191,19 @@ class List(SecuredController):
         if not params.view_type == 'graph':
             params.view_type = 'form'
 
+        if params.get('_terp_clear'):
+            params.search_domain, params.filter_domain, params.ids = [], [], []
+            params.search_data = {}
+            for k,v in params.context.items():
+                if k.startswith('search_default'):
+                    params.context[k] = 0
+
+            if params.context.get('group_by_no_leaf'):
+                params.context['group_by_no_leaf'] = 0
+            if params.context.get('group_by'):
+                params.context['group_by'] = []
+            params.group_by_ctx = groupby = []
+
         if source == '_terp_list':
             if not params.view_type == 'graph':
                 params.view_type = 'tree'
@@ -229,13 +242,20 @@ class List(SecuredController):
             for m, v in getattr(cherrypy.request, 'terp_concurrency_info', {}).items():
                 for i, d in v.items():
                     info['%s,%s' % (m, i)] = d
-        
-        view=ustr(wid.render())
+
+        active_clear = False
+        if frm.search and (frm.search.listof_domain or frm.search.custom_filter_domain or frm.search.groupby):
+            active_clear = True
+        if params.get('_terp_clear'):
+            view=ustr(frm.render())
+        else:
+            view=ustr(wid.render())
+
         server_logs = ''
-        
+
         if frm.logs and frm.screen.view_type == 'tree':
             server_logs = ustr(frm.logs.render())
-        return dict(ids=ids, count=count, view=view, info=info, logs=server_logs)
+        return dict(ids=ids, count=count, view=view, info=info, active_clear=active_clear, logs=server_logs)
 
     @expose('json')
     def button_action(self, **kw):
