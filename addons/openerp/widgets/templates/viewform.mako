@@ -52,6 +52,9 @@
                         <td align="left">
                              <button title="${_('Filter records.')}" onclick="search_filter(); return false;">
                              ${_("Search")}</button>
+                             % if context_menu:
+                                <button title="${_('Close')}" onclick="window.close()" href="javascript: void(0)">${_("Close")}</button>
+                             % endif
                         </td>
                         <td align="right">
                             <button title="${_('Save Filter.')}"

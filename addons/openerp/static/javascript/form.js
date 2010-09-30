@@ -954,7 +954,7 @@ function do_report(id, relation){
     window.open(openobject.http.getURL(act, params));
 }
 
-function do_action(action_id, field, relation, src, data){
+function do_action(action_id, field, relation, src, data, context_menu){
 
     var params = {};
 
@@ -972,6 +972,7 @@ function do_action(action_id, field, relation, src, data){
     var id = openobject.dom.get(field).value;
     var domain = getNodeAttribute(src, 'domain');
     var context = getNodeAttribute(src, 'context');
+    var context_menu = context_menu ? true: null;
 
     var req = eval_domain_context_request({
         'source': openobject.dom.get(field).id,
@@ -990,7 +991,8 @@ function do_action(action_id, field, relation, src, data){
             '_terp_context': obj.context,
             '_terp_id': id,
             '_terp_model': relation,
-            'datas': data
+            'datas': data,
+            'context_menu': context_menu
         });
 
         window.open(openobject.http.getURL(act, params));

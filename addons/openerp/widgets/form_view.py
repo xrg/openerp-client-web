@@ -41,7 +41,7 @@ class ViewForm(Form):
 
     template = "/openerp/widgets/templates/viewform.mako"
 
-    params = ['limit', 'offset', 'count', 'search_domain', 'search_data', 'filter_domain', 'notebook_tab']
+    params = ['limit', 'offset', 'count', 'search_domain', 'search_data', 'filter_domain', 'notebook_tab', 'context_menu']
     member_widgets = ['screen', 'search', 'sidebar', 'logs']
 
     def __init__(self, params, **kw):
@@ -52,7 +52,7 @@ class ViewForm(Form):
         cherrypy.request.terp_params = params
         cherrypy.request.terp_fields = []
         self.notebook_tab = params.notebook_tab or 0
-        
+        self.context_menu = params.get('context_menu')
         editable = params.editable
         readonly = params.readonly
 

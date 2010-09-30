@@ -44,7 +44,7 @@ from tree import Tree
 from wizard import Wizard
 
 def execute_window(view_ids, model, res_id=False, domain=None, view_type='form', context=None,
-                   mode='form,tree', name=None, target=None, limit=None, search_view=None):
+                   mode='form,tree', name=None, target=None, limit=None, search_view=None, context_menu=False):
     """Performs `actions.act_window` action.
 
     @param view_ids: view ids
@@ -67,6 +67,7 @@ def execute_window(view_ids, model, res_id=False, domain=None, view_type='form',
     params.context = context or {}
     params.limit = limit
     params.search_view = search_view
+    params['context_menu'] = context_menu
 
     cherrypy.request._terp_view_name = name or None
     cherrypy.request._terp_view_target = target or None
@@ -261,7 +262,8 @@ def execute(action, **data):
                              name=action.get('name'),
                              target=action.get('target'),
                              limit=data.get('limit'),
-                             search_view = data['search_view'])
+                             search_view = data['search_view'],
+                             context_menu= data.get('context_menu'))
 
         return res
 

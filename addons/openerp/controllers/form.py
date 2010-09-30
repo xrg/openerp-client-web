@@ -892,6 +892,7 @@ class Form(SecuredController):
     @expose()
     def action(self, **kw):
         params, data = TinyDict.split(kw)
+        context_menu = kw.get('context_menu')
 
         id = params.id or False
         ids = params.selection or []
@@ -925,7 +926,7 @@ class Form(SecuredController):
         action['context'] = context or {}
 
         import actions
-        return actions.execute(action, model=params.model, id=id, ids=ids, report_type='pdf')
+        return actions.execute(action, model=params.model, id=id, ids=ids, report_type='pdf', context_menu=context_menu)
 
     @expose()
     def dashlet(self, **kw):
@@ -1061,7 +1062,7 @@ class Form(SecuredController):
 
             act = (value or None) and "javascript: void(0)"
 
-            actions = [{'text': 'Action', 'action': act and "do_action(null, '%s', '%s', this)" %(field, relation)},
+            actions = [{'text': 'Action', 'action': act and "do_action(null, '%s', '%s', this, null, true)" %(field, relation)},
                        {'text': 'Report', 'action': act and "do_report('%s', '%s')" %(field, relation)}]
 
             res = rpc.RPCProxy('ir.values').get('action', 'client_action_relate', [(relation, False)], False, rpc.session.context)
@@ -1071,7 +1072,7 @@ class Form(SecuredController):
                 act = (value or None) and "javascript: void(0)"
                 x['string'] = x['name']
                 relates += [{'text': '... '+x['name'],
-                             'action': act and "do_action(%s, '%s', '%s', this)" %(x['id'], field, relation),
+                             'action': act and "do_action(%s, '%s', '%s', this, null, true)" %(x['id'], field, relation),
                              'domain': x.get('domain', []),
                              'context': x.get('context', {})}]
 
