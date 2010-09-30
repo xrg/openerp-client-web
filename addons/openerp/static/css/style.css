@@ -492,7 +492,7 @@ td.popup_header,
 table.popup_header {
 	background-color: #bbbbbb;
     color: DarkRed;
-    text-align: center;
+    text-align: left;
     font-weight: bold;
     border: none;
     height: 30px;

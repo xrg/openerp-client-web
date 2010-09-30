@@ -3,45 +3,7 @@
 <%def name="header()">
     <title>Export Data</title>
 
-    <style type="text/css">
-        .fields-selector {
-            width: 100%;
-            height: 400px;
-        }
-
-        .fields-selector-left {
-            width: 45%;
-        }
-
-        td.fields-selector-left div#export_fields_left {
-        	overflow: scroll;
-        	width: 100%; 
-        	height: 100%; 
-        	border: solid #999999 1px;
-        }
-
-        .fields-selector-center {
-            width: 15%;
-        }
-        
-        .fields-selector-center a.button-a {
-            float: none;
-        }
-
-        .fields-selector-right {
-            width: 45%;
-        }
-
-        .fields-selector select {
-            width: 100%;
-            height: 100%;
-        }
-
-        .fields-selector button {
-            width: 100%;
-            margin: 5px 0;
-        }
-    </style>
+    <link rel="stylesheet" type="text/css" href="/openerp/static/css/impex.css"/>
 
     <script type="text/javascript">
         function add_fields(){
@@ -177,7 +139,7 @@
 
     <table class="view" cellspacing="5" border="0" width="100%">
         <tr>
-            <td style="padding: 10px 10px 0 10px;">
+            <td class="side_spacing">
                 <table width="100%" class="popup_header">
                     <tr>
                     	<td class="exp-header" align="left">
@@ -192,12 +154,12 @@
         </tr>        
         % if new_list.ids:
         <tr>
-            <td style="padding: 0 10px 5px 10px;">
-                <div id='exported_list' style="overflow: auto;">${new_list.display()}</div>
+            <td class="side_spacing">
+                <div id='exported_list'>${new_list.display()}</div>
             </td>
         </tr>
         <tr>
-            <td>
+            <td class="side_spacing">
             	<table class="popup_header" width="100%">
             		<tr>
             			<td class="exp-header">
@@ -209,8 +171,8 @@
         </tr>
         % endif
         <tr>
-            <td>
-                <table class="fields-selector" cellspacing="5" border="0">
+            <td class="side_spacing">
+                <table class="fields-selector-export" cellspacing="5" border="0">
                     <tr>
                         <th class="fields-selector-left">${_("All fields")}</th>
                         <th class="fields-selector-center">&nbsp;</th>
@@ -218,7 +180,7 @@
                     </tr>
                     <tr>
                         <td class="fields-selector-left" height="400px">
-                            <div id="export_fields_left">${tree.display()}</div>
+                            <div id="fields_left">${tree.display()}</div>
                         </td>
                         <td class="fields-selector-center">
                         	<table border="0" cellpadding="0" cellspacing="0" width="100%">
@@ -252,7 +214,7 @@
             </td>
         </tr>
         <tr>
-            <td>            
+            <td class="side_spacing">            
                 <div id="savelist" style="display: none">
                     <fieldset>
                         <legend>${_("Save List")}</legend>
@@ -272,7 +234,7 @@
             </td>
         </tr>        
         <tr>
-            <td>
+            <td class="side_spacing">
                 <fieldset>
                     <legend>${_("Options")}</legend>
                     <table>
@@ -293,7 +255,7 @@
             </td>
         </tr>
         <tr>
-        	<td>
+        	<td class="side_spacing">
         		<fieldset>
                     <legend>${_("Select an Option to Export")}</legend>
                     <table>
