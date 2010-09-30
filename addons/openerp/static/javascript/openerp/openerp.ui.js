@@ -67,29 +67,30 @@ function header_actions(url) {
     }
 }
 
-jQuery(document).bind('shortcuts-alter', function () {
-    var shortcuts = jQuery('#shortcuts > ul');
-    var shortcuts_row = jQuery('#shortcuts');
-    if(!shortcuts.length) { return; }
-    var totalWidth = shortcuts.get(0).scrollWidth;
-    var visibleWidth = shortcuts.outerWidth();
+jQuery('#shortcuts').bind('altered', function () {
+    var $shortcuts = jQuery(this);
+    var $shortcuts_list = $shortcuts.children('ul');
+    if(!$shortcuts_list.length) { return; }
+
+    var totalWidth = $shortcuts_list.get(0).scrollWidth;
+    var visibleWidth = $shortcuts_list.outerWidth();
 
     if(totalWidth > visibleWidth) {
-        if (!shortcuts_row.hasClass('scrolling')) {
-            shortcuts_row.addClass('scrolling');
+        if (!$shortcuts.hasClass('scrolling')) {
+            $shortcuts.addClass('scrolling');
         }
         /*
             When resizing the window, if the bar is scrolled far to the right,
             we're going to display emptiness on the right even though we have hidden content on the left.
             Unscroll to fix that.
          */
-        if(shortcuts.scrollLeft() > (totalWidth - visibleWidth)) {
-            shortcuts.scrollLeft(totalWidth - visibleWidth);
+        if($shortcuts_list.scrollLeft() > (totalWidth - visibleWidth)) {
+            $shortcuts_list.scrollLeft(totalWidth - visibleWidth);
         }
     } else {
-        if(shortcuts_row.hasClass('scrolling')) {
-            shortcuts_row.removeClass('scrolling');
-            shortcuts.scrollLeft(0);
+        if($shortcuts.hasClass('scrolling')) {
+            $shortcuts.removeClass('scrolling');
+            $shortcuts_list.scrollLeft(0);
         }
     }
 });
@@ -97,35 +98,35 @@ jQuery(document).bind('shortcuts-alter', function () {
 // trigger on window load so all other handlers (including resizer) have executed
 // further stuff will be handled when adding/removing shortcuts anyway (theoretically)
 jQuery(window).load(function () {
-    var shortcuts = jQuery('#shortcuts');
+    var $shortcuts = jQuery('#shortcuts');
     var scrolling_left, scrolling_right;
-    var scroll_right = jQuery('<div id="shortcuts-scroll-left" class="scroller">').hover(
+    var $scroll_right = jQuery('<div id="shortcuts-scroll-left" class="scroller">').hover(
         function () {
-            var scrollable = shortcuts.children('ul');
+            var $scrollable = $shortcuts.children('ul');
             scrolling_left = setInterval(function () {
-                if(scrollable.scrollLeft() == 0) {
+                if($scrollable.scrollLeft() == 0) {
                     clearInterval(scrolling_left);
                 }
-                scrollable.scrollLeft(scrollable.scrollLeft() - 3);
+                $scrollable.scrollLeft($scrollable.scrollLeft() - 3);
             }, 30);
         }, function () {
             clearInterval(scrolling_left);
     });
-    var scroll_left = jQuery('<div id="shortcuts-scroll-right" class="scroller">').hover(
+    var $scroll_left = jQuery('<div id="shortcuts-scroll-right" class="scroller">').hover(
         function () {
-            var scrollable = shortcuts.children('ul');
+            var $scrollable = $shortcuts.children('ul');
             scrolling_right = setInterval(function () {
-                if((scrollable.scrollLeft() + scrollable.outerWidth()) == scrollable.get(0).scrollWidth) {
+                if(($scrollable.scrollLeft() + $scrollable.outerWidth()) == $scrollable.get(0).scrollWidth) {
                     clearInterval(scrolling_right);
                 }
-                scrollable.scrollLeft(scrollable.scrollLeft() + 3);
+                $scrollable.scrollLeft($scrollable.scrollLeft() + 3);
             }, 30);
         }, function () {
             clearInterval(scrolling_right);
     });
-    shortcuts.prepend(scroll_right).prepend(scroll_left);
-    jQuery(document).trigger('shortcuts-alter');
+    $shortcuts.prepend($scroll_right).prepend($scroll_left);
+    $shortcuts.trigger('altered');
 });
 jQuery(window).resize(function () {
-    jQuery(document).trigger('shortcuts-alter');
+    jQuery('#shortcuts').trigger('altered');
 });
