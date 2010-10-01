@@ -163,6 +163,10 @@ class Binary(BaseValidator):
     if_empty = False
 
     def _to_python(self, value, state):
+
+        if isinstance(value, list):
+            value = value[0]
+
         if isinstance(value, cgi.FieldStorage):
             if value.filename:
                 return base64.encodestring(value.file.read())
