@@ -3,6 +3,7 @@ import copy
 from itertools import count, chain, ifilterfalse
 
 import cherrypy
+import formencode.foreach
 
 import openobject
 from openobject import tools
@@ -333,7 +334,7 @@ class InputWidget(Widget):
         if hasattr(cherrypy.request, 'input_values') and self.is_validated:
             iv = cherrypy.request.input_values.get(self._name)
 
-        if iv is not None and not isinstance(self.validator, (ForEach, Schema)):
+        if iv is not None and not isinstance(self.validator, (formencode.foreach.ForEach, Schema)):
             value = self.safe_validate(iv)
         else:
             value = super(InputWidget, self).adjust_value(value, **params)
