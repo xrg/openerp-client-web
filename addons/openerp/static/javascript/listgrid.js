@@ -751,11 +751,7 @@ MochiKit.Base.update(ListView.prototype, {
                     _terp_count.value = obj.count;
                 }
 
-                if(obj.active_clear) {
-                    jQuery('#clear_all_filters').removeClass('inactive_clear');
-                } else {
-                    jQuery('#clear_all_filters').addClass('inactive_clear');
-                }
+                jQuery('#clear_all_filter').toggleClass('inactive_clear', !obj.active_clear);
 
                 self.current_record = edit_inline;
                 if(obj.logs) {
