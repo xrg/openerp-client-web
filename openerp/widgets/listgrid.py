@@ -421,7 +421,7 @@ class M2O(Char):
     template = """\
         <span id="${name}" class="m2o" name="${name}" ${py.attrs(value=val, relation=relation, context=ctx, domain=domain, link=link)}>
             % if link:
-                <a href="javascript: void(0)" onclick="new ManyToOne('${name}').open_record('${val}')">${text}</a>
+                <a href="${link}">${text}</a>
             % else:
                 ${text}
             % endif
@@ -450,7 +450,7 @@ class M2O(Char):
         m2o_link = int(self.attrs.get('link', 1))
 
         if m2o_link == 1:
-            return m2o_link
+            return tools.url('/form/view', model=self.attrs['relation'], id=(self.value or False) and self.value[0])
         else:
             return None
 
