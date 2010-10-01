@@ -2,14 +2,10 @@
 
 <%def name="header()">
     <title>OpenERP</title>
-    
-    <link href="/openerp/static/css/treegrid.css" rel="stylesheet" type="text/css"/>
-    <link href="/openerp/static/css/notebook.css" rel="stylesheet" type="text/css"/>
 
     <script type="text/javascript" src="/openerp/static/javascript/accordion.js"></script>
     <script type="text/javascript" src="/openerp/static/javascript/treegrid.js"></script>
     <script type="text/javascript" src="/openerp/static/javascript/notebook/notebook.js"></script>
-    <script type="text/javascript" src="/openerp/static/javascript/scroll_scut.js"></script>
 
     <script type="text/javascript">
         var DOCUMENT_TO_LOAD = "${load_content}";
@@ -36,21 +32,14 @@
             </tr>
             <tr>
                 <td id="main_nav" colspan="3">
-                    <a id="scroll_left" class="scroll_right" style="float: left; padding-top: 12px;" href="javascript: void(0);">
-                        <img src="/openerp/static/images/scroll_left.png" alt="">
-                    </a>
-                    <a id="scroll_right" class="scroll_right" style="float: right; margin-right: 0; padding: 12px 5px 0 0;" href="javascript: void(0);">
-                        <img src="/openerp/static/images/scroll_right.png" alt="">
-                    </a>
-                    
-                    <div id="nav" class="sc_menu">
-                        <ul class="sc_menu">
+                    <div id="applications_menu">
+                        <ul>
                             %for parent in parents:
-                                <li id="${parent['id']}" class="menu_tabs">
-                                    <a href="${py.url('/openerp/menu', active=parent['id'])}" target="_top" class="${parent.get('active', '')}">
+                                <li>
+                                    <a href="${py.url('/openerp/menu', active=parent['id'])}"
+                                       target="_top" class="${parent.get('active', '')}">
                                         <span>${parent['name']}</span>
                                     </a>
-                                    <em>[1]</em>
                                 </li>
                             % endfor
                         </ul>

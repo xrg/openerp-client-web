@@ -173,6 +173,6 @@ function header_actions(url) {
 }
 
 jQuery(document).ready(function () {
+    jQuery('#applications_menu').scrollify();
     jQuery('#shortcuts').scrollify();
 });
-
