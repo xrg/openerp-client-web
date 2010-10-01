@@ -48,18 +48,19 @@ ManyToOne.prototype.__init__ = function(name){
     this.name = name;
 
     this.field = $(name);
+
     this.relation = getNodeAttribute(this.field, 'relation');
-    this.editable = getElement('_terp_editable') ? getElement('_terp_editable').value : 'True';
-    if (this.editable == 'True' && this.field.tagName.toLowerCase() != 'span'){
-	    this.text = $(name + '_text');
-	
-	    this.select_img = $(name + '_select');    
-	    this.open_img = $(name + '_open');
-	    
-	    this.reference = $(name + '_reference'); // reference widget
-	
-	    this.callback = getNodeAttribute(this.field, 'callback');    
-	    this.field_class = getNodeAttribute(this.field, 'class');
+    this.editable = this.field.tagName.toLowerCase() == 'span' ? 'False' : 'True';
+    if (this.editable == 'True'){
+        this.text = $(name + '_text');
+
+        this.select_img = $(name + '_select');
+        this.open_img = $(name + '_open');
+
+        this.reference = $(name + '_reference'); // reference widget
+
+        this.callback = getNodeAttribute(this.field, 'callback');
+        this.field_class = getNodeAttribute(this.field, 'class');
 	
 	    connect(this.field, 'onchange', this, this.on_change);
 	    //connect(this.text, 'onchange', this, this.on_change_text);
@@ -115,23 +116,22 @@ ManyToOne.prototype.open = function(id){
 
     var model = this.relation;
     var source = this.name;
-    var editable = this.editable || 'True';
-    
-    if (editable ==  'True' && this.field.tagName.toLowerCase() != 'span'){
-	    // To open popup form in readonly mode.
-	    if (this.field_class.indexOf('readonlyfield') != -1) {
-	        var editable = 'False';
-	    }
-	}
+
+    var id = id || 'False'
+    if (this.editable ==  'True'){
+        // To open popup form in readonly mode.
+        if (this.field_class.indexOf('readonlyfield') != -1) {
+            this.editable = 'False';
+        }
+    }
 
     var req = eval_domain_context_request({source: source, domain: domain, context: context});
     var self = this;
     req.addCallback(function(obj){
-		if (editable == 'True'){
-		    var editable =  self.field.tagName.toLowerCase() != 'span'? 'False': 'True';
-			openWindow(getURL('/openm2o/edit', {_terp_model: model, _terp_id: id,
-	                                            _terp_domain: obj.domain, _terp_context: obj.context,
-	                                            _terp_m2o: source, _terp_editable: editable}));
+        if (self.editable == 'True'){
+            openWindow(getURL('/openm2o/edit', {_terp_model: model, _terp_id: id,
+                                                _terp_domain: obj.domain, _terp_context: obj.context,
+                                                _terp_m2o: source, _terp_editable: self.editable}));
         }
         else{
         	window.location.href = getURL("/form/view",{'model': model, 'id': id, 'domain': obj.domain, 'context': obj.context})
