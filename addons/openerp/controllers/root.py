@@ -28,7 +28,7 @@
 ###############################################################################
 import cherrypy
 from openerp.controllers import SecuredController, unsecured, actions, login as tiny_login, form
-from openerp.utils import rpc, cache, common, TinyDict
+from openerp.utils import rpc, cache, TinyDict
 
 from openobject.tools import url, expose, redirect
 
@@ -38,7 +38,6 @@ def _cp_on_error():
     errorpage = cherrypy.request.pool.get_controller("/openerp/errorpage")
     message = errorpage.render()
     cherrypy.response.status = 500
-    #cherrypy.response.headers['Content-Type'] = 'text/html'
     cherrypy.response.body = [message]
 
 cherrypy.config.update({'request.error_response': _cp_on_error})
@@ -98,13 +97,13 @@ class Root(SecuredController):
     
     @expose()
     def custom_action(self, action):
-        action = int(action)
-        keyword = 'tree_but_open'
-        ctx = rpc.session.context
-        menu_id = rpc.RPCProxy('ir.ui.menu').search([('id','=', action)], 0, 0, 0, ctx)
-        
-        return actions.execute_by_keyword(keyword, adds={}, model='ir.ui.menu', id=menu_id[0], ids=menu_id, context=rpc.session.context, report_type='pdf')
-    
+        menu_ids = rpc.RPCProxy('ir.ui.menu').search(
+                [('id', '=', int(action))], 0, 0, 0, rpc.session.context)
+
+        return actions.execute_by_keyword(
+                'tree_but_open', model='ir.ui.menu', id=menu_ids[0], ids=menu_ids,
+                context=rpc.session.context, report_type='pdf')
+
     @expose()
     def info(self):
         return """
