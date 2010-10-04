@@ -4,6 +4,7 @@ table.tree-grid {
     width: 180px;
 }
 
+table#view_tree,
 table#import_fields,
 table#export_fields {
     width: 100% !important;
