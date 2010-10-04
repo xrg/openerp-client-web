@@ -256,7 +256,7 @@ class Form(SecuredController):
 
         tips = False
         if params.view_type == params.view_mode[0]:
-            show_menu_help = rpc.RPCProxy('res.users').read(rpc.session.uid, ['menu_tips'], rpc.session.context).get('menu_tips')
+            show_menu_help = rpc.RPCProxy('res.users').read(rpc.session.uid, ['menu_tips'], rpc.session.context)['menu_tips']
             if show_menu_help:
                 proxy = rpc.RPCProxy('ir.actions.act_window')
                 tips_id = proxy.search([('res_model', '=', params['_terp_model']), ('name', '=', title)])
@@ -267,7 +267,7 @@ class Form(SecuredController):
 
     @expose('json', methods=('POST',))
     def close_or_disable_tips(self):
-        return rpc.RPCProxy('res.users').write(rpc.session.uid,{'menu_tips':False}, rpc.session.context)
+        rpc.RPCProxy('res.users').write(rpc.session.uid,{'menu_tips':False}, rpc.session.context)
 
     def _read_form(self, context, count, domain, filter_domain, id, ids, kw,
                    limit, model, offset, search_data, search_domain, source,
