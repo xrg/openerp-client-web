@@ -120,6 +120,15 @@ jQuery(document).ready(function () {
             });
             return false;
         });
+    } else {
+        if (jQuery(document).find('div#root').length) {
+            jQuery(document).delegate('a[href]:not([target]):not([href^="#"]):not([href^="javascript"]):not([rel=external])', 'click', function(){
+                window.location.href = openobject.http.getURL('/openerp', {
+                    'next': jQuery(this).attr('href')
+                })
+                return false;
+            });
+        }
     }
 
     // wash for hash changes
