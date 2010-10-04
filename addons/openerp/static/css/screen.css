@@ -2064,6 +2064,17 @@ p.paging-a a.next {
 }
 
 /* sidebar */
+td.tertiary {
+    background: url(../images/tertiary-bg-a.gif) repeat-y scroll 0 0 #EAE7E7;
+    min-height: 100%;
+    border-left: 1px solid #D2CFCF;
+    vertical-align: top;
+}
+
+td.tertiary div.wrap {
+    margin-top: 39px;
+}
+
 #tertiary {
     position: relative;
     float: right;
@@ -2326,7 +2337,6 @@ a.cta-a:hover,a.cta-a:focus,a.cta-a:active {
 
 a.cta-a span {
     float: left;
-    width: 95px;
     padding: 7px 0 5px 32px;
     background-position: 0 50%;
     background-repeat: no-repeat;

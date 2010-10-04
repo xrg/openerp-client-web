@@ -158,20 +158,6 @@ openerp.ui = {};
     }
 })(jQuery);
 
-function header_actions(url) {
-    // For shortcuts
-    if(arguments[1]) {
-            url = openobject.http.getURL(url, {'id': arguments[1], 'model': arguments[2]});
-    }
-    
-    if(jQuery('#appContent').length) {
-        openLink(url)
-    }
-    else {
-        window.location.href = openobject.http.getURL('/openerp/menu', {'next': url})
-    }
-}
-
 jQuery(document).ready(function () {
     jQuery('#applications_menu').scrollify();
     jQuery('#shortcuts').scrollify();

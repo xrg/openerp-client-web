@@ -50,45 +50,20 @@ class Root(SecuredController):
     def index(self, next=None):
         """Index page, loads the view defined by `action_id`.
         """
+        arguments = {}
         if next: arguments = {'next': next}
-        else: arguments = {'next': '/openerp/home'}
-        
-        proxy = rpc.RPCProxy("res.users")
-        act_id = proxy.read([rpc.session.uid], ['action_id', 'name'], rpc.session.context)
-        
-        if act_id[0]['action_id'] :
-            raise redirect("/openerp/menu", **arguments)
         else:
-            raise redirect('/openerp/dashboard')
+            user_action_id = rpc.RPCProxy("res.users").read([rpc.session.uid], ['action_id'], rpc.session.context)[0]['action_id']
+            if user_action_id:
+                arguments = {'next': '/openerp/home'}
         
+        raise redirect("/openerp/menu", **arguments)
     
-    def user_action(self, id='action_id'):
-        """Perform default user action.
-
-        @param id: `action_id` or `menu_id`
-        """
-        proxy = rpc.RPCProxy("res.users")
-        act_id = proxy.read([rpc.session.uid], [id, 'name'], rpc.session.context)
-
-        if not act_id[0][id]:
-            common.warning(_('You can not log into the system!\nAsk the administrator to verify\nyou have an action defined for your user.'), _('Access Denied!'))
-            rpc.session.logout()
-            raise redirect('/openerp')
-        else:
-            act_id = act_id[0][id][0]
-            from openerp import controllers
-            return controllers.actions.execute_by_id(act_id)
-    
-    @expose(template="/openerp/controllers/templates/dashboard.mako")
-    def dashboard(self):
-        ctx = rpc.session.context.copy()
-        proxy = rpc.RPCProxy("ir.ui.menu")
-        ids = proxy.search([('parent_id', '=', False)], 0, 0, 0, ctx)
-        parents = proxy.read(ids, ['name', 'icon', 'action'], ctx)
-        return dict(parents = parents)
     @expose()
     def home(self):
-        return self.user_action('action_id')
+        user_action_id = rpc.RPCProxy("res.users").read([rpc.session.uid], ['action_id'], rpc.session.context)[0]['action_id']
+        from openerp import controllers
+        return controllers.actions.execute_by_id(user_action_id[0])
     
     @expose(content_type='application/octet-stream')
     def report(self, report_name=None, **kw):
@@ -117,9 +92,8 @@ class Root(SecuredController):
     </html>
     """ % (url("/openerp/static/images/loading.gif"))
 
-    @expose(template="/openerp/controllers/templates/menu.mako")
+    @expose(template="/openerp/controllers/templates/index.mako")
     def menu(self, active=None, next=None):
-        from openerp.utils import icons
         from openerp.widgets import tree_view
         
         try:
@@ -130,7 +104,7 @@ class Root(SecuredController):
         ctx = rpc.session.context.copy()
         proxy = rpc.RPCProxy("ir.ui.menu")
         ids = proxy.search([('parent_id', '=', False)], 0, 0, 0, ctx)
-        parents = proxy.read(ids, ['name', 'icon', 'action'], ctx)
+        parents = proxy.read(ids, ['name'], ctx)
                 
         if not id and ids:
             id = ids[0]
@@ -138,25 +112,24 @@ class Root(SecuredController):
         for parent in parents:
             if parent['id'] == id:
                 parent['active'] = 'active'
-                # explicit next takes precedence on menu item action
-                if not next and parent.get('action'):
-                    next = url('/openerp/custom_action', action=id)
-                
-        ids = proxy.search([('parent_id', '=', id)], 0, 0, 0, ctx)
-        tools = proxy.read(ids, ['name', 'icon', 'action'], ctx)
-        view = cache.fields_view_get('ir.ui.menu', 1, 'tree', {})
-        fields = cache.fields_get(view['model'], False, ctx)
+            parent['url'] = url('/openerp/menu', active=parent['id'], next=url('/openerp/custom_action', action=parent['id']))
         
-        for tool in tools:
-            tid = tool['id']
-            tool['icon'] = icons.get_icon(tool['icon'])
-            tool['tree'] = tree = tree_view.ViewTree(view, 'ir.ui.menu', tid,
-                                    domain=[('parent_id', '=', tid)],
-                                    context=ctx, action="/openerp/tree/action", fields=fields)
-            tree._name = "tree_%s" %(tid)
-            tree.tree.onselection = None
-            tree.tree.onheaderclick = None
-            tree.tree.showheaders = 0
+        tools = []
+        if next: 
+            ids = proxy.search([('parent_id', '=', id)], 0, 0, 0, ctx)
+            tools = proxy.read(ids, ['name', 'action'], ctx)
+            view = cache.fields_view_get('ir.ui.menu', 1, 'tree', {})
+            fields = cache.fields_get(view['model'], False, ctx)
+            
+            for tool in tools:
+                tid = tool['id']
+                tool['tree'] = tree = tree_view.ViewTree(view, 'ir.ui.menu', tid,
+                                        domain=[('parent_id', '=', tid)],
+                                        context=ctx, action="/openerp/tree/action", fields=fields)
+                tree._name = "tree_%s" %(tid)
+                tree.tree.onselection = None
+                tree.tree.onheaderclick = None
+                tree.tree.showheaders = 0
 
         return dict(parents=parents, tools=tools, load_content=(next and next or ''))
 
