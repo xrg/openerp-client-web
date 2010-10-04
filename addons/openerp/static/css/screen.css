@@ -2072,7 +2072,7 @@ td.tertiary {
 }
 
 td.tertiary div.wrap {
-    margin-top: 39px;
+    margin-top: 9px;
 }
 
 #tertiary {
@@ -2329,6 +2329,7 @@ a.cta-a {
     text-transform: uppercase;
     font-weight: bold;
     text-shadow: #fff 0 1px 0;
+    margin: 2px;
 }
 
 a.cta-a:hover,a.cta-a:focus,a.cta-a:active {
@@ -2337,7 +2338,7 @@ a.cta-a:hover,a.cta-a:focus,a.cta-a:active {
 
 a.cta-a span {
     float: left;
-    padding: 7px 0 5px 32px;
+    padding: 7px 0 5px 5px;
     background-position: 0 50%;
     background-repeat: no-repeat;
     cursor: pointer;

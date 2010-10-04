@@ -6,7 +6,7 @@
     <script type="text/javascript" src="/openerp/static/javascript/accordion.js"></script>
     <script type="text/javascript" src="/openerp/static/javascript/treegrid.js"></script>
     <script type="text/javascript" src="/openerp/static/javascript/notebook/notebook.js"></script>
-
+    
     <script type="text/javascript">
         var DOCUMENT_TO_LOAD = "${load_content}";
         var CAL_INSTANCE = null;
@@ -78,11 +78,11 @@
                 </tr>
             % else:
                 <tr>
-                    <td id="primary" width="70%">
+                    <td colspan="3">
+                        <table width="100%">
+                            <tr>
+                                <td id="primary" width="70%">
                         <div class="wrap" style="padding: 10px;">
-                            <h1>
-                                ${_('Dashboard')}
-                            </h1>
                             <ul class="sections-a">
                                 %for parent in parents:
                                     <li class="${'-'.join(parent['name'].split(' ')).lower()}">
@@ -99,26 +99,29 @@
                         </div>
                     </td>
                     <td class="tertiary">
-                        <div class="wrap">
-                            <ul class="split-a">
-                                <li class="one">
-                                    <a class="cta-a" href="http://www.openerp.com/services/subscribe-onsite" target="_blank">
-                                        <span>
-                                            <strong>${_('Use On-Site')}</strong>
-                                            Get the openERP Warranty
-                                        </span>
-                                    </a>
-                                </li>
-                                <li class="two">
-                                    <a class="cta-a" href="http://www.openerp.com/online" target="_blank">
-                                        <span>
-                                            <strong>${_('Use Online')}</strong>
-                                            Subscribe and start
-                                        </span>
-                                    </a>
-                                </li>
-                            </ul>
-                        </div>
+                        
+                            <table>
+                                <tr>
+                                    <div class="wrap">
+                                        <td>
+                                            <a class="cta-a" href="http://www.openerp.com/services/subscribe-onsite" target="_blank">
+                                                <span>
+                                                    <strong>${_('Use On-Site')}</strong>
+                                                    Get the openERP Warranty
+                                                </span>
+                                            </a>
+                                        </td>
+                                        <td>
+                                            <a class="cta-a" href="http://www.openerp.com/online" target="_blank">
+                                                <span>
+                                                    <strong>${_('Use Online')}</strong>
+                                                    Subscribe and start
+                                                </span>
+                                            </a>
+                                        </td>
+                                    </div>
+                                </tr>
+                            <table>
                         <div class="sideheader-a">
                             <ul class="side">
                                 <li>
@@ -127,6 +130,18 @@
                             </ul>
                             <h2>${_('Widgets')}</h2>
                         </div>
+                        <div class="box-a">
+                            <ul class="side">
+                                
+                            </ul>
+                            <h3>${feedback['title']}</h3>
+                            <div class="scroll">
+                                ${feedback['content'] |n }
+                            <div>
+                        </div>
+                    </td>
+                            </tr>
+                        </table>
                     </td>
                 </tr>
             % endif

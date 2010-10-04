@@ -21,7 +21,7 @@ else:
 %>
 <td id="top" colspan="3">
     <p id="cmp_logo">
-        <a href="http://www.openerp.com" target="_blank">
+        <a href="/" target="_top">
             <img alt="OpenERP" id="company_logo" src="/openerp/static/images/openerp_small.png"/>
         </a>
     </p>

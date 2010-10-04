@@ -50,14 +50,13 @@ class Root(SecuredController):
     def index(self, next=None):
         """Index page, loads the view defined by `action_id`.
         """
-        arguments = {}
-        if next: arguments = {'next': next}
-        else:
+        
+        if not next:
             user_action_id = rpc.RPCProxy("res.users").read([rpc.session.uid], ['action_id'], rpc.session.context)[0]['action_id']
             if user_action_id:
-                arguments = {'next': '/openerp/home'}
+                next = '/openerp/home'
         
-        raise redirect("/openerp/menu", **arguments)
+        return self.menu(None, next)
     
     @expose()
     def home(self):
@@ -104,18 +103,25 @@ class Root(SecuredController):
         ctx = rpc.session.context.copy()
         proxy = rpc.RPCProxy("ir.ui.menu")
         ids = proxy.search([('parent_id', '=', False)], 0, 0, 0, ctx)
-        parents = proxy.read(ids, ['name'], ctx)
-                
+        parents = proxy.read(ids, ['name', 'action'], ctx)
+        show_tools = False    
         if not id and ids:
             id = ids[0]
             
         for parent in parents:
             if parent['id'] == id:
                 parent['active'] = 'active'
-            parent['url'] = url('/openerp/menu', active=parent['id'], next=url('/openerp/custom_action', action=parent['id']))
-        
+                    
+            if parent.get('action'):
+                parent['url'] = url('/openerp/menu', active=parent['id'], next=url('/openerp/custom_action', action=parent['id']))
+            else:
+                parent['url'] = url('/openerp/menu', active=parent['id'])
+                if parent['id'] == id:
+                    show_tools = True
+        if next:
+            show_tools = True
         tools = []
-        if next: 
+        if show_tools: 
             ids = proxy.search([('parent_id', '=', id)], 0, 0, 0, ctx)
             tools = proxy.read(ids, ['name', 'action'], ctx)
             view = cache.fields_view_get('ir.ui.menu', 1, 'tree', {})
@@ -130,8 +136,9 @@ class Root(SecuredController):
                 tree.tree.onselection = None
                 tree.tree.onheaderclick = None
                 tree.tree.showheaders = 0
-
-        return dict(parents=parents, tools=tools, load_content=(next and next or ''))
+        
+        feedback = rpc.RPCProxy('openerp.feedback').read([1], ['title', 'content'], ctx)[0]
+        return dict(parents=parents, tools=tools, load_content=(next and next or ''), feedback = feedback)
 
     @expose(allow_json=True)
     @unsecured
