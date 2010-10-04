@@ -136,9 +136,8 @@ class Root(SecuredController):
                 tree.tree.onselection = None
                 tree.tree.onheaderclick = None
                 tree.tree.showheaders = 0
-        
-        feedback = rpc.RPCProxy('openerp.feedback').read([1], ['title', 'content'], ctx)[0]
-        return dict(parents=parents, tools=tools, load_content=(next and next or ''), feedback = feedback)
+                
+        return dict(parents=parents, tools=tools, load_content=(next and next or ''))
 
     @expose(allow_json=True)
     @unsecured

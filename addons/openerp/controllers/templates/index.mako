@@ -82,64 +82,54 @@
                         <table width="100%">
                             <tr>
                                 <td id="primary" width="70%">
-                        <div class="wrap" style="padding: 10px;">
-                            <ul class="sections-a">
-                                %for parent in parents:
-                                    <li class="${'-'.join(parent['name'].split(' ')).lower()}">
-                                        <span class="wrap">
-                                            <a href="${parent['url']}" target="_top">
-                                                <span>
-                                                    <strong>${parent['name']}</strong>
-                                                </span>
-                                            </a>
-                                        </span>
-                                    </li>
-                                % endfor
-                            </ul>
-                        </div>
-                    </td>
-                    <td class="tertiary">
-                        
-                            <table>
-                                <tr>
-                                    <div class="wrap">
-                                        <td>
-                                            <a class="cta-a" href="http://www.openerp.com/services/subscribe-onsite" target="_blank">
-                                                <span>
-                                                    <strong>${_('Use On-Site')}</strong>
-                                                    Get the openERP Warranty
-                                                </span>
-                                            </a>
-                                        </td>
-                                        <td>
-                                            <a class="cta-a" href="http://www.openerp.com/online" target="_blank">
-                                                <span>
-                                                    <strong>${_('Use Online')}</strong>
-                                                    Subscribe and start
-                                                </span>
-                                            </a>
-                                        </td>
+                                    <div class="wrap" style="padding: 10px;">
+                                        <ul class="sections-a">
+                                            %for parent in parents:
+                                                <li class="${'-'.join(parent['name'].split(' ')).lower()}">
+                                                    <span class="wrap">
+                                                        <a href="${parent['url']}" target="_top">
+                                                            <span>
+                                                                <strong>${parent['name']}</strong>
+                                                            </span>
+                                                        </a>
+                                                    </span>
+                                                </li>
+                                            % endfor
+                                        </ul>
                                     </div>
-                                </tr>
-                            <table>
-                        <div class="sideheader-a">
-                            <ul class="side">
-                                <li>
-                                    <a class="button-a" href="javascript: void(0)">${_('Add')}</a>
-                                </li>
-                            </ul>
-                            <h2>${_('Widgets')}</h2>
-                        </div>
-                        <div class="box-a">
-                            <ul class="side">
-                                
-                            </ul>
-                            <h3>${feedback['title']}</h3>
-                            <div class="scroll">
-                                ${feedback['content'] |n }
-                            <div>
-                        </div>
-                    </td>
+                                </td>
+                                <td class="tertiary">
+                                    <table>
+                                        <tr>
+                                            <div class="wrap">
+                                                <td>
+                                                    <a class="cta-a" href="http://www.openerp.com/services/subscribe-onsite" target="_blank">
+                                                        <span>
+                                                            <strong>${_('Use On-Site')}</strong>
+                                                            Get the openERP Warranty
+                                                        </span>
+                                                    </a>
+                                                </td>
+                                                <td>
+                                                    <a class="cta-a" href="http://www.openerp.com/online" target="_blank">
+                                                        <span>
+                                                            <strong>${_('Use Online')}</strong>
+                                                            Subscribe and start
+                                                        </span>
+                                                    </a>
+                                                </td>
+                                            </div>
+                                        </tr>
+                                    <table>
+                                    <div class="sideheader-a">
+                                        <ul class="side">
+                                            <li>
+                                                <a class="button-a" href="javascript: void(0)">${_('Add')}</a>
+                                            </li>
+                                        </ul>
+                                        <h2>${_('Widgets')}</h2>
+                                    </div>
+                                </td>
                             </tr>
                         </table>
                     </td>
