@@ -833,7 +833,7 @@ div#serverlog a {
     color: #511712;
 }
 
-div#helpTips {
+#help-tips {
     border-radius: 3px;
     -moz-border-radius: 3px;
     -webkit-border-radius: 3px;
@@ -841,6 +841,17 @@ div#helpTips {
     border: 1px solid #CECBCB;
     color: #511712;
     margin-left:3px;
+}
+
+#help-tips h3
+    {
+    padding-left: 5px;
+    color: #511712;
+}
+
+#help-tips button
+    {
+    padding: 0;
 }
 
 .pager-cell-button {

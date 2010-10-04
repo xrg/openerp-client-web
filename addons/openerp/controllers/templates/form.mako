@@ -38,17 +38,6 @@
 		</script>
 	% endif
 
-	<script type="text/javascript">
-        jQuery('#helpTips').show();
-        jQuery('#closeHelpTips').click(function() {
-            jQuery('div#helpTips').hide();
-        });
-        jQuery('#closeHelpTips_all').click(function() {
-            jQuery('div#helpTips').hide();
-            openobject.http.postJSON('/openerp/form/close_or_disable_tips');
-        });
-    </script>
-
 </%def>
 
 <%def name="make_view_button(kind, name, desc)">
@@ -106,16 +95,16 @@
                           <small class="sub">${display_name['field']} : ${display_name['value']}</small>
                     % endif
                 </h1>
-                % if can_shortcut and tips and show_menu_help:
-                    <div id="helpTips">
+                % if tips:
+                    <div id="help-tips">
                         <table width="100%" style="border:none">
-                            <tr id="tips_row">
+                            <tr>
                                 <td>
-                                    <h3 style="padding-left:5px; color: #511712;">${title} - ${_("Tips")}</h3>
+                                    <h3>${_("Tips")}</h3>
                                 </td>
                                 <td valign="top" style="padding:1px 1px 0 0;" align="right">
-                                    <button id="closeHelpTips" type="button" style="padding:0">${_("Close Tip")}</button>
-                                    <button id="closeHelpTips_all" type="button" style="padding:0">${_("Disable all Tips")}</button>
+                                    <button type="button" onclick="jQuery('#help-tips').hide();">${_("Close Tip")}</button>
+                                    <button type="button" onclick="jQuery('#help-tips').hide(); openobject.http.postJSON('/openerp/form/close_or_disable_tips');">${_("Disable all Tips")}</button>
                                 </td>
                             </tr>
                             <tr>

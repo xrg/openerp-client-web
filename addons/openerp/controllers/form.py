@@ -254,24 +254,20 @@ class Form(SecuredController):
                     display_name = {'field': form.screen.view['fields']['name']['string'], 'value': ustr(form.screen.view['fields']['name']['value'])}
                     title= ustr(display_name['field']) + ':' + ustr(display_name['value'])
 
-        tips = None
-        tips_ids = rpc.session.execute('object', 'execute', 'ir.actions.act_window', 'search', [('res_model','=',params['_terp_model'])])
-        for tips_id in tips_ids:
-            field = rpc.session.execute('object', 'execute', 'ir.actions.act_window', 'read', tips_id)
-            if field['help'] and (field['name'] == title):
-                tips = field['help']
+        tips = False
+        if params.view_type == params.view_mode[0]:
+            show_menu_help = rpc.RPCProxy('res.users').read(rpc.session.uid, ['menu_tips'], rpc.session.context).get('menu_tips')
+            if show_menu_help:
+                proxy = rpc.RPCProxy('ir.actions.act_window')
+                tips_id = proxy.search([('res_model', '=', params['_terp_model']), ('name', '=', title)])
+                if tips_id:
+                    tips = proxy.read(tips_id[0], ['help'])['help']
 
-        show_menu_help = rpc.session.execute('object', 'execute',
-                    'res.users', 'read', rpc.session.uid, ['menu_tips'], rpc.session.context)
-        show_menu_help = show_menu_help.get('menu_tips', False)
+        return dict(form=form, pager=pager, buttons=buttons, path=self.path, can_shortcut=can_shortcut, shortcut_ids=shortcut_ids, display_name=display_name, title=title, tips = tips)
 
-        return dict(form=form, pager=pager, buttons=buttons, path=self.path, can_shortcut=can_shortcut, shortcut_ids=shortcut_ids, display_name=display_name, title=title, tips = tips, show_menu_help = show_menu_help)
-
-    @expose('json')
+    @expose('json', methods=('POST',))
     def close_or_disable_tips(self):
-        rpc.session.execute('object', 'execute', 'res.users', 'write',
-                                      [rpc.session.uid], {'menu_tips':False})
-        return True
+        return rpc.RPCProxy('res.users').write(rpc.session.uid,{'menu_tips':False}, rpc.session.context)
 
     def _read_form(self, context, count, domain, filter_domain, id, ids, kw,
                    limit, model, offset, search_data, search_domain, source,
