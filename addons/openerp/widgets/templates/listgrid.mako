@@ -118,16 +118,16 @@
                                         % if m2m:
                                             <button title="${_('Add records...')}" id="${name}_button1"
                                                 onclick="open_search_window(jQuery('[id=_m2m_${name}]').attr('relation'), jQuery('[id=_m2m_${name}]').attr('domain'), jQuery('#_m2m_${name}').attr('context'),'${name}', 2, jQuery('[id=${name}_set]').val()); return false;">
-                                                    ${_('add')}
+                                                    ${_('Add')}
                                             </button>
                                         % elif o2m:
                                             <button title="${_('Create new record.')}" id="${name}_btn_"
                                                 onclick="listgridValidation('${name}', '${o2m or 0}', -1); return false;">
-                                                    ${_('new')}
+                                                    ${_('New')}
                                             </button>
                                         % else:
                                             % if not dashboard:
-                                                <button id="${name}_new" title="${_('Create new record.')}">${_('new')}</button>
+                                                <button id="${name}_new" title="${_('Create new record.')}">${_('New')}</button>
                                                 % if editors:
                                                     <script type="text/javascript">
                                                         jQuery('[id=${name}_new]').click(function() {
@@ -157,19 +157,19 @@
                                         % if m2m:
                                             <button id="${name}_delete_record" title="${_('Delete record(s).')}"
                                                 onclick="new Many2Many('${name}').remove(); return false;">
-                                                    ${_('delete')}
+                                                    ${_('Delete')}
                                             </button>
                                         % else:
                                             <button id="${name}_delete_record" title="${_('Delete record(s).')}"
                                                 onclick="new ListView('${name}').remove(null,this); return false;">
-                                                    ${_('delete')}
+                                                    ${_('Delete')}
                                             </button>
                                         % endif
                                     </td>
                                     <td class="pager-cell-button" style="display: none;">
                                         <button id="${name}_edit_record" title="${_('Edit record(s).')}"
                                                 onclick="editSelectedRecord(); return false;">
-                                                    ${_('edit')}
+                                                    ${_('Edit')}
                                         </button>
                                     </td>
                                 % endif
