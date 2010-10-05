@@ -2219,7 +2219,6 @@ button {
     font-size: 1em;
     font-weight: bold;
     line-height: 18px;
-    text-transform: uppercase;
     text-shadow: #6a6969 0 1px 0;
 }
 
@@ -2258,7 +2257,6 @@ td.toolbar a.button-a {
 a.button-b, button.button-b {
     float: left;
     height: 11px;
-    padding: 1px 1px 0;
     border: 1px solid;
     border-color: #e5e3e3 #dad9d9 #cccbcb;
     border-radius: 3px;
@@ -2273,10 +2271,11 @@ a.button-b, button.button-b {
     font-size: 1em;
     font-weight: bold;
     line-height: 16px;
-    text-transform: uppercase;
     text-shadow: #fff 0 1px 0;
-    vertical-align: middle;
     min-width: 99%;
+}
+.button-b img {
+    vertical-align: -30%;
 }
 
 a.wizard_button {
