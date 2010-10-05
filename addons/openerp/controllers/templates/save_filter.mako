@@ -36,7 +36,13 @@
                                     <label for="sc_name">${_("Filter Name")}:</label>
                                 </td>
                                 <td width="100%">
-                                    <input type="text" name="name" id="sc_name" style="width: 100%;"/>
+                                    <input type="text" name="name" id="sc_name" value="${filtername}" style="width: 100%;"/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td align="center" colspan="2">
+                                <pre>${_("""(Any existing filter with the
+    same name will be replaced)""")}</pre>
                                 </td>
                             </tr>
                         </table>
@@ -53,14 +59,24 @@
                     $this.ajaxSubmit({
                         dataType:'json',
                         success:  function(obj) {
-                            if(obj.filter) {
+                            var in_filter = false;
+                            jQuery("#filter_list option").each(function() {
+                                if (obj.filter && this.text == obj.filter[1]){
+                                    this.selected = this.text;
+                                    this.value = obj.filter[0];
+                                    this.group_by = obj.filter[2];
+                                    in_filter = true;
+                                }
+                            });
+
+                            if(obj.filter && !in_filter) {
                                 jQuery('#filter_list').
                                     append(jQuery("<option>", {
                                         value: obj.filter[0],
                                         group_by: obj.filter[2]
                                     }).text(obj.filter[1]));
-                                jQuery.fancybox.close();
                             }
+                            jQuery.fancybox.close();
                         }
                     });
                     return false;

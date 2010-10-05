@@ -540,7 +540,6 @@ function parse_filters(src, id) {
     var checked_button = all_boxes.toString();
     check_domain = checked_button.length > 0? checked_button.replace(/(]\,\[)/g, ', ') : 'None';
     all_domains['check_domain'] = check_domain;
-    
     all_domains = serializeJSON(all_domains);
     return all_domains;
 }
@@ -562,17 +561,21 @@ function search_filter(src, id) {
 function save_filter() {
     var domain_list = parse_filters();
     var grps = group_by;
-    
+    var selected_index = jQuery('#filter_list').attr('selectedIndex');
+    var selected_filter = selected_index > 0 ? jQuery('#filter_list').find('option:selected').text(): '';
+
     if(group_by.length)
         grps = group_by.join(',')
+
     var custom_domain = jQuery('#_terp_filter_domain').val() || '[]';
     openobject.http.postJSON('/openerp/search/eval_domain_filter', {
         'all_domains': domain_list,
         'source': '_terp_list',
         'custom_domain': custom_domain,
         'group_by_ctx': grps}).addCallback(function(obj) {
-        var sf_params = {'model': jQuery('#_terp_model').val(), 'domain': obj.domain, 'group_by': grps, 'flag': 'sf'};
-        
+        var sf_params = {'model': jQuery('#_terp_model').val(), 'domain': obj.domain, 'group_by': grps, 'flag': 'sf',
+                         'selected_filter': selected_filter};
+
         jQuery.ajax({
             url:'/openerp/search/save_filter',
             dataType: 'html',

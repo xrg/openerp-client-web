@@ -357,14 +357,15 @@ class Search(Form):
         domain = kw.get('domain')
         flag = kw.get('flag')
         group_by = kw.get('group_by',None)
+        selected_filter = kw.get('selected_filter')
         if not isinstance(group_by, list) and group_by:
             group_by = group_by.split(',')
-        
+
         if group_by:
             group_by_ctx = map(lambda x: x.split('group_')[-1], group_by)
         else:
             group_by_ctx = []
-        return dict(model=model, domain=domain, flag=flag, group_by=group_by_ctx)
+        return dict(model=model, domain=domain, flag=flag, group_by=group_by_ctx, filtername=selected_filter)
 
     @expose('json')
     def do_filter_sc(self, **kw):
@@ -385,7 +386,7 @@ class Search(Form):
                 'context':str(context),
                 'user_id':rpc.session.uid
             }
-            rpc.session.execute('object', 'execute', 'ir.filters', 'create', datas, rpc.session.context)
+            rpc.session.execute('object', 'execute', 'ir.filters', 'create_or_replace', datas, rpc.session.context)
             return {'filter': (domain, name, group_by)}
         return {}
 
