@@ -119,7 +119,7 @@ class Root(SecuredController):
                 
         
         tools = []
-        if active: 
+        if next or active: 
             ids = proxy.search([('parent_id', '=', id)], 0, 0, 0, ctx)
             tools = proxy.read(ids, ['name', 'action'], ctx)
             view = cache.fields_view_get('ir.ui.menu', 1, 'tree', {})
