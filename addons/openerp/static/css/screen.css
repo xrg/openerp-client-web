@@ -182,9 +182,8 @@ p#cmp_logo {
     padding: 4px 0;
     background: none;
     color: #fff;
-    font-size: 1em;
-    font-weight: bold;
     text-shadow: #111 0 1px 0;
+    font-size: 1.1em;
 }
 
 #title-menu small {
