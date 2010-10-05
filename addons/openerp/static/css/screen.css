@@ -1689,7 +1689,7 @@ ul.sections-a li.project span.wrap a {
     background-image: url(../images/sections-a-i-flag.png);
 }
 
-ul.sections-a li.inventory span.wrap a {
+ul.sections-a li.warehouse span.wrap a {
     background-image: url(../images/sections-a-i-box.png);
 }
 
@@ -1705,7 +1705,7 @@ ul.sections-a li.accounting span.wrap a {
     background-image: url(../images/sections-a-i-wallet.png);
 }
 
-ul.sections-a li.point span.wrap a {
+ul.sections-a li.point-of-sale span.wrap a {
     background-image: url(../images/sections-a-i-tag.png);
 }
 
@@ -1866,12 +1866,12 @@ ul.split-a {
 
 ul.split-a .one {
     float: left;
-    width: 150px;
+    width: 55%;
 }
 
 ul.split-a .two {
     float: right;
-    width: 150px;
+    width: 45%;
 }
 
 #view-selector {

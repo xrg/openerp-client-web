@@ -56,7 +56,7 @@ class Root(SecuredController):
             if user_action_id:
                 next = '/openerp/home'
         
-        return self.menu(None, next)
+        return self.menu(next=next)
     
     @expose()
     def home(self):
@@ -101,27 +101,19 @@ class Root(SecuredController):
             id = False
             form.Form().reset_notebooks()
         ctx = rpc.session.context.copy()
-        proxy = rpc.RPCProxy("ir.ui.menu")
-        ids = proxy.search([('parent_id', '=', False)], 0, 0, 0, ctx)
-        parents = proxy.read(ids, ['name', 'action'], ctx)
-        show_tools = False    
-        if not id and ids:
-            id = ids[0]
+        menus = rpc.RPCProxy("ir.ui.menu")
+        ids = menus.search([('parent_id', '=', False)], 0, 0, 0, ctx)
+        parents = menus.read(ids, ['name', 'action'], ctx)
             
         for parent in parents:
-            if parent['id'] == id:
+            if parent['id'] == id and parent.get('action') and not next:
                 parent['active'] = 'active'
-                    
-            if parent.get('action'):
-                parent['url'] = url('/openerp/menu', active=parent['id'], next=url('/openerp/custom_action', action=parent['id']))
-            else:
-                parent['url'] = url('/openerp/menu', active=parent['id'])
+                next = url('/openerp/custom_action', action=id)  
                 
-        
         tools = []
         if next or active: 
-            ids = proxy.search([('parent_id', '=', id)], 0, 0, 0, ctx)
-            tools = proxy.read(ids, ['name', 'action'], ctx)
+            ids = menus.search([('parent_id', '=', id)], 0, 0, 0, ctx)
+            tools = menus.read(ids, ['name', 'action'], ctx)
             view = cache.fields_view_get('ir.ui.menu', 1, 'tree', {})
             fields = cache.fields_get(view['model'], False, ctx)
             
@@ -134,8 +126,9 @@ class Root(SecuredController):
                 tree.tree.onselection = None
                 tree.tree.onheaderclick = None
                 tree.tree.showheaders = 0
-        
-        return dict(parents=parents, tools=tools, load_content=(next and next or ''))
+        widgets = rpc.RPCProxy('res.widget')
+        return dict(parents=parents, tools=tools, load_content=(next and next or ''),
+                    widgets=widgets.read(widgets.search([], 0, 0, 0, ctx), [], ctx))
 
     @expose(allow_json=True)
     @unsecured
