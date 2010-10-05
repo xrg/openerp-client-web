@@ -458,7 +458,8 @@ function parse_filters(src, id) {
             if(filter_grps && filter_grps!='[]') {
                 group_by = eval(filter_grps);
             } else {
-                group_by = [];
+                if(selected_index != previous_filter && group_by.length)
+                    group_by = [];
             }
         } else {
             if (previous_filter > 0) {
