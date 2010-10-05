@@ -1,5 +1,4 @@
 <form method="post" id="${name}" name="${name}" action="${action}" enctype="multipart/form-data">
-
     <div>
         <input type="hidden" id="_terp_search_domain" name="_terp_search_domain" value="${search_domain}"/>
         <input type="hidden" id="_terp_filter_domain" name="_terp_filter_domain" value="${filter_domain}"/>
@@ -13,7 +12,7 @@
 
 % if screen:
     <div id="server_logs"></div>
-    <table border="0" cellpadding="0" cellspacing="0" width="100%" style="border: none;">
+    <table border="0" cellpadding="0" cellspacing="0" width="100%">
         % if search:
         <%
             if not (search.listof_domain or search.custom_filter_domain or search.groupby):
@@ -21,15 +20,13 @@
             else:
                 css_clear = ''
         %>
-
         <tr>
-            <td valign="top" style="padding-bottom:2px;">${display_member(search)}</td>
+            <td valign="top">${display_member(search)}</td>
         </tr>
-
          % if screen.view_type == 'tree' and screen.widget:
             <tr>
-                <td id="custom_columns" style="padding: 6px 0 5px 3px;">
-                    <div id="customcolumns" class="group-expand" onclick="collapse_expand(this, '#custcols');" style="padding:0 0 0 3px;">
+                <td id="custom_columns">
+                    <div id="customcolumns" class="group-expand" onclick="collapse_expand(this, '#custcols');">
                         <h2>${_("Hide Columns")}</h2>
                     </div>
                     % if getattr(screen.widget,'headers', []):
@@ -38,7 +35,7 @@
                                 % for i, (field, field_attrs) in enumerate(screen.widget.headers):
                                 % if field != 'button':
                                     <td class="label">
-                                        <input type="checkbox" checked id="display_column_${field}" onchange="search_filter();" style="vertical-align:top"/>
+                                        <input type="checkbox" checked id="display_column_${field}" onchange="search_filter();">
                                         <label for="display_column_${field}">
                                             ${field_attrs['string']}
                                         </label>
@@ -85,7 +82,7 @@
         </tr>
         % endif
         <tr>
-            <td valign="top" style="padding: 2px 0 5px 5px;">${display_member(screen)}</td>
+            <td valign="top">${display_member(screen)}</td>
         </tr>
     </table>
     % if screen.view_type == 'tree':

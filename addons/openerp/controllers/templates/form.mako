@@ -64,7 +64,7 @@
             else:
                 shortcut_class = "shortcut-add"
     %>
-    <table id="main_form_body" class="view" cellpadding="0" cellspacing="0" border="0" width="100%" style="border: none;">
+    <table id="main_form_body" class="view" cellpadding="0" cellspacing="0" border="0" width="100%">
         <tr>
             <td id="body_form_td" width="100%" valign="top">
                 % if buttons.toolbar:
@@ -102,13 +102,13 @@
                                 <td>
                                     <h3>${_("Tips")}</h3>
                                 </td>
-                                <td valign="top" style="padding:1px 1px 0 0;" align="right">
+                                <td valign="top" align="right">
                                     <button type="button" onclick="jQuery('#help-tips').hide();">${_("Close Tip")}</button>
                                     <button type="button" onclick="jQuery('#help-tips').hide(); openobject.http.postJSON('/openerp/form/close_or_disable_tips');">${_("Disable all Tips")}</button>
                                 </td>
                             </tr>
                             <tr>
-                                <td colspan="2" style="padding:3px 5px;">${tips}</td>
+                                <td colspan="2">${tips}</td>
                             </tr>
                         </table>
                     </div>
