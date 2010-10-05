@@ -233,6 +233,11 @@ class Email(Email):
 
     def _from_python(self, value, state):
         return value or ''
+    
+    def validate_python(self, value, state):
+        if '<' in value and '>' in value:
+            value = value[value.index('<')+1:value.index('>')]
+        super(Email, self).validate_python(value, state)
 
 class many2many(FancyValidator):
 
