@@ -109,9 +109,11 @@ class Root(SecuredController):
             if parent['id'] == id and parent.get('action') and not next:
                 parent['active'] = 'active'
                 next = url('/openerp/custom_action', action=id)  
-                
+        
         tools = []
-        if next or active: 
+        if next or active:
+            if not id and ids:
+                id = ids[0] 
             ids = menus.search([('parent_id', '=', id)], 0, 0, 0, ctx)
             tools = menus.read(ids, ['name', 'action'], ctx)
             view = cache.fields_view_get('ir.ui.menu', 1, 'tree', {})
