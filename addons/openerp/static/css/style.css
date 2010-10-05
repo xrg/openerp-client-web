@@ -221,6 +221,7 @@ div.group-expand, div.group-collapse {
     overflow: hidden;
     width: 100%;
     white-space: nowrap;
+    margin-top: 2px;
 }
 
 .group-expand h2, .group-collapse h2 {
