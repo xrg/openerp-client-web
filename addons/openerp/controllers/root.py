@@ -106,9 +106,10 @@ class Root(SecuredController):
         parents = menus.read(ids, ['name', 'action'], ctx)
             
         for parent in parents:
-            if parent['id'] == id and parent.get('action') and not next:
+            if parent['id'] == id:
                 parent['active'] = 'active'
-                next = url('/openerp/custom_action', action=id)  
+                if parent.get('action') and not next:
+                    next = url('/openerp/custom_action', action=id)  
         
         tools = []
         if next or active:
