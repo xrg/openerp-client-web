@@ -116,12 +116,10 @@ class Root(SecuredController):
                 parent['url'] = url('/openerp/menu', active=parent['id'], next=url('/openerp/custom_action', action=parent['id']))
             else:
                 parent['url'] = url('/openerp/menu', active=parent['id'])
-                if parent['id'] == id:
-                    show_tools = True
-        if next:
-            show_tools = True
+                
+        
         tools = []
-        if show_tools: 
+        if active: 
             ids = proxy.search([('parent_id', '=', id)], 0, 0, 0, ctx)
             tools = proxy.read(ids, ['name', 'action'], ctx)
             view = cache.fields_view_get('ir.ui.menu', 1, 'tree', {})
@@ -136,7 +134,7 @@ class Root(SecuredController):
                 tree.tree.onselection = None
                 tree.tree.onheaderclick = None
                 tree.tree.showheaders = 0
-                
+        
         return dict(parents=parents, tools=tools, load_content=(next and next or ''))
 
     @expose(allow_json=True)
