@@ -1721,12 +1721,12 @@ ul.sections-a li.reporting span.wrap a {
     background-image: url(../images/sections-a-i-charts.png);
 }
 
-ul.sections-a li.chat span.wrap a {
-    background-image: url(../images/sections-a-i-dialog.png);
-}
-
 ul.sections-a li.administration span.wrap a {
     background-image: url(../images/sections-a-i-briefcase.png);
+}
+
+ul.sections-a li.tools span.wrap a {
+    background-image: url(../images/sections-a-i-tools.png);
 }
 
 ul.sections-a li span.wrap a span {
