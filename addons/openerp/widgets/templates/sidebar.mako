@@ -27,19 +27,19 @@
 
 <div id="sidebar">
     % if reports:
-        ${make_sidebox(_("REPORTS"), model, reports)}
+        ${make_sidebox(_("Reports"), model, reports)}
     % endif
 
     % if actions:
-        ${make_sidebox(_("ACTIONS"), model, actions)}
+        ${make_sidebox(_("Actions"), model, actions)}
     % endif
 
     % if relates:
-        ${make_sidebox(_("LINKS"), model, relates)}
+        ${make_sidebox(_("Links"), model, relates)}
     % endif
 
     % if sub_menu:
-        ${make_sidebox(_("SUBMENU"), model, sub_menu, submenu=1)}
+        ${make_sidebox(_("Submenu"), model, sub_menu, submenu=1)}
     % endif
     % if view_type == 'form':
     <div class="sideheader-a">

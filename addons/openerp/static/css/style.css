@@ -2,10 +2,6 @@
     white-space: nowrap;
     border-collapse: separate;
     width: auto;
-    padding: 2px 3px !important;
-}
-
-.search_filters.group_box {
     padding: 0 !important;
 }
 
@@ -51,7 +47,6 @@ button, .button {
     font-size: 1em !important;
     font-weight: bold;
     line-height: 12px;
-    text-transform: uppercase;
     text-shadow: #6a6969 0 1px 0;
     padding: 1px 10px;
     cursor: pointer;
@@ -183,6 +178,10 @@ div#search_filter_data select.selection {
     width: 1px;
 }
 
+.filters-group {
+    margin-right: 4px;
+}
+
 div.inactive_filter {
     cursor: pointer;
     background: url(../images/button_unchecked.gif) repeat-x left bottom;
@@ -197,50 +196,50 @@ div.active_filter {
     white-space: nowrap;
 }
 
-td.group-expand,img.group_expand {
-    cursor: pointer;
+td.group-expand  {
     background: url(../images/treegrid/expand.gif) no-repeat top left;
-    padding-left: 15px;
 }
 
-td.group-expand:hover,
-img.group_expand:hover {
-    background: url(../images/treegrid/expandh.gif) no-repeat top left;
+td.group-expand:hover  {
+    background-image: url(../images/treegrid/expandh.gif);
 }
 
-td.group-collapse,
-img.group_collapse {
-    cursor: pointer;
+td.group-collapse  {
     background: url(../images/treegrid/collapse.gif) no-repeat top left;
-    padding-left: 15px;
 }
 
-td.group-collapse:hover,
-img.group_collapse:hover {
-    background: url(../images/treegrid/collapseh.gif) no-repeat top left;
+td.group-collapse:hover  {
+    background-image: url(../images/treegrid/collapseh.gif);
 }
 
 div.group-expand {
+    margin-bottom: 3px;
+}
+div.group-expand, div.group-collapse {
     cursor: pointer;
     overflow: hidden;
     width: 100%;
     white-space: nowrap;
-    padding: 2px 3px;
+    margin-top: 2px;
 }
 
-div.group-expand h2 {
+.group-expand h2, .group-collapse h2 {
     padding: 0 0 0 10px;
     background: url(../images/group-a-header-a.png) 0 50% no-repeat;
     color: #7d7979;
-    font-size: 0.8em;
+    font-size: 1em;
     font-weight: bold;
-    text-transform: uppercase;
+}
+.group-collapse h2 {
+    background-image: url(../images/group-a-header-b.png);
 }
 
-div.group-expand h2:hover {
-    background: url(../images/group-a-header-a2.png) 0 50% no-repeat;
-    background-color: #E6E6E6;
-	color: #000000;
+.group-expand h2:hover, .group-collapse h2:hover {
+    background: #E6E6E6 url(../images/group-a-header-a2.png) no-repeat 0 50%;
+    color: #000;
+}
+.group-collapse h2:hover {
+    background-image: url(../images/group-a-header-b2.png);
 }
 
 #groupdata_table {
@@ -252,28 +251,7 @@ div.group-expand h2:hover {
     padding: 0;
 }
 
-div.group-collapse {
-    cursor: pointer;
-    overflow: hidden;
-    width: 100%;
-    white-space: nowrap;
-}
 
-div.group-collapse h2 {
-    background: url(../images/group-a-header-b.png) 0 50% no-repeat;
-    margin-bottom: 3px;
-    padding: 0 0 0 10px;
-    color: #7d7979;
-    font-size: 0.8em;
-    font-weight: bold;
-    text-transform: uppercase;
-}
-
-div.group-collapse h2:hover {
-    background: url(../images/group-a-header-b2.png) 0 50% no-repeat;
-    background-color: #E6E6E6;
-	color: #000000;
-}
 
 td.custom-filter ul {
     float: left;
@@ -313,7 +291,7 @@ td.custom-filter ul li select {
     float: left;
     height: 17px;
     padding: -1px 10px 0;
-    border: 1px solid #aaa9a9;
+    border: 1px solid;
     border-color: #e5e3e3 #dad9d9 #cccbcb;
     border-radius: 3px;
     -moz-border-radius: 3px;
@@ -334,7 +312,7 @@ td.custom-filter ul li a.button {
     float: left;
     height: 11px;
     padding: 3px 9px 0;
-    border: 1px solid #aaa9a9;
+    border: 1px solid;
     border-color: #e5e3e3 #dad9d9 #cccbcb;
     border-radius: 3px;
     -moz-border-radius: 3px;
@@ -406,12 +384,10 @@ button.inactive {
     -moz-box-shadow: 0 1px 1px #fff;
     -webkit-box-shadow: 0 1px 1px #fff;
     height: 20px;
-    font-size: 10px;
-    text-transform: uppercase;
+    font-size: 1.1em !important;
     border: 1px solid #676767;
     background: #5A5858;
     color: #fff;
-    font-weight: bold;
     line-height: 16px;
     text-align: center;
     padding: 0 5px;
@@ -586,8 +562,6 @@ table.o2m_box div.pagerbar-header strong {
 .label,
 .action-buttons label {
     color: #777777;
-    font-weight: bold;
-    text-transform: uppercase;
     text-align: right;
     white-space: nowrap;
 }
@@ -709,8 +683,8 @@ table.m2o_readonly {
 	color: DarkGray;
 }
 
-td.view_form_options {
-    padding: 0 0 3px 3px;
+.view_form_options {
+    padding: 0 0 3px 0;
 }
 .view_form_options div {
     margin: 3px 0;
@@ -837,20 +811,19 @@ div#serverlog a {
     border-radius: 3px;
     -moz-border-radius: 3px;
     -webkit-border-radius: 3px;
-    background: #FFFFFF none repeat scroll 0 0;
+    background: #fff none repeat scroll 0 0;
     border: 1px solid #CECBCB;
     color: #511712;
-    margin-left:3px;
+    margin-bottom:3px;
+    padding: 1px;
 }
 
-#help-tips h3
-    {
+#help-tips h3 {
     padding-left: 5px;
     color: #511712;
 }
 
-#help-tips button
-    {
+#help-tips button {
     padding: 0;
 }
 

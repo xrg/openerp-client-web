@@ -141,7 +141,6 @@ hr {
 #top {
     background: url(../images/header-background.png) top left repeat-x;
     color: #fff;
-    text-transform: uppercase;
     letter-spacing: 0.5px;
     text-shadow: #333 0 1px 0;
 }
@@ -183,9 +182,8 @@ p#cmp_logo {
     padding: 4px 0;
     background: none;
     color: #fff;
-    font-size: 1em;
-    font-weight: bold;
     text-shadow: #111 0 1px 0;
+    font-size: 1.1em;
 }
 
 #title-menu small {
@@ -547,8 +545,9 @@ p#cmp_logo {
     display: inline; /*IE7 */
     display: inline-block;
     margin: 6px 1px;
-    text-transform: uppercase;
     text-align: center;
+    font-size: 1.3em;
+    font-variant:small-caps;
 }
 
 #applications_menu a {
@@ -557,7 +556,6 @@ p#cmp_logo {
     padding: 0 0 0 3px;
     background: url(../images/nav-items-a.png) no-repeat;
     color: #fff;
-    font-weight: bold;
     text-shadow: #111 0 1px 0;
 }
 
@@ -700,8 +698,6 @@ h1 small.sub {
     display: block;
     color: #7e7979;
     font-size: 0.5em;
-    font-weight: bold;
-    text-transform: uppercase;
     padding-bottom: 2px;
 }
 
@@ -1808,13 +1804,11 @@ ul.sections-a li span.wrap a:hover span strong,ul.sections-a li span.wrap a:focu
 #sidenav-a li > span {
     display: block;
     height: 20px;
-    padding: 0 0 0 20px;
+    padding-left: 5px;
+    font-size: 1.25em;
     background: url(../images/sidenav-link-a.png) 0 100% repeat-x;
-    color: #fff;
     line-height: 20px;
-    font-weight: bold;
     text-decoration: none !important;
-    text-transform: uppercase;
     cursor: pointer;
     min-width: 165px;
 }
@@ -2129,10 +2123,9 @@ p.paging-a a.next {
     margin: 0 0 0 10px;;
     padding: 0;
     color: #8e8e8e;
-    font-size: 0.8em;
+    font-size: 1.2em;
     line-height: 21px;
     font-weight: bold;
-    text-transform: uppercase;
     text-shadow: #fff 0 1px 0;
 }
 
@@ -2203,7 +2196,7 @@ button {
 }
 
 #body_form_td {
-    padding: 10px 4px 0 0;
+    padding: 10px 4px 4px;
     border-color: #EAE7E7;
 }
 
@@ -2224,7 +2217,6 @@ button {
     font-size: 1em;
     font-weight: bold;
     line-height: 18px;
-    text-transform: uppercase;
     text-shadow: #6a6969 0 1px 0;
 }
 
@@ -2263,7 +2255,6 @@ td.toolbar a.button-a {
 a.button-b, button.button-b {
     float: left;
     height: 11px;
-    padding: 1px 1px 0;
     border: 1px solid;
     border-color: #e5e3e3 #dad9d9 #cccbcb;
     border-radius: 3px;
@@ -2278,10 +2269,11 @@ a.button-b, button.button-b {
     font-size: 1em;
     font-weight: bold;
     line-height: 16px;
-    text-transform: uppercase;
     text-shadow: #fff 0 1px 0;
-    vertical-align: middle;
     min-width: 99%;
+}
+.button-b img {
+    vertical-align: -30%;
 }
 
 a.wizard_button {
