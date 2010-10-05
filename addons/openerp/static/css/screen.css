@@ -2125,10 +2125,9 @@ p.paging-a a.next {
     margin: 0 0 0 10px;;
     padding: 0;
     color: #8e8e8e;
-    font-size: 0.8em;
+    font-size: 1.2em;
     line-height: 21px;
     font-weight: bold;
-    text-transform: uppercase;
     text-shadow: #fff 0 1px 0;
 }
 
