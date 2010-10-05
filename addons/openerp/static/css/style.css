@@ -565,8 +565,6 @@ table.o2m_box div.pagerbar-header strong {
 .label,
 .action-buttons label {
     color: #777777;
-    font-weight: bold;
-    text-transform: uppercase;
     text-align: right;
     white-space: nowrap;
 }
