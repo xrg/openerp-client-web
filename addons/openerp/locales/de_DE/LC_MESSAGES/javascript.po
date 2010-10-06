@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2009-11-18 17:42+0530\n"
-"PO-Revision-Date: 2010-08-02 17:53+0530\n"
+"PO-Revision-Date: 2010-10-06 16:09+0530\n"
 "Last-Translator: Amit Mendapara <mendapara.amit@gmail.com>\n"
 "Language-Team: de_DE <LL@li.org>\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
@@ -17,31 +17,31 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel None\n"
 
-#: static/javascript/ajax_stat.js:63 static/javascript/treegrid.js:124
-msgid "Loading..."
-msgstr "Ladevorgang läuft ..."
-
-#: static/javascript/form.js:98
+#: static/javascript/form.js:99
 #, python-format
 msgid "You selected to open %(tabs)s tabs - do you want to continue?"
 msgstr ""
 
-#: static/javascript/form.js:232
-msgid "Invalid form, correct red fields !"
-msgstr "ungültiges Formular, korrigieren Sie die roten Felder!"
+#: static/javascript/form.js:241
+msgid "Invalid form, correct red fields."
+msgstr ""
 
-#: static/javascript/form.js:245
+#: static/javascript/form.js:295
 msgid "Do you really want to delete this record?"
 msgstr "Wollen Sie diesen Datensatz wirklich löschen?"
 
-#: static/javascript/form.js:896 static/javascript/form.js:1024
-#: static/javascript/listgrid.js:641 static/javascript/treeview.js:58
+#: static/javascript/form.js:966 static/javascript/form.js:1100
+#: static/javascript/listgrid.js:639 static/javascript/treeview.js:58
 msgid "You must select at least one record."
 msgstr "Wählen Sie mindestens einen Datensatz"
 
-#: static/javascript/listgrid.js:643
+#: static/javascript/listgrid.js:641
 msgid "Do you really want to delete selected record(s) ?"
 msgstr "Wollen Sie die ausgewählten Datensätze wirklich löschen"
+
+#: static/javascript/o2m.js:62
+msgid "Do you really want to delete record ?"
+msgstr ""
 
 #: static/javascript/viewed.js:71
 msgid "Do you really want to remove this node?"
@@ -50,46 +50,4 @@ msgstr "Wollen Sie diesen Knoten wirklich löschen?"
 #: static/javascript/viewed.js:337
 msgid "Do you really wants to create an inherited view here?"
 msgstr "Wollen Sie hier wirklich eine vererbte Sicht erstellen?"
-
-#~ msgid "Please wait..."
-#~ msgstr "Bitte warten..."
-
-#~ msgid "This operation may take a while..."
-#~ msgstr "Dieser Vorgang kann eine Weile dauern"
-
-#~ msgid "Cancel"
-#~ msgstr "Abbrechen"
-
-#~ msgid "Edit"
-#~ msgstr "Bearbeiten"
-
-#~ msgid "Duplicate"
-#~ msgstr "Duplizieren"
-
-#~ msgid "Delete"
-#~ msgstr "Löschen"
-
-#~ msgid "Notes:"
-#~ msgstr "Bemerkungen:"
-
-#~ msgid "Subflows:"
-#~ msgstr "untergeordnete Flussdiagramme"
-
-#~ msgid "Related:"
-#~ msgstr "Verbunden:"
-
-#~ msgid "Help"
-#~ msgstr "Hilfe"
-
-#~ msgid "Open"
-#~ msgstr "Öffnen"
-
-#~ msgid "Print"
-#~ msgstr "Drucken"
-
-#~ msgid "Print workflow"
-#~ msgstr "Arbeitsfluss Drucken"
-
-#~ msgid "Documents"
-#~ msgstr "Dokumente"
 
