@@ -518,6 +518,20 @@
 		},
 
 		fancybox_start = function() {
+            if(!loading)
+                loading = $('#fancybox-loading');
+            if(!tmp)
+                tmp = $('#fancybox-tmp');
+            if(!overlay)
+                overlay = $('#fancybox-overlay');
+            if(!wrap)
+                wrap = $('#fancybox-wrap');
+            if(!outer)
+                outer = $('#fancybox-outer');
+            if(!inner)
+                inner  = $('#fancybox-inner');
+            if(!close)
+                close = $('#fancybox-close');
 			fancybox_abort();
 
 			var obj	= selectedArray[ selectedIndex ],
