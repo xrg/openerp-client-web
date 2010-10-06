@@ -231,11 +231,11 @@ ManyToOne.prototype.change_icon = function() {
 
     if(this.is_inline && this.open_img) {
         if(this.field.value) {
-            this.select_img.parentNode.style.display = 'none';
-            this.open_img.parentNode.style.display = '';
+            jQuery(this.select_img).hide();
+            jQuery(this.open_img).show();
         } else {
-            this.select_img.parentNode.style.display = '';
-            this.open_img.parentNode.style.display = 'none';
+            jQuery(this.select_img).show();
+            jQuery(this.open_img).hide();
         }
     }
 };
