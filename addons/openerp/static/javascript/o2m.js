@@ -50,7 +50,7 @@ var One2Many = function(name, inline) {
         var self = this;
         this.btn_new = openobject.dom.get(this.name + '_btn_');
         MochiKit.Signal.connect(ListView(this.name), 'onreload', function(evt) {
-            self.btn_new.style.display = ListView(self.name).getEditors().length > 0 ? 'none' : '';
+            self.btn_new.style.display = ListView(self.name).$getEditors().length > 0 ? 'none' : '';
         });
     }
 };
@@ -80,9 +80,9 @@ One2Many.prototype = {
         if (!this.parent_id || this.parent_id == 'False' || this.mode == 'form') {
             return submit_form('save', this.name);
         }
-    
+
         if (this.mode == 'tree' && this.inline) {
-        
+
             if (this.default_get_ctx) {
                 var self = this;
                 var req = eval_domain_context_request({source: this.name, context: this.default_get_ctx});

@@ -213,37 +213,28 @@ ListView.prototype = {
 MochiKit.Base.update(ListView.prototype, {
 
     adjustEditors: function(newlist) {
-        var editors = this.getEditors(false, newlist);
-        jQuery(editors).each(function(){
-        	var e = jQuery(this);
-        	var c = e.parent('.grid-cell');
-        	e.attr('autocomplete', 'OFF').width(c.width());
-        });
-
-        return editors;
+        return this.$getEditors(false, newlist).each(function(){
+        	var $this = jQuery(this);
+        	var $cell = $this.parent('.grid-cell');
+        	$this.attr('autocomplete', 'OFF').width($cell.width());
+        }).get();
     },
 
     bindKeyEventsToEditors: function(editors) {
         var self = this;
-        var enabledEditors = filter(function(e) {
-            return e.type != 'hidden' && !e.disabled
-        }, editors);
-
-        forEach(enabledEditors, function(e) {
-            connect(e, 'onkeydown', self, self.onKeyDown);
-            addElementClass(e, 'listfields');
+        jQuery(editors).filter(function () {
+            return this.type != 'hidden' && !this.disabled;
+        }).each(function () {
+            jQuery(this).addClass('listfields');
+            connect(this, 'onkeydown', self, self.onKeyDown);
         });
     },
 
-    getEditors: function(named, dom) {
-        dom = dom ? dom : this.name;
-
-        var editors = openobject.dom.select("input, select, textarea", dom);
-
-        return filter(function(e) {
-            var name = named ? e.name : e.id;
+    $getEditors: function(named, dom) {
+        return jQuery(openobject.dom.select("input, select, textarea", dom ? dom : this.name)).filter(function() {
+            var name = named ? this.name : this.id;
             return name && name.indexOf('_terp_listfields') == 0;
-        }, editors);
+        });
     }
 
 });
@@ -252,10 +243,8 @@ MochiKit.Base.update(ListView.prototype, {
 MochiKit.Base.update(ListView.prototype, {
 
     sort_by_order: function(column, field) {
-        var self = this;
-        var $field = jQuery(field);
-        if($field.find('img').length) {
-            var $img = $field.find('img')
+        var $img = jQuery(field).find('img');
+        if($img.length) {
             if ($img.attr('id') == 'asc') this.sort_order = 'desc';
             else this.sort_order = 'asc';
         }
@@ -268,16 +257,16 @@ MochiKit.Base.update(ListView.prototype, {
     },
 
     group_by: function(id, record, no_leaf, group) {
-        var group_record = jQuery('[records="' + record + '"]');
-        var group_by_context = jQuery(group_record).attr('grp_context');
-        var domain = jQuery(group_record).attr('grp_domain');
+        var $group_record = jQuery('[records="' + record + '"]');
+        var group_by_context = $group_record.attr('grp_context');
+        var domain = $group_record.attr('grp_domain');
         var total_groups = jQuery('#' + this.name).attr('groups');
         var $header = jQuery('table[id="'+this.name+'_grid'+'"] tr.grid-header');
         var check_order = eval(total_groups);
         var sort_order;
         var sort_key;
-        for(i in check_order) {
-            var $img = $header.find('th[id="'+'grid-data-column/'+check_order[i]+'"]').find('img')
+        for(var i in check_order) {
+            var $img = $header.find('th[id="'+'grid-data-column/'+check_order[i]+'"] img');
             if($img.length) {
                 sort_order = $img.attr('id');
                 sort_key = check_order[i];
@@ -302,7 +291,7 @@ MochiKit.Base.update(ListView.prototype, {
                             'sort_key': sort_key},
                     dataType: 'html',
                     success: function(xmlHttp) {
-                        jQuery(group_record).after(xmlHttp);
+                        $group_record.after(xmlHttp);
                     }
                 });
             } else {
