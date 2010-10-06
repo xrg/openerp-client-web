@@ -39,12 +39,6 @@
                                     <input type="text" name="name" id="sc_name" value="${filtername}" style="width: 100%;"/>
                                 </td>
                             </tr>
-                            <tr>
-                                <td align="center" colspan="2">
-                                <pre>${_("""(Any existing filter with the
-    same name will be replaced)""")}</pre>
-                                </td>
-                            </tr>
                         </table>
                     </div>
                 </td>

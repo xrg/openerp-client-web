@@ -439,6 +439,7 @@ function parse_filters(src, id) {
     var domains = {};
     var search_context = {};
     var all_boxes = [];
+    var $filter_list = jQuery('#filter_list')
     var domain = 'None';
     if (jQuery('div.group-data').length) {
         jQuery('div.group-data:first').find('button').each(function(){
@@ -450,9 +451,9 @@ function parse_filters(src, id) {
             }
         })
     }
-    if (openobject.dom.get('filter_list')) {
-        all_domains['selection_domain'] = jQuery('#filter_list').val();
-        var selected_index = jQuery('#filter_list').attr('selectedIndex');
+    if ($filter_list) {
+        all_domains['selection_domain'] = $filter_list.val();
+        var selected_index = $filter_list.index();
         var filter_grps = jQuery('#filter_list option:selected').attr('group_by');
         if(selected_index > 0) {
             if(filter_grps && filter_grps!='[]') {
@@ -562,8 +563,8 @@ function search_filter(src, id) {
 function save_filter() {
     var domain_list = parse_filters();
     var grps = group_by;
-    var selected_index = jQuery('#filter_list').attr('selectedIndex');
-    var selected_filter = selected_index > 0 ? jQuery('#filter_list').find('option:selected').text(): '';
+    var selected_filter = jQuery('#filter_list option:selected');
+    selected_filter = selected_filter.index() > 0 ? selected_filter.text(): '';
 
     if(group_by.length)
         grps = group_by.join(',')
