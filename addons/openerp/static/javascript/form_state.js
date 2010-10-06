@@ -93,7 +93,7 @@ function form_onStateChange(container, widget, states, evt) {
 }
 
 function form_hookAttrChange() {
-    var $items = jQuery('td.item[attrs], td.label[attrs], div.notebook-page[attrs]');
+    var $items = jQuery('td[attrs], div.notebook-page[attrs]');
     var fields = {};
 
     $items.each(function(){
