@@ -27,7 +27,7 @@
                 window.close();
                 
             } else {
-            	window.location.href='/openerp/menu';
+            	window.location.href='/openerp';
             }
         });
     </script>

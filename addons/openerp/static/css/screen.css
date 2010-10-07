@@ -1685,7 +1685,7 @@ ul.sections-a li.project span.wrap a {
     background-image: url(../images/sections-a-i-flag.png);
 }
 
-ul.sections-a li.inventory span.wrap a {
+ul.sections-a li.warehouse span.wrap a {
     background-image: url(../images/sections-a-i-box.png);
 }
 
@@ -1701,7 +1701,7 @@ ul.sections-a li.accounting span.wrap a {
     background-image: url(../images/sections-a-i-wallet.png);
 }
 
-ul.sections-a li.point span.wrap a {
+ul.sections-a li.point-of-sale span.wrap a {
     background-image: url(../images/sections-a-i-tag.png);
 }
 
@@ -1717,12 +1717,12 @@ ul.sections-a li.reporting span.wrap a {
     background-image: url(../images/sections-a-i-charts.png);
 }
 
-ul.sections-a li.chat span.wrap a {
-    background-image: url(../images/sections-a-i-dialog.png);
-}
-
 ul.sections-a li.administration span.wrap a {
     background-image: url(../images/sections-a-i-briefcase.png);
+}
+
+ul.sections-a li.tools span.wrap a {
+    background-image: url(../images/sections-a-i-tools.png);
 }
 
 ul.sections-a li span.wrap a span {
@@ -1860,12 +1860,12 @@ ul.split-a {
 
 ul.split-a .one {
     float: left;
-    width: 150px;
+    width: 55%;
 }
 
 ul.split-a .two {
     float: right;
-    width: 150px;
+    width: 45%;
 }
 
 #view-selector {
@@ -2058,6 +2058,17 @@ p.paging-a a.next {
 }
 
 /* sidebar */
+td.tertiary {
+    background: url(../images/tertiary-bg-a.gif) repeat-y scroll 0 0 #EAE7E7;
+    min-height: 100%;
+    border-left: 1px solid #D2CFCF;
+    vertical-align: top;
+}
+
+td.tertiary div.wrap {
+    margin-top: 9px;
+}
+
 #tertiary {
     position: relative;
     float: right;
@@ -2310,6 +2321,7 @@ a.cta-a {
     text-transform: uppercase;
     font-weight: bold;
     text-shadow: #fff 0 1px 0;
+    margin: 2px;
 }
 
 a.cta-a:hover,a.cta-a:focus,a.cta-a:active {
@@ -2318,8 +2330,7 @@ a.cta-a:hover,a.cta-a:focus,a.cta-a:active {
 
 a.cta-a span {
     float: left;
-    width: 95px;
-    padding: 7px 0 5px 32px;
+    padding: 7px 0 5px 5px;
     background-position: 0 50%;
     background-repeat: no-repeat;
     cursor: pointer;
