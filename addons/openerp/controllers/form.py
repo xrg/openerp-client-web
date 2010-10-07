@@ -212,7 +212,7 @@ class Form(SecuredController):
         mode = form.screen.view_type
         id = form.screen.id
         buttons = TinyDict()    # toolbar
-        buttons.new = not editable or mode == 'tree'
+        buttons.new = (not editable or mode == 'tree') and mode != 'diagram'
         buttons.edit = not editable and mode == 'form'
         buttons.save = editable and mode == 'form'
         buttons.cancel = editable and mode == 'form'
@@ -221,7 +221,7 @@ class Form(SecuredController):
         buttons.can_attach = id and mode == 'form'
         buttons.i18n = not editable and mode == 'form'
         buttons.show_grid = mode == 'diagram'
-        buttons.create_node = mode == 'diagram'
+        buttons.create_node = mode == 'diagram' and editable
 
         from openerp.widgets import get_registered_views
         buttons.views = []

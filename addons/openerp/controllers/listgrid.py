@@ -105,26 +105,31 @@ class List(SecuredController):
     def remove(self, **kw):
         params, data = TinyDict.split(kw)
         sc_ids = [i['id'] for i in cherrypy.session['terp_shortcuts']]
-
         error = None
         proxy = rpc.RPCProxy(params.model)
-        if params.ids:
+        if params.id:
 
             if params.model == 'ir.ui.view_sc' and cherrypy.session.get('terp_shortcuts'):
                 for sc in cherrypy.session.get('terp_shortcuts'):
-                    for id in params.ids:
+                    for id in params.id:
                         if id == sc['id']:
                             cherrypy.session['terp_shortcuts'].remove(sc)
 
             try:
                 ctx = context_with_concurrency_info(params.context, params.concurrency_info)
-                if isinstance(params.ids, list):
-                    res = proxy.unlink(params.ids, ctx)
+                if isinstance(params.id, list):
+                    res = proxy.unlink(params.id, ctx)
+                    for i in params.id:
+                        params.ids.remove(i)
                 else:
-                    res = proxy.unlink([params.ids], ctx)
+                    res = proxy.unlink([params.id], ctx)
+                    params.ids.remove(params.id)
+                
                 if params.model == 'res.request':
                     ids, ids2 = rpc.RPCProxy(params.model).request_get()
-                    return dict(ids = ids)
+                    return dict(res_ids = ids)
+                
+                return dict(ids = params.ids, count = len(params.ids))
             except Exception, e:
                 error = ustr(e)
 

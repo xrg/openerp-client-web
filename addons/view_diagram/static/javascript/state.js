@@ -54,7 +54,10 @@ openobject.workflow.StateBase.prototype = {
         this.act_id = id || null;
         this.name = name;
         this.options = MochiKit.Base.update({}, options || {});
-
+        
+        this.in_transition = new Array;
+        this.out_transition = new Array;
+        
         this.portR = null;
         this.portU = null;
         this.portL = null;

@@ -109,6 +109,11 @@ function editSelectedRecord(){
 }
 
 function switchView(view_type, src){
+	if (view_type=='diagram' && !jQuery('#_terp_ids').val()) {
+    	alert('There are no records to display diagram view.')
+    	return;
+    }
+	
     var args = {
         '_terp_source': src,
         '_terp_source_view_type': view_type
@@ -1092,6 +1097,7 @@ function submenu_action(action_id, model){
 
 function show_wkf(){
     var id;
+    
     if (jQuery('#_terp_list').length) {
         var lst = new ListView('_terp_list');
         var ids = lst.getSelectedRecords();
