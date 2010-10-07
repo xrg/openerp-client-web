@@ -66,6 +66,7 @@
                             if(obj.filter && !in_filter) {
                                 jQuery('#filter_list').
                                     append(jQuery("<option>", {
+                                        selected: 'selected',
                                         value: obj.filter[0],
                                         group_by: obj.filter[2]
                                     }).text(obj.filter[1]));
