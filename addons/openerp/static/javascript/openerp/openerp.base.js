@@ -129,6 +129,30 @@ jQuery(document).ready(function () {
                 return false;
             });
         }
+        // For popup like o2m submit actions.
+	    else {
+	    	var waitBox = new openerp.ui.WaitBox();
+	    	jQuery(document).delegate('form:not([target])', 'submit', function () {
+	            var form = jQuery('#view_form');
+	            form.ajaxForm();
+	            // Make the wait box appear immediately
+	            waitBox.show();
+	            form.ajaxSubmit({
+	                complete: jQuery.proxy(waitBox, 'hide'),
+	                success: doLoadingSuccess(jQuery('table.view')),
+	                error: function (xhr, status, error) {
+	                    if(xhr.status != 500) {
+	                        if(window.console) {
+	                            console.warn("Failed to load ", form.attr('method') || 'GET', form.attr('action'), ":", status, error);
+	                        }
+	                        return;
+	                    }
+	                    displayErrorOverlay(xhr);
+	                }
+	            });
+	            return false;
+	        });
+	    }
     }
 
     // wash for hash changes
