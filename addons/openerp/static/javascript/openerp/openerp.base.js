@@ -132,7 +132,7 @@ jQuery(document).ready(function () {
         // For popup like o2m submit actions.
 	    else {
 	    	var waitBox = new openerp.ui.WaitBox();
-	    	jQuery(document).delegate('form:not([target])', 'submit', function () {
+	    	jQuery(document).delegate('form#view_form:not([target])', 'submit', function () {
 	            var form = jQuery('#view_form');
 	            form.ajaxForm();
 	            // Make the wait box appear immediately
