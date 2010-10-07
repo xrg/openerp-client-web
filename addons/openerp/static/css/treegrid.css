@@ -26,6 +26,13 @@ table.tree-grid td {
 	margin-top: -2px;
 }
 
+.tree-field td:last-child {
+	width: 100%;
+}
+.tree-field td:last-child a {
+	display: block;
+}
+
 .tree-grid .tree-field td {
     border: none;
 }
