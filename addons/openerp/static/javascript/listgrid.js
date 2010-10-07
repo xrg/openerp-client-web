@@ -78,12 +78,12 @@ ListView.prototype = {
 
         var selected_ids = this.getSelectedRecords();
 
-       	if (jQuery('div#tertiary').hasClass('sidebar-closed')) {
-       		toggle_sidebar();
-           }
+       	if (jQuery('div#tertiary').hasClass('closed')) {
+       		jQuery('#tertiary').toggleClass('open closed');
+        }
 
         if (!selected_ids.length) {
-        	toggle_sidebar();
+        	jQuery('#tertiary').toggleClass('open closed');
         }
 
         this.selectedRow_sum();
@@ -164,13 +164,13 @@ ListView.prototype = {
     onBooleanClicked: function() {
         var selected_ids = this.getSelectedRecords();
 
-       	if (jQuery('div#tertiary').hasClass('sidebar-closed')) {
-       		toggle_sidebar();
-           }
+       	if (jQuery('div#tertiary').hasClass('closed')) {
+       		jQuery('#tertiary').toggleClass('open closed');
+        }
 
         if (!selected_ids.length) {
-        	toggle_sidebar();
-        	}
+        	jQuery('#tertiary').toggleClass('open closed');
+        }
 
        	this.selectedRow_sum();
     },
