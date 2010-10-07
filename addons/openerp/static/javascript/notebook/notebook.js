@@ -244,7 +244,7 @@ Notebook.prototype = {
         MochiKit.DOM.addElementClass(page, 'notebook-page');
 
         var tab = LI({'class': 'notebook-tab', 'title': options.help, 'id': options.id},
-                A({'href': 'javascript: void(0)', 'class': 'tab-title'},
+                MochiKit.DOM.A({'href': 'javascript: void(0)', 'class': 'tab-title'},
                         SPAN(null, text)));
 
         if(typeof(options.css) == "string") {
