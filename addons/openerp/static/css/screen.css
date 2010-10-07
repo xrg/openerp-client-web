@@ -1759,9 +1759,7 @@ ul.sections-a li span.wrap a:hover span strong,ul.sections-a li span.wrap a:focu
     cursor: pointer;
     background: #CECBCB url(../images/arrow_left.png) no-repeat scroll 50% 50%;
     min-height: 100%;
-    min-width: 11px;
-    width: 11px;
-    padding: 0;
+    padding: 0 0 0 11px;
     /* hack to fix weird space under bar */
     border-bottom: 1px solid #CECBCB;
 }
