@@ -823,6 +823,10 @@ div#serverlog a {
     color: #511712;
 }
 
+#help-tips table tr:last-child td {
+    padding: 6px 6px 4px 6px;
+}
+
 .pager-cell-button {
     padding: 0 0 0 5px;
 }
