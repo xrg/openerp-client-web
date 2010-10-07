@@ -243,9 +243,6 @@ class List(SecuredController):
                 for i, d in v.items():
                     info['%s,%s' % (m, i)] = d
 
-        active_clear = False
-        if frm.search and (frm.search.listof_domain or frm.search.custom_filter_domain or frm.search.groupby):
-            active_clear = True
         if params.get('_terp_clear'):
             view=ustr(frm.render())
         else:
@@ -255,7 +252,7 @@ class List(SecuredController):
 
         if frm.logs and frm.screen.view_type == 'tree':
             server_logs = ustr(frm.logs.render())
-        return dict(ids=ids, count=count, view=view, info=info, active_clear=active_clear, logs=server_logs)
+        return dict(ids=ids, count=count, view=view, info=info, logs=server_logs)
 
     @expose('json')
     def button_action(self, **kw):

@@ -832,10 +832,6 @@ div#serverlog a {
     padding: 0;
 }
 
-.inactive_clear {
-    display: none;
-}
-
 .filter-a .filter_with_icon {
     -moz-border-radius: 0;
     -webkit-border-radius: 0;
