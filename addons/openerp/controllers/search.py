@@ -174,6 +174,9 @@ class Search(Form):
 
         params, data = TinyDict.split(kw)
 
+        error = None
+        error_field = None
+
         model = params.model
 
         record = kw.get('record')
@@ -183,7 +186,6 @@ class Search(Form):
         data = {}
 
         frm = {}
-        error = ''
         all_values = {}
 
         for k, v in record.items():
@@ -200,9 +202,11 @@ class Search(Form):
                     data[field] = fld
                     try:
                         frm = TinyForm(**data).to_python()
+                    except TinyFormError, e:
+                        error_field = e.field
+                        error = ustr(e)
                     except Exception, e:
                         error = ustr(e)
-                        error_field = ustr(e.field)
                         return dict(error=error, error_field=error_field)
 
                     datas['rec'] = field
