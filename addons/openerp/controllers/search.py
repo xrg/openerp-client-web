@@ -355,6 +355,16 @@ class Search(Form):
     def save_filter(self, **kw):
         model = kw.get('model')
         domain = kw.get('domain')
+        if isinstance(domain,basestring):
+            domain = eval(domain) or []
+
+        custom_filter = kw.get('custom_filter')
+        if isinstance(custom_filter,basestring):
+            custom_filter = eval(custom_filter)
+
+        if custom_filter:
+            domain.extend(i for i in custom_filter if i not in domain)
+
         flag = kw.get('flag')
         group_by = kw.get('group_by',None)
         selected_filter = kw.get('selected_filter')

@@ -453,7 +453,7 @@ function parse_filters(src, id) {
     }
     if ($filter_list) {
         all_domains['selection_domain'] = $filter_list.val();
-        var selected_index = $filter_list.index();
+        var selected_index = $filter_list.attr('selectedIndex');
         var filter_grps = jQuery('#filter_list option:selected').attr('group_by');
         if(selected_index > 0) {
             if(filter_grps && filter_grps!='[]') {
@@ -573,10 +573,9 @@ function save_filter() {
     openobject.http.postJSON('/openerp/search/eval_domain_filter', {
         'all_domains': domain_list,
         'source': '_terp_list',
-        'custom_domain': custom_domain,
         'group_by_ctx': grps}).addCallback(function(obj) {
         var sf_params = {'model': jQuery('#_terp_model').val(), 'domain': obj.domain, 'group_by': grps, 'flag': 'sf',
-                         'selected_filter': selected_filter};
+                         'custom_filter':custom_domain, 'selected_filter': selected_filter};
 
         jQuery.ajax({
             url:'/openerp/search/save_filter',
