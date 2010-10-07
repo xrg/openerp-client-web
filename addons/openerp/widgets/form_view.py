@@ -98,7 +98,8 @@ class ViewForm(Form):
         if self.screen.widget and hasattr(self.screen.widget, 'sidebar'):
             self.sidebar = self.screen.widget.sidebar
         else:
-            self.sidebar = Sidebar(self.screen.model, self.screen.submenu, self.screen.toolbar, self.screen.id,
+            if self.screen.toolbar:
+                self.sidebar = Sidebar(self.screen.model, self.screen.submenu, self.screen.toolbar, self.screen.id,
                                self.screen.view_type, context=self.screen.context)
 
         if params.view_type == 'tree':
