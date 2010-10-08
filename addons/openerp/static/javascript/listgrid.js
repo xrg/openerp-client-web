@@ -69,77 +69,69 @@ ListView.prototype = {
     },
 
     checkAll: function(clear) {
-        $('[id*="'+this.name+'"]:first :checkbox').each(function() {
-			$(this).attr('checked', !clear)
-		});
+        jQuery('[id="' + this.name + '"]:first :checkbox').each(function() {
+            jQuery(this).attr('checked', !clear)
+        });
 
         this.onBooleanClicked();
     },
 
 	selectedRow_sum: function() {
         var selected_ids = this.getSelectedRecords();
-        var del_btn = jQuery('[id="'+this.name+'_delete_record'+'"]');
-        var edit_btn = jQuery('[id="'+this.name+'_edit_record'+'"]');
+        var $buttons = jQuery('[id="'+this.name+'_delete_record'+'"], [id="'+this.name+'_edit_record'+'"]');
 
         if(selected_ids.length) {
-            del_btn.parent().show();
-            edit_btn.parent().show();
+            $buttons.parent().show();
         }
         else {
-            del_btn.parent().hide();
-            edit_btn.parent().hide();
+            $buttons.parent().hide();
         }
         
 		if(jQuery('table[id="'+this.name+'"] tr.field_sum td.grid-cell span').length>0) {
-		    	var sum_fields = [];
+            var sum_fields = jQuery('tr.field_sum td.grid-cell span').map(function() {
+                return jQuery(this).attr('id');
+            }).get();
 
-		    	jQuery('tr.field_sum td.grid-cell span').each(function() {
-		    		sum_fields.push(jQuery(this).attr('id'))
-		    	});
-
-		    	var selected_fields = sum_fields.join(",");
-		    	selected_ids = '[' + selected_ids.join(',') + ']';
-		    	if(selected_ids == '[]') {
-		    		if(this.ids) {
-		    		 selected_ids =this.ids;
-		    		}
-		    	}
-		    	jQuery.ajax({
-		    		url: '/openerp/listgrid/count_sum',
-		    		type: 'POST',
-		    		data: {'model':this.model, 'ids': selected_ids, 'sum_fields': selected_fields},
-		    		dataType: 'json',
-		    		success: function(obj) {
-		    			for(i in obj.sum) {
-							jQuery('tr.field_sum').find('td.grid-cell').find('span[id="'+sum_fields[i]+'"]').html(obj.sum[i])
-						}
-		    		}
-		    	});
-	        }
-	},
+            var selected_fields = sum_fields.join(",");
+            if(selected_ids.length) {
+                selected_ids = '[' + selected_ids.join(',') + ']';
+            } else if(this.ids) {
+                selected_ids = this.ids;
+            }
+            jQuery.ajax({
+                url: '/openerp/listgrid/count_sum',
+                type: 'POST',
+                data: {
+                    'model':this.model,
+                    'ids': selected_ids,
+                    'sum_fields': selected_fields},
+                dataType: 'json',
+                success: function(obj) {
+                    for(var i in obj.sum) {
+                        jQuery('tr.field_sum td.grid-cell span[id="' + sum_fields[i] + '"]').html(obj.sum[i])
+                    }
+                }
+            });
+        }
+    },
 
     getRecords: function() {
-        var records = map(function(row) {
-            return parseInt(jQuery(row).attr('record')) || 0;
-        }, openobject.dom.select('tr.grid-row', this.name));
-
-        return filter(function(rec) {
-            return rec;
-        }, records);
+        return jQuery(openobject.dom.select('tr.grid-row', this.name)).map(function () {
+            return parseInt(jQuery(this).attr('record')) || 0;
+        }).filter(function () {
+            return !!this;
+        }).get();
     },
 
     getSelectedRecords: function() {
-        return map(function(box) {
-        	var box_val;
-        	if(box.value) {
-        		box_val = box.value
-        	}
-        	else {
-        		var box_id = box.id.split('/');
-        		box_val = box_id[box_id.length-1]
-        	}
-            return box_val;
-        }, this.getSelectedItems());
+        return jQuery(this.getSelectedItems()).map(function() {
+            if(this.value) {
+                return this.value
+            } else {
+                var box_id = this.id.split('/');
+                return box_id[box_id.length - 1]
+            }
+        }).get();
     },
 
     getSelectedItems: function() {
@@ -161,12 +153,11 @@ ListView.prototype = {
     },
 
     getColumns: function(dom) {
-        dom = dom || this.name;
-        var header = openobject.dom.select('tr.grid-header', dom)[0];
+        var header = openobject.dom.select('tr.grid-header', dom || this.name)[0];
 
-        return filter(function(c) {
-            return c.id ? true : false;
-        }, openobject.dom.select('th.grid-cell', header));
+        return jQuery(header).find('th.grid-cell').filter(function () {
+            return !!this.id;
+        }).get();
     },
 
     makeArgs: function() {
