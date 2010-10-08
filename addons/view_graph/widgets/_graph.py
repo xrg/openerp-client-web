@@ -74,10 +74,10 @@ class Graph(TinyWidget):
         JSLink("view_graph", "javascript/graph.js")]
 
     params = ['width', 'height', 'data']
-    width = 520
-    height = 350
+    width = 360
+    height = 300
 
-    def __init__(self, model, view=False, view_id=False, ids=[], domain=[], context={},view_mode=[], width=520, height=350):
+    def __init__(self, model, view=False, view_id=False, ids=[], domain=[], context={},view_mode=[], width=360, height=300):
 
         name = 'graph_%s' % (random.randint(0,10000))
         super(Graph, self).__init__(name=name, model=model, width=width, height=height)
