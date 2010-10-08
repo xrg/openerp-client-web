@@ -21,6 +21,19 @@
         });
         
     </script>
+    <!--[if IE]>
+    <style type="text/css">
+        div#applications_menu ul,
+        div#applications_menu ul li {
+            display: inline;
+        }
+        
+        div#applications_menu ul li span {
+            cursor: hand;
+        }
+    </style>
+    <![endif]-->
+
 </%def>
 
 <%def name="content()">
