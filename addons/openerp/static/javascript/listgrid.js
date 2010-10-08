@@ -72,7 +72,7 @@ ListView.prototype = {
 
         clear = clear ? false : true;
 
-        $('[id*="'+this.name+'"]:first :checkbox').each(function(i) {
+        $('[id*="'+this.name+'"]:first :checkbox').each(function() {
 			$(this).attr('checked', clear)
 		});
 
@@ -81,8 +81,8 @@ ListView.prototype = {
 
 	selectedRow_sum: function() {
         var selected_ids = this.getSelectedRecords();
-        var del_btn = jQuery('[id="'+this.name+'_delete_record'+'"]')
-        var edit_btn = jQuery('[id="'+this.name+'_edit_record'+'"]')
+        var del_btn = jQuery('[id="'+this.name+'_delete_record'+'"]');
+        var edit_btn = jQuery('[id="'+this.name+'_edit_record'+'"]');
 
         if(selected_ids.length) {
             del_btn.parent().show();
@@ -123,7 +123,7 @@ ListView.prototype = {
 
     getRecords: function() {
         var records = map(function(row) {
-            return parseInt(getNodeAttribute(row, 'record')) || 0;
+            return parseInt(jQuery(row).attr('record')) || 0;
         }, openobject.dom.select('tr.grid-row', this.name));
 
         return filter(function(rec) {
@@ -138,7 +138,7 @@ ListView.prototype = {
         		box_val = box.value
         	}
         	else {
-        		box_id = box.id.split('/')
+        		var box_id = box.id.split('/');
         		box_val = box_id[box_id.length-1]
         	}
             return box_val;
@@ -182,7 +182,7 @@ ListView.prototype = {
         while (names.length) {
 
             var name = names.shift();
-            prefix = prefix + (name ? name + '/' : '');
+            prefix += (name ? name + '/' : '');
 
             var pattern = prefix + '_terp_';
 
