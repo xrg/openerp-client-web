@@ -215,10 +215,13 @@ class ICalendar(TinyWidget):
             if event[fld] and fmt:
                 event[fld] = time.strptime(event[fld], fmt)
 
-            # default start time is 9:00 AM
-            if typ == 'date' and fld == self.date_start:
+            # default start/stop time is 9:00 AM / 5:00 PM
+            if typ == 'date' and event[fld]:
                 ds = list(event[fld])
-                ds[3] = 9
+                if fld == self.date_start:
+                    ds[3] = 9
+                elif fld == self.date_stop:
+                    ds[3] = 17
                 event[fld] = tuple(ds)
 
     def get_events(self, days):
