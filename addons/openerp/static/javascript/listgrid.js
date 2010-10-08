@@ -69,11 +69,8 @@ ListView.prototype = {
     },
 
     checkAll: function(clear) {
-
-        clear = clear ? false : true;
-
         $('[id*="'+this.name+'"]:first :checkbox').each(function() {
-			$(this).attr('checked', clear)
+			$(this).attr('checked', !clear)
 		});
 
         this.onBooleanClicked();
