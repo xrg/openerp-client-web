@@ -409,9 +409,9 @@ class GanttCalendar(ICalendar):
             elif group_id:
                 group_id, group_title = rpc.RPCProxy(obj).name_get([group_id], rpc.session.context)[0]
 
-            group = groups.setdefault(group_id, {'id': group_id, 'title': group_title, 'model': obj, 'items': []})
+            group = groups.setdefault(str(group_id), {'id': str(group_id), 'title': group_title, 'model': obj, 'items': []})
 
-            group['items'].append(evt.record_id)
+            group['items'].append(str(evt.record_id))
 
             if group_id not in keys:
                 keys.append(group_id)

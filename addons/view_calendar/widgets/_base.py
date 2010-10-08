@@ -80,7 +80,7 @@ class TinyEvent(TinyWidget):
         super(TinyEvent, self).__init__()
 
         self.record = record
-        self.record_id = record['id']
+        self.record_id = ustr(record['id'])
         if starts and ends:
 
             self.starts = (starts or None) and datetime.datetime(*starts[:6])
@@ -91,10 +91,10 @@ class TinyEvent(TinyWidget):
         self.title = title
         self.description = description
         self.color = color
-        self.create_date = record.get('create_date')
-        self.create_uid = record.get('create_uid')
-        self.write_uid = record.get('write_uid')
-        self.write_date = record.get('write_date')
+        self.create_date = ustr(record.get('create_date'))
+        self.create_uid = ustr(record.get('create_uid'))
+        self.write_uid = ustr(record.get('write_uid'))
+        self.write_date = ustr(record.get('write_date'))
 
 class ICalendar(TinyWidget):
     """ Base Calendar calss

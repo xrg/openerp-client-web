@@ -602,10 +602,10 @@ GanttCalendar.Grid.prototype = {
         this.groups = [];
 
         for (var id in this.calendar.groups) {
-            this.groups = this.groups.concat(new GanttCalendar.GridGroup(parseInt(id), this.calendar));
+            this.groups = this.groups.concat(new GanttCalendar.GridGroup(id, this.calendar));
         }
     },
-   
+
     adjust: function() {
 
         var left = null;
