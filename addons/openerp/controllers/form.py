@@ -488,7 +488,7 @@ class Form(SecuredController):
         model = button.model
         id = button.id or params.id
 
-        id = (id or False) and int(id)
+        id = (id or False) and (id)
         ids = (id or []) and [id]
 
         ctx = dict((params.context or {}), **rpc.session.context)
