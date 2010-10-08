@@ -28,4 +28,7 @@
             </div>
         </td>
     </tr>
+    <tr class="toolbar">
+        <td align="left" id="status" style="width: 100%; height: 24px; background-color: #808080;">&nbsp;</td>                       
+    </tr>
 </table>

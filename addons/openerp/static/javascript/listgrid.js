@@ -592,7 +592,6 @@ MochiKit.Base.update(ListView.prototype, {
         var self = this;
         var args = getFormParams('_terp_concurrency_info');
 
-
         if (!ids) {
             ids = this.getSelectedRecords();
             if (ids.length > 0) {
@@ -606,9 +605,22 @@ MochiKit.Base.update(ListView.prototype, {
         else if (!confirm(_('Do you really want to delete selected record(s) ?'))) {
             return false;
         }
-
+        
+        var $terp_ids;
+        var $terp_count;
+        
+        if(this.name == '_terp_list') {
+            $terp_ids = jQuery('#_terp_ids')
+            $terp_count = jQuery('#_terp_count')
+        }
+        else {
+            $terp_ids = jQuery('[id="'+this.name+'/_terp_ids'+'"]')
+            $terp_count =  jQuery('[id="'+this.name+'/_terp_count'+'"]')
+        }
+        
+        args['_terp_ids'] = $terp_ids.val()
         args['_terp_model'] = this.model;
-        args['_terp_ids'] = ids;
+        args['_terp_id'] = ids;
         var req = openobject.http.postJSON('/openerp/listgrid/remove', args);
 
         req.addCallback(function(obj) {
@@ -616,8 +628,12 @@ MochiKit.Base.update(ListView.prototype, {
                 error_display(obj.error);
             }
             else {
-                self.reload();
                 if(obj.ids) {
+                    $terp_ids.val(obj.ids)
+                    $terp_count.val(obj.count)
+                }
+                self.reload();
+                if(obj.res_ids) {
                     jQuery('div#corner ul.tools li a.messages small').text(obj.ids.length)
                 }
             }
