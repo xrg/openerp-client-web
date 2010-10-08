@@ -76,17 +76,7 @@ ListView.prototype = {
 			$(this).attr('checked', clear)
 		});
 
-        var selected_ids = this.getSelectedRecords();
-
-       	if (jQuery('div#tertiary').hasClass('closed')) {
-       		jQuery('#tertiary, td.toggle-sidebar').toggleClass('open closed');
-        }
-
-        if (!selected_ids.length) {
-        	jQuery('#tertiary, td.toggle-sidebar').toggleClass('open closed');
-        }
-
-        this.selectedRow_sum();
+        this.onBooleanClicked();
     },
 
 	selectedRow_sum: function() {
@@ -162,14 +152,12 @@ ListView.prototype = {
     },
 
     onBooleanClicked: function() {
-        var selected_ids = this.getSelectedRecords();
-
-       	if (jQuery('div#tertiary').hasClass('closed')) {
-       		jQuery('#tertiary, td.toggle-sidebar').toggleClass('open closed');
+        var $sidebar = jQuery('.toggle-sidebar');
+        if ($sidebar.is('.closed')) {
+            $sidebar.click()
         }
-
-        if (!selected_ids.length) {
-        	jQuery('#tertiary, td.toggle-sidebar').toggleClass('open closed');
+        if(!this.getSelectedRecords().length) {
+            $sidebar.click();
         }
 
        	this.selectedRow_sum();
