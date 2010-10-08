@@ -243,37 +243,26 @@ function validate_required(form){
     return result;
 }
 
-function close_error_display() {
-    if (jQuery('div#fancybox-wrap').is(':visible')) {
-        jQuery.fancybox.close();
-        return;
-    }
-    if (history.length > 1) {
-        history.back()
-    } else {
-        window.close();
-    }
-}
-
 function error_display(msg) {
-    var elem = document.createElement("table");
-    elem.setAttribute = ("class", "errorbox");
-    elem.setAttribute = ("align", "center");
-    elem.innerHTML =(
-    "       <tr>"+
-    "           <td colspan='2' class='error_message_header'>"+"Warning Message"+"</td>"+
-    "       </tr>"+
-    "       <tr>"+
-    "           <td style='padding: 4px 2px;'>"+
-    "               <img src='/openerp/static/images/warning.png'></img>"+
-    "           </td>"+
-    "           <td class='error_message_content'>"+msg+"</td>"+
-    "           <tr>"+
-    "              <td colspan='2' align='right'>"+
-    "                 <a class='button-a' href='javascript: void(0)' onclick='close_error_display()'>OK</a>"+
-    "           </td>"+
-    "       </tr>");
-    jQuery.fancybox(elem);
+    var error = jQuery("<table>",{'width': '100%', 'height': '100%'}
+                ).append(
+                    jQuery("<tr>").append(
+                        jQuery("<td>", {'colspan': 2, 'class': 'error_message_header'}).text('Warning Message')
+                    ),
+                    jQuery("<tr>").append(
+                        jQuery("<td>", {'css': 'padding: 4px 2px;'}).append(
+                            jQuery("<img>", {'src': '/openerp/static/images/warning.png'})
+                        ),
+                        jQuery("<td>", {'class': 'error_message_content'}).text(msg)
+                    ),
+                    jQuery("<tr>").append(
+                        jQuery("<td>", {'colspan': 2, align: 'right'}).append(
+                            jQuery("<a>", {'class': 'button-a', 'href': 'javascript: void(0)'})
+                            .click(function(){jQuery.fancybox.close();})
+                            .text('OK')        
+                        )
+                ));
+    jQuery.fancybox(error, {scrolling: 'no'});
 }
 
 function o2m_pager_action(action, src){

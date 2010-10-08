@@ -91,19 +91,15 @@ li.notebook-tab-active, li.notebook-tab:hover {
     background: #fff;
 }
 
-li.notebook-tab a.tab-title {
+li.notebook-tab span.tab-title {
     display: block;
     outline: none;
     text-decoration: none !important;
     float: left;
     height: 17px;
     padding: 7px 7px 0 7px;
-    color: #55555;
+    color: #555555 !important;
     text-shadow: None;
-}
-
-li.notebook-tab-active a.tab-title, li.notebook-tab:hover a.tab-title {
-    color: #55555;
 }
 
 li.notebook-tab span.tab-close {
@@ -116,7 +112,7 @@ li.notebook-tab span.tab-close {
     cursor: pointer;
 }
 
-li.notebook-tab-closable a.tab-title {
+li.notebook-tab-closable span.tab-title {
     padding-right: 18px;
 }
 
