@@ -253,6 +253,9 @@ class Form(SecuredController):
                 if form.screen.view.get('fields') and form.screen.view['fields'].get('name'):
                     display_name = {'field': form.screen.view['fields']['name']['string'], 'value': ustr(form.screen.view['fields']['name']['value'])}
                     title= ustr(display_name['field']) + ':' + ustr(display_name['value'])
+        elif params.view_type == 'diagram':
+            display_name = {'field': form.screen.view['fields']['name']['string'], 'value': rpc.RPCProxy(params.model).name_get(form.screen.id)[0][1]}
+
 
         tips = False
         if params.view_type == params.view_mode[0]:
