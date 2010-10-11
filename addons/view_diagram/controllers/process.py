@@ -43,7 +43,7 @@ class Process(SecuredController):
     def default(self, id=False, res_model=None, res_id=False, title=None):
 
         id = (id or False) and int(id)
-        res_id = int(res_id)
+        res_id = eval(res_id)
 
         selection = None
         process_title = None

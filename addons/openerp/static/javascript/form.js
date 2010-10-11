@@ -181,26 +181,6 @@ function switch_O2M(view_type, src){
     });
 }
 
-function show_process_view(title){
-    var model = openobject.dom.get('_terp_model').value;
-    var id;
-    if (openobject.dom.get('_terp_list')) {
-        var list = new ListView('_terp_list');
-        var ids = list.getSelectedRecords();
-        if (ids.length) {
-            id = ids[0];
-        }
-    }
-    else {
-        id = openobject.dom.get('_terp_id').value;
-    }
-    openLink(openobject.http.getURL('/view_diagram/process', {
-        res_model: model,
-        res_id: parseInt(id, 10) || null,
-        title: title
-    }));
-}
-
 function validate_required(form){
 
     if (typeof form == 'string') {
