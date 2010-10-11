@@ -178,9 +178,15 @@
 
             </td>
             % if form.sidebar:
-	            <td class="toggle-sidebar closed"></td>
-	            <td id="main_sidebar" valign="top">
-	                <div id="tertiary" class="closed">
+                <%
+                  if form.screen.view_type == 'form':
+                      sidebar_class="open"
+                  else:
+                      sidebar_class="closed"
+                %>
+                <td class="toggle-sidebar ${sidebar_class}"></td>
+                <td id="main_sidebar" valign="top">
+                    <div id="tertiary" class="${sidebar_class}">
 	                    <div id="tertiary_wrap">
 	                        ${form.sidebar.display()}
 	                    </div>
