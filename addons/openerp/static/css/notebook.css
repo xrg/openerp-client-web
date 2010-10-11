@@ -85,6 +85,7 @@ li.notebook-tab {
     border-radius: 7px 7px 0 0;
     -moz-border-radius: 7px 7px 0 0;
     -webkit-border-radius: 7px 7px 0 0;
+    cursor: pointer;
 }
 
 li.notebook-tab-active, li.notebook-tab:hover {
