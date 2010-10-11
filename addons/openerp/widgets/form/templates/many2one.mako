@@ -1,3 +1,7 @@
+<%def name="display_open_resource(name)">
+    <img id="${name}_open" alt="${_('Open')}" title="${_('Open a resource')}"
+        src="/openerp/static/images/iconset-d-drop.gif" class="m2o_open"/>
+</%def>
 % if editable:
     <span class="m2o">
         <input type="hidden" id="${name}" name="${name}" class="${css_class}" value="${value}"
@@ -12,8 +16,7 @@
         <img id="${name}_select" alt="${_('Search')}" title="${_('Search')}"
             src="/openerp/static/images/fields-a-lookup-a.gif" class="m2o_select"/>
     </span>
-    <img id="${name}_open" alt="${_('Open')}" title="${_('Open a resource')}"
-        src="/openerp/static/images/iconset-d-drop.gif" class="m2o_open"/>
+    ${self.display_open_resource(name)}
     <div id="autoCompleteResults_${name}" class="autoTextResults"></div>
     <script type="text/javascript">
         new ManyToOne('${name}');
