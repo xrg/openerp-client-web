@@ -1894,6 +1894,7 @@ ul.split-a .two {
 #view-selector li a.inactive {
     filter: alpha(opacity = 40);
     opacity: 0.4;
+    cursor: default;
 }
 
 #view-selector li.tree a {
