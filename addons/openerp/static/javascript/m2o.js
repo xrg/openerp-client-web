@@ -538,7 +538,7 @@ ManyToOne.prototype.updateSelectedResult = function() {
             swapElementClass("autoComplete" + this.name + "_" + i, "autoTextNormalRow", "autoTextSelectedRow");
 
             if (this.selectedResult) {
-                var $selectedRow = jQuery("#autoComplete" + this.name + "_" + i);
+                var $selectedRow = jQuery('[id="'+'autoComplete' + this.name + '_' + i + '"]');
 
                 var theCellHidden;
                 if(this.hasHiddenValue)

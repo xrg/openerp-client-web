@@ -448,6 +448,7 @@ table.errorbox {
 	padding: 0px 5px 0px 0px;
 	text-align: center;
 	color: #333333;
+    white-space: normal;
 }
 
 .login_error_message {
