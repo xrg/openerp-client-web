@@ -81,8 +81,7 @@
                     % endif
                     ${form.screen.string}
                     <a class="help" href="${py.url('/view_diagram/process', res_model=form.screen.model, title=form.screen.string, res_id=form.screen.id)}"
-                       title="${_('Corporate Intelligence...')}"
-                       onclick="show_process_view('${form.screen.string}')">
+                       title="${_('Corporate Intelligence...')}">
                         <small>Help</small>
                       </a>
                       % if form.screen.view_type == 'form' and form.logs.logs:
