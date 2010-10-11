@@ -200,6 +200,8 @@ class Binary(FancyValidator):
                 return base64.encodestring(value.file.read())
             elif self.not_empty:
                 raise Invalid(_('Please select a file.'), value, state)
+        elif value:
+            return value
 
         return self.if_empty
 
