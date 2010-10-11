@@ -21,7 +21,8 @@ class Root(BaseController):
 
         if new_modules:
             pooler.restart_pool()
-
+        if 'requested_with' in kw:
+            cherrypy.request.headers['X-Requested-With'] = kw.pop('requested_with')
         request = cherrypy.request
         func, vpath = self.find_handler()
 

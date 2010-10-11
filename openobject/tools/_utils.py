@@ -61,6 +61,8 @@ def url_plus(_cppath, _cpparams=None, **kw):
 def redirect(_cppath, _cpparams=None, **kw):
     if isinstance(_cppath, unicode):
         _cppath = _cppath.encode('utf-8')
+    if 'X-Requested-With' in cherrypy.request.headers:
+        kw['requested_with'] = cherrypy.request.headers['X-Requested-With']
     return cherrypy.HTTPRedirect(url(_cppath, _cpparams, **kw))
 
 
