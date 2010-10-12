@@ -130,13 +130,15 @@
                                 <span class="process-field-name">${k}:</span>
                             </td>
                             <td valign="top">
-                            % for l, m in v.items():
+                            % for l, m in v.iteritems():
                                 % if m:
-                                    % if m == True:
-                                        <span class="process-field-attribute-name">${l}</span>,<br />
-                                    % else:
-                                        <span class="process-field-attribute-name">${l}</span>: <span class="process-field-attribute-value">${m}</span>,<br />
+                                    <span class="process-field-attribute-name">
+                                        ${l}${m is not True and ':' or ''}
+                                    </span>
+                                    % if m is not True:
+                                        <span class="process-field-attribute-value">${m}</span>
                                     % endif
+                                    <br />
                                 % endif
                             % endfor
                             </td>
