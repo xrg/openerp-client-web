@@ -13,6 +13,9 @@ html {
     margin: 0 0 1px;
     font-size: 100.01%;
 }
+html.webkit {
+    height: 99.99%;
+}
 
 body {
     height: 100%;
@@ -601,6 +604,15 @@ p#cmp_logo {
 
 #primary div.wrap {
     padding-top: 0;
+    height: 100%;
+}
+
+#appContent {
+    height: 100%;
+}
+
+#main_form_body {
+    height: 100%;
 }
 
 #secondary {
