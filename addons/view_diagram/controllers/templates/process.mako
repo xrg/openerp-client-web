@@ -48,32 +48,23 @@
         <tr>
             <td width="75%" valign="top" style="padding-top:10px;">
                 <h1>Help: ${title}</h1>
-                    <div style="padding:5px 10px; min-height:56px;">
-                    <p><i>${help}</i></p>
-                </div>
-            </td>
-            <td width="25%" align="center" rowspan="4" valign="top">
-                <div style="border-left: 2px solid; padding: 0 10px;">
-                    <a class="help-button-a" target="_blank" href=" http://www.openerp.com/services/subscribe-onsite" style="padding-bottom:3px;">
-                        ${_("Get the OpenERP Warranty %(by)s",
-                        by="""<small>More on our Website</small>""")|n}
+                <p class="process-links">
+                    <a target="_blank" href="${context_help}">
+                        ${_("Online Documentation")}
                     </a>
-                    <a class="help-button-a" target="_blank" href="http://www.openerp.com/services/books" style="padding-bottom:3px;">
-                        ${_("Get Books %(available)s",
-                        available="""<small>Available in Amazon</small>""")|n}
+                    <a target="_blank" href="http://www.openerp.com/forum/">
+                        ${_("Community Forum")}
                     </a>
-
-                    <a class="help-button-a" target="_blank" href="http://www.openobject.com/forum">
-                        ${_("Community Forum %(community)s",
-                        community="""<small>Join Community Discussion</small>""")|n}
+                    <a target="_blank" href="http://www.openerp.com/services/books">
+                        ${_("Get Books")}
                     </a>
-                </div>
-            </td>
-        </tr>
-
-        <tr>
-            <td style="text-align:right" valign="bottom">
-                <a target="_blank" href="${context_help}" style="color:#9a0404; font-size:1.25em; font-weight:bold; font-style:italic"><u>${_("Online Documentation...")}</u></a>
+                    <a target="_blank" href="http://www.openerp.com/services/subscribe-onsite">
+                        ${_("Get the OpenERP Warranty")}
+                    </a>
+                </p>
+                <p class="process-help-text">
+                    ${help}
+                </p>
             </td>
         </tr>
 

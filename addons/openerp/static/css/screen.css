@@ -2405,3 +2405,20 @@ a.cta-a strong {
   color: #555555;
   text-decoration: none;
 }
+
+.process-links {
+    padding: 5px 10px;
+    text-align: center;
+}
+.process-links a {
+    color:#9a0404;
+    font-size:1.25em;
+    font-weight:bold;
+    font-style:italic;
+    margin: 0 2%;
+}
+.process-help-text {
+    padding:5px 10px;
+    min-height:56px;
+    font-size: 120%;
+}
