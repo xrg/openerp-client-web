@@ -1,7 +1,7 @@
 <%inherit file="/openerp/controllers/templates/base_dispatch.mako"/>
 
 <%def name="header()">
-	<script type="text/javascript">
+    <script type="text/javascript">
         jQuery(document).ready(function() {
             document.title = '${title}' + ' - OpenERP';
         });
@@ -29,14 +29,14 @@
             });
         </script>
     % endif
-	
-	% if form.screen.model == 'res.request' and form.screen.ids:
-		<script type="text/javascript">
-			jQuery(document).ready(function () {
-				jQuery('ul.tools li a.req_messages small').text('${len(form.screen.ids)}')
-			});
-		</script>
-	% endif
+    
+    % if form.screen.model == 'res.request' and form.screen.ids:
+        <script type="text/javascript">
+            jQuery(document).ready(function () {
+                jQuery('ul.tools li a.req_messages small').text('${len(form.screen.ids)}')
+            });
+        </script>
+    % endif
 
 </%def>
 
@@ -102,11 +102,11 @@
                         <p>${tips}</p>
                     </div>
                 % endif
-				% if form.screen.view_type == 'form':
-					% if form.logs.logs:
-						${form.logs.display()}
-					% endif
-				% endif
+                % if form.screen.view_type == 'form':
+                    % if form.logs.logs:
+                        ${form.logs.display()}
+                    % endif
+                % endif
                 % if form.screen.view_type in ['form', 'diagram'] and buttons.toolbar and form.screen.model != 'board.board':
                 <div class="wrapper action-buttons">
                     <ul class="inline-b left w50">
@@ -176,17 +176,17 @@
                 <td class="toggle-sidebar ${sidebar_class}"></td>
                 <td id="main_sidebar" valign="top">
                     <div id="tertiary" class="${sidebar_class}">
-	                    <div id="tertiary_wrap">
-	                        ${form.sidebar.display()}
-	                    </div>
-	                </div>
-	            </td>
-	            <script type="text/javascript">
+                        <div id="tertiary_wrap">
+                            ${form.sidebar.display()}
+                        </div>
+                    </div>
+                </td>
+                <script type="text/javascript">
                     jQuery('.toggle-sidebar').toggler('#tertiary', function (){
                         jQuery(window).scrollLeft(
                             jQuery(document).width() - jQuery(window).width());
                     });
-	            </script>
+                </script>
             % endif
         </tr>
     </table>
