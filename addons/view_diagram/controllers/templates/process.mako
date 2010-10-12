@@ -117,7 +117,7 @@
         % if fields:
         <tr>
             <td colspan="2">
-                <h2 style="padding: 5px 10px; font-weight:bold">${_("Fields")}</h2>
+                <h2 style="padding: 5px 10px; font-weight:bold">${_("Fields")} (model: ${res_model})</h2>
                 <div align="left" style="padding: 5px 10px;">
                     <table border="0">
                     % for k, v in fields.items():
