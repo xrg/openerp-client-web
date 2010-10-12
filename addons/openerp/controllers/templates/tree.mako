@@ -32,9 +32,6 @@
                         <a id="shortcut_add_remove" href="javascript: void(0)" class="${shortcut_class}"></a>
                     % endif
                     ${tree.string}
-                    <a class="help" href="javascript: void(0)" title="${_('Corporate Intelligence...')}" onclick="show_process_view('${tree.string}')">
-                        <small>Help</small>
-                    </a>
                 </h1>
                 <div>
                     <table cellpadding="0" cellspacing="0" border="0" width="100%">
