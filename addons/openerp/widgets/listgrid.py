@@ -377,13 +377,8 @@ class List(TinyWidget):
 
                         for color, expr in self.colors.items():
                             try:
-
-                                d = row_value.copy()
-                                d['current_date'] = time.strftime('%Y-%m-%d')
-                                d['time'] = time
-                                d['active_id'] = rpc.session.active_id or False
-
-                                if expr_eval(expr, d):
+                                if expr_eval(expr,
+                                     dict(row_value, active_id=rpc.session.active_id or False)):
                                     cell.color = color
                                     break
                             except:

@@ -137,18 +137,16 @@ class M2M(TinyInputWidget):
         current.context = current.context or {}
 
         if isinstance(self.context, basestring):
-            ctx = cherrypy.request.terp_record
-            ctx['current_date'] = time.strftime('%Y-%m-%d')
-            ctx['time'] = time
-            ctx['context'] = current.context
-            ctx['active_id'] = current.id or False
-
             # XXX: parent record for O2M
             #if self.parent:
             #    ctx['parent'] = EvalEnvironment(self.parent)
 
             try:
-                ctx = expr_eval(self.context, ctx)
+                ctx = expr_eval(
+                        self.context,
+                        dict(cherrypy.request.terp_record,
+                             context=current.context,
+                             active_id=current.id or False))
                 current.context.update(ctx)
             except:
                 pass

@@ -131,11 +131,9 @@ class O2M(TinyInputWidget):
         group_by_ctx = ''
 
         if self.default_get_ctx:
-            ctx = cherrypy.request.terp_record
-            ctx['current_date'] = time.strftime('%Y-%m-%d')
-            ctx['time'] = time
-            ctx['context'] = current.context
-            ctx['active_id'] = self.parent_id or False
+            ctx = dict(cherrypy.request.terp_record,
+                       context=current.context,
+                       active_id=self.parent_id or False)
 
             # XXX: parent record for O2M
             #if self.parent:

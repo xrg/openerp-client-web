@@ -245,7 +245,7 @@ def execute(action, **data):
         # save active_id in session
         rpc.session.active_id = data.get('id')
 
-        domain = expr_eval(action['domain'], dict(ctx, time=time, datetime=datetime))
+        domain = expr_eval(action['domain'], ctx)
 
         if data.get('domain', False):
             domain.append(data['domain'])

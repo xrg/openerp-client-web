@@ -68,8 +68,9 @@ class Action(TinyInputWidget):
             if not self.action.get('domain', False):
                 self.action['domain']='[]'
 
-            ctx = rpc.session.context.copy()
-            ctx.update({'active_id': False, 'active_ids': []})
+            ctx = dict(rpc.session.context,
+                       active_id=False,
+                       active_ids=[])
 
             self.context = expr_eval(self.action.get('context', '{}'), ctx)
             self.domain = expr_eval(self.action['domain'], ctx)
