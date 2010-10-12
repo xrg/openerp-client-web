@@ -44,7 +44,8 @@ class View_Log(SecuredController):
         ('write_date', _('Latest Modification Date')),
         ('uid', _('Owner')),
         ('gid', _('Group Owner')),
-        ('level', _('Access Level'))
+        ('level', _('Access Level')),
+        ('xmlid',_('Internal module data ID'))
     ]
 
     @expose(template="/openerp/controllers/templates/view_log.mako")
