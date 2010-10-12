@@ -43,7 +43,7 @@ class Process(SecuredController):
     def default(self, id=False, res_model=None, res_id=False, title=None):
 
         id = (id or False) and int(id)
-        res_id = eval(res_id)
+        res_id = eval(str(res_id))
 
         selection = None
         process_title = None
@@ -80,7 +80,7 @@ class Process(SecuredController):
     def get(self, id, res_model=None, res_id=False, title=None):
 
         id = int(id)
-        res_id = int(res_id)
+        res_id = eval(str(res_id))
 
         proxy = rpc.RPCProxy('process.process')
         graph = proxy.graph_get(id, res_model, res_id, (80, 80, 150, 100), rpc.session.context)
