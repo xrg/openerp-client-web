@@ -53,7 +53,7 @@
             </td>
             <td style="padding: 0;" valign="top">
                 <img id="closeServerLog" style="cursor: pointer;" align="right" 
-                    src="/openerp/static/images/attachments-a-close.png"></img>
+                    src="/openerp/static/images/attachments-a-close.png">
             </td>
         </tr>
     </table>
