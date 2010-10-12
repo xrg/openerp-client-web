@@ -48,11 +48,11 @@
 		<tr>
 	        <td width="75%" valign="top" style="padding-top:10px;">
 	        	<h1>Help: ${title}</h1>
-		        <div style="padding:5px 10px; min-height:56px;">
+		        <div style="padding:5px 10px; min-height:65px;">
 		        	<p><i>${help}</i></p>
 		        </div>
 	        </td>
-	    	<td width="25%" align="center" rowspan="4" valign="top">
+	    	<td width="25%" align="center" rowspan="4" valign="top" style="padding-top:3px">
 	    		<div style="border-left: 2px solid; padding: 0 10px;">
 					<a class="help-button-a" target="_blank" href=" http://www.openerp.com/services/subscribe-onsite" style="padding-bottom:3px;">
 						${_("Get the OpenERP Warranty %(by)s",
