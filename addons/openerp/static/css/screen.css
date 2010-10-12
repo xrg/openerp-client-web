@@ -2392,3 +2392,29 @@ a.cta-a strong {
   font-weight: bold;
 }
 
+td.field-collapse div {
+    display: none;
+}
+
+td.field-expand div {
+    display: block;
+}
+
+span.field-collapse-expand-button {
+  cursor: pointer;
+  color: #555555;
+  text-decoration: none;
+}
+
+span.field-collapse-button {
+  display: inline;
+}
+
+span.field-expand-button {
+  display: none;
+}
+
+span.field-collapse {
+    display: none;
+}
+
