@@ -39,7 +39,7 @@
 <%def name="content()">
 
     <div id="root">
-        <table id="content" class="three-a open" width="100%">
+        <table id="content" class="three-a open" width="100%" height="100%">
             <tr>
                 <%include file="header.mako"/>
             </tr>
@@ -83,7 +83,7 @@
                         </div>
                     </td>
                     <td class="toggle-menu"></td>
-                    <td id="primary" width="100%">
+                    <td id="primary" width="100%" height="100%">
                         <div class="wrap">
                             <div id="appContent"></div>
                         </div>
