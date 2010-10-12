@@ -116,12 +116,11 @@
 
         % if fields:
         <tr>
-            <td colspan="2" class="field-collapse-expand field-collapse">
+            <td colspan="2" class="fields collapsed">
                 <h2 style="padding: 5px 10px; font-weight:bold">
-                  ${_("Fields")}
-                  <span class="field-collapse-expand-button field-collapse-button">(show)</span>
-                  <span class="field-collapse-expand-button field-expand-button">(hide)</span>
-                  <span class="field-collapse">(model: ${res_model})</span>
+                  ${res_model} ${_("fields")}
+                  <span class="expand-button">(show)</span>
+                  <span class="collapse-button">(hide)</span>
                 </h2>
                 <div align="left" style="padding: 5px 10px;">
                     <table border="0">
@@ -149,17 +148,8 @@
                     </table>
                 </div>
                 <script type="text/javascript">
-                    jQuery('.field-collapse-button').click(function() {
-                      jQuery('.field-collapse-button').css('display', 'none');
-                      jQuery('.field-expand-button').css('display', 'inline');
-                      jQuery('td.field-collapse-expand div').css('display', 'block')
-                      jQuery('span.field-collapse').css('display', 'inline')
-                    });
-                    jQuery('.field-expand-button').click(function() {
-                      jQuery('.field-collapse-button').css('display', 'inline');
-                      jQuery('.field-expand-button').css('display', 'none');
-                      jQuery('td.field-collapse-expand div').css('display', 'none')
-                      jQuery('span.field-collapse').css('display', 'none')
+                    jQuery('.fields .expand-button, .fields .collapse-button').click(function() {
+                        jQuery('.fields').toggleClass('expanded collapsed');
                     });
                 </script>
             </td>
