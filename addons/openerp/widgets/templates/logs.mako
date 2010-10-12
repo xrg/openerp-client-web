@@ -5,7 +5,7 @@
             <td style="padding: 2px 0 0 0;">
                 <table style="width: 100%;">
                     % if len(logs) > 3:
-                        % for log in logs[-3:]:
+                        % for log in logs[:3]:
                             <tr>
                                 <td class="logActions">
                                     <a href="${py.url('/openerp/form/edit', model=log['res_model'], id=log['res_id'])}">
@@ -22,7 +22,7 @@
                                     ${_('More...')}
                                 </a>
                                 <div id="more_logs">
-                                     % for log in logs[:-3]:
+                                     % for log in logs[3:]:
                                          <div>
                                              <a href="${py.url('/openerp/form/edit', model=log['res_model'], id=log['res_id'])}">
                                                 ${log['name']}
