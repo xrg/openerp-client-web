@@ -2379,3 +2379,16 @@ a.cta-a strong {
 }
 /* SPECIFIC
 ------------------------------------------- */
+
+.process-field-attribute-name {
+  font-weight: bold;
+}
+
+.process-field-attribute-value {
+  font-style: italic;
+}
+
+.process-field-name {
+  font-weight: bold;
+}
+

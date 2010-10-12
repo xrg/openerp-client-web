@@ -72,7 +72,9 @@ class Process(SecuredController):
 
         lang = rpc.session.context.get('lang','en_US')
         context_help='http://doc.openerp.com/index.php?model='+res_model+'&lang='+lang
-        return dict(id=id, res_model=res_model, res_id=res_id, title=title, selection=selection, fields=fields, help=help, process_title=process_title, context_help=context_help)
+
+        return dict(id=id, res_model=res_model, res_id=res_id, title=title, selection=selection, fields=fields,
+                    help=help, process_title=process_title, context_help=context_help)
 
     @expose('json')
     def get(self, id, res_model=None, res_id=False, title=None):
