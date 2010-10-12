@@ -121,7 +121,7 @@ class RangeWidget(TinyInputWidget):
         self.to_field.set_value(end)
 
 class Filter(TinyInputWidget):
-    template = "/openerp/widgets/templates/serch/filter.mako"
+    template = "/openerp/widgets/templates/search/filter.mako"
 
     params = ['icon', 'filter_domain', 'help', 'filter_id', 'text_val', 'group_context', 'def_checked', 'filter_context']
 
