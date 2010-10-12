@@ -9,6 +9,7 @@
         <input type="hidden" id="model" name="model" value="${model}"/>
         <input type="hidden" id="domain" name="domain" value="${domain}"/>
         <input type="hidden" id="group_by" name="group_by" value="${group_by}"/>
+        <input type="hidden" id="existing_id" name="existing_id" value="${existing_id}"/>
         <table class="view" width="100%" border="0">
             <tr>
                 <td style="padding: 0">
@@ -53,17 +54,18 @@
                     $this.ajaxSubmit({
                         dataType:'json',
                         success:  function(obj) {
-                            var in_filter = false;
-                            jQuery("#filter_list option").each(function() {
-                                if (obj.filter && this.text == obj.filter[1]){
-                                    this.selected = this.text;
-                                    this.value = obj.filter[0];
-                                    this.group_by = obj.filter[2];
-                                    in_filter = true;
-                                }
-                            });
-
-                            if(obj.filter && !in_filter) {
+                            var $filterOptions = jQuery("#filter_list option");
+                            if(!obj.new_id) {
+                                $filterOptions.each(function() {
+                                    if (jQuery(this).attr('id') == jQuery('#existing_id').val()){
+                                        this.text = obj.filter[1];
+                                        this.selected = this.text;
+                                        this.value = obj.filter[0];
+                                        this.group_by = obj.filter[2];
+                                    }
+                                });
+                            }
+                            else {
                                 jQuery('#filter_list').
                                     append(jQuery("<option>", {
                                         selected: 'selected',

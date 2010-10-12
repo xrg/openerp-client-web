@@ -369,6 +369,10 @@ class Search(Form):
         if custom_filter:
             domain.extend(i for i in custom_filter if i not in domain)
 
+        existing_id = kw.get('existing_id')
+        if existing_id:
+            existing_id = eval(existing_id)
+
         flag = kw.get('flag')
         group_by = kw.get('group_by',None)
         selected_filter = kw.get('selected_filter')
@@ -379,14 +383,15 @@ class Search(Form):
             group_by_ctx = map(lambda x: x.split('group_')[-1], group_by)
         else:
             group_by_ctx = []
-        return dict(model=model, domain=domain, flag=flag, group_by=group_by_ctx, filtername=selected_filter)
+        return dict(model=model, domain=domain, flag=flag, group_by=group_by_ctx, filtername=selected_filter,
+                    existing_id=existing_id)
 
     @expose('json')
     def do_filter_sc(self, **kw):
         name = kw.get('name')
         model = kw.get('model')
         domain = kw.get('domain')
-
+        existing_id = kw.get('existing_id')
         group_by = kw.get('group_by', '[]')
         if group_by:
             context = {'group_by': group_by}
@@ -400,8 +405,8 @@ class Search(Form):
                 'context':str(context),
                 'user_id':rpc.session.uid
             }
-            rpc.session.execute('object', 'execute', 'ir.filters', 'create_or_replace', datas, rpc.session.context)
-            return {'filter': (domain, name, group_by)}
+            result = rpc.session.execute('object', 'execute', 'ir.filters', 'create_or_replace', datas, rpc.session.context)
+            return {'filter': (domain, name, group_by), 'new_id':result}
         return {}
 
     @expose('json')

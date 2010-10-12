@@ -66,7 +66,7 @@
                             <select name="filter_list" id="filter_list"
                                 onchange="search_filter(); return false;">
                                 % for f in search.filters_list:
-                                    <option value="${f[0]}" group_by="${f[2]}">${f[1]}</option>
+                                    <option id="${f[3]}" value="${f[0]}" group_by="${f[2]}">${f[1]}</option>
                                 % endfor
                             </select>
                         </td>

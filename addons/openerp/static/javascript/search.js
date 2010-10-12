@@ -563,8 +563,8 @@ function search_filter(src, id) {
 function save_filter() {
     var domain_list = parse_filters();
     var grps = group_by;
-    var selected_filter = jQuery('#filter_list option:selected');
-    selected_filter = selected_filter.index() > 0 ? selected_filter.text(): '';
+    var selectedFilter = jQuery('#filter_list option:selected');
+    selected_filter = selectedFilter.index() > 0 ? selectedFilter.text(): '';
 
     if(group_by.length)
         grps = group_by.join(',')
@@ -575,7 +575,8 @@ function save_filter() {
         'source': '_terp_list',
         'group_by_ctx': grps}).addCallback(function(obj) {
         var sf_params = {'model': jQuery('#_terp_model').val(), 'domain': obj.domain, 'group_by': grps, 'flag': 'sf',
-                         'custom_filter':custom_domain, 'selected_filter': selected_filter};
+                         'custom_filter':custom_domain, 'selected_filter': selected_filter,
+                         'existing_id': selectedFilter.attr('id')};
 
         jQuery.ajax({
             url:'/openerp/search/save_filter',

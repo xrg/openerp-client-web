@@ -270,10 +270,12 @@ class Search(TinyInputWidget):
                 action.append(ustr(act_ctx['group_by']))
             else:
                 action.append("[]")
-            sorted_filters.append(tuple(action))
+            action.append(act['id'])
+
+            sorted_filters.append(action)
         sorted_filters.sort(lambda x, y: cmp(x[1], y[1]))
 
-        self.filters_list = [("blk", "-- Filters --", "")] \
+        self.filters_list = [("blk", "-- Filters --", "", "")] \
                           + sorted_filters
 
         self.operators_map = [
