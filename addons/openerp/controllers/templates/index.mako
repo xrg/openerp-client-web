@@ -91,7 +91,7 @@
                 </tr>
             % else:
                 <tr>
-                    <td colspan="3">
+                    <td colspan="3" height="100%" valign="top">
                         <table width="100%">
                             <tr>
                                 <td id="primary" width="70%">
