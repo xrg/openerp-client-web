@@ -98,20 +98,10 @@
                 </h1>
                 % if tips:
                     <div id="help-tips">
-                        <table width="100%" style="border:none">
-                            <tr>
-                                <td>
-                                    <h3>${_("Tips")}</h3>
-                                </td>
-                                <td valign="top" align="right">
-                                    <button type="button" onclick="jQuery('#help-tips').hide();">${_("Close Tip")}</button>
-                                    <button type="button" onclick="jQuery('#help-tips').hide(); openobject.http.postJSON('/openerp/form/close_or_disable_tips');">${_("Disable all Tips")}</button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td colspan="2">${tips}</td>
-                            </tr>
-                        </table>
+                        <h3>${_("Tips")}</h3>
+                        <a href="#hide" id="hide-tips">(${_("hide")})</a>
+                        <a href="/openerp/form/close_or_disable_tips" id="disable-tips">${_("Disable all Tips")}</a>
+                        <p>${tips}</p>
                     </div>
                 % endif
 				% if form.screen.view_type == 'form':
@@ -202,4 +192,17 @@
             % endif
         </tr>
     </table>
+    <script type="text/javascript">
+        jQuery(document).ready(function () {
+            var $hide = jQuery('#hide-tips').click(function () {
+                jQuery('#help-tips').hide();
+                return false;
+            });
+            jQuery('#disable-tips').click(function () {
+                jQuery.post(this.href);
+                $hide.click();
+                return false;
+            })
+        })
+    </script>
 </%def>
