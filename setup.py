@@ -28,7 +28,7 @@ setup(
         "FormEncode >= 1.2.2",
         "simplejson >= 2.0.9",
         "pyparsing >= 1.5",
-        "dateutil >= 1.4.1"
+        "python-dateutil >= 1.4.1"
     ],
     zip_safe=False,
     packages=[
