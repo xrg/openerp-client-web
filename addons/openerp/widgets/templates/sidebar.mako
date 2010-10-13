@@ -1,7 +1,7 @@
 <%def name="sidebox_action_item(item, model, submenu)">
     % if submenu != 1:
-    	<li data="${item}" onclick="do_action(${item['id']}, '_terp_id', '${model}', this, getNodeAttribute(this, 'data'));">
-    	   <a href="javascript: void(0)" onclick="return false">${item['name']}</a>
+    	<li data="${item}" action_id="${item['id']}" relation="${model}" onclick="validate_action(this, do_action)">
+           <a href="javascript: void(0)" onclick="return false">${item['name']}</a>
         </li>
     % else:
         <li data="${item}">

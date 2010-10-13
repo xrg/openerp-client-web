@@ -125,8 +125,10 @@ function switchView(view_type, src){
             openobject.dom.get('_terp_id').value = ids[0];
         }
     }
-    var get_action = validate_action('switch', args);
-    submit_form(get_action);
+    submit_form(get_form_action('switch', {
+        '_terp_source': src,
+        '_terp_source_view_type': view_type
+    }));
 }
 
 function switch_O2M(view_type, src){
@@ -250,14 +252,6 @@ function error_display(msg) {
     jQuery.fancybox(error, {scrolling: 'no'});
 }
 
-function o2m_pager_action(action, src){
-    var source = src ? (typeof(src) == "string" ? src : src.name) : null;
-    var args = {
-        _terp_source: source
-    }
-    var get_action = validate_action(action, args)
-    submit_form(get_action);
-}
 
 function submit_form(action, src, target){
 
@@ -302,9 +296,11 @@ function submit_form(action, src, target){
     $form.submit();
 }
 
-function pager_action(action, src){
-    var get_action = validate_action(action ? action : 'find', {})
-    return src ? new ListView(src).go(action) : submit_form(get_action);
+function pager_action(src){
+    var $src = jQuery(src);
+    var action = $src.attr('action');
+    var relation = $src.attr('relation');
+    return relation ? new ListView(relation).go(action) : submit_form(action ? action : 'find');
 }
 
 function buttonClicked(name, btype, model, id, sure, target, context){
@@ -927,9 +923,17 @@ function do_report(id, relation){
     window.open(openobject.http.getURL(act, params));
 }
 
-function do_action(action_id, field, relation, src, data, context_menu){
-
+function do_action(src){
+    var $src = jQuery(src);
+    var action_id = $src.attr('action_id');
+    var field = '_terp_id';
+    
+    var relation = $src.attr('relation');
+    var data = $src.attr('data');
     var params = {};
+    
+    var domain = $src.attr('domain');
+    var context = $src.attr('context');
 
     if (openobject.dom.get('_terp_list')) {
         var list = new ListView('_terp_list');
@@ -942,13 +946,11 @@ function do_action(action_id, field, relation, src, data, context_menu){
         params['_terp_selection'] = '[' + ids.join(',') + ']';
     }
 
-    var id = openobject.dom.get(field).value;
-    var domain = getNodeAttribute(src, 'domain');
-    var context = getNodeAttribute(src, 'context');
-    var context_menu = context_menu ? true: null;
+    var id = jQuery('#'+field).val();
+    var source = jQuery('#'+field).attr('id');
 
     var req = eval_domain_context_request({
-        'source': openobject.dom.get(field).id,
+        'source': source,
         'active_id': id,
         'active_ids': params['_terp_selection'],
         'domain': domain,
@@ -964,8 +966,7 @@ function do_action(action_id, field, relation, src, data, context_menu){
             '_terp_context': obj.context,
             '_terp_id': id,
             '_terp_model': relation,
-            'datas': data,
-            'context_menu': context_menu
+            'datas': data
         });
 
         window.open(openobject.http.getURL(act, params));
@@ -1228,21 +1229,36 @@ function toggle_shortcut(){
 }
 
 
-var is_form_changed = false;
 function validateForm(){
-    is_form_changed = false;
     jQuery('#view_form table tr td:first').find('input:not([type=hidden]), select').change(function(){
-        is_form_changed = true;
+        jQuery('#view_form').data('is_form_changed', true);
     });
 }
 
-function validate_action(action, args){
-    var args = args;
-    
-    if (is_form_changed) {
-        if (confirm('The record has been modified \n Do you want to save it ?')) {
-            args['_terp_save_current_id'] = 1;
+function validate_action() {
+    var $form = jQuery('#view_form');
+    var is_form_changed = $form.data('is_form_changed');
+    if ((is_form_changed && confirm('The record has been modified \n Do you want to save it ?'))) {
+        if (!validate_required($form.get(0))) {
+            return false;
         }
+        
+        $form.ajaxSubmit({
+            error: function(xhr, status, error){
+                return displayErrorOverlay(xhr);
+            },
+            async: false,
+            success: function(data, status, xhr){
+                if (arguments.length) {
+                    $form.find('#_terp_id').val(jQuery(xhr.responseText).find('#_terp_id').val());
+                }
+                $form.data('is_form_changed', null);
+            }
+        });
     }
-    return get_form_action(action, args)
+    if (arguments.length) {
+        var params = arguments[0];
+        var action = arguments[1];
+        return action(params);
+    }
 }
