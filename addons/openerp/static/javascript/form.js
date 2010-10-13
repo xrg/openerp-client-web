@@ -307,7 +307,7 @@ function pager_action(action, src){
     return src ? new ListView(src).go(action) : submit_form(get_action);
 }
 
-function buttonClicked(name, btype, model, id, sure, target){
+function buttonClicked(name, btype, model, id, sure, target, context){
     if (sure && !confirm(sure)) {
         return;
     }
@@ -319,7 +319,6 @@ function buttonClicked(name, btype, model, id, sure, target){
         '_terp_button/id': id
     };
     
-    var context = jQuery(document.getElementById(name)).attr('context');
     if (!context || context == "{}") {
         var act = get_form_action(btype == 'cancel' ? 'cancel' : 'save', params);
         submit_form(act, null, target);
