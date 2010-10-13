@@ -22,9 +22,11 @@
 
 % if not editable:
 <span kind="${kind}" id="${name}">
-    % for line in value.split('\n'):
-    <br>${line}</br>
-    % endfor
+    % if value:
+        % for line in value.split('\n'):
+        <br>${line}</br>
+        % endfor
+    % endif
 </span>
 % endif
 
