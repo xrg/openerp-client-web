@@ -364,6 +364,10 @@ button.inactive {
     color: black;
 }
 
+.readonlyfield button {
+    display: none;
+}
+
 /* ---------------------- Attachment --------------- */
 #attachment-box label {
     display: block;
