@@ -318,7 +318,6 @@ function buttonClicked(name, btype, model, id, sure, target, context){
         '_terp_button/model': model,
         '_terp_button/id': id
     };
-    var context = jQuery(document.getElementById(name)).attr('context');
 
     if (!context || context == "{}") {
         var act = get_form_action(btype == 'cancel' ? 'cancel' : 'save', params);
