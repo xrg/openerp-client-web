@@ -1,7 +1,7 @@
 % if editable:
-<table class="item-wrapper">
+<table class="item-wrapper" width="100%">
 <tr>
-    <td>
+    <td style="padding: 0px;">
         <input type="text" id="${name}" name="${name}" autocomplete="OFF"
         class="${css_class}" ${py.attrs(attrs, kind=kind, value=value)}/>
         % if error:

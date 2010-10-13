@@ -62,7 +62,7 @@ MochiKit.Base.update(openobject.process.Workflow.prototype, {
     },
 
     load: function(id, res_model, res_id, title) {
-    	
+
         this.process_id = id;
         this.res_model = res_model;
         this.res_id = res_id;
@@ -152,7 +152,6 @@ MochiKit.Base.update(openobject.process.Workflow.prototype, {
         if (elems.length) {
             new openerp.ui.Tips(elems);
         }
-        adjustTopWidth();
     },
 
     _create_note:  function(notes, subflows, perm, related) {

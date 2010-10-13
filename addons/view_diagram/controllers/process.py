@@ -39,11 +39,11 @@ class Process(SecuredController):
 
     _cp_path = "/view_diagram/process"
 
-    @expose(template="templates/process.mako")
+    @expose(template="/view_diagram/controllers/templates/process.mako")
     def default(self, id=False, res_model=None, res_id=False, title=None):
 
         id = (id or False) and int(id)
-        res_id = int(res_id)
+        res_id = eval(str(res_id))
 
         selection = None
         process_title = None
@@ -70,13 +70,17 @@ class Process(SecuredController):
                 id, process_title = selection[0]
                 selection = None
 
-        return dict(id=id, res_model=res_model, res_id=res_id, title=title, selection=selection, fields=fields, help=help, process_title=process_title)
+        lang = rpc.session.context.get('lang','en_US')
+        context_help='http://doc.openerp.com/index.php?model='+res_model+'&lang='+lang
+
+        return dict(id=id, res_model=res_model, res_id=res_id, title=title, selection=selection, fields=fields,
+                    help=help, process_title=process_title, context_help=context_help)
 
     @expose('json')
     def get(self, id, res_model=None, res_id=False, title=None):
 
         id = int(id)
-        res_id = int(res_id)
+        res_id = eval(str(res_id))
 
         proxy = rpc.RPCProxy('process.process')
         graph = proxy.graph_get(id, res_model, res_id, (80, 80, 150, 100), rpc.session.context)
@@ -115,7 +119,7 @@ class Process(SecuredController):
 
         return graph
 
-    @expose(template="templates/process_tip.mako")
+    @expose(template="/view_diagram/controllers/templates/process_tip.mako")
     def open_tip(self, **kw):
         title_tip = kw.get('title_tip')
         return dict(id=None, res_model=None, res_id=None, title=None, selection=None, title_tip=title_tip)

@@ -46,7 +46,7 @@ ManyToOne.prototype.__init__ = function(name) {
 
     this.field = openobject.dom.get(name);
     this.text = openobject.dom.get(name + '_text');
-    this.editable = getElement('_terp_editable') ? getElement('_terp_editable').value : 'True';
+    this.editable = this.field.tagName.toLowerCase() == 'span' ? 'False' : 'True';
     //for autocomplete
     this.auto_hidden_id = openobject.dom.get('_hidden_' + name);
 
@@ -68,6 +68,7 @@ ManyToOne.prototype.__init__ = function(name) {
     this.takeFocus = false;
     this.hasFocus = false;
     this.sugestionBoxMouseOver = false;
+    this.selectedResult = false;
 
     this.select_img = openobject.dom.get(name + '_select');
     this.open_img = openobject.dom.get(name + '_open');
@@ -121,6 +122,12 @@ ManyToOne.prototype.gotFocus = function(evt) {
 
 ManyToOne.prototype.lostFocus = function() {
     this.hasFocus = false;
+
+    if(this.selectedResult) {
+        this.lastKey = null;
+        this.clearResults();
+    }
+
     if(!this.sugestionBoxMouseOver || this.lastKey == 9) {
         this.lastKey = null;
         this.clearResults();
@@ -224,11 +231,11 @@ ManyToOne.prototype.change_icon = function() {
 
     if(this.is_inline && this.open_img) {
         if(this.field.value) {
-            this.select_img.parentNode.style.display = 'none';
-            this.open_img.parentNode.style.display = '';
+            jQuery(this.select_img).hide();
+            jQuery(this.open_img).show();
         } else {
-            this.select_img.parentNode.style.display = '';
-            this.open_img.parentNode.style.display = 'none';
+            jQuery(this.select_img).show();
+            jQuery(this.open_img).hide();
         }
     }
 };
@@ -280,7 +287,9 @@ ManyToOne.prototype.on_keydown = function(evt) {
     if(this.numResultRows > 0) {
         switch (key) {
             // Enter Key
+            //Single Click
             case 13:
+            case 1:
                 var autoCompleteSelectedRow = openobject.dom.get("autoComplete" + this.name + "_" + this.selectedResultRow);
                 if(this.onlySuggest && autoCompleteSelectedRow == null) {
                     this.clearResults();
@@ -332,6 +341,7 @@ ManyToOne.prototype.on_keydown = function(evt) {
                     else
                         this.selectedResultRow++;
                 }
+                this.selectedResult = true;
                 this.updateSelectedResult();
                 break;
 
@@ -404,7 +414,7 @@ ManyToOne.prototype.get_matched = function() {
 
         req2.addCallback(function(obj2) {
             if(obj2.error) {
-                return alert(obj2.error);
+                return error_display(obj2.error);
             }
             if(text && obj2.values.length == 1) {
                 var val = obj2.values[0];
@@ -517,15 +527,36 @@ ManyToOne.prototype.displayResults = function(result) {
         return true;
     }
     catch(e) {
-        alert('error in display::' + e)
+        error_display('error in display::' + e)
     }
 };
 
 ManyToOne.prototype.updateSelectedResult = function() {
     // Set classes to show currently selected row
     for(var i = 0; i < this.numResultRows; i++) {
-        if(this.selectedResultRow == i)
+        if(this.selectedResultRow == i) {
             swapElementClass("autoComplete" + this.name + "_" + i, "autoTextNormalRow", "autoTextSelectedRow");
+
+            if (this.selectedResult) {
+                var $selectedRow = jQuery('[id="'+'autoComplete' + this.name + '_' + i + '"]');
+
+                var theCellHidden;
+                if(this.hasHiddenValue)
+                    theCellHidden = $selectedRow.find('TD')[1];
+                else
+                    theCellHidden = $selectedRow.find('TD')[0];
+
+                var autoCompleteText = jQuery($selectedRow.find('TD')[0]).find('span').text();
+                var autoCompleteHidden = jQuery(theCellHidden).find('span').text();
+
+                this.field.value = $selectedRow.find('TD')[0].id;
+                this.text.value = autoCompleteText;
+                this.lastTextResult = autoCompleteText;
+                if(this.hiddenField)
+                    this.hiddenField.value = autoCompleteHidden;
+                this.lastHiddenResult = autoCompleteHidden;
+            }
+        }
         else
             swapElementClass("autoComplete" + this.name + "_" + i, "autoTextSelectedRow", "autoTextNormalRow");
     }
@@ -538,6 +569,7 @@ ManyToOne.prototype.updateSelectedResult = function() {
 ManyToOne.prototype.getMouseover = function(evt) {
     var target = evt.src().id;
     var id = target.split(this.name + "_")[1];
+    this.selectedResult = false;
     new ManyToOne(this.name).sugestionBoxMouseOver = true;
     new ManyToOne(this.name).selectedResultRow = id;
     new ManyToOne(this.name).updateSelectedResult();

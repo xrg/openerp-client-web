@@ -28,7 +28,7 @@
 ###############################################################################
 import cherrypy
 from openerp.controllers import SecuredController, unsecured, actions, login as tiny_login, form
-from openerp.utils import rpc, cache, common
+from openerp.utils import rpc, cache, TinyDict
 
 from openobject.tools import url, expose, redirect
 
@@ -38,7 +38,6 @@ def _cp_on_error():
     errorpage = cherrypy.request.pool.get_controller("/openerp/errorpage")
     message = errorpage.render()
     cherrypy.response.status = 500
-    #cherrypy.response.headers['Content-Type'] = 'text/html'
     cherrypy.response.body = [message]
 
 cherrypy.config.update({'request.error_response': _cp_on_error})
@@ -51,41 +50,34 @@ class Root(SecuredController):
     def index(self, next=None):
         """Index page, loads the view defined by `action_id`.
         """
-        if next: arguments = {'next': next}
-        else: arguments = {'next': '/openerp/home'}
-        raise redirect("/openerp/menu", **arguments)
+        
+        if not next:
+            user_action_id = rpc.RPCProxy("res.users").read([rpc.session.uid], ['action_id'], rpc.session.context)[0]['action_id']
+            if user_action_id:
+                next = '/openerp/home'
+        
+        return self.menu(next=next)
     
-    def user_action(self, id='action_id'):
-        """Perform default user action.
-
-        @param id: `action_id` or `menu_id`
-        """
-
-        proxy = rpc.RPCProxy("res.users")
-        act_id = proxy.read([rpc.session.uid], [id, 'name'], rpc.session.context)
-
-        if not act_id[0][id]:
-            common.warning(_('You can not log into the system!\nAsk the administrator to verify\nyou have an action defined for your user.'), _('Access Denied!'))
-            rpc.session.logout()
-            raise redirect('/openerp')
-        else:
-            act_id = act_id[0][id][0]
-            from openerp import controllers
-            return controllers.actions.execute_by_id(act_id)
-
     @expose()
     def home(self):
-        return self.user_action('action_id')
+        user_action_id = rpc.RPCProxy("res.users").read([rpc.session.uid], ['action_id'], rpc.session.context)[0]['action_id']
+        from openerp import controllers
+        return controllers.actions.execute_by_id(user_action_id[0])
+    
+    @expose(content_type='application/octet-stream')
+    def report(self, report_name=None, **kw):
+        import actions
+        return actions.execute_report(report_name, **TinyDict(**kw))
     
     @expose()
     def custom_action(self, action):
-        action = int(action)
-        keyword = 'tree_but_open'
-        ctx = rpc.session.context
-        menu_id = rpc.RPCProxy('ir.ui.menu').search([('id','=', action)], 0, 0, 0, ctx)
-        
-        return actions.execute_by_keyword(keyword, adds={}, model='ir.ui.menu', id=menu_id[0], ids=menu_id, context=rpc.session.context, report_type='pdf')
-    
+        menu_ids = rpc.RPCProxy('ir.ui.menu').search(
+                [('id', '=', int(action))], 0, 0, 0, rpc.session.context)
+
+        return actions.execute_by_keyword(
+                'tree_but_open', model='ir.ui.menu', id=menu_ids[0], ids=menu_ids,
+                context=rpc.session.context, report_type='pdf')
+
     @expose()
     def info(self):
         return """
@@ -99,9 +91,8 @@ class Root(SecuredController):
     </html>
     """ % (url("/openerp/static/images/loading.gif"))
 
-    @expose(template="templates/menu.mako")
+    @expose(template="/openerp/controllers/templates/index.mako")
     def menu(self, active=None, next=None):
-        from openerp.utils import icons
         from openerp.widgets import tree_view
         
         try:
@@ -110,37 +101,37 @@ class Root(SecuredController):
             id = False
             form.Form().reset_notebooks()
         ctx = rpc.session.context.copy()
-        proxy = rpc.RPCProxy("ir.ui.menu")
-        ids = proxy.search([('parent_id', '=', False)], 0, 0, 0, ctx)
-        parents = proxy.read(ids, ['name', 'icon', 'action'], ctx)
-                
-        if not id and ids:
-            id = ids[0]
+        menus = rpc.RPCProxy("ir.ui.menu")
+        ids = menus.search([('parent_id', '=', False)], 0, 0, 0, ctx)
+        parents = menus.read(ids, ['name', 'action'], ctx)
             
         for parent in parents:
             if parent['id'] == id:
                 parent['active'] = 'active'
-                # explicit next takes precedence on menu item action
-                if not next and parent.get('action'):
-                    next = url('/openerp/custom_action', action=id)
-                
-        ids = proxy.search([('parent_id', '=', id)], 0, 0, 0, ctx)
-        tools = proxy.read(ids, ['name', 'icon', 'action'], ctx)
-        view = cache.fields_view_get('ir.ui.menu', 1, 'tree', {})
-        fields = cache.fields_get(view['model'], False, ctx)
+                if parent.get('action') and not next:
+                    next = url('/openerp/custom_action', action=id)  
         
-        for tool in tools:
-            tid = tool['id']
-            tool['icon'] = icons.get_icon(tool['icon'])
-            tool['tree'] = tree = tree_view.ViewTree(view, 'ir.ui.menu', tid,
-                                    domain=[('parent_id', '=', tid)],
-                                    context=ctx, action="/openerp/tree/action", fields=fields)
-            tree._name = "tree_%s" %(tid)
-            tree.tree.onselection = None
-            tree.tree.onheaderclick = None
-            tree.tree.showheaders = 0
-
-        return dict(parents=parents, tools=tools, load_content=(next and next or ''))
+        tools = []
+        if next or active:
+            if not id and ids:
+                id = ids[0] 
+            ids = menus.search([('parent_id', '=', id)], 0, 0, 0, ctx)
+            tools = menus.read(ids, ['name', 'action'], ctx)
+            view = cache.fields_view_get('ir.ui.menu', 1, 'tree', {})
+            fields = cache.fields_get(view['model'], False, ctx)
+            
+            for tool in tools:
+                tid = tool['id']
+                tool['tree'] = tree = tree_view.ViewTree(view, 'ir.ui.menu', tid,
+                                        domain=[('parent_id', '=', tid)],
+                                        context=ctx, action="/openerp/tree/action", fields=fields)
+                tree._name = "tree_%s" %(tid)
+                tree.tree.onselection = None
+                tree.tree.onheaderclick = None
+                tree.tree.showheaders = 0
+        widgets = rpc.RPCProxy('res.widget')
+        return dict(parents=parents, tools=tools, load_content=(next and next or ''),
+                    widgets=widgets.read(widgets.search([], 0, 0, 0, ctx), [], ctx))
 
     @expose(allow_json=True)
     @unsecured
@@ -159,7 +150,7 @@ class Root(SecuredController):
 
         if style in ('ajax', 'ajax_small'):
             return dict(db=db, user=user, password=password, location=location,
-                    style=style, cp_template="templates/login_ajax.mako")
+                    style=style, cp_template="/openerp/controllers/templates/login_ajax.mako")
 
         return tiny_login(target=location, db=db, user=user, password=password, action="login")
 
@@ -169,9 +160,9 @@ class Root(SecuredController):
         """ Logout method, will terminate the current session.
         """
         rpc.session.logout()
-        raise redirect('/openerp')
+        raise redirect('/')
 
-    @expose(template="templates/about.mako")
+    @expose(template="/openerp/controllers/templates/about.mako")
     @unsecured
     def about(self):
         from openobject import release

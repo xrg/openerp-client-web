@@ -24,13 +24,12 @@
     display: inline; /*IE7 */
     display: inline-block;
     overflow: hidden;
-    height: 8px;
-    margin: 1px 5px;
+    height: 14px;
     font-size: 0;
     text-align: left;
     text-indent: -10001px;
     vertical-align: middle;
-    width: 8px;
+    width: 14px;
 }
 
 .pager p.paging a.new {
@@ -39,20 +38,20 @@
 
 .pager .paging .first {
     margin: 0;
-    background: url(../images/first.png) no-repeat;
+    background: url(../images/cal_first.png) no-repeat;
 }
 
 .pager .paging .prev {
-    background: url(../images/left.png) no-repeat;
+    background: url(../images/cal_left.png) no-repeat;
 }
 
 .pager .paging .last {
     margin: 0;
-    background: url(../images/last.png) no-repeat;
+    background: url(../images/cal_last.png) no-repeat;
 }
 
 .pager .paging .next {
-    background: url(../images/right.png) no-repeat;
+    background: url(../images/cal_right.png) no-repeat;
 }
 
 * html .paging a {

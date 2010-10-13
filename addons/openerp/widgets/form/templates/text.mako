@@ -20,7 +20,7 @@
 <span class="fielderror">${error}</span>
 % endif
 
-% if not editable and value:
+% if not editable:
 <span kind="${kind}" id="${name}">
     % for line in value.split('\n'):
     <br>${line}</br>

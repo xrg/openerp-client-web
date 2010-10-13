@@ -1,4 +1,3 @@
-var console;
 // cache for the current hash url so we can know if it's changed
 var currentUrl;
 /**
@@ -23,15 +22,7 @@ function openLink(url /*optional afterLoad */) {
                 if(afterLoad) { afterLoad(); }
             },
             success: doLoadingSuccess(app),
-            error: function (xhr, status, error) {
-                if(xhr.status != 500) {
-                    if(console) {
-                        console.warn("Failed to load ", url, ":", status, error);
-                    }
-                    return;
-                }
-                displayErrorOverlay(xhr);
-            }
+            error: loadingError
         });
     } else {
         window.location.assign(url);
@@ -54,13 +45,34 @@ function displayErrorOverlay(xhr) {
 }
 
 /**
+ * Handles errors when loading page via XHR
+ *
+ * @param xhr The XHR object
+ */
+function loadingError(xhr) {
+    switch (xhr.status) {
+        case 500:
+            displayErrorOverlay(xhr);
+            break;
+        case 401: // Redirect to login, probably
+            window.location.assign(
+                xhr.getResponseHeader('Location'));
+            break;
+        default:
+            if(window.console) {
+                console.warn("Failed to load ", xhr.url, ":", xhr.status, xhr.statusText);
+            }
+    }
+}
+
+/**
  * Creates a LoadingSuccess execution for the providing app element
  * @param app the element to insert successful content in
  */
 function doLoadingSuccess(app) {
     return function (data, status, xhr) {
         jQuery(window).trigger('before-appcontent-change');
-        jQuery(app).html(xhr.responseText);
+        jQuery(app).html(xhr.responseText || data);
         jQuery(window).trigger('after-appcontent-change');
     }
 }
@@ -89,9 +101,10 @@ var LINK_WAIT_NO_ACTIVITY = 300;
 /** @constant */
 var FORM_WAIT_NO_ACTIVITY = 500;
 jQuery(document).ready(function () {
+    var waitBox;
     var $app = jQuery('#appContent');
     if ($app.length) {
-        var waitBox = new openerp.ui.WaitBox();
+        waitBox = new openerp.ui.WaitBox();
         // open un-targeted links in #appContent via xhr. Links with @target are considered
         // external links. Ignore hash-links.
         jQuery(document).delegate('a[href]:not([target]):not([href^="#"]):not([href^="javascript"]):not([rel=external])', 'click', function () {
@@ -109,18 +122,35 @@ jQuery(document).ready(function () {
             form.ajaxSubmit({
                 complete: jQuery.proxy(waitBox, 'hide'),
                 success: doLoadingSuccess($app),
-                error: function (xhr, status, error) {
-                    if(xhr.status != 500) {
-                        if(console) {
-                            console.warn("Failed to load ", form.attr('method') || 'GET', form.attr('action'), ":", status, error);
-                        }
-                        return;
-                    }
-                    displayErrorOverlay(xhr);
-                }
+                error: loadingError
             });
             return false;
         });
+    } else {
+        if(jQuery(document).find('div#root').length) {
+            jQuery(document).delegate('a[href]:not([target]):not([href^="#"]):not([href^="javascript"]):not([rel=external])', 'click', function() {
+                window.location.href = openobject.http.getURL('/openerp', {
+                    'next': jQuery(this).attr('href')
+                });
+                return false;
+            });
+        }
+        // For popup like o2m submit actions.
+        else {
+            waitBox = new openerp.ui.WaitBox();
+            jQuery(document).delegate('form#view_form:not([target])', 'submit', function () {
+                var form = jQuery('#view_form');
+                form.ajaxForm();
+                // Make the wait box appear immediately
+                waitBox.show();
+                form.ajaxSubmit({
+                    complete: jQuery.proxy(waitBox, 'hide'),
+                    success: doLoadingSuccess(jQuery('table.view')),
+                    error: loadingError
+                });
+                return false;
+            });
+        }
     }
 
     // wash for hash changes
@@ -136,18 +166,16 @@ jQuery(document).ready(function () {
 });
 
 // Hook onclick for boolean alteration propagation
-var onBooleanClicked;
 jQuery(document).delegate(
         'input.checkbox:enabled:not(.grid-record-selector)',
         'click', function () {
-    if(onBooleanClicked) {
+    if(window.onBooleanClicked) {
         onBooleanClicked(jQuery(this).attr('id').replace(/_checkbox_$/, ''));
     }
 });
 // Hook onchange for all elements
-var onChange;
 jQuery(document).delegate('[callback], [onchange_default]', 'change', function () {
-    if(onChange && !jQuery(this).is(':input.checkbox:enabled')) {
+    if(window.onChange && !jQuery(this).is(':input.checkbox:enabled')) {
         onChange(this);
     }
 });

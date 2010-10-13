@@ -3,48 +3,48 @@
 <%def name="header()">
     <title>${_("Manage Views (%s)") % (model)}</title>
     <script type="text/javascript">
-    
+
         function do_select(id, src){
             var radio = openobject.dom.get(src + '/' + id);
 			if (radio) {
 				radio.checked = true;
 			}
         }
-        
+
         function doCreate() {
             jQuery('form#view_form').submit();
         }
-        
+
         function doCancel() {
             var edt = openobject.dom.get('view_editor');
             var lst = openobject.dom.get('view_list');
-            
+
             edt.style.display = "none";
             lst.style.display = "";
         }
-        
+
         function doClose() {
             window.close();
         }
-        
+
         function onNew() {
             var edt = openobject.dom.get('view_editor');
             var lst = openobject.dom.get('view_list');
-            
+
             var nm = openobject.dom.get('name');
             nm.value = openobject.dom.get('model').value + '.custom_' + Math.round(Math.random() * 1000);
-            
+
             edt.style.display = "";
             lst.style.display = "none";
         }
-        
+
         function onEdit() {
-            
+
             var list = new ListView('_terp_list');
             var boxes = list.getSelectedItems();
 
             if (boxes.length == 0){
-                alert(_('Please select a view...'));
+                error_display(_('Please select a view...'));
                 return;
             }
 
@@ -56,36 +56,36 @@
                 openobject.tools.openWindow(act);
             }
         }
-        
+
         function onRemove() {
-        
+
             var list = new ListView('_terp_list');
             var boxes = list.getSelectedItems();
 
             if (boxes.length == 0){
-                alert(_('Please select a view...'));
+                error_display(_('Please select a view...'));
                 return;
             }
-            
+
             if (!window.confirm(_('Do you really want to remove this view?'))){
                 return;
             }
-            
+
             openLink(openobject.http.getURL('/openerp/viewlist/delete', {
                 model: '${model}',
                 id: boxes[0].value
             }));
         }
-		
+
         jQuery(document).ready(function(){
-            
-            if (!window.opener) 
+
+            if (!window.opener)
                 return;
 
             var id = window.opener.document.getElementById('_terp_view_id').value;
-            
+
             if (!openobject.dom.get('_terp_list/' + id)) {
-                
+
                 var list = new ListView('_terp_list');
                 var ids = list.getRecords();
 
@@ -149,8 +149,8 @@
             </td>
         </tr>
         <tr>
-            <td style="padding: 0pt 5px;">
-                <div class="toolbar footer_tool_box">
+            <td>
+                <div class="footer_tool_box">
                     <table border="0" cellpadding="0" cellspacing="0" width="100%">
                         <tr>                            
                             <td class="save_close">

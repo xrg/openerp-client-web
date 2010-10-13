@@ -2,13 +2,10 @@
 
 <%def name="header()">
     <title>View Editor</title>
-    <script type="text/javascript" src="/openerp/static/javascript/form.js"></script>
-    <script type="text/javascript" src="/openerp/static/javascript/m2o.js"></script>
     <script type="text/javascript" src="/openerp/static/javascript/viewed.js"></script>    
     <script type="text/javascript" src="/openerp/static/javascript/modalbox.js"></script>
 
     <link href="/openerp/static/css/modalbox.css" rel="stylesheet" type="text/css"/>
-    <link href="/openerp/static/css/autocomplete.css" rel="stylesheet" type="text/css"/>
 </%def>
 
 <%def name="content()">

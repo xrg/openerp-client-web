@@ -38,132 +38,127 @@ if (!openerp) {
 
 openerp.ui = {};
 
-function toggle_sidebar() {
-    function a() {
-        jQuery('#tertiary').toggleClass('sidebar-open sidebar-closed');
+(function ($) {
+    $.fn.toggler = function toggler(to_toggle/*, callback_on_toggle*/) {
+        var on_toggle = arguments[1];
+        this.bind('click.toggler', function () {
+            var linked = $(to_toggle);
+            $(this).add(linked).toggleClass('open closed');
+            if(on_toggle) {
+                $.proxy(on_toggle, this)(linked);
+            }
+            $(window).trigger('on-appcontent-resize')
+        });
+        return this;
     }
-    if (typeof(Notebook) == "undefined") {
-        a();
-    } else {
-        Notebook.adjustSize(a);
-    }
-	adjustTopWidth();
-    
-}
+})(jQuery);
 
-function adjustTopWidth() {
-	var docWidth = jQuery(document).width();
-	var accordionWidth = jQuery('#secondary').width();
-	var formWidth;
-	var formHeight;
-	var $form = jQuery('#appContent table:first');
-	
-	if(!$form.get().length) {
-		$form = jQuery('#appContent');
-	}
-	
-	formWidth = $form.width();
-	formHeight = $form.height();
-	
-	var toggle_accordion_width = jQuery('#toggle_accordion').width();
-	var totalWidth = accordionWidth + toggle_accordion_width + formWidth;
-	var setWidth;
-	
-	if(totalWidth < docWidth) setWidth = totalWidth;
-	else setWidth = docWidth;
-	
-	jQuery('div#top, #main_nav').width(setWidth);
-	var logoWidth = jQuery('p#cmp_logo').outerWidth();
-    var shortcuts = jQuery('#shortcuts');
-    var offset = shortcuts.outerWidth() - shortcuts.width();
-    shortcuts.css('width', setWidth - logoWidth - offset);
-    
-    var accordionHeight = jQuery('#secondary div.wrap').height();
-	if(accordionHeight > formHeight) {
-    	jQuery('#secondary, #toggle_accordion').height(accordionHeight);
-    	$form.height(accordionHeight);
-    	
-    	if(!window.browser.isGecko) {
-	    	var countWidth = docWidth - totalWidth;
-	    	
-	    	if(countWidth > 0)
-	    		$form.width(formWidth - toggle_accordion_width);
-	    		
-			else if(countWidth < 0) {
-				countWidth = countWidth * -1;
-				$form.width(formWidth - countWidth - toggle_accordion_width);
-			}
-    	}
-    }
-    
-	else {
-		jQuery('#secondary, #toggle_accordion').height(formHeight);	
-	}
-	jQuery('#footer_section').width(setWidth);
-    jQuery('#footer_section').show();
-    
-}
+(function ($) {
+    /**
+     * @event altered to send to the element when something happened which
+     *  might alter its visible or actual widths (addition or removal of an
+     *  item). <code>window.resize</code> is managed by the plugin, you do
+     *  not have to register it yourself.
+     */
+    var DEFAULTS = {
+        "speed": 3
+    };
 
-jQuery(document).bind('shortcuts-alter', function () {
-    var shortcuts = jQuery('#shortcuts > ul');
-    var shortcuts_row = jQuery('#shortcuts');
-    if(!shortcuts.length) { return; }
-    var totalWidth = shortcuts.get(0).scrollWidth;
-    var visibleWidth = shortcuts.outerWidth();
+    function scrollable_alteration() {
+        var $scrollable = jQuery(this);
+        var $scrollable_list = $scrollable.children('ul');
 
-    if(totalWidth > visibleWidth) {
-        if (!shortcuts_row.hasClass('scrolling')) {
-            shortcuts_row.addClass('scrolling');
+        var totalWidth = $scrollable_list.get(0).scrollWidth;
+        var visibleWidth = $scrollable_list.outerWidth();
+
+        if(totalWidth <= visibleWidth) {
+            if($scrollable.hasClass('scrolling')) {
+                $scrollable.removeClass('scrolling');
+                $scrollable_list.scrollLeft(0);
+            }
+            return;
+        }
+
+        if(!$scrollable.hasClass('scrolling')) {
+            $scrollable.addClass('scrolling');
         }
         /*
-            When resizing the window, if the bar is scrolled far to the right,
-            we're going to display emptiness on the right even though we have hidden content on the left.
-            Unscroll to fix that.
+         When widening the window, if the bar is scrolled far to the right,
+         we're going to display emptiness on the right even though we have
+         hidden content on the left. Unscroll to fix that.
          */
-        if(shortcuts.scrollLeft() > (totalWidth - visibleWidth)) {
-            shortcuts.scrollLeft(totalWidth - visibleWidth);
-        }
-    } else {
-        if(shortcuts_row.hasClass('scrolling')) {
-            shortcuts_row.removeClass('scrolling');
-            shortcuts.scrollLeft(0);
+        if($scrollable_list.scrollLeft() > (totalWidth - visibleWidth)) {
+            $scrollable_list.scrollLeft(totalWidth - visibleWidth);
         }
     }
-    setRowWidth();
-});
 
-// trigger on window load so all other handlers (including resizer) have executed
-// further stuff will be handled when adding/removing shortcuts anyway (theoretically)
-jQuery(window).load(function () {
-    var shortcuts = jQuery('#shortcuts');
-    var scrolling_left, scrolling_right;
-    var scroll_left = jQuery('<div id="shortcuts-scroll-left" class="scroller">').hover(
-        function () {
-            var scrollable = shortcuts.children('ul');
-            scrolling_left = setInterval(function () {
-                if(scrollable.scrollLeft() == 0) {
-                    clearInterval(scrolling_left);
-                }
-                scrollable.scrollLeft(scrollable.scrollLeft() - 3);
-            }, 30);
-        }, function () {
-            clearInterval(scrolling_left);
-    });
-    var scroll_right = jQuery('<div id="shortcuts-scroll-right" class="scroller">').hover(
-        function () {
-            var scrollable = shortcuts.children('ul');
-            scrolling_right = setInterval(function () {
-                if((scrollable.scrollLeft() + scrollable.outerWidth()) == scrollable.get(0).scrollWidth) {
-                    clearInterval(scrolling_right);
-                }
-                scrollable.scrollLeft(scrollable.scrollLeft() + 3);
-            }, 30);
-        }, function () {
-            clearInterval(scrolling_right);
-    });
-    shortcuts.prepend(scroll_right).prepend(scroll_left);
-    jQuery(document).trigger('shortcuts-alter');
-    jQuery(window).resize(function () {
-        jQuery(document).trigger('shortcuts-alter');
-    })
+    /**
+     * Makes an element scrollable (left-right) when the element's content is
+     * too big for the container.
+     *
+     * Should be invoked on a container (of any type) holding a list element
+     * as its direct child (untested with more than one child).
+     *
+     * Will create two elements with the class <code>.scroller</code> as
+     * direct children of the context, one with the class <code>.left</code>
+     * and one with the class <code>.right</code>.
+     *
+     * @param options An object containing configuration options for the
+     *                plugin
+     *
+     * @config {Number} speed Scrolling speed of the scrollable, in pixels per iteration, when hovering the side scrollers.
+     */
+    $.fn.scrollify = function scrollify(options) {
+        var settings = $.extend({}, DEFAULTS, options || {});
+        var $scrollable = $(this);
+        var $scrollable_list = $scrollable.children('ul');
+        if(!($scrollable.length && $scrollable_list.length)) {
+            return this;
+        }
+        var scrolling_left, scrolling_right;
+        var $left_scroller = $('<div class="left scroller">').hover(
+            function () {
+                scrolling_left = setInterval(function () {
+                    if($scrollable_list.scrollLeft() == 0) {
+                        clearInterval(scrolling_left);
+                    }
+                    $scrollable_list.scrollLeft(
+                            $scrollable_list.scrollLeft()
+                            - settings.speed);
+                }, 30);
+            }, function () {
+                clearInterval(scrolling_left);
+        });
+        var $right_scroller = $('<div class="right scroller">').hover(
+            function () {
+                scrolling_right = setInterval(function () {
+                    var scrolledMax = (
+                            ( $scrollable_list.scrollLeft()
+                            + $scrollable_list.outerWidth())
+                        == $scrollable_list.get(0).scrollWidth);
+                    if(scrolledMax) {
+                        clearInterval(scrolling_right);
+                    }
+                    $scrollable_list.scrollLeft(
+                            $scrollable_list.scrollLeft()
+                            + settings.speed);
+                }, 30);
+            }, function () {
+                clearInterval(scrolling_right);
+        });
+        $scrollable.prepend($left_scroller).prepend($right_scroller);
+
+        $scrollable.bind('altered.scrollify', scrollable_alteration);
+        $(window).bind('resize.scrollify', function () {
+            $scrollable.trigger('altered');
+        });
+        $scrollable.trigger('altered');
+
+        return this;
+    }
+})(jQuery);
+
+jQuery(document).ready(function () {
+    jQuery('#applications_menu').scrollify();
+    jQuery('#shortcuts').scrollify();
 });

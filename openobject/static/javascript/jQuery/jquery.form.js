@@ -175,7 +175,7 @@
             var form = $form[0];
 
             if ($(':input[name=submit]', form).length) {
-                alert('Error: Form elements must not be named "submit".');
+                error_display('Error: Form elements must not be named "submit".');
                 return;
             }
 

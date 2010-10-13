@@ -27,7 +27,6 @@
     <div class="inner">
         <p class="paging-a">
             <span class="one">
-                <a class="first" href="javascript: void(0)"></a>
                 <small>|</small>
                 <a class="prev" href="javascript: void(0)" 
                     onclick="getCalendar('${days[0].prev().isoformat()}', null)"></a>
@@ -37,7 +36,6 @@
                 <a class="next" href="javascript: void(0)" 
                     onclick="getCalendar('${days[-1].next().isoformat()}', null)"></a>
                 <small>|</small>
-                <a class="last" href="javascript: void(0)"></a>
             </span>
         </p>
         <h4>

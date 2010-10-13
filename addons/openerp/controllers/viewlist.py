@@ -37,7 +37,7 @@ class ViewList(SecuredController):
 
     _cp_path = "/openerp/viewlist"
 
-    @expose(template="templates/viewlist.mako")
+    @expose(template="/openerp/controllers/templates/viewlist.mako")
     def index(self, model):
 
         params = TinyDict()

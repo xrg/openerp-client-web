@@ -5,7 +5,7 @@
 		        <div class="dashlet-title">
 		            <table>
 		                <tr>
-		                    <td width="100%">${dashlet.string}</td>
+		                    <td width="100%" style="padding: 0 0 0 5px;">${dashlet.string}</td>
 		                    <td>
 		                        <img class="dashlet-button" 
 		                             src="/openerp/static/images/stock/gtk-zoom-in.png" 

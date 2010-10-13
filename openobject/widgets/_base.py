@@ -3,9 +3,10 @@ import copy
 from itertools import count, chain, ifilterfalse
 
 import cherrypy
+import formencode.foreach
 
+import openobject
 from openobject import tools
-
 from openobject.validators import *
 
 from _meta import WidgetType
@@ -38,6 +39,12 @@ class Widget(object):
     member_widgets = []
     default = None
     parent = None
+
+    def __new__(cls, *args, **kwargs):
+        pool = openobject.pooler.get_pool()
+        actual_cls = pool.get(cls.widget_key, group='widgets')
+        # if there is nothing in the pool yet (uh?)
+        return object.__new__(actual_cls or cls)
 
     def __init__(self, name=None, **params):
         # set each keyword args as attribute
@@ -191,7 +198,9 @@ class Widget(object):
 
         d['css_class'] = ' '.join(set([d['css_class'] or ''] + d['css_classes']))
 
-        return tools.render_template(self.template_c, d)
+        return tools.render_template(
+                tools.load_template(
+                    self.template), d)
 
     def render(self, value=None, **params):
         return self.display(value, **params)
@@ -325,7 +334,7 @@ class InputWidget(Widget):
         if hasattr(cherrypy.request, 'input_values') and self.is_validated:
             iv = cherrypy.request.input_values.get(self._name)
 
-        if iv is not None and not isinstance(self.validator, (ForEach, Schema)):
+        if iv is not None and not isinstance(self.validator, (formencode.foreach.ForEach, Schema)):
             value = self.safe_validate(iv)
         else:
             value = super(InputWidget, self).adjust_value(value, **params)

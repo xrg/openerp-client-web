@@ -52,11 +52,9 @@
     
     top: 35px;
     left: 183px;
-    width: 100%;
+    right: 0;
     height: 30px;
     line-height: 1.2;
-
-    background: url(../images/top-bg-b.gif) scroll repeat-x top transparent;
 }
 
 #shortcuts ul {
@@ -113,11 +111,11 @@
     display: block;
     background: no-repeat center center;
 }
-#shortcuts #shortcuts-scroll-left {
+#shortcuts .left.scroller {
     left: 4px;
     background-image: url(/openerp/static/images/scroll_left.png);
 }
-#shortcuts #shortcuts-scroll-right {
+#shortcuts .right.scroller {
     right: 4px;
     background-image: url(/openerp/static/images/scroll_right.png);
 }

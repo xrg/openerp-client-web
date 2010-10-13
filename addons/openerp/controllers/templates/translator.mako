@@ -2,8 +2,6 @@
 
 <%def name="header()">
     <title>${_("Add Translations")}</title>
-    <link href="/openerp/static/css/listgrid.css" rel="stylesheet" type="text/css"/>
-    <script type="text/javascript" src="/openerp/static/javascript/listgrid.js"></script>
 </%def>
 
 <%def name="content()">

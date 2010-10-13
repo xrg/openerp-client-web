@@ -79,7 +79,6 @@
                                         <tr><td align="center">${_("Always applicable!")}</td></tr>
                                         % else:
                                         <tr>
-                                            <!-- <td class="item"><input type="checkbox" class="checkbox" name="deps" value="${deps['name']}"/></td><td>${deps['name']} = ${deps['value']}</td> -->
                                             % for n, n, v, v in deps:
                                                 <td><input type="checkbox" class="checkbox" name="_terp_deps/${n}" value="${v}"/></td><td>${n} = ${v}</td>
                                             % endfor
@@ -97,7 +96,7 @@
                             <td width="100%">
                             </td>
                             <td>
-                            	<a class="button-b" href="javascript: void(0)" onclick="window.close()">${_("Close")}</a>
+                            	<a class="button-a" href="javascript: void(0)" onclick="window.close()">${_("Close")}</a>
                             </td>
                             <td>
                                 <button type="submit">${_("OK")}</button>

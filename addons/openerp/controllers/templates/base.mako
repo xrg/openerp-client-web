@@ -5,9 +5,19 @@
     <script type="text/javascript" src="/openerp/static/javascript/openerp/openerp.ui.js"></script>
     <script type="text/javascript" src="/openerp/static/javascript/openerp/openerp.ui.tips.js"></script>
     <script type="text/javascript" src="/openerp/static/javascript/openerp/openerp.ui.waitbox.js"></script>
+    <script type="text/javascript" src="/openerp/static/javascript/openerp/openerp.ui.textarea.js"></script>
+
     <script type="text/javascript" src="/openerp/static/javascript/scripts.js"></script>
     <script type="text/javascript" src="/openerp/static/javascript/form.js"></script>
     <script type="text/javascript" src="/openerp/static/javascript/form_state.js"></script>
+    <script type="text/javascript" src="/openerp/static/javascript/listgrid.js"></script>
+
+    <script type="text/javascript" src="/openerp/static/javascript/m2o.js"></script>
+    <script type="text/javascript" src="/openerp/static/javascript/m2m.js"></script>
+    <script type="text/javascript" src="/openerp/static/javascript/o2m.js"></script>
+    <script type="text/javascript" src="/openerp/static/javascript/binary.js"></script>
+    <script type="text/javascript" src="/openerp/static/jscal/calendar.js"></script>
+    <script type="text/javascript" src="/openerp/static/jscal/calendar-setup.js"></script>
     
     <link rel="stylesheet" type="text/css" href="/openerp/static/css/style.css"/>
     <link rel="stylesheet" type="text/css" href="/openerp/static/css/menu.css"/>

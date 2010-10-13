@@ -13,6 +13,9 @@ html {
     margin: 0 0 1px;
     font-size: 100.01%;
 }
+html.webkit {
+    height: 99.99%;
+}
 
 body {
     height: 100%;
@@ -77,10 +80,6 @@ img {
     -ms-interpolation-mode: bicubic;
 }
 
-.login-frame {
-	padding: 35px 0 0 45px;
-}
-
 .feature-image{
 	padding: 15px 0 0;
 	text-align: right;
@@ -143,9 +142,8 @@ hr {
 }
 
 #top {
-    background: url(../images/top-bg-a.gif) scroll repeat-x top #7d7b7b;
+    background: url(../images/header-background.png) top left repeat-x;
     color: #fff;
-    text-transform: uppercase;
     letter-spacing: 0.5px;
     text-shadow: #333 0 1px 0;
 }
@@ -154,16 +152,13 @@ hr {
     height: 65px;
 }
 
-div #content {
-	float: left;
-	width: 100%;
+#content {
+    width: 100%;
 }
 
 #footer_section {
-	float: left;
+	clear: left;
 	vertical-align: bottom;
-	width: 100%;
-	display: none;
 }
 
 #company_logo {
@@ -190,9 +185,8 @@ p#cmp_logo {
     padding: 4px 0;
     background: none;
     color: #fff;
-    font-size: 1em;
-    font-weight: bold;
     text-shadow: #111 0 1px 0;
+    font-size: 1.1em;
 }
 
 #title-menu small {
@@ -249,17 +243,17 @@ p#cmp_logo {
     text-indent: -10001px;
 }
 
-#corner ul.tools li a.messages {
+#corner ul.tools li a.req_messages {
     position: relative;
     width: 24px;
     background-position: 0 0;
 }
 
-#corner ul.tools li a.messages:hover {
+#corner ul.tools li a.req_messages:hover {
     background-position: 0 -34px;
 }
 
-#corner ul.tools li a.messages small {
+#corner ul.tools li a.req_messages small {
     position: absolute;
     right: 0;
     top: 5px;
@@ -513,86 +507,84 @@ p#cmp_logo {
     width: 100%;
 }
 
-#nav {
-    left: 0;
+#applications_menu {
     z-index: 10;
     height: 34px; /*border-bottom: 1px solid #511712; */
     position: relative;
-    width: 95%; /* Add scroll-bars */
-    overflow: hidden;
+    white-space:nowrap;
+}
+#applications_menu.scrolling {
+    padding: 6px 14px !important;
 }
 
-#nav ul {
-    float: left;
-    list-style: none;
-    margin: 0;
-    padding: 6px 5px;
-    display: block; /* Max width here, for users without Javascript */
+#applications_menu .scroller {
     position: absolute;
+    top: 10px;
+    height: 10px;
+    width: 7px;
+    display: none;
 }
-
-#nav ul li {
+#applications_menu.scrolling .scroller {
     display: block;
-    float: left;
-    padding: 0 2px;
-    font-size: 1em;
-    text-transform: uppercase;
-    text-align: center;
+}
+#applications_menu .left.scroller {
+    left: 4px;
+    background-image: url(/openerp/static/images/scroll_left.png);
+}
+#applications_menu .right.scroller {
+    right: 4px;
+    background-image: url(/openerp/static/images/scroll_right.png);
 }
 
-#nav ul li a {
+#applications_menu ul {
+    overflow: hidden;
+    list-style: none;
+    padding: 0;
+}
+
+#applications_menu li {
+    zoom: 1;
+    display: -moz-inline-stack;
+    display: inline; /*IE7 */
+    display: inline-block;
+    margin: 6px 1px;
+    text-align: center;
+    font-size: 1.3em;
+    font-variant:small-caps;
+}
+
+#applications_menu a {
     display: block;
     float: left;
     padding: 0 0 0 3px;
     background: url(../images/nav-items-a.png) no-repeat;
-    color: #fff !important;
-    font-weight: bold;
+    color: #fff;
     text-shadow: #111 0 1px 0;
-    text-decoration: none !important;
 }
 
-* html #nav ul li a {
-    background-image: url(../images/nav-items-a-ie.png);
-}
-
-*:first-child+html #nav ul li a {
-    background-image: url(../images/nav-items-a-ie.png);
-}
-
-#nav ul li a span {
+#applications_menu span {
     display: block;
-    text-align: center;
     float: left;
     min-width: 60px;
     height: 23px;
-    padding: 0 6px 0 6px;
+    padding: 0 6px;
     background: url(../images/nav-items-a.png) 100% 0 no-repeat;
     line-height: 22px;
-    cursor: pointer;
 }
-
-* html #nav ul li a span {
+* html #applications_menu span {
     width: 60px;
-    background-image: url(../images/nav-items-a-ie.png);
 }
 
-*:first-child+html #nav ul li a span {
-    background-image: url(../images/nav-items-a-ie.png);
-}
-
-#nav ul li a:hover,#nav ul li a:focus,#nav ul li a:active,#nav ul li a.active {
+#applications_menu ul li a:hover,
+#applications_menu ul li a:focus,
+#applications_menu ul li a.active {
     background-position: 0 -23px;
 }
 
-#nav ul li a:hover span,#nav ul li a:focus span,#nav ul li a:active span,#nav ul li a.active span
-    {
+#applications_menu ul li a:hover span,
+#applications_menu ul li a:focus span,
+#applications_menu ul li a.active span {
     background-position: 100% -23px;
-}
-
-#nav ul li em {
-    position: absolute;
-    left: -10001px;
-    top: -10001px;
 }
 
 .scroll_right {
@@ -606,21 +598,32 @@ p#cmp_logo {
 
 #primary {
     min-height: 100%;
-    margin: 0 0 0 200px;
     vertical-align: top;
+    padding: 0;
 }
 
 #primary div.wrap {
     padding-top: 0;
+    height: 100%;
+}
+
+#appContent {
+    height: 100%;
+}
+
+#main_form_body {
+    height: 100%;
 }
 
 #secondary {
-    position: relative;
-    float: left;
-    min-height: 100%;
     border-right: 1px solid #3c3c3c;
+    /* hack to "fix" weird space under bar */
+    border-bottom: 1px solid #5a5858;
     background: #5a5858;
-    display: block;
+    padding: 0;
+    vertical-align: top;
+    /* Takes smallest possible width */
+    width: 1px;
 }
 
 div.customize {
@@ -640,7 +643,7 @@ h1 {
     background:url("../images/sep-a.gif") repeat-x scroll 0 90% transparent;
     font-size:2em;
     font-weight:normal;
-    padding:0 0 5px 10px;
+    padding:0 0 5px 5px;
 }
 
 h2 {
@@ -707,8 +710,6 @@ h1 small.sub {
     display: block;
     color: #7e7979;
     font-size: 0.5em;
-    font-weight: bold;
-    text-transform: uppercase;
     padding-bottom: 2px;
 }
 
@@ -955,12 +956,9 @@ div.footer-a,
 div.footer-b {
     background:none repeat scroll 0 0 #CCCCCC;
 	border:1px solid #AAAAAA;
-	display:block;
-	margin:0 -2px;
 	overflow:hidden;
 	padding:5px 0;
 	position:relative;
-	width:100%;
 }
 
 div.footer-a p,
@@ -1323,8 +1321,8 @@ table {
     border-bottom: 1px solid #f4f2f2;
 }
 
-table th,table td {
-    padding: 5px 10px;
+table th {
+    padding: 5px 10px 5px 5px;
 }
 
 table thead th {
@@ -1569,7 +1567,7 @@ ul.inline-b {
     overflow: hidden;
     list-style: none;
     width: 100%;
-    padding: 0 0 0 10px;
+    padding: 0 0 0 5px;
 }
 
 ul.inline-b li {
@@ -1695,11 +1693,11 @@ ul.sections-a li.sales span.wrap a {
     background-image: url(../images/sections-a-i-money.png);
 }
 
-ul.sections-a li.pm span.wrap a {
+ul.sections-a li.project span.wrap a {
     background-image: url(../images/sections-a-i-flag.png);
 }
 
-ul.sections-a li.inventory span.wrap a {
+ul.sections-a li.warehouse span.wrap a {
     background-image: url(../images/sections-a-i-box.png);
 }
 
@@ -1715,11 +1713,11 @@ ul.sections-a li.accounting span.wrap a {
     background-image: url(../images/sections-a-i-wallet.png);
 }
 
-ul.sections-a li.point span.wrap a {
+ul.sections-a li.point-of-sale span.wrap a {
     background-image: url(../images/sections-a-i-tag.png);
 }
 
-ul.sections-a li.hr span.wrap a {
+ul.sections-a li.human-resources span.wrap a {
     background-image: url(../images/sections-a-i-person.png);
 }
 
@@ -1731,12 +1729,12 @@ ul.sections-a li.reporting span.wrap a {
     background-image: url(../images/sections-a-i-charts.png);
 }
 
-ul.sections-a li.chat span.wrap a {
-    background-image: url(../images/sections-a-i-dialog.png);
-}
-
 ul.sections-a li.administration span.wrap a {
     background-image: url(../images/sections-a-i-briefcase.png);
+}
+
+ul.sections-a li.tools span.wrap a {
+    background-image: url(../images/sections-a-i-tools.png);
 }
 
 ul.sections-a li span.wrap a span {
@@ -1769,48 +1767,27 @@ ul.sections-a li span.wrap a:hover span strong,ul.sections-a li span.wrap a:focu
     background-position: 100% 5px;
 }
 
-.open-close-menu {
-    float: left;
+.toggle-menu {
     cursor: pointer;
-    background: #CECBCB url(../images/left.png) no-repeat scroll center 0.5%;
+    background: #CECBCB url(../images/arrow_left.png) no-repeat scroll 50% 50%;
     min-height: 100%;
-    width: 11px;
+    padding: 0 0 0 11px;
+    /* hack to fix weird space under bar */
+    border-bottom: 1px solid #CECBCB;
 }
 
-.hide-menu .open-close-menu {
-    background-image: url(../images/right.png);
+.closed .toggle-menu {
+    background-image: url(../images/arrow_right.png);
 }
 
-.hide-menu #primary {
+.closed #primary {
     margin-left: 21px;
 }
 
-.hide-menu #secondary {
+.closed #secondary {
     display: none;
-    width: 0;
 }
 
-.hide-menu #sidenav_hide a {
-     background-position: 0;
-}
-
-#sidenav_hide {
-    padding: 0;
-    position: absolute;
-    top: 0;
-    left: 0;
-    z-index: 15;
-}
-
-#sidenav_hide a {
-    display: block;
-    overflow: hidden;
-    width: 20px;
-    height: 20px;
-    background: url(../images/toggle-b-bg.png) no-repeat -20px 0;
-    text-indent: -10001px;
-    outline: none;
-}
 
 #sidenav-a {
     color:#FFFFFF;
@@ -1837,13 +1814,11 @@ ul.sections-a li span.wrap a:hover span strong,ul.sections-a li span.wrap a:focu
 #sidenav-a li > span {
     display: block;
     height: 20px;
-    padding: 0 0 0 20px;
+    padding-left: 5px;
+    font-size: 1.25em;
     background: url(../images/sidenav-link-a.png) 0 100% repeat-x;
-    color: #fff;
     line-height: 20px;
-    font-weight: bold;
     text-decoration: none !important;
-    text-transform: uppercase;
     cursor: pointer;
     min-width: 165px;
 }
@@ -1895,12 +1870,12 @@ ul.split-a {
 
 ul.split-a .one {
     float: left;
-    width: 150px;
+    width: 55%;
 }
 
 ul.split-a .two {
     float: right;
-    width: 150px;
+    width: 45%;
 }
 
 #view-selector {
@@ -1914,6 +1889,9 @@ ul.split-a .two {
     display: inline;
     float: left;
     margin: 0 0 0 3px;
+    border: none;
+    padding: 0;
+    background: none;
 }
 
 #view-selector li a {
@@ -1926,71 +1904,69 @@ ul.split-a .two {
 }
 
 #view-selector li a.inactive {
-    filter: alpha(opacity =         40);
+    filter: alpha(opacity = 40);
     opacity: 0.4;
+    cursor: default;
 }
 
-#view-selector li.v1 a {
+#view-selector li.tree a {
     background-position: 0 0;
 }
-
-#view-selector li.v1 a:hover,#view-selector li.v1 a:focus,#view-selector li.v1 a:active,#view-selector li.v1 a.active
-    {
+#view-selector li.tree a:hover,
+#view-selector li.tree a:focus,
+#view-selector li.tree a:active,
+#view-selector li.tree a.active {
     background-position: 0 -21px;
 }
 
-#view-selector li.v2 a {
+#view-selector li.form a {
     background-position: -22px 0;
 }
-
-#view-selector li.v2 a:hover,#view-selector li.v2 a:focus,#view-selector li.v2 a:active,#view-selector li.v2 a.active
-    {
+#view-selector li.form a:hover,
+#view-selector li.form a:focus,
+#view-selector li.form a:active,
+#view-selector li.form a.active {
     background-position: -22px -21px;
 }
 
-#view-selector li.v3 a {
+#view-selector li.graph a {
     background-position: -44px 0;
 }
-
-#view-selector li.v3 a:hover,#view-selector li.v3 a:focus,#view-selector li.v3 a:active,#view-selector li.v3 a.active
-    {
+#view-selector li.graph a:hover,
+#view-selector li.graph a:focus,
+#view-selector li.graph a:active,
+#view-selector li.graph a.active {
     background-position: -44px -21px;
 }
 
-#view-selector li.v5 a {
-    background-position: -88px 0;
-}
-
-#view-selector li.v5 a:hover,#view-selector li.v5 a:focus,#view-selector li.v5 a:active,#view-selector li.v5 a.active
-    {
-    background-position: -88px -21px;
-}
-
-#view-selector li.v4 a {
-    background-position: -110px 0;
-}
-
-#view-selector li.v4 a:hover,#view-selector li.v4 a:focus,#view-selector li.v4 a:active,#view-selector li.v4 a.active
-    {
-    background-position: -110px -21px;
-}
-
-#view-selector li.v6 a {
+#view-selector li.gantt a {
     background-position: -66px 0;
 }
-
-#view-selector li.v6 a:hover,#view-selector li.v6 a:focus,#view-selector li.v6 a:active,#view-selector li.v6 a.active
-    {
+#view-selector li.gantt a:hover,
+#view-selector li.gantt a:focus,
+#view-selector li.gantt a:active,
+#view-selector li.gantt a.active {
     background-position: -66px -21px;
 }
 
-#view-selector li.v7 a {
-    background-position: -132px 0;
+#view-selector li.calendar a {
+    background-position: -88px 0;
+}
+#view-selector li.calendar a:hover,
+#view-selector li.calendar a:focus,
+#view-selector li.calendar a:active,
+#view-selector li.calendar a.active {
+    background-position: -88px -21px;
 }
 
-#view-selector li.v7 a:hover,#view-selector li.v7 a:focus,#view-selector li.v7 a:active,#view-selector li.v7 a.active
-    {
-    background-position: -132px -21px;
+#view-selector li.diagram a {
+    background-position: -110px 0;
+}
+#view-selector li.diagram a:hover,
+#view-selector li.diagram a:focus,
+#view-selector li.diagram a:active,
+#view-selector li.diagram a.active {
+    background-position: -110px -21px;
 }
 
 table#title_header {
@@ -2055,8 +2031,8 @@ p.paging-a a {
     display: -moz-inline-stack;
     display: inline-block;
     overflow: hidden;
-    width: 9px;
-    height: 7px;
+    width: 14px;
+    height: 14px;
     margin: 0 5px;
     font-size: 0;
     text-align: left;
@@ -2076,29 +2052,42 @@ p.paging-a a {
 
 p.paging-a a.first {
     margin: 0;
-    background: url(../images/first.png) no-repeat;
+    background: url(../images/cal_first.png) no-repeat;
 }
 
 p.paging-a a.last {
     margin: 0;
-    background: url(../images/last.png) no-repeat;
+    background: url(../images/cal_last.png) no-repeat;
 }
 
 p.paging-a a.prev {
-    width: 7px;
-    background: url(../images/left.png) no-repeat;
+    background: url(../images/cal_left.png) no-repeat;
 }
 
 p.paging-a a.next {
-    width: 5px;
-    background: url(../images/right.png) no-repeat;
+    background: url(../images/cal_right.png) no-repeat;
 }
 
 /* sidebar */
+td.tertiary {
+    background: url(../images/tertiary-bg-a.gif) repeat-y scroll 0 0 #EAE7E7;
+    min-height: 100%;
+    border-left: 1px solid #D2CFCF;
+    vertical-align: top;
+}
+
+td.tertiary div.wrap {
+    margin-top: 9px;
+}
+
 #tertiary {
     position: relative;
     float: right;
     min-height: 100%;
+    width: 180px;
+}
+#tertiary.closed {
+    display: none;
 }
 
 #sidebar {
@@ -2109,19 +2098,20 @@ p.paging-a a.next {
     padding: 0;
 }
 
-.toggle_sidebar {
-	cursor: pointer;
+/* TODO: refactor sidebar as well as the toggle_accordion/open-close-menu
+
+   Should not need to duplicate colors, borders (hack), images in open/close
+   status, width, height, padding, cursor
+*/
+.toggle-sidebar {
+    cursor: pointer;
     height: 100%;
     width: 11px;
     padding: 0 5px;
+    background: #CECBCB url("../images/arrow_right.png") no-repeat scroll 50% 50%;
 }
-
-.sidebar_close {
-	background: #CECBCB url(../images/left.png) no-repeat scroll center 0.5%;
-}
-
-.sidebar_open {
-	background: #CECBCB url(../images/right.png) no-repeat scroll center 0.5%;
+.toggle-sidebar.closed {
+    background-image: url(../images/arrow_left.png);
 }
 
 .sideheader-a {
@@ -2155,10 +2145,9 @@ p.paging-a a.next {
     margin: 0 0 0 10px;;
     padding: 0;
     color: #8e8e8e;
-    font-size: 0.8em;
+    font-size: 1.2em;
     line-height: 21px;
     font-weight: bold;
-    text-transform: uppercase;
     text-shadow: #fff 0 1px 0;
 }
 
@@ -2199,37 +2188,6 @@ button {
     right: 1px;
 }
 
-.sidebar-open {
-    width: 180px;
-}
-
-.sidebar-closed #sidebar {
-    display: none;
-}
-
-#sidebar_hide {
-    padding: 0;
-    position: absolute;
-    top: 0;
-    right: 0;
-}
-
-#sidebar_hide a {
-    display: block;
-    overflow: hidden;
-    width: 21px;
-    height: 21px;
-    border: 1px solid #d2cfcf;
-    border-right-width: 0;
-    background: url(../images/toggle-a-bg.png) no-repeat -21px 0;
-    text-indent: -10001px;
-    outline: none;
-}
-
-.sidebar-closed #sidebar_hide a {
-    background-position: 0;
-}
-
 .attachments-a li {
     position: relative;
 }
@@ -2259,14 +2217,13 @@ button {
     text-indent: -10001px;
 }
 
-td#body_form_td {
-    padding: 10px 4px 0 0;
+#body_form_td {
+    padding: 10px 4px 4px;
     border-color: #EAE7E7;
 }
 
 /* links */
 .button-a {
-    float: left;
     height: 12px;
     padding: 1px 10px;
     border: 1px solid #666666;
@@ -2279,10 +2236,9 @@ td#body_form_td {
     background: url(../images/button-a.gif) repeat-x;
     color: #fff;
     white-space: nowrap;
-    font-size: 0.8em;
+    font-size: 1em;
     font-weight: bold;
-    line-height: 11px;
-    text-transform: uppercase;
+    line-height: 18px;
     text-shadow: #6a6969 0 1px 0;
 }
 
@@ -2318,10 +2274,9 @@ td.toolbar a.button-a {
     margin: 0 3px 0 0;
 }
 
-a.button-b {
+a.button-b, button.button-b {
     float: left;
     height: 11px;
-    padding: 1px 10px 0;
     border: 1px solid;
     border-color: #e5e3e3 #dad9d9 #cccbcb;
     border-radius: 3px;
@@ -2333,11 +2288,14 @@ a.button-b {
     background: url(../images/button-a.gif) 0 -26px repeat-x;
     color: #8d8d8d;
     white-space: nowrap;
-    font-size: 0.8em;
+    font-size: 1em;
     font-weight: bold;
-    line-height: 11px;
-    text-transform: uppercase;
+    line-height: 16px;
     text-shadow: #fff 0 1px 0;
+    min-width: 99%;
+}
+.button-b img {
+    vertical-align: -30%;
 }
 
 a.wizard_button {
@@ -2350,7 +2308,8 @@ a.wizard_button td {
 	padding: 1px;
 }
 
-a.button-b:hover,a.button-b:focus,a.button-b:active {
+a.button-b:hover,a.button-b:focus,a.button-b:active,
+button.button-b:hover,button.button-b:focus,button.button-b:active {
     border-color: #c6c4c4 #aaa9a9 #797878;
     background-position: 0 0;
     text-shadow: #6a6969 0 1px 0;
@@ -2373,6 +2332,7 @@ a.cta-a {
     text-transform: uppercase;
     font-weight: bold;
     text-shadow: #fff 0 1px 0;
+    margin: 2px;
 }
 
 a.cta-a:hover,a.cta-a:focus,a.cta-a:active {
@@ -2381,8 +2341,7 @@ a.cta-a:hover,a.cta-a:focus,a.cta-a:active {
 
 a.cta-a span {
     float: left;
-    width: 95px;
-    padding: 7px 0 5px 32px;
+    padding: 7px 0 5px 5px;
     background-position: 0 50%;
     background-repeat: no-repeat;
     cursor: pointer;
@@ -2432,3 +2391,46 @@ a.cta-a strong {
 }
 /* SPECIFIC
 ------------------------------------------- */
+
+.process-field-attribute-name {
+  font-weight: bold;
+}
+
+.process-field-attribute-value {
+  font-style: italic;
+}
+
+.process-field-name {
+  font-weight: bold;
+}
+
+.fields.collapsed .collapse-button,
+.fields.collapsed div {
+    display: none;
+}
+.fields.expanded .expand-button {
+    display: none;
+}
+
+.fields .expand-button, .fields .collapse-button {
+  cursor: pointer;
+  color: #555555;
+  text-decoration: none;
+}
+
+.process-links {
+    padding: 5px 10px;
+    text-align: center;
+}
+.process-links a {
+    color:#9a0404;
+    font-size:1.25em;
+    font-weight:bold;
+    font-style:italic;
+    margin: 0 2%;
+}
+.process-help-text {
+    padding:5px 10px;
+    min-height:56px;
+    font-size: 120%;
+}

@@ -2,48 +2,8 @@
 
 <%def name="header()">
     <title>Export Data</title>
-    <link href="/openerp/static/css/listgrid.css" rel="stylesheet" type="text/css"/>
-    <script type="text/javascript" src="/openerp/static/javascript/listgrid.js"></script>
 
-    <style type="text/css">
-        .fields-selector {
-            width: 100%;
-            height: 400px;
-        }
-
-        .fields-selector-left {
-            width: 45%;
-        }
-
-        td.fields-selector-left div#export_fields_left {
-        	overflow: scroll;
-        	width: 100%; 
-        	height: 100%; 
-        	border: solid #999999 1px;
-        }
-
-        .fields-selector-center {
-            width: 15%;
-        }
-        
-        .fields-selector-center a.button-a {
-            float: none;
-        }
-
-        .fields-selector-right {
-            width: 45%;
-        }
-
-        .fields-selector select {
-            width: 100%;
-            height: 100%;
-        }
-
-        .fields-selector button {
-            width: 100%;
-            margin: 5px 0;
-        }
-    </style>
+    <link rel="stylesheet" type="text/css" href="/openerp/static/css/impex.css"/>
 
     <script type="text/javascript">
         function add_fields(){
@@ -106,37 +66,37 @@
                 '_terp_id': id,
                 '_terp_model': model
             });
-            
+
             req.addCallback(function(obj){
                 if (obj.error){
-                    alert(obj.error);
+                    error_display(obj.error);
                 } else {
                     self.reload(obj.name_list);
                 }
             });
         }
-        
+
         function delete_listname(form) {
-        
+
             var list = new ListView('_terp_list');
             var boxes = list.getSelectedItems();
-                        
+
             if (boxes.length == 0){
-                alert(_('Please select an item...'));
+                error_display(_('Please select an item...'));
                 return;
             }
-            
+
             var id = boxes[0].value;
 
             jQuery('#'+form).attr('action', openobject.http.getURL(
                 '/openerp/impex/delete_listname', {'_terp_id' : id})
             ).submit();
         }
-        
+
         function reload(name_list) {
             var select = openobject.dom.get('fields');
 
-            forEach(name_list, function(f){                
+            forEach(name_list, function(f){
                 var text = f[1];
                 var id = f[0];
                 select.options.add(new Option(text, id));
@@ -148,7 +108,7 @@
             var options = openobject.dom.get('fields').options;
 
             if (options.length == 0){
-                alert(_('Please select fields to export...'));
+                error_display(_('Please select fields to export...'));
                 return;
             }
 
@@ -179,10 +139,10 @@
 
     <table class="view" cellspacing="5" border="0" width="100%">
         <tr>
-            <td style="padding: 10px 10px 0 10px;">
+            <td class="side_spacing">
                 <table width="100%" class="popup_header">
                     <tr>
-                    	<td class="exp-header">
+                    	<td class="exp-header" align="left">
                     		<a class="button-a" href="javascript: void(0)" onclick="do_export('view_form')">${_("Export")}</a>
                             <a class="button-a" href="javascript: void(0)" onclick="window.close()">${_("Close")}</a>
                     	</td>
@@ -194,12 +154,12 @@
         </tr>        
         % if new_list.ids:
         <tr>
-            <td style="padding: 0 10px 5px 10px;">
-                <div id='exported_list' style="overflow: auto;">${new_list.display()}</div>
+            <td class="side_spacing">
+                <div id='exported_list'>${new_list.display()}</div>
             </td>
         </tr>
         <tr>
-            <td>
+            <td class="side_spacing">
             	<table class="popup_header" width="100%">
             		<tr>
             			<td class="exp-header">
@@ -211,8 +171,8 @@
         </tr>
         % endif
         <tr>
-            <td>
-                <table class="fields-selector" cellspacing="5" border="0">
+            <td class="side_spacing">
+                <table class="fields-selector-export" cellspacing="5" border="0">
                     <tr>
                         <th class="fields-selector-left">${_("All fields")}</th>
                         <th class="fields-selector-center">&nbsp;</th>
@@ -220,7 +180,7 @@
                     </tr>
                     <tr>
                         <td class="fields-selector-left" height="400px">
-                            <div id="export_fields_left">${tree.display()}</div>
+                            <div id="fields_left">${tree.display()}</div>
                         </td>
                         <td class="fields-selector-center">
                         	<table border="0" cellpadding="0" cellspacing="0" width="100%">
@@ -254,7 +214,7 @@
             </td>
         </tr>
         <tr>
-            <td>            
+            <td class="side_spacing">            
                 <div id="savelist" style="display: none">
                     <fieldset>
                         <legend>${_("Save List")}</legend>
@@ -274,7 +234,7 @@
             </td>
         </tr>        
         <tr>
-            <td>
+            <td class="side_spacing">
                 <fieldset>
                     <legend>${_("Options")}</legend>
                     <table>
@@ -295,7 +255,7 @@
             </td>
         </tr>
         <tr>
-        	<td>
+        	<td class="side_spacing">
         		<fieldset>
                     <legend>${_("Select an Option to Export")}</legend>
                     <table>

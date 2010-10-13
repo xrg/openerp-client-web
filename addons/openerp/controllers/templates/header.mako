@@ -13,31 +13,15 @@ except:
     shortcuts = []
     requests = []
     requests_message = None
+
+if rpc.session.is_logged():
+    logged = True
+else:
+    logged = False
 %>
-
-<script type="text/javascript">
-    function setRowWidth() {
-        var topWidth = jQuery('div#top').width();
-        var logoWidth = jQuery('p#cmp_logo').outerWidth();
-
-        var shortcuts = jQuery('#shortcuts');
-        var offset = shortcuts.outerWidth() - shortcuts.width();
-
-        shortcuts.css('width', topWidth - logoWidth - offset);
-    }
-
-    jQuery(document).ready(setRowWidth);
-    jQuery(window).resize(setRowWidth);
-</script>
-<%
-    if rpc.session.is_logged():
-        logged = True
-    else:
-        logged = False
-%>
-<div id="top">
+<td id="top" colspan="3">
     <p id="cmp_logo">
-        <a href="http://www.openerp.com" target="_blank">
+        <a href="/" target="_top">
             <img alt="OpenERP" id="company_logo" src="/openerp/static/images/openerp_small.png"/>
         </a>
     </p>
@@ -53,61 +37,61 @@ except:
         <li><a href="#footer" accesskey="f">Skip to footer [f]</a></li>
     </ul>
     % if logged:
-	    <div id="corner">
-	        <ul class="tools">
-	            <li><a href="${py.url('/openerp/home')}" class="home">${_("Home")}</a>
-	                <ul>
-	                    <li class="first last"><a href="javascript: void(0);">${_("Home")}</a></li>
-	                </ul>
-	            </li>
-	            <li>
-	                <a href="${py.url('/openerp/requests')}" class="messages"><small>${total_request}</small></a>
-	                <ul>
-	                    <li class="first last"><a href="javascript: void(0);">${_("Requests")}</a></li>
-	                </ul>
-	            </li>
-	
-	            <li><a href="${py.url('/openerp/pref/create')}" class="preferences">${_("Preferences")}</a>
-	                <ul>
-	                    <li class="first last"><a href="javascript: void(0);">${_("Edit Preferences")}</a></li>
-	                </ul>
-	            </li>
-	            <li><a href="javascript: void(0);" class="info">${_("About")}</a>
-	                <ul>
-	                    <li class="first last"><a href="javascript: void(0);">${_("About")}</a></li>
-	                </ul>
-	            </li>
-	
-	            <li><a href="javascript: void(0);" class="help">${_("Help")}</a>
-	                <ul>
-	                    <li class="first last"><a href="javascript: void(0);">${_("Help")}</a></li>
-	                </ul>
-	            </li>
-	
-	            % if cp.config('server.environment') == 'production':
-	                <li id="clear_cache"><a href="${py.url('/openerp/pref/clear_cache')}" class="clear_cache">${_("Clear Cache")}</a>
-	                    <ul>
-	                        <li class="first last"><a href="javascript: void(0);">${_("Clear Cache")}</a></li>
-	                    </ul>
-	                </li>
-	            % endif
-	        </ul>
-	        <p class="logout"><a href="${py.url('/openerp/logout')}" target="_top">${_("Logout")}</a></p>
-	    </div>
-	% endif
-	
-    <div id="shortcuts" class="menubar" cellpadding="0" cellspacing="0">
+        <div id="corner">
+            <ul class="tools">
+                <li><a href="${py.url('/openerp')}" target="_top" class="home">${_("Home")}</a>
+                    <ul>
+                        <li class="first last"><a href="${py.url('/openerp')}" target="_top">${_("Home")}</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="${py.url('/openerp/requests')}" class="req_messages"><small>${total_request}</small></a>
+                    <ul>
+                        <li class="first last"><a href="${py.url('/openerp/requests')}">${_("Requests")}</a></li>
+                    </ul>
+                </li>
+
+                <li><a href="${py.url('/openerp/pref/create')}" class="preferences">${_("Preferences")}</a>
+                    <ul>
+                        <li class="first last"><a href="${py.url('/openerp/pref/create')}">${_("Edit Preferences")}</a></li>
+                    </ul>
+                </li>
+                <li><a href="/openerp/about" class="info">${_("About")}</a>
+                    <ul>
+                        <li class="first last"><a href="/openerp/about">${_("About")}</a></li>
+                    </ul>
+                </li>
+
+                <li><a target="_blank" href="http://doc.openerp.com/" class="help">${_("Help")}</a>
+                    <ul>
+                        <li class="first last"><a target="_blank" href="http://doc.openerp.com/">${_("Help")}</a></li>
+                    </ul>
+                </li>
+
+                % if cp.config('server.environment') == 'production':
+                    <li id="clear_cache"><a href="${py.url('/openerp/pref/clear_cache')}" class="clear_cache">${_("Clear Cache")}</a>
+                        <ul>
+                            <li class="first last"><a href="javascript: void(0);">${_("Clear Cache")}</a></li>
+                        </ul>
+                    </li>
+                % endif
+            </ul>
+            <p class="logout"><a href="${py.url('/openerp/logout')}" target="_top">${_("Logout")}</a></p>
+        </div>
+    % endif
+    
+    <div id="shortcuts" class="menubar">
     % if logged:
         <ul>
-	        % for i, sc in enumerate(shortcuts):
-	            <li class="${i == 0 and 'first' or ''}">
-	                <a id="shortcut_${sc['res_id']}"
-	                   href="${py.url('/openerp/tree/open', id=sc['res_id'], model='ir.ui.menu')}">
-	                   <span>${sc['name']}</span>
-	                </a>
-	            </li>
-	        % endfor
+            % for i, sc in enumerate(shortcuts):
+                <li class="${i == 0 and 'first' or ''}">
+                    <a id="shortcut_${sc['res_id']}"
+                       href="${py.url('/openerp/tree/open', id=sc['res_id'], model='ir.ui.menu')}">
+                       <span>${sc['name']}</span>
+                    </a>
+                </li>
+            % endfor
         </ul>
     % endif
     </div>
-</div>
+</td>

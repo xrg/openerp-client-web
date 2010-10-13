@@ -1,6 +1,6 @@
 <%
     if view_type == 'form':
-        pager_width = '15%'
+        pager_width = '35%'
         o2m_css_class = ''
     else:
         pager_width = '100%'
@@ -9,29 +9,25 @@
 <table border="0" id="_o2m_${name}" width="100%" class="one2many ${o2m_css_class}" detail="${(screen.view_type == 'tree' or 0) and len(screen.widget.editors)}">
     % if screen.editable and not readonly and view_type == 'form':
     <tr>
-        <td>
+        <td class="o2m_cell">
             <table width="100%" class="gridview" style="border-bottom: 1px solid black;"cellpadding="0" cellspacing="0">
                 <tr class="pagerbar">
-
-                	<td class="pagerbar-cell" align="left" width="${pager_width}">
-                		<div class="pagerbar-header">
-                			<strong>${screen.string}</strong>
-                		</div>
-                	</td>
-
-                	
-                	   <td>
-                	       <a class="button-a" href="javascript: void(0)" title="${_('Create new record...')}" onclick="new One2Many('${name}', ${(screen.view_type == 'tree' or 0) and len(screen.widget.editors)}).create(); return false;">${_('New')}</a>
-                	   </td>
-                	
-
+	               	<td class="pagerbar-cell" align="left" width="${pager_width}">
+	               		<div class="pagerbar-header">
+	               			<strong>${screen.string}</strong><nobr>
+	               			<a class="button-a" href="javascript: void(0)" title="${_('Create new record...')}" onclick="new One2Many('${name}', ${(screen.view_type == 'tree' or 0) and len(screen.widget.editors)}).create(); return false;">${_('New')}</a>
+	               			%if id:
+	               				<a class="button-a" href="javascript: void(0);" title="${_('Delete record...')}" onclick="new One2Many('${name}', ${(screen.view_type == 'tree' or 0) and len(screen.widget.editors)}).remove(${id}); return false;">${_("Delete")}</a>
+	               			%endif
+	               		</div>
+	               	</td>
                     % if pager_info:
-                    <td width="85%" style="text-align: left" align="left">
+                    <td width="65%" style="text-align: left" align="left">
                         <div class="pager">
                             <p id="_${name}_link_span" class="paging">
-                                <a class="prev nav" title="${_('Previous record...')}" href="javascript: void(0)" onclick="submit_form('previous', '${name}')"></a>
+                                <a class="prev nav" title="${_('Previous record...')}" href="javascript: void(0)" onclick="o2m_pager_action('previous', '${name}'); return false;"></a>
                                 ${pager_info}
-                                <a class="next nav" title="${_('Next record...')}" href="javascript: void(0)" onclick="submit_form('next', '${name}')"></a>
+                                <a class="next nav" title="${_('Next record...')}" href="javascript: void(0)" onclick="o2m_pager_action('next', '${name}'); return false;"></a>
                             </p>
                         </div>
                     </td>
@@ -50,7 +46,7 @@
     % endif
     <tr>
         % if screen:
-        <td>
+        <td class="o2m_cell">
             <input type="hidden" name="${name}/__id" id="${name}/__id" value="${id}" ${py.disabled(screen.view_type!="form")}/>
             <input type="hidden" name="${name}/_terp_default_get_ctx" id="${name}/_terp_default_get_ctx" value="${default_get_ctx}"/>
             ${screen.display()}
@@ -60,7 +56,9 @@
     % if screen.editable and not readonly and view_type == 'tree':
         % if name == source:
             <script type="text/javascript">
-                new One2Many('${name}', jQuery('table.one2many[id=_o2m_${name}]').attr('detail')).create();
+                jQuery(document).ready(function() {
+                    new One2Many('${name}', jQuery('table.one2many[id=_o2m_${name}]').attr('detail')).create();
+                })
             </script>
         % endif
     % endif

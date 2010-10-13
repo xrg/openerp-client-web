@@ -19,11 +19,11 @@
             req.addCallback(function(obj) {
 
                 if (obj.error) {
-                    return alert(obj.error);
+                    return error_display(obj.error);
                 }
 
                 if (obj.message) {
-                    alert(obj.message)
+                    error_display(obj.message)
                 }
 
                 history.length > 1 ? history.back() : window.close()
@@ -39,7 +39,7 @@
         });
         % endif
         function close_error_window() {
-            if (jQuery.fancybox) {
+            if (jQuery('div#fancybox-wrap').is(':visible')) {
                 jQuery.fancybox.close();
                 return;
             }
@@ -165,7 +165,7 @@ ${MAINTENANCE_CONTRACTS_LINK|n}
                 </form>
             </td>
         % else:
-            <td valign="top">
+            <td valign="top" style="padding: 0px;">
                 % if concurrency:
                     <form action="${target}" method="post" name="error_page" enctype="multipart/form-data">
                             % for key, value in all_params.items():
@@ -174,14 +174,16 @@ ${MAINTENANCE_CONTRACTS_LINK|n}
                             % endif
                         % endfor
 
-                        <table border="0" cellpadding="0" cellspacing="0" align="center">
+                        <table class="errorbox" align="center">
                             <tr>
                                 <td height="15px"></td>
                             </tr>
                             <tr>
-                                <td class="errorbox" style="padding: 30px;">
-                                    <pre>
-<b>${_("Write concurrency warning :")}</b><br/>
+                                <td class="error_message_header">${_("Write concurrency warning :")}</td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 30px;">
+                                <pre>
 ${_("""This document has been modified while you were editing it.
 Choose:
 
@@ -202,26 +204,18 @@ Choose:
                             </tr>
                         </table>
                     % else:
-                        <table border="0" cellpadding="0" cellspacing="0" align="center">
+                        <table class="errorbox" align="center">
                             <tr>
-                                <td height="15px"></td>
+                                <td colspan="2" class="error_message_header">${title}</td>
                             </tr>
                             <tr>
-                                <td class="errorbox welcome">${title}</td>
-                            </tr>
-                            <tr>
-                                <td height="5px"></td>
-                            </tr>
-                            <tr>
-                                <td class="errorbox" style="padding: 30px;">
-                                    <pre>${error}</pre>
+                                <td style="padding: 4px 2px;">
+                                	<img src="/openerp/static/images/warning.png"></img>
                                 </td>
+                                <td class="error_message_content">${error}</td>
                             </tr>
                             <tr>
-                                <td height="5px"></td>
-                            </tr>
-                            <tr>
-                                <td class="errorbox" align="right">
+                                <td colspan="2" align="right" style="padding: 1px">
                                     <a class="button-a" href="javascript: void(0)"
                                        onclick="close_error_window()">OK</a>
                                 </td>

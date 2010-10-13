@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2009-11-18 17:42+0530\n"
-"PO-Revision-Date: 2010-08-02 17:53+0530\n"
+"PO-Revision-Date: 2010-10-06 16:09+0530\n"
 "Last-Translator: Amit Mendapara <mendapara.amit@gmail.com>\n"
 "Language-Team: fr_FR <LL@li.org>\n"
 "Plural-Forms: nplurals=2; plural=(n > 1)\n"
@@ -17,31 +17,31 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel None\n"
 
-#: static/javascript/ajax_stat.js:63 static/javascript/treegrid.js:124
-msgid "Loading..."
-msgstr "Chargement..."
-
-#: static/javascript/form.js:98
+#: static/javascript/form.js:99
 #, python-format
 msgid "You selected to open %(tabs)s tabs - do you want to continue?"
 msgstr ""
 
-#: static/javascript/form.js:232
-msgid "Invalid form, correct red fields !"
+#: static/javascript/form.js:241
+msgid "Invalid form, correct red fields."
 msgstr ""
 
-#: static/javascript/form.js:245
+#: static/javascript/form.js:295
 msgid "Do you really want to delete this record?"
 msgstr "Voulez-vous vraiment supprimer cet enregistrement?"
 
-#: static/javascript/form.js:896 static/javascript/form.js:1024
-#: static/javascript/listgrid.js:641 static/javascript/treeview.js:58
+#: static/javascript/form.js:966 static/javascript/form.js:1100
+#: static/javascript/listgrid.js:639 static/javascript/treeview.js:58
 msgid "You must select at least one record."
 msgstr "Vous devez sélectionner au moins un enregistrement."
 
-#: static/javascript/listgrid.js:643
+#: static/javascript/listgrid.js:641
 msgid "Do you really want to delete selected record(s) ?"
 msgstr "Voulez-vous vraiment supprimer le(s) enregistrement(s) sélectionné(s)?"
+
+#: static/javascript/o2m.js:62
+msgid "Do you really want to delete record ?"
+msgstr ""
 
 #: static/javascript/viewed.js:71
 msgid "Do you really want to remove this node?"
@@ -50,46 +50,4 @@ msgstr "Voulez-vous vraiment supprimer ce nœud?"
 #: static/javascript/viewed.js:337
 msgid "Do you really wants to create an inherited view here?"
 msgstr "Voulez-vous vraiment créer une vue héritée ici ?"
-
-#~ msgid "Please wait..."
-#~ msgstr "Veuillez patienter..."
-
-#~ msgid "This operation may take a while..."
-#~ msgstr "Cette opération peut prendre un certain temps..."
-
-#~ msgid "Cancel"
-#~ msgstr "Annuler"
-
-#~ msgid "Edit"
-#~ msgstr "Modifier"
-
-#~ msgid "Duplicate"
-#~ msgstr "Dupliquer"
-
-#~ msgid "Delete"
-#~ msgstr "Supprimer"
-
-#~ msgid "Notes:"
-#~ msgstr "Remarques :"
-
-#~ msgid "Subflows:"
-#~ msgstr "Sous-processus"
-
-#~ msgid "Related:"
-#~ msgstr "Associé :"
-
-#~ msgid "Help"
-#~ msgstr "Aide"
-
-#~ msgid "Open"
-#~ msgstr "Ouvrir"
-
-#~ msgid "Print"
-#~ msgstr "Imprimer"
-
-#~ msgid "Print workflow"
-#~ msgstr "Imprimer le workflow"
-
-#~ msgid "Documents"
-#~ msgstr "Documents"
 

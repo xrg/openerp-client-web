@@ -1,7 +1,7 @@
 % if editable:
 <table class="item-wrapper reference">
 <tr>
-    <td>
+    <td style="padding: 0px;">
         <input type="hidden" id='${name}' name='${name}' class="${css_class}"
                 ${py.attrs(attrs, kind=kind, domain=domain, context=ctx, relation=relation, value=value)}/>
         <select id="${name}_reference" name='${name}'>
@@ -42,11 +42,11 @@
 % if editable:
     <script type="text/javascript">
         new ManyToOne('${name}');
-    </script>    
+    </script>
 % else:
     <span>
         <span id="${name}" ${py.attrs(kind=kind, value=value, relation=relation)}>
-            <a href="${py.url('/openerp/form/view', model=relation, id=value)}">${text}</a>
+            <a style="color:#9A0404;" href="${py.url('/openerp/form/view', model=relation, id=value)}">${text}</a>
         </span>
     </span>
 % endif

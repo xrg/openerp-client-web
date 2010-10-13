@@ -20,14 +20,12 @@ def get_translations(locale, domain=None):
     domain = domain or "messages"
 
     cats = _translations.setdefault(domain, {})
-    cat = cats.get(locale)
-
-    if not cat:
-        path = os.path.join(os.path.dirname(__file__), "locales")
-        load_translations(path, [locale])
-        cat = cats.get(locale)
-
-    return cat
+    try:
+        return cats[locale]
+    except KeyError:
+        path = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+        load_translations(os.path.join(path, "locales"), [locale])
+        return cats[locale]
 
 
 def load_translations(path, locales=None, domain=None):
@@ -43,17 +41,13 @@ def load_translations(path, locales=None, domain=None):
 
     for lang in locales:
 
-        tr = Translations.load(path, [lang], domain)
-
         if domain == "messages":
-            tr1 = catalog.setdefault(lang, None)
-            if not tr1:
-                catalog[lang] = tr
-            else:
-                try:
-                    tr1.merge(tr)
-                except:
-                    pass
+            tr = Translations.load(path, [lang], domain)
+            if isinstance(tr, Translations):
+                if lang in catalog:
+                    catalog[lang].merge(tr)
+                else:
+                    catalog[lang] = tr
 
         if domain == "javascript":
             fname = os.path.join(jspath, "%s.js" % lang)
@@ -140,4 +134,3 @@ def gettext2(key, locale=None, domain=None, **kw):
 
 def install():
     __builtins__['_'] = gettext2
-

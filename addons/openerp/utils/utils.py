@@ -30,6 +30,8 @@ import itertools
 import re
 
 from openerp import validators
+import formencode
+import openobject
 
 
 def _make_dict(data, is_params=False):
@@ -63,8 +65,10 @@ def _make_dict(data, is_params=False):
                 id = int(id)
 
                 values = _make_dict(v, is_params)
-                if values:
+                if values and any(values.itervalues()):
                     res[k] = [(id and 1, id, values)]
+                else:
+                    res[k] = []
 
             else:
                 res[k] = _make_dict(v, is_params and isinstance(v, TinyDict))
@@ -214,9 +218,9 @@ _VALIDATORS = {
     'picture': lambda *a: validators.Binary(),
 }
 
-class TinyFormError(validators.Invalid):
+class TinyFormError(formencode.api.Invalid):
     def __init__(self, field, msg, value):
-        validators.Invalid.__init__(self, msg, value, state=None, error_list=None, error_dict=None)
+        formencode.api.Invalid.__init__(self, msg, value, state=None, error_list=None, error_dict=None)
         self.field = field
 
 class TinyForm(object):
@@ -280,7 +284,7 @@ class TinyForm(object):
             elif kind not in _VALIDATORS:
                 kind = 'char'
 
-            v = _VALIDATORS.get(kind, validators.DefaultValidator)()
+            v = _VALIDATORS.get(kind, openobject.validators.DefaultValidator)()
             if kind == "float" and attrs.get("digit"):
                 v = validators.Float(digit=attrs.get("digit"))
             v.not_empty = (required or False) and True
@@ -291,7 +295,7 @@ class TinyForm(object):
                 else:
                     value = v.from_python(value, None)
 
-            except validators.Invalid, e:
+            except formencode.api.Invalid, e:
                 if form and not safe:
                     raise TinyFormError(name.replace('_terp_form/', ''), e.msg, e.value)
 

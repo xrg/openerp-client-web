@@ -68,7 +68,7 @@ class Concurrency(Exception):
     def __str__(self):
         return self.title
 
-def error(title, msg, details=None):
+def error(title, msg):
     raise TinyError(message=msg, title=title or _("Error"))
 
 def warning(msg, title=None):
@@ -80,7 +80,7 @@ def message(msg):
 def to_xml(s):
     return s.replace('&','&amp;').replace('<','&lt;').replace('>','&gt;')
 
-def concurrency(message, title=None, datas=None):
-    return Concurrency(message, title, datas)
+def concurrency(msg, title=None, datas=None):
+    raise Concurrency(message=msg, title=title, datas=datas)
 
 # vim: ts=4 sts=4 sw=4 si et

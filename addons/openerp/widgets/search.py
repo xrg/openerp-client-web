@@ -37,9 +37,7 @@ import xml.dom.minidom
 import cherrypy
 import copy
 from openerp.utils import rpc, cache, icons, node_attributes, expr_eval
-from openerp.widgets import TinyInputWidget
-from openerp.widgets.form import Char, Frame, Float, DateTime, Integer, Selection, Notebook
-from openerp.widgets.form import Separator, FiltersGroup, Group, NewLine, M2O
+from openerp.widgets import TinyInputWidget, InputWidgetLabel, form
 
 from openobject.widgets import JSLink, locations
 
@@ -82,11 +80,15 @@ def get_search_default(attrs={}, screen_context=None, default_domain=[]):
                 default_search = str_ctx in screen_context.get('group_by', [])
     return default_search or default_val
 
+class RangeWidgetLabel(InputWidgetLabel):
+    template = '/openerp/widgets/templates/search/rangewid_label.mako'
 class RangeWidget(TinyInputWidget):
-    template = "templates/rangewid.mako"
+    template = "/openerp/widgets/templates/search/rangewid.mako"
 
     params = ["field_value"]
     member_widgets = ["from_field", "to_field"]
+
+    label_type = RangeWidgetLabel
 
     def __init__(self, **attrs):
         super(RangeWidget, self).__init__(**attrs)
@@ -119,7 +121,7 @@ class RangeWidget(TinyInputWidget):
         self.to_field.set_value(end)
 
 class Filter(TinyInputWidget):
-    template = "templates/filter.mako"
+    template = "/openerp/widgets/templates/search/filter.mako"
 
     params = ['icon', 'filter_domain', 'help', 'filter_id', 'text_val', 'group_context', 'def_checked', 'filter_context']
 
@@ -171,58 +173,29 @@ class Filter(TinyInputWidget):
         self.first_box = attrs.get('first_box')
         self.last_box = attrs.get('last_box')
         self.first_last_box = attrs.get('first_last_box')
+        
+        if not self.def_checked and attrs.get('group_by_ctx'):
+            if self.group_context in attrs['group_by_ctx']:
+                self.def_checked = True
 
-class M2O_search(M2O):
-    template = """
-        <table width="100%" cellpadding="0" cellspacing="0">
-            <tr>
-                <td>
-                    <input type="hidden" id="${name}" name="${name}" class="${css_class}" value="${value}"
-                        ${py.attrs(attrs, kind=kind, domain=domain, context=ctx, relation=relation, m2o_filter_domain=filter_domain)}/>
-                    <input type="text" id="${name}_text" class="${css_class}"
-                        ${py.attrs(attrs, kind=kind, relation=relation, value=text, m2o_filter_domain=filter_domain)}/>
-                    <input type="hidden" id="_hidden_${name}" value=""/>
-                    <div id="autoCompleteResults_${name}" class="autoTextResults"></div>
-                    % if error:
-                        <span class="fielderror">${error}</span>
-                    % endif
-                </td>
-                <td>
-                    <img id="${name}_select" alt="${_('Search')}" title="${_('Search')}"
-                        src="/openerp/static/images/fields-a-lookup-a.gif" class="${css_class} m2o_select"/>
-                </td>
-                <td class="item-image">
-                    <img id="${name}_open" alt="${_('Open')}" title="${_('Open a resource')}"
-                        src="/openerp/static/images/iconset-d-drop.gif" class="m2o_open"/>
-                </td>
-            </tr>
-        </table>
-        <script type="text/javascript">
-            new ManyToOne('${name}');
-        </script>
-    """
-    javascript = [JSLink("openerp", "javascript/m2o.js", location=locations.bodytop)]
-    params = ['filter_domain']
-
+class M2O_search(form.M2O):
+    template = "/openerp/widgets/templates/search/many2one.mako"
     def __init__(self, **attrs):
         if attrs.get('default', False) == 'uid':
             attrs['default'] = rpc.session.uid
 
-        filter_domain = None
-        if attrs.get('filter_domain'):
-            filter_domain = attrs['filter_domain']
+        attrs['m2o_filter_domain'] = attrs.get('filter_domain')
+
         super(M2O_search, self).__init__(**attrs)
 
 class Search(TinyInputWidget):
-    template = "templates/search.mako"
+    template = "/openerp/widgets/templates/search/search.mako"
     javascript = [JSLink("openerp", "javascript/search.js", location=locations.bodytop)]
 
-    params = ['fields_type', 'filters_list', 'operators_map', 'fields_list', 'filter_domain']
+    params = ['fields_type', 'filters_list', 'operators_map', 'fields_list', 'filter_domain', 'flt_domain', 'source']
     member_widgets = ['frame']
 
-    _notebook = Notebook(name="search_notebook")
-
-    def __init__(self, model, domain=None, context=None, values={}, filter_domain=None, search_view=None, group_by_ctx=[], **kw):
+    def __init__(self, source, model, domain=None, context=None, values={}, filter_domain=None, search_view=None, group_by_ctx=[], **kw):
 
         super(Search, self).__init__(model=model)
 
@@ -234,7 +207,7 @@ class Search(TinyInputWidget):
         self.search_view = search_view or "{}"
         self.model = model
         self.groupby = []
-
+        self.source = source
         if group_by_ctx and isinstance(group_by_ctx, basestring):
             self.groupby += group_by_ctx.split(',')
         else:
@@ -246,8 +219,6 @@ class Search(TinyInputWidget):
         ctx = dict(rpc.session.context, **self.context)
 
         view_id = ctx.get('search_view') or False
-        if getattr(cherrypy.request,'terp_params') and not view_id and not kw.get('clear'):
-            view_id = cherrypy.request.terp_params.get('_terp_view_id', False)
 
         if isinstance (self.search_view, basestring):
             self.search_view = eval(self.search_view)
@@ -258,13 +229,6 @@ class Search(TinyInputWidget):
         self.fields_list = []
         fields = self.search_view['fields']
 
-        for k,v in fields.items():
-            if v['type'] in ('many2one', 'char', 'float', 'integer', 'date',
-                             'datetime', 'selection', 'many2many', 'boolean',
-                             'one2many') and v.get('selectable',  False):
-                self.fields_list.append((k, v['string'], v['type']))
-        if self.fields_list:
-            self.fields_list.sort(lambda x, y: cmp(x[1], y[1]))
         try:
             dom = xml.dom.minidom.parseString(self.search_view['arch'])
         except:
@@ -274,57 +238,54 @@ class Search(TinyInputWidget):
         self.string = dom.documentElement.getAttribute('string')
 
         self.fields_type = {}
-
         self.fields = fields
-        dict_select = {'True':'1','False':'0','1':'1','0':'0'}
-        all_field_ids =  rpc.session.execute('object', 'execute', 'ir.model.fields', 'search', [('model','=',str(model))])
-        if len(fields) != len(all_field_ids):
-            new_fields = []
-            all_fields =  rpc.session.execute('object', 'execute', 'ir.model.fields', 'read', all_field_ids)
-            for item in all_fields:
-                new_fields.append(item)
-            field_dict = {}
-            for new_field in new_fields:
-                if isinstance(new_field['select_level'],(str,unicode)):
-                    new_field['select_level'] = eval(new_field['select_level'],dict_select)
-                if isinstance(new_field['selectable'],(str,unicode)):
-                    new_field['selectable'] = eval(new_field['selectable'],dict_select)
-
-                field_dict[new_field['name']]= {'string': new_field['field_description'],
-                                                'type' : new_field['ttype'],
-                                                'select': new_field['select_level'],
-                                                'name' : new_field['name'],
-                                                'readonly': new_field['readonly'],
-                                                'relation': new_field['relation'],
-                                                'required': new_field['required'],
-                                                'translate': new_field['translate'],
-                                                'selectable': new_field['selectable']}
+        all_fields = rpc.session.execute('object', 'execute', model, 'fields_get')
+        if len(fields) != len(all_fields):
+            common_fields = [f for f in all_fields if f in fields]
+            for f in common_fields:
+                del all_fields[f]
+            field_dict = all_fields
             self.fields.update(field_dict)
 
+        for k,v in self.fields.items():
+            if v['type'] in ('many2one', 'char', 'float', 'integer', 'date',
+                             'datetime', 'selection', 'many2many', 'boolean',
+                             'one2many') and v.get('selectable',  False):
+                self.fields_list.append((k, ustr(v['string']), v['type']))
+
+        if self.fields_list:
+            self.fields_list.sort(lambda x, y: cmp(x[1], y[1]))
+        
         self.frame = self.parse(model, dom, self.fields, values)
         if self.frame:
             self.frame = self.frame[0]
 
         my_acts = rpc.session.execute('object', 'execute', 'ir.filters', 'get_filters', model)
 
-        sorted_filters = [(act.get('domain', act['id']), act['name'])
-                          for act in my_acts]
+        sorted_filters = []
+        for act in my_acts:
+            action = [act['domain'], act['name']]
+            act_ctx = eval(act['context'])
+            if act_ctx and act_ctx.get('group_by'):
+                action.append(ustr(act_ctx['group_by']))
+            else:
+                action.append("[]")
+            action.append(act['id'])
+
+            sorted_filters.append(action)
         sorted_filters.sort(lambda x, y: cmp(x[1], y[1]))
 
-        self.filters_list = [("blk", "-- Filters --")] \
-                          + sorted_filters \
-                          + [("blk", '--Actions--')]
+        self.filters_list = [("blk", "-- Filters --", "", "")] \
+                          + sorted_filters
 
         self.operators_map = [
             ('ilike', _('contains')), ('not ilike', _('doesn\'t contain')),
             ('=', _('is equal to')), ('<>', _('is not equal to')),
             ('>', _('greater than')), ('<', _('less than')),
             ('in', _('in')), ('not in', _('not in'))]
-
-        if self.filter_domain == [] and self.fields_list and self.operators_map:
-            self.filter_domain.append((self.fields_list[0][0], self.operators_map[0][0], ''))
-        else:
-            self.custom_filter_domain = self.filter_domain
+        
+        self.flt_domain = str(self.filter_domain).replace("(", "[").replace(')', ']')
+        self.custom_filter_domain = self.filter_domain
 
     def parse(self, model=None, root=None, fields=None, values={}):
 
@@ -369,6 +330,8 @@ class Search(TinyInputWidget):
                     screen_context=self.context)
                 if values and values.get('group_by_ctx'):
                     attrs['group_by_ctx'] = values['group_by_ctx']
+                elif self.groupby:
+                    attrs['group_by_ctx'] = self.groupby
 
                 v = Filter(**attrs)
                 if v.groupcontext and v.groupcontext not in self.groupby:
@@ -444,29 +407,43 @@ class Search(TinyInputWidget):
                             self.listof_domain += [i for i in domain if not i in self.listof_domain]
                             self.context.update(expr_eval(attrs.get('context',"{}"), {'self': s}))
 
-                    if (not default_search) and name in values and isinstance(field, (TinyInputWidget, RangeWidget)):
+                    if (not default_search) and name in values and isinstance(field, TinyInputWidget):
                         field.set_value(values[name])
 
                     views.append(field)
                     for n in node.childNodes:
                         if n.localName=='filter':
-                            attrs_child = node_attributes(n)
-                            attrs_child['default_domain'] = self.domain
-                            attrs_child['screen_context'] = self.context
-                            if attrs_child.get('string'):
-                                attrs_child['string'] = ''
+                            attrs_child = dict(
+                                node_attributes(n),
+                                default_domain=self.domain,
+                                screen_context=self.context)
+                            if 'string' in attrs_child: del attrs_child['string']
                             if values and values.get('group_by_ctx'):
                                 attrs['group_by_ctx'] = values['group_by_ctx']
+
                             filter_field = Filter(**attrs_child)
                             filter_field.onchange = None
                             filter_field.callback = None
+
                             if filter_field.groupcontext and filter_field.groupcontext not in self.groupby:
                                 self.groupby.append(filter_field.groupcontext)
-                            self.listof_domain += [i for i in filter_field.global_domain if not i in self.listof_domain]
-                            views.append(filter_field)
+                            self.listof_domain.extend(i for i in filter_field.global_domain
+                                                        if i not in self.listof_domain)
+                            field.filters.append(filter_field)
         if filters_run:
             views.append(FiltersGroup(children=filters_run))
         return views
+
+class Char(form.Char): pass
+class DateTime(form.DateTime): pass
+class FiltersGroup(form.FiltersGroup): pass
+class Float(form.Float): pass
+class Frame(form.Frame): pass
+class Group(form.Group): pass
+class Integer(form.Integer): pass
+class NewLine(form.NewLine): pass
+class Selection(form.Selection): pass
+class Separator(form.Separator): pass
 
 RANGE_WIDGETS = {
     'date': DateTime,
@@ -494,5 +471,3 @@ WIDGETS = {
     'url' : Char,
     'separator': Separator
 }
-
-# vim: ts=4 sts=4 sw=4 si et

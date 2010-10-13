@@ -244,20 +244,20 @@ GanttCalendar.prototype = {
 
         var self = this;
         var req = saveCalendarRecord(id, toISOTimestamp(dt.starts), toISOTimestamp(dt.ends));
-        
+
         req.addCallback(function(obj) {
-            
+
             if (obj.error) {
                 self.grid.adjust();
-                return alert(obj.error);
+                return error_display(obj.error);
             }
 
             self.events[id].starts = toISOTimestamp(dt.starts);
             self.events[id].ends = toISOTimestamp(dt.ends);
-            
+
             setNodeAttribute(element, 'dtstart', toISOTimestamp(dt.starts));
             setNodeAttribute(element, 'dtend', toISOTimestamp(dt.ends));
-            
+
             //self.grid.adjust();
             getCalendar();
         });
@@ -301,17 +301,17 @@ GanttCalendar.prototype = {
 
         var self = this;
         var req = saveCalendarRecord(id, toISOTimestamp(ds), toISOTimestamp(se));
-        
+
         req.addCallback(function(obj) {
-            
+
             if (obj.error) {
                 self.grid.adjust();
-                return alert(obj.error);
+                return error_display(obj.error);
             }
 
             self.events[id].ends = toISOTimestamp(se);
             setNodeAttribute(element, 'dtend', toISOTimestamp(se));
-            
+
             //self.grid.adjust();
             getCalendar();
         });
@@ -529,7 +529,7 @@ GanttCalendar.List.prototype = {
         var req = openobject.http.postJSON('/view_calendar/calendar/gantt_reorder', params);
         req.addCallback(function(obj) {
             if (obj.error) {
-                return alert(obj.error);
+                return error_display(obj.error);
             }
         });
 
@@ -602,10 +602,10 @@ GanttCalendar.Grid.prototype = {
         this.groups = [];
 
         for (var id in this.calendar.groups) {
-            this.groups = this.groups.concat(new GanttCalendar.GridGroup(parseInt(id), this.calendar));
+            this.groups = this.groups.concat(new GanttCalendar.GridGroup(id, this.calendar));
         }
     },
-   
+
     adjust: function() {
 
         var left = null;

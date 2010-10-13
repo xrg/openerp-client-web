@@ -49,8 +49,8 @@ __all__ = ["Binary", "Image", "Picture", "get_temp_file", "generate_url_for_pict
 
 class Binary(TinyInputWidget):
 
-    template = "templates/binary.mako"
-    params = ["name", "text", "readonly", "filename"]
+    template = "/openerp/widgets/form/templates/binary.mako"
+    params = ["name", "text", "readonly", "filename", "bin_data"]
 
     text = None
     file_upload = True
@@ -59,6 +59,8 @@ class Binary(TinyInputWidget):
         super(Binary, self).__init__(**attrs)
         self.validator = validators.Binary()
         self.onchange = "set_binary_filename(this, '%s');" % (self.filename or '')
+        self.bin_data = attrs.get('value')
+        
 
     def set_value(self, value):
         #XXX: server bug work-arround
@@ -72,9 +74,9 @@ register_widget(Binary, ["binary"])
 
 class Image(TinyInputWidget):
 
-    template = "templates/image.mako"
+    template = "/openerp/widgets/form/templates/image.mako"
 
-    params = ["src", "width", "height", "model", "id", "field", "stock", 'img_size']
+    params = ["src", "width", "height", "model", "id", "field", "stock", 'bin_src']
     src = ""
     width = 32
     height = 32
@@ -88,36 +90,22 @@ class Image(TinyInputWidget):
         super(Image, self).__init__(**attrs)
         self.filename = attrs.get('filename', '')
         self.state = attrs.get('state')
-        
-        if getattr(self,'size', ''):
-            self.img_size = True
-        else:
-            self.img_size = False
-            
-        if 'widget' in attrs:
-            self.stock = False
-            self.field = self.name.split('/')[-1]
+        self.field = self.name.split('/')[-1]
+        if attrs.get('widget'):
             if self.id:
                 self.src = tools.url('/openerp/image/get_image', model=self.model, id=self.id, field=self.field)
+            elif attrs.get('value'):
+                self.bin_src =attrs['value']
             else:
-                if self.model == 'base.setup.company' and self.field == 'logo':
-                    self.model = 'res.company'
-                    proxy = rpc.RPCProxy('res.company')
-                    user_proxy = rpc.RPCProxy('res.users')
-                    act_id = user_proxy.read([rpc.session.uid], ['company_id'], rpc.session.context)
-                    self.id = id = act_id[0]['company_id'][0]
-                    self.src = tools.url('/openerp/image/get_image', model='res.company', id=act_id[0]['company_id'][0], field=self.field)
-                    self.img_size = True
-                else: 
-                    self.src =attrs.get('value')
-            self.height = attrs.get('img_height', attrs.get('height', 160))
+                self.src =  self.bin_src = ''
+            self.height = attrs.get('img_height', attrs.get('height', 65))
             self.width = attrs.get('img_width', attrs.get('width', 200))
             self.validator = validators.Binary()
         else:
             self.src =  icons.get_icon(icon)
         if self.readonly:
             self.editable = False
-        
+            
 register_widget(Image, ["image"])
 
 

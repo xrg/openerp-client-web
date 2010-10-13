@@ -27,7 +27,7 @@
 #
 ###############################################################################
 
-# Release information about openobject-web
+# Release information about openerp-web
 
 version = "6.0dev"
 

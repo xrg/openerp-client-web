@@ -185,31 +185,31 @@ InfoBox.prototype = {
 
         var req = openobject.http.postJSON('/view_calendar/calendar/delete', params);
         var self = this;
-        
+
         req.addCallback(function(obj){
-            
+
            if (obj.error) {
-               return alert(obj.error);
+               return error_display(obj.error);
            }
-           
+
            var id = parseInt(openobject.dom.get('_terp_id').value) || 0;
            var ids = [];
-           
+
            try {
                ids = eval('(' + openobject.dom.get('_terp_ids').value + ')') || [];
            }catch(e){}
-           
+
            var idx = MochiKit.Base.findIdentical(ids, self.params.nRecordID);
-           
+
            if (id == self.params.nRecordID) {
                openobject.dom.get('_terp_id').value = 'False';
            }
-           
+
            if (idx > -1) {
                ids = ids.splice(idx, 1);
                openobject.dom.get('_terp_ids').value = '[' + ids.join(', ') + ']';
            }
-           
+
            getCalendar();
         });
     }

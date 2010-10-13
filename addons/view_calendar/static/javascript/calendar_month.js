@@ -409,7 +409,7 @@ MonthCalendar.Week.prototype = {
         req.addCallback(function(obj) {
 
             if (obj.error) {
-                return alert(obj.error);
+                return error_display(obj.error);
             }
 
             record.starts = s;

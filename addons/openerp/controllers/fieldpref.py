@@ -35,13 +35,13 @@ class FieldPref(SecuredController):
 
     _cp_path = "/openerp/fieldpref"
 
-    @expose(template="templates/fieldpref.mako")
+    @expose(template="/openerp/controllers/templates/fieldpref.mako")
     def index(self, **kw): #_terp_model, _terp_field, _terp_deps
 
         click_ok = None
         params, data = TinyDict.split(kw)
-
-        return dict(model=params.model, click_ok=click_ok, field=params.field, deps=params.deps)
+        deps = params.deps
+        return dict(model=params.model, click_ok=click_ok, field=params.field, deps=deps)
 
     @expose('json')
     def get(self, **kw):
@@ -69,7 +69,7 @@ class FieldPref(SecuredController):
 
         return dict(text=text, deps=str(deps))
 
-    @expose(template="templates/fieldpref.mako")
+    @expose(template="/openerp/controllers/templates/fieldpref.mako")
     def save(self, **kw):
         params, data = TinyDict.split(kw)
 

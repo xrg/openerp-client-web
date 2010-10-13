@@ -24,13 +24,14 @@ setup(
     download_url=download_url,
     copyright=copyright,
     license=license,
-    install_requires2=[
+    install_requires=[
         "CherryPy >= 3.1.2",
         "Mako >= 0.2.4",
         "Babel >= 0.9.4",
         "FormEncode >= 1.2.2",
         "simplejson >= 2.0.9",
-        "pyparsing >= 1.5.0"
+        "pyparsing >= 1.5",
+        "python-dateutil >= 1.4.1"
     ],
     zip_safe=False,
     packages=[

@@ -72,25 +72,25 @@
             </td>
         </tr>
         <tr>
-            <td>${form.display()}</td>
-        </tr>
-        <tr>
             <td>
                 <div class="toolbar">
                     <table border="0" cellpadding="0" cellspacing="0" width="100%">
                         <tr>
-                            <td width="100%">
+                            <td style="padding: 0 2px 0 10px;">
+                                <a class="button-a" href="javascript: void(0)" onclick="submit_form('save')">${_("Save")}</a>
                             </td>
-                            <td>
+                            <td style="padding: 0 2px 0 0px;">
                                 <a class="button-a" href="javascript: void(0)" onclick="window.close()">${_("Close")}</a>
                             </td>
-                            <td>
-                                <a class="button-a" href="javascript: void(0)" onclick="submit_form('save')">${_("Save")}</a>
+                            <td width="100%">
                             </td>
                         </tr>
                     </table>
                 </div>
             </td>
+        </tr>
+        <tr>
+            <td>${form.display()}</td>
         </tr>
     </table>
 </%def>

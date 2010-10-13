@@ -27,15 +27,17 @@
 #
 ###############################################################################
 
-import time
 import socket
 import xmlrpclib
+
+from openobject.tools import AuthenticationError
 
 import common
 
 from tiny_socket import TinySocket
 from tiny_socket import TinySocketError
 
+class NotLoggedIn(common.TinyError, AuthenticationError): pass
 
 class RPCException(Exception):
     """A common exeption class for RPC errors.
@@ -124,22 +126,22 @@ class RPCGateway(object):
         try:
             result = self.__rpc__(obj, method, args, auth=auth)
             return self.__convert(result)
-        except socket.error:
-            raise common.message(_('Connection refused!'))
+        except socket.error, e:
+            raise common.TinyException(e.message or e.strerror, title=_('Application Error'))
 
         except RPCException, err:
             if err.type in ('warning', 'UserError'):
                 if err.message in ('ConcurrencyException') and len(args) > 4:
-                    raise common.concurrency(err.message, err.data, args)
+                    common.concurrency(err.message, err.data, args)
                 else:
-                    raise common.warning(err.data)
+                    common.warning(err.data)
             elif err.code == 'AccessDenied':
-                raise common.error(_('Access Denied'), err.code)
+                common.error(_('Access Denied'), err.code)
             else:
-                raise common.error(_('Application Error'), err.backtrace)
+                common.error(_('Application Error'), err.backtrace)
 
         except Exception, e:
-            raise common.error(_('Application Error'), str(e))
+            common.error(_('Application Error'), str(e))
 
     def execute(self, obj, method, *args):
         """Excecute the method of the obj with the given arguments.
@@ -350,7 +352,7 @@ class RPCSession(object):
 
     def execute(self, obj, method, *args):
         if not self.is_logged():
-            raise common.warning(_('Not logged...'), _('Authorization Error'))
+            raise NotLoggedIn(_('Not logged...'), _('Authorization Error'))
 
         return self.gateway.execute(obj, method, *args)
 

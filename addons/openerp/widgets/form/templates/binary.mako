@@ -1,4 +1,13 @@
 <div>
+    % if bin_data:
+        <input 
+            type="hidden" 
+            class="${css_class}" 
+            kind="${kind}"
+            id="${name}" 
+            name="${name}"
+            value="${bin_data}"/>
+    % endif
     <div id="${name}_binary_add" style="display: none;">
         % if editable and not readonly:
         <input ${py.attrs(attrs)}

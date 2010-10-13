@@ -1,9 +1,7 @@
 import os
 
 from openobject import i18n
-from openobject import tools
 
-from _base import Widget
 from _resource import JSLink
 
 
@@ -11,7 +9,7 @@ class JSI18n(JSLink):
 
     template = """\
     % for m, tr in translations:
-        <script type="text/javascript" src="/${m}/static/javascript/${tr}"></script>
+        <script type="text/javascript" src="/${m}/static/${tr}"></script>
     % endfor
     """
 
@@ -21,13 +19,17 @@ class JSI18n(JSLink):
         super(JSLink, self).update_params(d)
 
         locale = i18n.get_locale()
-        trans = i18n.get_translations(locale, domain="javascript") or []
+        try:
+            trans = i18n.get_translations(locale, domain="javascript")
+        except KeyError:
+            trans = []
 
         translations = []
 
+        static_dir = "%sstatic%s" % (os.path.sep, os.path.sep)
         for tr in trans:
-            pr, tr = tr.split("/static/")
-            pr = pr.split("/")[-1]
+            pr, tr = tr.split(static_dir)
+            _, pr = os.path.split(pr)
             translations.append((pr, tr))
 
         d.translations = translations

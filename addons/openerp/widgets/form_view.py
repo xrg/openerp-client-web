@@ -39,16 +39,10 @@ from openobject.widgets import Form, JSLink, locations
 
 class ViewForm(Form):
 
-    template = "templates/viewform.mako"
+    template = "/openerp/widgets/templates/viewform.mako"
 
-    params = ['limit', 'offset', 'count', 'search_domain', 'search_data', 'filter_domain', 'notebook_tab']
+    params = ['limit', 'offset', 'count', 'search_domain', 'search_data', 'filter_domain', 'notebook_tab', 'context_menu']
     member_widgets = ['screen', 'search', 'sidebar', 'logs']
-
-    javascript = [JSLink("openerp", "javascript/m2o.js", location=locations.bodytop),
-                  JSLink("openerp", "javascript/m2m.js", location=locations.bodytop),
-                  JSLink("openerp", "javascript/o2m.js", location=locations.bodytop),
-                  JSLink("openerp", "javascript/openerp/openerp.ui.textarea.js", location=locations.bodytop),
-                  JSLink("openerp", "javascript/binary.js", location=locations.bodytop)]
 
     def __init__(self, params, **kw):
 
@@ -58,7 +52,7 @@ class ViewForm(Form):
         cherrypy.request.terp_params = params
         cherrypy.request.terp_fields = []
         self.notebook_tab = params.notebook_tab or 0
-        
+        self.context_menu = params.get('context_menu')
         editable = params.editable
         readonly = params.readonly
 
@@ -69,7 +63,7 @@ class ViewForm(Form):
             readonly = False
        
         self.is_dashboard = getattr(cherrypy.request, '_terp_dashboard', False)
-
+        
         self.search = None
         search_param = params.search_domain or []
         if search_param:
@@ -80,15 +74,15 @@ class ViewForm(Form):
                     else:
                         key, op, value = element
                         search_param.append((key, op, value))
-                        
+
         cherrypy.request.custom_search_domain = []
         cherrypy.request.custom_filter_domain = []
-        
+
         if params.view_type in ('tree', 'graph'):
-            self.search = Search(model=params.model, domain=search_param, context=params.context, values=params.search_data or {},
+            self.search = Search(source=params.source, model=params.model, domain=search_param, context=params.context, values=params.search_data or {},
                                  filter_domain=params.filter_domain or [], search_view=params.search_view, group_by_ctx=params.group_by_ctx or [],
                                  **{'clear': params.get('_terp_clear')})
-            
+
             cherrypy.request.custom_search_domain = self.search.listof_domain or []
             cherrypy.request.custom_filter_domain = self.search.custom_filter_domain or []
             params.search_domain = self.search.listof_domain
@@ -104,7 +98,9 @@ class ViewForm(Form):
         if self.screen.widget and hasattr(self.screen.widget, 'sidebar'):
             self.sidebar = self.screen.widget.sidebar
         else:
-            self.sidebar = Sidebar(self.screen.model, self.screen.submenu, self.screen.toolbar, self.screen.id,
+            view_mode = self.screen.view_mode
+            if  'form' in view_mode and view_mode.index('form') > 0:
+                self.sidebar = Sidebar(self.screen.model, self.screen.submenu, self.screen.toolbar, self.screen.id,
                                self.screen.view_type, context=self.screen.context)
 
         if params.view_type == 'tree':
@@ -136,7 +132,7 @@ class ViewForm(Form):
     def update_params(self, d):
         super(ViewForm, self).update_params(d)
         if self.search:            
-            d.attrs['onsubmit']='submit_search_form()';    
+            d.attrs['onsubmit']='submit_search_form()';
         
 
 

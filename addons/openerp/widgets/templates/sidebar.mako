@@ -1,17 +1,17 @@
 <%def name="sidebox_action_item(item, model, submenu)">
     % if submenu != 1:
-    	<li onclick="do_action(${item['id']}, '_terp_id', '${model}', this);">
-	    		<a href="javascript: void(0)" onclick="return false">${item['name']}</a>
-	    </li>
-	% else:
-		<li data="${item}">
-	   		% if item['name']:
-				<a href="#" onclick="submenu_action('${item['action_id']}', '${model}');">
-					${item['name']}
-				</a>
-			% endif
-		</li>
-	% endif
+    	<li data="${item}" onclick="do_action(${item['id']}, '_terp_id', '${model}', this, getNodeAttribute(this, 'data'));">
+    	   <a href="javascript: void(0)" onclick="return false">${item['name']}</a>
+        </li>
+    % else:
+        <li data="${item}">
+            % if item['name']:
+                <a href="#" onclick="submenu_action('${item['action_id']}', '${model}');">
+                    ${item['name']}
+                </a>
+            % endif
+        </li>
+    % endif
 </%def>
 
 <%def name="make_sidebox(title, model, items, submenu=0)">
@@ -27,19 +27,19 @@
 
 <div id="sidebar">
     % if reports:
-        ${make_sidebox(_("REPORTS"), model, reports)}
+        ${make_sidebox(_("Reports"), model, reports)}
     % endif
 
     % if actions:
-        ${make_sidebox(_("ACTIONS"), model, actions)}
+        ${make_sidebox(_("Actions"), model, actions)}
     % endif
 
     % if relates:
-        ${make_sidebox(_("LINKS"), model, relates)}
+        ${make_sidebox(_("Links"), model, relates)}
     % endif
 
     % if sub_menu:
-        ${make_sidebox(_("SUBMENU"), model, sub_menu, submenu=1)}
+        ${make_sidebox(_("Submenu"), model, sub_menu, submenu=1)}
     % endif
     % if view_type == 'form':
     <div class="sideheader-a">
@@ -63,8 +63,8 @@
 
     <form id="attachment-box" action="/openerp/attachment/save" method="post"
           enctype="multipart/form-data">
-        <label for="datas">${_("File")}:</label>
-        <input type="file" id="datas" class="binary"
+        <label for="sidebar_attachments_datas">${_("File")}:</label>
+        <input type="file" id="sidebar_attachments_datas" class="binary"
                name="datas" kind="binary" size="5"/>
     </form>
     % endif
@@ -94,13 +94,14 @@
         <h2>${_("Other Options")}</h2>
     </div>
     <ul class="clean-a">
+        % if view_type == 'tree':
         <li>
             <a href="javascript: void(0)" onclick="new ListView('_terp_list').importData()">${_("Import")}</a>
         </li>
         <li>
             <a href="javascript: void(0)" onclick="new ListView('_terp_list').exportData()">${_("Export")}</a>
         </li>
-        % if view_type == 'form':
+        % elif view_type == 'form':
         <li>
             <a href="${py.url('/openerp/translator', _terp_model=model, _terp_id=id, _terp_context=ctx)}"
                target="_blank">${_('Translate')}</a>
@@ -108,14 +109,15 @@
         % endif
         % if id:
         <li>
-            <a href="${py.url('/openerp/viewlog', _terp_id=id, _terp_model=model)}" target="_blank"
-               onclick="openobject.tools.openWindow(this.href, {width: 550, height: 340}); return false;"
-                    >${_('View Log')}</a>
+            <a href="${py.url('/openerp/viewlog', id=id, model=model)}" id="sidebar_view_log">${_('View Log')}</a>
         </li>
         % endif
     </ul>
 </div>
-<script type="text/javascript">
-    jQuery(document).ready(setupAttachments);
-</script>
 
+<script type="text/javascript">
+    jQuery(document).ready(function() {
+    	setupAttachments();
+    	jQuery('#sidebar_view_log').fancybox();
+   	});
+</script>

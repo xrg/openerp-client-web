@@ -6,7 +6,7 @@
 %>
 <table class="${css_class}" height="100%">
    <tr>
-        <td>${string}</td>
+        <td style="padding: 2px 0px;">${string}</td>
         <td></td>
     </tr>
 </table>

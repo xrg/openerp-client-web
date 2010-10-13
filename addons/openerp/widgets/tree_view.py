@@ -44,7 +44,7 @@ import treegrid
 
 class ViewTree(Form):
 
-    template = "templates/viewtree.mako"
+    template = "/openerp/widgets/templates/viewtree.mako"
     params = ['model', 'id', 'ids', 'domain', 'context', 'view_id', 'toolbar']
     member_widgets = ['tree', 'sidebar']
 

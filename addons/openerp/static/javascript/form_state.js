@@ -33,40 +33,10 @@ function form_hookContextMenu(){
     }
 }
 
-function form_hookOnChange() {
-    var prefix = '';
-    try {
-        prefix = openobject.dom.get('_terp_o2m').value + '/';
-    }catch(e){}
-
-    var view_type = jQuery('#_terp_view_type').val();
-    var editable = jQuery('#_terp_editable').val();
-
-    if (!(view_type == 'form' || editable == 'True')) {
-        return;
-    }
-
-    var fields = getFormData();
-    if (parseInt(openobject.dom.get(prefix + '_terp_id').value, 10) || 0) return;
-
-    for(var name in fields) {
-        var field = openobject.dom.get(name);
-        if (field && field.value && getNodeAttribute(field, 'callback')) {
-            if (field.onchange) {
-                field.onchange();
-            } else {
-                MochiKit.Signal.signal(field, 'onchange');
-            }
-        }
-    }
-}
-
 function form_hookStateChange() {
     var fields = {};
 
-    jQuery('td.item, td.label, div.tabbertab').filter(function(){
-        return jQuery(this).attr('states');
-    }).each(function() {
+    jQuery('td.item[states], td.label[states], div.tabbertab[states]').each(function() {
         var $this = jQuery(this);
         var widget = $this.attr('widget');
         var prefix = widget.slice(0, widget.lastIndexOf('/')+1) || '';
@@ -81,15 +51,15 @@ function form_hookStateChange() {
         var state = openobject.dom.get(prefix + 'state') || openobject.dom.get(prefix + 'x_state');
         if (state) {
             fields[state.id] = state;
-            MochiKit.Signal.connect(state, 'onStateChange', MochiKit.Base.partial(form_onStateChange, this, widget, states));
-            MochiKit.Signal.connect(state, 'onchange', function (){
-                MochiKit.Signal.signal(field, 'onStateChange');
+            var $state = jQuery(state).bind('onStateChange', MochiKit.Base.partial(form_onStateChange, this, widget, states));
+            $state.change(function (){
+                jQuery(this).trigger('onStateChange');
             });
         }
     });
     
     for(var field in fields) {
-        MochiKit.Signal.signal(field, 'onStateChange');
+        jQuery(field).trigger('onStateChange');
     }
 }
 
@@ -123,24 +93,14 @@ function form_onStateChange(container, widget, states, evt) {
 }
 
 function form_hookAttrChange() {
-    
-    var items = [];
-    
-    items = items.concat(openobject.dom.select('td.item'));
-    items = items.concat(openobject.dom.select('td.label'));
-    items = items.concat(openobject.dom.select('div.notebook-page'));
-    
-    items = MochiKit.Base.filter(function(e){
-        return getNodeAttribute(e, 'attrs');
-    }, items);
-
+    var $items = jQuery('td[attrs], div.notebook-page[attrs]');
     var fields = {};
 
-    forEach(items, function(e){
-
-        var attrs = getNodeAttribute(e, 'attrs') || '{}';
-        var widget = getNodeAttribute(e, 'widget') || '';
-        var container = e;
+    $items.each(function(){
+        var $this = jQuery(this);
+        var attrs = $this.attr('attrs') || '{}';
+        var widget = $this.attr('widget') || '';
+        var container = this;
         var prefix = widget.slice(0, widget.lastIndexOf('/')+1) || '';
 
         // Convert Python statement into it's equivalent in JavaScript.
@@ -155,11 +115,11 @@ function form_hookAttrChange() {
         } catch(e){
             return;
         }
-        
+
         for (var attr in attrs) {
             var expr_fields = {}; // check if field appears more then once in the expr
-            
-            if (attrs[attr] == ''){                
+
+            if (attrs[attr] == ''){
                 return form_onAttrChange(container, widget, attr, attrs[attr]);
             }
             
@@ -174,21 +134,24 @@ function form_hookAttrChange() {
                 if (field && !expr_fields[field.id]) {
                     fields[field.id] = 1;
                     expr_fields[field.id] = 1;
-                    MochiKit.Signal.connect(field, 'onAttrChange', partial(form_onAttrChange, container, widget, attr, attrs[attr]));
-                    MochiKit.Signal.connect(field, 'onchange', function(evt){
-                        MochiKit.Signal.signal(field, 'onAttrChange');
+                    // events disconnected during hook_onStateChange,
+                    // don't redisconnect or may break onStateChange
+                    var $field = jQuery(field).bind('onAttrChange', partial(form_onAttrChange, container, widget, attr, attrs[attr]));
+                    $field.change(function () {
+                        jQuery(this).trigger('onAttrChange');
                     });
                 }
             });
         }
     });
-    
+
     for(var field in fields) {
-        MochiKit.Signal.signal(field, 'onAttrChange');
+        jQuery('[id="'+field+'"]').trigger('onAttrChange');
     }
 }
 
 function form_onAttrChange(container, widgetName, attr, expr) {
+
     var prefix = widgetName.slice(0, widgetName.lastIndexOf('/') + 1);
     var widget = openobject.dom.get(widgetName);
 
@@ -266,15 +229,15 @@ function form_evalExpr(prefix, expr) {
 }
 
 function form_setReadonly(container, fieldName, readonly) {
-    
-    var field = openobject.dom.get(fieldName);
+
+    var field = jQuery(fieldName);
 
     if (!field) {
         return;
     }
     
-    var kind = MochiKit.DOM.getNodeAttribute(field, 'kind');
-    
+    var kind = jQuery(field).attr('kind');
+
     if (kind == 'boolean') {
         var boolean_id = jQuery(fieldName).attr('id')
         var boolean_field = jQuery('input#'+boolean_id+'_checkbox_')
@@ -289,17 +252,27 @@ function form_setReadonly(container, fieldName, readonly) {
          Many2Many(field.id).setReadonly(readonly)
         return;
     }
-    
-    var type = MochiKit.DOM.getNodeAttribute(field, 'type');
-    field.readOnly = readonly;
-    field.disabled = readonly;
-    
-    if (readonly && (type != 'button')) {
-        MochiKit.DOM.addElementClass(field, 'readonlyfield');
-    } else {
-        MochiKit.DOM.removeElementClass(field, 'readonlyfield');
+
+    var type = jQuery(field).attr('type');
+
+    field.attr('disabled', readonly);
+    field.attr('readOnly', readonly);
+
+    if (readonly && (type == 'button')) {
+        field.css("cursor", "default");
     }
-    
+
+    if (readonly && (type != 'button')) {
+        field.removeAttr('href');
+        field.css("color", "gray");
+    }
+
+    if (readonly && (type != 'button')) {
+        jQuery(field).addClass('readonlyfield');
+    } else {
+        jQuery(field).removeClass('readonlyfield');
+    }
+
     if (field.type == 'hidden' && kind == 'many2one') {
         ManyToOne(field).setReadonly(readonly);
         return
@@ -375,5 +348,7 @@ jQuery(document).ready(function(){
     form_hookContextMenu();
     form_hookStateChange();
     form_hookAttrChange();
-    form_hookOnChange();
+}).ajaxStop(function () {
+    form_hookStateChange();
+    form_hookAttrChange();
 });

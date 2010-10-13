@@ -26,26 +26,26 @@
 # You can see the MPL licence at: http://www.mozilla.org/MPL/MPL-1.1.html
 #
 ###############################################################################
-
-from openerp.utils import rpc
-from openerp.utils import common
-
 from openerp import validators
-
-from openerp.widgets import TinyInputWidget
-from openerp.widgets import register_widget
+from openerp.utils import rpc, expr_eval
+from openerp.widgets import TinyInputWidget, InputWidgetLabel, register_widget
 
 
 __all__ = ["M2O"]
 
 
+class M2OLabel(InputWidgetLabel):
+    template = '/openerp/widgets/form/templates/many2one_label.mako'
+
 class M2O(TinyInputWidget):
-    template = "templates/many2one.mako"
+    template = "/openerp/widgets/form/templates/many2one.mako"
     params=['relation', 'text', 'domain', 'context', 'link', 'readonly', 'default_focus']
 
     domain = []
     context = {}
     link = 1
+
+    label_type = M2OLabel
 
     def __init__(self, **attrs):
 
@@ -74,7 +74,11 @@ class M2O(TinyInputWidget):
         super(M2O, self).update_params(d)
 
         if d['value'] and not d['text']:
-            d['text'] = rpc.name_get(self.relation, d['value'])
+            try:
+                value = expr_eval(d['value'], {'context':rpc.session.context})
+            except:
+                value = d['value']
+            d['text'] = rpc.name_get(self.relation, value)
 
 register_widget(M2O, ["many2one"])
 

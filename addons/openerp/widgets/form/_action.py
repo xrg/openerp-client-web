@@ -68,16 +68,20 @@ class Action(TinyInputWidget):
             if not self.action.get('domain', False):
                 self.action['domain']='[]'
 
-            ctx = rpc.session.context.copy()
-            ctx.update({'active_id': False, 'active_ids': []})
+            ctx = dict(rpc.session.context,
+                       active_id=False,
+                       active_ids=[])
 
             self.context = expr_eval(self.action.get('context', '{}'), ctx)
             self.domain = expr_eval(self.action['domain'], ctx)
-
             views = dict(map(lambda x: (x[1], x[0]), self.action['views']))
             view_mode = self.action.get('view_mode', 'tree,form').split(',')
             view_ids = map(lambda x: views.get(x, False), view_mode)
-
+            
+            if views.keys() != view_mode:
+                view_mode = map(lambda x: x[1], self.action['views'])
+                view_ids = map(lambda x: x[0], self.action['views'])
+            
             if self.action['view_type'] == 'form':
 
                 params = TinyDict()

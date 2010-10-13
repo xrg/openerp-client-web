@@ -35,7 +35,7 @@ from openerp.widgets import TinyWidget
 
 class Diagram(TinyWidget):
     
-    template = "templates/diagram.mako"
+    template = "/view_diagram/widgets/templates/diagram.mako"
     member_widgets = []
     
     params = ['dia_id', 'node', 'connector', 'src_node', 'des_node', 'node_flds', 'conn_flds', 'bgcolor', 'shapes']
@@ -60,7 +60,6 @@ class Diagram(TinyWidget):
                   JSLink("view_diagram", 'javascript/conn_anchor.js'),
                   JSLink("view_diagram", 'javascript/conn_decorator.js'),
                   JSLink("view_diagram", 'javascript/workflow.js'),
-                  JSLink("view_diagram", 'javascript/toolbar.js'),
                   JSLink("view_diagram", 'javascript/ports.js'),
                   JSLink("view_diagram", 'javascript/state.js'),
                   JSLink("view_diagram", 'javascript/infobox.js')]

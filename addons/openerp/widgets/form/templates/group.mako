@@ -6,17 +6,17 @@
 		</fieldset>
 	% else:
 		% if default:
-			<div id="group_${expand_grp_id}" class="group-collapse">
-				<h2><span>${string}</span></h2>
+			<div id="group_${expand_grp_id}" onclick="collapse_expand(this, '#${expand_grp_id}', '#groupdata_table');" class="group-collapse">
+				<h2>${string}</h2>
 			</div>
 		% else:
-			<div id="group_${expand_grp_id}" class="group-expand">
-				<h2><span>${string}</span></h2>
+			<div id="group_${expand_grp_id}" onclick="collapse_expand(this, '#${expand_grp_id}', '#groupdata_table');" class="group-expand">
+				<h2>${string}</h2>
 			</div>
 		% endif
-		
+
 		<table id="groupdata_table">
-			<tr>	
+			<tr>
 				<td>
 					% if default:
 						<div id="${expand_grp_id}" class="group-data">${display_member(frame)}</div>
@@ -26,14 +26,6 @@
 				</td>
 			</tr>
 		</table>
-		<script type="text/javascript">
-			jQuery('#group_${expand_grp_id}').click(function() {
-				jQuery(this).toggleClass('group-collapse group-expand', 100);
-				jQuery('#${expand_grp_id}').toggle("slow");
-				jQuery('#groupdata_table').css('display', 'block');
-				setTimeout(function() {adjustTopWidth();}, 100);
-			});
-		</script>
 	% endif
 % else:
 	${display_member(frame)}

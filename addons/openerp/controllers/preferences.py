@@ -38,7 +38,7 @@ class Preferences(Form):
 
     _cp_path = "/openerp/pref"
 
-    @expose(template="templates/preferences.mako")
+    @expose(template="/openerp/controllers/templates/preferences.mako")
     def create(self):
 
         tg_errors = None
@@ -68,14 +68,14 @@ class Preferences(Form):
 
         return dict(form=form, params=params, editable=True)
 
-    @expose()
+    @expose(methods=('POST',))
     def ok(self, **kw):
         params, data = TinyDict.split(kw)
         proxy = rpc.RPCProxy('res.users')
         proxy.write([rpc.session.uid], data)
         rpc.session.context_reload()
         raise redirect('/openerp/pref/create')
-    
+
     @expose()
     def clear_cache(self):
         cache.clear()

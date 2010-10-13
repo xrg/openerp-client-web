@@ -2,49 +2,8 @@
 
 <%def name="header()">
     <title>Import Data</title>
-    <link href="/openerp/static/css/listgrid.css" rel="stylesheet" type="text/css"/>
-    <script type="text/javascript" src="/openerp/static/javascript/listgrid.js"></script>
 
-    <style type="text/css">
-        .fields-selector {
-            width: 100%;
-            height: 300px;
-        }
-
-        .fields-selector-left {
-            width: 45%;
-        }
-
-        td.fields-selector-left div#import_fields_left {
-        	overflow: scroll;
-        	width: 100%;
-        	height: 100%;
-        	border: solid #999999 1px;
-            
-        }
-
-        .fields-selector-center {
-            width: 15%;
-        }
-        
-        .fields-selector-center a.button-a {
-            float: none;
-        }
-
-        .fields-selector-right {
-            width: 45%;
-        }
-
-        .fields-selector select {
-            width: 100%;
-            height: 100%;
-        }
-
-        .fields-selector button {
-            width: 100%;
-            margin: 5px 0;
-        }
-    </style>
+	<link rel="stylesheet" type="text/css" href="/openerp/static/css/impex.css"/>
 
     <script type="text/javascript">
         function add_fields(){
@@ -116,14 +75,14 @@
                 });
             } else {
                 f = d.getElementsByTagName('pre');
-                if (f[0]) alert(f[0].innerHTML);
+                if (f[0]) error_display(f[0].innerHTML);
             }
         }
 
         function do_autodetect(form){
 
             if (! openobject.dom.get('csvfile').value ){
-                return alert(_('You must select an import file first!'));
+                return error_display(_('You must select an import file first.'));
             }
 
             jQuery('#'+form).attr({
@@ -136,7 +95,7 @@
 </%def>
 
 <%def name="content()">
-<form name="import_data" action="/openerp/impex/import_data" method="post" enctype="multipart/form-data">
+<form name="import_data" id="import_data" action="/openerp/impex/import_data" method="post" enctype="multipart/form-data">
 
     <input type="hidden" id="_terp_source" name="_terp_source" value="${source}"/>
     <input type="hidden" id="_terp_model" name="_terp_model" value="${model}"/>
@@ -145,10 +104,10 @@
 
     <table class="view" cellspacing="5" border="0" width="100%">
         <tr>
-            <td style="padding: 10px 10px 0 10px;">
+            <td class="side_spacing">
                 <table width="100%" class="popup_header">
                     <tr>
-                    	<td class="imp-header">
+                    	<td class="imp-header" align="left">
                             <a class="button-a" href="javascript: void(0)" onclick="do_import('import_data');">${_("Import")}</a>
                             <a class="button-a" href="javascript: void(0)" onclick="window.close()">${_("Close")}</a>
                         </td>
@@ -159,8 +118,8 @@
             </td>
         </tr>
         <tr>
-            <td style="padding: 0 10px;">
-                <table class="fields-selector" cellspacing="5" border="0">
+            <td class="side_spacing">
+                <table class="fields-selector-import" cellspacing="5" border="0">
                     <tr>
                         <th class="fields-selector-left">${_("All fields")}</th>
                         <th class="fields-selector-center">&nbsp;</th>
@@ -168,7 +127,7 @@
                     </tr>
                     <tr>
                         <td class="fields-selector-left" height="300px">
-                            <div id="import_fields_left">${tree.display()}</div>
+                            <div id="fields_left">${tree.display()}</div>
                         </td>
                         <td class="fields-selector-center">
                         	<table border="0" cellpadding="0" cellspacing="0" width="100%">
@@ -206,7 +165,7 @@
             </td>
         </tr>
         <tr>
-            <td style="padding: 0 10px;">
+            <td class="side_spacing">
                 <fieldset>
                     <legend>${_("File to import")}</legend>
                     <input type="file" id="csvfile" size="50" name="csvfile" onchange="do_autodetect('import_data')"/>
@@ -214,7 +173,7 @@
             </td>
         </tr>
         <tr>
-            <td style="padding: 0 10px;">
+            <td class="side_spacing">
                 <fieldset>
                     <legend>${_("Options")}</legend>
                     <table>

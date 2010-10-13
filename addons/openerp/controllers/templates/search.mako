@@ -23,13 +23,15 @@
     % if params.selectable == 1:
     <script type="text/javascript">
         function do_select(res_id){
-            if (!res_id) {
+            var selected_id = res_id
+
+            if (!selected_id) {
                 var ids = new ListView('_terp_list').getSelectedRecords();
 
                 if (ids.length<1)
                     return;
 
-                res_id = ids[0];
+                selected_id = ids[0];
             }
             
             with (window.opener) {
@@ -37,7 +39,7 @@
                 var value_field = openobject.dom.get('${params.source}');
                 var text_field = openobject.dom.get('${params.source}_text');
                 
-                value_field.value = res_id;
+                value_field.value = selected_id;
             
                 if (text_field){
                     text_field.value = '';
@@ -79,43 +81,43 @@
                             var color_filters = groups.concat(new_groups);
                             getCalendar(null, null, color_filters);
                        }
-                       
+
                        else {
-                            alert(_("No record selected..."));
+                            error_display(_("No record selected..."));
                             return;
                        }
                     }
                     window.close()
-                }               
+                }
             </script>
         % else:
 		    <script type="text/javascript">
-		
+
 		        function do_select(id) {
-		
+
 		            var source = "${params.source}";
 		            var list_this = new ListView('_terp_list');
-		
+
 		            with(window.opener) {
-		
+
 		                var m2m = Many2Many('${params.source}');
 		                var ids = m2m.getValue();
-		
+
 		                if (id){
 		                    if (findValue(ids, id) == -1) ids.push(id);
 		                } else {
 		                    var boxes = list_this.getSelectedItems();
-		
+
 		                    if(boxes.length == 0) {
-		                        alert(_("No record selected..."));
+		                        error_display(_("No record selected..."));
 		                        return;
 		                    }
-		
+
 		                    forEach(boxes, function(b){
 		                        if (findValue(ids, b.value) == -1) ids.push(b.value);
 		                    });
 		                }
-		
+
 		                m2m.setValue(ids);
 		            }
 		            window.close();
@@ -144,7 +146,7 @@
         <input type="hidden" id="_terp_filter_domain" name="_terp_filter_domain" value="${params.filter_domain}"/>
         <input type="hidden" id="_terp_search_data" name="_terp_search_data" value="${params.search_data}"/>
 
-        <table width="100%" border="0" cellpadding="2" xmlns="http://www.w3.org/1999/xhtml" xmlns:py="http://purl.org/kid/ns#">
+        <table width="100%" border="0" cellpadding="2">
             <tr>
                 <td>
                     <table width="100%" class="titlebar" style="border: none;">
@@ -160,21 +162,21 @@
                 <td>${form.search.display()}</td>
             </tr>
             <tr>
-                <td class="toolbar" style="padding:0px">
+                <td class="toolbar" style="padding: 0 5px;">
                     <table cellpadding="0" cellspacing="0">
                         <tr>
                             <td width="100%">
-                            	<a class="button-a" href="javascript: void(0)" onclick="search_filter()">${_("Filter")}</a>
+                            	<a class="button-a" style="margin-right:10px;" href="javascript: void(0)" onclick="do_select()">${_("Select")}</a>
+                            	<a class="button-a" href="javascript: void(0)" onclick="search_filter()">${_("Search")}</a>
                            	    <a class="button-a" href="javascript: void(0)" onclick="do_create()">${_("New")}</a>
-                            	<a class="button-a" href="javascript: void(0)" onclick="do_select()">${_("Select")}</a>
-                            	<a class="button-a" href="javascript: void(0)" onclick="window.close()">${_("Close")}</a>
+                            	<a class="button-a" style="margin-left:10px;" href="javascript: void(0)" onclick="window.close()">${_("Close")}</a>
                             </td>
                         </tr>
                     </table>
                 </td>
             </tr>
             <tr>
-                <td>${form.screen.display()}</td>
+                <td style="padding: 5px">${form.screen.display()}</td>
             </tr>
         </table>
         <script type="text/javascript">

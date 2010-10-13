@@ -12,15 +12,12 @@ __all__ = ["TinyView", "FormView", "ListView",
 class ViewType(type):
 
     def __new__(cls, name, bases, attrs):
-
         obj = super(ViewType, cls).__new__(cls, name, bases, attrs)
 
-        name = attrs.get("_name")
         kind = attrs.get("_type")
-        desc = attrs.get("_desc")
 
         if kind:
-            pooler.register_object(obj, key=kind, group="view_types", auto_create=True)
+            pooler.register_object(obj, key=kind, group="view_types")
 
         return obj
 
@@ -93,7 +90,8 @@ class ListView(TinyView):
                                         selectable=screen.selectable,
                                         offset=screen.offset, limit=screen.limit,
                                         count=screen.count, nolinks=screen.link,
-                                        group_by_ctx=screen.group_by_ctx)
+                                        group_by_ctx=screen.group_by_ctx,
+                                        custom_columns = screen.custom_columns)
         else:
             widget = listgrid.List(screen.name or '_terp_list',
                                     model=screen.model,
@@ -106,7 +104,8 @@ class ListView(TinyView):
                                     selectable=screen.selectable,
                                     offset=screen.offset, limit=screen.limit,
                                     count=screen.count, nolinks=screen.link,
-                                    m2m=screen.m2m, o2m=screen.o2m)
+                                    m2m=screen.m2m, o2m=screen.o2m,
+                                    custom_columns = screen.custom_columns)
 
         screen.ids = widget.ids
         screen.limit = widget.limit
@@ -117,21 +116,20 @@ class ListView(TinyView):
 def get_view_widget(kind, screen):
 
     pool = pooler.get_pool()
-    views = pool.get_group("view_types")
+    Views = pool.get_group("view_types")
 
     try:
-        view = views[kind]
+        view = Views[kind]()
     except KeyError, e:
         raise Exception("view '%s' not supported." % kind)
 
     return view(screen)
 
 def get_registered_views():
-
     pool = pooler.get_pool()
-    views = pool.get_group("view_types")
+    Views = pool.get_group("view_types")
 
-    views = views.items()
+    views = [(kind, ViewType()) for kind, ViewType in Views.iteritems()]
     views.sort(lambda a, b: cmp(a[1].priority, b[1].priority))
 
     return views

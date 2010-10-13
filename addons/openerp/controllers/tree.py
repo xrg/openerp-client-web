@@ -59,7 +59,7 @@ FORMATTERS = {
 class Tree(SecuredController):
     _cp_path = "/openerp/tree"
 
-    @expose(template="templates/tree.mako")
+    @expose(template="/openerp/controllers/templates/tree.mako")
     def create(self, params):
         view_id = (params.view_ids or False) and params.view_ids[0]
         domain = params.domain
@@ -94,12 +94,11 @@ class Tree(SecuredController):
         can_shortcut = self.can_shortcut_create()
         shortcut_ids = []
 
-        if cherrypy.session.get('terp_shortcuts'):
-            for sc in cherrypy.session['terp_shortcuts']:
-                if isinstance(sc['res_id'], tuple):
-                    shortcut_ids.append(sc['res_id'][0])
-                else:
-                    shortcut_ids.append(sc['res_id'])
+        for sc in cherrypy.session.get('terp_shortcuts') or []:
+            if isinstance(sc['res_id'], tuple):
+                shortcut_ids.append(sc['res_id'][0])
+            else:
+                shortcut_ids.append(sc['res_id'])
         
         return {'tree': tree, 'model': model, 'can_shortcut': can_shortcut, 'shortcut_ids': shortcut_ids}
 
@@ -241,7 +240,7 @@ class Tree(SecuredController):
                     name, adds=adds, model=model, id=id, ids=ids, context=ctx,
                     report_type='pdf')
         else:
-            raise common.message(_("No record selected!"))
+            raise common.message(_("No record selected"))
 
     @expose()
     def report(self, **kw):
@@ -272,7 +271,7 @@ class Tree(SecuredController):
             import actions
             return actions.execute_window(False, res_id=ids, model=params.model, domain=params.domain)
         else:
-            raise common.message(_('No resource selected!'))
+            raise common.message(_('No resource selected'))
 
     @expose()
     def open(self, **kw):

@@ -1,13 +1,18 @@
-	<%inherit file="/openerp/controllers/templates/base_dispatch.mako"/>
+<%inherit file="/openerp/controllers/templates/base_dispatch.mako"/>
 
 <%def name="header()">
 	<script type="text/javascript">
         jQuery(document).ready(function() {
             document.title = '${title}' + ' - OpenERP';
-            adjustTopWidth();
         });
     </script>
-
+    % if form.screen.view_type == 'form':
+        <script type="text/javascript">
+            jQuery(document).ready(function() {
+                validateForm();
+            });
+        </script>
+    % endif
     <script type="text/javascript">
         var form_controller = '${path}';
         var USER_ID = '${rpc.session.uid}';
@@ -25,13 +30,30 @@
         </script>
     % endif
 	
-	% if form.screen.model == 'res.request':
+	% if form.screen.model == 'res.request' and form.screen.ids:
 		<script type="text/javascript">
 			jQuery(document).ready(function () {
-				jQuery('ul.tools li a.messages small').text('${len(form.screen.ids)}')
+				jQuery('ul.tools li a.req_messages small').text('${len(form.screen.ids)}')
 			});
 		</script>
 	% endif
+
+</%def>
+
+<%def name="make_view_button(kind, name, desc)">
+    <%
+        cls = ''
+        if form.screen.view_type == kind:
+            cls = 'active'
+    %>
+    <li class="${kind}" title="${desc}">
+        % if kind in form.screen.view_mode:
+            <a href="#" onclick="switchView('${kind}'); return false;"
+               class="${cls}">${kind}</a>
+        % else:
+            <a href="#" class="inactive">${kind}</a>
+        % endif
+    </li>
 </%def>
 
 <%def name="content()">
@@ -41,34 +63,16 @@
                 shortcut_class = "shortcut-remove"
             else:
                 shortcut_class = "shortcut-add"
-
     %>
-    <table id="main_form_body" class="view" cellpadding="0" cellspacing="0" border="0" width="100%" style="border: none;">
+    <table id="main_form_body" class="view" cellpadding="0" cellspacing="0" border="0" width="100%">
         <tr>
             <td id="body_form_td" width="100%" valign="top">
                 % if buttons.toolbar:
-
-                <%def name="make_view_button(i, kind, name, desc, active)">
-                    <%
-                        cls = ''
-                        if form.screen.view_type == kind:
-                            cls = 'active'
-                    %>
-                    <li class="v${i}" title="${desc}">
-                        % if kind in form.screen.view_mode:
-                            <a href="#" onclick="switchView('${kind}'); return false;"
-                               class="${cls}">${kind}</a>
-                        % else:
-                            <a class="inactive">${kind}</a>
-                        % endif
-                    </li>
-                </%def>
-
-                <ul id="view-selector">
-                % for i, view in enumerate(buttons.views):
-                    ${make_view_button(i+1, **view)}
-                % endfor
-                </ul>
+                    <ul id="view-selector">
+                    % for view in buttons.views:
+                        ${make_view_button(**view)}
+                    % endfor
+                    </ul>
                 % endif
 
                 <h1>
@@ -76,28 +80,35 @@
                         <a id="shortcut_add_remove" title="${_('Add / Remove Shortcut...')}" href="javascript: void(0)" class="${shortcut_class}"></a>
                     % endif
                     ${form.screen.string}
-                    <a class="help" href="javascript: void(0)"
-                       title="${_('Corporate Intelligence...')}"
-                       onclick="show_process_view('${form.screen.string}')">
+                    <a class="help" href="${py.url('/view_diagram/process', res_model=form.screen.model, title=form.screen.string, res_id=form.screen.id)}"
+                       title="${_('Corporate Intelligence...')}">
                         <small>Help</small>
+                    </a>
+                    % if form.screen.view_type == 'form' and form.logs.logs:
+                      <a id="show_server_logs" class="logs" href="javascript: void(0)"
+                          title="${_('Show Logs...')}">
+                          <small>Logs</small>
                       </a>
-                      % if form.screen.view_type == 'form' and form.logs.logs:
-                         <a id="show_server_logs" class="logs" href="javascript: void(0)"
-                       title="${_('Show Logs...')}">
-                            <small>Logs</small>
-                        </a>
-                      % endif
+                    % endif
                     % if display_name:
                           <small class="sub">${display_name['field']} : ${display_name['value']}</small>
                     % endif
                 </h1>
+                % if tips:
+                    <div id="help-tips">
+                        <h3>${_("Tips")}</h3>
+                        <a href="#hide" id="hide-tips">(${_("hide")})</a>
+                        <a href="/openerp/form/close_or_disable_tips" id="disable-tips">${_("Disable all Tips")}</a>
+                        <p>${tips}</p>
+                    </div>
+                % endif
 				% if form.screen.view_type == 'form':
 					% if form.logs.logs:
 						${form.logs.display()}
 					% endif
 				% endif
                 % if form.screen.view_type in ['form', 'diagram'] and buttons.toolbar and form.screen.model != 'board.board':
-                <div class="wrapper">
+                <div class="wrapper action-buttons">
                     <ul class="inline-b left w50">
                         % if buttons.new:
                         <li title="${_('Create a new resource')}">
@@ -132,6 +143,19 @@
                             <a href="javascript: void(0);" onclick="submit_form('cancel')" class="button-a">${_("Cancel")}</a>
                         </li>
                         % endif
+                        % if buttons.create_node:
+                        <li title="${_('Create new node')}">
+                            <a href="javascript: void(0);" onclick="create_node()" class="button-a">${_("New Node")}</a>
+                        </li>
+                        % endif
+                        % if buttons.show_grid:
+                        <li title="${_('Show grid in workflow canvas')}">
+                            <label for="show_diagram_grid">Show grid:
+                                <input type="checkbox" checked="checked" class="checkbox" id="show_diagram_grid"
+                                       value="" onchange="show_grid(this); return false">
+                            </label>
+                        </li>
+                        % endif
                     </ul>
 
                     % if buttons.pager:
@@ -143,25 +167,40 @@
 
             </td>
             % if form.sidebar:
-	            <td class="toggle_sidebar sidebar_close"></td>
-	            <td id="main_sidebar" valign="top">
-	                <div id="tertiary" class="sidebar-closed">
+                <%
+                  if form.screen.view_type == 'form':
+                      sidebar_class="open"
+                  else:
+                      sidebar_class="closed"
+                %>
+                <td class="toggle-sidebar ${sidebar_class}"></td>
+                <td id="main_sidebar" valign="top">
+                    <div id="tertiary" class="${sidebar_class}">
 	                    <div id="tertiary_wrap">
 	                        ${form.sidebar.display()}
 	                    </div>
 	                </div>
 	            </td>
 	            <script type="text/javascript">
-	                jQuery('td.toggle_sidebar').click(function() {
-	                    jQuery(this).toggleClass('sidebar_open sidebar_close')
-	                    toggle_sidebar();
-	                    jQuery(window).trigger('on-appcontent-resize');
-
-	                    var total_win_width = jQuery('#main_form_body').width();
-	                    jQuery(window).scrollLeft(total_win_width);
-	                });
+                    jQuery('.toggle-sidebar').toggler('#tertiary', function (){
+                        jQuery(window).scrollLeft(
+                            jQuery(document).width() - jQuery(window).width());
+                    });
 	            </script>
             % endif
         </tr>
     </table>
+    <script type="text/javascript">
+        jQuery(document).ready(function () {
+            var $hide = jQuery('#hide-tips').click(function () {
+                jQuery('#help-tips').hide();
+                return false;
+            });
+            jQuery('#disable-tips').click(function () {
+                jQuery.post(this.href);
+                $hide.click();
+                return false;
+            })
+        })
+    </script>
 </%def>

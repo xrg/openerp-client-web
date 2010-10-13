@@ -27,19 +27,19 @@
 #
 ###############################################################################
 import re
-import time
 
 import cherrypy
 from openerp.utils import rpc
 
 from openobject import tools
 from openobject.tools import expose
+import openobject
 
 
 __all__ = ["secured", "unsecured", "login"]
 
 
-@expose(template="templates/login.mako")
+@expose(template="/openerp/controllers/templates/login.mako")
 def login(target, db=None, user=None, password=None, action=None, message=None, origArgs={}):
 
     url = rpc.session.connection_string
@@ -49,9 +49,9 @@ def login(target, db=None, user=None, password=None, action=None, message=None, 
     try:
         dblist = rpc.session.listdb()
     except:
-        message = _("Could not connect to server!")
+        message = _("Could not connect to server")
 
-    dbfilter = cherrypy.request.app.config['openobject-web'].get('dblist.filter')
+    dbfilter = cherrypy.request.app.config['openerp-web'].get('dblist.filter')
     if dbfilter:
         headers = cherrypy.request.headers
         host = headers.get('X-Forwarded-Host', headers.get('Host'))
@@ -123,43 +123,61 @@ def secured(fn):
             clear_login_fields(kw)
             return fn(*args, **kw)
         else:
-            # User isn't logged in yet.
-
-            db = None
-            user = None
-            password = None
-            message = None
-
-            action = kw.get('login_action')
-
+            action = kw.get('login_action', '')
             # get some settings from cookies
             try:
                 db = cherrypy.request.cookie['terp_db'].value
                 user = cherrypy.request.cookie['terp_user'].value
             except:
-                pass
+                db = ''
+                user = ''
 
             db = kw.get('db', db)
             user = kw.get('user', user)
-            password = kw.get('password', password)
+            password = kw.get('password', '')
 
             # See if the user just tried to log in
             if rpc.session.login(db, user, password) <= 0:
                 # Bad login attempt
                 if action == 'login':
-                    message = _("Bad username or password!")
+                    message = _("Bad username or password")
+                else:
+                    message = ''
 
-                return login(cherrypy.request.path_info, message=message,
-                        db=db, user=user, action=action, origArgs=get_orig_args(kw))
+                kwargs = {}
+                if action: kwargs['action'] = action
+                if message: kwargs['message'] = message
+                base = cherrypy.request.path_info
+                if base and base != '/' and cherrypy.request.method == 'GET':
+                    kwargs['next'] = "%s?%s" % (base, cherrypy.request.query_string)
+                if cherrypy.request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+                    cherrypy.response.status = 401
+                else:
+                    cherrypy.response.status = 303
+                login_url = openobject.tools.url(
+                    '/openerp/login', db=db, user=user, **kwargs
+                )
+                cherrypy.response.headers['Location'] = login_url
+                return """
+                    <html>
+                        <head>
+                            <script type="text/javascript">
+                                window.location.href="%s"
+                            </script>
+                        </head>
+                        <body>
+                        </body>
+                    </html>
+                """%(login_url)
 
             # Authorized. Set db, user name in cookies
-            expiration_time = time.strftime("%a, %d-%b-%Y %H:%M:%S GMT", time.gmtime(time.time() + ( 60 * 60 * 24 * 365 )))
-            cherrypy.response.cookie['terp_db'] = db
-            cherrypy.response.cookie['terp_user'] = user.encode('utf-8')
-            cherrypy.response.cookie['terp_db']['expires'] = expiration_time;
-            cherrypy.response.cookie['terp_user']['expires'] = expiration_time;
-            cherrypy.response.cookie['terp_db']['path'] = tools.url("/openerp");
-            cherrypy.response.cookie['terp_user']['path'] = tools.url("/openerp");
+            cookie = cherrypy.response.cookie
+            cookie['terp_db'] = db
+            cookie['terp_user'] = user.encode('utf-8')
+            cookie['terp_db']['max-age'] = 3600
+            cookie['terp_user']['max-age'] = 3600
+            cookie['terp_db']['path'] = '/'
+            cookie['terp_user']['path'] = '/'
 
             # User is now logged in, so show the content
             clear_login_fields(kw)

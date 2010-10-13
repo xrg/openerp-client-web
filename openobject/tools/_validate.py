@@ -1,9 +1,8 @@
-import cherrypy
-
 from itertools import izip, islice
 from inspect import getargspec
 
-from openobject.validators import Invalid
+import cherrypy
+from formencode.api import Invalid
 
 from _utils import decorated
 

@@ -197,7 +197,7 @@ function setup_tips(){
             return false;
 
         var title;
-        var search_table = jQuery(e).find('table#search_table');
+        var search_table = jQuery(e).find('.search_table');
         if(search_table.length) {
             title = jQuery(search_table).find('td:first span').text().split(":")[0];
         } else {
@@ -210,8 +210,9 @@ function setup_tips(){
         return true;
 
     }, openobject.dom.select('td.label', document));
-
-    new openerp.ui.Tips(elements);
+    if (elements.length) {
+        new openerp.ui.Tips(elements);
+    }
 }
 jQuery(document).ready(setup_tips);
 jQuery(document).ajaxStop(setup_tips);

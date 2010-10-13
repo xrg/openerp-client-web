@@ -46,7 +46,7 @@ from pager import Pager
 
 class List(TinyWidget):
 
-    template = "templates/listgrid.mako"
+    template = "/openerp/widgets/templates/listgrid.mako"
     params = ['name', 'data', 'columns', 'headers', 'model', 'selectable', 'editable',
               'pageable', 'selector', 'source', 'offset', 'limit', 'show_links', 'editors', 'view_mode',
               'hiddens', 'edit_inline', 'field_total', 'link', 'checkbox_name', 'm2m', 'min_rows', 'string', 'o2m', 'dashboard']
@@ -72,16 +72,12 @@ class List(TinyWidget):
     checkbox_name = True
     min_rows = 5
 
-    javascript = [JSLink("openerp", 'javascript/listgrid.js'),
-                  JSLink("openerp", 'javascript/sortablegrid.js')]
-
     def __init__(self, name, model, view, ids=[], domain=[], context={}, **kw):
 
         super(List, self).__init__(name=name, model=model, ids=ids)
         
         self.context = context or {}
         self.domain = domain or []
-        
         custom_search_domain = getattr(cherrypy.request, 'custom_search_domain', [])
         custom_filter_domain = getattr(cherrypy.request, 'custom_filter_domain', [])
         
@@ -89,15 +85,12 @@ class List(TinyWidget):
             self._name = name[:-1]
         if name != '_terp_list':
             self.source = self.name.replace('/', '/') or None
-            
+        
+        self.sort_order = ''
+        self.sort_key = ''
         #this Condition is for Dashboard to avoid new, edit, delete operation
         self.dashboard = 0
-        terp_params = getattr(cherrypy.request, 'terp_params', [])
-        if terp_params:
-            if terp_params.get('_terp_model'):
-                if terp_params['_terp_model'] == 'board.board':
-                    self.dashboard = 1
-                        
+        
         self.selectable = kw.get('selectable', 0)
         self.editable = kw.get('editable', False)
         self.pageable = kw.get('pageable', True)
@@ -111,7 +104,18 @@ class List(TinyWidget):
         self.o2m = kw.get('o2m', 0)
         self.concurrency_info = None
         self.selector = None
-
+        self.custom_columns = kw.get('custom_columns', [])
+        
+        terp_params = getattr(cherrypy.request, 'terp_params', [])
+        if terp_params:
+            if terp_params.get('_terp_model'):
+                if terp_params['_terp_model'] == 'board.board':
+                    self.dashboard = 1
+            if terp_params.get('_terp_source'):
+                if (str(terp_params.source) == self.source) or (terp_params.source == '_terp_list' and terp_params.sort_key):
+                    self.sort_key = terp_params.sort_key
+                    self.sort_order = terp_params.sort_order
+        
         if self.selectable == 1:
             self.selector = 'radio'
 
@@ -121,11 +125,11 @@ class List(TinyWidget):
         fields = view['fields']
         dom = xml.dom.minidom.parseString(view['arch'].encode('utf-8'))
         root = dom.childNodes[0]
-        
+
         attrs = node_attributes(root)
         self.string = attrs.get('string','')
-        
-        search_param = domain or []
+
+        search_param = copy.deepcopy(domain) or []
         if custom_search_domain:
             for elem in custom_search_domain:
                 if elem not in self.domain:
@@ -147,14 +151,20 @@ class List(TinyWidget):
                 self.colors[colour] = test
 
         proxy = rpc.RPCProxy(model)
-        
-        if ids is None:
+
+        if not self.o2m and not self.m2m:
             if self.limit > 0:
-                ids = proxy.search(search_param, self.offset, self.limit, 0, context)
+                if self.sort_key:
+                    ids = proxy.search(search_param, self.offset, self.limit, self.sort_key + ' ' +self.sort_order, context)
+                else:
+                    ids = proxy.search(search_param, self.offset, self.limit, False, context)
             else:
                 ids = proxy.search(search_param, 0, 0, 0, context)
-                
-            self.count = proxy.search_count(search_param, context)
+            if len(ids) < self.limit:
+                self.count = len(ids)
+            else:
+                self.count = proxy.search_count(search_param, context)
+
         self.data_dict = {}
         data = []
 
@@ -315,6 +325,9 @@ class List(TinyWidget):
 
                     name = attrs['name']
 
+                    if name in self.custom_columns:
+                        continue
+
                     if name in myfields:
                         print "-"*30
                         print " malformed view for:", self.model
@@ -324,7 +337,7 @@ class List(TinyWidget):
 
                     myfields.append(name)
 
-                    if attrs.get('widget', False):
+                    if attrs.get('widget'):
                         if attrs['widget']=='one2many_list':
                             attrs['widget']='one2many'
                         attrs['type'] = attrs['widget']
@@ -364,13 +377,8 @@ class List(TinyWidget):
 
                         for color, expr in self.colors.items():
                             try:
-
-                                d = row_value.copy()
-                                d['current_date'] = time.strftime('%Y-%m-%d')
-                                d['time'] = time
-                                d['active_id'] = rpc.session.active_id or False
-
-                                if expr_eval(expr, d):
+                                if expr_eval(expr,
+                                     dict(row_value, active_id=rpc.session.active_id or False)):
                                     cell.color = color
                                     break
                             except:
@@ -382,7 +390,7 @@ class List(TinyWidget):
                         continue
 
                     headers += [(name, fields[name])]
-                    
+
         return headers, hiddens, data, field_total, buttons
 
 class Char(TinyWidget):
@@ -605,7 +613,10 @@ class Button(TinyInputWidget):
 
         if self.states:
             state = data.get('state')
-            state = ((state or False) and state.value) or 'draft'
+            try:
+                state = ((state or False) and state.value) or 'draft'
+            except:
+                state = ustr(state)
             visible = state in self.states
 
         return dict(id=id, visible=visible)

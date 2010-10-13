@@ -644,7 +644,7 @@ Calendar.cellClick = function(el, ev) {
 					"Thank you!\n" +
 					"http://dynarch.com/mishoo/calendar.epl\n";
 			}
-			alert(text);
+			error_display(text);
 			return;
 		    case -2:
 			if (year > cal.minYear) {

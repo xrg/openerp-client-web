@@ -39,7 +39,7 @@ class List(SecuredController):
 
     _cp_path = "/openerp/listgrid"
 
-    @expose('json')
+    @expose('json', methods=('POST',))
     def save(self, **kw):
         params, data = TinyDict.split(kw)
 
@@ -101,51 +101,80 @@ class List(SecuredController):
 
         return dict(error_field=error_field, error=error, id=id, ids=str([int(i) for i in ids]))
 
-    @expose('json')
+    @expose('json', methods=('POST',))
     def remove(self, **kw):
         params, data = TinyDict.split(kw)
         sc_ids = [i['id'] for i in cherrypy.session['terp_shortcuts']]
-
         error = None
         proxy = rpc.RPCProxy(params.model)
-        if params.ids:
+        if params.id:
 
             if params.model == 'ir.ui.view_sc' and cherrypy.session.get('terp_shortcuts'):
                 for sc in cherrypy.session.get('terp_shortcuts'):
-                    for id in params.ids:
+                    for id in params.id:
                         if id == sc['id']:
                             cherrypy.session['terp_shortcuts'].remove(sc)
 
             try:
                 ctx = context_with_concurrency_info(params.context, params.concurrency_info)
-                if isinstance(params.ids, list):
-                    res = proxy.unlink(params.ids, ctx)
+                if isinstance(params.id, list):
+                    res = proxy.unlink(params.id, ctx)
+                    for i in params.id:
+                        params.ids.remove(i)
                 else:
-                    res = proxy.unlink([params.ids], ctx)
+                    res = proxy.unlink([params.id], ctx)
+                    params.ids.remove(params.id)
+                
                 if params.model == 'res.request':
                     ids, ids2 = rpc.RPCProxy(params.model).request_get()
-                    return dict(ids = ids)
+                    return dict(res_ids = ids)
+                
+                return dict(ids = params.ids, count = len(params.ids))
             except Exception, e:
                 error = ustr(e)
 
         return dict(error=error)
 
     @expose()
-    def multiple_groupby(self, model, name, grp_domain, group_by, view_id, view_type, parent_group, group_level, groups, no_leaf):
+    def multiple_groupby(self, model, name, grp_domain, group_by, view_id, view_type, parent_group, group_level, groups, no_leaf, **kw):
         grp_domain = ast.literal_eval(grp_domain)
-        view = cache.fields_view_get(model, view_id, view_type, rpc.session.context.copy(), True, True)
+        view = cache.fields_view_get(model, view_id, view_type, rpc.session.context.copy())
         group_by = ast.literal_eval(group_by)
         domain = grp_domain
         group_level = ast.literal_eval(group_level)
         groups = ast.literal_eval(groups)
 
         context = {'group_by_no_leaf': int(no_leaf), 'group_by': group_by, '__domain': domain}
-        args = {'editable': True, 'view_mode': ['tree', 'form', 'calendar', 'graph'], 'nolinks': 1, 'group_by_ctx': group_by, 'selectable': 2, 'multiple_group_by': True}
+        args = {'editable': True,
+                'view_mode': ['tree', 'form', 'calendar', 'graph'],
+                'nolinks': 1, 'group_by_ctx': group_by,
+                'selectable': 2,
+                'multiple_group_by': True,
+                'sort_key': kw.get('sort_key'),
+                'sort_order': kw.get('sort_order')}
 
         listgrp = listgroup.MultipleGroup(name, model, view, ids=None, domain= domain, parent_group=parent_group, group_level=group_level, groups=groups, context=context, **args)
         return listgrp.render()
 
     @expose('json')
+    def reload_graph(self, **kw):
+        params, data = TinyDict.split(kw)
+        view = cache.fields_view_get(params.model, params.view_id, 'graph',params.context)
+        if params.domain is None:
+            params.domain = []
+        if params.search_domain:
+            params.domain.extend(params.search_domain)
+        from view_graph.widgets import _graph
+        wid = _graph.Graph(model=params.model,
+              view=view,
+              view_id=params.view_id,
+              ids=None, domain=params.domain,
+              view_mode = params.view_mode,
+              context=params.context)
+        view=ustr(wid.render())
+        return dict(view = view)
+    
+    @expose('jsonp', methods=('POST',))
     def get(self, **kw):
         params, data = TinyDict.split(kw)
 
@@ -161,36 +190,14 @@ class List(SecuredController):
                 params.context.update(params.filters_context)
 
         params['_terp_group_by_ctx'] = groupby
-        if '_terp_sort_key' in params:
-            proxy = rpc.RPCProxy(params.model)
-            if params.search_domain is None:
-                params.search_domain = "[]"
-            if params.sort_model != params.model:
-                offset = params[params.o2m].offset
-                limit = params[params.o2m].limit
-            else:
-                offset = params.offset
-                limit = params.limit
-                
-            ids = self.sort_by_order(params.sort_model, params.sort_key, str(params.sort_domain), str(params.search_domain) or '[]', str(params.filter_domain) or '[]', params.sort_order, offset, limit)
-            sort_ids = ast.literal_eval(ids)
-            if params.sort_model != params.model:
-                if len(params.o2m.split('/')) > 1:
-                    parent = params.o2m.split('/')[0]
-                    child = params.o2m.split('/')[1]
-                    ids = params[parent][child].ids
-                else:
-                    ids = params[params.o2m].ids
-            else:
-                params.ids = sort_ids['ids']
-        else:
-            params.ids = None
+        params.ids = None
 
         source = (params.source or '') and str(params.source)
         if not params.view_type == 'graph':
             params.view_type = 'form'
+
         if params.get('_terp_clear'):
-            params.domain, params.search_domain, params.filter_domain, params.ids = [], [], [], []
+            params.search_domain, params.filter_domain, params.ids = [], [], []
             params.search_data = {}
             for k,v in params.context.items():
                 if k.startswith('search_default'):
@@ -201,12 +208,14 @@ class List(SecuredController):
             if params.context.get('group_by'):
                 params.context['group_by'] = []
             params.group_by_ctx = groupby = []
+
         if source == '_terp_list':
             if not params.view_type == 'graph':
                 params.view_type = 'tree'
             if params.search_domain:
                 params.domain += params.search_domain
-
+                
+            params.domain = params.domain or []
             if params.filter_domain:
                 params.domain += params.filter_domain
 
@@ -239,17 +248,16 @@ class List(SecuredController):
                 for i, d in v.items():
                     info['%s,%s' % (m, i)] = d
 
-        active_clear = False
-        if frm.search and (frm.search.listof_domain or frm.search.custom_filter_domain or frm.search.groupby):
-            active_clear = True
         if params.get('_terp_clear'):
             view=ustr(frm.render())
         else:
             view=ustr(wid.render())
+
         server_logs = ''
-        if frm.logs.logs and frm.screen.view_type == 'tree':
+
+        if frm.logs and frm.screen.view_type == 'tree':
             server_logs = ustr(frm.logs.render())
-        return dict(ids=ids, count=count, view=view, info=info, active_clear=active_clear, logs=server_logs)
+        return dict(ids=ids, count=count, view=view, info=info, logs=server_logs)
 
     @expose('json')
     def button_action(self, **kw):
@@ -258,10 +266,9 @@ class List(SecuredController):
         error = None
         reload = (params.context or {}).get('reload', False)
         result = {}
-        wiz_result = None
+
         name = params.button_name
         btype = params.button_type
-
         ctx = dict((params.context or {}), **rpc.session.context)
 
         id = params.id
@@ -302,7 +309,7 @@ class List(SecuredController):
                 if isinstance(res, dict) and res.get('type') == 'ir.actions.act_url':
                     result = res
                 elif isinstance(res, basestring):
-                    wiz_result = {'model': model, 'action_id': action_id, 'id': id}
+                    return dict(res = res)
                 else:
                     error = "Button action has returned another view.."
 
@@ -311,26 +318,9 @@ class List(SecuredController):
         except Exception, e:
             error = ustr(e)
 
-        return dict(error=error, result=result, reload=reload, wiz_result=wiz_result)
+        return dict(error=error, result=result, reload=reload)
 
-    @expose('json')
-    def sort_by_order(self, model, column, domain, search_domain, filter_domain, order, offset, limit):
-        domain = ast.literal_eval(domain)
-        search_domain = ast.literal_eval(search_domain)
-        filter_domain = ast.literal_eval(filter_domain)
-        if search_domain:
-            domain.extend(search_domain)
-        if filter_domain:
-            domain.extend(filter_domain)
-
-        try:
-            proxy = rpc.RPCProxy(model)
-            ids = proxy.search(domain, int(offset), int(limit), column+' '+order, rpc.session.context)
-            return dict(ids = ids)
-        except Exception , e:
-            return dict(error = e.message)
-
-    @expose('json')
+    @expose('json', methods=('POST',))
     def groupbyDrag(self, model, children, domain):
         domain = ast.literal_eval(domain)[0]
         children = ast.literal_eval(children)
@@ -341,7 +331,7 @@ class List(SecuredController):
         rpc.RPCProxy(model).write(children, {domain[0]: domain[2]})
         return {}
 
-    @expose('json')
+    @expose('json', methods=('POST',))
     def dragRow(self, **kw):
         params, data = TinyDict.split(kw)
         id = params.id
@@ -397,7 +387,7 @@ class List(SecuredController):
 
         return dict(sum = total_sum)
 
-    @expose('json')
+    @expose('json', methods=('POST',))
     def moveUp(self, **kw):
 
         params, data = TinyDict.split(kw)
@@ -428,7 +418,7 @@ class List(SecuredController):
         except Exception, e:
             return dict(error=str(e))
 
-    @expose('json')
+    @expose('json', methods=('POST',))
     def moveDown(self, **kw):
         params, data = TinyDict.split(kw)
 

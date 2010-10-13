@@ -60,7 +60,7 @@ class Attachment(SecuredController):
 
             return actions.execute(action)
         else:
-            raise common.message(_('No record selected! You can only attach to existing record...'))
+            raise common.message(_('No record selected, You can only attach to existing record...'))
 
     @expose(content_type="application/octet-stream")
     def get(self, record=False):
@@ -74,7 +74,7 @@ class Attachment(SecuredController):
             raise redirect(attachment['url'])
         raise Exception('Unknown attachment type %(type)s for attachment name %(name)s' % attachment)
 
-    @expose('json')
+    @expose('json', methods=('POST',))
     def save(self, datas, **kwargs):
         params, data = TinyDict.split(cherrypy.session['params'])
         ctx = dict(rpc.session.context,
@@ -87,7 +87,7 @@ class Attachment(SecuredController):
         }, ctx)
         return {'id': attachment_id, 'name': datas.filename}
 
-    @expose('json')
+    @expose('json', methods=('POST',))
     def remove(self, id=False, **kw):
         proxy = rpc.RPCProxy('ir.attachment')
         try:

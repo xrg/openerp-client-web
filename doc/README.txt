@@ -44,7 +44,7 @@ To overcome with the issue, we added support for local library installation
 for OpenERP Web. In that case, just download the source package and do the
 following::
 
-    $ cd /path/to/openobject-web/lib
+    $ cd /path/to/openerp-web/lib
     $ ./populate.sh
     $ cd ..
 
@@ -166,6 +166,10 @@ Configuration:
 
 Please see `Linux Installation`_ doc for configuration/startup...
 
+.. note::
+    
+    Use ``python C:\Python25\Scripts\openerp-web`` command to startup openerp-web.
+
 Configure HTTPS (Linux)
 -----------------------
 
@@ -237,7 +241,7 @@ want. For instance using ``wsgiref.simple_server``::
     import openobject
 
     server = make_server('localhost', 8080, openobject.application)
-    openobject.configure(as_dict('openobject-web.cfg'))
+    openobject.configure(as_dict('openerp-web.cfg'))
     openobject.enable_static_paths() # serve static file via the wsgi server
     server.serve_forever()
 

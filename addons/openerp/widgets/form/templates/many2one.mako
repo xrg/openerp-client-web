@@ -1,43 +1,34 @@
+<%def name="display_open_resource(name)">
+    <img id="${name}_open" alt="${_('Open')}" title="${_('Open a resource')}"
+        src="/openerp/static/images/iconset-d-drop.gif" class="m2o_open"/>
+</%def>
 % if editable:
-<table class="item-wrapper">
-<tr>
-    <td>
+    <span class="m2o">
         <input type="hidden" id="${name}" name="${name}" class="${css_class}" value="${value}"
             ${py.attrs(attrs, kind=kind, domain=domain, context=ctx, relation=relation)}/>
         <input type="text" id="${name}_text" class="${css_class}"
             ${py.attrs(attrs, kind=kind, relation=relation, value=text)}/>
-           
+
         <input type="hidden" id="_hidden_${name}" value=""/>
-        <div id="autoCompleteResults_${name}" class="autoTextResults"></div>
         % if error:
-        <span class="fielderror">${error}</span>
+            <span class="fielderror">${error}</span>
         % endif
-    </td>
-    <td>
         <img id="${name}_select" alt="${_('Search')}" title="${_('Search')}"
             src="/openerp/static/images/fields-a-lookup-a.gif" class="m2o_select"/>
-    </td>
-    <td class="item-image">
-	    <img id="${name}_open" alt="${_('Open')}" title="${_('Open a resource')}"
-    	    src="/openerp/static/images/iconset-d-drop.gif" class="m2o_open"/>
-    </td>
-</tr>
-</table>
-% endif
-
-% if editable:
+    </span>
+    ${self.display_open_resource(name)}
+    <div id="autoCompleteResults_${name}" class="autoTextResults"></div>
     <script type="text/javascript">
         new ManyToOne('${name}');
     </script>
 % endif
 
 % if not editable and link:
-    % if link=='1':
+    % if link == '1':
         <span id="${name}" name="${name}" ${py.attrs(kind=kind, value=value, relation=relation, context=ctx, domain=domain, link=link)}>
-            <a href="javascript: void(0)" onclick="new ManyToOne('${name}').open_record('${value}')">${text}</a>
+            <a style="color:#9A0404;" href="javascript: void(0)" onclick="new ManyToOne('${name}').open_record('${value}')">${text}</a>
         </span>
-    % endif
-    % if link=='0':
+    % elif link == '0':
         <span id="${name}" ${py.attrs(kind=kind, value=value, relation=relation, link=link)}>${text}</span>
     % endif
 % endif

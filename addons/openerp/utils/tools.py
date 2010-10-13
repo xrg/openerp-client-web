@@ -27,23 +27,26 @@
 #
 ###############################################################################
 
+import datetime
 import os
 import time
 import tempfile
-import datetime as DT
+
+from dateutil.relativedelta import relativedelta
 
 import rpc
 
-
-def expr_eval(string, context={}):
-    context.update(uid=rpc.session.uid,
+def expr_eval(string, context=None):
+    context = dict(context or {},
+                   uid=rpc.session.uid,
                    current_date=time.strftime('%Y-%m-%d'),
                    time=time,
-                   datetime=DT)
+                   datetime=datetime,
+                   relativedelta=relativedelta)
     if isinstance(string, basestring):
         try:
             temp = eval(string.replace("'active_id'", "active_id"),
-                         context)
+                        context)
         except:
             return {}
         return temp

@@ -36,6 +36,7 @@ from openerp.utils import rpc, common, TinyDict, TinyForm
 from openerp.widgets.form import generate_url_for_picture
 from error_page import _ep
 from openobject.tools import expose, redirect, validate, error_handler, exception_handler
+import openobject
 
 def make_domain(name, value, kind='char'):
     """A helper function to generate domain for the given name, value pair.
@@ -154,7 +155,7 @@ def get_validation_schema(self):
         if k not in kw:
             vals.pop(k)
 
-    form.validator = validators.Schema(**vals)
+    form.validator = openobject.validators.Schema(**vals)
     return form
 
 def default_error_handler(self, tg_errors=None, **kw):
@@ -192,7 +193,7 @@ class Form(SecuredController):
 
         return tw.form_view.ViewForm(params, name="view_form", action="/openerp/form/save")
 
-    @expose(template="templates/form.mako")
+    @expose(template="/openerp/controllers/templates/form.mako")
     def create(self, params, tg_errors=None):
 
         params.view_type = params.view_type or params.view_mode[0]
@@ -211,7 +212,7 @@ class Form(SecuredController):
         mode = form.screen.view_type
         id = form.screen.id
         buttons = TinyDict()    # toolbar
-        buttons.new = not editable or mode == 'tree'
+        buttons.new = (not editable or mode == 'tree') and mode != 'diagram'
         buttons.edit = not editable and mode == 'form'
         buttons.save = editable and mode == 'form'
         buttons.cancel = editable and mode == 'form'
@@ -219,14 +220,14 @@ class Form(SecuredController):
         buttons.pager =  mode == 'form' or mode == 'diagram'# Pager will visible in edit and non-edit mode in form view.
         buttons.can_attach = id and mode == 'form'
         buttons.i18n = not editable and mode == 'form'
+        buttons.show_grid = mode == 'diagram'
+        buttons.create_node = mode == 'diagram' and editable
 
         from openerp.widgets import get_registered_views
         buttons.views = []
 
-        views = get_registered_views()
-        for k, v in views:
-            active = k in params.view_mode and mode != k
-            buttons.views.append(dict(kind=k, name=v.name, desc=v.desc, active=active))
+        for kind, view in get_registered_views():
+            buttons.views.append(dict(kind=kind, name=view.name, desc=view.desc))
 
         target = getattr(cherrypy.request, '_terp_view_target', None)
         buttons.toolbar = (target != 'new' and not form.is_dashboard) or mode == 'diagram'
@@ -252,12 +253,28 @@ class Form(SecuredController):
                 if form.screen.view.get('fields') and form.screen.view['fields'].get('name'):
                     display_name = {'field': form.screen.view['fields']['name']['string'], 'value': ustr(form.screen.view['fields']['name']['value'])}
                     title= ustr(display_name['field']) + ':' + ustr(display_name['value'])
-                    
-        return dict(form=form, pager=pager, buttons=buttons, path=self.path, can_shortcut=can_shortcut, shortcut_ids=shortcut_ids, display_name=display_name, title=title)
+        elif params.view_type == 'diagram':
+            display_name = {'field': form.screen.view['fields']['name']['string'], 'value': rpc.RPCProxy(params.model).name_get(form.screen.id)[0][1]}
+
+
+        tips = False
+        if params.view_type == params.view_mode[0]:
+            show_menu_help = rpc.RPCProxy('res.users').read(rpc.session.uid, ['menu_tips'], rpc.session.context)['menu_tips']
+            if show_menu_help:
+                proxy = rpc.RPCProxy('ir.actions.act_window')
+                tips_id = proxy.search([('res_model', '=', params['_terp_model']), ('name', '=', title)])
+                if tips_id:
+                    tips = proxy.read(tips_id[0], ['help'])['help']
+
+        return dict(form=form, pager=pager, buttons=buttons, path=self.path, can_shortcut=can_shortcut, shortcut_ids=shortcut_ids, display_name=display_name, title=title, tips = tips)
+
+    @expose('json', methods=('POST',))
+    def close_or_disable_tips(self):
+        rpc.RPCProxy('res.users').write(rpc.session.uid,{'menu_tips':False}, rpc.session.context)
 
     def _read_form(self, context, count, domain, filter_domain, id, ids, kw,
                    limit, model, offset, search_data, search_domain, source,
-                   view_ids, view_mode, editable=False):
+                   view_ids, view_mode, notebook_tab, editable=False):
         """ Extract parameters for form reading/creation common to both
         self.edit and self.view
         """
@@ -274,7 +291,8 @@ class Form(SecuredController):
                                        '_terp_count': count,
                                        '_terp_search_domain': search_domain,
                                        '_terp_search_data': search_data,
-                                       '_terp_filter_domain': filter_domain})
+                                       '_terp_filter_domain': filter_domain,
+                                       '_terp_notebook_tab': notebook_tab})
 
         params.editable = editable
         params.view_type = 'form'
@@ -301,10 +319,11 @@ class Form(SecuredController):
              offset=0, limit=20, count=0, search_domain=None,
              search_data=None, filter_domain=None, **kw):
 
+        notebook_tab = kw.get('notebook_tab') or 0
         params = self._read_form(context, count, domain, filter_domain, id,
                                  ids, kw, limit, model, offset, search_data,
                                  search_domain, source, view_ids, view_mode,
-                                 editable=True)
+                                 notebook_tab, editable=True)
 
         if not params.ids:
             params.count = 0
@@ -323,9 +342,11 @@ class Form(SecuredController):
              offset=0, limit=20, count=0, search_domain=None,
              search_data=None, filter_domain=None, **kw):
 
+        notebook_tab = kw.get('notebook_tab') or 0
         params = self._read_form(context, count, domain, filter_domain, id,
                                  ids, kw, limit, model, offset, search_data,
-                                 search_domain, source, view_ids, view_mode)
+                                 search_domain, source, view_ids, view_mode,
+                                 notebook_tab)
 
         if not params.ids:
             params.count = 1
@@ -363,7 +384,7 @@ class Form(SecuredController):
         params.view_type = 'tree'
         return self.create(params)
 
-    @expose()
+    @expose(methods=('POST',))
     @validate(form=get_validation_schema)
     @error_handler(default_error_handler)
     @exception_handler(default_exception_handler)
@@ -376,15 +397,12 @@ class Form(SecuredController):
         @return: form view
         """
         params, data = TinyDict.split(kw)
-
         # remember the current page (tab) of notebooks
         cherrypy.session['remember_notebooks'] = True
-
         # bypass save, for button action in non-editable view
         if not (params.button and params.editable and params.id):
 
             proxy = rpc.RPCProxy(params.model)
-
             if not params.id:
                 ctx = dict((params.context or {}), **rpc.session.context)
                 id = proxy.create(data, ctx)
@@ -455,7 +473,8 @@ class Form(SecuredController):
                 'count': params.count,
                 'search_domain': ustr(params.search_domain),
                 'search_data': ustr(params.search_data),
-                'filter_domain': ustr(params.filter_domain)}
+                'filter_domain': ustr(params.filter_domain),
+                'notebook_tab': params.notebook_tab}
 
         if params.editable or params.source or params.return_edit:
             raise redirect(self.path + '/edit', source=params.source, **args)
@@ -472,7 +491,7 @@ class Form(SecuredController):
         model = button.model
         id = button.id or params.id
 
-        id = (id or False) and int(id)
+        id = (id or False) and (id)
         ids = (id or []) and [id]
 
         ctx = dict((params.context or {}), **rpc.session.context)
@@ -611,11 +630,14 @@ class Form(SecuredController):
             form = params.datas['form']
             res = form.get(params.field)
             return base64.decodestring(res)
-
-        proxy = rpc.RPCProxy(params.model)
-        res = proxy.read([params.id],[params.field], rpc.session.context)
-
-        return base64.decodestring(res[0][params.field])
+        
+        elif params.id:
+            proxy = rpc.RPCProxy(params.model)
+            res = proxy.read([params.id],[params.field], rpc.session.context)
+            return base64.decodestring(res[0][params.field])
+        else:
+            return base64.decodestring(data[params.field])
+        
 
     @expose()
     def clear_binary_data(self, **kw):
@@ -650,14 +672,21 @@ class Form(SecuredController):
     @exception_handler(default_exception_handler)
     def filter(self, **kw):
         params, data = TinyDict.split(kw)
-
+        if params.get('_terp_save_current_id'):
+            ctx = dict((params.context or {}), **rpc.session.context)
+            if params.id:
+                rpc.RPCProxy(params.model).write([params.id], data, ctx)
+            else:
+                id = rpc.RPCProxy(params.model).create(data, ctx)
+                params.ids.append(id)
+                params.count += 1
+            
         l = params.limit or 20
         o = params.offset or 0
         c = params.count or 0
 
         id = params.id or False
         ids = params.ids or []
-
         filter_action = params.filter_action
 
         if ids and filter_action == 'FIRST':
@@ -760,15 +789,25 @@ class Form(SecuredController):
         return self.filter(**kw)
 
     @expose()
+    @validate(form=get_validation_schema)
+    @error_handler(default_error_handler)
+    @exception_handler(default_exception_handler)
     def previous_o2m(self, **kw):
         params, data = TinyDict.split(kw)
-
+        
+        if params.get('_terp_save_current_id'):
+            ctx = dict((params.context or {}), **rpc.session.context)
+            if params.id:
+                rpc.RPCProxy(params.model).write([params.id], data, ctx)
+            else:
+                id = rpc.RPCProxy(params.model).create(data, ctx)
+                params.ids.append(id)
+                params.count += 1
+        
         current = params.chain_get(params.source or '') or params
-
         idx = -1
-
+        
         if current.id:
-
             # save current record
             if params.editable:
                 self.save(terp_save_only=True, **kw)
@@ -788,11 +827,9 @@ class Form(SecuredController):
     def next_o2m(self, **kw):
         params, data = TinyDict.split(kw)
         c = params.count or 0
-
         current = params.chain_get(params.source or '') or params
 
         idx = 0
-
         if current.id:
 
             # save current record
@@ -811,9 +848,17 @@ class Form(SecuredController):
         return self.create(params)
 
     @expose()
+    @validate(form=get_validation_schema)
     def switch(self, **kw):
         params, data = TinyDict.split(kw)
-
+        if params.get('_terp_save_current_id'):
+            ctx = dict((params.context or {}), **rpc.session.context)
+            if params.id:
+                rpc.RPCProxy(params.model).write([params.id], data, ctx)
+            else:
+                id = rpc.RPCProxy(params.model).create(data, ctx)
+                params.ids.append(id)
+                params.count += 1
         # switch the view
         params.view_type = params.source_view_type
         return self.create(params)
@@ -857,12 +902,13 @@ class Form(SecuredController):
             import actions
             return actions.execute_by_keyword(name, adds=adds, model=model, id=id, ids=ids, report_type='pdf')
         else:
-            raise common.message(_("No record selected!"))
+            raise common.message(_("No record selected"))
 
 
     @expose()
     def action(self, **kw):
         params, data = TinyDict.split(kw)
+        context_menu = kw.get('context_menu')
 
         id = params.id or False
         ids = params.selection or []
@@ -875,23 +921,28 @@ class Form(SecuredController):
 
         domain = params.domain or []
         context = params.context or {}
+        action = {}
 
+        if data.get('datas'):
+            action = eval(data.get('datas'))
+        type = action.get('type')
         act_id = params.action
 
         if not params.selection and not params.id:
-            raise common.message(_('You must save this record to use the sidebar button!'))
+            raise common.message(_('You must save this record to use the sidebar button'))
 
         if not act_id:
             return self.do_action('client_action_multi', datas=kw)
 
-        action_type = rpc.RPCProxy('ir.actions.actions').read(act_id, ['type'], rpc.session.context)['type']
-        action = rpc.session.execute('object', 'execute', action_type, 'read', act_id, False, rpc.session.context)
+        if type is None:
+            action_type = rpc.RPCProxy('ir.actions.actions').read(act_id, ['type'], rpc.session.context)['type']
+            action = rpc.session.execute('object', 'execute', action_type, 'read', act_id, False, rpc.session.context)
 
         action['domain'] = domain or []
         action['context'] = context or {}
 
         import actions
-        return actions.execute(action, model=params.model, id=id, ids=ids, report_type='pdf')
+        return actions.execute(action, model=params.model, id=id, ids=ids, report_type='pdf', context_menu=context_menu)
 
     @expose()
     def dashlet(self, **kw):
@@ -1027,7 +1078,7 @@ class Form(SecuredController):
 
             act = (value or None) and "javascript: void(0)"
 
-            actions = [{'text': 'Action', 'action': act and "do_action(null, '%s', '%s', this)" %(field, relation)},
+            actions = [{'text': 'Action', 'action': act and "do_action(null, '%s', '%s', this, null, true)" %(field, relation)},
                        {'text': 'Report', 'action': act and "do_report('%s', '%s')" %(field, relation)}]
 
             res = rpc.RPCProxy('ir.values').get('action', 'client_action_relate', [(relation, False)], False, rpc.session.context)
@@ -1037,7 +1088,7 @@ class Form(SecuredController):
                 act = (value or None) and "javascript: void(0)"
                 x['string'] = x['name']
                 relates += [{'text': '... '+x['name'],
-                             'action': act and "do_action(%s, '%s', '%s', this)" %(x['id'], field, relation),
+                             'action': act and "do_action(%s, '%s', '%s', this, null, true)" %(x['id'], field, relation),
                              'domain': x.get('domain', []),
                              'context': x.get('context', {})}]
 

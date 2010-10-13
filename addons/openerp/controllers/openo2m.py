@@ -101,7 +101,7 @@ class OpenO2M(Form):
 
         return form
 
-    @expose(template="templates/openo2m.mako")
+    @expose(template="/openerp/controllers/templates/openo2m.mako")
     def create(self, params, tg_errors=None):
 
         if tg_errors:
@@ -146,7 +146,7 @@ class OpenO2M(Form):
 
         current.ids = all_ids
         if new_ids and params.source:
-            current.id = new_ids[0]
+            current.id = new_ids[-1]
             params.o2m_id = current.id
 
         # perform button action
@@ -164,5 +164,18 @@ class OpenO2M(Form):
     def edit(self, **kw):
         params, data = TinyDict.split(kw)
         return self.create(params)
+    
+    @expose('json', methods=('POST',))
+    def delete(self, model, id):
+        error = False
+        res=""
+        proxy = rpc.RPCProxy(model)
+        try:
+            if id:
+                res  = proxy.unlink([id])
+        except Exception, e:
+            error = ustr(e)
+            
+        return dict(error=error)
 
 # vim: ts=4 sts=4 sw=4 si et

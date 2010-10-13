@@ -2,51 +2,40 @@
 <div style="display: none;">${display_member(w)}</div>
 % endfor
 
-<table border="0" class='fields'>
+<table border="0" class='fields' width="100%">
     % for row in table:
     <tr>
         % for attrs, widget  in row:
         <td ${py.attrs(attrs)}>
             % if isinstance(widget, basestring):
+                <% widget_item = attrs['widget_item'][1] %>
                 % if attrs.get('label_position'):
-                <table id="search_table">
-                    <tr>
-                        <td ${py.attrs(attrs.get('widget_item')[0])} width="${attrs.get('width')}">
-                            <label for="${attrs.get('for')}">
-                                ${(widget or '') and widget}
-                            </label>
-                            % if attrs.get('title'):
-                                <sup style="color: darkgreen; vertical-align: middle;">?</sup>
-                            % endif
-                            :
-                        </td>
-                    </tr>
-                    <tr>
-                         <td ${py.attrs(attrs.get('widget_item')[0])} width="${attrs.get('width')}">
-                                % if attrs.get('widget_item')[1].kind in ('char', 'selection', 'one2many', 'many2many'):
-                                    <table>
-                                        <tr>
-                                            <td class="filter_item">
-                                                ${display_member(attrs.get('widget_item')[1])}
-                                            </td>
-                                        </tr>
-                                    </table>
+                    <table class="search_table">
+                        <tr>
+                            <td ${py.attrs(attrs.get('widget_item')[0])} width="${attrs.get('width')}">
+                                ${widget_item.label.display()}
+                            </td>
+                        </tr>
+                        <tr>
+                             <td ${py.attrs(attrs.get('widget_item')[0])} width="${attrs.get('width')}">
+                                % if widget_item.kind in ('char', 'selection', 'one2many', 'many2many'):
+                                    <span class="filter_item">
+                                        ${display_member(widget_item)}
+                                    </span>
                                 % else:
-                                    ${display_member(attrs.get('widget_item')[1])}
+                                    ${display_member(widget_item)}
                                 % endif
-                         </td>
-                    </tr>
-                </table>
+                                % for filter_widget in attrs.get('widget_item')[1].filters:
+                                    ${display_member(filter_widget)}
+                                % endfor
+                             </td>
+                        </tr>
+                    </table>
                 % else:
-                    ${(widget or '') and widget}
-                    % if attrs.get('title'):
-                        <sup style="color: darkgreen;">?</sup>
-                    % endif
-                    :
+                    ${widget_item.label.display()}
                 % endif
-            % endif
-            % if not isinstance(widget, basestring) and widget.visible:
-            ${display_member(widget)}
+            % elif widget.visible:
+                ${display_member(widget)}
             % endif
         </td>
         % endfor

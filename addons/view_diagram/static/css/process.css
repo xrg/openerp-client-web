@@ -9,12 +9,13 @@ a.help-button-a {
 	background:transparent url(../images/button-a-a.png) no-repeat scroll 0 0;
 	color:#FFFFFF !important;
 	display:block;
-	font-size:14px;
+	font-size:12px;
 	font-weight:bold;
 	height:56px;
 	line-height:1;
 	overflow:hidden;
 	padding:14px 0 0;
+	position: relative;
 	text-align:center;
 	text-decoration:none !important;
 	text-shadow:0 -1px 0 #000000;
@@ -33,13 +34,14 @@ a.help-button-a small {
     font-size: 11px;
     left: 10px;
     max-height: 250px;
-    position: relative;
     text-align: left;
     z-index: 1000;
 }
 
 .process-notes dt {
     font-weight: bold;
+    margin-left: 15px;
+    margin-bottom: 4px;
 }
 
 .process-notes dd {
@@ -99,8 +101,4 @@ a.help-button-a small {
 
 .node-buttons {
 	padding: 0 0 0 5px;
-}
-
-.process_table {
-	border: 0;
 }

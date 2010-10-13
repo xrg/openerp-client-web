@@ -1,12 +1,13 @@
-import os
 import urllib
 
 import cherrypy
 from mako.filters import html_escape
 
 
-__all__ = ["url", "url_plus", "redirect", "config", "content", "attrs", "attr_if", "decorated"]
+__all__ = ["url", "url_plus", "redirect", "config", "content", "attrs", "attr_if", "decorated",
+           "AuthenticationError"]
 
+class AuthenticationError(Exception): pass
 
 def url(_cppath, _cpparams=None, **kw):
     """
@@ -60,6 +61,8 @@ def url_plus(_cppath, _cpparams=None, **kw):
 def redirect(_cppath, _cpparams=None, **kw):
     if isinstance(_cppath, unicode):
         _cppath = _cppath.encode('utf-8')
+    if 'X-Requested-With' in cherrypy.request.headers:
+        kw['requested_with'] = cherrypy.request.headers['X-Requested-With']
     return cherrypy.HTTPRedirect(url(_cppath, _cpparams, **kw))
 
 
@@ -119,10 +122,7 @@ def attrs(*args, **kw):
     kv = {}
 
     for arg in args:
-        if isinstance(arg, dict):
-            kv.update(arg)
-        else:
-            raise TypeError
+        kv.update(arg)
 
     kv.update(kw)
 

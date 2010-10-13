@@ -29,7 +29,7 @@
 import time
 
 import cherrypy
-from openerp.utils import TinyDict, expr_eval
+from openerp.utils import TinyDict, expr_eval, rpc
 from openerp.widgets import TinyInputWidget, register_widget
 from openerp.widgets.screen import Screen
 
@@ -39,7 +39,7 @@ __all__ = ["O2M"]
 class O2M(TinyInputWidget):
     """One2Many widget
     """
-    template = "templates/one2many.mako"
+    template = "/openerp/widgets/form/templates/one2many.mako"
     params = ['id', 'parent_id', 'new_attrs', 'pager_info', 'switch_to', 'default_get_ctx', 'source', 'view_type']
     member_widgets = ['screen']
 
@@ -95,17 +95,9 @@ class O2M(TinyInputWidget):
 
         self.switch_to = view_mode[-1]
         if view_type == view_mode[-1]: self.switch_to = view_mode[0]
-
-        if '_terp_sort_domain' in params:
-            if len(params.o2m.split('/')) > 1:
-                parent = params.o2m.split('/')[0]
-                child = params.o2m.split('/')[1]
-                ids = params[parent][child].ids
-            else:
-                ids = params[params.o2m].ids
-        else:
-            ids = attrs.get('value') or []
-
+        
+        ids = attrs.get('value') or []
+        
         if not isinstance(ids, list):
             ids = [ids]
 
@@ -114,16 +106,19 @@ class O2M(TinyInputWidget):
                 ids = []
             elif isinstance(ids[0], tuple):
                 ids = [current[1] for current in ids]
-
+        
         id = (ids or None) and ids[0]
-
+        
+        if self.name == self.source or self.name == params.source:
+            if params.sort_key and ids:
+                domain = current.domain or []
+                domain.append(('id', 'in', ids))
+                ids = rpc.RPCProxy(self.model).search(domain, current.offset, current.limit, params.sort_key + ' '+params.sort_order, current.context)
+                id = ids[0]
         if current and params.source and self.name in params.source.split('/'):
             id = current.id
 
         id = id or None
-        if not '_terp_sort_domain' in params:
-            if current and current.ids:
-                ids = list(set(ids + current.ids))
                 
         current.model = self.model
         current.id = id
@@ -136,11 +131,9 @@ class O2M(TinyInputWidget):
         group_by_ctx = ''
 
         if self.default_get_ctx:
-            ctx = cherrypy.request.terp_record
-            ctx['current_date'] = time.strftime('%Y-%m-%d')
-            ctx['time'] = time
-            ctx['context'] = current.context
-            ctx['active_id'] = self.parent_id or False
+            ctx = dict(cherrypy.request.terp_record,
+                       context=current.context,
+                       active_id=self.parent_id or False)
 
             # XXX: parent record for O2M
             #if self.parent:
@@ -166,10 +159,11 @@ class O2M(TinyInputWidget):
 
         if current.view_type == 'tree' and self.readonly:
             self.editable = False
-
+        
         self.screen = Screen(current, prefix=self.name, views_preloaded=view,
                              editable=self.editable, readonly=self.readonly,
                              selectable=0, nolinks=self.link, _o2m=1)
+        
         self.id = id
         self.ids = ids
 
@@ -184,7 +178,7 @@ class O2M(TinyInputWidget):
                 current_record = self.screen.ids.index(self.screen.id) + 1
                 self.pager_info = '(%s/%s OF %s)' % (current_record, records_count, records_count)
             else:
-                self.pager_info = '(%s/%s OF %s)' % (records_count+1, records_count+1, records_count)
+                self.pager_info = '(%s/%s OF %s)' % (records_count+1, records_count+1, records_count+1)
 
     def get_value(self):
 

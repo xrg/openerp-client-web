@@ -44,7 +44,7 @@ from tree import Tree
 from wizard import Wizard
 
 def execute_window(view_ids, model, res_id=False, domain=None, view_type='form', context=None,
-                   mode='form,tree', name=None, target=None, limit=None, search_view=None):
+                   mode='form,tree', name=None, target=None, limit=None, search_view=None, context_menu=False):
     """Performs `actions.act_window` action.
 
     @param view_ids: view ids
@@ -67,6 +67,7 @@ def execute_window(view_ids, model, res_id=False, domain=None, view_type='form',
     params.context = context or {}
     params.limit = limit
     params.search_view = search_view
+    params['context_menu'] = context_menu
 
     cherrypy.request._terp_view_name = name or None
     cherrypy.request._terp_view_target = target or None
@@ -89,7 +90,7 @@ def execute_window(view_ids, model, res_id=False, domain=None, view_type='form',
         return Tree().create(params)
 
     else:
-        raise common.message(_("Invalid View!"))
+        raise common.message(_("Invalid View"))
 
 def execute_wizard(name, **datas):
     """Executes given wizard with the given data
@@ -149,7 +150,7 @@ def execute_report(name, **data):
     if not ids:
         ids =  rpc.session.execute('object', 'execute', datas['model'], 'search', [])
         if ids == []:
-            raise common.message(_('Nothing to print!'))
+            raise common.message(_('Nothing to print'))
 
         datas['id'] = ids[0]
 
@@ -166,7 +167,7 @@ def execute_report(name, **data):
                 time.sleep(1)
                 attempt += 1
             if attempt>200:
-                raise common.message(_('Printing aborted, too long delay!'))
+                raise common.message(_('Printing aborted, too long delay'))
 
         # report name
         report_name = 'report'
@@ -244,7 +245,7 @@ def execute(action, **data):
         # save active_id in session
         rpc.session.active_id = data.get('id')
 
-        domain = expr_eval(action['domain'], dict(ctx, time=time, datetime=datetime))
+        domain = expr_eval(action['domain'], ctx)
 
         if data.get('domain', False):
             domain.append(data['domain'])
@@ -261,7 +262,8 @@ def execute(action, **data):
                              name=action.get('name'),
                              target=action.get('target'),
                              limit=data.get('limit'),
-                             search_view = data['search_view'])
+                             search_view = data['search_view'],
+                             context_menu= data.get('context_menu'))
 
         return res
 
@@ -298,11 +300,11 @@ def execute(action, **data):
     elif action['type']=='ir.actions.report.custom':
         data.update(action.get('datas',{}))
         data['report_id'] = action['report_id']
-        return execute_report('custom', **data)
+        return report_link('custom', **data)
 
     elif action['type']=='ir.actions.report.xml':
         data.update(action.get('datas',{}))
-        return execute_report(action['report_name'], **data)
+        return report_link(action['report_name'], **data)
 
     elif action['type']=="ir.actions.act_url":
         data['url'] = action['url']
@@ -315,10 +317,9 @@ def execute_url(**data):
     url = data.get('url') or ''
 
     if not ('://' in url or url.startswith('/')):
-        raise common.message(_('Relative URLs are not supported!'))
+        raise common.message(_('Relative URLs are not supported'))
     
-    """ Unknown URL required to open in new window/tab.
-    """
+    # Unknown URL required to open in new window/tab.
     if url.startswith('http://') or url.startswith('http://'):
         return """<html>
                 <head>
@@ -351,7 +352,7 @@ def get_action_type(act_id):
     res = proxy.read([act_id], ["type"], rpc.session.context)[0]
 
     if not (res and len(res)):
-        raise common.message(_('Action not found!'))
+        raise common.message(_('Action not found'))
 
     return res['type']
 
@@ -399,7 +400,7 @@ def execute_by_keyword(keyword, adds=None, **data):
     keyact.update(adds or {})
 
     if not keyact:
-        raise common.message(_('No action defined!'))
+        raise common.message(_('No action defined'))
 
     if len(keyact) == 1:
         data['context'].update(rpc.session.context)
@@ -408,6 +409,11 @@ def execute_by_keyword(keyword, adds=None, **data):
         return Selection().create(keyact, **data)
 
 
-@tools.expose(template="templates/closepopup.mako")
+@tools.expose(template="/openerp/controllers/templates/closepopup.mako")
 def close_popup(*args, **kw):
     return dict()
+
+@tools.expose(template="/openerp/controllers/templates/report.mako")
+def report_link(report_name, **kw):
+    return dict(name=report_name, data=kw)
+    

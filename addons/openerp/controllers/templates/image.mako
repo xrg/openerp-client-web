@@ -5,19 +5,26 @@
     <script type="text/javascript">
 
         function do_delete(form, id, field){
-            setNodeAttribute(form, 'action', openobject.http.getURL('/image/delete', {id: id}));
+            setNodeAttribute(form, 'action', openobject.http.getURL('/openerp/image/delete', {id: id}));
             jQuery('#'+form).submit();
         }
 
         function do_save(form, id){
-            setNodeAttribute(form, 'action', openobject.http.getURL('/image/save_as', {id: id}));
+            setNodeAttribute(form, 'action', openobject.http.getURL('/openerp/image/save_as', {id: id}));
             jQuery('#'+form).submit();
         }
 
         jQuery(document).ready(function(){
-            img = window.opener.document.getElementById('${field}');
-            img.src = img.src + '&' + Math.random();
-            if(openobject.dom.get('saved').value)
+            var saved = openobject.dom.get('saved').value;
+            var img = window.opener.document.getElementById('${field}');
+            if(saved != '' && !parseInt(saved, 10)) {
+                img.src = "data:image/png;base64," + document.getElementById('value').value;
+                window.opener.document.getElementById('_${field}').value =  document.getElementById('value').value;
+            }
+            else{
+                img.src = img.src + '&' + Math.random();
+            }
+            if(saved)
                 window.close();
         });
 
@@ -42,6 +49,7 @@
                         <input type="hidden" name="id" value="${id}"/>
                         <input type="hidden" name="field" value="${field}"/>
                         <input type="hidden" id="saved" name="saved" value="${saved}"/>
+                        <input type="hidden" id="value" name="value" value="${value}"/>
                         <div class="toolbar">
                         <table border="0" cellpadding="0" cellspacing="0" width="100%">
                             <tr>
@@ -56,8 +64,8 @@
                             <tr>
                                 <td width="100%">
                                 <button type="submit">${_("Save")}</button>
-                                <a href="javascript: void(0)" class="button-a" onclick="do_save('add_image', id)">${_("Save As")}</a>
-                                <a href="javascript: void(0)" class="button-a" onclick="do_delete('add_image', id, field)">${_("Delete")}</a>
+                                <a href="javascript: void(0)" class="button-a" onclick="do_save('add_image', '${id}')">${_("Save As")}</a>
+                                <a href="javascript: void(0)" class="button-a" onclick="do_delete('add_image', '${id}', '${field}')">${_("Delete")}</a>
                                 </td>
                                 <td>
                                 	<a href="javascript: void(0)" class="button-a" onclick="window.close()">${_("Close")}</a>

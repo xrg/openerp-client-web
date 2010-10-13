@@ -40,26 +40,25 @@ class Image(SecuredController):
 
     _cp_path = "/openerp/image"
 
-    @expose(template="templates/image.mako")
+    @expose(template="/openerp/controllers/templates/image.mako")
     def index(self, **kw):
 
         saved = kw.get('saved') or None
         model = kw.get('model')
         id = kw.get('id')
         field = kw.get('field')
-
-        return dict(model=model, saved=saved, id=id, field=field)
+        value = kw.get('value') or None
+        return dict(model=model, saved=saved, id=id, field=field, value=value)
 
     @expose(content_type='application/octet')
     def get_image(self, **kw):
         model = kw.get('model')
         field = kw.get('field')
         id = int(kw.get('id'))
-
+        
         proxy = rpc.RPCProxy(model)
         res = proxy.read([id], [field])[0]
         res = res.get(field)
-
         if res:
             return base64.decodestring(res)
         else:
@@ -74,58 +73,71 @@ class Image(SecuredController):
             raise cherrypy.HTTPError(404)
         return data
 
-    @expose(template="templates/image.mako")
+    @expose(template="/openerp/controllers/templates/image.mako", methods=('POST',))
     def add(self, upimage,  **kw):
 
         saved = kw.get('saved') or None
-
+        value = kw.get('value') or None
         datas = upimage.file.read()
 
         model = kw.get('model')
-        id = int(kw.get('id'))
+        id = kw.get('id')
+        if id:
+            id = int(id)
         field = kw.get('field')
 
         value = base64.encodestring(datas)
+        
+        if id:
+            data = {field: value}
+            
+            proxy = rpc.RPCProxy(model)
+            res = proxy.write([id], data)
+    
+            if res:
+                saved = 1
+            value = None
+        else:
+            saved = 0
+        return dict(model=model, saved=saved, id=id, field=field, value=value)
 
-        data = {field: value}
-
-        proxy = rpc.RPCProxy(model)
-        res = proxy.write([id], data)
-
-        if res:
-            saved = 1
-
-        return dict(model=model, saved=saved, id=id, field=field)
-
-    @expose(template="templates/image.mako")
+    @expose(template="/openerp/controllers/templates/image.mako")
     def delete(self, **kw):
 
-        saved = None
+        saved = kw.get('saved') or None
         model = kw.get('model')
-        id = int(kw.get('id'))
+        id = kw.get('id')
+        if id:
+            id = int(id)
         field = kw.get('field')
-
-        proxy = rpc.RPCProxy(model)
-        proxy.write([id], {field: False})
-
-        return dict(model=model, saved=saved, id=id, field=field)
+        if id:
+            proxy = rpc.RPCProxy(model)
+            proxy.write([id], {field: False})
+        return dict(model=model, saved=saved, id=id, field=field, value = '')
 
     @expose(content_type='application/octet')
     def save_as(self, **kw):
-
         model = kw.get('model')
-        id = int(kw.get('id'))
+        id = kw.get('id')
+        if id:
+            id = int(id)
         field = kw.get('field')
-
-        proxy = rpc.RPCProxy(model)
-        res = proxy.read([id], [field])[0]
-
-        res = res.get(field)
-
-        if not res:
-            raise redirect('/openerp/image', **kw)
-
-        return base64.decodestring(res)
+        if id:
+            proxy = rpc.RPCProxy(model)
+            res = proxy.read([id], [field])[0]
+    
+            res = res.get(field)
+    
+            if not res:
+                raise redirect('/openerp/image', **kw)
+        
+            return base64.decodestring(res)
+        else:
+            datas = kw.get('upimage')
+            fname = datas.filename
+            cherrypy.response.headers["Content-Disposition"] = "attachment; filename=%s" % fname
+            
+            return base64.encodestring(datas.file.read())
 
     @expose()
     def b64(self, **kw):

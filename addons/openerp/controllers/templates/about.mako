@@ -93,18 +93,18 @@ ${_("""Depending on your needs, OpenERP is available through a web or applicatio
                 </tr><tr>
                     <td>
                         <a target="_blank" href="http://openerp.com/downloads.html">${_("Download")}</a>
-                    </td>                
+                    </td>
                 </tr><tr>
                     <td>
                         <a target="_blank" href="http://doc.openerp.com/">${_("Documentation")}</a>
                     </td>
                 </tr><tr>
                     <td>
-                        <a target="_blank" href="http://doc.openerp.com/modindex.html">${_("Modules")}</a>
+                        <a target="_blank" href="http://doc.openerp.com/py-modindex.html">${_("Modules")}</a>
                     </td>
                 </tr><tr>
                     <td>
-                        <a target="_blank" href="http://openobject.tv/">${_("Screencasts")}</a>
+                        <a target="_blank" href="http://www.openerp.tv/">${_("Screencasts")}</a>
                     </td>
                 </tr><tr>
                     <td>

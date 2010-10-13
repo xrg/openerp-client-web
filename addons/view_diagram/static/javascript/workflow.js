@@ -37,7 +37,21 @@ if (typeof(openobject.workflow) == "undefined") {
     openobject.workflow = new Object;
 }
 
+var WORKFLOW;
+function show_grid(el) {
+    WORKFLOW.setBackgroundImage(
+            el.checked ? '/view_diagram/static/images/grid_10.jpg' : null,
+            el.checked);
+    WORKFLOW.setGridWidth(10, 10);
+    WORKFLOW.setSnapToGrid(el.checked);
+}
 
+function create_node() {
+    var html = WORKFLOW.state.getHTMLElement();
+    html.style.display = '';
+    WORKFLOW.state.edit();
+    html.style.display = 'none';
+}
 
 openobject.workflow.Workflow = new Class;
 openobject.workflow.Workflow.prototype = $merge(openobject.workflow.Workflow.prototype, draw2d.Workflow.prototype);
@@ -47,7 +61,6 @@ openobject.workflow.Workflow.implement({
 	initialize : function(canvas) {
 		draw2d.Workflow.call(this, canvas);
 		this.getCommandStack().setUndoLimit(0);
-        this.setEnableSmoothFigureHandling(true);
         
         // enable grid by default
         this.setBackgroundImage('/view_diagram/static/images/grid_10.jpg', true);
@@ -60,35 +73,21 @@ openobject.workflow.Workflow.implement({
 		this.connector_obj = openobject.dom.get('connector').value;
 		this.src_node_nm = openobject.dom.get('src_node').value;
 		this.des_node_nm = openobject.dom.get('des_node').value;
+		this.in_transition_field = this.out_transition_field = '';
 		
-		this.states = new draw2d.ArrayList();
-		this.connectors = new draw2d.ArrayList();		
+		this.states = {};
+		this.connectors = {};		
 		this.selected = null;
-		
-		if (getElement('_terp_editable').value=='True') {
-			var tbar = new openobject.workflow.Toolbar();
-			this.toolPalette = tbar;
-			tbar.setWorkflow(this);
-			tbar.canDrag = false;
-			
-			tbar = tbar.getHTMLElement();
-			tbar.style.position = 'relative';
-			tbar.style.top = '0px';
-			tbar.style.left = '0px';
-			tbar.style.zIndex = 0;
-			
-	        MochiKit.DOM.appendChildNodes('toolbox', tbar);
-		}else {
+
+        if(getElement('workitems'))
             this.workitems = eval(getElement('workitems').value);
-            removeElement('toolbox');
-		}
-		
+
 //		dummy state
 		this.state = new openobject.workflow.StateOval({}, []);
         this.state.setDimension(100, 60);
 		this.state.setBackgroundColor(new draw2d.Color(255, 255, 255));
 		this.state.getHTMLElement().style.display = 'none';
-        this.addFigure(this.state, 100, 20);
+        this.addFigure(this.state, 20, 20);
 		this.state.initPort();
 		this.state.initPort();
 		
@@ -102,7 +101,7 @@ openobject.workflow.Workflow.implement({
             this.draw_graph(openobject.dom.get('wkf_id').value);
         else {            
             openobject.dom.get('loading').style.display = 'none';
-        }   	 
+        }
 	},
 	
     draw_graph : function(wkf_id) {
@@ -116,6 +115,9 @@ openobject.workflow.Workflow.implement({
 		                                                      node_flds_v: this.node_flds_v, node_flds_h: this.node_flds_h, conn_flds: this.conn_flds,
 		                                                      bgcolors: this.bgcolors, shapes: this.shapes});
 		req.addCallback(function(obj) {	
+			self.in_transition_field = obj['in_transition_field'];
+			self.out_transition_field = obj['out_transition_field'];
+			
 			for(i in obj.nodes) {
                 var node = obj.nodes[i];
 
@@ -126,7 +128,7 @@ openobject.workflow.Workflow.implement({
 		          
                 self.addFigure(state, node['x'], node['y']);
                 state.initPort();
-                self.states.add(state);
+                self.states[node['id']] = state;
 			}
 			
 			//check for overlapping connections
@@ -155,24 +157,9 @@ openobject.workflow.Workflow.implement({
                 check_for['totalOverlaped'] = counter;
 			}			
 			 
-			var n = self.states.getSize();
-			
 			for(i in obj.conn) {				
 				var conn = obj.conn[i];
-				var start = 0;
-				var end = 0;
-				
-				for(j=0; j<n; j++) {
-						
-					var node = self.states.get(j);
-					var id = node.act_id;
-					
-					if(id==conn['s_id'])
-						start = j;							
-					else if(id==conn['d_id'])
-						end =j;
-				}
-                self.add_connection(start, end, conn)
+                self.add_connection(conn['s_id'], conn['d_id'], conn);
 			}
 			
 	    	openobject.dom.get('loading').style.display = 'none';
@@ -181,12 +168,11 @@ openobject.workflow.Workflow.implement({
 	
 	get_overlaping_connection : function(s, e, flag) {
 		
-		var n = this.connectors.getSize();
 		var conn_overlapped = new Array();
 		var counter = 1;
 		
-		for(i=0; i<n; i++) {
-			var conn = this.connectors.get(i);
+		for (i in this.connectors) {
+			var conn = this.connectors[i];
 			var start = conn.getSource().getParent().get_act_id();
 			var end = conn.getTarget().getParent().get_act_id();
 			
@@ -202,7 +188,7 @@ openobject.workflow.Workflow.implement({
 		}
 		
 		for(i=0; i<conn_overlapped.length; i++) {
-			var conn = this.connectors.get(conn_overlapped[i]);
+			var conn = this.connectors[conn_overlapped[i]];
 			
 			if(flag) {
 				conn.totalOverlaped = counter;
@@ -212,47 +198,46 @@ openobject.workflow.Workflow.implement({
 					conn.isOverlaping = false;
 			}
 		}
-		
+
 		return counter;
-	},	
-	
+	},
+
 	add_connection : function(start, end, params) {
-        
-        var source = this.states.get(start);
-        var destination = this.states.get(end);
- 
+
+        var source = this.states[start];
+        var destination = this.states[end];
+
         var conn = new openobject.workflow.Connector(params.id, params.source, params.destination, params.options);
-        var n = this.connectors.getSize();
-        
+
         //self connection
         if(start==end) {
             conn.setSourceAnchor(new draw2d.ConnectionAnchor);
             conn.setTargetAnchor(new draw2d.ConnectionAnchor);
-            conn.setRouter(new draw2d.BezierConnectionRouter());        
+            conn.setRouter(new draw2d.BezierConnectionRouter());
         }
-        
-        conn.isOverlaping = params.isOverlaping;       
+
+        conn.isOverlaping = params.isOverlaping;
         conn.OverlapingSeq = params.OverlapingSeq;
         conn.totalOverlaped = params.totalOverlaped;
-        
+
         var spos = source.getBounds();
         var dpos = destination.getBounds();
-    
-        //fix source and destination ports 
+
+        //fix source and destination ports
         if(spos.x<dpos.x) {
             conn.setTarget(destination.portL);
-            
-            if((spos.y + spos.h - dpos.y)>50) 
+
+            if((spos.y + spos.h - dpos.y)>50)
                 conn.setSource(source.portD);
             else if((dpos.y + dpos.h - spos.y)>50)
                 conn.setSource(source.portU);
-            else 
+            else
                 conn.setSource(source.portR);
         }
         else {
             conn.setTarget(destination.portR);
-            
-            if((spos.y + spos.h - dpos.y)>50) 
+
+            if((spos.y + spos.h - dpos.y)>50)
                 conn.setSource(source.portD);
             else if((dpos.y + dpos.h - spos.y)>50)
                 conn.setSource(source.portU);
@@ -260,128 +245,142 @@ openobject.workflow.Workflow.implement({
                 conn.setSource(source.portL);
         }
         
+        source.out_transition.push(params.id)
+        destination.in_transition.push(params.id)
+
         this.addFigure(conn);
-        this.connectors.add(conn);
+        this.connectors[params.id] = conn;
     },
-	
+
 	create_state : function(id) {
-	    
-		if(id != 0) {	
+
+		if(id != 0) {
 			var position = this.state.getPosition();
-			this.state.setPosition(100, 20);	
+			this.state.setPosition(100, 20);
 			var self = this;
 			
 			req = openobject.http.postJSON('/view_diagram/workflow/state/get_info',{node_obj: self.node_obj, id: id, 
-			                                                         node_flds_v: this.node_flds_v, 
-			                                                         node_flds_h: this.node_flds_h,
-			                                                         bgcolors: this.bgcolors, 
-			                                                         shapes: this.shapes});
+																					in_transition_field: this.in_transition_field,
+																					out_transition_field: this.out_transition_field,
+							                                                        node_flds_v: this.node_flds_v, 
+							                                                        node_flds_h: this.node_flds_h,
+							                                                        bgcolors: this.bgcolors, 
+							                                                        shapes: this.shapes
+							                                                        });
+
 			req.addCallback(function(obj) {
 				var flag = false;
 				var index = null;
-				var n = self.states.getSize(); 
 				var data = obj.data;
-				
-				for(i=0; i<n; i++) {
-					if(self.states.get(i).get_act_id() == id) {
-						flag=true;
-						index = i;
-						break;
-					}
-				}			
-			
+				if (self.states[id])
+					flag = true;
+
+
 				if(!flag) {
 			        if(!data['subflow_id'])
 			             var state = new openobject.workflow.StateOval(data, self.workitems);
 			        else
 			             var state = new openobject.workflow.StateRectangle(data, self.workitems);
-			             
+
 			        self.addFigure(state, position.x, position.y);
-			        self.states.add(state);
+			        self.states[id] = state;
 			        state.initPort();
-				}else {				    
-					var state = self.states.get(index);
+				}else {
+					var state = self.states[id];
 					var span = openobject.dom.get(state.name);
 					span.innerHTML = data['name'];
 					span.id = data['name'];
-					
+
 					MochiKit.Base.update(state.options, data['options'])
-				}	
+				}
+
+				var in_tr = data[self.in_transition_field];
+				for(i=0; i<in_tr.length; i++) {//create new transition
+					if (state.in_transition.indexOf(in_tr[i])==-1)
+						self.create_connection(false, false, in_tr[i]);
+				}
+				
+				for(i=0; i<state.in_transition.length; i++) {//delete non-existent transition
+					var tr = state.in_transition[i];
+					if (in_tr.indexOf(tr)==-1)
+						self.remove_conn(self.connectors[tr]);
+				}
+				
+				var out_tr = data[self.out_transition_field];
+				for(i=0; i<out_tr.length; i++) {//create new transition
+					if (state.out_transition.indexOf(out_tr[i])==-1)
+						self.create_connection(false, false, out_tr[i]);
+				}
+				
+				for(i=0; i<state.out_transition.length; i++) {//delete non-existent transition
+					var tr = state.out_transition[i];
+					if (out_tr.indexOf(tr)==-1) 
+						self.remove_conn(self.connectors[tr]);
+				}
+			
+
 			});
 		} else {
-			alert('state could not be created');
+			error_display('state could not be created');
 		}
 	},
+
 	
-	create_connection : function(act_from, act_to) {
-		
+	create_connection : function(act_from, act_to, id) {
+
 		var self = this;
-		req = openobject.http.postJSON('/view_diagram/workflow/connector/auto_create', {conn_obj: self.connector_obj, 
+		var req = openobject.http.postJSON('/view_diagram/workflow/connector/auto_create', {conn_obj: self.connector_obj, 
 		                                                                  src: self.src_node_nm, 
 		                                                                  des: self.des_node_nm, 
 		                                                                  act_from: act_from, 
 		                                                                  act_to: act_to,
+		                                                                  id: id,
 		                                                                  conn_flds: this.conn_flds});
 		req.addCallback(function(obj) {
 			var data = obj.data;
-			
+
 			if(obj.flag) {
-				var n = self.states.getSize();
-				var start = 0;
-				var end = 0;
-				
-				for(j=0; j<n; j++) {	
-					var node = self.states.get(j);
-					var id = node.get_act_id();
-					if(id==act_from)
-						start = j;							
-					if(id==act_to)
-						end = j;
-				}
-				
+				if (!act_from)
+					act_from = data['s_id']
+                if (!act_to)
+					act_to = data['d_id']
+					              
 				var counter = self.get_overlaping_connection(data['s_id'], data['d_id'], 1);
 				var params = MochiKit.Base.update({}, obj.data);
-				
+
 				if(counter>1) {
 					params['isOverlaping'] = true;
 					params['OverlapingSeq'] = counter;
 					params['totalOverlaped'] = counter;
-				}		
-				
-				self.add_connection(start, end, params);
+				}
+
+				self.add_connection(act_from, act_to, params);
 			} else {
-				alert('Could not create transaction at server');
+				error_display('Could not create transaction at server');
 			}
-		});		
+		});
 	},
-	
-	update_connection : function(id) {	
-		
+
+	update_connection : function(id) {
+
 		var self = this;
 		req = openobject.http.postJSON('/view_diagram/workflow/connector/get_info',{conn_obj: self.connector_obj, id: id});
 		req.addCallback(function(obj) {
-			var n = self.connectors.getSize();
-			
-			for(i=0; i<n; i++) {
-				var conn = self.connectors.get(i);
-				if(id==conn.get_tr_id()) {
-					conn.signal = obj.data['signal'];
-					conn.condition = obj.data['condition'];
-					break;		
-				}
-			}			
+			var conn = self.connectors[id];
+			conn.signal = obj.data['signal'];
+			conn.condition = obj.data['condition'];
 		});
 	},
-	
-	remove_elem : function(elem) {	
+
+	remove_elem : function(elem) {
         if(elem instanceof openobject.workflow.StateOval || elem instanceof openobject.workflow.StateRectangle)
             this.unlink_state(elem);
         else if(elem instanceof openobject.workflow.Connector)
             this.unlink_connector(elem);
 	},
-	
+
 	unlink_state : function(state) {
-		
+
 		var self = this;
 		req = openobject.http.postJSON('/view_diagram/workflow/state/delete', {node_obj: self.node_obj, 'id': state.get_act_id()});
 		req.addCallback(function(obj) {
@@ -389,72 +388,74 @@ openobject.workflow.Workflow.implement({
 				state.__delete__();
 				self.remove_state(state);
 			} else {
-				alert(obj.error);
-			}			
+				error_display(obj.error);
+			}
 		});
 	},
-	
-	remove_state : function(state) {     
-        
+
+	remove_state : function(state) {
+
         var fig = this.getFigure(state.getId());
         var connections = null;
-                
+
         if(fig.getPorts && connections==null) {
             connections = new draw2d.ArrayList();
             var ports = fig.getPorts();
             for(var i=0; i<ports.getSize(); i++) {
-                if(ports.get(i).getConnections) {                
+                if(ports.get(i).getConnections) {
                     connections.addAll(ports.get(i).getConnections());
             }
           }
         }
-    
+
         if(connections == null)
             connections = new draw2d.ArrayList();
-      
+
         for (var i = 0; i < connections.getSize(); ++i) {
             this.removeFigure(connections.get(i));
         }
-   
+
         this.removeFigure(fig);
-        this.setCurrentSelection(null); 
+        this.setCurrentSelection(null);
         if(fig.parent!=null)
             fig.parent.removeChild(fig);
-        this.states.remove(state);
+        delete this.states[state.get_act_id()];
 	},
-	
+
 	unlink_connector : function(conn) {
-		
+
 		var self = this;
 		req = openobject.http.postJSON('/view_diagram/workflow/connector/delete', {conn_obj: self.connector_obj, 'id': conn.get_tr_id()});
 		req.addCallback(function(obj) {
-			if(!obj.error) {				
+			if(!obj.error) {
 				conn.__delete__();
 				self.remove_conn(conn);
 			} else
-				alert(obj.error);
+				error_display(obj.error);
 		});
 	},
-	
+
 	remove_conn : function(conn) {
-		
+		var id = conn.get_tr_id();
 		var start = conn.getSource().getParent().get_act_id();
 		var end = conn.getTarget().getParent().get_act_id();
-		
-		this.connectors.remove(conn);		
-		if(conn.isOverlaping)	
+
+		this.states[end].in_transition.splice(this.states[end].in_transition.indexOf(id), 1)		
+		this.states[start].out_transition.splice(this.states[start].out_transition.indexOf(id), 1)
+		delete this.connectors[id];
+		if(conn.isOverlaping)
 			this.get_overlaping_connection(start, end, 0);
-			
+
 		this.removeFigure(conn);
 	},
-	
+
 	onMouseDown : function(x, y) {
-        
+
         if (this.currentSelection instanceof draw2d.Connection)
             this.selected = this.currentSelection;
         else
-            this.selected = null;	 
-                
+            this.selected = null;
+
 	    draw2d.Workflow.prototype.onMouseDown.call(this, x, y);
 	}
 });

@@ -38,31 +38,30 @@ class State(Form):
 
     _cp_path = "/view_diagram/workflow/state"
 
-    @expose(template="templates/wkf_popup.mako")
+    @expose(template="/view_diagram/controllers/templates/wkf_popup.mako")
     def create(self, params, tg_errors=None):
         
         params.path = self.path
         params.function = 'create_state'
-
+        
         if params.id and cherrypy.request.path_info == self.path + '/view':
             params.load_counter = 2
-        else:
-            params.context = {'o2m_model': params.o2m_model}
-
+        elif not params.context:
+            params.context = {'o2m_model': params.o2m_model, 'o2m_id': params.o2m_id}
+            
         proxy_field = rpc.RPCProxy('ir.model.fields')
         field_ids = proxy_field.search([('model', '=', params.o2m_model or params.context.get('o2m_model')), ('relation', '=', params.model)], 0, 0, 0, rpc.session.context)
-        m2o_field = proxy_field.read(field_ids, ['relation_field'],
-                                     rpc.session.context)[0]['relation_field']
+        m2o_field = proxy_field.read(field_ids, ['relation_field'], rpc.session.context)[0]['relation_field']
 
         params.hidden_fields = [tw.form.Hidden(name=m2o_field,
-                                               default=params.o2m_id),
+                                               default=params.o2m_id or params.context.get('o2m_id', False)),
                                 tw.form.Hidden(name='_terp_o2m_model',
                                                default=params.o2m_model)]
         form = self.create_form(params, tg_errors)
 
         field = form.screen.widget.get_widgets_by_name(m2o_field)
         if field:
-            field[0].set_value(params.o2m_id or False)
+            field[0].set_value(params.o2m_id or params.context.get('o2m_id', False))
             field[0].readonly = True
 
         vals = getattr(cherrypy.request, 'terp_validators', {})
@@ -72,11 +71,6 @@ class State(Form):
         tr_ids = proxy_field.search([('ttype', '=', 'one2many'), ('model', '=', params.model)], 0, 0, 0, rpc.session.context)
         tr_fields = proxy_field.read(tr_ids, ['name'], rpc.session.context)
         
-        for field in tr_fields:#to hide one2many fields from form
-            hide += form.screen.widget.get_widgets_by_name(field['name'])
-        
-        hide += form.screen.widget.get_widgets_by_name('', kind=tw.form.Separator)
-
         for w in hide:
             w.visible = False
 
@@ -95,7 +89,7 @@ class State(Form):
 
         return self.create(params)
 
-    @expose('json')
+    @expose('json', methods=('POST',))
     def delete(self, node_obj, id, **kw):
 
         error_msg = None
@@ -108,7 +102,7 @@ class State(Form):
         return dict(error=error_msg)
 
     @expose('json')
-    def get_info(self, node_obj, id, **kw):
+    def get_info(self, node_obj, id, in_transition_field, out_transition_field, **kw):
         node_flds_visible = eval(kw.get('node_flds_v', '[]'))
         node_flds_hidden = eval(kw.get('node_flds_h', '[]'))
         
@@ -123,16 +117,18 @@ class State(Form):
             if shape_spec:
                 colour, test = shape_spec.split(':')
                 shapes[colour] = test 
-
+        
         proxy_act = rpc.RPCProxy(node_obj)
         search_act = proxy_act.search([('id', '=', int(id))], 0, 0, 0, rpc.session.context)
-        result = proxy_act.read(search_act, node_flds_visible + node_flds_hidden, rpc.session.context)[0]
+        result = proxy_act.read(search_act, [in_transition_field, out_transition_field] + node_flds_visible + node_flds_hidden, rpc.session.context)[0]
         
         data = {
                 'id': result['id'],
                 'name': result.get('name', ''),  
                 'color': 'white',
                 'shape': 'ellipse',
+                in_transition_field: result[in_transition_field],
+                out_transition_field: result[out_transition_field],
                 'options': {}
                 }
         
@@ -146,7 +142,7 @@ class State(Form):
 
         for fld in node_flds_visible:
             data['options'][fld.title()] = result[fld]
-
+            
         return dict(data=data)
     
 
@@ -154,7 +150,7 @@ class Connector(Form):
 
     _cp_path = "/view_diagram/workflow/connector"
 
-    @expose(template="templates/wkf_popup.mako")
+    @expose(template="/view_diagram/controllers/templates/wkf_popup.mako")
     def create(self, params, tg_errors=None):
 
         params.path = self.path
@@ -210,7 +206,7 @@ class Connector(Form):
 
         return self.create(params)
 
-    @expose('json')
+    @expose('json', methods=('POST',))
     def delete(self, conn_obj, id, **kw):
         error_msg = None
         proxy = rpc.RPCProxy(conn_obj)
@@ -225,7 +221,11 @@ class Connector(Form):
     def auto_create(self, conn_obj, src, des, act_from, act_to, **kw):
         conn_flds = eval(kw.get('conn_flds', '[]'))
         proxy_tr = rpc.RPCProxy(conn_obj)
-        id = proxy_tr.create({src: act_from, des: act_to})
+        
+        if not(kw.get('id', False)):
+            id = proxy_tr.create({src: act_from, des: act_to})
+        else:
+            id = int(kw['id'])
 
         if src not in conn_flds: conn_flds.append(src)
         if des not in conn_flds: conn_flds.append(des)
@@ -257,7 +257,7 @@ class Connector(Form):
         
         return dict(data=data[0])
 
-    @expose('json')
+    @expose('json', methods=('POST',))
     def change_ends(self, conn_obj, id, field, value):
         proxy_tr = rpc.RPCProxy(conn_obj)
         proxy_tr.write([int(id)], {field: int(value)}, rpc.session.context)
@@ -268,7 +268,7 @@ class Workflow(Form):
 
     _cp_path = "/view_diagram/workflow"
 
-    @expose(template="templates/workflow.mako")
+    @expose(template="/view_diagram/controllers/templates/workflow.mako")
     def index(self, model, rec_id=None):
         
         proxy = rpc.RPCProxy("workflow")
@@ -381,7 +381,14 @@ class Workflow(Form):
             
             for fld in node_flds_visible:
                 n['options'][fld.title()] = act[fld]
-
-        return dict(nodes=nodes,conn=connectors)
+        
+        #to relate m2o field of transition to corresponding o2m in activity        
+        in_transition_field_id = proxy_field.search([('relation', '=', conn_obj), ('relation_field', '=', des_node), ('model', '=', node_obj)], 0, 0, 0, rpc.session.context)
+        in_transition_field = proxy_field.read(in_transition_field_id[0], ['name'], rpc.session.context)['name']
+        
+        out_transition_field_id = proxy_field.search([('relation', '=', conn_obj), ('relation_field', '=', src_node), ('model', '=', node_obj)], 0, 0, 0, rpc.session.context)
+        out_transition_field = proxy_field.read(out_transition_field_id[0], ['name'], rpc.session.context)['name']
+        
+        return dict(nodes=nodes, conn=connectors, in_transition_field=in_transition_field, out_transition_field=out_transition_field)
 
 # vim: ts=4 sts=4 sw=4 si et

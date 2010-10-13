@@ -40,7 +40,7 @@ from _base import ICalendar, TinyCalendar
 from utils import Day, Week, Month, Year
 
 class MiniCalendar(TinyWidget):
-    template = 'templates/mini.mako'
+    template = 'view_calendar/widgets/templates/mini.mako'
     params = ['selected_day', 'month', 'forweek', 'highlight']
 
     month = None
@@ -58,7 +58,7 @@ class MiniCalendar(TinyWidget):
         self.highlight = highlight
 
 class GroupBox(TinyWidget):
-    template = 'templates/groups.mako'
+    template = 'view_calendar/widgets/templates/groups.mako'
     params = ["colors", "color_values", "title", "grp_model", "grp_domain", "grp_context"]
 
     colors = {}
@@ -78,7 +78,7 @@ class GroupBox(TinyWidget):
             self.grp_context = group_relation['context']
             
 class Sidebar(TinyWidget):
-    template = 'templates/sidebar.mako'
+    template = 'view_calendar/widgets/templates/sidebar.mako'
     params = ['use_search']
     member_widgets = ['minical', 'groupbox']
     
@@ -123,7 +123,7 @@ def _get_selection_day(day, selected, mode):
 
 class MonthCalendar(TinyCalendar):
 
-    template = 'templates/month.mako'
+    template = 'view_calendar/widgets/templates/month.mako'
     params = ['month', 'events', 'selected_day', 'calendar_fields', 'date_format']
 
     month = None
@@ -153,7 +153,7 @@ class MonthCalendar(TinyCalendar):
 
 
 class WeekCalendar(TinyCalendar):
-    template = 'templates/week.mako'
+    template = 'view_calendar/widgets/templates/week.mako'
     params = ['week', 'events', 'selected_day', 'calendar_fields', 'date_format']
 
     week = None
@@ -180,7 +180,7 @@ class WeekCalendar(TinyCalendar):
         self.sidebar = Sidebar(minical, groupbox, self.use_search)
 
 class DayCalendar(TinyCalendar):
-    template = 'templates/day.mako'
+    template = 'view_calendar/widgets/templates/day.mako'
     params = ['day', 'events', 'calendar_fields', 'date_format']
 
     day = None
@@ -207,7 +207,7 @@ class DayCalendar(TinyCalendar):
 
 class GanttCalendar(ICalendar):
 
-    template = 'templates/gantt.mako'
+    template = 'view_calendar/widgets/templates/gantt.mako'
 
     params = ['title', 'level', 'groups', 'days', 'events', 'calendar_fields', 'date_format',
               'selected_day', 'mode', 'headers', 'subheaders', 'model', 'ids']
@@ -409,9 +409,9 @@ class GanttCalendar(ICalendar):
             elif group_id:
                 group_id, group_title = rpc.RPCProxy(obj).name_get([group_id], rpc.session.context)[0]
 
-            group = groups.setdefault(group_id, {'id': group_id, 'title': group_title, 'model': obj, 'items': []})
+            group = groups.setdefault(group_id, {'id': str(group_id), 'title': group_title, 'model': obj, 'items': []})
 
-            group['items'].append(evt.record_id)
+            group['items'].append(str(evt.record_id))
 
             if group_id not in keys:
                 keys.append(group_id)
