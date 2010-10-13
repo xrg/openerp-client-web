@@ -855,7 +855,7 @@ div#serverlog a {
     -webkit-border-radius: 0;
     border-radius: 0;
 
-    border: 1px solid #cccbcb;
+    border: 1px solid #666666;
     border-left-width: 0;
     background: #F4F2F2;
     font-size: 1em !important;
@@ -866,7 +866,7 @@ div#serverlog a {
     line-height: 1.25;
     white-space: nowrap;
     min-height: 40px;
-    min-width: 55px;
+    min-width: 75px;
 
     padding: 2px 4px !important;
 }
@@ -912,7 +912,7 @@ div#serverlog a {
 }
 
 .filters-group .group_box:first-child button {
-    border-left: 1px solid #cccbcb;
+    border-left: 1px solid #666666;
     -webkit-border-top-left-radius: 7px;
     -webkit-border-bottom-left-radius: 7px;
     -moz-border-radius-topleft: 7px;
