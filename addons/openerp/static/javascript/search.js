@@ -105,14 +105,14 @@ function addOrBlock(elem){
     var position_tr = filter_option_table.find('tr:last');
     position_tr.find('select.filter_fields_or').parent().hide();    
     
-    var newtbody = jQuery('<tbody>');    
+    var newtbody = jQuery('<tbody>');
     var tr = jQuery('<tr id="or">');
     var td = jQuery('<td>', {'colspan': '6'});
     td.append(jQuery('<div class="filter-lsep">').append(jQuery('<hr class="filter-hr"/>')));
     td.append(jQuery('<div class="filter-msep">Or</div>'));
     td.append(jQuery('<div class="filter-rsep">').append(jQuery('<hr class="filter-hr"/>')));
-    jQuery(tr).append(td)
-    jQuery(newtbody).append(tr)
+    jQuery(tr).append(td);
+    jQuery(newtbody).append(tr);
 
     var oldTr = filter_option_table.find('tr:first');
     var new_tr = oldTr.clone();
@@ -300,16 +300,16 @@ jQuery.extend({
         $.each(obj, function(k){ a.push(k) });
         return a;
     }
-})
+});
 
 function display_Customfilters(all_domains, group_by_ctx) {
     var Allrecords = {};
-    var parent_tbody = jQuery('#filter_option_table > tbody')
+    var parent_tbody = jQuery('#filter_option_table > tbody');
 
     parent_tbody.each(function () {
         var children = jQuery(this).children('.filter_row_class');
         var record = {};
-        var pid = jQuery(this).index()
+        var pid = jQuery(this).index();
 
         children.each(function () {
             var $constraint_value = jQuery(this).find('input.qstring');
@@ -342,13 +342,13 @@ function display_Customfilters(all_domains, group_by_ctx) {
             });
         }
         var form_result = obj.frm;
-        var tbody_keys = jQuery.keys(form_result)
+        var tbody_keys = jQuery.keys(form_result);
 
         if(form_result) {
             // By property, we get incorrect ordering
             for(var ind=0; ind<tbody_keys.length ;ind++){
                 var All_domain = [];
-                var group = []
+                var group = [];
                 var tbody_frm_ind = form_result[tbody_keys[ind]]; //tbody dictionary
                 var trs_keys = jQuery.unique(jQuery.keys(tbody_frm_ind)); //sort trs
 
@@ -356,7 +356,7 @@ function display_Customfilters(all_domains, group_by_ctx) {
                     var return_record = tbody_frm_ind[trs_keys[index]];
                     var $curr_body = jQuery('#filter_option_table > tbody').eq(tbody_keys[ind]);
                     var $row = $curr_body.find('> .filter_row_class').eq(trs_keys[index]);
-                    var $next_row = []
+                    var $next_row = [];
 
                     if ($row.next('tr.filter_row_class').find('input.qstring').val() != ''){
                         $next_row = jQuery($row.next());
@@ -367,8 +367,8 @@ function display_Customfilters(all_domains, group_by_ctx) {
                     var grouping = $next_row.length != 0 ? $next_row.find('label.and_or').text(): null;
 
                     if (group.length==0) {
-                        var new_grp = $curr_body.find('tr.filter_row_class:gt('+trs_keys[index]+')')
-                        new_grp = new_grp.find('td#filter_column:not(:has(label))').find('input.qstring[value]')
+                        var new_grp = $curr_body.find('tr.filter_row_class:gt('+trs_keys[index]+')');
+                        new_grp = new_grp.find('td#filter_column:not(:has(label))').find('input.qstring[value]');
                         if (new_grp.length){
                             group.push('&')
                         }
@@ -424,7 +424,7 @@ function display_Customfilters(all_domains, group_by_ctx) {
 	            if (All_domain.length) {
 	               custom_domain.push(All_domain);
                 }
-            };
+            }
         }
         final_search_domain(serializeJSON(custom_domain), all_domains, group_by_ctx);
     });
@@ -439,7 +439,7 @@ function parse_filters(src, id) {
     var domains = {};
     var search_context = {};
     var all_boxes = [];
-    var $filter_list = jQuery('#filter_list')
+    var $filter_list = jQuery('#filter_list');
     var domain = 'None';
     if (jQuery('div.group-data').length) {
         jQuery('div.group-data:first').find('button').each(function(){
@@ -513,7 +513,7 @@ function parse_filters(src, id) {
                 fld_value = $fld.val();
                 
                 if ($fld.attr('search_context')) {
-                    search_context['context'] = $fld.attr('search_context')
+                    search_context['context'] = $fld.attr('search_context');
                     search_context['value'] = fld_value;
                 }
             }
@@ -527,7 +527,7 @@ function parse_filters(src, id) {
         
         if(fld_value && fld_value!='')
             domains[$fld.attr('name')] = fld_value;
-    })
+    });
     domains = serializeJSON(domains);
     all_domains['domains'] = domains;
     all_domains['search_context'] =  search_context;
@@ -540,7 +540,7 @@ function parse_filters(src, id) {
     });
     
     var checked_button = all_boxes.toString();
-    check_domain = checked_button.length > 0? checked_button.replace(/(]\,\[)/g, ', ') : 'None';
+    check_domain = checked_button.length > 0? checked_button.replace(/(],\[)/g, ', ') : 'None';
     all_domains['check_domain'] = check_domain;
     all_domains = serializeJSON(all_domains);
     return all_domains;
@@ -560,10 +560,10 @@ function save_filter() {
     var domain_list = parse_filters();
     var grps = group_by;
     var selectedFilter = jQuery('#filter_list option:selected');
-    selected_filter = selectedFilter.index() > 0 ? selectedFilter.text(): '';
+    var selected_filter = selectedFilter.index() > 0 ? selectedFilter.text(): '';
 
     if(group_by.length)
-        grps = group_by.join(',')
+        grps = group_by.join(',');
 
     var custom_domain = jQuery('#_terp_filter_domain').val() || '[]';
     openobject.http.postJSON('/openerp/search/eval_domain_filter', {
@@ -593,7 +593,7 @@ function manage_filters() {
 function final_search_domain(custom_domain, all_domains, group_by_ctx) {
 	var waitBox = new openerp.ui.WaitBox();
     if(group_by_ctx.length)
-        group_by_ctx = group_by_ctx.join(',')
+        group_by_ctx = group_by_ctx.join(',');
 	waitBox.showAfter(500);
 	jQuery.ajax({
 		url: '/openerp/search/eval_domain_filter',
