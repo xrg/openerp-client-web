@@ -160,7 +160,7 @@ class Root(SecuredController):
         """ Logout method, will terminate the current session.
         """
         rpc.session.logout()
-        raise redirect('/openerp')
+        raise redirect('/')
 
     @expose(template="/openerp/controllers/templates/about.mako")
     @unsecured
