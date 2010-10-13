@@ -101,9 +101,10 @@ var LINK_WAIT_NO_ACTIVITY = 300;
 /** @constant */
 var FORM_WAIT_NO_ACTIVITY = 500;
 jQuery(document).ready(function () {
+    var waitBox;
     var $app = jQuery('#appContent');
     if ($app.length) {
-        var waitBox = new openerp.ui.WaitBox();
+        waitBox = new openerp.ui.WaitBox();
         // open un-targeted links in #appContent via xhr. Links with @target are considered
         // external links. Ignore hash-links.
         jQuery(document).delegate('a[href]:not([target]):not([href^="#"]):not([href^="javascript"]):not([rel=external])', 'click', function () {
@@ -126,30 +127,30 @@ jQuery(document).ready(function () {
             return false;
         });
     } else {
-        if (jQuery(document).find('div#root').length) {
-            jQuery(document).delegate('a[href]:not([target]):not([href^="#"]):not([href^="javascript"]):not([rel=external])', 'click', function(){
+        if(jQuery(document).find('div#root').length) {
+            jQuery(document).delegate('a[href]:not([target]):not([href^="#"]):not([href^="javascript"]):not([rel=external])', 'click', function() {
                 window.location.href = openobject.http.getURL('/openerp', {
                     'next': jQuery(this).attr('href')
-                })
+                });
                 return false;
             });
         }
         // For popup like o2m submit actions.
-	    else {
-	    	var waitBox = new openerp.ui.WaitBox();
-	    	jQuery(document).delegate('form#view_form:not([target])', 'submit', function () {
-	            var form = jQuery('#view_form');
-	            form.ajaxForm();
-	            // Make the wait box appear immediately
-	            waitBox.show();
-	            form.ajaxSubmit({
-	                complete: jQuery.proxy(waitBox, 'hide'),
-	                success: doLoadingSuccess(jQuery('table.view')),
-	                error: loadingError
-	            });
-	            return false;
-	        });
-	    }
+        else {
+            waitBox = new openerp.ui.WaitBox();
+            jQuery(document).delegate('form#view_form:not([target])', 'submit', function () {
+                var form = jQuery('#view_form');
+                form.ajaxForm();
+                // Make the wait box appear immediately
+                waitBox.show();
+                form.ajaxSubmit({
+                    complete: jQuery.proxy(waitBox, 'hide'),
+                    success: doLoadingSuccess(jQuery('table.view')),
+                    error: loadingError
+                });
+                return false;
+            });
+        }
     }
 
     // wash for hash changes
