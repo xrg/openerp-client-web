@@ -22,15 +22,7 @@ function openLink(url /*optional afterLoad */) {
                 if(afterLoad) { afterLoad(); }
             },
             success: doLoadingSuccess(app),
-            error: function (xhr, status, error) {
-                if(xhr.status != 500) {
-                    if(window.console) {
-                        console.warn("Failed to load ", url, ":", status, error);
-                    }
-                    return;
-                }
-                displayErrorOverlay(xhr);
-            }
+            error: loadingError
         });
     } else {
         window.location.assign(url);
@@ -50,6 +42,27 @@ function displayErrorOverlay(xhr) {
         options['showCloseButton'] = true;
     }
     jQuery.fancybox(xhr.responseText, options);
+}
+
+/**
+ * Handles errors when loading page via XHR
+ *
+ * @param xhr The XHR object
+ */
+function loadingError(xhr) {
+    switch (xhr.status) {
+        case 500:
+            displayErrorOverlay(xhr);
+            break;
+        case 401: // Redirect to login, probably
+            window.location.assign(
+                xhr.getResponseHeader('Location'));
+            break;
+        default:
+            if(window.console) {
+                console.warn("Failed to load ", xhr.url, ":", xhr.status, xhr.statusText);
+            }
+    }
 }
 
 /**
@@ -108,15 +121,7 @@ jQuery(document).ready(function () {
             form.ajaxSubmit({
                 complete: jQuery.proxy(waitBox, 'hide'),
                 success: doLoadingSuccess($app),
-                error: function (xhr, status, error) {
-                    if(xhr.status != 500) {
-                        if(window.console) {
-                            console.warn("Failed to load ", form.attr('method') || 'GET', form.attr('action'), ":", status, error);
-                        }
-                        return;
-                    }
-                    displayErrorOverlay(xhr);
-                }
+                error: loadingError
             });
             return false;
         });
@@ -140,15 +145,7 @@ jQuery(document).ready(function () {
 	            form.ajaxSubmit({
 	                complete: jQuery.proxy(waitBox, 'hide'),
 	                success: doLoadingSuccess(jQuery('table.view')),
-	                error: function (xhr, status, error) {
-	                    if(xhr.status != 500) {
-	                        if(window.console) {
-	                            console.warn("Failed to load ", form.attr('method') || 'GET', form.attr('action'), ":", status, error);
-	                        }
-	                        return;
-	                    }
-	                    displayErrorOverlay(xhr);
-	                }
+	                error: loadingError
 	            });
 	            return false;
 	        });

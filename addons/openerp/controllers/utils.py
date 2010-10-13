@@ -27,13 +27,13 @@
 #
 ###############################################################################
 import re
-import time
 
 import cherrypy
 from openerp.utils import rpc
 
 from openobject import tools
 from openobject.tools import expose
+import openobject
 
 
 __all__ = ["secured", "unsecured", "login"]
@@ -144,8 +144,31 @@ def secured(fn):
                 else:
                     message = ''
 
-                return login(cherrypy.request.path_info, message=message,
-                        db=db, user=user, action=action, origArgs=get_orig_args(kw))
+                kwargs = {}
+                if action: kwargs['action'] = action
+                if message: kwargs['message'] = message
+                base = cherrypy.request.path_info
+                if base and base != '/' and cherrypy.request.method == 'GET':
+                    kwargs['next'] = "%s?%s" % (base, cherrypy.request.query_string)
+                if cherrypy.request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+                    cherrypy.response.status = 401
+                else:
+                    cherrypy.response.status = 303
+                login_url = openobject.tools.url(
+                    '/openerp/login', db=db, user=user, **kwargs
+                )
+                cherrypy.response.headers['Location'] = login_url
+                return """
+                    <html>
+                        <head>
+                            <script type="text/javascript">
+                                window.location.href="%s"
+                            </script>
+                        </head>
+                        <body>
+                        </body>
+                    </html>
+                """%(login_url)
 
             # Authorized. Set db, user name in cookies
             cookie = cherrypy.response.cookie
