@@ -215,7 +215,7 @@ Choose:
                                 <td class="error_message_content">${error}</td>
                             </tr>
                             <tr>
-                                <td colspan="2" align="right">
+                                <td colspan="2" align="right" style="padding: 1px">
                                     <a class="button-a" href="javascript: void(0)"
                                        onclick="close_error_window()">OK</a>
                                 </td>
