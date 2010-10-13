@@ -95,45 +95,6 @@ class Frame(TinyWidget):
             elif isinstance(child, TinyInputWidget):
                 self.add_hidden(child)
 
-            else:
-                pass
-
-        self.fields = []
-
-        # properly distribute widths among columns
-
-        if len(self.table) == 1:
-            self.table[0] = [(a, w) for a, w in self.table[0] if getattr(w, 'visible', 1)]
-
-        max_length = max([len(row) for row in self.table])
-        for row in self.table:
-
-            sn = len([w for a, w in row if isinstance(w, (basestring, Label, Image))])
-            sw = 5                                  # label & image width
-            ww = 100.00 - sw * sn                   # remaining width
-            cn = self.columns - sn                  # columns - (lables + image)
-
-            cn -= len([w for a, w in row if not isinstance(w, (basestring, Label, Image)) and not w.visible])
-            if cn < 1: cn = 1
-
-            for i, (a, wid) in enumerate(row):
-                if isinstance(wid, (basestring, Label, Image)):
-                    w = sw
-
-                else:
-                    c = a.get('colspan', 1)
-                    if c > max_length:
-                        c = 1
-
-                    if wid.visible:
-                        w = ww * c / cn
-                    else:
-                        w = 0
-                if isinstance(wid, Separator) and not string:
-                    a['width'] = '2%'
-                else:
-                    a['width'] = '%d%%' % (w)
-
     def add_row(self):
 
         if len(self.table) and len(self.table[-1]) == 0:
