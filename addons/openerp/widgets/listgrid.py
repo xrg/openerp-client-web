@@ -104,7 +104,6 @@ class List(TinyWidget):
         self.o2m = kw.get('o2m', 0)
         self.concurrency_info = None
         self.selector = None
-        self.custom_columns = kw.get('custom_columns', [])
         
         terp_params = getattr(cherrypy.request, 'terp_params', [])
         if terp_params:
@@ -324,9 +323,6 @@ class List(TinyWidget):
                 if 'name' in attrs:
 
                     name = attrs['name']
-
-                    if name in self.custom_columns:
-                        continue
 
                     if name in myfields:
                         print "-"*30

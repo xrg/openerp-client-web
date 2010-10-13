@@ -138,7 +138,6 @@ class ListGroup(List):
         self.limit = kw.get('limit', 0)
         self.count = kw.get('count', 0)
         self.link = kw.get('nolinks')
-        self.custom_columns = kw.get('custom_columns', [])
 
         proxy = rpc.RPCProxy(model)
 
@@ -185,7 +184,7 @@ class ListGroup(List):
             name=name, model=model, view=view, ids=self.ids, domain=self.domain,
             context=self.context, limit=self.limit, count=self.count,
             offset=self.offset, editable=self.editable,
-            selectable=self.selectable, custom_columns=self.custom_columns)
+            selectable=self.selectable)
 
         if self.group_by_ctx:
             self.context['group_by'] = self.group_by_ctx

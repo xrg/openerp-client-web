@@ -56,7 +56,6 @@ class Screen(TinyInputWidget):
         <input type="hidden" id="${name}_terp_count" name="${name}_terp_count" value="${count}"/>
         <input type="hidden" id="${name}_terp_group_by_ctx" name="${name}_terp_group_by_ctx" value="${group_by_ctx}"/>
         <input type="hidden" id="${name}_terp_filters_context" name="${name}_terp_filters_context" value=""/>
-        <input type="hidden" id="${name}_terp_custom_columns" name="${name}_terp_custom_columns" value=""/>
 
         % if widget:
             ${display_member(widget)}
@@ -88,10 +87,6 @@ class Screen(TinyInputWidget):
         
         self.m2m = kw.get('_m2m', 0)
         self.o2m = kw.get('_o2m', 0)
-        
-        self.custom_columns = []
-        if params.get('_terp_custom_columns'):
-            self.custom_columns = params['_terp_custom_columns'].split(',')
         
         while len(self.view_ids) < len(self.view_mode):
             self.view_ids += [False]

@@ -302,7 +302,7 @@ jQuery.extend({
     }
 })
 
-function display_Customfilters(all_domains, group_by_ctx, custom_columns) {
+function display_Customfilters(all_domains, group_by_ctx) {
     var Allrecords = {};
     var parent_tbody = jQuery('#filter_option_table > tbody')
 
@@ -426,7 +426,7 @@ function display_Customfilters(all_domains, group_by_ctx, custom_columns) {
                 }
             };
         }
-        final_search_domain(serializeJSON(custom_domain), all_domains, group_by_ctx, custom_columns);
+        final_search_domain(serializeJSON(custom_domain), all_domains, group_by_ctx);
     });
 }
 
@@ -547,16 +547,12 @@ function parse_filters(src, id) {
 }
 
 function search_filter(src, id) {
-    var custom_columns = (jQuery('#custom_columns input:not(:checked)').map(function() {
-        return this.getAttribute('id').replace(/^display_column_/, '');
-    }).get().join(','));
-
     var all_domains = parse_filters(src, id);
     if(jQuery('#filter_table').is(':visible') || jQuery('#_terp_filter_domain').val() != '[]') {
-        display_Customfilters(all_domains, group_by, custom_columns);
+        display_Customfilters(all_domains, group_by);
     } else {
         var custom_domain = jQuery('#_terp_filter_domain').val() || '[]';
-        final_search_domain(custom_domain, all_domains, group_by, custom_columns);
+        final_search_domain(custom_domain, all_domains, group_by);
     }
 }
 
@@ -594,7 +590,7 @@ function manage_filters() {
         'model': jQuery('#_terp_model').val()}));
 }
 
-function final_search_domain(custom_domain, all_domains, group_by_ctx, custom_columns) {
+function final_search_domain(custom_domain, all_domains, group_by_ctx) {
 	var waitBox = new openerp.ui.WaitBox();
     if(group_by_ctx.length)
         group_by_ctx = group_by_ctx.join(',')
@@ -625,7 +621,6 @@ function final_search_domain(custom_domain, all_domains, group_by_ctx, custom_co
 			    	openobject.dom.get('_terp_search_data').value = obj.search_data;
 			    	openobject.dom.get('_terp_context').value = in_obj.context;
 			    	openobject.dom.get('_terp_filter_domain').value = obj.filter_domain;
-			    	openobject.dom.get('_terp_custom_columns').value = custom_columns;
 			    	jQuery('#_terp_group_by_ctx').val(in_obj.group_by);
                     
                     var $search_callback = jQuery('#_terp_search_callback');
