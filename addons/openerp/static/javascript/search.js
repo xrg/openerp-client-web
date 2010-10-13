@@ -575,8 +575,7 @@ function save_filter() {
         'source': '_terp_list',
         'group_by_ctx': grps}).addCallback(function(obj) {
         var sf_params = {'model': jQuery('#_terp_model').val(), 'domain': obj.domain, 'group_by': grps, 'flag': 'sf',
-                         'custom_filter':custom_domain, 'selected_filter': selected_filter,
-                         'existing_id': selectedFilter.attr('id')};
+                         'custom_filter':custom_domain, 'selected_filter': selected_filter};
 
         jQuery.ajax({
             url:'/openerp/search/save_filter',

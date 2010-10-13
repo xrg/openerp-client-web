@@ -9,7 +9,6 @@
         <input type="hidden" id="model" name="model" value="${model}"/>
         <input type="hidden" id="domain" name="domain" value="${domain}"/>
         <input type="hidden" id="group_by" name="group_by" value="${group_by}"/>
-        <input type="hidden" id="existing_id" name="existing_id" value="${existing_id}"/>
         <table class="view" width="100%" border="0">
             <tr>
                 <td style="padding: 0">
@@ -54,10 +53,10 @@
                     $this.ajaxSubmit({
                         dataType:'json',
                         success:  function(obj) {
-                            var $filterOptions = jQuery("#filter_list option");
+                            var $filterOptions = jQuery("#filter_list option:not(:first)");
                             if(!obj.new_id) {
                                 $filterOptions.each(function() {
-                                    if (jQuery(this).attr('id') == jQuery('#existing_id').val()){
+                                    if (jQuery(this).text().toLowerCase() == obj.filter[1].toLowerCase()){
                                         this.text = obj.filter[1];
                                         this.selected = this.text;
                                         this.value = obj.filter[0];
@@ -72,6 +71,14 @@
                                         value: obj.filter[0],
                                         group_by: obj.filter[2]
                                     }).text(obj.filter[1]));
+
+                                var filters = jQuery("#filter_list option");
+                                filters.sort(function(a,b) {
+                                    var match1 = $(a).text().toUpperCase();
+                                    var match2  = $(b).text().toUpperCase();
+                                    return (match1 < match2) ? -1 : (match1 > match2) ? 1 : 0;
+                                });
+                                $("#filter_list").empty().append(filters);
                             }
                             jQuery.fancybox.close();
                         }
