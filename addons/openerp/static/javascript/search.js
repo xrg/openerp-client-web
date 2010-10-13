@@ -26,6 +26,11 @@
 // You can see the MPL licence at: http://www.mozilla.org/MPL/MPL-1.1.html
 //
 ////////////////////////////////////////////////////////////////////////////////
+var OR_LINE = '<tr id="or"><td colspan="5">' +
+        '<div class="filter-lsep"></div><hr class="filter-hr">' +
+        '<div class="filter-msep">Or</div>' +
+        '<div class="filter-rsep"></div><hr class="filter-hr">' +
+    '</td></tr>';
 
 function add_filter_row(elem) {
 
@@ -93,14 +98,7 @@ function addOrBlock(elem){
     var $filter_option_table = jQuery('#filter_option_table');
     $filter_option_table.find('tr:last select.filter_fields_or').parent().hide();
 
-    var $newtbody = jQuery(
-            '<tbody><tr id="or">' +
-                    '<td colspan="6">' +
-                    '<div class="filter-lsep"></div><hr class="filter-hr">' +
-                    '<div class="filter-msep">Or</div>' +
-                    '<div class="filter-rsep"></div><hr class="filter-hr">' +
-                    '</td>' +
-                    '</tr></tbody>');
+    var $newtbody = jQuery('<tbody>' + OR_LINE + '</tbody>');
     $filter_option_table.append($newtbody);
 
     var $new_tr = $filter_option_table.find('tr:first').clone();
@@ -132,12 +130,12 @@ function switch_searchView(d) {
     var operators = [];
     var tbodys = [];
     var trs = 0;
-    var tbody = jQuery("<tbody/>");
+    var $tbody = jQuery("<tbody/>");
     var prev_row_field = '';
     var $filter_opt_tbl = jQuery('#filter_option_table');
-    var old_tr = $filter_opt_tbl.find('tbody:first').find('tr.filter_row_class:first');
+    var $old_tr = $filter_opt_tbl.find('tbody:first tr.filter_row_class:first');
     var $action_tbody = $filter_opt_tbl.find('tbody.actions');
-    var selection_options =  $action_tbody.find('tr.actions').find('select.filter_fields_and:first');
+    var $selection_options =  $action_tbody.find('tr.actions select.filter_fields_and:first');
 
     jQuery('#filter_table').hide();
 
@@ -148,34 +146,33 @@ function switch_searchView(d) {
             operators.push(item);
         }
         else {
-            var new_tr = old_tr.clone();
-            var txt =  selection_options.find('option[value='+ item[0] + ']').text();
-            var new_tr_lbl = new_tr.find('#filterlabel');
-            new_tr_lbl.text(txt);
-            new_tr_lbl.attr('value', item[0]);
-            new_tr.find('select.expr').val(item[1]);
+            var $new_tr = $old_tr.clone();
+            var $new_tr_lbl = $new_tr.find('#filterlabel');
+            $new_tr_lbl.attr('value', item[0]).text(
+                    $selection_options.find('option[value='+ item[0] + ']').text());
+            $new_tr.find('select.expr').val(item[1]);
 
-            var new_tr_qstr = new_tr.find('input.qstring');
-            old_tr.find('input.qstring').css('background', '#FFF').val('');
-            new_tr_qstr.attr('value', item[2]);
+            var $new_tr_qstr = $new_tr.find('input.qstring');
+            $old_tr.find('input.qstring').css('background', '#FFF').val('');
+            $new_tr_qstr.attr('value', item[2]);
 
             if (trs==0 || operators[operators.length-1]=='&') {
-                tbody.append(new_tr);
+                $tbody.append($new_tr);
                 if (trs>0)
                     operators.splice(operators.length-1, 1);
             }
             else if(prev_row_field!=item[0] && operators[operators.length-1]=='|') {
-                tbodys.push(tbody);
-                tbody = jQuery("<tbody/>");
-                tbody.append(new_tr);
+                tbodys.push($tbody);
+                $tbody = jQuery("<tbody/>");
+                $tbody.append($new_tr);
                 trs = 1;
                 operators.splice(operators.length-1, 1);
             }
             else if(prev_row_field==item[0] && operators[operators.length-1]=='|') {
-                new_tr_lbl.hide();
-                new_tr.find('select.expr').hide();
-                jQuery('<label>', {'class': 'and_or'}).text('OR').insertBefore(new_tr_qstr);
-                tbody.append(new_tr);
+                $new_tr_lbl.hide();
+                $new_tr.find('select.expr').hide();
+                jQuery('<label class="and_or">OR</label>').insertBefore($new_tr_qstr);
+                $tbody.append($new_tr);
                 operators.splice(operators.length-1, 1);
             }
             trs ++;
@@ -184,51 +181,39 @@ function switch_searchView(d) {
     }
 
     if (domain.length){
-        tbodys.push(tbody);
+        tbodys.push($tbody);
         collapse_expand('#filters', '#filter_option_table');
         if ($action_tbody.is(':visible')){
             $action_tbody.hide();
         }
     }
 
-    for (var i=0; i<tbodys.length; i++) {
+    for (var j=0; j<tbodys.length; j++) {
 
-        if (tbodys[i + 1]) {
-            var trOr = jQuery('<tr id="or">');
-            var td = jQuery('<td>', {'colspan': '5'});
-            td.append(jQuery('<div class="filter-lsep">')
-                .append(jQuery('<hr class="filter-hr"/>')));
-            td.append(jQuery('<div class="filter-msep">Or</div>'));
-            td.append(jQuery('<div class="filter-rsep">')
-                .append(jQuery('<hr class="filter-hr"/>')));
-            jQuery(trOr).append(td);
-            tbodys[i + 1].prepend(trOr);
+        if (tbodys[j + 1]) {
+            var $trOr = jQuery(OR_LINE);
+            tbodys[j + 1].prepend($trOr);
         }
-        if (tbodys[i - 1]) {
-            tbodys[i - 1].find('tr.actions td#filter_column').hide();
+        if (tbodys[j - 1]) {
+            tbodys[j - 1].find('tr.actions td#filter_column').hide();
         }
 
-        var actTr = $action_tbody.find('tr.actions').clone(true);
-        actTr.find('select#filter_fields_or').attr('disabled', false);
-        tbodys[i].append(actTr);
-        $filter_opt_tbl.append(tbodys[i]);
+        var $actTr = $action_tbody.find('tr.actions').clone(true);
+        $actTr.find('select#filter_fields_or').attr('disabled', false);
+        tbodys[j].append($actTr);
+        $filter_opt_tbl.append(tbodys[j]);
     }
 }
 
 function remove_filter_row(element) {
-
-    var node = jQuery(element).closest('tr');
-    var $tby = jQuery(node).closest('tbody');
-    var $paren = $tby.parent();
-    var prev_body = jQuery($paren.children('tbody')[$tby.index()-1]);
-    var next_body = jQuery($paren.children('tbody')[$tby.index()+1]);
+    var $node = jQuery(element).closest('tr');
+    var $tby = $node.closest('tbody');
     var $filter_opt_tbl = jQuery('#filter_option_table');
-    var $filter_table = jQuery('#filter_table');
 
     if ($tby.find('tr.filter_row_class').length <= 1 && $tby.attr('id')!='filter_table') {
-
-        if (!(next_body.length >= 1) || !(prev_body.length >= 1)) {
-            prev_body.find('td#filter_column').show();
+        var $prev_body = $tby.prev();
+        if(!($tby.next().length && $prev_body.length)) {
+            $prev_body.find('td#filter_column').show();
         }
 
         $tby.remove();
@@ -238,40 +223,34 @@ function remove_filter_row(element) {
         }
     }
 
-    if(node.is(':only-child')) {
-
-        if ($filter_opt_tbl.find('tbody:visible').length >= 1 && node.closest("tbody").siblings().length > 1){
+    if($node.is(':only-child')) {
+        var $filter_table = jQuery('#filter_table');
+        if ($filter_opt_tbl.find('tbody:visible').length && $node.closest("tbody").siblings().length > 1){
             $filter_table.next().hide();
             $filter_opt_tbl.find('tr#or:first').hide();
         }
 
-        node.find('input.qstring').css('background', '#FFF').val('');
-        var filter_lbl = jQuery('#filterlabel');
-        filter_lbl.text('');
-        filter_lbl.attr('value', '');
+        $node.find('input.qstring').css('background', '#FFF').val('');
+        jQuery('#filterlabel').attr('value', '').text('');
         jQuery('select#filter_fields_or').attr('disabled', true);
         $filter_table.hide();
-
     } else {
-
-        if(node.is(':last-child')) {
-            node.prev().find('.and_or').remove();
+        if($node.is(':last-child')) {
+            $node.prev().find('.and_or').remove();
         }
 
-        if(node.next().find('label.and_or').is(':visible')){             
-             node.next().remove();
-        }
-        else{
+        if($node.next().find('label.and_or').is(':visible')){
+             $node.next().remove();
+        } else{
             if ($filter_opt_tbl.find('tbody:visible').length == 0) {
-                var $actions_tby = jQuery('tbody.actions');
-                $actions_tby.show();
-                $actions_tby.find('tr.actions').find('td#filter_column').show();
+                jQuery('tbody.actions').show()
+                                       .find('tr.actions td#filter_column').show();
             }
 
             if ($filter_opt_tbl.find('tbody:visible').length == 1){
                 $filter_opt_tbl.find('tr#or:first').hide();
             }
-            node.remove();
+            $node.remove();
         }
     }
 }
@@ -297,14 +276,11 @@ jQuery.extend({
 
 function display_Customfilters(all_domains, group_by_ctx) {
     var Allrecords = {};
-    var parent_tbody = jQuery('#filter_option_table > tbody');
-
-    parent_tbody.each(function () {
-        var children = jQuery(this).children('.filter_row_class');
+    jQuery('#filter_option_table > tbody').each(function () {
         var record = {};
         var pid = jQuery(this).index();
 
-        children.each(function () {
+        jQuery(this).children('.filter_row_class').each(function () {
             var $constraint_value = jQuery(this).find('input.qstring');
             var $fieldname = jQuery(this).find('#filterlabel');
             var id = jQuery(this).parent().find('> .filter_row_class').index(this);
@@ -327,8 +303,7 @@ function display_Customfilters(all_domains, group_by_ctx) {
     }).addCallback(function(obj) {
         var custom_domain = [];
         if(obj.error) {
-            var children = jQuery('#filter_option_table tbody > .filter_row_class');
-            children.each(function () {
+            jQuery('#filter_option_table tbody > .filter_row_class').each(function () {
                 if(jQuery(this).find('#filterlabel').attr('value') == obj['error_field']) {
                     jQuery(this).find('input.qstring').css('background', '#f66').val(obj.error);
                 }
@@ -360,9 +335,9 @@ function display_Customfilters(all_domains, group_by_ctx) {
                     var grouping = $next_row.length != 0 ? $next_row.find('label.and_or').text(): null;
 
                     if (group.length==0) {
-                        var new_grp = $curr_body.find('tr.filter_row_class:gt('+trs_keys[index]+')');
-                        new_grp = new_grp.find('td#filter_column:not(:has(label))').find('input.qstring[value]');
-                        if (new_grp.length){
+                        var $new_grp = $curr_body.find('tr.filter_row_class:gt('+trs_keys[index]+')')
+                                                 .find('td#filter_column:not(:has(label)) input.qstring[value]');
+                        if ($new_grp.length){
                             group.push('&')
                         }
                     }
