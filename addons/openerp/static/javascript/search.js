@@ -90,39 +90,32 @@ function add_filter_row(elem) {
 }
 
 function addOrBlock(elem){
-    
-    var filter_option_table = jQuery('#filter_option_table');
-    var old_tr = jQuery('#filter_table').next('tbody.actions').find('tr.actions');    
-    var tbody = filter_option_table.find('tbody:last');
-   
-    var action_tr = old_tr.clone();
-    action_tr.find('select.filter_fields_or').parent().show();
-    action_tr.find('select.filter_fields_or').attr('disabled', false);        
-    if (action_tr.is(':hidden')) {
-        action_tr.show();
+    var $filter_option_table = jQuery('#filter_option_table');
+    $filter_option_table.find('tr:last select.filter_fields_or').parent().hide();
+
+    var $newtbody = jQuery(
+            '<tbody><tr id="or">' +
+                    '<td colspan="6">' +
+                    '<div class="filter-lsep"></div><hr class="filter-hr">' +
+                    '<div class="filter-msep">Or</div>' +
+                    '<div class="filter-rsep"></div><hr class="filter-hr">' +
+                    '</td>' +
+                    '</tr></tbody>');
+    $filter_option_table.append($newtbody);
+
+    var $new_tr = $filter_option_table.find('tr:first').clone();
+    $new_tr.find('#filterlabel').attr('value', jQuery(elem).val())
+                                .text(jQuery('select.filter_fields_or option:selected').text());
+    $new_tr.find('input.qstring').css('background', '#FFF').val('');
+    $newtbody.append($new_tr);
+
+    var $action_tr = jQuery('#filter_table').next('tbody.actions').find('tr.actions').clone();
+    $action_tr.find('select.filter_fields_or').parent().show();
+    $action_tr.find('select.filter_fields_or').attr('disabled', false);
+    if ($action_tr.is(':hidden')) {
+        $action_tr.show();
     }
-    
-    var position_tr = filter_option_table.find('tr:last');
-    position_tr.find('select.filter_fields_or').parent().hide();    
-    
-    var newtbody = jQuery('<tbody>');
-    var tr = jQuery('<tr id="or">');
-    var td = jQuery('<td>', {'colspan': '6'});
-    td.append(jQuery('<div class="filter-lsep">').append(jQuery('<hr class="filter-hr"/>')));
-    td.append(jQuery('<div class="filter-msep">Or</div>'));
-    td.append(jQuery('<div class="filter-rsep">').append(jQuery('<hr class="filter-hr"/>')));
-    jQuery(tr).append(td);
-    jQuery(newtbody).append(tr);
-
-    var oldTr = filter_option_table.find('tr:first');
-    var new_tr = oldTr.clone();
-    new_tr.find('#filterlabel').text(jQuery('select.filter_fields_or option:selected').text());
-    new_tr.find('#filterlabel').attr('value', jQuery(elem).val());
-    new_tr.find('input.qstring').css('background', '#FFF').val('');
-
-    jQuery(tr).after(new_tr);
-    jQuery(new_tr).after(action_tr);
-    jQuery(tbody).after(newtbody);
+    $newtbody.append($action_tr);
 }
 
 function collapse_expand(div_id, grp_id, id) {
