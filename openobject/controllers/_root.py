@@ -4,12 +4,43 @@ from openobject import pooler
 from openobject.tools import expose, AuthenticationError
 
 from _base import BaseController
+import pprint
 
 
 class Root(BaseController):
     """Custom root controller to dispatch requests to pooled controllers.
     Based on cherrypy.dispatch.Dispatcher
     """
+
+    # header: query param mapping
+    custom_headers = [
+        # Header set by XHR requests, used to know whether the client needs
+        # a full template (including JS and CSS files) or just the content
+        # area of the HTML
+        ('X-Requested-With', 'requested_with')
+    ]
+    def reset_custom_headers_post_redirection(self, request):
+        """ Firefox doesn't forward headers it has no reason to touch
+        (standard or custom headers, does't matter) during redirection.
+
+        To try and fix that, we're setting the headers we need forwarded as
+        query parameters during the redirection process, but we're still
+        reading them as headers (so as not to special case the code using
+        them, and all the stuff that can be called after a redirection).
+
+        This method transfers those custom headers that had been stored as
+        query params back into request headers, as far as the userland
+        code is concerned anyway.
+
+        Firefox bug ref: https://bugzilla.mozilla.org/show_bug.cgi?id=553888
+        """
+        for header, param in self.custom_headers:
+            if param not in request.params: continue
+            value = request.params.pop(param)
+            # only set if not already there, you never know, we could have
+            # a bug in our own code as well
+            if header not in request.headers:
+                request.headers[header] = value
 
     @expose()
     def default(self, *args, **kw):
@@ -21,9 +52,9 @@ class Root(BaseController):
 
         if new_modules:
             pooler.restart_pool()
-        if 'requested_with' in kw:
-            cherrypy.request.headers['X-Requested-With'] = kw.pop('requested_with')
+
         request = cherrypy.request
+        self.reset_custom_headers_post_redirection(request)
         func, vpath = self.find_handler()
 
         if func:
