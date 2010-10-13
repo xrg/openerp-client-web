@@ -123,31 +123,26 @@ def secured(fn):
             clear_login_fields(kw)
             return fn(*args, **kw)
         else:
-            # User isn't logged in yet.
-
-            db = None
-            user = None
-            password = None
-            message = None
-
-            action = kw.get('login_action')
-
+            action = kw.get('login_action', '')
             # get some settings from cookies
             try:
                 db = cherrypy.request.cookie['terp_db'].value
                 user = cherrypy.request.cookie['terp_user'].value
             except:
-                pass
+                db = ''
+                user = ''
 
             db = kw.get('db', db)
             user = kw.get('user', user)
-            password = kw.get('password', password)
+            password = kw.get('password', '')
 
             # See if the user just tried to log in
             if rpc.session.login(db, user, password) <= 0:
                 # Bad login attempt
                 if action == 'login':
                     message = _("Bad username or password")
+                else:
+                    message = ''
 
                 return login(cherrypy.request.path_info, message=message,
                         db=db, user=user, action=action, origArgs=get_orig_args(kw))
