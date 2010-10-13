@@ -607,6 +607,10 @@ table.o2m_box div.pagerbar-header strong {
     min-width: 100%;
 }
 
+.m2o_container {
+    padding-right: 20px;
+    white-space: nowrap;
+}
 .m2o {
     position: relative;
 }
