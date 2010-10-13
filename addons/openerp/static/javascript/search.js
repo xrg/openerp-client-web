@@ -127,7 +127,7 @@ function addOrBlock(elem){
 
 function collapse_expand(div_id, grp_id, id) {
 
-    jQuery(div_id).toggleClass('group-collapse group-expand', 100);
+    jQuery(div_id).toggleClass('group-collapse group-expand');
     jQuery(grp_id).toggle();
     if (id)
         jQuery(id).css('display', 'block');
