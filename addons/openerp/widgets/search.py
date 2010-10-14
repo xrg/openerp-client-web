@@ -208,6 +208,8 @@ class Search(TinyInputWidget):
         self.model = model
         self.groupby = []
         self.source = source
+        if kw.get('clear'):
+            self.source = None
         if group_by_ctx and isinstance(group_by_ctx, basestring):
             self.groupby += group_by_ctx.split(',')
         else:
