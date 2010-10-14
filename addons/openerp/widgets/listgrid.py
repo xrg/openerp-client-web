@@ -160,7 +160,10 @@ class List(TinyWidget):
             else:
                 ids = proxy.search(search_param, 0, 0, 0, context)
             if len(ids) < self.limit:
-                self.count = len(ids)
+                if self.offset > 0:
+                    self.count = len(ids) + self.offset
+                else:
+                    self.count = len(ids)
             else:
                 self.count = proxy.search_count(search_param, context)
 
