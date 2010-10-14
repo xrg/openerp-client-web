@@ -11,8 +11,7 @@ import util
 URLS = {
     "python": ("http://www.python.org/ftp/python/2.5.4/python-2.5.4.msi", "python-2.5.4.msi"),
     "ez_setup": ("http://peak.telecommunity.com/dist/ez_setup.py", "ez_setup.py"),
-    "pywin32": ("http://nchc.dl.sourceforge.net/sourceforge/pywin32/pywin32-212.win32-py2.5.exe", "pywin32-212.win32-py2.5.exe"),
-    "pyparsing": ("http://pypi.python.org/packages/source/p/pyparsing/pyparsing-1.5.1.tar.gz", "pyparsing-1.5.1.tar.gz"),
+    "pywin32": ("http://nchc.dl.sourceforge.net/sourceforge/pywin32/pywin32-212.win32-py2.5.exe", "pywin32-212.win32-py2.5.exe")
 }
 
 BUILD_DIR=os.path.join(os.path.dirname(os.path.abspath(__file__)), "build")
@@ -43,15 +42,19 @@ class bdist_wininst(Command):
         self._check_python()
         self._check_setuptools()
         self._check_pywin32()
-        self._check_cherrypy()
-        self._check_mako()
-        self._check_formencode()
-        self._check_babel()
-        self._check_simplejson()
-        self._check_pyparsing()
-        self._check_pytz()
         self._check_openerp_web()
         self._check_fixps()
+
+        for package in [
+            ('cherrypy', 'CherryPy >= 3.1.2'),
+            ('mako', 'mako >= 0.2.4'),
+            ('babel', 'Babel >= 0.9.4'),
+            ('formencode', 'FormEncode >= 1.2.2'),
+            ('simplejson', 'simplejson >= 2.0.9'),
+            ('dateutil', 'python-dateutil >= 1.4.1'),
+            ('pytz', 'pytz >= 2009j')
+            ]:
+            self._check_package(*package)
 
         # finally compile the setup.nsi
         self._make_nsis()
@@ -102,40 +105,10 @@ class bdist_wininst(Command):
         os.system("copy /y \"%s\\Lib\\site-packages\\win32\\*.dll\" \"%s\"" % (PYDIR, PYDIR))
         os.system("rmdir /s /q tmp_pyw32")
 
-    def _check_cherrypy(self):
-
-        if self.check_module("cherrypy"):
+    def _check_package(self, package, dependency):
+        if self.check_module(package):
             return
-
-        self.run_ez("CherryPy==3.1.2")
-
-    def _check_mako(self):
-
-        if self.check_module("mako"):
-            return
-
-        self.run_ez("mako==0.2.4")
-
-    def _check_formencode(self):
-
-        if self.check_module("formencode"):
-            return
-
-        self.run_ez("FormEncode==1.2.2")
-
-    def _check_babel(self):
-
-        if self.check_module("babel"):
-            return
-
-        self.run_ez("babel==0.9.4")
-
-    def _check_simplejson(self):
-
-        if self.check_module("simplejson"):
-            return
-
-        self.run_ez("simplejson==2.0.9")
+        self.run_ez(dependency)
 
     def _check_pyparsing(self):
 
@@ -146,13 +119,6 @@ class bdist_wininst(Command):
         util.download(url, name)
 
         self.run_ez(name)
-
-    def _check_pytz(self):
-
-        if self.check_module("pytz"):
-            return
-
-        self.run_ez("pytz")
 
     def _check_openerp_web(self):
 
