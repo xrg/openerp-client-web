@@ -606,6 +606,9 @@ p#cmp_logo {
     padding-top: 0;
     height: 100%;
 }
+#secondary div.wrap {
+    width: 183px;
+}
 
 #appContent {
     height: 100%;
