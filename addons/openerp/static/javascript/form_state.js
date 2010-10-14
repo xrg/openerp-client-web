@@ -230,7 +230,7 @@ function form_evalExpr(prefix, expr) {
 
 function form_setReadonly(container, fieldName, readonly) {
 
-    var field = jQuery(fieldName);
+    var field = jQuery(fieldName) || jQuery('[id="'+fieldName+'"]');
 
     if (!field) {
         return;
@@ -246,10 +246,10 @@ function form_setReadonly(container, fieldName, readonly) {
     }
 
     if (!kind && 
-            openobject.dom.get(field.id + '_id') && 
-            MochiKit.DOM.getElement(field.id + '_set') &&
-            MochiKit.DOM.getNodeAttribute(field.id + '_id', 'kind') == "many2many") {
-         Many2Many(field.id).setReadonly(readonly)
+            jQuery('[id="'+field.attr('id') + '_id"]') &&
+            jQuery('[id="'+field.attr('id') + '_set"]') &&
+            jQuery('[id="'+field.attr('id') + '_id"]').attr('kind') == "many2many") {
+         Many2Many(field.attr('id')).setReadonly(readonly)
         return;
     }
 

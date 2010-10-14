@@ -51,7 +51,7 @@ Many2Many.prototype = {
         this.id = openobject.dom.get(name + '_id');
         this.text = openobject.dom.get(name + '_set');
 
-        this.btnAdd = openobject.dom.get('_' + name + '_button1');
+        this.btnAdd = openobject.dom.get(name + '_button1');
 //        this.btnDel = openobject.dom.get('_' + name + '_button2');
 
         this.terp_ids = openobject.dom.get(name + '/_terp_ids');
@@ -156,25 +156,17 @@ Many2Many.prototype = {
 
     setReadonly: function(readonly) {
 
-        this.id.readOnly = readonly;
-        this.id.disabled = readonly;
+        var field = jQuery('[id="'+this.name +'"]') || this.id
+        field.attr('readOnly', readonly)
         this.text.readOnly = readonly;
-        this.text.disabled = readonly;
 
         if (readonly) {
-            MochiKit.DOM.addElementClass(this.id, 'readonlyfield');
-            MochiKit.DOM.addElementClass(this.text, 'readonlyfield');
-            if(this.btnAdd) {
-                this.btnAdd.parentNode.style.display = 'none';
-            }
-//            this.btnDel.parentNode.style.display = 'none';
+            jQuery(field).addClass('readonlyfield');
+            jQuery(this.text).addClass('readonlyfield');
+
         } else {
-            MochiKit.DOM.removeElementClass(this.id, 'readonlyfield');
-            MochiKit.DOM.removeElementClass(this.text, 'readonlyfield');
-            if(this.btnAdd) {
-                this.btnAdd.parentNode.style.display = '';
-            }
-//            this.btnDel.parentNode.style.display = '';
+            jQuery(field).removeClass('readonlyfield')
+            jQuery(this.text).removeClass('readonlyfield');
         }
     }
 };
