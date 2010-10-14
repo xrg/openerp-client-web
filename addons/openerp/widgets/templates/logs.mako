@@ -61,12 +61,14 @@
 
 <script type="text/javascript">
     jQuery('#serverlog').show();
+    jQuery('#show_server_logs').hide();
     jQuery('#closeServerLog').click(function() {
         jQuery('#serverlog').hide();
+        jQuery('#show_server_logs').show();
     });
-    
     jQuery('#show_server_logs').click(function() {
        jQuery('#serverlog').show();
+       jQuery('#show_server_logs').hide();
     });
 </script>
 % endif
