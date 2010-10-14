@@ -48,7 +48,7 @@
     %>
     <li class="${kind}" title="${desc}">
         % if kind in form.screen.view_mode:
-            <a href="#" onclick="switchView('${kind}'); return false;"
+            <a href="#" onclick="validate_action('${kind}',switchView); return false;"
                class="${cls}">${kind}</a>
         % else:
             <a href="#" class="inactive">${kind}</a>
