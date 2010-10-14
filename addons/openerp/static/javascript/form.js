@@ -1139,7 +1139,7 @@ function removeAttachment(){
  * Creates a new line in #attachments if the creation succeeds.
  */
 function createAttachment(){
-    if (!jQuery('#sidebar_attachments_datas').val()) {
+    if (!jQuery('#sidebar_pad_datas').val() && !jQuery('#sidebar_attachments_datas').val()) {
         return false;
     }
     var form = jQuery(this);
@@ -1148,18 +1148,23 @@ function createAttachment(){
         success: function(data){
             var attachment_line = jQuery('<li>', {
                 'id': 'attachment_item_' + data['id'],
-                'data-id': data['id']
+                'data-id': data['id'],             
             });
-
+            
+            var url = data['url'] ? data['url'] : openobject.http.getURL('/openerp/attachment/get', {'record': data['id']});
+            
             jQuery([jQuery('<a>', {
                 'rel': 'external',
-                'href': openobject.http.getURL('/openerp/attachment/get', {
-                    'record': data['id']
-                }),
+                'href': url,
                 'class': 'attachment-file'
             }).text(data['name']), jQuery('<span>|</span>'), jQuery("<a href='#' class='close'>Close</a>")]).appendTo(attachment_line);
-
+					
             jQuery('#attachments').append(attachment_line);
+            
+            // For piratepad Links
+			if(data['url']) {
+				jQuery('#attachments [id="'+'attachment_item_'+data['id']+'"] a').attr('target', '_blank');
+			}
             form.resetForm();
             form.hide();
         }
@@ -1180,6 +1185,20 @@ function setupAttachments(){
         // leave that one just in case, but should generally not activate
         submit: createAttachment
     });
+}
+
+function setupPads(){
+	var padForm = jQuery('#pad-box').hide();
+	jQuery('#sidebar_pad_ok').bind('click', function(){
+		padForm.submit();
+	});
+	jQuery('#add-pad').click(function(e){
+		padForm.show();
+		e.preventDefault();
+	});
+	padForm.bind({
+		submit: createAttachment
+	});
 }
 
 function error_popup(obj){

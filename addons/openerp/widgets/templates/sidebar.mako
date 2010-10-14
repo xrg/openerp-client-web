@@ -43,14 +43,15 @@
     % endif
     % if view_type == 'form':
     <div class="sideheader-a">
-        <a href="#" id="add-attachment" class="button-a" style="line-height: 13px;">${_("Add")}</a>
+        <a href="#" id="add-attachment" class="button-a" style="right:40px;">${_("Add")}</a>
+        <a href="#" id="add-pad" class="button-a" >${_("Pad")}</a>
         <h2>${_("Attachments")}</h2>
     </div>
     <ul id="attachments" class="attachments-a">
         % for attachment in attachments:
             <!-- don't forget to also change jquery template in form.js/createAttachment -->
             <li id="attachment_item_${attachment['id']}" data-id="${attachment['id']}">
-                <a class="attachment-file" rel="external"
+                <a class="attachment-file" rel="external"  target="_blank"
                    href="${attachment['url'] or py.url('/openerp/attachment/get', record=attachment['id'])}">
                     ${attachment['name']}
                 </a>
@@ -66,6 +67,21 @@
         <input type="file" id="sidebar_attachments_datas" class="binary"
                name="datas" kind="binary" size="5"/>
     </form>
+    <form id="pad-box" action="/openerp/attachment/save_pad" method="post">
+        <label for="sidebar_pad_datas">${_("Name")}:</label>
+        <table width="100%">
+        	<tr>
+       			<td width=60% style="padding-right:8px;">
+        			<input type="text" id="sidebar_pad_datas" class="binary"
+               		name="pad_name" kind="url" size="5" />
+               	</td>
+            	<td>
+            		<a href="#" id="sidebar_pad_ok" class="button-a">${_("Ok")}</a>
+            	</td>
+            </tr>
+       	</table>
+	</form>
+    
     % endif
 
     <div class="sideheader-a">
@@ -116,6 +132,7 @@
 <script type="text/javascript">
     jQuery(document).ready(function() {
     	setupAttachments();
+    	setupPads();
     	jQuery('#sidebar_view_log').fancybox();
    	});
 </script>
