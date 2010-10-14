@@ -157,6 +157,10 @@ class Frame(TinyWidget):
             attrs['class'] = 'item'
         if rowspan > 1: attrs['rowspan'] = rowspan
         if colspan > 1: attrs['colspan'] = colspan
+        if hasattr(widget, 'height'):
+            attrs['height'] = widget.height
+        if hasattr(widget, 'width'):
+            attrs['width'] = widget.width
 
         if not hasattr(widget, 'visible'):
             widget.visible = True
