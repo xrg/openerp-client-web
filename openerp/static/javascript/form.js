@@ -618,17 +618,20 @@ var onChange = function(name) {
                     if(tinyMCE.get(prefix+k))
                         tinyMCE.execInstanceCommand(prefix+k, 'mceSetContent', false, value || '')
                 }
-                
-                if (kind=='selection') {                    
-                    var opts = [];
-                    opts.push(OPTION({'value': ''}))
-                    
-                    for (i in value) {                        
-                        var item = value[i];                        
-                        opts.push(OPTION({'value': item[0]}, item[1]));
-                    } 
-                    MochiKit.DOM.replaceChildNodes(fld, map(function(x){return x;}, opts));
-                }  
+
+                if (kind=='selection') {
+                    if (typeof(value)=='object') {
+                        var opts = [OPTION({'value': ''})];
+                        for (i in value) {
+                            var item = value[i];
+                            opts.push(OPTION({'value': item[0]}, item[1]));
+                        }
+                        MochiKit.DOM.replaceChildNodes(fld, map(function(x){return x;}, opts));
+                    }
+                    else {
+                        fld.value = value
+                    }
+                }
 
                 MochiKit.Signal.signal(fld, 'onchange');
             }
