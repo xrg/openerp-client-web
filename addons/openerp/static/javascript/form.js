@@ -754,112 +754,80 @@ function makeContextMenu(id, kind, relation, val){
 
     var model = prefix ? openobject.dom.get(prefix + '_terp_model').value : openobject.dom.get('_terp_model').value;
 
-    var params = {
+    openobject.http.postJSON(act, {
         'model': model,
         'field': id,
         'kind': kind,
         'relation': relation,
         'value': val
-    };
-
-    var req = openobject.http.postJSON(act, params);
-
-    req.addCallback(function(obj){
-        var r, o, a;
-        var rows = [];
-
-        for (r in obj.defaults) {
-            o = obj.defaults[r];
-            a = SPAN({
-                onclick: 'hideElement("contextmenu"); return ' + o.action
-            }, o.text);
-            rows = rows.concat(a);
+    }).addCallback(function(obj){
+        var $tbody = jQuery('<tbody>');
+        jQuery.each(obj.defaults, function (_, default_) {
+            jQuery('<tr>').append(jQuery('<td>').append(
+                jQuery('<span>').click(function () {
+                    hideContextMenu();
+                    return eval(default_.action);
+                }).text(default_.text))).appendTo($tbody);
+        });
+        if (obj.actions.length) {
+            $tbody.append('<hr>');
+            jQuery.each(obj.actions, function (_, action) {
+                jQuery('<tr>').append(jQuery('<td>').append(
+                    jQuery('<span>')
+                        .attr('class', action.action ? '' : 'disabled')
+                        .click(function () {
+                            if(action.action) {
+                                hideContextMenu();
+                                return eval(action.action);
+                            }
+                        }).text(action.text))).appendTo($tbody);
+            });
         }
-        if (obj.actions.length > 0) {
-            rows = rows.concat(HR());
+        if (obj.relates.length) {
+            $tbody.append('<hr>');
 
-            for (r in obj.actions) {
-                o = obj.actions[r];
-
-                a = SPAN({
-                    'class': o.action ? '' : 'disabled',
-                    'onclick': o.action ? 'hideElement("contextmenu"); return ' + o.action : ''
-                }, o.text);
-
-                rows = rows.concat(a);
-            }
+            jQuery.each(obj.relates, function (_, relate) {
+                jQuery('<tr>').append(jQuery('<td>').append(
+                    jQuery('<span>')
+                        .css({
+                            'class': relate.action ? '' : 'disabled',
+                            'domain': relate.domain,
+                            'context': relate.domain
+                        }).click(function () {
+                            if(relate.action) {
+                                hideContextMenu();
+                                return eval(relate.action);
+                            }
+                        }).text(relate.text))).appendTo($tbody);
+            });
         }
-
-        if (obj.relates.length > 0) {
-            rows = rows.concat(HR());
-
-            for (r in obj.relates) {
-                o = obj.relates[r];
-
-                a = SPAN({
-                    'class': o.action ? '' : 'disabled',
-                    'onclick': o.action ? 'hideElement(\'contextmenu\'); return ' + o.action : '',
-                    'domain': o.domain,
-                    'context': o.context
-                }, o.text);
-
-                rows = rows.concat(a);
-            }
-        }
-
-        openobject.dom.get('contextmenu').innerHTML = '';
-
-        var tbl = TABLE({
-            'cellpadding': 0,
-            'cellspacing': 0
-        }, TBODY(null, map(function(r){
-            return TR(null, TD(null, r));
-        }, rows)));
-
-        appendChildNodes('contextmenu', tbl);
-
-        var ctx_menu = openobject.dom.get('contextmenu');
-        ctx_menu.style.left = ctx_menu.pageX + 'px';
-        ctx_menu.style.top = ctx_menu.pageY + 'px';
+        jQuery('#contextmenu').empty().append(
+            jQuery('<table cellpadding="0" cellspacing="0">').append($tbody));
 
         showContextMenu();
     });
 }
 
 function showContextMenu(){
+    var $menu = jQuery('#contextmenu');
+    var $ifrm = jQuery('#contextmenu_frm');
 
-    var menu = openobject.dom.get('contextmenu');
-    var ifrm = openobject.dom.get('contextmenu_frm');
-
-    showElement(menu);
-
-    if (ifrm) {
-
-        ifrm.style.left = menu.offsetLeft + "px";
-        ifrm.style.top = menu.offsetTop + "px";
-        ifrm.style.width = menu.offsetWidth + "px";
-        ifrm.style.height = menu.offsetHeight + "px";
-        ifrm.style.zIndex = 6;
-
-        showElement(ifrm);
+    $menu.show();
+    if ($ifrm.length) {
+        $ifrm.offset($menu.offset())
+             .css({
+                  width: $menu.offsetWidth(),
+                  height: $menu.offsetHeight(),
+                  zIndex: 6
+              }).show();
     }
 }
 
 function hideContextMenu(){
-    var menu = openobject.dom.get('contextmenu');
-    var ifrm = openobject.dom.get('contextmenu_frm');
-
-    if (ifrm) {
-        hideElement(ifrm);
-    }
-
-    hideElement(menu);
+    jQuery('#contextmenu, #contextmenu_frm').hide();
 }
 
 function set_to_default(field, model){
-
-    var kind = getNodeAttribute(openobject.dom.get(field), 'kind');
-
     var act = get_form_action('get_default_value');
     var params = {
         'model': model,
@@ -984,57 +952,39 @@ function on_context_menu(evt){
     if (!evt.modifier()) {
         return;
     }
-    var target = evt.target();
+    var $target = jQuery(evt.target());
 
-    var kind = getNodeAttribute(target, 'kind');
+    var kind = $target.attr('kind');
 
-    if (!(kind && jQuery(target).is(':input, :enabled'))) {
+    if (!(kind && $target.is(':input, :enabled'))) {
         return;
     }
+    var $menu = jQuery('#contextmenu').show();
 
-    var menu = openobject.dom.get('contextmenu');
+    if (!$menu.length) {
+        $menu = jQuery('<div id="contextmenu" class="contextmenu">')
+                .css({position: 'absolute'})
+                .hover(showContextMenu, hideContextMenu)
+                .appendTo(document.body).show();
 
-    if (!menu) {
-
-        menu = DIV({
-            'id': 'contextmenu',
-            'class': 'contextmenu',
-            'onmouseout': 'hideContextMenu()',
-            'onmouseover': 'showContextMenu()',
-            'style': 'position: absolute; display: none;'
-        });
-
-        appendChildNodes(document.body, menu);
-
-        if (/msie/.test(navigator.userAgent.toLowerCase())) {
-            var ifrm = createDOM('IFRAME', {
-                'id': 'contextmenu_frm',
-                'src': '#',
-                'frameborder': '0',
-                'scrolling': 'no',
-                'style': 'position: absolute; display: none;'
-            });
-
-            appendChildNodes(document.body, ifrm);
+        if (jQuery(document.documentElement).hasClass('ie')) {
+            jQuery('<iframe id="contextmenu_frm" src="#" frameborder="0" scrolling="no">')
+                    .css({position: 'absolute'})
+                    .hide().appendTo(document.body);
         }
     }
 
-    var src = target.id;
-
+    var src = $target.attr('id');
     if (kind == 'many2one') {
         src = src.slice(0, -5);
     }
+    var $src = jQuery('[id="' + src + '"]');
 
-    var val = openobject.dom.get(src).value;
-    var relation = getNodeAttribute(src, 'relation');
-
-    hideElement(menu);
-
-    var p = evt.mouse().page;
-
-    setElementPosition(menu, p);
-
-    makeContextMenu(src, kind, relation, val);
+    var click_position = evt.mouse().page;
+    $menu.offset({top: 0, left: 0});
+    $menu.offset({top: click_position.y - 5, left: click_position.x - 5});
+    $menu.hide();
+    makeContextMenu(src, kind, $src.attr('relation'), $src.val());
 
     evt.stop();
 }
@@ -1042,21 +992,18 @@ function on_context_menu(evt){
 function open_url(site){
     var web_site;
 
-    isIE = /msie/.test(navigator.userAgent.toLowerCase());
-
-    if (isIE && site.indexOf('@') > -1) {
+    if (jQuery(document.documentElement).hasClass('ie') && site.indexOf('@') > -1) {
         site = site.split('@');
         site = site[1]
     }
 
     if (site.indexOf("://") == -1) {
         web_site = 'http://' + site;
-    }
-    else {
+    } else {
         web_site = site;
     }
 
-    if (site.length > 0) {
+    if (site.length) {
         window.open(web_site);
     }
 }
