@@ -98,22 +98,9 @@ pre {
 }
 
 table {
-    border-collapse: collapse;
     border-spacing: 0;
 }
 
-/*
-button {
-    overflow: visible;
-    padding: 0 10px;
-    cursor: pointer;
-}
-
-button::-moz-focus-inner {
-    padding: 0;
-    border: none;
-}
-*/
 hr {
     overflow: hidden;
     height: 1px;
