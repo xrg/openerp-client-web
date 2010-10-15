@@ -651,16 +651,6 @@ class Group(TinyWidget):
 
 register_widget(Group, ["group"])
 
-class FiltersGroup(Group):
-    """ Special group for groups of *filters*, in order to generate
-    the right markup and style the buttons correctly.
-    """
-    template = "/openerp/widgets/form/templates/filters_group.mako"
-    colspan=1
-    col=200
-register_widget(FiltersGroup, ["filters_group"])
-
-
 class Dashbar(TinyWidget):
 
     template = "/openerp/widgets/form/templates/dashbar.mako"

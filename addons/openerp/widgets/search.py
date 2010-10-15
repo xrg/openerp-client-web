@@ -436,9 +436,20 @@ class Search(TinyInputWidget):
             views.append(FiltersGroup(children=filters_run))
         return views
 
+class FiltersGroup(form.Group):
+    """ Special group for groups of *filters*, in order to generate
+    the right markup and style the buttons correctly.
+    """
+    template = "/openerp/widgets/templates/search/filters_group.mako"
+    colspan=1
+    col=200
+    is_search = True
+    def __init__(self, **attrs):
+        attrs['is_search'] = True
+        super(FiltersGroup, self).__init__(**attrs)
+
 class Char(form.Char): pass
 class DateTime(form.DateTime): pass
-class FiltersGroup(form.FiltersGroup): pass
 class Float(form.Float): pass
 class Frame(form.Frame): pass
 class Group(form.Group): pass
