@@ -90,6 +90,8 @@ class RangeWidget(TinyInputWidget):
 
     label_type = RangeWidgetLabel
 
+    colspan=3
+
     def __init__(self, **attrs):
         super(RangeWidget, self).__init__(**attrs)
 

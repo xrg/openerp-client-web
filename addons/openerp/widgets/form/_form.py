@@ -157,9 +157,13 @@ class Frame(TinyWidget):
                 'widget_item': ({}, widget)
             }
             td = [attrs, label]
-            if getattr(widget, 'full_name', None) and self.is_search:
-                attrs['class'] = attrs.get('class', 'label') + ' search_filters search_fields'
-                label_table = td
+
+            if self.is_search:
+                if colspan > 1:
+                    attrs['colspan'] = colspan
+                if getattr(widget, 'full_name', None):
+                    attrs['class'] = attrs.get('class', 'label') + ' search_filters search_fields'
+                    label_table = td
             tr.append(td)
 
         if isinstance(widget, TinyInputWidget) and hasattr(cherrypy.request, 'terp_validators'):
