@@ -207,8 +207,8 @@ class Frame(TinyWidget):
 
         td = [attrs, widget]
         if getattr(widget, 'full_name', None) and self.is_search and label_table:
-                label_table[0]['widget_item'] = td
-                label_table[0]['label_position'] = self.is_search
+            label_table[0]['widget_item'] = td
+            label_table[0]['is_search'] = True
         else:
             tr.append(td)
 

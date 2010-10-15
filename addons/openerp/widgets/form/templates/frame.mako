@@ -9,7 +9,7 @@
         <td ${py.attrs(attrs)}>
             % if isinstance(widget, basestring):
                 <% widget_item = attrs['widget_item'][1] %>
-                % if attrs.get('label_position'):
+                % if attrs.get('is_search'):
                     <table class="search_table">
                         <tr>
                             <td ${py.attrs(attrs.get('widget_item')[0])} width="${attrs.get('width')}">
