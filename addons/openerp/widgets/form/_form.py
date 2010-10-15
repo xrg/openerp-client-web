@@ -212,10 +212,6 @@ class Frame(TinyWidget):
         else:
             tr.append(td)
 
-        if isinstance(widget, Group) and colspan < 2:
-            for prev_tr in self.table:
-                if len(prev_tr) > 2:
-                    attrs['colspan'] = len(prev_tr)
         self.x += colspan + label_size
 
     def add_hidden(self, widget):
