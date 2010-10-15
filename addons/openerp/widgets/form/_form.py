@@ -37,6 +37,7 @@ import re
 import xml.dom.minidom
 
 import cherrypy
+import simplejson
 from openerp import validators
 from openerp.utils import rpc, icons, common, TinyDict, node_attributes, get_node_xpath
 from openerp.widgets import TinyWidget, TinyInputWidget, InputWidgetLabel, ConcurrencyInfo, get_widget, register_widget
@@ -61,14 +62,15 @@ class Frame(TinyWidget):
     def __init__(self, **attrs):
 
         super(Frame, self).__init__(**attrs)
+        self.nolabel = True
+        self.is_search = attrs.get('is_search', False)
 
-        if attrs.get('label_position'):
-            self.columns = 200
+        # In search view, there is no limit to the number of columns in a row
+        # newlines have to be created explicitly
+        if self.is_search:
+            self.columns = None
         else:
             self.columns = int(attrs.get('col', 4))
-
-        self.nolabel = True
-        self.label_position = attrs.get('label_position')
 
         self.x = 0
         self.y = 0
@@ -95,44 +97,8 @@ class Frame(TinyWidget):
             elif isinstance(child, TinyInputWidget):
                 self.add_hidden(child)
 
-            else:
-                pass
-
-        self.fields = []
-
-        # properly distribute widths among columns
-
-        if len(self.table) == 1:
-            self.table[0] = [(a, w) for a, w in self.table[0] if getattr(w, 'visible', 1)]
-
-        max_length = max([len(row) for row in self.table])
-        for row in self.table:
-
-            sn = len([w for a, w in row if isinstance(w, (basestring, Label, Image))])
-            sw = 5                                  # label & image width
-            ww = 100.00 - sw * sn                   # remaining width
-            cn = self.columns - sn                  # columns - (lables + image)
-
-            cn -= len([w for a, w in row if not isinstance(w, (basestring, Label, Image)) and not w.visible])
-            if cn < 1: cn = 1
-
-            for i, (a, wid) in enumerate(row):
-                if isinstance(wid, (basestring, Label, Image)):
-                    w = sw
-
-                else:
-                    c = a.get('colspan', 1)
-                    if c > max_length:
-                        c = 1
-
-                    if wid.visible:
-                        w = ww * c / cn
-                    else:
-                        w = 0
-                if isinstance(wid, Separator) and not string:
-                    a['width'] = '2%'
-                else:
-                    a['width'] = '%d%%' % (w)
+        if self.is_search:
+            self.fix_group_colspans()
 
     def add_row(self):
 
@@ -157,22 +123,34 @@ class Frame(TinyWidget):
             cherrypy.request.terp_validators[str(widget.name)] = widget.validator
             cherrypy.request.terp_fields.append(widget)
 
+    def base_widget_attrs(self, widget, colspan, rowspan):
+        attrs = {'for': widget.name}
+
+        if isinstance(widget, TinyInputWidget):
+            attrs['class'] = 'item'
+        if rowspan > 1: attrs['rowspan'] = rowspan
+        if colspan > 1: attrs['colspan'] = colspan
+        if hasattr(widget, 'height'):
+            attrs['height'] = widget.height
+        if hasattr(widget, 'width'):
+            attrs['width'] = widget.width
+
+        return attrs
+
     def add(self, widget, label=None, rowspan=1, colspan=1):
-        if colspan > self.columns:
+        if self.columns and colspan > self.columns:
             colspan = self.columns
 
-        a = label and 1 or 0
+        label_size = label and 1 or 0
 
-        if colspan + self.x + a > self.columns:
+        if self.columns and colspan + self.x + label_size > self.columns:
             self.add_row()
-
-        if colspan == 1 and a == 1:
-            colspan = 2
 
         tr = self.table[-1]
         label_table = []
         if label:
-            colspan -= 1
+            if colspan > 1:
+                colspan -= 1
             attrs = {
                 'class': 'label',
                 'kind': getattr(widget, 'kind', None),
@@ -183,51 +161,47 @@ class Frame(TinyWidget):
                 'widget_item': ({}, widget)
             }
             td = [attrs, label]
-            if getattr(widget, 'full_name', None) and self.label_position:
-                attrs['class'] = attrs.get('class', 'label') + ' search_filters search_fields'
-                label_table = td
+
+            if self.is_search:
+                if colspan > 1:
+                    attrs['colspan'] = colspan
+                if getattr(widget, 'full_name', None):
+                    attrs['class'] = attrs.get('class', 'label') + ' search_filters search_fields'
+                    label_table = td
             tr.append(td)
 
         if isinstance(widget, TinyInputWidget) and hasattr(cherrypy.request, 'terp_validators'):
             self._add_validator(widget)
 
-        attrs = {'for': widget.name}
-        if isinstance(widget, TinyInputWidget):
-            attrs['class'] = 'item'
-        if rowspan > 1: attrs['rowspan'] = rowspan
-        if colspan > 1: attrs['colspan'] = colspan
+        attrs = self.base_widget_attrs(widget, colspan, rowspan)
 
         if not hasattr(widget, 'visible'):
             widget.visible = True
 
         # state change
-        if getattr(widget, 'states', False):
-
+        if getattr(widget, 'states', None):
             states = widget.states
             # convert into JS
             if isinstance(states, dict):
-                states = states.copy()
-                for k, v in states.items():
-                    states[k] = dict(v)
+                states = dict([(k, dict(v)) for k, v in states.iteritems()])
 
-            attrs['states'] = str(states)
-            attrs['widget'] = widget.name
+            attrs.update(states=simplejson.dumps(states),
+                         widget=widget.name)
             if not widget.visible:
                 attrs['style'] = 'display: none'
             widget.visible = True
 
-        valign = getattr(widget, "valign", None)
-        if valign:
-            attrs['valign'] = valign
+        if getattr(widget, "valign", None):
+            attrs['valign'] = widget.valign
 
         # attr change
-        if getattr(widget, 'attributes', False):
+        if getattr(widget, 'attributes', None):
             attrs['attrs'] = str(widget.attributes)
             attrs['widget'] = widget.name
 
         if not isinstance(widget, (Char, Frame, Float, DateTime, Integer, Selection, Notebook, Separator, NewLine, Label)):
             from openerp.widgets.search import Filter
-            if self.label_position \
+            if self.is_search \
                and (not (getattr(widget, 'kind', None) or widget._name)) \
                or (isinstance(widget, Filter) and widget.string):
                 classes = [attrs.get('class', 'item'), 'search_filters']
@@ -240,25 +214,34 @@ class Frame(TinyWidget):
                 attrs['nowrap'] = 'nowrap'
 
         td = [attrs, widget]
-        if getattr(widget, 'full_name', None) and self.label_position:
-            if label_table:
-                label_table[0]['widget_item'] = td
-                label_table[0]['label_position'] = self.label_position
-            else:
-                tr.append(td)
+        if getattr(widget, 'full_name', None) and self.is_search and label_table:
+            label_table[0]['widget_item'] = td
+            label_table[0]['is_search'] = True
         else:
             tr.append(td)
-        if isinstance(widget, Group):
-            if colspan < 2:
-                for prev_tr in self.table:
-                    if len(prev_tr) > 2:
-                        attrs['colspan'] = len(prev_tr)
-        self.x += colspan + a
+
+        self.x += colspan + label_size
 
     def add_hidden(self, widget):
         if isinstance(widget, TinyInputWidget) and hasattr(cherrypy.request, 'terp_validators'):
             self._add_validator(widget)
         self.hiddens.append(widget)
+
+    def fix_group_colspans(self):
+        """ Colspans in search view are currently broken.
+
+        If we're in search view, try to massage group colspans so they take 100% when alone on a row
+        """
+        # TODO: handle rowspans correctly
+        max_colspan = max([
+            reduce(lambda total, widget: total + widget[0].get('colspan', 1), row, 0)
+            for row in self.table
+        ])
+        for row in self.table:
+            if len(row) == 1:
+                [(attrs, widget)] = row
+                if isinstance(widget, Group):
+                    attrs['colspan'] = max_colspan
 
 class Notebook(TinyWidget):
     """Notebook widget, contains list of frames. Each frame will be displayed as a
@@ -656,6 +639,8 @@ class Group(TinyWidget):
     params = ["expand_grp_id", "default", "view_type"]
     member_widgets = ["frame"]
     valign = "top"
+    colspan = 4
+    col = 4
 
     def __init__(self, **attrs):
         super(Group, self).__init__(**attrs)
@@ -669,14 +654,6 @@ class Group(TinyWidget):
         self.expand_grp_id = 'expand_grp_%s' % (random.randint(0,10000))
 
 register_widget(Group, ["group"])
-
-class FiltersGroup(Group):
-    """ Special group for groups of *filters*, in order to generate
-    the right markup and style the buttons correctly.
-    """
-    template = "/openerp/widgets/form/templates/filters_group.mako"
-register_widget(FiltersGroup, ["filters_group"])
-
 
 class Dashbar(TinyWidget):
 
