@@ -599,21 +599,13 @@ function onChange(caller){
                         }
                         break;
                     case 'selection':
-                        if (isArrayLike(value)) {
-                            var opts = [];
-                            opts.push(OPTION({
-                                'value': ''
-                            }));
-
+                        if (typeof(value)=='object') {
+                            var opts = [OPTION({'value': ''})];
                             for (i in value) {
                                 var item = value[i];
-                                opts.push(OPTION({
-                                    'value': item[0]
-                                }, item[1]));
+                                opts.push(OPTION({'value': item[0]}, item[1]));
                             }
-                            MochiKit.DOM.replaceChildNodes(fld, map(function(x){
-                                return x;
-                            }, opts));
+                            MochiKit.DOM.replaceChildNodes(fld, map(function(x){return x;}, opts));
                         }
                         else {
                             fld.value = value;
