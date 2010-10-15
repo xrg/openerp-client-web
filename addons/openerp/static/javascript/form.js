@@ -827,43 +827,33 @@ function hideContextMenu(){
     jQuery('#contextmenu, #contextmenu_frm').hide();
 }
 
-function set_to_default(field, model){
-    var act = get_form_action('get_default_value');
-    var params = {
+function set_to_default(field_id, model){
+    openobject.http.postJSON(get_form_action('get_default_value'), {
         'model': model,
-        'field': field
-    };
-
-    var req = openobject.http.postJSON(act, params);
-    req.addCallback(function(obj){
-
-        openobject.dom.get(field).value = obj.value;
-        signal(field, "onchange");
+        'field': field_id
+    }).addCallback(function(obj){
+        jQuery('[id="' + field_id + '"]')
+                .val(obj.value);
+        // jQuery().change doesn't trigger Mochikit's handler?
+        signal(field_id, "onchange");
     });
 }
 
 function set_as_default(field, model){
-
-    var kind = getNodeAttribute(openobject.dom.get(field), 'kind');
-
-    var args = getFormData(1);
-
-    args['_terp_model'] = model;
-    args['_terp_field'] = field;
-
-    var req = openobject.http.postJSON('/openerp/fieldpref/get', args);
-
-    req.addCallback(function(obj){
-        var text = obj.text;
-        var params = {
-            '_terp_model': model,
-            '_terp_field/name': field,
-            '_terp_field/string': text,
-            '_terp_field/value': openobject.dom.get(field).value,
-            '_terp_deps': obj.deps
-        };
-
-        openobject.tools.openWindow(openobject.http.getURL('/openerp/fieldpref', params), {
+    openobject.http.postJSON(
+        '/openerp/fieldpref/get',
+        jQuery.extend({}, getFormData(1), {
+            _terp_model: model,
+            _terp_field: field
+    })).addCallback(function(obj){
+        openobject.tools.openWindow(
+            openobject.http.getURL('/openerp/fieldpref', {
+                '_terp_model': model,
+                '_terp_field/name': field,
+                '_terp_field/string': obj.text,
+                '_terp_field/value': openobject.dom.get(field).value,
+                '_terp_deps': obj.deps
+            }), {
             width: 500,
             height: 350
         });
