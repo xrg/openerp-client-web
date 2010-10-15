@@ -37,6 +37,7 @@ import re
 import xml.dom.minidom
 
 import cherrypy
+import simplejson
 from openerp import validators
 from openerp.utils import rpc, icons, common, TinyDict, node_attributes, get_node_xpath
 from openerp.widgets import TinyWidget, TinyInputWidget, InputWidgetLabel, ConcurrencyInfo, get_widget, register_widget
@@ -118,22 +119,34 @@ class Frame(TinyWidget):
             cherrypy.request.terp_validators[str(widget.name)] = widget.validator
             cherrypy.request.terp_fields.append(widget)
 
+    def base_widget_attrs(self, widget, colspan, rowspan):
+        attrs = {'for': widget.name}
+
+        if isinstance(widget, TinyInputWidget):
+            attrs['class'] = 'item'
+        if rowspan > 1: attrs['rowspan'] = rowspan
+        if colspan > 1: attrs['colspan'] = colspan
+        if hasattr(widget, 'height'):
+            attrs['height'] = widget.height
+        if hasattr(widget, 'width'):
+            attrs['width'] = widget.width
+
+        return attrs
+
     def add(self, widget, label=None, rowspan=1, colspan=1):
         if colspan > self.columns:
             colspan = self.columns
 
-        a = label and 1 or 0
+        label_size = label and 1 or 0
 
-        if colspan + self.x + a > self.columns:
+        if colspan + self.x + label_size > self.columns:
             self.add_row()
-
-        if colspan == 1 and a == 1:
-            colspan = 2
 
         tr = self.table[-1]
         label_table = []
         if label:
-            colspan -= 1
+            if colspan > 1:
+                colspan -= 1
             attrs = {
                 'class': 'label',
                 'kind': getattr(widget, 'kind', None),
@@ -152,41 +165,29 @@ class Frame(TinyWidget):
         if isinstance(widget, TinyInputWidget) and hasattr(cherrypy.request, 'terp_validators'):
             self._add_validator(widget)
 
-        attrs = {'for': widget.name}
-        if isinstance(widget, TinyInputWidget):
-            attrs['class'] = 'item'
-        if rowspan > 1: attrs['rowspan'] = rowspan
-        if colspan > 1: attrs['colspan'] = colspan
-        if hasattr(widget, 'height'):
-            attrs['height'] = widget.height
-        if hasattr(widget, 'width'):
-            attrs['width'] = widget.width
+        attrs = self.base_widget_attrs(widget, colspan, rowspan)
 
         if not hasattr(widget, 'visible'):
             widget.visible = True
 
         # state change
-        if getattr(widget, 'states', False):
-
+        if getattr(widget, 'states', None):
             states = widget.states
             # convert into JS
             if isinstance(states, dict):
-                states = states.copy()
-                for k, v in states.items():
-                    states[k] = dict(v)
+                states = dict([(k, dict(v)) for k, v in states.iteritems()])
 
-            attrs['states'] = str(states)
-            attrs['widget'] = widget.name
+            attrs.update(states=simplejson.dumps(states),
+                         widget=widget.name)
             if not widget.visible:
                 attrs['style'] = 'display: none'
             widget.visible = True
 
-        valign = getattr(widget, "valign", None)
-        if valign:
-            attrs['valign'] = valign
+        if getattr(widget, "valign", None):
+            attrs['valign'] = widget.valign
 
         # attr change
-        if getattr(widget, 'attributes', False):
+        if getattr(widget, 'attributes', None):
             attrs['attrs'] = str(widget.attributes)
             attrs['widget'] = widget.name
 
@@ -205,20 +206,17 @@ class Frame(TinyWidget):
                 attrs['nowrap'] = 'nowrap'
 
         td = [attrs, widget]
-        if getattr(widget, 'full_name', None) and self.label_position:
-            if label_table:
+        if getattr(widget, 'full_name', None) and self.label_position and label_table:
                 label_table[0]['widget_item'] = td
                 label_table[0]['label_position'] = self.label_position
-            else:
-                tr.append(td)
         else:
             tr.append(td)
-        if isinstance(widget, Group):
-            if colspan < 2:
-                for prev_tr in self.table:
-                    if len(prev_tr) > 2:
-                        attrs['colspan'] = len(prev_tr)
-        self.x += colspan + a
+
+        if isinstance(widget, Group) and colspan < 2:
+            for prev_tr in self.table:
+                if len(prev_tr) > 2:
+                    attrs['colspan'] = len(prev_tr)
+        self.x += colspan + label_size
 
     def add_hidden(self, widget):
         if isinstance(widget, TinyInputWidget) and hasattr(cherrypy.request, 'terp_validators'):
