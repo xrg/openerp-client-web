@@ -51,10 +51,12 @@
     % endif
     % if selector:
         <td class="grid-cell selector">
+            % if not m2m:
             <input type="${selector}" class="${selector} grid-record-selector"
                 id="${name}/${data['id']}" name="${(checkbox_name or None) and name}"
                 value="${data['id']}"
                 onclick="new ListView('${name}').onBooleanClicked(!this.checked, '${data['id']}')"/>
+            % endif
         </td>
     % endif
     % if editable:
@@ -188,10 +190,10 @@
                             <tr class="grid-header">
                                 % if selector:
                                     <th width="1" class="grid-cell selector">
-                                        % if selector == 'checkbox':
+                                        % if selector == 'checkbox' and not m2m:
                                             <input type="checkbox" class="checkbox grid-record-selector" onclick="new ListView('${name}').checkAll(!this.checked)"/>
                                         % endif
-                                        % if selector != 'checkbox':
+                                        % if selector != 'checkbox' and not m2m:
                                             <span>&nbsp;</span>
                                         % endif
                                     </th>
