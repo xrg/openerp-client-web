@@ -62,14 +62,10 @@ class Frame(TinyWidget):
     def __init__(self, **attrs):
 
         super(Frame, self).__init__(**attrs)
-
-        if attrs.get('label_position'):
-            self.columns = 200
-        else:
-            self.columns = int(attrs.get('col', 4))
-
         self.nolabel = True
-        self.label_position = attrs.get('label_position')
+        self.is_search = attrs.get('is_search', False)
+
+        self.columns = int(attrs.get('col', 4))
 
         self.x = 0
         self.y = 0
@@ -95,6 +91,9 @@ class Frame(TinyWidget):
 
             elif isinstance(child, TinyInputWidget):
                 self.add_hidden(child)
+
+        if self.is_search:
+            self.fix_group_colspans()
 
     def add_row(self):
 
@@ -139,7 +138,8 @@ class Frame(TinyWidget):
 
         label_size = label and 1 or 0
 
-        if colspan + self.x + label_size > self.columns:
+        if not self.is_search and colspan + self.x + label_size > self.columns:
+            # In search mode, there is no limit to the width of a row
             self.add_row()
 
         tr = self.table[-1]
@@ -157,7 +157,7 @@ class Frame(TinyWidget):
                 'widget_item': ({}, widget)
             }
             td = [attrs, label]
-            if getattr(widget, 'full_name', None) and self.label_position:
+            if getattr(widget, 'full_name', None) and self.is_search:
                 attrs['class'] = attrs.get('class', 'label') + ' search_filters search_fields'
                 label_table = td
             tr.append(td)
@@ -193,7 +193,7 @@ class Frame(TinyWidget):
 
         if not isinstance(widget, (Char, Frame, Float, DateTime, Integer, Selection, Notebook, Separator, NewLine, Label)):
             from openerp.widgets.search import Filter
-            if self.label_position \
+            if self.is_search \
                and (not (getattr(widget, 'kind', None) or widget._name)) \
                or (isinstance(widget, Filter) and widget.string):
                 classes = [attrs.get('class', 'item'), 'search_filters']
@@ -206,9 +206,9 @@ class Frame(TinyWidget):
                 attrs['nowrap'] = 'nowrap'
 
         td = [attrs, widget]
-        if getattr(widget, 'full_name', None) and self.label_position and label_table:
+        if getattr(widget, 'full_name', None) and self.is_search and label_table:
                 label_table[0]['widget_item'] = td
-                label_table[0]['label_position'] = self.label_position
+                label_table[0]['label_position'] = self.is_search
         else:
             tr.append(td)
 
@@ -218,6 +218,22 @@ class Frame(TinyWidget):
         if isinstance(widget, TinyInputWidget) and hasattr(cherrypy.request, 'terp_validators'):
             self._add_validator(widget)
         self.hiddens.append(widget)
+
+    def fix_group_colspans(self):
+        """ Colspans in search view are currently broken.
+
+        If we're in search view, try to massage group colspans so they take 100% when alone on a row
+        """
+        # TODO: handle rowspans correctly
+        max_colspan = max([
+            reduce(lambda total, widget: total + widget[0].get('colspan', 1), row, 0)
+            for row in self.table
+        ])
+        for row in self.table:
+            if len(row) == 1:
+                [(attrs, widget)] = row
+                if isinstance(widget, Group):
+                    attrs['colspan'] = max_colspan
 
 class Notebook(TinyWidget):
     """Notebook widget, contains list of frames. Each frame will be displayed as a
@@ -615,6 +631,8 @@ class Group(TinyWidget):
     params = ["expand_grp_id", "default", "view_type"]
     member_widgets = ["frame"]
     valign = "top"
+    colspan = 4
+    col = 4
 
     def __init__(self, **attrs):
         super(Group, self).__init__(**attrs)
@@ -634,6 +652,8 @@ class FiltersGroup(Group):
     the right markup and style the buttons correctly.
     """
     template = "/openerp/widgets/form/templates/filters_group.mako"
+    colspan=1
+    col=200
 register_widget(FiltersGroup, ["filters_group"])
 
 

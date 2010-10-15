@@ -302,7 +302,7 @@ class Search(TinyInputWidget):
                 filters_run = []
 
             attrs = node_attributes(node)
-            attrs.update(label_position='True',
+            attrs.update(is_search=True,
                          model=search_model)
 
             if 'nolabel' in attrs:
