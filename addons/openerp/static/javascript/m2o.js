@@ -179,15 +179,16 @@ ManyToOne.prototype.open = function(id) {
 };
 
 ManyToOne.prototype.get_text = function() {
-    if(this.text && this.field.value == '') {
+    if(!this.text) { return; }
+    if(!this.field.value) {
         this.text.value = '';
-    }
-
-    if(this.text && this.field.value && ! this.text.value) {
-        var req = openobject.http.postJSON('/openerp/search/get_name', {model: this.relation, id : this.field.value});
+    } else {
         var text_field = this.text;
 
-        req.addCallback(function(obj) {
+        openobject.http.postJSON('/openerp/search/get_name', {
+            model: this.relation,
+            id : this.field.value
+        }).addCallback(function(obj) {
             text_field.value = obj.name;
         });
     }
