@@ -88,21 +88,6 @@ class Attachment(SecuredController):
         return {'id': attachment_id, 'name': datas.filename}
     
     @expose('json', methods=('POST',))
-    def save_pad(self, **kwargs):
-        params, data = TinyDict.split(cherrypy.session['params'])
-        pad_name=kwargs.get('pad_name')
-        ctx = dict(rpc.session.context,
-                   default_res_model=params.model, default_res_id=params.id,
-                   active_id=False, active_ids=[])
-        
-        pad_link = "http://piratepad.net/"+'-'.join(pad_name.split())
-        attachment_id = rpc.RPCProxy('ir.attachment').create({
-            'name': pad_name,
-            'url': pad_link,
-            }, ctx)
-        return {'id': attachment_id, 'name': pad_name, 'url': pad_link}
-    
-    @expose('json', methods=('POST',))
     def remove(self, id=False, **kw):
         proxy = rpc.RPCProxy('ir.attachment')
         try:

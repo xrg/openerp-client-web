@@ -1187,20 +1187,6 @@ function setupAttachments(){
     });
 }
 
-function setupPads(){
-	var padForm = jQuery('#pad-box').hide();
-	jQuery('#sidebar_pad_ok').bind('click', function(){
-		padForm.submit();
-	});
-	jQuery('#add-pad').click(function(e){
-		padForm.show();
-		e.preventDefault();
-	});
-	padForm.bind({
-		submit: createAttachment
-	});
-}
-
 function error_popup(obj){
     try {
         var error_window = window.open("", "error", "status=1, scrollbars=yes, width=550, height=400");
