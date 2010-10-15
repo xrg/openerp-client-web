@@ -19,14 +19,14 @@
                                 <label id="filterlabel" value=""></label>
                             </td>
                             <td>
-                                <select class="expr">
+                                <select class="expr" onchange="jQuery(this).parents('tr.filter_row_class').find('input.qstring')[0].focus()">
                                     % for operator, description in operators_map:
                                         <option value="${operator}" >${description}</option>
                                     % endfor
                                 </select>
                             </td>
                             <td colspan="2" align="right" class="filter_column">
-                                <input type="text" class='qstring' value="" />
+                                <input type="text" class='qstring' value="" autofocus="true"/>
                             </td>
                         </tr>
                     </tbody>
