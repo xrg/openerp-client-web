@@ -403,10 +403,7 @@ class Search(TinyInputWidget):
                             if attrs.get('filter_domain'):
                                 domain = expr_eval(attrs['filter_domain'], {'self': s})
                             else:
-                                if field.kind == 'char':
-                                    domain = [(name,fields[name].get('comparator','ilike'), s)]
-                                elif field.kind in ('selection', 'many2one'):
-                                    domain = [(name, '=', s)]
+                                domain = [(name,fields[name].get('comparator','ilike'), s)]
                             field.set_value(s)
                             self.listof_domain += [i for i in domain if not i in self.listof_domain]
                             self.context.update(expr_eval(attrs.get('context',"{}"), {'self': s}))
