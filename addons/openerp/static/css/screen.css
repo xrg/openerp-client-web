@@ -122,6 +122,11 @@ hr {
     overflow: hidden !important;
 }
 
+p.raw-text {
+    min-height: 6em;
+    white-space: pre-line;
+}
+
 /* LAYOUT
 ------------------------------------------- */
 #root {
