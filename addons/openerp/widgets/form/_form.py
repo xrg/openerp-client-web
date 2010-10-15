@@ -65,7 +65,12 @@ class Frame(TinyWidget):
         self.nolabel = True
         self.is_search = attrs.get('is_search', False)
 
-        self.columns = int(attrs.get('col', 4))
+        # In search view, there is no limit to the number of columns in a row
+        # newlines have to be created explicitly
+        if self.is_search:
+            self.columns = None
+        else:
+            self.columns = int(attrs.get('col', 4))
 
         self.x = 0
         self.y = 0
@@ -133,13 +138,12 @@ class Frame(TinyWidget):
         return attrs
 
     def add(self, widget, label=None, rowspan=1, colspan=1):
-        if colspan > self.columns:
+        if self.columns and colspan > self.columns:
             colspan = self.columns
 
         label_size = label and 1 or 0
 
-        if not self.is_search and colspan + self.x + label_size > self.columns:
-            # In search mode, there is no limit to the width of a row
+        if self.columns and colspan + self.x + label_size > self.columns:
             self.add_row()
 
         tr = self.table[-1]

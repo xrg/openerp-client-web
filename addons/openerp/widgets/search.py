@@ -442,7 +442,6 @@ class FiltersGroup(form.Group):
     """
     template = "/openerp/widgets/templates/search/filters_group.mako"
     colspan=1
-    col=200
     is_search = True
     def __init__(self, **attrs):
         attrs['is_search'] = True
