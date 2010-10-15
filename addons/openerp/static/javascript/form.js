@@ -984,11 +984,11 @@ function on_context_menu(evt){
     if (!evt.modifier()) {
         return;
     }
-
     var target = evt.target();
+
     var kind = getNodeAttribute(target, 'kind');
 
-    if (!kind || target.disabled) {
+    if (!(kind && jQuery(target).is(':input, :enabled'))) {
         return;
     }
 
