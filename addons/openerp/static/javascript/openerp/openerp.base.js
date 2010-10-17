@@ -46,6 +46,7 @@ function displayErrorOverlay(xhr) {
 
 /**
  * Handles errors when loading page via XHR
+ * TODO: maybe we should set this as the global error handler via jQuery.ajaxSetup
  *
  * @param xhr The XHR object
  */
