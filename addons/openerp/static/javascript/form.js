@@ -1179,28 +1179,25 @@ function validateForm(){
 
 function validate_action() {
     var $form = jQuery('#view_form');
-    var is_form_changed = $form.data('is_form_changed');
-    if ((is_form_changed && confirm('The record has been modified \n Do you want to save it ?'))) {
+    if ($form.data('is_form_changed') && confirm('The record has been modified \n Do you want to save it ?')) {
         if (!validate_required($form.get(0))) {
-            return false;
+            return;
         }
         
         $form.ajaxSubmit({
-            error: function(xhr, status, error){
-                return displayErrorOverlay(xhr);
-            },
+            error: loadingError,
             async: false,
             success: function(data, status, xhr){
                 if (arguments.length) {
                     $form.find('#_terp_id').val(jQuery(xhr.responseText).find('#_terp_id').val());
                 }
-                $form.data('is_form_changed', null);
+                $form.removeData('is_form_changed');
             }
         });
     }
     if (arguments.length) {
         var params = arguments[0];
         var action = arguments[1];
-        return action(params);
+        action(params);
     }
 }
