@@ -110,50 +110,53 @@ openerp.ui = {};
      */
     $.fn.scrollify = function scrollify(options) {
         var settings = $.extend({}, DEFAULTS, options || {});
-        var $scrollable = $(this);
-        var $scrollable_list = $scrollable.children('ul');
-        if(!($scrollable.length && $scrollable_list.length)) {
-            return this;
-        }
-        var scrolling_left, scrolling_right;
-        var $left_scroller = $('<div class="left scroller">').hover(
-            function () {
-                scrolling_left = setInterval(function () {
-                    if($scrollable_list.scrollLeft() == 0) {
-                        clearInterval(scrolling_left);
-                    }
-                    $scrollable_list.scrollLeft(
-                            $scrollable_list.scrollLeft()
-                            - settings.speed);
-                }, 30);
-            }, function () {
-                clearInterval(scrolling_left);
-        });
-        var $right_scroller = $('<div class="right scroller">').hover(
-            function () {
-                scrolling_right = setInterval(function () {
-                    var scrolledMax = (
-                            ( $scrollable_list.scrollLeft()
-                            + $scrollable_list.outerWidth())
-                        == $scrollable_list.get(0).scrollWidth);
-                    if(scrolledMax) {
-                        clearInterval(scrolling_right);
-                    }
-                    $scrollable_list.scrollLeft(
-                            $scrollable_list.scrollLeft()
-                            + settings.speed);
-                }, 30);
-            }, function () {
-                clearInterval(scrolling_right);
-        });
-        $scrollable.prepend($left_scroller).prepend($right_scroller);
+        this.each(function () {
+            var $scrollable = $(this);
+            var $scrollable_list = $scrollable.children('ul');
+            if($scrollable.data('scrollified')
+               || !($scrollable.length && $scrollable_list.length)) {
+                return;
+            }
+            $scrollable.data('scrollified', true);
+            var scrolling_left, scrolling_right;
+            var $left_scroller = $('<div class="left scroller">').hover(
+                function () {
+                    scrolling_left = setInterval(function () {
+                        if($scrollable_list.scrollLeft() == 0) {
+                            clearInterval(scrolling_left);
+                        }
+                        $scrollable_list.scrollLeft(
+                                $scrollable_list.scrollLeft()
+                                - settings.speed);
+                    }, 30);
+                }, function () {
+                    clearInterval(scrolling_left);
+            });
+            var $right_scroller = $('<div class="right scroller">').hover(
+                function () {
+                    scrolling_right = setInterval(function () {
+                        var scrolledMax = (
+                                ( $scrollable_list.scrollLeft()
+                                + $scrollable_list.outerWidth())
+                            == $scrollable_list.get(0).scrollWidth);
+                        if(scrolledMax) {
+                            clearInterval(scrolling_right);
+                        }
+                        $scrollable_list.scrollLeft(
+                                $scrollable_list.scrollLeft()
+                                + settings.speed);
+                    }, 30);
+                }, function () {
+                    clearInterval(scrolling_right);
+            });
+            $scrollable.prepend($left_scroller).prepend($right_scroller);
 
-        $scrollable.bind('altered.scrollify', scrollable_alteration);
-        $(window).bind('resize.scrollify', function () {
+            $scrollable.bind('altered.scrollify', scrollable_alteration);
+            $(window).bind('resize.scrollify', function () {
+                $scrollable.trigger('altered');
+            });
             $scrollable.trigger('altered');
         });
-        $scrollable.trigger('altered');
-
         return this;
     }
 })(jQuery);
