@@ -4,60 +4,38 @@ div.notebook {
     padding: 0;
 }
 
-div.notebook-tabs-left,div.notebook-tabs-right {
-    position: absolute;
-    top: 0px;
-    width: 18px;
-    display: none;
-    cursor: pointer;
-    z-index: 2;
+.notebook-tabs {
+    height: 24px;
+    position: relative;
+    white-space: nowrap;
 }
 
-div.notebook-tabs-right {
-    right: 0px;
+.notebook-tabs-strip {
+    list-style: none;
+    overflow: hidden;
+    padding: 0;
+    position: absolute;
+    left: 0;
+    right: 0;
+}
+
+.notebook-tabs.scrolling .notebook-tabs-strip {
+    left: 14px;
+    right: 14px;
+}
+
+.notebook-tabs.scrolling .left.scroller {
+    background: #F0EEEE url(../images/notebook/nb-left.png) no-repeat center;
+}
+.notebook-tabs.scrolling .right.scroller {
     background: #F0EEEE url(../images/notebook/nb-right.png) no-repeat center;
 }
 
-div.notebook-tabs-left {
-    left: 0px;
-    background: #F0EEEE url(../images/notebook/nb-left.png) no-repeat center;
-}
-
-div.notebook-tabs-right-disabled {
-    background: #F0EEEE url(../images/notebook/nb-right-d.png) no-repeat center;
-    cursor: default;
-}
-
-div.notebook-tabs-left-disabled {
-    background: #F0EEEE url(../images/notebook/nb-left-d.png) no-repeat center;
-    cursor: default;
-}
-
-div.notebook-tabs-wrap {
-    position: relative;
-    overflow: hidden;
-}
-
-div.notebook-tabs-wrap-scrollable {
-    margin: 0 18px;
-}
-
-ul.notebook-tabs-strip {
-    display: block;
-    float: left;
-    /*width: 5000px;*/
-    background: transparent;
-    padding: 0;
-    margin: 0;
-    list-style: none;
-}
-
-li.notebook-tab {
-    position: relative;
-    float: left;
-    font-size: 1em;
+.notebook-tab {
+    display: -moz-inline-stack;
+    display: inline; /*IE7 */
+    display: inline-block;
     font-weight: bold;
-    text-transform: uppercase;
     margin-right: 2px;
     background: #d0d0d0;
     border-radius: 7px 7px 0 0;
@@ -65,11 +43,10 @@ li.notebook-tab {
     -webkit-border-radius: 7px 7px 0 0;
     cursor: pointer;
 }
-
-li.notebook-tab:hover {
+.notebook-tab:hover {
     background: #e0e0e0;
 }
-li.notebook-tab-active, li.notebook-tab-active:hover {
+.notebook-tab-active, li.notebook-tab-active:hover {
     background: #fff;
     cursor: auto;
 }

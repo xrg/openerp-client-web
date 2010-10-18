@@ -94,7 +94,6 @@ Notebook.prototype = {
     prepare: function() {
         this.rendered = false;
 
-        this.elemWrap = DIV({'class': 'notebook-tabs-wrap'});
         this.elemStrip = UL({'class': 'notebook-tabs-strip'});
         this.elemStack = DIV({'class': 'notebook-pages'});
 
@@ -114,20 +113,18 @@ Notebook.prototype = {
             var text = page.title || "Page " + i;
             var id = page.id || 'none';
 
-            text = text.split('|');
+            var text_chunks = text.split('|');
 
-            var help = text.length > 1 ? text[1] : "";
+            var help = text_chunks.length > 1 ? text_chunks[1] : "";
             var closable = this.options.closable;
 
-            if(text.length > 2) {
-                closable = parseInt(text[2]);
+            if(text_chunks.length > 2) {
+                closable = parseInt(text_chunks[2], 10);
                 closable = isNaN(closable) ? this.options.closable : closable;
             }
 
-            text = text[0];
-
             this.add(page, {
-                text: text,
+                text: text_chunks[0],
                 id: id,
                 help: help,
                 closable: closable,
@@ -136,11 +133,8 @@ Notebook.prototype = {
             });
         }
 
-        MochiKit.DOM.appendChildNodes(this.elemWrap, this.elemStrip);
-        MochiKit.DOM.appendChildNodes(this.element,
-                DIV({'class': 'notebook-tabs'},
-                        this.elemWrap),
-                this.elemStack);
+        var tabs = DIV({'class': 'notebook-tabs'}, this.elemStrip);
+        MochiKit.DOM.appendChildNodes(this.element, tabs, this.elemStack);
 
         MochiKit.DOM.addElementClass(this.element, 'notebook');
 
@@ -154,6 +148,11 @@ Notebook.prototype = {
         });
 
         showElement(this.element);
+        var $tabs = jQuery(tabs);
+        $tabs.scrollify();
+        jQuery(window).bind('on-appcontent-resize', function () {
+            $tabs.trigger('altered');
+        });
     },
 
     getTab: function(tab) {
@@ -252,7 +251,6 @@ Notebook.prototype = {
         }
 
         if(options.closable) {
-
             tab.elemClose = SPAN({'href': 'javascript: void(0)', 'class': 'tab-close'});
             MochiKit.DOM.appendChildNodes(tab, tab.elemClose);
 
@@ -266,6 +264,7 @@ Notebook.prototype = {
         MochiKit.DOM.appendChildNodes(this.elemStack, page);
 
         this.show(tab, options.activate);
+        jQuery('.notebook-tabs', this.element).trigger('altered');
     },
 
     remove: function(tab) {
@@ -291,6 +290,7 @@ Notebook.prototype = {
         MochiKit.DOM.removeElement(page);
 
         MochiKit.Signal.signal(this, "remove", this, tab);
+        jQuery('.notebook-tabs', this.element).trigger('altered');
     },
 
     show: function(tab, activate) {
@@ -302,7 +302,6 @@ Notebook.prototype = {
         }
 
         if(activate) {
-
             if(this.activeTab) {
                 var at = this.activeTab;
                 var pg = this.activePage;
@@ -325,6 +324,7 @@ Notebook.prototype = {
         if(activate) {
             this.setActiveTab(tab);
         }
+        jQuery('.notebook-tabs', this.element).trigger('altered');
     },
 
     hide: function(tab) {
@@ -348,6 +348,7 @@ Notebook.prototype = {
         if(t) {
             this.show(t);
         }
+        jQuery('.notebook-tabs', this.element).trigger('altered');
     },
 
     setActiveTab: function(tab) {
@@ -383,5 +384,6 @@ Notebook.prototype = {
         if(action == "show") {
             MochiKit.Signal.signal(this, 'click', this, tab);
         }
+        jQuery('.notebook-tabs', this.element).trigger('altered');
     }
 };
