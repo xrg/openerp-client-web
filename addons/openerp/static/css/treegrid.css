@@ -1,7 +1,7 @@
 table.tree-grid {
     background-color:#E3E3E3;
     border-collapse: collapse;
-    width: 180px;
+    width: 100%;
 }
 
 table#view_tree,

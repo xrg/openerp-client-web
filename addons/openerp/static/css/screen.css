@@ -164,7 +164,7 @@ p.raw-text {
 
 p#cmp_logo {
     float: left;
-    width: 174px;
+    width: 180px;
     margin: 0 10px 0 0;
     padding: 0 0 0 0px;
     background: url(../images/logo-bg.png) repeat-y;
@@ -604,7 +604,7 @@ html.chrome.linux #applications_menu span {
     height: 100%;
 }
 #secondary div.wrap {
-    width: 183px;
+    min-width: 180px;
 }
 
 #appContent {
