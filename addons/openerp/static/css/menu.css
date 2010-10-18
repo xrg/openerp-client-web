@@ -71,7 +71,6 @@
     display: -moz-inline-stack;    
     display: inline-block;
     display: inline; /*IE7 */
-    list-style: none;
     color: #fff;
     text-align: center;
     border-left: 1px solid #909090;
