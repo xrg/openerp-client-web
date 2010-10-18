@@ -143,8 +143,8 @@ def format_datetime(value, kind="datetime", as_timetuple=False):
     if kind == "datetime":
         try:
             value = _tz_convert(value, 'format')
-        except Exception, e:
-            cherrypy.log.error("Error in timezone handling: %s" % (e, ), traceback=True)
+        except Exception:
+            cherrypy.log.error("Error in timezone formatting:\n", traceback=True)
 
     if as_timetuple:
         return value
@@ -185,8 +185,8 @@ def parse_datetime(value, kind="datetime", as_timetuple=False):
     if kind == "datetime":
         try:
             value = _tz_convert(value, 'parse')
-        except Exception, e:
-            cherrypy.log.error("Error in timezone handling: %s" % (e, ), traceback=True)
+        except Exception:
+            cherrypy.log.error("Error in timezone parsing:\n", traceback=True)
 
     if as_timetuple:
         return value
