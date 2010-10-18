@@ -562,8 +562,11 @@ p#cmp_logo {
     padding: 0 6px;
     background: url(../images/nav-items-a.png) 100% 0 no-repeat;
     line-height: 22px;
-    font-size: 0.9em;
+    font-size: 90%;
     font-weight: bold;
+}
+html.chrome.linux #applications_menu span {
+    font-size: 100%;
 }
 * html #applications_menu span {
     width: 60px;
