@@ -1666,15 +1666,19 @@ ul.sections-a li span.wrap a:hover span strong,ul.sections-a li span.wrap a:focu
 }
 
 #sidenav-a li.accordion-content {
-    padding: 0 0 5px;
-    background: url(../images/sidenav-bg-a.gif) 0 100% repeat-x;
+    padding: 0px;
+    background: none;
     font-size: 1em;
     display: block;
     min-width: 180px;
+    border-bottom: 1px solid #333333;
+}
+#sidenav-a li.accordion-content:last-child {
+    border-bottom: none;
 }
 
 #sidenav-a li {
-    padding: 0 0 5px;
+    padding: 0 0 2px;
     background: url(../images/sidenav-bg-a.gif) 0 100% repeat-x;
     font-size: 1em;
 }
