@@ -274,9 +274,8 @@ function submit_form(action, src, target){
     var $form = jQuery('#view_form');
     if (target == "new" || target == "_blank") {
         $form.attr('target', '_blank');
-    }
-    else {
-        $form.attr('target', '');
+    } else {
+        $form.removeAttr('target');
     }
 
     if (action == 'save_and_edit') {
