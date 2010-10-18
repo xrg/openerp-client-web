@@ -144,7 +144,10 @@ def format_datetime(value, kind="datetime", as_timetuple=False):
         try:
             value = _tz_convert(value, 'format')
         except Exception, e:
-            pass
+            import sys, traceback
+            last_tb = sys.exc_info()[2]
+            cherrypy.log.error("Error in timezone handling: %s" % (e, ))
+            cherrypy.log.error("Traceback: %s" % (traceback.format_exc(last_tb), ))
 
     if as_timetuple:
         return value
@@ -185,8 +188,11 @@ def parse_datetime(value, kind="datetime", as_timetuple=False):
     if kind == "datetime":
         try:
             value = _tz_convert(value, 'parse')
-        except:
-            pass
+        except Exception, e:
+            import sys, traceback
+            last_tb = sys.exc_info()[2]
+            cherrypy.log.error("Error in timezone handling: %s" % (e, ))
+            cherrypy.log.error("Traceback: %s" % (traceback.format_exc(last_tb), ))
 
     if as_timetuple:
         return value
