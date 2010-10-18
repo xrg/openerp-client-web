@@ -520,7 +520,6 @@ p#cmp_logo {
 }
 
 #applications_menu li {
-    zoom: 1;
     display: -moz-inline-stack;
     display: inline; /*IE7 */
     display: inline-block;
