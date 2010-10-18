@@ -26,17 +26,13 @@
 # You can see the MPL licence at: http://www.mozilla.org/MPL/MPL-1.1.html
 #
 ###############################################################################
-
+import datetime as DT
 import re
 import time
-import datetime as DT
-import pytz
+
 import cherrypy
-
-from babel import dates
-from babel import numbers
-from babel.support import Format
-
+import pytz
+from babel import dates, numbers
 
 from openobject.i18n.utils import get_locale
 
