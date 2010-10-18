@@ -80,6 +80,7 @@
 #shortcuts li:first-child,
 #shortcuts li.first {
     border-left: none;
+    padding-left: 0;
 }
 
 #shortcuts a {
