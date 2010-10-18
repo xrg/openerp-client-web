@@ -1,0 +1,105 @@
+# Translations template for PROJECT.
+# Copyright (C) 2010 ORGANIZATION
+# This file is distributed under the same license as the PROJECT project.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2010.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PROJECT VERSION\n"
+"Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
+"POT-Creation-Date: 2010-10-15 12:35+0530\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel None\n"
+
+#: controllers/_diagram.py:100 controllers/_diagram.py:216
+msgid "Could not delete state"
+msgstr ""
+
+#: controllers/_diagram.py:279
+msgid "No workflow associated!"
+msgstr ""
+
+#: controllers/process.py:92
+#, python-format
+msgid "%(name)s - Resource: %(resource)s, State: %(state)s"
+msgstr ""
+
+#: controllers/process.py:104
+msgid "Last modified by:"
+msgstr ""
+
+#: controllers/templates/process.mako:4 controllers/templates/process.mako:73
+#: controllers/templates/process_tip.mako:5
+msgid "Process"
+msgstr ""
+
+#: controllers/templates/process.mako:53
+msgid "Online Documentation"
+msgstr ""
+
+#: controllers/templates/process.mako:56
+msgid "Community Forum"
+msgstr ""
+
+#: controllers/templates/process.mako:59
+msgid "Get Books"
+msgstr ""
+
+#: controllers/templates/process.mako:62
+msgid "Get the OpenERP Warranty"
+msgstr ""
+
+#: controllers/templates/process.mako:83
+msgid "Select Process"
+msgstr ""
+
+#: controllers/templates/process.mako:89
+msgid "Select"
+msgstr ""
+
+#: controllers/templates/process.mako:102
+msgid "[Edit Process]"
+msgstr ""
+
+#: controllers/templates/process.mako:112
+msgid "fields"
+msgstr ""
+
+#: controllers/templates/process_open.mako:54
+#: controllers/templates/process_tip.mako:20
+#: controllers/templates/wkf_popup.mako:52
+msgid "Close"
+msgstr ""
+
+#: controllers/templates/process_open.mako:55
+#: controllers/templates/wkf_popup.mako:49
+msgid "Save"
+msgstr ""
+
+#: controllers/templates/workflow.mako:4
+msgid "Workflow"
+msgstr ""
+
+#: controllers/templates/workflow.mako:20
+#, python-format
+msgid "Workflow (%s)"
+msgstr ""
+
+#: widgets/_views.py:8
+msgid "Diagram"
+msgstr ""
+
+#: widgets/_views.py:9
+msgid "Diagram view..."
+msgstr ""
+
+#: widgets/templates/diagram.mako:26
+msgid "Loading..."
+msgstr ""
+
