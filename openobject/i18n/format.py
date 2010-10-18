@@ -78,7 +78,7 @@ def _tz_convert(value, action):
     lzone = pytz.timezone(cherrypy.session['client_timezone']
                           or cherrypy.session['remote_timezone'])
     szone = pytz.timezone(cherrypy.session['remote_timezone'])
-    dt = DT.datetime(value[0], value[1], value[2], value[3], value[4], value[5], value[6])
+    dt = DT.datetime.fromtimestamp(time.mktime(value))
 
     if action == 'parse':
         fromzone = lzone
