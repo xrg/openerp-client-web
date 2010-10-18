@@ -1638,19 +1638,6 @@ ul.sections-a li span.wrap a:hover span strong,ul.sections-a li span.wrap a:focu
     background-position: 100% 5px;
 }
 
-.toggle-menu {
-    cursor: pointer;
-    background: #CECBCB url(../images/arrow_left.png) no-repeat scroll 50% 50%;
-    min-height: 100%;
-    padding: 0 0 0 11px;
-    /* hack to fix weird space under bar */
-    border-bottom: 1px solid #CECBCB;
-}
-
-.closed .toggle-menu {
-    background-image: url(../images/arrow_right.png);
-}
-
 .closed #primary {
     margin-left: 21px;
 }
@@ -1669,7 +1656,7 @@ ul.sections-a li span.wrap a:hover span strong,ul.sections-a li span.wrap a:focu
 }
 
 #sidenav-a li.accordion-content {
-    padding: 0px;
+    padding: 0;
     background: none;
     font-size: 1em;
     display: block;

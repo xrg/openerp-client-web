@@ -16,8 +16,6 @@
             if(DOCUMENT_TO_LOAD && !hashUrl()) {
                 openLink(DOCUMENT_TO_LOAD);
             }
-
-            jQuery('.toggle-menu').toggler('#content')
         });
         
     </script>
@@ -82,7 +80,6 @@
                             </script>
                         </div>
                     </td>
-                    <td class="toggle-menu"></td>
                     <td id="primary" width="100%" height="100%">
                         <div class="wrap">
                             <div id="appContent"></div>
