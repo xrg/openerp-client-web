@@ -97,3 +97,15 @@ jQuery(document).ready(function() {
         window.opener = null;
     }
 });
+
+// monkey patching in order to bring indexOf() on arrays for Internet Explorer
+if (!Array.prototype.indexOf) {
+    Array.prototype.indexOf = function (obj, start) {
+        for (var i = (start || 0); i < this.length; i++) {
+            if (this[i] == obj) {
+                return i;
+            }
+        }
+        return -1;
+    }
+}
