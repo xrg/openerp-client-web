@@ -89,11 +89,9 @@ def _tz_convert(value, action):
     else:
         raise Exception("_tz_convert action should be 'parse' or 'format'. Not '%s'" % (action, ))
 
-    fromdt = fromzone.localize(dt, is_dst=True)
-    todt = fromdt.astimezone(tozone)
-    value = todt.timetuple()
-
-    return value
+    localized_original_datetime = fromzone.localize(dt, is_dst=True)
+    destination_datetime = localized_original_datetime.astimezone(tozone)
+    return destination_datetime.timetuple()
 
 def format_datetime(value, kind="datetime", as_timetuple=False):
     """Convert date value to the local datetime considering timezone info.
