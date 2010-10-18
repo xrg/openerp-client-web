@@ -1588,6 +1588,7 @@ ul.sections-a li span.wrap a span {
     top: 100px;
     width: 100%;
     padding-left: 22px;
+    background: url(../images/section-a-stripe-left.png) -10001px -10001px no-repeat;
 }
 
 ul.sections-a li span.wrap a span strong {
@@ -1595,6 +1596,8 @@ ul.sections-a li span.wrap a span strong {
     height: 26px;
     margin-right: 34px;
     padding: 5px 0 0 0;
+    background: url(../images/section-a-stripe-right.png) -10001px -10001px
+        no-repeat;
     line-height: 26px;
     text-align: center;
 }
