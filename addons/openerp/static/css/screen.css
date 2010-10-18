@@ -35,7 +35,7 @@ body {
 
 body,textarea,input,select,option {
     color: #1f1f1f;
-    font-family: "Myriad Pro", "Lucida Grande", "Lucida Sans Unicode", "Droid Sans", sans-serif;
+    font-family: sans-serif;
     line-height: 1.25;
 }
 
