@@ -44,7 +44,7 @@ DT_SERVER_FORMATS = {
   'time' : '%H:%M:%S'
 }
 
-__pat = re.compile("\%\(([dMy]+)\)s")
+__pat = re.compile("%\(([dMy]+)\)s")
 __sub = {'d': '%d', 'M': '%m', 'y': '%Y'}
 def _to_posix_format(format):
     """Convert LDML format string to posix format string.
@@ -214,13 +214,10 @@ def parse_decimal(value):
         value = value.replace(' ', '')
         try:
             value = numbers.parse_decimal(value, locale=get_locale())
-        except ValueError, e:
+        except ValueError:
             pass
 
     if not isinstance(value, float):
         return float(value)
 
     return value
-
-# vim: ts=4 sts=4 sw=4 si et
-
