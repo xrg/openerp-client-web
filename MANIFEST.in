@@ -4,7 +4,7 @@ recursive-include openobject *
 recursive-include addons *
 recursive-include scripts *
 recursive-include doc *
-prune win32
+recursive-include win32 *
 prune build
 prune dist
 prune lib
