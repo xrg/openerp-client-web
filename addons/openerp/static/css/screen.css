@@ -505,33 +505,18 @@ p#cmp_logo {
     position: relative;
     white-space:nowrap;
 }
-#applications_menu.scrolling {
-    padding: 6px 14px !important;
-}
-
-#applications_menu .scroller {
-    position: absolute;
-    top: 10px;
-    height: 10px;
-    width: 7px;
-    display: none;
-}
-#applications_menu.scrolling .scroller {
-    display: block;
-}
-#applications_menu .left.scroller {
-    left: 4px;
-    background-image: url(/openerp/static/images/scroll_left.png);
-}
-#applications_menu .right.scroller {
-    right: 4px;
-    background-image: url(/openerp/static/images/scroll_right.png);
-}
 
 #applications_menu ul {
-    overflow: hidden;
     list-style: none;
+    overflow: hidden;
     padding: 0;
+    position: absolute;
+    left: 0;
+    right: 0;
+}
+#applications_menu.scrolling ul {
+    left: 14px;
+    right: 14px;
 }
 
 #applications_menu li {

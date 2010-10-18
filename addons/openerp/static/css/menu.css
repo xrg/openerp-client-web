@@ -43,7 +43,6 @@
 
 /* ================ */
 #shortcuts {
-    
     position: absolute;
     float: left;
     
@@ -53,8 +52,11 @@
     top: 35px;
     left: 183px;
     right: 0;
-    height: 30px;
+    height: 17px;
     line-height: 1.2;
+}
+#shortcuts.scrolling {
+    padding: 6px 14px !important;
 }
 
 #shortcuts ul {
@@ -80,7 +82,6 @@
 #shortcuts li:first-child,
 #shortcuts li.first {
     border-left: none;
-    padding-left: 4px;
 }
 
 #shortcuts a {
@@ -95,30 +96,6 @@
     display: inline-block;
     line-height: 18px;
     padding: 0 2px;
-}
-
-/* scrollers */
-#shortcuts .scroller {
-    position: absolute;
-    top: 10px;
-    height: 10px;
-    width: 7px;
-    display: none;
-}
-#shortcuts.scrolling {
-    padding: 6px 14px !important;
-}
-#shortcuts.scrolling .scroller {
-    display: block;
-    background: no-repeat center center;
-}
-#shortcuts .left.scroller {
-    left: 4px;
-    background-image: url(/openerp/static/images/scroll_left.png);
-}
-#shortcuts .right.scroller {
-    right: 4px;
-    background-image: url(/openerp/static/images/scroll_right.png);
 }
 
 div.contextmenu {

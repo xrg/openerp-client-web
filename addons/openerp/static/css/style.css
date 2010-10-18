@@ -951,7 +951,22 @@ td.save-filter-header a{
 	margin: 2px;
 }
 
-/**
- * vim: sts=4 st=4 et
- *
- */
+.scroller {
+    position: absolute;
+    width: 14px;
+    display: none;
+    height: 100%;
+    background: no-repeat center center;
+    top: 0;
+}
+.scrolling .scroller {
+    display: block;
+}
+.left.scroller {
+    left: 0;
+    background-image: url(/openerp/static/images/scroll_left.png);
+}
+.right.scroller {
+    right: 0;
+    background-image: url(/openerp/static/images/scroll_right.png);
+}
