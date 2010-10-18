@@ -77,7 +77,10 @@ def get_datetime_format(kind="datetime"):
     return fmt
 
 def _tz_convert(value, action):
-    lzone = pytz.timezone(cherrypy.session['client_timezone'])
+    # if no client timezone is configured, consider the client is in the same
+    # timezone as the server
+    lzone = pytz.timezone(cherrypy.session['client_timezone']
+                          or cherrypy.session['remote_timezone'])
     szone = pytz.timezone(cherrypy.session['remote_timezone'])
     dt = DT.datetime(value[0], value[1], value[2], value[3], value[4], value[5], value[6])
 
