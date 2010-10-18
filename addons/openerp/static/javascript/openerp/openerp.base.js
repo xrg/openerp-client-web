@@ -11,9 +11,9 @@ var currentUrl;
  *                    inserted, if any.
  */
 function openLink(url /*optional afterLoad */) {
-    var app = jQuery('#appContent');
+    var $app = jQuery('#appContent');
     var afterLoad = arguments[1];
-    if(app.length) {
+    if($app.length) {
         currentUrl = url;
         window.location.hash = '#'+jQuery.param({'url': url});
         jQuery.ajax({
@@ -21,7 +21,7 @@ function openLink(url /*optional afterLoad */) {
             complete: function () {
                 if(afterLoad) { afterLoad(); }
             },
-            success: doLoadingSuccess(app),
+            success: doLoadingSuccess($app[0]),
             error: loadingError
         });
     } else {
@@ -126,7 +126,7 @@ jQuery(document).ready(function () {
             waitBox.showAfter(FORM_WAIT_NO_ACTIVITY);
             form.ajaxSubmit({
                 complete: jQuery.proxy(waitBox, 'hide'),
-                success: doLoadingSuccess($app),
+                success: doLoadingSuccess($app[0]),
                 error: loadingError
             });
             return false;
@@ -150,7 +150,7 @@ jQuery(document).ready(function () {
                 waitBox.show();
                 form.ajaxSubmit({
                     complete: jQuery.proxy(waitBox, 'hide'),
-                    success: doLoadingSuccess(jQuery('table.view')),
+                    success: doLoadingSuccess(jQuery('table.view')[0]),
                     error: loadingError
                 });
                 return false;
