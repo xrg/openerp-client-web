@@ -74,12 +74,13 @@
     color: #fff;
     text-align: center;
     border-left: 1px solid #909090;
-    padding-left: 1px;
+    padding-left: 2px;
 }
 
 #shortcuts li:first-child,
 #shortcuts li.first {
     border-left: none;
+    padding-left: 4px;
 }
 
 #shortcuts a {
