@@ -148,12 +148,16 @@ def secured(fn):
                 if action: kwargs['action'] = action
                 if message: kwargs['message'] = message
                 base = cherrypy.request.path_info
-                if base and base != '/' and cherrypy.request.method == 'GET':
-                    kwargs['next'] = "%s?%s" % (base, cherrypy.request.query_string)
                 if cherrypy.request.headers.get('X-Requested-With') == 'XMLHttpRequest':
                     cherrypy.response.status = 401
+                    next_key = 'next'
                 else:
                     cherrypy.response.status = 303
+                    next_key = 'location' # login?location is the redirection destination w/o next
+
+                if base and base != '/' and cherrypy.request.method == 'GET':
+                    kwargs[next_key] = "%s?%s" % (base, cherrypy.request.query_string)
+
                 login_url = openobject.tools.url(
                     '/openerp/login', db=db, user=user, **kwargs
                 )
