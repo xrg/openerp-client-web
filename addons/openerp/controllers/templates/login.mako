@@ -20,9 +20,9 @@
         <tr><%include file="header.mako"/></tr>
     </table>
 
-    <table class="view" cellpadding="0" cellspacing="0" width="100%" style="padding-top: 25px; border:none;">
+    <table class="view" cellpadding="0" cellspacing="0" style="padding-top: 25px; border:none;">
         <tr>
-            <td style="padding:35px 10px 5px 35px; min-width:100px;" width="40%" valign="top">
+            <td style="padding:35px 10px 5px 35px; min-width:100px;" valign="top" width="450">
                 <form action="${py.url(target)}" method="post" name="loginform" id="loginform" style="padding-bottom: 5px; min-width: 100px;">
                     % for key, value in origArgs.items():
                         <input type="hidden" name="${key}" value="${value}"/>
@@ -33,7 +33,7 @@
                         <legend style="padding: 4px;">
                             <img src="/openerp/static/images/stock/stock_person.png" alt=""/>
                         </legend>
-                        <div class="box2" style="padding:5px">
+                        <div class="box2" style="padding: 5px 5px 20px 5px">
                             <table width="100%" align="center" cellspacing="2px" cellpadding="0" style="border:none;">
                                 <tr>
                                     <td class="label"><label for="db">${_("Database:")}</label></td>
@@ -78,7 +78,7 @@
                 % if info:
                     <div class="information">${info|n}</div>
                 % endif
-                <div>
+                <div style="margin-top: 10px">
                     <table cellpadding="0" cellspacing="0" width="100%" style="border:none;">
                         <tr>
                             <td style="padding-left:0;"><h3> Top Contributor:</h3></td>
@@ -90,7 +90,7 @@
                 </div>
             </td>
 
-            <td style="padding:35px 35px 5px 10px; min-width: 200px;" width="60%" valign="top">
+            <td style="padding:55px 35px 5px 10px; min-width: 200px;" valign="top">
                 <p>We think that daily job activities can be more intuitive, efficient, automated, .. and even fun.</p>
                 <h3>OpenERP's vision to be:</h3>
 
@@ -124,11 +124,6 @@
                     </tr>
                 </table>
 
-                <div style="padding-top: 25px;">
-                    <h3>Latest OpenERP News</h3>
-                    <p>Working in progress...</p>
-                    <p>Not uploaded any news yet....</p>
-                </div>
             </td>
         </tr>
     </table>
