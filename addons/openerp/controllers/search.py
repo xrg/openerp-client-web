@@ -281,6 +281,10 @@ class Search(Form):
                 elif isinstance(value, int) and not isinstance(value, bool):
                     domain.append((field, '=', value))
                     search_data[field] = value
+
+                elif 'selection_' in value:
+                    domain.append((field, '=', value.split('selection_')[1]))
+                    search_data[field] = value.split('selection_')[1]
                 else:
                     if not 'm2o_' in value:
                         domain.append((field, 'ilike', value))

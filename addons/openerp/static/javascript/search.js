@@ -478,8 +478,8 @@ function parse_filters(src, id) {
         var fld_value = $fld.val();
         if(kind == 'selection') {
             if ($fld.val() != '') {
-                fld_value = $fld.val();
-                
+                fld_value = 'selection_'+$fld.val();
+
                 if ($fld.attr('search_context')) {
                     search_context['context'] = $fld.attr('search_context');
                     search_context['value'] = fld_value;
@@ -508,8 +508,11 @@ function parse_filters(src, id) {
     });
     
     var checked_button = all_boxes.toString();
-    check_domain = checked_button.length > 0? checked_button.replace(/(],\[)/g, ', ') : 'None';
-    all_domains['check_domain'] = check_domain;
+
+    if(checked_button.length) {
+        check_domain = checked_button.length > 0? checked_button.replace(/(],\[)/g, ', ') : 'None';
+        all_domains['check_domain'] = check_domain;
+    }
     all_domains = serializeJSON(all_domains);
     return all_domains;
 }
