@@ -708,7 +708,7 @@ class Form(SecuredController):
                 o += l
             elif id in ids:
                 id = ids[ids.index(id)+1]
-            elif id == False:
+            elif id is False:
                 o = 0
                 id = ids[0]
 
@@ -729,7 +729,7 @@ class Form(SecuredController):
 
             o = res['offset']
             l = res['limit']
-            c = res['count']
+            if not c: c = res['count']
 
             params.search_domain = res['search_domain']
             params.search_data = res['search_data']

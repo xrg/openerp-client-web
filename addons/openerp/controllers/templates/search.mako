@@ -137,7 +137,7 @@
         <input type="hidden" id="_terp_search_domain" name="_terp_search_domain" value="${params.search_domain}"/>
         <input type="hidden" id="_terp_filter_domain" name="_terp_filter_domain" value="${params.filter_domain}"/>
         <input type="hidden" id="_terp_search_data" name="_terp_search_data" value="${params.search_data}"/>
-
+		<input type="hidden" id="_terp_search_text" name="_terp_search_text" value="${params.search_text}"/>
         <table width="100%" border="0" cellpadding="2">
             <tr>
                 <td>

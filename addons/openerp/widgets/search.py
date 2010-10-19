@@ -397,20 +397,28 @@ class Search(TinyInputWidget):
                     default_search = None
                     if name:
                         default_search = get_search_default(fields[name], self.context, self.domain)
-                        s = default_search or values.get(name)
-                        if s:
+                        defval = default_search
+                        if defval:
+                            model = fields[name].get('relation')
+                            if kind == 'many2one' and model:
+                                try:
+                                    value = rpc.name_get(model, default_search)
+                                except Exception,e:
+                                    value = defval
+                                defval = value or ''
+
                             domain = []
                             if attrs.get('filter_domain'):
-                                domain = expr_eval(attrs['filter_domain'], {'self': s})
+                                domain = expr_eval(attrs['filter_domain'], {'self': defval})
                             else:
-                                if field.kind == 'char':
-                                    domain = [(name,fields[name].get('comparator','ilike'), s)]
-                                elif field.kind in ('selection', 'many2one'):
-                                    domain = [(name, '=', s)]
+                                if field.kind in ('selection'):
+                                    domain = [(name, '=', defval)]
+                                else:
+                                    domain = [(name,fields[name].get('comparator','ilike'), defval)]
 
-                            field.set_value(s)
+                            field.set_value(defval)
                             self.listof_domain += [i for i in domain if not i in self.listof_domain]
-                            self.context.update(expr_eval(attrs.get('context',"{}"), {'self': s}))
+                            self.context.update(expr_eval(attrs.get('context',"{}"), {'self': defval}))
 
                     if (not default_search) and name in values and isinstance(field, TinyInputWidget):
                         field.set_value(values[name])
