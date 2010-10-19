@@ -26,7 +26,9 @@
 # You can see the MPL licence at: http://www.mozilla.org/MPL/MPL-1.1.html
 #
 ###############################################################################
+
 from openerp.widgets import TinyWidget
+import pprint
 
 
 class Pager(TinyWidget):
@@ -36,6 +38,7 @@ class Pager(TinyWidget):
 
     page_info = None
     pager_id = 1
+    UNLIMITED = -1
 
     def __init__(self, id=False, ids=[], offset=0, limit=20, count=0, view_type='tree'):
 
@@ -50,14 +53,12 @@ class Pager(TinyWidget):
         self.count = count or 0
         self.pager_options = []
         
-        
         self.pager_options = [20, 50, 100, 500]
 
-        if self.limit != -1 and len(self.ids) > self.limit:
-            self.ids = self.ids[self.offset:]
-            self.ids = self.ids[:min(self.limit, len(self.ids))]
+        if self.limit != Pager.UNLIMITED and len(self.ids) > self.limit:
+            # if self.ids isn't clamped, it is entirely un-paginated.
+            self.ids = self.ids[self.offset:self.offset + self.limit]
 
-#        if self.view_type == 'form':
         if self.view_type in ['form', 'diagram']:        
 
             index = 0
