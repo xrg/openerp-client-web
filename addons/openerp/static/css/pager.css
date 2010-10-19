@@ -18,6 +18,10 @@
     padding-left: 10px;
 }
 
+.pager .paging span {
+    vertical-align: middle;
+}
+
 .pager .paging .nav {
     display: -moz-inline-stack;
     display: inline; /*IE7 */
