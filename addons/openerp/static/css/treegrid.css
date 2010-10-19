@@ -44,7 +44,7 @@ table.tree-grid td {
 
 #export_fields .tree-field td,
 #import_fields .tree-field td {
-	float: left;	
+	padding: 2px;	
 }
 
 table.tree-grid .header th {
