@@ -40,18 +40,30 @@
     margin: 0;
     background: url(../images/cal_first.png) no-repeat;
 }
+.pager .paging .first.inactive {
+    background-image: url(../images/cal_first_inactive.png);
+}
 
 .pager .paging .prev {
     background: url(../images/cal_left.png) no-repeat;
+}
+.pager .paging .prev.inactive {
+    background-image: url(../images/cal_left_inactive.png);
 }
 
 .pager .paging .last {
     margin: 0;
     background: url(../images/cal_last.png) no-repeat;
 }
+.pager .paging .last.inactive {
+    background-image: url(../images/cal_last_inactive.png);
+}
 
 .pager .paging .next {
     background: url(../images/cal_right.png) no-repeat;
+}
+.pager .paging .next.inactive {
+    background-image: url(../images/cal_right_inactive.png);
 }
 
 * html .paging a {

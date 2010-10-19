@@ -65,7 +65,7 @@ class Pager(TinyWidget):
             if self.id in self.ids:
                 index = self.offset + self.ids.index(self.id) + 1
 
-            self.page_info = _("[%s/%s]") % (index or '-', self.count)
+            self.page_info = _("%s") % (index or '-')
 
             self.prev = index > 1
             self.next = index < self.count
@@ -76,7 +76,7 @@ class Pager(TinyWidget):
             o = self.offset + len(self.ids)
             o = min(self.count, o)
 
-            self.page_info = _("[%s - %s of %s]") % (index, o, self.count)
+            self.page_info = _("%s - %s") % (index, o)
             self.prev = self.offset > 0
             self.next = self.offset+len(self.ids) < self.count
 
