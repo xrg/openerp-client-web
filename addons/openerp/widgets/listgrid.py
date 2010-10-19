@@ -105,7 +105,7 @@ class List(TinyWidget):
         self.concurrency_info = None
         self.selector = None
         
-        terp_params = getattr(cherrypy.request, 'terp_params', [])
+        terp_params = getattr(cherrypy.request, 'terp_params', {})
         if terp_params:
             if terp_params.get('_terp_model'):
                 if terp_params['_terp_model'] == 'board.board':
@@ -151,7 +151,7 @@ class List(TinyWidget):
 
         proxy = rpc.RPCProxy(model)
 
-        if not self.o2m and not self.m2m and not terp_params.search_text:
+        if not self.o2m and not self.m2m and not terp_params.get('_terp_search_text'):
             if self.limit > 0:
                 if self.sort_key:
                     ids = proxy.search(search_param, self.offset, self.limit, self.sort_key + ' ' +self.sort_order, context)
