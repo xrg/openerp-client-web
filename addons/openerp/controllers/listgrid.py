@@ -190,7 +190,8 @@ class List(SecuredController):
                 params.context.update(params.filters_context)
 
         params['_terp_group_by_ctx'] = groupby
-        params.ids = None
+        if not params.search_text:
+            params.ids = None
 
         source = (params.source or '') and str(params.source)
         if not params.view_type == 'graph':

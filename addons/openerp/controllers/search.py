@@ -86,14 +86,16 @@ class Search(Form):
         params.ids = []
         proxy = rpc.RPCProxy(model)
         ids = proxy.name_search(text or '', params.domain or [], 'ilike', ctx)
+        params.search_text = False
         if ids:
             params.ids = [id[0] for id in ids]
-            if len(ids) < params.limit:
+            if len(ids) < params.limit or text:
                 count = len(ids)
             else:
                 count = proxy.search_count(params.domain, ctx)
             params.count = count
-
+        if text:
+                params.search_text = True
         if kw and kw.get('return_to'):
             params['return_to'] = ast.literal_eval(kw['return_to'])
         return self.create(params)
