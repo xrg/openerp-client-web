@@ -39,11 +39,7 @@ from openerp.utils import rpc, cache, node_attributes
 from openerp.widgets import TinyWidget
 from openobject.tools import url_plus
 from openobject.widgets import JSSource, JSLink
-
-
-DT_FORMAT = '%Y-%m-%d'
-DHM_FORMAT = '%Y-%m-%d %H:%M:%S'
-HM_FORMAT = '%H:%M:%S'
+from openobject.i18n.format import DT_SERVER_FORMATS, tz_convert
 
 if not hasattr(locale, 'nl_langinfo'):
     locale.nl_langinfo = lambda *a: '%x'
@@ -158,35 +154,15 @@ class GraphData(object):
                             res[x] = i[1]
                 elif fields[x]['type'] == 'date':
                     if value[x]:
-                        date = time.strptime(value[x], DHM_FORMAT)
-                        if 'tz' in rpc.session.context:
-                            try:
-                                import pytz
-                                lzone = pytz.timezone(rpc.session.context['tz'])
-                                szone = pytz.timezone(rpc.session.timezone)
-                                dt = DT.datetime(date[0], date[1], date[2], date[3], date[4], date[5], date[6])
-                                sdt = szone.localize(dt, is_dst=True)
-                                ldt = sdt.astimezone(lzone)
-                                date = ldt.timetuple()
-                            except:
-                                pass
+                        date = time.strptime(value[x], DT_SERVER_FORMATS['date'])
+                        date = tz_convert(date, 'parse')
                         res[x] = time.strftime(locale.nl_langinfo(locale.D_FMT).replace('%y', '%Y'), date)
                     else:
                         res[x] = ''
                 elif fields[x]['type'] == 'datetime':
                     if value[x]:
-                        date = time.strptime(value[x], DHM_FORMAT)
-                        if 'tz' in rpc.session.context:
-                            try:
-                                import pytz
-                                lzone = pytz.timezone(rpc.session.context['tz'])
-                                szone = pytz.timezone(rpc.session.timezone)
-                                dt = DT.datetime(date[0], date[1], date[2], date[3], date[4], date[5], date[6])
-                                sdt = szone.localize(dt, is_dst=True)
-                                ldt = sdt.astimezone(lzone)
-                                date = ldt.timetuple()
-                            except:
-                                pass
+                        date = time.strptime(value[x], DT_SERVER_FORMATS['datetime'])
+                        date = tz_convert(date, 'parse')
                         res[x] = time.strftime(locale.nl_langinfo(locale.D_FMT).replace('%y', '%Y')+' %H:%M:%S', date)
                     else:
                         res[x] = ''
