@@ -28,6 +28,7 @@
 #
 ###############################################################################
 import locale
+import operator
 import random
 import re
 import time
@@ -52,7 +53,13 @@ COLOR_PALETTE = ['#75507b', '#3465a4', '#73d216', '#c17d11', '#edd400', '#fcaf3e
                  '#ad7fa8', '#729fcf', '#8ae234', '#e9b96e', '#fce94f', '#f57900', '#cc0000', '#d400a8',
                  '#ff8e00', '#ff0000', '#b0008c', '#9000ff', '#0078ff', '#00ff00', '#e6ff00', '#ffff00',
                  '#905000', '#9b0000', '#840067', '#9abe00', '#ffc900', '#510090', '#0000c9', '#009b00']
-
+OPERATORS = {
+    '+': operator.add,
+    '*': operator.mul,
+    'min': min,
+    'max': max,
+    '**': operator.pow
+}
 _colorline = ['#%02x%02x%02x' % (25+((r+10)%11)*23,5+((g+1)%11)*20,25+((b+4)%11)*23) for r in range(11) for g in range(11) for b in range(11) ]
 def choice_colors(n):
     if n > len(COLOR_PALETTE):
@@ -185,9 +192,6 @@ class GraphData(object):
         self.axis_group_field = axis_group
 
     def parse(self, root, fields):
-
-        attrs = node_attributes(root)
-
         axis = []
         axis_data = {}
         axis_group = {}
@@ -218,14 +222,6 @@ class GraphData(object):
         datas = self.values
         kind = self.kind
 
-        operators = {
-            '+': lambda x,y: x+y,
-            '*': lambda x,y: x*y,
-            'min': lambda x,y: min(x,y),
-            'max': lambda x,y: max(x,y),
-            '**': lambda x,y: x**y
-        }
-
         keys = {}
         data_axis = {}
         label = {}
@@ -242,13 +238,14 @@ class GraphData(object):
         for field in axis[1:]:
             data_all = {}
             for val in datas:
-                group_eval = ','.join(map(lambda x: val[x], self.axis_group_field.keys()))
+                group_eval = ','.join(map(lambda x: val[x], self.axis_group_field.iterkeys()))
                 axis_group[group_eval] = 1
 
-                key_ids = {}
-                key_ids['id'] = val.get('id')
-                key_ids['rec_id'] = val.get('rec_id')
-                key_ids['prod_id'] = val[axis[0]]
+                key_ids = {
+                    'id': val.get('id'),
+                    'rec_id': val.get('rec_id'),
+                    'prod_id': val[axis[0]]
+                }
                 lbl = val[axis[0]]
                 
                 val[axis[0]] = ustr(val[axis[0]])
@@ -262,28 +259,25 @@ class GraphData(object):
                 label[lbl] = 1
 
                 if field in info:
-                    oper = operators[axis_data[field].get('operator', '+')]
+                    oper = OPERATORS[axis_data[field].get('operator', '+')]
                     info[field] = oper(info[field], val[field])
                 else:
                     info[field] = val[field]
 
                 if group_eval in data_all[val[axis[0]]]:
-                     oper = operators[axis_data[field].get('operator', '+')]
+                     oper = OPERATORS[axis_data[field].get('operator', '+')]
                      data_all[val[axis[0]]][group_eval] = oper(data_all[val[axis[0]]][group_eval], val[field])
                 else:
                     data_all[val[axis[0]]][group_eval] = val[field]
 
-                total_ids += [key_ids]
+                total_ids.append(key_ids)
             data_ax.append(data_all)
         axis_group = axis_group.keys()
         axis_group.sort()
         keys = keys.keys()
         keys.sort()
 
-        label = label.keys()
-        label.sort()
-
-        for l in label:
+        for l in sorted(label.iterkeys()):
             x = 0
             for i in total_ids:
                 if i.get('prod_id') == l and x == 0:
@@ -300,9 +294,10 @@ class GraphData(object):
                 label_x.append(l)
 
         for d in temp_dom:
+            rec = []
             for val in datas:
                 rec = val.get('rec_id')
-            domain += [[(axis[0], '=', d), ('id', 'in', rec)]]
+            domain.append([(axis[0], '=', d), ('id', 'in', rec)])
 
         values = {}
         for field in axis[1:]:
@@ -336,7 +331,7 @@ class GraphData(object):
                             ids = []
                             for dts in datas:
                                 if dt == dts[axis[0]] and d == dts[group_field] and dt == key:
-                                    ids += [dts['temp_id']]
+                                    ids.append(dts['temp_id'])
                                     group_data[key][d] = str(data[dt][d]) + '/' + str(ids)
 
                 for y in range(len(axis_group)):
@@ -397,12 +392,10 @@ class BarChart(GraphData):
                 range = 0
                 for s in st:
                     range = range + s
-                x_data += [range]
+                x_data.append(range)
 
-            yopts = {}
             mx = 0
             mn = 0
-            tk = 2
 
             if values:
                 values.sort()
@@ -422,34 +415,28 @@ class BarChart(GraphData):
             total = mx + mn
             tk = round(total/10)
 
-            yopts['y_max'] = mx;
-            yopts['y_min'] = mn;
-            yopts['y_steps'] = tk;
-
-            return yopts;
+            return {'y_max': mx, 'y_min': mn, 'y_steps': tk}
 
         temp_lbl = []
         dataset = result.setdefault('dataset', [])
 
         for i in label_x:
-            lbl = {}
-            i = re.sub(u'[êéèë]', 'e', i)
-            i = re.sub(u'[ïî]', 'i', i)
-            i = re.sub(u'[àâáâãä]', 'a', i)
-            i = re.sub(u'[ç]', 'c', i)
-            i = re.sub(u'[òóôõö]', 'o', i)
-            i = re.sub(u'[ýÿ]', 'y', i)
-            i = re.sub(u'[ñ]', 'n', i)
-            i = re.sub(u'[ÁÂÃÄ]', 'A', i)
-            i = re.sub(u'[ÈÉÊË]', 'E', i)
-            i = re.sub(u'[ÌÍÎÏ]', 'I', i)
-            i = re.sub(u'[ÒÓÔÕÖ]', 'O', i)
-            i = re.sub(u'[ÙÚÛÜ]', 'U', i)
-            i = re.sub(u'[Ý]', 'Y', i)
-            i = re.sub(u'[Ñ]', 'N', i)
+            i = re.sub(ur'[êéèë]', 'e', i)
+            i = re.sub(ur'[ïî]', 'i', i)
+            i = re.sub(ur'[àâáâãä]', 'a', i)
+            i = re.sub(ur'[ç]', 'c', i)
+            i = re.sub(ur'[òóôõö]', 'o', i)
+            i = re.sub(ur'[ýÿ]', 'y', i)
+            i = re.sub(ur'[ñ]', 'n', i)
+            i = re.sub(ur'[ÁÂÃÄ]', 'A', i)
+            i = re.sub(ur'[ÈÉÊË]', 'E', i)
+            i = re.sub(ur'[ÌÍÎÏ]', 'I', i)
+            i = re.sub(ur'[ÒÓÔÕÖ]', 'O', i)
+            i = re.sub(ur'[ÙÚÛÜ]', 'U', i)
+            i = re.sub(ur'[Ý]', 'Y', i)
+            i = re.sub(ur'[Ñ]', 'N', i)
 
-            lbl['text'] = i
-            lbl['colour'] = "#432BAF"
+            lbl = {'text': i, 'colour': "#432BAF"}
             temp_lbl.append(lbl)
 
         url = []
@@ -505,10 +492,7 @@ class BarChart(GraphData):
             ChartColors = choice_colors(len(axis_group))
             all_keys = []
             for i, x in enumerate(axis_group):
-                data = {}
-                data['text'] = x
-                data['colour'] = ChartColors[i]
-                data['font-size'] = 12
+                data = {'text': x, 'colour': ChartColors[i], 'font-size': 12}
                 all_keys.append(data)
 
             stack_val = []
@@ -516,8 +500,7 @@ class BarChart(GraphData):
             for j, stk in enumerate(stack_list):
                 sval = []
                 for x, s in enumerate(stk):
-                    stack = {}
-                    stack['val'] = s
+                    stack = {'val': s}
                     if s != 0.0 and not ctx.get('report_id', False) and url:
                         stack["on-click"]= "function(){onChartClick('" + url[cnt] + "')}"
                         cnt += 1
@@ -602,20 +585,17 @@ class PieChart(GraphData):
             url.append(u)
 
         allvalues = []
-        per = []
         total_val = 0
         for i, x in enumerate(label_x):
             total_val += value[i]
 
         for i, x in enumerate(label_x):
-            val = {}
-            val['value'] = value[i]
-            val['text'] = x
-            val['label'] = x
+            val = {'value': value[i], 'text': x, 'label': x}
             if not ctx.get('report_id', False):
                 val['on-click'] = "function(){onChartClick('" + url[i] + "')}"
 
-            if total_val <> 0.0:
+            # completely randomly selected epsilon
+            if abs(total_val) > .0001:
                 field_key = (100 * value[i])/total_val
                 field_key = '%.2f' % (field_key)
                 val["tip"] = x + ' (' + field_key + ' %)'
