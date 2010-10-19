@@ -419,7 +419,7 @@ function parse_filters(src, id) {
             }
         })
     }
-    if ($filter_list) {
+    if ($filter_list.length > 0) {
         all_domains['selection_domain'] = $filter_list.val();
         var selected_index = $filter_list.attr('selectedIndex');
         var filter_grps = jQuery('#filter_list option:selected').attr('group_by');
