@@ -1,11 +1,19 @@
 #!/bin/sh
+# openerp-web        This shell script takes care of starting and stopping
+#                    OpenERP web server
+#
+# chkconfig: 345 95 05
+# description: OpenERP Web server
+#
+# pidfile: /var/run/openerp-web.pid
+# config: /etc/openerp-web.cfg
 
 ### BEGIN INIT INFO
 # Provides:             openerp-web
 # Required-Start:       $syslog
 # Required-Stop:        $syslog
-# Should-Start:         $network
-# Should-Stop:          $network
+# Should-Start:         $network openerp-server
+# Should-Stop:          $network openerp-server
 # Default-Start:        2 3 4 5
 # Default-Stop:         0 1 6
 # Short-Description:    OpenERP Web - the Web Client of the OpenERP
@@ -129,7 +137,7 @@ start_daemon() {
 
     checkpid
 
-    if [ $? -eq 1 ]; then                
+    if [ $? -eq 1 ]; then
         rm -f $PIDFILE
         echo "failed."
         exit 1
@@ -166,7 +174,7 @@ restart_daemon() {
 
     checkpid
 
-    if [ $? -eq 1 ]; then                
+    if [ $? -eq 1 ]; then
         rm -f $PIDFILE
         echo "failed."
         exit 1
