@@ -230,63 +230,62 @@ function form_evalExpr(prefix, expr) {
 
 function form_setReadonly(container, fieldName, readonly) {
 
-    var field = jQuery(fieldName) || jQuery('[id="'+fieldName+'"]');
+    var $field = jQuery(fieldName) || jQuery('[id="'+fieldName+'"]');
 
-    if (!field) {
+    if (!$field.length) {
         return;
     }
-    
-    var kind = jQuery(field).attr('kind');
+
+    var kind = $field.attr('kind');
+    var field_id = $field.attr('id');
+    var field_name = $field.attr('name');
 
     if (kind == 'boolean') {
-        var boolean_id = jQuery(fieldName).attr('id')
-        var boolean_field = jQuery('input#'+boolean_id+'_checkbox_')
-        boolean_field.attr('disabled', readonly)
-        boolean_field.attr('readOnly', readonly)
+        var boolean_field = jQuery('input#'+field_id+'_checkbox_');
+        boolean_field.attr({'disabled':readonly, 'readOnly': readonly});
     }
 
-    if (!kind && 
-            jQuery('[id="'+field.attr('id') + '_id"]') &&
-            jQuery('[id="'+field.attr('id') + '_set"]') &&
-            jQuery('[id="'+field.attr('id') + '_id"]').attr('kind') == "many2many") {
-         Many2Many(field.attr('id')).setReadonly(readonly)
+    if (!kind &&
+            jQuery('[id="'+field_id + '_id"]') &&
+            jQuery('[id="'+field_id + '_set"]') &&
+            jQuery('[id="'+field_id + '_id"]').attr('kind') == "many2many") {
+         Many2Many(field_id).setReadonly(readonly)
         return;
     }
 
-    var type = jQuery(field).attr('type');
-
-    field.attr('disabled', readonly);
-    field.attr('readOnly', readonly);
+    var type = $field.attr('type');
+    $field.attr({'disabled':readonly, 'readOnly': readonly});
 
     if (readonly && (type == 'button')) {
-        field.css("cursor", "default");
+        $field.css("cursor", "default");
     }
 
     if (readonly && (type != 'button')) {
-        field.removeAttr('href');
-        field.css("color", "gray");
+        $field.removeAttr('href');
+        $field.css("color", "gray");
     }
 
     if (readonly && (type != 'button')) {
-        jQuery(field).addClass('readonlyfield');
+        $field.addClass('readonlyfield');
     } else {
-        jQuery(field).removeClass('readonlyfield');
+        $field.removeClass('readonlyfield');
     }
 
-    if (field.type == 'hidden' && kind == 'many2one') {
-        ManyToOne(field).setReadonly(readonly);
+    if (type == 'hidden' && kind == 'many2one') {
+        ManyToOne(field_id).setReadonly(readonly);
+    }
+
+    if (!kind && (jQuery('[id="'+field_id+'_btn_'+'"]') || jQuery('[id="'+'_o2m'+field_id+'"]'))) { // one2many
+        new One2Many(field_id).setReadonly(readonly);
         return
     }
-    
-    if (!kind && MochiKit.DOM.getElement(field.id + '_btn_') || MochiKit.DOM.getElement('_o2m_'+field.id)) { // one2many
-        new One2Many(field.id).setReadonly(readonly);
-        return
-    }
-    
+
     if (kind == 'date' || kind == 'datetime' || kind == 'time') {
-        var img = openobject.dom.get(field.name + '_trigger');
-        if (img)
-            img.parentNode.style.display = readonly ? 'none' : '';
+
+        var $img = jQuery('[id="'+field_name+'_trigger'+'"]');
+        if ($img.length){
+            $img.css('display',readonly ? 'none' : '');
+         }
     }
 }
 
