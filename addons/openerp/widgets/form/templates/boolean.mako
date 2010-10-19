@@ -1,33 +1,29 @@
 % if editable:
-    <input ${py.attrs(attrs)}
+    <input
         type="hidden" 
         kind="${kind}" 
         name="${name}" 
         id="${name}" 
-        value="${value}">
-% endif
-
-% if editable:
-    <input ${py.attrs(attrs)}
+        value="${value}"
+        ${py.attrs(attrs)}>
+    <input
         type="checkbox" 
         kind="${kind}" 
         class="checkbox"
         id="${name}_checkbox_" 
-        ${py.checker(value)}>
-% endif
-
-% if editable and error:
-    <span class="fielderror">${error}</span>
-% endif
-
-% if not editable:
+        ${py.checker(value)}
+        ${py.attrs(attrs)}>
+    % if error:
+        <span class="fielderror">${error}</span>
+    % endif
+% else:
     <input
         type="checkbox"
         kind="${kind}"
         class="checkbox" 
         id="${name}" 
-        value="${value}" 
-        ${py.checker(value)}
-        disabled="disabled">
+        value="${value}"
+        disabled="disabled"
+        ${py.checker(value)}>
 % endif
 
