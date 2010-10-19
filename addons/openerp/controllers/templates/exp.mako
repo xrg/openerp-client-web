@@ -120,7 +120,7 @@
             });
 
             openobject.dom.get('_terp_fields2').value = '[' + fields2.join(',') + ']';
-            
+            jQuery('#'+form).attr('target', 'new');
             jQuery('#'+form).attr('action', openobject.http.getURL(
                 '/openerp/impex/export_data/data.' + openobject.dom.get('export_as').value)
             ).submit();

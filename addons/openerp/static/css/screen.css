@@ -19,7 +19,7 @@ html.webkit {
 
 body {
     height: 100%;
-    background: #f0eeee;
+    background: #F8F8F8;
     font-size: 62.5%;
 }
 
@@ -35,7 +35,7 @@ body {
 
 body,textarea,input,select,option {
     color: #1f1f1f;
-    font-family: "Myriad Pro", "Lucida Grande", "Lucida Sans Unicode", "Droid Sans", sans-serif;
+    font-family: sans-serif;
     line-height: 1.25;
 }
 
@@ -98,22 +98,9 @@ pre {
 }
 
 table {
-    border-collapse: collapse;
     border-spacing: 0;
 }
 
-/*
-button {
-    overflow: visible;
-    padding: 0 10px;
-    cursor: pointer;
-}
-
-button::-moz-focus-inner {
-    padding: 0;
-    border: none;
-}
-*/
 hr {
     overflow: hidden;
     height: 1px;
@@ -133,6 +120,11 @@ hr {
     position: absolute !important;
     left: -10001px !important;
     overflow: hidden !important;
+}
+
+p.raw-text {
+    min-height: 6em;
+    white-space: pre-line;
 }
 
 /* LAYOUT
@@ -172,9 +164,9 @@ hr {
 
 p#cmp_logo {
     float: left;
-    width: 174px;
+    width: 180px;
     margin: 0 10px 0 0;
-    padding: 0 0 0 10px;
+    padding: 0 0 0 0px;
     background: url(../images/logo-bg.png) repeat-y;
     line-height: 50px;
 }
@@ -513,37 +505,21 @@ p#cmp_logo {
     position: relative;
     white-space:nowrap;
 }
-#applications_menu.scrolling {
-    padding: 6px 14px !important;
-}
-
-#applications_menu .scroller {
-    position: absolute;
-    top: 10px;
-    height: 10px;
-    width: 7px;
-    display: none;
-}
-#applications_menu.scrolling .scroller {
-    display: block;
-}
-#applications_menu .left.scroller {
-    left: 4px;
-    background-image: url(/openerp/static/images/scroll_left.png);
-}
-#applications_menu .right.scroller {
-    right: 4px;
-    background-image: url(/openerp/static/images/scroll_right.png);
-}
 
 #applications_menu ul {
-    overflow: hidden;
     list-style: none;
+    overflow: hidden;
     padding: 0;
+    position: absolute;
+    left: 0;
+    right: 0;
+}
+#applications_menu.scrolling ul {
+    left: 14px;
+    right: 14px;
 }
 
 #applications_menu li {
-    zoom: 1;
     display: -moz-inline-stack;
     display: inline; /*IE7 */
     display: inline-block;
@@ -571,9 +547,6 @@ p#cmp_logo {
     background: url(../images/nav-items-a.png) 100% 0 no-repeat;
     line-height: 22px;
 }
-* html #applications_menu span {
-    width: 60px;
-}
 
 #applications_menu ul li a:hover,
 #applications_menu ul li a:focus,
@@ -585,11 +558,6 @@ p#cmp_logo {
 #applications_menu ul li a:focus span,
 #applications_menu ul li a.active span {
     background-position: 100% -23px;
-}
-
-.scroll_right {
-    text-align: center;
-    width: 2%;
 }
 
 #content div.wrap {
@@ -605,6 +573,9 @@ p#cmp_logo {
 #primary div.wrap {
     padding-top: 0;
     height: 100%;
+}
+#secondary div.wrap {
+    min-width: 180px;
 }
 
 #appContent {
@@ -954,11 +925,13 @@ div.filter-a div.fields-a p label {
 
 div.footer-a,
 div.footer-b {
-    background:none repeat scroll 0 0 #CCCCCC;
-	border:1px solid #AAAAAA;
-	overflow:hidden;
-	padding:5px 0;
-	position:relative;
+    background: none repeat scroll 0 0 #CCCCCC;
+    overflow: hidden;
+    padding: 5px 0;
+    position: relative;
+    -moz-box-shadow: inset 2px 3px 5px rgba(0, 0, 0, 0.4);
+    -webkit-box-shadow: inset 2px 3px 5px rgba(0, 0, 0, 0.4);
+    box-shadow: inset 2px 3px 5px rgba(0, 0, 0, 0.4);
 }
 
 div.footer-a p,
@@ -1186,134 +1159,6 @@ div.list-a div.paging p.paging-a {
 div.list-a div.table {
     position: relative;
     margin: 0 -15px;
-}
-
-div.more-a {
-    overflow: hidden;
-    margin: 0 -7px 10px;
-    background: url(../images/more-a-bg.png) 100% 50% repeat-x;
-}
-
-* html div.more-a {
-    width: 100%;
-    margin: 0 0 10px;
-}
-
-div.more-a p {
-    float: left;
-    width: 33%;
-    margin: 0 0 0 66%;
-    background: #f0eeee;
-    font-weight: bold;
-    text-transform: uppercase;
-    text-shadow: #fff 0 1px 0;
-}
-
-* html div.more-a p {
-    display: inline;
-}
-
-div.more-a p span {
-    display: block;
-    padding: 0 7px 1px 7px;
-}
-
-div.more-a p a {
-    display: block;
-    padding: 6px 0 5px;
-    border-radius: 4px;
-    -moz-border-radius: 4px;
-    -webkit-border-radius: 4px;
-    border: 1px solid;
-    border-color: #e6e3e3 #d1cfcf #bcbbbb;
-    background: #edebeb url(../images/more-a-button.gif) repeat-x;
-    box-shadow: 0 1px 1px #fff;
-    -moz-box-shadow: 0 1px 1px #fff;
-    -webkit-box-shadow: 0 1px 1px #fff;
-    text-align: center;
-}
-
-div.salesfields-a {
-    margin: 0 0 5px;
-}
-
-div.salesfields-a div.row {
-    overflow: hidden;
-    width: 100%;
-    padding: 0 0 10px;
-}
-
-div.salesfields-a div.row p {
-    display: inline;
-    float: left;
-    width: 235px;
-    margin: 0 0 0 15px;
-    font-size: 0.9em;
-}
-
-div.salesfields-a div.row p.first {
-    width: 265px;
-}
-
-* html div.salesfields-a div.row p.first {
-    width: 270px;
-}
-
-div.salesfields-a div.row p.tick {
-    width: auto;
-}
-
-div.salesfields-a div.row p label {
-    float: left;
-    width: 65px;
-    padding: 6px 10px 0 0;
-    text-align: right;
-}
-
-div.salesfields-a div.row p label.two {
-    padding-top: 0;
-}
-
-div.salesfields-a div.row p input.text {
-    padding: 3px 2px;
-}
-
-div.salesfields-a div.row p.first label {
-    width: 80px;
-}
-
-div.salesfields-a div.row p.tick label {
-    width: 35px;
-    padding-right: 5px;
-}
-
-div.salesfields-a div.row p.tick input {
-    width: 12px;
-    height: 12px;
-    margin: 4px 0 0;
-    padding: 0;
-    vertical-align: middle;
-}
-
-div.salesfields-a-boxed div.row p {
-    width: 250px;
-}
-
-div.salesfields-a-boxed div.row p.first {
-    width: 250px;
-}
-
-* html div.salesfields-a-boxed div.row p.first {
-    width: 255px;
-}
-
-div.salesfields-a-boxed div.row p.first label {
-    width: 65px;
-}
-
-div.salesfields-a-boxed div.row p input.text {
-    border-bottom: 1px solid #efefef;
-    background-color: #faf9f9;
 }
 
 /* forms */ /* tables */
@@ -1651,7 +1496,7 @@ ul.sections-a {
 
 ul.sections-a li {
     float: left;
-    width: 33%;
+    width: 25%;
     font-weight: bold;
     text-transform: uppercase;
 }
@@ -1767,19 +1612,6 @@ ul.sections-a li span.wrap a:hover span strong,ul.sections-a li span.wrap a:focu
     background-position: 100% 5px;
 }
 
-.toggle-menu {
-    cursor: pointer;
-    background: #CECBCB url(../images/arrow_left.png) no-repeat scroll 50% 50%;
-    min-height: 100%;
-    padding: 0 0 0 11px;
-    /* hack to fix weird space under bar */
-    border-bottom: 1px solid #CECBCB;
-}
-
-.closed .toggle-menu {
-    background-image: url(../images/arrow_right.png);
-}
-
 .closed #primary {
     margin-left: 21px;
 }
@@ -1798,15 +1630,19 @@ ul.sections-a li span.wrap a:hover span strong,ul.sections-a li span.wrap a:focu
 }
 
 #sidenav-a li.accordion-content {
-    padding: 0 0 5px;
-    background: url(../images/sidenav-bg-a.gif) 0 100% repeat-x;
+    padding: 0;
+    background: none;
     font-size: 1em;
     display: block;
     min-width: 180px;
+    border-bottom: 1px solid #333333;
+}
+#sidenav-a li.accordion-content:last-child {
+    border-bottom: none;
 }
 
 #sidenav-a li {
-    padding: 0 0 5px;
+    padding: 0 0 2px;
     background: url(../images/sidenav-bg-a.gif) 0 100% repeat-x;
     font-size: 1em;
 }

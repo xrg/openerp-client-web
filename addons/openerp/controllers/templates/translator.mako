@@ -26,7 +26,7 @@
                         <tr>
                             <td class="label"><label for="translate">${_("Add Translation for:")}</label></td>
                             <td>
-                                <select name="translate" 
+                                <select name="translate"
                                 	onchange="window.location.href=openobject.http.getURL('/openerp/translator', {_terp_model: '${model}', _terp_id: '${id}', _terp_context: $('_terp_context').value, translate: this.value})">
                                     <option value="fields" ${py.selector(translate=='fields')}>${_("Fields")}</option>
                                     <option value="labels" ${py.selector(translate=='labels')}>${_("Labels")}</option>
@@ -35,10 +35,8 @@
                                 </select>
                             </td>
                             <td width="100%">&nbsp;</td>
-                            <td><button type="submit">${_("Save")}</button></td>
-                            <td>
-                            	<a class="button-a" href="javascript: void(0)" onclick="window.close()">${_("Close")}</a>
-                           	</td>
+                            <td class="save_close"><button type="submit">${_("Save")}</button></td>
+                            <td class="save_close"><button type="" onclick="window.close()">${_("Close")}</button> </td>
                         </tr>
                     </table>
                 </div>
@@ -46,7 +44,7 @@
         </tr>
         % if translate != 'view':
         <tr>
-            <td>
+            <td style="padding: 5px;">
                 <table class="grid" width="100%" cellpadding="0" cellspacing="0">
                     <tr class="grid-header">
                         % if translate=='fields':
@@ -103,9 +101,9 @@
                     <table border="0" cellpadding="0" cellspacing="0" width="100%">
                         <tr>
                             <td width="100%">&nbsp;</td>
-                            <td><button type="submit">${_("Save")}</button></td>
+                            <td class="save_close"><button type="submit">${_("Save")}</button></td>
                             <td>
-                            	<a class="button-a" href="javascript: void(0)" onclick="window.close()">${_("Close")}</a>
+                            	<td class="save_close"><button type="" onclick="window.close()">${_("Close")}</button> </td>
                            	</td>
                         </tr>
                     </table>

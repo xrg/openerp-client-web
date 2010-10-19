@@ -2,94 +2,53 @@ div.notebook {
     overflow: hidden;
     margin: 0 0 5px;
     padding: 0;
-    border-radius: 7px;
-    -moz-border-radius: 7px;
-    -webkit-border-radius: 7px;
-    background: #fff;
-    box-shadow: 0 1px 1px #ddd;
-    -moz-box-shadow: 0 1px 1px #ddd;
-    -webkit-box-shadow: 0 1px 1px #ddd;
 }
 
-div.notebook-tabs {
+.notebook-tabs {
+    height: 24px;
     position: relative;
+    white-space: nowrap;
+}
+
+.notebook-tabs-strip {
+    list-style: none;
     overflow: hidden;
-    background: #ddd;
-    border-top-left-radius: 7px;
-    border-top-right-radius: 7px;
-    -moz-border-radius-topright: 7px;
-    -webkit-border-top-right-radius: 7px;
-    -moz-border-radius-topleft: 7px;
-    -webkit-border-top-left-radius: 7px;
-    box-shadow: 0 1px 1px #FFFFFF;
-    -moz-box-shadow: 0 1px 1px #FFFFFF;
-    -webkit-box-shadow: 0 1px 1px #FFFFFF;
-}
-
-div.notebook-tabs-left,div.notebook-tabs-right {
+    padding: 0;
     position: absolute;
-    top: 0px;
-    width: 18px;
-    display: none;
-    cursor: pointer;
-    z-index: 2;
+    left: 0;
+    right: 0;
 }
 
-div.notebook-tabs-right {
-    right: 0px;
+.notebook-tabs.scrolling .notebook-tabs-strip {
+    left: 14px;
+    right: 14px;
+}
+
+.notebook-tabs.scrolling .left.scroller {
+    background: #F0EEEE url(../images/notebook/nb-left.png) no-repeat center;
+}
+.notebook-tabs.scrolling .right.scroller {
     background: #F0EEEE url(../images/notebook/nb-right.png) no-repeat center;
 }
 
-div.notebook-tabs-left {
-    left: 0px;
-    background: #F0EEEE url(../images/notebook/nb-left.png) no-repeat center;
-}
-
-div.notebook-tabs-right-disabled {
-    background: #F0EEEE url(../images/notebook/nb-right-d.png) no-repeat center;
-    cursor: default;
-}
-
-div.notebook-tabs-left-disabled {
-    background: #F0EEEE url(../images/notebook/nb-left-d.png) no-repeat center;
-    cursor: default;
-}
-
-div.notebook-tabs-wrap {
-    position: relative;
-    overflow: hidden;
-}
-
-div.notebook-tabs-wrap-scrollable {
-    margin: 0 18px;
-}
-
-ul.notebook-tabs-strip {
-    display: block;
-    float: left;
-    /*width: 5000px;*/
-    background: transparent;
-    padding: 0;
-    margin: 0;
-    list-style: none;
-}
-
-li.notebook-tab {
-    position: relative;
-    float: left;
-    font-size: 1em;
+.notebook-tab {
+    display: -moz-inline-stack;
+    display: inline; /*IE7 */
+    display: inline-block;
     font-weight: bold;
-    text-transform: uppercase;
     margin-right: 2px;
-    background: transperant;
+    background: #d0d0d0;
     border-radius: 7px 7px 0 0;
     -moz-border-radius: 7px 7px 0 0;
     -webkit-border-radius: 7px 7px 0 0;
     cursor: pointer;
 }
-
-li.notebook-tab-active, li.notebook-tab:hover {
+.notebook-tab:hover {
+    background: #e0e0e0;
+}
+.notebook-tab-active, li.notebook-tab-active:hover {
     background: #fff;
+    cursor: auto;
 }
 
 li.notebook-tab span.tab-title {
@@ -118,7 +77,17 @@ li.notebook-tab-closable span.tab-title {
 }
 
 div.notebook-pages {
-    padding: 5px 5px 1px;
+    padding: 5px;
+    background: #fff;
+    border-radius: 7px;
+    -moz-border-radius: 7px;
+    -webkit-border-radius: 7px;
+    -webkit-border-top-left-radius: 0;
+    -moz-border-radius-topleft: 0;
+    border-top-left-radius: 0;
+    box-shadow: 0 1px 1px #ddd;
+    -moz-box-shadow: 0 1px 1px #ddd;
+    -webkit-box-shadow: 0 1px 1px #ddd;
 }
 
 div.notebook-page {

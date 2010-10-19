@@ -11,14 +11,6 @@
 
     <script type="text/javascript">
         var form_controller = '/openerp/search';
-
-        function pager_action(action, src) {
-            if (src) {
-                new ListView(src).go(action);
-            } else {
-                submit_form(action);
-            }
-        }
     </script>
     % if params.selectable == 1:
     <script type="text/javascript">

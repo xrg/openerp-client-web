@@ -68,7 +68,7 @@ class Attachment(SecuredController):
         attachment = rpc.RPCProxy('ir.attachment').read(record, [], rpc.session.context)
 
         if attachment['type'] == 'binary':
-            cherrypy.response.headers["Content-Disposition"] = "attachment; filename=%s" % attachment['name']
+            cherrypy.response.headers["Content-Disposition"] = 'attachment; filename="%s"' % attachment['name']
             return base64.decodestring(attachment['datas'])
         elif attachment['type'] == 'url':
             raise redirect(attachment['url'])

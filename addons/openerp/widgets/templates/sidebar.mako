@@ -1,7 +1,7 @@
 <%def name="sidebox_action_item(item, model, submenu)">
     % if submenu != 1:
-    	<li data="${item}" onclick="do_action(${item['id']}, '_terp_id', '${model}', this, getNodeAttribute(this, 'data'));">
-    	   <a href="javascript: void(0)" onclick="return false">${item['name']}</a>
+    	<li data="${item}" action_id="${item['id']}" relation="${model}" onclick="validate_action(this, do_action)">
+           <a href="javascript: void(0)" onclick="return false">${item['name']}</a>
         </li>
     % else:
         <li data="${item}">
@@ -43,8 +43,7 @@
     % endif
     % if view_type == 'form':
     <div class="sideheader-a">
-        <a href="#" id="add-attachment" class="button-a">${_("Add")}</a>
-
+        <a href="#" id="add-attachment" class="button-a" style="line-height: 13px;">${_("Add")}</a>
         <h2>${_("Attachments")}</h2>
     </div>
     <ul id="attachments" class="attachments-a">
@@ -89,7 +88,7 @@
                href="javascript: void(0)">${_("Customise Object")}</a>
         </li>
     </ul>
-    
+
     <div class="sideheader-a">
         <h2>${_("Other Options")}</h2>
     </div>
@@ -103,8 +102,7 @@
         </li>
         % elif view_type == 'form':
         <li>
-            <a href="${py.url('/openerp/translator', _terp_model=model, _terp_id=id, _terp_context=ctx)}"
-               target="_blank">${_('Translate')}</a>
+        	<a href="javascript: void(0)" data="${ctx}" relation="${model}" id="${id}" onclick="translate_fields(this)">${_('Translate')}</a>
         </li>
         % endif
         % if id:

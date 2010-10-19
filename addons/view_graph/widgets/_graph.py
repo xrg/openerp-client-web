@@ -557,7 +557,7 @@ class BarChart(GraphData):
                                    "labels": { "labels": [ lbl for lbl in stack_labels ], "rotate": "diagonal", "colour": "#ff0000"},
                                    "3d": 3, "grid-colour": "#F0EEEE"},
                         "y_axis": axis_y,
-                        "bg_colour": "#F0EEEE",
+                        "bg_colour": "#F8F8F8",
                         "tooltip": {"mouse": 2 }}
 
         else:
@@ -582,7 +582,7 @@ class BarChart(GraphData):
             result = {"y_axis": axis_y,
                       "title": {"text": ""},
                       "elements": [i for i in dataset],
-                      "bg_colour": "#F0EEEE",
+                      "bg_colour": "#F8F8F8",
                       "x_axis": {"colour": "#909090",
                                  "stroke": 1,
                                  "tick-height": 5,
@@ -657,14 +657,14 @@ class PieChart(GraphData):
                         "no-labels": 'true',
                         "values": allvalues})
 
-        result = {"legend": {"bg_colour": "#fefefe",
+        result = {"legend": {"bg_colour": "#f8f8f8",
                              "border": 'true',
                              "position": "top",
                              "shadow": 'true',
                              "visible": 'true'
                              },
                   "elements": [d for d in dataset],
-                  "bg_colour": "#F0EEEE"}
+                  "bg_colour": "#F8F8F8"}
 
         return result
 

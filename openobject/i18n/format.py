@@ -26,14 +26,13 @@
 # You can see the MPL licence at: http://www.mozilla.org/MPL/MPL-1.1.html
 #
 ###############################################################################
-
+import datetime as DT
 import re
 import time
-import datetime as DT
 
-from babel import dates
-from babel import numbers
-from babel.support import Format
+import cherrypy
+import pytz
+from babel import dates, numbers
 
 from openobject.i18n.utils import get_locale
 
@@ -45,7 +44,7 @@ DT_SERVER_FORMATS = {
   'time' : '%H:%M:%S'
 }
 
-__pat = re.compile("\%\(([dMy]+)\)s")
+__pat = re.compile("%\(([dMy]+)\)s")
 __sub = {'d': '%d', 'M': '%m', 'y': '%Y'}
 def _to_posix_format(format):
     """Convert LDML format string to posix format string.
@@ -73,6 +72,27 @@ def get_datetime_format(kind="datetime"):
 
     return fmt
 
+def _tz_convert(value, action):
+    # if no client timezone is configured, consider the client is in the same
+    # timezone as the server
+    lzone = pytz.timezone(cherrypy.session['client_timezone']
+                          or cherrypy.session['remote_timezone'])
+    szone = pytz.timezone(cherrypy.session['remote_timezone'])
+    dt = DT.datetime.fromtimestamp(time.mktime(value))
+
+    if action == 'parse':
+        fromzone = lzone
+        tozone = szone
+    elif action == 'format':
+        fromzone = szone
+        tozone = lzone
+    else:
+        raise Exception("_tz_convert action should be 'parse' or 'format'. Not '%s'" % (action, ))
+
+    localized_original_datetime = fromzone.localize(dt, is_dst=True)
+    destination_datetime = localized_original_datetime.astimezone(tozone)
+    return destination_datetime.timetuple()
+
 def format_datetime(value, kind="datetime", as_timetuple=False):
     """Convert date value to the local datetime considering timezone info.
 
@@ -93,7 +113,7 @@ def format_datetime(value, kind="datetime", as_timetuple=False):
 
     if isinstance(value, (time.struct_time, tuple)):
         value = time.strftime(server_format, value)
-        
+
     if isinstance(value, DT.datetime):
         value = ustr(value)
         try:
@@ -101,7 +121,7 @@ def format_datetime(value, kind="datetime", as_timetuple=False):
             return value.strftime(local_format)
         except:
             return ''
-        
+
     value = value.strip()
 
     # remove trailing miliseconds
@@ -119,15 +139,9 @@ def format_datetime(value, kind="datetime", as_timetuple=False):
 
     if kind == "datetime":
         try:
-            import pytz
-            lzone = pytz.timezone(cherrypy.session['client_timezone'])
-            szone = pytz.timezone(cherrypy.session['remote_timezone'])
-            dt = DT.datetime(value[0], value[1], value[2], value[3], value[4], value[5], value[6])
-            sdt = szone.localize(dt, is_dst=True)
-            ldt = sdt.astimezone(lzone)
-            value = ldt.timetuple()
-        except:
-            pass
+            value = _tz_convert(value, 'format')
+        except Exception:
+            cherrypy.log.error("Error in timezone formatting:\n", traceback=True)
 
     if as_timetuple:
         return value
@@ -167,15 +181,9 @@ def parse_datetime(value, kind="datetime", as_timetuple=False):
 
     if kind == "datetime":
         try:
-            import pytz
-            lzone = pytz.timezone(cherrypy.session['client_timezone'])
-            szone = pytz.timezone(cherrypy.session['remote_timezone'])
-            dt = DT.datetime(value[0], value[1], value[2], value[3], value[4], value[5], value[6])
-            ldt = lzone.localize(dt, is_dst=True)
-            sdt = ldt.astimezone(szone)
-            value = sdt.timetuple()
-        except:
-            pass
+            value = _tz_convert(value, 'parse')
+        except Exception:
+            cherrypy.log.error("Error in timezone parsing:\n", traceback=True)
 
     if as_timetuple:
         return value
@@ -206,13 +214,10 @@ def parse_decimal(value):
         value = value.replace(' ', '')
         try:
             value = numbers.parse_decimal(value, locale=get_locale())
-        except ValueError, e:
+        except ValueError:
             pass
 
     if not isinstance(value, float):
         return float(value)
 
     return value
-
-# vim: ts=4 sts=4 sw=4 si et
-

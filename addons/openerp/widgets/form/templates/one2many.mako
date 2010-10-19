@@ -25,9 +25,9 @@
                     <td width="65%" style="text-align: left" align="left">
                         <div class="pager">
                             <p id="_${name}_link_span" class="paging">
-                                <a class="prev nav" title="${_('Previous record...')}" href="javascript: void(0)" onclick="o2m_pager_action('previous', '${name}'); return false;"></a>
+                                <a class="prev nav" title="${_('Previous record...')}" href="javascript: void(0)" onclick="submit_form('previous', '${name}');"></a>
                                 ${pager_info}
-                                <a class="next nav" title="${_('Next record...')}" href="javascript: void(0)" onclick="o2m_pager_action('next', '${name}'); return false;"></a>
+                                <a class="next nav" title="${_('Next record...')}" href="javascript: void(0)" onclick="submit_form('next', '${name}');"></a>
                             </p>
                         </div>
                     </td>

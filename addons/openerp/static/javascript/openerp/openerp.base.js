@@ -11,9 +11,9 @@ var currentUrl;
  *                    inserted, if any.
  */
 function openLink(url /*optional afterLoad */) {
-    var app = jQuery('#appContent');
+    var $app = jQuery('#appContent');
     var afterLoad = arguments[1];
-    if(app.length) {
+    if($app.length) {
         currentUrl = url;
         window.location.hash = '#'+jQuery.param({'url': url});
         jQuery.ajax({
@@ -21,7 +21,7 @@ function openLink(url /*optional afterLoad */) {
             complete: function () {
                 if(afterLoad) { afterLoad(); }
             },
-            success: doLoadingSuccess(app),
+            success: doLoadingSuccess($app[0]),
             error: loadingError
         });
     } else {
@@ -46,6 +46,7 @@ function displayErrorOverlay(xhr) {
 
 /**
  * Handles errors when loading page via XHR
+ * TODO: maybe we should set this as the global error handler via jQuery.ajaxSetup
  *
  * @param xhr The XHR object
  */
@@ -104,6 +105,10 @@ jQuery(document).ready(function () {
     var waitBox;
     var $app = jQuery('#appContent');
     if ($app.length) {
+        jQuery('body').delegate('a[href]:not([target="_blank"]):not([href^="#"]):not([href^="javascript"]):not([rel=external])', 'click', function(){
+            validate_action();
+        });
+        
         waitBox = new openerp.ui.WaitBox();
         // open un-targeted links in #appContent via xhr. Links with @target are considered
         // external links. Ignore hash-links.
@@ -121,7 +126,7 @@ jQuery(document).ready(function () {
             waitBox.showAfter(FORM_WAIT_NO_ACTIVITY);
             form.ajaxSubmit({
                 complete: jQuery.proxy(waitBox, 'hide'),
-                success: doLoadingSuccess($app),
+                success: doLoadingSuccess($app[0]),
                 error: loadingError
             });
             return false;
@@ -145,7 +150,7 @@ jQuery(document).ready(function () {
                 waitBox.show();
                 form.ajaxSubmit({
                     complete: jQuery.proxy(waitBox, 'hide'),
-                    success: doLoadingSuccess(jQuery('table.view')),
+                    success: doLoadingSuccess(jQuery('table.view')[0]),
                     error: loadingError
                 });
                 return false;

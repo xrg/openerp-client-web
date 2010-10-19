@@ -36,7 +36,7 @@
                                     <label for="sc_name">${_("Filter Name")}:</label>
                                 </td>
                                 <td width="100%">
-                                    <input type="text" name="name" id="sc_name" value="${filtername}" style="width: 100%;"/>
+                                    <input type="text" name="name" id="sc_name" value="${filtername}" style="width: 100%;" autofocus="true"/>
                                 </td>
                             </tr>
                         </table>

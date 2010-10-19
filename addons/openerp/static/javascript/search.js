@@ -26,6 +26,11 @@
 // You can see the MPL licence at: http://www.mozilla.org/MPL/MPL-1.1.html
 //
 ////////////////////////////////////////////////////////////////////////////////
+var OR_LINE = '<tr id="or"><td colspan="5">' +
+        '<div class="filter-lsep"></div><hr class="filter-hr">' +
+        '<div class="filter-msep">Or</div>' +
+        '<div class="filter-rsep"></div><hr class="filter-hr">' +
+    '</td></tr>';
 
 function add_filter_row(elem) {
 
@@ -90,44 +95,30 @@ function add_filter_row(elem) {
 }
 
 function addOrBlock(elem){
-    
-    var filter_option_table = jQuery('#filter_option_table');
-    var old_tr = jQuery('#filter_table').next('tbody.actions').find('tr.actions');    
-    var tbody = filter_option_table.find('tbody:last');
-   
-    var action_tr = old_tr.clone();
-    action_tr.find('select.filter_fields_or').parent().show();
-    action_tr.find('select.filter_fields_or').attr('disabled', false);        
-    if (action_tr.is(':hidden')) {
-        action_tr.show();
+    var $filter_option_table = jQuery('#filter_option_table');
+    $filter_option_table.find('tr:last select.filter_fields_or').parent().hide();
+
+    var $newtbody = jQuery('<tbody>' + OR_LINE + '</tbody>');
+    $filter_option_table.append($newtbody);
+
+    var $new_tr = $filter_option_table.find('tr:first').clone();
+    $new_tr.find('#filterlabel').attr('value', jQuery(elem).val())
+                                .text(jQuery('select.filter_fields_or option:selected').text());
+    $new_tr.find('input.qstring').css('background', '#FFF').val('');
+    $newtbody.append($new_tr);
+
+    var $action_tr = jQuery('#filter_table').next('tbody.actions').find('tr.actions').clone();
+    $action_tr.find('select.filter_fields_or').parent().show();
+    $action_tr.find('select.filter_fields_or').attr('disabled', false);
+    if ($action_tr.is(':hidden')) {
+        $action_tr.show();
     }
-    
-    var position_tr = filter_option_table.find('tr:last');
-    position_tr.find('select.filter_fields_or').parent().hide();    
-    
-    var newtbody = jQuery('<tbody>');    
-    var tr = jQuery('<tr id="or">');
-    var td = jQuery('<td>', {'colspan': '6'});
-    td.append(jQuery('<div class="filter-lsep">').append(jQuery('<hr class="filter-hr"/>')));
-    td.append(jQuery('<div class="filter-msep">Or</div>'));
-    td.append(jQuery('<div class="filter-rsep">').append(jQuery('<hr class="filter-hr"/>')));
-    jQuery(tr).append(td)
-    jQuery(newtbody).append(tr)
-
-    var oldTr = filter_option_table.find('tr:first');
-    var new_tr = oldTr.clone();
-    new_tr.find('#filterlabel').text(jQuery('select.filter_fields_or option:selected').text());
-    new_tr.find('#filterlabel').attr('value', jQuery(elem).val());
-    new_tr.find('input.qstring').css('background', '#FFF').val('');
-
-    jQuery(tr).after(new_tr);
-    jQuery(new_tr).after(action_tr);
-    jQuery(tbody).after(newtbody);
+    $newtbody.append($action_tr);
 }
 
 function collapse_expand(div_id, grp_id, id) {
 
-    jQuery(div_id).toggleClass('group-collapse group-expand', 100);
+    jQuery(div_id).toggleClass('group-collapse group-expand');
     jQuery(grp_id).toggle();
     if (id)
         jQuery(id).css('display', 'block');
@@ -139,12 +130,12 @@ function switch_searchView(d) {
     var operators = [];
     var tbodys = [];
     var trs = 0;
-    var tbody = jQuery("<tbody/>");
+    var $tbody = jQuery("<tbody/>");
     var prev_row_field = '';
     var $filter_opt_tbl = jQuery('#filter_option_table');
-    var old_tr = $filter_opt_tbl.find('tbody:first').find('tr.filter_row_class:first');
+    var $old_tr = $filter_opt_tbl.find('tbody:first tr.filter_row_class:first');
     var $action_tbody = $filter_opt_tbl.find('tbody.actions');
-    var selection_options =  $action_tbody.find('tr.actions').find('select.filter_fields_and:first');
+    var $selection_options =  $action_tbody.find('tr.actions select.filter_fields_and:first');
 
     jQuery('#filter_table').hide();
 
@@ -155,34 +146,33 @@ function switch_searchView(d) {
             operators.push(item);
         }
         else {
-            var new_tr = old_tr.clone();
-            var txt =  selection_options.find('option[value='+ item[0] + ']').text();
-            var new_tr_lbl = new_tr.find('#filterlabel');
-            new_tr_lbl.text(txt);
-            new_tr_lbl.attr('value', item[0]);
-            new_tr.find('select.expr').val(item[1]);
+            var $new_tr = $old_tr.clone();
+            var $new_tr_lbl = $new_tr.find('#filterlabel');
+            $new_tr_lbl.attr('value', item[0]).text(
+                    $selection_options.find('option[value='+ item[0] + ']').text());
+            $new_tr.find('select.expr').val(item[1]);
 
-            var new_tr_qstr = new_tr.find('input.qstring');
-            old_tr.find('input.qstring').css('background', '#FFF').val('');
-            new_tr_qstr.attr('value', item[2]);
+            var $new_tr_qstr = $new_tr.find('input.qstring');
+            $old_tr.find('input.qstring').css('background', '#FFF').val('');
+            $new_tr_qstr.attr('value', item[2]);
 
             if (trs==0 || operators[operators.length-1]=='&') {
-                tbody.append(new_tr);
+                $tbody.append($new_tr);
                 if (trs>0)
                     operators.splice(operators.length-1, 1);
             }
             else if(prev_row_field!=item[0] && operators[operators.length-1]=='|') {
-                tbodys.push(tbody);
-                tbody = jQuery("<tbody/>");
-                tbody.append(new_tr);
+                tbodys.push($tbody);
+                $tbody = jQuery("<tbody/>");
+                $tbody.append($new_tr);
                 trs = 1;
                 operators.splice(operators.length-1, 1);
             }
             else if(prev_row_field==item[0] && operators[operators.length-1]=='|') {
-                new_tr_lbl.hide();
-                new_tr.find('select.expr').hide();
-                jQuery('<label>', {'class': 'and_or'}).text('OR').insertBefore(new_tr_qstr);
-                tbody.append(new_tr);
+                $new_tr_lbl.hide();
+                $new_tr.find('select.expr').hide();
+                jQuery('<label class="and_or">OR</label>').insertBefore($new_tr_qstr);
+                $tbody.append($new_tr);
                 operators.splice(operators.length-1, 1);
             }
             trs ++;
@@ -191,51 +181,39 @@ function switch_searchView(d) {
     }
 
     if (domain.length){
-        tbodys.push(tbody);
+        tbodys.push($tbody);
         collapse_expand('#filters', '#filter_option_table');
         if ($action_tbody.is(':visible')){
             $action_tbody.hide();
         }
     }
 
-    for (var i=0; i<tbodys.length; i++) {
+    for (var j=0; j<tbodys.length; j++) {
 
-        if (tbodys[i + 1]) {
-            var trOr = jQuery('<tr id="or">');
-            var td = jQuery('<td>', {'colspan': '5'});
-            td.append(jQuery('<div class="filter-lsep">')
-                .append(jQuery('<hr class="filter-hr"/>')));
-            td.append(jQuery('<div class="filter-msep">Or</div>'));
-            td.append(jQuery('<div class="filter-rsep">')
-                .append(jQuery('<hr class="filter-hr"/>')));
-            jQuery(trOr).append(td);
-            tbodys[i + 1].prepend(trOr);
+        if (tbodys[j + 1]) {
+            var $trOr = jQuery(OR_LINE);
+            tbodys[j + 1].prepend($trOr);
         }
-        if (tbodys[i - 1]) {
-            tbodys[i - 1].find('tr.actions td#filter_column').hide();
+        if (tbodys[j - 1]) {
+            tbodys[j - 1].find('tr.actions td#filter_column').hide();
         }
 
-        var actTr = $action_tbody.find('tr.actions').clone(true);
-        actTr.find('select#filter_fields_or').attr('disabled', false);
-        tbodys[i].append(actTr);
-        $filter_opt_tbl.append(tbodys[i]);
+        var $actTr = $action_tbody.find('tr.actions').clone(true);
+        $actTr.find('select#filter_fields_or').attr('disabled', false);
+        tbodys[j].append($actTr);
+        $filter_opt_tbl.append(tbodys[j]);
     }
 }
 
 function remove_filter_row(element) {
-
-    var node = jQuery(element).closest('tr');
-    var $tby = jQuery(node).closest('tbody');
-    var $paren = $tby.parent();
-    var prev_body = jQuery($paren.children('tbody')[$tby.index()-1]);
-    var next_body = jQuery($paren.children('tbody')[$tby.index()+1]);
+    var $node = jQuery(element).closest('tr');
+    var $tby = $node.closest('tbody');
     var $filter_opt_tbl = jQuery('#filter_option_table');
-    var $filter_table = jQuery('#filter_table');
 
     if ($tby.find('tr.filter_row_class').length <= 1 && $tby.attr('id')!='filter_table') {
-
-        if (!(next_body.length >= 1) || !(prev_body.length >= 1)) {
-            prev_body.find('td#filter_column').show();
+        var $prev_body = $tby.prev();
+        if(!($tby.next().length && $prev_body.length)) {
+            $prev_body.find('td#filter_column').show();
         }
 
         $tby.remove();
@@ -245,40 +223,34 @@ function remove_filter_row(element) {
         }
     }
 
-    if(node.is(':only-child')) {
-
-        if ($filter_opt_tbl.find('tbody:visible').length >= 1 && node.closest("tbody").siblings().length > 1){
+    if($node.is(':only-child')) {
+        var $filter_table = jQuery('#filter_table');
+        if ($filter_opt_tbl.find('tbody:visible').length && $node.closest("tbody").siblings().length > 1){
             $filter_table.next().hide();
             $filter_opt_tbl.find('tr#or:first').hide();
         }
 
-        node.find('input.qstring').css('background', '#FFF').val('');
-        var filter_lbl = jQuery('#filterlabel');
-        filter_lbl.text('');
-        filter_lbl.attr('value', '');
+        $node.find('input.qstring').css('background', '#FFF').val('');
+        jQuery('#filterlabel').attr('value', '').text('');
         jQuery('select#filter_fields_or').attr('disabled', true);
         $filter_table.hide();
-
     } else {
-
-        if(node.is(':last-child')) {
-            node.prev().find('.and_or').remove();
+        if($node.is(':last-child')) {
+            $node.prev().find('.and_or').remove();
         }
 
-        if(node.next().find('label.and_or').is(':visible')){             
-             node.next().remove();
-        }
-        else{
+        if($node.next().find('label.and_or').is(':visible')){
+             $node.next().remove();
+        } else{
             if ($filter_opt_tbl.find('tbody:visible').length == 0) {
-                var $actions_tby = jQuery('tbody.actions');
-                $actions_tby.show();
-                $actions_tby.find('tr.actions').find('td#filter_column').show();
+                jQuery('tbody.actions').show()
+                                       .find('tr.actions td#filter_column').show();
             }
 
             if ($filter_opt_tbl.find('tbody:visible').length == 1){
                 $filter_opt_tbl.find('tr#or:first').hide();
             }
-            node.remove();
+            $node.remove();
         }
     }
 }
@@ -300,18 +272,15 @@ jQuery.extend({
         $.each(obj, function(k){ a.push(k) });
         return a;
     }
-})
+});
 
-function display_Customfilters(all_domains, group_by_ctx, custom_columns) {
+function display_Customfilters(all_domains, group_by_ctx) {
     var Allrecords = {};
-    var parent_tbody = jQuery('#filter_option_table > tbody')
-
-    parent_tbody.each(function () {
-        var children = jQuery(this).children('.filter_row_class');
+    jQuery('#filter_option_table > tbody').each(function () {
         var record = {};
-        var pid = jQuery(this).index()
+        var pid = jQuery(this).index();
 
-        children.each(function () {
+        jQuery(this).children('.filter_row_class').each(function () {
             var $constraint_value = jQuery(this).find('input.qstring');
             var $fieldname = jQuery(this).find('#filterlabel');
             var id = jQuery(this).parent().find('> .filter_row_class').index(this);
@@ -334,21 +303,20 @@ function display_Customfilters(all_domains, group_by_ctx, custom_columns) {
     }).addCallback(function(obj) {
         var custom_domain = [];
         if(obj.error) {
-            var children = jQuery('#filter_option_table tbody > .filter_row_class');
-            children.each(function () {
+            jQuery('#filter_option_table tbody > .filter_row_class').each(function () {
                 if(jQuery(this).find('#filterlabel').attr('value') == obj['error_field']) {
                     jQuery(this).find('input.qstring').css('background', '#f66').val(obj.error);
                 }
             });
         }
         var form_result = obj.frm;
-        var tbody_keys = jQuery.keys(form_result)
+        var tbody_keys = jQuery.keys(form_result);
 
         if(form_result) {
             // By property, we get incorrect ordering
             for(var ind=0; ind<tbody_keys.length ;ind++){
                 var All_domain = [];
-                var group = []
+                var group = [];
                 var tbody_frm_ind = form_result[tbody_keys[ind]]; //tbody dictionary
                 var trs_keys = jQuery.unique(jQuery.keys(tbody_frm_ind)); //sort trs
 
@@ -356,7 +324,7 @@ function display_Customfilters(all_domains, group_by_ctx, custom_columns) {
                     var return_record = tbody_frm_ind[trs_keys[index]];
                     var $curr_body = jQuery('#filter_option_table > tbody').eq(tbody_keys[ind]);
                     var $row = $curr_body.find('> .filter_row_class').eq(trs_keys[index]);
-                    var $next_row = []
+                    var $next_row = [];
 
                     if ($row.next('tr.filter_row_class').find('input.qstring').val() != ''){
                         $next_row = jQuery($row.next());
@@ -367,9 +335,9 @@ function display_Customfilters(all_domains, group_by_ctx, custom_columns) {
                     var grouping = $next_row.length != 0 ? $next_row.find('label.and_or').text(): null;
 
                     if (group.length==0) {
-                        var new_grp = $curr_body.find('tr.filter_row_class:gt('+trs_keys[index]+')')
-                        new_grp = new_grp.find('td#filter_column:not(:has(label))').find('input.qstring[value]')
-                        if (new_grp.length){
+                        var $new_grp = $curr_body.find('tr.filter_row_class:gt('+trs_keys[index]+')')
+                                                 .find('td#filter_column:not(:has(label)) input.qstring[value]');
+                        if ($new_grp.length){
                             group.push('&')
                         }
                     }
@@ -424,9 +392,9 @@ function display_Customfilters(all_domains, group_by_ctx, custom_columns) {
 	            if (All_domain.length) {
 	               custom_domain.push(All_domain);
                 }
-            };
+            }
         }
-        final_search_domain(serializeJSON(custom_domain), all_domains, group_by_ctx, custom_columns);
+        final_search_domain(serializeJSON(custom_domain), all_domains, group_by_ctx);
     });
 }
 
@@ -439,7 +407,7 @@ function parse_filters(src, id) {
     var domains = {};
     var search_context = {};
     var all_boxes = [];
-    var $filter_list = jQuery('#filter_list')
+    var $filter_list = jQuery('#filter_list');
     var domain = 'None';
     if (jQuery('div.group-data').length) {
         jQuery('div.group-data:first').find('button').each(function(){
@@ -513,7 +481,7 @@ function parse_filters(src, id) {
                 fld_value = $fld.val();
                 
                 if ($fld.attr('search_context')) {
-                    search_context['context'] = $fld.attr('search_context')
+                    search_context['context'] = $fld.attr('search_context');
                     search_context['value'] = fld_value;
                 }
             }
@@ -527,7 +495,7 @@ function parse_filters(src, id) {
         
         if(fld_value && fld_value!='')
             domains[$fld.attr('name')] = fld_value;
-    })
+    });
     domains = serializeJSON(domains);
     all_domains['domains'] = domains;
     all_domains['search_context'] =  search_context;
@@ -540,23 +508,19 @@ function parse_filters(src, id) {
     });
     
     var checked_button = all_boxes.toString();
-    check_domain = checked_button.length > 0? checked_button.replace(/(]\,\[)/g, ', ') : 'None';
+    check_domain = checked_button.length > 0? checked_button.replace(/(],\[)/g, ', ') : 'None';
     all_domains['check_domain'] = check_domain;
     all_domains = serializeJSON(all_domains);
     return all_domains;
 }
 
 function search_filter(src, id) {
-    var custom_columns = (jQuery('#custom_columns input:not(:checked)').map(function() {
-        return this.getAttribute('id').replace(/^display_column_/, '');
-    }).get().join(','));
-
     var all_domains = parse_filters(src, id);
     if(jQuery('#filter_table').is(':visible') || jQuery('#_terp_filter_domain').val() != '[]') {
-        display_Customfilters(all_domains, group_by, custom_columns);
+        display_Customfilters(all_domains, group_by);
     } else {
         var custom_domain = jQuery('#_terp_filter_domain').val() || '[]';
-        final_search_domain(custom_domain, all_domains, group_by, custom_columns);
+        final_search_domain(custom_domain, all_domains, group_by);
     }
 }
 
@@ -564,10 +528,10 @@ function save_filter() {
     var domain_list = parse_filters();
     var grps = group_by;
     var selectedFilter = jQuery('#filter_list option:selected');
-    selected_filter = selectedFilter.index() > 0 ? selectedFilter.text(): '';
+    var selected_filter = selectedFilter.index() > 0 ? selectedFilter.text(): '';
 
     if(group_by.length)
-        grps = group_by.join(',')
+        grps = group_by.join(',');
 
     var custom_domain = jQuery('#_terp_filter_domain').val() || '[]';
     openobject.http.postJSON('/openerp/search/eval_domain_filter', {
@@ -594,10 +558,10 @@ function manage_filters() {
         'model': jQuery('#_terp_model').val()}));
 }
 
-function final_search_domain(custom_domain, all_domains, group_by_ctx, custom_columns) {
+function final_search_domain(custom_domain, all_domains, group_by_ctx) {
 	var waitBox = new openerp.ui.WaitBox();
     if(group_by_ctx.length)
-        group_by_ctx = group_by_ctx.join(',')
+        group_by_ctx = group_by_ctx.join(',');
 	waitBox.showAfter(500);
 	jQuery.ajax({
 		url: '/openerp/search/eval_domain_filter',
@@ -625,7 +589,6 @@ function final_search_domain(custom_domain, all_domains, group_by_ctx, custom_co
 			    	openobject.dom.get('_terp_search_data').value = obj.search_data;
 			    	openobject.dom.get('_terp_context').value = in_obj.context;
 			    	openobject.dom.get('_terp_filter_domain').value = obj.filter_domain;
-			    	openobject.dom.get('_terp_custom_columns').value = custom_columns;
 			    	jQuery('#_terp_group_by_ctx').val(in_obj.group_by);
                     
                     var $search_callback = jQuery('#_terp_search_callback');

@@ -566,7 +566,7 @@ table.o2m_box div.pagerbar-header strong {
 
 .label,
 .action-buttons label {
-    color: #777777;
+    color: #4C4C4C;
     text-align: right;
     white-space: nowrap;
 }
@@ -607,6 +607,10 @@ table.o2m_box div.pagerbar-header strong {
     min-width: 100%;
 }
 
+.m2o_container {
+    padding-right: 20px;
+    white-space: nowrap;
+}
 .m2o {
     position: relative;
 }
@@ -616,7 +620,7 @@ table.o2m_box div.pagerbar-header strong {
     top: 0;
 }
 .item img.datetime {
-    margin-left: -13px;
+    margin-left: -18px;
 }
 
 img.m2o_select,
@@ -947,7 +951,22 @@ td.save-filter-header a{
 	margin: 2px;
 }
 
-/**
- * vim: sts=4 st=4 et
- *
- */
+.scroller {
+    position: absolute;
+    width: 14px;
+    display: none;
+    height: 100%;
+    background: no-repeat center center;
+    top: 0;
+}
+.scrolling .scroller {
+    display: block;
+}
+.left.scroller {
+    left: 0;
+    background-image: url(/openerp/static/images/scroll_left.png);
+}
+.right.scroller {
+    right: 0;
+    background-image: url(/openerp/static/images/scroll_right.png);
+}

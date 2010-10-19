@@ -88,11 +88,11 @@ ${_("""Depending on your needs, OpenERP is available through a web or applicatio
                 </tr>
                 <tr>
                     <td>
-                        <a target="_blank" href="http://openerp.com/">${_("Homepage")}</a>
+                        <a target="_blank" href="http://www.openerp.com/">${_("Homepage")}</a>
                     </td>
                 </tr><tr>
                     <td>
-                        <a target="_blank" href="http://openerp.com/downloads.html">${_("Download")}</a>
+                        <a target="_blank" href="http://www.openerp.com/downloads">${_("Download")}</a>
                     </td>
                 </tr><tr>
                     <td>
@@ -108,19 +108,19 @@ ${_("""Depending on your needs, OpenERP is available through a web or applicatio
                     </td>
                 </tr><tr>
                     <td>
-                        <a target="_blank" href="http://openerp.com/">${_("Community")}</a>
+                        <a target="_blank" href="http://www.openerp.com/community">${_("Community")}</a>
                     </td>
                 </tr><tr>
                     <td>
-                        <a target="_blank" href="http://ondemand.openerp.com/">${_("SaaS Offers")}</a>
+                        <a target="_blank" href="http://www.openerp.com/online">${_("SaaS Offers")}</a>
                     </td>
                 </tr><tr>
                     <td>
-                        <a target="_blank" href="http://openerp.com/buy/trainings.html">${_("Trainings")}</a>
+                        <a target="_blank" href="http://www.openerp.com/services/trainings">${_("Trainings")}</a>
                     </td>
                 </tr><tr>
                     <td>
-                        <a target="_blank" href="http://openerp.com/buy.html">${_("Services")}</a>
+                        <a target="_blank" href="http://www.openerp.com/services">${_("Services")}</a>
                     </td>
                 </tr>
             </table>

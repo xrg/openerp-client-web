@@ -36,8 +36,13 @@ def url(_cppath, _cpparams=None, **kw):
     kv = []
     for k, v in params.iteritems():
         if isinstance(k, basestring) and isinstance(v, basestring):
+            if isinstance(k, unicode):
+                k = k.encode('utf-8')
+            if isinstance(v, unicode):
+                v = v.encode('utf-8')
             k = urllib.quote_plus(k)
             v = urllib.quote_plus(v)
+
         kv.append("%s=%s" % (k, v))
 
     query = '&'.join(kv)

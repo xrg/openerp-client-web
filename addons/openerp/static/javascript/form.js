@@ -7,17 +7,17 @@
 // Developed by Tiny (http://openerp.com) and Axelor (http://axelor.com).
 //
 // The OpenERP web client is distributed under the "OpenERP Public License".
-// It's based on Mozilla Public License Version (MPL) 1.1 with following 
+// It's based on Mozilla Public License Version (MPL) 1.1 with following
 // restrictions:
 //
-// -   All names, links and logos of Tiny, OpenERP and Axelor must be 
-//     kept as in original distribution without any changes in all software 
-//     screens, especially in start-up page and the software header, even if 
-//     the application source code has been changed or updated or code has been 
+// -   All names, links and logos of Tiny, OpenERP and Axelor must be
+//     kept as in original distribution without any changes in all software
+//     screens, especially in start-up page and the software header, even if
+//     the application source code has been changed or updated or code has been
 //     added.
 //
 // -   All distributions of the software must keep source code with OEPL.
-// 
+//
 // -   All integrations to any other software must keep source code with OEPL.
 //
 // If you need commercial licence to remove this kind of restriction please
@@ -37,18 +37,18 @@ function get_form_action(action, params){
 function openRecord(id, src, target, readonly){
 
     var kind = getNodeAttribute(src + '_set', 'kind');
-    
+
     if (!kind && openobject.dom.get('_o2m_' + src)) {
         kind = "one2many";
     }
-    
+
     if (kind == "one2many") {
         new One2Many(src).edit(id, readonly);
         return;
     }
-    
+
     var prefix = src && src != '_terp_list' ? src + '/' : '';
-    
+
     var args = {
         'model': openobject.dom.get(prefix + '_terp_model').value,
         'id': id || 'False',
@@ -65,20 +65,20 @@ function openRecord(id, src, target, readonly){
         'filter_domain': jQuery('#_terp_filter_domain').val() || [],
         'notebook_tab': jQuery('#_terp_notebook_tab').val() || 0
     };
-    
+
     var action = readonly ? 'view' : 'edit';
-    
+
     if (target == '_blank') {
         window.open(get_form_action(action, args));
         return;
     }
-    
+
     if (kind == 'many2many') {
         args['source'] = src;
         openobject.tools.openWindow(get_form_action('/openerp/openm2m/edit', args));
         return;
     }
-    
+
     openLink(get_form_action(action, args));
 }
 
@@ -94,7 +94,7 @@ function editSelectedRecord(){
 
     var lst = new ListView('_terp_list');
     var ids = lst.getSelectedRecords();
-    
+
     if (ids && ids.length > 5) {
         var msg = _('You selected to open %(tabs)s tabs - do you want to continue?');
         msg = msg.replace('%(tabs)s', ids.length);
@@ -102,7 +102,7 @@ function editSelectedRecord(){
             return;
         }
     }
-    
+
     forEach(ids, function(id){
         editRecord(id, '_terp_list', '_blank');
     });
@@ -113,20 +113,22 @@ function switchView(view_type, src){
     	alert('There are no records to display diagram view.')
     	return;
     }
-	
+
     var args = {
         '_terp_source': src,
         '_terp_source_view_type': view_type
     }
-    
+
     if (openobject.dom.get('_terp_list')) {
         var ids = new ListView('_terp_list').getSelectedRecords();
         if (ids.length > 0) {
             openobject.dom.get('_terp_id').value = ids[0];
         }
     }
-    var get_action = validate_action('switch', args);
-    submit_form(get_action);
+    submit_form(get_form_action('switch', {
+        '_terp_source': src,
+        '_terp_source_view_type': view_type
+    }));
 }
 
 function switch_O2M(view_type, src){
@@ -244,20 +246,12 @@ function error_display(msg) {
                         jQuery("<td>", {'colspan': 2, align: 'right'}).append(
                             jQuery("<a>", {'class': 'button-a', 'href': 'javascript: void(0)'})
                             .click(function(){jQuery.fancybox.close();})
-                            .text('OK')        
+                            .text('OK')
                         )
                 ));
     jQuery.fancybox(error, {scrolling: 'no'});
 }
 
-function o2m_pager_action(action, src){
-    var source = src ? (typeof(src) == "string" ? src : src.name) : null;
-    var args = {
-        _terp_source: source
-    }
-    var get_action = validate_action(action, args)
-    submit_form(get_action);
-}
 
 function submit_form(action, src, target){
 
@@ -265,66 +259,67 @@ function submit_form(action, src, target){
         callLater(1, submit_form, action, src, target);
         return;
     }
-    
+
     if (action == 'delete' && !confirm(_('Do you really want to delete this record?'))) {
         return;
     }
-    
-    
+
+
     var source = src ? (typeof(src) == "string" ? src : src.name) : null;
-    
+
     var args = {
         _terp_source: source
     };
-    
+
     var $form = jQuery('#view_form');
     if (target == "new" || target == "_blank") {
         $form.attr('target', '_blank');
+    } else {
+        $form.removeAttr('target');
     }
-    else {
-        $form.attr('target', '');
-    }
-    
+
     if (action == 'save_and_edit') {
         action = 'save';
         args['_terp_return_edit'] = 1;
     }
-    
+
     action = get_form_action(action, args);
-    
+
     if (/\/save(\?|\/)?/.test(action) && !validate_required($form.get(0))) {
         return;
     }
-    
+
     // Cant use $form.attr due to http://dev.jquery.com/ticket/3113 as there is a form with a field called
     // action when creating an activity
     $form.get(0).setAttribute('action', action);
     $form.submit();
 }
 
-function pager_action(action, src){
-    var get_action = validate_action(action ? action : 'find', {})
-    return src ? new ListView(src).go(action) : submit_form(get_action);
+function pager_action(src){
+    var $src = jQuery(src);
+    var action = $src.attr('action');
+    var relation = $src.attr('relation');
+    return relation ? new ListView(relation).go(action) : submit_form(action ? action : 'find');
 }
 
 function buttonClicked(name, btype, model, id, sure, target, context){
     if (sure && !confirm(sure)) {
         return;
     }
-    
+
     var params = {
         '_terp_button/name': name,
         '_terp_button/btype': btype,
         '_terp_button/model': model,
         '_terp_button/id': id
     };
-    
+
     if (!context || context == "{}") {
         var act = get_form_action(btype == 'cancel' ? 'cancel' : 'save', params);
         submit_form(act, null, target);
         return;
     }
-    
+
     var req = eval_domain_context_request({
         source: "",
         domain: "[]",
@@ -332,7 +327,7 @@ function buttonClicked(name, btype, model, id, sure, target, context){
     });
     req.addCallback(function(obj){
         params['_terp_button/context'] = obj.context || 0;
-        
+
         var act = get_form_action(btype == 'cancel' ? 'cancel' : 'save', params);
         submit_form(act, null, target);
     });
@@ -359,11 +354,11 @@ function onBooleanClicked(name){
 function getFormData(extended){
 
     var parentNode = openobject.dom.get('_terp_list') || document.forms['view_form'];
-    
+
     var frm = {};
-    
+
     var is_editable = jQuery('#_terp_editable').val() == 'True';
-    
+
     var $fields = jQuery(parentNode).find('img[kind=picture]');
     if (is_editable) {
         $fields = $fields.add('input, textarea, select', parentNode);
@@ -371,28 +366,28 @@ function getFormData(extended){
     else {
         $fields = $fields.add('[kind=value], [name$=/__id]');
     }
-    
+
     $fields.each(function(){
         var $this = jQuery(this);
         var name = is_editable ? this.name : this.id;
-        
+
         if (this.tagName.toLowerCase() != 'img' && !name) {
             return;
         }
-        
+
         name = name.replace('_terp_listfields/', '');
-        
+
         // don't include _terp_ fields except _terp_id
         if (/_terp_/.test(name) && !/_terp_id$/.test(name)) {
             return;
         }
-        
+
         // work around to skip o2m values (list mode)
         var value;
         if (name.indexOf('/__id') > 0) {
-        
+
             name = name.replace('/__id', '');
-            
+
             if (openobject.dom.get(name + '/_terp_view_type').value == 'form') {
                 frm[name + '/__id'] = openobject.dom.get(name + '/__id').value;
                 return;
@@ -401,7 +396,7 @@ function getFormData(extended){
             if (openobject.dom.select("[name^=_terp_listfields/" + name + "]").length) {
                 return;
             }
-            
+
             value = openobject.dom.get(name + '/_terp_ids').value;
             if (extended) {
                 value = serializeJSON({
@@ -410,50 +405,50 @@ function getFormData(extended){
                     'relation': openobject.dom.get(name + '/_terp_model').value
                 });
             }
-            
+
             frm[name] = value;
             return;
         }
-        
+
         if (extended && name.indexOf('/__id') == -1) {
             var attrs = {};
-            
+
             value = (is_editable ? this.value : $this.attr('value')) || "";
             var kind = $this.attr('kind') || "char";
-            
+
             //take care of _terp_id
             if (/_terp_id$/.test(name)) {
-            
+
                 //  only the resource id and all O2M
                 name = name.replace(/_terp_id$/, '');
                 if (name && !openobject.dom.get(name + '__id')) {
                     return;
                 }
-                
+
                 name = name + 'id';
-                
+
                 if (!openobject.dom.get(name)) {
                     return;
                 }
-                
+
                 kind = 'integer';
                 value = value == 'False' ? '' : value;
             }
-            
+
             attrs['value'] = typeof(value) == "undefined" ? '' : value;
-            
+
             if (kind) {
                 attrs['type'] = kind;
             }
-            
+
             if (extended && (kind == 'many2one' || kind == 'many2many')) {
                 attrs['relation'] = $this.attr('relation');
             }
-            
+
             if (extended > 1 && $this.hasClass('requiredfield')) {
                 attrs['required'] = 1;
             }
-            
+
             switch (kind) {
                 case "picture":
                     name = this.id;
@@ -471,16 +466,16 @@ function getFormData(extended){
                     attrs['value'] = "[" + value + ",'" + $this.attr('relation') + "']";
                     break;
             }
-            
+
             // stringify the attr object
             frm[name] = serializeJSON(attrs);
-            
+
         }
         else {
             frm[name] = this.value;
         }
     });
-    
+
     return frm;
 }
 
@@ -491,20 +486,20 @@ function getFormData(extended){
 function getFormParams(name){
 
     var parentNode = document.forms['view_form'];
-    
+
     var frm = {};
     var fields = openobject.dom.select('input', parentNode);
-    
+
     forEach(fields, function(e){
-    
+
         if (!e.name || e.name.indexOf('_terp_listfields/') > -1 || e.name.indexOf('_terp_') == -1) {
             return
         }
-        
+
         if (name && e.name != name) {
             return;
         }
-        
+
         if (typeof(frm[e.name]) != "undefined") {
             frm[e.name] = MochiKit.Base.flattenArray([frm[e.name], e.value]);
         }
@@ -512,7 +507,7 @@ function getFormParams(name){
             frm[e.name] = e.value;
         }
     });
-    
+
     return frm;
 }
 
@@ -520,19 +515,19 @@ function onChange(caller){
     caller = openobject.dom.get(caller);
     var callback = jQuery(caller).attr('callback');
     var change_default = jQuery(caller).attr('change_default');
-    
+
     if (!(callback || change_default) || caller.__lock_onchange) {
         return;
     }
-    
+
     var is_list = caller.id.indexOf('_terp_listfields') == 0;
     var prefix = caller.name || caller.id;
     prefix = prefix.slice(0, prefix.lastIndexOf('/') + 1);
-    
+
     var model = is_list ? openobject.dom.get(prefix.slice(17) + '_terp_model').value : openobject.dom.get(prefix + '_terp_model').value;
     var context = is_list ? openobject.dom.get(prefix.slice(17) + '_terp_context').value : openobject.dom.get(prefix + '_terp_context').value;
     var id = is_list ? openobject.dom.get(prefix.slice(17) + '_terp_id').value : openobject.dom.get(prefix + '_terp_id').value;
-    
+
     var req = openobject.http.postJSON(callback ? '/openerp/form/on_change' : '/openerp/form/change_default_get', jQuery.extend({}, getFormData(1), {
         _terp_caller: is_list ? caller.id.slice(17) : caller.id,
         _terp_callback: callback,
@@ -541,16 +536,16 @@ function onChange(caller){
         _terp_value: caller.value,
         id: id
     }));
-    
+
     req.addCallback(function(obj){
-    
+
         if (obj.error) {
             return error_popup(obj)
         }
-        
+
         var values = obj['value'];
         var domains = obj['domain'];
-        
+
         domains = domains ? domains : {};
         var fld;
         for (var domain in domains) {
@@ -559,29 +554,29 @@ function onChange(caller){
                 jQuery(fld).attr('domain', domains[domain]);
             }
         }
-        
+
         var flag;
         var value;
         for (var k in values) {
             flag = false;
             fld = openobject.dom.get(prefix + k);
-            
+
             value = values[k];
             value = value === false || value === null ? '' : value;
-            
+
             // prevent recursive onchange
             fld.__lock_onchange = true;
-            
+
             if (openobject.dom.get(prefix + k + '_id')) {
                 fld = openobject.dom.get(prefix + k + '_id');
                 flag = true;
             }
-            
+
             if ((fld.value !== value) || flag) {
                 fld.value = value;
-                
+
                 var kind = jQuery(fld).attr('kind');
-                
+
                 switch (kind) {
                     case 'picture':
                         fld.src = value;
@@ -590,7 +585,7 @@ function onChange(caller){
                         fld.value = value[0] || '';
                         try {
                             openobject.dom.get(prefix + k + '_text').value = value[1] || '';
-                        } 
+                        }
                         catch (e) {
                         }
                         break;
@@ -603,21 +598,13 @@ function onChange(caller){
                         }
                         break;
                     case 'selection':
-                        if (isArrayLike(value)) {
-                            var opts = [];
-                            opts.push(OPTION({
-                                'value': ''
-                            }));
-                            
+                        if (typeof(value)=='object') {
+                            var opts = [OPTION({'value': ''})];
                             for (i in value) {
                                 var item = value[i];
-                                opts.push(OPTION({
-                                    'value': item[0]
-                                }, item[1]));
+                                opts.push(OPTION({'value': item[0]}, item[1]));
                             }
-                            MochiKit.DOM.replaceChildNodes(fld, map(function(x){
-                                return x;
-                            }, opts));
+                            MochiKit.DOM.replaceChildNodes(fld, map(function(x){return x;}, opts));
                         }
                         else {
                             fld.value = value;
@@ -655,13 +642,13 @@ function onChange(caller){
 function getName(name, relation){
     var value_field = openobject.dom.get(name);
     var text_field = openobject.dom.get(value_field.name + '_text');
-    
+
     relation = relation ? relation : jQuery(value_field).attr('relation');
-    
+
     if (value_field.value == '') {
         text_field.value = ''
     }
-    
+
     if (value_field.value) {
         var req = openobject.http.getJSON('/openerp/search/get_name', {
             model: relation,
@@ -678,10 +665,10 @@ function eval_domain_context_request(options){
     if ((!options.domain || options.domain == '[]') && (!options.context || options.context == '{}')) {
         return new MochiKit.Async.succeed(-1);
     }
-    
+
     var prefix = options.source.split("/");
     prefix.pop();
-    
+
     // editable listview fields
     if (prefix[0] == '_terp_listfields') {
         prefix.shift();
@@ -693,44 +680,44 @@ function eval_domain_context_request(options){
         '_terp_active_id': openobject.dom.get(prefix.concat('_terp_id').join('/')).value,
         '_terp_active_ids': openobject.dom.get(prefix.concat('_terp_ids').join('/')).value
     });
-    
-    if (options.group_by_ctx && options.group_by_ctx.length > 0) 
+
+    if (options.group_by_ctx && options.group_by_ctx.length > 0)
         params['_terp_group_by'] = options.group_by_ctx;
-    else 
+    else
         params['_terp_group_by'] = '[]';
-    
+
     if (options.active_id) {
         params['_terp_active_id'] = options.active_id;
         params['_terp_active_ids'] = options.active_ids;
     }
-    
+
     var parent_context = openobject.dom.get(prefix.concat('_terp_context').join('/'));
-    
+
     if (parent_context) {
         params['_terp_parent_context'] = parent_context.value;
     }
-    
+
     var req = openobject.http.postJSON('/openerp/search/eval_domain_and_context', params);
     return req.addCallback(function(obj){
-    
+
         if (obj.error_field) {
-        
+
             var fld = openobject.dom.get(obj.error_field) || openobject.dom.get('_terp_listfields/' + obj.error_field);
-            
+
             if (fld && jQuery(fld).attr('kind') == 'many2one') {
                 fld = openobject.dom.get(fld.id + '_text');
             }
-            
+
             if (fld) {
                 fld.focus();
                 fld.select();
             }
         }
-        
+
         if (obj.error) {
             return error_popup(obj.error)
         }
-        
+
         return obj;
     });
 }
@@ -742,11 +729,11 @@ function open_search_window(relation, domain, context, source, kind, text){
         'domain': domain,
         'context': context
     });
-    
+
     if (kind == 2 && source.indexOf('_terp_listfields/') == 0) {
         text = "";
     }
-    
+
     req.addCallback(function(obj){
         openobject.tools.openWindow(openobject.http.getURL('/openerp/search/new', {
             'model': relation,
@@ -761,153 +748,111 @@ function open_search_window(relation, domain, context, source, kind, text){
 
 function makeContextMenu(id, kind, relation, val){
     var act = get_form_action('get_context_menu');
-    
+
     var prefix = id.indexOf('/') > -1 ? id.slice(0, id.lastIndexOf('/')) + '/' : '';
-    
+
     var model = prefix ? openobject.dom.get(prefix + '_terp_model').value : openobject.dom.get('_terp_model').value;
-    
-    var params = {
+
+    openobject.http.postJSON(act, {
         'model': model,
         'field': id,
         'kind': kind,
         'relation': relation,
         'value': val
-    };
-    
-    var req = openobject.http.postJSON(act, params);
-    
-    req.addCallback(function(obj){
-        var r, o, a;
-        var rows = [];
-        
-        for (r in obj.defaults) {
-            o = obj.defaults[r];
-            a = SPAN({
-                onclick: 'hideElement("contextmenu"); return ' + o.action
-            }, o.text);
-            rows = rows.concat(a);
+    }).addCallback(function(obj){
+        var $tbody = jQuery('<tbody>');
+        jQuery.each(obj.defaults, function (_, default_) {
+            jQuery('<tr>').append(jQuery('<td>').append(
+                jQuery('<span>').click(function () {
+                    hideContextMenu();
+                    return eval(default_.action);
+                }).text(default_.text))).appendTo($tbody);
+        });
+        if (obj.actions.length) {
+            $tbody.append('<hr>');
+            jQuery.each(obj.actions, function (_, action) {
+                jQuery('<tr>').append(jQuery('<td>').append(
+                    jQuery('<span>')
+                        .attr('class', action.action ? '' : 'disabled')
+                        .click(function () {
+                            if(action.action) {
+                                hideContextMenu();
+                                return eval(action.action);
+                            }
+                        }).text(action.text))).appendTo($tbody);
+            });
         }
-        if (obj.actions.length > 0) {
-            rows = rows.concat(HR());
-            
-            for (r in obj.actions) {
-                o = obj.actions[r];
-                
-                a = SPAN({
-                    'class': o.action ? '' : 'disabled',
-                    'onclick': o.action ? 'hideElement("contextmenu"); return ' + o.action : ''
-                }, o.text);
-                
-                rows = rows.concat(a);
-            }
+        if (obj.relates.length) {
+            $tbody.append('<hr>');
+
+            jQuery.each(obj.relates, function (_, relate) {
+                jQuery('<tr>').append(jQuery('<td>').append(
+                    jQuery('<span>')
+                        .css({
+                            'class': relate.action ? '' : 'disabled',
+                            'domain': relate.domain,
+                            'context': relate.domain
+                        }).click(function () {
+                            if(relate.action) {
+                                hideContextMenu();
+                                return eval(relate.action);
+                            }
+                        }).text(relate.text))).appendTo($tbody);
+            });
         }
-        
-        if (obj.relates.length > 0) {
-            rows = rows.concat(HR());
-            
-            for (r in obj.relates) {
-                o = obj.relates[r];
-                
-                a = SPAN({
-                    'class': o.action ? '' : 'disabled',
-                    'onclick': o.action ? 'hideElement(\'contextmenu\'); return ' + o.action : '',
-                    'domain': o.domain,
-                    'context': o.context
-                }, o.text);
-                
-                rows = rows.concat(a);
-            }
-        }
-        
-        openobject.dom.get('contextmenu').innerHTML = '';
-        
-        var tbl = TABLE({
-            'cellpadding': 0,
-            'cellspacing': 0
-        }, TBODY(null, map(function(r){
-            return TR(null, TD(null, r));
-        }, rows)));
-        
-        appendChildNodes('contextmenu', tbl);
-        
-        var ctx_menu = openobject.dom.get('contextmenu');
-        ctx_menu.style.left = ctx_menu.pageX + 'px';
-        ctx_menu.style.top = ctx_menu.pageY + 'px';
-        
+        jQuery('#contextmenu').empty().append(
+            jQuery('<table cellpadding="0" cellspacing="0">').append($tbody));
+
         showContextMenu();
     });
 }
 
 function showContextMenu(){
+    var $menu = jQuery('#contextmenu');
+    var $ifrm = jQuery('#contextmenu_frm');
 
-    var menu = openobject.dom.get('contextmenu');
-    var ifrm = openobject.dom.get('contextmenu_frm');
-    
-    showElement(menu);
-    
-    if (ifrm) {
-    
-        ifrm.style.left = menu.offsetLeft + "px";
-        ifrm.style.top = menu.offsetTop + "px";
-        ifrm.style.width = menu.offsetWidth + "px";
-        ifrm.style.height = menu.offsetHeight + "px";
-        ifrm.style.zIndex = 6;
-        
-        showElement(ifrm);
+    $menu.show();
+    if ($ifrm.length) {
+        $ifrm.offset($menu.offset())
+             .css({
+                  width: $menu.offsetWidth(),
+                  height: $menu.offsetHeight(),
+                  zIndex: 6
+              }).show();
     }
 }
 
 function hideContextMenu(){
-    var menu = openobject.dom.get('contextmenu');
-    var ifrm = openobject.dom.get('contextmenu_frm');
-    
-    if (ifrm) {
-        hideElement(ifrm);
-    }
-    
-    hideElement(menu);
+    jQuery('#contextmenu, #contextmenu_frm').hide();
 }
 
-function set_to_default(field, model){
-
-    var kind = getNodeAttribute(openobject.dom.get(field), 'kind');
-    
-    var act = get_form_action('get_default_value');
-    var params = {
+function set_to_default(field_id, model){
+    openobject.http.postJSON(get_form_action('get_default_value'), {
         'model': model,
-        'field': field
-    };
-    
-    var req = openobject.http.postJSON(act, params);
-    req.addCallback(function(obj){
-    
-        openobject.dom.get(field).value = obj.value;
-        signal(field, "onchange");
+        'field': field_id
+    }).addCallback(function(obj){
+        jQuery('[id="' + field_id + '"]')
+                .val(obj.value);
+        // jQuery().change doesn't trigger Mochikit's handler?
+        signal(field_id, "onchange");
     });
 }
 
 function set_as_default(field, model){
-
-    var kind = getNodeAttribute(openobject.dom.get(field), 'kind');
-    
-    var args = getFormData(1);
-    
-    args['_terp_model'] = model;
-    args['_terp_field'] = field;
-    
-    var req = openobject.http.postJSON('/openerp/fieldpref/get', args);
-    
-    req.addCallback(function(obj){
-        var text = obj.text;
-        var params = {
-            '_terp_model': model,
-            '_terp_field/name': field,
-            '_terp_field/string': text,
-            '_terp_field/value': openobject.dom.get(field).value,
-            '_terp_deps': obj.deps
-        };
-        
-        openobject.tools.openWindow(openobject.http.getURL('/openerp/fieldpref', params), {
+    openobject.http.postJSON(
+        '/openerp/fieldpref/get',
+        jQuery.extend({}, getFormData(1), {
+            _terp_model: model,
+            _terp_field: field
+    })).addCallback(function(obj){
+        openobject.tools.openWindow(
+            openobject.http.getURL('/openerp/fieldpref', {
+                '_terp_model': model,
+                '_terp_field/name': field,
+                '_terp_field/string': obj.text,
+                '_terp_field/value': openobject.dom.get(field).value,
+                '_terp_deps': obj.deps
+            }), {
             width: 500,
             height: 350
         });
@@ -917,19 +862,27 @@ function set_as_default(field, model){
 function do_report(id, relation){
 
     id = openobject.dom.get(id).value;
-    
+
     var act = get_form_action('report');
     var params = {
         '_terp_model': relation,
         '_terp_id': id
     };
-    
+
     window.open(openobject.http.getURL(act, params));
 }
 
-function do_action(action_id, field, relation, src, data, context_menu){
-
+function do_action(src){
+    var $src = jQuery(src);
+    var action_id = $src.attr('action_id');
+    var field = '_terp_id';
+    
+    var relation = $src.attr('relation');
+    var data = $src.attr('data');
     var params = {};
+    
+    var domain = $src.attr('domain');
+    var context = $src.attr('context');
 
     if (openobject.dom.get('_terp_list')) {
         var list = new ListView('_terp_list');
@@ -942,21 +895,19 @@ function do_action(action_id, field, relation, src, data, context_menu){
         params['_terp_selection'] = '[' + ids.join(',') + ']';
     }
 
-    var id = openobject.dom.get(field).value;
-    var domain = getNodeAttribute(src, 'domain');
-    var context = getNodeAttribute(src, 'context');
-    var context_menu = context_menu ? true: null;
+    var id = jQuery('#'+field).val();
+    var source = jQuery('#'+field).attr('id');
 
     var req = eval_domain_context_request({
-        'source': openobject.dom.get(field).id,
+        'source': source,
         'active_id': id,
         'active_ids': params['_terp_selection'],
         'domain': domain,
         'context': context
     });
-    
+
     req.addCallback(function(obj){
-    
+
         var act = get_form_action('action');
         MochiKit.Base.update(params, {
             '_terp_action': action_id,
@@ -964,8 +915,7 @@ function do_action(action_id, field, relation, src, data, context_menu){
             '_terp_context': obj.context,
             '_terp_id': id,
             '_terp_model': relation,
-            'datas': data,
-            'context_menu': context_menu
+            'datas': data
         });
 
         window.open(openobject.http.getURL(act, params));
@@ -973,84 +923,76 @@ function do_action(action_id, field, relation, src, data, context_menu){
     });
 }
 
+function translate_fields(src){
+	var $src = jQuery(src);
+	var relation = $src.attr('relation');
+	var id = $src.attr('id');
+	var ctx = $src.attr('data');
+
+	openobject.tools.openWindow(openobject.http.getURL('/openerp/translator',{
+        _terp_model: relation,
+        _terp_id: id,
+        _terp_context: ctx
+    }));
+}
+
 function on_context_menu(evt){
 
     if (!evt.modifier()) {
         return;
     }
-    
-    var target = evt.target();
-    var kind = getNodeAttribute(target, 'kind');
-    
-    if (!kind || target.disabled) {
+    var $target = jQuery(evt.target());
+
+    var kind = $target.attr('kind');
+
+    if (!(kind && $target.is(':input, :enabled'))) {
         return;
     }
-    
-    var menu = openobject.dom.get('contextmenu');
-    
-    if (!menu) {
-    
-        menu = DIV({
-            'id': 'contextmenu',
-            'class': 'contextmenu',
-            'onmouseout': 'hideContextMenu()',
-            'onmouseover': 'showContextMenu()',
-            'style': 'position: absolute; display: none;'
-        });
-        
-        appendChildNodes(document.body, menu);
-        
-        if (/msie/.test(navigator.userAgent.toLowerCase())) {
-            var ifrm = createDOM('IFRAME', {
-                'id': 'contextmenu_frm',
-                'src': '#',
-                'frameborder': '0',
-                'scrolling': 'no',
-                'style': 'position: absolute; display: none;'
-            });
-            
-            appendChildNodes(document.body, ifrm);
+    var $menu = jQuery('#contextmenu').show();
+
+    if (!$menu.length) {
+        $menu = jQuery('<div id="contextmenu" class="contextmenu">')
+                .css({position: 'absolute'})
+                .hover(showContextMenu, hideContextMenu)
+                .appendTo(document.body).show();
+
+        if (jQuery(document.documentElement).hasClass('ie')) {
+            jQuery('<iframe id="contextmenu_frm" src="#" frameborder="0" scrolling="no">')
+                    .css({position: 'absolute'})
+                    .hide().appendTo(document.body);
         }
     }
-    
-    var src = target.id;
-    
+
+    var src = $target.attr('id');
     if (kind == 'many2one') {
         src = src.slice(0, -5);
     }
-    
-    var val = openobject.dom.get(src).value;
-    var relation = getNodeAttribute(src, 'relation');
-    
-    hideElement(menu);
-    
-    var p = evt.mouse().page;
-    
-    setElementPosition(menu, p);
-    
-    makeContextMenu(src, kind, relation, val);
-    
+    var $src = jQuery('[id="' + src + '"]');
+
+    var click_position = evt.mouse().page;
+    $menu.offset({top: 0, left: 0});
+    $menu.offset({top: click_position.y - 5, left: click_position.x - 5});
+    $menu.hide();
+    makeContextMenu(src, kind, $src.attr('relation'), $src.val());
+
     evt.stop();
 }
 
 function open_url(site){
     var web_site;
-    
-    isIE = /msie/.test(navigator.userAgent.toLowerCase());
-    
-    if (isIE && site.indexOf('@') > -1) {
+
+    if (jQuery(document.documentElement).hasClass('ie') && site.indexOf('@') > -1) {
         site = site.split('@');
         site = site[1]
     }
-    
+
     if (site.indexOf("://") == -1) {
         web_site = 'http://' + site;
-    }
-    else {
+    } else {
         web_site = site;
     }
-    
-    if (site.length > 0) {
+
+    if (site.length) {
         window.open(web_site);
     }
 }
@@ -1065,7 +1007,7 @@ function submenu_action(action_id, model){
 
 function show_wkf(){
     var id;
-    
+
     if (jQuery('#_terp_list').length) {
         var lst = new ListView('_terp_list');
         var ids = lst.getSelectedRecords();
@@ -1080,7 +1022,7 @@ function show_wkf(){
         var element = jQuery('#_terp_id');
         id = element && element.val() != 'False' ? element.val() : null;
     }
-    
+
     openobject.tools.openWindow(openobject.http.getURL('/view_diagram/workflow', {
         model: jQuery('#_terp_model').val(),
         rec_id: id
@@ -1109,12 +1051,12 @@ function removeAttachment(){
                 if (obj.error) {
                     error_popup(obj.error);
                 }
-                
+
                 jQuery(attachment_line).remove();
             }
         });
     }
-    
+
     return false;
 }
 
@@ -1137,7 +1079,7 @@ function createAttachment(){
                 'id': 'attachment_item_' + data['id'],
                 'data-id': data['id']
             });
-            
+
             jQuery([jQuery('<a>', {
                 'rel': 'external',
                 'href': openobject.http.getURL('/openerp/attachment/get', {
@@ -1145,7 +1087,7 @@ function createAttachment(){
                 }),
                 'class': 'attachment-file'
             }).text(data['name']), jQuery('<span>|</span>'), jQuery("<a href='#' class='close'>Close</a>")]).appendTo(attachment_line);
-            
+
             jQuery('#attachments').append(attachment_line);
             form.resetForm();
             form.hide();
@@ -1156,7 +1098,7 @@ function createAttachment(){
 
 function setupAttachments(){
     jQuery('#attachments').delegate('li a.close', 'click', removeAttachment);
-    
+
     var attachmentsForm = jQuery('#attachment-box').hide();
     jQuery('#add-attachment').click(function(e){
         attachmentsForm.show();
@@ -1228,21 +1170,33 @@ function toggle_shortcut(){
 }
 
 
-var is_form_changed = false;
 function validateForm(){
-    is_form_changed = false;
     jQuery('#view_form table tr td:first').find('input:not([type=hidden]), select').change(function(){
-        is_form_changed = true;
+        jQuery('#view_form').data('is_form_changed', true);
     });
 }
 
-function validate_action(action, args){
-    var args = args;
-    
-    if (is_form_changed) {
-        if (confirm('The record has been modified \n Do you want to save it ?')) {
-            args['_terp_save_current_id'] = 1;
+function validate_action() {
+    var $form = jQuery('#view_form');
+    if ($form.data('is_form_changed') && confirm('The record has been modified \n Do you want to save it ?')) {
+        if (!validate_required($form.get(0))) {
+            return;
         }
+        
+        $form.ajaxSubmit({
+            error: loadingError,
+            async: false,
+            success: function(data, status, xhr){
+                if (arguments.length) {
+                    $form.find('#_terp_id').val(jQuery(xhr.responseText).find('#_terp_id').val());
+                }
+                $form.removeData('is_form_changed');
+            }
+        });
     }
-    return get_form_action(action, args)
+    if (arguments.length) {
+        var params = arguments[0];
+        var action = arguments[1];
+        action(params);
+    }
 }

@@ -16,24 +16,9 @@
             if(DOCUMENT_TO_LOAD && !hashUrl()) {
                 openLink(DOCUMENT_TO_LOAD);
             }
-
-            jQuery('.toggle-menu').toggler('#content')
         });
         
     </script>
-    <!--[if IE]>
-    <style type="text/css">
-        div#applications_menu ul,
-        div#applications_menu ul li {
-            display: inline;
-        }
-        
-        div#applications_menu ul li span {
-            cursor: hand;
-        }
-    </style>
-    <![endif]-->
-
 </%def>
 
 <%def name="content()">
@@ -82,7 +67,6 @@
                             </script>
                         </div>
                     </td>
-                    <td class="toggle-menu"></td>
                     <td id="primary" width="100%" height="100%">
                         <div class="wrap">
                             <div id="appContent"></div>

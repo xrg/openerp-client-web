@@ -90,6 +90,8 @@ class RangeWidget(TinyInputWidget):
 
     label_type = RangeWidgetLabel
 
+    colspan=3
+
     def __init__(self, **attrs):
         super(RangeWidget, self).__init__(**attrs)
 
@@ -208,6 +210,8 @@ class Search(TinyInputWidget):
         self.model = model
         self.groupby = []
         self.source = source
+        if kw.get('clear'):
+            self.source = None
         if group_by_ctx and isinstance(group_by_ctx, basestring):
             self.groupby += group_by_ctx.split(',')
         else:
@@ -302,7 +306,7 @@ class Search(TinyInputWidget):
                 filters_run = []
 
             attrs = node_attributes(node)
-            attrs.update(label_position='True',
+            attrs.update(is_search=True,
                          model=search_model)
 
             if 'nolabel' in attrs:
@@ -403,6 +407,7 @@ class Search(TinyInputWidget):
                                     domain = [(name,fields[name].get('comparator','ilike'), s)]
                                 elif field.kind in ('selection', 'many2one'):
                                     domain = [(name, '=', s)]
+
                             field.set_value(s)
                             self.listof_domain += [i for i in domain if not i in self.listof_domain]
                             self.context.update(expr_eval(attrs.get('context',"{}"), {'self': s}))
@@ -434,9 +439,19 @@ class Search(TinyInputWidget):
             views.append(FiltersGroup(children=filters_run))
         return views
 
+class FiltersGroup(form.Group):
+    """ Special group for groups of *filters*, in order to generate
+    the right markup and style the buttons correctly.
+    """
+    template = "/openerp/widgets/templates/search/filters_group.mako"
+    colspan=1
+    is_search = True
+    def __init__(self, **attrs):
+        attrs['is_search'] = True
+        super(FiltersGroup, self).__init__(**attrs)
+
 class Char(form.Char): pass
 class DateTime(form.DateTime): pass
-class FiltersGroup(form.FiltersGroup): pass
 class Float(form.Float): pass
 class Frame(form.Frame): pass
 class Group(form.Group): pass

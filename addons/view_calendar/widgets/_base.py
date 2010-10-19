@@ -89,7 +89,7 @@ class TinyEvent(TinyWidget):
         self.dayspan = dayspan
 
         self.title = title
-        self.description = description
+        self.description = description or ''
         self.color = color
         self.create_date = ustr(record.get('create_date'))
         self.create_uid = ustr(record.get('create_uid'))
@@ -105,7 +105,7 @@ class ICalendar(TinyWidget):
     date_delay = None
     date_stop = None
     color_field = None
-    day_length = 8
+    day_length = 24
     use_search = False
     selected_day = None
     date_format = '%Y-%m-%d'
@@ -164,7 +164,7 @@ class ICalendar(TinyWidget):
         self.date_delay = attrs.get('date_delay')
         self.date_stop = attrs.get('date_stop')
         self.color_field = attrs.get('color')
-        self.day_length = int(attrs.get('day_length', 8))
+        self.day_length = int(attrs.get('day_length', 24))
 
         if options and options.mode:
             self.mode = options.mode
@@ -303,7 +303,7 @@ class ICalendar(TinyWidget):
                 result.append(e)
             if e.dayspan == 0 and days[0] <= e.starts:
                 result.append(e)
-                
+
         return result
 
     def get_event_widget(self, event):
@@ -321,9 +321,9 @@ class ICalendar(TinyWidget):
 
             for f in self.info_fields[1:]:
                 s = event[f]
-                if isinstance(s, (tuple, list)): s = s[-1]
-
-                description.append(ustr(s))
+                if isinstance(s, (tuple, list)):
+                    s = s[-1]
+                description.append(ustr(s or ''))
 
         starts = event.get(self.date_start)
         ends = event.get(self.date_delay) or 1.0
