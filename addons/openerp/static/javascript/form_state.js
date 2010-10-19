@@ -275,7 +275,7 @@ function form_setReadonly(container, fieldName, readonly) {
         ManyToOne(field_id).setReadonly(readonly);
     }
 
-    if (!kind && (jQuery('[id="'+field_id+'_btn_'+'"]') || jQuery('[id="'+'_o2m'+field_id+'"]'))) { // one2many
+    if (!kind && (jQuery('[id="'+field_id+'_btn_'+'"]').length || jQuery('[id="'+'_o2m'+field_id+'"]').length)) { // one2many
         new One2Many(field_id).setReadonly(readonly);
         return
     }
