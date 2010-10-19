@@ -4,6 +4,7 @@ from optparse import OptionParser
 
 import cherrypy
 from cherrypy._cpconfig import as_dict
+from cherrypy.process import plugins
 
 import openobject
 import openobject.release
@@ -29,6 +30,7 @@ def start():
     parser.add_option("--no-static", dest="static",
                       action="store_false", default=True,
                       help="Disables serving static files through CherryPy")
+    parser.add_option("--pidfile", help="record the pid of the process at that file")
     options, args = parser.parse_args(sys.argv)
 
     if not os.path.exists(options.config):
@@ -50,5 +52,7 @@ def start():
             pass
 
     cherrypy.log.error(options.config, 'CONFIG')
+    if options.pidfile:
+        plugins.PIDFile(cherrypy.engine, options.pidfile).subscribe()
     cherrypy.engine.start()
     cherrypy.engine.block()
