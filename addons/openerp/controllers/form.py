@@ -729,7 +729,7 @@ class Form(SecuredController):
 
             o = res['offset']
             l = res['limit']
-            c = res['count']
+            if not c: c = res['count']
 
             params.search_domain = res['search_domain']
             params.search_data = res['search_data']
