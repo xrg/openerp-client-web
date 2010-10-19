@@ -36,7 +36,11 @@ from babel import dates, numbers
 
 from openobject.i18n.utils import get_locale
 
-__all__ = ['get_datetime_format', 'format_datetime', 'parse_datetime', 'format_decimal', 'parse_decimal']
+__all__ = ['DT_SERVER_FORMATS', 'get_datetime_format',
+           'format_datetime', 'parse_datetime',
+           'format_decimal', 'parse_decimal',
+           'tz_convert'
+          ]
 
 DT_SERVER_FORMATS = {
   'datetime' : '%Y-%m-%d %H:%M:%S',
@@ -72,13 +76,13 @@ def get_datetime_format(kind="datetime"):
 
     return fmt
 
-def _tz_convert(value, action):
+def tz_convert(struct_time, action):
     # if no client timezone is configured, consider the client is in the same
     # timezone as the server
     lzone = pytz.timezone(cherrypy.session['client_timezone']
                           or cherrypy.session['remote_timezone'])
     szone = pytz.timezone(cherrypy.session['remote_timezone'])
-    dt = DT.datetime.fromtimestamp(time.mktime(value))
+    dt = DT.datetime.fromtimestamp(time.mktime(struct_time))
 
     if action == 'parse':
         fromzone = lzone
@@ -139,7 +143,7 @@ def format_datetime(value, kind="datetime", as_timetuple=False):
 
     if kind == "datetime":
         try:
-            value = _tz_convert(value, 'format')
+            value = tz_convert(value, 'format')
         except Exception:
             cherrypy.log.error("Error in timezone formatting:\n", traceback=True)
 
@@ -181,7 +185,7 @@ def parse_datetime(value, kind="datetime", as_timetuple=False):
 
     if kind == "datetime":
         try:
-            value = _tz_convert(value, 'parse')
+            value = tz_convert(value, 'parse')
         except Exception:
             cherrypy.log.error("Error in timezone parsing:\n", traceback=True)
 
