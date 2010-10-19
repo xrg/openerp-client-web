@@ -708,7 +708,7 @@ class Form(SecuredController):
                 o += l
             elif id in ids:
                 id = ids[ids.index(id)+1]
-            elif id == False:
+            elif id is False:
                 o = 0
                 id = ids[0]
 
