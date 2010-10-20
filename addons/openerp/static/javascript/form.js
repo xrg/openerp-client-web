@@ -1071,11 +1071,11 @@ function createAttachment(){
     if (!jQuery('#sidebar_attachments_datas').val()) {
         return false;
     }
-    var form = jQuery(this);
-    form.ajaxSubmit({
+    var $form = jQuery(this);
+    $form.ajaxSubmit({
         dataType: 'json',
         success: function(data){
-            var attachment_line = jQuery('<li>', {
+            var $attachment_line = jQuery('<li>', {
                 'id': 'attachment_item_' + data['id'],
                 'data-id': data['id']
             });
@@ -1086,11 +1086,11 @@ function createAttachment(){
                     'record': data['id']
                 }),
                 'class': 'attachment-file'
-            }).text(data['name']), jQuery('<span>|</span>'), jQuery("<a href='#' class='close'>Close</a>")]).appendTo(attachment_line);
+            }).text(data['name']), jQuery('<span>|</span>'), jQuery("<a href='#' class='close'>Close</a>")]).appendTo($attachment_line);
 
-            jQuery('#attachments').append(attachment_line);
-            form.resetForm();
-            form.hide();
+            jQuery('#attachments').append($attachment_line);
+            $form.resetForm();
+            $form.hide();
         }
     });
     return false;
@@ -1099,12 +1099,12 @@ function createAttachment(){
 function setupAttachments(){
     jQuery('#attachments').delegate('li a.close', 'click', removeAttachment);
 
-    var attachmentsForm = jQuery('#attachment-box').hide();
+    var $attachmentsForm = jQuery('#attachment-box').hide();
     jQuery('#add-attachment').click(function(e){
-        attachmentsForm.show();
+        $attachmentsForm.show();
         e.preventDefault();
     });
-    attachmentsForm.bind({
+    $attachmentsForm.bind({
         change: createAttachment,
         // leave that one just in case, but should generally not activate
         submit: createAttachment
