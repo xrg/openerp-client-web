@@ -307,6 +307,9 @@ function display_Customfilters(all_domains, group_by_ctx) {
                 if(jQuery(this).find('#filterlabel').attr('value') == obj['error_field']) {
                     jQuery(this).find('input.qstring').css('background', '#f66').val(obj.error);
                 }
+                else {
+                    error_display(obj.error)
+                }
             });
         }
         var form_result = obj.frm;

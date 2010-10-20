@@ -209,7 +209,7 @@ class Search(Form):
                         error = ustr(e)
                     except Exception, e:
                         error = ustr(e)
-                        return dict(error=error, error_field=error_field)
+                    return dict(error=error, error_field=error_field)
 
                     datas['rec'] = field
 
