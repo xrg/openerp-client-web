@@ -1081,13 +1081,17 @@ function createAttachment(){
                 'data-id': data['id']
             });
 
-            jQuery([jQuery('<a>', {
-                'rel': 'external',
-                'href': data.url || openobject.http.getURL('/openerp/attachment/get', {
-                    'record': data['id']
-                }),
-                'class': 'attachment'
-            }).text(data['name']), jQuery('<span>|</span>'), jQuery("<a href='#' class='close'>Close</a>")]).appendTo($attachment_line);
+            jQuery([
+                jQuery('<a>', {
+                    'target': '_blank',
+                    'href': data.url || openobject.http.getURL(
+                            '/openerp/attachment/get', {
+                        'record': data['id']}),
+                    'class': 'attachment'
+                }).text(data['name']),
+                jQuery('<span>|</span>'),
+                jQuery("<a href='#' class='close'>Close</a>")
+            ]).appendTo($attachment_line);
 
             jQuery('#attachments').append($attachment_line);
             $form.resetForm();
