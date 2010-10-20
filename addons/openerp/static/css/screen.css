@@ -534,8 +534,8 @@ p#cmp_logo {
     float: left;
     padding: 0 0 0 3px;
     background: url(../images/nav-items-a.png) no-repeat;
-    color: #fff;
-    text-shadow: #111 0 1px 0;
+    color: #eee;
+    text-shadow: #222 0 1px 0;
 }
 
 #applications_menu span {
@@ -552,6 +552,8 @@ p#cmp_logo {
 #applications_menu ul li a:focus,
 #applications_menu ul li a.active {
     background-position: 0 -23px;
+    text-shadow: #000 0 1px 0;
+    color: #fff;
 }
 
 #applications_menu ul li a:hover span,
