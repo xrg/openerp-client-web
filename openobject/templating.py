@@ -20,7 +20,7 @@ def edition_preprocessor(template_text):
 class EditorType(type):
     def __init__(cls, name, bases, attributes):
         super(EditorType, cls).__init__(name, bases, attributes)
-        for template in attributes['templates']:
+        for template in attributes.get('templates', []):
             pooler.register_object(cls, template, group=EDITORS_GROUP)
 
 class TemplateEditor(object):
@@ -34,7 +34,6 @@ class TemplateEditor(object):
                     '/'
     """
     __metaclass__ = EditorType
-    templates = []
 
     def edit(self, template, template_text):
         """
