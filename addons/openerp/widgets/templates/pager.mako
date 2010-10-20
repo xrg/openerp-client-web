@@ -6,25 +6,27 @@
         % if prev:
         <a href="#first" action="first" relation="${name}" onclick="validate_action(this, pager_action); return false;">
         % endif
-        <span class="first nav">${_("<< First")}</span>
+        <span class="first nav${' ' if prev else ' inactive'}">${_("<< First")}</span>
         % if prev:
         </a>
         <a href="#previous" action="previous" relation="${name}" onclick="validate_action(this, pager_action); return false;">
         % endif
-        <span class="prev nav">${_("< Previous")}</span>
+        <span class="prev nav${' ' if prev else ' inactive'}">${_("< Previous")}</span>
         % if prev:
         </a>
         % endif
-        <span onclick="jQuery('[id=_${name+str(pager_id)}_link_span]').hide(); jQuery('[id=_${name+str(pager_id)}_limit_span]').show();">${page_info}</span>
+        <span onclick="jQuery('[id=_${name+str(pager_id)}_link_span]').hide(); jQuery('[id=_${name+str(pager_id)}_limit_span]').show();">
+            ${page_info} ${_('of')} ${count}
+        </span>
         % if next:
         <a href="#next" action="next" relation="${name}" onclick="validate_action(this, pager_action); return false;">
         % endif
-        <span class="next nav">${_("Next >")}</span>
+        <span class="next nav${' ' if next else ' inactive'}">${_("Next >")}</span>
         % if next:
         </a>
         <a href="#last" action="last" relation="${name}" onclick="validate_action(this, pager_action); return false;">
         % endif
-        <span class="last nav">${_("Last >>")}</span>
+        <span class="last nav ${' ' if next else ' inactive'}">${_("Last >>")}</span>
         % if next:
         </a>
         % endif

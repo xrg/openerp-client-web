@@ -470,12 +470,13 @@ function parse_filters(src, id) {
     	}
         jQuery(id).toggleClass('active inactive');
     }
-    var $all_search_fields = jQuery('#search_filter_data').find("input[name]:not([type=checkbox]):not([value='']), select[name]");
+    var $all_search_fields = jQuery('#search_filter_data').find("input:not([type=checkbox]):not([type=hidden]):not([value='']), select[name]");
     jQuery('#_terp_filters_context').val(filter_context);
     $all_search_fields.each(function(fld_index, fld){
         var $fld = jQuery(fld);
         var kind = $fld.attr('kind');
         var fld_value = $fld.val();
+        var fld_name = $fld.attr('name');
         if(kind == 'selection') {
             if ($fld.val() != '') {
                 fld_value = 'selection_'+$fld.val();
@@ -486,15 +487,14 @@ function parse_filters(src, id) {
                 }
             }
         } else if(kind == 'many2one') {
-            var m2o = $fld.attr('name');
-            fld_value = jQuery('[id="'+m2o+'_text'+'"]').val() || fld_value;
+            fld_name = $fld.attr('id').split('_text')[0]
             if($fld.attr('m2o_filter_domain')){
                 fld_value = 'm2o_'+ fld_value;
             }
         }
         
         if(fld_value && fld_value!='')
-            domains[$fld.attr('name')] = fld_value;
+            domains[fld_name] = fld_value;
     });
     domains = serializeJSON(domains);
     all_domains['domains'] = domains;

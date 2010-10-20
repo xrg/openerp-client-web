@@ -12,7 +12,7 @@
         <span class="m2o">
             <input type="hidden" id="${name}" name="${name}" class="${css_class}" value="${value}"
                 ${py.attrs(attrs, kind=kind, domain=domain, context=ctx, relation=relation)}/>
-            <input type="text" id="${name}_text" class="${css_class}" name="${name}"
+            <input type="text" id="${name}_text" class="${css_class}"
                 ${py.attrs(attrs, kind=kind, relation=relation, value=text)}/>
 
             <input type="hidden" id="_hidden_${name}" value=""/>

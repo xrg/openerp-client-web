@@ -133,10 +133,6 @@
     white-space: nowrap;
 }
 
-.gridview .pagerbar .pager .paging {
-    background: #FFF;
-}
-
 .gridview .pagerbar .pagerbar-cell .pager-table .pager-cell h2 {
     background: none;
     margin: 0;

@@ -544,10 +544,15 @@ table.o2m_box div.pagerbar-header strong {
 }
 
 .view .separator {
+    border: 0 solid #666;
+}
+.view .separator.horizontal {
     font-weight: bold;
-    border-bottom: 1px solid #666;
-    margin: 6px 0;
-    width: 100%;
+    border-bottom-width: 1px;
+    margin: 6px 4px 6px 1px;
+}
+.view .separator.vertical {
+    border-left-width: 1px;
 }
 
 .view .selection_search {
