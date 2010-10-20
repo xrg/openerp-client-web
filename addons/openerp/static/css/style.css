@@ -20,6 +20,12 @@ div#search_filter_data table {
 	width: auto !important;
 }
 
+div#search_filter_data table tr:nth-child(2) div.group-expand,
+div#search_filter_data table tr:nth-child(2) div.group-collapse
+{
+    margin-top: 6px;
+}
+
 div.wizard_toolbar {
 	float: right;
 }
@@ -83,7 +89,7 @@ div.group-data table.fields {
 }
 
 #filter_option_table {
-    margin: 0;
+    margin: 0 0 0 10px;
 }
 
 #filter_option_table .filter_column {
@@ -220,11 +226,11 @@ div.group-expand, div.group-collapse {
     overflow: hidden;
     width: 100%;
     white-space: nowrap;
-    margin-top: 2px;
+    margin: 2px 0 2px 0;
 }
 
 .group-expand h2, .group-collapse h2 {
-    padding: 0 0 0 10px;
+    padding: 2px 0 2px 10px;
     background: url(../images/group-a-header-a.png) 0 50% no-repeat;
     color: #7d7979;
     font-size: 1em;
@@ -243,7 +249,8 @@ div.group-expand, div.group-collapse {
 }
 
 #groupdata_table {
-    margin: 0;
+    margin: 0 0 0 10px;
+    padding: 0;
     display: block;
 }
 
@@ -698,7 +705,7 @@ table.m2o_readonly {
 }
 
 .view_form_options {
-    padding: 0 0 3px 0;
+    padding: 3px 0 3px 0;
 }
 .view_form_options div {
     margin: 3px 0;
