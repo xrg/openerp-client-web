@@ -251,9 +251,12 @@ class Search(TinyInputWidget):
             field_dict = all_fields
             self.fields.update(field_dict)
 
-        for k,v in self.fields.iteritems():
-            if v['type'] != 'binary' and v.get('selectable'):
-                self.fields_list.append((k, ustr(v['string']), v['type']))
+        self.fields_list.extend((
+            (field_name, ustr(field['string']), field['type'])
+            for field_name, field in self.fields.iteritems()
+            if field['type'] != 'binary'
+            if field.get('selectable')
+        ))
 
         if self.fields_list:
             self.fields_list.sort(lambda x, y: cmp(x[1], y[1]))
