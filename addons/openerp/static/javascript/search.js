@@ -345,40 +345,47 @@ function display_Customfilters(all_domains, group_by_ctx) {
                         }
                     }
                     if(grouping) {
-                        temp_domain.push(grouping == 'AND' ? '&' : '|');                        
+                        temp_domain.push(grouping == 'AND' ? '&' : '|');
                     }
 
-	                var field = return_record['rec'];
-	                var comparison = $row.find('select.expr').val();	                
-	                var value = return_record['rec_val'];
+                    var field = return_record['rec'];
+                    var comparison = $row.find('select.expr').val();
+                    var value = return_record['rec_val'];
 
-	                switch (comparison) {
-	                    case 'ilike':
-	                    case 'not ilike':
-	                        if(isOrderable(type)) {
-	                            comparison = (comparison == 'ilike' ? '=' : '!=');
-	                        }
-	                        break;
-	                    case '<':
-	                    case '>':
-	                        if(!isOrderable(type)) {
-	                            comparison = '=';
-	                        }
-	                        break;
-	                    case 'in':
-	                    case 'not in':
-	                        if(typeof value == 'string') {
-	                            value = value.split(',');
-	                        } else {
-	                            /* very weird array-type construct
-	                               looks a bit like [[6, 0, [list of ids here]]]
-	                             */
-	                            value = value[value.length - 1][value[value.length - 1].length - 1]
-	                        }
-	                        break;
+                    switch (comparison) {
+                        case 'ilike':
+                        case 'not ilike':
+                            if(isOrderable(type)) {
+                                comparison = (comparison == 'ilike' ? '=' : '!=');
+                            }
+                            else{
+                                value = '%' + value + '%';
+                            }
+                            break;
+                        case '<':
+                        case '>':
+                            if(!isOrderable(type)) {
+                                comparison = '=';
+                            }
+                            break;
+                        case 'in':
+                        case 'not in':
+                            if(typeof value == 'string') {
+                                value = value.split(',');
+                            } else if (type=='many2many'){
+                                /* very weird array-type construct
+                                   looks a bit like [[6, 0, [list of ids here]]]
+                                */
+                                value = value[value.length - 1][value[value.length - 1].length - 1]
+                            } else if (type=='one2many') {
+                                value = value[0];
+                            } else {
+                                value = value;
+                            }
+                            break;
 	                }
-	                
-	                if ($row.find('label.and_or').length>0 || grouping){                       
+ 
+	                if ($row.find('label.and_or').length>0 || grouping){
                         temp_domain.push(field, comparison, value);
                         group.push(temp_domain);
                     }

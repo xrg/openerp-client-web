@@ -207,9 +207,10 @@ class Search(Form):
                     except TinyFormError, e:
                         error_field = e.field
                         error = ustr(e)
+                        return dict(error=error, error_field=error_field)
                     except Exception, e:
                         error = ustr(e)
-                    return dict(error=error, error_field=error_field)
+                        return dict(error=error, error_field=error_field)
 
                     datas['rec'] = field
 
@@ -308,7 +309,7 @@ class Search(Form):
                 return [x[0], tuple_val]
 
             else:
-                if isinstance(x[2], (int, list)):
+                if isinstance(x[2], (int, list)) and x[1] != 'in':
                     tuple_val = x[0], x[1], ustr(x[2])
                 else:
                     tuple_val = x[0], x[1], x[2]
@@ -325,7 +326,7 @@ class Search(Form):
                 for inner in cs_dom:
                     if len(inner) == 1 and len([x for x in inner if isinstance(x, list)]) == 0:
                         cust_domain += inner[0]
-                    elif len([x for x in inner if isinstance(x, list)]):
+                    elif len([x for x in inner if isinstance(x, list)]) and not 'in' in inner:
                         for d in inner:
                             cust_domain += get_domain(d)
                     else:
