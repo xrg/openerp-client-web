@@ -1038,7 +1038,7 @@ function removeAttachment(){
     var attachment_line = jQuery(this).parent();
     var id = attachment_line.attr('data-id');
     if (confirm('Do you really want to delete the attachment {' +
-    jQuery.trim(attachment_line.find('> a.attachment-file').text()) +
+    jQuery.trim(attachment_line.find('> a.attachment').text()) +
     '} ?')) {
         jQuery.ajax({
             url: '/openerp/attachment/remove/',
@@ -1068,10 +1068,11 @@ function removeAttachment(){
  * Creates a new line in #attachments if the creation succeeds.
  */
 function createAttachment(){
-    if (!jQuery('#sidebar_attachments_datas').val()) {
+    var $form = jQuery(this);
+    if(!$form.find(':file, :text')
+             .filter(function () {return jQuery(this).val();})) {
         return false;
     }
-    var $form = jQuery(this);
     $form.ajaxSubmit({
         dataType: 'json',
         success: function(data){
@@ -1082,10 +1083,10 @@ function createAttachment(){
 
             jQuery([jQuery('<a>', {
                 'rel': 'external',
-                'href': openobject.http.getURL('/openerp/attachment/get', {
+                'href': data.url || openobject.http.getURL('/openerp/attachment/get', {
                     'record': data['id']
                 }),
-                'class': 'attachment-file'
+                'class': 'attachment'
             }).text(data['name']), jQuery('<span>|</span>'), jQuery("<a href='#' class='close'>Close</a>")]).appendTo($attachment_line);
 
             jQuery('#attachments').append($attachment_line);

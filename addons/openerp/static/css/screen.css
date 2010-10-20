@@ -2035,7 +2035,7 @@ button {
 .attachments-a li span {
     display: none;
 }
-.attachments-a li a.attachment-file {
+.attachments-a li a.attachment {
     display: block;
     margin-right: 15px;
     overflow: hidden;
