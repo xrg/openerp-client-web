@@ -1034,28 +1034,28 @@ function show_wkf(){
  *
  * Requests the deletion of an attachment based on data provided by the trigger's parent's @data-id
  */
-function removeAttachment(){
+function removeAttachment() {
     var $attachment_line = jQuery(this).parent();
-    var id = $attachment_line.attr('data-id');
-    if (confirm('Do you really want to delete the attachment {' +
-    jQuery.trim($attachment_line.find('> a.attachment').text()) +
-    '} ?')) {
-        jQuery.ajax({
-            url: '/openerp/attachment/remove/',
-            type: 'POST',
-            data: {
-                'id': id
-            },
-            dataType: 'json',
-            success: function(obj){
-                if (obj.error) {
-                    error_popup(obj.error);
-                }
-
-                $attachment_line.remove();
-            }
-        });
+    if(!confirm('Do you really want to delete the attachment {' +
+                jQuery.trim($attachment_line.find('> a.attachment').text()) +
+            '} ?')) {
+        return false;
     }
+    jQuery.ajax({
+        url: '/openerp/attachment/remove/',
+        type: 'POST',
+        data: {
+            'id': $attachment_line.attr('data-id')
+        },
+        dataType: 'json',
+        success: function(obj) {
+            if(obj.error) {
+                error_popup(obj.error);
+            }
+
+            $attachment_line.remove();
+        }
+    });
 
     return false;
 }
