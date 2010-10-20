@@ -323,7 +323,8 @@ class ICalendar(TinyWidget):
                 s = event[f]
                 if isinstance(s, (tuple, list)):
                     s = s[-1]
-                description.append(ustr(s or ''))
+                if s is not False:
+                    description.append(ustr(s or ''))
 
         starts = event.get(self.date_start)
         ends = event.get(self.date_delay) or 1.0
