@@ -552,7 +552,6 @@ p#cmp_logo {
 #applications_menu ul li a:focus,
 #applications_menu ul li a.active {
     background-position: 0 -23px;
-    text-shadow: #000 0 1px 0;
     color: #fff;
 }
 
@@ -931,9 +930,9 @@ div.footer-b {
     overflow: hidden;
     padding: 5px 0;
     position: relative;
-    -moz-box-shadow: inset 2px 3px 5px rgba(0, 0, 0, 0.4);
-    -webkit-box-shadow: inset 2px 3px 5px rgba(0, 0, 0, 0.4);
-    box-shadow: inset 2px 3px 5px rgba(0, 0, 0, 0.4);
+    -moz-box-shadow: inset 0px 3px 5px rgba(0, 0, 0, 0.4);
+    -webkit-box-shadow: inset 0px 3px 5px rgba(0, 0, 0, 0.4);
+    box-shadow: inset 0px 3px 5px rgba(0, 0, 0, 0.4);
 }
 
 div.footer-a p,
