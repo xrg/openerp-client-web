@@ -21,7 +21,6 @@
     <script type="text/javascript" src="/openobject/static/javascript/jQuery/jquery-ui-1.8.2.custom.min.js"></script>
     <script type="text/javascript" src="/openobject/static/javascript/jQuery/jquery.form.js"></script>
     <script type="text/javascript" src="/openobject/static/javascript/jQuery/jquery.ba-hashchange.js"></script>
-    <script type="text/javascript" src="/openobject/static/javascript/jQuery/jquery.blockUI.js"></script>
     <script type="text/javascript" src="/openobject/static/javascript/jQuery/jquery.fancybox-1.3.1.js"></script>
     
     <script type="text/javascript">
