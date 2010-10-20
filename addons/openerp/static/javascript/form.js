@@ -1034,28 +1034,28 @@ function show_wkf(){
  *
  * Requests the deletion of an attachment based on data provided by the trigger's parent's @data-id
  */
-function removeAttachment(){
-    var attachment_line = jQuery(this).parent();
-    var id = attachment_line.attr('data-id');
-    if (confirm('Do you really want to delete the attachment {' +
-    jQuery.trim(attachment_line.find('> a.attachment-file').text()) +
-    '} ?')) {
-        jQuery.ajax({
-            url: '/openerp/attachment/remove/',
-            type: 'POST',
-            data: {
-                'id': id
-            },
-            dataType: 'json',
-            success: function(obj){
-                if (obj.error) {
-                    error_popup(obj.error);
-                }
-
-                jQuery(attachment_line).remove();
-            }
-        });
+function removeAttachment() {
+    var $attachment_line = jQuery(this).parent();
+    if(!confirm('Do you really want to delete the attachment {' +
+                jQuery.trim($attachment_line.find('> a.attachment').text()) +
+            '} ?')) {
+        return false;
     }
+    jQuery.ajax({
+        url: '/openerp/attachment/remove/',
+        type: 'POST',
+        data: {
+            'id': $attachment_line.attr('data-id')
+        },
+        dataType: 'json',
+        success: function(obj) {
+            if(obj.error) {
+                error_popup(obj.error);
+            }
+
+            $attachment_line.remove();
+        }
+    });
 
     return false;
 }
@@ -1068,29 +1068,34 @@ function removeAttachment(){
  * Creates a new line in #attachments if the creation succeeds.
  */
 function createAttachment(){
-    if (!jQuery('#sidebar_attachments_datas').val()) {
+    var $form = jQuery(this);
+    if(!$form.find(':file, :text')
+             .filter(function () {return jQuery(this).val();})) {
         return false;
     }
-    var form = jQuery(this);
-    form.ajaxSubmit({
+    $form.ajaxSubmit({
         dataType: 'json',
         success: function(data){
-            var attachment_line = jQuery('<li>', {
+            var $attachment_line = jQuery('<li>', {
                 'id': 'attachment_item_' + data['id'],
                 'data-id': data['id']
             });
 
-            jQuery([jQuery('<a>', {
-                'rel': 'external',
-                'href': openobject.http.getURL('/openerp/attachment/get', {
-                    'record': data['id']
-                }),
-                'class': 'attachment-file'
-            }).text(data['name']), jQuery('<span>|</span>'), jQuery("<a href='#' class='close'>Close</a>")]).appendTo(attachment_line);
+            jQuery([
+                jQuery('<a>', {
+                    'target': '_blank',
+                    'href': data.url || openobject.http.getURL(
+                            '/openerp/attachment/get', {
+                        'record': data['id']}),
+                    'class': 'attachment'
+                }).text(data['name']),
+                jQuery('<span>|</span>'),
+                jQuery("<a href='#' class='close'>Close</a>")
+            ]).appendTo($attachment_line);
 
-            jQuery('#attachments').append(attachment_line);
-            form.resetForm();
-            form.hide();
+            jQuery('#attachments').append($attachment_line);
+            $form.resetForm();
+            $form.hide();
         }
     });
     return false;
@@ -1099,12 +1104,12 @@ function createAttachment(){
 function setupAttachments(){
     jQuery('#attachments').delegate('li a.close', 'click', removeAttachment);
 
-    var attachmentsForm = jQuery('#attachment-box').hide();
+    var $attachmentsForm = jQuery('#attachment-box').hide();
     jQuery('#add-attachment').click(function(e){
-        attachmentsForm.show();
+        $attachmentsForm.show();
         e.preventDefault();
     });
-    attachmentsForm.bind({
+    $attachmentsForm.bind({
         change: createAttachment,
         // leave that one just in case, but should generally not activate
         submit: createAttachment
