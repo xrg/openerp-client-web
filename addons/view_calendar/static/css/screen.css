@@ -1,6 +1,9 @@
 div#Calendar {
     margin-top: 4px;
 }
+div#Calendar div.inner {
+    padding: 0 10px 0 10px;
+}
 div.box-a ul.side {
     float: right;
     list-style: none;
@@ -39,7 +42,6 @@ div.box-a ul.side li a.close {
 div.box-a p.side,table.box-a p.side {
     display: inline;
     float: right;
-    margin-top: 2px;
 }
 
 div.calendar-a ul.head,table.calendar-a ul.head {
@@ -186,6 +188,16 @@ div.minical-a h3 a {
 div.minical-a h3 a.prev {
     left: 0;
     border-right: 1px solid #dedbdb;
+}
+a.button-a.prev, a.button-a.next {
+    margin-right: 2px;
+}
+a.button-a.prev img, a.button-a.next img {
+    position: relative;
+    top: 3px;
+}
+a.button-a.next img {
+    left: 1px;
 }
 
 div.minical-a h3 a.next {

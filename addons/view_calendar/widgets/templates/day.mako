@@ -1,5 +1,11 @@
 <div id="Calendar" class="box-a calendar-a">
     <p class="side">
+        <a class="button-a prev" href="javascript: void(0)" onclick="getCalendar('${day.prev().isoformat()}')">
+            <img src="/openerp/static/images/cal_left.png" width="14" height="14" border="0"/>
+        </a>
+        <a class="button-a next" href="javascript: void(0)" onclick="getCalendar('${day.next().isoformat()}')">
+            <img src="/openerp/static/images/cal_right.png" width="14" height="14" border="0"/>
+        </a>
         % if day == day.today():
             <a class="button-a today" href="javascript: void(0)">${_("Today")}</a>
            % else:
@@ -22,19 +28,6 @@
         </li>
     </ul>
     <div class="inner">
-        <p class="paging-a">
-            <span class="one">
-                <small>|</small>
-                <a class="prev" href="javascript: void(0)"
-                    onclick="getCalendar('${day.prev().isoformat()}')"></a>
-            </span>
-            <small>|</small>
-            <span class="two">
-                <a class="next" href="javascript: void(0)"
-                    onclick="getCalendar('${day.next().isoformat()}')"></a>
-                <small>|</small>
-            </span>
-        </p>
         <h4>
             <span>
                 ${day}

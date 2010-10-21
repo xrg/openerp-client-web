@@ -1,6 +1,12 @@
 <div id="Calendar" class="box-a calendar-a">
 
     <p class="side">
+        <a class="button-a prev" href="javascript: void(0)" onclick="getCalendar('${days[0].prev().isoformat()}')">
+            <img src="/openerp/static/images/cal_left.png" width="14" height="14" border="0"/>
+        </a>
+        <a class="button-a next" href="javascript: void(0)" onclick="getCalendar('${days[-1].next().isoformat()}')">
+            <img src="/openerp/static/images/cal_right.png" width="14" height="14" border="0"/>
+        </a>
         <a class="button-a" href="javascript: void(0)" title="${_('Today...')}"
             onclick="getCalendar('${days[0].today().isoformat()}', 'day')">${_("Today")}</a>
     </p>
@@ -25,19 +31,6 @@
     </ul>
 
     <div class="inner">
-        <p class="paging-a">
-            <span class="one">
-                <small>|</small>
-                <a class="prev" href="javascript: void(0)" 
-                    onclick="getCalendar('${days[0].prev().isoformat()}', null)"></a>
-            </span>
-            <small>|</small>
-            <span class="two">
-                <a class="next" href="javascript: void(0)" 
-                    onclick="getCalendar('${days[-1].next().isoformat()}', null)"></a>
-                <small>|</small>
-            </span>
-        </p>
         <h4>
             <span>${title}</span>
         </h4>
