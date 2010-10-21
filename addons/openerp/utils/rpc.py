@@ -303,16 +303,16 @@ class RPCSession(object):
         if uid <= 0:
             return -1
 
-        self.uid = uid
-        self.db = db
-        self.password = password
-        self.open = True
+        self.storage['uid'] = uid
+        self.storage['db'] = db
+        self.storage['password'] = password
+        self.storage['open'] = True
 
         # read the full name of the user
         res_users = self.execute('object', 'execute', 'res.users', 'read', [uid], ['name', 'company_id', 'login'])[0]
-        self.user_name = res_users['name']
-        self.company_id, self.company_name = res_users['company_id']
-        self.loginname = res_users['login']
+        self.storage['user_name'] = res_users['name']
+        self.storage['company_id'], self.storage['company_name'] = res_users['company_id']
+        self.storage['loginname'] = res_users['login']
         # set the context
         self.context_reload()
 
@@ -331,24 +331,24 @@ class RPCSession(object):
         """Reload the context for the current user
         """
 
-        self._context = {'client': 'web'}
+        self.storage['_context'] = {'client': 'web'}
 
         # self.uid
         context = self.execute('object', 'execute', 'res.users', 'context_get')
         self._context.update(context or {})
 
-        self.remote_timezone = 'utc'
-        self.client_timezone = self.context.get("tz", False)
+        self.storage['remote_timezone'] = 'utc'
+        self.storage['client_timezone'] = self.context.get("tz", False)
 
-        if self.client_timezone:
-            self.remote_timezone = self.execute('common', 'timezone_get')
+        if self.storage.get('client_timezone'):
+            self.storage['remote_timezone'] = self.execute('common', 'timezone_get')
             try:
                 import pytz
             except:
                 raise common.warning(_('You select a timezone but OpenERP could not find pytz library!\nThe timezone functionality will be disable.'))
 
         # set locale in session
-        self.locale = self.context.get('lang')
+        self.storage['locale'] = self.context.get('lang')
 
     def execute(self, obj, method, *args):
         if not self.is_logged():
