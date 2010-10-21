@@ -3,12 +3,13 @@
 # This file is distributed under the same license as the PROJECT project.
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2010.
 #
+#, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2010-10-15 12:35+0530\n"
-"PO-Revision-Date: 2010-10-18 14:45+0530\n"
+"POT-Creation-Date: 2010-10-21 16:54+0530\n"
+"PO-Revision-Date: 2010-10-21 16:55+0530\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: fr <LL@li.org>\n"
 "Plural-Forms: nplurals=2; plural=(n > 1)\n"
@@ -28,16 +29,16 @@ msgstr ""
 
 #: static/javascript/form.js:263
 msgid "Do you really want to delete this record?"
-msgstr "Voulez-vous vraiment supprimer cet enregistrement?"
+msgstr ""
 
-#: static/javascript/form.js:943 static/javascript/form.js:1088
+#: static/javascript/form.js:892 static/javascript/form.js:1016
 #: static/javascript/listgrid.js:603 static/javascript/treeview.js:58
 msgid "You must select at least one record."
-msgstr "Vous devez sélectionner au moins un enregistrement."
+msgstr ""
 
 #: static/javascript/listgrid.js:605
 msgid "Do you really want to delete selected record(s) ?"
-msgstr "Voulez-vous vraiment supprimer le(s) enregistrement(s) sélectionné(s)?"
+msgstr ""
 
 #: static/javascript/o2m.js:62
 msgid "Do you really want to delete record ?"
@@ -45,9 +46,9 @@ msgstr ""
 
 #: static/javascript/viewed.js:71
 msgid "Do you really want to remove this node?"
-msgstr "Voulez-vous vraiment supprimer ce nœud?"
+msgstr ""
 
 #: static/javascript/viewed.js:337
 msgid "Do you really wants to create an inherited view here?"
-msgstr "Voulez-vous vraiment créer une vue héritée ici ?"
+msgstr ""
 

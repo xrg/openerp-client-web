@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2010-10-15 12:35+0530\n"
+"POT-Creation-Date: 2010-10-21 16:54+0530\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -274,7 +274,7 @@ msgid "You must save this record to use the sidebar button"
 msgstr ""
 
 #: controllers/form.py:972 utils/rpc.py:130 utils/rpc.py:141 utils/rpc.py:144
-#: widgets/listgrid.py:335 widgets/form/_form.py:935
+#: widgets/listgrid.py:335 widgets/form/_form.py:912
 msgid "Application Error"
 msgstr ""
 
@@ -715,7 +715,7 @@ msgstr ""
 #: controllers/templates/openm2m.mako:64 controllers/templates/openm2o.mako:57
 #: controllers/templates/openo2m.mako:86
 #: controllers/templates/save_filter.mako:24
-#: controllers/templates/search.mako:172
+#: controllers/templates/search.mako:164
 #: controllers/templates/translator.mako:39
 #: controllers/templates/translator.mako:106
 #: controllers/templates/viewed.mako:37
@@ -733,8 +733,8 @@ msgstr ""
 
 #: controllers/templates/exp.mako:166 controllers/templates/form.mako:138
 #: controllers/templates/image.mako:68 widgets/form/templates/one2many.mako:20
-#: widgets/templates/listgrid.mako:90 widgets/templates/listgrid.mako:94
-#: widgets/templates/listgrid.mako:160 widgets/templates/listgrid.mako:165
+#: widgets/templates/listgrid.mako:92 widgets/templates/listgrid.mako:96
+#: widgets/templates/listgrid.mako:162 widgets/templates/listgrid.mako:167
 #: widgets/templates/listgroup.mako:125
 #: widgets/templates/multiple_group.mako:82 widgets/templates/sidebar.mako:58
 msgid "Delete"
@@ -749,7 +749,7 @@ msgid "Fields to export"
 msgstr ""
 
 #: controllers/templates/exp.mako:189 controllers/templates/imp.mako:136
-#: widgets/templates/listgrid.mako:121 widgets/templates/sidebar.mako:46
+#: widgets/templates/listgrid.mako:123 widgets/templates/sidebar.mako:46
 msgid "Add"
 msgstr ""
 
@@ -868,11 +868,11 @@ msgstr ""
 msgid "Create a new resource"
 msgstr ""
 
-#: controllers/templates/form.mako:115 controllers/templates/search.mako:171
+#: controllers/templates/form.mako:115 controllers/templates/search.mako:163
 #: controllers/templates/viewed_new_model.mako:36
 #: controllers/templates/viewlist.mako:119 widgets/form/_o2m.py:55
-#: widgets/form/templates/one2many.mako:18 widgets/templates/listgrid.mako:126
-#: widgets/templates/listgrid.mako:130
+#: widgets/form/templates/one2many.mako:18 widgets/templates/listgrid.mako:128
+#: widgets/templates/listgrid.mako:132
 msgid "New"
 msgstr ""
 
@@ -881,8 +881,8 @@ msgid "Edit this resource"
 msgstr ""
 
 #: controllers/templates/form.mako:120 controllers/templates/viewlist.mako:122
-#: widgets/templates/listgrid.mako:64 widgets/templates/listgrid.mako:68
-#: widgets/templates/listgrid.mako:172 widgets/templates/listgroup.mako:105
+#: widgets/templates/listgrid.mako:66 widgets/templates/listgrid.mako:70
+#: widgets/templates/listgrid.mako:174 widgets/templates/listgroup.mako:105
 #: widgets/templates/multiple_group.mako:63
 msgid "Edit"
 msgstr ""
@@ -942,10 +942,10 @@ msgstr ""
 
 #: controllers/templates/header.mako:30
 #, python-format
-msgid "%(company_id)s"
+msgid "%(company)s"
 msgstr ""
 
-#: controllers/templates/header.mako:31 controllers/templates/index.mako:156
+#: controllers/templates/header.mako:31 controllers/templates/index.mako:140
 #, python-format
 msgid "%(user)s"
 msgstr ""
@@ -1026,15 +1026,15 @@ msgstr ""
 msgid "Lines to skip:"
 msgstr ""
 
-#: controllers/templates/index.mako:120
+#: controllers/templates/index.mako:104
 msgid "Use On-Site"
 msgstr ""
 
-#: controllers/templates/index.mako:128
+#: controllers/templates/index.mako:112
 msgid "Use Online"
 msgstr ""
 
-#: controllers/templates/index.mako:158 controllers/templates/index.mako:163
+#: controllers/templates/index.mako:142 controllers/templates/index.mako:147
 #, python-format
 msgid "Powered by %(openerp)s "
 msgstr ""
@@ -1064,17 +1064,17 @@ msgstr ""
 msgid "Filter Name"
 msgstr ""
 
-#: controllers/templates/search.mako:155
+#: controllers/templates/search.mako:147
 #, python-format
 msgid "Search %(name)s"
 msgstr ""
 
-#: controllers/templates/search.mako:169
+#: controllers/templates/search.mako:161
 #: widgets/form/templates/datetime.mako:13
 msgid "Select"
 msgstr ""
 
-#: controllers/templates/search.mako:170 widgets/_views.py:75
+#: controllers/templates/search.mako:162 widgets/_views.py:75
 #: widgets/form/templates/many2one.mako:22
 #: widgets/form/templates/reference.mako:30 widgets/templates/viewform.mako:26
 msgid "Search"
@@ -1231,50 +1231,50 @@ msgstr ""
 msgid "Search view..."
 msgstr ""
 
-#: widgets/listgrid.py:335 widgets/form/_form.py:935
+#: widgets/listgrid.py:335 widgets/form/_form.py:912
 #, python-format
 msgid "Invalid view, duplicate field: %s"
 msgstr ""
 
-#: widgets/pager.py:67
+#: widgets/pager.py:68
 #, python-format
-msgid "[%s/%s]"
+msgid "%s"
 msgstr ""
 
-#: widgets/pager.py:78
+#: widgets/pager.py:79
 #, python-format
-msgid "[%s - %s of %s]"
+msgid "%s - %s"
 msgstr ""
 
-#: widgets/search.py:284
+#: widgets/search.py:287
 msgid "contains"
 msgstr ""
 
-#: widgets/search.py:284
+#: widgets/search.py:287
 msgid "doesn't contain"
 msgstr ""
 
-#: widgets/search.py:285
+#: widgets/search.py:288
 msgid "is equal to"
 msgstr ""
 
-#: widgets/search.py:285
+#: widgets/search.py:288
 msgid "is not equal to"
 msgstr ""
 
-#: widgets/search.py:286
+#: widgets/search.py:289
 msgid "greater than"
 msgstr ""
 
-#: widgets/search.py:286
+#: widgets/search.py:289
 msgid "less than"
 msgstr ""
 
-#: widgets/search.py:287
+#: widgets/search.py:290
 msgid "in"
 msgstr ""
 
-#: widgets/search.py:287
+#: widgets/search.py:290
 msgid "not in"
 msgstr ""
 
@@ -1282,8 +1282,8 @@ msgstr ""
 msgid "Action not found!"
 msgstr ""
 
-#: widgets/form/_o2m.py:55 widgets/templates/listgrid.mako:124
-#: widgets/templates/listgrid.mako:130
+#: widgets/form/_o2m.py:55 widgets/templates/listgrid.mako:126
+#: widgets/templates/listgrid.mako:132
 msgid "Create new record."
 msgstr ""
 
@@ -1300,12 +1300,12 @@ msgid "add attachment"
 msgstr ""
 
 #: widgets/form/templates/many2one.mako:2
-#: widgets/form/templates/reference.mako:35
+#: widgets/form/templates/reference.mako:33
 msgid "Open"
 msgstr ""
 
 #: widgets/form/templates/many2one.mako:2
-#: widgets/form/templates/reference.mako:35
+#: widgets/form/templates/reference.mako:33
 msgid "Open a resource"
 msgstr ""
 
@@ -1333,15 +1333,15 @@ msgstr ""
 msgid "Update"
 msgstr ""
 
-#: widgets/templates/listgrid.mako:119
+#: widgets/templates/listgrid.mako:121
 msgid "Add records..."
 msgstr ""
 
-#: widgets/templates/listgrid.mako:158 widgets/templates/listgrid.mako:163
+#: widgets/templates/listgrid.mako:160 widgets/templates/listgrid.mako:165
 msgid "Delete record(s)."
 msgstr ""
 
-#: widgets/templates/listgrid.mako:170
+#: widgets/templates/listgrid.mako:172
 msgid "Edit record(s)."
 msgstr ""
 
@@ -1361,15 +1361,19 @@ msgstr ""
 msgid "< Previous"
 msgstr ""
 
-#: widgets/templates/pager.mako:22
+#: widgets/templates/pager.mako:19
+msgid "of"
+msgstr ""
+
+#: widgets/templates/pager.mako:24
 msgid "Next >"
 msgstr ""
 
-#: widgets/templates/pager.mako:27
+#: widgets/templates/pager.mako:29
 msgid "Last >>"
 msgstr ""
 
-#: widgets/templates/pager.mako:35
+#: widgets/templates/pager.mako:37
 msgid "Change Limit:"
 msgstr ""
 
