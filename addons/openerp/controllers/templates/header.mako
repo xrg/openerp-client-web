@@ -27,7 +27,7 @@ else:
     </p>
     % if logged:
         <h1 id="title-menu">
-           ${_("%(company_id)s", company_id=rpc.session.company_id or '')} (${rpc.session.db})
+           ${_("%(company)s", company=rpc.session.company_name or '')} (${rpc.session.db})
            <small>${_("%(user)s", user=rpc.session.user_name)}</small>
         </h1>
     % endif

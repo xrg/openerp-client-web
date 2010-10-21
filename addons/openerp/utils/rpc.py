@@ -221,7 +221,9 @@ class RPCSession(object):
     client & invoce RPC requested by clients.
     """
 
-    __slots__ = ['host', 'port', 'protocol', 'storage', 'gateway']
+    __slots__ = ['host', 'port', 'protocol', 'storage', 'gateway', 'uid', 'db',
+                 'password', 'open', 'user_name', 'company_id', 'company_name',
+                 'loginname']
 
     def __init__(self, host, port, protocol='socket', storage={}):
         """Create new instance of RPCSession.
@@ -235,6 +237,15 @@ class RPCSession(object):
         self.port = port
         self.protocol = protocol
         self.storage = storage
+
+        self.uid = None
+        self.db = None
+        self.password = None
+        self.open = False
+
+        self.user_name = None
+        self.company_id, self.company_name = None, None
+        self.loginname = None
 
         if protocol in ('http', 'https'):
             self.gateway = XMLRPCGateway(self)
@@ -311,7 +322,7 @@ class RPCSession(object):
         # read the full name of the user
         res_users = self.execute('object', 'execute', 'res.users', 'read', [uid], ['name', 'company_id', 'login'])[0]
         self.user_name = res_users['name']
-        self.company_id = res_users['company_id'][1]
+        self.company_id, self.company_name = res_users['company_id']
         self.loginname = res_users['login']
         # set the context
         self.context_reload()
