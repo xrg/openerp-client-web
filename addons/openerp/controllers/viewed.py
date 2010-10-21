@@ -50,6 +50,7 @@ class NewField(Form):
 
         field = form.screen.widget.get_widgets_by_name('model_id')[0]
         field.set_value(params.model_id or False)
+        field.readonly = True
 
         vals = getattr(cherrypy.request, 'terp_validators', {})
         vals['model_id'] = validators.Int()
