@@ -1889,20 +1889,20 @@ p.paging-a a {
 
 p.paging-a a.first {
     margin: 0;
-    background: url(../images/cal_first.png) no-repeat;
+    background: url(../images/pager_first.png) no-repeat;
 }
 
 p.paging-a a.last {
     margin: 0;
-    background: url(../images/cal_last.png) no-repeat;
+    background: url(../images/pager_last.png) no-repeat;
 }
 
 p.paging-a a.prev {
-    background: url(../images/cal_left.png) no-repeat;
+    background: url(../images/pager_left.png) no-repeat;
 }
 
 p.paging-a a.next {
-    background: url(../images/cal_right.png) no-repeat;
+    background: url(../images/pager_right.png) no-repeat;
 }
 
 /* sidebar */
