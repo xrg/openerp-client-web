@@ -221,9 +221,7 @@ class RPCSession(object):
     client & invoce RPC requested by clients.
     """
 
-    __slots__ = ['host', 'port', 'protocol', 'storage', 'gateway', 'uid', 'db',
-                 'password', 'open', 'user_name', 'company_id', 'company_name',
-                 'loginname']
+    __slots__ = ['host', 'port', 'protocol', 'storage', 'gateway']
 
     def __init__(self, host, port, protocol='socket', storage={}):
         """Create new instance of RPCSession.
@@ -237,15 +235,6 @@ class RPCSession(object):
         self.port = port
         self.protocol = protocol
         self.storage = storage
-
-        self.uid = None
-        self.db = None
-        self.password = None
-        self.open = False
-
-        self.user_name = None
-        self.company_id, self.company_name = None, None
-        self.loginname = None
 
         if protocol in ('http', 'https'):
             self.gateway = XMLRPCGateway(self)
