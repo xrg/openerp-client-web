@@ -47,7 +47,7 @@
     <table class="view" border="0" width="100%" height="100%" cellpadding="0" cellspacing="0">
         <tr>
             <td width="75%" valign="top" style="padding-top:10px;">
-                <h1>Help: ${title}</h1>
+                <h1>${_("Help:")} ${title}</h1>
                 <p class="process-links">
                     <a target="_blank" href="${context_help}">
                         ${_("Online Documentation")}
