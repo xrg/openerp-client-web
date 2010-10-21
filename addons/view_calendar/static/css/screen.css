@@ -66,6 +66,9 @@ div.calendar-a ul.head li, table.calendar-a ul.head li {
     -webkit-border-top-right-radius: 7px;
     margin-right: 2px;
 }
+div.calendar-a ul.head li.notab, div.calendar-a ul.head li.notab:hover {
+    background: transparent;
+}
 
 div.calendar-a ul.head li.active-tab, div.calendar-a ul.head li.active {
     background: #fff !important;

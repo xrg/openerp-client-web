@@ -6,7 +6,7 @@
     </p>
 
     <ul class="head">
-        <li>
+        <li class="notab">
         % if mode == 'day':
         <img title="${_('Zoom In')}" height="16" width="16" src="/openerp/static/images/stock-disabled/gtk-zoom-in.png"/>
         % else:
@@ -14,7 +14,7 @@
             onclick="ganttZoomIn()"/>
         % endif
         </li>
-        <li>
+        <li class="notab">
         % if mode == '5years':
         <img title="${_('Zoom Out')}" height="16" width="16" src="/openerp/static/images/stock-disabled/gtk-zoom-out.png"/>
         % else:
