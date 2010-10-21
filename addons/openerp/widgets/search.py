@@ -75,7 +75,10 @@ def get_search_default(attrs={}, screen_context=None, default_domain=[]):
         if attrs.get('context'):
             ctx =  expr_eval(attrs.get('context', "{}"), {'self':attrs.get('name', False)})
             if ctx.get('group_by'):
-                str_ctx = 'group_' + ctx.get('group_by')
+                if isinstance(ctx['group_by'], list):
+                    str_ctx = map(lambda x: 'group_' + x, ctx.get('group_by'))
+                else:
+                    str_ctx = 'group_' + ctx.get('group_by')
                 default_val = str_ctx in screen_context.get('group_by', [])
                 default_search = str_ctx in screen_context.get('group_by', [])
     return default_search or default_val
@@ -150,7 +153,10 @@ class Filter(TinyInputWidget):
             self.filter_context = eval(filter_context)
             self.group_context = self.filter_context.get('group_by', False)
             if self.group_context:
-                self.group_context = 'group_' + self.group_context
+                if isinstance(self.group_context, list):
+                    self.group_context = map(lambda x: 'group_' + x, self.group_context)
+                else:
+                    self.group_context = 'group_' + self.group_context
 
         if default_search:
             self.def_checked = True
