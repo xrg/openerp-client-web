@@ -1,6 +1,6 @@
 <div id="Calendar" class="box-a calendar-a">
     <p class="side">
-        <a class="button-b" href="javascript:void(0)" title="${_('Today...')}" 
+        <a class="button-a" href="javascript:void(0)" title="${_('Today...')}" 
             onclick="getCalendar('${selected_day.today().isoformat()}', 'day')">${_("Today")}</a>
     </p>
     <ul class="head">

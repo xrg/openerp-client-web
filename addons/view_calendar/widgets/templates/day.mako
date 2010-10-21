@@ -1,9 +1,9 @@
 <div id="Calendar" class="box-a calendar-a">
     <p class="side">
         % if day == day.today():
-            <a class="button-a" href="javascript: void(0)">${_("Today")}</a>
+            <a class="button-a today" href="javascript: void(0)">${_("Today")}</a>
            % else:
-               <a class="button-b" href="javascript: void(0)"
+               <a class="button-a" href="javascript: void(0)"
                 onclick="getCalendar('${day.today().isoformat()}', 'day')">${_("Today")}</a>
         % endif
     </p>
