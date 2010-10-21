@@ -110,8 +110,8 @@
             <td colspan="2" class="fields collapsed">
                 <h2 style="padding: 5px 10px; font-weight:bold">
                   ${res_model} ${_("fields")}
-                  <span class="expand-button">(show)</span>
-                  <span class="collapse-button">(hide)</span>
+                  <span class="expand-button">(${_("show")})</span>
+                  <span class="collapse-button">(${_("hide")})</span>
                 </h2>
                 <div align="left" style="padding: 5px 10px;">
                     <table border="0">
