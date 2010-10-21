@@ -32,6 +32,7 @@ import time
 import xml.dom.minidom
 
 from openobject.widgets import JSLink, CSSLink
+from openobject.i18n.format import format_date_custom
 
 from openerp.utils import rpc, node_attributes
 from openerp.widgets import TinyWidget
@@ -254,7 +255,7 @@ class GanttCalendar(ICalendar):
             self.selected_day = day
 
             self.headers = [(48, ustr(day))]
-            self.subheaders = [time.strftime('%I %P', (y, m, d, i, 0, 0, 1, 1, 0)) for i in range(24)]
+            self.subheaders = [time.strftime('%H', (y, m, d, i, 0, 0, 1, 1, 0)) for i in range(24)]
 
         elif self.mode == '3days':
             dp = day - 1
@@ -264,7 +265,7 @@ class GanttCalendar(ICalendar):
             self.selected_day = day
 
             self.headers = [(24, ustr(dp)), (24, ustr(day)), (24, ustr(dn))]
-            self.subheaders = [time.strftime('%I %P', (y, 1, 1, i, 0, 0, 1, 1, 0)) for i in range(0, 24, 6)]
+            self.subheaders = [time.strftime('%H', (y, 1, 1, i, 0, 0, 1, 1, 0)) for i in range(0, 24, 6)]
 
         elif self.mode == 'week':
             self.days = [d for d in Week(day)]
@@ -273,8 +274,8 @@ class GanttCalendar(ICalendar):
             self.headers = [(12, u"%s %s" % (d.month2.name, d.day)) for d in self.days]
             self.subheaders = []
             for x in self.days:
-                for i in [0, 23]:
-                    self.subheaders.append(time.strftime('%I %P', (y, 1, 1, i, 0, 0, 1, 1, 0)))
+                for i in [0, 12]:
+                    self.subheaders.append(time.strftime('%H', (y, 1, 1, i, 0, 0, 1, 1, 0)))
 
         elif self.mode == '3weeks':
             w = Week(day)
@@ -284,7 +285,7 @@ class GanttCalendar(ICalendar):
             self.title = _(u"%s - %s") % (ustr(self.days[0]), ustr(self.days[-1]))
             self.selected_day = _get_selection_day(day, self.selected_day, 'week')
             self.headers = [(7, _("Week %s") % w1[0].strftime('%W')) for w1 in [wp, w, wn]]
-            self.subheaders = [x.strftime('%a %d') for x in itertools.chain(wp, w, wn)]
+            self.subheaders = [format_date_custom(x, "E d") for x in itertools.chain(wp, w, wn)]
 
         elif self.mode == '3months':
             q = 1 + (m - 1) / 3

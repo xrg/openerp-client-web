@@ -55,6 +55,9 @@ def _to_posix_format(format):
     """
     return __pat.sub(lambda m: __sub[m.group(1)[0]], format)
 
+def format_date_custom(dt, fmt="y-M-d"):
+    return dates.format_date(dt, format=fmt, locale=get_locale())
+
 def get_datetime_format(kind="datetime"):
     """Get local datetime format.
 
