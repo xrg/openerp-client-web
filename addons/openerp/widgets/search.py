@@ -351,12 +351,6 @@ class Search(TinyInputWidget):
                     if name in self.fields_type:
                         continue
 
-                    if attrs.get('widget'):
-                        if attrs['widget'] == 'one2many_list':
-                            attrs['widget'] = 'one2many'
-                        attrs['type'] = attrs['widget']
-
-
                     # in search view fields should be writable
                     attrs.update(readonly=False,
                                  required=False,
@@ -373,6 +367,13 @@ class Search(TinyInputWidget):
                         print "-"*30,"\n malformed tag for:", attrs
                         print "-"*30
                         raise
+
+                    if attrs.get('widget'):
+                        if attrs['widget'] == 'one2many_list':
+                            fields[name]['widget'] = 'one2many'
+
+                        fields[name]['type2'] = fields[name]['type']
+                        fields[name]['type'] = attrs['widget']
 
                     kind = fields[name]['type']
 
@@ -401,6 +402,8 @@ class Search(TinyInputWidget):
                         defval = default_search
                         if defval:
                             model = fields[name].get('relation')
+                            type2 = fields[name].get('type2')
+
                             if kind == 'many2one' and model:
                                 try:
                                     value = rpc.name_get(model, default_search)
@@ -412,8 +415,12 @@ class Search(TinyInputWidget):
                             if attrs.get('filter_domain'):
                                 domain = expr_eval(attrs['filter_domain'], {'self': defval})
                             else:
-                                if field.kind in ('selection'):
+                                if field.kind in ('selection') and type2 == 'many2one':
+                                    domain = [(name, '=', int(defval))]
+
+                                elif field.kind in ('selection'):
                                     domain = [(name, '=', defval)]
+
                                 else:
                                     domain = [(name,fields[name].get('comparator','ilike'), defval)]
 

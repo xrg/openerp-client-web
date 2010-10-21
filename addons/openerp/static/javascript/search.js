@@ -489,8 +489,13 @@ function parse_filters(src, id) {
         var fld_name = $fld.attr('name');
         if(kind == 'selection') {
             if ($fld.val() != '') {
-                fld_value = 'selection_'+$fld.val();
 
+                if ($fld.attr('type2') == 'many2one') {
+                    fld_value = parseInt($fld.val());
+                }
+                else{
+                    fld_value = 'selection_'+$fld.val();
+                }
                 if ($fld.attr('search_context')) {
                     search_context['context'] = $fld.attr('search_context');
                     search_context['value'] = fld_value;
