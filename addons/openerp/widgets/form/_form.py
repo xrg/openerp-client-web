@@ -743,7 +743,7 @@ class Form(TinyInputWidget):
     params = ['id']
     member_widgets = ['frame', 'concurrency_info']
 
-    def __init__(self, prefix, model, view, ids=[], domain=[], context={}, editable=True, readonly=False, nodefault=False, nolinks=1):
+    def __init__(self, prefix, model, view, ids=[], domain=[], context=None, editable=True, readonly=False, nodefault=False, nolinks=1):
 
         super(Form, self).__init__(prefix=prefix, model=model, editable=editable, readonly=readonly, nodefault=nodefault)
         dom = xml.dom.minidom.parseString(view['arch'].encode('utf-8'))
@@ -754,14 +754,12 @@ class Form(TinyInputWidget):
         self.link = attrs.get('link', nolinks)
 
         self.id = None
-        self.context = context or {}
 
         proxy = rpc.RPCProxy(model)
 
-        ctx = rpc.session.context.copy()
-        ctx.update(context)
-        ctx['bin_size'] = True
-
+        self.context = dict(rpc.session.context,
+                            bin_size=True,
+                            **(context or {}))
         values = {}
         defaults = {}
 
@@ -774,7 +772,7 @@ class Form(TinyInputWidget):
                     values[d[0]] = d[2][0]
 
         if ids:
-            lval = proxy.read(ids[:1], fields.keys() + ['__last_update'], ctx)
+            lval = proxy.read(ids[:1], fields.keys() + ['__last_update'], self.context)
             if lval:
                 values = lval[0]
                 self.id = ids[0]
@@ -790,15 +788,15 @@ class Form(TinyInputWidget):
 
         elif not self.nodefault: # default
             try:
-                defaults = proxy.default_get(fields.keys(), ctx)
+                defaults = proxy.default_get(fields.keys(), self.context)
             except:
                 pass
 
         elif 'state' in fields: # if nodefault and state get state only
-            defaults = proxy.default_get(['state'], ctx)
+            defaults = proxy.default_get(['state'], self.context)
 
         elif 'x_state' in fields: # if nodefault and x_state get x_state only (for custom objects)
-            defaults = proxy.default_get(['x_state'], ctx)
+            defaults = proxy.default_get(['x_state'], self.context)
 
         for k, v in defaults.items():
             values.setdefault(k, v)
