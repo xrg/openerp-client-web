@@ -1036,7 +1036,7 @@ function show_wkf(){
  */
 function removeAttachment() {
     var $attachment_line = jQuery(this).parent();
-    if(!confirm('Do you really want to delete the attachment {' +
+    if(!confirm(_('Do you really want to delete the attachment')+' {' +
                 jQuery.trim($attachment_line.find('> a.attachment').text()) +
             '} ?')) {
         return false;
