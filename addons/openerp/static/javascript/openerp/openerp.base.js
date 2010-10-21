@@ -34,7 +34,7 @@ function openLink(url /*optional afterLoad */) {
  */
 function displayErrorOverlay(xhr) {
     var options = {
-        showCloseButton: false,
+        showCloseButton: true,
         overlayOpacity: 0.7
     };
     if(xhr.getResponseHeader('X-Maintenance-Error')) {
