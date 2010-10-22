@@ -97,6 +97,24 @@ WeekCalendar.prototype = {
         e = new Date(e);
 
         var self = this;
+
+        // test
+        //window.console.log('start: ' + toISOTimestamp(dt));
+        //window.console.log('end: ' + toISOTimestamp(e));
+        //window.console.log('h: '+String(h));
+        //window.console.log(String(getFormData(1)));
+
+        // _terp_callback	onchange_dates(date,False,date_deadline)
+        // _terp_caller	date_deadline
+        // _terp_model	crm.meeting
+        // _terp_value	10/20/2010 17:00:45
+        // _terp_context	{'lang': u'en_US', 'search_default_section_id': False, 'active_ids': [265], 'tz': False,
+        // 'search_view': 568, 'active_model': 'ir.ui.menu', 'department_id': False, '_terp_view_name': u'Meetings',
+        // 'section_id': False, 'search_default_user_id': 1, 'client': 'web', 'project_id': False, 'active_id': 265}
+
+
+        // test
+
         var req = saveCalendarRecord(id, toISOTimestamp(dt), toISOTimestamp(e));
 
         req.addCallback(function(obj) {
@@ -522,10 +540,7 @@ WeekCalendar.DayGrid.prototype = {
         appendChildNodes('calBodySect', tbl);
 
         for (var i = 0; i < 24; i++) {
-            var h = i % 12;
-
-            h = h == 0 ? 12 : h;
-            h = i > 11 ? h + ':00 PM' : h + ':00 AM';
+            var h = i + ':00';
 
             appendChildNodes('calTimeCol', DIV(null, h));
         }
