@@ -1,0 +1,39 @@
+# Macedonian translation for openobject-client-web
+# Copyright (c) 2009 Rosetta Contributors and Canonical Ltd 2009
+# This file is distributed under the same license as the openobject-client-web package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2009.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: openobject-client-web\n"
+"Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
+"POT-Creation-Date: 2010-10-21 16:17+0530\n"
+"PO-Revision-Date: 2010-10-08 07:26+0000\n"
+"Last-Translator: OpenERP Administrators <Unknown>\n"
+"Language-Team: Macedonian <mk@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Launchpad-Export-Date: 2010-10-22 04:39+0000\n"
+"X-Generator: Launchpad (build Unknown)\n"
+
+#~ msgid "You must select at least one record."
+#~ msgstr "Мора да изберете барем еден запис."
+
+#~ msgid "Do you really want to delete this record?"
+#~ msgstr "Дали навистина сакате да го избришете овој запис?"
+
+#~ msgid "Do you really want to remove this node?"
+#~ msgstr "Дали навистина сакате да ја избришете оваа точка?"
+
+#~ msgid "Do you really wants to create an inherited view here?"
+#~ msgstr "Дали навистина сакате да создадете наследен поглед тука?"
+
+#~ msgid "Do you really want to delete selected record(s) ?"
+#~ msgstr "Дали навистина сакате да ги избришете избраните запис(и)?"
+
+#~ msgid "Invalid form, correct red fields !"
+#~ msgstr "Погрешна форма, поправете ги црвените полиња!"
+
+#~ msgid "Loading..."
+#~ msgstr "Се вчитува..."

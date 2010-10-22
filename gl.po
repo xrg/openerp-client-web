@@ -1,0 +1,1330 @@
+# translation of openobject-web-client_openobject-web-client-gl.po to Galego
+# Galician translation for openobject-client-web
+# Copyright (c) 2009 Rosetta Contributors and Canonical Ltd 2009
+# This file is distributed under the same license as the openobject-client-web package.
+#
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2009.
+# Frco. Javier Rial Rodríguez <fjrial@cesga.es>, 2009.
+msgid ""
+msgstr ""
+"Project-Id-Version: openobject-web-client_openobject-web-client-gl\n"
+"Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
+"POT-Creation-Date: 2010-10-21 16:17+0530\n"
+"PO-Revision-Date: 2009-08-13 11:54+0000\n"
+"Last-Translator: Frco. Javier Rial <Unknown>\n"
+"Language-Team: Galego <g11n@mancomun.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Launchpad-Export-Date: 2010-10-22 04:39+0000\n"
+"X-Generator: Launchpad (build Unknown)\n"
+
+#~ msgid "OpenERP"
+#~ msgstr "OpenERP"
+
+#~ msgid "Error"
+#~ msgstr "Erro"
+
+#~ msgid "Connection refused!"
+#~ msgstr "Conexión rexeitada!"
+
+#, python-format
+#~ msgid "Version %s-%s"
+#~ msgstr "Versión %s-%s"
+
+#~ msgid "Warning"
+#~ msgstr "Aviso"
+
+#~ msgid "Information"
+#~ msgstr "Información"
+
+#~ msgid "Application Error!"
+#~ msgstr "Erro da aplicación!"
+
+#~ msgid "Could not connect to server!"
+#~ msgstr "Non se puido conectar co servidor"
+
+#~ msgid "Please wait..."
+#~ msgstr "Por favor, agarde..."
+
+#~ msgid "Edit"
+#~ msgstr "Editar"
+
+#~ msgid "Cancel"
+#~ msgstr "Cancelar"
+
+#~ msgid "Delete"
+#~ msgstr "Eliminar"
+
+#~ msgid "Loading..."
+#~ msgstr "A cargar..."
+
+#~ msgid "Open"
+#~ msgstr "Abrir"
+
+#~ msgid "Notes:"
+#~ msgstr "Notas:"
+
+#~ msgid "Error no report"
+#~ msgstr "Erro no informe"
+
+#~ msgid "Documents"
+#~ msgstr "Documentos"
+
+#~ msgid "Print"
+#~ msgstr "Imprimir"
+
+#~ msgid "Help"
+#~ msgstr "Axuda"
+
+#~ msgid "No action defined!"
+#~ msgstr "Non se definiu unha acción!"
+
+#~ msgid "Nothing to print!"
+#~ msgstr "Non hai nada para imprimir!"
+
+#~ msgid "OK"
+#~ msgstr "Aceptar"
+
+#~ msgid "Super admin password:"
+#~ msgstr "Contrasinal de superadministrador"
+
+#~ msgid "New database name:"
+#~ msgstr "Nome da nova base de datos"
+
+#~ msgid "Action not found!"
+#~ msgstr "Non se atopou unha acción"
+
+#~ msgid "Create new database"
+#~ msgstr "Crear nova base de datos"
+
+#~ msgid "Confirm password:"
+#~ msgstr "Confirmar contrasinal"
+
+#~ msgid "Password:"
+#~ msgstr "Contrasinal:"
+
+#~ msgid "Backup database"
+#~ msgstr "Facer copia de seguranza"
+
+#~ msgid "Restore database"
+#~ msgstr "Restaurar base de datos"
+
+#~ msgid "Administrator password:"
+#~ msgstr "Contrasinal de administrador"
+
+#~ msgid "Database:"
+#~ msgstr "Base de datos:"
+
+#~ msgid "Drop database"
+#~ msgstr "Eliminar base de datos"
+
+#~ msgid "New Password:"
+#~ msgstr "Contrasinal novo:"
+
+#~ msgid "Old Password:"
+#~ msgstr "Contrasinal antigo"
+
+#~ msgid "File:"
+#~ msgstr "Ficheiro:"
+
+#~ msgid "Confirm Password:"
+#~ msgstr "Confirmar contrasinal:"
+
+#~ msgid "Database already exists!"
+#~ msgstr "A base de datos xa existe!"
+
+#~ msgid "Change Administrator Password"
+#~ msgstr "Cambiar contrasinal de administrador"
+
+#~ msgid "Could not create database."
+#~ msgstr "Non se puido crear a base de datos"
+
+#~ msgid "Couldn't restore database"
+#~ msgstr "Non se puido restaurar a base de datos"
+
+#~ msgid "Error during database creation!"
+#~ msgstr "Erro ao crear a base de datos!"
+
+#~ msgid "Could not drop database."
+#~ msgstr "Non se puido eliminar a base de datos."
+
+#~ msgid "Could not create backup."
+#~ msgstr "Non se puido crear a copia de seguranza."
+
+#~ msgid "Couldn't drop database"
+#~ msgstr "Non se puido eliminar a base de datos"
+
+#~ msgid "Could not restore database."
+#~ msgstr "Non se puido restaurar a base de datos."
+
+#~ msgid "Print Screen"
+#~ msgstr "Imprimir a pantalla"
+
+#~ msgid "XML-RPC error!"
+#~ msgstr "Erro XML-RPC!"
+
+#, python-format
+#~ msgid "Imported %d objects!"
+#~ msgstr "Importados %d obxectos!"
+
+#~ msgid "Last modified by:"
+#~ msgstr "Última modificación por:"
+
+#~ msgid "Preferences"
+#~ msgstr "Preferencias"
+
+#~ msgid "Latest Modification by"
+#~ msgstr "Última modificación por"
+
+#~ msgid "Latest Modification Date"
+#~ msgstr "Última data de modificación"
+
+#, python-format
+#~ msgid " - %s pending request(s)"
+#~ msgstr " - %s petición(s)s pendente(s)"
+
+#, python-format
+#~ msgid "%s request(s)"
+#~ msgstr "%s petición(s)"
+
+#~ msgid "ID"
+#~ msgstr "ID"
+
+#~ msgid "Creation Date"
+#~ msgstr "Data de creación"
+
+#~ msgid "Creation User"
+#~ msgstr "Usuario creador"
+
+#~ msgid "No resource selected!"
+#~ msgstr "Non se seleccionou un recurso!"
+
+#~ msgid "Access Level"
+#~ msgstr "Nivel de acceso"
+
+#~ msgid "New Window"
+#~ msgstr "Nova xanela"
+
+#~ msgid "Owner"
+#~ msgstr "Propietario"
+
+#~ msgid "Group Owner"
+#~ msgstr "Grupo propietario"
+
+#~ msgid "Not implemented yet!"
+#~ msgstr "Aínda non implementado"
+
+#~ msgid "Save"
+#~ msgstr "Gardar"
+
+#~ msgid "Save Button"
+#~ msgstr "Botón de gardar"
+
+#~ msgid "Cancel Button"
+#~ msgstr "Botón de cancelar"
+
+#~ msgid "Create"
+#~ msgstr "Crear"
+
+#~ msgid "Restore"
+#~ msgstr "Restaurar"
+
+#~ msgid "Backup"
+#~ msgstr "Copia de seguranza"
+
+#~ msgid "Close"
+#~ msgstr "Pechar"
+
+#~ msgid "Password"
+#~ msgstr "Contrasinal"
+
+#~ msgid "Maintenance"
+#~ msgstr "Mantemento"
+
+#~ msgid "Add"
+#~ msgstr "Engadir"
+
+#~ msgid "Remove"
+#~ msgstr "Eliminar"
+
+#~ msgid "All fields"
+#~ msgstr "Todos os campos"
+
+#~ msgid "Other Comments:"
+#~ msgstr "Outros comentarios:"
+
+#~ msgid "Fields to export"
+#~ msgstr "Campos a exportar"
+
+#~ msgid "Export Data"
+#~ msgstr "Exportar datos"
+
+#~ msgid "Nothing"
+#~ msgstr "Nada"
+
+#~ msgid "Save List"
+#~ msgstr "Gardar a lista"
+
+#~ msgid "Export"
+#~ msgstr "Exportar"
+
+#~ msgid "Field Name:"
+#~ msgstr "Nome do campo:"
+
+#~ msgid "Options"
+#~ msgstr "Opcións"
+
+#~ msgid "Export as Excel"
+#~ msgstr "Exportar como Excel"
+
+#~ msgid "Export as CSV"
+#~ msgstr "Exportar como CSV"
+
+#~ msgid "Search"
+#~ msgstr "Buscar"
+
+#~ msgid "Only for you"
+#~ msgstr "Só para vostede"
+
+#~ msgid "For all"
+#~ msgstr "Para todos"
+
+#~ msgid "Domain:"
+#~ msgstr "Dominio:"
+
+#~ msgid "Calendar View..."
+#~ msgstr "Vista de calendario..."
+
+#~ msgid "Graph"
+#~ msgstr "Gráfico"
+
+#~ msgid "Calendar"
+#~ msgstr "Calendario"
+
+#~ msgid "Gantt"
+#~ msgstr "Gantt"
+
+#~ msgid "Gantt View..."
+#~ msgstr "Vista de Gantt..."
+
+#~ msgid "Form"
+#~ msgstr "Formulario"
+
+#~ msgid "View Log."
+#~ msgstr "Ver rexistro."
+
+#~ msgid "Translate this resource."
+#~ msgstr "Traducir este recurso."
+
+#~ msgid "Edit this resource"
+#~ msgstr "Editar este recurso"
+
+#~ msgid "Save this resource"
+#~ msgstr "Gardar este recurso"
+
+#~ msgid "Save & Edit"
+#~ msgstr "Gardar e editar"
+
+#~ msgid "Save & Edit this resource"
+#~ msgstr "Gardar e editar este recurso"
+
+#~ msgid "Duplicate this resource"
+#~ msgstr "Duplicar este recurso"
+
+#~ msgid "Delete this resource"
+#~ msgstr "Eliminar este recurso"
+
+#~ msgid "New"
+#~ msgstr "Novo"
+
+#~ msgid "Customise"
+#~ msgstr "Personalizar"
+
+#~ msgid "Manage Views"
+#~ msgstr "Xestionar vistas"
+
+#~ msgid "Image"
+#~ msgstr "Imaxe"
+
+#~ msgid "Add Resource:"
+#~ msgstr "Engadir recurso:"
+
+#~ msgid "Fields to import"
+#~ msgstr "Campos a importar"
+
+#~ msgid "File to import"
+#~ msgstr "Ficheiro a importar"
+
+#~ msgid "Auto Detect"
+#~ msgstr "Detectar automaticamente"
+
+#~ msgid "Save As"
+#~ msgstr "Gardar como"
+
+#~ msgid "Import"
+#~ msgstr "Importar"
+
+#~ msgid "Delimiter:"
+#~ msgstr "Delimitador:"
+
+#~ msgid "Encoding:"
+#~ msgstr "Codificación:"
+
+#~ msgid "Separator:"
+#~ msgstr "Separador:"
+
+#~ msgid "Import Data"
+#~ msgstr "Importar datos"
+
+#~ msgid "Add Translation for:"
+#~ msgstr "Engadir tradución para:"
+
+#~ msgid "Add Translations"
+#~ msgstr "Engadir traducións"
+
+#~ msgid "Add Translation"
+#~ msgstr "Engadir  tradución"
+
+#~ msgid "Filter"
+#~ msgstr "Filtro"
+
+#~ msgid "Select"
+#~ msgstr "Seleccionar"
+
+#~ msgid "Select action"
+#~ msgstr "Seleccione acción"
+
+#~ msgid "Customize"
+#~ msgstr "Personalizar"
+
+#~ msgid "Labels"
+#~ msgstr "Etiquetas"
+
+#~ msgid "Fields"
+#~ msgstr "Campos"
+
+#~ msgid "Field"
+#~ msgstr "Campo"
+
+#~ msgid "Toolbar"
+#~ msgstr "Barra de ferramentas"
+
+#~ msgid "Preview"
+#~ msgstr "Previsualización"
+
+#~ msgid "View Name:"
+#~ msgstr "Nome da vista:"
+
+#~ msgid "Priority:"
+#~ msgstr "Prioridade:"
+
+#~ msgid "Position:"
+#~ msgstr "Posición:"
+
+#~ msgid "New Field"
+#~ msgstr "Novo campo"
+
+#, python-format
+#~ msgid "Manage Views (%s)"
+#~ msgstr "Xestionar vistas (%s)"
+
+#, python-format
+#~ msgid "Create a view (%s)"
+#~ msgstr "Crear unha vista (%s)"
+
+#~ msgid "On Create:"
+#~ msgstr "Ao crear:"
+
+#~ msgid "Activate"
+#~ msgstr "Activar"
+
+#~ msgid "About the OpenERP Web"
+#~ msgstr "Acerca de OpenERP Web"
+
+#~ msgid "Copyright &copy; 2006-TODAY Tiny ERP Pvt. Ltd. All Rights Reserved."
+#~ msgstr ""
+#~ "Dereitos de autor &copy; 2006-TODAY Tiny ERP Pvt. Ltd. Todos os dereitos "
+#~ "reservados."
+
+#~ msgid "OpenERP Web"
+#~ msgstr "OpenERP Web"
+
+#~ msgid "About OpenERP"
+#~ msgstr "Acerca de OpenERP"
+
+#~ msgid "OpenERP is a trademark of the Tiny Company."
+#~ msgstr "OpenERP é unha marca rexistrada de Tiny Company."
+
+#~ msgid "The Axelor Company"
+#~ msgstr "The Axelor Company"
+
+#~ msgid "The Tiny Company"
+#~ msgstr "The Tiny Company"
+
+#~ msgid "Links"
+#~ msgstr "Ligazóns"
+
+#~ msgid "RESOURCES"
+#~ msgstr "RECURSOS"
+
+#~ msgid "Homepage"
+#~ msgstr "Páxina de inicio"
+
+#~ msgid "Modules"
+#~ msgstr "Módulos"
+
+#~ msgid "Download"
+#~ msgstr "Descargar"
+
+#~ msgid "Documentation"
+#~ msgstr "Documentación"
+
+#~ msgid "Forum"
+#~ msgstr "Foro"
+
+#~ msgid "Services"
+#~ msgstr "Servizos"
+
+#~ msgid "About"
+#~ msgstr "Acerca de"
+
+#, python-format
+#~ msgid "Welcome %(user)s"
+#~ msgstr "Benvido %(user)s"
+
+#~ msgid "Databases"
+#~ msgstr "Bases de datos"
+
+#~ msgid "Server:"
+#~ msgstr "Servidor:"
+
+#~ msgid "Welcome to OpenERP"
+#~ msgstr "Benvido a OpenERP"
+
+#~ msgid "User:"
+#~ msgstr "Usuario:"
+
+#~ msgid "Login"
+#~ msgstr "Iniciar sesión"
+
+#~ msgid "Home"
+#~ msgstr "Inicio"
+
+#~ msgid "Logout"
+#~ msgstr "Pechar sesión"
+
+#, python-format
+#~ msgid "Licenced under the terms of %(license)s"
+#~ msgstr "Licenzado baixo os termos da %(license)s"
+
+#, python-format
+#~ msgid "The web client is developed by %(axelor)s and %(tiny)s."
+#~ msgstr "O cliente web é desenvolvido por %(axelor)s e %(tiny)s."
+
+#, python-format
+#~ msgid "More Information on %s"
+#~ msgstr "Máis información en %s"
+
+#~ msgid "Copyright &copy; 2007-TODAY Tiny ERP Pvt. Ltd. All Rights Reserved."
+#~ msgstr ""
+#~ "Dereitos de autor &copy; 2007-TODAY Tiny ERP Pvt. Ltd. Todos os dereitos "
+#~ "reservados."
+
+#~ msgid "MAIN MENU"
+#~ msgstr "MENÚ PRINCIPAL"
+
+#~ msgid "SHORTCUTS"
+#~ msgstr "ATALLOS"
+
+#~ msgid "[ADD]"
+#~ msgstr "[ENGADIR]"
+
+#~ msgid "Please enter an email address"
+#~ msgstr "Introduza unha dirección de correo-e"
+
+#~ msgid "Please select a file."
+#~ msgstr "Seleccione un ficheiro."
+
+#~ msgid "That is not a valid URL"
+#~ msgstr "Ese non é un URL válido"
+
+#~ msgid "Please enter a number"
+#~ msgstr "Introduza un número"
+
+#~ msgid "Yes"
+#~ msgstr "Si"
+
+#~ msgid "== Access Denied =="
+#~ msgstr "== Acceso denegado =="
+
+#~ msgid "Clear"
+#~ msgstr "Limpar"
+
+#~ msgid "No"
+#~ msgstr "Non"
+
+#~ msgid "Create new record."
+#~ msgstr "Crear novo rexistro."
+
+#~ msgid "Update"
+#~ msgstr "Actualizar"
+
+#, python-format
+#~ msgid "[%s - %s of %s]"
+#~ msgstr "[%s - %s de %s]"
+
+#, python-format
+#~ msgid "[%s/%s]"
+#~ msgstr "[%s/%s]"
+
+#~ msgid "Save/New"
+#~ msgstr "Gardar/Novo"
+
+#~ msgid "Go!"
+#~ msgstr "Ir!"
+
+#~ msgid "Translate me."
+#~ msgstr "Tradúceme."
+
+#~ msgid "Next record..."
+#~ msgstr "Rexistro seguinte..."
+
+#~ msgid "Switch view..."
+#~ msgstr "Cambiar vista..."
+
+#~ msgid "Delete current record..."
+#~ msgstr "Borrar o rexistro actual..."
+
+#~ msgid "Previous record..."
+#~ msgstr "Rexistro anterior..."
+
+#~ msgid "<< First"
+#~ msgstr "<< Primeiro"
+
+#~ msgid "Open a resource"
+#~ msgstr "Abrir un recurso"
+
+#~ msgid "Move Down"
+#~ msgstr "Mover cara a abaixo"
+
+#~ msgid "Move Up"
+#~ msgstr "Mover cara a arriba"
+
+#~ msgid "< Previous"
+#~ msgstr "< Anterior"
+
+#~ msgid "LINKS"
+#~ msgstr "LIGAZÓNS"
+
+#~ msgid "ACTIONS"
+#~ msgstr "ACCIÓNS"
+
+#~ msgid "ATTACHMENTS"
+#~ msgstr "ANEXOS"
+
+#~ msgid "REPORTS"
+#~ msgstr "INFORMES"
+
+#~ msgid "Next >"
+#~ msgstr "Seguinte >"
+
+#~ msgid "Delete selected records."
+#~ msgstr "Borrar os rexistros seleccionados."
+
+#~ msgid "Last >>"
+#~ msgstr "Último >>"
+
+#~ msgid "Edit selected records."
+#~ msgstr "Editar os rexistros seleccionados."
+
+#~ msgid "Thursday"
+#~ msgstr "Xoves"
+
+#~ msgid "March"
+#~ msgstr "Marzo"
+
+#~ msgid "January"
+#~ msgstr "Xaneiro"
+
+#~ msgid "Saturday"
+#~ msgstr "Sábado"
+
+#~ msgid "Sunday"
+#~ msgstr "Domingo"
+
+#~ msgid "February"
+#~ msgstr "Febreiro"
+
+#~ msgid "Monday"
+#~ msgstr "Luns"
+
+#~ msgid "Wednesday"
+#~ msgstr "Mércores"
+
+#~ msgid "Tuesday"
+#~ msgstr "Martes"
+
+#~ msgid "Friday"
+#~ msgstr "Venres"
+
+#, python-format
+#~ msgid "%s, Week %s"
+#~ msgstr "%s, semana %s"
+
+#~ msgid "May"
+#~ msgstr "Maio"
+
+#~ msgid "June"
+#~ msgstr "Xuño"
+
+#~ msgid "July"
+#~ msgstr "Xullo"
+
+#~ msgid "August"
+#~ msgstr "Agosto"
+
+#~ msgid "April"
+#~ msgstr "Abril"
+
+#~ msgid "December"
+#~ msgstr "Decembro"
+
+#~ msgid "November"
+#~ msgstr "Novembro"
+
+#~ msgid "October"
+#~ msgstr "Outubro"
+
+#~ msgid "September"
+#~ msgstr "Setembro"
+
+#~ msgid "Day Calendar..."
+#~ msgstr "Calendario diario..."
+
+#~ msgid "Week Calendar..."
+#~ msgstr "Calendario semanal..."
+
+#, python-format
+#~ msgid "Week %s"
+#~ msgstr "Semana %s"
+
+#, python-format
+#~ msgid "%s - %s"
+#~ msgstr "%s - %s"
+
+#~ msgid "Day"
+#~ msgstr "Día"
+
+#~ msgid "Today"
+#~ msgstr "Hoxe"
+
+#~ msgid "Today..."
+#~ msgstr "Hoxe..."
+
+#~ msgid "Basic Search"
+#~ msgstr "Busca básica"
+
+#~ msgid "Zoom Out"
+#~ msgstr "Alonxar"
+
+#~ msgid "Month Calendar..."
+#~ msgstr "Calendario mensual..."
+
+#~ msgid "Zoom In"
+#~ msgstr "Achegar"
+
+#~ msgid "Month"
+#~ msgstr "Mes"
+
+#~ msgid "Week"
+#~ msgstr "Semana"
+
+#~ msgid "Advanced Search"
+#~ msgstr "Busca avanzada"
+
+#~ msgid "Select your action"
+#~ msgstr "Seleccione a súa acción"
+
+#~ msgid ""
+#~ "You can not log into the system!\n"
+#~ "Ask the administrator to verify\n"
+#~ "you have an action defined for your user."
+#~ msgstr ""
+#~ "Non pode iniciar sesión no sistema!\n"
+#~ "Pregunte ao seu administrador para que\n"
+#~ "verifique se ten unha acción definida para o seu usuario."
+
+#~ msgid "Access Denied!"
+#~ msgstr "Acceso denegado!"
+
+#, python-format
+#~ msgid "Could not find configuration file: %s"
+#~ msgstr "Non se puido atopar o ficheiro de configuración: %s"
+
+#~ msgid "Developped by Axelor and Tiny"
+#~ msgstr "Desenvolvido por Axelor e Tiny"
+
+#~ msgid "Authorization Error!"
+#~ msgstr "Erro de autorización!"
+
+#~ msgid "You must select at least one record."
+#~ msgstr "Debe seleccionar a lo menos un rexistro."
+
+#~ msgid "Invalid form, correct red fields !"
+#~ msgstr "Formulario non válido, corrixa os campos en vermello!"
+
+#~ msgid "Do you really want to delete this record?"
+#~ msgstr "Está seguro de querer eliminar este rexistro?"
+
+#~ msgid ""
+#~ "You select a timezone but OpenERP could not find pytz library!\n"
+#~ "The timezone functionality will be disable."
+#~ msgstr ""
+#~ "Seleccionou unha zona horaria pero OpenERP non puido atopar a biblioteca "
+#~ "pytz!\n"
+#~ "A funcionalidade de zona horaria será deshabilitada."
+
+#~ msgid "Not logged..."
+#~ msgstr "Non iniciou sesión..."
+
+#~ msgid "Bad username or password!"
+#~ msgstr "Nome de usuario ou contrasinal incorrecto!"
+
+#~ msgid "You must save this record to use the relate button!"
+#~ msgstr "Debe gardar este rexistro para usar o botón de relacións!"
+
+#~ msgid "Do you really want to delete selected record(s) ?"
+#~ msgstr "Está seguro de querer eliminar os rexistros seleccionados?"
+
+#~ msgid "Do you really want to remove this node?"
+#~ msgstr "Está seguro de querer eliminar este nodo?"
+
+#~ msgid "Do you really wants to create an inherited view here?"
+#~ msgstr "Está seguro de querer crear unha vista herdada aquí?"
+
+#~ msgid "This operation may take a while..."
+#~ msgstr "Esta operación pode levar un tempo..."
+
+#~ msgid "Duplicate"
+#~ msgstr "Duplicar"
+
+#~ msgid "Subflows:"
+#~ msgstr "Subfluxos:"
+
+#~ msgid "Related:"
+#~ msgstr "Relacionado:"
+
+#~ msgid "Print workflow"
+#~ msgstr "Imprimir fluxo de traballo"
+
+#~ msgid "Invalid View!"
+#~ msgstr "Vista non válida!"
+
+#~ msgid "Printing aborted, too long delay!"
+#~ msgstr "Cancelouse a impresión, demasiado retraso!"
+
+#~ msgid "Relative URLs are not supported!"
+#~ msgstr "Non se permiten os URL relativos!"
+
+#~ msgid "No record selected! You can only attach to existing record..."
+#~ msgstr ""
+#~ "Non seleccionou un rexistro! Só pode anexar a un rexistro existente..."
+
+#~ msgid "Load Demonstration data:"
+#~ msgstr "Cargar datos de exemplo:"
+
+#~ msgid "Default Language:"
+#~ msgstr "Idioma predefinido:"
+
+#~ msgid "Do you really want to drop the selected database?"
+#~ msgstr "Está seguro de querer eliminar a base de datos seleccionada?"
+
+#~ msgid ""
+#~ "The database name must contain only normal characters or \"_\".\n"
+#~ "You must avoid all accents, space or special characters."
+#~ msgstr ""
+#~ "A base de datos só pode conter caracteres normais ou  \"_\".\n"
+#~ "Debe evitar acentos, espazos ou caracteres especiais."
+
+#~ msgid "Bad database name!"
+#~ msgstr "Nome incorrecto de base de datos!"
+
+#~ msgid ""
+#~ "The server crashed during installation.\n"
+#~ "We suggest you to drop this database."
+#~ msgstr ""
+#~ "O servidor fallou durante a instalación.\n"
+#~ "Suxerímoslle que elimine esta base de datos."
+
+#~ msgid "Bad database administrator password!"
+#~ msgstr "Contrasinal de administrador de base de datos incorrecto!"
+
+#~ msgid "Could not change super admin password."
+#~ msgstr "Non se puido cambiar o contrasinal de superadministrador."
+
+#~ msgid "Bad password provided!"
+#~ msgstr "Contrasinal incorrecto!"
+
+#~ msgid "Error, password not changed."
+#~ msgstr "Erro, contrasinal non modificado."
+
+#~ msgid ""
+#~ "Your problem has been sent to the quality team!\n"
+#~ "We will recontact you after analysing the problem."
+#~ msgstr ""
+#~ "O seu problema foi enviado ao equipo de calidade!\n"
+#~ "Contactaremos con vostede despois de analizar o problema."
+
+#, python-format
+#~ msgid ""
+#~ "Your problem could not be sent to the quality team!\n"
+#~ "Please report this error manually at %s"
+#~ msgstr ""
+#~ "O seu problema non puido ser enviado ao equipo de calidade!\n"
+#~ "Informe manualmente deste erro en %s"
+
+#~ msgid "Invalid button type"
+#~ msgstr "Tipo de botón non válido"
+
+#~ msgid "No record selected!"
+#~ msgstr "Ningún rexistro seleccionado!"
+
+#~ msgid "You must save this record to use the sidebar button!"
+#~ msgstr "Debe gardar este rexistro para usar o botón da barra lateral!"
+
+#, python-format
+#~ msgid "Wrong on_change trigger: %s"
+#~ msgstr "Disparador on_change erróneo: %s"
+
+#~ msgid ""
+#~ "Operation failed!\n"
+#~ "I/O error"
+#~ msgstr ""
+#~ "Fallou a operación!\n"
+#~ "Erro E/S"
+
+#~ msgid "Error opening .CSV file"
+#~ msgstr "Erro ao abrir o ficheiro .CSV"
+
+#~ msgid "Input Error."
+#~ msgstr "Erro de entrada."
+
+#, python-format
+#~ msgid ""
+#~ "Error processing your first line of the file.\n"
+#~ "Field %s is unknown!"
+#~ msgstr ""
+#~ "Erro ao procesar a primeira liña do ficheiro.\n"
+#~ "Non se coñece o campo %s!"
+
+#~ msgid "Import Error."
+#~ msgstr "Erro ao importar."
+
+#, python-format
+#~ msgid ""
+#~ "Unable to import this record:\n"
+#~ "%s\n"
+#~ "Error Message:\n"
+#~ "%s\n"
+#~ "\n"
+#~ "%s"
+#~ msgstr ""
+#~ "Non foi posíbel importar este rexistro:\n"
+#~ "%s\n"
+#~ "Mensaxe de erro:\n"
+#~ "%s\n"
+#~ "\n"
+#~ "%s"
+
+#~ msgid "Parent record doesn't exists..."
+#~ msgstr "Non existe o rexistro pai..."
+
+#~ msgid "Select Workflow"
+#~ msgstr "Seleccione fluxo de traballo"
+
+#, python-format
+#~ msgid "%(name)s - Resource: %(resource)s, State: %(state)s"
+#~ msgstr "%(name)s - Recurso: %(resource)s, Estado: %(state)s"
+
+#~ msgid "No request"
+#~ msgstr "Non hai peticións"
+
+#~ msgid "You need to save the resource before adding translations."
+#~ msgstr "Ten que gardar o recurso antes de engadir traducións."
+
+#~ msgid "No resource is selected..."
+#~ msgstr "Non hai ningún recurso seleccionado..."
+
+#~ msgid "Invalid view id."
+#~ msgstr "ID de vista non válida."
+
+#~ msgid "Unable to create inherited view."
+#~ msgstr "Non se puido crear unha vista herdada."
+
+#~ msgid "Can't create inherited view here."
+#~ msgstr "Non se pode crear unha vista herdada aquí."
+
+#~ msgid "Unable to update the view."
+#~ msgstr "Non foi posíbel actualizar a vista."
+
+#~ msgid "Could not delete state"
+#~ msgstr "Non se puido borrar o estado"
+
+#~ msgid "No workflow associated!"
+#~ msgstr "Non ten un fluxo de traballo asociado!"
+
+#~ msgid "Drop"
+#~ msgstr "Eliminar"
+
+#~ msgid "An unknown error has been reported."
+#~ msgstr "Informouse dun erro descoñecido."
+
+#~ msgid "You do not have a valid Open ERP maintenance contract !"
+#~ msgstr "Vostede non ten un contrato de mantemento de OpenERP válido !"
+
+#~ msgid ""
+#~ "If you are using Open ERP in production, it is highly suggested to "
+#~ "subscribe\n"
+#~ "a maintenance program.\n"
+#~ "\n"
+#~ "The Open ERP maintenance contract provides you a bugfix guarantee and an\n"
+#~ "automatic migration system so that we can fix your problems within a few\n"
+#~ "hours. If you had a maintenance contract, this error would have been sent\n"
+#~ "to the quality team of the Open ERP editor.\n"
+#~ "\n"
+#~ "The maintenance program offers you:\n"
+#~ "* Automatic migrations on new versions,\n"
+#~ "* A bugfix guarantee,\n"
+#~ "* Monthly announces of potential bugs and their fixes,\n"
+#~ "* Security alerts by email and automatic migration,\n"
+#~ "* Access to the customer portal.\n"
+#~ "\n"
+#~ "You can use the link bellow for more information. The detail of the error\n"
+#~ "is displayed on the second tab."
+#~ msgstr ""
+#~ "Se está a usar OpenERP en producción, recoméndaselle que se subscriba\n"
+#~ "ao programa de mantemento.\n"
+#~ "\n"
+#~ "O contrato de mantemento de OpenERP dalle unha garantía de arranxo de erros\n"
+#~ "e de migración automática do sistema de maneira de que poidamos arranxar os "
+#~ "seus\n"
+#~ "problemas nunhas poucas horas. Se ten un contrato de mantemento, este erro "
+#~ "enviarase\n"
+#~ "ao equipo de calidade do editor OpenERP.\n"
+#~ "\n"
+#~ "O programa de mantemento ofrécelle:\n"
+#~ "* Migracións automáticas ás novas versións,\n"
+#~ "* Garantía de arranxo de erros,\n"
+#~ "* Anuncios mensuais de erros e arranxos potenciais,\n"
+#~ "* Alertas de seguranza por correo-e e migración automática,\n"
+#~ "* Acceso ao sitio web de clientes.\n"
+#~ "\n"
+#~ "Pode usar a ligazón seguinte para máis información. Os detalles do erro\n"
+#~ "móstranse no segundo separador."
+
+#~ msgid ""
+#~ "Your maintenance contract does not cover all modules installed in your "
+#~ "system !\n"
+#~ "If you are using Open ERP in production, it is highly suggested to upgrade "
+#~ "your\n"
+#~ "contract.\n"
+#~ "\n"
+#~ "If you have developped your own modules or installed third party module, we\n"
+#~ "can provide you an additional maintenance contract for these modules. After\n"
+#~ "having reviewed your modules, our quality team will ensure they will "
+#~ "migrate\n"
+#~ "automatically for all futur stable versions of Open ERP at no extra cost.\n"
+#~ "\n"
+#~ "Here is the list of modules not covered by your maintenance contract:"
+#~ msgstr ""
+#~ "O seu contrato de mantemento non cubre todos os módulos instalados no seu "
+#~ "sistema!\n"
+#~ "Se está a usar OpenERP en producción, é altamente recomendábel que actualice "
+#~ "o seu\n"
+#~ "contrato.\n"
+#~ "\n"
+#~ "Se vostede mesmo desenvolveu os seus propios módulos ou instalou módulos de "
+#~ "terceiros,\n"
+#~ "podemos ofrecerlle un contrato de mantemento adicional para eses módulos. "
+#~ "Unha vez revisados os seus módulos, o noso equipo de calidade asegurarase da "
+#~ "súa migración\n"
+#~ "automática ás futuras versións estábeis de OpenERP sen ningún custo "
+#~ "adicional.\n"
+#~ "\n"
+#~ "Aquí ten a lista dos módulos non cubertos polo seu contrato actual de "
+#~ "mantemento:"
+
+#~ msgid ""
+#~ "You can use the link bellow for more information. The detail of the error\n"
+#~ "is displayed on the second tab."
+#~ msgstr ""
+#~ "Pode usar a seguinte ligazón para máis información. Os detalles do erro\n"
+#~ "móstranse no segundo separador."
+
+#~ msgid "Maintenance contract."
+#~ msgstr "Contrato de mantemento."
+
+#~ msgid ""
+#~ "Your request will be sent to OpenERP and maintenance team will reply you "
+#~ "shortly."
+#~ msgstr ""
+#~ "A súa petición será enviada ao equipo de OpenERP e o equipo de mantemento "
+#~ "responderalle en breve."
+
+#~ msgid "Explain what you did:"
+#~ msgstr "Explique o que fixo:"
+
+#~ msgid "Send to Maintenance Team"
+#~ msgstr "Enviar ao equipo de mantemento"
+
+#~ msgid "Write concurrency warning :"
+#~ msgstr "Aviso de escritura concurrente:"
+
+#~ msgid ""
+#~ "This document has been modified while you were editing it.\n"
+#~ "Choose:\n"
+#~ "\n"
+#~ "\t- \"Cancel\" to cancel saving.\n"
+#~ "\t- \"Write anyway\" to save your current version."
+#~ msgstr ""
+#~ "Este documento foi modificado mentres o estaba editando.\n"
+#~ "Elixa:\n"
+#~ "\n"
+#~ "\t-\"Cancelar\" para cancelar o gardado.\n"
+#~ "\t-\"Gardar de calquera maneira\" para gardar a súa versión actual."
+
+#~ msgid "Write Anyway"
+#~ msgstr "Gardar de calquera maneira"
+
+#~ msgid "Name of This Export:"
+#~ msgstr "Nome desta exportación:"
+
+#~ msgid "Add field names"
+#~ msgstr "Engadir nomes de campo"
+
+#~ msgid "Field Preferences"
+#~ msgstr "Preferencias do campo"
+
+#~ msgid "Default Value:"
+#~ msgstr "Valor predefinido:"
+
+#~ msgid "Value applicable for:"
+#~ msgstr "Valor aplicábel para:"
+
+#~ msgid "Value applicable if:"
+#~ msgstr "Valor aplicábel se:"
+
+#~ msgid "Always applicable!"
+#~ msgstr "Sempre aplicábel!"
+
+#~ msgid "Tree View..."
+#~ msgstr "Vista de árbore..."
+
+#~ msgid "Form View..."
+#~ msgstr "Vista de formulario..."
+
+#~ msgid "Graph View..."
+#~ msgstr "Vista de gráfico"
+
+#~ msgid "Corporate Intelligence..."
+#~ msgstr "Estratexia corporativa..."
+
+#~ msgid "Process"
+#~ msgstr "Proceso"
+
+#~ msgid "Add an attachment to this resource."
+#~ msgstr "Engadir un anexo a este recurso."
+
+#~ msgid "Create a new resource"
+#~ msgstr "Crear un novo recurso"
+
+#~ msgid "Cancel editing the current resource"
+#~ msgstr "Cancelar a edicións do recurso actual"
+
+#~ msgid "Manage views of the current object"
+#~ msgstr "Xestionar vistas do obxecto actual"
+
+#~ msgid "Manage workflows of the current object"
+#~ msgstr "Xestionar fluxos de traballo do obxecto actual"
+
+#~ msgid "Manage Workflows"
+#~ msgstr "Xestionar fluxos de traballo"
+
+#~ msgid "Customise current object or create a new object"
+#~ msgstr "Personalizar obxecto actual ou crear un novo"
+
+#~ msgid "Customise Object"
+#~ msgstr "Personalizar obxecto"
+
+#~ msgid "Lines to skip:"
+#~ msgstr "Saltar liñas:"
+
+#~ msgid "Select Process"
+#~ msgstr "Seleccionar proceso"
+
+#, python-format
+#~ msgid "Search %(name)s"
+#~ msgstr "Buscar %(name)s"
+
+#~ msgid "Relates"
+#~ msgstr "Relacionado"
+
+#~ msgid "Switch current view: form/list"
+#~ msgstr "Cambiar vista actual: formulario/lista"
+
+#~ msgid "Switch"
+#~ msgstr "Cambiar"
+
+#, python-format
+#~ msgid "View Editor %s - %s"
+#~ msgstr "Vista editor %s - %s"
+
+#~ msgid "Create a new inherited view"
+#~ msgstr "Crear unha nova vista herdada"
+
+#~ msgid "Inherited View"
+#~ msgstr "Vista herdada"
+
+#~ msgid "Node Type:"
+#~ msgstr "Tipo de nodo:"
+
+#~ msgid "View Type:"
+#~ msgstr "Tipo de vista:"
+
+#, python-format
+#~ msgid "Manage Workflows %s"
+#~ msgstr "Xestionar fluxos de traballo %s"
+
+#, python-format
+#~ msgid "Create a Workflow (%s)"
+#~ msgstr "Crear un fluxo de traballo (%s)"
+
+#~ msgid "Workflow Name:"
+#~ msgstr "Nome do fluxo de traballo:"
+
+#~ msgid "Resource Model:"
+#~ msgstr "Modelo do recurso:"
+
+#~ msgid "Workflow"
+#~ msgstr "Fluxo de traballo"
+
+#, python-format
+#~ msgid "Workflow (%s)"
+#~ msgstr "Fluxo de traballo (%s)"
+
+#, python-format
+#~ msgid "%(ooweb)s is jointly developed by %(tiny)s and %(axelor)s."
+#~ msgstr "%(ooweb)s desenvólvese conxuntamente entre %(tiny)s e %(axelor)s."
+
+#, python-format
+#~ msgid ""
+#~ "%(openerp)s is a free enterprise-scale software system that is designed to "
+#~ "boost\n"
+#~ "productivity and profit through data integration. It connects, improves and\n"
+#~ "manages business processes in areas such as sales, finance, supply chain,\n"
+#~ "project management, production, services, CRM, etc..\n"
+#~ msgstr ""
+#~ "%(openerp)s é un sistema software para empresa libre e escalábel que está "
+#~ "deseñado para\n"
+#~ "mellorar a produtividade e os beneficios a través da integración dos datos. "
+#~ "Conecta, mellora e \n"
+#~ " xestiona procesos de negocios en áreas como ventas, finanzas, suministros,\n"
+#~ "xestións de proxectos, producción, servizos, CRM ,etc...\n"
+
+#~ msgid ""
+#~ "The system is platform-independent, and can be installed on Windows, Mac OS "
+#~ "X,\n"
+#~ "and various Linux and other Unix-based distributions. Its architecture "
+#~ "enables\n"
+#~ "new functionality to be rapidly created, modifications to be made to a\n"
+#~ "production system and migration to a new version to be straightforward."
+#~ msgstr ""
+#~ "O sistema é independente da plataforma, e pode ser instalado en Windows, Mac "
+#~ "OS X,\n"
+#~ "e varias distribucións de Linux e variantes baseadas en Unix. A súa "
+#~ "arquitectura permite\n"
+#~ "crear novas funcionalidades rapidamente, e as modificacións ou migracións\n"
+#~ "a realizar a nun sistema en produción cara a unha nova versión son moi "
+#~ "rápidas."
+
+#~ msgid ""
+#~ "Depending on your needs, OpenERP is available through a web or application "
+#~ "client."
+#~ msgstr ""
+#~ "Dependendo das súas necesidades, OpenERP está dispoñíbel como aplicativo web "
+#~ "ou como aplicativo cliente."
+
+#~ msgid "Planet"
+#~ msgstr "Planeta"
+
+#~ msgid "SaaS Offers"
+#~ msgstr "Ofertas de software como servizo (SaaS)"
+
+#~ msgid "Trainings"
+#~ msgstr "Formación"
+
+#~ msgid "Requests:"
+#~ msgstr "Peticións:"
+
+#~ msgid "Running Server:"
+#~ msgstr "Executando o servidor:"
+
+#~ msgid "Invalid datetime format"
+#~ msgstr "Formato de data incorrecta"
+
+#~ msgid "An email address must contain a single @"
+#~ msgstr "Un correo-e debe conter unha soa @"
+
+#, python-format
+#~ msgid ""
+#~ "The username portion of the email address is invalid (the portion before the "
+#~ "@: %(username)s)"
+#~ msgstr ""
+#~ "A parte do nome de usuario do correo-e non é válida (a parte anterior á @: "
+#~ "%(username)s)"
+
+#, python-format
+#~ msgid ""
+#~ "The domain portion of the email address is invalid (the portion after the @: "
+#~ "%(domain)s)"
+#~ msgstr ""
+#~ "A parte do dominio do correo-e non é válida (a parte detrás á @: %(domain)s)"
+
+#~ msgid "You must start your URL with http://, https://, etc"
+#~ msgstr "Debe comezar o seu URL con http://, https://, etc"
+
+#, python-format
+#~ msgid "You must provide a full domain name (like %(domain)s.com)"
+#~ msgstr "Debe fornecer unha nome completo de dominio (como %(domain)s.com)"
+
+#~ msgid "Please enter an integer value"
+#~ msgstr "Introduza un valor enteiro"
+
+#, python-format
+#~ msgid "Invalid view, duplicate field: %s"
+#~ msgstr "Vista non válida, campo duplicado: %s"
+
+#~ msgid "Save parent record."
+#~ msgstr "Gardar rexistro pai."
+
+#~ msgid "Change Limit:"
+#~ msgstr "Cambiar límite:"
+
+#~ msgid "Filter records."
+#~ msgstr "Filtrar rexistros."
+
+#, python-format
+#~ msgid "%s, Qtr %s"
+#~ msgstr "%s, Trim %s"
+
+#, python-format
+#~ msgid "W %s"
+#~ msgstr "S %s"
+
+#, python-format
+#~ msgid "Year %s to Year %s"
+#~ msgstr "Ano %s ao ano %s"
+
+#~ msgid "Apply search filter"
+#~ msgstr "Aplicar filtro de busca"

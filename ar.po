@@ -1,0 +1,39 @@
+# Arabic translation for openobject-client-web
+# Copyright (c) 2009 Rosetta Contributors and Canonical Ltd 2009
+# This file is distributed under the same license as the openobject-client-web package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2009.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: openobject-client-web\n"
+"Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
+"POT-Creation-Date: 2010-10-21 16:17+0530\n"
+"PO-Revision-Date: 2010-10-08 07:28+0000\n"
+"Last-Translator: bamuhrez <bamuhrez@gmail.com>\n"
+"Language-Team: Arabic <ar@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Launchpad-Export-Date: 2010-10-22 04:38+0000\n"
+"X-Generator: Launchpad (build Unknown)\n"
+
+#~ msgid "Invalid form, correct red fields !"
+#~ msgstr "خطأ في النموذج ، صحح الحقول الحمراء !"
+
+#~ msgid "Do you really want to delete this record?"
+#~ msgstr "هل تريد حقا حذف هذا السجل ؟"
+
+#~ msgid "Do you really want to delete selected record(s) ?"
+#~ msgstr "هل تريد حقا حذف السجلات المختارة ؟"
+
+#~ msgid "Do you really want to remove this node?"
+#~ msgstr "هل نريد حقا إزالة العقدة ."
+
+#~ msgid "You must select at least one record."
+#~ msgstr "يجب اختيار سجل واحد على اﻷقل."
+
+#~ msgid "Loading..."
+#~ msgstr "جاري التحميل..."
+
+#~ msgid "Do you really wants to create an inherited view here?"
+#~ msgstr "هل حقا تريد إنشاء عرض مورث (inherited view) هنا ؟"

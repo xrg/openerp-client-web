@@ -1,0 +1,735 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: eTiny!\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2010-10-21 16:17+0530\n"
+"PO-Revision-Date: 2010-10-08 07:36+0000\n"
+"Last-Translator: OpenERP Administrators <Unknown>\n"
+"Language-Team: eTiny!\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Launchpad-Export-Date: 2010-10-22 04:39+0000\n"
+"X-Generator: Launchpad (build Unknown)\n"
+"X-Poedit-Language: Ukrainian\n"
+"X-Poedit-SourceCharset: utf-8\n"
+
+#~ msgid "Could not find default configuration."
+#~ msgstr "Неможливо знайти типову конфігурацію."
+
+#~ msgid "Error"
+#~ msgstr "Помилка"
+
+#~ msgid "Warning"
+#~ msgstr "Попередження"
+
+#~ msgid "Not logged..."
+#~ msgstr "Потрібно ввійти..."
+
+#~ msgid "Error no report"
+#~ msgstr "Помилка: звіту не існує"
+
+#~ msgid "Nothing to print!"
+#~ msgstr "Немає чого друкувати!"
+
+#~ msgid "No action defined!"
+#~ msgstr "Жодної дії не визначено!"
+
+#~ msgid ""
+#~ "The database name must contain only normal characters or \"_\".\n"
+#~ "You must avoid all accents, space or special characters."
+#~ msgstr ""
+#~ "Ім'я бази даних має складатися лише з латинських літер, цифр або  \"_\".\n"
+#~ "Не використовуйте апострофи, пробіли чи спеціальні символи."
+
+#~ msgid "Could not create database."
+#~ msgstr "Неможливо створити базу даних."
+
+#~ msgid "Could not drop database."
+#~ msgstr "Неможливо знищити базу даних."
+
+#~ msgid "Couldn't drop database"
+#~ msgstr "Неможливо знищити базу даних"
+
+#~ msgid "Could not create backup."
+#~ msgstr "Неможливо створити резервну копію."
+
+#~ msgid "Could not restore database."
+#~ msgstr "Неможливо відновити базу даних."
+
+#~ msgid "Couldn't restore database"
+#~ msgstr "Неможливо відновити базу даних"
+
+#~ msgid "Error, password not changed."
+#~ msgstr "Помилка, пароль не змінено."
+
+#~ msgid "Invalid button type"
+#~ msgstr "Невірний тип кнопки"
+
+#~ msgid "Print Screen"
+#~ msgstr "Друк екрану"
+
+#~ msgid "You must save this record to use the sidebar button!"
+#~ msgstr "Потрібно зберегти запис для використання кнопки бокової панелі!"
+
+#, python-format
+#~ msgid "Wrong on_change trigger: %s"
+#~ msgstr "Невірний on_change тригер: %s"
+
+#~ msgid "Error opening .CSV file"
+#~ msgstr "Помилка відкриття CSV-файлу"
+
+#~ msgid "Input Error."
+#~ msgstr "Помилка вводу."
+
+#~ msgid "Import Error."
+#~ msgstr "Помилка імпорту."
+
+#, python-format
+#~ msgid ""
+#~ "Unable to import this record:\n"
+#~ "%s\n"
+#~ "Error Message:\n"
+#~ "%s\n"
+#~ "\n"
+#~ "%s"
+#~ msgstr ""
+#~ "Неможливо імпортувати рядок:\n"
+#~ "%s\n"
+#~ "Повідомлення помилки::\n"
+#~ "%s\n"
+#~ "\n"
+#~ "%s"
+
+#~ msgid "Parent record doesn't exists..."
+#~ msgstr "Батьківського запису не існує..."
+
+#~ msgid "No request"
+#~ msgstr "Немає запитів"
+
+#, python-format
+#~ msgid "%s request(s)"
+#~ msgstr "%s запит(и)"
+
+#~ msgid "You need to save the resource before adding translations."
+#~ msgstr "Потрібно зберегти ресурс перед додаванням перекладів."
+
+#~ msgid "ID"
+#~ msgstr "ID"
+
+#~ msgid "Creation User"
+#~ msgstr "Створив"
+
+#~ msgid "Creation Date"
+#~ msgstr "Дата створення"
+
+#~ msgid "Latest Modification by"
+#~ msgstr "Остання зміна"
+
+#~ msgid "Latest Modification Date"
+#~ msgstr "Дата останньої зміни"
+
+#~ msgid "Owner"
+#~ msgstr "Власник"
+
+#~ msgid "Group Owner"
+#~ msgstr "Група-власник"
+
+#~ msgid "Access Level"
+#~ msgstr "Рівень доступу"
+
+#~ msgid "Yes"
+#~ msgstr "Так"
+
+#~ msgid "No"
+#~ msgstr "Ні"
+
+#~ msgid "== Access Denied =="
+#~ msgstr "== Доступ заборонений =="
+
+#~ msgid "Create new record."
+#~ msgstr "Створити новий запис."
+
+#~ msgid "New"
+#~ msgstr "Новий"
+
+#~ msgid "Save/New"
+#~ msgstr "Зберегти/новий"
+
+#, python-format
+#~ msgid "[%s/%s]"
+#~ msgstr "[%s/%s]"
+
+#, python-format
+#~ msgid "[%s - %s of %s]"
+#~ msgstr "[%s - %s з %s]"
+
+#~ msgid "Monday"
+#~ msgstr "Понеділок"
+
+#~ msgid "Tuesday"
+#~ msgstr "Вівторок"
+
+#~ msgid "Wednesday"
+#~ msgstr "Середа"
+
+#~ msgid "Thursday"
+#~ msgstr "Четвер"
+
+#~ msgid "Friday"
+#~ msgstr "П'ятниця"
+
+#~ msgid "Saturday"
+#~ msgstr "Субота"
+
+#~ msgid "Sunday"
+#~ msgstr "Неділя"
+
+#~ msgid "January"
+#~ msgstr "Січень"
+
+#~ msgid "February"
+#~ msgstr "Лютий"
+
+#~ msgid "March"
+#~ msgstr "Березень"
+
+#~ msgid "April"
+#~ msgstr "Квітень"
+
+#~ msgid "May"
+#~ msgstr "Травень"
+
+#~ msgid "June"
+#~ msgstr "Червень"
+
+#~ msgid "July"
+#~ msgstr "Липень"
+
+#~ msgid "August"
+#~ msgstr "Серпень"
+
+#~ msgid "September"
+#~ msgstr "Вересень"
+
+#~ msgid "October"
+#~ msgstr "Жовтень"
+
+#~ msgid "November"
+#~ msgstr "Листопад"
+
+#~ msgid "December"
+#~ msgstr "Грудень"
+
+#~ msgid "Please select a file."
+#~ msgstr "Виберіть файл."
+
+#~ msgid "Loading..."
+#~ msgstr "Завантаження..."
+
+#~ msgid "Today"
+#~ msgstr "Сьогодні"
+
+#~ msgid "Day"
+#~ msgstr "День"
+
+#~ msgid "Week"
+#~ msgstr "Тиждень"
+
+#~ msgid "Month"
+#~ msgstr "Місяць"
+
+#~ msgid "Apply search filter"
+#~ msgstr "Застосувати фільтр пошуку"
+
+#~ msgid "M"
+#~ msgstr "M"
+
+#~ msgid "T"
+#~ msgstr "T"
+
+#~ msgid "W"
+#~ msgstr "W"
+
+#~ msgid "F"
+#~ msgstr "F"
+
+#~ msgid "S"
+#~ msgstr "S"
+
+#~ msgid "Selected"
+#~ msgstr "Вибрано"
+
+#~ msgid "Not Selected"
+#~ msgstr "Не вибрано"
+
+#~ msgid "Filter"
+#~ msgstr "Фільтр"
+
+#~ msgid "<< First"
+#~ msgstr "<< Перший"
+
+#~ msgid "< Previous"
+#~ msgstr "< Попередній"
+
+#~ msgid "Next >"
+#~ msgstr "Наступний >"
+
+#~ msgid "Last >>"
+#~ msgstr "Останній >>"
+
+#~ msgid "Change Limit:"
+#~ msgstr "Змінити ліміт:"
+
+#~ msgid "20"
+#~ msgstr "20"
+
+#~ msgid "40"
+#~ msgstr "40"
+
+#~ msgid "60"
+#~ msgstr "60"
+
+#~ msgid "80"
+#~ msgstr "80"
+
+#~ msgid "100"
+#~ msgstr "100"
+
+#~ msgid "Go!"
+#~ msgstr "Вперед!"
+
+#~ msgid "Title"
+#~ msgstr "Заголовок"
+
+#~ msgid "Update"
+#~ msgstr "Поновити"
+
+#~ msgid "Cancel"
+#~ msgstr "Скасувати"
+
+#~ msgid "Edit"
+#~ msgstr "Редагувати"
+
+#~ msgid "Delete"
+#~ msgstr "Видалити"
+
+#~ msgid "Import"
+#~ msgstr "Імпортувати"
+
+#~ msgid "|"
+#~ msgstr "l"
+
+#~ msgid "Export"
+#~ msgstr "Експортувати"
+
+#~ msgid "Button Label"
+#~ msgstr "Мітка кнопки"
+
+#~ msgid "Select"
+#~ msgstr "Вибрати"
+
+#~ msgid "Delete current record..."
+#~ msgstr "Видалити рядок..."
+
+#~ msgid "Previous record..."
+#~ msgstr "Попередній рядок..."
+
+#~ msgid "Next record..."
+#~ msgstr "Наступний рядок..."
+
+#~ msgid "Translate me."
+#~ msgstr "Перекласти."
+
+#~ msgid "Save As"
+#~ msgstr "Зберегти як"
+
+#~ msgid "Clear"
+#~ msgstr "Очистити"
+
+#~ msgid "Search"
+#~ msgstr "Знайти"
+
+#~ msgid "Basic Search"
+#~ msgstr "Базовий пошук"
+
+#~ msgid "Advanced Search"
+#~ msgstr "Додатковий пошук"
+
+#~ msgid "-"
+#~ msgstr "-"
+
+#~ msgid "Copyright © 2006-TODAY Tiny ERP Pvt. Ltd. All Rights Reserved."
+#~ msgstr "Copyright © 2006-TODAY Tiny ERP Pvt. Ltd. All Rights Reserved."
+
+#~ msgid "."
+#~ msgstr "."
+
+#~ msgid "Tiny"
+#~ msgstr "Tiny"
+
+#~ msgid "and"
+#~ msgstr "та"
+
+#~ msgid "Axelor"
+#~ msgstr "Axelor"
+
+#~ msgid ""
+#~ "is a free enterprise-scale software system that is designed to boost\n"
+#~ "productivity and profit through data integration. It connects, improves and\n"
+#~ "manages business processes in areas such as sales, finance, supply chain,\n"
+#~ "project management, production, services, CRM, etc.."
+#~ msgstr ""
+#~ "- це вільна програмна система рівня підприємства, яка розроблена для\n"
+#~ "підвищення продуктивності та ефективності шляхом інтеграції даних.\n"
+#~ "Ця система керує бізнес-процесами, пов'язує та покращує їх у таких\n"
+#~ "сферах діяльності, як продажі, фінанси, системи постачання, керування\n"
+#~ "проектами, виробництво, послуги, CRM та іншому."
+
+#~ msgid ""
+#~ "The system is platform-independent, and can be installed on Windows, Mac OS "
+#~ "X,\n"
+#~ "and various Linux and other Unix-based distributions. Its architecture "
+#~ "enables\n"
+#~ "new functionality to be rapidly created, modifications to be made to a\n"
+#~ "production system and migration to a new version to be straightforward."
+#~ msgstr ""
+#~ "Ця система є незалежною від операційної системи і може бути встановлена\n"
+#~ "на Windows, Mac OS X, різних Linux та інших платформах, базованих на Unix.\n"
+#~ "Її архітектура дозволяє швидко створювати нові функційні можливості,\n"
+#~ "робити зміни у робочій системі та робити простими переходи на нові\n"
+#~ "версії."
+
+#~ msgid "Links"
+#~ msgstr "Посилання"
+
+#~ msgid "The Axelor Company"
+#~ msgstr "Компанія Axelor"
+
+#~ msgid "The Tiny Company"
+#~ msgstr "Компанія Tiny"
+
+#~ msgid "RESOURCES"
+#~ msgstr "РЕСУРСИ"
+
+#~ msgid "Homepage"
+#~ msgstr "Домашня сторінка"
+
+#~ msgid "Documentation"
+#~ msgstr "Документація"
+
+#~ msgid "Forum"
+#~ msgstr "Форум"
+
+#~ msgid "Modules"
+#~ msgstr "Модулі"
+
+#~ msgid "Download"
+#~ msgstr "Завантаження"
+
+#~ msgid "Planet"
+#~ msgstr "Планета"
+
+#~ msgid "SaaS Offers"
+#~ msgstr "Пропозиції Saas"
+
+#~ msgid "Trainings"
+#~ msgstr "Тренінги"
+
+#~ msgid "Services"
+#~ msgstr "Сервіси"
+
+#~ msgid "Your title goes here"
+#~ msgstr "Ваш заголовок буде тут"
+
+#~ msgid "Welcome"
+#~ msgstr "Вітаємо,"
+
+#~ msgid "Home"
+#~ msgstr "Додому"
+
+#~ msgid "Preferences"
+#~ msgstr "Налаштування"
+
+#~ msgid "About"
+#~ msgstr "Про систему"
+
+#~ msgid "Logout"
+#~ msgstr "Вихід"
+
+#~ msgid "Requests:"
+#~ msgstr "Запити:"
+
+#~ msgid "MAIN MENU"
+#~ msgstr "ГОЛОВНЕ МЕНЮ"
+
+#~ msgid "SHORTCUTS"
+#~ msgstr "ЗАКЛАДКИ"
+
+#~ msgid ">>"
+#~ msgstr ">>"
+
+#~ msgid "[ADD]"
+#~ msgstr "[ДОДАТИ]"
+
+#~ msgid ""
+#~ "Copyright © 2007-TODAY Tiny ERP Pvt. Ltd. All Rights Reserved. More "
+#~ "Information on"
+#~ msgstr ""
+#~ "Copyright © 2007-TODAY Tiny ERP Pvt. Ltd. All Rights Reserved. More "
+#~ "Information on"
+
+#~ msgid "The web client is developed by Axelor ("
+#~ msgstr "Веб-клієнт розроблено Axelor ("
+
+#~ msgid "http://axelor.com"
+#~ msgstr "http://axelor.com"
+
+#~ msgid ") and Tiny ("
+#~ msgstr ") та Tiny ("
+
+#~ msgid "http://tiny.be"
+#~ msgstr "http://tiny.be"
+
+#~ msgid ")"
+#~ msgstr ")"
+
+#~ msgid "Running Server:"
+#~ msgstr "Робочий сервер:"
+
+#~ msgid "OK"
+#~ msgstr "OK"
+
+#~ msgid "Login"
+#~ msgstr "Вхід"
+
+#~ msgid "dbname"
+#~ msgstr "Ім'я бази даних"
+
+#~ msgid "Developped by Axelor and Tiny"
+#~ msgstr "Розроблено Axelor та Tiny"
+
+#~ msgid "Add Translations"
+#~ msgstr "Додати переклади"
+
+#~ msgid "Add Translation"
+#~ msgstr "Додати переклад"
+
+#~ msgid "Add Translation for:"
+#~ msgstr "Додати переклад для:"
+
+#~ msgid "Fields"
+#~ msgstr "Поля"
+
+#~ msgid "Labels"
+#~ msgstr "Мітки"
+
+#~ msgid "Relates"
+#~ msgstr "Зв'язки"
+
+#~ msgid "Save"
+#~ msgstr "Зберегти"
+
+#~ msgid "Close"
+#~ msgstr "Закрити"
+
+#~ msgid "Field"
+#~ msgstr "Поле"
+
+#~ msgid "Language"
+#~ msgstr "Мова"
+
+#~ msgid "Select action"
+#~ msgstr "Вибір дії"
+
+#~ msgid "Select your action"
+#~ msgstr "Вибір Вашої дії"
+
+#~ msgid "Form Title"
+#~ msgstr "Заголовок форми"
+
+#~ msgid "Form"
+#~ msgstr "Форма"
+
+#~ msgid "Calendar"
+#~ msgstr "Календар"
+
+#~ msgid "Graph"
+#~ msgstr "Граф"
+
+#~ msgid "Add an attachment to this resource."
+#~ msgstr "Додати долучення до цього ресурсу."
+
+#~ msgid "Translate this resource."
+#~ msgstr "Перекласти цей ресурс."
+
+#~ msgid "View Log."
+#~ msgstr "Перегляд протоколу."
+
+#~ msgid "Create a new resource"
+#~ msgstr "Створити новий ресурс"
+
+#~ msgid "Edit this resource"
+#~ msgstr "Редагувати цей ресурс"
+
+#~ msgid "Save this resource"
+#~ msgstr "Зберегти цей ресурс"
+
+#~ msgid "Save & Edit this resource"
+#~ msgstr "Зберегти і редагувати цей ресурс"
+
+#~ msgid "Save & Edit"
+#~ msgstr "Зберегти і редагувати"
+
+#~ msgid "Duplicate this resource"
+#~ msgstr "Дублювати цей ресурс"
+
+#~ msgid "Duplicate"
+#~ msgstr "Дублювати"
+
+#~ msgid "Delete this resource"
+#~ msgstr "Видалити цей ресурс"
+
+#~ msgid "Cancel editing the current resource"
+#~ msgstr "Скасувати редагування цього ресурсу"
+
+#~ msgid "REPORTS"
+#~ msgstr "ЗВІТИ"
+
+#~ msgid "ACTIONS"
+#~ msgstr "ДІЇ"
+
+#~ msgid "LINKS"
+#~ msgstr "ПОСИЛАННЯ"
+
+#~ msgid "Create"
+#~ msgstr "Створити"
+
+#~ msgid "Drop"
+#~ msgstr "Видалити"
+
+#~ msgid "Backup"
+#~ msgstr "Резервувати"
+
+#~ msgid "Restore"
+#~ msgstr "Відновити"
+
+#~ msgid "Password"
+#~ msgstr "Пароль"
+
+#~ msgid "Image"
+#~ msgstr "Зображення"
+
+#~ msgid "Add Resource:"
+#~ msgstr "Додати ресурс:"
+
+#~ msgid "Switch"
+#~ msgstr "Вигляд"
+
+#~ msgid "Print"
+#~ msgstr "Друк"
+
+#~ msgid "Toolbar"
+#~ msgstr "Панель інструментів"
+
+#~ msgid "Field Preferences"
+#~ msgstr "Налаштування полів"
+
+#~ msgid "Field Name:"
+#~ msgstr "Ім'я поля:"
+
+#~ msgid "Domain:"
+#~ msgstr "Домен:"
+
+#~ msgid "Default Value:"
+#~ msgstr "Типове значення:"
+
+#~ msgid "Value applicable for:"
+#~ msgstr "Значення прийнятне для:"
+
+#~ msgid "Only for you"
+#~ msgstr "Тільки для Вас"
+
+#~ msgid "For all"
+#~ msgstr "Для всіх"
+
+#~ msgid "Value applicable if:"
+#~ msgstr "Значення прийнятне, якщо:"
+
+#~ msgid "Import Data"
+#~ msgstr "Імпортувати дані"
+
+#~ msgid "All fields"
+#~ msgstr "Всі поля"
+
+#~ msgid "Fields to import"
+#~ msgstr "Поля для імпорту"
+
+#~ msgid "Add"
+#~ msgstr "Додати"
+
+#~ msgid "Remove"
+#~ msgstr "Видалити"
+
+#~ msgid "Nothing"
+#~ msgstr "Нічого"
+
+#~ msgid "Auto Detect"
+#~ msgstr "Автоматично"
+
+#~ msgid "File to import"
+#~ msgstr "Файл для імпорту"
+
+#~ msgid "Options"
+#~ msgstr "Опції"
+
+#~ msgid "Separator:"
+#~ msgstr "Розділювач:"
+
+#~ msgid "Delimiter:"
+#~ msgstr "Розмежувач:"
+
+#~ msgid "Encoding:"
+#~ msgstr "Кодування:"
+
+#~ msgid "UTF-8"
+#~ msgstr "UTF-8"
+
+#~ msgid "Latin 1"
+#~ msgstr "Latin 1"
+
+#~ msgid "Lines to skip:"
+#~ msgstr "Пропустити рядки:"
+
+#~ msgid "Export Data"
+#~ msgstr "Експорт даних"
+
+#~ msgid "Fields to export"
+#~ msgstr "Поля для експорту"
+
+#~ msgid "Export as CSV"
+#~ msgstr "Експорт у CSV"
+
+#~ msgid "Export as Excel"
+#~ msgstr "Експорт у Excel"
+
+#~ msgid "Add field names"
+#~ msgstr "Додати імена полів"
+
+#~ msgid "Do you really wants to create an inherited view here?"
+#~ msgstr "Ви дійсно бажаєте тут створити успадкований вид?"
+
+#~ msgid "You must select at least one record."
+#~ msgstr "Потрібно вибрати хоча б один запис."
+
+#~ msgid "Do you really want to remove this node?"
+#~ msgstr "Ви дійсно бажаєте видалити цей вузол?"
+
+#~ msgid "Do you really want to delete this record?"
+#~ msgstr "Ви справді бажаєте видалити цей запис?"
+
+#~ msgid "Invalid form, correct red fields !"
+#~ msgstr "Форма заповнена невірно, відкоригуйте червоні поля!"
+
+#~ msgid "Do you really want to delete selected record(s) ?"
+#~ msgstr "Ви справді бажаєте видалити вибраний(і) запис(и)?"
