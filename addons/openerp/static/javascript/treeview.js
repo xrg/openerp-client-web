@@ -36,20 +36,18 @@ TreeView.prototype = {
         ids = ids == ''? 'None' : ids;
 
         var tree = this.trees['tree_' + id] || null;
-
-        jQuery('#'+this.current.id).hide();
-
         if (!tree) {
-            var $span = jQuery('<span>', {'id': 'tree_' + id});
-            $span.appendTo(this.view_tree);
+            var $span = jQuery('<span>', {'id': 'tree_' + id})
+                            .appendTo(this.view_tree);
             tree = this.current.copy($span[0], null, ids);
             this.trees[tree.id] = tree;
 
             tree.render();
         }
 
-        this.current = tree;
+        jQuery(idSelector(this.current.id)).hide();
 
+        this.current = tree;
         if (tree.table) {
             jQuery(tree.table).show();
         }
