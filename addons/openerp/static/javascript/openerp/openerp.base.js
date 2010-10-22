@@ -39,7 +39,6 @@ function displayErrorOverlay(xhr) {
     };
     if(xhr.getResponseHeader('X-Maintenance-Error')) {
         options['autoDimensions'] = false;
-        options['showCloseButton'] = true;
     }
     jQuery.fancybox(xhr.responseText, options);
 }
