@@ -1172,6 +1172,9 @@ function toggle_shortcut(){
                 jQuery('#shortcut_' + RESOURCE_ID).parent().remove();
                 jQuery('#shortcuts').trigger('altered');
             }
+        },
+        error: function(XMLHttpRequest, textStatus, errorThrown) {
+            jQuery.fancybox(XMLHttpRequest.responseText, {scrolling: 'no'});
         }
     });
 }
