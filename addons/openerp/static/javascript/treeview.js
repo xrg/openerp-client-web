@@ -53,20 +53,6 @@ TreeView.prototype = {
         }
     },
 
-    switchItem: function() {
-        var selection = jQuery('#_terp_ids').val();
-        if (!selection) {
-            return error_display(_('You must select at least one record.'));
-        }
-
-        jQuery(this.view_tree).attr({
-            'action': openobject.http.getURL('/openerp/tree/switch', {
-                '_terp_selection': '[' + selection + ']'
-            }),
-            'method': 'post'
-        }).submit();
-    },
-
     repr: function() {
         return "[TreeView]";
     },
