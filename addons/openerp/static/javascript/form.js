@@ -1076,6 +1076,7 @@ function createAttachment(){
     }
     $form.ajaxSubmit({
         dataType: 'json',
+        data: {'requested_with': 'XMLHttpRequest'},
         success: function(data){
             var $attachment_line = jQuery('<li>', {
                 'id': 'attachment_item_' + data['id'],
