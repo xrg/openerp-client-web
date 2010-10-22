@@ -151,7 +151,7 @@ class ListGroup(List):
             self.domain.extend(i for i in custom_filter_domain if i not in domain)
 
 
-        if ids is None:
+        if ids is None and not self.group_by_no_leaf:
             if self.limit > 0:
                 ids = proxy.search(self.domain, self.offset, self.limit, 0, self.context)
             else:

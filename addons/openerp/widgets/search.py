@@ -119,8 +119,13 @@ class RangeWidget(TinyInputWidget):
                 cherrypy.request.terp_fields += [widget]
 
     def set_value(self, value):
-        start = value.get('from', '')
-        end = value.get('to', '')
+
+        if isinstance(value, basestring):
+            start = value
+            end = ''
+        else:
+            start = value.get('from', '')
+            end = value.get('to', '')
 
         self.from_field.set_value(start)
         self.to_field.set_value(end)
@@ -426,6 +431,9 @@ class Search(TinyInputWidget):
 
                                 elif field.kind in ('selection'):
                                     domain = [(name, '=', defval)]
+
+                                elif field.kind in ('date','datetime'):
+                                    domain = [(name, '>=', defval)]
 
                                 else:
                                     domain = [(name,fields[name].get('comparator','ilike'), defval)]
