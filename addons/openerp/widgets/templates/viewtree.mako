@@ -11,7 +11,6 @@
     % endfor
     
     <script type="text/javascript">
-    
         function onSelection(evt, node) {
         
             var selection = node.tree.selection;
@@ -23,16 +22,6 @@
             openobject.dom.get('_terp_id').value = values.length ? values[0] : '';
             openobject.dom.get('_terp_ids').value = values;
         }
-        
-        function onHeaderClick(evt, header) {
-        
-            var tree = header.tree;
-            
-            tree.ajax_params.sort_by = header.name;
-            tree.ajax_params.sort_order = tree.ajax_params.sort_order == "dsc" ? "asc" : "dsc";
-            tree.reload();
-        }
-        
     </script>
     
 % if tree:

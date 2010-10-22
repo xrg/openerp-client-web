@@ -62,7 +62,6 @@ TreeGrid.prototype = {
             'expandall' : false,
             'onselect' : function() {},
             'onbuttonclick' : function() {},
-            'onheaderclick' : function() {},
             'linktarget': null
         }, options || {});
 
@@ -178,15 +177,16 @@ TreeGrid.prototype = {
             var header = this.headers[i];
             var th = MochiKit.DOM.TH(null, header.string);
 
-            MochiKit.DOM.setNodeAttribute(th, 'title', header.help ? header.help : '');
-            MochiKit.DOM.setNodeAttribute(th, 'class', header.type);
-            MochiKit.DOM.setNodeAttribute(th, 'width', header.width);
-            MochiKit.DOM.setNodeAttribute(th, 'align', header.align);
+            jQuery(th).attr({
+                'title': header.help ? header.help : '',
+                'class': header.type,
+                'width': header.width,
+                'align': header.align
+            });
 
-            if (this.options.onheaderclick) {
-                th.onclick = MochiKit.Base.bind(MochiKit.Base.partial(this._onHeaderClick, header), this);
-                th.style.cursor = 'pointer';
-            }
+            MochiKit.Signal.connect(th, 'onclick', this,
+                    MochiKit.Base.partial(this._onHeaderClick, header));
+            th.style.cursor = 'pointer';
 
             header.tree = this;
 
@@ -202,8 +202,9 @@ TreeGrid.prototype = {
     },
 
     _onHeaderClick : function(header) {
-        var evt = arguments[1] || window.event;
-        this.options.onheaderclick(new MochiKit.Signal.Event(evt.target || evt.srcElement, evt), header);
+        this.ajax_params.sort_by = header.name;
+        this.ajax_params.sort_order = this.ajax_params.sort_order == "dsc" ? "asc" : "dsc";
+        this.reload();
     },
 
     copy: function(elem, options, ids) {
