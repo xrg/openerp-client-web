@@ -7,14 +7,8 @@
 }
 
 .pager .paging {
-    color: #a6a5a5;
-    font-size: 0.9em;
-    font-weight: bold;
-    text-align: right;
     line-height: 1;
     float: right;
-    margin: 0;
-    padding-left: 10px;
 }
 
 .pager .paging span {
