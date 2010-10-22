@@ -36,21 +36,19 @@ import simplejson
 import cherrypy
 
 import actions
-import form
+
+from openobject.i18n.format import DT_SERVER_FORMATS
+from openobject.tools import url, expose
+
 from openerp.controllers import SecuredController
 from openerp.utils import rpc, cache, icons, common, TinyDict
 from openerp.widgets import tree_view
 
-from openobject.tools import url, expose
-
-DT_FORMAT = '%Y-%m-%d'
-DHM_FORMAT = '%Y-%m-%d %H:%M:%S'
-
 FORMATTERS = {
     'integer': lambda value, _i: str(value),
     'float': lambda value, _i: '%.02f' % (value),
-    'date': lambda value, _i: time.strftime('%x', time.strptime(value, DT_FORMAT)),
-    'datetime': lambda value, _i: time.strftime('%x', time.strptime(value, DHM_FORMAT)),
+    'date': lambda value, _i: time.strftime('%x', time.strptime(value, DT_SERVER_FORMATS['date'])),
+    'datetime': lambda value, _i: time.strftime('%x', time.strptime(value, DT_SERVER_FORMATS['datetime'])),
     'one2one': lambda value, _i: value[1],
     'many2one': lambda value, _i: value[1],
     'selection': lambda value, info: dict(info['selection']).get(value, ''),
