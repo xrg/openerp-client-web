@@ -35,7 +35,7 @@ body {
 
 body,textarea,input,select,option {
     color: #1f1f1f;
-    font-family: sans-serif;
+    font-family: Sans, Verdana, Helvetica, sans-serif;
     line-height: 1.25;
 }
 
@@ -513,6 +513,7 @@ p#cmp_logo {
     position: absolute;
     left: 0;
     right: 0;
+    text-align: center;
 }
 #applications_menu.scrolling ul {
     left: 14px;
@@ -525,8 +526,9 @@ p#cmp_logo {
     display: inline-block;
     margin: 6px 1px;
     text-align: center;
-    font-size: 1.3em;
-    font-variant:small-caps;
+    font-size: 1em;
+    text-transform: uppercase;
+    font-weight: bold;
 }
 
 #applications_menu a {
@@ -543,7 +545,7 @@ p#cmp_logo {
     float: left;
     min-width: 60px;
     height: 23px;
-    padding: 0 6px;
+    padding: 0 9px 0 6px;
     background: url(../images/nav-items-a.png) 100% 0 no-repeat;
     line-height: 22px;
 }
