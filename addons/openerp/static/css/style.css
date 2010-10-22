@@ -711,16 +711,6 @@ table.m2o_readonly {
     margin: 3px 0;
 }
 
-/* treebar */
-.treebar {
-    padding-right: 5px;
-    width: 100px;
-}
-
-.treebar .row {
-    cursor: pointer;
-}
-
 /* LOGIN AJAX FORM*/
 input.user_pass {
     width: 150px;

@@ -34,40 +34,17 @@
                     ${tree.string}
                 </h1>
                 <div>
-                    <table cellpadding="0" cellspacing="0" border="0" width="100%">
-                        <tr>
-                            % if tree.toolbar:
-                                <td class="treebar" valign="top" style="padding-right: 4px">
-                                    <table width="100%" cellpadding="0" cellspacing="0" class="tree-grid">
-                                        <thead>
-                                            <tr class="header">
-                                                <th>${_("Toolbar")}</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            % for tool in tree.toolbar:
-                                                <tr class="${'row_tree_toolbar' + ((tree.id == tool['id'] or '') and ' selected')}" onclick="TREEVIEW.openTree(${tool['id']}, ${tool['ids']}, this)">
-                                                    <td>
-                                                        <table border="0" cellpadding="0" cellspacing="0" class="tree-field">
-                                                            <tr>
-                                                                % if tool['icon']:
-                                                                    <td>
-                                                                        <img alt="" src="${tool['icon']}"
-                                                                            width="32" height="32" align="left"/>
-                                                                    </td>
-                                                                % endif
-                                                                <td>${tool['name']}</td>
-                                                            </tr>
-                                                        </table>
-                                                    </td>
-                                                </tr>
-                                            % endfor
-                                        </tbody>
-                                    </table>
-                                </td>
-                            % endif
-                        </tr>
-                    </table>
+                    % if tree.toolbar:
+                    <div>
+                        <select id="treeview-tree-selector">
+                            % for tool in tree.toolbar:
+                                <option value="${tool['id']}" data-ids="${tool['ids']}">
+                                    ${tool['name']}
+                                </option>
+                            % endfor
+                        </select>
+                    </div>
+                    % endif
                     <table cellpadding="0" cellspacing="0" border="0" width="100%">
                         <tr>
                             <td width="100%" valign="top" class="tree_grid">${tree.display()}</td>

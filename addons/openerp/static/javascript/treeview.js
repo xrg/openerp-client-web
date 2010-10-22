@@ -16,12 +16,20 @@ TreeView.prototype = {
         this.view_tree = jQuery("#view_tree")[0];
         this.trees = {};
         this.current = treeGrids['tree_' + current];
-        this.current_button = jQuery('#treeview tr.selected').get(0);
+
+        var tree = this;
+        jQuery('#treeview-tree-selector').change(function () {
+            var $this = jQuery(this).find('option:selected');
+            tree.openTree(
+                parseInt($this.val(), 10),
+                jQuery.parseJSON($this.attr('data-ids'))
+            );
+        });
 
         this.trees[this.current.id] = this.current;
     },
 
-    openTree: function(id, ids, elem) {
+    openTree: function(id, ids) {
         if (openobject.http.AJAX_COUNT > 0) {
             return;
         }
@@ -29,7 +37,6 @@ TreeView.prototype = {
 
         var tree = this.trees['tree_' + id] || null;
 
-        jQuery(this.current_button).removeClass("selected");
         jQuery('#'+this.current.id).hide();
 
         if (!tree) {
@@ -42,9 +49,6 @@ TreeView.prototype = {
         }
 
         this.current = tree;
-        this.current_button = elem;
-
-        jQuery(this.current_button).addClass('selected');
 
         if (tree.table) {
             jQuery(tree.table).show();
