@@ -1,4 +1,3 @@
-var treeGrids;
 var TreeView = function(current) {
 
     var cls = arguments.callee;

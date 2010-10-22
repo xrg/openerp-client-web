@@ -31,6 +31,10 @@ var KEY_ARROW_RIGHT = 39;
 var KEY_ARROW_UP = 38;
 var KEY_ARROW_DOWN = 40;
 
+var treeGrids;
+if(!treeGrids) {
+    treeGrids = {};
+}
 /**
  * @event treegrid-render triggered on treegrid rendering
  *  @target document

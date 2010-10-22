@@ -1,9 +1,5 @@
 <span id="${name}">
     <script type="text/javascript">
-        var treeGrids;
-        if(!treeGrids) {
-            treeGrids = {};
-        }
         treeGrids['${name}'] = new TreeGrid('${name}', {
             'showheaders': ${showheaders and 'true' or 'false'},
             'onselect': ${onselection or 'null'},
