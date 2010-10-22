@@ -176,9 +176,9 @@ class O2M(TinyInputWidget):
             current_record = 0
             if records_count and self.screen.id in self.screen.ids:
                 current_record = self.screen.ids.index(self.screen.id) + 1
-                self.pager_info = '(%s/%s of %s)' % (current_record, records_count, records_count)
+                self.pager_info = _('%d of %d') % (current_record, records_count)
             else:
-                self.pager_info = '(%s/%s of %s)' % (records_count+1, records_count+1, records_count+1)
+                self.pager_info = _('- of %d') % (records_count)
 
     def get_value(self):
 
