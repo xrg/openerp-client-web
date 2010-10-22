@@ -141,6 +141,8 @@ def secured(fn):
                 # Bad login attempt
                 if action == 'login':
                     message = _("Bad username or password")
+                    return login(cherrypy.request.path_info, message=message,
+                        db=db, user=user, action=action, origArgs=get_orig_args(kw))
                 else:
                     message = ''
 
