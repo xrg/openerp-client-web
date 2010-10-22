@@ -68,11 +68,10 @@ function clear_binary_data(src, filename) {
 }
 
 function add_binary(src) {
-    jQuery(openobject.dom.get(src + '_binary_add')).show();
-    jQuery(openobject.dom.get(src + '_binary_buttons')).hide();
+    jQuery(idSelector(src + '_binary_add')).show();
+    jQuery(idSelector(src + '_binary_buttons')).hide();
 
-    var fld = openobject.dom.get(src);
-    fld.disabled = false;
+    var fld = idSelector(src).removeAttr('disabled');
 
     // Firefox problem (bug: 324408)
     if (browser.isGecko) {

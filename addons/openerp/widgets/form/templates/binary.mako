@@ -1,5 +1,5 @@
 <div>
-    % if bin_data:
+    % if bin_data and not value_bin_size:
         <input 
             type="hidden" 
             class="${css_class}" 
