@@ -1070,7 +1070,8 @@ function removeAttachment() {
 function createAttachment(){
     var $form = jQuery(this);
     if(!$form.find(':file, :text')
-             .filter(function () {return jQuery(this).val();})) {
+             .filter(function () {return jQuery(this).val();})
+             .length) {
         return false;
     }
     $form.ajaxSubmit({
