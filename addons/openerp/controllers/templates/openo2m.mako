@@ -13,7 +13,7 @@
             viewRecord(id, src);
         }
 
-        jQuery(document).ajaxStop(function (){
+        jQuery(document).ready(function (){
 
             var pwin = window.opener;
             var pform = pwin.document.forms['view_form'];
