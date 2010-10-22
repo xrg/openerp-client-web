@@ -34,9 +34,9 @@ TreeView.prototype = {
         jQuery('#'+this.current.id).hide();
 
         if (!tree) {
-            var span = jQuery('<span>', {'id': 'tree_' + id});
-            jQuery(this.view_tree).append(span);
-            tree = this.current.copy(span[0], null, ids);
+            var $span = jQuery('<span>', {'id': 'tree_' + id});
+            $span.appendTo(this.view_tree);
+            tree = this.current.copy($span[0], null, ids);
             this.trees[tree.id] = tree;
 
             tree.render();
@@ -58,7 +58,7 @@ TreeView.prototype = {
             return error_display(_('You must select at least one record.'));
         }
 
-        jQuery('#view_tree').attr({
+        jQuery(this.view_tree).attr({
             'action': openobject.http.getURL('/openerp/tree/switch', {
                 '_terp_selection': '[' + selection + ']'
             }),
