@@ -2,18 +2,6 @@
 
 <%def name="header()">
     <script type="text/javascript">
-        jQuery(document).ready(function() {
-            document.title = '${title}' + ' - OpenERP';
-        });
-    </script>
-    % if form.screen.view_type == 'form':
-        <script type="text/javascript">
-            jQuery(document).ready(function() {
-                validateForm();
-            });
-        </script>
-    % endif
-    <script type="text/javascript">
         var form_controller = '${path}';
         var USER_ID = '${rpc.session.uid}';
         var RESOURCE_ID = '${rpc.session.active_id}';
@@ -21,22 +9,19 @@
         function do_select(id, src) {
             viewRecord(id, src);
         }
+        jQuery(document).ready(function() {
+            document.title = '${title}' + ' - OpenERP';
+            % if form.screen.view_type == 'form':
+            validateForm();
+            % endif
+            % if can_shortcut:
+            jQuery('#shortcut_add_remove').click(toggle_shortcut);
+            % endif
+            % if form.screen.model == 'res.request' and form.screen.ids:
+            jQuery('ul.tools li a.req_messages small').text('${len(form.screen.ids)}');
+            % endif
+        });
     </script>
-    % if can_shortcut:
-        <script type="text/javascript">
-            jQuery(document).ready(function () {
-                jQuery('#shortcut_add_remove').click(toggle_shortcut);
-            });
-        </script>
-    % endif
-    
-    % if form.screen.model == 'res.request' and form.screen.ids:
-        <script type="text/javascript">
-            jQuery(document).ready(function () {
-                jQuery('ul.tools li a.req_messages small').text('${len(form.screen.ids)}')
-            });
-        </script>
-    % endif
 
 </%def>
 
