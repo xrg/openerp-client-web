@@ -84,6 +84,7 @@ class Screen(TinyInputWidget):
         self.view_id       = False
         self.group_by_ctx  = params.group_by_ctx or []        
         self.is_wizard = params.is_wizard
+        self.default_value = params.default_data or []
         
         self.m2m = kw.get('_m2m', 0)
         self.o2m = kw.get('_o2m', 0)

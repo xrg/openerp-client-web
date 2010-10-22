@@ -27,8 +27,9 @@
 #
 ###############################################################################
 import time
-
+import copy
 import cherrypy
+
 from openerp.utils import TinyDict, expr_eval, rpc
 from openerp.widgets import TinyInputWidget, register_widget
 from openerp.widgets.screen import Screen
@@ -40,11 +41,12 @@ class O2M(TinyInputWidget):
     """One2Many widget
     """
     template = "/openerp/widgets/form/templates/one2many.mako"
-    params = ['id', 'parent_id', 'new_attrs', 'pager_info', 'switch_to', 'default_get_ctx', 'source', 'view_type']
+    params = ['id', 'parent_id', 'new_attrs', 'pager_info', 'switch_to', 'default_get_ctx', 'source', 'view_type', 'default_value']
     member_widgets = ['screen']
 
     form = None
     valign = "top"
+    default_value = []
 
     def __init__(self, **attrs):
         #FIXME: validation error in `Pricelist Version`
@@ -103,6 +105,10 @@ class O2M(TinyInputWidget):
 
         if ids:
             if isinstance(ids[0], dict):
+                current.default_data = ids
+                for i, item in enumerate(current.default_data):
+                    self.default_value.append((0,0, copy.deepcopy(item)))
+                    item['id'] = 0
                 ids = []
             elif isinstance(ids[0], tuple):
                 ids = [current[1] for current in ids]
