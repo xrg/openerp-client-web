@@ -71,7 +71,7 @@ function add_binary(src) {
     jQuery(idSelector(src + '_binary_add')).show();
     jQuery(idSelector(src + '_binary_buttons')).hide();
 
-    var fld = idSelector(src).removeAttr('disabled');
+    var fld = jQuery(idSelector(src)).removeAttr('disabled');
 
     // Firefox problem (bug: 324408)
     if (browser.isGecko) {
