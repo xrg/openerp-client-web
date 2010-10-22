@@ -7,17 +7,17 @@
 // Developed by Tiny (http://openerp.com) and Axelor (http://axelor.com).
 //
 // The OpenERP web client is distributed under the "OpenERP Public License".
-// It's based on Mozilla Public License Version (MPL) 1.1 with following 
+// It's based on Mozilla Public License Version (MPL) 1.1 with following
 // restrictions:
 //
-// -   All names, links and logos of Tiny, Open ERP and Axelor must be 
-//     kept as in original distribution without any changes in all software 
-//     screens, especially in start-up page and the software header, even if 
-//     the application source code has been changed or updated or code has been 
+// -   All names, links and logos of Tiny, Open ERP and Axelor must be
+//     kept as in original distribution without any changes in all software
+//     screens, especially in start-up page and the software header, even if
+//     the application source code has been changed or updated or code has been
 //     added.
 //
 // -   All distributions of the software must keep source code with OEPL.
-// 
+//
 // -   All integrations to any other software must keep source code with OEPL.
 //
 // If you need commercial licence to remove this kind of restriction please
@@ -85,7 +85,7 @@ function add_filter_row(elem) {
         }
         jQuery($position_tr).after(new_tr);
     }
-    
+
     var select_or = jQuery('select.filter_fields_or');
     if (!select_or.closest("tbody").siblings().length) {
         select_or.attr('disabled', true);
@@ -383,9 +383,9 @@ function display_Customfilters(all_domains, group_by_ctx) {
                                 value = value;
                             }
                             break;
-	                }
- 
-	                if ($row.find('label.and_or').length>0 || grouping){
+                    }
+
+                    if ($row.find('label.and_or').length>0 || grouping){
                         temp_domain.push(field, comparison, value);
                         group.push(temp_domain);
                     }
@@ -393,14 +393,14 @@ function display_Customfilters(all_domains, group_by_ctx) {
                         group.push(field, comparison, value)
                     }
 
-                    if (!grouping) {             
-                        All_domain.push(group);                        
+                    if (!grouping) {
+                        All_domain.push(group);
                         group = [];
-                    }     	                
-	            }
+                    }
+                }
 
-	            if (All_domain.length) {
-	               custom_domain.push(All_domain);
+                if (All_domain.length) {
+                   custom_domain.push(All_domain);
                 }
             }
         }
@@ -463,12 +463,12 @@ function parse_filters(src, id) {
             }
         } else {
             $source.closest('td').removeClass('grop_box_active');
-    		$source.attr('checked', false);
-    		
-    		group_by = jQuery.grep(group_by, function(grp) {
+            $source.attr('checked', false);
+
+            group_by = jQuery.grep(group_by, function(grp) {
                 return grp != $source.attr('group_by_ctx');
             });
-            
+
             if($source.attr('filter_context') &&
                $source.attr('filter_context')!='{}') {
                 var filter_index = jQuery.inArray(
@@ -477,7 +477,7 @@ function parse_filters(src, id) {
                     filter_context.splice(filter_index, 1);
                 }
             }
-    	}
+        }
         jQuery(id).toggleClass('active inactive');
     }
     var $all_search_fields = jQuery('#search_filter_data').find("input:not([type=checkbox]):not([type=hidden]):not([value='']), select[name]");
@@ -507,7 +507,7 @@ function parse_filters(src, id) {
                 fld_value = 'm2o_'+ fld_value;
             }
         }
-        
+
         if(fld_value && fld_value!='')
             domains[fld_name] = fld_value;
     });
@@ -515,13 +515,13 @@ function parse_filters(src, id) {
     all_domains['domains'] = domains;
     all_domains['search_context'] =  search_context;
     var selected_boxes = getElementsByTagAndClassName('input', 'grid-domain-selector');
-    
+
     forEach(selected_boxes, function(box){
         if (box.id && box.checked && box.value != '[]') {
             all_boxes = all_boxes.concat(box.value);
         }
     });
-    
+
     var checked_button = all_boxes.toString();
 
     if(checked_button.length) {
@@ -577,37 +577,37 @@ function manage_filters() {
 }
 
 function final_search_domain(custom_domain, all_domains, group_by_ctx) {
-	var waitBox = new openerp.ui.WaitBox();
+    var waitBox = new openerp.ui.WaitBox();
     if(group_by_ctx.length)
         group_by_ctx = group_by_ctx.join(',');
-	waitBox.showAfter(500);
-	jQuery.ajax({
-		url: '/openerp/search/eval_domain_filter',
-		type: 'POST',
-		dataType: 'json',
-		data:{source: '_terp_list',
-			model: jQuery('#_terp_model').val(),
-			custom_domain: custom_domain,
-			all_domains: all_domains,
-			group_by_ctx: group_by_ctx
-			},
-		complete: jQuery.proxy(waitBox, 'hide'),
-		success: function(obj) {
+    waitBox.showAfter(500);
+    jQuery.ajax({
+        url: '/openerp/search/eval_domain_filter',
+        type: 'POST',
+        dataType: 'json',
+        data:{source: '_terp_list',
+            model: jQuery('#_terp_model').val(),
+            custom_domain: custom_domain,
+            all_domains: all_domains,
+            group_by_ctx: group_by_ctx
+            },
+        complete: jQuery.proxy(waitBox, 'hide'),
+        success: function(obj) {
             if (obj.domain) { // For direct search
-				
-			 	var in_req = eval_domain_context_request({
-					source: '_terp_list', 
-					domain: obj.domain, 
-					context: obj.context,
-					group_by_ctx: group_by_ctx
-				});
-				
-				in_req.addCallback(function(in_obj){
-			    	openobject.dom.get('_terp_search_domain').value = in_obj.domain;
-			    	openobject.dom.get('_terp_search_data').value = obj.search_data;
-			    	openobject.dom.get('_terp_context').value = in_obj.context;
-			    	openobject.dom.get('_terp_filter_domain').value = obj.filter_domain;
-			    	jQuery('#_terp_group_by_ctx').val(in_obj.group_by);
+
+                 var in_req = eval_domain_context_request({
+                    source: '_terp_list',
+                    domain: obj.domain,
+                    context: obj.context,
+                    group_by_ctx: group_by_ctx
+                });
+
+                in_req.addCallback(function(in_obj){
+                    openobject.dom.get('_terp_search_domain').value = in_obj.domain;
+                    openobject.dom.get('_terp_search_data').value = obj.search_data;
+                    openobject.dom.get('_terp_context').value = in_obj.context;
+                    openobject.dom.get('_terp_filter_domain').value = obj.filter_domain;
+                    jQuery('#_terp_group_by_ctx').val(in_obj.group_by);
                     jQuery('#_terp_offset').val(0);
                     var $search_callback = jQuery('#_terp_search_callback');
 
@@ -616,10 +616,10 @@ function final_search_domain(custom_domain, all_domains, group_by_ctx) {
                     } else {
                         new ListView('_terp_list').reload();
                     }
-				});
-			 }
-		}
-	});
+                });
+             }
+        }
+    });
 }
 
 var ENTER_KEY = 13;
@@ -629,7 +629,7 @@ function search_on_return(e) {
         if(!jQuery(e.target).is('button')) {
             e.preventDefault();
         }
-    	search_filter();
+        search_filter();
     }
 }
 

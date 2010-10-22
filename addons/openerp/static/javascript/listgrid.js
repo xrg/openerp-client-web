@@ -53,14 +53,14 @@ ListView.prototype = {
         this.ids = jQuery('[id*="'+prefix + '_terp_ids'+'"]').val();
 
         this.view_ids = jQuery('[id*="'+prefix + '_terp_view_ids'+'"]').get() ? jQuery('[id*="'+prefix + '_terp_view_ids'+'"]').val() : null;
-		this.view_id = jQuery('[id="'+prefix + '_terp_view_id'+'"]').get() ? jQuery('[id="'+prefix + '_terp_view_id'+'"]').val() : null;
+        this.view_id = jQuery('[id="'+prefix + '_terp_view_id'+'"]').get() ? jQuery('[id="'+prefix + '_terp_view_id'+'"]').val() : null;
         this.view_mode = jQuery('[id*="'+prefix + '_terp_view_mode'+'"]').get() ? jQuery('[id*="'+prefix + '_terp_view_mode'+'"]').val() : null;
-		this.view_type = jQuery('[id*="'+prefix + '_terp_view_type'+'"]').get() ? jQuery('[id*="'+prefix + '_terp_view_type'+'"]').val() : null;
+        this.view_type = jQuery('[id*="'+prefix + '_terp_view_type'+'"]').get() ? jQuery('[id*="'+prefix + '_terp_view_type'+'"]').val() : null;
 
         // if o2m
 
         this.m2m = jQuery('[id*="'+ name + '_set' + '"]');
-		this.default_get_ctx = jQuery('[id*="' + prefix + '_terp_default_get_ctx' + '"]').get() ? jQuery('[id*="' + prefix + '_terp_default_get_ctx' + '"]').val() : null;
+        this.default_get_ctx = jQuery('[id*="' + prefix + '_terp_default_get_ctx' + '"]').get() ? jQuery('[id*="' + prefix + '_terp_default_get_ctx' + '"]').val() : null;
         // save the reference
         jQuery('[id="'+name+'"]').get(0).__listview = this;
 
@@ -76,7 +76,7 @@ ListView.prototype = {
         this.onBooleanClicked();
     },
 
-	selectedRow_sum: function() {
+    selectedRow_sum: function() {
         var selected_ids = this.getSelectedRecords();
         var $buttons = jQuery('[id="'+this.name+'_delete_record'+'"], [id="'+this.name+'_edit_record'+'"]');
 
@@ -86,8 +86,8 @@ ListView.prototype = {
         else {
             $buttons.parent().hide();
         }
-        
-		if(jQuery('table[id="'+this.name+'"] tr.field_sum td.grid-cell span').length>0) {
+
+        if(jQuery('table[id="'+this.name+'"] tr.field_sum td.grid-cell span').length>0) {
             var sum_fields = jQuery('tr.field_sum td.grid-cell span').map(function() {
                 return jQuery(this).attr('id');
             }).get();
@@ -149,7 +149,7 @@ ListView.prototype = {
             $sidebar.click();
         }
 
-       	this.selectedRow_sum();
+           this.selectedRow_sum();
     },
 
     getColumns: function(dom) {
@@ -190,9 +190,9 @@ MochiKit.Base.update(ListView.prototype, {
 
     adjustEditors: function(newlist) {
         return this.$getEditors(false, newlist).each(function(){
-        	var $this = jQuery(this);
-        	var $cell = $this.parent('.grid-cell');
-        	$this.attr('autocomplete', 'OFF').width($cell.width());
+            var $this = jQuery(this);
+            var $cell = $this.parent('.grid-cell');
+            $this.attr('autocomplete', 'OFF').width($cell.width());
         }).get();
     },
 
@@ -292,58 +292,58 @@ MochiKit.Base.update(ListView.prototype, {
         var drop_record = drop.attr('record');
         var drag_record = drag.attr('record');
         if(drop_record) {
-        	var dropGroup = drop.attr('id').split('grid-row ')[1];
-        	domain = jQuery('tr.grid-row-group[records="'+dropGroup+'"]').attr('grp_domain');
+            var dropGroup = drop.attr('id').split('grid-row ')[1];
+            domain = jQuery('tr.grid-row-group[records="'+dropGroup+'"]').attr('grp_domain');
         }
         else {
-        	domain = drop.attr('grp_domain');
+            domain = drop.attr('grp_domain');
         }
 
         var ch_records = drag.attr('ch_records');
         if(ch_records) {
-        	children = ch_records;
+            children = ch_records;
         }
         else {
-        	if(drag.attr('id') == drop.attr('id')) {
-        		var dragGroup = drag.attr('id').split('grid-row ')[1];
+            if(drag.attr('id') == drop.attr('id')) {
+                var dragGroup = drag.attr('id').split('grid-row ')[1];
                 children = jQuery('tr.grid-row-group[records="'+dragGroup+'"]').attr('ch_records');
-        	}
-        	else {
-        		children = drag_record;
-        	}
+            }
+            else {
+                children = drag_record;
+            }
         }
 
         if((drag_record && drop_record) && (drag.attr('id')) == drop.attr('id')) {
             _list_view.dragRow(drag, drop, view);
         }
         else {
-        	jQuery.ajax({
-        		url: '/openerp/listgrid/groupbyDrag',
-        		type: 'POST',
-        		data: {'model': _list_view.model, 'children': children, 'domain': domain},
-        		dataType: 'json',
-        		success: function () {
-        			_list_view.reload();
-        		}
-        	});
+            jQuery.ajax({
+                url: '/openerp/listgrid/groupbyDrag',
+                type: 'POST',
+                data: {'model': _list_view.model, 'children': children, 'domain': domain},
+                dataType: 'json',
+                success: function () {
+                    _list_view.reload();
+                }
+            });
         }
     },
 
     dragRow: function(drag, drop, view) {
-    	var _list_view = new ListView(view);
-    	jQuery.ajax({
-    		url: '/openerp/listgrid/dragRow',
-    		type: 'POST',
-    		data: {'_terp_model': _list_view.model,
-    		       '_terp_ids': _list_view.ids,
-    		       '_terp_id': jQuery(drag).attr('record'),
-    		       '_terp_swap_id': jQuery(drop).attr('record')
-    		      },
+        var _list_view = new ListView(view);
+        jQuery.ajax({
+            url: '/openerp/listgrid/dragRow',
+            type: 'POST',
+            data: {'_terp_model': _list_view.model,
+                   '_terp_ids': _list_view.ids,
+                   '_terp_id': jQuery(drag).attr('record'),
+                   '_terp_swap_id': jQuery(drop).attr('record')
+                  },
             dataType: 'json',
             success: function() {
-            	_list_view.reload();
+                _list_view.reload();
             }
-    	});
+        });
     },
 
     moveUp: function(id) {
@@ -476,16 +476,16 @@ MochiKit.Base.update(ListView.prototype, {
                 }
 
                 if(obj.res) {
-                	var popup_win = openobject.tools.openWindow("");
-                	if(window.browser.isGecko) {
-                		popup_win.document.write(obj.res);
-                		popup_win.document.close();
-                	}
-                	else {
-            			popup_win.document.close();
-            			popup_win.document.write(obj.res);
-                	}
-                	return false;
+                    var popup_win = openobject.tools.openWindow("");
+                    if(window.browser.isGecko) {
+                        popup_win.document.write(obj.res);
+                        popup_win.document.close();
+                    }
+                    else {
+                        popup_win.document.close();
+                        popup_win.document.write(obj.res);
+                    }
+                    return false;
                 }
 
                 if (obj.reload) {
@@ -542,25 +542,25 @@ MochiKit.Base.update(ListView.prototype, {
         args['_terp_parent/model'] = openobject.dom.get(parent_field + '_terp_model').value;
         args['_terp_parent/context'] = openobject.dom.get(parent_field + '_terp_context').value;
         args['_terp_source'] = this.name;
-        
+
         var self = this;
         var req = openobject.http.postJSON('/openerp/listgrid/save', args);
-        
+
         var $current_record = jQuery('table[id="'+this.name+'_grid'+'"]').find('tr.grid-row[record="'+id+'"]');
         req.addCallback(function(obj) {
             if (obj.error) {
                 error_display(obj.error);
-                
+
                 var $focus_field;
                 for (var k in data) {
                     var $req_field = $current_record.find('td [id="'+'_terp_listfields/'+k+'"].requiredfield');
-                    
+
                     if(!$req_field.length)
                         continue;
                     if($req_field.attr('kind') == 'many2one') {
                         $req_field = $current_record.find('td [id="'+'_terp_listfields/'+k+'_text'+'"]');
                     }
-                    
+
                     var req_value = $req_field.val();
                     if(req_value == '') {
                         $req_field.addClass('errorfield');
@@ -577,7 +577,7 @@ MochiKit.Base.update(ListView.prototype, {
             } else {
                 openobject.dom.get(prefix + '_terp_id').value = obj.id;
                 openobject.dom.get(prefix + '_terp_ids').value = obj.ids;
-                
+
                 if(prev_id != undefined) {
                     self.reload(prev_id , prefix ? 1 : 0);
                 } else {
@@ -600,15 +600,15 @@ MochiKit.Base.update(ListView.prototype, {
         }
 
         if (ids.length == 0) {
-        	return error_display(_('You must select at least one record.'));
+            return error_display(_('You must select at least one record.'));
         }
         else if (!confirm(_('Do you really want to delete selected record(s) ?'))) {
             return false;
         }
-        
+
         var $terp_ids;
         var $terp_count;
-        
+
         if(this.name == '_terp_list') {
             $terp_ids = jQuery('#_terp_ids')
             $terp_count = jQuery('#_terp_count')
@@ -617,7 +617,7 @@ MochiKit.Base.update(ListView.prototype, {
             $terp_ids = jQuery('[id="'+this.name+'/_terp_ids'+'"]')
             $terp_count =  jQuery('[id="'+this.name+'/_terp_count'+'"]')
         }
-        
+
         args['_terp_ids'] = $terp_ids.val()
         args['_terp_model'] = this.model;
         args['_terp_id'] = ids;
@@ -794,7 +794,7 @@ MochiKit.Base.update(ListView.prototype, {
                     else {
                         var th = jQuery('th[id= grid-data-column/' + self.sort_key + ']').get();
                     }
-                    
+
                     var detail = jQuery(th).html();
                     if(self.sort_order == 'asc') {
                         jQuery(th).html(detail + '&nbsp; <img src="/openerp/static/images/listgrid/arrow_down.gif" id="asc" style="vertical-align: middle;"/>');
