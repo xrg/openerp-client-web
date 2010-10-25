@@ -184,7 +184,7 @@
                 </tr>
             % endif
             <tr>
-                <td colspan="2" style="border: none; padding: 2px 5px;">
+                <td colspan="2" class="grid-content">
                     <table id="${name}_grid" class="grid" width="100%" cellspacing="0" cellpadding="0" style="background: none;">
                         <thead>
                             <tr class="grid-header">

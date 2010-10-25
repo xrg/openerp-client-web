@@ -6,6 +6,10 @@
     border: none;
     border-collapse: collapse;
 }
+.grid-content {
+    border: none;
+    padding: 2px 5px;
+}
 
 .grid-row {
     background-color: white;

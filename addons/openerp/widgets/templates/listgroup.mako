@@ -25,7 +25,7 @@ import itertools
     % endif
     
     <tr>
-        <td colspan="2">
+        <td colspan="2" class="grid-content">
             <table id="${name}_grid" class="grid" width="100%" cellspacing="0" cellpadding="0">
                 <thead>
                     <tr class="grid-header">
