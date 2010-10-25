@@ -1,11 +1,32 @@
-exclude .project .pydevproject clean.sh
-include openerp-web.py run-tests.py admin.py Makefile
-recursive-include openobject *
-recursive-include addons *
-recursive-include scripts *
-recursive-include doc *
-recursive-include win32 *
-prune build
+include admin.py openerp-web.py run-tests.py
+graft win32
 prune dist
 prune lib
-global-exclude *pyc *~ *.bak *.swp
+
+# add core openobject data, packages handled by setup.py
+recursive-include openobject *.cfg *.po *.pot *.mo *.txt *.rst
+recursive-include openobject *.gif *.png *.jpg *.ico *.mako *.html
+recursive-include openobject *.css *.js *.htc *.swf
+# ignore all addons in order not to ship those gotten from server modules
+prune addons
+# content of addons shipped with client specifically
+recursive-include addons/openerp *.py LICENSE
+recursive-include addons/openerp *.cfg *.po *.pot *.mo *.txt *.rst
+recursive-include addons/openerp *.gif *.png *.jpg *.ico *.mako *.html
+recursive-include addons/openerp *.css *.js *.htc *.swf
+recursive-include addons/view_calendar *.py
+recursive-include addons/view_calendar *.po *.pot *.mo *.rst
+recursive-include addons/view_calendar *.gif *.png *.jpg *.mako *.html
+recursive-include addons/view_calendar *.css *.js *.htc *.swf
+recursive-include addons/view_diagram *.py
+recursive-include addons/view_diagram *.po *.pot *.mo *.rst
+recursive-include addons/view_diagram *.gif *.png *.jpg *.mako *.html
+recursive-include addons/view_diagram *.css *.js *.htc *.swf
+recursive-include addons/view_graph *.py
+recursive-include addons/view_graph *.po *.pot *.mo *.rst
+recursive-include addons/view_graph *.gif *.png *.jpg *.mako *.html
+recursive-include addons/view_graph *.css *.js *.htc *.swf
+recursive-include addons/widget_ckeditor *.py
+recursive-include addons/widget_ckeditor *.po *.pot *.mo *.rst
+recursive-include addons/widget_ckeditor *.gif *.png *.jpg *.mako *.html
+recursive-include addons/widget_ckeditor *.css *.js *.htc *.swf

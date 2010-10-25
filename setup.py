@@ -32,17 +32,15 @@ setup(
     ],
     zip_safe=False,
     packages=[
-        'openerp-web.openobject', 
-        'openerp-web.addons',
-        'openerp-web.scripts',
-        'openerp-web.doc',],
-    package_dir={
-        'openerp-web.scripts': 'scripts',
-        'openerp-web.openobject': 'openobject',
-        'openerp-web.addons': 'addons',
-        'openerp-web.doc': 'doc',
-    },
-    include_package_data=True,
+        'openobject',
+        'openobject.admin',
+        'openobject.admin.i18n',
+        'openobject.controllers',
+        'openobject.i18n',
+        'openobject.test',
+        'openobject.tools',
+        'openobject.widgets'
+    ],
     classifiers=[
         'Development Status :: 5 - Production/Stable',
         'Operating System :: OS Independent',
@@ -52,6 +50,3 @@ setup(
         ],
     scripts=['scripts/openerp-web'],
 )
-
-# vim: ts=4 sts=4 sw=4 si et
-
