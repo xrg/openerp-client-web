@@ -3,10 +3,17 @@ import sys
 
 from setuptools import setup
 
-
 execfile(os.path.join("openobject", "release.py"))
 
+version_dash_incompatible = False
 if 'bdist_rpm' in sys.argv:
+    version_dash_incompatible = True
+try:
+    import py2exe
+    version_dash_incompatible = True
+except ImportError:
+    pass
+if version_dash_incompatible:
     version = version.split('-')[0]
 
 
@@ -48,5 +55,5 @@ setup(
         'Environment :: Web Environment',
         'Topic :: Office/Business :: Financial',
         ],
-    scripts=['scripts/openerp-web'],
+    console=['scripts/openerp-web'],
 )
