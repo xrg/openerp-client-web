@@ -73,17 +73,17 @@
     </div>
     <ul class="clean-a">
         <li>
-            <a class="customize_menu_options" title="${_('Manage views of the current object')}"
+            <a title="${_('Manage views of the current object')}"
                onclick="openobject.tools.openWindow('/openerp/viewlist?model=${model}', {height: 400})"
                href="javascript: void(0)">${_("Manage Views")}</a>
         </li>
         <li>
-            <a class="customize_menu_options" title="${_('Manage workflows of the current object')}"
+            <a title="${_('Manage workflows of the current object')}"
                onclick="show_wkf(); return false;"
                href="javascript: void(0)">${_("Show Workflow")}</a>
         </li>
         <li>
-            <a class="customize_menu_options" title="${_('Customize current object or create a new object')}"
+            <a title="${_('Customize current object or create a new object')}"
                onclick="openobject.tools.openWindow('/openerp/viewed/new_model/edit?model=${model}')"
                href="javascript: void(0)">${_("Customize Object")}</a>
         </li>
