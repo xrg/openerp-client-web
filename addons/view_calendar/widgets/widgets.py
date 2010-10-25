@@ -140,15 +140,17 @@ class MonthCalendar(TinyCalendar):
 
         self.month = Month(y, m)
         self.events = self.get_events(self.month.days)
-        
+
+
+
         self.selected_day = _get_selection_day(Day(y, m, 1), self.selected_day, 'month')
-        
+
         minical = MiniCalendar(self.selected_day)
         groupbox = GroupBox(self.colors, self.color_values, self.selected_day,
                 group_relation=self.fields[self.color_field],
                 title=(self.color_field or None) and self.fields[self.color_field]['string'],
                 mode='month')
-                
+
         self.sidebar = Sidebar(minical, groupbox, self.use_search)
 
 
