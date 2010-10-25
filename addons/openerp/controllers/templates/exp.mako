@@ -74,8 +74,8 @@
             });
         }
 
-        function delete_listname(form) {
-
+        function delete_listname() {
+			var form = document.forms['view_form'];
             var list = new ListView('_terp_list');
             var boxes = list.getSelectedItems();
 
@@ -85,10 +85,9 @@
             }
 
             var id = boxes[0].value;
-
-            jQuery('#'+form).attr('action', openobject.http.getURL(
-                '/openerp/impex/delete_listname', {'_terp_id' : id})
-            ).submit();
+            form.action = openobject.http.getURL('/openerp/impex/delete_listname', {'_terp_id' : id});
+  			form.submit();
+  			
         }
 
         function reload(name_list) {
@@ -161,7 +160,7 @@
             	<table class="popup_header" width="100%">
             		<tr>
             			<td class="exp-header">
-            				<a class="button-a" href="javascript: void(0)" onclick="delete_listname('view_form');">${_("Delete")}</a>
+            				<a class="button-a" href="javascript: void(0)" onclick="delete_listname();">${_("Delete")}</a>
             			</td>
             		</tr>
             	</table>
