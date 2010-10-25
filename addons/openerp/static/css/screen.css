@@ -1236,6 +1236,17 @@ table td .delete {
     background-image: url(../images/iconset-b-remove.gif);
 }
 
+sup.help {
+    color: darkgreen;
+    vertical-align:top;
+    position: relative;
+    top: -4px;
+    padding: 0 2px;
+}
+.help {
+    cursor: help;
+}
+
 /*
 table td .grid {
     background-image: url(../images/iconset-b-grid.gif);
@@ -1659,7 +1670,7 @@ ul.sections-a li span.wrap a:hover span strong,ul.sections-a li span.wrap a:focu
     line-height: 20px;
     text-decoration: none !important;
     cursor: pointer;
-    min-width: 165px;
+    min-width: 174px;
 }
 
 #sidenav-a .tree-grid,

@@ -1,7 +1,7 @@
-<label for="${name}/from" style="vertical-align:middle">
+<label for="${name}/from" ${ "class=help" if help else "" }>
     ${string or ''}
 </label>
 % if help:
-    <sup style="color: darkgreen; vertical-align:top">?</sup>
+    <sup class="help">?</sup>
 % endif
 :
