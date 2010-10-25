@@ -31,7 +31,7 @@
                                     <option value="fields" ${py.selector(translate=='fields')}>${_("Fields")}</option>
                                     <option value="labels" ${py.selector(translate=='labels')}>${_("Labels")}</option>
                                     <option value="relates" ${py.selector(translate=='relates')}>${_("Relates")}</option>
-                                    <option value="view" ${py.selector(translate=='view')}>View</option>
+                                    <option value="view" ${py.selector(translate=='view')}>${_("View")}</option>
                                 </select>
                             </td>
                             <td width="100%">&nbsp;</td>

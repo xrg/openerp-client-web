@@ -102,7 +102,7 @@
                                                 <a class="cta-a" href="http://www.openerp.com/services/subscribe-onsite" target="_blank">
                                                     <span>
                                                         <strong>${_('Use On-Site')}</strong>
-                                                        Get the openERP Warranty
+                                                        ${_("Get the OpenERP Warranty")}
                                                     </span>
                                                 </a>
                                             </li>
@@ -110,7 +110,7 @@
                                                 <a class="cta-a" href="http://www.openerp.com/online" target="_blank">
                                                     <span>
                                                         <strong>${_('Use Online')}</strong>
-                                                        Subscribe and start
+                                                        ${_("Subscribe and start")}
                                                     </span>
                                                 </a>
                                             </li>

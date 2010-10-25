@@ -97,6 +97,7 @@ WeekCalendar.prototype = {
         e = new Date(e);
 
         var self = this;
+
         var req = saveCalendarRecord(id, toISOTimestamp(dt), toISOTimestamp(e));
 
         req.addCallback(function(obj) {
@@ -522,10 +523,7 @@ WeekCalendar.DayGrid.prototype = {
         appendChildNodes('calBodySect', tbl);
 
         for (var i = 0; i < 24; i++) {
-            var h = i % 12;
-
-            h = h == 0 ? 12 : h;
-            h = i > 11 ? h + ':00 PM' : h + ':00 AM';
+            var h = i + ':00';
 
             appendChildNodes('calTimeCol', DIV(null, h));
         }
