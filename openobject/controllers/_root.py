@@ -44,6 +44,13 @@ class Root(BaseController):
 
     @expose()
     def default(self, *args, **kw):
+        autoreloader_enabled = bool(
+                getattr(cherrypy.engine.autoreload, 'thread', None))
+        if autoreloader_enabled:
+            # stop (actually don't listento) the autoreloader the process
+            # doesn't restart due to downloading new add-ons or refreshing
+            # existing ones
+            cherrypy.engine.autoreload.unsubscribe()
         try:
             obj = pooler.get_pool().get_controller("/openerp/modules")
             new_modules = obj.get_new_modules()
@@ -52,6 +59,10 @@ class Root(BaseController):
 
         if new_modules:
             pooler.restart_pool()
+
+        if autoreloader_enabled:
+            # re-enable auto-reloading if it was enabled before
+            cherrypy.engine.autoreload.subscribe()
 
         request = cherrypy.request
         self.reset_custom_headers_post_redirection(request)
