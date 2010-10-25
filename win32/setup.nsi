@@ -34,7 +34,7 @@
 
 ;Name and file
 Name "OpenERP Web"
-OutFile "openobject-web-setup-${VERSION}.exe"
+OutFile "openerp-web-setup-${VERSION}.exe"
 SetCompressor lzma
 SetCompress auto
 
@@ -144,7 +144,7 @@ Function .onInit
 FunctionEnd
 
 Section "OpenERP Web" SecOpenERPWeb
-    nsExec::Exec "net stop openobject-web"
+    nsExec::Exec "net stop openerp-web"
     sleep 2
 
     SetOutPath "$INSTDIR\python25"
@@ -158,7 +158,7 @@ Section "OpenERP Web" SecOpenERPWeb
     File "OpenERPWebService.py"
 
     SetOutPath "$INSTDIR\conf"
-    File "/oname=openobject-web.cfg" "..\config\openobject-web.cfg"
+    File "/oname=openerp-web.cfg" "..\doc\openerp-web.cfg"
 
     ;Store installation folder
     WriteRegStr HKLM "Software\OpenERP Web" "" $INSTDIR
@@ -177,7 +177,7 @@ Section "OpenERP Web" SecOpenERPWeb
         CreateDirectory "$SMPROGRAMS\$STARTMENU_FOLDER"
         CreateShortCut "$SMPROGRAMS\$STARTMENU_FOLDER\Start OpenERP Web.lnk" "$INSTDIR\bin\start.bat"
         CreateShortCut "$SMPROGRAMS\$STARTMENU_FOLDER\Stop OpenERP Web.lnk" "$INSTDIR\bin\stop.bat"
-        CreateShortCut "$SMPROGRAMS\$STARTMENU_FOLDER\Edit Web Config.lnk" "notepad.exe" "$INSTDIR\conf\openobject-web.cfg"
+        CreateShortCut "$SMPROGRAMS\$STARTMENU_FOLDER\Edit Web Config.lnk" "notepad.exe" "$INSTDIR\conf\openerp-web.cfg"
 !ifndef ALLINONE
         CreateShortCut "$SMPROGRAMS\$STARTMENU_FOLDER\Uninstall.lnk" "$INSTDIR\uninstall.exe"
 !endif
@@ -197,7 +197,7 @@ SectionEnd
 ;Uninstaller Section
 
 Section "Uninstall"
-    nsExec::Exec "net stop openobject-web"
+    nsExec::Exec "net stop openerp-web"
     sleep 2
     nsExec::Exec '"$INSTDIR\python25\python.exe" "$INSTDIR\bin\OpenERPWebService.py" remove'
     sleep 2
@@ -239,7 +239,7 @@ Section "Uninstall"
 SectionEnd
 
 Function LaunchLink
-    nsExec::Exec "net start openobject-web"
+    nsExec::Exec "net start openerp-web"
 FunctionEnd
 
 LangString LicenseText ${LANG_ENGLISH} "Usually, a proprietary license is provided with the software: limited number of users, limited in time usage, etc. This Open Source license is the opposite: it garantees you the right to use, copy, study, distribute and modify Open ERP for free."

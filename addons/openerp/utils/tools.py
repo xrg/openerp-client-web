@@ -10,7 +10,7 @@
 # It's based on Mozilla Public License Version (MPL) 1.1 with following
 # restrictions:
 #
-# -   All names, links and logos of Tiny, Open ERP and Axelor must be
+# -   All names, links and logos of Tiny, OpenERP and Axelor must be
 #     kept as in original distribution without any changes in all software
 #     screens, especially in start-up page and the software header, even if
 #     the application source code has been changed or updated or code has been
@@ -27,23 +27,34 @@
 #
 ###############################################################################
 
+import datetime
 import os
 import time
 import tempfile
-import datetime as DT
+
+from dateutil.relativedelta import relativedelta
 
 import rpc
 
-
-def expr_eval(string, context={}):
-    context.update(uid=rpc.session.uid,
+def expr_eval(string, context=None):
+    context = dict(context or {},
+                   uid=rpc.session.uid,
                    current_date=time.strftime('%Y-%m-%d'),
                    time=time,
-                   datetime=DT)
+                   datetime=datetime,
+                   relativedelta=relativedelta)
     if isinstance(string, basestring):
-        return eval(string.replace("'active_id'", "active_id"),
-                    context)
+        try:
+            temp = eval(string.replace("'active_id'", "active_id"),
+                        context)
+        except:
+            return {}
+        return temp
     else:
+        if isinstance(string, dict):
+            for i,v in string.items():
+                if v=='active_id':
+                    string[i] = eval(v,context)
         return string
 
 def node_attributes(node):
@@ -90,6 +101,60 @@ def xml_locate(expr, ref):
 
     return [ref]
 
+def get_xpath(expr, pn):
+    
+    """Find xpath.
+
+    >>> get_xpath("/form/group[3]/notebook/page[@string:'Extra Info']/field[@name='progress'], doc)
+    >>> get_xpath("/form", doc)
+    @param expr: xpath with tag name, index, string and name attributes suported
+    @param pn: reference node
+
+    @return: list of nodes
+    """
+    
+    if '/' not in expr:
+        name = expr
+        param = None
+        index = None
+        
+        if '[' in expr:
+            name, param = expr.split('[')
+            try:
+                index = int(param.replace(']', ''))
+            except:
+                param = param.replace(']', '')
+                if param and '@' in param:
+                    param = param.strip('@')
+                    key = param.split('=')[0]
+                    value = param.split('=')[1][1:-1]
+                    
+        if index:
+            nodes = [n for n in pn.childNodes if n.localName == name]
+            try:
+                return nodes[index-1]
+            except:
+                return []
+            
+        for child in pn.childNodes:
+            if child.localName and child.localName == name:
+                if param and key in child.attributes.keys():
+                    if child.getAttribute(key) == value:
+                        return child
+                else:
+                    return child
+        return False
+    
+    parts = expr.split('/')
+    for part in parts:
+        if part in ('', '.'):
+            continue
+        n = get_xpath(part, pn)
+        if n:
+            pn = n
+    return [pn]
+
+
 def get_node_xpath(node):
 
     pn = node.parentNode
@@ -99,7 +164,7 @@ def get_node_xpath(node):
     if pn and pn.localName and pn.localName != 'view':
         xp = get_node_xpath(pn) + xp
 
-    nodes = xml_locate(root, node.parentNode)
+    nodes = [n for n in pn.childNodes if n.localName == node.localName]
     xp += '[%s]' % (nodes.index(node) + 1)
 
     return xp
@@ -136,11 +201,15 @@ class TempFileName(str):
         fd, fn = tempfile.mkstemp(suffix=suffix, prefix=prefix, dir=dir, text=text)
         os.close(fd)
         return str.__new__(cls, fn)
+    
+    def __init__(self, *args, **kwargs):
+        self.__os_path_exists = os.path.exists
+        self.__os_unlink = os.unlink
+        str.__init__(self, *args, **kwargs)
 
     def __del__(self):
-        import os   # ensure os module exists
-        if os.path.exists(str(self)):
-            os.unlink(str(self))
+        if self.__os_path_exists(self):
+            self.__os_unlink(self)
 
     def __copy__(self):
         return self

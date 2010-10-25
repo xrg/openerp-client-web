@@ -1,43 +1,14 @@
-<%inherit file="/openerp/controllers/templates/base.mako"/>
+<%inherit file="/openerp/controllers/templates/base_dispatch.mako"/>
 
 <%def name="header()">
     <title>Import Data</title>
-    <link href="/openerp/static/css/listgrid.css" rel="stylesheet" type="text/css"/>
-    <script type="text/javascript" src="/openerp/static/javascript/listgrid.js"></script>
 
-    <style type="text/css">
-        .fields-selector {
-            width: 100%;
-            height: 300px;
-        }
-
-        .fields-selector-left {
-            width: 45%;
-        }
-
-        .fields-selector-center {
-            width: 15%;
-        }
-
-        .fields-selector-right {
-            width: 45%;
-        }
-
-        .fields-selector select {
-            width: 100%;
-            height: 100%;
-        }
-
-        .fields-selector button {
-            width: 100%;
-            margin: 5px 0px;
-        }
-    </style>
+	<link rel="stylesheet" type="text/css" href="/openerp/static/css/impex.css"/>
 
     <script type="text/javascript">
         function add_fields(){
         
-            var tree = ${tree.name};
+            var tree = treeGrids['${tree.name}'];
             
             var fields = tree.selection;
             var select = openobject.dom.get('fields');
@@ -79,10 +50,10 @@
                 o.selected = true;
             });
 
-            form.target = "detector";
-
-            setNodeAttribute(form, 'action', openobject.http.getURL('/impex/import_data'));
-            form.submit();
+            jQuery('#'+form).attr({
+                'target': "detector",
+                'action': openobject.http.getURL('/openerp/impex/import_data')
+            }).submit();
         }
 
         function on_detector(src){
@@ -104,27 +75,27 @@
                 });
             } else {
                 f = d.getElementsByTagName('pre');
-                if (f[0]) alert(f[0].innerHTML);
+                if (f[0]) error_display(f[0].innerHTML);
             }
         }
 
         function do_autodetect(form){
 
             if (! openobject.dom.get('csvfile').value ){
-                return alert(_('You must select an import file first!'));
+                return error_display(_('You must select an import file first.'));
             }
 
-            form.target = "detector";
-
-            setNodeAttribute(form, 'action',openobject.http.getURL('/impex/detect_data'));
-            form.submit();
+            jQuery('#'+form).attr({
+                'target': "detector",
+                'action': openobject.http.getURL('/openerp/impex/detect_data')
+            }).submit();
         }
 
     </script>
 </%def>
 
 <%def name="content()">
-<form action="/impex/import_data" method="post" enctype="multipart/form-data">
+<form name="import_data" id="import_data" action="/openerp/impex/import_data" method="post" enctype="multipart/form-data">
 
     <input type="hidden" id="_terp_source" name="_terp_source" value="${source}"/>
     <input type="hidden" id="_terp_model" name="_terp_model" value="${model}"/>
@@ -133,20 +104,22 @@
 
     <table class="view" cellspacing="5" border="0" width="100%">
         <tr>
-            <td>
-                <table width="100%" class="titlebar">
+            <td class="side_spacing">
+                <table width="100%" class="popup_header">
                     <tr>
-                        <td width="32px" align="center">
-                            <img src="/openerp/static/images/stock/gtk-go-down.png"/>
+                    	<td class="imp-header" align="left">
+                            <a class="button-a" href="javascript: void(0)" onclick="do_import('import_data');">${_("Import")}</a>
+                            <a class="button-a" href="javascript: void(0)" onclick="window.close()">${_("Close")}</a>
                         </td>
-                        <td width="100%">${_("Import Data")}</td>
+                        <td align="center" class="pop_head_font">${_("Import Data")}</td>
+                        <td width="30%"></td>
                     </tr>
                 </table>
             </td>
         </tr>
         <tr>
-            <td>
-                <table class="fields-selector" cellspacing="5" border="0">
+            <td class="side_spacing">
+                <table class="fields-selector-import" cellspacing="5" border="0">
                     <tr>
                         <th class="fields-selector-left">${_("All fields")}</th>
                         <th class="fields-selector-center">&nbsp;</th>
@@ -154,14 +127,31 @@
                     </tr>
                     <tr>
                         <td class="fields-selector-left" height="300px">
-                            <div style="overflow: scroll; width: 100%; height: 100%; border: solid #999999 1px;">${tree.display()}</div>
+                            <div id="fields_left">${tree.display()}</div>
                         </td>
                         <td class="fields-selector-center">
-                            <button type="button" onclick="add_fields()">${_("Add")}</button><br/>
-                            <button type="button" onclick="del_fields()">${_("Remove")}</button><br/>
-                            <button type="button" onclick="del_fields(true)">${_("Nothing")}</button>
-                            <br/><br/>
-                            <button type="button" onclick="do_autodetect(form)">${_("Auto Detect")}</button>
+                        	<table border="0" cellpadding="0" cellspacing="0" width="100%">
+                        		<tr>
+                        			<td align="center">
+                        				<a class="button-a" href="javascript: void(0)" onclick="add_fields()">${_("Add")}</a>
+                        			</td>
+                        		</tr>
+                        		<tr>
+                        			<td align="center">
+                        				<a class="button-a" href="javascript: void(0)" onclick="del_fields()">${_("Remove")}</a>
+                        			</td>
+                        		</tr>
+                        		<tr>
+                        			<td align="center">
+                        				<a class="button-a" href="javascript: void(0)" onclick="del_fields(true)">${_("Nothing")}</a>
+                        			</td>
+                        		</tr>
+                        		<tr>
+                        			<td align="center">
+                        				<a class="button-a" href="javascript: void(0)" onclick="do_autodetect('import_data')">${_("Auto Detect")}</a>
+                        			</td>
+                        		</tr>
+                        	</table>
                         </td>
                         <td class="fields-selector-right" height="300px">
                             <select name="fields" id="fields" multiple="multiple">
@@ -175,15 +165,15 @@
             </td>
         </tr>
         <tr>
-            <td>
+            <td class="side_spacing">
                 <fieldset>
                     <legend>${_("File to import")}</legend>
-                    <input type="file" id="csvfile" size="50" name="csvfile" onchange="do_autodetect(form)"/>
+                    <input type="file" id="csvfile" size="50" name="csvfile" onchange="do_autodetect('import_data')"/>
                 </fieldset>
             </td>
         </tr>
         <tr>
-            <td>
+            <td class="side_spacing">
                 <fieldset>
                     <legend>${_("Options")}</legend>
                     <table>
@@ -206,19 +196,6 @@
                         </tr>
                     </table>
                 </fieldset>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <div class="toolbar">
-                    <table border="0" cellpadding="0" cellspacing="0" width="100%">
-                        <tr>
-                            <td width="100%">&nbsp;</td>
-                            <td><button type="button" onclick="do_import(form)">${_("Import")}</button></td>
-                            <td><button type="button" onclick="window.close()">${_("Close")}</button></td>
-                        </tr>
-                    </table>
-                </div>
             </td>
         </tr>
     </table>

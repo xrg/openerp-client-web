@@ -422,7 +422,7 @@ MochiKit.Base.update(MochiKit.Style, {
         if (contentSize) {
             var tableCell = 'colSpan' in elem && 'rowSpan' in elem;
             var collapse = (tableCell && elem.parentNode && self.getStyle(
-                    elem.parentNode, 'borderCollapse') == 'collapse')
+                    elem.parentNode, 'borderCollapse') == 'collapse');
             if (collapse) {
                 if (/MSIE/.test(navigator.userAgent)) {
                     var borderLeftQuota = elem.previousSibling? 0.5 : 1;
@@ -517,12 +517,14 @@ MochiKit.Base.update(MochiKit.Style, {
         if (w.innerWidth) {
             d.w = w.innerWidth;
             d.h = w.innerHeight;
-        } else if (b.parentElement.clientWidth) {
-            d.w = b.parentElement.clientWidth;
-            d.h = b.parentElement.clientHeight;
-        } else if (b && b.clientWidth) {
-            d.w = b.clientWidth;
-            d.h = b.clientHeight;
+        } else if (b) {
+            if (b.parentElement && b.parentElement.clientWidth) {
+                d.w = b.parentElement.clientWidth;
+                d.h = b.parentElement.clientHeight;
+            } else if (b.clientWidth) {
+                d.w = b.clientWidth;
+                d.h = b.clientHeight;
+            }
         }
         return d;
     },

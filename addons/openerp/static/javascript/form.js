@@ -7,17 +7,17 @@
 // Developed by Tiny (http://openerp.com) and Axelor (http://axelor.com).
 //
 // The OpenERP web client is distributed under the "OpenERP Public License".
-// It's based on Mozilla Public License Version (MPL) 1.1 with following 
+// It's based on Mozilla Public License Version (MPL) 1.1 with following
 // restrictions:
 //
-// -   All names, links and logos of Tiny, Open ERP and Axelor must be 
-//     kept as in original distribution without any changes in all software 
-//     screens, especially in start-up page and the software header, even if 
-//     the application source code has been changed or updated or code has been 
+// -   All names, links and logos of Tiny, OpenERP and Axelor must be
+//     kept as in original distribution without any changes in all software
+//     screens, especially in start-up page and the software header, even if
+//     the application source code has been changed or updated or code has been
 //     added.
 //
 // -   All distributions of the software must keep source code with OEPL.
-// 
+//
 // -   All integrations to any other software must keep source code with OEPL.
 //
 // If you need commercial licence to remove this kind of restriction please
@@ -27,86 +27,80 @@
 //
 ////////////////////////////////////////////////////////////////////////////////
 
+var form_controller;
 function get_form_action(action, params){
-    
-    var act = typeof(form_controller) == 'undefined' ? '/form' : form_controller;
+    var act = typeof(form_controller) == 'undefined' ? '/openerp/form' : form_controller;
     act = action && action.indexOf('/') == 0 ? action : act + '/' + action;
     return openobject.http.getURL(act, params);
 }
 
-var openRecord = function(id, src, target, readonly){
+function openRecord(id, src, target, readonly){
 
     var kind = getNodeAttribute(src + '_set', 'kind');
-    
+
     if (!kind && openobject.dom.get('_o2m_' + src)) {
         kind = "one2many";
     }
-        
+
     if (kind == "one2many") {
-        return new One2Many(src).edit(id, readonly);
+        new One2Many(src).edit(id, readonly);
+        return;
     }
-    
+
     var prefix = src && src != '_terp_list' ? src + '/' : '';
 
-    var model = openobject.dom.get(prefix + '_terp_model').value;
-    var view_ids = openobject.dom.get(prefix + '_terp_view_ids').value;
-    var view_mode = openobject.dom.get(prefix + '_terp_view_mode').value;
+    var args = {
+        'model': openobject.dom.get(prefix + '_terp_model').value,
+        'id': id || 'False',
+        'ids': openobject.dom.get(prefix + '_terp_ids').value,
+        'view_ids': openobject.dom.get(prefix + '_terp_view_ids').value,
+        'view_mode': openobject.dom.get(prefix + '_terp_view_mode').value,
+        'domain': openobject.dom.get(prefix + '_terp_domain').value,
+        'context': openobject.dom.get(prefix + '_terp_context').value,
+        'offset': openobject.dom.get(prefix + '_terp_offset').value,
+        'limit': openobject.dom.get(prefix + '_terp_limit').value,
+        'count': openobject.dom.get(prefix + '_terp_count').value,
+        'search_domain': jQuery('#_terp_search_domain').val() || null,
+        'search_data': jQuery('#_terp_search_data').val() || null,
+        'filter_domain': jQuery('#_terp_filter_domain').val() || [],
+        'notebook_tab': jQuery('#_terp_notebook_tab').val() || 0
+    };
 
-    var ids = openobject.dom.get(prefix + '_terp_ids').value;
-
-    var offset = openobject.dom.get(prefix + '_terp_offset').value;
-    var limit = openobject.dom.get(prefix + '_terp_limit').value;
-    var count = openobject.dom.get(prefix + '_terp_count').value;
-
-    var domain = openobject.dom.get(prefix + '_terp_domain').value;
-    var context = openobject.dom.get(prefix + '_terp_context').value;
-
-    var search_domain = openobject.dom.get('_terp_search_domain');
-    search_domain = search_domain ? search_domain.value : null;
-
-    var args = {'model': model,
-                'id': id ? id : 'False',
-                'ids': ids,
-                'view_ids': view_ids,
-                'view_mode': view_mode,
-                'domain': domain,
-                'context': context,
-                'offset': offset,
-                'limit': limit,
-                'count': count,
-                'search_domain': search_domain};
-                
     var action = readonly ? 'view' : 'edit';
-        
+
     if (target == '_blank') {
-        return window.open(get_form_action(action, args));
+        window.open(get_form_action(action, args));
+        return;
     }
-    
+
     if (kind == 'many2many') {
         args['source'] = src;
-        return openobject.tools.openWindow(get_form_action('/openm2m/edit', args));
+        openobject.tools.openWindow(get_form_action('/openerp/openm2m/edit', args));
+        return;
     }
 
-    window.location.href = get_form_action(action, args);
+    openLink(get_form_action(action, args));
 }
 
-var editRecord = function(id, src, target){
+function editRecord(id, src, target){
     return openRecord(id, src, target, false);
 }
 
-var viewRecord = function(id, src){
+function viewRecord(id, src){
     return openRecord(id, src, null, true);
 }
 
-var editSelectedRecord = function() {
+function editSelectedRecord(){
 
     var lst = new ListView('_terp_list');
     var ids = lst.getSelectedRecords();
-    
+
     if (ids && ids.length > 5) {
         var msg = _('You selected to open %(tabs)s tabs - do you want to continue?');
         msg = msg.replace('%(tabs)s', ids.length);
-        if (!confirm(msg)) return;
+        if (!confirm(msg)) {
+            return;
+        }
     }
 
     forEach(ids, function(id){
@@ -114,63 +108,67 @@ var editSelectedRecord = function() {
     });
 }
 
-var switchView = function(view_type, src){
+function switchView(view_type, src){
+	if (view_type=='diagram' && !jQuery('#_terp_ids').val()) {
+    	alert('There are no records to display diagram view.')
+    	return;
+    }
 
-    var prefix = src ? src + '/' : '';
-    var form = document.forms['view_form'];
-
-    var params = {
+    var args = {
         '_terp_source': src,
         '_terp_source_view_type': view_type
     }
 
-    if (openobject.dom.get('_terp_list')){
+    if (openobject.dom.get('_terp_list')) {
         var ids = new ListView('_terp_list').getSelectedRecords();
         if (ids.length > 0) {
             openobject.dom.get('_terp_id').value = ids[0];
         }
     }
-
-    submit_form(get_form_action('switch', params));
+    submit_form(get_form_action('switch', {
+        '_terp_source': src,
+        '_terp_source_view_type': view_type
+    }));
 }
 
-var switch_O2M = function(view_type, src){
-    
-    if (openobject.http.AJAX_COUNT > 0){
+function switch_O2M(view_type, src){
+
+    if (openobject.http.AJAX_COUNT > 0) {
         return;
     }
-    
+
     var prefix = src ? src + '/' : '';
     var form = document.forms['view_form'];
-	
+
     var params = getFormParams();
-    
+
     params['_terp_source'] = src;
     params['_terp_source_view_type'] = view_type;
-    
-    if (openobject.dom.get('_terp_list')){
+    params['_terp_editable'] = $(prefix + '_terp_editable').value;
+
+    if (openobject.dom.get('_terp_list')) {
         var ids = new ListView('_terp_list').getSelectedRecords();
         if (ids.length > 0) {
             openobject.dom.get('_terp_id').value = ids[0];
         }
     }
-    
-    req = openobject.http.post('/form/switch_o2m', params);
+
+    var req = openobject.http.post('/openerp/form/switch_o2m', params);
     req.addCallback(function(xmlHttp){
-    
+
         var text = xmlHttp.responseText;
         if (text.indexOf('ERROR: ') == 0) {
             text = text.replace('ERROR: ', '');
-            return alert(text);
+            return error_display(text);
         }
 
-        var frm = openobject.dom.get('_o2m_'+src);
-        
+        var frm = openobject.dom.get('_o2m_' + src);
+
         var d = DIV();
         d.innerHTML = text;
-        
+
         var newo2m = d.getElementsByTagName('table')[0];
-        
+
         swapDOM(frm, newo2m);
 
         var ua = navigator.userAgent.toLowerCase();
@@ -185,41 +183,27 @@ var switch_O2M = function(view_type, src){
     });
 }
 
-var show_process_view = function() {
-    var model = openobject.dom.get('_terp_model').value;
-    var id = openobject.dom.get('_terp_id').value;
-
-    if (openobject.dom.get('_terp_list')) {
-        var list = new ListView('_terp_list');
-        var ids = list.getSelectedRecords();
-        if (ids.length)
-            id = ids[0];
-    }
-
-    id = parseInt(id) || null;
-
-    window.open(openobject.http.getURL('/process', {res_model: model, res_id: id}));
-}
-
-var validate_required = function(form) {
+function validate_required(form){
 
     if (typeof form == 'string') {
-       form = document.forms[form];
+        form = jQuery('#' + form).get(0);
     }
 
-    if (!form) return true;
+    if (!form) {
+        return true;
+    }
 
-    var elements = MochiKit.Base.filter(function(el) {
-       return !el.disabled && el.id && el.name && el.id.indexOf('_terp_listfields/') == -1 && hasElementClass(el, 'requiredfield');
+    var elements = MochiKit.Base.filter(function(el){
+        return !el.disabled && el.id && el.name && el.id.indexOf('_terp_listfields/') == -1 && hasElementClass(el, 'requiredfield');
     }, form.elements);
 
     var result = true;
 
-    for (var i=0; i<elements.length; i++){
-
-        var elem = elem2 = elements[i];
+    for (var i = 0; i < elements.length; i++) {
+        var elem = elements[i];
+        var elem2 = elem;
         var value = elem.value;
-        var kind = MochiKit.DOM.getNodeAttribute(elem, 'kind');
+        var kind = jQuery(elem).attr('kind');
 
         if (kind == 'many2many') {
             elem2 = openobject.dom.get(elem.name + '_set') || elem;
@@ -231,86 +215,132 @@ var validate_required = function(form) {
         }
 
         if (!value) {
-            addElementClass(elem2, 'errorfield');
+            jQuery(elem2).addClass('errorfield');
             result = false;
-        } else if (hasElementClass(elem2, 'errorfield')) {
-            removeElementClass(elem2, 'errorfield');
         }
-    }
-    
-    if (!result) {
-        alert(_("Invalid form, correct red fields !"));
+        else
+            if (jQuery(elem2).hasClass('errorfield')) {
+                jQuery(elem2).removeClass('errorfield');
+            }
     }
 
+    if (!result) {
+        error_display(_("Invalid form, correct red fields."));
+    }
     return result;
 }
 
-var submit_form = function(action, src, target){
-    
+function error_display(msg) {
+    var error = jQuery("<table>",{'width': '100%', 'height': '100%'}
+                ).append(
+                    jQuery("<tr>").append(
+                        jQuery("<td>", {'colspan': 2, 'class': 'error_message_header'}).text('Warning Message')
+                    ),
+                    jQuery("<tr>").append(
+                        jQuery("<td>", {'css': 'padding: 4px 2px;'}).append(
+                            jQuery("<img>", {'src': '/openerp/static/images/warning.png'})
+                        ),
+                        jQuery("<td>", {'class': 'error_message_content'}).text(msg)
+                    ),
+                    jQuery("<tr>").append(
+                        jQuery("<td>", {'colspan': 2, align: 'right'}).append(
+                            jQuery("<a>", {'class': 'button-a', 'href': 'javascript: void(0)'})
+                            .click(function(){jQuery.fancybox.close();})
+                            .text('OK')
+                        )
+                ));
+    jQuery.fancybox(error, {scrolling: 'no'});
+}
+
+
+function submit_form(action, src, target){
+
     if (openobject.http.AJAX_COUNT > 0) {
-        return callLater(1, submit_form, action, src, target);
+        callLater(1, submit_form, action, src, target);
+        return;
     }
 
     if (action == 'delete' && !confirm(_('Do you really want to delete this record?'))) {
-        return false;
+        return;
     }
 
-    var form = document.forms['view_form'];
-    setNodeAttribute(form, 'target', '');
 
     var source = src ? (typeof(src) == "string" ? src : src.name) : null;
 
     var args = {
         _terp_source: source
     };
-   
-    if (target == "new" || target == "_blank"){
-        setNodeAttribute(form, 'target', '_blank');
+
+    var $form = jQuery('#view_form');
+    if (target == "new" || target == "_blank") {
+        $form.attr('target', '_blank');
+    } else {
+        $form.removeAttr('target');
     }
-    
-    if (action == 'save_and_edit'){
+
+    if (action == 'save_and_edit') {
         action = 'save';
         args['_terp_return_edit'] = 1;
     }
 
     action = get_form_action(action, args);
 
-    if (/\/save(\?|\/)?/.test(action) && !validate_required(form)){
-        return false;
-    }
-    
-    form.attributes['action'].value = action;    
-    form.submit();
-}
-
-var pager_action = function(action, src) {
-    return src ? new ListView(src).go(action) : submit_search_form(action);
-}
-
-var buttonClicked = function(name, btype, model, id, sure, target){
-
-    if (sure && !confirm(sure)){
+    if (/\/save(\?|\/)?/.test(action) && !validate_required($form.get(0))) {
         return;
     }
 
-    var params = {};
-
-    params['_terp_button/name'] = name;
-    params['_terp_button/btype'] = btype;
-    params['_terp_button/model'] = model;
-    params['_terp_button/id'] = id;
-    
-    var act = get_form_action(btype == 'cancel' ? 'cancel' : 'save', params);
-    submit_form(act, null, target);
+    // Cant use $form.attr due to http://dev.jquery.com/ticket/3113 as there is a form with a field called
+    // action when creating an activity
+    $form.get(0).setAttribute('action', action);
+    $form.submit();
 }
 
-var onBooleanClicked = function(name) {
+function pager_action(src){
+    var $src = jQuery(src);
+    var action = $src.attr('action');
+    var relation = $src.attr('relation');
+    return relation ? new ListView(relation).go(action) : submit_form(action ? action : 'find');
+}
 
-    var source = openobject.dom.get(name + '_checkbox_');
-    var target = openobject.dom.get(name);
+function buttonClicked(name, btype, model, id, sure, target, context){
+    if (sure && !confirm(sure)) {
+        return;
+    }
 
-    target.value = source.checked ? 1 : '';
-	MochiKit.Signal.signal(target, 'onchange');
+    var params = {
+        '_terp_button/name': name,
+        '_terp_button/btype': btype,
+        '_terp_button/model': model,
+        '_terp_button/id': id
+    };
+
+    if (!context || context == "{}") {
+        var act = get_form_action(btype == 'cancel' ? 'cancel' : 'save', params);
+        submit_form(act, null, target);
+        return;
+    }
+
+    var req = eval_domain_context_request({
+        source: "",
+        domain: "[]",
+        context: context
+    });
+    req.addCallback(function(obj){
+        params['_terp_button/context'] = obj.context || 0;
+
+        var act = get_form_action(btype == 'cancel' ? 'cancel' : 'save', params);
+        submit_form(act, null, target);
+    });
+}
+
+/**
+ * Transpose status of a clicked boolean widget (checkbox) to the associated hidden input
+ * @param name the identifier of the hidden input (postfixed by `_checkbox_` on the checkbox)
+ */
+function onBooleanClicked(name){
+    var $source = jQuery(openobject.dom.get(name + '_checkbox_'));
+    var $target = jQuery(openobject.dom.get(name));
+    $target.val($source.is(':checked') ? 1 : '').change();
 }
 
 /**
@@ -321,121 +351,130 @@ var onBooleanClicked = function(name) {
  *    2 then give form data with type info + required flag
  * else gives simple key-value pairs
  */
-var getFormData = function(extended) {
+function getFormData(extended){
 
     var parentNode = openobject.dom.get('_terp_list') || document.forms['view_form'];
 
     var frm = {};
-    var fields = [];
-    
-    var is_editable = openobject.dom.get('_terp_editable').value == 'True';
-    
+
+    var is_editable = jQuery('#_terp_editable').val() == 'True';
+
+    var $fields = jQuery(parentNode).find('img[kind=picture]');
     if (is_editable) {
-	    fields = openobject.dom.select("input, textarea, select", parentNode);
-    } else {
-        fields =  fields.concat(openobject.dom.select('kind=value')); 
-        fields = fields.concat(openobject.dom.select('[name$=/__id]'));       
+        $fields = $fields.add('input, textarea, select', parentNode);
     }
-    
-    fields = fields.concat(filter(function(e){
-        return getNodeAttribute(e,'kind')=='picture';
-    }, openobject.dom.select('img', parentNode)));
-    
-    for(var i=0; i<fields.length; i++) {
-    
-        var e = fields[i];
-        var n = is_editable ? e.name : e.id;
-        
-        if (e.tagName.toLowerCase() != 'img' && !n)
-            continue;
+    else {
+        $fields = $fields.add('[kind=value], [name$=/__id]');
+    }
 
-        var n = n.replace('_terp_listfields/', '');
+    $fields.each(function(){
+        var $this = jQuery(this);
+        var name = is_editable ? this.name : this.id;
 
-        // don't include _terp_ fields except _terp_id
-        if (/_terp_/.test(n) && ! /_terp_id$/.test(n))
-            continue;
-
-        // work arround to skip o2m values (list mode)
-        if (n.indexOf('/__id') > 0) {
-        
-            n = n.replace('/__id', '');
-
-            if (openobject.dom.get(n + '/_terp_view_type').value == 'form') {
-                frm[n+'/__id'] = openobject.dom.get(n+'/__id').value;
-                continue;
-            }
-            // skip if editable list's editors are visible
-            if (openobject.dom.select("[name^=_terp_listfields/" + n + "]").length) {
-                continue;
-            }
-            
-            
-            var value = openobject.dom.get(n + '/_terp_ids').value;
-
-            if (extended) {
-                value = {'value': value, 
-                         'type': 'one2many', 
-                         'relation': openobject.dom.get(n + '/_terp_model').value};
-                value = serializeJSON(value);
-            }
-            
-            frm[n] = value;
-            continue;
+        if (this.tagName.toLowerCase() != 'img' && !name) {
+            return;
         }
 
-        if (extended && n.indexOf('/__id') == -1) {
+        name = name.replace('_terp_listfields/', '');
 
+        // don't include _terp_ fields except _terp_id
+        if (/_terp_/.test(name) && !/_terp_id$/.test(name)) {
+            return;
+        }
+
+        // work around to skip o2m values (list mode)
+        var value;
+        if (name.indexOf('/__id') > 0) {
+
+            name = name.replace('/__id', '');
+
+            if (openobject.dom.get(name + '/_terp_view_type').value == 'form') {
+                frm[name + '/__id'] = openobject.dom.get(name + '/__id').value;
+                return;
+            }
+            // skip if editable list's editors are visible
+            if (openobject.dom.select("[name^=_terp_listfields/" + name + "]").length) {
+                return;
+            }
+
+            value = openobject.dom.get(name + '/_terp_ids').value;
+            if (extended) {
+                value = serializeJSON({
+                    'value': value,
+                    'type': 'one2many',
+                    'relation': openobject.dom.get(name + '/_terp_model').value
+                });
+            }
+
+            frm[name] = value;
+            return;
+        }
+
+        if (extended && name.indexOf('/__id') == -1) {
             var attrs = {};
-            
-            var value = (is_editable ? e.value : getNodeAttribute(e, 'value')) || "";
-            var kind = getNodeAttribute(e, 'kind') || "char";
+
+            value = (is_editable ? this.value : $this.attr('value')) || "";
+            var kind = $this.attr('kind') || "char";
 
             //take care of _terp_id
-            if (/_terp_id$/.test(n)) {
+            if (/_terp_id$/.test(name)) {
 
                 //  only the resource id and all O2M
-                n = n.replace(/_terp_id$/, '');
-                if (n && !openobject.dom.get(n + '__id')) {
-                    continue; 
+                name = name.replace(/_terp_id$/, '');
+                if (name && !openobject.dom.get(name + '__id')) {
+                    return;
                 }
 
-                n = n + 'id';
-                
-                if (!openobject.dom.get(n)) {
-                    continue;    
+                name = name + 'id';
+
+                if (!openobject.dom.get(name)) {
+                    return;
                 }
-                
+
                 kind = 'integer';
                 value = value == 'False' ? '' : value;
             }
 
             attrs['value'] = typeof(value) == "undefined" ? '' : value;
 
-            if (kind)
+            if (kind) {
                 attrs['type'] = kind;
-                
-            if (extended && (kind == 'many2one' || kind == 'many2many')){
-                attrs['relation'] = getNodeAttribute(e, 'relation');
             }
 
-            if (extended > 1 && hasElementClass(e, 'requiredfield'))
-                attrs['required'] =  1;
-
-            if (kind == "picture") {
-                n = e.id;
+            if (extended && (kind == 'many2one' || kind == 'many2many')) {
+                attrs['relation'] = $this.attr('relation');
             }
 
-            if (kind == 'text_html') {
-                attrs['value'] =  tinyMCE.get(e.name).getContent();
+            if (extended > 1 && $this.hasClass('requiredfield')) {
+                attrs['required'] = 1;
+            }
+
+            switch (kind) {
+                case "picture":
+                    name = this.id;
+                    break;
+                case 'text_html':
+                    if (!tinyMCE.get(this.name)) {
+                        break;
+                    }
+                    attrs['value'] = tinyMCE.get(this.name).getContent();
+                    break;
+                case 'reference':
+                    if (!value) {
+                        break;
+                    }
+                    attrs['value'] = "[" + value + ",'" + $this.attr('relation') + "']";
+                    break;
             }
 
             // stringify the attr object
-            frm[n] = serializeJSON(attrs);
-            
-        } else {
-            frm[n] = e.value;
+            frm[name] = serializeJSON(attrs);
+
         }
-    }
+        else {
+            frm[name] = this.value;
+        }
+    });
 
     return frm;
 }
@@ -444,7 +483,7 @@ var getFormData = function(extended) {
  * get key-value pair of form params (_terp_)
  * @param name: only return values for given param
  */
-var getFormParams = function(name){
+function getFormParams(name){
 
     var parentNode = document.forms['view_form'];
 
@@ -453,8 +492,9 @@ var getFormParams = function(name){
 
     forEach(fields, function(e){
 
-        if (!e.name || e.name.indexOf('_terp_listfields/') > -1 || e.name.indexOf('_terp_') == -1)
+        if (!e.name || e.name.indexOf('_terp_listfields/') > -1 || e.name.indexOf('_terp_') == -1) {
             return
+        }
 
         if (name && e.name != name) {
             return;
@@ -462,7 +502,8 @@ var getFormParams = function(name){
 
         if (typeof(frm[e.name]) != "undefined") {
             frm[e.name] = MochiKit.Base.flattenArray([frm[e.name], e.value]);
-        } else {
+        }
+        else {
             frm[e.name] = e.value;
         }
     });
@@ -470,58 +511,55 @@ var getFormParams = function(name){
     return frm;
 }
 
-var onChange = function(name) {
+function onChange(caller){
+    caller = openobject.dom.get(caller);
+    var callback = jQuery(caller).attr('callback');
+    var change_default = jQuery(caller).attr('change_default');
 
-    var caller = openobject.dom.get(name);
-    var callback = getNodeAttribute(caller, 'callback');
-    var change_default = getNodeAttribute(caller, 'change_default');
-    
     if (!(callback || change_default) || caller.__lock_onchange) {
         return;
     }
-    
+
     var is_list = caller.id.indexOf('_terp_listfields') == 0;
     var prefix = caller.name || caller.id;
-    prefix = prefix.slice(0, prefix.lastIndexOf('/')+1);
+    prefix = prefix.slice(0, prefix.lastIndexOf('/') + 1);
 
-    var params = getFormData(1);
     var model = is_list ? openobject.dom.get(prefix.slice(17) + '_terp_model').value : openobject.dom.get(prefix + '_terp_model').value;
     var context = is_list ? openobject.dom.get(prefix.slice(17) + '_terp_context').value : openobject.dom.get(prefix + '_terp_context').value;
     var id = is_list ? openobject.dom.get(prefix.slice(17) + '_terp_id').value : openobject.dom.get(prefix + '_terp_id').value;
 
-    params['_terp_caller'] = is_list ? caller.id.slice(17) : caller.id;
-    params['_terp_callback'] = callback;
-    params['_terp_model'] = model;
-    params['_terp_context'] = context;
-    params['_terp_value'] = caller.value;
-    params['id'] = id;
-    
-    var req = openobject.http.postJSON(callback ? '/form/on_change' : '/form/change_default_get', params);
+    var req = openobject.http.postJSON(callback ? '/openerp/form/on_change' : '/openerp/form/change_default_get', jQuery.extend({}, getFormData(1), {
+        _terp_caller: is_list ? caller.id.slice(17) : caller.id,
+        _terp_callback: callback,
+        _terp_model: model,
+        _terp_context: context,
+        _terp_value: caller.value,
+        id: id
+    }));
 
     req.addCallback(function(obj){
 
         if (obj.error) {
-            return alert(obj.error);
+            return error_popup(obj)
         }
-        
-        values = obj['value'];
-        domains = obj['domain'];
+
+        var values = obj['value'];
+        var domains = obj['domain'];
 
         domains = domains ? domains : {};
-
-        for(var k in domains){
-            fld = openobject.dom.get(prefix + k);
-            if (fld){
-                setNodeAttribute(fld, 'domain', domains[k]);
+        var fld;
+        for (var domain in domains) {
+            fld = openobject.dom.get(prefix + domain);
+            if (fld) {
+                jQuery(fld).attr('domain', domains[domain]);
             }
         }
 
-        for(var k in values){
-            
+        var flag;
+        var value;
+        for (var k in values) {
             flag = false;
             fld = openobject.dom.get(prefix + k);
-
-            if (!fld) continue;
 
             value = values[k];
             value = value === false || value === null ? '' : value;
@@ -529,7 +567,7 @@ var onChange = function(name) {
             // prevent recursive onchange
             fld.__lock_onchange = true;
 
-            if (openobject.dom.get(prefix + k + '_id')){
+            if (openobject.dom.get(prefix + k + '_id')) {
                 fld = openobject.dom.get(prefix + k + '_id');
                 flag = true;
             }
@@ -537,46 +575,60 @@ var onChange = function(name) {
             if ((fld.value !== value) || flag) {
                 fld.value = value;
 
-                var kind = getNodeAttribute(fld, 'kind');
-                
-                if (kind == 'picture') {
-                    fld.src = value;
-                }
+                var kind = jQuery(fld).attr('kind');
 
-                if (kind == 'many2one'){
-                    fld.value = value[0] || '';
-                    try {
-                        openobject.dom.get(prefix + k + '_text').value = value[1] || '';
-                    }catch(e){}
+                switch (kind) {
+                    case 'picture':
+                        fld.src = value;
+                        break;
+                    case 'many2one':
+                        fld.value = value[0] || '';
+                        try {
+                            openobject.dom.get(prefix + k + '_text').value = value[1] || '';
+                        }
+                        catch (e) {
+                        }
+                        break;
+                    case 'boolean':
+                        openobject.dom.get(prefix + k + '_checkbox_').checked = value || false;
+                        break;
+                    case 'text_html':
+                        if (tinyMCE.get(prefix + k)) {
+                            tinyMCE.execInstanceCommand(prefix + k, 'mceSetContent', false, value || '')
+                        }
+                        break;
+                    case 'selection':
+                        if (typeof(value)=='object') {
+                            var opts = [OPTION({'value': ''})];
+                            for (i in value) {
+                                var item = value[i];
+                                opts.push(OPTION({'value': item[0]}, item[1]));
+                            }
+                            MochiKit.DOM.replaceChildNodes(fld, map(function(x){return x;}, opts));
+                        }
+                        else {
+                            fld.value = value;
+                        }
+                        break;
+                    case 'progress':
+                        var progress = values['progress'].toString() + '%';
+                        jQuery('#progress').text(progress).append(jQuery('<div>', {
+                            'width': progress
+                        }));
+                        break;
+                    default:
+                    // do nothing on default
                 }
-
-                if (kind == 'boolean') {
-                    openobject.dom.get(prefix + k + '_checkbox_').checked = value || false;
-                }
-                
-                if (kind=='text_html') {
-                    tinyMCE.execInstanceCommand(k, 'mceSetContent', false, value || '')
-                }
-                
-                if (kind=='selection') {                    
-                    var opts = [];
-                    opts.push(OPTION({'value': ''}))
-                    
-                    for (i in value) {                        
-                        var item = value[i];                        
-                        opts.push(OPTION({'value': item[0]}, item[1]));
-                    } 
-                    MochiKit.DOM.replaceChildNodes(fld, map(function(x){return x;}, opts));
-                }                
 
                 MochiKit.Signal.signal(fld, 'onchange');
+                MochiKit.Signal.signal(window.document, 'onfieldchange', fld);
             }
 
             fld.__lock_onchange = false;
         }
 
         if (obj.warning && obj.warning.message) {
-            alert(obj.warning.message);
+            error_display(obj.warning.message);
         }
     });
 }
@@ -584,24 +636,24 @@ var onChange = function(name) {
 /**
  * This function will be used by many2one field to get display name.
  *
- * @param name: name/instance of the widget
- * @param relation: the OpenERP model
- *
- * @return string
+ * @param name name/instance of the widget
+ * @param relation the OpenERP model
  */
 function getName(name, relation){
-
     var value_field = openobject.dom.get(name);
     var text_field = openobject.dom.get(value_field.name + '_text');
 
-    relation = relation ? relation : getNodeAttribute(value_field, 'relation');
+    relation = relation ? relation : jQuery(value_field).attr('relation');
 
-    if (value_field.value == ''){
+    if (value_field.value == '') {
         text_field.value = ''
     }
 
-    if (value_field.value){
-        var req = openobject.http.getJSON('/search/get_name', {model: relation, id : value_field.value});
+    if (value_field.value) {
+        var req = openobject.http.getJSON('/openerp/search/get_name', {
+            model: relation,
+            id: value_field.value
+        });
         req.addCallback(function(obj){
             text_field.value = obj.name;
         });
@@ -609,7 +661,7 @@ function getName(name, relation){
 }
 
 function eval_domain_context_request(options){
-    
+
     if ((!options.domain || options.domain == '[]') && (!options.context || options.context == '{}')) {
         return new MochiKit.Async.succeed(-1);
     }
@@ -618,39 +670,43 @@ function eval_domain_context_request(options){
     prefix.pop();
 
     // editable listview fields
-    if (prefix[0] == '_terp_listfields'){
+    if (prefix[0] == '_terp_listfields') {
         prefix.shift();
     }
-    prefix = prefix.join('/');
+    var params = jQuery.extend(getFormData(1), {
+        '_terp_domain': options.domain,
+        '_terp_context': options.context,
+        '_terp_prefix': prefix.join('/'),
+        '_terp_active_id': openobject.dom.get(prefix.concat('_terp_id').join('/')).value,
+        '_terp_active_ids': openobject.dom.get(prefix.concat('_terp_ids').join('/')).value
+    });
 
-    var params = getFormData(1);
-    
-    params['_terp_domain'] = options.domain;
-    params['_terp_context'] = options.context;
-    params['_terp_prefix'] = prefix;    
-    params['_terp_active_id'] = prefix ? openobject.dom.get(prefix + '/_terp_id').value : openobject.dom.get('_terp_id').value;
-    params['_terp_active_ids'] = prefix ? openobject.dom.get(prefix + '/_terp_ids').value : openobject.dom.get('_terp_ids').value;
-    
+    if (options.group_by_ctx && options.group_by_ctx.length > 0)
+        params['_terp_group_by'] = options.group_by_ctx;
+    else
+        params['_terp_group_by'] = '[]';
+
     if (options.active_id) {
         params['_terp_active_id'] = options.active_id;
         params['_terp_active_ids'] = options.active_ids;
     }
-        
-    var parent_context = prefix ? openobject.dom.get(prefix + '/_terp_context') : openobject.dom.get('_terp_context');
-    
-    if (parent_context){
+
+    var parent_context = openobject.dom.get(prefix.concat('_terp_context').join('/'));
+
+    if (parent_context) {
         params['_terp_parent_context'] = parent_context.value;
     }
-    
-    var req = openobject.http.postJSON('/search/eval_domain_and_context', params);
+
+    var req = openobject.http.postJSON('/openerp/search/eval_domain_and_context', params);
     return req.addCallback(function(obj){
 
         if (obj.error_field) {
 
             var fld = openobject.dom.get(obj.error_field) || openobject.dom.get('_terp_listfields/' + obj.error_field);
 
-            if (fld && getNodeAttribute(fld, 'kind') == 'many2one')
-            fld = openobject.dom.get(fld.id + '_text');
+            if (fld && jQuery(fld).attr('kind') == 'many2one') {
+                fld = openobject.dom.get(fld.id + '_text');
+            }
 
             if (fld) {
                 fld.focus();
@@ -659,321 +715,498 @@ function eval_domain_context_request(options){
         }
 
         if (obj.error) {
-            return alert(obj.error);
+            return error_popup(obj.error)
         }
 
         return obj;
     });
 }
 
-function open_search_window(relation, domain, context, source, kind, text) {
+function open_search_window(relation, domain, context, source, kind, text){
 
-    var req = eval_domain_context_request({source: source, 
-                                           domain: domain, 
-                                           context: context});
+    var req = eval_domain_context_request({
+        'source': source,
+        'domain': domain,
+        'context': context
+    });
 
     if (kind == 2 && source.indexOf('_terp_listfields/') == 0) {
         text = "";
     }
 
     req.addCallback(function(obj){
-        openobject.tools.openWindow(openobject.http.getURL('/search/new', {model: relation, 
-                                          domain: obj.domain, 
-                                          context: obj.context, 
-                                          source: source, 
-                                          kind: kind, 
-                                          text: text}));
+        openobject.tools.openWindow(openobject.http.getURL('/openerp/search/new', {
+            'model': relation,
+            'domain': obj.domain,
+            'context': obj.context,
+            'source': source,
+            'kind': kind,
+            'text': text
+        }));
     });
 }
 
-var showCustomizeMenu = function(src, elem) {
-    var elem = openobject.dom.get(elem);
-    
-    var frame = window.frameElement ? window.frameElement : null;
-    if (frame) {
-    	frame.style.height = elementDimensions(openobject.dom.get('main_form_body')).h + 70 + 'px';	
-    }
-        
-    MochiKit.Visual.appear(elem, {from: 0, duration: 0.4});
-}
-
-function makeContextMenu(id, kind, relation, val) {
-
-    var form = document.forms['view_form'];
+function makeContextMenu(id, kind, relation, val){
     var act = get_form_action('get_context_menu');
 
     var prefix = id.indexOf('/') > -1 ? id.slice(0, id.lastIndexOf('/')) + '/' : '';
 
     var model = prefix ? openobject.dom.get(prefix + '_terp_model').value : openobject.dom.get('_terp_model').value;
 
-    var params = {'model': model, 'field': id, 'kind': kind, 'relation': relation, 'value': val};
-    
-    var req = openobject.http.postJSON(act, params);
-
-    req.addCallback(function(obj) {
-
-        var rows = [];
-
-        for(var r in obj.defaults) {
-            var o = obj.defaults[r];                        
-            var a = SPAN({onclick: 'hideElement("contextmenu"); return ' + o.action}, o.text);
-            rows = rows.concat(a);
+    openobject.http.postJSON(act, {
+        'model': model,
+        'field': id,
+        'kind': kind,
+        'relation': relation,
+        'value': val
+    }).addCallback(function(obj){
+        var $tbody = jQuery('<tbody>');
+        jQuery.each(obj.defaults, function (_, default_) {
+            jQuery('<tr>').append(jQuery('<td>').append(
+                jQuery('<span>').click(function () {
+                    hideContextMenu();
+                    return eval(default_.action);
+                }).text(default_.text))).appendTo($tbody);
+        });
+        if (obj.actions.length) {
+            $tbody.append('<hr>');
+            jQuery.each(obj.actions, function (_, action) {
+                jQuery('<tr>').append(jQuery('<td>').append(
+                    jQuery('<span>')
+                        .attr('class', action.action ? '' : 'disabled')
+                        .click(function () {
+                            if(action.action) {
+                                hideContextMenu();
+                                return eval(action.action);
+                            }
+                        }).text(action.text))).appendTo($tbody);
+            });
         }
+        if (obj.relates.length) {
+            $tbody.append('<hr>');
 
-        if(obj.actions.length > 0) {
-            rows = rows.concat(HR());
-
-            for(var r in obj.actions) {
-                var o = obj.actions[r];
-
-                var a = SPAN({'class': o.action ? '' : 'disabled',
-                           'onclick': o.action ? 'hideElement("contextmenu"); return ' + o.action : ''}, o.text);
-
-                rows = rows.concat(a);
-            }
+            jQuery.each(obj.relates, function (_, relate) {
+                jQuery('<tr>').append(jQuery('<td>').append(
+                    jQuery('<span>')
+                        .css({
+                            'class': relate.action ? '' : 'disabled',
+                            'domain': relate.domain,
+                            'context': relate.domain
+                        }).click(function () {
+                            if(relate.action) {
+                                hideContextMenu();
+                                return eval(relate.action);
+                            }
+                        }).text(relate.text))).appendTo($tbody);
+            });
         }
-
-        if(obj.relates.length > 0) {
-            rows = rows.concat(HR())
-
-            for(var r in obj.relates) {
-                var o = obj.relates[r];
-                
-                var a = SPAN({'class': o.action ? '' : 'disabled',
-                              'onclick': o.action ? 'hideElement(\'contextmenu\'); return ' + o.action : '',
-                              'domain': o.domain,
-                              'context': o.context}, o.text);
-
-                rows = rows.concat(a);
-            }
-        }
-
-        openobject.dom.get('contextmenu').innerHTML = '';
-
-        var tbl = TABLE({'cellpadding': 0, 'cellspacing' : 0}, 
-                    TBODY(null, map(function(r){return TR(null, TD(null, r));}, rows)));
-
-        appendChildNodes('contextmenu', tbl);
-
-        var vd = getViewportDimensions();
-        var md = elementDimensions('contextmenu');
-
-        var x = openobject.dom.get('contextmenu').style.left.slice(0, -2);
-        var y = openobject.dom.get('contextmenu').style.top.slice(0, -2);
-        x = parseInt(x);
-        y = parseInt(y);
-
-        if ((x + md.w) > vd.w) {
-            x -= x + md.w - vd.w;
-            openobject.dom.get('contextmenu').style.left = x + 'px';
-        }
-        
-        if ((y + md.h) > vd.h) {
-            y -= y + md.h - vd.h;
-            openobject.dom.get('contextmenu').style.top = y + 'px';
-        }
+        jQuery('#contextmenu').empty().append(
+            jQuery('<table cellpadding="0" cellspacing="0">').append($tbody));
 
         showContextMenu();
     });
 }
 
-var showContextMenu = function(){
+function showContextMenu(){
+    var $menu = jQuery('#contextmenu');
+    var $ifrm = jQuery('#contextmenu_frm');
 
-    var menu = openobject.dom.get('contextmenu');
-    var ifrm = openobject.dom.get('contextmenu_frm');
-
-    showElement(menu);
-
-    if (ifrm){
-
-        ifrm.style.left = menu.offsetLeft + "px";
-        ifrm.style.top = menu.offsetTop + "px";
-        ifrm.style.width = menu.offsetWidth + "px";
-        ifrm.style.height = menu.offsetHeight + "px";
-        ifrm.style.zIndex = 6;
-
-        showElement(ifrm);
+    $menu.show();
+    if ($ifrm.length) {
+        $ifrm.offset($menu.offset())
+             .css({
+                  width: $menu.offsetWidth(),
+                  height: $menu.offsetHeight(),
+                  zIndex: 6
+              }).show();
     }
 }
 
-var hideContextMenu = function(){
-    var menu = openobject.dom.get('contextmenu');
-    var ifrm = openobject.dom.get('contextmenu_frm');
-
-    if (ifrm){
-        hideElement(ifrm);
-    }
-
-    hideElement(menu);
+function hideContextMenu(){
+    jQuery('#contextmenu, #contextmenu_frm').hide();
 }
 
-function set_to_default(field, model){
-
-    var kind = getNodeAttribute(openobject.dom.get(field), 'kind');
-    
-    var act = get_form_action('get_default_value');
-    var params = {'model': model, 'field': field};
-
-    var req = openobject.http.postJSON(act, params);
-    req.addCallback(function(obj) {
-
-        openobject.dom.get(field).value = obj.value;
-        signal(field, "onchange");
+function set_to_default(field_id, model){
+    openobject.http.postJSON(get_form_action('get_default_value'), {
+        'model': model,
+        'field': field_id
+    }).addCallback(function(obj){
+        jQuery('[id="' + field_id + '"]')
+                .val(obj.value);
+        // jQuery().change doesn't trigger Mochikit's handler?
+        signal(field_id, "onchange");
     });
 }
 
 function set_as_default(field, model){
-
-    var kind = getNodeAttribute(openobject.dom.get(field), 'kind');
-
-    var args = getFormData(1);
-    
-    args['_terp_model'] = model;
-    args['_terp_field'] = field;
-
-    var req = openobject.http.postJSON('/fieldpref/get', args);
-
-    req.addCallback(function(obj){
-        var text = obj.text;
-        var params = {'_terp_model': model, 
-                      '_terp_field/name': field, 
-                      '_terp_field/string': text, 
-                      '_terp_field/value': openobject.dom.get(field).value, 
-                      '_terp_deps': obj.deps};
-        
-        openobject.tools.openWindow(openobject.http.getURL('/fieldpref', params), {width: 500, height: 350});
+    openobject.http.postJSON(
+        '/openerp/fieldpref/get',
+        jQuery.extend({}, getFormData(1), {
+            _terp_model: model,
+            _terp_field: field
+    })).addCallback(function(obj){
+        openobject.tools.openWindow(
+            openobject.http.getURL('/openerp/fieldpref', {
+                '_terp_model': model,
+                '_terp_field/name': field,
+                '_terp_field/string': obj.text,
+                '_terp_field/value': openobject.dom.get(field).value,
+                '_terp_deps': obj.deps
+            }), {
+            width: 500,
+            height: 350
+        });
     });
 }
 
-function do_report(id, relation) {
+function do_report(id, relation){
 
     id = openobject.dom.get(id).value;
 
     var act = get_form_action('report');
-    var params = {'_terp_model': relation, '_terp_id': id};
+    var params = {
+        '_terp_model': relation,
+        '_terp_id': id
+    };
 
     window.open(openobject.http.getURL(act, params));
 }
 
-function do_action(action_id, field, relation, src) {
+function do_action(src){
+    var $src = jQuery(src);
+    var action_id = $src.attr('action_id');
+    var field = '_terp_id';
     
+    var relation = $src.attr('relation');
+    var data = $src.attr('data');
     var params = {};
     
+    var domain = $src.attr('domain');
+    var context = $src.attr('context');
+
     if (openobject.dom.get('_terp_list')) {
         var list = new ListView('_terp_list');
         var ids = list.getSelectedRecords();
 
         if (ids.length == 0) {
-           return alert(_('You must select at least one record.'));
+            return error_display(_('You must select at least one record.'));
         }
 
         params['_terp_selection'] = '[' + ids.join(',') + ']';
     }
 
-    var id = openobject.dom.get(field).value;
-    var domain = getNodeAttribute(src, 'domain');
-    var context = getNodeAttribute(src, 'context');
-    
-    var req = eval_domain_context_request({source: openobject.dom.get(field).id,
-                                           active_id: id,
-                                           active_ids: params['_terp_selection'],
-                                           domain: domain, 
-                                           context: context});
-                                           
+    var id = jQuery('#'+field).val();
+    var source = jQuery('#'+field).attr('id');
+
+    var req = eval_domain_context_request({
+        'source': source,
+        'active_id': id,
+        'active_ids': params['_terp_selection'],
+        'domain': domain,
+        'context': context
+    });
+
     req.addCallback(function(obj){
-          
+
         var act = get_form_action('action');
         MochiKit.Base.update(params, {
             '_terp_action': action_id,
-            '_terp_domain': obj.domain, 
-            '_terp_context': obj.context, 
+            '_terp_domain': obj.domain,
+            '_terp_context': obj.context,
             '_terp_id': id,
-            '_terp_model': relation});
-        
+            '_terp_model': relation,
+            'datas': data
+        });
+
         window.open(openobject.http.getURL(act, params));
 
     });
 }
 
-function on_context_menu(evt) { 
-    
-    if(! evt.modifier().ctrl)
+function translate_fields(src){
+	var $src = jQuery(src);
+	var relation = $src.attr('relation');
+	var id = $src.attr('id');
+	var ctx = $src.attr('data');
+
+	openobject.tools.openWindow(openobject.http.getURL('/openerp/translator',{
+        _terp_model: relation,
+        _terp_id: id,
+        _terp_context: ctx
+    }));
+}
+
+function on_context_menu(evt){
+
+    if (!evt.modifier()) {
         return;
-        
-    var target = evt.target();
-    var kind = getNodeAttribute(target, 'kind');
-    
-    if(! kind || target.disabled)
+    }
+    var $target = jQuery(evt.target());
+
+    var kind = $target.attr('kind');
+
+    if (!(kind && $target.is(':input, :enabled'))) {
         return;
+    }
+    var $menu = jQuery('#contextmenu').show();
 
-    var menu = openobject.dom.get('contextmenu');
+    if (!$menu.length) {
+        $menu = jQuery('<div id="contextmenu" class="contextmenu">')
+                .css({position: 'absolute'})
+                .hover(showContextMenu, hideContextMenu)
+                .appendTo(document.body).show();
 
-    if (!menu) {
-
-        menu = DIV({'id': 'contextmenu', 
-                    'class' : 'contextmenu', 
-                    'onmouseout' : 'hideContextMenu()', 
-                    'onmouseover' : 'showContextMenu()',
-                    'style' : 'position: absolute; display: none;'});
-
-        appendChildNodes(document.body, menu);
-
-        if (/msie/.test(navigator.userAgent.toLowerCase())) {
-            var ifrm = createDOM('IFRAME', {'id' : 'contextmenu_frm', 
-                                            'src' : '#', 'frameborder': '0', 'scrolling' :'no', 
-                                            'style':'position: absolute; display: none;'});
-
-            appendChildNodes(document.body, ifrm);
+        if (jQuery(document.documentElement).hasClass('ie')) {
+            jQuery('<iframe id="contextmenu_frm" src="#" frameborder="0" scrolling="no">')
+                    .css({position: 'absolute'})
+                    .hide().appendTo(document.body);
         }
     }
 
-    var src = target.id;
-    
+    var src = $target.attr('id');
     if (kind == 'many2one') {
         src = src.slice(0, -5);
     }
-    
-    var val = openobject.dom.get(src).value;
-    var relation = getNodeAttribute(src, 'relation');
+    var $src = jQuery('[id="' + src + '"]');
 
-    hideElement(menu);
+    var click_position = evt.mouse().page;
+    $menu.offset({top: 0, left: 0});
+    $menu.offset({top: click_position.y - 5, left: click_position.x - 5});
+    $menu.hide();
+    makeContextMenu(src, kind, $src.attr('relation'), $src.val());
 
-    var p = evt.mouse().page;
-    
-    setElementPosition(menu, p);
-
-    makeContextMenu(src, kind, relation, val);        
-    
     evt.stop();
 }
 
 function open_url(site){
     var web_site;
 
-    isIE = /msie/.test(navigator.userAgent.toLowerCase());
-    
-    if(isIE && site.indexOf('@') > -1) {
+    if (jQuery(document.documentElement).hasClass('ie') && site.indexOf('@') > -1) {
         site = site.split('@');
         site = site[1]
     }
-    
-    if(site.indexOf("://")== -1)
-        web_site='http://'+site;
-    else
-        web_site = site;
 
-    if(site.length > 0) {
+    if (site.indexOf("://") == -1) {
+        web_site = 'http://' + site;
+    } else {
+        web_site = site;
+    }
+
+    if (site.length) {
         window.open(web_site);
     }
 }
 
-function submenu_action(action_id, model) {
-	window.location.href = openobject.http.getURL("/form/action_submenu", {	
-	    _terp_action_id: action_id,
-	    _terp_model: model,
-		_terp_id: $('_terp_id').value
-	});
+function submenu_action(action_id, model){
+    openLink(openobject.http.getURL("/openerp/form/action_submenu", {
+        _terp_action_id: action_id,
+        _terp_model: model,
+        _terp_id: $('_terp_id').value
+    }));
 }
 
-// vim: ts=4 sts=4 sw=4 si et
+function show_wkf(){
+    var id;
 
+    if (jQuery('#_terp_list').length) {
+        var lst = new ListView('_terp_list');
+        var ids = lst.getSelectedRecords();
+
+        if (ids.length < 1) {
+            error_display(_('You must select at least one record.'));
+            return;
+        }
+        id = ids[0];
+    }
+    else {
+        var element = jQuery('#_terp_id');
+        id = element && element.val() != 'False' ? element.val() : null;
+    }
+
+    openobject.tools.openWindow(openobject.http.getURL('/view_diagram/workflow', {
+        model: jQuery('#_terp_model').val(),
+        rec_id: id
+    }));
+}
+
+/**
+ * @event click
+ *
+ * Requests the deletion of an attachment based on data provided by the trigger's parent's @data-id
+ */
+function removeAttachment() {
+    var $attachment_line = jQuery(this).parent();
+    if(!confirm('Do you really want to delete the attachment {' +
+                jQuery.trim($attachment_line.find('> a.attachment').text()) +
+            '} ?')) {
+        return false;
+    }
+    jQuery.ajax({
+        url: '/openerp/attachment/remove/',
+        type: 'POST',
+        data: {
+            'id': $attachment_line.attr('data-id')
+        },
+        dataType: 'json',
+        success: function(obj) {
+            if(obj.error) {
+                error_popup(obj.error);
+            }
+
+            $attachment_line.remove();
+        }
+    });
+
+    return false;
+}
+
+/**
+ * @event form submission
+ *
+ * Used by the sidebar to create a new attachment.
+ *
+ * Creates a new line in #attachments if the creation succeeds.
+ */
+function createAttachment(){
+    var $form = jQuery(this);
+    if(!$form.find(':file, :text')
+             .filter(function () {return jQuery(this).val();})
+             .length) {
+        return false;
+    }
+    $form.ajaxSubmit({
+        dataType: 'json',
+        data: {'requested_with': 'XMLHttpRequest'},
+        success: function(data){
+            var $attachment_line = jQuery('<li>', {
+                'id': 'attachment_item_' + data['id'],
+                'data-id': data['id']
+            });
+
+            jQuery([
+                jQuery('<a>', {
+                    'target': '_blank',
+                    'href': data.url || openobject.http.getURL(
+                            '/openerp/attachment/get', {
+                        'record': data['id']}),
+                    'class': 'attachment'
+                }).text(data['name']),
+                jQuery('<span>|</span>'),
+                jQuery("<a href='#' class='close'>Close</a>")
+            ]).appendTo($attachment_line);
+
+            jQuery('#attachments').append($attachment_line);
+            $form.resetForm();
+            $form.hide();
+        }
+    });
+    return false;
+}
+
+function setupAttachments(){
+    jQuery('#attachments').delegate('li a.close', 'click', removeAttachment);
+
+    var $attachmentsForm = jQuery('#attachment-box').hide();
+    jQuery('#add-attachment').click(function(e){
+        $attachmentsForm.show();
+        e.preventDefault();
+    });
+    $attachmentsForm.bind({
+        change: createAttachment,
+        // leave that one just in case, but should generally not activate
+        submit: createAttachment
+    });
+}
+
+function error_popup(obj){
+    try {
+        var error_window = window.open("", "error", "status=1, scrollbars=yes, width=550, height=400");
+        error_window.document.write(obj.error);
+        error_window.document.title += "OpenERP - Error"
+        error_window.document.close();
+    }
+    catch (e) {
+        error_display(e)
+    }
+}
+
+// Setup by the view, the id of the current object
+var RESOURCE_ID;
+/**
+ * Create a shortcut bar item for the provided menu ID
+ */
+function add_shortcut_to_bar(id){
+    jQuery.getJSON('/openerp/shortcuts/by_resource', function(data){
+        var $shortcuts = jQuery('#shortcuts');
+        var $shortcuts_list = $shortcuts.children('ul');
+        $shortcuts_list.append(jQuery('<li>', {
+            'class': $shortcuts_list.children().length ? '' : 'first'
+        }).append(jQuery('<a>', {
+            'id': 'shortcut_' + id,
+            'href': openobject.http.getURL('/openerp/tree/open', {
+                'id': id,
+                'model': 'ir.ui.menu'
+            })
+        }).append(jQuery('<span>').text(data[id]['name']))));
+        $shortcuts.trigger('altered');
+    });
+}
+
+/**
+ * Toggle the shortcut for the current resource (create or delete it depending on current status)
+ */
+function toggle_shortcut(){
+    var adding = jQuery(this).hasClass('shortcut-add');
+    jQuery.ajax({
+        url: adding ? '/openerp/shortcuts/add' : '/openerp/shortcuts/delete',
+        context: this,
+        type: 'POST',
+        data: {
+            'id': RESOURCE_ID
+        },
+        success: function(){
+            jQuery(this).toggleClass('shortcut-add shortcut-remove');
+            if (adding) {
+                add_shortcut_to_bar(RESOURCE_ID);
+            } else {
+                jQuery('#shortcut_' + RESOURCE_ID).parent().remove();
+                jQuery('#shortcuts').trigger('altered');
+            }
+        },
+        error: function(XMLHttpRequest, textStatus, errorThrown) {
+            jQuery.fancybox(XMLHttpRequest.responseText, {scrolling: 'no'});
+        }
+    });
+}
+
+
+function validateForm(){
+    jQuery('#view_form table tr td:first').find('input:not([type=hidden]), select').change(function(){
+        jQuery('#view_form').data('is_form_changed', true);
+    });
+}
+
+function validate_action() {
+    var $form = jQuery('#view_form');
+    if ($form.data('is_form_changed') && confirm('The record has been modified \n Do you want to save it ?')) {
+        if (!validate_required($form.get(0))) {
+            return;
+        }
+        
+        $form.ajaxSubmit({
+            error: loadingError,
+            async: false,
+            success: function(data, status, xhr){
+                if (arguments.length) {
+                    $form.find('#_terp_id').val(jQuery(xhr.responseText).find('#_terp_id').val());
+                }
+                $form.removeData('is_form_changed');
+            }
+        });
+    }
+    if (arguments.length) {
+        var params = arguments[0];
+        var action = arguments[1];
+        action(params);
+    }
+}

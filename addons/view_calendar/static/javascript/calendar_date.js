@@ -10,7 +10,7 @@
 // It's based on Mozilla Public License Version (MPL) 1.1 with following 
 // restrictions:
 //
-// -   All names, links and logos of Tiny, Open ERP and Axelor must be 
+// -   All names, links and logos of Tiny, OpenERP and Axelor must be 
 //     kept as in original distribution without any changes in all software 
 //     screens, especially in start-up page and the software header, even if 
 //     the application source code has been changed or updated or code has been 
@@ -41,17 +41,17 @@ Date._pad = function(num, len) {
 
 Date.prototype.strftime_callback = function(match0, match1) {
 
-    switch(match1) {
-        case 'a': return Date._days[this.getDay()].substr(0,3);
+    switch (match1) {
+        case 'a': return Date._days[this.getDay()].substr(0, 3);
         case 'A': return Date._days[this.getDay()];
         case 'h':
-        case 'b': return Date._months[this.getMonth()].substr(0,3);
+        case 'b': return Date._months[this.getMonth()].substr(0, 3);
         case 'B': return Date._months[this.getMonth()];
         case 'c': return this.toLocaleString();
         case 'd': return Date._pad(this.getDate(), 2);
         case 'H': return Date._pad(this.getHours(), 2);
         case 'I': return Date._pad(this.getHours() % 12 || 12, 2);
-        case 'j': return Date._pad(this.getDayOfYear()+1, 3);
+        case 'j': return Date._pad(this.getDayOfYear() + 1, 3);
         case 'm': return Date._pad(this.getMonth() + 1, 2);
         case 'M': return Date._pad(this.getMinutes(), 2);
         case 'p': return this.getHours() < 12 ? 'AM' : 'PM';
@@ -69,24 +69,24 @@ Date.prototype.strftime_callback = function(match0, match1) {
         default:
             return match0;
     }
-}
+};
 
-Date.prototype.getDayOfYear = function(){
+Date.prototype.getDayOfYear = function() {
     var dt = new Date(this.getFullYear(), 0, 1);
     return Math.floor((this.getTime() - dt.getTime()) / 86400000);
-}
+};
 
-Date.prototype.getWeek = function(monday){
+Date.prototype.getWeek = function(monday) {
 
     var yday = this.getDayOfYear();
     var wday = this.getDay();
 
     if (monday) {
-       wday = wday ? wday - 1 : 6;
+        wday = wday ? wday - 1 : 6;
     }
 
     return Math.floor((yday + 7 - wday) / 7);
-}
+};
 
 Date.prototype.strftime = function(format) {
 
@@ -98,21 +98,21 @@ Date.prototype.strftime = function(format) {
             format[i] = this.strftime(format[i]);
         return format.join('%');
     }
-    
+
     var dateObj = this;
     return format.replace(/%([aAbBcdhHIjmMpPSUwWxXyYZ])/g, function(match0, match1) {
         return dateObj.strftime_callback(match0, match1);
     });
-}
+};
 
-Date.prototype.getWeekDay = function(monday){
+Date.prototype.getWeekDay = function(monday) {
     var wday = this.getDay();
     return monday ? wday : (wday == 0 ? 6 : wday - 1);
-}
+};
 
 Date.prototype.getNext = function() {
-    
-    //XXX: timezone problem (CEST, CET) 
+
+    //XXX: timezone problem (CEST, CET)
     // return new Date(this.getTime() + 24 * 60 * 60 * 1000);
 
     var y = this.getFullYear();
@@ -123,13 +123,13 @@ Date.prototype.getNext = function() {
     var S = this.getSeconds();
     var X = this.getMilliseconds();
 
-    return new Date(y, m, d+1, H, M, S, X);
-}
+    return new Date(y, m, d + 1, H, M, S, X);
+};
 
 Date.prototype.getPrevious = function() {
     //XXX: timezone problem (CEST, CET)
     // return new Date(this.getTime() - 24 * 60 * 60 * 1000);
-    
+
     var y = this.getFullYear();
     var m = this.getMonth();
     var d = this.getDate();
@@ -138,8 +138,8 @@ Date.prototype.getPrevious = function() {
     var S = this.getSeconds();
     var X = this.getMilliseconds();
 
-    return new Date(y, m, d-1, H, M, S, X);
-}
+    return new Date(y, m, d - 1, H, M, S, X);
+};
 
 // vim: ts=4 sts=4 sw=4 si et
 

@@ -10,7 +10,7 @@
 // It's based on Mozilla Public License Version (MPL) 1.1 with following 
 // restrictions:
 //
-// -   All names, links and logos of Tiny, Open ERP and Axelor must be 
+// -   All names, links and logos of Tiny, OpenERP and Axelor must be 
 //     kept as in original distribution without any changes in all software 
 //     screens, especially in start-up page and the software header, even if 
 //     the application source code has been changed or updated or code has been 
@@ -27,67 +27,67 @@
 //
 ////////////////////////////////////////////////////////////////////////////////
 
-var onSelect = function(evt, node){
+function onSelect(evt, node){
 }
 
-var getXPath = function(node) {
-    
+function getXPath(node) {
+
     var path = node.getPath(1);
-    
+
     var xp = '';
-    var nd = path.pop()
-    
+    var nd = path.pop();
+
     while (nd.record.items.localName != 'view') {
-        
+
         var similar = MochiKit.Base.filter(function(n){
-            return n.record.items.localName == nd.record.items.localName; 
+            return n.record.items.localName == nd.record.items.localName;
         }, nd.parentNode.childNodes);
-        
-        var idx = MochiKit.Base.findIdentical(similar, nd) + 1
-        
+
+        var idx = MochiKit.Base.findIdentical(similar, nd) + 1;
+
         xp = '/' + nd.record.items.localName + '[' + idx + ']' + xp;
         nd = path.pop();
     }
-    
+
     return xp;
 }
 
-var onDelete = function(node){
-    
-    var tree = view_tree;
+function onDelete(node){
+
+    var tree = treeGrids['view_tree'];
     var selected = node || tree.selection[0] || null;
-    
+
     if (!selected) {
         return;
-    }        
-    
+    }
+
     var record = selected.record;
     var data = record.items;
-    
+
     if (data.localName == 'view' && !selected.parentNode.element) {
         return;
     }
-    
+
     if (!confirm(_('Do you really want to remove this node?'))) {
         return;
     }
-    
-    var act = data.localName == 'view' ? '/viewed/remove_view' : '/viewed/save/remove';
-    
+
+    var act = data.localName == 'view' ? '/openerp/viewed/remove_view' : '/openerp/viewed/save/remove';
+
     var req = openobject.http.postJSON(act, {view_id: data.view_id, xpath_expr: getXPath(selected)});
     req.addCallback(function(obj){
-        
+
         if (obj.error){
-            return alert(obj.error);
+            return error_display(obj.error);
         }
-        
+
         selected.parentNode.removeChild(selected);
     });
 }
 
-var onAdd = function(node){
+function onAdd(node){
 
-    var tree = view_tree;
+    var tree = treeGrids['view_tree'];
     var selected = node || tree.selection[0] || null;
     
     if (!selected) {
@@ -101,7 +101,7 @@ var onAdd = function(node){
         return;
     }
     
-    var req = openobject.http.post('/viewed/add', {view_id: data.view_id, xpath_expr: getXPath(selected)});
+    var req = openobject.http.post('/openerp/viewed/add', {view_id: data.view_id, xpath_expr: getXPath(selected)});
     req.addCallback(function(xmlHttp){
         var el = window.mbox.content;
         el.innerHTML = xmlHttp.responseText;
@@ -121,48 +121,48 @@ var onAdd = function(node){
     });
 }
 
-var doAdd = function() {
-    
-    var tree = view_tree;
+function doAdd() {
+
+    var tree = treeGrids['view_tree'];
     var selected = tree.selection[0] || null;
-    
+
     if (!selected) {
         return;
     }
 
     var form = document.forms['view_form'];
     var params = {};
-    
+
     forEach(form.elements, function(el){
         params[el.name] = el.value;
     });
-    
-    var act = openobject.dom.get('node').value == 'view' ? '/viewed/create_view' : '/viewed/save/node';
-    
+
+    var act = openobject.dom.get('node').value == 'view' ? '/openerp/viewed/create_view' : '/openerp/viewed/save/node';
+
     var req = openobject.http.postJSON(act, params);
     req.addCallback(function(obj) {
-        
+
         if (obj.error){
-            return alert(obj.error);
+            return error_display(obj.error);
         }
-        
+
         var node = tree.createNode(obj.record);
         var pnode = selected.parentNode;
-        
+
         var pos = openobject.dom.get('position').value;
-        
+
         if (pos == 'after') {
-            pnode.insertBefore(node, selected.nextSibling);    
+            pnode.insertBefore(node, selected.nextSibling);
         }
-        
+
         if (pos == 'before') {
             pnode.insertBefore(node, selected);
         }
-        
+
         if (pos == 'inside') {
             selected.appendChild(node);
         }
-        
+
         node.onSelect();
 
         if (obj.record.items && obj.record.items.edit)
@@ -176,9 +176,9 @@ var doAdd = function() {
     return false;
 }
 
-var onEdit = function(node) {
+function onEdit(node) {
 
-    var tree = view_tree;
+    var tree = treeGrids['view_tree'];
     var selected = node || tree.selection[0] || null;
     
     if (!selected) {
@@ -190,9 +190,9 @@ var onEdit = function(node) {
     
     if (data.localName == 'view') {
         return;
-    };
+    }
     
-    var req = openobject.http.post('/viewed/edit', {view_id: data.view_id, xpath_expr: getXPath(selected)});
+    var req = openobject.http.post('/openerp/viewed/edit', {view_id: data.view_id, xpath_expr: getXPath(selected)});
     req.addCallback(function(xmlHttp){
         
         var el = window.mbox.content;
@@ -213,52 +213,52 @@ var onEdit = function(node) {
     });
 }
 
-var doEdit = function() {
-    
-    var tree = view_tree;
+function doEdit() {
+
+    var tree = treeGrids['view_tree'];
     var selected = tree.selection[0] || null;
-    
+
     if (!selected) {
         return;
     }
 
     var form = document.forms['view_form'];
     var params = {};
-    
+
     forEach(form.elements, function(el){
-        
+
         if (!el.name) return;
-        
+
         var val = el.type == 'checkbox' ? el.checked ? 1 : null : el.value;
-                        
+
         if (el.type == 'select-multiple') {
-        
+
             val = MochiKit.Base.filter(function(o){
                 return o.selected;
-            }, el.options); 
-            
+            }, el.options);
+
             val = MochiKit.Base.map(function(o){
                 return o.value;
             }, val);
-            
+
             val = val.join(',');
         }
-        
+
         if (val) {
            params[el.name] = val;
         }
     });
-    
-    var req = openobject.http.postJSON('/viewed/save/properties', params);
+
+    var req = openobject.http.postJSON('/openerp/viewed/save/properties', params);
     req.addCallback(function(obj){
-        
+
         if (obj.error){
-            alert(obj.error);
+            error_display(obj.error);
         }
-        
+
         selected.updateDOM(obj.record);
     });
-    
+
     req.addBoth(function(obj){
         window.mbox.hide();
     });
@@ -266,141 +266,141 @@ var doEdit = function() {
     return false;
 }
 
-var onMove = function(direction, node) {
-    
-    var tree = view_tree;
+function onMove(direction, node) {
+
+    var tree = treeGrids['view_tree'];
     var selected = node || tree.selection[0] || null;
-    
+
     if (!selected) {
         return;
     }
-    
+
     var refNode = direction == 'up' ? selected.previousSibling : selected;
     var node = direction == 'up' ? selected : selected.nextSibling;
-    
+
     if (!node || (direction == 'up' && !refNode)) {
         return;
     }
-    
+
     var record = node.record;
     var data = record.items;
-    
+
     var params = {
-        view_id: data.view_id, 
+        view_id: data.view_id,
         xpath_expr: getXPath(node),
         xpath_ref: getXPath(refNode)
-    }
-    
-    var req = openobject.http.postJSON('/viewed/save/move', params);
-    
+    };
+
+    var req = openobject.http.postJSON('/openerp/viewed/save/move', params);
+
     req.addCallback(function(obj) {
-        
+
         if (obj.error){
-            return alert(obj.error);
+            return error_display(obj.error);
         }
-        
+
         var pnode = node.parentNode;
         var nnode = tree.createNode(record);
-        
-        pnode.removeChild(node)
+
+        pnode.removeChild(node);
         pnode.insertBefore(nnode, refNode);
-        
+
         if (direction == 'up') {
             nnode.onSelect();
         } else {
             refNode.onSelect();
         }
     });
-    
+
     return true;
 }
 
-var onButtonClick = function(evt, node) {
-    
+function onButtonClick(evt, node) {
+
     var src = evt.src();
-    
+
     switch (src.name) {
-        case 'edit': 
+        case 'edit':
             return onEdit(node);
-        case 'delete': 
+        case 'delete':
             return onDelete(node);
         case 'add':
             return onAdd(node);
         case 'up':
-        case 'down': 
+        case 'down':
             return onMove(src.name, node);
     }
 }
 
-var onInherit = function() {
-    
+function onInherit() {
+
     if (!confirm(_('Do you really wants to create an inherited view here?'))) {
         return;
     }
-    
-    var tree = view_tree;
+
+    var tree = treeGrids['view_tree'];
     var selected = tree.selection[0] || null;
-    
+
     if (!selected) {
         return;
     }
-    
+
     params = {
         view_id: openobject.dom.get('view_id').value,
         xpath_expr: getXPath(selected)
     };
-    
-    var req = openobject.http.postJSON('/viewed/create_view', params);
+
+    var req = openobject.http.postJSON('/openerp/viewed/create_view', params);
     req.addCallback(function(obj) {
-        
+
         if (obj.error){
-            return alert(obj.error);
+            return error_display(obj.error);
         }
-        
+
         var node = tree.createNode(obj.record);
         selected.appendChild(node);
     });
-    
+
     return false;
 }
 
-var onPreview = function() {
-   var act = openobject.http.getURL('/viewed/preview/show', {'model' : openobject.dom.get('view_model').value, 
+function onPreview() {
+   var act = openobject.http.getURL('/openerp/viewed/preview/show', {'model' : openobject.dom.get('view_model').value,
                                              'view_id' : openobject.dom.get('view_id').value,
                                              'view_type' : openobject.dom.get('view_type').value});
-   
+
     if (window.browser.isGecko19) {
         return openobject.tools.openWindow(act);
-    } 
-    
+    }
+
     window.open(act);
 }
 
-var onNew = function(model){                          
-    var act = openobject.http.getURL('/viewed/new_field/edit', {'for_model' : model});
+function onNew(model){
+    var act = openobject.http.getURL('/openerp/viewed/new_field/edit', {'for_model' : model});
     openobject.tools.openWindow(act, {width: 650, height: 400});
 }
 
-var onClose = function(){
+function onClose(){
     window.opener.setTimeout("window.location.reload()", 1);
     window.close();
 }
 
-var toggleFields = function(selector) {
+function toggleFields(selector) {
     openobject.dom.get('name').style.display = selector.value == 'field' ? '' : 'none';
     openobject.dom.get('new_field').style.display = selector.value == 'field' ? '' : 'none';
 }
 
-var onUpdate = function(){
+function onUpdate(){
     window.mbox.onUpdate();
 }
 
-var addNewFieldName = function(name) {
+function addNewFieldName(name) {
     var op = openobject.dom.get("name").options;
     op[op.length] = new Option(name, name, 0, 1);
 }
 
-MochiKit.DOM.addLoadEvent(function(evt){
+jQuery(document).ready(function(){
 
     window.mbox = new ModalBox({
         title: 'Properties',

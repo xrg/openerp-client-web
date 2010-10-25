@@ -10,7 +10,7 @@
 // It's based on Mozilla Public License Version (MPL) 1.1 with following 
 // restrictions:
 //
-// -   All names, links and logos of Tiny, Open ERP and Axelor must be 
+// -   All names, links and logos of Tiny, OpenERP and Axelor must be 
 //     kept as in original distribution without any changes in all software 
 //     screens, especially in start-up page and the software header, even if 
 //     the application source code has been changed or updated or code has been 
@@ -27,80 +27,78 @@
 //
 ////////////////////////////////////////////////////////////////////////////////
 
-if (typeof(openerp.ui) == "undefined") {
-    throw "openerp.ui is required by 'openerp.ui.textarea'.";
+var openerp;
+if (!openerp && !openerp.ui) {
+    throw "openerp.ui is required by openerp.ui.waitbox.";
 }
 
 openerp.ui.WaitBox = function(options) {
     this.__init__(options);
-}
+};
 
 openerp.ui.WaitBox.prototype = {
 
     __init__ : function(options) {
-        
-        this.options = MochiKit.Base.update({
-        }, options || {});
+    
+        this.layer = document.getElementById('WaitBoxLayer');
+        this.box = document.getElementById('WaitBox');
 
-        this.layer = openobject.dom.get('WaitBoxLayer');
-        this.box = openobject.dom.get('WaitBox');
-        
         if (!this.layer) {
         
-            var btnCancel = BUTTON({'class': 'button', 'type': 'button'}, 'Cancel');
-            MochiKit.Signal.connect(btnCancel, 'onclick', this, this.hide);
-            
-            var title = this.options.title || _("Please wait...");
-            var desc = this.options.description || _("This operation may take a while...");
-            
-            var info = DIV(null,
-                        DIV({'class': 'WaitTitle'}, title),
-                        DIV({'class': 'WaitImage'}, desc, BR(), BR(), IMG({src: '/openerp/static/images/progress.gif'})),
-                            TABLE({'class': 'WaitButtons', 'cellpadding': 2, 'width': '100%'}, 
-                                TBODY(null, 
-                                    TR(null,
-                                        TD({'align': 'right', 'width': '100%'}, btnCancel)))));
-        
             this.layer = DIV({id: 'WaitBoxLayer'});
-            appendChildNodes(document.body, this.layer);
-            setOpacity(this.layer, 0.3);
-    
             this.box = DIV({id: 'WaitBox'});
-            appendChildNodes(document.body, this.box);
-        
-            appendChildNodes(this.box, info);
+
+            jQuery([this.layer, this.box]).appendTo(document.body);
+
+            jQuery(this.box).append(DIV(null, DIV({'class': 'WaitImage'})));
         }
     },
 
+    /**
+     * Cancels and deletes the internal timer, if there is any.
+     */
+    clearTimeout : function () {
+        clearTimeout(this.timeout);
+        delete this.timeout;
+    },
+
     show : function() {
+        this.clearTimeout();
 
-        //setElementDimensions(this.layer, elementDimensions(document.body));
-        setElementDimensions(this.layer, getViewportDimensions());
+        var viewPort = jQuery(window);
+        var box = jQuery(this.box);
+        var x = (viewPort.width() / 2) - (box.outerWidth() / 2);
+        var y = (viewPort.height() / 2) - (box.outerHeight() / 2);
 
-        var w = 350;
-        var h = 125;
+        jQuery(this.layer).height(jQuery(document).height());
+        jQuery([this.layer, this.box]).show();
 
-        setElementDimensions(this.box, {w: w, h: h});
-        
-        var vd = elementDimensions(document.body);
-        var md = elementDimensions(this.box);
+        box.offset({
+            top: Math.max(0, Math.round(y)),
+            left: Math.max(0, Math.round(x))
+        });
+    },
 
-        var x = (vd.w / 2) - (w / 2);
-        var y = (vd.h / 2) - (h / 2);
-
-        x = Math.max(0, x);
-        y = Math.max(0, y);
-        
-        setElementPosition(this.box, {x: x, y: y});
-
-        showElement(this.layer);
-        showElement(this.box);
+    /**
+     * Shows the wait box after the specified delay, unless it's explicitly showed or hidden before that.
+     *
+     * Creates and sets an internal timer accessible via @property timeout, this is a normal setTimeout return
+     * value.
+     *
+     * @param delay delay before actually showing the wait box, in milliseconds (same as setTimeout)
+     * @returns this
+     */
+    showAfter : function(delay) {
+        // in case we already have a timeout, override it?
+        this.clearTimeout();
+        this.timeout = setTimeout(jQuery.proxy(function () {
+            this.show();
+        }, this), delay);
+        return this;
     },
 
     hide : function() {
-        hideElement(this.box);
-        hideElement(this.layer);
+        this.clearTimeout();
+        jQuery([this.box, this.layer]).hide();
     }
-}
-
-// vim: sts=4 st=4 et
+};

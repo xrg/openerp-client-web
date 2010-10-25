@@ -10,7 +10,7 @@
 # It's based on Mozilla Public License Version (MPL) 1.1 with following
 # restrictions:
 #
-# -   All names, links and logos of Tiny, Open ERP and Axelor must be
+# -   All names, links and logos of Tiny, OpenERP and Axelor must be
 #     kept as in original distribution without any changes in all software
 #     screens, especially in start-up page and the software header, even if
 #     the application source code has been changed or updated or code has been
@@ -35,32 +35,27 @@ from openobject.tools import expose
 
 class Requests(SecuredController):
 
-    _cp_path = "/requests"
+    _cp_path = "/openerp/requests"
 
     def my(self):
 
         if not rpc.session.is_logged():
             return [],[]
+        
+        ids, ids2 = rpc.RPCProxy('res.request').request_get()
 
-        ids, ids2 = cherrypy.session.get('terp_requests', (False, False))
-        if ids == False:
-            ids, ids2 = rpc.RPCProxy('res.request').request_get()
-            cherrypy.session['terp_requests'] = (ids, ids2)
-
-        msg = _("No request")
+        total_request = 0
+            
         if len(ids):
-            msg = _('%s request(s)') % len(ids)
-
-        if len(ids2):
-            msg += _(' - %s pending request(s)') % len(ids2)
-
-        return ids, msg
+            total_request = len(ids)
+            
+        return ids, total_request
 
     @expose()
     def default(self):
         import actions
         return actions.execute_window(False, 'res.request', res_id=None,
-            domain=[('act_to','=',rpc.session.uid)], view_type='form', mode='tree,form')
+            domain=[('act_to', '=', rpc.session.uid), ('active', '=', True)], view_type='form', mode='tree,form')
 
 
 # vim: ts=4 sts=4 sw=4 si et

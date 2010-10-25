@@ -10,7 +10,7 @@
 # It's based on Mozilla Public License Version (MPL) 1.1 with following
 # restrictions:
 #
-# -   All names, links and logos of Tiny, Open ERP and Axelor must be
+# -   All names, links and logos of Tiny, OpenERP and Axelor must be
 #     kept as in original distribution without any changes in all software
 #     screens, especially in start-up page and the software header, even if
 #     the application source code has been changed or updated or code has been
@@ -55,6 +55,7 @@ class Screen(TinyInputWidget):
         <input type="hidden" id="${name}_terp_offset" name="${name}_terp_offset" value="${offset}"/>
         <input type="hidden" id="${name}_terp_count" name="${name}_terp_count" value="${count}"/>
         <input type="hidden" id="${name}_terp_group_by_ctx" name="${name}_terp_group_by_ctx" value="${group_by_ctx}"/>
+        <input type="hidden" id="${name}_terp_filters_context" name="${name}_terp_filters_context" value=""/>
 
         % if widget:
             ${display_member(widget)}
@@ -66,12 +67,11 @@ class Screen(TinyInputWidget):
 
     member_widgets = ['widget']
 
-    def __init__(self, params=None, prefix='', name='', views_preloaded={}, hastoolbar=False, hassubmenu=False, editable=False, readonly=False, selectable=0, nolinks=1):
+    def __init__(self, params=None, prefix='', name='', views_preloaded={}, hastoolbar=False, hassubmenu=False, editable=False, readonly=False, selectable=0, nolinks=1, **kw):
 
         # get params dictionary
         params = params or cherrypy.request.terp_params
         prefix = prefix or (params.prefix or '')
-
         super(Screen, self).__init__(prefix=prefix, name=name)
 
         self.model         = params.model
@@ -82,10 +82,12 @@ class Screen(TinyInputWidget):
         self.view_mode     = params.view_mode or []
         self.view_type     = params.view_type
         self.view_id       = False
-        self.group_by_ctx  = params.group_by_ctx or []
-
+        self.group_by_ctx  = params.group_by_ctx or []        
         self.is_wizard = params.is_wizard
-
+        
+        self.m2m = kw.get('_m2m', 0)
+        self.o2m = kw.get('_o2m', 0)
+        
         while len(self.view_ids) < len(self.view_mode):
             self.view_ids += [False]
 
@@ -105,8 +107,11 @@ class Screen(TinyInputWidget):
         self.count         = params.count
 
         if (self.ids or self.id) and self.count == 0:
-            self.count = rpc.RPCProxy(self.model).search_count(self.domain, self.context)
-
+            if self.ids and len(self.ids) < self.limit:
+                self.count = len(self.ids)
+            else:
+                self.count = rpc.RPCProxy(self.model).search_count(self.domain, self.context)
+                
         self.prefix             = prefix
         self.views_preloaded    = views_preloaded or (params.views or {})
 
@@ -142,8 +147,8 @@ class Screen(TinyInputWidget):
     def add_view(self, view, view_type='form'):
 
         self.view_id = view.get('view_id', self.view_id)
-        self.view = view
-
+        self.view = view  
+        
         from _views import get_view_widget
         self.widget = get_view_widget(view_type, self)
 

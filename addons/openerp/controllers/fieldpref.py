@@ -10,7 +10,7 @@
 # It's based on Mozilla Public License Version (MPL) 1.1 with following
 # restrictions:
 #
-# -   All names, links and logos of Tiny, Open ERP and Axelor must be
+# -   All names, links and logos of Tiny, OpenERP and Axelor must be
 #     kept as in original distribution without any changes in all software
 #     screens, especially in start-up page and the software header, even if
 #     the application source code has been changed or updated or code has been
@@ -33,15 +33,15 @@ from openobject.tools import expose
 
 class FieldPref(SecuredController):
 
-    _cp_path = "/fieldpref"
+    _cp_path = "/openerp/fieldpref"
 
-    @expose(template="templates/fieldpref.mako")
+    @expose(template="/openerp/controllers/templates/fieldpref.mako")
     def index(self, **kw): #_terp_model, _terp_field, _terp_deps
 
         click_ok = None
         params, data = TinyDict.split(kw)
-
-        return dict(model=params.model, click_ok=click_ok, field=params.field, deps=params.deps)
+        deps = params.deps
+        return dict(model=params.model, click_ok=click_ok, field=params.field, deps=deps)
 
     @expose('json')
     def get(self, **kw):
@@ -69,7 +69,7 @@ class FieldPref(SecuredController):
 
         return dict(text=text, deps=str(deps))
 
-    @expose(template="templates/fieldpref.mako")
+    @expose(template="/openerp/controllers/templates/fieldpref.mako")
     def save(self, **kw):
         params, data = TinyDict.split(kw)
 
@@ -87,6 +87,7 @@ class FieldPref(SecuredController):
         field = field.split('/')[-1]
 
         proxy = rpc.RPCProxy('ir.values')
+            
         res = proxy.set('default', deps, field, [(model,False)], value, True, False, False, params.you or False, True)
 
         return dict(model=params.model, click_ok=click_ok, field=params.field, deps=params.deps2, should_close=True)

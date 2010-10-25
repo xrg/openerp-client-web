@@ -10,7 +10,7 @@
 // It's based on Mozilla Public License Version (MPL) 1.1 with following 
 // restrictions:
 //
-// -   All names, links and logos of Tiny, Open ERP and Axelor must be 
+// -   All names, links and logos of Tiny, OpenERP and Axelor must be 
 //     kept as in original distribution without any changes in all software 
 //     screens, especially in start-up page and the software header, even if 
 //     the application source code has been changed or updated or code has been 
@@ -27,53 +27,51 @@
 //
 ////////////////////////////////////////////////////////////////////////////////
 
-var save_binary_data = function(src, filename) {
-    
+function save_binary_data(src, filename) {
+
     var name = openobject.dom.get(src) ? openobject.dom.get(src).name : src;
 
-    var prefix = name.split('/'); name = prefix.pop();
-    var prefix = prefix.join('/'); prefix = prefix ? prefix + '/' : '';
+    var prefix = name.split('/');
+    name = prefix.pop();
+    prefix = prefix.join('/');
+    prefix = prefix ? prefix + '/' : '';
 
     var fname = openobject.dom.get(prefix + filename) || openobject.dom.get(prefix + 'name');
 
     fname = fname ? fname.value || fname.innerHTML : null;
 
-    var act = get_form_action('save_binary_data');
-    act = fname ? act + '/' + fname : act;    
+    var act = get_form_action('save_binary_data', undefined);
+    act = fname ? act + '/' + fname : act;
 
-    act = openobject.http.getURL(act, {_terp_field: name,
-                       _terp_model: openobject.dom.get(prefix + '_terp_model').value,
-                       _terp_id: openobject.dom.get(prefix + '_terp_id').value});
-
-    submit_form(act);
+    submit_form(openobject.http.getURL(act, {
+        _terp_field: name,
+        _terp_model: openobject.dom.get(prefix + '_terp_model').value,
+        _terp_id: openobject.dom.get(prefix + '_terp_id').value
+    }), undefined, '_blank');
 }
 
-var clear_binary_data = function(src, filename) {
-    
+function clear_binary_data(src, filename) {
+
     var name = openobject.dom.get(src) ? openobject.dom.get(src).name : src;
 
-    var prefix = name.split('/'); name = prefix.pop();
-    var prefix = prefix.join('/'); prefix = prefix ? prefix + '/' : '';
+    var prefix = name.split('/');
+    name = prefix.pop();
+    prefix = prefix.join('/');
+    prefix = prefix ? prefix + '/' : '';
 
-    var act = get_form_action('clear_binary_data');
-    act = openobject.http.getURL(act, {_terp_field: name,
-                       _terp_fname: filename || null,
-                       _terp_model: openobject.dom.get(prefix + '_terp_model').value,
-                       _terp_id: openobject.dom.get(prefix + '_terp_id').value});
-
-    submit_form(act);
+    submit_form(openobject.http.getURL(get_form_action('clear_binary_data', undefined), {
+        _terp_field: name,
+        _terp_fname: filename || null,
+        _terp_model: openobject.dom.get(prefix + '_terp_model').value,
+        _terp_id: openobject.dom.get(prefix + '_terp_id').value
+    }), undefined, undefined);
 }
 
-var add_binary = function(src) {
+function add_binary(src) {
+    jQuery(idSelector(src + '_binary_add')).show();
+    jQuery(idSelector(src + '_binary_buttons')).hide();
 
-    binary_add = openobject.dom.get(src + '_binary_add');
-    binary_buttons = openobject.dom.get(src + '_binary_buttons');
-        
-    binary_add.style.display = "";
-    binary_buttons.style.display = "none";
-    
-    fld = openobject.dom.get(src);
-    fld.disabled = false;
+    var fld = jQuery(idSelector(src)).removeAttr('disabled');
 
     // Firefox problem (bug: 324408)
     if (browser.isGecko) {
@@ -81,29 +79,26 @@ var add_binary = function(src) {
     }
 }
 
-var set_binary_filename = function(src, filename){
-
-    var src = openobject.dom.get(src);
-    var name = src.name;
-
+function set_binary_filename(src, filename) {
+    
+    var $src = jQuery(src);
+    
+    var name = $src.attr('name');
+    
     var prefix = name.split('/'); prefix.pop();
     var prefix = prefix.join('/'); prefix = prefix ? prefix + '/' : '';
-
-    var target = openobject.dom.get(prefix + filename);
-
-    var fname = src.value || '';
+    
+    var target = getElement(prefix + filename);
+    var fname = $src.val() || '';
     
     if (/Windows NT/.test(window.navigator.userAgent)) {
-    	fname = fname.split('\\'); fname = fname.pop();	
+        fname = fname.split('\\'); fname = fname.pop(); 
     }
     else {
-    	fname = fname.split('/'); fname = fname.pop();
+        fname = fname.split('/'); fname = fname.pop();
     }
     
     if (target) {
         target.value = fname;
     }
 }
-
-// vim: ts=4 sts=4 sw=4 si et
-

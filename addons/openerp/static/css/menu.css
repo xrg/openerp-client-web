@@ -1,50 +1,100 @@
-table.menubar {
+.menubar {
     margin: 0;
     padding: 0;
     white-space: nowrap;
 }
 
-table.menubar td {
+.menubar span {
     margin: 0;
     padding: 0;
 }
 
-table.menubar a {
-/*  display: block; */
+.menubar a {
     text-align: center;
-/*	background-color: #666; */
-    padding: 4px 10px;
+    padding: 4px 2px;
     margin: 0 1px 0 0;
-    color: #FFF;
-    text-decoration: none
+    color: #EEEEEE;
+    letter-spacing: 0;
 }
 
-table.menubar a:hover {
-    background-color: #505050;
-    text-decoration: none;
+.menubar a:hover {
+    background-color: #707070;
+    color: #EEEEEE;
 }
 
-table.menubar div.submenu {
-    background-color: #666;
-    border: 1px solid #333;
+/* Shortcuts manipulation */
+#shortcut_add_remove {
+    height: 20px;
+    padding: 0;
+    width: 24px;
+    cursor: pointer;
+    display: inline; /*IE7 */
+    display: inline-block;
+}
+
+.shortcut-add {
+    background: url(../images/add-shortcut.png) no-repeat;
+    background-position: bottom;
+}
+.shortcut-remove {
+    background: url(../images/remove-shortcut.png) no-repeat;
+    background-position: bottom;
+}
+
+/* ================ */
+#shortcuts {
     position: absolute;
-    left: 0px;
-    visibility: hidden;
-    margin-left:  -1px;
-    z-index: 3
+    
+    margin: 0;
+    padding: 6px 5px;
+    
+    top: 35px;
+    left: 183px;
+    right: 0;
+    height: 17px;
+    line-height: 1.2;
+}
+#shortcuts.scrolling {
+    padding: 6px 14px !important;
 }
 
-table.menubar div.submenu a {
+#shortcuts ul {
     display: block;
-    text-align: left;
-    text-decoration: none;
-    color: #FFF;
-    margin: 0px;
+    overflow: hidden;
+    list-style: none;
+    white-space: nowrap;
+    padding: 0;
+    margin: 0;
 }
 
-table.menubar div.submenu a:hover {
-    background-color: #505050;
-    text-decoration: none;
+#shortcuts li {
+    display: -moz-inline-stack;    
+    display: inline-block;
+    display: inline; /*IE7 */
+    color: #fff;
+    text-align: center;
+    border-left: 1px solid #909090;
+    padding-left: 2px;
+}
+
+#shortcuts li:first-child,
+#shortcuts li.first {
+    border-left: none;
+    padding-left: 0;
+}
+
+#shortcuts a {
+    display: inline; /*IE7 */
+    display: inline-block;
+    padding: 0;
+    margin: 0;
+}
+
+#shortcuts a span {
+    display: inline; /*IE7 */
+    display: inline-block;
+    line-height: 18px;
+    padding: 0 2px;
 }
 
 div.contextmenu {
@@ -67,6 +117,15 @@ div.contextmenu span {
     cursor: pointer;
 }
 
+
+div.contextmenu hr {
+    margin: 1px 0 !important;
+}
+
+div.contextmenu td {
+    padding: 1px;
+}
+
 div.contextmenu a:hover,
 div.contextmenu span:hover {
     color: #FFF;
@@ -79,7 +138,3 @@ div.contextmenu span.disabled {
     color: #C0C0C0;
 }
 
-/**
- * vim: sts=4 st=4 et 
- *
- */

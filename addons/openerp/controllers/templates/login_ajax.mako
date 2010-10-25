@@ -1,4 +1,4 @@
-<%inherit file="/openerp/controllers/templates/base.mako"/>
+<%inherit file="/openerp/controllers/templates/base_dispatch.mako"/>
 
 <%def name="header()">
     <title>Login</title>
@@ -36,7 +36,7 @@
                 return false;
             }
 
-            var req = openobject.http.getJSON('/login', {
+            var req = openobject.http.getJSON('/openerp/login', {
                 'db': openobject.dom.get('db').value,
                 'user': user,
                 'password': password,
@@ -46,7 +46,7 @@
             req.addCallback(function(obj){
                 if (obj.result) {
                     openobject.dom.get('password').value = '';
-                    window.open(openobject.dom.get('location').value || '/');
+                    window.open(openobject.dom.get('location').value || '/openerp');
                     MochiKit.Style.hideElement('message');
                 } else {
                     MochiKit.Visual.appear('message');
@@ -62,27 +62,27 @@
 <%def name="content()">
     <div class="view">
 
-        <form onsubmit="return do_login()" action="/" method="post" name="loginform">
+        <form onsubmit="return do_login()" action="/openerp" method="post" name="loginform">
             <input type="hidden" id="location" name="location" value="${location}"/>
             <input type="hidden" id="db" name="db" value="${db}"/>
 
             % if style=='ajax_small':
             <table align="center" border="0">
                 <tr>
-                    <td><strong>${_("User:")}</strong></td>
+                    <td><strong><label for="user">${_("User:")}</label></strong></td>
                 </tr>
                 <tr>
-                    <td><input type="text" id="user" name="user" style="width: 150px;" value="${user}"/></td>
+                    <td><input type="text" id="user" name="user" class="user_pass" value="${user}"/></td>
                 </tr>
                 <tr>
-                    <td><strong>${_("Password:")}</strong></td>
+                    <td><strong><label for="password">${_("Password:")}</label></strong></td>
                 </tr>
                 <tr>
-                    <td><input type="password" value="${password}" id="password" name="password" style="width: 150px;"/></td>
+                    <td><input type="password" value="${password}" id="password" name="password" class="user_pass"/></td>
                 </tr>
                 <tr>
                     <td>
-                        <button type="submit" style="width: 80px; white-space: nowrap">${_("Login")}</button>
+                        <button type="submit" class="click_login">${_("Login")}</button>
                     </td>
                 </tr>
             </table>
@@ -91,24 +91,24 @@
             % if style=='ajax':
             <table align="center" cellspacing="2px" border="0">
                 <tr>
-                    <td class="label">${_("User:")}</td>
-                    <td><input type="text" id="user" name="user" style="width: 150px;" value="${user}"/></td>
+                    <td class="label"><label for="user">${_("User:")}</label></td>
+                    <td><input type="text" id="user" name="user" class="user_pass" value="${user}"/></td>
                 </tr>
                 <tr>
-                    <td class="label">${_("Password:")}</td>
-                    <td><input type="password" value="${password}" id="password" name="password" style="width: 150px;"/></td>
+                    <td class="label"><label for="password">${_("Password:")}</label></td>
+                    <td><input type="password" value="${password}" id="password" name="password" class="user_pass"/></td>
                 </tr>
                 <tr>
                     <td>&nbsp;</td>
                     <td align="right">
-                        <button type="submit" style="width: 80px; white-space: nowrap">${_("Login")}</button>
+                        <button type="submit" class="click_login">${_("Login")}</button>
                     </td>
                 </tr>
             </table> 
             % endif
 
         </form>
-        <div id="message" style="display: none; color: red; text-align: center;">${_("Bad username or password!")}</div>
+        <div id="message" class="invalid_login">${_("Bad username or password")}</div>
 
     </div>
 </%def>

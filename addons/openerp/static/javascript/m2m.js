@@ -10,7 +10,7 @@
 // It's based on Mozilla Public License Version (MPL) 1.1 with following 
 // restrictions:
 //
-// -   All names, links and logos of Tiny, Open ERP and Axelor must be 
+// -   All names, links and logos of Tiny, OpenERP and Axelor must be 
 //     kept as in original distribution without any changes in all software 
 //     screens, especially in start-up page and the software header, even if 
 //     the application source code has been changed or updated or code has been 
@@ -40,7 +40,7 @@ var Many2Many = function(name) {
     }
 
     this.__init__(name);
-}
+};
 
 Many2Many.prototype = {
 
@@ -51,8 +51,8 @@ Many2Many.prototype = {
         this.id = openobject.dom.get(name + '_id');
         this.text = openobject.dom.get(name + '_set');
 
-        this.btnAdd = openobject.dom.get('_' + name + '_button1');
-        this.btnDel = openobject.dom.get('_' + name + '_button2');
+        this.btnAdd = openobject.dom.get(name + '_button1');
+//        this.btnDel = openobject.dom.get('_' + name + '_button2');
 
         this.terp_ids = openobject.dom.get(name + '/_terp_ids');
         this.model = getNodeAttribute(this.id, 'relation');
@@ -63,7 +63,7 @@ Many2Many.prototype = {
         MochiKit.Signal.connect(this.text, 'onchange', this, this.onChange);
 
         if (!this.hasList) {
-            MochiKit.Signal.connect(this.text, 'onkeydown', bind(function(evt){
+            MochiKit.Signal.connect(this.text, 'onkeydown', bind(function(evt) {
                 var key = evt.event().keyCode;
 
                 if (key == 8 || key == 46) {
@@ -71,7 +71,7 @@ Many2Many.prototype = {
                     this.id.value = '';
                     this.onChange();
                 }
-                
+
                 if (key == 113) {
                     evt.stop();
                     this.onClick();
@@ -83,22 +83,22 @@ Many2Many.prototype = {
         // save the reference
         openobject.dom.get(name)._m2m = this;
     },
-    
+
     onClick: function() {
-    	this.btnAdd.onclick();
+        this.btnAdd.onclick();
     },
 
     onChange: function() {
         this.setValue(this.id.value);
     },
 
-    selectAll: function(){
+    selectAll: function() {
         if (this.hasList) {
             ListView(this.name).checkAll();
         }
     },
 
-    setValue: function(ids){
+    setValue: function(ids) {
 
         ids = /^\[.*\]/.test(ids) ? ids : '[' + ids + ']';
         ids = eval(ids);
@@ -121,31 +121,33 @@ Many2Many.prototype = {
         }
     },
 
-    getValue: function(){
+    getValue: function() {
         var ids = this.hasList ? this.terp_ids.value : this.id.value;
         try {
             res = eval(ids);
-            if (res.length) 
+            if (res.length)
                 return res;
-        } catch(e) {}
-        
+        } catch(e) {
+        }
+
         return [];
     },
 
-    remove: function() {
-        
+    remove: function(remove_id) {
+
         var ids = eval(this.terp_ids.value) || [];
         var boxes = ListView(this.name).getSelectedItems();
 
-        if(boxes.length <= 0)
+        if (boxes.length <= 0 && !remove_id)
             return;
 
         boxes = MochiKit.Base.map(function(box) {
             return parseInt(box.value);
         }, boxes);
-    
+
+        var removed_ids = remove_id ? [remove_id] : boxes;
         ids = MochiKit.Base.filter(function(id) {
-            return MochiKit.Base.findIdentical(boxes, id) == -1;
+            return MochiKit.Base.findIdentical(removed_ids, id) == -1;
         }, ids);
 
         this.id.value = this.terp_ids.value = '[' + ids.join(',') + ']';
@@ -154,24 +156,17 @@ Many2Many.prototype = {
 
     setReadonly: function(readonly) {
 
-        this.id.readOnly = readonly;
-        this.id.disabled = readonly;
+        var field = jQuery('[id="'+this.name +'"]') || this.id
+        field.attr('readOnly', readonly)
         this.text.readOnly = readonly;
-        this.text.disabled = readonly;
-        
+
         if (readonly) {
-            MochiKit.DOM.addElementClass(this.id, 'readonlyfield');
-            MochiKit.DOM.addElementClass(this.text, 'readonlyfield');
-            this.btnAdd.parentNode.style.display = 'none';
-            this.btnDel.parentNode.style.display = 'none';
+            jQuery(field).addClass('readonlyfield');
+            jQuery(this.text).addClass('readonlyfield');
+
         } else {
-            MochiKit.DOM.removeElementClass(this.id, 'readonlyfield');
-            MochiKit.DOM.removeElementClass(this.text, 'readonlyfield');
-            this.btnAdd.parentNode.style.display = '';
-            this.btnDel.parentNode.style.display = '';
+            jQuery(field).removeClass('readonlyfield')
+            jQuery(this.text).removeClass('readonlyfield');
         }
     }
-}
-
-// vim: ts=4 sts=4 sw=4 si et
-
+};

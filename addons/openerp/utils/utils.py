@@ -10,7 +10,7 @@
 # It's based on Mozilla Public License Version (MPL) 1.1 with following
 # restrictions:
 #
-# -   All names, links and logos of Tiny, Open ERP and Axelor must be
+# -   All names, links and logos of Tiny, OpenERP and Axelor must be
 #     kept as in original distribution without any changes in all software
 #     screens, especially in start-up page and the software header, even if
 #     the application source code has been changed or updated or code has been
@@ -26,11 +26,12 @@
 # You can see the MPL licence at: http://www.mozilla.org/MPL/MPL-1.1.html
 #
 ###############################################################################
-
+import itertools
 import re
-import cherrypy
 
 from openerp import validators
+import formencode
+import openobject
 
 
 def _make_dict(data, is_params=False):
@@ -64,8 +65,10 @@ def _make_dict(data, is_params=False):
                 id = int(id)
 
                 values = _make_dict(v, is_params)
-                if values:
+                if values and any(values.itervalues()):
                     res[k] = [(id and 1, id, values)]
+                else:
+                    res[k] = []
 
             else:
                 res[k] = _make_dict(v, is_params and isinstance(v, TinyDict))
@@ -120,6 +123,25 @@ class TinyDict(dict):
         value = self._eval(value)
         super(TinyDict, self).__setitem__(name, value)
 
+    def update(self, d=(), **kwargs):
+        if isinstance(d, dict):
+            seq = d.iteritems()
+        else:
+            seq = d
+        for k, v in itertools.chain(seq, kwargs.iteritems()):
+            self[k] = v
+
+    def updateAttrs(self, d=(), **kwattrs):
+        """ Updates the TinyDict's attrs in bulk, as if using attr access (rather than item access which can be
+        performed via setitem)
+        """
+        if isinstance(d, dict):
+            seq = d.iteritems()
+        else:
+            seq = d
+        for k, v in itertools.chain(seq, kwattrs.iteritems()):
+            setattr(self, k, v)
+
     def chain_get(self, name, default=None):
         names = re.split('\.|/', ustr(name))
         value = super(TinyDict, self).get(names[0], default)
@@ -157,7 +179,7 @@ class TinyDict(dict):
 
         def _plain(data, prefix):
             for k, v in data.items():
-                if isinstance(v, dict):
+                if isinstance(v, dict) and not k.startswith('_terp_'):
                     _plain(v, prefix + k +'/')
                 else:
                     res[prefix + k] = v
@@ -189,15 +211,16 @@ _VALIDATORS = {
     'text': lambda *a: validators.String(),
     'text_tag': lambda *a: validators.String(),
     'many2many': lambda *a: validators.many2many(),
+    'one2many': lambda *a: validators.one2many(),
     'many2one': lambda *a: validators.many2one(),
     'email' : lambda *a: validators.Email(),
     'url' : lambda *a: validators.URL(),
     'picture': lambda *a: validators.Binary(),
 }
 
-class TinyFormError(validators.Invalid):
+class TinyFormError(formencode.api.Invalid):
     def __init__(self, field, msg, value):
-        validators.Invalid.__init__(self, msg, value, state=None, error_list=None, error_dict=None)
+        formencode.api.Invalid.__init__(self, msg, value, state=None, error_list=None, error_dict=None)
         self.field = field
 
 class TinyForm(object):
@@ -243,19 +266,27 @@ class TinyForm(object):
                         from openerp.utils import rpc
                         proxy = rpc.RPCProxy(attrs['relation'])
                         res = proxy.read(value, [], rpc.session.context)
+                        res1 = proxy.fields_get(False, rpc.session.context)
+                        for values in res:
+                            for key, val in values.items():
+                                if key in res1.keys():
+                                    if res1[key]['type'] == 'many2many':
+                                        values[key] = [(6, 0, val)]
                         value = []
                         for r in res:
                             id = r.pop('id')
                             value += [(1, id, r)]
                     else:
-                        value = [(0, 0, [])]
+                        value = []
                 except:
                     pass
 
             elif kind not in _VALIDATORS:
                 kind = 'char'
 
-            v = _VALIDATORS.get(kind, validators.DefaultValidator)()
+            v = _VALIDATORS.get(kind, openobject.validators.DefaultValidator)()
+            if kind == "float" and attrs.get("digit"):
+                v = validators.Float(digit=attrs.get("digit"))
             v.not_empty = (required or False) and True
 
             try:
@@ -264,7 +295,7 @@ class TinyForm(object):
                 else:
                     value = v.from_python(value, None)
 
-            except validators.Invalid, e:
+            except formencode.api.Invalid, e:
                 if form and not safe:
                     raise TinyFormError(name.replace('_terp_form/', ''), e.msg, e.value)
 

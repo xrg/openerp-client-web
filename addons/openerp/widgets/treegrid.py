@@ -10,7 +10,7 @@
 # It's based on Mozilla Public License Version (MPL) 1.1 with following
 # restrictions:
 #
-# -   All names, links and logos of Tiny, Open ERP and Axelor must be
+# -   All names, links and logos of Tiny, OpenERP and Axelor must be
 #     kept as in original distribution without any changes in all software
 #     screens, especially in start-up page and the software header, even if
 #     the application source code has been changed or updated or code has been
@@ -30,16 +30,15 @@
 import simplejson
 
 from openerp.widgets import TinyWidget
-from openobject.widgets import CSSLink, JSLink
+from openobject.widgets import JSLink
 
 
 class TreeGrid(TinyWidget):
 
-    template = "templates/treegrid.mako"
+    template = "/openerp/widgets/templates/treegrid.mako"
     params = ['headers', 'showheaders', 'expandall', 'linktarget',
     'onselection', 'onbuttonclick', 'onheaderclick', 'url', 'url_params']
 
-    css = [CSSLink("openerp", "css/treegrid.css")]
     javascript = [JSLink("openerp", "javascript/treegrid.js")]
 
     def __init__(self, name, model, headers, url, field_parent=None, ids=[], domain=[], context={}, **kw):
@@ -55,7 +54,7 @@ class TreeGrid(TinyWidget):
         icon_name = headers[0].get('icon')
 
         params = dict(model=model,
-                          ids=ids,
+                          ids=ids or '',
                           fields=ustr(fields),
                           domain=ustr(domain),
                           context=ustr(context),

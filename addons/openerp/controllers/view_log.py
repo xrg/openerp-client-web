@@ -10,7 +10,7 @@
 # It's based on Mozilla Public License Version (MPL) 1.1 with following
 # restrictions:
 #
-# -   All names, links and logos of Tiny, Open ERP and Axelor must be
+# -   All names, links and logos of Tiny, OpenERP and Axelor must be
 #     kept as in original distribution without any changes in all software
 #     screens, especially in start-up page and the software header, even if
 #     the application source code has been changed or updated or code has been
@@ -34,7 +34,7 @@ from openobject.tools import expose
 
 class View_Log(SecuredController):
 
-    _cp_path = "/viewlog"
+    _cp_path = "/openerp/viewlog"
 
     fields = [
         ('id', _('ID')),
@@ -44,17 +44,17 @@ class View_Log(SecuredController):
         ('write_date', _('Latest Modification Date')),
         ('uid', _('Owner')),
         ('gid', _('Group Owner')),
-        ('level', _('Access Level'))
+        ('level', _('Access Level')),
+        ('xmlid',_('Internal module data ID'))
     ]
 
-    @expose(template="templates/view_log.mako")
-    def index(self, _terp_id=None, _terp_model=None):
+    @expose(template="/openerp/controllers/templates/view_log.mako")
+    def index(self, id=None, model=None):
 
         values = {}
-        if _terp_id:
-            message = None
-            res = rpc.session.execute('object', 'execute', _terp_model,
-                                      'perm_read', [_terp_id], rpc.session.context)
+        if id:
+            res = rpc.session.execute('object', 'execute', model,
+                                      'perm_read', [id], rpc.session.context)
 
             for line in res:
                 for field, label in self.fields:
@@ -62,9 +62,7 @@ class View_Log(SecuredController):
                         line[field] = line[field][1]
 
                     values[field] = ustr(line.get(field) or '/')
-        else:
-            message = _("No resource is selected...")
 
-        return {'values':values, 'fields':self.fields, 'message':message}
+        return {'values':values, 'fields':self.fields}
 
 # vim: ts=4 sts=4 sw=4 si et

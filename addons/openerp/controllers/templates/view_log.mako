@@ -1,4 +1,4 @@
-<%inherit file="/openerp/controllers/templates/base.mako"/>
+<%inherit file="/openerp/controllers/templates/base_dispatch.mako"/>
 
 <%def name="header()">
     <title>${_("Information")}</title>
@@ -8,17 +8,12 @@
 <%def name="content()">
     <table class="view" cellspacing="5" border="0" width="100%">
         <tr>
-            <td>
-                <table width="100%" class="titlebar">
-                    <tr>
-                        <td width="100%">${_("Information")}</td>
-                    </tr>
-                </table>
-            </td>
+        	<td>
+        		<h1>${_("Information")}</h1>
+        	</td>
         </tr>
         <tr>
             <td>
-                % if not message:
                 <div class="box2">
                     <table border="0" width="100%" align="center">
                         % for field, description in fields:
@@ -28,27 +23,7 @@
                         </tr>
                         % endfor
                     </table>
-                </div>
-                % else:
-                <div class="toolbar">
-                    <table border="0" cellpadding="0" cellspacing="0" width="100%">
-                        <tr>
-                            <td style="text-align: center;" width="100%">${message}</td>
-                        </tr>
-                    </table>
-                </div><br/>
-                % endif
-                <div class="toolbar">
-                    <table border="0" cellpadding="0" cellspacing="0" width="100%">
-                        <tr>
-                            <td width="100%">
-                            </td>
-                            <td>
-                                <button type="button" onclick="window.close()">${_("OK")}</button>
-                            </td>
-                        </tr>
-                    </table>
-                </div>
+                </div>         
             </td>
         </tr>
     </table>

@@ -10,7 +10,7 @@
 # It's based on Mozilla Public License Version (MPL) 1.1 with following
 # restrictions:
 #
-# -   All names, links and logos of Tiny, Open ERP and Axelor must be
+# -   All names, links and logos of Tiny, OpenERP and Axelor must be
 #     kept as in original distribution without any changes in all software
 #     screens, especially in start-up page and the software header, even if
 #     the application source code has been changed or updated or code has been
@@ -44,20 +44,19 @@ import treegrid
 
 class ViewTree(Form):
 
-    template = "templates/viewtree.mako"
+    template = "/openerp/widgets/templates/viewtree.mako"
     params = ['model', 'id', 'ids', 'domain', 'context', 'view_id', 'toolbar']
     member_widgets = ['tree', 'sidebar']
 
-    javascript = [JSLink("openerp", "javascript/form.js", location=locations.bodytop)]
-
-    def __init__(self, view, model, res_id=False, domain=[], context={}, action=None):
+    def __init__(self, view, model, res_id=False, domain=[], context={}, action=None, fields=None):
         super(ViewTree, self).__init__(name='view_tree', action=action)
 
         self.model = view['model']
         self.domain2 = domain or []
         self.context = context or {}
-
         self.domain = []
+        
+        fields_info = dict(fields)
 
         self.field_parent = view.get("field_parent") or None
 
@@ -69,10 +68,9 @@ class ViewTree(Form):
 
         proxy = rpc.RPCProxy(self.model)
 
-        ctx = self.context.copy();
-        ctx.update(rpc.session.context)
-
-        fields = cache.fields_get(self.model, False, ctx)
+        ctx = dict(self.context,
+                   **rpc.session.context)
+                
         dom = xml.dom.minidom.parseString(view['arch'].encode('utf-8'))
 
         root = dom.childNodes[0]
@@ -98,16 +96,16 @@ class ViewTree(Form):
         self.headers = []
         self.parse(root, fields)
 
-        self.tree = treegrid.TreeGrid(name="tree_%s" % (id),
+        self.tree = treegrid.TreeGrid(name="tree_%d" % (id),
                                       model=self.model,
                                       headers=self.headers,
-                                      url=url("/tree/data"),
-                                      ids=ids or 0,
+                                      url=url("/openerp/tree/data"),
+                                      ids=ids,
                                       domain=self.domain,
                                       context=self.context,
                                       field_parent=self.field_parent,
                                       onselection="onSelection",
-                                      onheaderclick="onHeaderClick")
+                                      fields_info=fields_info)
         self.id = id
         self.ids = ids
 
@@ -115,11 +113,11 @@ class ViewTree(Form):
         toolbar = {}
         for item, value in view.get('toolbar', {}).items():
             if value: toolbar[item] = value
-
-        self.sidebar = Sidebar(self.model, submenu, toolbar, context=self.context)
+        if toolbar:
+            self.sidebar = Sidebar(self.model, submenu, toolbar, context=self.context)
 
         # get the correct view title
-        self.string = getattr(cherrypy.request, '_terp_view_name', self.string)
+        self.string = self.context.get('_terp_view_name', self.string) or self.string
 
     def parse(self, root, fields=None):
 
@@ -133,6 +131,6 @@ class ViewTree(Form):
             field = fields.get(attrs['name'])
             field.update(attrs)
 
-            self.headers += [field]
+            self.headers.append(field)
 
 # vim: ts=4 sts=4 sw=4 si et

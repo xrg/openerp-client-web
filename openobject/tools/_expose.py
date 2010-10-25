@@ -10,7 +10,7 @@
 # It's based on Mozilla Public License Version (MPL) 1.1 with following
 # restrictions:
 #
-# -   All names, links and logos of Tiny, Open ERP and Axelor must be
+# -   All names, links and logos of Tiny, OpenERP and Axelor must be
 #     kept as in original distribution without any changes in all software
 #     screens, especially in start-up page and the software header, even if
 #     the application source code has been changed or updated or code has been
@@ -27,10 +27,7 @@
 #
 ###############################################################################
 
-import os
 import re
-import types
-import fnmatch
 
 import cherrypy
 import simplejson
@@ -38,39 +35,17 @@ import simplejson
 from mako.template import Template
 from mako.lookup import TemplateLookup
 
+from openobject import templating
+
 import _utils as utils
+import resources
 
 
-__all__ = ['find_resource', 'load_template', 'render_template', 'expose', 'register_template_vars']
-
-
-def find_resource(package_or_module, *names):
-
-    ref = package_or_module
-    if isinstance(package_or_module, basestring):
-        ref = __import__(package_or_module, globals(), locals(), \
-                package_or_module.split('.'))
-
-    return os.path.abspath(os.path.join(os.path.dirname(ref.__file__), *names))
-
-
-def find_resources(package_or_module, path=None, patterns=None):
-
-    root = find_resource("openobject")
-    path = path or ""
-    patterns = patterns or []
-
-    if path:
-        root = os.path.join(root, path)
-
-    for path, dirs, files in os.walk(os.path.abspath(root)):
-        for pattern in patterns:
-            for filename in fnmatch.filter(files, pattern):
-                yield os.path.join(path, filename)
+__all__ = ['load_template', 'render_template', 'expose', 'register_template_vars']
 
 
 # ask autoreloader to check mako templates and cfg files
-for res in find_resources("openobject", "..", ["*.mako", "*.cfg"]):
+for res in resources.find_resources("openobject", "..", ["*.mako", "*.cfg"]):
     cherrypy.engine.autoreload.files.add(res)
 
 
@@ -89,28 +64,19 @@ class TL(TemplateLookup):
         self.cache[str(uri)] = res = super(TL, self).get_template(uri)
         return res
 
-template_lookup = TL(directories=[find_resource("openobject", ".."),
-                                  find_resource("openobject", "../addons")],
+template_lookup = TL(directories=[resources.find_resource("openobject", ".."),
+                                  resources.find_resource("openobject", "../addons")],
                      default_filters=filters,
-                     imports=imports)#, module_directory="mako_modules")
+                     imports=imports,
+                     preprocessor=templating.edition_preprocessor)
 
-def load_template(template, module=None):
+def load_template(template):
 
     if not isinstance(template, basestring):
         return template
 
     if re.match('(.+)\.(html|mako)\s*$', template):
-
-        if module:
-            template = find_resource(module, template)
-        else:
-            template = os.path.abspath(template)
-
-        base = find_resource("openobject", "..")
-        template = template.replace(base, '').replace('\\', '/')
-
         return template_lookup.get_template(template)
-
     else:
         return Template(template, default_filters=filters, imports=imports)
 
@@ -135,7 +101,8 @@ def register_template_vars(callback, prefix='oo'):
 
 
 def _cp_vars():
-
+    ''' CherryPy data access in template layer
+    '''
     return {
         'session': cherrypy.session,
         'request': cherrypy.request,
@@ -144,7 +111,8 @@ def _cp_vars():
 
 
 def _py_vars():
-
+    ''' Utility functions for template layer
+    '''
     return {
         'url': utils.url,
         'attrs': utils.attrs,
@@ -191,19 +159,55 @@ def render_template(template, kw):
     return utils.NoEscape(template.render_unicode(**kw))
 
 
-def expose(format='html', template=None, content_type=None, allow_json=False):
+def expose(format='html', template=None, content_type=None, allow_json=False, methods=None, mark_only=False):
+    """
+    :param format: the response's format. Currently understood formats are "json" and "jsonp",
+                   any other format is ignored
+    :type format: str
+
+    :param template: the path to the template to render (for format=html), from the template search path
+                     (. or ./addons), should be defined absolutely (starting with a "/")
+    :type template: str
+
+    :param content_type: the Content-Type to force on the resource being returned
+    :type content_type: str
+
+    :param allow_json: Specify whether the view should return JSON data instead of rendering the specified template
+                       if a `allow_json` GET parameter is specified (should not be used, we will probably end up
+                       doing that via the Accept header instead, cleaner)
+    :type allow_json: bool
+
+    :param methods: An iterable of HTTP method names allowed to request on this method
+    :type methods: [String]
+
+    :param mark_only: Only marks the method as being exposed, of interest mainly for controllers extensions
+                      (otherwise the extended/overridden method is not found by CherryPy, this will go away
+                      if we ever switch to a routes-based dispatcher)
+    :type mark_only: bool
+    """
+    if methods is not None:
+        assert isinstance(methods, (list, tuple))
+        methods = tuple([m.upper() for m in methods])
 
     def expose_wrapper(func):
-
-        template_c = load_template(template, func.__module__)
-
+        if mark_only:
+            func.exposed = True
+            return func
         def func_wrapper(*args, **kw):
+            if methods and cherrypy.request.method.upper() not in methods:
+                raise cherrypy.HTTPError(405)
 
             res = func(*args, **kw)
 
             if format == 'json' or (allow_json and 'allow_json' in cherrypy.request.params):
                 cherrypy.response.headers['Content-Type'] = 'text/javascript'
                 return simplejson.dumps(res)
+            elif format == 'jsonp' and 'callback' in cherrypy.request.params:
+                cherrypy.response.headers['Content-Type'] = 'text/javascript'
+                return '%(function)s(%(data)s);' % {
+                        'function': cherrypy.request.params['callback'],
+                        'data': simplejson.dumps(res)
+                    } 
 
             cherrypy.response.headers['Content-Type'] = content_type or \
             cherrypy.response.headers.get('Content-Type', 'text/html')
@@ -211,9 +215,9 @@ def expose(format='html', template=None, content_type=None, allow_json=False):
             if isinstance(res, dict):
 
                 try:
-                    _template = load_template(res['cp_template'], func.__module__)
+                    _template = load_template(res['cp_template'])
                 except:
-                    _template = template_c
+                    _template = load_template(template)
 
                 if _template:
 
@@ -247,4 +251,3 @@ def expose(format='html', template=None, content_type=None, allow_json=False):
 
 
 # vim: ts=4 sts=4 sw=4 si et
-

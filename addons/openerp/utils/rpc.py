@@ -10,7 +10,7 @@
 # It's based on Mozilla Public License Version (MPL) 1.1 with following
 # restrictions:
 #
-# -   All names, links and logos of Tiny, Open ERP and Axelor must be
+# -   All names, links and logos of Tiny, OpenERP and Axelor must be
 #     kept as in original distribution without any changes in all software
 #     screens, especially in start-up page and the software header, even if
 #     the application source code has been changed or updated or code has been
@@ -27,15 +27,17 @@
 #
 ###############################################################################
 
-import time
 import socket
 import xmlrpclib
+
+from openobject.tools import AuthenticationError
 
 import common
 
 from tiny_socket import TinySocket
 from tiny_socket import TinySocketError
 
+class NotLoggedIn(common.TinyError, AuthenticationError): pass
 
 class RPCException(Exception):
     """A common exeption class for RPC errors.
@@ -124,22 +126,22 @@ class RPCGateway(object):
         try:
             result = self.__rpc__(obj, method, args, auth=auth)
             return self.__convert(result)
-        except socket.error:
-            raise common.message(_('Connection refused!'))
+        except socket.error, e:
+            raise common.TinyException(e.message or e.strerror, title=_('Application Error'))
 
         except RPCException, err:
             if err.type in ('warning', 'UserError'):
                 if err.message in ('ConcurrencyException') and len(args) > 4:
-                    raise common.concurrency(err.message, err.data, args)
+                    common.concurrency(err.message, err.data, args)
                 else:
-                    raise common.warning(err.data)
+                    common.warning(err.data)
             elif err.code == 'AccessDenied':
-                raise common.error(_('Access Denied'), err.code)
+                common.error(_('Access Denied'), err.code)
             else:
-                raise common.error(_('Application Error!'), err.backtrace)
+                common.error(_('Application Error'), err.backtrace)
 
         except Exception, e:
-            raise common.error(_('Application Error!'), str(e))
+            common.error(_('Application Error'), str(e))
 
     def execute(self, obj, method, *args):
         """Excecute the method of the obj with the given arguments.
@@ -301,14 +303,16 @@ class RPCSession(object):
         if uid <= 0:
             return -1
 
-        self.uid = uid
-        self.db = db
-        self.password = password
-        self.open = True
+        self.storage['uid'] = uid
+        self.storage['db'] = db
+        self.storage['password'] = password
+        self.storage['open'] = True
 
         # read the full name of the user
-        self.user_name = self.execute('object', 'execute', 'res.users', 'read', [uid], ['name'])[0]['name']
-
+        res_users = self.execute('object', 'execute', 'res.users', 'read', [uid], ['name', 'company_id', 'login'])[0]
+        self.storage['user_name'] = res_users['name']
+        self.storage['company_id'], self.storage['company_name'] = res_users['company_id']
+        self.storage['loginname'] = res_users['login']
         # set the context
         self.context_reload()
 
@@ -327,28 +331,28 @@ class RPCSession(object):
         """Reload the context for the current user
         """
 
-        self._context = {'client': 'web'}
+        self.storage['_context'] = {'client': 'web'}
 
         # self.uid
         context = self.execute('object', 'execute', 'res.users', 'context_get')
         self._context.update(context or {})
 
-        self.remote_timezone = 'utc'
-        self.client_timezone = self.context.get("tz", False)
+        self.storage['remote_timezone'] = 'utc'
+        self.storage['client_timezone'] = self.context.get("tz", False)
 
-        if self.client_timezone:
-            self.remote_timezone = self.execute('common', 'timezone_get')
+        if self.storage.get('client_timezone'):
+            self.storage['remote_timezone'] = self.execute('common', 'timezone_get')
             try:
                 import pytz
             except:
                 raise common.warning(_('You select a timezone but OpenERP could not find pytz library!\nThe timezone functionality will be disable.'))
 
         # set locale in session
-        self.locale = self.context.get('lang')
+        self.storage['locale'] = self.context.get('lang')
 
     def execute(self, obj, method, *args):
         if not self.is_logged():
-            raise common.warning(_('Not logged...'), _('Authorization Error!'))
+            raise NotLoggedIn(_('Not logged...'), _('Authorization Error'))
 
         return self.gateway.execute(obj, method, *args)
 

@@ -1,10 +1,11 @@
 exclude .project .pydevproject clean.sh
-include openobject-web.py
-include lib/populate.sh
+include openerp-web.py run-tests.py admin.py Makefile
 recursive-include openobject *
-recursive-include doc *
-recursive-include config *
-recursive-include locales *
+recursive-include addons *
 recursive-include scripts *
-prune win32
-global-exclude *pyc *~
+recursive-include doc *
+recursive-include win32 *
+prune build
+prune dist
+prune lib
+global-exclude *pyc *~ *.bak *.swp

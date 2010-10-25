@@ -1,47 +1,51 @@
+<%
+    name_base = name and (name != '_terp_list' or None) and name + '/'
+%>
 <div class="pager">
-    <span id="_${name+str(pager_id)}_link_span">
+    <p id="_${name+str(pager_id)}_link_span" class="paging">
         % if prev:
-        <a href="javascript: void(0)" onclick="pager_action('first', '${name}'); return false;">
+        <a href="#first" action="first" relation="${name}" onclick="validate_action(this, pager_action); return false;">
         % endif
-        <span>${_("<< First")}</span>
-        % if prev:
-        </a>
-        <a href="javascript: void(0)" onclick="pager_action('previous', '${name}'); return false;">
-        % endif
-        <span>${_("< Previous")}</span>
+        <span class="first nav${' ' if prev else ' inactive'}">${_("<< First")}</span>
         % if prev:
         </a>
+        <a href="#previous" action="previous" relation="${name}" onclick="validate_action(this, pager_action); return false;">
         % endif
-        <a href="javascript: void(0)" onclick="openobject.dom.get('_${name+str(pager_id)}_link_span').style.display='none'; openobject.dom.get('_${name+str(pager_id)}_limit_span').style.display=''">${page_info}</a>
-        % if next:
-        <a href="javascript: void(0)" onclick="pager_action('next', '${name}'); return false;">
-        % endif
-        <span>${_("Next >")}</span>
-        % if next:
-        </a>
-        <a href="javascript: void(0)" onclick="pager_action('last', '${name}'); return false;">
-        % endif
-        <span>${_("Last >>")}</span>
-        % if next:
+        <span class="prev nav${' ' if prev else ' inactive'}">${_("< Previous")}</span>
+        % if prev:
         </a>
         % endif
-    </span>
+        <span onclick="jQuery('[id=_${name+str(pager_id)}_link_span]').hide(); jQuery('[id=_${name+str(pager_id)}_limit_span]').show();">
+            ${page_info} ${_('of')} ${count}
+        </span>
+        % if next:
+        <a href="#next" action="next" relation="${name}" onclick="validate_action(this, pager_action); return false;">
+        % endif
+        <span class="next nav${' ' if next else ' inactive'}">${_("Next >")}</span>
+        % if next:
+        </a>
+        <a href="#last" action="last" relation="${name}" onclick="validate_action(this, pager_action); return false;">
+        % endif
+        <span class="last nav ${' ' if next else ' inactive'}">${_("Last >>")}</span>
+        % if next:
+        </a>
+        % endif
+    </p>
 
-    <table id="_${name+str(pager_id)}_limit_span" style="width: 100%; display: none" border="0" cellpadding="0" cellspacing="0">
-        <tr>
-            <td align="right">
-                <a href="javascript: void(0)" onclick="openobject.dom.get('_${name+str(pager_id)}_limit_span').style.display='none'; openobject.dom.get('_${name+str(pager_id)}_link_span').style.display=''">${_("Change Limit:")}</a>&nbsp;
-            </td>
-            <td width="45px;">
-                <select id='_${name+str(pager_id)}_limit' onchange="openobject.dom.get('${name and (name != '_terp_list' or None) and name + '/'}_terp_limit').value=openobject.dom.get('_${name+str(pager_id)}_limit').value; pager_action('filter', '${name}')">
-                    <option value="20" ${py.selector(limit==20)}>20</option>
-                    <option value="40" ${py.selector(limit==40)}>40</option>
-                    <option value="60" ${py.selector(limit==60)}>60</option>
-                    <option value="80" ${py.selector(limit==80)}>80</option>
-                    <option value="100" ${py.selector(limit==100)}>100</option>
-                </select>
-            </td>
-        </tr>
-    </table>
+    <div id="_${name+str(pager_id)}_limit_span" style="display: none" align="right">
+        <label for="_${name+str(pager_id)}_limit"
+               onclick="jQuery('[id=_${name+str(pager_id)}_limit_span]').hide(); jQuery('[id=_${name+str(pager_id)}_link_span]').show();">${_("Change Limit:")}</label>&nbsp;
+        <select id='_${name+str(pager_id)}_limit'
+                action="filter"
+                relation="${name}"
+                onchange="jQuery('[id=${name_base}_terp_limit]').val(jQuery(this).val());
+                          jQuery('[id=${name_base}_terp_offset]').val(0);
+                      pager_action(this)" style="min-width: 25px;">
+            <option value=""></option>
+            % for k in pager_options:
+                <option value="${k}" ${py.selector(limit=='${k]}')}>${k}</option>
+            %endfor
+            <option value="-1" ${py.selector(limit==-1)}>unlimited</option>
+        </select>
+    </div>
 </div>
-

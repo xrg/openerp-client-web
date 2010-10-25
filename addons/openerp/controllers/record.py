@@ -10,7 +10,7 @@
 # It's based on Mozilla Public License Version (MPL) 1.1 with following
 # restrictions:
 #
-# -   All names, links and logos of Tiny, Open ERP and Axelor must be
+# -   All names, links and logos of Tiny, OpenERP and Axelor must be
 #     kept as in original distribution without any changes in all software
 #     screens, especially in start-up page and the software header, even if
 #     the application source code has been changed or updated or code has been
@@ -64,20 +64,10 @@ class Record(dict):
         return data
 
     def expr_eval(self, expr, source=None):
-
         if not isinstance(expr, basestring):
             return expr
 
-        d = {}
-        for name, value in self.items():
-            d[name] = value
-
-        d['current_date'] = time.strftime('%Y-%m-%d')
-        d['time'] = time
-        d['context'] = self.params.context or {}
-        d['active_id'] = self.get('id', False)
-
-        val = expr_eval(expr, d)
-        return val
-
-# vim: ts=4 sts=4 sw=4 si et
+        return expr_eval(
+                expr, dict(self,
+                           context=self.params.context or {},
+                           active_id=self.get('id', False)))

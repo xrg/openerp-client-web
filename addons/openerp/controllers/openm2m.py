@@ -10,7 +10,7 @@
 # It's based on Mozilla Public License Version (MPL) 1.1 with following
 # restrictions:
 #
-# -   All names, links and logos of Tiny, Open ERP and Axelor must be
+# -   All names, links and logos of Tiny, OpenERP and Axelor must be
 #     kept as in original distribution without any changes in all software
 #     screens, especially in start-up page and the software header, even if
 #     the application source code has been changed or updated or code has been
@@ -36,9 +36,9 @@ from openobject.tools import expose, validate, error_handler, exception_handler
 
 class OpenM2M(Form):
 
-    _cp_path = "/openm2m"
+    _cp_path = "/openerp/openm2m"
 
-    @expose(template="templates/openm2m.mako")
+    @expose(template="/openerp/controllers/templates/openm2m.mako")
     def create(self, params, tg_errors=None):
 
         params.m2m = params.m2m or params.source

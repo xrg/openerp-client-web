@@ -1,6 +1,5 @@
 .gridview {
     border: none;
-    border-top: 1px solid #999;
 }
 
 .grid {
@@ -12,8 +11,22 @@
     background-color: white;
 }
 
+.grid-row-odd {
+	background: white;
+    cursor: pointer;
+}
+.grid-row-even {
+	background: #F3F3F3;
+    cursor: pointer;
+}
+
 .grid-row:hover {
-    background-color: #F3F3F3;
+    background-color: #DDDDDD;
+}
+
+.grid-rowdrop {
+    background-color: #C0C0C0;
+    position: relative;
 }
 
 .grid-cell {
@@ -23,12 +36,10 @@
 
 .grid-cell.selector {
     width: 1%;
-
     max-width: 8px;
     min-width: 8px;
-
     text-align: center;
-    vertical-align: middle;    
+    vertical-align: middle;
 }
 
 .grid-cell.button {
@@ -36,14 +47,13 @@
 }
 
 .grid-cell.button button {
-    margin: 0px;
-    margin-right: 1px;
-        width: auto;
+    margin: 0 1px 0 0;
+    width: auto;
 }
 
 .grid-header .grid-cell {
-    background:url(../images/gradientlinebg.gif);
-    border-bottom: 1px solid #999;
+    background: url(../images/gradientlinebg.gif);
+    border-bottom: 1px solid #E3E3E3;
     font-weight: bold;
     text-align: left;
 }
@@ -72,7 +82,7 @@
 
 .grid-row.editors .grid-cell {
     background-color: #FFFFBF;
-    padding: 2px;
+    padding: 2px 2px 2px 7px;
 }
 
 .grid-row.editors input,
@@ -94,24 +104,51 @@
 }
 
 .gridview .pagerbar {
-    height:22px;
+    height: 22px;
     vertical-align: middle;
+    overflow: hidden;
+    padding: 3px 4px 1px 10px;
+    text-align: right;
+    margin: 0;
+    line-height: 1;
 }
 
 .gridview .pagerbar .pagerbar-cell {
-    background: #f3f3f3;
-    border-bottom: 1px solid #999;
-    padding: 2px 4px;
+    vertical-align: middle;
+    padding: 2px 5px;
 }
 
-.gridview .pagerbar .pagerbar-links a {
-    color: #333;
-    text-decoration: none;
-    font-size: 12px;
+.gridview .pagerbar .pagerbar-cell.footer .pager {
+    background: none;
 }
 
-.gridview .pagerbar .pagerbar-links a:hover {
-    text-decoration: none;
+.gridview .pagerbar .pagerbar-cell .pager-table {
+    background: none;
+    border: none;
+    width: 100%;
+}
+
+.gridview .pagerbar .pagerbar-cell .pager-table .pager-cell {
+    padding: 0;
+    white-space: nowrap;
+}
+
+.gridview .pagerbar .pagerbar-cell .pager-table .pager-cell h2 {
+    background: none;
+    margin: 0;
+    padding: 0 10px 0 0;
+    border: none;
+    color: #252424;
+    font-size: 1.1em;
+    text-transform: none;
+    line-height: 1;
+}
+
+.gridview .pagerbar .pagerbar-cell .pagerbar-header ul {
+    float: left;
+    list-style: none;
+    margin: 0;
+    padding: 0;
 }
 
 .listButton {
@@ -124,11 +161,39 @@
 }
 
 .field_sum .grid-cell {
-    border-bottom: 1px solid #999;
-    border-top: 1px solid #999;
+    font-weight: bold;
+    color: #BAB8B8;
+    text-transform: uppercase;
 }
 
+tr.field_sum {
+    border: none;
+    border-bottom: 1px solid #f4f2f2;
+}
+
+tr.field_sum td#total_sum_value {
+    text-align: right;
+    padding: 2px;
+}
+
+tr.field_sum td#total_sum_title {
+    text-align: left;
+    padding: 2px;
+}
+
+strong#total_sum_label {
+    color: #7D7979;
+    font-size: 0.9em;
+}
+
+.sum_value_field {
+    border-top: 1px inset;
+    display: block;
+    padding: 0 1px;
+    color: #7D7979;
+    font-size: 0.9em;
+}
 /**
- * vim: sts=4 st=4 et 
+ * vim: sts=4 st=4 et
  *
  */

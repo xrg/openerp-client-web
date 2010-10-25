@@ -1,15 +1,6 @@
-%if orientation:
-	<table class="separator_vertical" height="100%">
-	   <tr>
-	        <td>${string}</td>
-	        <td></td>
-	    </tr>
-	</table>
-%else:
-	<table class="separator" width="100%">
-	    <tr>
-	        <td>${string}</td>
-	        <td></td>
-	    </tr>
-	</table>
+<div class="separator ${orientation}">${string}</div>
+% if orientation == 'vertical':
+    <script type="text/javascript">
+        jQuery('.separator.vertical').parent().empty().addClass('separator vertical');
+    </script>
 %endif

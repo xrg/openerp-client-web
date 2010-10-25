@@ -1,4 +1,4 @@
-<%inherit file="/openerp/controllers/templates/base.mako"/>
+<%inherit file="/openerp/controllers/templates/base_dispatch.mako"/>
 
 <%def name="header()">
     <title>${_("About the OpenERP Web")}</title>
@@ -12,7 +12,7 @@
 
 <table width="100%">
         <tr>
-            <td class="titlebar">${_("OpenERP Web")}</td>
+            <td class="titlebar"><h1>${_("OpenERP Web")}</h1></td>
         </tr>
         <tr>
             <td>
@@ -34,7 +34,7 @@ ${_("Licenced under the terms of %(license)s", license="""<a href="/LICENSE.txt"
             </td>
         </tr>
         <tr>
-            <td width="100%" class="titlebar">${_("About OpenERP")}</td>
+            <td width="100%" class="titlebar"><h1>${_("About OpenERP")}</h1></td>
         </tr>
         <tr>
             <td>
@@ -59,7 +59,7 @@ ${_("""Depending on your needs, OpenERP is available through a web or applicatio
             </td>
         </tr>
         <tr>
-            <td width="100%" class="titlebar">${_("Links")}</td>
+            <td width="100%" class="titlebar"><h1>${_("Links")}</h1></td>
         </tr>
         <tr>
             <td>
@@ -88,39 +88,39 @@ ${_("""Depending on your needs, OpenERP is available through a web or applicatio
                 </tr>
                 <tr>
                     <td>
-                        <a target="_blank" href="http://openerp.com/">${_("Homepage")}</a>
+                        <a target="_blank" href="http://www.openerp.com/">${_("Homepage")}</a>
                     </td>
                 </tr><tr>
                     <td>
-                        <a target="_blank" href="http://openerp.com/en/downloads.html">${_("Download")}</a>
-                    </td>                
+                        <a target="_blank" href="http://www.openerp.com/downloads">${_("Download")}</a>
+                    </td>
                 </tr><tr>
                     <td>
                         <a target="_blank" href="http://doc.openerp.com/">${_("Documentation")}</a>
                     </td>
                 </tr><tr>
                     <td>
-                        <a target="_blank" href="http://doc.openerp.com/modindex.html">${_("Modules")}</a>
+                        <a target="_blank" href="http://doc.openerp.com/py-modindex.html">${_("Modules")}</a>
                     </td>
                 </tr><tr>
                     <td>
-                        <a target="_blank" href="http://openobject.tv/">${_("Screencasts")}</a>
+                        <a target="_blank" href="http://www.openerp.tv/">${_("Screencasts")}</a>
                     </td>
                 </tr><tr>
                     <td>
-                        <a target="_blank" href="http://openerp.com/">${_("Community")}</a>
+                        <a target="_blank" href="http://www.openerp.com/community">${_("Community")}</a>
                     </td>
                 </tr><tr>
                     <td>
-                        <a target="_blank" href="http://ondemand.openerp.com/">${_("SaaS Offers")}</a>
+                        <a target="_blank" href="http://www.openerp.com/online">${_("SaaS Offers")}</a>
                     </td>
                 </tr><tr>
                     <td>
-                        <a target="_blank" href="http://openerp.com/en/buy/trainings.html">${_("Trainings")}</a>
+                        <a target="_blank" href="http://www.openerp.com/services/trainings">${_("Trainings")}</a>
                     </td>
                 </tr><tr>
                     <td>
-                        <a target="_blank" href="http://openerp.com/en/buy.html">${_("Services")}</a>
+                        <a target="_blank" href="http://www.openerp.com/services">${_("Services")}</a>
                     </td>
                 </tr>
             </table>

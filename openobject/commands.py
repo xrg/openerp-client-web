@@ -5,68 +5,50 @@ from optparse import OptionParser
 import cherrypy
 from cherrypy._cpconfig import as_dict
 
-from openobject import release
-
+import openobject
+import openobject.release
 
 class ConfigurationError(Exception):
     pass
 
-
 def get_config_file():
     setupdir = os.path.dirname(os.path.dirname(__file__))
-    configfile = os.path.join(setupdir, "config", "openobject-web.cfg")
-    if os.path.exists(configfile):
-        return configfile
-    return None
-
-def setup_server(configfile):
-
-    if not os.path.exists(configfile):
-        raise ConfigurationError(_("Could not find configuration file: %s") % configfile)
-
-
-    cherrypy.config.update({
-        'tools.sessions.on':  True,
-        'tools.nestedvars.on':  True,
-    })
-
-    app_config = as_dict(configfile)
-
-    _global = app_config.pop('global', {})
-    _environ = _global.setdefault('server.environment', 'development')
-
-    if _environ != 'development':
-        _global['environment'] = _environ
-
-    cherrypy.config.update(_global)
-
-    static_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'static')
-    app_config.update({'/openobject/static': {
-        'tools.staticdir.on': True,
-        'tools.staticdir.dir': static_dir
-    }})
-
-    app_config.update({'/favicon.ico': {
-        'tools.staticfile.on': True,
-        'tools.staticfile.filename': static_dir + "/images/favicon.ico"
-    }})
-
-    app_config.update({'/LICENSE.txt': {
-        'tools.staticfile.on': True,
-        'tools.staticfile.filename': static_dir + "/../../doc/LICENSE.txt"
-    }})
-
-    from controllers._root import Root
-    app = cherrypy.tree.mount(Root(), "/", config=app_config)
-
+    isdevdir = os.path.isfile(os.path.join(setupdir, 'setup.py'))
+    configfile = '/etc/openerp-web.cfg'
+    if isdevdir or not os.path.exists(configfile):
+        configfile = os.path.join(setupdir, 'doc', 'openerp-web.cfg')
+    return configfile
 
 def start():
 
-    parser = OptionParser(version="%s" % (release.version))
-    parser.add_option("-c", "--config", metavar="FILE", dest="config", help="configuration file", default=get_config_file())
+    parser = OptionParser(version="%s" % (openobject.release.version))
+    parser.add_option("-c", "--config", metavar="FILE", dest="config",
+                      help="configuration file", default=get_config_file())
+    parser.add_option("-a", "--address", help="host address, overrides server.socket_host")
+    parser.add_option("-p", "--port", help="port number, overrides server.socket_port")
+    parser.add_option("--no-static", dest="static",
+                      action="store_false", default=True,
+                      help="Disables serving static files through CherryPy")
     options, args = parser.parse_args(sys.argv)
 
-    setup_server(options.config)
+    if not os.path.exists(options.config):
+        raise ConfigurationError(_("Could not find configuration file: %s") %
+                                 options.config)
+                                 
+    app_config = as_dict(options.config)
+    
+    openobject.configure(app_config)
+    if options.static:
+        openobject.enable_static_paths()
+    
+    if options.address:
+        cherrypy.config['server.socket_host'] = options.address
+    if options.port:
+        try:
+            cherrypy.config['server.socket_port'] = int(options.port)
+        except:
+            pass
 
+    cherrypy.log.error(options.config, 'CONFIG')
     cherrypy.engine.start()
     cherrypy.engine.block()

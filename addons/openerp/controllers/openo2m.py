@@ -10,7 +10,7 @@
 # It's based on Mozilla Public License Version (MPL) 1.1 with following
 # restrictions:
 #
-# -   All names, links and logos of Tiny, Open ERP and Axelor must be
+# -   All names, links and logos of Tiny, OpenERP and Axelor must be
 #     kept as in original distribution without any changes in all software
 #     screens, especially in start-up page and the software header, even if
 #     the application source code has been changed or updated or code has been
@@ -38,7 +38,7 @@ from openobject.tools import expose, validate, error_handler, exception_handler
 
 class OpenO2M(Form):
 
-    _cp_path = "/openo2m"
+    _cp_path = "/openerp/openo2m"
 
     def create_form(self, params, tg_errors=None):
 
@@ -54,11 +54,7 @@ class OpenO2M(Form):
         # to get proper view, first generate form using the view_params
         vp = params.view_params
 
-        # this prevents calling default_get, causes unnecessary
-        # auto increment of sequence
-        vp.id = params.parent_id or False
-
-        form = tw.form_view.ViewForm(vp, name="view_form", action="/openo2m/save")
+        form = tw.form_view.ViewForm(vp, name="view_form", action="/openerp/openo2m/save")
         cherrypy.request.terp_validators = {}
         wid = form.screen.widget.get_widgets_by_name(params.o2m)[0]
 
@@ -71,14 +67,19 @@ class OpenO2M(Form):
 
         # IE hack, get context from cookies (see o2m.js)
         o2m_context = {}
+        parent_context = {}
         try:
             o2m_context = urllib.unquote(cherrypy.request.cookie['_terp_o2m_context'].value)
+            parent_context = urllib.unquote(cherrypy.request.cookie['_terp_parent_context'].value)
             cherrypy.request.cookie['_terp_o2m_context']['expires'] = 0
             cherrypy.response.cookie['_terp_o2m_context']['expires'] = 0
+            cherrypy.request.cookie['_terp_parent_context']['expires'] = 0
+            cherrypy.response.cookie['_terp_parent_context']['expires'] = 0
         except:
             pass
 
         params.o2m_context = params.o2m_context or o2m_context
+        params.parent_context = params.parent_context or parent_context
 
         ctx = params.context or {}
         ctx.update(params.parent_context or {})
@@ -95,12 +96,12 @@ class OpenO2M(Form):
                                 tw.form.Hidden(name='_terp_o2m_context', default=ustr(params.o2m_context or {})),
                                 tw.form.Hidden(name=params.prefix + '/__id', default=params.id or None)] + hiddens
 
-        form = tw.form_view.ViewForm(params, name="view_form", action="/openo2m/save")
+        form = tw.form_view.ViewForm(params, name="view_form", action="/openerp/openo2m/save")
         form.screen.string = wid.screen.string
 
         return form
 
-    @expose(template="templates/openo2m.mako")
+    @expose(template="/openerp/controllers/templates/openo2m.mako")
     def create(self, params, tg_errors=None):
 
         if tg_errors:
@@ -144,8 +145,8 @@ class OpenO2M(Form):
         new_ids = [i for i in all_ids if i not in ids]
 
         current.ids = all_ids
-        if new_ids:
-            current.id = new_ids[0]
+        if new_ids and params.source:
+            current.id = new_ids[-1]
             params.o2m_id = current.id
 
         # perform button action
@@ -163,5 +164,18 @@ class OpenO2M(Form):
     def edit(self, **kw):
         params, data = TinyDict.split(kw)
         return self.create(params)
+    
+    @expose('json', methods=('POST',))
+    def delete(self, model, id):
+        error = False
+        res=""
+        proxy = rpc.RPCProxy(model)
+        try:
+            if id:
+                res  = proxy.unlink([id])
+        except Exception, e:
+            error = ustr(e)
+            
+        return dict(error=error)
 
 # vim: ts=4 sts=4 sw=4 si et

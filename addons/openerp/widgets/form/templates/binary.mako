@@ -1,4 +1,13 @@
 <div>
+    % if bin_data and not value_bin_size:
+        <input 
+            type="hidden" 
+            class="${css_class}" 
+            kind="${kind}"
+            id="${name}" 
+            name="${name}"
+            value="${bin_data}"/>
+    % endif
     <div id="${name}_binary_add" style="display: none;">
         % if editable and not readonly:
         <input ${py.attrs(attrs)}
@@ -10,13 +19,13 @@
             name="${name}"/>
         % endif
     </div>
-    <div id="${name}_binary_buttons" style="white-space: nowrap; width: 150px;">
+    <div id="${name}_binary_buttons" class="binary_buttons">
         <span>${value or text or ''}</span>
         % if text:
-        <button type="button" onclick="save_binary_data('${name}', '${filename}')">${_("Save As")}</button>
+        <a class="button-a" href="javascript: void(0)" onclick="save_binary_data('${name}', '${filename}')">${_("Save As")}</a>
         % endif
-        % if editable:
-        <button type="button" onclick="add_binary('${name}')">${_("Change")}</button>
+        % if editable and not readonly:
+        <a class="button-a" href="javascript: void(0)" onclick="add_binary('${name}')">${_("add attachment")}</a>
         % endif
     </div>
     % if editable and error:

@@ -10,7 +10,7 @@
 // It's based on Mozilla Public License Version (MPL) 1.1 with following 
 // restrictions:
 //
-// -   All names, links and logos of Tiny, Open ERP and Axelor must be 
+// -   All names, links and logos of Tiny, OpenERP and Axelor must be 
 //     kept as in original distribution without any changes in all software 
 //     screens, especially in start-up page and the software header, even if 
 //     the application source code has been changed or updated or code has been 
@@ -27,13 +27,13 @@
 //
 ////////////////////////////////////////////////////////////////////////////////
 
-var MonthCalendar = function(options){
+var MonthCalendar = function(options) {
     this.__init__(options);
-}
+};
 
 MonthCalendar.prototype = {
 
-    __init__ : function(options){
+    __init__ : function(options) {
 
         this.options = MochiKit.Base.update({
         }, options || {});
@@ -49,8 +49,8 @@ MonthCalendar.prototype = {
         this.events = {};
 
         var events = openobject.dom.select('div.calEvent', 'calBodySect');
-        forEach(events, function(e){
-
+        forEach(events, function(e) {
+            
             var id = getNodeAttribute(e, 'nRecordID');
 
             self.events[id] = {
@@ -61,17 +61,21 @@ MonthCalendar.prototype = {
                 className: e.className,
                 bg : e.style.backgroundColor,
                 clr: e.style.color,
-                text: MochiKit.DOM.scrapeText(e)
+                text: MochiKit.DOM.scrapeText(e),
+                create_date: getNodeAttribute(e, 'nCreationDate'),
+                create_uid: getNodeAttribute(e, 'nCreationId'),
+                write_date: getNodeAttribute(e, 'nWriteDate'),
+                write_uid: getNodeAttribute(e, 'nWriteId')
             };
 
             MochiKit.DOM.removeElement(e);
         });
 
         var tbl = TABLE({'style': 'table-layout: fixed; width: 100%;'},
-                    TBODY(null,
+                TBODY(null,
                         TR(null,
-                            TD({'id' : 'calTimeCol', 'class': 'calTimeCol', 'valign': 'top', 'width': '35px'}),
-                            TD({'id' : 'calGridCol', 'valign': 'top'}))));
+                                TD({'id' : 'calTimeCol', 'class': 'calTimeCol', 'valign': 'top', 'width': '35px'}),
+                                TD({'id' : 'calGridCol', 'valign': 'top'}))));
 
         tbl.cellPadding = 0;
         tbl.cellSpacing = 0;
@@ -83,16 +87,16 @@ MonthCalendar.prototype = {
         this.weeks = [];
 
         var dt = new Date(this.starts);
-        for(var i = 0; i < 6; i++){
+        for (var i = 0; i < 6; i++) {
 
             var week = new MonthCalendar.Week(this, dt);
             this.weeks = this.weeks.concat(week);
 
             var a = A({href: 'javascript: void(0)', onclick : "getCalendar('" + week.days[0] + "', 'week')"}, this.firstWeek + i);
 
-            appendChildNodes('calTimeCol', DIV({'style': 'height: 120px'}, a));
+            appendChildNodes('calTimeCol', DIV({'style': 'height: 133px'}, a));
 
-            for(var j = 0; j < 7; j ++){
+            for (var j = 0; j < 7; j ++) {
                 dt = dt.getNext();
             }
         }
@@ -105,36 +109,36 @@ MonthCalendar.prototype = {
         this.makeEvents();
     },
 
-    __delete__ : function(){
-        forEach(this.weeks, function(week){
+    __delete__ : function() {
+        forEach(this.weeks, function(week) {
             week.__delete__();
         });
 
         this.dettachSignals();
     },
 
-    attachSignals : function(){
+    attachSignals : function() {
         this.eventLoad = MochiKit.Signal.connect(window, 'onload', this, 'onResize');
         this.eventResize = MochiKit.Signal.connect(window, 'onresize', this, 'onResize');
         this.eventMouseDown = MochiKit.Signal.connect('calGrid', 'onmousedown', this, 'onMouseDown');
         this.eventMouseUp = MochiKit.Signal.connect('calGrid', 'onmouseup', this, 'onMouseUp');
     },
 
-    dettachSignals : function(){
+    dettachSignals : function() {
         MochiKit.Signal.disconnect(this.eventLoad);
         MochiKit.Signal.disconnect(this.eventResize);
         MochiKit.Signal.disconnect(this.eventMouseDown);
         MochiKit.Signal.disconnect(this.eventMouseUp);
     },
 
-    onResize : function(evt){
+    onResize : function(evt) {
         this.header.adjust();
-        forEach(this.weeks, function(week){
+        forEach(this.weeks, function(week) {
             week.adjust();
         });
     },
 
-    onMouseDown : function(evt){
+    onMouseDown : function(evt) {
         if (!evt.mouse().button.left)
             return;
 
@@ -146,8 +150,8 @@ MonthCalendar.prototype = {
 
         // set datetime info
         var dt = MochiKit.DateTime.isoDate(getNodeAttribute(target, 'dtDay'));
-        var s = (9 * 40) * (30/20) * (60 * 1000);
-        var e = (17 * 40) * (30/20) * (60 * 1000);
+        var s = (9 * 40) * (30 / 20) * (60 * 1000);
+        var e = (17 * 40) * (30 / 20) * (60 * 1000);
 
         s = dt.getTime() + s;
         e = dt.getTime() + e;
@@ -160,7 +164,7 @@ MonthCalendar.prototype = {
 
     },
 
-    onMouseUp : function(evt){
+    onMouseUp : function(evt) {
         if (!evt.mouse().button.left)
             return;
 
@@ -168,14 +172,21 @@ MonthCalendar.prototype = {
         if (!hasElementClass(target, 'calMonthDay'))
             return;
 
-        editCalendarRecord(null);
+        var elem = getElement('calEventNew');
+        var dt = MochiKit.DateTime.isoTimestamp(getNodeAttribute(elem, 'dtStart'));
+        
+        editCalendarRecord(null, toISOTimestamp(dt));
     },
 
-    splitEvent : function(record, params){
-
+    splitEvent : function(record, params) {
+        
         var ds = isoTimestamp(params.starts);
         var de = isoTimestamp(params.ends);
-
+        var cdate = isoTimestamp(params.create_date);
+        var wdate = isoTimestamp(params.write_date);
+        
+        var cuid = params.create_uid;
+        var wuid = params.write_uid;
         var span = parseInt(params.dayspan) || 1;
         var wd = ds.getWeekDay();
 
@@ -191,13 +202,25 @@ MonthCalendar.prototype = {
                 nRecordID : record,
                 dtStart : toISOTimestamp(ds),
                 dtEnd : toISOTimestamp(de),
-                nDaySpan: sp
+                nDaySpan: sp,
+                nCreationDate: toISOTimestamp(cdate),
+                nCreationId: cuid,
+                nWriteDate: toISOTimestamp(wdate),
+                nWriteId: wuid
             }, params.text);
 
             div.className = params.className;
             div.title = params.title;
+
+            div.style.position = 'absolute';
             div.style.backgroundColor = params.bg;
             div.style.color = params.clr;
+
+            try{
+                var bg = Color.fromString(div.style.backgroundColor).darkerColorWithLevel(0.2).toHexString();
+                div.style.borderColor = bg;
+                div.style.textShadow = "0 -1px 0 " + bg;
+            }catch(e){}
 
             events = events.concat(div);
 
@@ -208,77 +231,77 @@ MonthCalendar.prototype = {
         return events;
     },
 
-    makeEvents : function(){
-        
-        var getWeekIndex = function(dt){
+    makeEvents : function() {
+
+        var getWeekIndex = function(dt) {
             // get the first day of the week and return the week number
-            while(dt.getWeekDay() > 0){
-             dt = dt.getPrevious();
+            while (dt.getWeekDay() > 0) {
+                dt = dt.getPrevious();
             }
-          return dt.getWeek(1);
+            return dt.getWeek(1);
         }
-        
+
         var self = this;
         var events = openobject.dom.select('div.calEvent', 'calBodySect');
 
-        forEach(events, function(e){
+        forEach(events, function(e) {
             removeElement(e);
         });
 
         events = [];
-        forEach(items(this.events), function(e){
+        forEach(items(this.events), function(e) {
             events = events.concat(self.splitEvent(e[0], e[1]));
         });
 
         appendChildNodes('calGrid', events);
 
         var weeks = {};
-        forEach(this.weeks, function(w){
+        forEach(this.weeks, function(w) {
             weeks[getWeekIndex(w.starts)] = [];
         });
 
-        forEach(events, function(e){
+        forEach(events, function(e) {
             var starts = isoTimestamp(getNodeAttribute(e, 'dtStart'));
             if (getWeekIndex(starts) in weeks) {
                 weeks[getWeekIndex(starts)] = weeks[getWeekIndex(starts)].concat(e);
             }
         });
 
-        forEach(this.weeks, function(w){
+        forEach(this.weeks, function(w) {
             w.events = weeks[getWeekIndex(w.starts)];
             w.makeEventContainers();
         });
     }
-}
+};
 
-MonthCalendar.Header = function(calendar){
+MonthCalendar.Header = function(calendar) {
     this.__init__(calendar);
-}
+};
 
 MonthCalendar.Header.prototype = {
 
-    __init__ : function(calendar){
+    __init__ : function(calendar) {
 
         this.calendar = calendar;
         this.elements = [];
 
         var self = this;
         var days = openobject.dom.select('div', 'calHeaderSect');
-        forEach(days, function(day){
+        forEach(days, function(day) {
             var div = DIV({'class' : 'calDayHeader', 'style' : 'position: absolute; top : 0pt;'}, MochiKit.DOM.scrapeText(day));
             self.elements = self.elements.concat(div);
             MochiKit.DOM.swapDOM(day, div);
         });
     },
 
-    adjust : function(){
+    adjust : function() {
 
         var d = elementDimensions('calHeaderSect');
 
-        var w = d.w / 7;
+        var w = Math.floor(d.w / 7);
         var h = d.h;
 
-        for(var i=0; i < 7; i++){
+        for (var i = 0; i < 7; i++) {
             var div = this.elements[i];
             var x = i * w;
 
@@ -288,15 +311,15 @@ MonthCalendar.Header.prototype = {
         }
 
     }
-}
+};
 
-MonthCalendar.Week = function(calendar, dtStart){
+MonthCalendar.Week = function(calendar, dtStart) {
     this.__init__(calendar, dtStart);
-}
+};
 
 MonthCalendar.Week.prototype = {
 
-    __init__ : function(calendar, dtStart){
+    __init__ : function(calendar, dtStart) {
         this.calendar = calendar;
         this.starts = dtStart;
 
@@ -311,22 +334,22 @@ MonthCalendar.Week.prototype = {
         this.days = [];
 
         var dt = new Date(dtStart);
-        for(var i = 0; i < 7; i++){
+        for (var i = 0; i < 7; i++) {
 
             this.days = this.days.concat(toISODate(dt));
 
             var md = DIV({'class': 'calMonthDay', 'dtDay' : toISODate(dt)},
-                        DIV({'class':'calMonthDayTitle'},
+                    DIV({'class':'calMonthDayTitle'},
                             A({'href':'javascript: void(0)',
-                               'onclick': "getCalendar('" + toISODate(dt) + "', 'day')"}, dt.getDate())));
+                                'onclick': "getCalendar('" + toISODate(dt) + "', 'day')"}, dt.getDate())));
 
-            if (dt.getMonth() != this.calendar.first.getMonth()){
+            if (dt.getMonth() != this.calendar.first.getMonth()) {
                 addElementClass(md, 'dayOff');
             }
 
             var nw = new Date();
 
-            if (dt.getFullYear() == nw.getFullYear() && dt.getMonth() == nw.getMonth() && dt.getDate() == nw.getDate()){
+            if (dt.getFullYear() == nw.getFullYear() && dt.getMonth() == nw.getMonth() && dt.getDate() == nw.getDate()) {
                 addElementClass(md, 'dayThis');
             }
 
@@ -340,7 +363,7 @@ MonthCalendar.Week.prototype = {
         var self = this;
 
         // make all elements droppable
-        forEach(this.elements, function(e){
+        forEach(this.elements, function(e) {
             var drop = new Droppable(e, {
                 hoverclass: 'droppable',
                 accept: ['calEvent'],
@@ -351,18 +374,18 @@ MonthCalendar.Week.prototype = {
 
     },
 
-    __delete__ : function(){
+    __delete__ : function() {
 
-        forEach(this.droppables, function(drop){
+        forEach(this.droppables, function(drop) {
             drop.destroy();
         });
 
-        forEach(this.eventCache, function(evt){
+        forEach(this.eventCache, function(evt) {
             evt.__delete__();
         });
     },
 
-    onDrop : function(draggable, droppable, evt){
+    onDrop : function(draggable, droppable, evt) {
 
         var dt = MochiKit.DateTime.isoDate(getNodeAttribute(droppable, 'dtDay'));
         var id = getNodeAttribute(draggable, 'nRecordID');
@@ -372,7 +395,7 @@ MonthCalendar.Week.prototype = {
         var s = MochiKit.DateTime.isoTimestamp(record.starts);
         var e = MochiKit.DateTime.isoTimestamp(record.ends);
 
-        var t = s.getTime() - s.getHours() * (60*60*1000) - s.getMinutes() * (60*1000) - s.getSeconds() * 1000;
+        var t = s.getTime() - s.getHours() * (60 * 60 * 1000) - s.getMinutes() * (60 * 1000) - s.getSeconds() * 1000;
 
         s = s.getTime() + (dt.getTime() - t);
         e = e.getTime() + (dt.getTime() - t);
@@ -382,38 +405,38 @@ MonthCalendar.Week.prototype = {
 
         var self = this;
         var req = saveCalendarRecord(id, s, e);
-        
+
         req.addCallback(function(obj) {
-            
+
             if (obj.error) {
-                return alert(obj.error);
+                return error_display(obj.error);
             }
-            
+
             record.starts = s;
             record.ends = e;
 
-            self.calendar.makeEvents();            
+            self.calendar.makeEvents();
         });
-        
-        req.addBoth(function(obj){
+
+        req.addBoth(function(obj) {
             self.calendar.onResize();
         });
     },
 
-    makeEventContainers : function(){
+    makeEventContainers : function() {
 
         var self = this;
         var containers = {};
 
         // release the cache
-        forEach(this.eventCache, function(e){
+        forEach(this.eventCache, function(e) {
             e.__delete__();
         });
         this.eventCache = [];
 
         var events = this.events;
 
-        for(var i = 0; i < 7; i++){
+        for (var i = 0; i < 7; i++) {
 
             var dt = this.days[i];
 
@@ -426,29 +449,29 @@ MonthCalendar.Week.prototype = {
             }
         }
 
-        forEach(events, function(e){
+        forEach(events, function(e) {
             e.starts = isoTimestamp(getNodeAttribute(e, 'dtStart'));
             e.ends = isoTimestamp(getNodeAttribute(e, 'dtEnd'));
             e.dayspan = parseInt(getNodeAttribute(e, 'nDaySpan')) || 1;
         });
 
         // sort events, allDay events should always be first
-        e1 = filter(function(e){
+        e1 = filter(function(e) {
             return !hasElementClass(e, 'calEventInfo');
         }, events);
 
-        e2 = filter(function(e){
+        e2 = filter(function(e) {
             return hasElementClass(e, 'calEventInfo');
         }, events);
 
-        e1.sort(function(a, b){
+        e1.sort(function(a, b) {
             if (a.dayspan > b.dayspan) return -1;
             if (a.starts == b.starts) return 0;
             if (a.starts < b.starts) return -1;
             return 1;
         });
 
-        e2.sort(function(a, b){
+        e2.sort(function(a, b) {
             if (a.starts == b.starts) return 0;
             if (a.starts < b.starts) return -1;
             return 1;
@@ -456,7 +479,7 @@ MonthCalendar.Week.prototype = {
 
         events = e1.concat(e2);
 
-        forEach(events, function(e){
+        forEach(events, function(e) {
             var dt = toISODate(e.starts);
             var container = containers[dt];
             if (!container) {
@@ -469,28 +492,28 @@ MonthCalendar.Week.prototype = {
         });
 
         // adjust rows
-        for (var i = 0; i < 7; i++){
+        for (var i = 0; i < 7; i++) {
 
             var dt = this.days[i];
             var container = containers[dt];
             var element = this.elements[i];
 
-            forEach(container.events, function(evt){
+            forEach(container.events, function(evt) {
 
                 if (evt.dayspan < 2) return;
 
-                for (var j = i + 1; j < i + evt.dayspan; j++){
+                for (var j = i + 1; j < i + evt.dayspan; j++) {
 
                     if (j == 7) break;
 
-                    var dt = self.days[j];
-                    var cnt = containers[dt];
+                    var d = self.days[j];
+                    var cnt = containers[d];
 
-                    forEach(cnt.events, function(e){
+                    forEach(cnt.events, function(e) {
                         cnt.rows.push(evt.row);
                         e.row = e.row >= evt.row ? e.row + 1 : e.row;
 
-                        while(cnt.rows.indexOf(e.row) > -1) {
+                        while (cnt.rows.indexOf(e.row) > -1) {
                             e.row = e.row + 1;
                         }
                     });
@@ -499,15 +522,17 @@ MonthCalendar.Week.prototype = {
 
             // add `+ (n) more...`
 
-            forEach(openobject.dom.select('div.calEventInfo', element), function(e){
+            forEach(openobject.dom.select('div.calEventInfo', element), function(e) {
                 removeElement(e);
             });
 
             if (container.events.length > 0) {
-                e = container.events[container.events.length-1];
-                if (e.row > 5){
+                e = container.events[container.events.length - 1];
+                if (e.row > 5) {
                     appendChildNodes(element, DIV({'class': 'calEventInfo'},
-                                                  A({href: 'javascript: void(0)'}, '+ (' + (e.row - 5) + ') more...')));
+                            A({'href':'javascript: void(0)',
+                               'onclick': "getCalendar('" + dt + "', 'day')"},
+                               '+ (' + (e.row - 5) + ') more...')));
                 }
             }
         }
@@ -515,12 +540,12 @@ MonthCalendar.Week.prototype = {
         this.containers = containers;
     },
 
-    adjust : function(){
+    adjust : function() {
         var w = elementDimensions('calGrid').w / 7;
 
-        w = Math.round(w);
+        w = Math.floor(w);
 
-        for(var i = 0; i < 7; i++){
+        for (var i = 0; i < 7; i++) {
             var e = this.elements[i];
 
             e.style.position = 'absolute';
@@ -529,31 +554,31 @@ MonthCalendar.Week.prototype = {
             e.style.left = i * w + 'px';
 
             e.style.width = w + 'px';
-            e.style.height = '121px';
+            e.style.height = '134px';
         }
 
-        for(var dt in this.containers){
+        for (var dt in this.containers) {
             var container = this.containers[dt];
-            for(var i = 0; i < container.events.length; i++){
+            for (var i = 0; i < container.events.length; i++) {
                 var evt = container.events[i];
                 evt.adjust();
             }
         }
     }
-}
+};
 
-MonthCalendar.Event = function(element, container){
+MonthCalendar.Event = function(element, container) {
     this.__init__(element, container);
-}
+};
 
 MonthCalendar.Event.prototype = {
 
-    __init__ : function(element, container){
+    __init__ : function(element, container) {
         this.element = element;
         this.container = container;
 
         this.starts = element.starts; //isoTimestamp(getNodeAttribute(element, 'dtStart'));
-        this.ends =  element.ends; //isoTimestamp(getNodeAttribute(element, 'dtEnd'));
+        this.ends = element.ends; //isoTimestamp(getNodeAttribute(element, 'dtEnd'));
 
         this.record_id = getNodeAttribute(element, 'nRecordID');
         this.description = element.title;
@@ -565,7 +590,6 @@ MonthCalendar.Event.prototype = {
         this.row = container.events.length;
 
         this.draggable = null;
-
         this.eventMouseUp = MochiKit.Signal.connect(this.element, 'onmouseup', this, 'onClick');
     },
 
@@ -575,20 +599,25 @@ MonthCalendar.Event.prototype = {
     },
 
     onClick : function(evt) {
-        if (!hasElementClass(this.element, 'dragging')){
+        if (evt.mouse().button.left && !hasElementClass(this.element, 'dragging')) {
             new InfoBox({
                 dtStart : this.starts2,
                 dtEnd : this.ends,
                 nRecordID: this.record_id,
                 title: MochiKit.DOM.scrapeText(this.element),
-                description: this.description
+                description: this.description,
+                event_id: jQuery(this.element).attr('nrecordid'),
+                create_date: jQuery(this.element).attr('ncreationdate'),
+                create_uid: jQuery(this.element).attr('ncreationid'),
+                write_date: jQuery(this.element).attr('nwritedate'),
+                write_uid: jQuery(this.element).attr('nwriteid')
             }).show(evt);
         }
     },
 
-    adjust : function(){
+    adjust : function() {
 
-        if (this.row > 5){
+        if (this.row > 5) {
             hideElement(this.element);
             return;
         }
@@ -604,12 +633,8 @@ MonthCalendar.Event.prototype = {
 
         y += this.row * h;
 
-        var d = elementDimensions('calAllDaySect');
-
-        w = Math.round(w);
-        w = w * this.dayspan - 5;
-
-        x += Browser.isGecko18 ? 1 : 2;
+        w = Math.floor(w);
+        w = w * this.dayspan - 6;
         y += 2;
 
         this.element.style.top = y + 'px';
@@ -618,14 +643,14 @@ MonthCalendar.Event.prototype = {
         this.element.style.width = w + 'px';
 
         // XXX: safari hack
-        if (!this.draggable){
+        if (!this.draggable) {
             // make draggalble
             this.draggable = new Draggable(this.element, {
                 selectclass: 'dragging'
             });
         }
     }
-}
+};
 
 // vim: ts=4 sts=4 sw=4 si et
 

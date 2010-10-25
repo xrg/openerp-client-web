@@ -10,7 +10,7 @@
 # It's based on Mozilla Public License Version (MPL) 1.1 with following
 # restrictions:
 #
-# -   All names, links and logos of Tiny, Open ERP and Axelor must be
+# -   All names, links and logos of Tiny, OpenERP and Axelor must be
 #     kept as in original distribution without any changes in all software
 #     screens, especially in start-up page and the software header, even if
 #     the application source code has been changed or updated or code has been
@@ -35,19 +35,15 @@ import cherrypy
 from openobject.tools import expose
 from openobject.i18n import format
 
-from openerp.utils import rpc
-from openerp.utils import common
-from openerp.utils import TinyDict
-from openerp.utils import context_with_concurrency_info
+from openerp.utils import rpc, TinyDict, context_with_concurrency_info
 
-from openerp.controllers import SecuredController
 from openerp.controllers.form import Form
 
 from view_calendar import widgets as tc
 
 class TinyCalendar(Form):
 
-    _cp_path = "/calendar"
+    _cp_path = "/view_calendar/calendar"
 
     @expose()
     def mini(self, year, month, forweek=False):
@@ -62,11 +58,11 @@ class TinyCalendar(Form):
 
         return minical.render()
 
-    @expose()
+    @expose('json')
     def get(self, day, mode, **kw):
 
         params, data = TinyDict.split(kw)
-
+        
         options = TinyDict()
         options.selected_day = params.selected_day
 
@@ -77,9 +73,8 @@ class TinyCalendar(Form):
 
         options.date1 = day
         options.mode = mode
-
+        
         if params.colors:
-            #options.colors = params.colors
             try:
                 options.colors = eval(kw['_terp_colors'])
             except:
@@ -90,13 +85,17 @@ class TinyCalendar(Form):
 
         options.search_domain = params.search_domain or []
         options.use_search = params.use_search
-
+        if params.get('_terp_color_filters'):
+            options.color_filters = params.color_filters
         params.kalendar = options
 
         form = self.create_form(params)
-        return form.screen.widget.render()
+        
+        return dict(
+            calendar=ustr(form.screen.widget.render()),
+            sidebar=ustr(form.sidebar.render()))
 
-    @expose('json')
+    @expose('json', methods=('POST',))
     def delete(self, **kw):
 
         params, data = TinyDict.split(kw)
@@ -116,7 +115,7 @@ class TinyCalendar(Form):
 
         return dict(error=error)
 
-    @expose('json')
+    @expose('json', methods=('POST',))
     def save(self, **kw):
         params, data = TinyDict.split(kw)
 
@@ -145,16 +144,15 @@ class TinyCalendar(Form):
 
             data[params.fields['date_delay']['name']] = n
 
-        ctx = rpc.session.context.copy()
-        ctx.update(params.context or {})
+        ctx = dict(rpc.session.context,
+                   **(params.context or {}))
         ctx = context_with_concurrency_info(ctx, params.concurrency_info)
 
         error = None
-        info = {}
         proxy = rpc.RPCProxy(params.model)
 
         try:
-            res = proxy.write([params.id], data, ctx)
+            proxy.write([params.id], data, ctx)
             info = proxy.read([params.id], ['__last_update'])[0]['__last_update']
             info = {'%s,%s'%(params.model, params.id): info}
         except Exception, e:
@@ -171,10 +169,9 @@ class TinyCalendar(Form):
         model = params.model
 
         proxy = rpc.RPCProxy(model)
-        new_id = False
         try:
             new_id = proxy.copy(id, {}, ctx)
-        except Exception, e:
+        except Exception:
             pass
 
         return dict(id=new_id)
@@ -182,27 +179,28 @@ class TinyCalendar(Form):
     def _get_gantt_records(self, model, ids=None, group=None):
 
         if group:
-            record = {'id': group['id']}
-            record['items'] = {'name': group['title']}
-            record['action'] = None
-            record['target'] = None
-            record['icon'] = None
-            record['children'] = self._get_gantt_records(model, group['items'])
-            return [record]
+            return [{
+                'id': group['id'],
+                'items': {'name': group['title']},
+                'action': None,
+                'target': None,
+                'icon': None,
+                'children': self._get_gantt_records(model, group['items'])
+            }]
 
         proxy = rpc.RPCProxy(model)
-        ctx = rpc.session.context.copy()
+        ctx = dict(rpc.session.context)
 
         records = []
         for id in ids:
-            record = {'id': id}
-            record['items'] = {'name': proxy.name_get([id], ctx)[0][-1]}
-            record['action'] = 'javascript: void(0)'
-            record['target'] = None
-            record['icon'] = None
-            record['children'] = None
-
-            records.append(record)
+            records.append({
+                'id': id,
+                'items': {'name': proxy.name_get([id], ctx)[0][-1]},
+                'action': 'javascript: void(0)',
+                'target': None,
+                'icon': None,
+                'children': None
+            })
 
         return records
 
@@ -213,13 +211,13 @@ class TinyCalendar(Form):
 
         if params.groups:
             for group in params.groups:
-                records += self._get_gantt_records(params.model, None, group)
+                records.extend(self._get_gantt_records(params.model, None, group))
         else:
             records = self._get_gantt_records(params.model, params.ids or [])
 
         return dict(records=records)
 
-    @expose('json')
+    @expose('json', methods=('POST',))
     def gantt_reorder(self, **kw):
         params, data = TinyDict.split(kw)
 
@@ -264,13 +262,13 @@ class TinyCalendar(Form):
 
 class CalendarPopup(Form):
 
-    _cp_path = "/calpopup"
+    _cp_path = "/view_calendar/calpopup"
 
-    @expose(template="templates/calpopup.mako")
+    @expose(template="/view_calendar/controllers/templates/calpopup.mako")
     def create(self, params, tg_errors=None):
         params.editable = True
 
-        if params.id and cherrypy.request.path_info == '/calpopup/view':
+        if params.id and cherrypy.request.path_info == '/view_calendar/calpopup/view':
             params.load_counter = 2
 
         form = self.create_form(params, tg_errors)
@@ -307,8 +305,5 @@ class CalendarPopup(Form):
 
         kind = params.fields['date_start']['kind']
         data[params.fields['date_start']['name']] = format.format_datetime(ds.timetuple(), kind)
-
-        ctx = rpc.session.context.copy()
-        ctx.update(params.context or {})
 
         return data

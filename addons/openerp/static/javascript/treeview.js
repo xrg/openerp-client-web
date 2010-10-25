@@ -13,67 +13,46 @@ TreeView.prototype = {
     __class__: TreeView,
     
     __init__: function(current) {
-        
-        this.view_tree = openobject.dom.get("view_tree");
-                
+        this.view_tree = jQuery("#view_tree")[0];
         this.trees = {};
-        this.current = window['tree_' + current];
-        this.current_button = openobject.dom.select("tr.selected", "treeview")[0];
-                
+        this.current = treeGrids['tree_' + current];
+
+        var tree = this;
+        jQuery('#treeview-tree-selector').change(function () {
+            var $this = jQuery(this).find('option:selected');
+            tree.openTree(
+                parseInt($this.val(), 10),
+                jQuery.parseJSON($this.attr('data-ids'))
+            );
+        });
+
         this.trees[this.current.id] = this.current;
     },
-        
-    openTree: function(id, ids, elem) {
-    
+
+    openTree: function(id, ids) {
         if (openobject.http.AJAX_COUNT > 0) {
             return;
         }
-    
+        ids = ids == ''? 'None' : ids;
+
         var tree = this.trees['tree_' + id] || null;
-        
-        MochiKit.DOM.removeElementClass(this.current_button, "selected");
-        MochiKit.DOM.hideElement(this.current.id);
-        
         if (!tree) {
-            
-            var span = MochiKit.DOM.SPAN({'id': 'tree_' + id});
-            this.view_tree.appendChild(span);
-            
-            tree = this.current.copy(span, null, ids);
+            var $span = jQuery('<span>', {'id': 'tree_' + id})
+                            .appendTo(this.view_tree);
+            tree = this.current.copy($span[0], null, ids);
             this.trees[tree.id] = tree;
-            
+
             tree.render();
         }
-        
+
+        jQuery(idSelector(this.current.id)).hide();
+
         this.current = tree;
-        this.current_button = elem;
-        
-        MochiKit.DOM.addElementClass(this.current_button, "selected");
-        
         if (tree.table) {
-            tree.table.style.display = "";
+            jQuery(tree.table).show();
         }
     },
-    
-    switchItem: function() {
 
-        var selection = openobject.dom.get('_terp_ids').value;
-        
-        if (!selection) {
-            return alert(_('You must select at least one record.'));
-        }
-        
-        var form = document.forms['view_tree'];
-        var args = {
-            '_terp_selection': '[' + selection + ']'
-        };
-
-        setNodeAttribute(form, 'action', openobject.http.getURL('/tree/switch', args));
-        form.method = 'post';
-        form.submit();
-    
-    },
-    
     repr: function() {
         return "[TreeView]";
     },

@@ -1,10 +1,10 @@
-<%inherit file="/openerp/controllers/templates/base.mako"/>
+<%inherit file="/openerp/controllers/templates/base_dispatch.mako"/>
 
 <%def name="header()">
     <title>${_("Field Preferences")}</title>
     
     <script type="text/javascript">
-        addLoadEvent(function(evt){            
+        jQuery(document).ready(function(){
             if(openobject.dom.get('click_ok').value)
                 window.close();
         });
@@ -12,7 +12,7 @@
 </%def>
 
 <%def name="content()">
-<form action="/fieldpref/save" method="post">
+<form action="/openerp/fieldpref/save" method="post">
 
     <input id="_terp_model" name="_terp_model" value="${model}" type="hidden"/>
     <input id="_terp_model" name="_terp_field/name" value="${field['name']}" type="hidden"/>
@@ -26,10 +26,7 @@
             <td>
                 <table width="100%" class="titlebar">
                     <tr>
-                        <td width="32px" align="center">
-                            <img src="/openerp/static/images/stock/gtk-edit.png"/>
-                        </td>
-                        <td width="100%">${_("Field Preferences")}</td>
+                        <td width="100%"><h1>${_("Field Preferences")}</h1></td>
                     </tr>
                 </table>
             </td>
@@ -82,7 +79,6 @@
                                         <tr><td align="center">${_("Always applicable!")}</td></tr>
                                         % else:
                                         <tr>
-                                            <!-- <td class="item"><input type="checkbox" class="checkbox" name="deps" value="${deps['name']}"/></td><td>${deps['name']} = ${deps['value']}</td> -->
                                             % for n, n, v, v in deps:
                                                 <td><input type="checkbox" class="checkbox" name="_terp_deps/${n}" value="${v}"/></td><td>${n} = ${v}</td>
                                             % endfor
@@ -100,7 +96,7 @@
                             <td width="100%">
                             </td>
                             <td>
-                                <button type="button" onclick="window.close()">${_("Close")}</button>
+                            	<a class="button-a" href="javascript: void(0)" onclick="window.close()">${_("Close")}</a>
                             </td>
                             <td>
                                 <button type="submit">${_("OK")}</button>

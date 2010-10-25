@@ -10,7 +10,7 @@
 # It's based on Mozilla Public License Version (MPL) 1.1 with following
 # restrictions:
 #
-# -   All names, links and logos of Tiny, Open ERP and Axelor must be
+# -   All names, links and logos of Tiny, OpenERP and Axelor must be
 #     kept as in original distribution without any changes in all software
 #     screens, especially in start-up page and the software header, even if
 #     the application source code has been changed or updated or code has been
@@ -28,15 +28,18 @@
 ###############################################################################
 import base64
 
+import cherrypy
 from openerp.controllers import SecuredController
-from openerp.utils import rpc, common
+from openerp.utils import rpc, common, TinyDict
 
-from openobject.tools import expose
+from openobject.tools import expose, redirect
+
+import actions
 
 
 class Attachment(SecuredController):
 
-    _cp_path = "/attachment"
+    _cp_path = "/openerp/attachment"
 
     @expose()
     def index(self, model, id):
@@ -44,33 +47,55 @@ class Attachment(SecuredController):
         id = int(id)
 
         if id:
-            ctx = {}
-            ctx.update(rpc.session.context.copy())
+            ctx = dict(rpc.session.context)
 
             action = rpc.session.execute('object', 'execute', 'ir.attachment', 'action_get', ctx)
 
-            action['domain'] = [('res_model', '=', model), ('res_id', '=', id)]
-            ctx['default_res_model'] = model
-            ctx['default_res_id'] = id
-            action['context'] = ctx
+            action.update(
+                domain=[('res_model', '=', model), ('res_id', '=', id)],
+                context=dict(ctx,
+                     default_res_model=model,
+                     default_res_id=id
+             ))
 
-            import actions
             return actions.execute(action)
         else:
-            raise common.message(_('No record selected! You can only attach to existing record...'))
-
-        return True
+            raise common.message(_('No record selected, You can only attach to existing record...'))
 
     @expose(content_type="application/octet-stream")
-    def save_as(self, fname=None, record=False, **kw):
+    def get(self, record=False):
         record = int(record)
-        proxy = rpc.RPCProxy('ir.attachment')
+        attachment = rpc.RPCProxy('ir.attachment').read(record, [], rpc.session.context)
 
-        data = proxy.read([record], [], rpc.session.context)
-        if len(data) and not data[0]['link'] and data[0]['datas']:
-            return base64.decodestring(data[0]['datas'])
-        else:
-            return ''
+        if attachment['type'] == 'binary':
+            cherrypy.response.headers["Content-Disposition"] = 'attachment; filename="%s"' % attachment['name']
+            return base64.decodestring(attachment['datas'])
+        elif attachment['type'] == 'url':
+            raise redirect(attachment['url'])
+        raise Exception('Unknown attachment type %(type)s for attachment name %(name)s' % attachment)
+
+    @expose('json', methods=('POST',))
+    def save(self, datas, **kwargs):
+        params, data = TinyDict.split(cherrypy.session['params'])
+        ctx = dict(rpc.session.context,
+                   default_res_model=params.model, default_res_id=params.id,
+                   active_id=False, active_ids=[])
+
+        attachment_id = rpc.RPCProxy('ir.attachment').create({
+            'name': datas.filename,
+            'datas': base64.encodestring(datas.file.read()),
+        }, ctx)
+        return {'id': attachment_id, 'name': datas.filename}
+
+    @expose('json', methods=('POST',))
+    def remove(self, id=False, **kw):
+        proxy = rpc.RPCProxy('ir.attachment')
+        try:
+            proxy.unlink([int(id)], rpc.session.context)
+            return {}
+        except Exception, e:
+            return {'error': ustr(e)}
+
 
 # vim: ts=4 sts=4 sw=4 si et
 

@@ -1,23 +1,30 @@
-<%inherit file="/openerp/controllers/templates/base.mako"/>
+<%inherit file="/openerp/controllers/templates/base_dispatch.mako"/>
 
 <%def name="header()">
     <title>${_("Image")}</title>
     <script type="text/javascript">
 
         function do_delete(form, id, field){
-            setNodeAttribute(form, 'action', openobject.http.getURL('/image/delete', {id: id}));
-            form.submit();
+            setNodeAttribute(form, 'action', openobject.http.getURL('/openerp/image/delete', {id: id}));
+            jQuery('#'+form).submit();
         }
 
         function do_save(form, id){
-            setNodeAttribute(form, 'action', openobject.http.getURL('/image/save_as', {id: id}));
-            form.submit();
+            setNodeAttribute(form, 'action', openobject.http.getURL('/openerp/image/save_as', {id: id}));
+            jQuery('#'+form).submit();
         }
 
-        addLoadEvent(function(evt){
-            img = window.opener.document.getElementById('${field}');
-            img.src = img.src + '&' + Math.random();
-            if(openobject.dom.get('saved').value)
+        jQuery(document).ready(function(){
+            var saved = openobject.dom.get('saved').value;
+            var img = window.opener.document.getElementById('${field}');
+            if(saved != '' && !parseInt(saved, 10)) {
+                img.src = "data:image/png;base64," + document.getElementById('value').value;
+                window.opener.document.getElementById('_${field}').value =  document.getElementById('value').value;
+            }
+            else{
+                img.src = img.src + '&' + Math.random();
+            }
+            if(saved)
                 window.close();
         });
 
@@ -30,21 +37,19 @@
             <td>
                 <table width="100%" class="titlebar">
                     <tr>
-                        <td width="32px" align="center">
-                            <img src="/openerp/static/images/stock/gtk-edit.png"/>
-                        </td>
-                        <td width="100%">${_("Image")}</td>
+                        <td width="100%"><h1>${_("Image")}</h1></td>
                     </tr>
                 </table>
             </td>
         </tr>
         <tr>
             <td>
-                <form action="/image/add" method="post" enctype="multipart/form-data">
+                <form id="add_image" action="/openerp/image/add" method="post" enctype="multipart/form-data">
                         <input type="hidden" name="model" value="${model}"/>
                         <input type="hidden" name="id" value="${id}"/>
                         <input type="hidden" name="field" value="${field}"/>
                         <input type="hidden" id="saved" name="saved" value="${saved}"/>
+                        <input type="hidden" id="value" name="value" value="${value}"/>
                         <div class="toolbar">
                         <table border="0" cellpadding="0" cellspacing="0" width="100%">
                             <tr>
@@ -59,11 +64,11 @@
                             <tr>
                                 <td width="100%">
                                 <button type="submit">${_("Save")}</button>
-                                <button type="button" onclick="do_save(form, id)">${_("Save As")}</button>
-                                <button type="button" onclick="do_delete(form, id, field)">${_("Delete")}</button>
+                                <a href="javascript: void(0)" class="button-a" onclick="do_save('add_image', '${id}')">${_("Save As")}</a>
+                                <a href="javascript: void(0)" class="button-a" onclick="do_delete('add_image', '${id}', '${field}')">${_("Delete")}</a>
                                 </td>
                                 <td>
-                                    <button type="button" onclick="window.close()">${_("Close")}</button>
+                                	<a href="javascript: void(0)" class="button-a" onclick="window.close()">${_("Close")}</a>
                                 </td>
                             </tr>
                         </table>

@@ -10,7 +10,7 @@
 # It's based on Mozilla Public License Version (MPL) 1.1 with following
 # restrictions:
 #
-# -   All names, links and logos of Tiny, Open ERP and Axelor must be
+# -   All names, links and logos of Tiny, OpenERP and Axelor must be
 #     kept as in original distribution without any changes in all software
 #     screens, especially in start-up page and the software header, even if
 #     the application source code has been changed or updated or code has been
@@ -142,7 +142,11 @@ class Week(object):
 
         return result
 
+    def number(self):
+        return self._day.strftime('%W')
+
     days = property(days)
+    number = property(number)
 
     def next(self):
         return self + 1
@@ -168,10 +172,14 @@ class Week(object):
         return hash((self.days[0], self.days[-1]))
 
     def __unicode__(self):
+        first, last = self.days[0], self.days[-1]
+        if first.year == last.year:
+            return _('%(first)s to %(last)s %(month)s', 
+                        first=first.day, last=last.day, month=first.strftime('%B'))
         return '%s - %s' % (unicode(self.days[0]), unicode(self.days[-1]))
 
     def __str__(self):
-        return '%s - %s' % (self.days[0], self.days[-1])
+        return unicode(self).encode('utf8')
 
     def __repr__(self):
         return 'Week(%s, %s)' % (self.days[0], self.days[-1])

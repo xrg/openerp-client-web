@@ -10,7 +10,7 @@
 # It's based on Mozilla Public License Version (MPL) 1.1 with following
 # restrictions:
 #
-# -   All names, links and logos of Tiny, Open ERP and Axelor must be
+# -   All names, links and logos of Tiny, OpenERP and Axelor must be
 #     kept as in original distribution without any changes in all software
 #     screens, especially in start-up page and the software header, even if
 #     the application source code has been changed or updated or code has been
@@ -26,107 +26,52 @@
 # You can see the MPL licence at: http://www.mozilla.org/MPL/MPL-1.1.html
 #
 ###############################################################################
-
 from openerp.utils import rpc
-from openerp.utils import TinyDict
-
-from openobject.widgets import JSSource
 from openerp.widgets import TinyWidget
-
-from screen import Screen
 
 
 class Sidebar(TinyWidget):
 
-    template = "templates/sidebar.mako"
-    params = ['reports', 'actions', 'relates', 'attachments', 'sub_menu']
+    template = "/openerp/widgets/templates/sidebar.mako"
+    params = ['reports', 'actions', 'relates', 'attachments', 'sub_menu', 'view_type', 'model', 'id', 'ctx']
 
-    javascript = [JSSource("""
-        function toggle_sidebar(forced) {
+    def add_remote_action_values(self, action_type, current_actions):
+        actions = rpc.RPCProxy('ir.values').get(
+            'action', action_type, [(self.model, False)], False, self.context)
+        for action in [a[-1] for a in actions]:
+            if action['id'] not in [a['id'] for a in current_actions]:
+                action['context'] = self.context
+                current_actions.append(action)
 
-            function a() {
-
-                var sb = openobject.dom.get('sidebar');
-
-                sb.style.display = forced ? forced : (sb.style.display == "none" ? "" : "none");
-
-                openobject.http.setCookie("terp_sidebar", sb.style.display);
-
-                var img = openobject.dom.select('img', 'sidebar_hide')[0];
-                if (sb.style.display == "none") {
-                    img.src = "/openerp/static/images/sidebar_show.gif";
-                } else {
-                    img.src = "/openerp/static/images/sidebar_hide.gif";
-                }
-            }
-
-            if (typeof(Notebook) == "undefined") {
-                a();
-            } else {
-                Notebook.adjustSize(a);
-            }
-        }
-
-        MochiKit.DOM.addLoadEvent(function(evt) {
-            var sb = openobject.dom.get('sidebar');
-            if (sb) toggle_sidebar(openobject.http.getCookie('terp_sidebar'));
-        });
-    """)]
-
-    def __init__(self, model, submenu=None, toolbar=None, id=None, view_type="form", multi=True, context={}, **kw):
-
+    def __init__(self, model, submenu=None, toolbar=None, id=None, view_type="form", multi=True, context=None, **kw):
         super(Sidebar, self).__init__(model=model, id=id)
-
         self.multi = multi
         self.context = context or {}
+        self.ctx = context
         self.view_type = view_type
-
-        act = 'client_action_multi'
         toolbar = toolbar or {}
         submenu = submenu
-
+        self.id = id or None 
         self.reports = toolbar.get('print', [])
         self.actions = toolbar.get('action', [])
         self.relates = toolbar.get('relate', [])
-
         self.attachments = []
         self.sub_menu = None
-
-        proxy = rpc.RPCProxy('ir.values')
-
+                    
+        action = 'client_action_multi'
         if self.view_type == 'form':
-            act = 'tree_but_action'
+            action = 'tree_but_action'
+        self.add_remote_action_values(action, self.actions)
 
-        actions = proxy.get('action', act, [(self.model, False)], False, self.context)
-        actions = [a[-1] for a in actions]
+        self.add_remote_action_values('client_print_multi', self.reports)
 
-        ids = [a['id'] for a in self.actions]
-        for act in actions:
-            if act['id'] not in ids:
-                act['context'] = self.context
-                self.actions.append(act)
+        if self.view_type == 'form' and id:
+            attachments = rpc.RPCProxy('ir.attachment')
+            attachment_ids = attachments.search(
+                [('res_model', '=', model), ('res_id', '=', id), ('type', 'in', ['binary', 'url'])],
+                0, 0, 0, self.context)
 
-        reports = proxy.get('action', 'client_print_multi', [(self.model, False)], False, self.context)
-        reports = [a[-1] for a in reports]
-
-        ids = [a['id'] for a in self.reports]
-        for rep in reports:
-            if rep['id'] not in ids:
-                rep['context'] = self.context
-                self.reports.append(rep)
-
-        if self.view_type == 'form':
-
-            proxy = rpc.RPCProxy('ir.attachment')
-            ids = proxy.search([('res_model', '=', model), ('res_id', '=', id)], 0, 0, 0, self.context)
-
-            if ids:
-                attach = []
-                datas = proxy.read(ids, ['datas_fname'])
-                self.attachments = [(d['id'], d['datas_fname']) for d in datas if d['datas_fname']]
+            if attachment_ids:
+                self.attachments = attachments.read(attachment_ids, ['name', 'url', 'type'])
 
             self.sub_menu = submenu
-        else:
-            self.relates = []
-
-# vim: ts=4 sts=4 sw=4 si et

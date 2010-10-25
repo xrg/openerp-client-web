@@ -1,58 +1,78 @@
+import cherrypy
+
 _REGISTRY = {}
 
-def register_object(obj, key, group, auto_create=False):
+def register_object(cls, key, group):
     """Register and object with key in the given group.
 
-    @param obj: the object to register
-    @param key: key to access the register object from the pool
-    @param group: the group in which the object should be registered
-    @auto_create: if True create and instance of the object during pool.initialize
+    @param cls: the type to register
+    @param key: key to access the registered type from the pool
+    @param group: the group in which the type should be registered
 
     >>>
-    >>> pooler.register_object(klass, "char", group="form_input_widgets")
-    >>> pooler.register_object(klass, "/about", group="controllers")
-    >>> pooler.register_object(klass, "calendar", group="view_type")
+    >>> pooler.register_object(cls, "char", group="form_input_widgets")
+    >>> pooler.register_object(cls, "/about", group="controllers")
+    >>> pooler.register_object(cls, "calendar", group="view_type")
     >>>
     """
-
+    assert isinstance(cls, type), 'You can only register classes to the pooler'
     module = None
-    if hasattr(obj, '__module__'):
-        module = str(obj.__module__).split('.')[0]
+    if hasattr(cls, '__module__'):
+        module = str(cls.__module__).split('.')[0]
 
     registry = _REGISTRY.setdefault(group, {})
-    objects = registry.setdefault(module, {})
+    group_types = registry.setdefault(module, {})
 
-    if auto_create:
-        objects[key] = lambda: obj()
-    else:
-        objects[key] = lambda: obj
+    group_types[key] = cls
 
 class Pool(object):
 
     def __init__(self):
-        self.obj_pool = {}
+        self.types_pool = {}
 
     def get(self, key, group):
-        return self.obj_pool.get(group, {}).get(key, None)
+        return self.get_group(group).get(key, None)
 
     def get_group(self, key):
-        return self.obj_pool.get(key, {})
+        return self.types_pool.get(key, {})
 
     def get_controller(self, name):
-        return self.get(name, "controllers")
+        """ Fetches and initializes a controller instance
+        """
+        Controller = self.get(name, "controllers")
+        if Controller: return Controller()
+        return None
 
-    def instanciate(self, package):
-        for group, groups in _REGISTRY.items():
-            for module, modules in groups.items():
-                for name, obj in modules.items():
-                    objects = self.obj_pool.setdefault(group, {})
-                    objects[name] = obj()
+    def load(self, package):
+        ''' Loads all the objects of the provided package in the current pooler
+        '''
+        for group, registry in _REGISTRY.iteritems():
+            if package in registry:
+                for key, typ in registry[package].iteritems():
+                    types = self.types_pool.setdefault(group, {})
+                    if key in types and typ not in types[key].mro():
+                        # already have an object there, build subtype
+                        types[key] = type(typ.__name__,
+                                          (typ, types[key]),
+                                          {})
+                    else:
+                        types[key] = typ
 
 pool_dict = {}
 
-def get_pool():
+def restart_pool():
 
-    import cherrypy
+    db_name = cherrypy.session['db']
+    
+    if db_name in pool_dict:
+        import addons
+        
+        del pool_dict[db_name]
+        del addons._loaded[db_name]
+    
+    return get_pool()
+        
+def get_pool():
 
     config = cherrypy.request.app.config
     db_name = None
@@ -68,7 +88,7 @@ def get_pool():
         import addons
 
         pool = pool_dict[db_name] = Pool()
-
+        
         try:
             addons.load_addons(db_name, config)
         except:

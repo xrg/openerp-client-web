@@ -47,4 +47,3 @@ def unzip(file, dir):
             outfile.write(zf.read(name))
             outfile.flush()
             outfile.close()
-

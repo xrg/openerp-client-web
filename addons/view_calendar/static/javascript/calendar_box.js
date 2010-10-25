@@ -10,7 +10,7 @@
 // It's based on Mozilla Public License Version (MPL) 1.1 with following 
 // restrictions:
 //
-// -   All names, links and logos of Tiny, Open ERP and Axelor must be 
+// -   All names, links and logos of Tiny, OpenERP and Axelor must be 
 //     kept as in original distribution without any changes in all software 
 //     screens, especially in start-up page and the software header, even if 
 //     the application source code has been changed or updated or code has been 
@@ -29,7 +29,7 @@
 
 var InfoBox = function(params) {
     this.__init__(params);
-}
+};
 
 InfoBox.prototype = {
 
@@ -39,17 +39,27 @@ InfoBox.prototype = {
             dtEnd : null,       // end time
             nRecordID : null,   // record id
             title: null,        // title
-            description: null   // description
+            description: null,   // description
+            event_id: null,      // id
+            create_date: null,   //create date
+            create_uid: null,    //create uid
+            write_date: null,    //write date
+            write_uid: null      //write uid
         }, params);
 
         this.layer = openobject.dom.get('calInfoLayer');
         this.box = openobject.dom.get('calInfoBox');
 
-        var btnCancel = BUTTON({'class': 'button', 'type': 'button'}, _('Cancel'));
-        var btnEdit = BUTTON({'class': 'button', 'type': 'button'}, _('Edit'));
-        var btnCopy = BUTTON({'class': 'button', 'type': 'button'}, _('Duplicate'));
-        var btnDelete = BUTTON({'class': 'button', 'type': 'button'}, _('Delete'));
-
+//        var btnCancel = BUTTON({'class': 'button', 'type': 'button'}, _('Cancel'));
+//        var btnEdit = BUTTON({'class': 'button', 'type': 'button'}, _('Edit'));
+//        var btnCopy = BUTTON({'class': 'button', 'type': 'button'}, _('Duplicate'));
+//        var btnDelete = BUTTON({'class': 'button', 'type': 'button'}, _('Delete'));
+        
+        var btnCancel = A({'class': 'button-a', 'href': 'javascript: void(0)'}, _('Cancel'));
+        var btnEdit = A({'class': 'button-a', 'href': 'javascript: void(0)'}, _('Edit'));
+        var btnCopy = A({'class': 'button-a', 'href': 'javascript: void(0)'}, _('Duplicate'));
+        var btnDelete = A({'class': 'button-a', 'href': 'javascript: void(0)'}, _('Delete'));
+        
         MochiKit.Signal.connect(btnCancel, 'onclick', this, 'hide');
         MochiKit.Signal.connect(btnEdit, 'onclick', this, 'onEdit');
         MochiKit.Signal.connect(btnCopy, 'onclick', this, 'onCopy');
@@ -72,10 +82,18 @@ InfoBox.prototype = {
         }
 
         var desc = SPAN(null, this.params.description, BR(), desc);
-
+        
+        var log = DIV({'class': 'calLogInfo'},
+                        DIV(null,'ID:', this.params.event_id),
+                        DIV(null,'Creation User:', this.params.create_uid),
+                        DIV(null,'Creation Date:', this.params.create_date),
+                        DIV(null,'Latest Modification by: ', this.params.write_uid),
+                        DIV(null,'Latest Modification Date: ', this.params.write_date)
+                     );
         var info = DIV(null,
                     DIV({'class': 'calInfoTitle'}, title),
                     DIV({'class': 'calInfoDesc'}, desc),
+                    DIV(null, log),
                         TABLE({'class': 'calInfoButtons', 'cellpadding': 2}, 
                             TBODY(null, 
                                 TR(null,
@@ -103,11 +121,10 @@ InfoBox.prototype = {
 
     show : function(evt) {
 
-        setElementDimensions(this.layer, elementDimensions(document.body));
-        //setElementDimensions(this.layer, getViewportDimensions());
-
+    	jQuery(this.layer).height(jQuery(document).height());
+    	
         var w = 350;
-        var h = 125;
+        var h = 145;
 
         setElementDimensions(this.box, {w: w, h: h});
 
@@ -166,37 +183,34 @@ InfoBox.prototype = {
            '_terp_context': openobject.dom.get('_terp_context').value
         });
 
-        var req = openobject.http.postJSON('/calendar/delete', params);
+        var req = openobject.http.postJSON('/view_calendar/calendar/delete', params);
         var self = this;
-        
+
         req.addCallback(function(obj){
-            
+
            if (obj.error) {
-               return alert(obj.error);
+               return error_display(obj.error);
            }
-           
+
            var id = parseInt(openobject.dom.get('_terp_id').value) || 0;
            var ids = [];
-           
+
            try {
                ids = eval('(' + openobject.dom.get('_terp_ids').value + ')') || [];
            }catch(e){}
-           
+
            var idx = MochiKit.Base.findIdentical(ids, self.params.nRecordID);
-           
+
            if (id == self.params.nRecordID) {
                openobject.dom.get('_terp_id').value = 'False';
            }
-           
+
            if (idx > -1) {
                ids = ids.splice(idx, 1);
                openobject.dom.get('_terp_ids').value = '[' + ids.join(', ') + ']';
            }
-           
+
            getCalendar();
         });
     }
-}
-
-// vim: ts=4 sts=4 sw=4 si et
-
+};

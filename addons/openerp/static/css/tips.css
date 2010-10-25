@@ -3,70 +3,38 @@ table.tooltip {
     display: none;
     font-family: sans-serif;
     font-size: 11px;
-    color: white;
+    color: #666666;
     z-index: 1000;
-    max-width: 500px;
-    min-width: 200px;
-}
-
-table.tooltip .tip-tl,
-table.tooltip .tip-tr,
-table.tooltip .tip-bl,
-table.tooltip .tip-br {
-    width: 9px;
-    height: 9px;
-    white-space: nowrap;
-}
-
-table.tooltip .tip-tl {
-    background: url(../images/tips/tl.png) no-repeat left;
-}
-
-table.tooltip .tip-tr {
-    background: url(../images/tips/tr.png) no-repeat right;
-}
-
-table.tooltip .tip-t {
-    background: url(../images/tips/t.png);
-}
-
-table.tooltip .tip-bl {
-    background:url(../images/tips/bl.png) no-repeat left;
-}
-
-table.tooltip .tip-br {
-    background: url(../images/tips/br.png) no-repeat right;
-}
-
-table.tooltip .tip-b {
-    background: url(../images/tips/b.png);
-}
-
-table.tooltip .tip-l {
-    background: url(../images/tips/l.png) repeat-y left;
-}
-
-table.tooltip .tip-r {
-    background: url(../images/tips/r.png) repeat-y right;
+    border-radius: 6px; 
+    -moz-border-radius: 6px; 
+    -webkit-border-radius: 6px;
+    background: #FCF9A7;
+    border: 1px solid #999;
+    padding: 0;
 }
 
 table.tooltip .tip-text {
-    background: url(../images/tips/l.png);
+   text-align: center;
+    padding: 4px;
 }
 
 table.tooltip .tipTitle {
-    display: block;
     text-align: center;
     font-weight: bold;
-    font-size: 11px;
+    font-size: 15px;
     text-align: center;
     white-space: nowrap;
-    margin-bottom: 2px;
+    color: #333333;
 }
 
 table.tooltip .tipText {
-    margin: 0px;
-    margin-bottom: 4px;
-    margin-right: 2px;
+    text-align: center;
+}
+
+table.tooltip .tipExtra {
+    text-align: left;
+    color: #660000;
+    padding: 0 6px 6px 6px;
+    font-size: 12px;
 }
 

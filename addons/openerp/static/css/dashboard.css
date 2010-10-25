@@ -9,16 +9,19 @@ div.dashbar-hover {
 
 div.dashlet {
 	margin-bottom: 4px;
-	border: solid 1px #bbb8a9;
-	background-color: #ffffff;
+	border: solid 2px transparent;
+}
+div.dashlet.hover {
+	border: dotted 2px #bbb8a9;
 }
 
 div.dashlet-title {
-	background: url(../images/grdline1.gif) repeat-x left top;
-    padding: 2px;
+    padding: 2px 0px;
     white-space: nowrap;
     cursor: move;
     font-weight: bold;
+    font-size: 140%;
+    background: #f8f8f8;
 }
 
 div.dashlet .dashlet-button {

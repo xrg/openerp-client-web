@@ -1,12 +1,13 @@
-import os
 import urllib
 
 import cherrypy
 from mako.filters import html_escape
 
 
-__all__ = ["url", "url_plus", "redirect", "config", "content", "attrs", "attr_if", "decorated"]
+__all__ = ["url", "url_plus", "redirect", "config", "content", "attrs", "attr_if", "decorated",
+           "AuthenticationError"]
 
+class AuthenticationError(Exception): pass
 
 def url(_cppath, _cpparams=None, **kw):
     """
@@ -35,8 +36,13 @@ def url(_cppath, _cpparams=None, **kw):
     kv = []
     for k, v in params.iteritems():
         if isinstance(k, basestring) and isinstance(v, basestring):
+            if isinstance(k, unicode):
+                k = k.encode('utf-8')
+            if isinstance(v, unicode):
+                v = v.encode('utf-8')
             k = urllib.quote_plus(k)
             v = urllib.quote_plus(v)
+
         kv.append("%s=%s" % (k, v))
 
     query = '&'.join(kv)
@@ -58,12 +64,20 @@ def url_plus(_cppath, _cpparams=None, **kw):
 
 
 def redirect(_cppath, _cpparams=None, **kw):
+    if isinstance(_cppath, unicode):
+        _cppath = _cppath.encode('utf-8')
+    if 'X-Requested-With' in cherrypy.request.headers:
+        kw['requested_with'] = cherrypy.request.headers['X-Requested-With']
     return cherrypy.HTTPRedirect(url(_cppath, _cpparams, **kw))
 
 
-def config(key, section, default=None):
+def config(key, section='global', default=None):
     """A handy function to access config values.
     """
+    
+    if section == 'global':
+        return cherrypy.config.get(key)
+    
     return cherrypy.request.app.config.get(section, {}).get(key, default)
 
 
@@ -113,10 +127,7 @@ def attrs(*args, **kw):
     kv = {}
 
     for arg in args:
-        if isinstance(arg, dict):
-            kv.update(arg)
-        else:
-            raise TypeError
+        kv.update(arg)
 
     kv.update(kw)
 

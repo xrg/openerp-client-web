@@ -1,12 +1,6 @@
-<%inherit file="/openerp/controllers/templates/base.mako"/>
+<%inherit file="/openerp/controllers/templates/base_dispatch.mako"/>
 
 <%def name="header()">
-    <title>
-        % if form:
-            ${form.screen.string}
-        % endif
-    </title>
-
     <script type="text/javascript" src="/openerp/static/javascript/openerp/openerp.ui.waitbox.js"></script>
     <script type="text/javascript" src="/openerp/static/javascript/wizard.js"></script>
 
@@ -26,24 +20,26 @@
     % if form:
         ${form.display()}
     % endif
-    
+
     <div class="spacer"></div>
-    
-    <div class="toolbar" style="text-align: right;">
+
+    <div class="toolbar wizard_toolbar" style="text-align: right;">
         % for state in buttons:
-        <button onclick="wizardAction('${state[0]}')">
-            <table align="center" cellspacing="0">
-                <tr>
-                    % if len(state) >= 3:
-                    <td><img align="left" src="${state[2]}" width="16" height="16"/></td>
+        <a class="button-b wizard_button" href="javascript: void(0)" onclick="wizardAction('${state[0]}')">
+        	<table align="center" cellspacing="0">
+        		<tr>
+        			% if len(state) >= 3:
+                    <td><img alt="" align="left" src="${state[2]}" width="16" height="16"/></td>
                     % endif
+                    % if state[1]:
                     <td nowrap="nowrap">${state[1]}</td>
-                </tr>
-            </table>
-        </button>
+                    % endif
+        		</tr>
+        	</table>
+        </a>
         % endfor
     </div>
-    
+
 </div>
 
 </%def>

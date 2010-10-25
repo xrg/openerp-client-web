@@ -4,7 +4,7 @@ from _base import *
 from _resource import *
 from _utils import make_bunch
 
-from openobject import validators
+import formencode
 
 
 def name2label(name):
@@ -142,12 +142,12 @@ class ImageButton(Input):
 
 class CheckBox(Input):
     type = "checkbox"
-    validator = validators.Bool
+    validator = formencode.validators.Bool
     def update_params(self, d):
         super(CheckBox, self).update_params(d)
         try:
             checked = self.validator.to_python(d.value)
-        except Invalid:
+        except formencode.api.Invalid:
             checked = False
         d.attrs['checked'] = checked or None
 
@@ -254,14 +254,14 @@ class Form(FormField):
             % endfor
         </div>
         % endif
-        <table border="0">
+        <table class="form-container">
             % for child in fields:
             <%
                 error = error_for(child)
                 label = label_for(child)
             %>
             <tr>
-                <td class="labelcol">
+                <td class="label">
                     <label id="${child.name}.label" for="${child.name}" class="fieldlabel">${label}</label>
                 </td>
                 <td class="fieldcol">
@@ -274,7 +274,7 @@ class Form(FormField):
             % endfor
             <tr>
                 <td>&nbsp;</td>
-                <td><input type="submit" class="submitbutton" value="${submit_text}"/></td>
+                <td align="right" style="padding: 0px 5px 5px 0px;"><button type="submit" class="static_boxes">${submit_text}</button></td>
             </tr>
         </table>
     </form>

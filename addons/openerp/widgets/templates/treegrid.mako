@@ -1,23 +1,16 @@
-<span id="${name}"/>
+<span id="${name}">
     <script type="text/javascript">
-    
-        var ${name} = new TreeGrid('${name}');
-        
-        ${name}.options.showheaders = ${(showheaders and 'true') or 'false'};
-        ${name}.options.onselect = ${onselection or 'null'};
-        ${name}.options.onbuttonclick = ${onbuttonclick or 'null'};
-        ${name}.options.onheaderclick = ${onheaderclick or 'null'};
-        
-        ${name}.options.expandall = ${(expandall and 'true') or 'false'};
-        ${name}.options.linktarget = ${linktarget};
-        
-        MochiKit.DOM.addLoadEvent(function(e){
-        
-            ${name}.setHeaders(${headers|n});
-            ${name}.setRecords('${url}', ${url_params|n});
-        
-            ${name}.render();
+        treeGrids['${name}'] = new TreeGrid('${name}', {
+            'showheaders': ${showheaders and 'true' or 'false'},
+            'onselect': ${onselection or 'null'},
+            'onbuttonclick': ${onbuttonclick or 'null'},
+            'onheaderclick': ${onheaderclick or 'null'},
+            'expandall': ${(expandall and 'true') or 'false'},
+            'linktarget': ${linktarget}
         });
+        treeGrids['${name}'].setHeaders(${headers|n});
+        treeGrids['${name}'].setRecords('${url}', ${url_params|n});
+        jQuery(document).ready(jQuery.proxy(treeGrids['${name}'], 'render'));
     </script>
 </span>
 

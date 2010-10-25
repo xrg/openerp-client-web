@@ -1,81 +1,132 @@
-<%inherit file="/openerp/controllers/templates/base.mako"/>
+<%inherit file="/openerp/controllers/templates/base_dispatch.mako"/>
 
 <%def name="header()">
     <title>${_("Login")}</title>
+    <script type="text/javascript">
+        // replace existing openLink to intercept transformations of hash-urls
+        var openLink = function (url) {
+            jQuery(document).ready(function () {
+                var form = jQuery('#loginform');
+                var separator = (form.attr('action').indexOf('?') == -1) ? '?' : '&';
+                form.attr('action',
+                          form.attr('action') + separator + jQuery.param({'next': url}));
+            })
+        }
+    </script>
 </%def>
 
 <%def name="content()">
+    <table width="100%">
+        <tr><%include file="header.mako"/></tr>
+    </table>
 
-<%include file="header.mako"/>
+    <table class="view" cellpadding="0" cellspacing="0" style="padding-top: 25px; border:none;">
+        <tr>
+            <td style="padding:35px 10px 5px 35px; min-width:100px;" valign="top" width="450">
+                <form action="${py.url(target)}" method="post" name="loginform" id="loginform" style="padding-bottom: 5px; min-width: 100px;">
+                    % for key, value in origArgs.items():
+                        <input type="hidden" name="${key}" value="${value}"/>
+                    % endfor
+                    <input name="login_action" value="login" type="hidden"/>
 
-    <div class="view">
+                    <fieldset class="box">
+                        <legend style="padding: 4px;">
+                            <img src="/openerp/static/images/stock/stock_person.png" alt=""/>
+                        </legend>
+                        <div class="box2" style="padding: 5px 5px 20px 5px">
+                            <table width="100%" align="center" cellspacing="2px" cellpadding="0" style="border:none;">
+                                <tr>
+                                    <td class="label"><label for="db">${_("Database:")}</label></td>
+                                    <td style="padding: 5px 5px 5px 2px;">
+                                        % if dblist is None:
+                                            <input type="text" name="db" id="db" class="db_user_pass" value="${db}"/>
+                                        % else:
+                                            <select name="db" id="db" class="db_user_pass">
+                                                % for v in dblist:
+                                                    <option value="${v}" ${v==db and "selected" or ""}>${v}</option>
+                                                % endfor
+                                            </select>
+                                        % endif
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="label"><label for="user">${_("User:")}</label></td>
+                                    <td style="padding: 0px 10px 5px 2px;"><input type="text" id="user" name="user" class="db_user_pass" value="${user}" autofocus="true"/></td>
+                                </tr>
+                                <tr>
+                                    <td class="label"><label for="password">${_("Password:")}</label></td>
+                                    <td style="padding: 0px 10px 5px 2px;"><input type="password" value="${password}" id="password" name="password" class="db_user_pass"/></td>
+                                </tr>
+                                <tr>
+                                    <td></td>
+                                    <td class="db_login_buttons">
+                                        % if cp.config('dbbutton.visible', 'openerp-web'):
+                                            <button type="button" class="static_boxes" tabindex="-1" onclick="location.href='${py.url('/openerp/database')}'">${_("Databases")}
+                                            </button>
+                                        % endif
+                                        <button type="submit" class="static_boxes">${_("Login")}</button>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    </fieldset>
+                </form>
+                % if message:
+                    <div class="login_error_message" id="message">${message}</div>
+                % endif
 
-        <br/>
-        <center>
-        <img border="0" width="200" height="60" 
-            alt="${_('Developped by Axelor and Tiny')}" usemap="#devby_map"
-            src="/openerp/static/images/company_logo.png" />
-            <map name="devby_map">
-                <area shape="rect" coords="0,20,100,60" href="http://axelor.com" target="_blank"/>
-                <area shape="rect" coords="120,20,200,60" href="http://openerp.com" target="_blank"/>
-            </map>
-        </center>
-        <br/>
+                % if info:
+                    <div class="information">${info|n}</div>
+                % endif
+                <div style="margin-top: 10px">
+                    <table cellpadding="0" cellspacing="0" width="100%" style="border:none;">
+                        <tr>
+                            <td style="padding-left:0;"><h3> Top Contributor:</h3></td>
+                        </tr>
+                        <tr>
+                            <td style="padding-left:0;"><img src="/openerp/static/images/axelor_logo.png"/></td>
+                        </tr>
+                    </table>
+                </div>
+            </td>
 
-        <form action="${py.url(target)}" method="post" name="loginform">
-            % for key, value in origArgs.items():
-            <input type="hidden" name="${key}" value="${value}"/>
-            % endfor
-            <input type="hidden" name="login_action" value="login"/>
-        
-            <div class="box2 welcome">${_("Welcome to OpenERP")}</div>
+            <td style="padding:55px 35px 5px 10px; min-width: 200px;" valign="top">
+                <p>We think that daily job activities can be more intuitive, efficient, automated, .. and even fun.</p>
+                <h3>OpenERP's vision to be:</h3>
 
-            <div class="box2">
-                <table align="center" cellspacing="2px" border="0">
+                <table cellpadding="0" cellspacing="0" width="100%" style="border:none;">
                     <tr>
-                        <td class="label">${_("Database:")}</td>
-                        <td>
-                            % if dblist is None:
-                                <input type="text" name="db" style="width: 300px;" value="${db}"/>
-                            % else:
-                            <select name="db" style="width: 302px;">
-                                % for v in dblist:
-                                <option value="${v}" ${v==db and "selected" or ""}>${v}</option>
-                                % endfor
-                            </select>
-                            % endif
+                        <td class="feature-image">
+                            <img src="/openerp/static/images/icons/product.png"/>
+                        </td>
+                        <td class="feature-description">
+                            <strong>Full featured</strong><br/>
+                            Today's enterprise challenges are multiple. We provide one module for each need.
                         </td>
                     </tr>
-
                     <tr>
-                        <td class="label">${_("User:")}</td>
-                        <td><input type="text" id="user" name="user" style="width: 300px;" value="${user}"/></td>
-                    </tr>
-                    
-                    <tr>
-                        <td class="label">${_("Password:")}</td>
-                        <td><input type="password" value="${password}" id="password" name="password" style="width: 300px;"/></td>
-                    </tr>
-                    <tr>
-                        <td></td>
-                        <td align="right">
-                            % if cp.config('dbbutton.visible', 'openobject-web'):
-                            <button type="button" style="white-space: nowrap" tabindex="-1" onclick="location.href='${py.url('/database')}'">${_("Databases")}</button>
-                            % endif
-                            <button type="submit" style="width: 80px; white-space: nowrap">${_("Login")}</button>
+                        <td class="feature-image">
+                            <img src="/openerp/static/images/icons/accessories-archiver.png"/>
+                        </td>
+                        <td class="feature-description">
+                            <strong>Open Source</strong><br/>
+                            To Build a great product, we rely on the knowledge of thousands of contributors.
                         </td>
                     </tr>
-                </table>                
-            </div>            
-        </form>
+                    <tr>
+                        <td class="feature-image">
+                            <img src="/openerp/static/images/icons/partner.png"/>
+                        </td>
+                        <td class="feature-description">
+                            <strong>User Friendly</strong><br/>
+                            In order to be productive, people need clean and easy to use interface.
+                        </td>
+                    </tr>
+                </table>
+
+            </td>
+        </tr>
+    </table>
     
-        % if message:
-        <div class="box2 message" id="message">${message}</div>
-        % endif
-        
-        % if info:
-        <div class="information">${info|n}</div>
-        % endif
-    </div>
-<%include file="footer.mako"/>    
+    <%include file="footer.mako"/>
 </%def>

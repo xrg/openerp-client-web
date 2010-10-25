@@ -3,17 +3,75 @@
     font-weight: bold;
     color: #999;
     vertical-align: middle;
+    overflow: hidden;
 }
 
-.pager a {
-    color: #333;
+.pager .paging {
+    line-height: 1;
+    float: right;
+}
+
+.pager .paging span {
+    vertical-align: middle;
+}
+
+.pager .paging .nav {
+    display: -moz-inline-stack;
+    display: inline; /*IE7 */
+    display: inline-block;
+    overflow: hidden;
+    height: 14px;
+    font-size: 0;
+    text-align: left;
+    text-indent: -10001px;
+    vertical-align: middle;
+    width: 14px;
+}
+
+.pager p.paging a.new {
+    background: none;
+}
+
+.pager .paging .first {
+    margin: 0;
+    background: url(../images/pager_first.png) no-repeat;
+}
+.pager .paging .first.inactive {
+    background-image: url(../images/pager_first_inactive.png);
+}
+
+.pager .paging .prev {
+    background: url(../images/pager_left.png) no-repeat;
+}
+.pager .paging .prev.inactive {
+    background-image: url(../images/pager_left_inactive.png);
+}
+
+.pager .paging .last {
+    margin: 0;
+    background: url(../images/pager_last.png) no-repeat;
+}
+.pager .paging .last.inactive {
+    background-image: url(../images/pager_last_inactive.png);
+}
+
+.pager .paging .next {
+    background: url(../images/pager_right.png) no-repeat;
+}
+.pager .paging .next.inactive {
+    background-image: url(../images/pager_right_inactive.png);
+}
+
+* html .paging a {
+    display: inline;
+    text-indent: 0;
+}
+
+*:first-child+html .paging a {
+    display: inline;
+    text-indent: 0;
 }
 
 .pager a:hover {
     text-decoration: none;
 }
-
-/**
- * vim: sts=4 st=4 et 
- *
- */

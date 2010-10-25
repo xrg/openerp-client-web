@@ -10,7 +10,7 @@
 # It's based on Mozilla Public License Version (MPL) 1.1 with following
 # restrictions:
 #
-# -   All names, links and logos of Tiny, Open ERP and Axelor must be
+# -   All names, links and logos of Tiny, OpenERP and Axelor must be
 #     kept as in original distribution without any changes in all software
 #     screens, especially in start-up page and the software header, even if
 #     the application source code has been changed or updated or code has been
@@ -26,26 +26,26 @@
 # You can see the MPL licence at: http://www.mozilla.org/MPL/MPL-1.1.html
 #
 ###############################################################################
-
-from openerp.utils import rpc
-from openerp.utils import common
-
 from openerp import validators
-
-from openerp.widgets import TinyInputWidget
-from openerp.widgets import register_widget
+from openerp.utils import rpc, expr_eval
+from openerp.widgets import TinyInputWidget, InputWidgetLabel, register_widget
 
 
 __all__ = ["M2O"]
 
 
+class M2OLabel(InputWidgetLabel):
+    template = '/openerp/widgets/form/templates/many2one_label.mako'
+
 class M2O(TinyInputWidget):
-    template = "templates/many2one.mako"
-    params=['relation', 'text', 'domain', 'context', 'link', 'readonly']
+    template = "/openerp/widgets/form/templates/many2one.mako"
+    params=['relation', 'text', 'domain', 'context', 'link', 'readonly', 'default_focus']
 
     domain = []
     context = {}
     link = 1
+
+    label_type = M2OLabel
 
     def __init__(self, **attrs):
 
@@ -56,13 +56,16 @@ class M2O(TinyInputWidget):
         self.context = attrs.get('context', {})
         self.link = attrs.get('link')
         self.onchange = None # override onchange in js code
-
+        
+        self.default_focus = attrs.get('default_focus', 0)
         self.validator = validators.many2one()
 
     def set_value(self, value):
 
         if value and isinstance(value, (tuple, list)):
             self.default, self.text = value
+        elif value and isinstance(value, basestring):
+            self.text = value
         else:
             self.default = value
             self.text = rpc.name_get(self.relation, self.default)
@@ -71,7 +74,11 @@ class M2O(TinyInputWidget):
         super(M2O, self).update_params(d)
 
         if d['value'] and not d['text']:
-            d['text'] = rpc.name_get(self.relation, d['value'])
+            try:
+                value = expr_eval(d['value'], {'context':rpc.session.context})
+            except:
+                value = d['value']
+            d['text'] = rpc.name_get(self.relation, value)
 
 register_widget(M2O, ["many2one"])
 

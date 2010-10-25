@@ -1,197 +1,191 @@
-<%inherit file="/openerp/controllers/templates/base.mako"/>
+<%inherit file="/openerp/controllers/templates/base_dispatch.mako"/>
 
 <%def name="header()">
-    <title>${form.screen.string}</title>
-
     <script type="text/javascript">
         var form_controller = '${path}';
-    </script>
+        var USER_ID = '${rpc.session.uid}';
+        var RESOURCE_ID = '${rpc.session.active_id}';
 
-    <script type="text/javascript">
-    
         function do_select(id, src) {
             viewRecord(id, src);
         }
-
+        jQuery(document).ready(function() {
+            document.title = '${title}' + ' - OpenERP';
+            % if form.screen.view_type == 'form':
+            validateForm();
+            % endif
+            % if can_shortcut:
+            jQuery('#shortcut_add_remove').click(toggle_shortcut);
+            % endif
+            % if form.screen.model == 'res.request' and form.screen.ids:
+            jQuery('ul.tools li a.req_messages small').text('${len(form.screen.ids)}');
+            % endif
+        });
     </script>
+
+</%def>
+
+<%def name="make_view_button(kind, name, desc)">
+    <%
+        cls = ''
+        if form.screen.view_type == kind:
+            cls = 'active'
+    %>
+    <li class="${kind}" title="${desc}">
+        % if kind in form.screen.view_mode:
+            <a href="#" onclick="validate_action('${kind}',switchView); return false;"
+               class="${cls}">${kind}</a>
+        % else:
+            <a href="#" class="inactive">${kind}</a>
+        % endif
+    </li>
 </%def>
 
 <%def name="content()">
-
+    <%
+        if can_shortcut:
+            if rpc.session.active_id in shortcut_ids:
+                shortcut_class = "shortcut-remove"
+            else:
+                shortcut_class = "shortcut-add"
+    %>
     <table id="main_form_body" class="view" cellpadding="0" cellspacing="0" border="0" width="100%">
         <tr>
-            <td width="100%" valign="top">
-                <table cellpadding="0" cellspacing="0" border="0" width="100%">
-                    % if buttons.toolbar:
-                    <tr>
-                        <td>
-                            <table width="100%" class="titlebar">
-                                <tr>
-                                    <td width="32px" align="center">
-                                        % if form.screen.view_type in ('tree', 'graph'):
-                                        <img src="/openerp/static/images/stock/gtk-find.png"/>
-                                        % elif form.screen.view_type in ('form'):
-                                        <img src="/openerp/static/images/stock/gtk-edit.png"/>
-                                        % elif form.screen.view_type in ('calendar', 'gantt'):
-                                        <img src="/openerp/static/images/stock/stock_calendar.png"/>
-                                        % endif
-                                    </td>
-                                    <td width="100%">${form.screen.string}</td>
-                                    
-                                    <%def name="make_view_button(kind, name, desc, active)">
-                                        <button 
-                                            type="button" 
-                                            title="${desc}" 
-                                            onclick="switchView('${kind}')"
-                                            ${py.attr_if("disabled", not active)}>${name}</button>
-                                    </%def>
-                                   
-                                    <td nowrap="nowrap">
-                                    % for view in buttons.views:
-                                        ${make_view_button(**view)}
-                                    % endfor
-                                    % if buttons.process:
-                                        <button 
-                                            type="button" 
-                                            title="${_('Corporate Intelligence...')}"
-                                            onclick="show_process_view()">${_("Process")}</button>
-                                    % endif
-                                    </td>
-                                    
-                                  
-                                    % if buttons.can_attach and not buttons.has_attach:
-                                    <td align="center" valign="middle" width="16">
-                                        <img 
-                                            class="button" width="16" height="16"
-                                            title="${_('Show attachments.')}" 
-                                            src="/openerp/static/images/stock/gtk-paste.png" 
-                                            onclick="window.open(openobject.http.getURL('/attachment', {model: '${form.screen.model}', id: ${form.screen.id}}))"/>
-                                    </td>
-                                    % endif
-                                    % if buttons.can_attach and buttons.has_attach:
-                                    <td align="center" valign="middle" width="16">
-                                        <img
-                                            class="button" width="16" height="16"
-                                            title="${_('Show attachments.')}" 
-                                            src="/openerp/static/images/stock/gtk-paste-v.png" onclick="window.open(openobject.http.getURL('/attachment', {model: '${form.screen.model}', id: '${form.screen.id}'}))"/>
-                                    </td>
-                                    % endif
-                                    % if form.screen.view_type in ('form'):
-                                    <td align="center" valign="middle" width="16">
-                                        <img 
-                                            class="button" width="16" height="16"
-                                            title="${_('Translate this resource.')}" 
-                                            src="/openerp/static/images/stock/stock_translate.png" onclick="openobject.tools.openWindow('${py.url('/translator', _terp_model=form.screen.model, _terp_id=form.screen.id)}')"/>
-                                    </td>
-                                    % endif
-                                    % if form.screen.view_type in ('form'):
-                                    <td align="center" valign="middle" width="16">
-                                        <img 
-                                            class="button" width="16" height="16"
-                                            title="${_('View Log.')}" 
-                                            src="/openerp/static/images/stock/stock_log.png"
-                                            onclick="openobject.tools.openWindow('${py.url('/viewlog', _terp_model=form.screen.model, _terp_id=form.screen.id)}', {width: 500, height: 300})"/>
-                                    </td>
-                                    % endif
-                                    <td align="center" valign="middle" width="16">
-                                        <a target="_blank" href="${py.url('http://doc.openerp.com/index.php', model=form.screen.model, lang=rpc.session.context.get('lang', 'en'))}">
-                                            <img title="Help links might not work. We will setup the new documentation once we ported all docs to the new documentation system." class="button" border="0" src="/openerp/static/images/stock/gtk-help.png" width="16" height="16"/>
-                                        </a>
-                                    </td>
-                                </tr>
-                            </table>
-                        </td>
-                    </tr>
-                    % endif
+            <td id="body_form_td" width="100%" valign="top">
+                % if buttons.toolbar:
+                    <ul id="view-selector">
+                    % for view in buttons.views:
+                        ${make_view_button(**view)}
+                    % endfor
+                    </ul>
+                % endif
 
-                    % if form.screen.view_type == 'form' and buttons.toolbar:
-                    <tr>
-                        <td>
-                            <div class="toolbar">
-                                <table border="0" cellpadding="0" cellspacing="0" width="100%">
-                                    <tr>
-                                        <td>
-                                            % if buttons.new:
-                                            <button 
-                                                type="button" 
-                                                title="${_('Create a new resource')}" 
-                                                onclick="editRecord(null)">${_("New")}</button>
-                                            % endif
-                                            % if buttons.edit:
-                                            <button 
-                                                type="button" 
-                                                title="${_('Edit this resource')}" 
-                                                onclick="editRecord(${form.screen.id or 'null'})">${_("Edit")}</button>
-                                            % endif
-                                            % if buttons.save:
-                                            <button 
-                                                type="button" 
-                                                title="${_('Save this resource')}"
-                                                onclick="submit_form('save')">${_("Save")}</button>
-                                            <button 
-                                                type="button" 
-                                                title="${_('Save & Edit this resource')}" 
-                                                onclick="submit_form('save_and_edit')">${_("Save & Edit")}</button>
-                                            % endif
-                                            % if buttons.edit:
-                                            <button 
-                                                type="button" 
-                                                title="${_('Duplicate this resource')}"
-                                                onclick="submit_form('duplicate')">${_("Duplicate")}</button>
-                                            % endif
-                                            % if buttons.delete:
-                                            <button 
-                                                type="button"
-                                                title="${_('Delete this resource')}" 
-                                                onclick="submit_form('delete')">${_("Delete")}</button>
-                                            % endif
-                                            % if buttons.cancel:
-                                            <button 
-                                                type="button" 
-                                                title="${_('Cancel editing the current resource')}" 
-                                                onclick="submit_form('cancel')">${_("Cancel")}</button>
-                                            % endif
-                                        </td>
-                                        % if buttons.pager:
-                                        <td align="right" nowrap="nowrap" class="pager">${pager.display()}</td>
-                                        % endif
-                                    </tr>
-                                </table>
-                            </div>
-                        </td>
-                    </tr>
+                <h1>
+                    % if can_shortcut:
+                        <a id="shortcut_add_remove" title="${_('Add / Remove Shortcut...')}" href="javascript: void(0)" class="${shortcut_class}"></a>
                     % endif
-                    <tr>
-                        <td style="padding: 2px">${form.display()}</td>
-                    </tr>
-                    % if links:
-                    <tr>
-                        <td class="dimmed-text">
-                            [<a onmouseover="showCustomizeMenu(this, 'customize_menu_')" 
-                                onmouseout="hideElement('customize_menu_');" href="javascript: void(0)">${_("Customize")}</a>]<br/>
-                            <div id="customize_menu_" class="contextmenu" style="position: absolute; display: none;" 
-                                 onmouseover="showElement(this);" onmouseout="hideElement(this);">
-                                <a title="${_('Manage views of the current object')}" 
-                                   onclick="openobject.tools.openWindow('/viewlist?model=${form.screen.model}', {height: 400})" 
-                                   href="javascript: void(0)">${_("Manage Views")}</a>
-                                <a title="${_('Manage workflows of the current object')}" 
-                                   onclick="openobject.tools.openWindow('/workflowlist?model=${form.screen.model}&active=${links.workflow_manager}', {height: 400})" 
-                                   href="javascript: void(0)">${_("Manage Workflows")}</a>
-                                <a title="${_('Customize current object or create a new object')}" 
-                                   onclick="openobject.tools.openWindow('/viewed/new_model/edit?model=${form.screen.model}')" 
-                                   href="javascript: void(0)">${_("Customize Object")}</a>
-                            </div>
-                        </td>
-                    </tr>
+                    ${form.screen.string}
+                    <a class="help" href="${py.url('/view_diagram/process', res_model=form.screen.model, title=form.screen.string, res_id=form.screen.id)}"
+                       title="${_('Corporate Intelligence...')}">
+                        <small>Help</small>
+                    </a>
+                    % if form.screen.view_type == 'form' and form.logs.logs:
+                      <a id="show_server_logs" class="logs" href="javascript: void(0)"
+                          title="${_('Show Logs...')}">
+                          <small>Logs</small>
+                      </a>
                     % endif
-                </table>
-            </td>
+                    % if display_name:
+                          <small class="sub">${display_name['field']} : ${display_name['value']}</small>
+                    % endif
+                </h1>
+                % if tips:
+                    <div id="help-tips">
+                        <h3>${_("Tips")}</h3>
+                        <a href="#hide" id="hide-tips">(${_("hide")})</a>
+                        <a href="/openerp/form/close_or_disable_tips" id="disable-tips">${_("Disable all Tips")}</a>
+                        <p>${tips}</p>
+                    </div>
+                % endif
+                % if form.screen.view_type == 'form':
+                    % if form.logs.logs:
+                        ${form.logs.display()}
+                    % endif
+                % endif
+                % if form.screen.view_type in ['form', 'diagram'] and buttons.toolbar and form.screen.model != 'board.board':
+                <div class="wrapper action-buttons">
+                    <ul class="inline-b left w50">
+                        % if buttons.new:
+                        <li title="${_('Create a new resource')}">
+                            <a href="javascript: void(0);" onclick="editRecord(null)" class="button-a">${_("New")}</a>
+                        </li>
+                        % endif
+                        % if buttons.edit:
+                        <li title="${_('Edit this resource')}">
+                            <a href="javascript: void(0);" onclick="editRecord(${form.screen.id or 'null'})" class="button-a">${_("Edit")}</a>
+                        </li>
+                        % endif
+                        % if buttons.save:
+                        <li title="${_('Save this resource')}">
+                            <a href="javascript: void(0);" onclick="submit_form('save')" class="button-a">${_("Save")}</a>
+                        </li>
+                        <li title="${_('Save & Edit this resource')}">
+                            <a href="javascript: void(0);" onclick="submit_form('save_and_edit')" class="button-a">${_("Save & Edit")}</a>
+                        </li>
+                        % endif
+                        % if buttons.edit:
+                        <li title="${_('Duplicate this resource')}">
+                            <a href="javascript: void(0);" onclick="submit_form('duplicate')" class="button-a">${_("Duplicate")}</a>
+                        </li>
+                        % endif
+                        % if buttons.delete:
+                        <li title="${_('Delete this resource')}">
+                            <a href="javascript: void(0);" onclick="submit_form('delete')" class="button-a">${_("Delete")}</a>
+                        </li>
+                        % endif
+                        % if buttons.cancel:
+                        <li title="${_('Cancel editing the current resource')}">
+                            <a href="javascript: void(0);" onclick="submit_form('cancel')" class="button-a">${_("Cancel")}</a>
+                        </li>
+                        % endif
+                        % if buttons.create_node:
+                        <li title="${_('Create new node')}">
+                            <a href="javascript: void(0);" onclick="create_node()" class="button-a">${_("New Node")}</a>
+                        </li>
+                        % endif
+                        % if buttons.show_grid:
+                        <li title="${_('Show grid in workflow canvas')}">
+                            <label for="show_diagram_grid">Show grid:
+                                <input type="checkbox" checked="checked" class="checkbox" id="show_diagram_grid"
+                                       value="" onchange="show_grid(this); return false">
+                            </label>
+                        </li>
+                        % endif
+                    </ul>
 
-            % if form.sidebar and buttons.toolbar and form.screen.view_type not in ('calendar', 'gantt'):
-            <td width="163" valign="top">
-                ${form.sidebar.display()}
+                    % if buttons.pager:
+                        ${pager.display()}
+                    % endif
+                </div>
+                % endif
+                <div>${form.display()}</div>
+
             </td>
+            % if form.sidebar:
+                <%
+                  if form.screen.view_type == 'form':
+                      sidebar_class="open"
+                  else:
+                      sidebar_class="closed"
+                %>
+                <td class="toggle-sidebar ${sidebar_class}"></td>
+                <td id="main_sidebar" valign="top">
+                    <div id="tertiary" class="${sidebar_class}">
+                        <div id="tertiary_wrap">
+                            ${form.sidebar.display()}
+                        </div>
+                    </div>
+                </td>
+                <script type="text/javascript">
+                    jQuery('.toggle-sidebar').toggler('#tertiary', function (){
+                        jQuery(window).scrollLeft(
+                            jQuery(document).width() - jQuery(window).width());
+                    });
+                </script>
             % endif
         </tr>
     </table>
+    <script type="text/javascript">
+        jQuery(document).ready(function () {
+            var $hide = jQuery('#hide-tips').click(function () {
+                jQuery('#help-tips').hide();
+                return false;
+            });
+            jQuery('#disable-tips').click(function () {
+                jQuery.post(this.href);
+                $hide.click();
+                return false;
+            })
+        })
+    </script>
 </%def>

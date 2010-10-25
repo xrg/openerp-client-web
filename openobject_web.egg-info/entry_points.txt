@@ -1,3 +1,0 @@
-[console_scripts]
-openobject-web = openobject.commands:start
-

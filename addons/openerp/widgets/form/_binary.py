@@ -10,7 +10,7 @@
 # It's based on Mozilla Public License Version (MPL) 1.1 with following
 # restrictions:
 #
-# -   All names, links and logos of Tiny, Open ERP and Axelor must be
+# -   All names, links and logos of Tiny, OpenERP and Axelor must be
 #     kept as in original distribution without any changes in all software
 #     screens, especially in start-up page and the software header, even if
 #     the application source code has been changed or updated or code has been
@@ -49,8 +49,8 @@ __all__ = ["Binary", "Image", "Picture", "get_temp_file", "generate_url_for_pict
 
 class Binary(TinyInputWidget):
 
-    template = "templates/binary.mako"
-    params = ["name", "text", "readonly", "filename"]
+    template = "/openerp/widgets/form/templates/binary.mako"
+    params = ["name", "text", "readonly", "filename", "bin_data", 'value_bin_size']
 
     text = None
     file_upload = True
@@ -58,10 +58,17 @@ class Binary(TinyInputWidget):
     def __init__(self, **attrs):
         super(Binary, self).__init__(**attrs)
         self.validator = validators.Binary()
-        self.onchange = "onChange(this); set_binary_filename(this, '%s');" % (self.filename or '')
+        self.onchange = "set_binary_filename(this, '%s');" % (self.filename or '')
+        self.bin_data = attrs.get('value')
+        # if bin_size was in context when reading the binary field, then the field's value is actually the binary
+        # field's content size
+        self.value_bin_size = getattr(self, 'context', {}).get('bin_size', False)
 
     def set_value(self, value):
         #XXX: server bug work-arround
+        if self.value_bin_size:
+            self.text = value
+            return
         try:
             self.text = utils.get_size(value)
         except:
@@ -72,9 +79,9 @@ register_widget(Binary, ["binary"])
 
 class Image(TinyInputWidget):
 
-    template = "templates/image.mako"
+    template = "/openerp/widgets/form/templates/image.mako"
 
-    params = ["src", "width", "height", "model", "id", "field", "stock"]
+    params = ["src", "width", "height", "model", "id", "field", "stock", 'bin_src']
     src = ""
     width = 32
     height = 32
@@ -86,19 +93,24 @@ class Image(TinyInputWidget):
         attrs['name'] = attrs.get('name', 'Image').replace("-","_")
 
         super(Image, self).__init__(**attrs)
-
         self.filename = attrs.get('filename', '')
-
-        if 'widget' in attrs:
-            self.stock = False
-            self.field = self.name.split('/')[-1]
-            self.src = tools.url('/image/get_image', model=self.model, id=self.id, field=self.field)
-            self.height = attrs.get('img_height', attrs.get('height', 160))
+        self.state = attrs.get('state')
+        self.field = self.name.split('/')[-1]
+        if attrs.get('widget'):
+            if self.id:
+                self.src = tools.url('/openerp/image/get_image', model=self.model, id=self.id, field=self.field)
+            elif attrs.get('value'):
+                self.bin_src =attrs['value']
+            else:
+                self.src =  self.bin_src = ''
+            self.height = attrs.get('img_height', attrs.get('height', 65))
             self.width = attrs.get('img_width', attrs.get('width', 200))
             self.validator = validators.Binary()
         else:
             self.src =  icons.get_icon(icon)
-
+        if self.readonly:
+            self.editable = False
+            
 register_widget(Image, ["image"])
 
 
@@ -129,7 +141,7 @@ def generate_url_for_picture(model, name, id, value):
             finally:
                 tmp.close()
 
-            url = tools.url("/image/get_picture", hash=hashkey)
+            url = tools.url("/openerp/image/get_picture", hash=hashkey)
     else:
         url = tools.url("/static/images/blank.gif")
 

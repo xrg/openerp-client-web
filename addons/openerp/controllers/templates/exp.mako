@@ -1,43 +1,14 @@
-<%inherit file="/openerp/controllers/templates/base.mako"/>
+<%inherit file="/openerp/controllers/templates/base_dispatch.mako"/>
 
 <%def name="header()">
     <title>Export Data</title>
-    <link href="/openerp/static/css/listgrid.css" rel="stylesheet" type="text/css"/>
-    <script type="text/javascript" src="/openerp/static/javascript/listgrid.js"></script>
 
-    <style type="text/css">
-        .fields-selector {
-            width: 100%;
-            height: 400px;
-        }
-
-        .fields-selector-left {
-            width: 45%;
-        }
-
-        .fields-selector-center {
-            width: 15%;
-        }
-
-        .fields-selector-right {
-            width: 45%;
-        }
-
-        .fields-selector select {
-            width: 100%;
-            height: 100%;
-        }
-
-        .fields-selector button {
-            width: 100%;
-            margin: 5px 0px;
-        }
-    </style>
+    <link rel="stylesheet" type="text/css" href="/openerp/static/css/impex.css"/>
 
     <script type="text/javascript">
         function add_fields(){
         
-            var tree = ${tree.name};
+            var tree = treeGrids['${tree.name}'];
             
             var fields = tree.selection;
             var select = openobject.dom.get('fields');
@@ -65,14 +36,14 @@
 
         function save_export() {
             var form = document.forms['view_form'];
-            form.action = openobject.http.getURL('/impex/save_exp');
             
-            var options = openobject.dom.get('fields').options;            
+            var options = openobject.dom.get('fields').options;
             forEach(options, function(o){
                 o.selected = true;
             });
-            
-            form.submit();        
+            jQuery(form).attr('action',
+                    openobject.http.getURL('/openerp/impex/save_exp')
+            ).submit();
         }
         
         function del_fields(all){
@@ -90,44 +61,44 @@
         
         function do_select(id, src) {
             openobject.dom.get('fields').innerHTML = '';
-            model = openobject.dom.get('_terp_model').value;
-            params = {'_terp_id': id, '_terp_model': model}
-            
-            req = openobject.http.postJSON('/impex/get_namelist', params);
-            
+            var model = openobject.dom.get('_terp_model').value;
+            var req = openobject.http.postJSON('/openerp/impex/get_namelist', {
+                '_terp_id': id,
+                '_terp_model': model
+            });
+
             req.addCallback(function(obj){
                 if (obj.error){
-                    alert(obj.error);
+                    error_display(obj.error);
                 } else {
                     self.reload(obj.name_list);
                 }
             });
         }
-        
+
         function delete_listname(form) {
-        
+
             var list = new ListView('_terp_list');
             var boxes = list.getSelectedItems();
-                        
+
             if (boxes.length == 0){
-                alert(_('Please select an item...'));
+                error_display(_('Please select an item...'));
                 return;
             }
-            
-            var id = boxes[0].value;
-    
-            params = {'_terp_id' : id};
 
-            setNodeAttribute(form, 'action', openobject.http.getURL('/impex/delete_listname', params));
-            form.submit();
+            var id = boxes[0].value;
+
+            jQuery('#'+form).attr('action', openobject.http.getURL(
+                '/openerp/impex/delete_listname', {'_terp_id' : id})
+            ).submit();
         }
-        
+
         function reload(name_list) {
             var select = openobject.dom.get('fields');
 
-            forEach(name_list, function(f){                
+            forEach(name_list, function(f){
                 var text = f[1];
-                var id = f[0]
+                var id = f[0];
                 select.options.add(new Option(text, id));
             });
         }
@@ -137,7 +108,8 @@
             var options = openobject.dom.get('fields').options;
 
             if (options.length == 0){
-                return alert(_('Please select fields to export...'));
+                error_display(_('Please select fields to export...'));
+                return;
             }
 
             var fields2 = [];
@@ -148,49 +120,59 @@
             });
 
             openobject.dom.get('_terp_fields2').value = '[' + fields2.join(',') + ']';
-
-            setNodeAttribute(form, 'action', openobject.http.getURL('/impex/export_data/data.' + openobject.dom.get('export_as').value));
-            form.submit();
+            jQuery('#'+form).attr('target', 'new');
+            jQuery('#'+form).attr('action', openobject.http.getURL(
+                '/openerp/impex/export_data/data.' + openobject.dom.get('export_as').value)
+            ).submit();
         }
     </script>
 </%def>
 
 <%def name="content()">
-    <form id='view_form' action="/impex/export_data" method="post" onsubmit="return false;">
+    <form id='view_form' action="/openerp/impex/export_data" method="post" onsubmit="return false;">
 
     <input type="hidden" id="_terp_model" name="_terp_model" value="${model}"/>
     <input type="hidden" id="_terp_ids" name="_terp_ids" value="${ids}"/>
     <input type="hidden" id="_terp_search_domain" name="_terp_search_domain" value="${search_domain}"/>
     <input type="hidden" id="_terp_fields2" name="_terp_fields2" value="[]"/>
+    <input type="hidden" id="_terp_context" name="_terp_context" value="${ctx}"/>
 
     <table class="view" cellspacing="5" border="0" width="100%">
         <tr>
-            <td>
-                <table width="100%" class="titlebar">
+            <td class="side_spacing">
+                <table width="100%" class="popup_header">
                     <tr>
-                        <td width="32px" align="center">
-                            <img src="/openerp/static/images/stock/gtk-go-up.png"/>
-                        </td>
-                        <td width="100%">${_("Export Data")}</td>
+                    	<td class="exp-header" align="left">
+                    		<a class="button-a" href="javascript: void(0)" onclick="do_export('view_form')">${_("Export")}</a>
+                            <a class="button-a" href="javascript: void(0)" onclick="window.close()">${_("Close")}</a>
+                    	</td>
+                        <td align="center" class="pop_head_font">${_("Export Data")}</td>
+                        <td width="30%"></td>
                     </tr>
                 </table>
             </td>
         </tr>        
         % if new_list.ids:
         <tr>
-            <td>
-                <div id='exported_list' style="overflow: auto;">${new_list.display()}</div>
+            <td class="side_spacing">
+                <div id='exported_list'>${new_list.display()}</div>
             </td>
         </tr>
         <tr>
-            <td class="toolbar">
-                <button type="button" onclick="delete_listname(form);">${_("Delete")}</button>
+            <td class="side_spacing">
+            	<table class="popup_header" width="100%">
+            		<tr>
+            			<td class="exp-header">
+            				<a class="button-a" href="javascript: void(0)" onclick="delete_listname('view_form');">${_("Delete")}</a>
+            			</td>
+            		</tr>
+            	</table>
             </td>
         </tr>
         % endif
         <tr>
-            <td>
-                <table class="fields-selector" cellspacing="5" border="0">
+            <td class="side_spacing">
+                <table class="fields-selector-export" cellspacing="5" border="0">
                     <tr>
                         <th class="fields-selector-left">${_("All fields")}</th>
                         <th class="fields-selector-center">&nbsp;</th>
@@ -198,13 +180,31 @@
                     </tr>
                     <tr>
                         <td class="fields-selector-left" height="400px">
-                            <div style="overflow: scroll; width: 100%; height: 100%; border: solid #999999 1px;">${tree.display()}</div>
+                            <div id="fields_left">${tree.display()}</div>
                         </td>
                         <td class="fields-selector-center">
-                            <button type="button" onclick="add_fields()">${_("Add")}</button><br/>
-                            <button type="button" onclick="del_fields()">${_("Remove")}</button><br/>
-                            <button type="button" onclick="del_fields(true)">${_("Nothing")}</button><br/><br/>
-                            <button type="button" onclick="open_savelist('savelist')">${_("Save List")}</button>
+                        	<table border="0" cellpadding="0" cellspacing="0" width="100%">
+                        		<tr>
+                        			<td align="center">
+                        				<a class="button-a" href="javascript: void(0)" onclick="add_fields()">${_("Add")}</a>
+                        			</td>
+                        		</tr>
+                        		<tr>
+                        			<td align="center">
+                        				<a class="button-a" href="javascript: void(0)" onclick="del_fields()">${_("Remove")}</a>
+                        			</td>
+                        		</tr>
+                        		<tr>
+                        			<td align="center">
+                        				<a class="button-a" href="javascript: void(0)" onclick="del_fields(true)">${_("Nothing")}</a>
+                        			</td>
+                        		</tr>
+                        		<tr>
+                        			<td align="center">
+                        				<a class="button-a" href="javascript: void(0)" onclick="open_savelist('savelist')">${_("Save List")}</a>
+                        			</td>
+                        		</tr>
+                        	</table>
                         </td>
                         <td class="fields-selector-right" height="400px">
                             <select name="fields" id="fields" multiple="multiple"/>
@@ -214,7 +214,7 @@
             </td>
         </tr>
         <tr>
-            <td>            
+            <td class="side_spacing">            
                 <div id="savelist" style="display: none">
                     <fieldset>
                         <legend>${_("Save List")}</legend>
@@ -225,7 +225,7 @@
                                     <input type="text" id="savelist_name" name="savelist_name"/>
                                 </td>
                                 <td>
-                                    <button type="button" onclick="save_export()">${_("OK")}</button>
+                                	<a class="button-a" href="javascript: void(0)" onclick="save_export()">${_("OK")}</a>
                                 </td>
                             </tr>
                         </table>
@@ -234,7 +234,7 @@
             </td>
         </tr>        
         <tr>
-            <td>
+            <td class="side_spacing">
                 <fieldset>
                     <legend>${_("Options")}</legend>
                     <table>
@@ -255,7 +255,7 @@
             </td>
         </tr>
         <tr>
-        	<td>
+        	<td class="side_spacing">
         		<fieldset>
                     <legend>${_("Select an Option to Export")}</legend>
                     <table>
@@ -268,19 +268,6 @@
                     </table>
                 </fieldset>
         	</td>
-        </tr>
-        <tr>
-            <td>
-                <div class="toolbar">
-                    <table border="0" cellpadding="0" cellspacing="0" width="100%">
-                        <tr>
-                            <td width="100%">&nbsp;</td>
-                            <td><button type="button" onclick="do_export(form)">${_("Export")}</button></td>
-                            <td><button type="button" onclick="window.close()">${_("Close")}</button></td>
-                        </tr>
-                    </table>
-                </div>
-            </td>
         </tr>
     </table>
 </form>

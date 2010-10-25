@@ -10,7 +10,7 @@
 # It's based on Mozilla Public License Version (MPL) 1.1 with following
 # restrictions:
 #
-# -   All names, links and logos of Tiny, Open ERP and Axelor must be
+# -   All names, links and logos of Tiny, OpenERP and Axelor must be
 #     kept as in original distribution without any changes in all software
 #     screens, especially in start-up page and the software header, even if
 #     the application source code has been changed or updated or code has been
@@ -26,17 +26,19 @@
 # You can see the MPL licence at: http://www.mozilla.org/MPL/MPL-1.1.html
 #
 ###############################################################################
-from openerp.utils import rpc, TinyDict
+from openerp.utils import rpc, TinyDict, cache
 
 from form import Form
 from openobject.tools import expose, redirect
 
+import cherrypy
+
 
 class Preferences(Form):
 
-    _cp_path = "/pref"
+    _cp_path = "/openerp/pref"
 
-    @expose(template="templates/preferences.mako")
+    @expose(template="/openerp/controllers/templates/preferences.mako")
     def create(self):
 
         tg_errors = None
@@ -66,12 +68,16 @@ class Preferences(Form):
 
         return dict(form=form, params=params, editable=True)
 
-    @expose()
+    @expose(methods=('POST',))
     def ok(self, **kw):
         params, data = TinyDict.split(kw)
         proxy = rpc.RPCProxy('res.users')
         proxy.write([rpc.session.uid], data)
         rpc.session.context_reload()
-        raise redirect('/pref/create')
+        raise redirect('/openerp/pref/create')
 
+    @expose()
+    def clear_cache(self):
+        cache.clear()
+        raise redirect('/openerp')
 # vim: ts=4 sts=4 sw=4 si et

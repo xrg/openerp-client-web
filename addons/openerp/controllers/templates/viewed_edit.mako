@@ -1,4 +1,4 @@
-<form id="view_form" name="view_form" onsubmit="return false" action="">
+<form id="view_form" name="view_form" action="">
     <input type="hidden" name="view_id" id="view_id" value="${view_id}"/>
     <input type="hidden" name="xpath_expr" id="xpath_expr" value="${xpath_expr}"/>
     <table>

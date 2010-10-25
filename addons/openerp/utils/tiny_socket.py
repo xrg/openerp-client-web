@@ -10,7 +10,7 @@
 # It's based on Mozilla Public License Version (MPL) 1.1 with following
 # restrictions:
 #
-# -   All names, links and logos of Tiny, Open ERP and Axelor must be
+# -   All names, links and logos of Tiny, OpenERP and Axelor must be
 #     kept as in original distribution without any changes in all software
 #     screens, especially in start-up page and the software header, even if
 #     the application source code has been changed or updated or code has been
@@ -31,6 +31,8 @@ import socket
 import cPickle
 import sys
 
+import cherrypy
+
 DNS_CACHE = {}
 
 class TinySocketError(Exception):
@@ -40,6 +42,8 @@ class TinySocketError(Exception):
         self.faultString = faultString
         self.args = (faultCode, faultString)
 
+SOCKET_TIMEOUT = cherrypy.config.get('openerp.server.timeout')
+socket.setdefaulttimeout(SOCKET_TIMEOUT)
 class TinySocket(object):
 
     def __init__(self, sock=None):
@@ -48,7 +52,7 @@ class TinySocket(object):
             socket.AF_INET, socket.SOCK_STREAM)
         else:
             self.sock = sock
-        self.sock.settimeout(120)
+        self.sock.settimeout(SOCKET_TIMEOUT)
 
     def connect(self, host, port=False):
         if not port:

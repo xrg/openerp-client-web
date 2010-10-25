@@ -10,7 +10,7 @@
 # It's based on Mozilla Public License Version (MPL) 1.1 with following
 # restrictions:
 #
-# -   All names, links and logos of Tiny, Open ERP and Axelor must be
+# -   All names, links and logos of Tiny, OpenERP and Axelor must be
 #     kept as in original distribution without any changes in all software
 #     screens, especially in start-up page and the software header, even if
 #     the application source code has been changed or updated or code has been
@@ -34,9 +34,9 @@ from openobject.tools import expose
 
 class Selection(SecuredController):
 
-    _cp_path = "/selection"
+    _cp_path = "/openerp/selection"
 
-    @expose(template="templates/selection.mako")
+    @expose(template="/openerp/controllers/templates/selection.mako")
     def create(self, values, **data):
         return dict(values=values, data=data)
 

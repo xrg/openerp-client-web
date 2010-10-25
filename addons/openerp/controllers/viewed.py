@@ -10,7 +10,7 @@
 # It's based on Mozilla Public License Version (MPL) 1.1 with following
 # restrictions:
 #
-# -   All names, links and logos of Tiny, Open ERP and Axelor must be
+# -   All names, links and logos of Tiny, OpenERP and Axelor must be
 #     kept as in original distribution without any changes in all software
 #     screens, especially in start-up page and the software header, even if
 #     the application source code has been changed or updated or code has been
@@ -40,7 +40,7 @@ from openobject.tools import url, expose
 
 class NewField(Form):
 
-    _cp_path = "/viewed/new_field"
+    _cp_path = "/openerp/viewed/new_field"
 
     def create_form(self, params, tg_errors=None):
 
@@ -50,13 +50,14 @@ class NewField(Form):
 
         field = form.screen.widget.get_widgets_by_name('model_id')[0]
         field.set_value(params.model_id or False)
+        field.readonly = True
 
         vals = getattr(cherrypy.request, 'terp_validators', {})
         vals['model_id'] = validators.Int()
 
         return form
 
-    @expose(template="templates/viewed_new.mako")
+    @expose(template="/openerp/controllers/templates/viewed_new.mako")
     def create(self, params, tg_errors=None):
 
         params.editable = True
@@ -80,9 +81,9 @@ class NewField(Form):
 
 class NewModel(Form):
 
-    _cp_path = "/viewed/new_model"
+    _cp_path = "/openerp/viewed/new_model"
 
-    @expose(template="templates/viewed_new_model.mako")
+    @expose(template="/openerp/controllers/templates/viewed_new_model.mako")
     def create(self, params, tg_errors=None):
 
         params.editable = True
@@ -102,8 +103,7 @@ class NewModel(Form):
 
         id = params.id
         if not id:
-            proxy = rpc.RPCProxy('ir.model')
-            res = proxy.search([('model', '=', params.model)])
+            res = rpc.RPCProxy('ir.model').search([('model', '=', params.model)])
 
             id = (res or False) and res[0]
 
@@ -111,9 +111,9 @@ class NewModel(Form):
 
 class Preview(Form):
 
-    _cp_path = "/viewed/preview"
+    _cp_path = "/openerp/viewed/preview"
 
-    @expose(template="templates/viewed_preview.mako")
+    @expose(template="/openerp/controllers/templates/viewed_preview.mako")
     def create(self, params, tg_errors=None):
         form = self.create_form(params, tg_errors)
         return dict(form=form)
@@ -152,9 +152,6 @@ def xml_locate(expr, ref):
     parts = expr.split('/')
     for part in parts:
         if part in ('', '.'):
-#            for node in ref.childNodes:
-#               if node.nodeType == node.ELEMENT_NODE:
-#                   ref = node
             continue
         ref = xml_locate(part, ref)
 
@@ -179,24 +176,20 @@ def _get_model(node, parent_model):
     while pnode:
 
         if pnode.localName == 'field':
-
-            ch = []
-            ch += utils.xml_locate('./form[1]', pnode)
-            ch += utils.xml_locate('./tree[1]', pnode)
-            ch += utils.xml_locate('./graph[1]', pnode)
-            ch += utils.xml_locate('./calendar[1]', pnode)
+            ch = utils.xml_locate('./form[1]', pnode) \
+               + utils.xml_locate('./tree[1]', pnode) \
+               + utils.xml_locate('./graph[1]', pnode) \
+               + utils.xml_locate('./calendar[1]', pnode)
 
             if ch:
-                parents += [pnode.getAttribute('name')]
+                parents.append(pnode.getAttribute('name'))
 
         pnode = pnode.parentNode
 
     parents.reverse()
 
     for parent in parents:
-
-        proxy = rpc.RPCProxy(parent_model)
-        field = proxy.fields_get([parent])
+        field = rpc.RPCProxy(parent_model).fields_get([parent])
 
         if field:
             if field[parent].get('relation'):
@@ -212,8 +205,7 @@ def _get_field_attrs(node, parent_model):
     model = _get_model(node, parent_model)
 
     name = node.getAttribute('name')
-    proxy = rpc.RPCProxy(model)
-    field = proxy.fields_get([name])
+    field = rpc.RPCProxy(model).fields_get([name])
 
     if field:
          field = field[name]
@@ -222,9 +214,9 @@ def _get_field_attrs(node, parent_model):
 
 class ViewEd(SecuredController):
 
-    _cp_path = "/viewed"
+    _cp_path = "/openerp/viewed"
 
-    @expose(template="templates/viewed.mako")
+    @expose(template="/openerp/controllers/templates/viewed.mako")
     def default(self, view_id):
 
         try:
@@ -235,8 +227,7 @@ class ViewEd(SecuredController):
         if isinstance(view_id, basestring) or not view_id:
             raise common.message(_("Invalid view id."))
 
-        proxy = rpc.RPCProxy('ir.ui.view')
-        res = proxy.read([view_id], ['model', 'type'])[0]
+        res = rpc.RPCProxy('ir.ui.view').read([view_id], ['model', 'type'])[0]
 
         model = res['model']
         view_type = res['type']
@@ -248,7 +239,7 @@ class ViewEd(SecuredController):
                    {'string' : '', 'name': 'up', 'type' : 'image', 'width': 2},
                    {'string' : '', 'name': 'down', 'type' : 'image', 'width': 2}]
 
-        tree = widgets.treegrid.TreeGrid('view_tree', model=model, headers=headers, url=url('/viewed/data?view_id='+str(view_id)))
+        tree = widgets.treegrid.TreeGrid('view_tree', model=model, headers=headers, url=url('/openerp/viewed/data?view_id='+str(view_id)))
         tree.showheaders = False
         tree.onselection = 'onSelect'
         tree.onbuttonclick = 'onButtonClick'
@@ -262,7 +253,7 @@ class ViewEd(SecuredController):
             def _find(node, node2):
                 # Check if xpath query or normal inherit (with field matching)
                 if node2.nodeType==node2.ELEMENT_NODE and node2.localName=='xpath':
-                    res = utils.xml_locate(node2.getAttribute('expr'), node)
+                    res = utils.get_xpath(node2.getAttribute('expr'), node)
                     return res and res[0]
                 else:
                     if node.nodeType==node.ELEMENT_NODE and node.localName==node2.localName:
@@ -299,16 +290,16 @@ class ViewEd(SecuredController):
                         if attr != 'position'
                     ])
                     tag = "<%s%s>" % (node2.localName, attrs)
-                    raise AttributeError, "Couldn't find tag '%s' in parent view!" % tag
+                    raise AttributeError, "Couldn't find tag '%s' in parent view" % tag
             return doc_src.toxml().replace('\t', '')
 
-        proxy = rpc.RPCProxy('ir.ui.view')
-        res = proxy.read([view_id])[0]
+        views = rpc.RPCProxy('ir.ui.view')
+        res = views.read([view_id])[0]
 
         def _inherit_apply_rec(result, inherit_id):
             # get all views which inherit from (ie modify) this view
-            inherit_ids = proxy.search([('inherit_id', '=', inherit_id)], 0, 0, 'priority')
-            inherit_res = proxy.read(inherit_ids, ['arch', 'id'])
+            inherit_ids = views.search([('inherit_id', '=', inherit_id)], 0, 0, 'priority')
+            inherit_res = views.read(inherit_ids, ['arch', 'id'])
 
             for res2 in inherit_res:
                 result = _inherit_apply(result, res2['arch'], res2['id'])
@@ -323,12 +314,12 @@ class ViewEd(SecuredController):
         new_doc.documentElement.setAttribute('view_id', str(view_id))
         new_doc.documentElement.appendChild(doc_arch.documentElement)
 
-        res = {'model': res['model'],
-               'view_id' : view_id,
-               'view_type': res['type'],
-               'arch' : new_doc.toxml().replace('\t', '')}
-
-        return res
+        return {
+            'model': res['model'],
+            'view_id': view_id,
+            'view_type': res['type'],
+            'arch': new_doc.toxml().replace('\t', '')
+        }
 
     def get_node_instance(self, node, model, view_id=False, view_type='form'):
 
@@ -373,7 +364,7 @@ class ViewEd(SecuredController):
             node_instance = self.get_node_instance(node, model=model, view_id=view_id, view_type=view_type)
             node_instance.children = children
 
-            result += [node_instance]
+            result.append(node_instance)
 
         return result
 
@@ -394,7 +385,7 @@ class ViewEd(SecuredController):
 
         return dict(records=records)
 
-    @expose(template="templates/viewed_edit.mako")
+    @expose(template="/openerp/controllers/templates/viewed_edit.mako", methods=('POST',))
     def edit(self, view_id, xpath_expr):
         view_id = int(view_id)
 
@@ -427,7 +418,7 @@ class ViewEd(SecuredController):
                 pass
             properties = _PROPERTIES_FIELDS.get(kind) or properties
         properties = properties[:]
-        properties += list(set(attrs.keys()) - set(properties))
+        properties.extend(list(set(attrs.keys()) - set(properties)))
 
         for prop in properties:
             if field.localName == 'action' and prop == 'name':
@@ -438,16 +429,15 @@ class ViewEd(SecuredController):
                 ed = get_property_widget(prop, attrs.get(prop))
 
             ed.label = prop
-            editors += [ed]
+            editors.append(ed)
 
         return dict(view_id=view_id, xpath_expr=xpath_expr, editors=editors)
 
-    @expose(template="templates/viewed_add.mako")
+    @expose(template="/openerp/controllers/templates/viewed_add.mako")
     def add(self, view_id, xpath_expr):
         view_id = int(view_id)
 
-        proxy = rpc.RPCProxy('ir.ui.view')
-        res = proxy.read([view_id], ['model', 'arch'])[0]
+        res = rpc.RPCProxy('ir.ui.view').read([view_id], ['model', 'arch'])[0]
 
         doc = xml.dom.minidom.parseString(res['arch'].encode('utf-8'))
         model = res['model']
@@ -456,8 +446,7 @@ class ViewEd(SecuredController):
         model = _get_model(field_node, parent_model=model)
 
         # get the fields
-        proxy = rpc.RPCProxy(model)
-        fields = proxy.fields_get().keys()
+        fields = rpc.RPCProxy(model).fields_get().keys()
 
         nodes = _CHILDREN.keys()
         nodes.remove('view')
@@ -471,7 +460,7 @@ class ViewEd(SecuredController):
 
         return dict(view_id=view_id, xpath_expr=xpath_expr, nodes=nodes, fields=fields, model=model, positions=positions)
 
-    @expose('json')
+    @expose('json', methods=('POST',))
     def create_view(self, view_id=False, xpath_expr=None, **kw):
 
         view_id = int(view_id)
@@ -526,14 +515,13 @@ class ViewEd(SecuredController):
 
         return dict(record=record, error=error)
 
-    @expose('json')
+    @expose('json', methods=('POST',))
     def remove_view(self, view_id, **kw):
 
         view_id = int(view_id)
 
         if view_id:
-            proxy = rpc.RPCProxy('ir.ui.view')
-            proxy.unlink(view_id)
+            rpc.RPCProxy('ir.ui.view').unlink(view_id)
 
         try:
             cache.clear()
@@ -542,7 +530,7 @@ class ViewEd(SecuredController):
 
         return dict()
 
-    @expose('json')
+    @expose('json', methods=('POST',))
     def save(self, _terp_what, view_id, xpath_expr, **kw):
 
         view_id = int(view_id)
@@ -620,10 +608,9 @@ class ViewEd(SecuredController):
             node_instance.children = self.parse(new_node or node, model, view_id, view_type)
             record = node_instance.get_record()
 
-        data = dict(arch=doc.toxml(encoding="utf-8"))
         try:
-            res = proxy.write([view_id], data)
-        except Exception, e:
+            proxy.write([view_id], {'arch': doc.toxml(encoding="utf-8")})
+        except Exception:
             return dict(error=_("Unable to update the view."))
 
         try:
@@ -633,17 +620,14 @@ class ViewEd(SecuredController):
 
         return dict(record=record)
 
-    @expose()
+    @expose(methods=('POST',))
     def update_dashboard(self, view_id, dst, src, ref=None):
-
         error = None
-        reload = False
 
         view_id = int(view_id)
-        rec_id = view_id
 
-        proxy = rpc.RPCProxy('ir.ui.view')
-        data = proxy.read([view_id])[0]
+        views = rpc.RPCProxy('ir.ui.view')
+        data = views.read([view_id])[0]
 
         doc = xml.dom.minidom.parseString(data['arch'].encode('utf-8'))
         pnode = utils.xml_locate(dst, doc)[0]
@@ -654,7 +638,7 @@ class ViewEd(SecuredController):
         del data['id']
 
         try:
-            proxy.write(view_id, dict(arch=doc.toxml(encoding="utf-8")))
+            views.write(view_id, {'arch': doc.toxml(encoding="utf-8")})
         except Exception, e:
             error = str(e)
         return dict(error=error)
@@ -685,10 +669,11 @@ class Node(object):
                  'view_id' : self.view_id,
                  'delete': icons.get_icon('gtk-remove')}
 
-        if self.localName not in ('view'):
-            items['add'] = icons.get_icon('gtk-add')
-            items['up'] = icons.get_icon('gtk-go-up')
-            items['down'] = icons.get_icon('gtk-go-down')
+        if self.localName != 'view':
+            items.update(
+                add=icons.get_icon('gtk-add'),
+                up=icons.get_icon('gtk-go-up'),
+                down=icons.get_icon('gtk-go-down'))
 
         if self.localName not in ('view', 'newline'):
             items['edit'] = icons.get_icon('gtk-edit')
@@ -741,7 +726,7 @@ _PROPERTIES = {
     'image' : ['filename', 'width', 'height', 'groups'],
     'separator' : ['string', 'colspan', 'groups'],
     'label': ['string', 'align', 'colspan', 'groups'],
-    'button': ['name', 'string', 'icon', 'type', 'states', 'readonly', 'special', 'target', 'confirm', 'attrs', 'groups'],
+    'button': ['name', 'string', 'icon', 'type', 'states', 'readonly', 'special', 'target', 'confirm', 'context', 'attrs', 'groups'],
     'newline' : [],
     'hpaned': ['position', 'groups'],
     'vpaned': ['position', 'groups'],
@@ -868,8 +853,7 @@ class GroupsProperty(widgets.SelectField):
 class ActionProperty(widgets.form.M2O):
 
     def __init__(self, name, default=None):
-        attrs = dict(name=name, relation='ir.actions.actions')
-        super(ActionProperty, self).__init__(attrs)
+        super(ActionProperty, self).__init__(name=name, relation='ir.actions.actions')
         self.set_value(default or False)
 
 class IconProperty(widgets.SelectField):
@@ -924,6 +908,3 @@ _PROPERTY_WIDGETS_BUTTON = {
 def get_property_widget(name, value=None):
     wid = _PROPERTY_WIDGETS.get(name, widgets.TextField)
     return wid(name=name, default=value)
-
-
-# vim: ts=4 sts=4 sw=4 si et

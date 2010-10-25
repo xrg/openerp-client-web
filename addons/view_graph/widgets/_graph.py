@@ -11,7 +11,7 @@
 # It's based on Mozilla Public License Version (MPL) 1.1 with following
 # restrictions:
 #
-# -   All names, links and logos of Tiny, Open ERP and Axelor must be
+# -   All names, links and logos of Tiny, OpenERP and Axelor must be
 #     kept as in original distribution without any changes in all software
 #     screens, especially in start-up page and the software header, even if
 #     the application source code has been changed or updated or code has been
@@ -28,6 +28,7 @@
 #
 ###############################################################################
 import locale
+import operator
 import random
 import re
 import time
@@ -39,11 +40,7 @@ from openerp.utils import rpc, cache, node_attributes
 from openerp.widgets import TinyWidget
 from openobject.tools import url_plus
 from openobject.widgets import JSSource, JSLink
-
-
-DT_FORMAT = '%Y-%m-%d'
-DHM_FORMAT = '%Y-%m-%d %H:%M:%S'
-HM_FORMAT = '%H:%M:%S'
+from openobject.i18n.format import DT_SERVER_FORMATS, tz_convert
 
 if not hasattr(locale, 'nl_langinfo'):
     locale.nl_langinfo = lambda *a: '%x'
@@ -52,11 +49,17 @@ if not hasattr(locale, 'D_FMT'):
     locale.D_FMT = None
 
 
-COLOR_PALETTE = ['#f57900', '#cc0000', '#d400a8', '#75507b', '#3465a4', '#73d216', '#c17d11', '#edd400',
-                 '#fcaf3e', '#ef2929', '#ff00c9', '#ad7fa8', '#729fcf', '#8ae234', '#e9b96e', '#fce94f',
+COLOR_PALETTE = ['#75507b', '#3465a4', '#73d216', '#c17d11', '#edd400', '#fcaf3e', '#ef2929', '#ff00c9',
+                 '#ad7fa8', '#729fcf', '#8ae234', '#e9b96e', '#fce94f', '#f57900', '#cc0000', '#d400a8',
                  '#ff8e00', '#ff0000', '#b0008c', '#9000ff', '#0078ff', '#00ff00', '#e6ff00', '#ffff00',
-                 '#905000', '#9b0000', '#840067', '#510090', '#0000c9', '#009b00', '#9abe00', '#ffc900',]
-
+                 '#905000', '#9b0000', '#840067', '#9abe00', '#ffc900', '#510090', '#0000c9', '#009b00']
+OPERATORS = {
+    '+': operator.add,
+    '*': operator.mul,
+    'min': min,
+    'max': max,
+    '**': operator.pow
+}
 _colorline = ['#%02x%02x%02x' % (25+((r+10)%11)*23,5+((g+1)%11)*20,25+((b+4)%11)*23) for r in range(11) for g in range(11) for b in range(11) ]
 def choice_colors(n):
     if n > len(COLOR_PALETTE):
@@ -68,26 +71,22 @@ def choice_colors(n):
 
 class Graph(TinyWidget):
 
-    template = "templates/graph.mako"
-    javascript = [JSSource("""
-    var onChartClick = function(path) {
-        openobject.http.redirect(path);
-    }
-    """),
-    JSLink("view_graph", "javascript/swfobject.js")]
+    template = "/view_graph/widgets/templates/graph.mako"
+    javascript = [
+        JSLink("view_graph", "javascript/swfobject.js"),
+        JSLink("view_graph", "javascript/graph.js")]
 
     params = ['width', 'height', 'data']
-    width = 500
-    height = 350
+    width = 360
+    height = 300
 
-    def __init__(self, model, view=False, view_id=False, ids=[], domain=[], context={}, width=500, height=350):
+    def __init__(self, model, view=False, view_id=False, ids=[], domain=[], context={},view_mode=[], width=360, height=300):
 
         name = 'graph_%s' % (random.randint(0,10000))
         super(Graph, self).__init__(name=name, model=model, width=width, height=height)
 
         ctx = rpc.session.context.copy()
         ctx.update(context or {})
-
         view = view or cache.fields_view_get(model, view_id, 'graph', ctx)
 
         dom = xml.dom.minidom.parseString(view['arch'].encode('utf-8'))
@@ -101,17 +100,17 @@ class Graph(TinyWidget):
         self.ids = ids
         if ids is None:
             self.ids = rpc.RPCProxy(model).search(domain, 0, 0, 0, ctx)
-
+        self.count = rpc.RPCProxy(model).search_count(domain, ctx)
         if chart_type == "bar":
-            self.data = BarChart(model, view, view_id, ids, domain, context)
+            self.data = BarChart(model, view, view_id, ids, domain, view_mode, context)
         else:
-            self.data = PieChart(model, view, view_id, ids, domain, context)
+            self.data = PieChart(model, view, view_id, ids, domain, view_mode, context)
 
         self.data = simplejson.dumps(self.data.get_data())
 
 class GraphData(object):
 
-    def __init__(self, model, view=False, view_id=False, ids=[], domain=[], context={}):
+    def __init__(self, model, view=False, view_id=False, ids=[], domain=[], view_mode=[], context={}):
 
         ctx = {}
         ctx = rpc.session.context.copy()
@@ -125,6 +124,7 @@ class GraphData(object):
 
         attrs = node_attributes(root)
 
+        self.view_mode = view_mode
         self.model = model
         self.string = attrs.get('string', 'Unknown')
         self.kind = attrs.get('type', '')
@@ -159,23 +159,20 @@ class GraphData(object):
                     for i in fields[x]['selection']:
                         if value[x] in i:
                             res[x] = i[1]
-                elif fields[x]['type'] == 'date' and value[x]:
-                    date = time.strptime(value[x], DT_FORMAT)
-                    res[x] = time.strftime(locale.nl_langinfo(locale.D_FMT).replace('%y', '%Y'), date)
-                elif fields[x]['type'] == 'datetime' and value[x]:
-                    date = time.strptime(value[x], DHM_FORMAT)
-                    if 'tz' in rpc.session.context:
-                        try:
-                            import pytz
-                            lzone = pytz.timezone(rpc.session.context['tz'])
-                            szone = pytz.timezone(rpc.session.timezone)
-                            dt = DT.datetime(date[0], date[1], date[2], date[3], date[4], date[5], date[6])
-                            sdt = szone.localize(dt, is_dst=True)
-                            ldt = sdt.astimezone(lzone)
-                            date = ldt.timetuple()
-                        except:
-                            pass
-                    res[x] = time.strftime(locale.nl_langinfo(locale.D_FMT).replace('%y', '%Y')+' %H:%M:%S', date)
+                elif fields[x]['type'] == 'date':
+                    if value[x]:
+                        date = time.strptime(value[x], DT_SERVER_FORMATS['date'])
+                        date = tz_convert(date, 'parse')
+                        res[x] = time.strftime(locale.nl_langinfo(locale.D_FMT).replace('%y', '%Y'), date)
+                    else:
+                        res[x] = ''
+                elif fields[x]['type'] == 'datetime':
+                    if value[x]:
+                        date = time.strptime(value[x], DT_SERVER_FORMATS['datetime'])
+                        date = tz_convert(date, 'parse')
+                        res[x] = time.strftime(locale.nl_langinfo(locale.D_FMT).replace('%y', '%Y')+' %H:%M:%S', date)
+                    else:
+                        res[x] = ''
                 else:
                     res[x] = float(value[x])
 
@@ -195,9 +192,6 @@ class GraphData(object):
         self.axis_group_field = axis_group
 
     def parse(self, root, fields):
-
-        attrs = node_attributes(root)
-
         axis = []
         axis_data = {}
         axis_group = {}
@@ -223,21 +217,10 @@ class GraphData(object):
 
     def get_graph_data(self):
 
-        if not self.values:
-            return dict(title=self.string)
-
         axis = self.axis
         axis_data = self.axis_data
         datas = self.values
         kind = self.kind
-
-        operators = {
-            '+': lambda x,y: x+y,
-            '*': lambda x,y: x*y,
-            'min': lambda x,y: min(x,y),
-            'max': lambda x,y: max(x,y),
-            '**': lambda x,y: x**y
-        }
 
         keys = {}
         data_axis = {}
@@ -255,17 +238,18 @@ class GraphData(object):
         for field in axis[1:]:
             data_all = {}
             for val in datas:
-                group_eval = ','.join(map(lambda x: val[x], self.axis_group_field.keys()))
+                group_eval = ','.join(map(lambda x: val[x], self.axis_group_field.iterkeys()))
                 axis_group[group_eval] = 1
 
-                key_ids = {}
-                key_ids['id'] = val.get('id')
-                key_ids['rec_id'] = val.get('rec_id')
-                key_ids['prod_id'] = val[axis[0]]
+                key_ids = {
+                    'id': val.get('id'),
+                    'rec_id': val.get('rec_id'),
+                    'prod_id': val[axis[0]]
+                }
                 lbl = val[axis[0]]
-
+                
+                val[axis[0]] = ustr(val[axis[0]])
                 key_value = val[axis[0]]
-
                 key = urllib.quote_plus(ustr(key_value).encode('utf-8'))
                 info = data_axis.setdefault(key, {})
 
@@ -275,28 +259,25 @@ class GraphData(object):
                 label[lbl] = 1
 
                 if field in info:
-                    oper = operators[axis_data[field].get('operator', '+')]
+                    oper = OPERATORS[axis_data[field].get('operator', '+')]
                     info[field] = oper(info[field], val[field])
                 else:
                     info[field] = val[field]
 
                 if group_eval in data_all[val[axis[0]]]:
-                     oper = operators[axis_data[field].get('operator', '+')]
+                     oper = OPERATORS[axis_data[field].get('operator', '+')]
                      data_all[val[axis[0]]][group_eval] = oper(data_all[val[axis[0]]][group_eval], val[field])
                 else:
                     data_all[val[axis[0]]][group_eval] = val[field]
 
-                total_ids += [key_ids]
+                total_ids.append(key_ids)
             data_ax.append(data_all)
         axis_group = axis_group.keys()
         axis_group.sort()
         keys = keys.keys()
         keys.sort()
 
-        label = label.keys()
-        label.sort()
-
-        for l in label:
+        for l in sorted(label.iterkeys()):
             x = 0
             for i in total_ids:
                 if i.get('prod_id') == l and x == 0:
@@ -313,9 +294,10 @@ class GraphData(object):
                 label_x.append(l)
 
         for d in temp_dom:
+            rec = []
             for val in datas:
                 rec = val.get('rec_id')
-            domain += [[(axis[0], '=', d), ('id', 'in', rec)]]
+            domain.append([(axis[0], '=', d), ('id', 'in', rec)])
 
         values = {}
         for field in axis[1:]:
@@ -349,7 +331,7 @@ class GraphData(object):
                             ids = []
                             for dts in datas:
                                 if dt == dts[axis[0]] and d == dts[group_field] and dt == key:
-                                    ids += [dts['temp_id']]
+                                    ids.append(dts['temp_id'])
                                     group_data[key][d] = str(data[dt][d]) + '/' + str(ids)
 
                 for y in range(len(axis_group)):
@@ -377,8 +359,8 @@ class GraphData(object):
 
 class BarChart(GraphData):
 
-    def __init__(self, model, view=False, view_id=False, ids=[], domain=[], context={}):
-        super(BarChart, self).__init__(model, view, view_id, ids, domain, context)
+    def __init__(self, model, view=False, view_id=False, ids=[], domain=[], view_mode=[], context={}):
+        super(BarChart, self).__init__(model, view, view_id, ids, domain, view_mode, context)
         self.context = context
 
     def get_data(self):
@@ -386,7 +368,6 @@ class BarChart(GraphData):
         result = {}
         ctx =  rpc.session.context.copy()
         ctx.update(self.context)
-
         res = super(BarChart, self).get_graph_data()
 
         if len(res) > 1:
@@ -411,12 +392,10 @@ class BarChart(GraphData):
                 range = 0
                 for s in st:
                     range = range + s
-                x_data += [range]
+                x_data.append(range)
 
-            yopts = {}
             mx = 0
             mn = 0
-            tk = 2
 
             if values:
                 values.sort()
@@ -436,34 +415,28 @@ class BarChart(GraphData):
             total = mx + mn
             tk = round(total/10)
 
-            yopts['y_max'] = mx;
-            yopts['y_min'] = mn;
-            yopts['y_steps'] = tk;
-
-            return yopts;
+            return {'y_max': mx, 'y_min': mn, 'y_steps': tk}
 
         temp_lbl = []
         dataset = result.setdefault('dataset', [])
 
         for i in label_x:
-            lbl = {}
-            i = re.sub(u'[êéèë]', 'e', i)
-            i = re.sub(u'[ïî]', 'i', i)
-            i = re.sub(u'[àâáâãä]', 'a', i)
-            i = re.sub(u'[ç]', 'c', i)
-            i = re.sub(u'[òóôõö]', 'o', i)
-            i = re.sub(u'[ýÿ]', 'y', i)
-            i = re.sub(u'[ñ]', 'n', i)
-            i = re.sub(u'[ÁÂÃÄ]', 'A', i)
-            i = re.sub(u'[ÈÉÊË]', 'E', i)
-            i = re.sub(u'[ÌÍÎÏ]', 'I', i)
-            i = re.sub(u'[ÒÓÔÕÖ]', 'O', i)
-            i = re.sub(u'[ÙÚÛÜ]', 'U', i)
-            i = re.sub(u'[Ý]', 'Y', i)
-            i = re.sub(u'[Ñ]', 'N', i)
+            i = re.sub(ur'[êéèë]', 'e', i)
+            i = re.sub(ur'[ïî]', 'i', i)
+            i = re.sub(ur'[àâáâãä]', 'a', i)
+            i = re.sub(ur'[ç]', 'c', i)
+            i = re.sub(ur'[òóôõö]', 'o', i)
+            i = re.sub(ur'[ýÿ]', 'y', i)
+            i = re.sub(ur'[ñ]', 'n', i)
+            i = re.sub(ur'[ÁÂÃÄ]', 'A', i)
+            i = re.sub(ur'[ÈÉÊË]', 'E', i)
+            i = re.sub(ur'[ÌÍÎÏ]', 'I', i)
+            i = re.sub(ur'[ÒÓÔÕÖ]', 'O', i)
+            i = re.sub(ur'[ÙÚÛÜ]', 'U', i)
+            i = re.sub(ur'[Ý]', 'Y', i)
+            i = re.sub(ur'[Ñ]', 'N', i)
 
-            lbl['text'] = i
-            lbl['colour'] = "#432BAF"
+            lbl = {'text': i, 'colour': "#432BAF"}
             temp_lbl.append(lbl)
 
         url = []
@@ -476,14 +449,14 @@ class BarChart(GraphData):
                             ids = s.split('/')[1]
                             ids = eval(ids)
                             dom = [('id', 'in', ids)]
-                            u = url_plus('/form/find', _terp_view_type='tree', _terp_view_mode="['tree', 'graph']",
+                            u = url_plus('/openerp/form/find', _terp_view_type='tree', _terp_view_mode=ustr(self.view_mode),
                                _terp_domain=ustr(dom), _terp_model=self.model, _terp_context=ustr(ctx))
 
                             url.append(u)
 
             else:
                 for dom in domain:
-                    u = url_plus('/form/find', _terp_view_type='tree', _terp_view_mode="['tree', 'graph']",
+                    u = url_plus('/openerp/form/find', _terp_view_type='tree', _terp_view_mode=ustr(self.view_mode),
                            _terp_domain=ustr(dom), _terp_model=self.model, _terp_context=ustr(ctx))
 
                     url.append(u)
@@ -510,20 +483,16 @@ class BarChart(GraphData):
 
         if y_grid_color:
             axis_y = {"steps": yopts['y_steps'], "max": yopts['y_max'], "min": yopts['y_min'],
-                      "stroke": 2 }
+                      "stroke": 2 , "grid-colour": "#F0EEEE"}
         else:
             axis_y = {"steps": yopts['y_steps'], "max": yopts['y_max'], "min": yopts['y_min'],
-                      "grid-colour": "#FFFFFF",
-                      'stroke': 2 }
+                      'stroke': 2 , "grid-colour": "#F0EEEE"}
 
         if len(axis_group) > 1:
             ChartColors = choice_colors(len(axis_group))
             all_keys = []
             for i, x in enumerate(axis_group):
-                data = {}
-                data['text'] = x
-                data['colour'] = ChartColors[i]
-                data['font-size'] = 12
+                data = {'text': x, 'colour': ChartColors[i], 'font-size': 12}
                 all_keys.append(data)
 
             stack_val = []
@@ -531,9 +500,8 @@ class BarChart(GraphData):
             for j, stk in enumerate(stack_list):
                 sval = []
                 for x, s in enumerate(stk):
-                    stack = {}
-                    stack['val'] = s
-                    if s != 0.0 and not ctx.get('report_id', False):
+                    stack = {'val': s}
+                    if s != 0.0 and not ctx.get('report_id', False) and url:
                         stack["on-click"]= "function(){onChartClick('" + url[cnt] + "')}"
                         cnt += 1
                     stack['tip'] = s
@@ -546,10 +514,9 @@ class BarChart(GraphData):
                                      "keys": [key for key in all_keys]}],
                         "x_axis": {"colour": "#909090",
                                    "labels": { "labels": [ lbl for lbl in stack_labels ], "rotate": "diagonal", "colour": "#ff0000"},
-                                   "grid-colour" : "#FFFFFF",
-                                   "3d": 3},
+                                   "3d": 3, "grid-colour": "#F0EEEE"},
                         "y_axis": axis_y,
-                        "bg_colour": "#FFFFFF",
+                        "bg_colour": "#F8F8F8",
                         "tooltip": {"mouse": 2 }}
 
         else:
@@ -574,23 +541,22 @@ class BarChart(GraphData):
             result = {"y_axis": axis_y,
                       "title": {"text": ""},
                       "elements": [i for i in dataset],
-                      "bg_colour": "#FFFFFF",
+                      "bg_colour": "#F8F8F8",
                       "x_axis": {"colour": "#909090",
                                  "stroke": 1,
                                  "tick-height": 5,
-                                 "grid-colour" : "#FFFFFF",
                                  "steps": 1, "labels": { "rotate": "diagonal", "colour": "#ff0000", "labels": [l for l in temp_lbl]},
-                                 "3d": 3
+                                 "3d": 3,
+                                 "grid-colour": "#F0EEEE"
                                  }
                       }
-
         return result
 
 
 class PieChart(GraphData):
 
-    def __init__(self, model, view=False, view_id=False, ids=[], domain=[], context={}):
-        super(PieChart, self).__init__(model, view, view_id, ids, domain, context)
+    def __init__(self, model, view=False, view_id=False, ids=[], domain=[], view_mode=[], context={}):
+        super(PieChart, self).__init__(model, view, view_id, ids, domain, view_mode, context)
 
     def get_data(self):
 
@@ -612,28 +578,24 @@ class PieChart(GraphData):
         value = values.values()[0]
 
         url = []
-
         for dom in domain:
-            u = url_plus('/form/find', _terp_view_type='tree', _terp_view_mode="['tree', 'graph']",
+            u = url_plus('/openerp/form/find', _terp_view_type='tree', _terp_view_mode=ustr(self.view_mode),
                        _terp_domain=ustr(dom), _terp_model=self.model, _terp_context=ustr(ctx))
 
             url.append(u)
 
         allvalues = []
-        per = []
         total_val = 0
         for i, x in enumerate(label_x):
             total_val += value[i]
 
         for i, x in enumerate(label_x):
-            val = {}
-            val['value'] = value[i]
-            val['text'] = x
-            val['label'] = x
+            val = {'value': value[i], 'text': x, 'label': x}
             if not ctx.get('report_id', False):
                 val['on-click'] = "function(){onChartClick('" + url[i] + "')}"
 
-            if total_val <> 0.0:
+            # completely randomly selected epsilon
+            if abs(total_val) > .0001:
                 field_key = (100 * value[i])/total_val
                 field_key = '%.2f' % (field_key)
                 val["tip"] = x + ' (' + field_key + ' %)'
@@ -651,14 +613,14 @@ class PieChart(GraphData):
                         "no-labels": 'true',
                         "values": allvalues})
 
-        result = {"legend": {"bg_colour": "#fefefe",
+        result = {"legend": {"bg_colour": "#f8f8f8",
                              "border": 'true',
                              "position": "top",
                              "shadow": 'true',
                              "visible": 'true'
                              },
                   "elements": [d for d in dataset],
-                  "bg_colour": "#FFFFFF"}
+                  "bg_colour": "#F8F8F8"}
 
         return result
 

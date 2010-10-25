@@ -1,0 +1,188 @@
+/*
+* Project:   OpenERP
+* Date:      2010/03/16
+/* ---------------------------------------- */
+* {
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    font-size: 100.01%;
+}
+
+body {
+    background: #fff;
+    font-size: 62.5%;
+}
+
+body,textarea,input,select,option,button {
+    color: #555;
+    font-family: Calibri, Lucida Grande, Helvetica Neue, Helvetica, Arial, sans-serif;
+    line-height: 1.25;
+}
+
+li,dt,dd,p,th,td,caption,pre {
+    font-size: 1.5em;
+}
+
+ul,ol,dl,p,table,pre,h1,h2,h3,h4,h5,h6 {
+    margin-bottom: 15px;
+}
+
+a {
+    color: #00f;
+    text-decoration: none;
+}
+
+ul,ol,dd,blockquote {
+    padding-left: 30px;
+}
+
+ul ul,ol ol,ul ol,ol ul {
+    margin-bottom: 0;
+}
+
+li *,li p,li li,dt *,dd *,p *,th *,td * {
+    font-size: 1em;
+}
+
+img {
+    border: none;
+}
+
+pre {
+    font-family: "Courier New", monospace;
+    white-space: pre-wrap;
+}
+
+table {
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+
+button {
+    overflow: visible;
+    padding: 0 10px;
+}
+
+hr {
+    overflow: hidden;
+    height: 1px;
+    margin: 15px 0 !important;
+    margin: -5px 0 8px;
+    padding: 0;
+    border: none;
+    background-color: #ccc;
+    color: #ccc;
+}
+
+*:first-child+html hr {
+    margin: -7px 0 8px !important;
+}
+
+.offset {
+    position: absolute !important;
+    left: -10001px !important;
+    overflow: hidden !important;
+}
+
+/* LAYOUT
+------------------------------------------- */
+#root {
+    
+}
+
+#top {
+    margin: 0 0 15px;
+    padding: 0 0 1px;
+    border-bottom: 1px solid #ccc;
+}
+
+#cmp_logo {
+    
+}
+
+#cmp_logo a {
+    color: #000;
+}
+
+#title {
+    display: none;
+}
+
+#corner {
+    display: none;
+}
+
+#skip-links {
+    display: none;
+}
+
+#nav {
+    display: none;
+}
+
+#content {
+    
+}
+
+#content a:after {
+    content: " (" attr(href) ") ";
+    color: #555;
+    font-size: 0.8em;
+    font-style: italic;
+}
+
+#secondary {
+    display: none;
+}
+
+#tertiary {
+    display: none;
+}
+
+/* GENERAL
+------------------------------------------- */ /* headers */
+h1,h2,h3,h4,h5,h6 {
+    margin: 20px 0 5px;
+    color: #000;
+    font-family: Cambria, Georgia, serif;
+}
+
+h1 {
+    margin-top: 0;
+    font-size: 2.4em;
+}
+
+h2 {
+    font-size: 2.0em;
+}
+
+h3 {
+    font-size: 1.8em;
+}
+
+h4 {
+    font-size: 1.6em;
+}
+
+h5 {
+    font-size: 1.5em;
+    text-transform: uppercase;
+}
+
+h6 {
+    font-size: 1.4em;
+    text-transform: uppercase;
+}
+
+/* tables */
+table {
+    
+}
+
+table th,table td {
+    padding: 5px 10px;
+    border: 1px solid #ccc;
+}

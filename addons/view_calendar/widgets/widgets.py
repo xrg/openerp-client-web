@@ -10,7 +10,7 @@
 # It's based on Mozilla Public License Version (MPL) 1.1 with following
 # restrictions:
 #
-# -   All names, links and logos of Tiny, Open ERP and Axelor must be
+# -   All names, links and logos of Tiny, OpenERP and Axelor must be
 #     kept as in original distribution without any changes in all software
 #     screens, especially in start-up page and the software header, even if
 #     the application source code has been changed or updated or code has been
@@ -27,31 +27,20 @@
 #
 ###############################################################################
 
+import itertools
 import time
-import datetime
-import calendar
 import xml.dom.minidom
-
-import cherrypy
 
 from openobject.widgets import JSLink, CSSLink
 
-from openerp.utils import rpc
-from openerp.utils import TinyDict
-from openerp.utils import node_attributes
-
+from openerp.utils import rpc, node_attributes
 from openerp.widgets import TinyWidget
 
-from _base import ICalendar
-from _base import TinyCalendar
-
-from utils import Day
-from utils import Week
-from utils import Month
-from utils import Year
+from _base import ICalendar, TinyCalendar
+from utils import Day, Week, Month, Year
 
 class MiniCalendar(TinyWidget):
-    template = 'templates/mini.mako'
+    template = 'view_calendar/widgets/templates/mini.mako'
     params = ['selected_day', 'month', 'forweek', 'highlight']
 
     month = None
@@ -69,19 +58,35 @@ class MiniCalendar(TinyWidget):
         self.highlight = highlight
 
 class GroupBox(TinyWidget):
-    template = 'templates/groups.mako'
-    params = ["colors", "color_values", "title"]
+    template = 'view_calendar/widgets/templates/groups.mako'
+    params = ["colors", "color_values", "title", "grp_model", "grp_domain", "grp_context"]
 
     colors = {}
     color_values = []
     title = None
     action = None
 
-    def __init__(self, colors, color_values, selected_day, title=None, mode='month'):
+    def __init__(self, colors, color_values, selected_day, group_relation={}, title=None, mode='month'):
         super(GroupBox, self).__init__()
         self.colors = colors
         self.color_values = color_values
         self.title = title
+        
+        if group_relation.get('relation'):
+            self.grp_model = group_relation['relation']
+            self.grp_domain = group_relation['domain']
+            self.grp_context = group_relation['context']
+            
+class Sidebar(TinyWidget):
+    template = 'view_calendar/widgets/templates/sidebar.mako'
+    params = ['use_search']
+    member_widgets = ['minical', 'groupbox']
+    
+    def __init__(self, minical, groupbox, use_search=False):
+        super(Sidebar, self).__init__()
+        self.minical = minical
+        self.groupbox = groupbox
+        self.use_search = use_search
 
 def get_calendar(model, view, ids=None, domain=[], context={}, options=None):
 
@@ -118,9 +123,8 @@ def _get_selection_day(day, selected, mode):
 
 class MonthCalendar(TinyCalendar):
 
-    template = 'templates/month.mako'
+    template = 'view_calendar/widgets/templates/month.mako'
     params = ['month', 'events', 'selected_day', 'calendar_fields', 'date_format']
-    member_widgets = ['minical', 'groupbox']
 
     month = None
     events = {}
@@ -136,25 +140,25 @@ class MonthCalendar(TinyCalendar):
 
         self.month = Month(y, m)
         self.events = self.get_events(self.month.days)
-
+        
         self.selected_day = _get_selection_day(Day(y, m, 1), self.selected_day, 'month')
-
-        self.minical = MiniCalendar(self.selected_day)
-        self.groupbox = GroupBox(self.colors, self.color_values, self.selected_day,
+        
+        minical = MiniCalendar(self.selected_day)
+        groupbox = GroupBox(self.colors, self.color_values, self.selected_day,
+                group_relation=self.fields[self.color_field],
                 title=(self.color_field or None) and self.fields[self.color_field]['string'],
                 mode='month')
+                
+        self.sidebar = Sidebar(minical, groupbox, self.use_search)
 
 
 class WeekCalendar(TinyCalendar):
-    template = 'templates/week.mako'
+    template = 'view_calendar/widgets/templates/week.mako'
     params = ['week', 'events', 'selected_day', 'calendar_fields', 'date_format']
-    member_widgets = ['minical', 'groupbox']
 
     week = None
     events = {}
-
-    minical = None
-
+    
     def __init__(self, model, view, ids=None, domain=[], context={}, options=None):
         TinyCalendar.__init__(self, model, ids, view, domain, context, options)
 
@@ -167,21 +171,20 @@ class WeekCalendar(TinyCalendar):
 
         self.selected_day = _get_selection_day(Day(y, m, d), self.selected_day, 'week')
 
-        self.minical = MiniCalendar(self.week[0], True)
-        self.groupbox = GroupBox(self.colors, self.color_values, self.week[0],
+        minical = MiniCalendar(self.week[0], True)
+        groupbox = GroupBox(self.colors, self.color_values, self.week[0],
+                group_relation=self.fields[self.color_field],
                 title=(self.color_field or None) and self.fields[self.color_field]['string'],
                 mode='week')
-
+        
+        self.sidebar = Sidebar(minical, groupbox, self.use_search)
 
 class DayCalendar(TinyCalendar):
-    template = 'templates/day.mako'
+    template = 'view_calendar/widgets/templates/day.mako'
     params = ['day', 'events', 'calendar_fields', 'date_format']
-    member_widgets = ['minical', 'groupbox']
 
     day = None
     events = {}
-
-    minical = None
 
     def __init__(self, model, view, ids=None, domain=[], context={}, options=None):
         TinyCalendar.__init__(self, model, ids, view, domain, context, options)
@@ -193,19 +196,22 @@ class DayCalendar(TinyCalendar):
         self.day = Day(y,m,d)
 
         self.events = self.get_events([self.day])
-        self.minical = MiniCalendar(self.day)
-        self.groupbox = GroupBox(self.colors, self.color_values, self.day,
+        
+        minical = MiniCalendar(self.day)
+        groupbox =  GroupBox(self.colors, self.color_values, self.day,
+                group_relation=self.fields[self.color_field],
                 title=(self.color_field or None) and self.fields[self.color_field]['string'],
                 mode='day')
-
+        
+        self.sidebar = Sidebar(minical, groupbox, self.use_search)
 
 class GanttCalendar(ICalendar):
 
-    template = 'templates/gantt.mako'
+    template = 'view_calendar/widgets/templates/gantt.mako'
 
     params = ['title', 'level', 'groups', 'days', 'events', 'calendar_fields', 'date_format',
               'selected_day', 'mode', 'headers', 'subheaders', 'model', 'ids']
-    member_widgets = ['groupbox']
+    member_widgets = ['sidebar']
 
     level = None
     groups = None
@@ -214,8 +220,11 @@ class GanttCalendar(ICalendar):
     headers = None
     subheaders = None
     mode = 'week'
+    
+    sidebar = None
 
     css = [CSSLink("view_calendar", 'css/calendar.css'),
+           CSSLink("view_calendar", 'css/screen.css'),
            CSSLink("view_calendar", 'css/calendar_gantt.css')]
     javascript = [JSLink("view_calendar", 'javascript/calendar_date.js'),
                   JSLink("view_calendar", 'javascript/calendar_utils.js'),
@@ -255,9 +264,7 @@ class GanttCalendar(ICalendar):
             self.selected_day = day
 
             self.headers = [(24, ustr(dp)), (24, ustr(day)), (24, ustr(dn))]
-            self.subheaders = []
-            for x in self.headers:
-                self.subheaders += [time.strftime('%I %P', (y, 1, 1, i, 0, 0, 1, 1, 0)) for i in range(0, 24, 6)]
+            self.subheaders = [time.strftime('%I %P', (y, 1, 1, i, 0, 0, 1, 1, 0)) for i in range(0, 24, 6)]
 
         elif self.mode == 'week':
             self.days = [d for d in Week(day)]
@@ -266,7 +273,8 @@ class GanttCalendar(ICalendar):
             self.headers = [(12, u"%s %s" % (d.month2.name, d.day)) for d in self.days]
             self.subheaders = []
             for x in self.days:
-                self.subheaders += [time.strftime('%I %P', (y, 1, 1, i, 0, 0, 1, 1, 0)) for i in [0, 23]]
+                for i in [0, 23]:
+                    self.subheaders.append(time.strftime('%I %P', (y, 1, 1, i, 0, 0, 1, 1, 0)))
 
         elif self.mode == '3weeks':
             w = Week(day)
@@ -276,10 +284,7 @@ class GanttCalendar(ICalendar):
             self.title = _(u"%s - %s") % (ustr(self.days[0]), ustr(self.days[-1]))
             self.selected_day = _get_selection_day(day, self.selected_day, 'week')
             self.headers = [(7, _("Week %s") % w1[0].strftime('%W')) for w1 in [wp, w, wn]]
-            self.subheaders = []
-            self.subheaders += [x.strftime('%a %d') for x in wp]
-            self.subheaders += [x.strftime('%a %d') for x in w]
-            self.subheaders += [x.strftime('%a %d') for x in wn]
+            self.subheaders = [x.strftime('%a %d') for x in itertools.chain(wp, w, wn)]
 
         elif self.mode == '3months':
             q = 1 + (m - 1) / 3
@@ -288,26 +293,22 @@ class GanttCalendar(ICalendar):
             mt = mn.prev()
             mp = mt.prev()
 
-            days = []
-            days += [d for d in mp if d.year == mp.year and d.month == mp.month]
-            days += [d for d in mt if d.year == mt.year and d.month == mt.month]
-            days += [d for d in mn if d.year == mn.year and d.month == mn.month]
+            days = [d for d in mp if d.year == mp.year and d.month == mp.month] \
+                 + [d for d in mt if d.year == mt.year and d.month == mt.month] \
+                 + [d for d in mn if d.year == mn.year and d.month == mn.month]
 
             self.days = days
             self.title = _("%s, Qtr %s") % (y, q)
             self.selected_day = _get_selection_day(day, self.selected_day, '3months')
 
-            headers = []
-            headers += [w for w in mp.weeks]
-            headers += [w for w in mt.weeks]
-            headers += [w for w in mn.weeks]
+            headers = list(itertools.chain(mp.weeks, mt.weeks, mn.weeks))
 
             self.headers = [(mp.range[-1], ustr(mp)), (mt.range[-1], ustr(mt)), (mn.range[-1], ustr(mn))]
             self.subheaders = []
             for x in headers:
                 x = _("Week %s") % x[0].strftime('%W')
                 if x not in self.subheaders:
-                    self.subheaders += [x]
+                    self.subheaders.append(x)
 
         elif self.mode == 'year':
             yr = Year(y)
@@ -359,8 +360,13 @@ class GanttCalendar(ICalendar):
 
         self.events = self.get_events(self.days)
         self.groups = self.get_groups(self.events)
-        self.groupbox = GroupBox(self.colors, self.color_values, day,
+        
+        minical = MiniCalendar(day)
+        groupbox = GroupBox(self.colors, self.color_values, day,
+                group_relation=self.fields[self.color_field],
                 title=(self.color_field or None) and self.fields[self.color_field]['string'], mode=self.mode)
+
+        self.sidebar = Sidebar(minical, groupbox, self.use_search)
 
     def parse(self, root, fields):
 
@@ -371,7 +377,7 @@ class GanttCalendar(ICalendar):
             attrs = node_attributes(node)
 
             if node.localName == 'field':
-                info_fields += [attrs['name']]
+                info_fields.append(attrs['name'])
 
             if node.localName == 'level':
                 self.level = attrs
@@ -386,7 +392,6 @@ class GanttCalendar(ICalendar):
 
         obj = self.level['object']
         field = self.level['link']
-        domain = self.level['domain']
 
         keys = []
         groups = {}
@@ -402,9 +407,9 @@ class GanttCalendar(ICalendar):
             elif group_id:
                 group_id, group_title = rpc.RPCProxy(obj).name_get([group_id], rpc.session.context)[0]
 
-            group = groups.setdefault(group_id, {'id': group_id, 'title': group_title, 'model': obj, 'items': []})
+            group = groups.setdefault(group_id, {'id': str(group_id), 'title': group_title, 'model': obj, 'items': []})
 
-            group['items'].append(evt.record_id)
+            group['items'].append(str(evt.record_id))
 
             if group_id not in keys:
                 keys.append(group_id)

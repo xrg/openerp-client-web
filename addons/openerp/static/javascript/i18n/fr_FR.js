@@ -1,6 +1,0 @@
-
-// Auto generated file. Please don't modify.
-openobject.gettext.update(
-{"Documents": "Documents", "Please wait...": "Veuillez patienter...", "Notes:": "Remarques :", "Duplicate": "Dupliquer", "This operation may take a while...": "Cette op\u00e9ration peut prendre un certain temps...", "Print": "Imprimer", "Do you really want to delete this record?": "Voulez-vous vraiment supprimer cet enregistrement?", "You selected to open %(tabs)s tabs - do you want to continue?": "You selected to open %(tabs)s tabs - do you want to continue?", "Invalid form, correct red fields !": "Invalid form, correct red fields !", "Delete": "Supprimer", "You must select at least one record.": "Vous devez s\u00e9lectionner au moins un enregistrement.", "Edit": "Modifier", "Related:": "Associ\u00e9 :", "Do you really want to remove this node?": "Voulez-vous vraiment supprimer ce n\u0153ud?", "Do you really want to delete selected record(s) ?": "Voulez-vous vraiment supprimer le(s) enregistrement(s) s\u00e9lectionn\u00e9(s)?", "Help": "Aide", "Print workflow": "Imprimer le workflow", "Loading...": "Chargement...", "Subflows:": "Sous-processus", "Cancel": "Annuler", "Open": "Ouvrir", "Do you really wants to create an inherited view here?": "Voulez-vous vraiment cr\u00e9er une vue h\u00e9rit\u00e9e ici ?"}
-);
-

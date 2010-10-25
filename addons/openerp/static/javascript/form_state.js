@@ -10,7 +10,7 @@
 // It's based on Mozilla Public License Version (MPL) 1.1 with following 
 // restrictions:
 //
-// -   All names, links and logos of Tiny, Open ERP and Axelor must be 
+// -   All names, links and logos of Tiny, OpenERP and Axelor must be 
 //     kept as in original distribution without any changes in all software 
 //     screens, especially in start-up page and the software header, even if 
 //     the application source code has been changed or updated or code has been 
@@ -27,93 +27,50 @@
 //
 ////////////////////////////////////////////////////////////////////////////////
 
-var form_hookContextMenu = function(){
+function form_hookContextMenu(){
     if (!openobject.dom.get('_terp_list')) {
         MochiKit.Signal.connect(window.document, 'oncontextmenu', on_context_menu);
     }
 }
 
-var form_hookOnChange = function() {
-
-    var prefix = '';
-    try {
-        prefix = openobject.dom.get('_terp_o2m').value + '/';
-    }catch(e){}
-    
-    var id = openobject.dom.get(prefix + '_terp_id').value;
-    var view_type = openobject.dom.get('_terp_view_type').value;
-    var editable = openobject.dom.get('_terp_editable').value;
-
-    if (!(view_type == 'form' || editable == 'True')) {
-        return;
-    }
-
-    var fields = getFormData();
-    //TODO: remove onchange="${onchange}" from all templates and register onChange here
-
-    // signal fake onchange events for default value in new record form
-    id = parseInt(id) || 0;
-    if (id) return;
-
-    for(var name in fields) {
-        var field = openobject.dom.get(name);
-        if (field && field.value && getNodeAttribute(field, 'callback')) {
-            if (field.onchange) {
-                field.onchange();
-            } else {
-                MochiKit.Signal.signal(field, 'onchange');
-            }
-        }
-    }
-}
-
-var form_hookStateChange = function() {
-    
-    var items = [];
-    
-    items = items.concat(openobject.dom.select('td.item'));
-    items = items.concat(openobject.dom.select('td.label'));
-    items = items.concat(openobject.dom.select('div.tabbertab'));
-    
-    items = MochiKit.Base.filter(function(e){
-        return getNodeAttribute(e, 'states');
-    }, items);
-
+function form_hookStateChange() {
     var fields = {};
 
-    forEach(items, function(e) {
-        var widget = getNodeAttribute(e, 'widget');
-        var states = getNodeAttribute(e, 'states');
+    jQuery('td.item[states], td.label[states], div.tabbertab[states]').each(function() {
+        var $this = jQuery(this);
+        var widget = $this.attr('widget');
         var prefix = widget.slice(0, widget.lastIndexOf('/')+1) || '';
 
-        // conver to JS
-        states = states.replace(/u'/g, "'");
-        states = states.replace(/True/g, '1');
-        states = states.replace(/False/g, '0');
-        states = eval('(' + states + ')');
+        // convert states from Python serialization to JS/JSON
+        var states = eval(
+                '(' + $this.attr('states')
+                      .replace(/u'/g, "'")
+                      .replace(/True/g, '1')
+                      .replace(/False/g, '0') + ')');
 
         var state = openobject.dom.get(prefix + 'state') || openobject.dom.get(prefix + 'x_state');
         if (state) {
             fields[state.id] = state;
-            MochiKit.Signal.connect(state, 'onStateChange', MochiKit.Base.partial(form_onStateChange, e, widget, states));
-            MochiKit.Signal.connect(state, 'onchange', function(evt){
-                MochiKit.Signal.signal(field, 'onStateChange');
+            var $state = jQuery(state).bind('onStateChange', MochiKit.Base.partial(form_onStateChange, this, widget, states));
+            $state.change(function (){
+                jQuery(this).trigger('onStateChange');
             });
         }
     });
     
     for(var field in fields) {
-        MochiKit.Signal.signal(field, 'onStateChange');
+        jQuery(field).trigger('onStateChange');
     }
 }
 
-var form_onStateChange = function(container, widget, states, evt) {
+function form_onStateChange(container, widget, states, evt) {
 
     var src = evt.src();
     var value = typeof(src.value) == "undefined" ? getNodeAttribute(src, 'value') || src.innerHTML : src.value;
 
     if (MochiKit.Base.isArrayLike(states)) {
-        return form_setVisible(container, widget, findIdentical(states, value) > -1);
+        form_setVisible(container, widget, findIdentical(states, value) > -1);
+        return;
     }
 
     var has_readonly = false;
@@ -135,25 +92,15 @@ var form_onStateChange = function(container, widget, states, evt) {
 
 }
 
-var form_hookAttrChange = function() {
-    
-    var items = [];
-    
-    items = items.concat(openobject.dom.select('td.item'));
-    items = items.concat(openobject.dom.select('td.label'));
-    items = items.concat(openobject.dom.select('div.notebook-page'));
-    
-    items = MochiKit.Base.filter(function(e){
-        return getNodeAttribute(e, 'attrs');
-    }, items);
-
+function form_hookAttrChange() {
+    var $items = jQuery('td[attrs], div.notebook-page[attrs]');
     var fields = {};
 
-    forEach(items, function(e){
-
-        var attrs = getNodeAttribute(e, 'attrs') || '{}';
-        var widget = getNodeAttribute(e, 'widget') || '';
-        var container = e;
+    $items.each(function(){
+        var $this = jQuery(this);
+        var attrs = $this.attr('attrs') || '{}';
+        var widget = $this.attr('widget') || '';
+        var container = this;
         var prefix = widget.slice(0, widget.lastIndexOf('/')+1) || '';
 
         // Convert Python statement into it's equivalent in JavaScript.
@@ -161,15 +108,21 @@ var form_hookAttrChange = function() {
         attrs = attrs.replace(/\)/g, ']');
         attrs = attrs.replace(/True/g, '1');
         attrs = attrs.replace(/False/g, '0');
+        attrs = attrs.replace(/uid/g, window.USER_ID);
         
         try {
             attrs = eval('(' + attrs + ')');
         } catch(e){
             return;
         }
-        
+
         for (var attr in attrs) {
             var expr_fields = {}; // check if field appears more then once in the expr
+
+            if (attrs[attr] == ''){
+                return form_onAttrChange(container, widget, attr, attrs[attr]);
+            }
+            
             forEach(attrs[attr], function(n){
 
                 if (typeof(n) == "number") { // {'invisible': [1]}
@@ -181,45 +134,52 @@ var form_hookAttrChange = function() {
                 if (field && !expr_fields[field.id]) {
                     fields[field.id] = 1;
                     expr_fields[field.id] = 1;
-                    MochiKit.Signal.connect(field, 'onAttrChange', partial(form_onAttrChange, container, widget, attr, attrs[attr]));
-                    MochiKit.Signal.connect(field, 'onchange', function(evt){
-                        MochiKit.Signal.signal(field, 'onAttrChange');
+                    // events disconnected during hook_onStateChange,
+                    // don't redisconnect or may break onStateChange
+                    var $field = jQuery(field).bind('onAttrChange', partial(form_onAttrChange, container, widget, attr, attrs[attr]));
+                    $field.change(function () {
+                        jQuery(this).trigger('onAttrChange');
                     });
                 }
             });
         }
     });
-    
+
     for(var field in fields) {
-        MochiKit.Signal.signal(field, 'onAttrChange');
+        jQuery('[id="'+field+'"]').trigger('onAttrChange');
     }
 }
 
-var form_onAttrChange = function(container, widget, attr, expr, evt) {
+function form_onAttrChange(container, widgetName, attr, expr) {
 
-    var prefix = widget.slice(0, widget.lastIndexOf('/')+1);
-    var widget = openobject.dom.get(widget);
+    var prefix = widgetName.slice(0, widgetName.lastIndexOf('/') + 1);
+    var widget = openobject.dom.get(widgetName);
 
     var result = form_evalExpr(prefix, expr);
-    
-    if (attr == 'readonly')
-       form_setReadonly(container, widget, result)
-    
-    if (attr == 'required')
-       form_setRequired(container, widget, result)
-    
-    if (attr == 'invisible')
-       form_setVisible(container, widget, !result)
+
+    switch (attr) {
+        case 'readonly': form_setReadonly(container, widget, result);
+            break;
+        case 'required': form_setRequired(container, widget, result);
+            break;
+        case 'invisible': form_setVisible(container, widget, !result);
+            break;
+        default:
+    }
 }
 
-var form_evalExpr = function(prefix, expr) {
-    
-    var result = true;
-    
-    for(var i=0; i<expr.length; i++) {
-        
+function form_evalExpr(prefix, expr) {
+
+    var stack = [];
+    for (var i = 0; i < expr.length; i++) {
+
         var ex = expr[i];
         var elem = openobject.dom.get(prefix + ex[0]);
+        
+        if (ex.length==1) {
+            stack.push(ex[0]);
+            continue;
+        }
         
         if (!elem) 
             continue;
@@ -229,78 +189,111 @@ var form_evalExpr = function(prefix, expr) {
         var elem_value = elem.value || getNodeAttribute(elem, 'value') || elem.innerHTML;
         
         switch (op.toLowerCase()) {
-            
             case '=':
             case '==':
-                result = result && (elem_value == val);
+                stack.push(elem_value == val);
                 break;
             case '!=':
             case '<>':
-                result = result && (elem_value != val);
+                stack.push(elem_value != val);
                 break;
             case '<':
-                result = result && (elem_value < val);
+                stack.push(elem_value < val);
                 break;
             case '>':
-                result = result && (elem_value > val);
+                stack.push(elem_value > val);
                 break;
             case '<=':
-                result = result && (elem_value <= val);
+                stack.push(elem_value <= val);
                 break;
             case '>=':
-                result = result && (elem_value >= val);
+                stack.push(elem_value >= val);
                 break;
             case 'in':
-                result = result && MochiKit.Base.findIdentical(val, elem_value) > -1;
+                stack.push(MochiKit.Base.findIdentical(val, elem_value) > -1);
                 break;
             case 'not in':
-                result = result && MochiKit.Base.findIdentical(val, elem_value) == -1;
+                stack.push(MochiKit.Base.findIdentical(val, elem_value) == -1);
                 break;
         }
     }
-    
-    return result;
+
+    for (var j=stack.length-1; j>-1; j--) {
+        if(stack[j] == '|'){
+            var result = stack[j+1] || stack[j+2];
+            stack.splice(j, 3, result)
+        }
+    }
+    // shouldn't find any `false` left at this point
+    return stack.indexOf(false) == -1;
 }
 
-var form_setReadonly = function(container, field, readonly) {
-    
-    var field = openobject.dom.get(field);
+function form_setReadonly(container, fieldName, readonly) {
 
-    if (!field) {
+    var $field = jQuery(fieldName) || jQuery('[id="'+fieldName+'"]');
+
+    if (!$field.length) {
         return;
     }
-    
-    var kind = MochiKit.DOM.getNodeAttribute(field, 'kind');
 
-    if (!kind && 
-            openobject.dom.get(field.id + '_id') && 
-            openobject.dom.get(field.id + '_text') &&
-            MochiKit.DOM.getNodeAttribute(field.id + '_id', 'kind') == "many2many") {
-        return Many2Many(field.id).setReadonly(readonly);
+    var kind = $field.attr('kind');
+    var field_id = $field.attr('id');
+    var field_name = $field.attr('name');
+
+    if (kind == 'boolean') {
+        var boolean_field = jQuery('input#'+field_id+'_checkbox_');
+        boolean_field.attr({'disabled':readonly, 'readOnly': readonly});
     }
 
-    field.readOnly = readonly;
-    field.disabled = readonly;
-    
-    if (readonly) {
-        MochiKit.DOM.addElementClass(field, 'readonlyfield');
+    if (!kind &&
+            jQuery('[id="'+field_id + '_id"]') &&
+            jQuery('[id="'+field_id + '_set"]') &&
+            jQuery('[id="'+field_id + '_id"]').attr('kind') == "many2many") {
+         Many2Many(field_id).setReadonly(readonly)
+        return;
+    }
+
+    var type = $field.attr('type');
+    $field.attr({'disabled':readonly, 'readOnly': readonly});
+
+    if (readonly && (type == 'button')) {
+        $field.css("cursor", "default");
+    }
+
+    if (readonly && (type != 'button')) {
+        $field.removeAttr('href');
+        $field.css("color", "gray");
+    }
+
+    if (readonly && (type != 'button')) {
+        $field.addClass('readonlyfield');
     } else {
-        MochiKit.DOM.removeElementClass(field, 'readonlyfield');
+        $field.removeClass('readonlyfield');
     }
-    
-    if (field.type == 'hidden' && kind == 'many2one') {
-        //form_setReadonly(container, getElement(field.name + '_text'), readonly);
-        return ManyToOne(field).setReadonly(readonly);
+
+    if (type == 'hidden' && kind == 'many2one') {
+        ManyToOne(field_id).setReadonly(readonly);
     }
-    
+
+    if (!kind && (jQuery('[id="'+field_id+'_btn_'+'"]').length || jQuery('[id="'+'_o2m'+field_id+'"]').length)) { // one2many
+        new One2Many(field_id).setReadonly(readonly);
+        return
+    }
+
     if (kind == 'date' || kind == 'datetime' || kind == 'time') {
-        var img = openobject.dom.get(field.name + '_trigger');
-        if (img)
-            img.parentNode.style.display = readonly ? 'none' : '';
+
+        var $img = jQuery('[id="'+field_name+'_trigger'+'"]');
+        if ($img.length){
+            $img.css('display',readonly ? 'none' : '');
+         }
     }
 }
 
-var form_setRequired = function(container, field, required) {
+function form_setRequired(container, field, required) {
+    
+    if (!field) {
+        field = container;
+    }
     
     if (required) {
         MochiKit.DOM.addElementClass(field, 'requiredfield');
@@ -316,14 +309,15 @@ var form_setRequired = function(container, field, required) {
     }
 }
 
-var form_setVisible = function(container, field, visible) {
+function form_setVisible(container, field, visible) {
 
     if (MochiKit.DOM.hasElementClass(container, 'notebook-page')) { // notebook page?
     
         var nb = container.parentNode.parentNode.notebook;
         
         if (!nb)  {
-           return MochiKit.Async.callLater(0, form_setVisible, container, field, visible);
+           MochiKit.Async.callLater(0, form_setVisible, container, field, visible);
+           return;
         }
         
         var i = findIdentical(nb.pages, container);
@@ -339,17 +333,21 @@ var form_setVisible = function(container, field, visible) {
         try {
             var label = getNodeAttribute(container, 'for');
             label = MochiKit.Selector.findChildElements(container.parentNode, ['td.label[for="' + label + '"]'])[0];
-            if (label) label.style.display = visible ? '' : 'none';
+            if (!label){
+                container.style.display = visible ? '' : 'none';
+            }
+            else{
+                getFirstParentByTagAndClassName(container).style.display = visible ? '' : 'none';
+            }
         }catch(e){}
     }
 }
 
-MochiKit.DOM.addLoadEvent(function(evt){    
+jQuery(document).ready(function(){
     form_hookContextMenu();
     form_hookStateChange();
     form_hookAttrChange();
-    form_hookOnChange();
+}).ajaxStop(function () {
+    form_hookStateChange();
+    form_hookAttrChange();
 });
-
-// vim: ts=4 sts=4 sw=4 si et
-

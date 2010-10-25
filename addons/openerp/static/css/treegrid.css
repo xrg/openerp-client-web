@@ -1,24 +1,50 @@
 table.tree-grid {
     background-color:#E3E3E3;
     border-collapse: collapse;
-    width:100%;
+    width: 100%;
+}
+
+table#view_tree,
+table#import_fields,
+table#export_fields {
+    width: 100% !important;
 }
 
 table.tree-grid th,
 table.tree-grid td {
     text-align: left;
-    padding: 2px 5px;
     white-space: nowrap;
     border: 1px solid #E3E3E3;
 }
 
-table.tree-grid td {
+.tree-grid td {
     border-top: none;
 }
 
-table.tree-grid .tree-field td {
-    padding: 0 2px;
+.tree-field {
+	border-bottom: none;
+	margin-top: -2px;
+}
+
+.tree-field td:last-child {
+	width: 100%;
+}
+.tree-field td:last-child a {
+	display: block;
+}
+
+.tree-grid .tree-field td {
     border: none;
+}
+.tree-grid .tree-field .indent,
+.tree-grid .tree-field .expand,
+.tree-grid .tree-field .collapse {
+    padding-right: 2px;
+}
+
+#export_fields .tree-field td,
+#import_fields .tree-field td {
+	padding: 2px;	
 }
 
 table.tree-grid .header th {
@@ -48,7 +74,7 @@ table.tree-grid .expand,
 table.tree-grid .collapse,
 table.tree-grid .loading {
     float: left;
-    width: 1.5em;
+    width: 1em;
     min-height: 18px;
 
     background-repeat: no-repeat;
@@ -90,7 +116,6 @@ table.tree-grid a:hover {
     border: none;
 }
 
-/**
- * vim: sts=4 st=4 et 
- *
- */
+td.tree_grid table.tree-grid {
+    width: 100%;
+}

@@ -1,0 +1,104 @@
+#process_canvas {
+    position: relative;
+    margin: auto;
+    outline: none;
+}
+
+a.help-button-a:hover,
+a.help-button-a {
+	background:transparent url(../images/button-a-a.png) no-repeat scroll 0 0;
+	color:#FFFFFF !important;
+	display:block;
+	font-size:12px;
+	font-weight:bold;
+	height:56px;
+	line-height:1;
+	overflow:hidden;
+	padding:14px 0 0;
+	position: relative;
+	text-align:center;
+	text-decoration:none !important;
+	text-shadow:0 -1px 0 #000000;
+	width:200px;
+}
+a.help-button-a small:hover,
+a.help-button-a small {
+	display:block;
+	font-size:8px;
+	font-weight:normal;
+	margin:18px 0 0;
+	text-transform:uppercase;
+}
+
+.process-notes {
+    font-size: 11px;
+    left: 10px;
+    max-height: 250px;
+    text-align: left;
+    z-index: 1000;
+}
+
+.process-notes dt {
+    font-weight: bold;
+    margin-left: 15px;
+    margin-bottom: 4px;
+}
+
+.process-notes dd {
+    margin-left: 15px;
+    margin-bottom: 4px;
+}
+
+.node {
+    width: 150px;
+    height: 100px;
+    text-align: left;
+}
+
+.node-title {
+    padding-left: 45px;
+    padding-top: 1px;
+    height: 15px;
+    font-size: 10px;
+    font-weight: bold;
+    color: white;
+    overflow: hidden;
+}
+
+.node-title a:hover,
+.node-title a {
+    color: white;
+    text-decoration: underline;
+}
+
+.node-text {
+    font-size: 11px;
+    padding: 2px;
+    padding-left: 20px;
+    height: 60px;
+    overflow: hidden;
+}
+
+.node-bottom {
+    padding-left: 20px;
+    height: 18px;
+}
+
+.node-menu {
+    padding-right: 6px;
+    width: 100%;
+}
+
+.node-bottom table {
+    border-collapse: collapse;
+    border: 0;
+}
+
+.node-bottom img {
+    cursor: pointer;
+    margin: 0px 2px;
+}
+
+.node-buttons {
+	padding: 0 0 0 5px;
+}

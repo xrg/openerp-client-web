@@ -1,10 +1,19 @@
 import os
 import sys
 import imp
+import itertools
 
 import cherrypy
+from openobject import tools
+import openobject.tools.ast
 
 ADDONS_PATH = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "addons")
+if not os.path.exists(ADDONS_PATH):
+    from pkg_resources import Requirement, resource_filename
+    ADDONS_PATH = resource_filename(Requirement.parse('openerp-web'), 'openerp-web')
+
+assert os.path.isdir(ADDONS_PATH), "Unable to locate addons."
+
 sys.path.insert(0, ADDONS_PATH)
 
 
@@ -46,6 +55,7 @@ class Singleton(object):
 class Node(Singleton):
 
     def __init__(self, name, graph):
+        self.name = name
         self.graph = graph
         if not hasattr(self, 'children'):
             self.children = []
@@ -86,33 +96,26 @@ class Node(Singleton):
 
 
 def get_info(module):
-
-    info = {}
-
     mod_path = os.path.join(ADDONS_PATH, module)
-    terp_file = os.path.join(ADDONS_PATH, module, '__terp__.py')
+    if not os.path.isdir(mod_path):
+        return {}
 
-    if not mod_path or not terp_file:
-        return info
+    terp_file = os.path.join(mod_path, '__openerp__.py')
+    if not os.path.isfile(terp_file):
+        return {}
 
-    if os.path.isfile(terp_file):
-        try:
-            info = eval(open(terp_file).read())
-        except:
-            cherrypy.log('module %s: eval file %s' % (module, terp_file), "ERROR")
-            raise
+    try:
+        return openobject.tools.ast.literal_eval(open(terp_file).read())
+    except:
+        cherrypy.log('module %s: eval file %s' % (module, terp_file), "ERROR")
+        raise
 
-    return info
-
-def create_graph(module_list, force=None):
+def create_graph(module_list):
     graph = Graph()
-    upgrade_graph(graph, module_list, force)
+    upgrade_graph(graph, module_list)
     return graph
 
-def upgrade_graph(graph, module_list, force=None):
-
-    if force is None:
-        force = []
+def upgrade_graph(graph, module_list):
 
     packages = []
     len_graph = len(graph)
@@ -122,8 +125,8 @@ def upgrade_graph(graph, module_list, force=None):
         if info.get('installable', True):
             packages.append((module, info.get('depends', []), info))
 
-    dependencies = dict([(p, deps) for p, deps, data in packages])
-    current, later = set([p for p, dep, data in packages]), set()
+    dependencies = dict([(p, deps) for p, deps, _ in packages])
+    current, later = set([p for p, _, _ in packages]), set()
 
     while packages and current > later:
         package, deps, data = packages[0]
@@ -177,7 +180,7 @@ def load_module_graph(db_name, graph, config):
 
         cherrypy.log("Loading module '%s'" % package.name, "INFO")
 
-        m = imp_module(package.name)
+        imp_module(package.name)
 
         static = os.path.join(ADDONS_PATH, package.name, "static")
         if os.path.isdir(static):
@@ -192,42 +195,33 @@ def load_module_graph(db_name, graph, config):
         _loaded_addons[package.name] = True
 
     for package in graph:
-        pool.instanciate(package.name)
+        pool.load(package.name)
 
 
 _loaded = {}
 _loaded_addons = {}
 
-def get_module_list():
-
-    addons = [f for f in os.listdir(ADDONS_PATH) \
-              if os.path.isfile(os.path.join(ADDONS_PATH, f, "__terp__.py"))]
-
-    return addons
+def get_local_addons():
+    return [f for f in os.listdir(ADDONS_PATH) \
+              if os.path.isfile(os.path.join(ADDONS_PATH, f, "__openerp__.py"))]
 
 def load_addons(db_name, config):
-
     if db_name in _loaded:
-        return True
+        return
 
-    addons = [f for f in os.listdir(ADDONS_PATH) \
-              if os.path.isfile(os.path.join(ADDONS_PATH, f, "__terp__.py"))]
-
-    base_addons = [m for m in addons if get_info(m).get("active")]
+    base_addons = [m for m in get_local_addons() if get_info(m).get("active")]
 
     graph = create_graph(base_addons)
     load_module_graph(db_name, graph, config)
 
     try:
-        obj = pooler.get_pool().get_controller("/modules")
-        module_list = obj.get_installed_modules()
-    except Exception, e:
-        module_list = []
-        pass
+        obj = pooler.get_pool().get_controller("/openerp/modules")
+        new_modules = obj.get_new_modules()
+    except tools.AuthenticationError:
+        new_modules = []
 
-    new_modules_in_graph = upgrade_graph(graph, module_list)
+    new_modules_in_graph = upgrade_graph(graph, new_modules)
     if new_modules_in_graph:
         load_module_graph(db_name, graph, config)
 
     _loaded[db_name] = True
-    return True

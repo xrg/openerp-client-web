@@ -10,7 +10,7 @@
 # It's based on Mozilla Public License Version (MPL) 1.1 with following
 # restrictions:
 #
-# -   All names, links and logos of Tiny, Open ERP and Axelor must be
+# -   All names, links and logos of Tiny, OpenERP and Axelor must be
 #     kept as in original distribution without any changes in all software
 #     screens, especially in start-up page and the software header, even if
 #     the application source code has been changed or updated or code has been
@@ -26,18 +26,10 @@
 # You can see the MPL licence at: http://www.mozilla.org/MPL/MPL-1.1.html
 #
 ###############################################################################
-
 import cherrypy
 
-from openerp.utils import rpc
-from openerp.utils import icons
-from openerp.utils import expr_eval
-
-from openerp.utils import TinyDict
-
-from openerp.widgets import screen
-from openerp.widgets import TinyInputWidget
-from openerp.widgets import register_widget
+from openerp.utils import rpc, expr_eval, TinyDict
+from openerp.widgets import screen, TinyInputWidget, register_widget
 
 
 __all__ = ["Action"]
@@ -58,13 +50,15 @@ class Action(TinyInputWidget):
         super(Action, self).__init__(**attrs)
         self.nolabel = True
 
-        self.act_id=attrs['name']
-        res = rpc.session.execute('object', 'execute', 'ir.actions.actions', 'read', [self.act_id], ['type'], rpc.session.context)
+        self.act_id= self.name
+        
+        proxy = rpc.RPCProxy("ir.actions.actions")
+        res = proxy.read([self.act_id], ['type'], rpc.session.context)
         if not res:
             raise _('Action not found!')
 
-        type=res[0]['type']
-        self.action = rpc.session.execute('object', 'execute', type, 'read', [self.act_id], False, rpc.session.context)[0]
+        _type=res[0]['type']
+        self.action = rpc.session.execute('object', 'execute', _type, 'read', [self.act_id], False, rpc.session.context)[0]
 
         if 'view_mode' in attrs:
             self.action['view_mode'] = attrs['view_mode']
@@ -74,37 +68,44 @@ class Action(TinyInputWidget):
             if not self.action.get('domain', False):
                 self.action['domain']='[]'
 
-            ctx = rpc.session.context.copy()
-            ctx.update({'active_id': False, 'active_ids': []})
+            ctx = dict(rpc.session.context,
+                       active_id=False,
+                       active_ids=[])
 
             self.context = expr_eval(self.action.get('context', '{}'), ctx)
             self.domain = expr_eval(self.action['domain'], ctx)
-
             views = dict(map(lambda x: (x[1], x[0]), self.action['views']))
             view_mode = self.action.get('view_mode', 'tree,form').split(',')
             view_ids = map(lambda x: views.get(x, False), view_mode)
-
-            if self.action['view_type']=='form':
+            
+            if views.keys() != view_mode:
+                view_mode = map(lambda x: x[1], self.action['views'])
+                view_ids = map(lambda x: x[0], self.action['views'])
+            
+            if self.action['view_type'] == 'form':
 
                 params = TinyDict()
-                params.model = self.action['res_model']
-                params.id = False
-                params.ids = None
-                params.view_ids = view_ids
-                params.view_mode = view_mode
-                params.context = self.context
-                params.domain = self.domain
-
-                params.offset = params.offset or 0
-                params.limit = params.limit or 20
+                params.updateAttrs(
+                    model=self.action['res_model'],
+                    id=False,
+                    ids=None,
+                    view_ids=view_ids,
+                    view_mode=view_mode,
+                    context=self.context,
+                    domain=self.domain,
+                    offset = 0,
+                    limit = 20
+                )
 
                 # get pager vars if set
                 if hasattr(cherrypy.request, 'terp_params'):
                     current = cherrypy.request.terp_params
                     current = current.chain_get(self.name or '') or current
 
-                    params.offset = current.offset
-                    params.limit = current.limit
+                    params.updateAttrs(
+                        offset=current.offset,
+                        limit=current.limit
+                    )
 
                 self.screen = screen.Screen(params, prefix=self.name, editable=True, selectable=3)
 

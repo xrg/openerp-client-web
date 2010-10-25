@@ -10,7 +10,7 @@
 # It's based on Mozilla Public License Version (MPL) 1.1 with following
 # restrictions:
 #
-# -   All names, links and logos of Tiny, Open ERP and Axelor must be
+# -   All names, links and logos of Tiny, OpenERP and Axelor must be
 #     kept as in original distribution without any changes in all software
 #     screens, especially in start-up page and the software header, even if
 #     the application source code has been changed or updated or code has been
@@ -30,14 +30,15 @@ from openerp.utils import rpc, expr_eval, TinyDict, TinyForm, TinyFormError
 
 import actions
 from form import Form
-from openobject.tools import expose
+from error_page import _ep
+from openobject.tools import expose, ast
 
 
 class Search(Form):
 
-    _cp_path = "/search"
+    _cp_path = "/openerp/search"
 
-    @expose(template="templates/search.mako")
+    @expose(template="/openerp/controllers/templates/search.mako")
     def create(self, params, tg_errors=None):
 
         params.view_mode = ['tree', 'form']
@@ -46,18 +47,21 @@ class Search(Form):
         params.offset = params.offset or 0
         params.limit = params.limit or 20
         params.count = params.count or 0
-
+        params.filter_domain = params.filter_domain or []
         params.editable = 0
 
         form = self.create_form(params, tg_errors)
 
         # don't show links in list view, except the do_select link
         form.screen.widget.show_links = 0
-
-        return dict(form=form, params=params)
+        if params.get('return_to'):
+            proxy = rpc.RPCProxy(params.model)
+            records = proxy.read(params.ids, ['name'], rpc.session.context)
+            params['grp_records'] = records
+        return dict(form=form, params=params, form_name = form.screen.widget.name)
 
     @expose()
-    def new(self, model, source=None, kind=0, text=None, domain=[], context={}):
+    def new(self, model, source=None, kind=0, text=None, domain=[], context={}, **kw):
         """Create new search view...
 
         @param model: the model
@@ -76,16 +80,24 @@ class Search(Form):
 
         params.source = source
         params.selectable = kind
-
+        params.limit = params.limit or 20
         ctx = rpc.session.context.copy()
         ctx.update(params.context or {})
         params.ids = []
         proxy = rpc.RPCProxy(model)
         ids = proxy.name_search(text or '', params.domain or [], 'ilike', ctx)
+        params.search_text = False
         if ids:
             params.ids = [id[0] for id in ids]
-            params.count = len(ids)
-
+            if len(ids) < params.limit or text:
+                count = len(ids)
+            else:
+                count = proxy.search_count(params.domain, ctx)
+            params.count = count
+        if text:
+                params.search_text = True
+        if kw and kw.get('return_to'):
+            params['return_to'] = ast.literal_eval(kw['return_to'])
         return self.create(params)
 
     @expose('json')
@@ -93,18 +105,22 @@ class Search(Form):
         params, data = TinyDict.split(kw)
 
         domain = kw.get('_terp_domain', [])
-        context = kw.get('_terp_context', {})
+        context = params.context or {}
 
-        parent_context = params.parent_context or {}
-        parent_context.update(rpc.session.context.copy())
-
+        parent_context = dict(params.parent_context or {},
+                              **rpc.session.context)
+        if 'group_by' in parent_context:
+            if isinstance(params.group_by, str):
+                parent_context['group_by'] = params.group_by.split(',')
+            else:
+                parent_context['group_by'] = params.group_by
         try:
             ctx = TinyForm(**kw).to_python()
             pctx = ctx
         except TinyFormError, e:
             return dict(error_field=e.field, error=ustr(e))
         except Exception, e:
-            return dict(error=ustr(e))
+            return dict(error=_ep.render())
 
         prefix = params.prefix
         if prefix:
@@ -113,6 +129,10 @@ class Search(Form):
         if prefix and '/' in prefix:
             prefix = prefix.rsplit('/', 1)[0]
             pctx = pctx.chain_get(prefix)
+
+        #update active_id in context for links
+        parent_context.update({'active_id':  params.active_id or False,
+                              'active_ids':  params.active_ids or []})
 
         ctx['parent'] = pctx
         ctx['context'] = parent_context
@@ -139,21 +159,27 @@ class Search(Form):
 
 #           Fixed many2one pop up in listgrid when value is None.
             for key, val in context.items():
-                if val==None:
+                if val is None:
                     context[key] = False
 
-        ctx2 = parent_context
-        parent_context.update(context)
+        if isinstance(context, dict):
+            context = expr_eval(context, ctx)
 
-        return dict(domain=ustr(domain), context=ustr(parent_context))
+        parent_context.update(context)
+        if not isinstance(params.group_by, list):
+            params.group_by = params.group_by.split(',')
+
+        return dict(domain=ustr(domain), context=ustr(parent_context), group_by = ustr(params.group_by))
 
     @expose('json')
     def get(self, **kw):
 
         params, data = TinyDict.split(kw)
 
+        error = None
+        error_field = None
+
         model = params.model
-        context = rpc.session.context
 
         record = kw.get('record')
         record = eval(record)
@@ -162,57 +188,65 @@ class Search(Form):
         data = {}
 
         frm = {}
-        error = ''
-        values = {}
+        all_values = {}
 
-        for key, val in record.items():
-            id = key
-            for field in val:
-                fld = {}
-                datas = {}
-                res = proxy.fields_get(field)
+        for k, v in record.items():
+            values = {}
+            for key, val in v.items():
+                for field in val:
+                    fld = {}
+                    datas = {}
+                    res = proxy.fields_get(field)
 
-                fld['value'] = val[field]
-                fld['type'] = res[field].get('type')
+                    fld['value'] = val[field]
+                    fld['type'] = res[field].get('type')
 
-                data[field] = fld
-                try:
-                    frm = TinyForm(**data).to_python()
-                except Exception, e:
-                    error = ustr(e)
-                    error_field = ustr(e.field)
-                    return dict(error=error, error_field=error_field)
+                    data[field] = fld
+                    try:
+                        frm = TinyForm(**data).to_python()
+                    except TinyFormError, e:
+                        error_field = e.field
+                        error = ustr(e)
+                        return dict(error=error, error_field=error_field)
+                    except Exception, e:
+                        error = ustr(e)
+                        return dict(error=error, error_field=error_field)
 
-                datas['rec'] = field
+                    datas['rec'] = field
 
-                if fld['type'] == 'many2one':
-                    datas['rec_val'] = fld['value']
-                    frm[field] = 'many2one'
-                elif isinstance(frm[field], bool):
-                    if frm[field]:
-                        datas['rec_val'] = 1
+                    if fld['type'] == 'many2one':
+                        datas['rec_val'] = fld['value']
+                        frm[field] = 'many2one'
+                    elif isinstance(frm[field], bool):
+                        if frm[field]:
+                            datas['rec_val'] = 1
+                        else:
+                            datas['rec_val'] = 0
                     else:
-                        datas['rec_val'] = 0
-                else:
-                    datas['rec_val'] = frm[field]
+                        datas['rec_val'] = frm[field]
 
-            datas['type'] = fld['type']
-            values[key] = datas
+                datas['type'] = fld['type']
+                values[key] = datas
 
-        return dict(frm=values, error=error)
+            all_values[k] = values
+
+        return dict(frm=all_values, error=error)
 
     @expose('json')
     def eval_domain_filter(self, **kw):
 
         all_domains = kw.get('all_domains')
         custom_domains = kw.get('custom_domain')
-        model = kw.get('model')
 
         all_domains = eval(all_domains)
 
         domains = all_domains.get('domains')
         selection_domain = all_domains.get('selection_domain')
         search_context = all_domains.get('search_context')
+
+        group_by_ctx = kw.get('group_by_ctx', [])
+        if isinstance(group_by_ctx, str):
+            group_by_ctx = group_by_ctx.split(',')
 
         if domains:
             domains = eval(domains)
@@ -226,168 +260,155 @@ class Search(Form):
             ctx.update(context)
 
         domain = []
-        check_domain = []
         check_domain = all_domains.get('check_domain')
 
         if check_domain and isinstance(check_domain, basestring):
-            domain = expr_eval(check_domain, context)
+            domain = expr_eval(check_domain, context) or []
 
-        if domain == None:
-            domain = []
-
+        search_data = {}
         if domains:
-            for key in domains:
-                if domains[key] in ['0', '1']:
-                    domains[key] = int(domains[key])
-                if isinstance(domains[key], int):
-                    domain += [(key, '=', domains[key])]
+            for field, value in domains.iteritems():
+                if '/' in field:
+                    fieldname, bound = field.split('/')
+
+                    if bound in ('from', 'to'):
+                        if bound == 'from': test = '>='
+                        else: test = '<='
+
+                        domain.append((fieldname, test, value))
+                        search_data.setdefault(fieldname, {})[bound] = value
+
+                elif isinstance(value, bool) and value:
+                    search_data[field] = 1
+
+                elif isinstance(value, int) and not isinstance(value, bool):
+                    domain.append((field, '=', value))
+                    search_data[field] = value
+
+                elif 'selection_' in value:
+                    domain.append((field, '=', value.split('selection_')[1]))
+                    search_data[field] = value.split('selection_')[1]
                 else:
-                    domain += [(key, 'ilike', domains[key])]
-
-        if custom_domains:
-            inner_domain = []
-            tmp_domain = ''
-
-            custom_domains = eval(custom_domains)
-            for inner in custom_domains:
-                if len(inner) == 4:
-                    if isinstance(inner[3], int):
-                        tmp_domain += '[\'' + inner[0] + '\', (\'' + inner[1] + '\', \'' + inner[2] + '\', ' + ustr(inner[3]) + ')]'
+                    if not 'm2o_' in value:
+                        domain.append((field, 'ilike', value))
+                        search_data[field] = value
                     else:
-                        tmp_domain += '[\'' + inner[0] + '\', (\'' + inner[1] + '\', \'' + inner[2] + '\', \'' + inner[3] + '\')]'
-                elif len(inner) == 3:
-                    if isinstance(inner[2], (int, list)):
-                        tmp_domain += '[(\'' + inner[0] + '\', \'' + inner[1] + '\', ' + ustr(inner[2]) + ')]'
-                    else:
-                        tmp_domain += '[(\'' + inner[0] + '\', \'' + inner[1] + '\', \'' + inner[2] + '\')]'
+                        search_data[field] = value.split('m2o_')[1]
 
-            if tmp_domain :
-                cust_domain = tmp_domain.replace('][', ', ')
-                domain += eval(cust_domain)
+        def get_domain(x):
+            if len(x) == 1:
+                if isinstance(x[0], (int, list)):
+                    return ustr(x[0])
+                return x[0]
 
-        if selection_domain:
-            if selection_domain in ['blk', 'sh', 'sf', 'mf']:
-                if selection_domain == 'blk':
-                    selection_domain = []
+            elif len(x) == 4:
+                if isinstance(x[3], (int, list)):
+                    tuple_val = x[1], x[2], ustr(x[3])
+                else:
+                    tuple_val = x[1], x[2], x[3]
+                return [x[0], tuple_val]
 
-                if selection_domain in ['sh', 'sf']:
-                    return dict(flag=selection_domain, sf_dom=ustr(domain))
-
-                if selection_domain == 'mf':
-                    act = {'name':'Manage Filters',
-                         'res_model':'ir.actions.act_window',
-                         'type':'ir.actions.act_window',
-                         'view_type':'form',
-                         'view_mode':'tree,form',
-                         'domain':'[(\'filter\',\'=\',True), (\'res_model\',\'=\',\'' + model + '\'), (\'default_user_ids\',\'in\', (\'' + str(rpc.session.uid) + '\',))]'}
-                    return dict(action=act)
             else:
-                selection_domain = expr_eval(selection_domain)
-                if selection_domain:
-                    domain += selection_domain
+                if isinstance(x[2], (int, list)) and x[1] != 'in':
+                    tuple_val = x[0], x[1], ustr(x[2])
+                else:
+                    tuple_val = x[0], x[1], x[2]
+                return [tuple_val]
+
+        cust_domain = []
+        if custom_domains:
+            custom_domains = eval(custom_domains)
+            for val in custom_domains[:-1]:
+                if val:
+                    val.insert(0, '|')
+
+            for cs_dom in custom_domains:
+                for inner in cs_dom:
+                    if len(inner) == 1 and len([x for x in inner if isinstance(x, list)]) == 0:
+                        cust_domain += inner[0]
+                    elif len([x for x in inner if isinstance(x, list)]) and not 'in' in inner:
+                        for d in inner:
+                            cust_domain += get_domain(d)
+                    else:
+                        cust_domain += get_domain(inner)
+
+            if len(cust_domain)>1 and cust_domain[-2] in ['&','|']:
+                if len(cust_domain) == 2:
+                    cust_domain = [cust_domain[1]]
+                else:
+                    cust_domain = cust_domain[:-2] + cust_domain[-1:]
+
+        if selection_domain and selection_domain not in ['blk', 'sf', 'mf']:
+            selection_domain = expr_eval(selection_domain)
+            if selection_domain:
+                domain.extend(selection_domain)
 
         if not domain:
             domain = None
-
-        return dict(domain=ustr(domain), context=ustr(ctx))
+        if not isinstance(group_by_ctx, list):
+            group_by_ctx = [group_by_ctx]
+        if group_by_ctx:
+            search_data['group_by_ctx'] = group_by_ctx
+        return dict(domain=ustr(domain), context=ustr(ctx), search_data=ustr(search_data), filter_domain=ustr(cust_domain))
 
     @expose()
     def manage_filter(self, **kw):
-        action = kw.get('action')
-        action = eval(action)
+        act={'name':'Manage Filters',
+                 'res_model':'ir.filters',
+                 'type':'ir.actions.act_window',
+                 'view_type':'form',
+                 'view_mode':'tree,form',
+                 'domain':'[(\'model_id\',\'=\',\''+kw.get('model')+'\'),(\'user_id\',\'=\','+str(rpc.session.uid)+')]'}
 
-        return actions.execute(action, context=rpc.session.context)
+        return actions.execute(act, context=rpc.session.context)
 
-    @expose(template="templates/save_filter.mako")
+    @expose(template="/openerp/controllers/templates/save_filter.mako")
     def save_filter(self, **kw):
-
         model = kw.get('model')
         domain = kw.get('domain')
+        if isinstance(domain,basestring):
+            domain = eval(domain) or []
+
+        custom_filter = kw.get('custom_filter')
+        if isinstance(custom_filter,basestring):
+            custom_filter = eval(custom_filter)
+
+        if custom_filter:
+            domain.extend(i for i in custom_filter if i not in domain)
+
         flag = kw.get('flag')
+        group_by = kw.get('group_by',None)
+        selected_filter = kw.get('selected_filter')
+        if not isinstance(group_by, list) and group_by:
+            group_by = group_by.split(',')
 
-        new_view_ids = rpc.session.execute('object', 'execute', 'ir.ui.view', 'search', [('model', '=', model), ('inherit_id', '=', False)])
-        view_datas = rpc.session.execute('object', 'execute', 'ir.ui.view', 'read', new_view_ids, ['id', 'name', 'type'])
+        if group_by:
+            group_by_ctx = map(lambda x: x.split('group_')[-1], group_by)
+        else:
+            group_by_ctx = []
+        return dict(model=model, domain=domain, flag=flag, group_by=group_by_ctx, filtername=selected_filter)
 
-        form_views = []
-        tree_views = []
-        graph_views = []
-        calendar_views = []
-        gantt_views = []
-
-        for data in view_datas:
-            if data['type'] == 'form':
-                form_views.append([data['id'],data['name']])
-            elif data['type'] == 'tree':
-                tree_views.append([data['id'],data['name']])
-            elif data['type'] == 'graph':
-                graph_views.append([data['id'],data['name']])
-            elif data['type'] == 'calendar':
-                calendar_views.append([data['id'],data['name']])
-            elif data['type'] == 'gantt':
-                gantt_views.append([data['id'],data['name']])
-
-        return dict(model=model, domain=domain, flag=flag, form_views=form_views,
-                    tree_views=tree_views, graph_views=graph_views, calendar_views=calendar_views, gantt_views=gantt_views)
-
-    @expose()
+    @expose('json')
     def do_filter_sc(self, **kw):
-
-        name = kw.get('sc_name')
+        name = kw.get('name')
         model = kw.get('model')
         domain = kw.get('domain')
-        flag = kw.get('flag')
-
-        form_id = kw.get('form_views')
-        tree_id = kw.get('tree_views')
-        graph_id = kw.get('graph_views')
-        calendar_id = kw.get('calendar_views')
-        gantt_id = kw.get('gantt_views')
-
+        group_by = kw.get('group_by', '[]')
+        if group_by:
+            context = {'group_by': group_by}
+        else:
+            context = {}
         if name:
-            v_ids=[]
-            if kw.get('form_views'):
-                rec = {'view_mode':'form', 'view_id': form_id, 'sequence':2}
-                v_ids.append(rpc.session.execute('object', 'execute', 'ir.actions.act_window.view', 'create', rec))
-            if kw.get('tree_views'):
-                rec = {'view_mode':'tree', 'view_id':tree_id, 'sequence':1}
-                v_ids.append(rpc.session.execute('object', 'execute', 'ir.actions.act_window.view', 'create', rec))
-            if kw.get('graph_views'):
-                rec = {'view_mode':'graph', 'view_id':graph_id, 'sequence':4}
-                v_ids.append(rpc.session.execute('object', 'execute', 'ir.actions.act_window.view', 'create', rec))
-            if kw.get('calendar_views'):
-                rec = {'view_mode':'calendar', 'view_id':calendar_id, 'sequence':3}
-                v_ids.append(rpc.session.execute('object', 'execute', 'ir.actions.act_window.view', 'create', rec))
-            if kw.get('gantt_views'):
-                rec = {'view_mode':'gantt', 'view_id':gantt_id, 'sequence':5}
-                v_ids.append(rpc.session.execute('object', 'execute', 'ir.actions.act_window.view', 'create', rec))
-
-            datas = {'name': name,
-                   'res_model': model,
-                   'domain': domain,
-                   'context': str({}),
-                   'view_ids':[(6, 0, v_ids)],
-                   'filter': True,
-                   'default_user_ids': [[6, 0, [rpc.session.uid]]],
-                   }
-            action_id = rpc.session.execute('object', 'execute', 'ir.actions.act_window', 'create', datas)
-
-            if flag == 'sh':
-                parent_menu_id = rpc.session.execute('object', 'execute', 'ir.ui.menu', 'search', [('name','=','Custom Shortcuts')])
-
-                if parent_menu_id:
-                    menu_data = {'name': name,
-                               'sequence': 20,
-                               'action': 'ir.actions.act_window,' + str(action_id),
-                               'parent_id': parent_menu_id[0],
-                               }
-
-                    menu_id = rpc.session.execute('object', 'execute', 'ir.ui.menu', 'create', menu_data)
-                    sc_data = {'name': name,
-                             'sequence': 1,
-                             'res_id': menu_id,
-                             }
-                    shortcut_id = rpc.session.execute('object', 'execute', 'ir.ui.view_sc', 'create', sc_data)
-            return True
+            datas = {
+                'name':name,
+                'model_id':model,
+                'domain':domain,
+                'context':str(context),
+                'user_id':rpc.session.uid
+            }
+            result = rpc.session.execute('object', 'execute', 'ir.filters', 'create_or_replace', datas, rpc.session.context)
+            return {'filter': (domain, name, group_by), 'new_id':result}
+        return {}
 
     @expose('json')
     def ok(self, **kw):
@@ -401,20 +422,16 @@ class Search(Form):
         return dict(name=rpc.name_get(model, id))
 
     @expose('json')
-    def get_matched(self, model, text, **kw):
+    def get_matched(self, model, text, limit=10, **kw):
         params, data = TinyDict.split(kw)
-        limit = kw.get('limit', 10)
 
-        domain = params.domain or []
-        context = params.context or {}
+        ctx = dict(rpc.session.context,
+                   **(params.context or {}))
 
-        ctx = rpc.session.context.copy()
-        ctx.update(context)
-
-        proxy = rpc.RPCProxy(model)
-        values = proxy.name_search(text, domain, 'ilike', ctx, int(limit))
-
-        return dict(values=values)
-
-
-# vim: ts=4 sts=4 sw=4 si et
+        try:
+            return {
+                'values': rpc.RPCProxy(model).name_search(text, (params.domain or []), 'ilike', ctx, int(limit)),
+                'error': None
+            }
+        except Exception, e:
+            return {'error': ustr(e), 'values': False}

@@ -10,7 +10,7 @@
 # It's based on Mozilla Public License Version (MPL) 1.1 with following
 # restrictions:
 #
-# -   All names, links and logos of Tiny, Open ERP and Axelor must be
+# -   All names, links and logos of Tiny, OpenERP and Axelor must be
 #     kept as in original distribution without any changes in all software
 #     screens, especially in start-up page and the software header, even if
 #     the application source code has been changed or updated or code has been
@@ -35,57 +35,73 @@ from openobject.tools import expose, redirect
 
 class Shortcuts(SecuredController):
 
-    _cp_path = "/shortcuts"
+    _cp_path = "/openerp/shortcuts"
+
+    def refresh_session(self):
+        ''' refresh_session() -> [{id, name, res_id}]
+
+        Fetches the list of ir.ui.menu shortcuts from the server, stores them
+        in session and returns the list.
+
+        Returns only the id of the resource, not the retrieved (id, name_get())
+        '''
+        shortcuts = rpc.RPCProxy('ir.ui.view_sc')\
+            .get_sc(rpc.session.uid, 'ir.ui.menu', rpc.session.context) or []
+        for shortcut in shortcuts:
+            # if res_id is (id, name), only keep id
+            if isinstance(shortcut['res_id'], (list, tuple)):
+                shortcut['res_id'] = shortcut['res_id'][0]
+        cherrypy.session['terp_shortcuts'] = shortcuts
+        return shortcuts
+
+    def list(self):
+        return cherrypy.session.get('terp_shortcuts', [])
+
+    def by_res_id(self):
+        ''' dict_by_res_id() -> {int: {}}
+        Returns a dictionary of {shortcut id, shortcut name} indexed by res_id
+        '''
+        return dict([
+            (shortcut['res_id'], {'id': shortcut['id'], 'name': shortcut['name']})
+            for shortcut in self.list()])
 
     def my(self):
-
         if not rpc.session.is_logged():
             return []
-
-        sc = cherrypy.session.get('terp_shortcuts', False)
-        if not sc:
-            proxy = rpc.RPCProxy('ir.ui.view_sc')
-            sc = proxy.get_sc(rpc.session.uid, 'ir.ui.menu', rpc.session.context) or []
-
-            cherrypy.session['terp_shortcuts'] = sc
-
-        for x in sc:
-            if isinstance(x['res_id'], (list, tuple)):
-                x['res_id'] = x['res_id'][0]
-
-        return sc
-
-    def can_create(self):
-        return (rpc.session.is_logged() and
-                rpc.session.active_id and
-                cherrypy.request.path_info == '/tree/open' and
-                cherrypy.request.params.get('model') == 'ir.ui.menu')
+        # return the shortcuts we have in session, or if none
+        # (empty list or no list at all) go fetch them from the server
+        return self.list() or self.refresh_session()
 
     @expose()
     def default(self):
         import actions
-
         domain = [('user_id', '=', rpc.session.uid), ('resource', '=', 'ir.ui.menu')]
         return actions.execute_window(False, 'ir.ui.view_sc', res_id=None, domain=domain, view_type='form', mode='tree,form')
 
-    @expose()
+    @expose('json')
+    def by_resource(self):
+        return self.by_res_id()
+
+    @expose(methods=('POST',))
     def add(self, id):
         id = int(id)
-        proxy = rpc.RPCProxy('ir.ui.view_sc')
 
-        sc = cherrypy.session.get('terp_shortcuts', False)
+        if not self.by_res_id().get(id):
+            name = rpc.RPCProxy('ir.ui.menu').name_get([id], rpc.session.context)[0][1]
+            rpc.RPCProxy('ir.ui.view_sc').create({'user_id': rpc.session.uid, 'res_id': id, 'resource': 'ir.ui.menu', 'name': name})
+            self.refresh_session()
 
-        if sc:
-            for s in sc:
-                if s['res_id'] == id:
-                    raise redirect('/tree/open', id=id, model='ir.ui.menu')
+        raise redirect('/openerp/tree/open', id=id, model='ir.ui.menu')
+    
+    @expose(methods=('POST',))
+    def delete(self, id):
+        id = int(id)
 
-        name = rpc.RPCProxy('ir.ui.menu').name_get([id], rpc.session.context)[0][1]
-        proxy.create({'user_id': rpc.session.uid, 'res_id': id, 'resource': 'ir.ui.menu', 'name': name})
+        shortcut = self.by_res_id().get(id)
+        if shortcut:
+            rpc.RPCProxy('ir.ui.view_sc').unlink(shortcut['id'])
+            self.refresh_session()
 
-        sc = proxy.get_sc(rpc.session.uid, 'ir.ui.menu', rpc.session.context)
-        cherrypy.session['terp_shortcuts'] = sc
-
-        raise redirect('/tree/open', id=id, model='ir.ui.menu')
+        raise redirect('/openerp/tree/open', id=id, model='ir.ui.menu')
 
 # vim: ts=4 sts=4 sw=4 si et

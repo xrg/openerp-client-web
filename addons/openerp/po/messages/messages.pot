@@ -1,0 +1,1467 @@
+# Translations template for PROJECT.
+# Copyright (C) 2010 ORGANIZATION
+# This file is distributed under the same license as the PROJECT project.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2010.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PROJECT VERSION\n"
+"Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
+"POT-Creation-Date: 2010-10-21 16:54+0530\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel None\n"
+
+#: validators.py:83
+msgid "Invalid literal for float"
+msgstr ""
+
+#: validators.py:122 validators.py:127 validators.py:270
+msgid "Invalid datetime format"
+msgstr ""
+
+#: validators.py:174
+msgid "Please select a file."
+msgstr ""
+
+#: validators.py:255
+msgid "Please enter an email address"
+msgstr ""
+
+#: validators.py:256
+msgid "An email address must contain a single @"
+msgstr ""
+
+#: validators.py:257
+#, python-format
+msgid ""
+"The username portion of the email address is invalid (the portion before "
+"the @: %(username)s)"
+msgstr ""
+
+#: validators.py:258
+#, python-format
+msgid ""
+"The domain portion of the email address is invalid (the portion after the"
+" @: %(domain)s)"
+msgstr ""
+
+#: validators.py:262
+msgid "You must start your URL with http://, https://, etc"
+msgstr ""
+
+#: validators.py:263
+msgid "That is not a valid URL"
+msgstr ""
+
+#: validators.py:264
+#, python-format
+msgid "You must provide a full domain name (like %(domain)s.com)"
+msgstr ""
+
+#: validators.py:268
+msgid "Please enter an integer value"
+msgstr ""
+
+#: validators.py:269
+msgid "Please enter a number"
+msgstr ""
+
+#: controllers/actions.py:93
+msgid "Invalid View"
+msgstr ""
+
+#: controllers/actions.py:127
+msgid "Error no report"
+msgstr ""
+
+#: controllers/actions.py:153
+msgid "Nothing to print"
+msgstr ""
+
+#: controllers/actions.py:170
+msgid "Printing aborted, too long delay"
+msgstr ""
+
+#: controllers/actions.py:320
+msgid "Relative URLs are not supported"
+msgstr ""
+
+#: controllers/actions.py:355
+msgid "Action not found"
+msgstr ""
+
+#: controllers/actions.py:403
+msgid "No action defined"
+msgstr ""
+
+#: controllers/attachment.py:63
+msgid "No record selected, You can only attach to existing record..."
+msgstr ""
+
+#: controllers/database.py:72
+msgid "Create database"
+msgstr ""
+
+#: controllers/database.py:74 controllers/database.py:90
+#: controllers/database.py:99 controllers/database.py:107
+#: controllers/database.py:116 controllers/templates/exp.mako:228
+#: controllers/templates/fieldpref.mako:102
+#: controllers/templates/selection.mako:45
+msgid "OK"
+msgstr ""
+
+#: controllers/database.py:77
+msgid "Super admin password:"
+msgstr ""
+
+#: controllers/database.py:78 controllers/database.py:110
+msgid "New database name:"
+msgstr ""
+
+#: controllers/database.py:79
+msgid "Load Demonstration data:"
+msgstr ""
+
+#: controllers/database.py:80
+msgid "Default Language:"
+msgstr ""
+
+#: controllers/database.py:81
+msgid "Administrator password:"
+msgstr ""
+
+#: controllers/database.py:82
+msgid "Confirm password:"
+msgstr ""
+
+#: controllers/database.py:88
+msgid "Drop database"
+msgstr ""
+
+#: controllers/database.py:92 controllers/database.py:100
+#: controllers/templates/login.mako:39
+msgid "Database:"
+msgstr ""
+
+#: controllers/database.py:93 controllers/database.py:101
+#: controllers/database.py:109 controllers/templates/login.mako:57
+#: controllers/templates/login_ajax.mako:78
+#: controllers/templates/login_ajax.mako:98
+msgid "Password:"
+msgstr ""
+
+#: controllers/database.py:97
+msgid "Backup database"
+msgstr ""
+
+#: controllers/database.py:105
+msgid "Restore database"
+msgstr ""
+
+#: controllers/database.py:108
+msgid "File:"
+msgstr ""
+
+#: controllers/database.py:114
+msgid "Change Administrator Password"
+msgstr ""
+
+#: controllers/database.py:117
+msgid "Old Password:"
+msgstr ""
+
+#: controllers/database.py:118
+msgid "New Password:"
+msgstr ""
+
+#: controllers/database.py:119
+msgid "Confirm Password:"
+msgstr ""
+
+#: controllers/database.py:157
+msgid "You must avoid all accents, space or special characters."
+msgstr ""
+
+#: controllers/database.py:158
+msgid "Bad database name"
+msgstr ""
+
+#: controllers/database.py:179 controllers/database.py:187
+#: controllers/database.py:189
+msgid "Could not create database."
+msgstr ""
+
+#: controllers/database.py:180
+msgid "Database already exists"
+msgstr ""
+
+#: controllers/database.py:183
+msgid ""
+"The server crashed during installation.\n"
+"We suggest you to drop this database."
+msgstr ""
+
+#: controllers/database.py:184
+msgid "Error during database creation"
+msgstr ""
+
+#: controllers/database.py:186 controllers/database.py:213
+#: controllers/database.py:260
+msgid "Bad database administrator password"
+msgstr ""
+
+#: controllers/database.py:214
+msgid "Could not drop database."
+msgstr ""
+
+#: controllers/database.py:216
+msgid "Could not drop database"
+msgstr ""
+
+#: controllers/database.py:239
+msgid "Could not create backup."
+msgstr ""
+
+#: controllers/database.py:261
+msgid "Could not restore database."
+msgstr ""
+
+#: controllers/database.py:263
+msgid "Could not restore database"
+msgstr ""
+
+#: controllers/database.py:283
+msgid "Could not change super admin password."
+msgstr ""
+
+#: controllers/database.py:284
+msgid "Bad password provided."
+msgstr ""
+
+#: controllers/database.py:286
+msgid "Error, password not changed."
+msgstr ""
+
+#: controllers/error_page.py:86
+msgid ""
+"Your problem has been sent to the quality team\n"
+"We will recontact you after analysing the problem."
+msgstr ""
+
+#: controllers/error_page.py:88
+#, python-format
+msgid ""
+"Your problem could not be sent to the quality team\n"
+"Please report this error manually at %s"
+msgstr ""
+
+#: controllers/form.py:545
+msgid "Invalid button type"
+msgstr ""
+
+#: controllers/form.py:905 controllers/tree.py:243
+msgid "No record selected"
+msgstr ""
+
+#: controllers/form.py:932
+msgid "You must save this record to use the sidebar button"
+msgstr ""
+
+#: controllers/form.py:972 utils/rpc.py:130 utils/rpc.py:141 utils/rpc.py:144
+#: widgets/listgrid.py:335 widgets/form/_form.py:912
+msgid "Application Error"
+msgstr ""
+
+#: controllers/form.py:972
+#, python-format
+msgid "Wrong on_change trigger: %s"
+msgstr ""
+
+#: controllers/impex.py:71
+msgid ""
+"Operation failed\n"
+"I/O error"
+msgstr ""
+
+#: controllers/impex.py:356
+msgid "Export Error"
+msgstr ""
+
+#: controllers/impex.py:367
+msgid ""
+"Please Install xlwt Library.\n"
+"To create spreadsheet files compatible with MS Excel."
+msgstr ""
+
+#: controllers/impex.py:367 controllers/impex.py:482
+msgid "Import Error."
+msgstr ""
+
+#: controllers/impex.py:466
+msgid "Error opening .CSV file"
+msgstr ""
+
+#: controllers/impex.py:466
+msgid "Input Error."
+msgstr ""
+
+#: controllers/impex.py:479
+#, python-format
+msgid "You cannot import this field %s, because we cannot auto-detect it"
+msgstr ""
+
+#: controllers/impex.py:482
+#, python-format
+msgid ""
+"Error processing your first line of the file.\n"
+"Field %s is unknown"
+msgstr ""
+
+#: controllers/impex.py:509
+msgid "XML-RPC error"
+msgstr ""
+
+#: controllers/impex.py:511
+#, python-format
+msgid "Imported %d objects"
+msgstr ""
+
+#: controllers/impex.py:516
+#, python-format
+msgid ""
+"Error trying to import this record:\n"
+"%s\n"
+"Error Message:\n"
+"%s\n"
+"\n"
+"%s"
+msgstr ""
+
+#: controllers/impex.py:517
+msgid "Importation Error"
+msgstr ""
+
+#: controllers/listgrid.py:56
+msgid "Parent record doesn't exists..."
+msgstr ""
+
+#: controllers/preferences.py:64 controllers/templates/header.mako:54
+msgid "Preferences"
+msgstr ""
+
+#: controllers/root.py:169
+#, python-format
+msgid "Version %s"
+msgstr ""
+
+#: controllers/translator.py:140
+msgid "You need to save the resource before adding translations."
+msgstr ""
+
+#: controllers/tree.py:274
+msgid "No resource selected"
+msgstr ""
+
+#: controllers/utils.py:52
+msgid "Could not connect to server"
+msgstr ""
+
+#: controllers/utils.py:143 controllers/templates/login_ajax.mako:111
+msgid "Bad username or password"
+msgstr ""
+
+#: controllers/view_log.py:40
+msgid "ID"
+msgstr ""
+
+#: controllers/view_log.py:41
+msgid "Creation User"
+msgstr ""
+
+#: controllers/view_log.py:42
+msgid "Creation Date"
+msgstr ""
+
+#: controllers/view_log.py:43
+msgid "Latest Modification by"
+msgstr ""
+
+#: controllers/view_log.py:44
+msgid "Latest Modification Date"
+msgstr ""
+
+#: controllers/view_log.py:45
+msgid "Owner"
+msgstr ""
+
+#: controllers/view_log.py:46
+msgid "Group Owner"
+msgstr ""
+
+#: controllers/view_log.py:47
+msgid "Access Level"
+msgstr ""
+
+#: controllers/view_log.py:48
+msgid "Internal module data ID"
+msgstr ""
+
+#: controllers/viewed.py:227
+msgid "Invalid view id."
+msgstr ""
+
+#: controllers/viewed.py:503
+msgid "Unable to create inherited view."
+msgstr ""
+
+#: controllers/viewed.py:505
+msgid "Can't create inherited view here."
+msgstr ""
+
+#: controllers/viewed.py:508
+msgid "Not implemented yet!"
+msgstr ""
+
+#: controllers/viewed.py:613
+msgid "Unable to update the view."
+msgstr ""
+
+#: controllers/viewed.py:867
+msgid "New Window"
+msgstr ""
+
+#: controllers/viewed.py:879
+msgid "Save Button"
+msgstr ""
+
+#: controllers/viewed.py:879
+msgid "Cancel Button"
+msgstr ""
+
+#: controllers/viewed.py:879
+msgid "Open Button"
+msgstr ""
+
+#: controllers/viewed.py:885
+msgid "Left"
+msgstr ""
+
+#: controllers/viewed.py:885
+msgid "Center"
+msgstr ""
+
+#: controllers/viewed.py:885
+msgid "Right"
+msgstr ""
+
+#: controllers/templates/about.mako:4
+msgid "About the OpenERP Web"
+msgstr ""
+
+#: controllers/templates/about.mako:15
+msgid "OpenERP Web"
+msgstr ""
+
+#: controllers/templates/about.mako:21
+msgid "Copyright &copy; 2006-TODAY Tiny ERP Pvt. Ltd. All Rights Reserved."
+msgstr ""
+
+#: controllers/templates/about.mako:22
+msgid "OpenERP is a trademark of the Tiny Company."
+msgstr ""
+
+#: controllers/templates/about.mako:24
+#, python-format
+msgid "%(ooweb)s is jointly developed by %(tiny)s and %(axelor)s."
+msgstr ""
+
+#: controllers/templates/about.mako:31
+#, python-format
+msgid "Licenced under the terms of %(license)s"
+msgstr ""
+
+#: controllers/templates/about.mako:37
+msgid "About OpenERP"
+msgstr ""
+
+#: controllers/templates/about.mako:42
+#, python-format
+msgid ""
+"%(openobject)s is a free enterprise-scale software system that is "
+"designed to boost\n"
+"productivity and profit through data integration. It connects, improves "
+"and\n"
+"manages business processes in areas such as sales, finance, supply chain,"
+"\n"
+"project management, production, services, CRM, etc..\n"
+msgstr ""
+
+#: controllers/templates/about.mako:50
+msgid ""
+"The system is platform-independent, and can be installed on Windows, Mac "
+"OS X,\n"
+"and various Linux and other Unix-based distributions. Its architecture "
+"enables\n"
+"new functionality to be rapidly created, modifications to be made to a\n"
+"production system and migration to a new version to be straightforward."
+msgstr ""
+
+#: controllers/templates/about.mako:57
+msgid ""
+"Depending on your needs, OpenERP is available through a web or "
+"application client."
+msgstr ""
+
+#: controllers/templates/about.mako:62 widgets/templates/sidebar.mako:38
+msgid "Links"
+msgstr ""
+
+#: controllers/templates/about.mako:68
+msgid "The Axelor Company"
+msgstr ""
+
+#: controllers/templates/about.mako:69
+msgid "The Tiny Company"
+msgstr ""
+
+#: controllers/templates/about.mako:83
+msgid "RESOURCES"
+msgstr ""
+
+#: controllers/templates/about.mako:91
+msgid "Homepage"
+msgstr ""
+
+#: controllers/templates/about.mako:95
+msgid "Download"
+msgstr ""
+
+#: controllers/templates/about.mako:99
+msgid "Documentation"
+msgstr ""
+
+#: controllers/templates/about.mako:103
+msgid "Modules"
+msgstr ""
+
+#: controllers/templates/about.mako:107
+msgid "Screencasts"
+msgstr ""
+
+#: controllers/templates/about.mako:111
+msgid "Community"
+msgstr ""
+
+#: controllers/templates/about.mako:115
+msgid "SaaS Offers"
+msgstr ""
+
+#: controllers/templates/about.mako:119
+msgid "Trainings"
+msgstr ""
+
+#: controllers/templates/about.mako:123
+msgid "Services"
+msgstr ""
+
+#: controllers/templates/database.mako:49 controllers/templates/login.mako:4
+#: controllers/templates/login.mako:67 controllers/templates/login_ajax.mako:85
+#: controllers/templates/login_ajax.mako:104
+msgid "Login"
+msgstr ""
+
+#: controllers/templates/database.mako:51
+msgid "Create"
+msgstr ""
+
+#: controllers/templates/database.mako:53
+msgid "Drop"
+msgstr ""
+
+#: controllers/templates/database.mako:55
+msgid "Backup"
+msgstr ""
+
+#: controllers/templates/database.mako:57
+msgid "Restore"
+msgstr ""
+
+#: controllers/templates/database.mako:59
+msgid "Password"
+msgstr ""
+
+#: controllers/templates/error_page.mako:70
+msgid "An "
+msgstr ""
+
+#: controllers/templates/error_page.mako:70
+msgid "has been reported."
+msgstr ""
+
+#: controllers/templates/error_page.mako:72
+msgid "Let me fix it"
+msgstr ""
+
+#: controllers/templates/error_page.mako:78
+msgid "Fix it for me"
+msgstr ""
+
+#: controllers/templates/error_page.mako:83
+msgid "You do not have a valid OpenERP maintenance contract !"
+msgstr ""
+
+#: controllers/templates/error_page.mako:84
+msgid ""
+"If you are using OpenERP in production, it is recommended to have\n"
+"a maintenance program.\n"
+"\n"
+"The OpenERP maintenance contract provides you with bug fix guarantees and"
+" an\n"
+"automatic migration system so that we can start working on your problems "
+"within a few\n"
+"hours.\n"
+"\n"
+"With a maintenance contract, errors such as this one can be sent directly"
+" to the OpenERP\n"
+"team for review and evaluation.\n"
+"\n"
+"The maintenance program offers you:\n"
+"* Automatic migrations on new versions,\n"
+"* A bugfix guarantee,\n"
+"* Monthly announces of potential bugs and their fixes,\n"
+"* Security alerts by email and automatic migration,\n"
+"* Access to the customer portal.\n"
+msgstr ""
+
+#: controllers/templates/error_page.mako:106
+msgid ""
+"Your maintenance contract does not cover all modules installed in your "
+"system !\n"
+"If you are using OpenERP in production, it is highly suggested to upgrade"
+" your\n"
+"contract.\n"
+"\n"
+"If you have developed your own modules or installed third party module, "
+"we\n"
+"can provide you an additional maintenance contract for these modules. "
+"After\n"
+"having reviewed your modules, our quality team will ensure they will "
+"migrate\n"
+"automatically for all future stable versions of OpenERP at no extra cost."
+"\n"
+"\n"
+"Here is the list of modules not covered by your maintenance contract:"
+msgstr ""
+
+#: controllers/templates/error_page.mako:128
+msgid "Maintenance contract."
+msgstr ""
+
+#: controllers/templates/error_page.mako:129
+msgid ""
+"Your request will be sent to OpenERP and maintenance team will reply you "
+"shortly."
+msgstr ""
+
+#: controllers/templates/error_page.mako:134
+msgid "Explain what you did:"
+msgstr ""
+
+#: controllers/templates/error_page.mako:143
+msgid "Other Comments:"
+msgstr ""
+
+#: controllers/templates/error_page.mako:155
+msgid "Send to Maintenance Team"
+msgstr ""
+
+#: controllers/templates/error_page.mako:182
+msgid "Write concurrency warning :"
+msgstr ""
+
+#: controllers/templates/error_page.mako:187
+msgid ""
+"This document has been modified while you were editing it.\n"
+"Choose:\n"
+"\n"
+"    - \"Cancel\" to cancel saving.\n"
+"    - \"Write anyway\" to save your current version."
+msgstr ""
+
+#: controllers/templates/error_page.mako:201
+#: controllers/templates/form.mako:143
+#: controllers/templates/preferences.mako:23
+#: controllers/templates/selection.mako:43
+#: controllers/templates/viewlist.mako:160 widgets/templates/listgrid.mako:33
+msgid "Cancel"
+msgstr ""
+
+#: controllers/templates/error_page.mako:202
+msgid "Write Anyway"
+msgstr ""
+
+#: controllers/templates/exp.mako:146 widgets/templates/sidebar.mako:101
+msgid "Export"
+msgstr ""
+
+#: controllers/templates/exp.mako:147 controllers/templates/fieldpref.mako:99
+#: controllers/templates/image.mako:71 controllers/templates/imp.mako:112
+#: controllers/templates/openm2m.mako:64 controllers/templates/openm2o.mako:57
+#: controllers/templates/openo2m.mako:86
+#: controllers/templates/save_filter.mako:24
+#: controllers/templates/search.mako:164
+#: controllers/templates/translator.mako:39
+#: controllers/templates/translator.mako:106
+#: controllers/templates/viewed.mako:37
+#: controllers/templates/viewed_new.mako:49
+#: controllers/templates/viewed_new_model.mako:42
+#: controllers/templates/viewed_preview.mako:28
+#: controllers/templates/viewlist.mako:129 widgets/templates/sidebar.mako:58
+#: widgets/templates/viewform.mako:31
+msgid "Close"
+msgstr ""
+
+#: controllers/templates/exp.mako:149
+msgid "Export Data"
+msgstr ""
+
+#: controllers/templates/exp.mako:166 controllers/templates/form.mako:138
+#: controllers/templates/image.mako:68 widgets/form/templates/one2many.mako:20
+#: widgets/templates/listgrid.mako:92 widgets/templates/listgrid.mako:96
+#: widgets/templates/listgrid.mako:162 widgets/templates/listgrid.mako:167
+#: widgets/templates/listgroup.mako:125
+#: widgets/templates/multiple_group.mako:82 widgets/templates/sidebar.mako:58
+msgid "Delete"
+msgstr ""
+
+#: controllers/templates/exp.mako:177 controllers/templates/imp.mako:124
+msgid "All fields"
+msgstr ""
+
+#: controllers/templates/exp.mako:179
+msgid "Fields to export"
+msgstr ""
+
+#: controllers/templates/exp.mako:189 controllers/templates/imp.mako:136
+#: widgets/templates/listgrid.mako:123 widgets/templates/sidebar.mako:46
+msgid "Add"
+msgstr ""
+
+#: controllers/templates/exp.mako:194 controllers/templates/imp.mako:141
+#: controllers/templates/viewlist.mako:125
+msgid "Remove"
+msgstr ""
+
+#: controllers/templates/exp.mako:199 controllers/templates/imp.mako:146
+msgid "Nothing"
+msgstr ""
+
+#: controllers/templates/exp.mako:204 controllers/templates/exp.mako:220
+msgid "Save List"
+msgstr ""
+
+#: controllers/templates/exp.mako:223
+msgid "Name of This Export:"
+msgstr ""
+
+#: controllers/templates/exp.mako:239 controllers/templates/imp.mako:178
+msgid "Options"
+msgstr ""
+
+#: controllers/templates/exp.mako:244
+msgid "Export as CSV"
+msgstr ""
+
+#: controllers/templates/exp.mako:245
+msgid "Export as Excel"
+msgstr ""
+
+#: controllers/templates/exp.mako:251
+msgid "Add field names"
+msgstr ""
+
+#: controllers/templates/exp.mako:260
+msgid "Select an Option to Export"
+msgstr ""
+
+#: controllers/templates/exp.mako:266
+msgid "Import Compatible"
+msgstr ""
+
+#: controllers/templates/fieldpref.mako:4
+#: controllers/templates/fieldpref.mako:29
+msgid "Field Preferences"
+msgstr ""
+
+#: controllers/templates/fieldpref.mako:39
+msgid "Field Name:"
+msgstr ""
+
+#: controllers/templates/fieldpref.mako:43
+msgid "Domain:"
+msgstr ""
+
+#: controllers/templates/fieldpref.mako:47
+msgid "Default Value:"
+msgstr ""
+
+#: controllers/templates/fieldpref.mako:57
+msgid "Value applicable for:"
+msgstr ""
+
+#: controllers/templates/fieldpref.mako:63
+msgid "Only for you"
+msgstr ""
+
+#: controllers/templates/fieldpref.mako:67
+msgid "For all"
+msgstr ""
+
+#: controllers/templates/fieldpref.mako:76
+msgid "Value applicable if:"
+msgstr ""
+
+#: controllers/templates/fieldpref.mako:79
+msgid "Always applicable!"
+msgstr ""
+
+#: controllers/templates/footer.mako:3
+#, python-format
+msgid "&copy; 2008-2010 %(ooweb)s  SA. All Rights Reserved "
+msgstr ""
+
+#: controllers/templates/footer.mako:6
+msgid "Significant contributions to the web client have been made by"
+msgstr ""
+
+#: controllers/templates/form.mako:80
+msgid "Add / Remove Shortcut..."
+msgstr ""
+
+#: controllers/templates/form.mako:84
+msgid "Corporate Intelligence..."
+msgstr ""
+
+#: controllers/templates/form.mako:89
+msgid "Show Logs..."
+msgstr ""
+
+#: controllers/templates/form.mako:99
+msgid "Tips"
+msgstr ""
+
+#: controllers/templates/form.mako:100
+msgid "hide"
+msgstr ""
+
+#: controllers/templates/form.mako:101
+msgid "Disable all Tips"
+msgstr ""
+
+#: controllers/templates/form.mako:114
+msgid "Create a new resource"
+msgstr ""
+
+#: controllers/templates/form.mako:115 controllers/templates/search.mako:163
+#: controllers/templates/viewed_new_model.mako:36
+#: controllers/templates/viewlist.mako:119 widgets/form/_o2m.py:55
+#: widgets/form/templates/one2many.mako:18 widgets/templates/listgrid.mako:128
+#: widgets/templates/listgrid.mako:132
+msgid "New"
+msgstr ""
+
+#: controllers/templates/form.mako:119
+msgid "Edit this resource"
+msgstr ""
+
+#: controllers/templates/form.mako:120 controllers/templates/viewlist.mako:122
+#: widgets/templates/listgrid.mako:66 widgets/templates/listgrid.mako:70
+#: widgets/templates/listgrid.mako:174 widgets/templates/listgroup.mako:105
+#: widgets/templates/multiple_group.mako:63
+msgid "Edit"
+msgstr ""
+
+#: controllers/templates/form.mako:124
+msgid "Save this resource"
+msgstr ""
+
+#: controllers/templates/form.mako:125 controllers/templates/image.mako:66
+#: controllers/templates/openm2m.mako:61 controllers/templates/openm2o.mako:53
+#: controllers/templates/openo2m.mako:82
+#: controllers/templates/preferences.mako:24
+#: controllers/templates/save_filter.mako:23
+#: controllers/templates/translator.mako:38
+#: controllers/templates/translator.mako:104
+#: controllers/templates/viewed_new.mako:46
+#: controllers/templates/viewed_new_model.mako:39
+#: controllers/templates/viewlist.mako:157
+msgid "Save"
+msgstr ""
+
+#: controllers/templates/form.mako:127
+msgid "Save & Edit this resource"
+msgstr ""
+
+#: controllers/templates/form.mako:128
+msgid "Save & Edit"
+msgstr ""
+
+#: controllers/templates/form.mako:132
+msgid "Duplicate this resource"
+msgstr ""
+
+#: controllers/templates/form.mako:133
+msgid "Duplicate"
+msgstr ""
+
+#: controllers/templates/form.mako:137
+msgid "Delete this resource"
+msgstr ""
+
+#: controllers/templates/form.mako:142
+msgid "Cancel editing the current resource"
+msgstr ""
+
+#: controllers/templates/form.mako:147
+msgid "Create new node"
+msgstr ""
+
+#: controllers/templates/form.mako:148
+msgid "New Node"
+msgstr ""
+
+#: controllers/templates/form.mako:152
+msgid "Show grid in workflow canvas"
+msgstr ""
+
+#: controllers/templates/header.mako:30
+#, python-format
+msgid "%(company)s"
+msgstr ""
+
+#: controllers/templates/header.mako:31 controllers/templates/index.mako:140
+#, python-format
+msgid "%(user)s"
+msgstr ""
+
+#: controllers/templates/header.mako:42 controllers/templates/header.mako:44
+msgid "Home"
+msgstr ""
+
+#: controllers/templates/header.mako:50
+msgid "Requests"
+msgstr ""
+
+#: controllers/templates/header.mako:56
+msgid "Edit Preferences"
+msgstr ""
+
+#: controllers/templates/header.mako:59 controllers/templates/header.mako:61
+msgid "About"
+msgstr ""
+
+#: controllers/templates/header.mako:65 controllers/templates/header.mako:67
+msgid "Help"
+msgstr ""
+
+#: controllers/templates/header.mako:72 controllers/templates/header.mako:74
+msgid "Clear Cache"
+msgstr ""
+
+#: controllers/templates/header.mako:79
+msgid "Logout"
+msgstr ""
+
+#: controllers/templates/image.mako:4 controllers/templates/image.mako:40
+msgid "Image"
+msgstr ""
+
+#: controllers/templates/image.mako:56
+msgid "Add Resource:"
+msgstr ""
+
+#: controllers/templates/image.mako:67 widgets/form/templates/binary.mako:25
+msgid "Save As"
+msgstr ""
+
+#: controllers/templates/imp.mako:111 widgets/templates/sidebar.mako:98
+msgid "Import"
+msgstr ""
+
+#: controllers/templates/imp.mako:114
+msgid "Import Data"
+msgstr ""
+
+#: controllers/templates/imp.mako:126
+msgid "Fields to import"
+msgstr ""
+
+#: controllers/templates/imp.mako:151
+msgid "Auto Detect"
+msgstr ""
+
+#: controllers/templates/imp.mako:170
+msgid "File to import"
+msgstr ""
+
+#: controllers/templates/imp.mako:181
+msgid "Separator:"
+msgstr ""
+
+#: controllers/templates/imp.mako:183
+msgid "Delimiter:"
+msgstr ""
+
+#: controllers/templates/imp.mako:187
+msgid "Encoding:"
+msgstr ""
+
+#: controllers/templates/imp.mako:194
+msgid "Lines to skip:"
+msgstr ""
+
+#: controllers/templates/index.mako:104
+msgid "Use On-Site"
+msgstr ""
+
+#: controllers/templates/index.mako:112
+msgid "Use Online"
+msgstr ""
+
+#: controllers/templates/index.mako:142 controllers/templates/index.mako:147
+#, python-format
+msgid "Powered by %(openerp)s "
+msgstr ""
+
+#: controllers/templates/login.mako:53 controllers/templates/login_ajax.mako:72
+#: controllers/templates/login_ajax.mako:94
+msgid "User:"
+msgstr ""
+
+#: controllers/templates/login.mako:64
+msgid "Databases"
+msgstr ""
+
+#: controllers/templates/modules.mako:4
+msgid "Module Management"
+msgstr ""
+
+#: controllers/templates/modules.mako:17
+msgid "Web Modules"
+msgstr ""
+
+#: controllers/templates/save_filter.mako:18
+msgid "Save as Filter"
+msgstr ""
+
+#: controllers/templates/save_filter.mako:36
+msgid "Filter Name"
+msgstr ""
+
+#: controllers/templates/search.mako:147
+#, python-format
+msgid "Search %(name)s"
+msgstr ""
+
+#: controllers/templates/search.mako:161
+#: widgets/form/templates/datetime.mako:13
+msgid "Select"
+msgstr ""
+
+#: controllers/templates/search.mako:162 widgets/_views.py:75
+#: widgets/form/templates/many2one.mako:22
+#: widgets/form/templates/reference.mako:30 widgets/templates/viewform.mako:26
+msgid "Search"
+msgstr ""
+
+#: controllers/templates/selection.mako:4
+msgid "Select action"
+msgstr ""
+
+#: controllers/templates/selection.mako:23
+msgid "Select your action"
+msgstr ""
+
+#: controllers/templates/server_log.mako:4
+msgid "Server Actions..."
+msgstr ""
+
+#: controllers/templates/server_log.mako:14
+msgid "Server Actions"
+msgstr ""
+
+#: controllers/templates/translator.mako:4
+msgid "Add Translations"
+msgstr ""
+
+#: controllers/templates/translator.mako:17
+msgid "Add Translation"
+msgstr ""
+
+#: controllers/templates/translator.mako:27
+msgid "Add Translation for:"
+msgstr ""
+
+#: controllers/templates/translator.mako:31
+msgid "Fields"
+msgstr ""
+
+#: controllers/templates/translator.mako:32
+msgid "Labels"
+msgstr ""
+
+#: controllers/templates/translator.mako:33
+msgid "Relates"
+msgstr ""
+
+#: controllers/templates/translator.mako:51
+msgid "Field"
+msgstr ""
+
+#: controllers/templates/tree.mako:44
+msgid "Toolbar"
+msgstr ""
+
+#: controllers/templates/view_log.mako:4 controllers/templates/view_log.mako:12
+#: utils/common.py:55
+msgid "Information"
+msgstr ""
+
+#: controllers/templates/viewed.mako:17
+#, python-format
+msgid "View Editor %s - %s"
+msgstr ""
+
+#: controllers/templates/viewed.mako:31
+msgid "Create a new inherited view"
+msgstr ""
+
+#: controllers/templates/viewed.mako:31
+msgid "Inherited View"
+msgstr ""
+
+#: controllers/templates/viewed.mako:34
+msgid "Preview"
+msgstr ""
+
+#: controllers/templates/viewed_add.mako:6
+msgid "Node Type:"
+msgstr ""
+
+#: controllers/templates/viewed_add.mako:23
+msgid "New Field"
+msgstr ""
+
+#: controllers/templates/viewed_add.mako:27
+msgid "Position:"
+msgstr ""
+
+#: controllers/templates/viewlist.mako:4
+#: controllers/templates/viewlist.mako:108
+#, python-format
+msgid "Manage Views (%s)"
+msgstr ""
+
+#: controllers/templates/viewlist.mako:146
+#, python-format
+msgid "Create a view (%s)"
+msgstr ""
+
+#: controllers/templates/viewlist.mako:174
+msgid "View Name:"
+msgstr ""
+
+#: controllers/templates/viewlist.mako:178
+msgid "View Type:"
+msgstr ""
+
+#: controllers/templates/viewlist.mako:189
+msgid "Priority:"
+msgstr ""
+
+#: utils/common.py:45 utils/common.py:72
+msgid "Error"
+msgstr ""
+
+#: utils/common.py:50 utils/common.py:75
+msgid "Warning"
+msgstr ""
+
+#: utils/rpc.py:139
+msgid "Access Denied"
+msgstr ""
+
+#: utils/rpc.py:246
+msgid "Unsupported protocol."
+msgstr ""
+
+#: utils/rpc.py:348
+msgid ""
+"You select a timezone but OpenERP could not find pytz library!\n"
+"The timezone functionality will be disable."
+msgstr ""
+
+#: utils/rpc.py:355
+msgid "Not logged..."
+msgstr ""
+
+#: utils/rpc.py:355
+msgid "Authorization Error"
+msgstr ""
+
+#: utils/rpc.py:420
+msgid "== Access Denied =="
+msgstr ""
+
+#: widgets/_views.py:44
+msgid "Form"
+msgstr ""
+
+#: widgets/_views.py:45
+msgid "Form view..."
+msgstr ""
+
+#: widgets/_views.py:76
+msgid "Search view..."
+msgstr ""
+
+#: widgets/listgrid.py:335 widgets/form/_form.py:912
+#, python-format
+msgid "Invalid view, duplicate field: %s"
+msgstr ""
+
+#: widgets/pager.py:68
+#, python-format
+msgid "%s"
+msgstr ""
+
+#: widgets/pager.py:79
+#, python-format
+msgid "%s - %s"
+msgstr ""
+
+#: widgets/search.py:287
+msgid "contains"
+msgstr ""
+
+#: widgets/search.py:287
+msgid "doesn't contain"
+msgstr ""
+
+#: widgets/search.py:288
+msgid "is equal to"
+msgstr ""
+
+#: widgets/search.py:288
+msgid "is not equal to"
+msgstr ""
+
+#: widgets/search.py:289
+msgid "greater than"
+msgstr ""
+
+#: widgets/search.py:289
+msgid "less than"
+msgstr ""
+
+#: widgets/search.py:290
+msgid "in"
+msgstr ""
+
+#: widgets/search.py:290
+msgid "not in"
+msgstr ""
+
+#: widgets/form/_action.py:58
+msgid "Action not found!"
+msgstr ""
+
+#: widgets/form/_o2m.py:55 widgets/templates/listgrid.mako:126
+#: widgets/templates/listgrid.mako:132
+msgid "Create new record."
+msgstr ""
+
+#: widgets/form/_o2m.py:68
+msgid "Save/New"
+msgstr ""
+
+#: widgets/form/_o2m.py:68
+msgid "Save parent record."
+msgstr ""
+
+#: widgets/form/templates/binary.mako:28
+msgid "add attachment"
+msgstr ""
+
+#: widgets/form/templates/many2one.mako:2
+#: widgets/form/templates/reference.mako:33
+msgid "Open"
+msgstr ""
+
+#: widgets/form/templates/many2one.mako:2
+#: widgets/form/templates/reference.mako:33
+msgid "Open a resource"
+msgstr ""
+
+#: widgets/form/templates/one2many.mako:18
+msgid "Create new record..."
+msgstr ""
+
+#: widgets/form/templates/one2many.mako:20
+msgid "Delete record..."
+msgstr ""
+
+#: widgets/form/templates/one2many.mako:28
+msgid "Previous record..."
+msgstr ""
+
+#: widgets/form/templates/one2many.mako:30
+msgid "Next record..."
+msgstr ""
+
+#: widgets/form/templates/one2many.mako:37
+msgid "Translate me."
+msgstr ""
+
+#: widgets/templates/listgrid.mako:19
+msgid "Update"
+msgstr ""
+
+#: widgets/templates/listgrid.mako:121
+msgid "Add records..."
+msgstr ""
+
+#: widgets/templates/listgrid.mako:160 widgets/templates/listgrid.mako:165
+msgid "Delete record(s)."
+msgstr ""
+
+#: widgets/templates/listgrid.mako:172
+msgid "Edit record(s)."
+msgstr ""
+
+#: widgets/templates/logs.mako:22
+msgid "More..."
+msgstr ""
+
+#: widgets/templates/logs.mako:35
+msgid "Less..."
+msgstr ""
+
+#: widgets/templates/pager.mako:9
+msgid "<< First"
+msgstr ""
+
+#: widgets/templates/pager.mako:14
+msgid "< Previous"
+msgstr ""
+
+#: widgets/templates/pager.mako:19
+msgid "of"
+msgstr ""
+
+#: widgets/templates/pager.mako:24
+msgid "Next >"
+msgstr ""
+
+#: widgets/templates/pager.mako:29
+msgid "Last >>"
+msgstr ""
+
+#: widgets/templates/pager.mako:37
+msgid "Change Limit:"
+msgstr ""
+
+#: widgets/templates/sidebar.mako:30
+msgid "Reports"
+msgstr ""
+
+#: widgets/templates/sidebar.mako:34
+msgid "Actions"
+msgstr ""
+
+#: widgets/templates/sidebar.mako:42
+msgid "Submenu"
+msgstr ""
+
+#: widgets/templates/sidebar.mako:47
+msgid "Attachments"
+msgstr ""
+
+#: widgets/templates/sidebar.mako:65
+msgid "File"
+msgstr ""
+
+#: widgets/templates/sidebar.mako:72
+msgid "Customise"
+msgstr ""
+
+#: widgets/templates/sidebar.mako:76
+msgid "Manage views of the current object"
+msgstr ""
+
+#: widgets/templates/sidebar.mako:78
+msgid "Manage Views"
+msgstr ""
+
+#: widgets/templates/sidebar.mako:81
+msgid "Manage workflows of the current object"
+msgstr ""
+
+#: widgets/templates/sidebar.mako:83
+msgid "Show Workflow"
+msgstr ""
+
+#: widgets/templates/sidebar.mako:86
+msgid "Customise current object or create a new object"
+msgstr ""
+
+#: widgets/templates/sidebar.mako:88
+msgid "Customise Object"
+msgstr ""
+
+#: widgets/templates/sidebar.mako:93
+msgid "Other Options"
+msgstr ""
+
+#: widgets/templates/sidebar.mako:105
+msgid "Translate"
+msgstr ""
+
+#: widgets/templates/sidebar.mako:110
+msgid "View Log"
+msgstr ""
+
+#: widgets/templates/viewform.mako:25
+msgid "Filter records."
+msgstr ""
+
+#: widgets/templates/viewform.mako:27
+msgid "Clear all."
+msgstr ""
+
+#: widgets/templates/viewform.mako:29
+msgid "Clear"
+msgstr ""
+
+#: widgets/templates/viewform.mako:35
+msgid "Save Filter."
+msgstr ""
+
+#: widgets/templates/viewform.mako:37
+msgid "Save Filter"
+msgstr ""
+
+#: widgets/templates/viewform.mako:38
+msgid "Manage Filter."
+msgstr ""
+
+#: widgets/templates/viewform.mako:40
+msgid "Manage Filters"
+msgstr ""
+

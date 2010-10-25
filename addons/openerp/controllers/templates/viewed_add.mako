@@ -1,9 +1,9 @@
-<form id="view_form" name="view_form" onsubmit="return false" action="">
+<form id="view_form" name="view_form" action="">
     <input type="hidden" name="view_id" id="view_id" value="${view_id}"/>
     <input type="hidden" name="xpath_expr" id="xpath_expr" value="${xpath_expr}"/>
     <table width="100%">
         <tr>
-            <td class="label" width="5">${_("Node Type:")}</td>
+            <td class="label" width="5"><label for="node">${_("Node Type:")}</label></td>
             <td class="item" width="100">
                 <select id="node" name="node" onchange="toggleFields(this)">
                     % for node in nodes:
@@ -20,11 +20,11 @@
                 </select>
             </td>
             <td width="5" nowrap="nowrap">
-                <button id="new_field" name="new_field" class="button" onclick="onNew('${model}')">${_("New Field")}</button>
+            	<a id="new_field" name="new_field" class="button" href="javascript: void(0)" onclick="onNew('${model}')">${_("New Field")}</a>
             </td>
         </tr>
         <tr>
-            <td class="label" width="5">${_("Position:")}</td>
+            <td class="label" width="5"><label for="position">${_("Position:")}</label></td>
             <td class="item" width="100">
                 <select id="position" name="position">
                     % for v,p in positions:

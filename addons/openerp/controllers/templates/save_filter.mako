@@ -1,133 +1,89 @@
-<%inherit file="/openerp/controllers/templates/base.mako"/>
+<%inherit file="/openerp/controllers/templates/base_dispatch.mako"/>
 
 <%def name="header()">
-    <title>Save as a Shortcut</title>
-    
-    <script type="text/javascript">
-    	
-    	var onFilterClose = function(form, sc_id){
-    	
-			form.submit();			
-			var act = openobject.http.getURL("/tree/open", {id: sc_id, model: 'ir.ui.menu'});
-			
-		    window.opener.location.href = act;
-		    
-		    window.close();
-		}
-		
-    </script>
+    <title>Save as Shortcut</title>
 </%def>
 
 <%def name="content()">
-	<form name="filter_sc" method="POST" action="/search/do_filter_sc">
-		<input type="hidden" id="model" name="model" value="${model}"/>
-		<input type="hidden" id="domain" name="domain" value="${domain}"/>
-		<input type="hidden" id="flag" name="flag" value="${flag}"/>
-		<input type="hidden" id="sc_id" name="sc_id" value="${sc_id}"/>
-		
-		<table class="view" width="100%" border="0">
-			<tr>
-	            <td width="100%" colspan="2">
-	                <table class="titlebar">
-	                    <tr>
-	                        <td width="32px" align="left">
-	                            <img src="/static/images/stock/gtk-index.png"/>
-	                        </td>
-	                        % if flag == 'sh':
-	                        	<td align="center" width="100%">${_("Save as a Shortcut")}</td>
-	                        % else:
-	                        	<td align="center" width="100%">${_("Save as a Filter")}</td>
-	                        % endif
-	                    </tr>
-	                </table>
-	            </td>
-	        </tr>
-	        <tr>
-	        	% if flag == 'sh':
-	        	<td class="label">
-	        		Shortcut Name :
-	        	</td>
-	        	% else:
-	        	<td class="label">
-	        		Filter Name :
-	        	</td>
-	        	% endif
-	        	<td>
-	        		<input type="text" name="sc_name" style="width: 75%"/>
-	        	</td>
-	        </tr>
-	        	<td class="label">
-	        		Form View :
-	        	</td>
-	        	<td>
-	        		<select id="form_views" name="form_views" style="width: 75%">
-		    			% for val in form_views:
-		                	<option value="${val[0]}">${val[1]}</option>
-		                % endfor
-		            </select>
-	        	</td>
-	        <tr>
-	        	<td class="label">
-	        		Tree View :
-	        	</td>
-	        	<td>
-	        		<select id="tree_views" name="tree_views" style="width: 75%">
-		    			% for val in tree_views:
-		                	<option value="${val[0]}">${val[1]}</option>
-		                % endfor
-		            </select>
-	        	</td>
-	        </tr>
-	        <tr>
-	        	<td class="label">
-	        		Graph View :
-	        	</td>
-	        	<td>
-	        		<select id="graph_views" name="graph_views" style="width: 75%">
-		    			% for val in graph_views:
-		                	<option value="${val[0]}">${val[1]}</option>
-		                % endfor
-		            </select>
-	        	</td>
-	        </tr>
-	        <tr>
-	        	<td class="label">
-	        		Calendar View :
-	        	</td>
-	        	<td>
-	        		<select id="calendar_view" name="calendar_views" style="width: 75%">
-		    			% for val in calendar_views:
-		                	<option value="${val[0]}">${val[1]}</option>
-		                % endfor
-		            </select>
-	        	</td>
-	        </tr>
-	        <tr>
-	        	<td class="label">
-	        		Gantt View :
-	        	</td>
-	        	<td>
-	        		<select id="gantt_view" name="gantt_views" style="width: 75%">
-		    			% for val in gantt_views:
-		                	<option value="${val[0]}">${val[1]}</option>
-		                % endfor
-		            </select>
-	        	</td>
-	        </tr>
-	        <tr>
-	        	<td colspan="2" align="right">
-	        		<br/>
-	        		<div class="toolbar">
-	        			<table border="0" cellpadding="0" cellspacing="0" width="100%">
-	                        <tr>
-	                            <td width="100%">&nbsp;</td>
-	                            <td><button type="button" onclick="onFilterClose(form, ${sc_id});">${_("Ok")}</button></td>
-	                            <td><button type="button" onclick="window.close()">${_("Close")}</button></td>
-	                        </tr>
-	                    </table>
-	        		</div>
-	        	</td>
-	        </tr>
-		</table>
-	</form>
+    <form id="filter_sc" name="filter_sc" method="POST" action="/openerp/search/do_filter_sc">
+        <input type="hidden" id="model" name="model" value="${model}"/>
+        <input type="hidden" id="domain" name="domain" value="${domain}"/>
+        <input type="hidden" id="group_by" name="group_by" value="${group_by}"/>
+        <table class="view" width="100%" border="0">
+            <tr>
+                <td style="padding: 0">
+                    <table width="100%" style="border: none;">
+                        <tr>
+                            <td style="padding: 0 10px 5px 10px">
+                                <h1>${_("Save as Filter")}</h1>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 0 10px 3px 10px">
+                                <button type="submit">${_("Save")}</button>
+                                <button type="reset">${_("Close")}</button>
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+            <tr>
+                <td style="padding: 0 10px">
+                    <div class="box2">
+                        <table border="0" width="100%" align="center">
+                            <tr>
+                                <td class="label" style="padding: 0;">
+                                    <label for="sc_name">${_("Filter Name")}:</label>
+                                </td>
+                                <td width="100%">
+                                    <input type="text" name="name" id="sc_name" value="${filtername}" style="width: 100%;" autofocus="true"/>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </td>
+            </tr>
+        </table>
+    </form>
+    <script type="text/javascript">
+        jQuery('#filter_sc').
+                bind('reset', function () { jQuery.fancybox.close(); }).
+                submit(function () {
+                    var $this = jQuery(this);
+                    $this.ajaxSubmit({
+                        dataType:'json',
+                        success:  function(obj) {
+                            var $filterOptions = jQuery("#filter_list option:not(:first)");
+                            if(!obj.new_id) {
+                                $filterOptions.each(function() {
+                                    if (jQuery(this).text().toLowerCase() == obj.filter[1].toLowerCase()){
+                                        this.text = obj.filter[1];
+                                        this.selected = this.text;
+                                        this.value = obj.filter[0];
+                                        this.group_by = obj.filter[2];
+                                    }
+                                });
+                            }
+                            else {
+                                jQuery('#filter_list').
+                                    append(jQuery("<option>", {
+                                        selected: 'selected',
+                                        value: obj.filter[0],
+                                        group_by: obj.filter[2]
+                                    }).text(obj.filter[1]));
+
+                                var filters = jQuery("#filter_list option");
+                                filters.sort(function(a,b) {
+                                    var match1 = $(a).text().toUpperCase();
+                                    var match2  = $(b).text().toUpperCase();
+                                    return (match1 < match2) ? -1 : (match1 > match2) ? 1 : 0;
+                                });
+                                $("#filter_list").empty().append(filters);
+                            }
+                            jQuery.fancybox.close();
+                        }
+                    });
+                    return false;
+                });
+    </script>
 </%def>

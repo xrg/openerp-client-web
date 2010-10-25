@@ -9,7 +9,7 @@ class CalendarView(TinyView):
     _type = "calendar"
     _name = _("Calendar")
     _desc = _("Calendar view...")
-    _priority = 4
+    _priority = 3
 
     def __call__(self, screen):
 
@@ -27,7 +27,7 @@ class GanttView(TinyView):
     _type = "gantt"
     _name = _("Gantt")
     _desc = _("Gantt view...")
-    _priority = 5
+    _priority = 4
 
     def __call__(self, screen):
         widget = GanttCalendar(model=screen.model,

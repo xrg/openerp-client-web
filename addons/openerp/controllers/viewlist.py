@@ -10,7 +10,7 @@
 # It's based on Mozilla Public License Version (MPL) 1.1 with following
 # restrictions:
 #
-# -   All names, links and logos of Tiny, Open ERP and Axelor must be
+# -   All names, links and logos of Tiny, OpenERP and Axelor must be
 #     kept as in original distribution without any changes in all software
 #     screens, especially in start-up page and the software header, even if
 #     the application source code has been changed or updated or code has been
@@ -35,9 +35,9 @@ from openobject.tools import expose, redirect
 
 class ViewList(SecuredController):
 
-    _cp_path = "/viewlist"
+    _cp_path = "/openerp/viewlist"
 
-    @expose(template="templates/viewlist.mako")
+    @expose(template="/openerp/controllers/templates/viewlist.mako")
     def index(self, model):
 
         params = TinyDict()
@@ -59,7 +59,7 @@ class ViewList(SecuredController):
         priority = kw.get('priority', 16)
 
         if not view_name:
-            raise redirect('/viewlist', model=model)
+            raise redirect('/openerp/viewlist', model=model)
 
         proxy = rpc.RPCProxy(model)
         fields = proxy.fields_get({}).keys()
@@ -88,7 +88,7 @@ class ViewList(SecuredController):
             proxy = rpc.RPCProxy('ir.ui.view')
             proxy.create(dict(model=model, name=view_name, type=view_type, priority=priority, arch=arch))
 
-        raise redirect('/viewlist', model=model)
+        raise redirect('/openerp/viewlist', model=model)
 
     @expose()
     def delete(self, model, id):
@@ -98,6 +98,6 @@ class ViewList(SecuredController):
         proxy = rpc.RPCProxy('ir.ui.view')
         proxy.unlink(id)
 
-        raise redirect('/viewlist', model=model)
+        raise redirect('/openerp/viewlist', model=model)
 
 # vim: ts=4 sts=4 sw=4 si et

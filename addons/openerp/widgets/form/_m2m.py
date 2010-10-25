@@ -10,7 +10,7 @@
 # It's based on Mozilla Public License Version (MPL) 1.1 with following
 # restrictions:
 #
-# -   All names, links and logos of Tiny, Open ERP and Axelor must be
+# -   All names, links and logos of Tiny, OpenERP and Axelor must be
 #     kept as in original distribution without any changes in all software
 #     screens, especially in start-up page and the software header, even if
 #     the application source code has been changed or updated or code has been
@@ -50,7 +50,7 @@ __all__ = ["M2M"]
 
 class M2M(TinyInputWidget):
 
-    template = "templates/many2many.mako"
+    template = "/openerp/widgets/form/templates/many2many.mako"
     params = ['relation', 'domain', 'context']
     member_widgets = ['screen']
 
@@ -81,9 +81,7 @@ class M2M(TinyInputWidget):
 
         self.relation = attrs.get('relation', '')
         self.domain = attrs.get('domain', [])
-        self.context = attrs.get('context', {}) or {}
-
-        self.domain  = attrs.get('domain',{})
+        self.context = attrs.get('context', {}) or {}        
 
         view = attrs.get('views', {})
         mode = str(attrs.get('mode', 'tree,form')).split(',')
@@ -100,11 +98,15 @@ class M2M(TinyInputWidget):
             ids = attrs.get('value', [])
 
         id = (ids or None) and ids[0]
-
+        
         pprefix = ''
         if '/' in self.name:
             pprefix = self.name[:self.name.rindex('/')]
-
+        
+        if self.name == params.source and params.sort_key and ids:
+            self.domain.append(('id', 'in', ids))
+            ids = rpc.RPCProxy(self.model).search(self.domain, 0, 0, params.sort_key+ ' '+params.sort_order, self.context)
+            id = ids[0]
         current = params.chain_get(self.name)
 
         if not current:
@@ -135,18 +137,16 @@ class M2M(TinyInputWidget):
         current.context = current.context or {}
 
         if isinstance(self.context, basestring):
-            ctx = cherrypy.request.terp_record
-            ctx['current_date'] = time.strftime('%Y-%m-%d')
-            ctx['time'] = time
-            ctx['context'] = current.context
-            ctx['active_id'] = current.id or False
-
             # XXX: parent record for O2M
             #if self.parent:
             #    ctx['parent'] = EvalEnvironment(self.parent)
 
             try:
-                ctx = expr_eval(self.context, ctx)
+                ctx = expr_eval(
+                        self.context,
+                        dict(cherrypy.request.terp_record,
+                             context=current.context,
+                             active_id=current.id or False))
                 current.context.update(ctx)
             except:
                 pass
@@ -167,8 +167,8 @@ class M2M(TinyInputWidget):
                 pass
 
         self.screen = Screen(current, prefix=self.name, views_preloaded=view,
-                             editable=False, readonly=self.editable,
-                             selectable=selectable, nolinks=self.link)
+                             editable=self.editable, readonly=self.editable,
+                             selectable=selectable, nolinks=self.link, **{'_m2m': 1})
 
         self.screen.widget.checkbox_name = False
         self.screen.widget.m2m = True

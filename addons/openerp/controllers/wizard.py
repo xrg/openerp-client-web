@@ -10,7 +10,7 @@
 # It's based on Mozilla Public License Version (MPL) 1.1 with following
 # restrictions:
 #
-# -   All names, links and logos of Tiny, Open ERP and Axelor must be
+# -   All names, links and logos of Tiny, OpenERP and Axelor must be
 #     kept as in original distribution without any changes in all software
 #     screens, especially in start-up page and the software header, even if
 #     the application source code has been changed or updated or code has been
@@ -35,11 +35,12 @@ from openerp.utils import rpc, icons, TinyDict
 
 import form
 from openobject.tools import expose, redirect, validate, error_handler
-
+from openobject import pooler
+import openobject
 
 class Wizard(SecuredController):
 
-    _cp_path = "/wizard"
+    _cp_path = "/openerp/wizard"
 
     def execute(self, params):
 
@@ -85,6 +86,9 @@ class Wizard(SecuredController):
                 for f in fields:
                     if 'value' in fields[f]:
                         form_values[f] = fields[f]['value']
+                    
+                    if f in datas['form'] and fields[f]['type'] == "one2many":
+                        datas['form'][f] = [(1, d, {}) for d in datas['form'][f]]
 
                 form_values.update(datas['form'])
 
@@ -102,7 +106,7 @@ class Wizard(SecuredController):
                                         tw.form.Hidden(name='_terp_state2', default=state),
                                         tw.form.Hidden(name='_terp_wiz_id', default=wiz_id)]
 
-                form = tw.form_view.ViewForm(params, name="view_form", action="/wizard/action")
+                form = tw.form_view.ViewForm(params, name="view_form", action="/openerp/wizard/action")
 
                 buttons = []
                 for x in res.get('state', []):
@@ -119,7 +123,9 @@ class Wizard(SecuredController):
 
             elif res['type']=='action':
                 import actions
-
+                # If configuration is done 
+                if res.get('action') and res.get('action').get('res_model') == 'ir.ui.menu' and res['state'] == 'end':
+                    return self.end()
                 act_res = actions.execute(res['action'], **datas)
                 if act_res:
                     return act_res
@@ -139,9 +145,9 @@ class Wizard(SecuredController):
             elif res['type']=='state':
                 state = res['state']
 
-        raise redirect('/wizard/end')
+        raise redirect('/openerp/wizard/end')
 
-    @expose(template="templates/wizard.mako")
+    @expose(template="/openerp/controllers/templates/wizard.mako")
     def create(self, params, tg_errors=None):
 
         if tg_errors:
@@ -157,9 +163,10 @@ class Wizard(SecuredController):
         if 'wizard_parent_params' in cherrypy.session:
             frm = cherrypy.session['wizard_parent_form']
             params = cherrypy.session['wizard_parent_params']
-
-            frm = eval('cherrypy.request.app.root' + frm.replace('/', '.'))
-            return frm.create(params)
+            try:
+                return pooler.get_pool().get_controller(frm).create(params)
+            except:
+                pass
 
         import actions
         return actions.close_popup()
@@ -187,7 +194,7 @@ class Wizard(SecuredController):
             if k not in kw:
                 vals.pop(k)
 
-        form.validator = validators.Schema(**vals)
+        form.validator = openobject.validators.Schema(**vals)
         return form
 
     @expose()

@@ -10,7 +10,7 @@
 # It's based on Mozilla Public License Version (MPL) 1.1 with following
 # restrictions:
 #
-# -   All names, links and logos of Tiny, Open ERP and Axelor must be
+# -   All names, links and logos of Tiny, OpenERP and Axelor must be
 #     kept as in original distribution without any changes in all software
 #     screens, especially in start-up page and the software header, even if
 #     the application source code has been changed or updated or code has been
@@ -26,18 +26,21 @@
 # You can see the MPL licence at: http://www.mozilla.org/MPL/MPL-1.1.html
 #
 ###############################################################################
-
+import datetime as DT
 import re
 import time
-import datetime as DT
 
-from babel import dates
-from babel import numbers
-from babel.support import Format
+import cherrypy
+import pytz
+from babel import dates, numbers
 
 from openobject.i18n.utils import get_locale
 
-__all__ = ['get_datetime_format', 'format_datetime', 'parse_datetime', 'format_decimal', 'parse_decimal']
+__all__ = ['DT_SERVER_FORMATS', 'get_datetime_format',
+           'format_datetime', 'parse_datetime',
+           'format_decimal', 'parse_decimal',
+           'tz_convert'
+          ]
 
 DT_SERVER_FORMATS = {
   'datetime' : '%Y-%m-%d %H:%M:%S',
@@ -45,7 +48,7 @@ DT_SERVER_FORMATS = {
   'time' : '%H:%M:%S'
 }
 
-__pat = re.compile("\%\(([dMy]+)\)s")
+__pat = re.compile("%\(([dMy]+)\)s")
 __sub = {'d': '%d', 'M': '%m', 'y': '%Y'}
 def _to_posix_format(format):
     """Convert LDML format string to posix format string.
@@ -73,6 +76,27 @@ def get_datetime_format(kind="datetime"):
 
     return fmt
 
+def tz_convert(struct_time, action):
+    # if no client timezone is configured, consider the client is in the same
+    # timezone as the server
+    lzone = pytz.timezone(cherrypy.session['client_timezone']
+                          or cherrypy.session['remote_timezone'])
+    szone = pytz.timezone(cherrypy.session['remote_timezone'])
+    dt = DT.datetime.fromtimestamp(time.mktime(struct_time))
+
+    if action == 'parse':
+        fromzone = lzone
+        tozone = szone
+    elif action == 'format':
+        fromzone = szone
+        tozone = lzone
+    else:
+        raise Exception("_tz_convert action should be 'parse' or 'format'. Not '%s'" % (action, ))
+
+    localized_original_datetime = fromzone.localize(dt, is_dst=True)
+    destination_datetime = localized_original_datetime.astimezone(tozone)
+    return destination_datetime.timetuple()
+
 def format_datetime(value, kind="datetime", as_timetuple=False):
     """Convert date value to the local datetime considering timezone info.
 
@@ -94,6 +118,14 @@ def format_datetime(value, kind="datetime", as_timetuple=False):
     if isinstance(value, (time.struct_time, tuple)):
         value = time.strftime(server_format, value)
 
+    if isinstance(value, DT.datetime):
+        value = ustr(value)
+        try:
+            value = DT.datetime.strptime(value[:10], server_format)
+            return value.strftime(local_format)
+        except:
+            return ''
+
     value = value.strip()
 
     # remove trailing miliseconds
@@ -111,15 +143,9 @@ def format_datetime(value, kind="datetime", as_timetuple=False):
 
     if kind == "datetime":
         try:
-            import pytz
-            lzone = pytz.timezone(cherrypy.session['client_timezone'])
-            szone = pytz.timezone(cherrypy.session['remote_timezone'])
-            dt = DT.datetime(value[0], value[1], value[2], value[3], value[4], value[5], value[6])
-            sdt = szone.localize(dt, is_dst=True)
-            ldt = sdt.astimezone(lzone)
-            value = ldt.timetuple()
-        except:
-            pass
+            value = tz_convert(value, 'format')
+        except Exception:
+            cherrypy.log.error("Error in timezone formatting:\n", traceback=True)
 
     if as_timetuple:
         return value
@@ -159,15 +185,9 @@ def parse_datetime(value, kind="datetime", as_timetuple=False):
 
     if kind == "datetime":
         try:
-            import pytz
-            lzone = pytz.timezone(cherrypy.session['client_timezone'])
-            szone = pytz.timezone(cherrypy.session['remote_timezone'])
-            dt = DT.datetime(value[0], value[1], value[2], value[3], value[4], value[5], value[6])
-            ldt = lzone.localize(dt, is_dst=True)
-            sdt = ldt.astimezone(szone)
-            value = sdt.timetuple()
-        except:
-            pass
+            value = tz_convert(value, 'parse')
+        except Exception:
+            cherrypy.log.error("Error in timezone parsing:\n", traceback=True)
 
     if as_timetuple:
         return value
@@ -198,13 +218,10 @@ def parse_decimal(value):
         value = value.replace(' ', '')
         try:
             value = numbers.parse_decimal(value, locale=get_locale())
-        except ValueError, e:
+        except ValueError:
             pass
 
     if not isinstance(value, float):
         return float(value)
 
     return value
-
-# vim: ts=4 sts=4 sw=4 si et
-

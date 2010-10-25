@@ -1,11 +1,14 @@
 % if editable:
     <select 
-        id="${name}" 
-        kind="${kind}" 
-        name="${name}" 
+        id="${name}"
+        kind="${kind}"
+        name="${name}"
+        type2 = "${type2}"
         class="${css_class}"
         search_context="${search_context}" ${py.attrs(attrs)}>
-        <option value=""></option>
+        % if not required:
+            <option value=""></option>
+        % endif
         % for (k, v) in options:
         <option value="${k}" ${py.selector(k==value)}>${v}</option>
         % endfor

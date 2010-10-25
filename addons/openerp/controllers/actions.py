@@ -10,13 +10,13 @@
 # It's based on Mozilla Public License Version (MPL) 1.1 with following
 # restrictions:
 #
-# -   All names, links and logos of Tiny, Open ERP and Axelor must be
+# -   All names, links and logos of Tiny, OpenERP and Axelor must be
 #     kept as in original distribution without any changes in all software
 #     screens, especially in start-up page and the software header, even if
 #     the application source code has been changed or updated or code has been
 #     added.
 #
-# -   All distributions of the software must keep source code with OEPL.
+# -   All distributions of     the software must keep source code with OEPL.
 #
 # -   All integrations to any other software must keep source code with OEPL.
 #
@@ -36,15 +36,15 @@ import time
 import cherrypy
 from openerp.utils import rpc, common, expr_eval, TinyDict
 
+from openobject.tools import redirect
 from form import Form
 from openobject import tools
 from selection import Selection
 from tree import Tree
 from wizard import Wizard
 
-
-def execute_window(view_ids, model, res_id=False, domain=None, view_type='form', context={},
-                   mode='form,tree', name=None, target=None, limit=None):
+def execute_window(view_ids, model, res_id=False, domain=None, view_type='form', context=None,
+                   mode='form,tree', name=None, target=None, limit=None, search_view=None, context_menu=False):
     """Performs `actions.act_window` action.
 
     @param view_ids: view ids
@@ -66,9 +66,13 @@ def execute_window(view_ids, model, res_id=False, domain=None, view_type='form',
     params.domain = domain or []
     params.context = context or {}
     params.limit = limit
+    params.search_view = search_view
+    params['context_menu'] = context_menu
 
     cherrypy.request._terp_view_name = name or None
     cherrypy.request._terp_view_target = target or None
+    if name:
+        params.context['_terp_view_name'] = name
 
     if params.ids and not isinstance(params.ids, list):
         params.ids = [params.ids]
@@ -76,7 +80,6 @@ def execute_window(view_ids, model, res_id=False, domain=None, view_type='form',
     params.id = (params.ids or False) and params.ids[0]
 
     mode = mode or view_type
-
     if view_type == 'form':
         mode = mode.split(',')
         params.view_mode=mode
@@ -87,7 +90,7 @@ def execute_window(view_ids, model, res_id=False, domain=None, view_type='form',
         return Tree().create(params)
 
     else:
-        raise common.message(_("Invalid View!"))
+        raise common.message(_("Invalid View"))
 
 def execute_wizard(name, **datas):
     """Executes given wizard with the given data
@@ -109,7 +112,13 @@ PRINT_FORMATS = {
      'doc' : 'application/vnd.ms-word',
      'html': 'text/html',
      'sxw' : 'application/vnd.sun.xml.writer',
-     'odt' : 'application/vnd.sun.xml.writer',
+     'odt' : 'application/vnd.oasis.opendocument.text',
+     'ods' : 'application/vnd.oasis.opendocument.spreadsheet',
+     'xls' : 'application/vnd.ms-excel',
+     'doc' : 'application/msword',
+     'csv' : 'text/csv',
+     'rtf' : 'application/rtf',
+     'txt' : 'text/plain',
 }
 
 def _print_data(data):
@@ -141,12 +150,14 @@ def execute_report(name, **data):
     if not ids:
         ids =  rpc.session.execute('object', 'execute', datas['model'], 'search', [])
         if ids == []:
-            raise common.message(_('Nothing to print!'))
+            raise common.message(_('Nothing to print'))
 
         datas['id'] = ids[0]
 
     try:
-        report_id = rpc.session.execute('report', 'report', name, ids, datas, rpc.session.context)
+        ctx = dict(rpc.session.context)
+        ctx.update(datas.get('context', {}))
+        report_id = rpc.session.execute('report', 'report', name, ids, datas, ctx)
         state = False
         attempt = 0
         while not state:
@@ -156,7 +167,7 @@ def execute_report(name, **data):
                 time.sleep(1)
                 attempt += 1
             if attempt>200:
-                raise common.message(_('Printing aborted, too long delay!'))
+                raise common.message(_('Printing aborted, too long delay'))
 
         # report name
         report_name = 'report'
@@ -188,17 +199,22 @@ def execute(action, **data):
     if 'type' not in action:
         #XXX: in gtk client just returns to the caller
         #raise common.error('Error', 'Invalid action...')
-        return
+        return close_popup()
 
+    data.setdefault('context', {}).update(expr_eval(action.get('context','{}'), data.get('context', {}).copy()))
     if action['type'] == 'ir.actions.act_window_close':
         return close_popup()
 
     elif action['type'] in ['ir.actions.act_window', 'ir.actions.submenu']:
-        for key in ('res_id', 'res_model', 'view_type','view_mode', 'limit'):
+        for key in ('res_id', 'res_model', 'view_type', 'view_mode', 'limit', 'search_view'):
             data[key] = action.get(key, data.get(key, None))
 
+        if not data.get('search_view') and data.get('search_view_id'):
+            data['search_view'] = str(rpc.session.execute('object', 'execute', datas['res_model'],
+                                    'fields_view_get', datas['search_view_id'], 'search', context))
+
         if not data.get('limit'):
-            data['limit'] = 80
+            data['limit'] = 50
 
         view_ids=False
         if action.get('views', []):
@@ -215,8 +231,9 @@ def execute(action, **data):
             action['domain']='[]'
 
         ctx = data.get('context', {}).copy()
-        ctx.update({'active_id': data.get('id', False), 'active_ids': data.get('ids', [])})
+        ctx.update({'active_id': data.get('id', False), 'active_ids': data.get('ids', []), 'active_model': data.get('model',False)})
         ctx.update(expr_eval(action.get('context', '{}'), ctx.copy()))
+
 
         search_view = action.get('search_view_id')
         if search_view:
@@ -228,14 +245,14 @@ def execute(action, **data):
         # save active_id in session
         rpc.session.active_id = data.get('id')
 
-        a = ctx.copy()
-        a['time'] = time
-        a['datetime'] = datetime
-        domain = expr_eval(action['domain'], a)
+        domain = expr_eval(action['domain'], ctx)
 
         if data.get('domain', False):
             domain.append(data['domain'])
-
+            
+        if 'menu' in data['res_model'] and action.get('name') == 'Menu':
+            return close_popup()
+        
         res = execute_window(view_ids,
                              data['res_model'],
                              data['res_id'],
@@ -244,7 +261,9 @@ def execute(action, **data):
                              ctx, data['view_mode'],
                              name=action.get('name'),
                              target=action.get('target'),
-                             limit=data.get('limit'))
+                             limit=data.get('limit'),
+                             search_view = data['search_view'],
+                             context_menu= data.get('context_menu'))
 
         return res
 
@@ -255,28 +274,37 @@ def execute(action, **data):
 
         res = rpc.RPCProxy('ir.actions.server').run([action['id']], ctx)
         if res:
-            return execute(res, **data)
+            if not isinstance(res, list):
+                res = [res]
+                
+            output = ''
+            for r in res:
+                output = execute(r, **data)
+            return output
+        else:
+            return ''
 
     elif action['type']=='ir.actions.wizard':
         if 'window' in data:
             del data['window']
-
 
         ctx1 = data.get('context', {}).copy()
         ctx2 = action.get('context', {}).copy()
 
         ctx1.update(ctx2)
 
-        data['context'] = ctx2
+        data['context'] = ctx1
 
         return execute_wizard(action['wiz_name'], **data)
 
     elif action['type']=='ir.actions.report.custom':
+        data.update(action.get('datas',{}))
         data['report_id'] = action['report_id']
-        return execute_report('custom', **data)
+        return report_link('custom', **data)
 
     elif action['type']=='ir.actions.report.xml':
-        return execute_report(action['report_name'], **data)
+        data.update(action.get('datas',{}))
+        return report_link(action['report_name'], **data)
 
     elif action['type']=="ir.actions.act_url":
         data['url'] = action['url']
@@ -289,9 +317,29 @@ def execute_url(**data):
     url = data.get('url') or ''
 
     if not ('://' in url or url.startswith('/')):
-        raise common.message(_('Relative URLs are not supported!'))
-
-    raise tools.redirect(url)
+        raise common.message(_('Relative URLs are not supported'))
+    
+    # Unknown URL required to open in new window/tab.
+    if url.startswith('http://') or url.startswith('http://'):
+        return """<html>
+                <head>
+                    <script language="javascript" type="text/javascript">
+                        window.open('%s')
+                    </script>
+                </head>
+                <body></body>
+                </html>
+                """ % (tools.redirect(url)[0][0])
+    else:
+        return """<html>
+                    <head>
+                        <script language="javascript" type="text/javascript">
+                            openLink('%s')
+                        </script>
+                    </head>
+                </html>
+                """ % (tools.redirect(url)[0][0])
+    
 
 def get_action_type(act_id):
     """Get the action type for the given action id.
@@ -299,10 +347,12 @@ def get_action_type(act_id):
     @param act_id: the action id
     @return: action type
     """
-    res = rpc.session.execute('object', 'execute', 'ir.actions.actions', 'read', act_id, ['type'], rpc.session.context)
+
+    proxy = rpc.RPCProxy("ir.actions.actions")
+    res = proxy.read([act_id], ["type"], rpc.session.context)[0]
 
     if not (res and len(res)):
-        raise common.message(_('Action not found!'))
+        raise common.message(_('Action not found'))
 
     return res['type']
 
@@ -316,13 +366,15 @@ def execute_by_id(act_id, type=None, **data):
     @return: JSON object or XHTML code
     """
 
-    if type==None:
+    if type is None:
         type = get_action_type(act_id)
+        
+    ctx = dict(rpc.session.context, **(data.get('context') or {}))   
 
-    res = rpc.session.execute('object', 'execute', type, 'read', act_id, False, rpc.session.context)
+    res = rpc.session.execute('object', 'execute', type, 'read', act_id, False, ctx)
     return execute(res, **data)
 
-def execute_by_keyword(keyword, adds={}, **data):
+def execute_by_keyword(keyword, adds=None, **data):
     """Performs action represented by the given keyword argument with given data.
 
     @param keyword: action keyword
@@ -335,7 +387,7 @@ def execute_by_keyword(keyword, adds={}, **data):
     if 'id' in data:
         try:
             id = data.get('id', False)
-            if (id != False): id = int(id)
+            if (id): id = int(id)
             actions = rpc.session.execute('object', 'execute', 'ir.values', 'get', 'action', keyword, [(data['model'], id)], False, rpc.session.context)
             actions = map(lambda x: x[2], actions)
         except rpc.RPCException, e:
@@ -345,18 +397,23 @@ def execute_by_keyword(keyword, adds={}, **data):
     for action in actions:
         keyact[action['name']] = action
 
-    keyact.update(adds)
+    keyact.update(adds or {})
 
     if not keyact:
-        raise common.message(_('No action defined!'))
+        raise common.message(_('No action defined'))
 
     if len(keyact) == 1:
-        key = keyact.keys()[0]
-        return execute(keyact[key], **data)
+        data['context'].update(rpc.session.context)
+        return execute(action, **data)
     else:
         return Selection().create(keyact, **data)
 
 
-@tools.expose(template="templates/closepopup.mako")
+@tools.expose(template="/openerp/controllers/templates/closepopup.mako")
 def close_popup(*args, **kw):
     return dict()
+
+@tools.expose(template="/openerp/controllers/templates/report.mako")
+def report_link(report_name, **kw):
+    return dict(name=report_name, data=kw)
+    

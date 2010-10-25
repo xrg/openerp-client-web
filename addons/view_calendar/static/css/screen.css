@@ -1,0 +1,255 @@
+div#Calendar {
+    margin-top: 4px;
+}
+div#Calendar div.inner {
+    padding: 0 10px 0 10px;
+}
+div.box-a ul.side {
+    float: right;
+    list-style: none;
+    margin: 7px 10px 0 0;
+    padding: 0;
+}
+
+div.box-a ul.side li {
+    display: inline;
+    float: left;
+    margin: 0 0 0 5px;
+}
+
+div.box-a ul.side li a {
+    float: left;
+    overflow: hidden;
+    width: 10px;
+    height: 10px;
+    background: url(../images/sideicons-a.gif) no-repeat;
+    text-indent: -10001px;
+}
+
+div.box-a ul.side li a.move {
+    background-position: 0 0;
+    cursor: move;
+}
+
+div.box-a ul.side li a.minimize {
+    background-position: -10px 0;
+}
+
+div.box-a ul.side li a.close {
+    background-position: -20px 0;
+}
+
+div.box-a p.side,table.box-a p.side {
+    display: inline;
+    float: right;
+}
+
+div.calendar-a ul.head,table.calendar-a ul.head {
+	list-style: none;
+    height: 24px;
+    margin: 0 0 5px;
+    padding: 0;
+    background: #F8F8F8;
+}
+
+div.calendar-a ul.head li, table.calendar-a ul.head li {
+	float: left;
+	padding: 0 5px 0 5px;
+    color: #9f9f9f;
+    font-size: 0.9em;
+    font-weight: bold;
+    text-transform: uppercase;
+    background: #D0D0D0;
+    border-top-left-radius: 7px;
+    -moz-border-radius-topleft: 7px;
+    -webkit-border-top-left-radius: 7px;
+    border-top-right-radius: 7px;
+    -moz-border-radius-topright: 7px;
+    -webkit-border-top-right-radius: 7px;
+    margin-right: 2px;
+}
+div.calendar-a ul.head li.notab, div.calendar-a ul.head li.notab:hover {
+    background: transparent;
+}
+
+div.calendar-a ul.head li.active-tab, div.calendar-a ul.head li.active {
+    background: #fff !important;
+}
+
+div.calendar-a ul.head li:hover {
+    background: #E0E0E0;
+}
+
+div.calendar-a ul.head li a, table.calendar-a ul.head li a {
+	float: left;
+    height: 17px;
+    padding: 7px 7px 0;
+    color: #555;
+}
+div.calendar-a ul.head li.active-tab a {
+    cursor: default;
+}
+
+div.calendar-a h4,
+table.calendar-a h4 {
+    margin: 0 0 15px;
+    background: url(../images/dot-a.gif) 0 50% repeat-x;
+    color: #252424;
+    font-size: 1.4em;
+    font-weight: 600;
+    text-align: center;
+}
+
+div.calendar-a h4 span,
+table.calendar-a h4 span {
+    padding: 0 10px;
+    background: #fff;
+}
+
+div.calendar-a h4 small,
+table.calendar-a h4 small {
+    color: #bbb;
+    font-size: 1em;
+    font-weight: 400;
+}
+
+div.calendar-a p.paging-a {
+    position: relative;
+    margin: 0 0 -3px;
+    text-align: left;
+}
+
+div.calendar-a p.paging-a span {
+    position: static;
+    float: left;
+    padding-right: 10px;
+    background: #fff;
+}
+
+div.calendar-a p.paging-a span.two {
+    float: right;
+    padding: 0 0 0 10px;
+}
+
+div.calendar-a p.paging-a small {
+    position: absolute;
+    left: -10001px;
+    top: -10001px;
+}
+
+/* sidebar */
+div#calSidebar {
+}
+
+#sidebar #add_groups {
+    position:absolute;
+    right:1px;
+    top:4px;
+}
+
+#sidebar input {
+    display: inline !important;
+    vertical-align: middle;
+}
+
+#sidebar input[type=checkbox] {
+    width: 14px;
+}
+
+/* minical */
+div.minical-a {
+    position: relative;
+    /*margin: -10px -10px 0;*/
+}
+
+div.minical-a h3 {
+    position: relative;
+    width: 100%;
+    margin: 0;
+    font-size: 1em;
+    font-weight: bold;
+    text-transform: uppercase;
+    line-height: 21px;
+    text-align: center;
+    text-shadow: #fff 0 1px 0;
+}
+
+div.minical-a h3 a {
+    position: absolute;
+    overflow: hidden;
+    width: 25px;
+    height: 21px;
+    background: url(../images/minical-a-arrows.gif) 0 50% no-repeat;
+    font-size: 0;
+    text-indent: -10001px;
+    outline: none;
+}
+
+div.minical-a h3 a.prev {
+    left: 0;
+    border-right: 1px solid #dedbdb;
+}
+a.button-a.prev, a.button-a.next {
+    margin-right: 2px;
+}
+a.button-a.prev img, a.button-a.next img {
+    position: relative;
+    top: 3px;
+}
+a.button-a.next img {
+    left: 1px;
+}
+
+div.minical-a h3 a.next {
+    right: 0;
+    border-left: 1px solid #dedbdb;
+    background-position: -25px 50%;
+}
+
+div.minical-a table {
+    width: 100%;
+    margin: 0 0 -1px;
+}
+
+div.minical-a table td {
+    width: 14.29%;
+    padding: 0;
+    height: 21px;
+    border: 1px solid #dedbdb;
+    background: url(../images/minical-a-highlite.gif) no-repeat;
+    color: #8e8e8e;
+    font-size: 0.9em;
+    font-weight: bold;
+    text-align: center;
+    text-shadow: #fff 0 1px 0;
+}
+
+div.minical-a table td a {
+    display: block;
+    height: 20px;
+    color: #8e8e8e;
+    line-height: 20px;
+}
+
+div.minical-a table td a:hover {
+    background-color: #e0e0e0;
+}
+
+div.minical-a table td.off a {
+    color: #bbb;
+}
+
+div.minical-a table td.first {
+    width: 20px;
+    border-left: none;
+}
+
+div.minical-a table td.last {
+    width: 20px;
+    border-right: none;
+}
+
+a.button-a.today {
+    background: none repeat scroll 0 0 #666;
+    cursor: default;
+}
