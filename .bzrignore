@@ -1,10 +1,8 @@
-RE:(.*/templates/).*\.py
 RE:lib/(?!populate.sh).*
-mako_modules
-profile
-*.egg-info
 .*
-cktest.html
-dist/
+*.egg-info
+*.orig
+bin/
 build/
-
+dist/
+include/
