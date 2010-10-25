@@ -1399,7 +1399,7 @@ msgid "File"
 msgstr ""
 
 #: widgets/templates/sidebar.mako:72
-msgid "Customise"
+msgid "Customize"
 msgstr ""
 
 #: widgets/templates/sidebar.mako:76
@@ -1419,11 +1419,11 @@ msgid "Show Workflow"
 msgstr ""
 
 #: widgets/templates/sidebar.mako:86
-msgid "Customise current object or create a new object"
+msgid "Customize current object or create a new object"
 msgstr ""
 
 #: widgets/templates/sidebar.mako:88
-msgid "Customise Object"
+msgid "Customize Object"
 msgstr ""
 
 #: widgets/templates/sidebar.mako:93
