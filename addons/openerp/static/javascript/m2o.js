@@ -218,7 +218,7 @@ ManyToOne.prototype.on_reference_changed = function() {
     this.field.value = '';
 
     this.relation = this.reference.value;
-
+    this.clearResults();
     MochiKit.DOM.setNodeAttribute(this.field, 'relation', this.relation);
     MochiKit.DOM.setNodeAttribute(this.text, 'relation', this.relation);
 
