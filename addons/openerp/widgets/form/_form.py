@@ -249,6 +249,7 @@ class Notebook(TinyWidget):
     """
 
     template = "/openerp/widgets/form/templates/notebook.mako"
+    javascript = [JSLink("openerp", "javascript/notebook/notebook.js")]
 
     params = ['fake_widget']
     member_widgets = ['children']
