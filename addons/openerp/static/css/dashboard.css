@@ -1,37 +1,63 @@
 div.dashbar {
 	min-width: 100px;
 	min-height: 250px;
-}
-
-div.dashbar-hover {
-	/*border: 2px dashed gray;*/
+    padding: 4px;
 }
 
 div.dashlet {
-	margin-bottom: 4px;
-	border: solid 2px transparent;
-}
-div.dashlet.hover {
-	border: dotted 2px #bbb8a9;
+    background:none repeat scroll 0 0 #FFFFFF;
+    -border-radius:4px 4px 4px 4px;
+    -moz-border-radius:4px 4px 4px 4px;
+    -webkit-border-radius:4px 4px 4px 4px;
+    -box-shadow:0 1px 1px #DDDDDD;
+    -moz-box-shadow:0 1px 1px #DDDDDD;
+    -webkit-box-shadow:0 1px 1px #DDDDDD;
+    margin: 0 0 10px;
+    padding: 0;
 }
 
-div.dashlet-title {
-    padding: 2px 0px;
-    white-space: nowrap;
-    cursor: move;
+div.dashlet h2 {
+    border-radius-topleft: 4px;
+    -moz-border-radius-topleft: 4px;
+    -webkit-border-top-left-radius: 4px;
+    border-radius-topright: 4px;
+    -moz-border-radius-topright: 4px;
+    -webkit-border-top-right-radius: 4px;
+    background: url("../images/box-a-header-a.gif") repeat-x scroll 0 100% #FDFCFC;
+    border-bottom: 1px solid #EDEBEB;
+    font-size: 1em;
     font-weight: bold;
-    font-size: 140%;
-    background: #f8f8f8;
+    margin: 0;
+    padding: 6px 10px 5px;
+    text-shadow: 0 1px 0 #FFFFFF;
+    text-transform: uppercase;
+    cursor: move;
 }
 
-div.dashlet .dashlet-button {
-    width: auto;
-    margin: 0 1px;
-    cursor: pointer;
-    white-space: nowrap;
+div.dashlet h2 a.move {
+    float: right;
+    margin-top: 1px;
+    overflow: hidden;
+    width: 10px;
+    height: 10px;
+    background: url(../images/sideicons-a.gif) no-repeat;
+    text-indent: -10001px;
+    background-position: 0 0;
+    cursor: move;
 }
 
 div.dashlet-content {
-	padding: 2px;
+    padding: 2px;
 }
 
+div.dashlet-content div.box-a {
+    border-radius: none;
+    -moz-border-radius: none;
+    -webkit-border-radius: none;
+    box-shadow: none;
+    -moz-box-shadow: none;
+    -webkit-box-shadow: none;
+}
+div.dashlet-content td.pager-cell h2 {
+    display: none;
+}

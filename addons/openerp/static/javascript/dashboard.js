@@ -43,12 +43,6 @@ function initialize_dashboard() {
                 'starteffect': null,
                 'endeffect': null,
                 'revert': true});
-            var $dashlet = jQuery(this);
-            $dashlet.find('div.dashlet-title').hover(function() {
-                $dashlet.addClass('hover');
-            }, function() {
-                $dashlet.removeClass('hover');
-            });
         })
     });
 }
