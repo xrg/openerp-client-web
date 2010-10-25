@@ -5,7 +5,7 @@
                 <!--<ul class="side">
                     <li><a class="move" href="./">Move</a></li>
                 </ul>-->
-                <h2>
+                <h2 class="dashlet-drag">
                     <a href="#" class="dashlet-title" onclick="submit_form('dashlet', '${dashlet.name}', 'new')">${dashlet.string}</a>
                     <a href="#" class="move">Move</a>
                 </h2>
