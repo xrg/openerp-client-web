@@ -117,9 +117,9 @@ CKEDITOR.tools.extend( CKEDITOR.dom.node.prototype,
 					node.removeAttribute( 'id', false ) ;
 					node.removeAttribute( '_cke_expando', false ) ;
 
-					var childs = node.childNodes;
-					for ( var i=0 ; i < childs.length ; i++ )
-						removeIds( childs[ i ] );
+					var children = node.childNodes;
+					for ( var i=0 ; i < children.length ; i++ )
+						removeIds( children[ i ] );
 				};
 
 				// The "id" attribute should never be cloned to avoid duplication.
