@@ -34,6 +34,10 @@ div.dashlet h2 {
     cursor: move;
 }
 
+div.dashlet h2 a.dashlet-title:hover {
+    text-decoration: underline;
+}
+
 div.dashlet h2 a.move {
     float: right;
     margin-top: 1px;
