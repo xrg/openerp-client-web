@@ -757,8 +757,9 @@ class Form(TinyInputWidget):
         proxy = rpc.RPCProxy(model)
 
         self.context = dict(rpc.session.context,
-                            bin_size=True,
-                            **(context or {}))
+                                **(context or {}))
+        self.context['bin_size'] = True
+
         values = {}
         defaults = {}
 
