@@ -75,7 +75,10 @@ def get_search_default(attrs={}, screen_context=None, default_domain=[]):
         if attrs.get('context'):
             ctx =  expr_eval(attrs.get('context', "{}"), {'self':attrs.get('name', False)})
             if ctx.get('group_by'):
-                str_ctx = 'group_' + ctx.get('group_by')
+                if isinstance(ctx['group_by'], list):
+                    str_ctx = map(lambda x: 'group_' + x, ctx.get('group_by'))
+                else:
+                    str_ctx = 'group_' + ctx.get('group_by')
                 default_val = str_ctx in screen_context.get('group_by', [])
                 default_search = str_ctx in screen_context.get('group_by', [])
     return default_search or default_val
@@ -150,7 +153,10 @@ class Filter(TinyInputWidget):
             self.filter_context = eval(filter_context)
             self.group_context = self.filter_context.get('group_by', False)
             if self.group_context:
-                self.group_context = 'group_' + self.group_context
+                if isinstance(self.group_context, list):
+                    self.group_context = map(lambda x: 'group_' + x, self.group_context)
+                else:
+                    self.group_context = 'group_' + self.group_context
 
         if default_search:
             self.def_checked = True
@@ -351,12 +357,6 @@ class Search(TinyInputWidget):
                     if name in self.fields_type:
                         continue
 
-                    if attrs.get('widget'):
-                        if attrs['widget'] == 'one2many_list':
-                            attrs['widget'] = 'one2many'
-                        attrs['type'] = attrs['widget']
-
-
                     # in search view fields should be writable
                     attrs.update(readonly=False,
                                  required=False,
@@ -373,6 +373,13 @@ class Search(TinyInputWidget):
                         print "-"*30,"\n malformed tag for:", attrs
                         print "-"*30
                         raise
+
+                    if attrs.get('widget'):
+                        if attrs['widget'] == 'one2many_list':
+                            fields[name]['widget'] = 'one2many'
+
+                        fields[name]['type2'] = fields[name]['type']
+                        fields[name]['type'] = attrs['widget']
 
                     kind = fields[name]['type']
 
@@ -401,6 +408,8 @@ class Search(TinyInputWidget):
                         defval = default_search
                         if defval:
                             model = fields[name].get('relation')
+                            type2 = fields[name].get('type2')
+
                             if kind == 'many2one' and model:
                                 try:
                                     value = rpc.name_get(model, default_search)
@@ -412,8 +421,12 @@ class Search(TinyInputWidget):
                             if attrs.get('filter_domain'):
                                 domain = expr_eval(attrs['filter_domain'], {'self': defval})
                             else:
-                                if field.kind in ('selection'):
+                                if field.kind in ('selection') and type2 == 'many2one':
+                                    domain = [(name, '=', int(defval))]
+
+                                elif field.kind in ('selection'):
                                     domain = [(name, '=', defval)]
+
                                 else:
                                     domain = [(name,fields[name].get('comparator','ilike'), defval)]
 
