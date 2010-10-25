@@ -36,16 +36,14 @@
 
         function save_export() {
             var form = document.forms['view_form'];
-            
+            form.action = '/openerp/impex/save_exp';
             var options = openobject.dom.get('fields').options;
             forEach(options, function(o){
                 o.selected = true;
             });
-            jQuery(form).attr('action',
-                    openobject.http.getURL('/openerp/impex/save_exp')
-            ).submit();
+            form.submit();
         }
-        
+
         function del_fields(all){
 
             var fields = filter(function(o){return o.selected;}, openobject.dom.get('fields').options);
