@@ -35,7 +35,9 @@
                                 </select>
                             </td>
                             <td width="100%">&nbsp;</td>
-                            <td class="save_close"><button type="submit">${_("Save")}</button></td>
+                            % if data:
+                                <td class="save_close"><button type="submit">${_("Save")}</button></td>
+                            % endif
                             <td class="save_close"><button type="" onclick="window.close()">${_("Close")}</button> </td>
                         </tr>
                     </table>
@@ -94,22 +96,23 @@
 		        </tr>
             % endfor
         % endif
-
-        <tr>
-            <td>
-                <div class="toolbar">
-                    <table border="0" cellpadding="0" cellspacing="0" width="100%">
-                        <tr>
-                            <td width="100%">&nbsp;</td>
-                            <td class="save_close"><button type="submit">${_("Save")}</button></td>
-                            <td>
-                            	<td class="save_close"><button type="" onclick="window.close()">${_("Close")}</button> </td>
-                           	</td>
-                        </tr>
-                    </table>
-                </div>
-            </td>
-        </tr>
+        % if data:
+            <tr>
+                <td>
+                    <div class="toolbar">
+                        <table border="0" cellpadding="0" cellspacing="0" width="100%">
+                            <tr>
+                                <td width="100%">&nbsp;</td>
+                                <td class="save_close"><button type="submit">${_("Save")}</button></td>
+                                <td>
+                                	<td class="save_close"><button type="" onclick="window.close()">${_("Close")}</button> </td>
+                               	</td>
+                            </tr>
+                        </table>
+                    </div>
+                </td>
+            </tr>
+        % endif
     </table>
 </form>
 </%def>
