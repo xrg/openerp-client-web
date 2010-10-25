@@ -64,7 +64,7 @@ else:
 
                 <li><a target="_blank" href="http://doc.openerp.com/" class="help">${_("Help")}</a>
                     <ul>
-                        <li class="first last"><a target="_blank" href="http://doc.openerp.com/">${_("Help")}</a></li>
+                        <li class="first last"><a target="_blank" href="http://doc.openerp.com/book">${_("Help")}</a></li>
                     </ul>
                 </li>
 
