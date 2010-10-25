@@ -26,7 +26,6 @@ setup(
     author_email=email,
     url=url,
     download_url=download_url,
-    copyright=copyright,
     license=license,
     install_requires=[
         "CherryPy >= 3.1.2",
@@ -56,4 +55,24 @@ setup(
         'Topic :: Office/Business :: Financial',
         ],
     console=['scripts/openerp-web'],
+    options = {'py2exe': {
+        'compressed': 1,
+        'optimize': 2,
+        'bundle_files': 2,
+        'includes': [
+            'mako', 'cherrypy', 'babel', 'formencode', 'simplejson',
+            'dateutil', 'pytz'
+        ],
+        'excludes': [
+            'Carbon', 'Carbon.Files', 'Crypto', 'DNS', 'OpenSSL', 'Tkinter',
+            '_scproxy', 'elementtree.ElementTree', 'email', 'email.Header',
+            'email.utils', 'flup.server.fcgi', 'flup.server.scgi',
+            'markupsafe._speedups', 'memcache', 'mx', 'pycountry', 'routes',
+            'simplejson._speedups', 'turbogears.i18n', 'win32api', 'win32con',
+            'win32event', 'win32pipe', 'win32service', 'win32serviceutil'
+        ],
+        'dll_excludes': [
+            'w9xpopen.exe',
+        ]
+    }}
 )
