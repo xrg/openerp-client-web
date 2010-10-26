@@ -245,7 +245,6 @@ WeekCalendar.AllDayGrid.prototype = {
     },
 
     onDrop : function(draggable, droppable, evt) {
-
         var dt = MochiKit.DateTime.isoDate(getNodeAttribute(droppable, 'dtDay'));
         var id = getNodeAttribute(draggable, 'nRecordID');
 
@@ -263,23 +262,32 @@ WeekCalendar.AllDayGrid.prototype = {
         e = toISOTimestamp(new Date(e))
 
         var self = this;
-        var req = saveCalendarRecord(id, s, e);
 
-        req.addCallback(function(obj) {
+        // check that the object was really modified to avoid unnecessary warning popups:
+        if (record.starts != s && record.ends != e) {
+            if (hasElementClass(draggable, 'is-not-droppable')) {
+                self.adjust();
+                return error_display(_("This calendar object can no longer be moved !"));
+            } else {
+                var req = saveCalendarRecord(id, s, e);
 
-            if (obj.error) {
-                return error_display(obj.error);
+                req.addCallback(function(obj) {
+
+                    if (obj.error) {
+                        return error_display(obj.error);
+                    }
+
+                    record.starts = s;
+                    record.ends = e;
+
+                    self.makeEvents();
+                });
+                req.addBoth(function(obj) {
+                    self.adjust();
+                });
             }
-
-            record.starts = s;
-            record.ends = e;
-
-            self.makeEvents();
-        });
-
-        req.addBoth(function(obj) {
-            self.adjust();
-        });
+        }
+        self.adjust();
     },
 
     onMouseDown : function(evt) {
@@ -638,10 +646,15 @@ WeekCalendar.DayGrid.prototype = {
     },
 
     onDrop : function(draggable, droppable, evt) {
-
         var dt = MochiKit.DateTime.isoDate(getNodeAttribute(droppable, 'dtDay'));
         var id = getNodeAttribute(draggable, 'nRecordID');
 
+        var record = {
+            starts: getNodeAttribute(draggable, 'dtStart'),
+            ends : getNodeAttribute(draggable, 'dtEnd'),
+            is_not_droppable: hasElementClass(draggable, 'is-not-droppable') || hasElementClass(draggable.parentNode, 'is-not-droppable'),
+        }
+            
         var y = parseInt(draggable.style.top);
         var h = parseInt(draggable.style.height) + 2;
 
@@ -655,6 +668,15 @@ WeekCalendar.DayGrid.prototype = {
         e = new Date(e);
 
         var self = this;
+
+        // check that the object was really modified to avoid unnecessary warning popups:
+        if (record.starts != toISOTimestamp(s) && record.ends != toISOTimestamp(e)) {
+            if (record.is_not_droppable) {
+                self.adjust();
+                return error_display(_("This calendar object can no longer be moved !"));
+            }
+        }
+
         var req = saveCalendarRecord(id, toISOTimestamp(s), toISOTimestamp(e));
 
         req.addCallback(function(obj) {
@@ -676,13 +698,132 @@ WeekCalendar.DayGrid.prototype = {
             t.shift();
             t = t.join(' - ');
 
-            title.innerHTML = s.strftime('%I:%M %P') + ' - ' + t;
+            title.innerHTML = s.strftime('%H:%M') + ' - ' + t;
         });
 
         req.addBoth(function(obj) {
             self.adjust();
         });
 
+    },
+
+    onDrop_old : function(draggable, droppable, evt) {
+
+        var dt = MochiKit.DateTime.isoDate(getNodeAttribute(droppable, 'dtDay'));
+        var id = getNodeAttribute(draggable, 'nRecordID');
+
+        var y = parseInt(draggable.style.top);
+        var h = parseInt(draggable.style.height) + 2;
+
+        var s = y * (30 / 20) * (60 * 1000);
+        var e = (y + h) * (30 / 20) * (60 * 1000);
+
+        s = dt.getTime() + s;
+        e = dt.getTime() + e;
+
+        s = new Date(s);
+        e = new Date(e);
+
+        var self = this;
+
+        // check that the object was really modified to avoid unnecessary warning popups:
+        if (record.starts != toISOTimestamp(s) && record.ends != toISOTimestamp(e)) {
+            if (hasElementClass(draggable, 'is-not-droppable')) {
+                self.adjust();
+                return error_display(_("This calendar object can no longer be moved !"));
+            } else {
+                var req = saveCalendarRecord(id, toISOTimestamp(s), toISOTimestamp(e));
+
+                req.addCallback(function(obj) {
+
+                    if (obj.error) {
+                        return error_display(obj.error);
+                    }
+
+                    setNodeAttribute(draggable, 'dtstart', toISOTimestamp(s));
+                    setNodeAttribute(draggable, 'dtend', toISOTimestamp(e));
+
+                    self.makeEventContainers();
+
+                    // update the event title
+                    var title = getElementsByTagAndClassName('div', 'calEventTitle', draggable)[0];
+                    var t = strip(MochiKit.DOM.scrapeText(title));
+
+                    t = t.split(' - ');
+                    t.shift();
+                    t = t.join(' - ');
+
+                    title.innerHTML = s.strftime('%I:%M %P') + ' - ' + t;
+                });
+
+                req.addBoth(function(obj) {
+                    self.adjust();
+                });
+            }
+        }
+    },
+
+    onDrop_test : function(draggable, droppable, evt) {
+
+        var dt = MochiKit.DateTime.isoDate(getNodeAttribute(droppable, 'dtDay'));
+        var id = getNodeAttribute(draggable, 'nRecordID')
+        
+        var record = {
+            starts: getNodeAttribute(e, 'dtStart'),
+            ends : getNodeAttribute(e, 'dtEnd'),
+        }
+
+        var y = parseInt(draggable.style.top);
+        var h = parseInt(draggable.style.height) + 2;
+
+        var s = y * (30 / 20) * (60 * 1000);
+        var e = (y + h) * (30 / 20) * (60 * 1000);
+
+        s = dt.getTime() + s;
+        e = dt.getTime() + e;
+
+        s = new Date(s);
+        e = new Date(e);
+
+        var self = this;
+
+        s = toISOTimestamp(s);
+        e = toISOTimestamp(e);
+
+        // check that the object was really modified to avoid unnecessary warning popups:
+        if (record.starts != s && record.ends != e) {
+            if (hasElementClass(draggable, 'is-not-droppable')) {
+                self.adjust();
+                return error_display(_("This calendar object can no longer be moved !"));
+            } else {
+                var req = saveCalendarRecord(id, s, e);
+
+                req.addCallback(function(obj) {
+                    if (obj.error) {
+                        return error_display(obj.error);
+                    }
+
+                    setNodeAttribute(draggable, 'dtstart', s);
+                    setNodeAttribute(draggable, 'dtend', e);
+
+                    self.makeEventContainers();
+
+                    // update the event title
+                    var title = getElementsByTagAndClassName('div', 'calEventTitle', draggable)[0];
+                    var t = strip(MochiKit.DOM.scrapeText(title));
+
+                    t = t.split(' - ');
+                    t.shift();
+                    t = t.join(' - ');
+
+                    //title.innerHTML = s.strftime('%H:%M') + ' - ' + t;
+                });
+                req.addBoth(function(obj) {
+                    self.adjust();
+                });
+            }
+        }
+        self.adjust();
     },
 
     onMouseDown : function(evt) {
