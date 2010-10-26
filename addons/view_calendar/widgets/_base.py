@@ -397,10 +397,9 @@ class ICalendar(TinyWidget):
 
     def _is_event_droppable(self, event):
         # get field definition:
-        defs = self.fields[self.date_start].get('states', {}).get(event['state'], [])
-        for item in defs:
-            if len(item) == 2 and 'readonly' in item and item[1]:
-                return False
+        defs = dict(self.fields[self.date_start].get('states', {}).get(event['state'], []))
+        if defs.get('readonly'):
+            return False
 
         return True
 
