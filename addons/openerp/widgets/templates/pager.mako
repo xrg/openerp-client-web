@@ -15,7 +15,7 @@
         % if prev:
         </a>
         % endif
-        <span onclick="jQuery('[id=_${name+str(pager_id)}_link_span]').hide(); jQuery('[id=_${name+str(pager_id)}_limit_span]').show();">
+        <span class="pager_info" onclick="jQuery('[id=_${name+str(pager_id)}_link_span]').hide(); jQuery('[id=_${name+str(pager_id)}_limit_span]').show();">
             ${page_info} ${_('of')} ${count}
         </span>
         % if next:
