@@ -2022,6 +2022,9 @@ td.tertiary div.wrap {
 
 #sidebar label {
     margin: 5px 0 0;
+}
+
+#pad-form label {
     display: block;
 }
 
