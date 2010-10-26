@@ -182,7 +182,7 @@ function switch_searchView(d) {
 
     if (domain.length){
         tbodys.push($tbody);
-        collapse_expand('#filters', '#filter_option_table');
+        jQuery('#filter_option_table').show();
         if ($action_tbody.is(':visible')){
             $action_tbody.hide();
         }
@@ -532,6 +532,30 @@ function parse_filters(src, id) {
     return all_domains;
 }
 
+function change_filter() {
+    var $filter_list = jQuery('#filter_list');
+    if (!$filter_list.data('previousIndex')) {
+        $filter_list.data('previousIndex', 0);
+    }
+    if ($filter_list.length > 0) {
+        var val = $filter_list.val();
+        if (val == "sf") {
+            $filter_list.attr('selectedIndex', $filter_list.data('previousIndex'));
+            save_filter();
+        } else if (val == "mf") {
+            manage_filters();
+        } else if (val == "nf") {
+            jQuery('#filter_option_table').show();
+            $filter_list.attr('selectedIndex', 0).data('previousIndex', 0);
+        } else if (val != "blk") {
+            $filter_list.data('previousIndex', $filter_list.attr('selectedIndex'));
+            search_filter();
+        } else {
+            $filter_list.data('previousIndex', 0);
+        }
+    }
+}
+
 function search_filter(src, id) {
     var all_domains = parse_filters(src, id);
     if(jQuery('#filter_table').is(':visible') || jQuery('#_terp_filter_domain').val() != '[]') {
@@ -546,7 +570,7 @@ function save_filter() {
     var domain_list = parse_filters();
     var grps = group_by;
     var selectedFilter = jQuery('#filter_list option:selected');
-    var selected_filter = selectedFilter.index() > 0 ? selectedFilter.text(): '';
+    var selected_filter = jQuery('#filter_list').attr('selectedIndex') > 0 ? selectedFilter.text(): '';
 
     if(group_by.length)
         grps = group_by.join(',');

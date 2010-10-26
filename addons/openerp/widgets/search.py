@@ -291,8 +291,7 @@ class Search(TinyInputWidget):
             sorted_filters.append(action)
         sorted_filters.sort(lambda x, y: cmp(x[1], y[1]))
 
-        self.filters_list = [("blk", "-- "+_("Filters")+" --", "", "")] \
-                          + sorted_filters
+        self.filters_list = sorted_filters
 
         self.operators_map = [
             ('ilike', _('contains')), ('not ilike', _('doesn\'t contain')),

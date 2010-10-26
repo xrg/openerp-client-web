@@ -18,12 +18,6 @@
                                 <h1>${_("Save as Filter")}</h1>
                             </td>
                         </tr>
-                        <tr>
-                            <td style="padding: 0 10px 3px 10px">
-                                <button type="submit">${_("Save")}</button>
-                                <button type="reset">${_("Close")}</button>
-                            </td>
-                        </tr>
                     </table>
                 </td>
             </tr>
@@ -32,7 +26,7 @@
                     <div class="box2">
                         <table border="0" width="100%" align="center">
                             <tr>
-                                <td class="label" style="padding: 0;">
+                                <td class="label" style="padding: 0 4px 0 0;">
                                     <label for="sc_name">${_("Filter Name")}:</label>
                                 </td>
                                 <td width="100%">
@@ -41,6 +35,14 @@
                             </tr>
                         </table>
                     </div>
+                    <table width="100%" style="border: none; margin-top: 10px">
+                        <tr>
+                            <td style="padding: 0 10px 3px 10px" align="right">
+                                <button type="submit" id="save_submit">${_("Save")}</button>
+                                <button type="reset">${_("Close")}</button>
+                            </td>
+                        </tr>
+                    </table>
                 </td>
             </tr>
         </table>
@@ -53,7 +55,7 @@
                     $this.ajaxSubmit({
                         dataType:'json',
                         success:  function(obj) {
-                            var $filterOptions = jQuery("#filter_list option:not(:first)");
+                            var $filterOptions = jQuery("#filter_list_options_group option");
                             if(!obj.new_id) {
                                 $filterOptions.each(function() {
                                     if (jQuery(this).text().toLowerCase() == obj.filter[1].toLowerCase()){
@@ -65,20 +67,21 @@
                                 });
                             }
                             else {
-                                jQuery('#filter_list').
+                                jQuery('#filter_list_options_group').
                                     append(jQuery("<option>", {
                                         selected: 'selected',
                                         value: obj.filter[0],
                                         group_by: obj.filter[2]
                                     }).text(obj.filter[1]));
 
-                                var filters = jQuery("#filter_list option");
+                                var filters = jQuery("#filter_list_options_group option");
                                 filters.sort(function(a,b) {
                                     var match1 = $(a).text().toUpperCase();
                                     var match2  = $(b).text().toUpperCase();
                                     return (match1 < match2) ? -1 : (match1 > match2) ? 1 : 0;
                                 });
-                                $("#filter_list").empty().append(filters);
+                                $('#filter_list_options_group').empty().append(filters);
+                                $('#filter_list').data('previousIndex', $('#filter_list').attr('selectedIndex'));
                             }
                             jQuery.fancybox.close();
                         }

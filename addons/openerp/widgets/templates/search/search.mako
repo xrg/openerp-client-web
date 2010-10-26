@@ -6,7 +6,6 @@
 	% if not source:
         <tr>
            <td>
-                <div id="filters" onclick="collapse_expand(this, '#filter_option_table');" class="group-expand"><h2>Filters</h2></div>
                 <table id="filter_option_table" style="display:none;">
                     <tbody id="filter_table" style="display:none;">
                         <tr class="filter_row_class">
