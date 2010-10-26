@@ -267,7 +267,7 @@ WeekCalendar.AllDayGrid.prototype = {
         if (record.starts != s && record.ends != e) {
             if (hasElementClass(draggable, 'is-not-droppable')) {
                 self.adjust();
-                return error_display(_("This calendar object can no longer be moved !"));
+                return error_display(_("This calendar object can no longer be moved or resized !"));
             } else {
                 var req = saveCalendarRecord(id, s, e);
 
@@ -673,7 +673,7 @@ WeekCalendar.DayGrid.prototype = {
         if (record.starts != toISOTimestamp(s) && record.ends != toISOTimestamp(e)) {
             if (record.is_not_droppable) {
                 self.adjust();
-                return error_display(_("This calendar object can no longer be moved !"));
+                return error_display(_("This calendar object can no longer be moved or resized !"));
             }
         }
 

@@ -409,7 +409,7 @@ MonthCalendar.Week.prototype = {
         if (record.starts != s && record.ends != e) {
             if (hasElementClass(draggable, 'is-not-droppable')) {
                 self.calendar.onResize();
-                return error_display(_("This calendar object can no longer be moved !"));
+                return error_display(_("This calendar object can no longer be moved or resized !"));
             } else {
                 var req = saveCalendarRecord(id, s, e);
 
