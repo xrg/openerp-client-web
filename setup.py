@@ -1,9 +1,8 @@
-import os
 import sys
 
 from setuptools import setup
 
-execfile(os.path.join("openobject", "release.py"))
+from openobject import release
 
 version_dash_incompatible = False
 if 'bdist_rpm' in sys.argv:
@@ -14,19 +13,18 @@ try:
 except ImportError:
     pass
 if version_dash_incompatible:
-    version = version.split('-')[0]
-
+    release.version = release.version.split('-')[0]
 
 setup(
-    name="openerp-web",
-    version=version,
-    description=description,
-    long_description=long_description,
-    author=author,
-    author_email=email,
-    url=url,
-    download_url=download_url,
-    license=license,
+    name=release.name,
+    version=release.version,
+    description=release.description,
+    long_description=release.long_description,
+    author=release.author,
+    author_email=release.author_email,
+    url=release.url,
+    download_url=release.download_url,
+    license=release.license,
     install_requires=[
         "CherryPy >= 3.1.2",
         "Mako >= 0.2.4",
@@ -55,6 +53,7 @@ setup(
         'Topic :: Office/Business :: Financial',
         ],
     console=['scripts/openerp-web'],
+    scripts=['scripts/openerp-web'],
     options = {'py2exe': {
         'compressed': 1,
         'optimize': 2,

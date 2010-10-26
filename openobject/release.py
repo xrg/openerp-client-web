@@ -1,6 +1,6 @@
 #
-# Copyright (C) 2007-TODAY Tiny ERP Pvt Ltd. All Rights Reserved.
-# Copyright (C) 2007-TODAY OpenERP S.A. (<http://www.openerp.comm>). All Rights Reserved.
+# Copyright (C) 2007-2010 Tiny ERP Pvt Ltd. All Rights Reserved.
+# Copyright (C) 2010-TODAY OpenERP S.A. (<http://www.openerp.comm>). All Rights Reserved.
 #
 # $Id$
 #
@@ -25,26 +25,14 @@
 #
 # You can see the MPL licence at: http://www.mozilla.org/MPL/MPL-1.1.html
 #
-
-# Release information about openerp-web
-
 name = 'openerp-web'
 version = '6.0.0-rc1'
-major_version = '6.0'
 description = "Web Client of OpenERP, the Enterprise Management Software"
-long_description = "OpenERP Web is the web client of the OpenERP, a free enterprise management software: accounting, stock, manufacturing, project mgt..."
+long_description = "OpenERP Web is the web client of the OpenERP, a free enterprise management software"
 author = "OpenERP S.A."
 author_email = "info@openerp.com"
-email = author_email
-support_emaim = 'support@openerp.com'
-copyright = "Copyright (C) 2007-TODAY OpenERP S.A."
+support_email = 'support@openerp.com'
 
-# if it's open source, you might want to specify these
 url = "http://www.openerp.com/"
 download_url = ''
 license = "OEPL"
-
-
-
-# vim: ts=4 sts=4 sw=4 si et
-
