@@ -939,6 +939,8 @@ class Form(SecuredController):
             action = rpc.session.execute('object', 'execute', action_type, 'read', act_id, False, rpc.session.context)
 
         if domain:
+            if isinstance(domain, basestring):
+                domain = eval(domain)
             domain.extend(eval(action.get('domain', '[]')))
             action['domain'] = ustr(domain)
 
