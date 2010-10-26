@@ -407,7 +407,7 @@ MonthCalendar.Week.prototype = {
 
         // check that the object was really modified to avoid unnecessary warning popups:
         if (record.starts != s && record.ends != e) {
-            if (hasElementClass(draggable, 'is-not-droppable')) {
+            if (jQuery(draggable).hasClass('is-not-droppable')) {
                 self.calendar.onResize();
                 return error_display(_("This calendar object can no longer be moved or resized !"));
             } else {

@@ -265,7 +265,7 @@ WeekCalendar.AllDayGrid.prototype = {
 
         // check that the object was really modified to avoid unnecessary warning popups:
         if (record.starts != s && record.ends != e) {
-            if (hasElementClass(draggable, 'is-not-droppable')) {
+            if (jQuery(draggable).hasClass('is-not-droppable')) {
                 self.adjust();
                 return error_display(_("This calendar object can no longer be moved or resized !"));
             } else {
@@ -650,11 +650,11 @@ WeekCalendar.DayGrid.prototype = {
         var id = getNodeAttribute(draggable, 'nRecordID');
 
         var record = {
-            starts: getNodeAttribute(draggable, 'dtStart'),
-            ends : getNodeAttribute(draggable, 'dtEnd'),
-            is_not_droppable: hasElementClass(draggable, 'is-not-droppable') || hasElementClass(draggable.parentNode, 'is-not-droppable'),
+            starts: jQuery(draggable).attr('dtStart'),
+            ends : jQuery(draggable).attr('dtEnd'),
+            is_not_droppable: jQuery(draggable).hasClass('is-not-droppable') || jQuery(draggable.parentNode).hasClass('is-not-droppable'),
         }
-            
+
         var y = parseInt(draggable.style.top);
         var h = parseInt(draggable.style.height) + 2;
 
