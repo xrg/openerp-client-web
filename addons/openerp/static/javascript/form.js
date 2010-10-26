@@ -560,7 +560,8 @@ function onChange(caller){
         for (var k in values) {
             flag = false;
             fld = openobject.dom.get(prefix + k);
-
+            if(!jQuery(fld).length)
+                continue;
             value = values[k];
             value = value === false || value === null ? '' : value;
 
