@@ -380,7 +380,7 @@ class ICalendar(TinyWidget):
 
         color_key = event.get(self.color_field)
         color = self.colors.get(color_key)
-        droppable = self._is_event_droppable(event)
+        droppable = not dict(self.fields[self.date_start].get('states', {}).get(event['state'], [])).get('readonly')
 
         title = title.strip()
         description = ', '.join(description).strip()
@@ -394,14 +394,6 @@ class ICalendar(TinyWidget):
             event['write_uid'] = event_log['write_uid']
             event['write_date'] = event_log['write_date']
         return TinyEvent(event, starts, ends, title, description, dayspan=span, color=(color or None) and color[-1], droppable=droppable)
-
-    def _is_event_droppable(self, event):
-        # get field definition:
-        defs = dict(self.fields[self.date_start].get('states', {}).get(event['state'], []))
-        if defs.get('readonly'):
-            return False
-
-        return True
 
 
 class TinyCalendar(ICalendar):
