@@ -245,9 +245,9 @@ GanttCalendar.prototype = {
         var self = this;
 
         var record = {
-            starts: getNodeAttribute(element, 'dtstart'),
-            ends : getNodeAttribute(element, 'dtend'),
-            is_not_droppable: hasElementClass(element, 'is-not-droppable') || hasElementClass(element.parentNode, 'is-not-droppable')
+            starts: jQuery(element).attr('dtstart'),
+            ends : jQuery(element).attr('dtend'),
+            is_not_droppable: jQuery(element).hasClass('is-not-droppable') || jQuery(element.parentNode).hasClass('is-not-droppable')
         }
 
         if (record.starts != toISOTimestamp(dt.starts) && record.ends != toISOTimestamp(dt.ends)) {
@@ -269,6 +269,7 @@ GanttCalendar.prototype = {
 
                     setNodeAttribute(element, 'dtstart', toISOTimestamp(dt.starts));
                     setNodeAttribute(element, 'dtend', toISOTimestamp(dt.ends));
+                    self.grid.adjust();
                 });
             }
         }
@@ -312,9 +313,9 @@ GanttCalendar.prototype = {
         var self = this;
 
         var record = {
-            starts: getNodeAttribute(element, 'dtstart'),
-            ends : getNodeAttribute(element, 'dtend'),
-            is_not_droppable: hasElementClass(element, 'is-not-droppable') || hasElementClass(element.parentNode, 'is-not-droppable')
+            starts: jQuery(element).attr('dtstart'),
+            ends : jQuery(element).attr('dtend'),
+            is_not_droppable: jQuery(element).hasClass('is-not-droppable') || jQuery(element.parentNode).hasClass('is-not-droppable')
         }
 
         if (record.is_not_droppable) {
@@ -332,6 +333,7 @@ GanttCalendar.prototype = {
 
                 self.events[id].ends = toISOTimestamp(se);
                 setNodeAttribute(element, 'dtend', toISOTimestamp(se));
+                self.grid.adjust();
             });
         }
     }
