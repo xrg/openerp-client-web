@@ -938,7 +938,10 @@ class Form(SecuredController):
             action_type = rpc.RPCProxy('ir.actions.actions').read(act_id, ['type'], rpc.session.context)['type']
             action = rpc.session.execute('object', 'execute', action_type, 'read', act_id, False, rpc.session.context)
 
-        action['domain'] = domain or []
+        if domain:
+            domain.extend(eval(action.get('domain', '[]')))
+            action['domain'] = ustr(domain)
+
         action['context'] = context or {}
 
         import actions
