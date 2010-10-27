@@ -7,17 +7,17 @@
 // Developed by Tiny (http://openerp.com) and Axelor (http://axelor.com).
 //
 // The OpenERP web client is distributed under the "OpenERP Public License".
-// It's based on Mozilla Public License Version (MPL) 1.1 with following 
+// It's based on Mozilla Public License Version (MPL) 1.1 with following
 // restrictions:
 //
-// -   All names, links and logos of Tiny, OpenERP and Axelor must be 
-//     kept as in original distribution without any changes in all software 
-//     screens, especially in start-up page and the software header, even if 
-//     the application source code has been changed or updated or code has been 
+// -   All names, links and logos of Tiny, OpenERP and Axelor must be
+//     kept as in original distribution without any changes in all software
+//     screens, especially in start-up page and the software header, even if
+//     the application source code has been changed or updated or code has been
 //     added.
 //
 // -   All distributions of the software must keep source code with OEPL.
-// 
+//
 // -   All integrations to any other software must keep source code with OEPL.
 //
 // If you need commercial licence to remove this kind of restriction please
@@ -97,7 +97,7 @@ jQuery(function(){
 function getCalendar(day, mode, color_filters) {
     day = day || openobject.dom.get('_terp_selected_day').value;
     mode = mode || openobject.dom.get('_terp_selected_mode').value;
-    
+
     var act = openobject.http.getURL('/view_calendar/calendar/get', {day: day, mode: mode});
 
     var form = document.forms['view_form'];
@@ -113,7 +113,7 @@ function getCalendar(day, mode, color_filters) {
     if(color_filters) {
         params['_terp_color_filters'] = color_filters;
     }
-    
+
     // colors
     var values = jQuery('#calGroups input:checked').map(function (i, e) {
         return jQuery(e).val(); }).get();
@@ -122,12 +122,12 @@ function getCalendar(day, mode, color_filters) {
     params['_terp_color_values'] = values.join(",");
 
     CALENDAR_WAIT_BOX.showAfter(300);
-    
+
     var sTop = jQuery('#calGridC').scrollTop();
     var sLeft = jQuery('#calGridC').scrollLeft();
 
     var req = openobject.http.postJSON(act, params);
-    
+
     req.addCallback(function(obj) {
         jQuery('#Calendar').replaceWith(obj.calendar).hide();
         jQuery('#sidebar').replaceWith(obj.sidebar);
@@ -170,7 +170,7 @@ function saveCalendarRecord(record_id, starts, ends) {
         // update concurrency info
         for (var key in obj.info) {
             try {
-                var items = openobject.dom.select("[name=_terp_concurrency_info][value*=" + key + "]");              
+                var items = openobject.dom.select("[name=_terp_concurrency_info][value*=" + key + "]");
                 var value = "('" + key + "', '" + obj.info[key] + "')";
                 for (var i = 0; i < items.length; i++) {
                     items[i].value = value;
@@ -207,7 +207,7 @@ function getRecordMovability(element) {
     return {
         starts: jQuery(element).attr('dtstart'),
         ends : jQuery(element).attr('dtend'),
-        is_not_movable: jQuery(element, element.parentNode).hasClass('event-is-not-movable')
+        is_not_movable: jQuery(element, element.parentNode).hasClass('event-is-not-movable'),
         is_not_resizeable: jQuery(element, element.parentNode).hasClass('event-is-not-resizeable')
     }
 }
