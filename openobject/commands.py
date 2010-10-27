@@ -50,6 +50,5 @@ def start():
         except:
             pass
 
-    cherrypy.log.error(options.config, 'CONFIG')
     cherrypy.engine.start()
     cherrypy.engine.block()
