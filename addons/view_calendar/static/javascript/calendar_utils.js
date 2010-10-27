@@ -202,3 +202,13 @@ function copyCalendarRecord(record_id) {
         '_terp_context': openobject.dom.get('_terp_context').value
     });
 }
+
+function getRecordMovability(element) {
+    return {
+        starts: jQuery(element).attr('dtstart'),
+        ends : jQuery(element).attr('dtend'),
+        is_not_movable: jQuery(element).hasClass('event-is-not-movable') || jQuery(element.parentNode).hasClass('event-is-not-movable'),
+        is_not_resizeable: jQuery(element).hasClass('event-is-not-resizeable') || jQuery(element.parentNode).hasClass('event-is-not-resizeable')
+    }
+}
+

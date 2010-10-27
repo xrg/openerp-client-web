@@ -406,10 +406,11 @@ MonthCalendar.Week.prototype = {
         var self = this;
 
         // check that the object was really modified to avoid unnecessary warning popups:
-        if (record.starts != s && record.ends != e) {
-            if (jQuery(draggable).hasClass('is-not-droppable')) {
+        var recordmoveinfo = getRecordMovability(draggable);
+        if (recordmoveinfo.starts != s && recordmoveinfo.ends != e) {
+            if (recordmoveinfo.is_not_movable){
                 self.calendar.onResize();
-                return error_display(_("This calendar object can no longer be moved or resized !"));
+                return error_display(_("This calendar object can no longer be moved !"));
             } else {
                 var req = saveCalendarRecord(id, s, e);
 

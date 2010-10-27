@@ -84,7 +84,6 @@ WeekCalendar.prototype = {
     },
 
     onResizeEnd : function(resizable, evt) {
-
         var element = resizable.element;
 
         if (!hasElementClass(element, 'calEvent')) return;
@@ -98,10 +97,16 @@ WeekCalendar.prototype = {
 
         var self = this;
 
+        // check that the object was really modified to avoid unnecessary warning popups:
+        var recordmoveinfo = getRecordMovability(element);
+        if (recordmoveinfo.is_not_resizeable) {
+            self.dayGrid.adjust();
+            return error_display(_("This calendar object can no longer be resized !"));
+        }
+
         var req = saveCalendarRecord(id, toISOTimestamp(dt), toISOTimestamp(e));
 
         req.addCallback(function(obj) {
-
             if (obj.error) {
                 return error_display(obj.error);
             }
@@ -263,11 +268,13 @@ WeekCalendar.AllDayGrid.prototype = {
 
         var self = this;
 
+        var recordmoveinfo = getRecordMovability(draggable);
+
         // check that the object was really modified to avoid unnecessary warning popups:
-        if (record.starts != s && record.ends != e) {
-            if (jQuery(draggable).hasClass('is-not-droppable')) {
+        if (recordmoveinfo.starts != s && recordmoveinfo.ends != e) {
+            if (recordmoveinfo.is_not_movable) {
                 self.adjust();
-                return error_display(_("This calendar object can no longer be moved or resized !"));
+                return error_display(_("This calendar object can no longer be moved !"));
             } else {
                 var req = saveCalendarRecord(id, s, e);
 
@@ -413,7 +420,7 @@ WeekCalendar.AllDayGrid.prototype = {
                 grid: this,                     // reference to the grid
                 calendar: self.calendar,        // reference to the calendar
                 events: [],                     // events in the day container
-            	rows: []                        // mark used rows
+                rows: []                        // mark used rows
             }
         }
 
@@ -649,11 +656,6 @@ WeekCalendar.DayGrid.prototype = {
         var dt = MochiKit.DateTime.isoDate(getNodeAttribute(droppable, 'dtDay'));
         var id = getNodeAttribute(draggable, 'nRecordID');
 
-        var record = {
-            starts: jQuery(draggable).attr('dtStart'),
-            ends : jQuery(draggable).attr('dtEnd'),
-            is_not_droppable: jQuery(draggable).hasClass('is-not-droppable') || jQuery(draggable.parentNode).hasClass('is-not-droppable'),
-        }
 
         var y = parseInt(draggable.style.top);
         var h = parseInt(draggable.style.height) + 2;
@@ -669,11 +671,13 @@ WeekCalendar.DayGrid.prototype = {
 
         var self = this;
 
+
         // check that the object was really modified to avoid unnecessary warning popups:
-        if (record.starts != toISOTimestamp(s) && record.ends != toISOTimestamp(e)) {
-            if (record.is_not_droppable) {
+        var recordmoveinfo = getRecordMovability(draggable);
+        if (recordmoveinfo.starts != toISOTimestamp(s) && recordmoveinfo.ends != toISOTimestamp(e)) {
+            if (recordmoveinfo.is_not_movable) {
                 self.adjust();
-                return error_display(_("This calendar object can no longer be moved or resized !"));
+                return error_display(_("This calendar object can no longer be moved !"));
             }
         }
 

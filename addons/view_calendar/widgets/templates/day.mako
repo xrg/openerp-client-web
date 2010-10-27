@@ -63,7 +63,7 @@
                                         nWriteDate="${evt.write_date}"
                                         nWriteId="${evt.write_uid}"
                                         style="background-color: ${evt.color}" 
-                                        class="calEvent allDay ${evt.droppable and 'is-droppable' or 'is-not-droppable'}">${evt.title}</div>
+                                        class="calEvent allDay ${evt.classes}">${evt.title}</div>
                             % endif
                         % endfor
                     </div>
@@ -79,7 +79,7 @@
                             nWriteDate="${evt.write_date}"
                             nWriteId="${evt.write_uid}" 
                             style="background-color: ${evt.color}" 
-                            class="calEvent noAllDay ${evt.droppable and 'is-droppable' or 'is-not-droppable'}">
+                            class="calEvent noAllDay ${evt.classes}">
                            <div style="height: 10px;" class="calEventTitle">${evt.starts.strftime('%I:%M %P')} - ${evt.title}</div>
                            <div class="calEventDesc">${evt.description}</div>
                            <div class="calEventGrip"></div>

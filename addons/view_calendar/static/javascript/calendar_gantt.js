@@ -244,16 +244,11 @@ GanttCalendar.prototype = {
 
         var self = this;
 
-        var record = {
-            starts: jQuery(element).attr('dtstart'),
-            ends : jQuery(element).attr('dtend'),
-            is_not_droppable: jQuery(element).hasClass('is-not-droppable') || jQuery(element.parentNode).hasClass('is-not-droppable')
-        }
-
+        var record = getRecordMovability(element);
         if (record.starts != toISOTimestamp(dt.starts) && record.ends != toISOTimestamp(dt.ends)) {
-            if (record.is_not_droppable) {
+            if (record.is_not_movable) {
                 self.grid.adjust();
-                return error_display(_("This calendar object can no longer be moved or resized !"));
+                return error_display(_("This calendar object can no longer be moved !"));
             } else {
                 var req = saveCalendarRecord(id, toISOTimestamp(dt.starts), toISOTimestamp(dt.ends));
 
@@ -312,15 +307,10 @@ GanttCalendar.prototype = {
 
         var self = this;
 
-        var record = {
-            starts: jQuery(element).attr('dtstart'),
-            ends : jQuery(element).attr('dtend'),
-            is_not_droppable: jQuery(element).hasClass('is-not-droppable') || jQuery(element.parentNode).hasClass('is-not-droppable')
-        }
-
-        if (record.is_not_droppable) {
+        var record = getRecordMovability(element);
+        if (record.is_not_resizeable) {
             self.grid.adjust();
-            return error_display(_("This calendar object can no longer be moved or resized !"));
+            return error_display(_("This calendar object can no longer be resized !"));
         } else {
             var req = saveCalendarRecord(id, toISOTimestamp(ds), toISOTimestamp(se));
 

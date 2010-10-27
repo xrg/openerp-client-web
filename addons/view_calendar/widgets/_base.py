@@ -75,7 +75,7 @@ class TinyEvent(TinyWidget):
     record = {}
     record_id = False
 
-    def __init__(self, record, starts, ends, title='', description='', dayspan=0, color=None, droppable=True):
+    def __init__(self, record, starts, ends, title='', description='', dayspan=0, color=None, classes=None):
 
         super(TinyEvent, self).__init__()
 
@@ -91,11 +91,12 @@ class TinyEvent(TinyWidget):
         self.title = title
         self.description = description or ''
         self.color = color
-        self.droppable = droppable
         self.create_date = ustr(record.get('create_date'))
         self.create_uid = ustr(record.get('create_uid'))
         self.write_uid = ustr(record.get('write_uid'))
         self.write_date = ustr(record.get('write_date'))
+        self.classes = classes and ' '.join(classes) or ''
+
 
 class ICalendar(TinyWidget):
     """ Base Calendar calss
@@ -380,7 +381,7 @@ class ICalendar(TinyWidget):
 
         color_key = event.get(self.color_field)
         color = self.colors.get(color_key)
-        droppable = not dict(self.fields[self.date_start].get('states', {}).get(event['state'], [])).get('readonly')
+        classes = self._get_classes(event)
 
         title = title.strip()
         description = ', '.join(description).strip()
@@ -393,7 +394,24 @@ class ICalendar(TinyWidget):
                 event_log['write_uid'] = event_log['write_uid'][1]
             event['write_uid'] = event_log['write_uid']
             event['write_date'] = event_log['write_date']
-        return TinyEvent(event, starts, ends, title, description, dayspan=span, color=(color or None) and color[-1], droppable=droppable)
+        return TinyEvent(event, starts, ends, title, description, dayspan=span, color=(color or None) and color[-1], classes=classes)
+
+    def _get_classes(self, event):
+        """Get css classes which handle movable and/or resizable events"""
+        classes = []
+
+        event_state = event.get('state')
+        if event_state:
+            # check if that event cannot be moved:
+            if self.date_start and dict(self.fields[self.date_start].get('states', {}).get(event_state, [])).get('readonly'):
+                classes.append('event-is-not-movable')
+            # check if that event cannot be resized:
+            date_to_check = self.date_stop or self.date_delay
+            if date_to_check:
+                if dict(self.fields[date_to_check].get('states', {}).get(event_state, [])).get('readonly'):
+                    classes.append('event-is-not-resizeable')
+
+        return classes
 
 
 class TinyCalendar(ICalendar):

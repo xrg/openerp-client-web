@@ -51,7 +51,7 @@
                     <div id="calBodySect">
                         % for evt in events:
                             % if evt.dayspan > 0:
-                                <div class="calEvent ${evt.droppable and 'is-droppable' or 'is-not-droppable'}"
+                                <div class="calEvent ${evt.classes}"
                                     nRecordID="${evt.record_id}"
                                     nDaySpan="${evt.dayspan}"
                                     dtStart="${str(evt.starts)}"
@@ -64,7 +64,7 @@
                                     style="background-color: ${evt.color}">${evt.title}</div>
                             % endif
                             % if evt.dayspan == 0:
-                                <div class="calEvent calEventInfo ${evt.droppable and 'is-droppable' or 'is-not-droppable'}"
+                                <div class="calEvent calEventInfo ${evt.classes}"
                                     nRecordID="${evt.record_id}"
                                     nDaySpan="${evt.dayspan}"
                                     dtStart="${str(evt.starts)}"
