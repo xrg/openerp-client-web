@@ -361,7 +361,12 @@ function getFormData(extended){
 
     var $fields = jQuery(parentNode).find('img[kind=picture]');
     if (is_editable) {
-        $fields = $fields.add('input, textarea, select', parentNode);
+        if(jQuery('#_terp_view_type').val() == 'tree') {
+            $fields = $fields.add('input:not([readonly="True"]), textarea, select', parentNode);
+        }
+        else{
+            $fields = $fields.add('input, textarea, select', parentNode);
+        }
     }
     else {
         $fields = $fields.add('[kind=value], [name$=/__id]');
