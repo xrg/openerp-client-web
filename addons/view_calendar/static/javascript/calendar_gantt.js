@@ -244,9 +244,9 @@ GanttCalendar.prototype = {
 
         var self = this;
 
-        var record = getRecordMovability(element);
-        if (record.starts != toISOTimestamp(dt.starts) && record.ends != toISOTimestamp(dt.ends)) {
-            if (record.is_not_movable) {
+        var recordmoveinfo = getRecordMovability(element);
+        if (recordmoveinfo.starts != toISOTimestamp(dt.starts) && recordmoveinfo.ends != toISOTimestamp(dt.ends)) {
+            if (recordmoveinfo.is_not_movable) {
                 self.grid.adjust();
                 return error_display(_("This calendar object can no longer be moved !"));
             } else {
@@ -307,8 +307,8 @@ GanttCalendar.prototype = {
 
         var self = this;
 
-        var record = getRecordMovability(element);
-        if (record.is_not_resizeable) {
+        var recordmoveinfo = getRecordMovability(element);
+        if (recordmoveinfo.is_not_resizeable) {
             self.grid.adjust();
             return error_display(_("This calendar object can no longer be resized !"));
         } else {
