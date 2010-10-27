@@ -1,7 +1,8 @@
 include admin.py openerp-web.py run-tests.py py2exe_utils.py
-graft win32
+graft doc
 prune dist
 prune lib
+prune win32
 
 # add core openobject data, packages handled by setup.py
 recursive-include openobject *.cfg *.css *.js

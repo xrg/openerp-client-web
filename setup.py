@@ -18,9 +18,10 @@ except ImportError:
 if version_dash_incompatible:
     release.version = release.version.split('-')[0]
 
-FILE_PATTERNS = re.compile(
-    r'.+\.(py|cfg|po|pot|mo|txt|rst|gif|png|jpg|ico|mako|html|js|css|htc|swf)$', re.I)
-def find_data_files(source, dest=None):
+FILE_PATTERNS = \
+    r'.+\.(py|cfg|po|pot|mo|txt|rst|gif|png|jpg|ico|mako|html|js|css|htc|swf)$'
+def find_data_files(source, dest=None, patterns=FILE_PATTERNS):
+    file_matcher = re.compile(patterns, re.I)
     if dest is None: dest = source
     out = []
     for base, _, files in os.walk(source):
@@ -28,7 +29,7 @@ def find_data_files(source, dest=None):
         dest_dir = os.path.join(dest, source_dir)
         cur_files = []
         for f in files:
-            if FILE_PATTERNS.match(f):
+            if file_matcher.match(f):
                 cur_files.append(os.path.join(
                     source, source_dir, f))
         if cur_files:
@@ -80,6 +81,7 @@ setup(
               + find_data_files('addons/view_diagram')
               + find_data_files('addons/view_graph')
               + find_data_files('addons/widget_ckeditor')
+              + find_data_files('doc', patterns='')
                ),
     package_data={
         'openobject.admin.i18n': ['mapping/*.cfg'],
