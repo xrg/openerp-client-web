@@ -154,7 +154,6 @@ function getMiniCalendar(action) {
 }
 
 function saveCalendarRecord(record_id, starts, ends) {
-
     var params = getFormParams('_terp_concurrency_info');
     MochiKit.Base.update(params, {
         '_terp_id': record_id,
@@ -203,3 +202,13 @@ function copyCalendarRecord(record_id) {
         '_terp_context': openobject.dom.get('_terp_context').value
     });
 }
+
+function getRecordMovability(element) {
+    return {
+        starts: jQuery(element).attr('dtstart'),
+        ends : jQuery(element).attr('dtend'),
+        is_not_movable: jQuery(element, element.parentNode).hasClass('event-is-not-movable')
+        is_not_resizeable: jQuery(element, element.parentNode).hasClass('event-is-not-resizeable')
+    }
+}
+

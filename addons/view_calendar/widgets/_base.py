@@ -75,7 +75,7 @@ class TinyEvent(TinyWidget):
     record = {}
     record_id = False
 
-    def __init__(self, record, starts, ends, title='', description='', dayspan=0, color=None):
+    def __init__(self, record, starts, ends, title='', description='', dayspan=0, color=None, classes=None):
 
         super(TinyEvent, self).__init__()
 
@@ -95,6 +95,8 @@ class TinyEvent(TinyWidget):
         self.create_uid = ustr(record.get('create_uid'))
         self.write_uid = ustr(record.get('write_uid'))
         self.write_date = ustr(record.get('write_date'))
+        self.classes = classes and ' '.join(classes) or ''
+
 
 class ICalendar(TinyWidget):
     """ Base Calendar calss
@@ -174,7 +176,7 @@ class ICalendar(TinyWidget):
         self.info_fields = self.parse(root, view['fields'])
 
         fields = view['fields']
-        fields = fields.keys() + [self.date_start, self.date_stop, self.date_delay, self.color_field]
+        fields = fields.keys() + [self.date_start, self.date_stop, self.date_delay, self.color_field, 'state']
 
         fields = list(set([x for x in fields if x]))
 
@@ -228,9 +230,11 @@ class ICalendar(TinyWidget):
         proxy = rpc.RPCProxy(self.model)
 
         if self.date_stop:
+            # use the correct algorithm:
             domain = self.domain + [(self.date_start, '<=', days[-1].isoformat() + ' 23:59:59'),
                                     (self.date_stop, '>=', days[0].isoformat() + ' 00:00:00')]
         else:
+            # cannot use the correct algorithm, use the old one:
             first = days[0].month2.prev()[0] #HACK: add prev month
             domain = self.domain + [(self.date_start, '>', first.isoformat()),
                                     (self.date_start, '<', days[-1].next().isoformat())]
@@ -271,6 +275,7 @@ class ICalendar(TinyWidget):
         ids = proxy.search(domain, 0, 0, order_by, ctx)
 
         result = proxy.read(ids, self.fields.keys()+['__last_update'], ctx)
+
         self._update_concurrency_info(self.model, result)
         self.concurrency_info = ConcurrencyInfo(self.model, ids)
         if self.color_field:
@@ -310,7 +315,6 @@ class ICalendar(TinyWidget):
         return result
 
     def get_event_widget(self, event):
-
         title = ''       # the title
         description = [] # the description
         if self.info_fields:
@@ -377,19 +381,37 @@ class ICalendar(TinyWidget):
 
         color_key = event.get(self.color_field)
         color = self.colors.get(color_key)
+        classes = self._get_classes(event)
 
         title = title.strip()
         description = ', '.join(description).strip()
         if isinstance(event['id'], int):
             event_log = rpc.session.execute('object', 'execute', self.model, 'perm_read', [event['id']])[0]
-            
+
             event['create_date'] = event_log['create_date']
             event['create_uid'] = event_log['create_uid'][1]
             if isinstance(event_log['write_uid'], tuple):
                 event_log['write_uid'] = event_log['write_uid'][1]
             event['write_uid'] = event_log['write_uid']
             event['write_date'] = event_log['write_date']
-        return TinyEvent(event, starts, ends, title, description, dayspan=span, color=(color or None) and color[-1])
+        return TinyEvent(event, starts, ends, title, description, dayspan=span, color=(color or None) and color[-1], classes=classes)
+
+    def _get_classes(self, event):
+        """Get css classes which handle movable and/or resizable events"""
+        classes = []
+
+        event_state = event.get('state')
+        if event_state:
+            # check if that event cannot be moved:
+            if self.date_start and dict(self.fields[self.date_start].get('states', {}).get(event_state, [])).get('readonly'):
+                classes.append('event-is-not-movable')
+            # check if that event cannot be resized:
+            date_to_check = self.date_stop or self.date_delay
+            if date_to_check:
+                if dict(self.fields[date_to_check].get('states', {}).get(event_state, [])).get('readonly'):
+                    classes.append('event-is-not-resizeable')
+
+        return classes
 
 
 class TinyCalendar(ICalendar):

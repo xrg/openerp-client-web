@@ -84,7 +84,6 @@ WeekCalendar.prototype = {
     },
 
     onResizeEnd : function(resizable, evt) {
-
         var element = resizable.element;
 
         if (!hasElementClass(element, 'calEvent')) return;
@@ -98,10 +97,16 @@ WeekCalendar.prototype = {
 
         var self = this;
 
+        // check that the object was really modified to avoid unnecessary warning popups:
+        var recordmoveinfo = getRecordMovability(element);
+        if (recordmoveinfo.is_not_resizeable) {
+            self.dayGrid.adjust();
+            return error_display(_("This calendar object can no longer be resized !"));
+        }
+
         var req = saveCalendarRecord(id, toISOTimestamp(dt), toISOTimestamp(e));
 
         req.addCallback(function(obj) {
-
             if (obj.error) {
                 return error_display(obj.error);
             }
@@ -245,7 +250,6 @@ WeekCalendar.AllDayGrid.prototype = {
     },
 
     onDrop : function(draggable, droppable, evt) {
-
         var dt = MochiKit.DateTime.isoDate(getNodeAttribute(droppable, 'dtDay'));
         var id = getNodeAttribute(draggable, 'nRecordID');
 
@@ -263,23 +267,34 @@ WeekCalendar.AllDayGrid.prototype = {
         e = toISOTimestamp(new Date(e))
 
         var self = this;
-        var req = saveCalendarRecord(id, s, e);
 
-        req.addCallback(function(obj) {
+        var recordmoveinfo = getRecordMovability(draggable);
 
-            if (obj.error) {
-                return error_display(obj.error);
+        // check that the object was really modified to avoid unnecessary warning popups:
+        if (recordmoveinfo.starts != s && recordmoveinfo.ends != e) {
+            if (recordmoveinfo.is_not_movable) {
+                self.adjust();
+                return error_display(_("This calendar object can no longer be moved !"));
+            } else {
+                var req = saveCalendarRecord(id, s, e);
+
+                req.addCallback(function(obj) {
+
+                    if (obj.error) {
+                        return error_display(obj.error);
+                    }
+
+                    record.starts = s;
+                    record.ends = e;
+
+                    self.makeEvents();
+                });
+                req.addBoth(function(obj) {
+                    self.adjust();
+                });
             }
-
-            record.starts = s;
-            record.ends = e;
-
-            self.makeEvents();
-        });
-
-        req.addBoth(function(obj) {
-            self.adjust();
-        });
+        }
+        self.adjust();
     },
 
     onMouseDown : function(evt) {
@@ -405,7 +420,7 @@ WeekCalendar.AllDayGrid.prototype = {
                 grid: this,                     // reference to the grid
                 calendar: self.calendar,        // reference to the calendar
                 events: [],                     // events in the day container
-            	rows: []                        // mark used rows
+                rows: []                        // mark used rows
             }
         }
 
@@ -638,9 +653,9 @@ WeekCalendar.DayGrid.prototype = {
     },
 
     onDrop : function(draggable, droppable, evt) {
-
         var dt = MochiKit.DateTime.isoDate(getNodeAttribute(droppable, 'dtDay'));
         var id = getNodeAttribute(draggable, 'nRecordID');
+
 
         var y = parseInt(draggable.style.top);
         var h = parseInt(draggable.style.height) + 2;
@@ -655,6 +670,17 @@ WeekCalendar.DayGrid.prototype = {
         e = new Date(e);
 
         var self = this;
+
+
+        // check that the object was really modified to avoid unnecessary warning popups:
+        var recordmoveinfo = getRecordMovability(draggable);
+        if (recordmoveinfo.starts != toISOTimestamp(s) && recordmoveinfo.ends != toISOTimestamp(e)) {
+            if (recordmoveinfo.is_not_movable) {
+                self.adjust();
+                return error_display(_("This calendar object can no longer be moved !"));
+            }
+        }
+
         var req = saveCalendarRecord(id, toISOTimestamp(s), toISOTimestamp(e));
 
         req.addCallback(function(obj) {
@@ -676,7 +702,7 @@ WeekCalendar.DayGrid.prototype = {
             t.shift();
             t = t.join(' - ');
 
-            title.innerHTML = s.strftime('%I:%M %P') + ' - ' + t;
+            title.innerHTML = s.strftime('%H:%M') + ' - ' + t;
         });
 
         req.addBoth(function(obj) {

@@ -404,23 +404,33 @@ MonthCalendar.Week.prototype = {
         e = toISOTimestamp(new Date(e))
 
         var self = this;
-        var req = saveCalendarRecord(id, s, e);
 
-        req.addCallback(function(obj) {
+        // check that the object was really modified to avoid unnecessary warning popups:
+        var recordmoveinfo = getRecordMovability(draggable);
+        if (recordmoveinfo.starts != s && recordmoveinfo.ends != e) {
+            if (recordmoveinfo.is_not_movable){
+                self.calendar.onResize();
+                return error_display(_("This calendar object can no longer be moved !"));
+            } else {
+                var req = saveCalendarRecord(id, s, e);
 
-            if (obj.error) {
-                return error_display(obj.error);
+                req.addCallback(function(obj) {
+
+                    if (obj.error) {
+                        return error_display(obj.error);
+                    }
+
+                    record.starts = s;
+                    record.ends = e;
+
+                    self.calendar.makeEvents();
+                });
+                req.addBoth(function(obj) {
+                    self.calendar.onResize();
+                });
             }
-
-            record.starts = s;
-            record.ends = e;
-
-            self.calendar.makeEvents();
-        });
-
-        req.addBoth(function(obj) {
-            self.calendar.onResize();
-        });
+        }
+        self.calendar.onResize();
     },
 
     makeEventContainers : function() {

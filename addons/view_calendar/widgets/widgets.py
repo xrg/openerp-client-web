@@ -142,8 +142,6 @@ class MonthCalendar(TinyCalendar):
         self.month = Month(y, m)
         self.events = self.get_events(self.month.days)
 
-
-
         self.selected_day = _get_selection_day(Day(y, m, 1), self.selected_day, 'month')
 
         minical = MiniCalendar(self.selected_day)

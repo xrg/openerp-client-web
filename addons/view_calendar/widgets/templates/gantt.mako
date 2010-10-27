@@ -68,7 +68,7 @@
                         />
                     % endfor
                     % for evt in events:
-                    <div class="calEvent"
+                    <div class="calEvent ${evt.classes}"
                         nRecordID="${evt.record_id}"
                         nDaySpan="${evt.dayspan}"
                         dtStart="${str(evt.starts)}"
