@@ -3,20 +3,19 @@
 # This file is distributed under the same license as the PROJECT project.
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2010.
 #
-#, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2010-10-21 16:54+0530\n"
-"PO-Revision-Date: 2010-10-21 16:54+0530\n"
+"PO-Revision-Date: 2010-10-26 10:51+0200\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: fr <LL@li.org>\n"
 "Plural-Forms: nplurals=2; plural=(n > 1)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Generated-By: Babel None\n"
+"Generated-By: Babel 0.9.4\n"
 
 #: static/javascript/calendar_box.js:58
 msgid "Cancel"
@@ -32,6 +31,22 @@ msgstr ""
 
 #: static/javascript/calendar_box.js:61
 msgid "Delete"
+msgstr ""
+
+#: static/javascript/calendar_box.js:88
+msgid "Creation User: "
+msgstr ""
+
+#: static/javascript/calendar_box.js:89
+msgid "Creation Date: "
+msgstr ""
+
+#: static/javascript/calendar_box.js:90
+msgid "Latest Modification by: "
+msgstr ""
+
+#: static/javascript/calendar_box.js:91
+msgid "Latest Modification Date: "
 msgstr ""
 
 #: static/javascript/calendar_box.js:175

@@ -3,20 +3,19 @@
 # This file is distributed under the same license as the PROJECT project.
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2010.
 #
-#, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2010-10-21 16:54+0530\n"
-"PO-Revision-Date: 2010-10-21 16:55+0530\n"
+"PO-Revision-Date: 2010-10-26 10:51+0200\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: de <LL@li.org>\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Generated-By: Babel None\n"
+"Generated-By: Babel 0.9.4\n"
 
 #: static/javascript/form.js:99
 #, python-format
@@ -32,8 +31,12 @@ msgid "Do you really want to delete this record?"
 msgstr ""
 
 #: static/javascript/form.js:892 static/javascript/form.js:1016
-#: static/javascript/listgrid.js:603 static/javascript/treeview.js:58
+#: static/javascript/listgrid.js:603
 msgid "You must select at least one record."
+msgstr ""
+
+#: static/javascript/form.js:1039
+msgid "Do you really want to delete the attachment"
 msgstr ""
 
 #: static/javascript/listgrid.js:605
@@ -50,5 +53,13 @@ msgstr ""
 
 #: static/javascript/viewed.js:337
 msgid "Do you really wants to create an inherited view here?"
+msgstr ""
+
+#: static/javascript/openerp/openerp.ui.tips.js:59
+msgid "Object"
+msgstr ""
+
+#: static/javascript/openerp/openerp.ui.tips.js:60
+msgid "Field"
 msgstr ""
 

@@ -3,20 +3,19 @@
 # This file is distributed under the same license as the PROJECT project.
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2010.
 #
-#, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2010-10-21 16:54+0530\n"
-"PO-Revision-Date: 2010-10-21 16:55+0530\n"
+"PO-Revision-Date: 2010-10-26 10:51+0200\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: fr <LL@li.org>\n"
 "Plural-Forms: nplurals=2; plural=(n > 1)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Generated-By: Babel None\n"
+"Generated-By: Babel 0.9.4\n"
 
 #: controllers/_diagram.py:100 controllers/_diagram.py:216
 msgid "Could not delete state"
@@ -24,6 +23,10 @@ msgstr ""
 
 #: controllers/_diagram.py:279
 msgid "No workflow associated!"
+msgstr ""
+
+#: controllers/process.py:53
+msgid "Help: Not Defined"
 msgstr ""
 
 #: controllers/process.py:92
@@ -38,6 +41,10 @@ msgstr ""
 #: controllers/templates/process.mako:4 controllers/templates/process.mako:73
 #: controllers/templates/process_tip.mako:5
 msgid "Process"
+msgstr ""
+
+#: controllers/templates/process.mako:50
+msgid "Help:"
 msgstr ""
 
 #: controllers/templates/process.mako:53
@@ -70,6 +77,14 @@ msgstr ""
 
 #: controllers/templates/process.mako:112
 msgid "fields"
+msgstr ""
+
+#: controllers/templates/process.mako:113
+msgid "show"
+msgstr ""
+
+#: controllers/templates/process.mako:114
+msgid "hide"
 msgstr ""
 
 #: controllers/templates/process_open.mako:54

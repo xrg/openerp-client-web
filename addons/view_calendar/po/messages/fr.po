@@ -3,20 +3,19 @@
 # This file is distributed under the same license as the PROJECT project.
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2010.
 #
-#, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2010-10-21 16:54+0530\n"
-"PO-Revision-Date: 2010-10-21 16:54+0530\n"
+"PO-Revision-Date: 2010-10-26 10:51+0200\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: fr <LL@li.org>\n"
 "Plural-Forms: nplurals=2; plural=(n > 1)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Generated-By: Babel None\n"
+"Generated-By: Babel 0.9.4\n"
 
 #: controllers/templates/calpopup.mako:78
 msgid "Save"
@@ -123,82 +122,82 @@ msgstr ""
 msgid "%(first)s to %(last)s %(month)s"
 msgstr ""
 
-#: widgets/widgets.py:271
+#: widgets/widgets.py:274
 #, python-format
 msgid "%s, Week %s"
 msgstr ""
 
-#: widgets/widgets.py:284
+#: widgets/widgets.py:287
 #, python-format
 msgid "%s - %s"
 msgstr ""
 
-#: widgets/widgets.py:286 widgets/widgets.py:309 widgets/widgets.py:353
+#: widgets/widgets.py:289 widgets/widgets.py:312 widgets/widgets.py:356
 #, python-format
 msgid "Week %s"
 msgstr ""
 
-#: widgets/widgets.py:301
+#: widgets/widgets.py:304
 #, python-format
 msgid "%s, Qtr %s"
 msgstr ""
 
-#: widgets/widgets.py:320
+#: widgets/widgets.py:323
 #, python-format
 msgid "W %s"
 msgstr ""
 
-#: widgets/widgets.py:328 widgets/widgets.py:342
+#: widgets/widgets.py:331 widgets/widgets.py:345
 #, python-format
 msgid "Year %s to Year %s"
 msgstr ""
 
-#: widgets/templates/day.mako:4 widgets/templates/day.mako:7
-#: widgets/templates/gantt.mako:5 widgets/templates/month.mako:4
-#: widgets/templates/week.mako:4
+#: widgets/templates/day.mako:10 widgets/templates/day.mako:13
+#: widgets/templates/gantt.mako:11 widgets/templates/month.mako:10
+#: widgets/templates/week.mako:10
 msgid "Today"
 msgstr ""
 
-#: widgets/templates/day.mako:12 widgets/templates/month.mako:8
-#: widgets/templates/week.mako:8
+#: widgets/templates/day.mako:18 widgets/templates/month.mako:14
+#: widgets/templates/week.mako:14
 msgid "Month Calendar..."
 msgstr ""
 
-#: widgets/templates/day.mako:13 widgets/templates/month.mako:8
-#: widgets/templates/week.mako:9
+#: widgets/templates/day.mako:19 widgets/templates/month.mako:14
+#: widgets/templates/week.mako:15
 msgid "Month"
 msgstr ""
 
-#: widgets/templates/day.mako:16 widgets/templates/month.mako:11
-#: widgets/templates/week.mako:12
+#: widgets/templates/day.mako:22 widgets/templates/month.mako:17
+#: widgets/templates/week.mako:18
 msgid "Week Calendar..."
 msgstr ""
 
-#: widgets/templates/day.mako:17 widgets/templates/month.mako:12
-#: widgets/templates/week.mako:12
+#: widgets/templates/day.mako:23 widgets/templates/month.mako:18
+#: widgets/templates/week.mako:18
 msgid "Week"
 msgstr ""
 
-#: widgets/templates/day.mako:21 widgets/templates/month.mako:15
-#: widgets/templates/week.mako:15
+#: widgets/templates/day.mako:27 widgets/templates/month.mako:21
+#: widgets/templates/week.mako:21
 msgid "Day Calendar..."
 msgstr ""
 
-#: widgets/templates/day.mako:21 widgets/templates/month.mako:16
-#: widgets/templates/week.mako:16
+#: widgets/templates/day.mako:27 widgets/templates/month.mako:22
+#: widgets/templates/week.mako:22
 msgid "Day"
 msgstr ""
 
-#: widgets/templates/gantt.mako:4 widgets/templates/month.mako:3
-#: widgets/templates/week.mako:3
+#: widgets/templates/gantt.mako:10 widgets/templates/month.mako:9
+#: widgets/templates/week.mako:9
 msgid "Today..."
 msgstr ""
 
-#: widgets/templates/gantt.mako:11 widgets/templates/gantt.mako:13
+#: widgets/templates/gantt.mako:17 widgets/templates/gantt.mako:19
 msgid "Zoom In"
 msgstr ""
 
-#: widgets/templates/gantt.mako:19 widgets/templates/gantt.mako:21
+#: widgets/templates/gantt.mako:25 widgets/templates/gantt.mako:27
 msgid "Zoom Out"
 msgstr ""
 
@@ -218,7 +217,7 @@ msgstr ""
 msgid "Apply search filter"
 msgstr ""
 
-#: widgets/templates/week.mako:36
+#: widgets/templates/week.mako:29
 #, python-format
 msgid "Week %(number)s"
 msgstr ""
