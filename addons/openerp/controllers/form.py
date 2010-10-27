@@ -256,15 +256,9 @@ class Form(SecuredController):
         elif params.view_type == 'diagram':
             display_name = {'field': form.screen.view['fields']['name']['string'], 'value': rpc.RPCProxy(params.model).name_get(form.screen.id)[0][1]}
 
-
-        tips = False
-        if params.view_type == params.view_mode[0]:
-            show_menu_help = rpc.RPCProxy('res.users').read(rpc.session.uid, ['menu_tips'], rpc.session.context)['menu_tips']
-            if show_menu_help:
-                proxy = rpc.RPCProxy('ir.actions.act_window')
-                tips_id = proxy.search([('res_model', '=', params['_terp_model']), ('name', '=', title)])
-                if tips_id:
-                    tips = proxy.read(tips_id[0], ['help'])['help']
+        tips = params.display_menu_tip
+        if params.view_type == params.view_mode[0] and tips:
+            tips = tips
 
         return dict(form=form, pager=pager, buttons=buttons, path=self.path, can_shortcut=can_shortcut, shortcut_ids=shortcut_ids, display_name=display_name, title=title, tips = tips)
 
