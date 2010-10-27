@@ -11,12 +11,13 @@ import openobject.release
 class ConfigurationError(Exception):
     pass
 
+DISTRIBUTION_CONFIG = os.path.join('doc', 'openerp-web.cfg')
 def get_config_file():
     setupdir = os.path.dirname(os.path.dirname(__file__))
     isdevdir = os.path.isfile(os.path.join(setupdir, 'setup.py'))
     configfile = '/etc/openerp-web.cfg'
     if isdevdir or not os.path.exists(configfile):
-        configfile = os.path.join(setupdir, 'doc', 'openerp-web.cfg')
+        configfile = os.path.join(setupdir, DISTRIBUTION_CONFIG)
     return configfile
 
 def start():
