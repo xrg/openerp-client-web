@@ -1,3 +1,5 @@
+import os
+import re
 import sys
 
 from setuptools import setup
@@ -9,11 +11,31 @@ if 'bdist_rpm' in sys.argv:
     version_dash_incompatible = True
 try:
     import py2exe
+    from py2exe_utils import opts
     version_dash_incompatible = True
 except ImportError:
-    pass
+    opts = {}
 if version_dash_incompatible:
     release.version = release.version.split('-')[0]
+
+FILE_PATTERNS = re.compile(
+    r'.+\.(py|cfg|po|pot|mo|txt|rst|gif|png|jpg|ico|mako|html|js|css|htc|swf)$', re.I)
+def find_data_files(source, dest=None):
+    if dest is None: dest = source
+    out = []
+    for base, _, files in os.walk(source):
+        source_dir = os.path.relpath(base, source)
+        dest_dir = os.path.join(dest, source_dir)
+        cur_files = []
+        for f in files:
+            if FILE_PATTERNS.match(f):
+                cur_files.append(os.path.join(
+                    source, source_dir, f))
+        if cur_files:
+            out.append(
+                (dest_dir, cur_files))
+
+    return out
 
 setup(
     name=release.name,
@@ -52,26 +74,28 @@ setup(
         'Environment :: Web Environment',
         'Topic :: Office/Business :: Financial',
         ],
-    console=['scripts/openerp-web'],
     scripts=['scripts/openerp-web'],
-    options = {'py2exe': {
-        'compressed': 1,
-        'optimize': 2,
-        'bundle_files': 2,
-        'includes': [
-            'mako', 'cherrypy', 'babel', 'formencode', 'simplejson',
-            'dateutil', 'pytz'
-        ],
-        'excludes': [
-            'Carbon', 'Carbon.Files', 'Crypto', 'DNS', 'OpenSSL', 'Tkinter',
-            '_scproxy', 'elementtree.ElementTree', 'email', 'email.Header',
-            'email.utils', 'flup.server.fcgi', 'flup.server.scgi',
-            'markupsafe._speedups', 'memcache', 'mx', 'pycountry', 'routes',
-            'simplejson._speedups', 'turbogears.i18n', 'win32api', 'win32con',
-            'win32event', 'win32pipe', 'win32service', 'win32serviceutil'
-        ],
-        'dll_excludes': [
-            'w9xpopen.exe',
+    data_files=(find_data_files('addons/openerp')
+              + find_data_files('addons/view_calendar')
+              + find_data_files('addons/view_diagram')
+              + find_data_files('addons/view_graph')
+              + find_data_files('addons/widget_ckeditor')
+               ),
+    package_data={
+        'openobject.admin.i18n': ['mapping/*.cfg'],
+        'openobject.controllers': ['base.mako'],
+        'openobject': [
+            'static/css/jquery-ui/smoothness/images/*.png',
+            'static/css/jquery-ui/smoothness/images/*.gif',
+            'static/css/jquery-ui/smoothness/jquery-ui-1.8.2.custom.css',
+            'static/css/jquery.fancybox-1.3.1.css',
+            'static/images/*.gif',
+            'static/images/*.ico',
+            'static/images/fancybox/*.png',
+            'static/javascript/jQuery/*.js',
+            'static/javascript/MochiKit/*.js',
+            'static/javascript/openobject/*.js'
         ]
-    }}
+    },
+    **opts
 )

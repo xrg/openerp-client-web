@@ -1,12 +1,11 @@
-include admin.py openerp-web.py run-tests.py
+include admin.py openerp-web.py run-tests.py py2exe_utils.py
 graft win32
 prune dist
 prune lib
 
 # add core openobject data, packages handled by setup.py
-recursive-include openobject *.cfg *.po *.pot *.mo *.txt *.rst
-recursive-include openobject *.gif *.png *.jpg *.ico *.mako *.html
-recursive-include openobject *.css *.js *.htc *.swf
+recursive-include openobject *.cfg *.css *.js
+recursive-include openobject *.gif *.png *.ico *.mako
 # ignore all addons in order not to ship those gotten from server modules
 prune addons
 # content of addons shipped with client specifically
