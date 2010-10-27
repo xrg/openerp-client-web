@@ -2024,23 +2024,29 @@ td.tertiary div.wrap {
     margin: 5px 0 0;
 }
 
-#pad-form label {
+#sidebar div.attachments label {
     display: block;
 }
 
-;
 /*#sidebar li a { color: #5b5b5b; }*/
 #sidebar li a:hover,#sidebar li a:focus,#sidebar li a:active {
     color: #111;
 }
 
 #sidebar input {
-    min-width: 60%;
-    max-width: 100%;
     vertical-align: bottom;
 }
 
+#sidebar div.attachments input {
+    min-width: 60%;
+    max-width: 100%;
+}
+
 button {
+}
+
+#sidebar div.sideheader-a a {
+    padding: 1px 4px;
 }
 
 #sidebar #add-attachment {
