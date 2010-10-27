@@ -79,6 +79,7 @@ GanttCalendar.prototype = {
         this.evtLoad = MochiKit.Signal.connect(window, 'onload', this, 'onResize');
         this.evtResize = MochiKit.Signal.connect(window, 'onresize', this, 'onResize');
         this.evtScrollGrid = MochiKit.Signal.connect('calGridC', 'onscroll', this, 'onScrollGrid');
+        this.evtMouseUp = MochiKit.Signal.connect('calGridC', 'onmouseup', this, 'onMouseUp');
 
         this.evtEventDrag = MochiKit.Signal.connect(MochiKit.DragAndDrop.Draggables, 'drag', this, 'onEventDrag');
         this.evtEventDragged = MochiKit.Signal.connect(MochiKit.DragAndDrop.Draggables, 'end', this, 'onEventDragged');
@@ -102,6 +103,13 @@ GanttCalendar.prototype = {
 
         setElementDimensions('calList', {h: h1 > h2 ? h1 : h2});
         setElementDimensions('calGrid', {h: h1 > h2 ? h1 : h2});
+    },
+
+    onMouseUp: function(evt) {
+        if (!evt.mouse().button.left)
+            return;
+
+        editCalendarRecord(null, null);
     },
 
     onScrollGrid: function(evt) {
