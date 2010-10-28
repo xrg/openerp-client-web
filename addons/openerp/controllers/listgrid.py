@@ -171,7 +171,8 @@ class List(SecuredController):
             params.domain = []
         if params.search_domain:
             params.domain.extend(params.search_domain)
-        
+        if not params.group_by_ctx:
+            params.ids = None
         from view_graph.widgets import _graph
         wid = _graph.Graph(model=params.model,
               view=view,
