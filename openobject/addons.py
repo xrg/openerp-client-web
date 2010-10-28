@@ -4,6 +4,7 @@ import imp
 import itertools
 
 import cherrypy
+import pkg_resources
 import openobject.tools.ast
 from openobject import errors
 
@@ -12,8 +13,8 @@ ADDONS_PATH = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__fil
 if not os.path.exists(ADDONS_PATH):
     if not hasattr(sys, 'frozen'):
         # regular install
-        from pkg_resources import Requirement, resource_filename
-        ADDONS_PATH = resource_filename(Requirement.parse('openerp-web'), 'openerp-web')
+        ADDONS_PATH = pkg_resources.resource_filename(
+                pkg_resources.Requirement.parse('openerp-web'), 'addons')
     else:
         # py2exe package
         ADDONS_PATH = os.path.join(
