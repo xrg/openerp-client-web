@@ -8,6 +8,7 @@ if os.path.exists(libdir) and libdir not in sys.path:
 
 import cherrypy
 import controllers._root
+import openobject
 
 __all__ = ['ustr', 'application', 'configure', 'enable_static_paths',
            'WSGI_STATIC_PATHS']
@@ -67,7 +68,8 @@ def enable_static_paths():
     global WSGI_STATIC_PATHS
     WSGI_STATIC_PATHS = True
 
-    static_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)),
+    static_dir = os.path.join(openobject.paths.root(),
+                              'openobject',
                               'static')
     application.merge(
         {'/openobject/static': {
