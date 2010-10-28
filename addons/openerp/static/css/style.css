@@ -668,12 +668,6 @@ img.m2o_open {
     min-width: 10px;
 }
 
-#view_form .translatable {
-    background-image: url(../images/stock/stock_translate.png);
-    background-position: right center;
-    background-repeat: no-repeat;
-}
-
 #view_form .fielderror,
 #search_form .fielderror {
     color: #FF0000;
@@ -972,3 +966,19 @@ td.save-filter-header a{
     right: 0;
     background-image: url(/openerp/static/images/scroll_right.png);
 }
+
+span.char {
+    position: relative;
+}
+
+.translatable {
+    position: absolute;
+    right: 2px;
+    top: 0px;
+}
+
+img.translatable {
+    cursor: pointer;
+    vertical-align: middle;
+}
+

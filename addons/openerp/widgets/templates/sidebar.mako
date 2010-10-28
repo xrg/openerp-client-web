@@ -104,7 +104,7 @@
         </li>
         % elif view_type == 'form':
         <li>
-        	<a href="javascript: void(0)" data="${ctx}" relation="${model}" id="${id}" onclick="translate_fields(this)">${_('Translate')}</a>
+            <a xid="translate_fields" href="javascript: void(0)" data="${ctx}" relation="${model}" id="${id}" onclick="translate_fields(this)">${_('Translate')}</a>
         </li>
         % endif
         % if id:

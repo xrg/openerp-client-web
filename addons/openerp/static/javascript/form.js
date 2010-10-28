@@ -930,12 +930,12 @@ function do_action(src){
 }
 
 function translate_fields(src){
-	var $src = jQuery(src);
-	var relation = $src.attr('relation');
-	var id = $src.attr('id');
-	var ctx = $src.attr('data');
+    var $src = jQuery(src);
+    var relation = $src.attr('relation');
+    var id = $src.attr('id');
+    var ctx = $src.attr('data');
 
-	openobject.tools.openWindow(openobject.http.getURL('/openerp/translator',{
+    openobject.tools.openWindow(openobject.http.getURL('/openerp/translator',{
         _terp_model: relation,
         _terp_id: id,
         _terp_context: ctx
