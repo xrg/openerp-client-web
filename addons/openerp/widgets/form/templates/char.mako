@@ -4,13 +4,10 @@
             id="${name}" name="${name}" class="${css_class}"
             ${py.attrs(attrs, kind=kind, maxlength=size, value=value)}/>
         % if translatable:
-            <img id="0" relation="${model}" src="/openerp/static/images/stock/stock_translate.png" class="translatable" />
+            <img src="/openerp/static/images/stock/stock_translate.png" class="translatable" />
             <script type="text/javascript">
                 jQuery('img.translatable').click(function() {
-                    var translate_links = jQuery('a[xid=translate_fields]');
-                    if (translate_links.length) {
-                        translate_fields(translate_links[0]);
-                    }
+                    jQuery('a[xid=translate_fields]').click();
                 });
             </script>
         % endif
