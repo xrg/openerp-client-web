@@ -64,8 +64,7 @@ class TL(TemplateLookup):
         self.cache[str(uri)] = res = super(TL, self).get_template(uri)
         return res
 
-template_lookup = TL(directories=[resources.find_resource("openobject", ".."),
-                                  paths.addons()],
+template_lookup = TL(directories=[paths.root(), paths.addons()],
                      default_filters=filters,
                      imports=imports,
                      preprocessor=templating.edition_preprocessor)

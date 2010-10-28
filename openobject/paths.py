@@ -6,22 +6,28 @@ import sys
 __all__ = ['addons']
 
 # TODO: get from config file?
-ADDONS_PATH = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "addons")
-if not os.path.exists(ADDONS_PATH):
+ROOT_PATH = None
+try:
+    ROOT_PATH = pkg_resources.resource_filename('openobject', '..')
+except NotImplementedError:
+    # pkg_resource hate
+    pass
+if not (ROOT_PATH and os.path.exists(ROOT_PATH)):
     if not hasattr(sys, 'frozen'):
-        # regular install
-        ADDONS_PATH = pkg_resources.resource_filename(
-                pkg_resources.Requirement.parse('openerp-web'), 'addons')
+        # regular install, addons is part of the openerp-web distribution
+        ROOT_PATH = pkg_resources.resource_filename(
+                pkg_resources.Requirement.parse('openerp-web'), '')
     else:
         # py2exe package
-        ADDONS_PATH = os.path.join(
-            # in a py2exe system, sys.executable is the name of the py2exe executable/bundle
-            os.path.dirname(sys.executable),
-            'addons'
-        )
+        # in a py2exe system, sys.executable is the name of the py2exe executable/bundle
+        # and that executable is at our root
+        ROOT_PATH = os.path.dirname(sys.executable)
+ROOT_PATH = os.path.normpath(ROOT_PATH)
 
+ADDONS_PATH = os.path.join(ROOT_PATH, 'addons')
 assert os.path.isdir(ADDONS_PATH), "Unable to locate addons."
 
 sys.path.insert(0, ADDONS_PATH)
 
 def addons(): return ADDONS_PATH
+def root(): return ROOT_PATH
