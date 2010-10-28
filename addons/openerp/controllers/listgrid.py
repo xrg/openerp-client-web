@@ -160,17 +160,26 @@ class List(SecuredController):
     def reload_graph(self, **kw):
         params, data = TinyDict.split(kw)
         view = cache.fields_view_get(params.model, params.view_id, 'graph',params.context)
+        
+        if params.group_by_ctx:
+            if isinstance(params.group_by_ctx, str):
+                params.group_by_ctx = params.group_by_ctx.split('group_')[-1]
+            else:
+                params.group_by_ctx = map(lambda x: x.split('group_')[-1], params.group_by_ctx)
+        
         if params.domain is None:
             params.domain = []
         if params.search_domain:
             params.domain.extend(params.search_domain)
+        
         from view_graph.widgets import _graph
         wid = _graph.Graph(model=params.model,
               view=view,
               view_id=params.view_id,
-              ids=None, domain=params.domain,
+              ids=params.ids, domain=params.domain,
               view_mode = params.view_mode,
-              context=params.context)
+              context=params.context,
+              group_by = params.group_by_ctx)
         view=ustr(wid.render())
         return dict(view = view)
     
