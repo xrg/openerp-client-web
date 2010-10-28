@@ -144,7 +144,7 @@ function switch_O2M(view_type, src){
 
     params['_terp_source'] = src;
     params['_terp_source_view_type'] = view_type;
-    params['_terp_editable'] = $(prefix + '_terp_editable').value;
+    params['_terp_editable'] = openobject.dom.get(prefix + '_terp_editable').value;
 
     if (openobject.dom.get('_terp_list')) {
         var ids = new ListView('_terp_list').getSelectedRecords();
@@ -361,7 +361,12 @@ function getFormData(extended){
 
     var $fields = jQuery(parentNode).find('img[kind=picture]');
     if (is_editable) {
-        $fields = $fields.add('input, textarea, select', parentNode);
+        if(jQuery('#_terp_view_type').val() == 'tree') {
+            $fields = $fields.add('input:not([readonly="True"]), textarea, select', parentNode);
+        }
+        else{
+            $fields = $fields.add('input, textarea, select', parentNode);
+        }
     }
     else {
         $fields = $fields.add('[kind=value], [name$=/__id]');
@@ -560,7 +565,8 @@ function onChange(caller){
         for (var k in values) {
             flag = false;
             fld = openobject.dom.get(prefix + k);
-
+            if(!jQuery(fld).length)
+                continue;
             value = values[k];
             value = value === false || value === null ? '' : value;
 
@@ -924,12 +930,12 @@ function do_action(src){
 }
 
 function translate_fields(src){
-	var $src = jQuery(src);
-	var relation = $src.attr('relation');
-	var id = $src.attr('id');
-	var ctx = $src.attr('data');
+    var $src = jQuery(src);
+    var relation = $src.attr('relation');
+    var id = $src.attr('id');
+    var ctx = $src.attr('data');
 
-	openobject.tools.openWindow(openobject.http.getURL('/openerp/translator',{
+    openobject.tools.openWindow(openobject.http.getURL('/openerp/translator',{
         _terp_model: relation,
         _terp_id: id,
         _terp_context: ctx
@@ -1001,7 +1007,7 @@ function submenu_action(action_id, model){
     openLink(openobject.http.getURL("/openerp/form/action_submenu", {
         _terp_action_id: action_id,
         _terp_model: model,
-        _terp_id: $('_terp_id').value
+        _terp_id: openobject.dom.get('_terp_id').value
     }));
 }
 
@@ -1034,28 +1040,28 @@ function show_wkf(){
  *
  * Requests the deletion of an attachment based on data provided by the trigger's parent's @data-id
  */
-function removeAttachment(){
-    var attachment_line = jQuery(this).parent();
-    var id = attachment_line.attr('data-id');
-    if (confirm('Do you really want to delete the attachment {' +
-    jQuery.trim(attachment_line.find('> a.attachment-file').text()) +
-    '} ?')) {
-        jQuery.ajax({
-            url: '/openerp/attachment/remove/',
-            type: 'POST',
-            data: {
-                'id': id
-            },
-            dataType: 'json',
-            success: function(obj){
-                if (obj.error) {
-                    error_popup(obj.error);
-                }
-
-                jQuery(attachment_line).remove();
-            }
-        });
+function removeAttachment() {
+    var $attachment_line = jQuery(this).parent();
+    if(!confirm(_('Do you really want to delete the attachment')+' {' +
+                jQuery.trim($attachment_line.find('> a.attachment').text()) +
+            '} ?')) {
+        return false;
     }
+    jQuery.ajax({
+        url: '/openerp/attachment/remove/',
+        type: 'POST',
+        data: {
+            'id': $attachment_line.attr('data-id')
+        },
+        dataType: 'json',
+        success: function(obj) {
+            if(obj.error) {
+                error_popup(obj.error);
+            }
+
+            $attachment_line.remove();
+        }
+    });
 
     return false;
 }
@@ -1068,29 +1074,36 @@ function removeAttachment(){
  * Creates a new line in #attachments if the creation succeeds.
  */
 function createAttachment(){
-    if (!jQuery('#sidebar_attachments_datas').val()) {
+    var $form = jQuery(this);
+    if(!$form.find(':file, :text')
+             .filter(function () {return jQuery(this).val();})
+             .length) {
         return false;
     }
-    var form = jQuery(this);
-    form.ajaxSubmit({
+    $form.ajaxSubmit({
         dataType: 'json',
+        data: {'requested_with': 'XMLHttpRequest'},
         success: function(data){
-            var attachment_line = jQuery('<li>', {
+            var $attachment_line = jQuery('<li>', {
                 'id': 'attachment_item_' + data['id'],
                 'data-id': data['id']
             });
 
-            jQuery([jQuery('<a>', {
-                'rel': 'external',
-                'href': openobject.http.getURL('/openerp/attachment/get', {
-                    'record': data['id']
-                }),
-                'class': 'attachment-file'
-            }).text(data['name']), jQuery('<span>|</span>'), jQuery("<a href='#' class='close'>Close</a>")]).appendTo(attachment_line);
+            jQuery([
+                jQuery('<a>', {
+                    'target': '_blank',
+                    'href': data.url || openobject.http.getURL(
+                            '/openerp/attachment/get', {
+                        'record': data['id']}),
+                    'class': 'attachment'
+                }).text(data['name']),
+                jQuery('<span>|</span>'),
+                jQuery("<a href='#' class='close'>Close</a>")
+            ]).appendTo($attachment_line);
 
-            jQuery('#attachments').append(attachment_line);
-            form.resetForm();
-            form.hide();
+            jQuery('#attachments').append($attachment_line);
+            $form.resetForm();
+            $form.hide();
         }
     });
     return false;
@@ -1099,12 +1112,12 @@ function createAttachment(){
 function setupAttachments(){
     jQuery('#attachments').delegate('li a.close', 'click', removeAttachment);
 
-    var attachmentsForm = jQuery('#attachment-box').hide();
+    var $attachmentsForm = jQuery('#attachment-box').hide();
     jQuery('#add-attachment').click(function(e){
-        attachmentsForm.show();
+        $attachmentsForm.show();
         e.preventDefault();
     });
-    attachmentsForm.bind({
+    $attachmentsForm.bind({
         change: createAttachment,
         // leave that one just in case, but should generally not activate
         submit: createAttachment
@@ -1165,6 +1178,9 @@ function toggle_shortcut(){
                 jQuery('#shortcut_' + RESOURCE_ID).parent().remove();
                 jQuery('#shortcuts').trigger('altered');
             }
+        },
+        error: function(XMLHttpRequest, textStatus, errorThrown) {
+            jQuery.fancybox(XMLHttpRequest.responseText, {scrolling: 'no'});
         }
     });
 }

@@ -7,17 +7,17 @@
 // Developed by Tiny (http://openerp.com) and Axelor (http://axelor.com).
 //
 // The OpenERP web client is distributed under the "OpenERP Public License".
-// It's based on Mozilla Public License Version (MPL) 1.1 with following 
+// It's based on Mozilla Public License Version (MPL) 1.1 with following
 // restrictions:
 //
-// -   All names, links and logos of Tiny, Open ERP and Axelor must be 
-//     kept as in original distribution without any changes in all software 
-//     screens, especially in start-up page and the software header, even if 
-//     the application source code has been changed or updated or code has been 
+// -   All names, links and logos of Tiny, Open ERP and Axelor must be
+//     kept as in original distribution without any changes in all software
+//     screens, especially in start-up page and the software header, even if
+//     the application source code has been changed or updated or code has been
 //     added.
 //
 // -   All distributions of the software must keep source code with OEPL.
-// 
+//
 // -   All integrations to any other software must keep source code with OEPL.
 //
 // If you need commercial licence to remove this kind of restriction please
@@ -85,7 +85,7 @@ function add_filter_row(elem) {
         }
         jQuery($position_tr).after(new_tr);
     }
-    
+
     var select_or = jQuery('select.filter_fields_or');
     if (!select_or.closest("tbody").siblings().length) {
         select_or.attr('disabled', true);
@@ -182,7 +182,7 @@ function switch_searchView(d) {
 
     if (domain.length){
         tbodys.push($tbody);
-        collapse_expand('#filters', '#filter_option_table');
+        jQuery('#filter_option_table').show();
         if ($action_tbody.is(':visible')){
             $action_tbody.hide();
         }
@@ -307,6 +307,9 @@ function display_Customfilters(all_domains, group_by_ctx) {
                 if(jQuery(this).find('#filterlabel').attr('value') == obj['error_field']) {
                     jQuery(this).find('input.qstring').css('background', '#f66').val(obj.error);
                 }
+                else {
+                    error_display(obj.error)
+                }
             });
         }
         var form_result = obj.frm;
@@ -342,40 +345,47 @@ function display_Customfilters(all_domains, group_by_ctx) {
                         }
                     }
                     if(grouping) {
-                        temp_domain.push(grouping == 'AND' ? '&' : '|');                        
+                        temp_domain.push(grouping == 'AND' ? '&' : '|');
                     }
 
-	                var field = return_record['rec'];
-	                var comparison = $row.find('select.expr').val();	                
-	                var value = return_record['rec_val'];
+                    var field = return_record['rec'];
+                    var comparison = $row.find('select.expr').val();
+                    var value = return_record['rec_val'];
 
-	                switch (comparison) {
-	                    case 'ilike':
-	                    case 'not ilike':
-	                        if(isOrderable(type)) {
-	                            comparison = (comparison == 'ilike' ? '=' : '!=');
-	                        }
-	                        break;
-	                    case '<':
-	                    case '>':
-	                        if(!isOrderable(type)) {
-	                            comparison = '=';
-	                        }
-	                        break;
-	                    case 'in':
-	                    case 'not in':
-	                        if(typeof value == 'string') {
-	                            value = value.split(',');
-	                        } else {
-	                            /* very weird array-type construct
-	                               looks a bit like [[6, 0, [list of ids here]]]
-	                             */
-	                            value = value[value.length - 1][value[value.length - 1].length - 1]
-	                        }
-	                        break;
-	                }
-	                
-	                if ($row.find('label.and_or').length>0 || grouping){                       
+                    switch (comparison) {
+                        case 'ilike':
+                        case 'not ilike':
+                            if(isOrderable(type)) {
+                                comparison = (comparison == 'ilike' ? '=' : '!=');
+                            }
+                            else{
+                                value = '%' + value + '%';
+                            }
+                            break;
+                        case '<':
+                        case '>':
+                            if(!isOrderable(type)) {
+                                comparison = '=';
+                            }
+                            break;
+                        case 'in':
+                        case 'not in':
+                            if(typeof value == 'string') {
+                                value = value.split(',');
+                            } else if (type=='many2many'){
+                                /* very weird array-type construct
+                                   looks a bit like [[6, 0, [list of ids here]]]
+                                */
+                                value = value[value.length - 1][value[value.length - 1].length - 1]
+                            } else if (type=='one2many') {
+                                value = value[0];
+                            } else {
+                                value = value;
+                            }
+                            break;
+                    }
+
+                    if ($row.find('label.and_or').length>0 || grouping){
                         temp_domain.push(field, comparison, value);
                         group.push(temp_domain);
                     }
@@ -383,14 +393,14 @@ function display_Customfilters(all_domains, group_by_ctx) {
                         group.push(field, comparison, value)
                     }
 
-                    if (!grouping) {             
-                        All_domain.push(group);                        
+                    if (!grouping) {
+                        All_domain.push(group);
                         group = [];
-                    }     	                
-	            }
+                    }
+                }
 
-	            if (All_domain.length) {
-	               custom_domain.push(All_domain);
+                if (All_domain.length) {
+                   custom_domain.push(All_domain);
                 }
             }
         }
@@ -453,12 +463,12 @@ function parse_filters(src, id) {
             }
         } else {
             $source.closest('td').removeClass('grop_box_active');
-    		$source.attr('checked', false);
-    		
-    		group_by = jQuery.grep(group_by, function(grp) {
+            $source.attr('checked', false);
+
+            group_by = jQuery.grep(group_by, function(grp) {
                 return grp != $source.attr('group_by_ctx');
             });
-            
+
             if($source.attr('filter_context') &&
                $source.attr('filter_context')!='{}') {
                 var filter_index = jQuery.inArray(
@@ -467,7 +477,7 @@ function parse_filters(src, id) {
                     filter_context.splice(filter_index, 1);
                 }
             }
-    	}
+        }
         jQuery(id).toggleClass('active inactive');
     }
     var $all_search_fields = jQuery('#search_filter_data').find("input:not([type=checkbox]):not([type=hidden]):not([value='']), select[name]");
@@ -479,8 +489,13 @@ function parse_filters(src, id) {
         var fld_name = $fld.attr('name');
         if(kind == 'selection') {
             if ($fld.val() != '') {
-                fld_value = 'selection_'+$fld.val();
 
+                if ($fld.attr('type2') == 'many2one') {
+                    fld_value = parseInt($fld.val());
+                }
+                else{
+                    fld_value = 'selection_'+$fld.val();
+                }
                 if ($fld.attr('search_context')) {
                     search_context['context'] = $fld.attr('search_context');
                     search_context['value'] = fld_value;
@@ -492,7 +507,7 @@ function parse_filters(src, id) {
                 fld_value = 'm2o_'+ fld_value;
             }
         }
-        
+
         if(fld_value && fld_value!='')
             domains[fld_name] = fld_value;
     });
@@ -500,13 +515,13 @@ function parse_filters(src, id) {
     all_domains['domains'] = domains;
     all_domains['search_context'] =  search_context;
     var selected_boxes = getElementsByTagAndClassName('input', 'grid-domain-selector');
-    
+
     forEach(selected_boxes, function(box){
         if (box.id && box.checked && box.value != '[]') {
             all_boxes = all_boxes.concat(box.value);
         }
     });
-    
+
     var checked_button = all_boxes.toString();
 
     if(checked_button.length) {
@@ -515,6 +530,30 @@ function parse_filters(src, id) {
     }
     all_domains = serializeJSON(all_domains);
     return all_domains;
+}
+
+function change_filter() {
+    var $filter_list = jQuery('#filter_list');
+    if (!$filter_list.data('previousIndex')) {
+        $filter_list.data('previousIndex', 0);
+    }
+    if ($filter_list.length > 0) {
+        var val = $filter_list.val();
+        if (val == "sf") {
+            $filter_list.attr('selectedIndex', $filter_list.data('previousIndex'));
+            save_filter();
+        } else if (val == "mf") {
+            manage_filters();
+        } else if (val == "nf") {
+            jQuery('#filter_option_table').show();
+            $filter_list.attr('selectedIndex', 0).data('previousIndex', 0);
+        } else if (val != "blk") {
+            $filter_list.data('previousIndex', $filter_list.attr('selectedIndex'));
+            search_filter();
+        } else {
+            $filter_list.data('previousIndex', 0);
+        }
+    }
 }
 
 function search_filter(src, id) {
@@ -531,7 +570,7 @@ function save_filter() {
     var domain_list = parse_filters();
     var grps = group_by;
     var selectedFilter = jQuery('#filter_list option:selected');
-    var selected_filter = selectedFilter.index() > 0 ? selectedFilter.text(): '';
+    var selected_filter = jQuery('#filter_list').attr('selectedIndex') > 0 ? selectedFilter.text(): '';
 
     if(group_by.length)
         grps = group_by.join(',');
@@ -562,49 +601,49 @@ function manage_filters() {
 }
 
 function final_search_domain(custom_domain, all_domains, group_by_ctx) {
-	var waitBox = new openerp.ui.WaitBox();
+    var waitBox = new openerp.ui.WaitBox();
     if(group_by_ctx.length)
         group_by_ctx = group_by_ctx.join(',');
-	waitBox.showAfter(500);
-	jQuery.ajax({
-		url: '/openerp/search/eval_domain_filter',
-		type: 'POST',
-		dataType: 'json',
-		data:{source: '_terp_list',
-			model: jQuery('#_terp_model').val(),
-			custom_domain: custom_domain,
-			all_domains: all_domains,
-			group_by_ctx: group_by_ctx
-			},
-		complete: jQuery.proxy(waitBox, 'hide'),
-		success: function(obj) {
+    waitBox.showAfter(500);
+    jQuery.ajax({
+        url: '/openerp/search/eval_domain_filter',
+        type: 'POST',
+        dataType: 'json',
+        data:{source: '_terp_list',
+            model: jQuery('#_terp_model').val(),
+            custom_domain: custom_domain,
+            all_domains: all_domains,
+            group_by_ctx: group_by_ctx
+            },
+        complete: jQuery.proxy(waitBox, 'hide'),
+        success: function(obj) {
             if (obj.domain) { // For direct search
-				
-			 	var in_req = eval_domain_context_request({
-					source: '_terp_list', 
-					domain: obj.domain, 
-					context: obj.context,
-					group_by_ctx: group_by_ctx
-				});
-				
-				in_req.addCallback(function(in_obj){
-			    	openobject.dom.get('_terp_search_domain').value = in_obj.domain;
-			    	openobject.dom.get('_terp_search_data').value = obj.search_data;
-			    	openobject.dom.get('_terp_context').value = in_obj.context;
-			    	openobject.dom.get('_terp_filter_domain').value = obj.filter_domain;
-			    	jQuery('#_terp_group_by_ctx').val(in_obj.group_by);
-                    
+
+                 var in_req = eval_domain_context_request({
+                    source: '_terp_list',
+                    domain: obj.domain,
+                    context: obj.context,
+                    group_by_ctx: group_by_ctx
+                });
+
+                in_req.addCallback(function(in_obj){
+                    openobject.dom.get('_terp_search_domain').value = in_obj.domain;
+                    openobject.dom.get('_terp_search_data').value = obj.search_data;
+                    openobject.dom.get('_terp_context').value = in_obj.context;
+                    openobject.dom.get('_terp_filter_domain').value = obj.filter_domain;
+                    jQuery('#_terp_group_by_ctx').val(in_obj.group_by);
+                    jQuery('#_terp_offset').val(0);
                     var $search_callback = jQuery('#_terp_search_callback');
-                    
+
                     if($search_callback.length) {
                         window[$search_callback.val()]();
                     } else {
                         new ListView('_terp_list').reload();
                     }
-				});
-			 }
-		}
-	});
+                });
+             }
+        }
+    });
 }
 
 var ENTER_KEY = 13;
@@ -614,7 +653,7 @@ function search_on_return(e) {
         if(!jQuery(e.target).is('button')) {
             e.preventDefault();
         }
-    	search_filter();
+        search_filter();
     }
 }
 

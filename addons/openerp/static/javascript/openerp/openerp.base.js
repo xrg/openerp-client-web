@@ -34,12 +34,11 @@ function openLink(url /*optional afterLoad */) {
  */
 function displayErrorOverlay(xhr) {
     var options = {
-        showCloseButton: false,
+        showCloseButton: true,
         overlayOpacity: 0.7
     };
     if(xhr.getResponseHeader('X-Maintenance-Error')) {
         options['autoDimensions'] = false;
-        options['showCloseButton'] = true;
     }
     jQuery.fancybox(xhr.responseText, options);
 }
@@ -120,11 +119,12 @@ jQuery(document).ready(function () {
         });
         // do the same for forms
         jQuery(document).delegate('form:not([target])', 'submit', function () {
-            var form = jQuery(this);
-            form.ajaxForm();
+            var $form = jQuery(this);
+            $form.ajaxForm();
             // Don't make the wait box appear immediately
             waitBox.showAfter(FORM_WAIT_NO_ACTIVITY);
-            form.ajaxSubmit({
+            $form.ajaxSubmit({
+                data: {'requested_with': 'XMLHttpRequest'},
                 complete: jQuery.proxy(waitBox, 'hide'),
                 success: doLoadingSuccess($app[0]),
                 error: loadingError
@@ -144,11 +144,12 @@ jQuery(document).ready(function () {
         else {
             waitBox = new openerp.ui.WaitBox();
             jQuery(document).delegate('form#view_form:not([target])', 'submit', function () {
-                var form = jQuery('#view_form');
-                form.ajaxForm();
+                var $form = jQuery('#view_form');
+                $form.ajaxForm();
                 // Make the wait box appear immediately
                 waitBox.show();
-                form.ajaxSubmit({
+                $form.ajaxSubmit({
+                    data: {'requested_with': 'XMLHttpRequest'},
                     complete: jQuery.proxy(waitBox, 'hide'),
                     success: doLoadingSuccess(jQuery('table.view')[0]),
                     error: loadingError

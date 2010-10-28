@@ -256,15 +256,9 @@ class Form(SecuredController):
         elif params.view_type == 'diagram':
             display_name = {'field': form.screen.view['fields']['name']['string'], 'value': rpc.RPCProxy(params.model).name_get(form.screen.id)[0][1]}
 
-
-        tips = False
-        if params.view_type == params.view_mode[0]:
-            show_menu_help = rpc.RPCProxy('res.users').read(rpc.session.uid, ['menu_tips'], rpc.session.context)['menu_tips']
-            if show_menu_help:
-                proxy = rpc.RPCProxy('ir.actions.act_window')
-                tips_id = proxy.search([('res_model', '=', params['_terp_model']), ('name', '=', title)])
-                if tips_id:
-                    tips = proxy.read(tips_id[0], ['help'])['help']
+        tips = params.display_menu_tip
+        if params.view_type == params.view_mode[0] and tips:
+            tips = tips
 
         return dict(form=form, pager=pager, buttons=buttons, path=self.path, can_shortcut=can_shortcut, shortcut_ids=shortcut_ids, display_name=display_name, title=title, tips = tips)
 
@@ -938,7 +932,12 @@ class Form(SecuredController):
             action_type = rpc.RPCProxy('ir.actions.actions').read(act_id, ['type'], rpc.session.context)['type']
             action = rpc.session.execute('object', 'execute', action_type, 'read', act_id, False, rpc.session.context)
 
-        action['domain'] = domain or []
+        if domain:
+            if isinstance(domain, basestring):
+                domain = eval(domain)
+            domain.extend(eval(action.get('domain', '[]')))
+            action['domain'] = ustr(domain)
+
         action['context'] = context or {}
 
         import actions
@@ -1133,8 +1132,10 @@ class Form(SecuredController):
     def can_shortcut_create(self):
         return (rpc.session.is_logged() and
                 rpc.session.active_id and
-                cherrypy.request.path_info == '/openerp/tree/open' and
-                cherrypy.request.params.get('model') == 'ir.ui.menu')
+                (cherrypy.request.path_info == '/openerp/tree/open' and cherrypy.request.params.get('model') == 'ir.ui.menu')
+                or
+                (cherrypy.request.path_info == '/openerp/form/switch')
+        )
 
     @expose()
     def action_submenu(self, **kw):
@@ -1150,5 +1151,5 @@ class Form(SecuredController):
         if res:
             return actions.execute(res, model=params.model, id=params.id, context=rpc.session.context.copy())
 
-
 # vim: ts=4 sts=4 sw=4 si et
+

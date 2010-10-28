@@ -19,7 +19,7 @@ html.webkit {
 
 body {
     height: 100%;
-    background: #F8F8F8;
+    background: #F0EEEE;
     font-size: 62.5%;
 }
 
@@ -35,7 +35,7 @@ body {
 
 body,textarea,input,select,option {
     color: #1f1f1f;
-    font-family: sans-serif;
+    font-family: Sans, Verdana, Helvetica, sans-serif;
     line-height: 1.25;
 }
 
@@ -513,6 +513,7 @@ p#cmp_logo {
     position: absolute;
     left: 0;
     right: 0;
+    text-align: center;
 }
 #applications_menu.scrolling ul {
     left: 14px;
@@ -525,8 +526,9 @@ p#cmp_logo {
     display: inline-block;
     margin: 6px 1px;
     text-align: center;
-    font-size: 1.3em;
-    font-variant:small-caps;
+    font-size: 1em;
+    text-transform: uppercase;
+    font-weight: bold;
 }
 
 #applications_menu a {
@@ -534,8 +536,8 @@ p#cmp_logo {
     float: left;
     padding: 0 0 0 3px;
     background: url(../images/nav-items-a.png) no-repeat;
-    color: #fff;
-    text-shadow: #111 0 1px 0;
+    color: #eee;
+    text-shadow: #222 0 1px 0;
 }
 
 #applications_menu span {
@@ -543,7 +545,7 @@ p#cmp_logo {
     float: left;
     min-width: 60px;
     height: 23px;
-    padding: 0 6px;
+    padding: 0 9px 0 6px;
     background: url(../images/nav-items-a.png) 100% 0 no-repeat;
     line-height: 22px;
 }
@@ -552,6 +554,7 @@ p#cmp_logo {
 #applications_menu ul li a:focus,
 #applications_menu ul li a.active {
     background-position: 0 -23px;
+    color: #fff;
 }
 
 #applications_menu ul li a:hover span,
@@ -929,9 +932,9 @@ div.footer-b {
     overflow: hidden;
     padding: 5px 0;
     position: relative;
-    -moz-box-shadow: inset 2px 3px 5px rgba(0, 0, 0, 0.4);
-    -webkit-box-shadow: inset 2px 3px 5px rgba(0, 0, 0, 0.4);
-    box-shadow: inset 2px 3px 5px rgba(0, 0, 0, 0.4);
+    -moz-box-shadow: inset 0px 3px 5px rgba(0, 0, 0, 0.4);
+    -webkit-box-shadow: inset 0px 3px 5px rgba(0, 0, 0, 0.4);
+    box-shadow: inset 0px 3px 5px rgba(0, 0, 0, 0.4);
 }
 
 div.footer-a p,
@@ -1231,6 +1234,17 @@ table td .delete {
     width: 12px;
     height: 12px;
     background-image: url(../images/iconset-b-remove.gif);
+}
+
+sup.help {
+    color: darkgreen;
+    vertical-align:top;
+    position: relative;
+    top: -4px;
+    padding: 0 2px;
+}
+.help {
+    cursor: help;
 }
 
 /*
@@ -1656,7 +1670,7 @@ ul.sections-a li span.wrap a:hover span strong,ul.sections-a li span.wrap a:focu
     line-height: 20px;
     text-decoration: none !important;
     cursor: pointer;
-    min-width: 165px;
+    min-width: 174px;
 }
 
 #sidenav-a .tree-grid,
@@ -1888,20 +1902,20 @@ p.paging-a a {
 
 p.paging-a a.first {
     margin: 0;
-    background: url(../images/cal_first.png) no-repeat;
+    background: url(../images/pager_first.png) no-repeat;
 }
 
 p.paging-a a.last {
     margin: 0;
-    background: url(../images/cal_last.png) no-repeat;
+    background: url(../images/pager_last.png) no-repeat;
 }
 
 p.paging-a a.prev {
-    background: url(../images/cal_left.png) no-repeat;
+    background: url(../images/pager_left.png) no-repeat;
 }
 
 p.paging-a a.next {
-    background: url(../images/cal_right.png) no-repeat;
+    background: url(../images/pager_right.png) no-repeat;
 }
 
 /* sidebar */
@@ -1987,6 +2001,12 @@ td.tertiary div.wrap {
     text-shadow: #fff 0 1px 0;
 }
 
+.sideheader-a a.button-a {
+    position: absolute;
+    top: 3px;
+    line-height: 13px;
+}
+
 #sidebar ul,#sidebar form {
     list-style: none;
     margin: 6px 10px;
@@ -2001,26 +2021,35 @@ td.tertiary div.wrap {
 }
 
 #sidebar label {
-    margin: 5px 0 0
+    margin: 5px 0 0;
 }
 
-;
+#sidebar div.attachments label {
+    display: block;
+}
+
 /*#sidebar li a { color: #5b5b5b; }*/
 #sidebar li a:hover,#sidebar li a:focus,#sidebar li a:active {
     color: #111;
 }
 
 #sidebar input {
-    display: block;
-    width: 100%;
+    vertical-align: bottom;
+}
+
+#sidebar div.attachments input {
+    min-width: 60%;
+    max-width: 100%;
 }
 
 button {
 }
 
+#sidebar div.sideheader-a a {
+    padding: 1px 4px;
+}
+
 #sidebar #add-attachment {
-    position: absolute;
-    top: 3px;
     right: 1px;
 }
 
@@ -2035,7 +2064,7 @@ button {
 .attachments-a li span {
     display: none;
 }
-.attachments-a li a.attachment-file {
+.attachments-a li a.attachment {
     display: block;
     margin-right: 15px;
     overflow: hidden;
@@ -2058,6 +2087,15 @@ button {
     border-color: #EAE7E7;
 }
 
+div.action-buttons {
+    margin-bottom: 10px;
+    padding-bottom: 8px;
+    background: url("../images/sep-a.gif") repeat-x scroll 0 99% transparent;
+}
+div.action-buttons div.pager {
+    padding-top: 2px;
+}
+
 /* links */
 .button-a {
     height: 12px;
@@ -2076,12 +2114,6 @@ button {
     font-weight: bold;
     line-height: 18px;
     text-shadow: #6a6969 0 1px 0;
-}
-
-#sidebar button {
-    float: none;
-    display: block;
-    margin: 5px auto;
 }
 
 .button-a.disable {

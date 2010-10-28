@@ -1,9 +1,15 @@
 <div id="Calendar" class="box-a calendar-a">
     <p class="side">
+        <a class="button-a prev" href="javascript: void(0)" onclick="getCalendar('${day.prev().isoformat()}')">
+            <img src="/openerp/static/images/cal_left.png" width="14" height="14" border="0"/>
+        </a>
+        <a class="button-a next" href="javascript: void(0)" onclick="getCalendar('${day.next().isoformat()}')">
+            <img src="/openerp/static/images/cal_right.png" width="14" height="14" border="0"/>
+        </a>
         % if day == day.today():
-            <a class="button-a" href="javascript: void(0)">${_("Today")}</a>
+            <a class="button-a today" href="javascript: void(0)">${_("Today")}</a>
            % else:
-               <a class="button-b" href="javascript: void(0)"
+               <a class="button-a" href="javascript: void(0)"
                 onclick="getCalendar('${day.today().isoformat()}', 'day')">${_("Today")}</a>
         % endif
     </p>
@@ -22,19 +28,6 @@
         </li>
     </ul>
     <div class="inner">
-        <p class="paging-a">
-            <span class="one">
-                <small>|</small>
-                <a class="prev" href="javascript: void(0)"
-                    onclick="getCalendar('${day.prev().isoformat()}')"></a>
-            </span>
-            <small>|</small>
-            <span class="two">
-                <a class="next" href="javascript: void(0)"
-                    onclick="getCalendar('${day.next().isoformat()}')"></a>
-                <small>|</small>
-            </span>
-        </p>
         <h4>
             <span>
                 ${day}
@@ -70,7 +63,7 @@
                                         nWriteDate="${evt.write_date}"
                                         nWriteId="${evt.write_uid}"
                                         style="background-color: ${evt.color}" 
-                                        class="calEvent allDay">${evt.title}</div>
+                                        class="calEvent allDay ${evt.classes}">${evt.title}</div>
                             % endif
                         % endfor
                     </div>
@@ -86,7 +79,7 @@
                             nWriteDate="${evt.write_date}"
                             nWriteId="${evt.write_uid}" 
                             style="background-color: ${evt.color}" 
-                            class="calEvent noAllDay">
+                            class="calEvent noAllDay ${evt.classes}">
                            <div style="height: 10px;" class="calEventTitle">${evt.starts.strftime('%I:%M %P')} - ${evt.title}</div>
                            <div class="calEventDesc">${evt.description}</div>
                            <div class="calEventGrip"></div>

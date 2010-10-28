@@ -19,7 +19,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	elementPrototype.removeAnyChildWithName = function( tagName )
 	{
 		var children = this.children,
-			childs = [],
+			children = [],
 			child;
 
 		for ( var i = 0; i < children.length; i++ )
@@ -30,12 +30,12 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 			if ( child.name == tagName )
 			{
-				childs.push( child );
+				children.push( child );
 				children.splice( i--, 1 );
 			}
-			childs = childs.concat( child.removeAnyChildWithName( tagName ) );
+			children = children.concat( child.removeAnyChildWithName( tagName ) );
 		}
-		return childs;
+		return children;
 	};
 
 	elementPrototype.getAncestor = function( tagNameRegex )

@@ -28,7 +28,6 @@
 ###############################################################################
 
 from openerp.widgets import TinyWidget
-import pprint
 
 
 class Pager(TinyWidget):

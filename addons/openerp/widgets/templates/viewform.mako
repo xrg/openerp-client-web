@@ -32,17 +32,21 @@
                              % endif
                         </td>
                         <td align="right">
-                            <button title="${_('Save Filter.')}"
-                                onclick="save_filter(); return false;"
-                                >${_("Save Filter")}</button>
-                            <button title="${_('Manage Filter.')}"
-                                onclick="manage_filters(); return false;"
-                                >${_("Manage Filters")}</button>
                             <select name="filter_list" id="filter_list"
-                                onchange="search_filter(); return false;">
-                                % for f in search.filters_list:
-                                    <option id="${f[3]}" value="${f[0]}" group_by="${f[2]}">${f[1]}</option>
-                                % endfor
+                                onchange="change_filter(); return false;">
+                                <option value="blk" value="">-- ${_("Filters")} --</option>
+                                % if len(search.filters_list):
+                                    <optgroup id="filter_list_options_group" label="${_("Saved Filters")}">
+                                    % for f in search.filters_list:
+                                        <option id="${f[3]}" value="${f[0]}" group_by="${f[2]}">${f[1]}</option>
+                                    % endfor
+                                    </optgroup>
+                                % endif
+                                <optgroup label="${_("Actions")}">
+                                    <option value="nf" value="">${_("New Filter")}</option>
+                                    <option value="sf" value="">${_("Save Filter")}</option>
+                                    <option value="mf" value="">${_("Manage Filters")}</option>
+                                </optgroup>
                             </select>
                         </td>
                     </tr>

@@ -26,7 +26,7 @@
                         <div class="pager">
                             <p id="_${name}_link_span" class="paging">
                                 <a class="prev nav" title="${_('Previous record...')}" href="javascript: void(0)" onclick="submit_form('previous', '${name}');"></a>
-                                ${pager_info}
+                                <span>${pager_info}</span>
                                 <a class="next nav" title="${_('Next record...')}" href="javascript: void(0)" onclick="submit_form('next', '${name}');"></a>
                             </p>
                         </div>

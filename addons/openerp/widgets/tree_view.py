@@ -105,7 +105,6 @@ class ViewTree(Form):
                                       context=self.context,
                                       field_parent=self.field_parent,
                                       onselection="onSelection",
-                                      onheaderclick="onHeaderClick",
                                       fields_info=fields_info)
         self.id = id
         self.ids = ids

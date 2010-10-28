@@ -314,14 +314,14 @@ function form_setVisible(container, field, visible) {
     if (MochiKit.DOM.hasElementClass(container, 'notebook-page')) { // notebook page?
     
         var nb = container.parentNode.parentNode.notebook;
-        
+
         if (!nb)  {
            MochiKit.Async.callLater(0, form_setVisible, container, field, visible);
            return;
         }
-        
+
         var i = findIdentical(nb.pages, container);
-        
+
         if (visible) {
             nb.show(i, false);
         } else {
@@ -329,15 +329,17 @@ function form_setVisible(container, field, visible) {
         }
 
     } else {
-        container.style.display = visible ? '' : 'none';
+
         try {
             var label = getNodeAttribute(container, 'for');
             label = MochiKit.Selector.findChildElements(container.parentNode, ['td.label[for="' + label + '"]'])[0];
+
             if (!label){
                 container.style.display = visible ? '' : 'none';
             }
             else{
-                getFirstParentByTagAndClassName(container).style.display = visible ? '' : 'none';
+                jQuery(container).css('display', visible ? '' : 'none')
+                jQuery(container).prev().css('display', visible ? '' : 'none')
             }
         }catch(e){}
     }

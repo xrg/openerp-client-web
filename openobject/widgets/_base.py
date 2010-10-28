@@ -240,7 +240,7 @@ class Widget(object):
 
     def __eq__(self, other):
         return (
-            (getattr(other, '__class__', None) is self.__class__) and
+              (type(other) is type(self)) and
               (other._serial == self._serial) and
               (other._name == self._name)
             )

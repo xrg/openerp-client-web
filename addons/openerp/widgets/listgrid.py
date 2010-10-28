@@ -49,7 +49,7 @@ class List(TinyWidget):
     template = "/openerp/widgets/templates/listgrid.mako"
     params = ['name', 'data', 'columns', 'headers', 'model', 'selectable', 'editable',
               'pageable', 'selector', 'source', 'offset', 'limit', 'show_links', 'editors', 'view_mode',
-              'hiddens', 'edit_inline', 'field_total', 'link', 'checkbox_name', 'm2m', 'min_rows', 'string', 'o2m', 'dashboard']
+              'hiddens', 'edit_inline', 'field_total', 'link', 'checkbox_name', 'm2m', 'min_rows', 'string', 'o2m', 'dashboard', 'impex']
 
     member_widgets = ['pager', 'buttons', 'editors', 'concurrency_info']
 
@@ -80,7 +80,7 @@ class List(TinyWidget):
         self.domain = domain or []
         custom_search_domain = getattr(cherrypy.request, 'custom_search_domain', [])
         custom_filter_domain = getattr(cherrypy.request, 'custom_filter_domain', [])
-        
+
         if name.endswith('/'):
             self._name = name[:-1]
         if name != '_terp_list':
@@ -105,6 +105,8 @@ class List(TinyWidget):
         self.concurrency_info = None
         self.selector = None
         
+        #for import /export differentiate action
+        self.impex = kw.get('impex', False)
         terp_params = getattr(cherrypy.request, 'terp_params', {})
         if terp_params:
             if terp_params.get('_terp_model'):

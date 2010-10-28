@@ -1,6 +1,12 @@
 <div id="Calendar" class="box-a calendar-a">
     <p class="side">
-        <a class="button-b" href="javascript:void(0)" title="${_('Today...')}" 
+        <a class="button-a prev" href="javascript: void(0)" onclick="getCalendar('${week.prev()[0].isoformat()}')">
+            <img src="/openerp/static/images/cal_left.png" width="14" height="14" border="0"/>
+        </a>
+        <a class="button-a next" href="javascript: void(0)" onclick="getCalendar('${week.next()[0].isoformat()}')">
+            <img src="/openerp/static/images/cal_right.png" width="14" height="14" border="0"/>
+        </a>
+        <a class="button-a" href="javascript:void(0)" title="${_('Today...')}" 
             onclick="getCalendar('${selected_day.today().isoformat()}', 'day')">${_("Today")}</a>
     </p>
     <ul class="head">
@@ -17,19 +23,6 @@
         </li>
     </ul>
     <div class="inner">
-        <p class="paging-a">
-            <span class="one">
-                <small>|</small>
-                <a class="prev" href="javascript: void(0)" 
-                    onclick="getCalendar('${week.prev()[0].isoformat()}')"></a>
-            </span>
-            <small>|</small>
-            <span class="two">
-                <a class="next" href="javascript: void(0)"
-                    onclick="getCalendar('${week.next()[0].isoformat()}')"></a>
-                <small>|</small>
-            </span>
-        </p>
         <h4>
             <span>
                 ${week}
@@ -58,33 +51,33 @@
                     <div id="calAllDaySect">
                         % for evt in events:
                             % if evt.dayspan > 0:
-                                <div nRecordID="${evt.record_id}" 
-                                    nDaySpan="${evt.dayspan}" 
-                                    dtStart="${str(evt.starts)}" 
-                                    dtEnd="${str(evt.ends)}" 
+                                <div nRecordID="${evt.record_id}"
+                                    nDaySpan="${evt.dayspan}"
+                                    dtStart="${str(evt.starts)}"
+                                    dtEnd="${str(evt.ends)}"
                                     title="${evt.description}"
                                     nCreationDate="${evt.create_date}"
                                     nCreationId="${evt.create_uid}"
                                     nWriteDate="${evt.write_date}"
-                                    nWriteId="${evt.write_uid}" 
-                                    style="background-color: ${evt.color};" 
-                                    class="calEvent allDay">${evt.title}</div>
+                                    nWriteId="${evt.write_uid}"
+                                    style="background-color: ${evt.color};"
+                                    class="calEvent allDay ${evt.classes}">${evt.title}</div>
                             % endif
                         % endfor
                     </div>
                     <div id="calBodySect">
                         % for evt in events:
                             % if evt.dayspan == 0:
-                        <div nRecordID="${evt.record_id}" 
-                            dtStart="${str(evt.starts)}" 
+                        <div nRecordID="${evt.record_id}"
+                            dtStart="${str(evt.starts)}"
                             dtEnd="${str(evt.ends)}"
                             nCreationDate="${evt.create_date}"
                             nCreationId="${evt.create_uid}"
                             nWriteDate="${evt.write_date}"
                             nWriteId="${evt.write_uid}"
-                            style="background-color: ${evt.color};" 
-                            class="calEvent noAllDay">
-                           <div style="height: 10px;" class="calEventTitle">${evt.starts.strftime('%I:%M %P')} - ${evt.title}</div>
+                            style="background-color: ${evt.color};"
+                            class="calEvent noAllDay ${evt.classes}">
+                           <div style="height: 10px;" class="calEventTitle">${evt.starts.strftime('%H:%M')} - ${evt.title}</div>
                            <div class="calEventDesc">${evt.description}</div>
                            <div class="calEventGrip"></div>
                         </div>

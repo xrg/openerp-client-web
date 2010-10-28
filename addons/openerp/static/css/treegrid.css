@@ -116,16 +116,6 @@ table.tree-grid a:hover {
     border: none;
 }
 
-tr.row_tree_toolbar {
-	background-color: #5A5858;
-	color: #FFFFFF;
-	cursor: pointer;
-}
-
-tr.row_tree_toolbar:hover {
-	background-color: #3C3C3C;
-}
-
 td.tree_grid table.tree-grid {
     width: 100%;
 }

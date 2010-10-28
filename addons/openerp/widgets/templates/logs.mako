@@ -8,7 +8,7 @@
                         % for log in logs[:5]:
                             <tr>
                                 <td class="logActions">
-                                    <a href="${py.url('/openerp/form/edit', model=log['res_model'], id=log['res_id'])}">
+                                    <a href="${py.url('/openerp/form/edit', model=log['res_model'], id=log['res_id'], context=log['context'])}">
                                         &rarr; ${log['name']}
                                     </a>
                                 </td>
@@ -24,7 +24,7 @@
                                 <div id="more_logs">
                                      % for log in logs[5:]:
                                          <div>
-                                             <a href="${py.url('/openerp/form/edit', model=log['res_model'], id=log['res_id'])}">
+                                             <a href="${py.url('/openerp/form/edit', model=log['res_model'], id=log['res_id'], context=log['context'])}">
                                                 &rarr; ${log['name']}
                                              </a>
                                          </div>
@@ -42,7 +42,7 @@
                         % for log in logs:
                             <tr>
                                 <td class="logActions">
-                                    <a href="${py.url('/openerp/form/edit', model=log['res_model'], id=log['res_id'])}">
+                                    <a href="${py.url('/openerp/form/edit', model=log['res_model'], id=log['res_id'], context=log['context'])}">
                                         &rarr; ${log['name']}
                                     </a>
                                 </td>

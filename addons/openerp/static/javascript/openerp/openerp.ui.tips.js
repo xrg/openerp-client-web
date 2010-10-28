@@ -56,8 +56,8 @@ openerp.ui.Tips.prototype = {
         this.toolText = P({'class': 'tipText'});
         this.toolModel = SPAN({'class': 'tipExtra'});
         this.toolField = SPAN({'class': 'tipExtra'});
-        this. modelTitle = SPAN({'style': 'font-weight:bold;'}, 'Object :: ')
-        this.fieldTitle = SPAN({'style': 'font-weight:bold;'}, 'Field :: ')
+        this. modelTitle = SPAN({'style': 'font-weight:bold;'}, _('Object')+' :: ')
+        this.fieldTitle = SPAN({'style': 'font-weight:bold;'}, _('Field')+' :: ')
         this.toolTip = TABLE({'class': 'tooltip'},
                         TBODY(null,
                             TR(null,

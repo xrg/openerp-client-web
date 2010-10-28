@@ -61,7 +61,7 @@ class Pool(object):
 pool_dict = {}
 
 def restart_pool():
-    
+
     db_name = cherrypy.session['db']
     
     if db_name in pool_dict:

@@ -243,9 +243,6 @@ class TinyInputWidget(TinyWidget, InputWidget):
         if self.readonly:
             attrs['disabled'] = 'disabled'
 
-        if self.translatable and 'translatable' not in d['css_classes']:
-            d.setdefault('css_classes', []).append("translatable")
-
 
 class ConcurrencyInfo(TinyInputWidget):
 

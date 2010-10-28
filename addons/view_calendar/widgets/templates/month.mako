@@ -1,6 +1,12 @@
 <div id="Calendar" class="box-a calendar-a">
     <p class="side">
-        <a class="button-b" href="javascript:void(0)" title="${_('Today...')}" 
+        <a class="button-a prev" href="javascript: void(0)" onclick="getCalendar('${month.prev().year}-${month.prev().month}-01')">
+            <img src="/openerp/static/images/cal_left.png" width="14" height="14" border="0"/>
+        </a>
+        <a class="button-a next" href="javascript: void(0)" onclick="getCalendar('${month.next().year}-${month.next().month}-01')">
+            <img src="/openerp/static/images/cal_right.png" width="14" height="14" border="0"/>
+        </a>
+        <a class="button-a" href="javascript:void(0)" title="${_('Today...')}" 
             onclick="getCalendar('${selected_day.today().isoformat()}', 'day')">${_("Today")}</a>
     </p>
     <ul class="head">
@@ -17,19 +23,6 @@
         </li>
     </ul>
     <div class="inner">
-        <p class="paging-a">
-            <span class="one">
-                <small>|</small>
-                <a class="prev" href="javascript: void(0)" 
-                    onclick="getCalendar('${month.prev().year}-${month.prev().month}-01')"></a>
-            </span>
-            <small>|</small>
-            <span class="two">
-                <a class="next" href="javascript: void(0)" 
-                    onclick="getCalendar('${month.next().year}-${month.next().month}-01')"></a>
-                <small>|</small>
-            </span>
-        </p>
         <h4>
             <span>${month}</span>
         </h4>
@@ -58,7 +51,7 @@
                     <div id="calBodySect">
                         % for evt in events:
                             % if evt.dayspan > 0:
-                                <div class="calEvent"
+                                <div class="calEvent ${evt.classes}"
                                     nRecordID="${evt.record_id}"
                                     nDaySpan="${evt.dayspan}"
                                     dtStart="${str(evt.starts)}"
@@ -71,7 +64,7 @@
                                     style="background-color: ${evt.color}">${evt.title}</div>
                             % endif
                             % if evt.dayspan == 0:
-                                <div class="calEvent calEventInfo"
+                                <div class="calEvent calEventInfo ${evt.classes}"
                                     nRecordID="${evt.record_id}"
                                     nDaySpan="${evt.dayspan}"
                                     dtStart="${str(evt.starts)}"

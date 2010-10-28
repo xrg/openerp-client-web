@@ -1,12 +1,18 @@
 <div id="Calendar" class="box-a calendar-a">
 
     <p class="side">
+        <a class="button-a prev" href="javascript: void(0)" onclick="getCalendar('${days[0].prev().isoformat()}')">
+            <img src="/openerp/static/images/cal_left.png" width="14" height="14" border="0"/>
+        </a>
+        <a class="button-a next" href="javascript: void(0)" onclick="getCalendar('${days[-1].next().isoformat()}')">
+            <img src="/openerp/static/images/cal_right.png" width="14" height="14" border="0"/>
+        </a>
         <a class="button-a" href="javascript: void(0)" title="${_('Today...')}"
             onclick="getCalendar('${days[0].today().isoformat()}', 'day')">${_("Today")}</a>
     </p>
 
     <ul class="head">
-        <li>
+        <li class="notab">
         % if mode == 'day':
         <img title="${_('Zoom In')}" height="16" width="16" src="/openerp/static/images/stock-disabled/gtk-zoom-in.png"/>
         % else:
@@ -14,7 +20,7 @@
             onclick="ganttZoomIn()"/>
         % endif
         </li>
-        <li>
+        <li class="notab">
         % if mode == '5years':
         <img title="${_('Zoom Out')}" height="16" width="16" src="/openerp/static/images/stock-disabled/gtk-zoom-out.png"/>
         % else:
@@ -25,19 +31,6 @@
     </ul>
 
     <div class="inner">
-        <p class="paging-a">
-            <span class="one">
-                <small>|</small>
-                <a class="prev" href="javascript: void(0)" 
-                    onclick="getCalendar('${days[0].prev().isoformat()}', null)"></a>
-            </span>
-            <small>|</small>
-            <span class="two">
-                <a class="next" href="javascript: void(0)" 
-                    onclick="getCalendar('${days[-1].next().isoformat()}', null)"></a>
-                <small>|</small>
-            </span>
-        </p>
         <h4>
             <span>${title}</span>
         </h4>
@@ -75,7 +68,7 @@
                         />
                     % endfor
                     % for evt in events:
-                    <div class="calEvent"
+                    <div class="calEvent ${evt.classes}"
                         nRecordID="${evt.record_id}"
                         nDaySpan="${evt.dayspan}"
                         dtStart="${str(evt.starts)}"

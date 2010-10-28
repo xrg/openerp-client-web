@@ -1,8 +1,9 @@
 % if editable:
     <select 
-        id="${name}" 
-        kind="${kind}" 
-        name="${name}" 
+        id="${name}"
+        kind="${kind}"
+        name="${name}"
+        type2 = "${type2}"
         class="${css_class}"
         search_context="${search_context}" ${py.attrs(attrs)}>
         % if not required:

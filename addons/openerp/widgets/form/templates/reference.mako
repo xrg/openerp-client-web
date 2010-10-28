@@ -33,6 +33,7 @@
                 <img id="${name}_open" alt="${_('Open')}" title="${_('Open a resource')}"
                 src="/openerp/static/images/iconset-d-drop.gif" class="m2o_open"/>
             </span>
+            <div id="autoCompleteResults_${name}" class="autoTextResults"></div>
         </div>
     </td>
 </tr>

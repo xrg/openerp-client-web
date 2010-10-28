@@ -52,10 +52,16 @@
     % if selector:
         <td class="grid-cell selector">
             % if not m2m:
+            <%
+            	if impex:
+            		selector_click = "do_select('%s')" % (data['id'])  
+            	else:
+            		selector_click = "new ListView('%s').onBooleanClicked(!this.checked, '%s')" % (name, data['id'])
+            %>
             <input type="${selector}" class="${selector} grid-record-selector"
                 id="${name}/${data['id']}" name="${(checkbox_name or None) and name}"
                 value="${data['id']}"
-                onclick="new ListView('${name}').onBooleanClicked(!this.checked, '${data['id']}')"/>
+                onclick="${selector_click}"/>
             % endif
         </td>
     % endif
@@ -81,7 +87,11 @@
             <td class="grid-cell ${field_attrs.get('type', 'char')}"
                 style="${(data[field].color or None) and 'color: ' + data[field].color};"
                 sortable_value="${data[field].get_sortable_text()}">
-                <span>${data[field].display()}</span>
+                % if impex:
+                	<a href="javascript: void(0)" onclick="do_select('${data['id']}')">${data[field].display()}</a>
+                % else:
+                	<span>${data[field].display()}</span>
+                % endif
             </td>
         % endif
     % endfor
@@ -184,7 +194,7 @@
                 </tr>
             % endif
             <tr>
-                <td colspan="2" style="border: none; padding: 2px 5px;">
+                <td colspan="2" class="grid-content">
                     <table id="${name}_grid" class="grid" width="100%" cellspacing="0" cellpadding="0" style="background: none;">
                         <thead>
                             <tr class="grid-header">
@@ -336,6 +346,7 @@
                                     view_type = jQuery('[id=${name}/_terp_view_type]').val();
                                     editable = jQuery('[id=${name}/_terp_editable]').val();
                                 }
+                                
                                 jQuery('table[id=${name}_grid] tr.grid-row').each(function() {
                                     var $this = jQuery(this);
                                     $this.click(function(event) {
@@ -343,7 +354,7 @@
                                             if (!(jQuery(event.target).is('img, input'))) {
                                                 if (view_type == 'tree' && $this.attr('record')) {
                                                     do_select($this.attr('record'), '${name}');
-                                                }
+                                                }  
                                             }
                                         }
                                     });

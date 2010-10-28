@@ -44,7 +44,8 @@ from tree import Tree
 from wizard import Wizard
 
 def execute_window(view_ids, model, res_id=False, domain=None, view_type='form', context=None,
-                   mode='form,tree', name=None, target=None, limit=None, search_view=None, context_menu=False):
+                   mode='form,tree', name=None, target=None, limit=None, search_view=None,
+                   context_menu=False, display_menu_tip=False):
     """Performs `actions.act_window` action.
 
     @param view_ids: view ids
@@ -68,6 +69,7 @@ def execute_window(view_ids, model, res_id=False, domain=None, view_type='form',
     params.limit = limit
     params.search_view = search_view
     params['context_menu'] = context_menu
+    params['display_menu_tip'] = display_menu_tip
 
     cherrypy.request._terp_view_name = name or None
     cherrypy.request._terp_view_target = target or None
@@ -249,10 +251,14 @@ def execute(action, **data):
 
         if data.get('domain', False):
             domain.append(data['domain'])
-            
+
         if 'menu' in data['res_model'] and action.get('name') == 'Menu':
             return close_popup()
-        
+
+        display_menu_tip = action.get('display_menu_tip')
+        if display_menu_tip:
+            display_menu_tip = action.get('help')
+
         res = execute_window(view_ids,
                              data['res_model'],
                              data['res_id'],
@@ -263,7 +269,8 @@ def execute(action, **data):
                              target=action.get('target'),
                              limit=data.get('limit'),
                              search_view = data['search_view'],
-                             context_menu= data.get('context_menu'))
+                             context_menu= data.get('context_menu'),
+                             display_menu_tip=display_menu_tip)
 
         return res
 

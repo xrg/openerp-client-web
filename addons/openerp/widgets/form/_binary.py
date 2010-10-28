@@ -50,7 +50,7 @@ __all__ = ["Binary", "Image", "Picture", "get_temp_file", "generate_url_for_pict
 class Binary(TinyInputWidget):
 
     template = "/openerp/widgets/form/templates/binary.mako"
-    params = ["name", "text", "readonly", "filename", "bin_data"]
+    params = ["name", "text", "readonly", "filename", "bin_data", 'value_bin_size']
 
     text = None
     file_upload = True
@@ -60,10 +60,15 @@ class Binary(TinyInputWidget):
         self.validator = validators.Binary()
         self.onchange = "set_binary_filename(this, '%s');" % (self.filename or '')
         self.bin_data = attrs.get('value')
-        
+        # if bin_size was in context when reading the binary field, then the field's value is actually the binary
+        # field's content size
+        self.value_bin_size = getattr(self, 'context', {}).get('bin_size', False)
 
     def set_value(self, value):
         #XXX: server bug work-arround
+        if self.value_bin_size:
+            self.text = value
+            return
         try:
             self.text = utils.get_size(value)
         except:

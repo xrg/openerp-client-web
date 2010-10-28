@@ -101,11 +101,11 @@ One2Many.prototype = {
         var names = this.name.split('/');
 
         var parents = [];
-        // get the required view params to get proper view 
+        // get the required view params to get proper view
         var params = {
             '_terp_view_params/_terp_model': openobject.dom.get('_terp_model').value,
-            '_terp_view_params/_terp_id': $('_terp_id').value,
-            '_terp_view_params/_terp_ids': $('_terp_ids').value,
+            '_terp_view_params/_terp_id': openobject.dom.get('_terp_id').value,
+            '_terp_view_params/_terp_ids': openobject.dom.get('_terp_ids').value,
             '_terp_view_params/_terp_view_ids': openobject.dom.get('_terp_view_ids').value,
             '_terp_view_params/_terp_view_mode': openobject.dom.get('_terp_view_mode').value,
             '_terp_view_params/_terp_context': openobject.dom.get('_terp_context').value || {},
@@ -117,8 +117,8 @@ One2Many.prototype = {
             var prefix = parents.join('/');
 
             params['_terp_view_params/' + prefix + '/_terp_model'] = openobject.dom.get(prefix + '/_terp_model').value;
-            params['_terp_view_params/' + prefix + '/_terp_id'] = $(prefix + '/_terp_id').value;
-            params['_terp_view_params/' + prefix + '/_terp_ids'] = $(prefix + '/_terp_ids').value;
+            params['_terp_view_params/' + prefix + '/_terp_id'] = openobject.dom.get(prefix + '/_terp_id').value;
+            params['_terp_view_params/' + prefix + '/_terp_ids'] = openobject.dom.get(prefix + '/_terp_ids').value;
             params['_terp_view_params/' + prefix + '/_terp_view_ids'] = openobject.dom.get(prefix + '/_terp_view_ids').value;
             params['_terp_view_params/' + prefix + '/_terp_view_mode'] = openobject.dom.get(prefix + '/_terp_view_mode').value;
             params['_terp_view_params/' + prefix + '/_terp_context'] = openobject.dom.get(prefix + '/_terp_context').value || {};

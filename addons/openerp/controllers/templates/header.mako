@@ -27,7 +27,7 @@ else:
     </p>
     % if logged:
         <h1 id="title-menu">
-           ${_("%(company_id)s", company_id=rpc.session.company_id or '')} (${rpc.session.db})
+           ${_("%(company)s", company=rpc.session.company_name or '')} (${rpc.session.db})
            <small>${_("%(user)s", user=rpc.session.user_name)}</small>
         </h1>
     % endif
@@ -51,20 +51,29 @@ else:
                     </ul>
                 </li>
 
-                <li><a href="${py.url('/openerp/pref/create')}" class="preferences">${_("Preferences")}</a>
+                <li><a id="open_prefs" href="javascript: void(0);" class="preferences">${_("Preferences")}</a>
                     <ul>
-                        <li class="first last"><a href="${py.url('/openerp/pref/create')}">${_("Edit Preferences")}</a></li>
+                        <li class="first last"><a id="open_prefs_inner" href="javascript: void(0);">${_("Edit Preferences")}</a></li>
                     </ul>
+
+                    <script type="text/javascript">
+                        jQuery('#open_prefs,#open_prefs_inner').click(function() {
+                            openobject.tools.openWindow(
+                                openobject.http.getURL('/openerp/pref/create', null)
+                            );
+                        });
+                    </script>
                 </li>
+
                 <li><a href="/openerp/about" class="info">${_("About")}</a>
                     <ul>
                         <li class="first last"><a href="/openerp/about">${_("About")}</a></li>
                     </ul>
                 </li>
 
-                <li><a target="_blank" href="http://doc.openerp.com/" class="help">${_("Help")}</a>
+                <li><a target="_blank" href="http://doc.openerp.com/book" class="help">${_("Help")}</a>
                     <ul>
-                        <li class="first last"><a target="_blank" href="http://doc.openerp.com/">${_("Help")}</a></li>
+                        <li class="first last"><a target="_blank" href="http://doc.openerp.com/book">${_("Help")}</a></li>
                     </ul>
                 </li>
 

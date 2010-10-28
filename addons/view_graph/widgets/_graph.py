@@ -80,7 +80,7 @@ class Graph(TinyWidget):
     width = 360
     height = 300
 
-    def __init__(self, model, view=False, view_id=False, ids=[], domain=[], context={},view_mode=[], width=360, height=300):
+    def __init__(self, model, view=False, view_id=False, ids=[], domain=[], context={},view_mode=[], group_by=[], width=360, height=300):
 
         name = 'graph_%s' % (random.randint(0,10000))
         super(Graph, self).__init__(name=name, model=model, width=width, height=height)
@@ -94,23 +94,21 @@ class Graph(TinyWidget):
         attrs = node_attributes(root)
 
         self.string = attrs.get('string')
-
+        self.group_by = group_by
         chart_type = attrs.get('type', 'pie')
 
         self.ids = ids
-        if ids is None:
-            self.ids = rpc.RPCProxy(model).search(domain, 0, 0, 0, ctx)
-        self.count = rpc.RPCProxy(model).search_count(domain, ctx)
+
         if chart_type == "bar":
-            self.data = BarChart(model, view, view_id, ids, domain, view_mode, context)
+            self.data = BarChart(model, view, view_id, ids, domain, view_mode, context, group_by)
         else:
-            self.data = PieChart(model, view, view_id, ids, domain, view_mode, context)
+            self.data = PieChart(model, view, view_id, ids, domain, view_mode, context, group_by)
 
         self.data = simplejson.dumps(self.data.get_data())
 
 class GraphData(object):
 
-    def __init__(self, model, view=False, view_id=False, ids=[], domain=[], view_mode=[], context={}):
+    def __init__(self, model, view=False, view_id=False, ids=[], domain=[], view_mode=[], context={}, group_by=[]):
 
         ctx = {}
         ctx = rpc.session.context.copy()
@@ -118,10 +116,8 @@ class GraphData(object):
 
         view = view or cache.fields_view_get(model, view_id, 'graph', ctx)
         fields = view['fields']
-
         dom = xml.dom.minidom.parseString(view['arch'].encode('utf-8'))
         root = dom.childNodes[0]
-
         attrs = node_attributes(root)
 
         self.view_mode = view_mode
@@ -130,14 +126,20 @@ class GraphData(object):
         self.kind = attrs.get('type', '')
         self.orientation = attrs.get('orientation', 'vertical')
         self.values = []
-
+        self.group_by = group_by
+        add_grp_field = ''
+        if self.group_by and not fields.has_key(self.group_by[0]):
+            add_grp_field = rpc.session.execute('object', 'execute', self.model, 'fields_get', [self.group_by[0]], {})
+            fields.update(add_grp_field)
         axis, axis_data, axis_group = self.parse(root, fields)
-
+        
+        if  self.group_by:
+            axis[0] = self.group_by[0]
+            axis_data.update(add_grp_field)
         proxy = rpc.RPCProxy(model)
 
         ctx = rpc.session.context.copy()
         ctx.update(context)
-
         if ids is None:
             ids = proxy.search(domain, 0, 0, 0, ctx)
 
@@ -359,17 +361,17 @@ class GraphData(object):
 
 class BarChart(GraphData):
 
-    def __init__(self, model, view=False, view_id=False, ids=[], domain=[], view_mode=[], context={}):
-        super(BarChart, self).__init__(model, view, view_id, ids, domain, view_mode, context)
+    def __init__(self, model, view=False, view_id=False, ids=[], domain=[], view_mode=[], context={}, group_by=[]):
+        super(BarChart, self).__init__(model, view, view_id, ids, domain, view_mode, context,group_by)
         self.context = context
-
+        
     def get_data(self):
 
         result = {}
         ctx =  rpc.session.context.copy()
         ctx.update(self.context)
         res = super(BarChart, self).get_graph_data()
-
+        
         if len(res) > 1:
             values = res[0]
             domain = res[1]
@@ -516,7 +518,7 @@ class BarChart(GraphData):
                                    "labels": { "labels": [ lbl for lbl in stack_labels ], "rotate": "diagonal", "colour": "#ff0000"},
                                    "3d": 3, "grid-colour": "#F0EEEE"},
                         "y_axis": axis_y,
-                        "bg_colour": "#F8F8F8",
+                        "bg_colour": "#FFFFFF",
                         "tooltip": {"mouse": 2 }}
 
         else:
@@ -541,7 +543,7 @@ class BarChart(GraphData):
             result = {"y_axis": axis_y,
                       "title": {"text": ""},
                       "elements": [i for i in dataset],
-                      "bg_colour": "#F8F8F8",
+                      "bg_colour": "#FFFFFF",
                       "x_axis": {"colour": "#909090",
                                  "stroke": 1,
                                  "tick-height": 5,
@@ -555,8 +557,8 @@ class BarChart(GraphData):
 
 class PieChart(GraphData):
 
-    def __init__(self, model, view=False, view_id=False, ids=[], domain=[], view_mode=[], context={}):
-        super(PieChart, self).__init__(model, view, view_id, ids, domain, view_mode, context)
+    def __init__(self, model, view=False, view_id=False, ids=[], domain=[], view_mode=[], context={}, group_by=[]):
+        super(PieChart, self).__init__(model, view, view_id, ids, domain, view_mode, context, group_by)
 
     def get_data(self):
 
@@ -613,14 +615,14 @@ class PieChart(GraphData):
                         "no-labels": 'true',
                         "values": allvalues})
 
-        result = {"legend": {"bg_colour": "#f8f8f8",
+        result = {"legend": {"bg_colour": "#FFFFFF",
                              "border": 'true',
                              "position": "top",
                              "shadow": 'true',
                              "visible": 'true'
                              },
                   "elements": [d for d in dataset],
-                  "bg_colour": "#F8F8F8"}
+                  "bg_colour": "#FFFFFF"}
 
         return result
 

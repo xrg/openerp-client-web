@@ -84,11 +84,11 @@ InfoBox.prototype = {
         var desc = SPAN(null, this.params.description, BR(), desc);
         
         var log = DIV({'class': 'calLogInfo'},
-                        DIV(null,'ID:', this.params.event_id),
-                        DIV(null,'Creation User:', this.params.create_uid),
-                        DIV(null,'Creation Date:', this.params.create_date),
-                        DIV(null,'Latest Modification by: ', this.params.write_uid),
-                        DIV(null,'Latest Modification Date: ', this.params.write_date)
+                        DIV(null, 'ID:', this.params.event_id),
+                        DIV(null, _('Creation User: '), this.params.create_uid),
+                        DIV(null, _('Creation Date: '), this.params.create_date),
+                        DIV(null, _('Latest Modification by: '), this.params.write_uid),
+                        DIV(null, _('Latest Modification Date: '), this.params.write_date)
                      );
         var info = DIV(null,
                     DIV({'class': 'calInfoTitle'}, title),

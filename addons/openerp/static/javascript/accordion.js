@@ -77,11 +77,6 @@ Accordion.prototype = {
     },
 
     activate : function(title) {
-
-        if (this.animate) {
-            return;
-        }
-
         if (this.current) {
             this.deactivate(this.current);
         }
@@ -92,14 +87,12 @@ Accordion.prototype = {
         }
 
         this.current = title;
-        this.animate = true;
 
         var content = title._content;
 
         MochiKit.Visual.blindDown(content, {
             duration: this.options.duration,
             afterFinish: MochiKit.Base.bind(function() {
-                this.animate = false;
                 MochiKit.Signal.signal(this, "activate", this, title);
             }, this)
         });

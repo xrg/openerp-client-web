@@ -39,7 +39,7 @@ function initialize_dashboard() {
 
         jQuery(this).find('div.dashlet').each(function () {
             new Draggable(this, {
-                'handle': 'dashlet-title',
+                'handle': 'dashlet-drag',
                 'starteffect': null,
                 'endeffect': null,
                 'revert': true});
