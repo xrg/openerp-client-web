@@ -25,7 +25,7 @@
 <ul class="ul_calGroups">
     <input type="hidden" id="_terp_colors" value="${colors}"/>
     <input type="hidden" id="groups_id" value="${[y[1] for x, y in colors.items() if y[1]]}"/>
-    % for x, color in colors.items():
+    % for x, color in sorted(colors.items(), key=lambda i: i[0]):
         <li>
             <input type="checkbox" class="checkbox" onclick="getCalendar()" value="${color[1]}" id="${color[0]}"
             ${py.checker(color[1] in color_values)}/>
