@@ -439,7 +439,8 @@ GanttCalendar.List.prototype = {
 
             var elem = DIV({'class': 'calListGroup'});
 
-            var div = DIV({'class': 'calGroupLabel'}, group.title);
+            var div = DIV({'class': 'calGroupLabel'}, SPAN({}, group.title));
+
             var e = MochiKit.Signal.connect(div, 'onclick', self, partial(self.onToggle, elem, group));
             MochiKit.DOM.appendChildNodes(elem, div);
             self._signals.push(e);
@@ -504,6 +505,19 @@ GanttCalendar.List.prototype = {
 
         var visible = this.stat[key];
         visible = typeof(visible) == "undefined" ? 1 : visible;
+
+        var toggle = jQuery(element).find('span.toggle-button');
+        var n = 0;
+        if (!toggle.length) {
+            jQuery(element).find('div.calGroupLabel > span').before('<span class="toggle-button">- </span>');
+            n = 1;
+        }
+
+        if (visible) {
+            jQuery(element).find('span.toggle-button').replaceWith('<span class="toggle-button">- </span>')
+        } else if (n == 0) {
+            jQuery(element).find('span.toggle-button').replaceWith('<span class="toggle-button">+ </span>')
+        }
 
         var divs = openobject.dom.select('div.calEventLabel', element);
 
