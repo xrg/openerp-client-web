@@ -1,31 +1,10 @@
 import os
-import sys
 import imp
 import itertools
 
 import cherrypy
-import pkg_resources
 import openobject.tools.ast
-from openobject import errors
-
-# TODO: get from config file?
-ADDONS_PATH = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "addons")
-if not os.path.exists(ADDONS_PATH):
-    if not hasattr(sys, 'frozen'):
-        # regular install
-        ADDONS_PATH = pkg_resources.resource_filename(
-                pkg_resources.Requirement.parse('openerp-web'), 'addons')
-    else:
-        # py2exe package
-        ADDONS_PATH = os.path.join(
-            # in a py2exe system, sys.executable is the name of the py2exe executable/bundle
-            os.path.dirname(sys.executable),
-            'addons'
-        )
-
-assert os.path.isdir(ADDONS_PATH), "Unable to locate addons."
-
-sys.path.insert(0, ADDONS_PATH)
+from openobject import errors, paths
 
 
 class Graph(dict):
@@ -108,7 +87,7 @@ class Node(Singleton):
 
 
 def get_info(module):
-    mod_path = os.path.join(ADDONS_PATH, module)
+    mod_path = os.path.join(paths.addons(), module)
     if not os.path.isdir(mod_path):
         return {}
 
@@ -170,7 +149,7 @@ def upgrade_graph(graph, module_list):
 
 
 def imp_module(name):
-    fp, pathname, description = imp.find_module(name, [ADDONS_PATH])
+    fp, pathname, description = imp.find_module(name, [paths.addons()])
     try:
         return imp.load_module(name, fp, pathname, description)
     finally:
@@ -194,12 +173,12 @@ def load_module_graph(db_name, graph, config):
 
         imp_module(package.name)
 
-        static = os.path.join(ADDONS_PATH, package.name, "static")
+        static = os.path.join(paths.addons(), package.name, "static")
         if os.path.isdir(static):
             from openobject.widgets import register_resource_directory
             register_resource_directory(config, package.name, static)
 
-        localedir = os.path.join(ADDONS_PATH, package.name, "locales")
+        localedir = os.path.join(paths.addons(), package.name, "locales")
         if os.path.isdir(localedir):
             i18n.load_translations(localedir, domain="messages")
             i18n.load_translations(localedir, domain="javascript")
@@ -214,8 +193,8 @@ _loaded = {}
 _loaded_addons = {}
 
 def get_local_addons():
-    return [f for f in os.listdir(ADDONS_PATH) \
-              if os.path.isfile(os.path.join(ADDONS_PATH, f, "__openerp__.py"))]
+    return [f for f in os.listdir(paths.addons()) \
+              if os.path.isfile(os.path.join(paths.addons(), f, "__openerp__.py"))]
 
 def load_addons(db_name, config):
     if db_name in _loaded:

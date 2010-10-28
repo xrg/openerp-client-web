@@ -7,7 +7,7 @@ from cStringIO import StringIO
 from openerp.controllers import form
 from openerp.utils import rpc, TinyDict
 
-from openobject import addons
+from openobject import paths
 from openobject.tools import expose
 
 
@@ -56,7 +56,7 @@ class ModuleForm(form.Form):
 
         addons_to_download = [
             module for module in web_modules
-            if not os.path.isdir(os.path.join(addons.ADDONS_PATH, module))
+            if not os.path.isdir(os.path.join(paths.addons(), module))
         ]
         # avoid querying for 0 addons if we have everything already
         if not addons_to_download: return web_modules
@@ -70,7 +70,7 @@ class ModuleForm(form.Form):
             module_content.close()
 
             # cleanup any existing addon of the same name
-            module_dir = os.path.join(addons.ADDONS_PATH, module['name'])
+            module_dir = os.path.join(paths.addons(), module['name'])
             shutil.rmtree(module_dir, ignore_errors=True)
 
             shutil.move(os.path.join(temp_dir, 'web'), module_dir)

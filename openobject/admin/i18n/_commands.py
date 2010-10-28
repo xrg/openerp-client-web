@@ -28,31 +28,26 @@
 ###############################################################################
 
 import os
-import sys
-import time
 
 from babel.messages.frontend import CommandLineInterface
 from babel.support import Translations
 
 from openobject.admin import BaseCommand
 
+from openobject import paths
+
 
 def _get_modules(modules):
     """Get iterator of tuples of all the available addons with first item is
     addon name and second item is full path to the addon.
     """
-
-    import openobject.addons
-
-    ADDONS_PATH = openobject.addons.ADDONS_PATH
-
     if modules.upper() == "ALL":
-        modules = os.listdir(ADDONS_PATH)
+        modules = os.listdir(paths.addons())
     else:
         modules = modules.split(",")
 
     for module in modules:
-        d = os.path.join(ADDONS_PATH, module)
+        d = os.path.join(paths.addons(), module)
         if os.path.isfile(os.path.join(d, '__openerp__.py')):
             yield module, d
 

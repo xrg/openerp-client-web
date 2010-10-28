@@ -35,7 +35,7 @@ import simplejson
 from mako.template import Template
 from mako.lookup import TemplateLookup
 
-from openobject import templating, addons
+from openobject import templating, paths
 
 import _utils as utils
 import resources
@@ -65,7 +65,7 @@ class TL(TemplateLookup):
         return res
 
 template_lookup = TL(directories=[resources.find_resource("openobject", ".."),
-                                  addons.ADDONS_PATH],
+                                  paths.addons()],
                      default_filters=filters,
                      imports=imports,
                      preprocessor=templating.edition_preprocessor)
