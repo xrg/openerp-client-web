@@ -3,11 +3,10 @@ import urllib
 import cherrypy
 from mako.filters import html_escape
 
+from openobject import errors
 
-__all__ = ["url", "url_plus", "redirect", "config", "content", "attrs", "attr_if", "decorated",
-           "AuthenticationError"]
 
-class AuthenticationError(Exception): pass
+__all__ = ["url", "url_plus", "redirect", "config", "content", "attrs", "attr_if", "decorated"]
 
 def url(_cppath, _cpparams=None, **kw):
     """

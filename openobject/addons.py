@@ -4,8 +4,8 @@ import imp
 import itertools
 
 import cherrypy
-from openobject import tools
 import openobject.tools.ast
+from openobject import errors
 
 # TODO: get from config file?
 ADDONS_PATH = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "addons")
@@ -85,6 +85,7 @@ class Node(Singleton):
     def __setattr__(self, name, value):
         super(Singleton, self).__setattr__(name, value)
         if name in ('init', 'update', 'demo'):
+            import openobject.tools._utils as tools
             tools.config[name][self.name] = 1
             for child in self.children:
                 setattr(child, name, value)
@@ -227,7 +228,7 @@ def load_addons(db_name, config):
     try:
         obj = pooler.get_pool().get_controller("/openerp/modules")
         new_modules = obj.get_new_modules()
-    except tools.AuthenticationError:
+    except errors.AuthenticationError:
         new_modules = []
 
     new_modules_in_graph = upgrade_graph(graph, new_modules)
