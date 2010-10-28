@@ -144,7 +144,7 @@ function switch_O2M(view_type, src){
 
     params['_terp_source'] = src;
     params['_terp_source_view_type'] = view_type;
-    params['_terp_editable'] = $(prefix + '_terp_editable').value;
+    params['_terp_editable'] = openobject.dom.get(prefix + '_terp_editable').value;
 
     if (openobject.dom.get('_terp_list')) {
         var ids = new ListView('_terp_list').getSelectedRecords();
@@ -1007,7 +1007,7 @@ function submenu_action(action_id, model){
     openLink(openobject.http.getURL("/openerp/form/action_submenu", {
         _terp_action_id: action_id,
         _terp_model: model,
-        _terp_id: $('_terp_id').value
+        _terp_id: openobject.dom.get('_terp_id').value
     }));
 }
 
