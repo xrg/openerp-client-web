@@ -2,7 +2,7 @@
 
 <%def name="header()">
     <script type="text/javascript">
-    	document.title = '${params.string}' + ' - OpenERP';
+        document.title = '${params.string}' + ' - OpenERP';
         var form_controller = '/openerp/pref';
     </script>
 </%def>
@@ -19,13 +19,13 @@
                     <td style="padding: 0px;">${form.display()}</td>
                 </tr>
                 <tr>
-	                <td style="text-align: right; padding: 0 15px 5px 0;">
-	                    <button type='button' class="static_boxes" onclick="openobject.http.redirect('/openerp')">${_("Cancel")}</button>
-	                    <button type='button' class="static_boxes" onclick="submit_form('ok')">${_("Save")}</button>
-	                </td>
-	            </tr>
+                <td style="text-align: right; padding: 0 15px 5px 0;">
+                    <button type='button' class="static_boxes" onclick="window.close();">${_("Cancel")}</button>
+                    <button type='button' class="static_boxes" onclick="submit_form('ok'); window.close();">${_("Save")}</button>
+                </td>
+            </tr>
             </table>
         </form>
     </div>
-    
+
 </%def>

@@ -51,6 +51,20 @@ else:
                     </ul>
                 </li>
 
+                <li><a id="open_prefs" href="javascript: void(0);" class="preferences">${_("Preferences")}</a>
+                    <ul>
+                        <li class="first last"><a id="open_prefs_inner" href="javascript: void(0);">${_("Edit Preferences")}</a></li>
+                    </ul>
+
+                    <script type="text/javascript">
+                        jQuery('#open_prefs,#open_prefs_inner').click(function() {
+                            openobject.tools.openWindow(
+                                openobject.http.getURL('/openerp/pref/create', null)
+                            );
+                        });
+                    </script>
+                </li>
+
                 <li><a href="${py.url('/openerp/pref/create')}" class="preferences">${_("Preferences")}</a>
                     <ul>
                         <li class="first last"><a href="${py.url('/openerp/pref/create')}">${_("Edit Preferences")}</a></li>
