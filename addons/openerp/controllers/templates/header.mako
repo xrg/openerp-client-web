@@ -65,11 +65,6 @@ else:
                     </script>
                 </li>
 
-                <li><a href="${py.url('/openerp/pref/create')}" class="preferences">${_("Preferences")}</a>
-                    <ul>
-                        <li class="first last"><a href="${py.url('/openerp/pref/create')}">${_("Edit Preferences")}</a></li>
-                    </ul>
-                </li>
                 <li><a href="/openerp/about" class="info">${_("About")}</a>
                     <ul>
                         <li class="first last"><a href="/openerp/about">${_("About")}</a></li>
