@@ -4,7 +4,7 @@ import sys
 
 from setuptools import setup
 
-from openobject import release
+execfile('openobject/release.py')
 
 version_dash_incompatible = False
 if 'bdist_rpm' in sys.argv:
@@ -16,7 +16,7 @@ try:
 except ImportError:
     opts = {}
 if version_dash_incompatible:
-    release.version = release.version.split('-')[0]
+    version = version.split('-')[0]
 
 FILE_PATTERNS = \
     r'.+\.(py|cfg|po|pot|mo|txt|rst|gif|png|jpg|ico|mako|html|js|css|htc|swf)$'
@@ -39,15 +39,15 @@ def find_data_files(source, dest=None, patterns=FILE_PATTERNS):
     return out
 
 setup(
-    name=release.name,
-    version=release.version,
-    description=release.description,
-    long_description=release.long_description,
-    author=release.author,
-    author_email=release.author_email,
-    url=release.url,
-    download_url=release.download_url,
-    license=release.license,
+    name=name,
+    version=version,
+    description=description,
+    long_description=long_description,
+    author=author,
+    author_email=author_email,
+    url=url,
+    download_url=download_url,
+    license=license,
     install_requires=[
         "CherryPy >= 3.1.2",
         "Mako >= 0.2.4",
@@ -82,22 +82,7 @@ setup(
               + find_data_files('addons/view_graph')
               + find_data_files('addons/widget_ckeditor')
               + find_data_files('doc', patterns='')
-               ),
-    package_data={
-        'openobject.admin.i18n': ['mapping/*.cfg'],
-        'openobject.controllers': ['templates/base.mako'],
-        'openobject': [
-            'static/css/jquery-ui/smoothness/images/*.png',
-            'static/css/jquery-ui/smoothness/images/*.gif',
-            'static/css/jquery-ui/smoothness/jquery-ui-1.8.2.custom.css',
-            'static/css/jquery.fancybox-1.3.1.css',
-            'static/images/*.gif',
-            'static/images/*.ico',
-            'static/images/fancybox/*.png',
-            'static/javascript/jQuery/*.js',
-            'static/javascript/MochiKit/*.js',
-            'static/javascript/openobject/*.js'
-        ]
-    },
+              + find_data_files('openobject', patterns=r'.+\.(cfg|css|js|mako|gif|png|jpg|ico)')
+    ),
     **opts
 )
