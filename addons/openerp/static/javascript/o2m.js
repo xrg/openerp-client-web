@@ -117,8 +117,8 @@ One2Many.prototype = {
             var prefix = parents.join('/');
 
             params['_terp_view_params/' + prefix + '/_terp_model'] = openobject.dom.get(prefix + '/_terp_model').value;
-            params['_terp_view_params/' + prefix + '/_terp_id'] = $(prefix + '/_terp_id').value;
-            params['_terp_view_params/' + prefix + '/_terp_ids'] = $(prefix + '/_terp_ids').value;
+            params['_terp_view_params/' + prefix + '/_terp_id'] = openobject.dom.get(prefix + '/_terp_id').value;
+            params['_terp_view_params/' + prefix + '/_terp_ids'] = openobject.dom.get(prefix + '/_terp_ids').value;
             params['_terp_view_params/' + prefix + '/_terp_view_ids'] = openobject.dom.get(prefix + '/_terp_view_ids').value;
             params['_terp_view_params/' + prefix + '/_terp_view_mode'] = openobject.dom.get(prefix + '/_terp_view_mode').value;
             params['_terp_view_params/' + prefix + '/_terp_context'] = openobject.dom.get(prefix + '/_terp_context').value || {};
