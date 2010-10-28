@@ -85,7 +85,7 @@ setup(
                ),
     package_data={
         'openobject.admin.i18n': ['mapping/*.cfg'],
-        'openobject.controllers': ['base.mako'],
+        'openobject.controllers': ['templates/base.mako'],
         'openobject': [
             'static/css/jquery-ui/smoothness/images/*.png',
             'static/css/jquery-ui/smoothness/images/*.gif',
