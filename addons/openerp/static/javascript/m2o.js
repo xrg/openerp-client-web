@@ -195,6 +195,7 @@ ManyToOne.prototype.get_text = function() {
 };
 
 ManyToOne.prototype.on_change = function(evt) {
+    this.get_text(evt);
 
     if(this.callback) {
         onChange(this.name);

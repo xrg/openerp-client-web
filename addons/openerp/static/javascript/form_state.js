@@ -151,7 +151,7 @@ function form_hookAttrChange() {
 }
 
 function form_onAttrChange(container, widgetName, attr, expr) {
-
+    console.log(container,"======",widgetName, 5555, attr)
     var prefix = widgetName.slice(0, widgetName.lastIndexOf('/') + 1);
     var widget = openobject.dom.get(widgetName);
 
@@ -314,14 +314,14 @@ function form_setVisible(container, field, visible) {
     if (MochiKit.DOM.hasElementClass(container, 'notebook-page')) { // notebook page?
     
         var nb = container.parentNode.parentNode.notebook;
-        
+        console.log(nb, 111111111)
         if (!nb)  {
            MochiKit.Async.callLater(0, form_setVisible, container, field, visible);
            return;
         }
         
         var i = findIdentical(nb.pages, container);
-        
+        console.log(i,222222222)
         if (visible) {
             nb.show(i, false);
         } else {
