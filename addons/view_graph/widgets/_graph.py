@@ -98,9 +98,7 @@ class Graph(TinyWidget):
         chart_type = attrs.get('type', 'pie')
 
         self.ids = ids
-        if ids is None:
-            self.ids = rpc.RPCProxy(model).search(domain, 0, 0, 0, ctx)
-        self.count = rpc.RPCProxy(model).search_count(domain, ctx)
+
         if chart_type == "bar":
             self.data = BarChart(model, view, view_id, ids, domain, view_mode, context)
         else:
