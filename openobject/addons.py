@@ -7,10 +7,20 @@ import cherrypy
 from openobject import tools
 import openobject.tools.ast
 
+# TODO: get from config file?
 ADDONS_PATH = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "addons")
 if not os.path.exists(ADDONS_PATH):
-    from pkg_resources import Requirement, resource_filename
-    ADDONS_PATH = resource_filename(Requirement.parse('openerp-web'), 'openerp-web')
+    if not hasattr(sys, 'frozen'):
+        # regular install
+        from pkg_resources import Requirement, resource_filename
+        ADDONS_PATH = resource_filename(Requirement.parse('openerp-web'), 'openerp-web')
+    else:
+        # py2exe package
+        ADDONS_PATH = os.path.join(
+            # in a py2exe system, sys.executable is the name of the py2exe executable/bundle
+            os.path.dirname(sys.executable),
+            'addons'
+        )
 
 assert os.path.isdir(ADDONS_PATH), "Unable to locate addons."
 
