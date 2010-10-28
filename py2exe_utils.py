@@ -55,8 +55,8 @@ opts = {
         'optimize': 2,
         'bundle_files': 2,
         'includes': [
-            'mako', 'cherrypy', 'babel', 'formencode', 'simplejson',
-            'dateutil', 'pytz'
+            'mako', 'cherrypy', 'babel', 'formencode', 'simplejson', 'csv',
+            'dateutil.relativedelta', 'pytz', 'xml.dom.minidom', 'cgitb'
         ],
         'excludes': [
             'Carbon', 'Carbon.Files', 'Crypto', 'DNS', 'OpenSSL', 'Tkinter',
