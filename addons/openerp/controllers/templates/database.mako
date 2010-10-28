@@ -62,7 +62,11 @@
             </table>
         </div>
         <hr style="margin: 0 0 !important; background-color: #5A5858;">
-        <div>${form.display()}</div>
+        % if form.name == 'create':
+            <div>${form.display(value=dict(password = "admin"))}</div>
+        % else:
+            <div>${form.display()}</div>
+        % endif
     </div>
 <%include file="footer.mako"/>    
 </%def>
