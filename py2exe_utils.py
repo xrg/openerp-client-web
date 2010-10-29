@@ -13,7 +13,7 @@ __all__ = ['opts']
 opts = {
     'console': ['scripts/openerp-web'],
     'options': {'py2exe': {
-        'compressed': 1,
+        'compressed': True,
         'optimize': 2,
         'bundle_files': 2,
         'includes': [
