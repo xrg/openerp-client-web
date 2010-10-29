@@ -2,22 +2,40 @@ import os
 import sys
 from optparse import OptionParser
 
+import babel.localedata
+
 import cherrypy
 from cherrypy._cpconfig import as_dict
 
 import openobject
 import openobject.release
+import openobject.paths
 
 class ConfigurationError(Exception):
     pass
 
+DISTRIBUTION_CONFIG = os.path.join('doc', 'openerp-web.cfg')
 def get_config_file():
     setupdir = os.path.dirname(os.path.dirname(__file__))
     isdevdir = os.path.isfile(os.path.join(setupdir, 'setup.py'))
     configfile = '/etc/openerp-web.cfg'
     if isdevdir or not os.path.exists(configfile):
-        configfile = os.path.join(setupdir, 'doc', 'openerp-web.cfg')
+        configfile = os.path.join(setupdir, DISTRIBUTION_CONFIG)
     return configfile
+
+def configure_babel():
+    """ If we are in a py2exe bundle, rather than babel being installed in
+    a site-packages directory in an unzipped form with all its meta- and
+    package- data it is split between the code files within py2exe's archive
+    file and the metadata being stored at the toplevel of the py2exe
+    distribution.
+    """
+    if not hasattr(sys, 'frozen'): return
+
+    # the locale-specific data files are in babel/localedata/*.dat, babel
+    # finds these data files via the babel.localedata._dirname filesystem
+    # path.
+    babel.localedata._dirname = openobject.paths.root('babel', 'localedata')
 
 def start():
 
@@ -49,6 +67,7 @@ def start():
         except:
             pass
 
-    cherrypy.log.error(options.config, 'CONFIG')
+    configure_babel()
+
     cherrypy.engine.start()
     cherrypy.engine.block()

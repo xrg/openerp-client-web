@@ -1,10 +1,10 @@
 import cherrypy
 
 from openobject import pooler
-from openobject.tools import expose, AuthenticationError
+from openobject.tools import expose
+from openobject.errors import AuthenticationError
 
 from _base import BaseController
-import pprint
 
 
 class Root(BaseController):

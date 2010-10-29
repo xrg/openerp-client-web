@@ -30,7 +30,7 @@
 import socket
 import xmlrpclib
 
-from openobject.tools import AuthenticationError
+from openobject.errors import AuthenticationError
 
 import common
 

@@ -1,13 +1,12 @@
 """
 General i18n utility functions.
 """
-
 import cherrypy
 import babel.core
+import logging
 
 
 __all__ = ['get_locale']
-
 
 def lang_in_gettext_format(lang):
     if len(lang) > 2:
@@ -67,12 +66,16 @@ def get_locale(locale=None):
         return locale
 
     try:
-        from openerp.utils import rpc
-        locale = rpc.session.locale
+        locale = cherrypy.session['locale']
         babel.core.Locale.parse(locale)
         if locale:
             return locale
-    except ImportError:
+    except AttributeError:
+        cherrypy.log.error(
+            'Error when trying to get locale, likely due to session tools '
+            'not being enabled yet\n',
+            '[startup]', severity=logging.ERROR, traceback=True)
+    except (ImportError, KeyError):
         pass # we're at the login page and apparently it cannot get rpc
     except babel.core.UnknownLocaleError:
         # user created stupid locale, fallback to defaults

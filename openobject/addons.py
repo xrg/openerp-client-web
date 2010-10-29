@@ -1,20 +1,10 @@
 import os
-import sys
 import imp
 import itertools
 
 import cherrypy
-from openobject import tools
 import openobject.tools.ast
-
-ADDONS_PATH = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "addons")
-if not os.path.exists(ADDONS_PATH):
-    from pkg_resources import Requirement, resource_filename
-    ADDONS_PATH = resource_filename(Requirement.parse('openerp-web'), 'openerp-web')
-
-assert os.path.isdir(ADDONS_PATH), "Unable to locate addons."
-
-sys.path.insert(0, ADDONS_PATH)
+from openobject import errors, paths
 
 
 class Graph(dict):
@@ -75,6 +65,7 @@ class Node(Singleton):
     def __setattr__(self, name, value):
         super(Singleton, self).__setattr__(name, value)
         if name in ('init', 'update', 'demo'):
+            import openobject.tools._utils as tools
             tools.config[name][self.name] = 1
             for child in self.children:
                 setattr(child, name, value)
@@ -96,7 +87,7 @@ class Node(Singleton):
 
 
 def get_info(module):
-    mod_path = os.path.join(ADDONS_PATH, module)
+    mod_path = os.path.join(paths.addons(), module)
     if not os.path.isdir(mod_path):
         return {}
 
@@ -158,7 +149,7 @@ def upgrade_graph(graph, module_list):
 
 
 def imp_module(name):
-    fp, pathname, description = imp.find_module(name, [ADDONS_PATH])
+    fp, pathname, description = imp.find_module(name, [paths.addons()])
     try:
         return imp.load_module(name, fp, pathname, description)
     finally:
@@ -182,12 +173,12 @@ def load_module_graph(db_name, graph, config):
 
         imp_module(package.name)
 
-        static = os.path.join(ADDONS_PATH, package.name, "static")
+        static = os.path.join(paths.addons(), package.name, "static")
         if os.path.isdir(static):
             from openobject.widgets import register_resource_directory
             register_resource_directory(config, package.name, static)
 
-        localedir = os.path.join(ADDONS_PATH, package.name, "locales")
+        localedir = os.path.join(paths.addons(), package.name, "locales")
         if os.path.isdir(localedir):
             i18n.load_translations(localedir, domain="messages")
             i18n.load_translations(localedir, domain="javascript")
@@ -202,8 +193,8 @@ _loaded = {}
 _loaded_addons = {}
 
 def get_local_addons():
-    return [f for f in os.listdir(ADDONS_PATH) \
-              if os.path.isfile(os.path.join(ADDONS_PATH, f, "__openerp__.py"))]
+    return [f for f in os.listdir(paths.addons()) \
+              if os.path.isfile(os.path.join(paths.addons(), f, "__openerp__.py"))]
 
 def load_addons(db_name, config):
     if db_name in _loaded:
@@ -217,7 +208,7 @@ def load_addons(db_name, config):
     try:
         obj = pooler.get_pool().get_controller("/openerp/modules")
         new_modules = obj.get_new_modules()
-    except tools.AuthenticationError:
+    except errors.AuthenticationError:
         new_modules = []
 
     new_modules_in_graph = upgrade_graph(graph, new_modules)
