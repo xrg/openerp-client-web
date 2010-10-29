@@ -135,7 +135,7 @@
                         % endif
                         % if buttons.show_grid:
                         <li title="${_('Show grid in workflow canvas')}">
-                            <label for="show_diagram_grid">Show grid:
+                            <label for="show_diagram_grid">${_('Show grid')}:
                                 <input type="checkbox" checked="checked" class="checkbox" id="show_diagram_grid"
                                        value="" onchange="show_grid(this); return false">
                             </label>
