@@ -263,12 +263,20 @@ class ICalendar(TinyWidget):
 
         order_by = ('sequence' in self.fields or 0) and 'sequence'
 
-        if self.color_field and self.fields[self.color_field].get('relation'):
+        if self.color_field and self.fields[self.color_field].get('relation') and self.color_field not in [item[0] for item in domain]:
             if self.options and self.options.get('_terp_color_filters'):
                 clr_field = self.options['_terp_color_filters']
             else:
-                search_limit = 3
+                search_limit = 10
+                need_to_add_the_user_to_the_list_of_users = False
+                if self.context and self.color_field and \
+                    self.context.get('search_default_user_id') and \
+                    self.color_field == 'user_id' and \
+                    self.fields[self.color_field].get('relation') == 'res.users':
+                    need_to_add_the_user_to_the_list_of_users = True
                 clr_field = rpc.RPCProxy(self.fields[self.color_field]['relation']).search([], 0, search_limit, 0, ctx)
+                if need_to_add_the_user_to_the_list_of_users and self.context.get('search_default_user_id') not in clr_field:
+                    clr_field[search_limit-1] = self.context.get('search_default_user_id')
 
             domain.append((self.color_field, 'in', clr_field))
 
