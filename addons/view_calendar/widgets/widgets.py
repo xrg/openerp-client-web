@@ -60,7 +60,7 @@ class MiniCalendar(TinyWidget):
 
 class GroupBox(TinyWidget):
     template = 'view_calendar/widgets/templates/groups.mako'
-    params = ["colors", "color_values", "title", "grp_model", "grp_domain", "grp_context"]
+    params = ["sorted_colors", "colors", "color_values", "title", "grp_model", "grp_domain", "grp_context"]
 
     colors = {}
     color_values = []
@@ -70,19 +70,36 @@ class GroupBox(TinyWidget):
     def __init__(self, colors, color_values, selected_day, group_relation={}, title=None, mode='month'):
         super(GroupBox, self).__init__()
         self.colors = colors
+        self.sorted_colors = self._color_sort(colors)
         self.color_values = color_values
         self.title = title
-        
+
         if group_relation.get('relation'):
             self.grp_model = group_relation['relation']
             self.grp_domain = group_relation['domain']
             self.grp_context = group_relation['context']
-            
+
+    def _color_sort(self, colors):
+        try:
+            key = None
+            if colors:
+                if isinstance(colors.items()[0][0], basestring):
+                    key = lambda x: x[0][0]
+                elif isinstance(colors.items()[0][0][0], (int, long)):
+                    key = lambda x: x[0][1]
+
+            sorted_colors = sorted(colors.items(), key=key)
+        except:
+            sorted_colors = sorted(colors.items(), key=None)
+
+        return sorted_colors
+
+
 class Sidebar(TinyWidget):
     template = 'view_calendar/widgets/templates/sidebar.mako'
     params = ['use_search']
     member_widgets = ['minical', 'groupbox']
-    
+
     def __init__(self, minical, groupbox, use_search=False):
         super(Sidebar, self).__init__()
         self.minical = minical
@@ -159,7 +176,7 @@ class WeekCalendar(TinyCalendar):
 
     week = None
     events = {}
-    
+
     def __init__(self, model, view, ids=None, domain=[], context={}, options=None):
         TinyCalendar.__init__(self, model, ids, view, domain, context, options)
 
@@ -177,7 +194,7 @@ class WeekCalendar(TinyCalendar):
                 group_relation=self.fields[self.color_field],
                 title=(self.color_field or None) and self.fields[self.color_field]['string'],
                 mode='week')
-        
+
         self.sidebar = Sidebar(minical, groupbox, self.use_search)
 
 class DayCalendar(TinyCalendar):
@@ -197,13 +214,13 @@ class DayCalendar(TinyCalendar):
         self.day = Day(y,m,d)
 
         self.events = self.get_events([self.day])
-        
+
         minical = MiniCalendar(self.day)
         groupbox =  GroupBox(self.colors, self.color_values, self.day,
                 group_relation=self.fields[self.color_field],
                 title=(self.color_field or None) and self.fields[self.color_field]['string'],
                 mode='day')
-        
+
         self.sidebar = Sidebar(minical, groupbox, self.use_search)
 
 class GanttCalendar(ICalendar):
@@ -221,7 +238,7 @@ class GanttCalendar(ICalendar):
     headers = None
     subheaders = None
     mode = 'week'
-    
+
     sidebar = None
 
     css = [CSSLink("view_calendar", 'css/calendar.css'),
@@ -361,7 +378,7 @@ class GanttCalendar(ICalendar):
 
         self.events = self.get_events(self.days)
         self.groups = self.get_groups(self.events)
-        
+
         minical = MiniCalendar(day)
         groupbox = GroupBox(self.colors, self.color_values, day,
                 group_relation=self.fields[self.color_field],
