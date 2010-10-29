@@ -1104,6 +1104,10 @@ function createAttachment(){
             jQuery('#attachments').append($attachment_line);
             $form.resetForm();
             $form.hide();
+            var submit_callback =  $form.data('submit_callback');
+            if (typeof submit_callback !== "undefined") {
+                submit_callback($attachment_line);
+            }
         }
     });
     return false;
