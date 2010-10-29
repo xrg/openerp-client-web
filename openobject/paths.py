@@ -29,5 +29,5 @@ assert os.path.isdir(ADDONS_PATH), "Unable to locate addons."
 
 sys.path.insert(0, ADDONS_PATH)
 
-def addons(): return ADDONS_PATH
-def root(): return ROOT_PATH
+def addons(*sections): return os.path.join(ADDONS_PATH, *sections)
+def root(*sections): return os.path.join(ROOT_PATH, *sections)

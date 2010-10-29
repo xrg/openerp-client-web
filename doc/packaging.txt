@@ -127,6 +127,42 @@ archive also doesn't work very well for users wanting to:
   `cherokee <http://www.cherokee-project.com/>`_ or a stripped
   `Apache <http://httpd.apache.org/>`_))
 
+---------------------------------------------------------------------------------
+Third-party libraries and their own package data, because why would it just work?
+---------------------------------------------------------------------------------
+
+The issue of making our own package data available to dependencies
+having been sidestepped, we are faced with an other issue: some
+dependencies bundle their own package data, which not only py2exe
+doesn't pick by default but which they themselves can not retrieve
+from a package as they're using direct filesystem manipulation tools
+to do their data-queries.
+
+Babel
+=====
+
+Babel is "a collection of tools for internationalizing Python
+applications". The web client uses it for pretty much all of its i18n
+including formatting of dates or numbers, and gettext-ing.
+
+The core issue with babel is that it carries with itself a number of
+data files used for locale-specific formatting (among other
+things). It accesses these data directly by looking for a given
+directory next to one of its Python modules (``localedata`` next to
+``babel.localedata``). This means not only py2exe will not bundle
+those locale data (as it doesn't bundle package data in general) but
+even if it did babel would be unable to find them.
+
+Babel localedata hack
+---------------------
+
+Thankfully, Babel actually stores the path to its ``localedata``
+directory in a module-level variable called ``_dirname``.
+
+Thus, we can package those data files during the building of the
+py2exe archive [#]_ and, on startup of the web server, set
+``babel.localedata._dirname`` to a directory of our own [#]_.
+
 .. [#] Mako's TemplateLookup system takes a list of actual filesystem
        directories, and its ``filesystem_check`` feature (enabled by
        default) further assumes regular FS access as it calls
@@ -135,6 +171,14 @@ archive also doesn't work very well for users wanting to:
 .. [#] by default, the web client relies on CherryPy's `staticfile
    tools <http://docs.cherrypy.org/dev/progguide/files/static.html>`_
    which — as far as I can tell — assumes normal FS access.
+
+.. [#] this is done in ``py2exe_utils`` via the ``babel_localedata``
+       function which lists all the locale data of the local babel
+       installation and stores the paths as its own ``data_files``,
+       which the main setup.py script appends to its own
+       ``data_files`` listing.
+
+.. [#] ``openobject.commands.configure_babel``
 
 .. _pkgutil.get_data(package, path):
 .. _get_data:

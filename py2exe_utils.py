@@ -1,3 +1,13 @@
+import os
+import glob
+
+import babel.localedata
+
+def babel_localedata():
+    return glob.glob(
+        os.path.join(babel.localedata._dirname, '*.dat')
+    )
+
 __all__ = ['opts']
 
 opts = {
@@ -22,5 +32,8 @@ opts = {
         'dll_excludes': [
             'w9xpopen.exe',
         ]
-    }}
+    }},
+    'data_files' : [
+        ('babel/localedata', babel_localedata())
+    ]
 }
