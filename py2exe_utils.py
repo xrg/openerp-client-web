@@ -19,7 +19,7 @@ opts = {
         'includes': [
             'mako', 'cherrypy', 'babel', 'formencode', 'simplejson', 'csv',
             'dateutil.relativedelta', 'pytz', 'xml.dom.minidom', 'cgitb',
-            'mako.cache'
+            'mako.cache', 'zipfile'
         ],
         'excludes': [
             'Carbon', 'Carbon.Files', 'Crypto', 'DNS', 'OpenSSL', 'Tkinter',
