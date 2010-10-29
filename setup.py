@@ -20,21 +20,17 @@ if version_dash_incompatible:
 
 FILE_PATTERNS = \
     r'.+\.(py|cfg|po|pot|mo|txt|rst|gif|png|jpg|ico|mako|html|js|css|htc|swf)$'
-def find_data_files(source, dest=None, patterns=FILE_PATTERNS):
+def find_data_files(source, patterns=FILE_PATTERNS):
     file_matcher = re.compile(patterns, re.I)
-    if dest is None: dest = source
     out = []
     for base, _, files in os.walk(source):
-        source_dir = os.path.relpath(base, source)
-        dest_dir = os.path.join(dest, source_dir)
         cur_files = []
         for f in files:
             if file_matcher.match(f):
-                cur_files.append(os.path.join(
-                    source, source_dir, f))
+                cur_files.append(os.path.join(base, f))
         if cur_files:
             out.append(
-                (dest_dir, cur_files))
+                (base, cur_files))
 
     return out
 
