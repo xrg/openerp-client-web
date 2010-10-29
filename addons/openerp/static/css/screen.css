@@ -127,6 +127,18 @@ p.raw-text {
     white-space: pre-line;
 }
 
+input, select, textarea {
+    padding: 2px;
+    border: 1px solid #999;
+    border-radius: 3px;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+    background: #fff;
+}
+select {
+    padding: 1px;
+}
+
 /* LAYOUT
 ------------------------------------------- */
 #root {
@@ -868,14 +880,8 @@ div.fields-a p {
 }
 
 div.fields-a p input.text {
-    width: 150px;
-    padding: 2px;
-    border: 1px solid;
     border-color: #cecbcb #dfdddd #fff;
-    border-radius: 3px;
-    -moz-border-radius: 3px;
-    -webkit-border-radius: 3px;
-    background: #fff;
+    width: 150px;
     vertical-align: middle;
 }
 
