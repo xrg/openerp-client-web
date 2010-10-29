@@ -186,6 +186,7 @@ class Search(Form):
 
         proxy = rpc.RPCProxy(model)
         data = {}
+        res = proxy.fields_get()
 
         frm = {}
         all_values = {}
@@ -196,8 +197,6 @@ class Search(Form):
                 for field in val:
                     fld = {}
                     datas = {}
-                    res = proxy.fields_get(field)
-
                     fld['value'] = val[field]
                     fld['type'] = res[field].get('type')
 
