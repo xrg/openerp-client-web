@@ -81,10 +81,10 @@
                 </h1>
                 % if tips:
                     <div id="help-tips">
-                        <h3>${_("Tips")}</h3>
-                        <a href="#hide" id="hide-tips">(${_("hide")})</a>
-                        <a href="/openerp/form/close_or_disable_tips" id="disable-tips">${_("Disable all Tips")}</a>
                         <p>${tips}</p>
+                        <a href="/openerp/form/close_or_disable_tips" id="disable-tips">${_("Disable all Tips")}</a>
+                        <a href="#hide" id="hide-tips">${_("Hide this Tip")}</a>
+                        <br style="clear: both"/>
                     </div>
                 % endif
                 % if form.screen.view_type == 'form':

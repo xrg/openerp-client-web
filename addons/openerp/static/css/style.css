@@ -812,31 +812,26 @@ div#serverlog a {
     color: #511712;
 }
 
-#help-tips, #help-tips h3, #help-tips a {
-    color: #511712;
-}
 #help-tips {
     border-radius: 3px;
     -moz-border-radius: 3px;
     -webkit-border-radius: 3px;
     background: #fff none repeat scroll 0 0;
     border: 1px solid #CECBCB;
-    margin-bottom:3px;
+    margin: 2px 0 6px 0;
     padding: 1px 5px;
+    color: #4C4C4C;
 }
 
-#help-tips h3 {
-    padding-left: 10px;
-    font-size: 130%;
-    display: inline;
-}
-#help-tips a {
-    font-size: 90%;
-    font-weight: normal;
-}
-#disable-tips {
+#disable-tips, #hide-tips {
     float: right;
+    font-size: 0.9em;
+    padding: 0 4px;
 }
+a#disable-tips:hover, a#hide-tips:hover {
+    text-decoration: underline;
+}
+
 #help-tips p {
     padding: 6px 1px 4px;
 }
