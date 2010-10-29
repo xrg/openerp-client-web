@@ -2,6 +2,6 @@
     ${string or ''}
 </label>
 % if help:
-    <sup class="help">?</sup>
+    <span class="help">?</span>
 % endif
 :

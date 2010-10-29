@@ -127,7 +127,7 @@ p.raw-text {
     white-space: pre-line;
 }
 
-input, select, textarea {
+input[type=text], select, textarea {
     padding: 2px;
     border: 1px solid #999;
     border-radius: 3px;
@@ -1242,7 +1242,7 @@ table td .delete {
     background-image: url(../images/iconset-b-remove.gif);
 }
 
-sup.help {
+span.help {
     color: darkgreen;
     vertical-align:top;
     position: relative;
