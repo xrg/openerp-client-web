@@ -186,7 +186,11 @@ jQuery(document).ajaxStop(function() {
         $caller.each(function(){
             if (jQuery(this).attr('kind') == 'boolean') {
                 onBooleanClicked(jQuery(this).attr('id'));
-            });
+            }
+            else {
+                jQuery(this).trigger('change');
+            }
+        });
     }
 });
 
