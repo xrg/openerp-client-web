@@ -179,6 +179,17 @@ jQuery(document).delegate(
         onBooleanClicked(jQuery(this).attr('id').replace(/_checkbox_$/, ''));
     }
 });
+
+jQuery(document).ajaxStop(function() {
+    var $caller = jQuery('[callback]:not([type="hidden"]):not([value=""]):not([disabled]):not([readonly]))')
+    if($caller.length) {
+        $caller.each(function(){
+            if (jQuery(this).attr('kind') == 'boolean') {
+                onBooleanClicked(jQuery(this).attr('id'));
+            });
+    }
+});
+
 // Hook onchange for all elements
 jQuery(document).delegate('[callback], [onchange_default]', 'change', function () {
     if(window.onChange && !jQuery(this).is(':input.checkbox:enabled')) {
