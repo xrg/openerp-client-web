@@ -338,6 +338,9 @@ function buttonClicked(name, btype, model, id, sure, target, context){
  * @param name the identifier of the hidden input (postfixed by `_checkbox_` on the checkbox)
  */
 function onBooleanClicked(name){
+    if (name.indexOf('_checkbox_') > -1) {
+        name = name.slice(0, name.indexOf('_checkbox_'))
+    }
     var $source = jQuery(openobject.dom.get(name + '_checkbox_'));
     var $target = jQuery(openobject.dom.get(name));
     $target.val($source.is(':checked') ? 1 : '').change();
