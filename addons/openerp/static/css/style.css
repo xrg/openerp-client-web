@@ -381,8 +381,8 @@ button.inactive {
 }
 
 .errorfield {
-    border: 1px solid #D00;
-    color: #D00;
+    border: 1px solid #D00 !important;
+    color: #D00 !important;
     background: #FFFFFE;
 }
 
