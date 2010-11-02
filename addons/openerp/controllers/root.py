@@ -27,6 +27,8 @@
 #
 ###############################################################################
 import cherrypy
+
+import openobject
 from openerp.controllers import SecuredController, unsecured, actions, login as tiny_login, form
 from openerp.utils import rpc, cache, TinyDict
 
@@ -34,6 +36,7 @@ from openobject.tools import url, expose, redirect
 
 
 def _cp_on_error():
+    cherrypy.request.pool = openobject.pooler.get_pool()
 
     errorpage = cherrypy.request.pool.get_controller("/openerp/errorpage")
     message = errorpage.render()
