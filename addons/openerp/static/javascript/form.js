@@ -131,58 +131,6 @@ function switchView(view_type, src){
     }));
 }
 
-function switch_O2M(view_type, src){
-
-    if (openobject.http.AJAX_COUNT > 0) {
-        return;
-    }
-
-    var prefix = src ? src + '/' : '';
-    var form = document.forms['view_form'];
-
-    var params = getFormParams();
-
-    params['_terp_source'] = src;
-    params['_terp_source_view_type'] = view_type;
-    params['_terp_editable'] = openobject.dom.get(prefix + '_terp_editable').value;
-
-    if (openobject.dom.get('_terp_list')) {
-        var ids = new ListView('_terp_list').getSelectedRecords();
-        if (ids.length > 0) {
-            openobject.dom.get('_terp_id').value = ids[0];
-        }
-    }
-
-    var req = openobject.http.post('/openerp/form/switch_o2m', params);
-    req.addCallback(function(xmlHttp){
-
-        var text = xmlHttp.responseText;
-        if (text.indexOf('ERROR: ') == 0) {
-            text = text.replace('ERROR: ', '');
-            return error_display(text);
-        }
-
-        var frm = openobject.dom.get('_o2m_' + src);
-
-        var d = DIV();
-        d.innerHTML = text;
-
-        var newo2m = d.getElementsByTagName('table')[0];
-
-        swapDOM(frm, newo2m);
-
-        var ua = navigator.userAgent.toLowerCase();
-
-        if ((navigator.appName != 'Netscape') || (ua.indexOf('safari') != -1)) {
-            // execute JavaScript
-            var scripts = openobject.dom.select('script', newo2m);
-            forEach(scripts, function(s){
-                eval(s.innerHTML);
-            });
-        }
-    });
-}
-
 function validate_required(form){
 
     if (typeof form == 'string') {

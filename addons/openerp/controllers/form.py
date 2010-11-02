@@ -857,26 +857,6 @@ class Form(SecuredController):
         params.view_type = params.source_view_type
         return self.create(params)
 
-    @expose()
-    def switch_o2m(self, **kw):
-
-        params, data = TinyDict.split(kw)
-        current = params.chain_get(params.source or '') or params
-
-        current.view_type = params.source_view_type
-
-        current.ids = current.ids or []
-        if not current.id and current.ids:
-            current.id = current.ids[0]
-
-        try:
-            frm = self.create_form(params)
-            wid = frm.screen.get_widgets_by_name(params.source)[0]
-        except Exception, e:
-            return 'ERROR: ' + str(e)
-
-        return wid.render()
-
     def do_action(self, name, adds={}, datas={}):
         params, data = TinyDict.split(datas)
 
