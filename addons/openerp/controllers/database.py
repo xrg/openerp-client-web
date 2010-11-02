@@ -209,14 +209,13 @@ class Database(BaseController):
         self.msg = {}
         try:
             rpc.session.execute_db('drop', password, dbname)
-        except Exception, e:
-            if getattr(e, 'faultCode', False) == 'AccessDenied':
-                self.msg = {'message': (_('Bad database administrator password')),
-                            'title': (_("Could not drop database."))}
-            else:
-                self.msg = {'message' : (_("Could not drop database"))}
+        except common.AccessDenied, e:
+            self.msg = {'message': _('Bad super admin password'),
+                        'title' : e.title}
+        except Exception:
+            self.msg = {'message' : _("Could not drop database")}
 
-        raise redirect("/openerp/database/drop")
+        return self.drop()
 
     @expose(template="/openerp/controllers/templates/database.mako")
     def backup(self, tg_errors=None, **kw):
@@ -236,9 +235,9 @@ class Database(BaseController):
                 cherrypy.response.headers['Content-Type'] = "application/data"
                 cherrypy.response.headers['Content-Disposition'] = 'filename="' + dbname + '.dump"'
                 return base64.decodestring(res)
-        except Exception, e:
-            self.msg = {'message' : (_("Could not create backup."))}
-            raise redirect('/openerp/database/backup')
+        except Exception:
+            self.msg = {'message' : _("Could not create backup.")}
+            return self.backup()
         raise redirect('/openerp/login')
 
     @expose(template="/openerp/controllers/templates/database.mako")
@@ -256,13 +255,13 @@ class Database(BaseController):
         try:
             data = base64.encodestring(filename.file.read())
             rpc.session.execute_db('restore', password, dbname, data)
-        except Exception, e:
-            if getattr(e, 'faultCode', False) == 'AccessDenied':
-                self.msg = {'message': (_('Bad database administrator password')),
-                            'title': (_("Could not restore database."))}
-            else:
-                self.msg = {'message': (_("Could not restore database"))}
-                raise redirect('/openerp/database/restore')
+        except common.AccessDenied, e:
+            self.msg = {'message': _('Bad super admin password'),
+                        'title' : e.title}
+            return self.restore()
+        except Exception:
+            self.msg = {'message': _("Could not restore database")}
+            return self.restore()
         raise redirect('/openerp/login', db=dbname)
 
     @expose(template="/openerp/controllers/templates/database.mako")
@@ -279,14 +278,13 @@ class Database(BaseController):
         self.msg = {}
         try:
             rpc.session.execute_db('change_admin_password', old_password, new_password)
-        except Exception,e:
-            if getattr(e, 'faultCode', False) == 'AccessDenied':
-                self.msg = {'message': (_('Could not change super admin password.')),
-                            'title': (_("Bad password provided."))}
-            else:
-                self.msg = {'message': (_("Error, password not changed."))}
-
-            raise redirect('/openerp/database/password')
+        except common.AccessDenied, e:
+            self.msg = {'message': _('Bad super admin password'),
+                        'title' : e.title}
+            return self.password()
+        except Exception:
+            self.msg = {'message': _("Error, password not changed.")}
+            return self.password()
         raise redirect('/openerp/login')
 
 # vim: ts=4 sts=4 sw=4 si et
