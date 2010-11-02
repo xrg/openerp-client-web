@@ -64,6 +64,9 @@
 span.pager_info {
     cursor: pointer;
 }
+span.pager_info:hover {
+    text-decoration: underline;
+}
 
 * html .paging a {
     display: inline;
