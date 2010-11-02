@@ -1,6 +1,6 @@
 div.notebook {
     overflow: hidden;
-    margin: 0 0 5px;
+    margin: 6px 0 5px;
     padding: 0;
 }
 
@@ -38,17 +38,20 @@ div.notebook {
     font-weight: bold;
     margin-right: 2px;
     background: #d0d0d0;
-    border-radius: 4px 4px 0 0;
-    -moz-border-radius: 4px 4px 0 0;
-    -webkit-border-radius: 4px 4px 0 0;
+    border-radius: 3px 3px 0 0;
+    -moz-border-radius: 3px 3px 0 0;
+    -webkit-border-radius: 3px 3px 0 0;
     cursor: pointer;
+    vertical-align: top;
 }
 .notebook-tab:hover {
     background: #e0e0e0;
 }
 .notebook-tab-active, li.notebook-tab-active:hover {
-    background: #fff;
+    background: #f9f9f9;
     cursor: auto;
+    border: 1px solid #999;
+    border-bottom: none;
 }
 
 li.notebook-tab span.tab-title {
@@ -78,16 +81,17 @@ li.notebook-tab-closable span.tab-title {
 
 div.notebook-pages {
     padding: 5px;
-    background: #fff;
-    border-radius: 7px;
-    -moz-border-radius: 7px;
-    -webkit-border-radius: 7px;
+    background: #f9f9f9;
+    border-radius: 3px;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
     -webkit-border-top-left-radius: 0;
     -moz-border-radius-topleft: 0;
     border-top-left-radius: 0;
     box-shadow: 0 1px 1px #ddd;
     -moz-box-shadow: 0 1px 1px #ddd;
     -webkit-box-shadow: 0 1px 1px #ddd;
+    border: 1px solid #999;
 }
 
 div.notebook-page {
