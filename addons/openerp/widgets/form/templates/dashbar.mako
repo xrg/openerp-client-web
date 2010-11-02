@@ -6,7 +6,7 @@
                     <li><a class="move" href="./">Move</a></li>
                 </ul>-->
                 <h2 class="dashlet-drag">
-                    <a href="#" class="dashlet-title" onclick="submit_form('dashlet', '${dashlet.name}', 'new')">${dashlet.string}</a>
+                    <a href="#" class="dashlet-title" onclick="submit_form('dashlet', '${dashlet.name}')">${dashlet.string}</a>
                     <a href="#" class="move">Move</a>
                 </h2>
 		        <div class="dashlet-content">${display_member(dashlet)}</div>
