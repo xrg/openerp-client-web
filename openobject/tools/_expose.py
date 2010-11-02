@@ -52,22 +52,26 @@ for res in resources.find_resources("openobject", "..", ["*.mako", "*.cfg"]):
 filters = ["__content"]
 imports = ["from openobject.tools import content as __content"]
 
-class TL(TemplateLookup):
+_template_lookups = {}      # XXX use mako.util.LRUCache ?
 
-    cache = {}
+def get_template_lookup():
+    """Return the Template Lookup for the current database"""
+    db_name = None
+    try:
+        db_name = cherrypy.session['db']
+    except (AttributeError, KeyError):
+        pass
 
-    def get_template(self, uri):
-        try:
-            return self.cache[str(uri)]
-        except Exception, e:
-            pass
-        self.cache[str(uri)] = res = super(TL, self).get_template(uri)
-        return res
+    try:
+        return _template_lookups[db_name]
+    except KeyError:
+        lookup = _template_lookups[db_name] = TemplateLookup(
+                                 directories=[paths.root(), paths.addons()],
+                                 default_filters=filters,
+                                 imports=imports,
+                                 preprocessor=templating.edition_preprocessor)
+        return lookup
 
-template_lookup = TL(directories=[paths.root(), paths.addons()],
-                     default_filters=filters,
-                     imports=imports,
-                     preprocessor=templating.edition_preprocessor)
 
 def load_template(template):
 
@@ -75,7 +79,7 @@ def load_template(template):
         return template
 
     if re.match('(.+)\.(html|mako)\s*$', template):
-        return template_lookup.get_template(template)
+        return get_template_lookup().get_template(template)
     else:
         return Template(template, default_filters=filters, imports=imports)
 
