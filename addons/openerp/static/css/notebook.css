@@ -5,7 +5,7 @@ div.notebook {
 }
 
 .notebook-tabs {
-    height: 24px;
+    height: 18px;
     position: relative;
     white-space: nowrap;
 }
@@ -38,9 +38,9 @@ div.notebook {
     font-weight: bold;
     margin-right: 2px;
     background: #d0d0d0;
-    border-radius: 7px 7px 0 0;
-    -moz-border-radius: 7px 7px 0 0;
-    -webkit-border-radius: 7px 7px 0 0;
+    border-radius: 4px 4px 0 0;
+    -moz-border-radius: 4px 4px 0 0;
+    -webkit-border-radius: 4px 4px 0 0;
     cursor: pointer;
 }
 .notebook-tab:hover {
@@ -56,8 +56,8 @@ li.notebook-tab span.tab-title {
     outline: none;
     text-decoration: none !important;
     float: left;
-    height: 17px;
-    padding: 7px 7px 0 7px;
+    height: 15px;
+    padding: 3px 7px 0 7px;
     color: #555555 !important;
     text-shadow: None;
 }
