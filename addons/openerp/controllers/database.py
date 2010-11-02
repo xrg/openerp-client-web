@@ -38,7 +38,7 @@ from openobject.tools import url, expose, redirect, validate, error_handler
 import openobject
 
 from openerp import validators
-from openerp.utils import rpc
+from openerp.utils import common, rpc
 
 def get_lang_list():
     langs = [('en_US', 'English (US)')]
@@ -182,15 +182,12 @@ class Database(BaseController):
             self.msg = {'message': (_("The server crashed during installation.\nWe suggest you to drop this database.")),
                         'title': (_('Error during database creation'))}
             return self.create()
-        except Exception, e:
-            if e.args == ('DbExist',):
-                 self.msg = {'message': (_("Could not create database.")),
-                             'title': (_('Database already exists'))}
-            elif getattr(e, 'faultCode', False) == 'AccessDenied':
-                self.msg = {'message': (_('Bad database administrator password')),
-                            'title' : (_("Could not create database."))}
-            else:
-                self.msg = {'message':(_("Could not create database."))}
+        except common.AccessDenied, e:
+            self.msg = {'message': _('Bad super admin password'),
+                        'title' : e.title}
+            return self.create()
+        except Exception:
+            self.msg = {'message':_("Could not create database.")}
 
             return self.create()
 

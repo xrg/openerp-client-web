@@ -135,8 +135,8 @@ class RPCGateway(object):
                     common.concurrency(err.message, err.data, args)
                 else:
                     common.warning(err.data)
-            elif err.code == 'AccessDenied':
-                common.error(_('Access Denied'), err.code)
+            elif err.code.startswith('AccessDenied'):
+                raise common.AccessDenied(err.code, _('Access Denied'))
             else:
                 common.error(_('Application Error'), err.backtrace)
 
