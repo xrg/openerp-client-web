@@ -3,4 +3,4 @@
 @net stop openerp-web
 @net start openerp-web
 
-cls
+pause
