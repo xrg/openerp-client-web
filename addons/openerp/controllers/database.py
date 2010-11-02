@@ -121,6 +121,7 @@ class FormPassword(DBForm):
     validator = openobject.validators.Schema(chained_validators=[formencode.validators.FieldsMatch("new_password","confirm_password")])
 
 
+
 _FORMS = {
     'create': FormCreate(),
     'drop': FormDrop(),
@@ -128,6 +129,9 @@ _FORMS = {
     'restore': FormRestore(),
     'password': FormPassword()
 }
+
+class DatabaseCreationError(Exception): pass
+class DatabaseCreationCrash(DatabaseCreationError): pass
 
 class Database(BaseController):
 
@@ -156,7 +160,7 @@ class Database(BaseController):
         if not re.match('^[a-zA-Z][a-zA-Z0-9_]+$', dbname):
             self.msg = {'message': ustr(_("You must avoid all accents, space or special characters.")),
                         'title': ustr(_('Bad database name'))}
-            raise redirect('/openerp/database/create')
+            return self.create()
 
         ok = False
         try:
@@ -173,22 +177,22 @@ class Database(BaseController):
                     else:
                         time.sleep(1)
                 except:
-                    raise Exception('DbFailed')
+                    raise DatabaseCreationCrash()
+        except DatabaseCreationCrash:
+            self.msg = {'message': (_("The server crashed during installation.\nWe suggest you to drop this database.")),
+                        'title': (_('Error during database creation'))}
+            return self.create()
         except Exception, e:
             if e.args == ('DbExist',):
                  self.msg = {'message': (_("Could not create database.")),
                              'title': (_('Database already exists'))}
-
-            elif e.args == ('DbFailed'):
-                self.msg = {'message': (_("The server crashed during installation.\nWe suggest you to drop this database.")),
-                            'title': (_('Error during database creation'))}
             elif getattr(e, 'faultCode', False) == 'AccessDenied':
                 self.msg = {'message': (_('Bad database administrator password')),
                             'title' : (_("Could not create database."))}
             else:
                 self.msg = {'message':(_("Could not create database."))}
 
-            raise redirect('/openerp/database/create')
+            return self.create()
 
         if ok:
             raise redirect('/openerp/menu', {'next': '/openerp/home'})
