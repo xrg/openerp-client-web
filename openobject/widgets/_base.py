@@ -366,19 +366,21 @@ class InputWidget(Widget):
 
         super(InputWidget, self).update_params(params)
 
+        classes = set(params.css_classes)
         if not self.strip_name:
 
             if self.is_required:
-                params.css_classes.append('requiredfield')
+                classes.add('requiredfield')
 
             if self.is_readonly:
-                params.css_classes.append('readonlyfield')
+                classes.add('readonlyfield')
 
             if self.is_disabled:
-                params.css_classes.append('disabledfield')
+                classes.add('disabledfield')
 
-            if params.error:
-                params.css_classes.append('errorfield')
+            if getattr(params, 'error', None):
+                classes.add('errorfield')
+        params.css_classes = list(classes)
 
         params['error_for'] = lambda f: self.error_for(f, params['error'])
 
