@@ -148,7 +148,7 @@
                     % endif
                 </div>
                 % endif
-                <div>${form.display()}</div>
+                <div${ " class='non-editable'" if not form.screen.editable else "" | n }>${form.display()}</div>
 
             </td>
             % if form.sidebar:
