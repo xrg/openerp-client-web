@@ -482,8 +482,18 @@ class FiltersGroup(form.Group):
 class Char(form.Char): pass
 class DateTime(form.DateTime): pass
 class Float(form.Float): pass
-class Frame(form.Frame): pass
-class Group(form.Group): pass
+class Frame(form.Frame):
+    def base_widget_attrs(self, widget, colspan, rowspan):
+        attrs = super(Frame, self).base_widget_attrs(widget, colspan, rowspan)
+        for key in ('colspan', 'rowspan', 'height', 'width'):
+            if key in attrs: del attrs[key]
+        return attrs
+
+class Group(form.Group):
+    def __init__(self, **attrs):
+        super(Group, self).__init__(**attrs)
+        self.frame = Frame(**attrs)
+
 class Integer(form.Integer): pass
 class NewLine(form.NewLine): pass
 class Selection(form.Selection): pass
