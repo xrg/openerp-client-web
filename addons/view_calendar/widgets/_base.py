@@ -231,8 +231,8 @@ class ICalendar(TinyWidget):
 
         if self.date_stop:
             # use the correct algorithm:
-            domain = self.domain + [(self.date_start, '<=', days[-1].isoformat() + ' 23:59:59'),
-                                    (self.date_stop, '>=', days[0].isoformat() + ' 00:00:00')]
+            domain = self.domain + [(self.date_stop, '<=', days[-1].isoformat() + ' 23:59:59'),
+                                    (self.date_start, '>=', days[0].isoformat() + ' 00:00:00')]
         else:
             # cannot use the correct algorithm, use the old one:
             first = days[0].month2.prev()[0] #HACK: add prev month
