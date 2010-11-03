@@ -32,7 +32,9 @@ class WidgetType(type):
 
 def _frozenset_from_bases(attrs, bases, name):
     items = set(attrs.pop(name, []))
-    [items.update(getattr(b, name)) for b in bases if hasattr(b, name)]
+    for b in bases:
+        if hasattr(b, name):
+            items.update(getattr(b, name))
     fs = attrs[name] = frozenset(items)
     return fs
 
