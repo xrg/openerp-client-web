@@ -17,7 +17,7 @@ class WidgetType(type):
 
     def __init__(cls, name, bases, dct):
         super(WidgetType, cls).__init__(name, bases, dct)
-        if not openobject.meta.Extends in bases:
+        if openobject.meta.Extends not in bases:
             widget_key = cls.__module__ + '.' + cls.__name__
             cls.widget_key = widget_key
             openobject.pooler.register_object(
