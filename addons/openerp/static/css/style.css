@@ -41,6 +41,20 @@ div.wizard_toolbar {
 table.fields {
     border: none;
 }
+div.non-editable table.fields td {
+    border: 1px solid #F0EEEE;
+    height: 20px;
+}
+div.non-editable div.notebook table.fields td {
+    border: 1px solid #F9F9F9;
+}
+td.label {
+    /* Ugly hack meanwhile we decide if the width of cells should be computed or not */
+    width: 1%;
+}
+div.non-editable td.item {
+    background: white;
+}
 
 button, .button {
     border: 1px solid #666666;
