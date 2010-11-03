@@ -48,7 +48,7 @@ div.non-editable table.fields td {
 div.non-editable div.notebook table.fields td {
     border: 1px solid #F9F9F9;
 }
-td.label {
+td.label:not(.search_fields) {
     /* Ugly hack meanwhile we decide if the width of cells should be computed or not */
     width: 1%;
 }
