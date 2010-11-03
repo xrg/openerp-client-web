@@ -569,7 +569,7 @@ table.o2m_box div.pagerbar-header strong {
 .label,
 .item,
 #groupdata_table .item {
-    padding: 2px 4px;
+    padding: 2px 8px 2px 4px;
 }
 
 .label {
@@ -591,11 +591,13 @@ table.o2m_box div.pagerbar-header strong {
 }
 .item input,
 .item select {
-    width: 98%;
+    width: 100%;
+    min-width: 60px;
 }
 
 .item .fields {
     width: 100%;
+    min-width: 60px;
 }
 
 .item input,
@@ -610,13 +612,15 @@ table.o2m_box div.pagerbar-header strong {
 }
 
 .item input {
-    padding: 2px 3px;
+    /* Warning : setting horizontal padding causes input to cross the boundaries of it's parent element */
+    padding-top: 2px;
 }
 
 .item input.m2o,
 .item input.reference {
     padding-right: 0;
-    min-width: 100%;
+    width: 100%;
+    min-width: 60px;
 }
 
 .m2o_container {
@@ -629,7 +633,7 @@ table.o2m_box div.pagerbar-header strong {
 .m2o_select {
     position: absolute;
     right: 2px;
-    top: 0;
+    top: -2px;
 }
 .item img.datetime {
     margin-left: -18px;
