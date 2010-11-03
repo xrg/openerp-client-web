@@ -164,6 +164,8 @@ def execute_report(name, **data):
         attempt = 0
         while not state:
             val = rpc.session.execute('report', 'report_get', report_id)
+            if not val:
+                return False
             state = val['state']
             if not state:
                 time.sleep(1)
