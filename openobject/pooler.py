@@ -63,15 +63,17 @@ pool_dict = {}
 def restart_pool():
 
     db_name = cherrypy.session['db']
-    
+
     if db_name in pool_dict:
         import addons
-        
+        import tools._expose
+
         del pool_dict[db_name]
         del addons._loaded[db_name]
-    
+        tools._expose._template_lookups.pop(db_name, None)
+
     return get_pool()
-        
+
 def get_pool():
 
     config = cherrypy.request.app.config
@@ -88,7 +90,7 @@ def get_pool():
         import addons
 
         pool = pool_dict[db_name] = Pool()
-        
+
         try:
             addons.load_addons(db_name, config)
         except:
