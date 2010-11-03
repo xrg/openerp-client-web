@@ -284,10 +284,16 @@ class Separator(TinyWidget):
     template = "/openerp/widgets/form/templates/separator.mako"
     params = ["orientation"]
 
+    def get_default_colspan(self):
+        if self.orientation == 'horizontal':
+            return 4
+        else:
+            return 1
+
     def __init__(self, **attrs):
         super(Separator, self).__init__(**attrs)
-        self.colspan = int(attrs.get('colspan', 4))
         self.orientation = attrs.get('orientation', 'horizontal')
+        self.colspan = int(attrs.get('colspan', self.get_default_colspan()))
         self.rowspan = int(attrs.get('rowspan', 1))
         self.nolabel = True
 
