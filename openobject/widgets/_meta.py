@@ -15,20 +15,22 @@ class WidgetType(type):
 
         return super(WidgetType, cls).__new__(cls, name, bases, attrs)
 
+    def make_widget_key(cls, widget):
+        return widget.__module__ + '.' + widget.__name__
+
     def __init__(cls, name, bases, dct):
         super(WidgetType, cls).__init__(name, bases, dct)
         if openobject.meta.Extends not in bases:
-            widget_key = cls.__module__ + '.' + cls.__name__
-            cls.widget_key = widget_key
+            cls.widget_key = cls.make_widget_key(cls)
             openobject.pooler.register_object(
-                    cls, key=widget_key, group='widgets')
+                    cls, key=cls.widget_key, group='widgets')
             return
         assert len(bases) == 2, "It is only possible to Extend one object at a time, and one object has to be Extended"
         bases = list(bases)
         bases.remove(openobject.meta.Extends)
         base_widget = bases[0]
         openobject.pooler.register_object(
-                cls, key=base_widget.__module__ + '.' + base_widget.__name__, group='widgets')
+                cls, key=cls.make_widget_key(base_widget), group='widgets')
 
 def _frozenset_from_bases(attrs, bases, name):
     items = set(attrs.pop(name, []))

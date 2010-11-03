@@ -41,8 +41,8 @@ class Widget(object):
     parent = None
 
     def __new__(cls, *args, **kwargs):
-        pool = openobject.pooler.get_pool()
-        actual_cls = pool.get(cls.widget_key, group='widgets')
+        actual_cls = openobject.pooler.get_pool().get(
+                cls.widget_key, group='widgets')
         # if there is nothing in the pool yet (uh?)
         return object.__new__(actual_cls or cls)
 
