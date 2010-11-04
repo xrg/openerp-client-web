@@ -26,6 +26,12 @@ div#search_filter_data table tr:nth-child(2) div.group-collapse
     margin-top: 6px;
 }
 
+div.no-record-warning {
+	display: inline;
+	color: #9A0404;
+	font-size: 1.3em;
+	font-weight: bold;
+}
 div.wizard_toolbar {
 	float: right;
 }

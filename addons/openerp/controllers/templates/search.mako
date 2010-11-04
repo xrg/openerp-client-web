@@ -162,6 +162,14 @@
                             	<a class="button-a" href="javascript: void(0)" onclick="search_filter()">${_("Search")}</a>
                            	    <a class="button-a" href="javascript: void(0)" onclick="do_create()">${_("New")}</a>
                             	<a class="button-a" style="margin-left:10px;" href="javascript: void(0)" onclick="window.close()">${_("Close")}</a>
+                            % if params.text and not params.ids:
+                            <div class="no-record-warning">
+                            	${_("The record")} "${params.text}" ${_("does not exists, Do you want to create it ?")}
+	                            <a style="color:#9A0404;" href="javascript: void(0)" onclick="do_create()">${_("Yes")}</a> /
+	                            <a style="color:#9A0404;" href="javascript: void(0)" onclick="window.close()">${_("No")}</a>
+                            	
+                            </div>
+                            % endif
                             </td>
                         </tr>
                     </table>
