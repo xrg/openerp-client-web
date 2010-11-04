@@ -20,7 +20,7 @@ html.webkit {
 body {
     height: 100%;
     background: #F0EEEE;
-    font-size: 62.5%;
+    font-size: 70%;
 }
 
 * html body {
@@ -35,7 +35,7 @@ body {
 
 body,textarea,input,select,option {
     color: #1f1f1f;
-    font-family: Sans, Verdana, Helvetica, sans-serif;
+    font-family: Verdana, Helvetica, sans-serif;
     line-height: 1.25;
 }
 
@@ -538,7 +538,7 @@ p#cmp_logo {
     display: inline-block;
     margin: 6px 1px;
     text-align: center;
-    font-size: 1em;
+    font-size: .9em;
     text-transform: uppercase;
     font-weight: bold;
 }
@@ -1671,7 +1671,7 @@ ul.sections-a li span.wrap a:hover span strong,ul.sections-a li span.wrap a:focu
     display: block;
     height: 20px;
     padding-left: 5px;
-    font-size: 1.25em;
+    font-size: 1.1em;
     background: url(../images/sidenav-link-a.png) 0 100% repeat-x;
     line-height: 20px;
     text-decoration: none !important;
@@ -1693,7 +1693,7 @@ ul.sections-a li span.wrap a:hover span strong,ul.sections-a li span.wrap a:focu
 #sidenav-a li .tree-grid .row {
     height: 21px;
     color: #fff;
-    font-size: 1.2em;
+    font-size: 1.1em;
     line-height: 20px;
     font-weight: normal;
     text-transform: none;
