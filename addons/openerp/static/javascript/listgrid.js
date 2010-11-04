@@ -506,6 +506,9 @@ MochiKit.Base.update(ListView.prototype, {
     },
 
     edit: function(edit_inline, default_get_ctx) {
+    	if (edit_inline==0)
+    		return error_display(_('To edit Record, please first save it.'));
+
         this.reload(edit_inline, null, default_get_ctx);
     },
 
@@ -592,7 +595,9 @@ MochiKit.Base.update(ListView.prototype, {
         var self = this;
         var args = getFormParams('_terp_concurrency_info');
 
-        if (!ids) {
+        if(ids==0)
+        	return error_display(_('To delete Record, please first save it.'));
+        else if (!ids) {
             ids = this.getSelectedRecords();
             if (ids.length > 0) {
                 ids = '[' + ids.join(', ') + ']';

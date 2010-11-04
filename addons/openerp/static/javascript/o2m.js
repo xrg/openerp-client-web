@@ -99,7 +99,9 @@ One2Many.prototype = {
 
     edit: function(id, readonly) {
         var names = this.name.split('/');
-
+        if (id!='False' && id==0) {
+        	return error_display(_('To edit Record, please first save it.'));
+        }
         var parents = [];
         // get the required view params to get proper view
         var params = {

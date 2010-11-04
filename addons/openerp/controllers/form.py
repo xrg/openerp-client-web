@@ -398,6 +398,9 @@ class Form(SecuredController):
 
             proxy = rpc.RPCProxy(params.model)
             if not params.id:
+                if params.default_o2m:
+                    data.update(params.default_o2m)
+                    
                 ctx = dict((params.context or {}), **rpc.session.context)
                 id = proxy.create(data, ctx)
                 params.ids = (params.ids or []) + [int(id)]
