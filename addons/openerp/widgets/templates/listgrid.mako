@@ -104,7 +104,7 @@
             % else:
                 <img src="/openerp/static/images/iconset-b-remove.gif" class="listImage"
                     border="0" title="${_('Delete')}"
-                    onclick="new ListView('${name}').remove(${data['id']})"/>
+                    onclick="new ListView('${name}').remove(${data['id']}, this)"/>
             % endif
         </td>
     % endif

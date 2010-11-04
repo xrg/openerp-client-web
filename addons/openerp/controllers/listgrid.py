@@ -135,6 +135,12 @@ class List(SecuredController):
 
         return dict(error=error)
 
+    @expose('json', methods=('POST',))
+    def remove_o2m_defaults(self, o2m_value, index):
+        o2m_value = eval(o2m_value)
+        o2m_value.pop(int(index))
+        return dict(o2m_value=ustr(o2m_value))
+
     @expose()
     def multiple_groupby(self, model, name, grp_domain, group_by, view_id, view_type, parent_group, group_level, groups, no_leaf, **kw):
         grp_domain = ast.literal_eval(grp_domain)

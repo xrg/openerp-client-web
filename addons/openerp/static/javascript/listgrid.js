@@ -595,8 +595,19 @@ MochiKit.Base.update(ListView.prototype, {
         var self = this;
         var args = getFormParams('_terp_concurrency_info');
 
-        if(ids==0)
-        	return error_display(_('To delete Record, please first save it.'));
+        if(ids==0) {
+            var $o2m = jQuery(idSelector('_terp_default_o2m/' + this.name));
+            var $tr = jQuery(arguments[1]).parents('tr.grid-row:first');
+
+            jQuery.post('/openerp/listgrid/remove_o2m_defaults', {
+                o2m_value: $o2m.val(),
+                index: $tr.get(0).rowIndex - 1
+            }, function (result) {
+        		$o2m.val(result.o2m_value);
+                $tr.remove();
+        	}, 'json');
+        	return;
+        }
         else if (!ids) {
             ids = this.getSelectedRecords();
             if (ids.length > 0) {
