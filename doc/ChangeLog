@@ -1,3 +1,53 @@
+2010-11-04: 5.0.15
+==================
+Bugfixes
+--------
+
+* Not linked to a bug report:
+
+  * Fixed onchange for selection widget.
+  * Minor changes for Binary widget.
+  * Fix o2m current record.
+  * Fixed action when data is empty.
+  * Changed port by mistake.
+  * Fixed when set attrs invisible on notebook it display last visible page not first one.
+  * Handeled unknown locale.
+
+* https://launchpad.net/bugs/646727
+  * Correctly parse email address with full name
+
+* https://launchpad.net/bugs/641486
+  * Fixed many2one links.
+
+* https://launchpad.net/bugs/555681
+  * Fixed parent menu searching problem (domain was false).
+
+* https://launchpad.net/bugs/637798
+  * Speed Improvement and Report actions to follow data dictionary instead of id.
+
+* https://launchpad.net/bugs/628006
+  * Fixed export list.
+
+* https://launchpad.net/bugs/644351
+  * Fixed image widget.
+
+* https://launchpad.net/bugs/632935
+  * CSRF vulnerability (bug #632935).
+  * CSRF vulnerability (bug #632935)
+
+* https://launchpad.net/bugs/660581
+  * Fixed text widget.
+
+* https://launchpad.net/bugs/638748
+  * Fixed noneditable openrecord for m2o
+
+* https://launchpad.net/bugs/622890
+  * Fixed open records for many2one widget.
+
+* https://launchpad.net/bugs/659507
+  * Fixed for text widget element created in readonly mode if value is none.
+
+
 2010-09-03: 5.0.14
 ==================
 

@@ -1,8 +1,6 @@
-###############################################################################
 #
 # Copyright (C) 2007-TODAY Tiny ERP Pvt Ltd. All Rights Reserved.
-#
-# $Id$
+# Copyright (C) 2004-TODAY OpenERP S.A. (<http://www.openerp.com>). All Rights Reserved
 #
 # Developed by Tiny (http://openerp.com) and Axelor (http://axelor.com).
 #
@@ -25,21 +23,23 @@
 #
 # You can see the MPL licence at: http://www.mozilla.org/MPL/MPL-1.1.html
 #
-###############################################################################
 
 # Release information about openerp-web
 
-version = "5.0.14"
+name='openerp-web'
+version = '5.0.15'
 
 description = "Web Client of OpenERP, the Enterprise Management Software"
 long_description = "OpenERP Web is the web client of the OpenERP, a free enterprise management software: accounting, stock, manufacturing, project mgt..."
-author = "Tiny ERP Pvt. Ltd."
+author = "OpenERP S.A."
 email = "info@openerp.com"
-copyright = "Copyright (C) 2007-TODAY Tiny ERP Pvt. Ltd."
+author_email = "info@openerp.com"
+support_email = "support@openerp.com"
+copyright = "Copyright (C) 2007-TODAY OpenERP S.A."
 
 # if it's open source, you might want to specify these
-url = "http://openerp.com/"
-download_url = "http://www.openerp.com/index.php?option=com_content&view=article&id=18&Itemid=28"
+url = "http://www.openerp.com"
+download_url='http://www.openerp.com/download/stable/source/openerp-web-5.0.15.tar.gz'
 license = "OEPL"
 
 # vim: ts=4 sts=4 sw=4 si et
