@@ -34,7 +34,7 @@
     <link rel="stylesheet" type="text/css" href="/openerp/static/css/listgrid.css"/>
     <link rel="stylesheet" type="text/css" href="/openerp/static/css/autocomplete.css"/>
     
-    <!--[if IE]>
+    <!--[if IE lt 9]>
     <link rel="stylesheet" type="text/css" href="/openerp/static/css/style-ie.css"/>
     <![endif]-->
     ${self.header()}
