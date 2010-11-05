@@ -187,8 +187,8 @@ div#search_filter_data select.selection {
     background-color: #fff;
     color: #000;
     border: 1px solid #999999;
-    width: 95px;
-    min-width: 95px;
+    width: 70px;
+    min-width: 70px;
 }
 #search_filter_data button,
 #search_filter_data .button {
