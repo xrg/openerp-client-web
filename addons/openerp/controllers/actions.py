@@ -40,6 +40,8 @@ from openobject import tools
 from selection import Selection
 from tree import Tree
 from wizard import Wizard
+import urllib
+import simplejson
 
 def execute_window(view_ids, model, res_id=False, domain=None, view_type='form', context=None,
                    mode='form,tree', name=None, target=None, limit=None, search_view=None,
@@ -310,6 +312,18 @@ ACTIONS_BY_TYPE = {
     'ir.actions.act_url': act_url
 }
 
+def execute_opener(action, data):
+    del action['target']
+    url = ('/openerp/execute?' + urllib.urlencode({
+        'action': simplejson.dumps(action),
+        'data': simplejson.dumps(data)
+    }))
+    cherrypy.response.headers['X-New-Window'] = url
+    return """<script type="text/javascript">
+        window.open('%s', 'lose', "width=800,height=600");
+    </script>
+    """ % url
+
 def execute(action, **data):
     """Execute the action with the provided data. for internal use only.
 
@@ -322,6 +336,9 @@ def execute(action, **data):
         #XXX: in gtk client just returns to the caller
         #raise common.error('Error', 'Invalid action...')
         return close_popup()
+
+    if action.get('target') == 'new':
+        return execute_opener(action, data)
 
     data.setdefault('context', {}).update(expr_eval(action.get('context','{}'), data.get('context', {}).copy()))
 
