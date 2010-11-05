@@ -477,71 +477,83 @@ class Form(SecuredController):
             raise redirect(self.path + '/edit', source=params.source, **args)
         raise redirect(self.path + '/view', **args)
 
-    def button_action(self, params):
-
-        button = params.button
-
-        name = ustr(button.name)
-        name = name.rsplit('/', 1)[-1]
-
-        btype = button.btype
-        model = button.model
-        id = button.id or params.id
-
-        id = (id or False) and (id)
-        ids = (id or []) and [id]
-
-        ctx = dict((params.context or {}), **rpc.session.context)
-        ctx.update(button.context or {})
-
-        if btype == 'cancel':
-            if name:
-                button.btype = "object"
-                params.id = False
-                res = self.button_action(params)
-                if res:
-                    return res
-
-            import actions
-            return actions.close_popup()
-
-        elif btype == 'save':
+    def button_action_cancel(self, name, params):
+        if name:
+            params.button.btype = "object"
             params.id = False
-
-        elif btype == 'workflow':
-            res = rpc.session.execute('object', 'exec_workflow', model, name, id)
-            if isinstance(res, dict):
-                import actions
-                return actions.execute(res, ids=[id])
-
-        elif btype == 'object':
-
-            res = rpc.session.execute('object', 'execute', model, name, ids, ctx)
-
-            if isinstance(res, dict):
-                import actions
-                return actions.execute(res, ids=[id])
-
-        elif btype == 'action':
-            import actions
-
-            action_id = int(name)
-            action_type = actions.get_action_type(action_id)
-
-            if action_type == 'ir.actions.wizard':
-                cherrypy.session['wizard_parent_form'] = self.path
-                cherrypy.session['wizard_parent_params'] = params.parent_params or params
-
-            res = actions.execute_by_id(action_id, type=action_type,
-                                        model=model, id=id, ids=ids,
-                                        context=ctx or {})
+            res = self.button_action(params)
             if res:
                 return res
 
-        else:
-            raise common.warning(_('Invalid button type'))
-
+        import actions
+        return actions.close_popup()
+    def button_action_save(self, _, params):
+        params.id = False
         params.button = None
+
+    def button_action_workflow(self, name, params):
+        model, id, ids, ctx = self._get_button_infos(params)
+        res = rpc.session.execute('object', 'exec_workflow', model, name, id)
+        if isinstance(res, dict):
+            import actions
+            return actions.execute(res, ids=[id])
+        params.button = None
+
+    def button_action_object(self, name, params):
+        model, id, ids, ctx = self._get_button_infos(params)
+
+        res = rpc.session.execute('object', 'execute', model, name, ids, ctx)
+
+        if isinstance(res, dict):
+            import actions
+            return actions.execute(res, ids=[id])
+        params.button = None
+
+    def button_action_action(self, name, params):
+        model, id, ids, ctx = self._get_button_infos(params)
+        import actions
+
+        action_id = int(name)
+        action_type = actions.get_action_type(action_id)
+
+        if action_type == 'ir.actions.wizard':
+            cherrypy.session['wizard_parent_form'] = self.path
+            cherrypy.session['wizard_parent_params'] = params.parent_params or params
+
+        res = actions.execute_by_id(
+                action_id, type=action_type,
+                model=model, id=id, ids=ids,
+                context=ctx or {})
+        if res:
+            return res
+        params.button = None
+
+    BUTTON_ACTIONS_BY_BTYPE = {
+        'cancel': button_action_cancel,
+        'save': button_action_save,
+        'workflow': button_action_workflow,
+        'object': button_action_object,
+        'action': button_action_action
+    }
+
+    def _get_button_infos(self, params):
+        model = params.button.model
+        id = params.button.id or params.id
+        id = (id or False) and (id)
+        ids = (id or []) and [id]
+        ctx = dict((params.context or {}), **rpc.session.context)
+        ctx.update(params.button.context or {})
+        return model, id, ids, ctx
+
+    def button_action(self, params):
+        button_name = openobject.ustr(params.button.name)
+        button_name = button_name.rsplit('/', 1)[-1]
+
+        btype = params.button.btype
+        try:
+            return self.BUTTON_ACTIONS_BY_BTYPE[btype](self, button_name, params)
+        except KeyError:
+            raise common.warning(_('Invalid button type "%s"') % btype)
 
     @expose()
     def duplicate(self, **kw):
