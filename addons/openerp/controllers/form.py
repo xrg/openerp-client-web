@@ -492,7 +492,7 @@ class Form(SecuredController):
         params.button = None
 
     def button_action_workflow(self, name, params):
-        model, id, ids, ctx = self._get_button_infos(params)
+        model, id, _, _ = self._get_button_infos(params)
         res = rpc.session.execute('object', 'exec_workflow', model, name, id)
         if isinstance(res, dict):
             import actions
