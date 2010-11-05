@@ -529,11 +529,11 @@ class Form(SecuredController):
         params.button = None
 
     BUTTON_ACTIONS_BY_BTYPE = {
+        'action': button_action_action,
         'cancel': button_action_cancel,
+        'object': button_action_object,
         'save': button_action_save,
         'workflow': button_action_workflow,
-        'object': button_action_object,
-        'action': button_action_action
     }
 
     def _get_button_infos(self, params):
