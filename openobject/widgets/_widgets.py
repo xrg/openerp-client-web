@@ -259,10 +259,16 @@ class Form(FormField):
             <%
                 error = error_for(child)
                 label = label_for(child)
+                help = help_for(child)
             %>
             <tr>
                 <td class="label">
-                    <label id="${child.name}.label" for="${child.name}" class="fieldlabel">${label}</label>
+                    % if help:
+                        <label id="${child.name}.label" for="${child.name}" class="fieldlabel help" title="${help}">${label}</label>
+                        <span class="help" title="${help}">?</span>
+                    % else:
+                        <label id="${child.name}.label" for="${child.name}" class="fieldlabel">${label}</label>
+                    % endif
                 </td>
                 <td class="fieldcol">
                     ${display_member(child)}
@@ -296,11 +302,14 @@ class Form(FormField):
 
     def label_for(self, field):
         return getattr(field, "label", None) or getattr(field, "_name", None)
+    def help_for(self, field):
+        return getattr(field, "help", None)
 
     def update_params(self, d):
         super(Form, self).update_params(d)
 
         d['label_for'] = self.label_for
+        d['help_for'] = self.help_for
         self.update_attrs(d, self.form_attrs)
         self.update_attrs(d, "name", "action", "method", id=self.name)
 
