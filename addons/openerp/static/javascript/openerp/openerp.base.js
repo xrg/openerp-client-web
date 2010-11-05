@@ -71,6 +71,11 @@ function loadingError(xhr) {
  */
 function doLoadingSuccess(app) {
     return function (data, status, xhr) {
+        var popup_url = xhr.getResponseHeader('X-New-Window');
+        if(popup_url) {
+            openobject.tools.openWindow(popup_url);
+            return;
+        }
         jQuery(window).trigger('before-appcontent-change');
         jQuery(app).html(xhr.responseText || data);
         jQuery(window).trigger('after-appcontent-change');
