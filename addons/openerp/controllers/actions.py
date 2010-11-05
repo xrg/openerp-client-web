@@ -30,13 +30,11 @@
 """This module implementes action methods.
 """
 import base64
-import datetime
 import time
 
 import cherrypy
 from openerp.utils import rpc, common, expr_eval, TinyDict
 
-from openobject.tools import redirect
 from form import Form
 from openobject import tools
 from selection import Selection
@@ -162,6 +160,7 @@ def execute_report(name, **data):
         report_id = rpc.session.execute('report', 'report', name, ids, datas, ctx)
         state = False
         attempt = 0
+        val = None
         while not state:
             val = rpc.session.execute('report', 'report_get', report_id)
             if not val:
@@ -184,7 +183,7 @@ def execute_report(name, **data):
                 report_name = proxy.read(res[0], ['name'])['name']
 
         report_name = report_name.replace('Print ', '')
-        cherrypy.response.headers['Content-Disposition'] = 'filename="' + report_name + '.' + report_type + '"';
+        cherrypy.response.headers['Content-Disposition'] = 'filename="' + report_name + '.' + report_type + '"'
 
         return _print_data(val)
 
@@ -214,8 +213,8 @@ def execute(action, **data):
             data[key] = action.get(key, data.get(key, None))
 
         if not data.get('search_view') and data.get('search_view_id'):
-            data['search_view'] = str(rpc.session.execute('object', 'execute', datas['res_model'],
-                                    'fields_view_get', datas['search_view_id'], 'search', context))
+            data['search_view'] = str(rpc.session.execute('object', 'execute', data['res_model'],
+                                    'fields_view_get', data['search_view_id'], 'search', data['context']))
 
         if not data.get('limit'):
             data['limit'] = 50
