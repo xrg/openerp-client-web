@@ -402,6 +402,7 @@ def execute_by_keyword(keyword, adds=None, **data):
             raise e
 
     keyact = {}
+    action = None
     for action in actions:
         keyact[action['name']] = action
 
