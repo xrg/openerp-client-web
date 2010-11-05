@@ -603,10 +603,10 @@ MochiKit.Base.update(ListView.prototype, {
                 o2m_value: $o2m.val(),
                 index: $tr.get(0).rowIndex - 1
             }, function (result) {
-        		$o2m.val(result.o2m_value);
+                $o2m.val(result.o2m_value);
                 $tr.remove();
-        	}, 'json');
-        	return;
+            }, 'json');
+            return;
         }
         else if (!ids) {
             ids = this.getSelectedRecords();
@@ -615,11 +615,8 @@ MochiKit.Base.update(ListView.prototype, {
             }
         }
 
-        if (ids.length == 0) {
-            return error_display(_('You must select at least one record.'));
-        }
-        else if (!confirm(_('Do you really want to delete selected record(s) ?'))) {
-            return false;
+        if(ids.length == 0 || !confirm(_('Do you really want to delete selected record(s) ?'))) {
+            return;
         }
 
         var $terp_ids;
