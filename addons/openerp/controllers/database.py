@@ -71,7 +71,7 @@ class FormCreate(DBForm):
     name = "create"
     string = _('Create database')
     action = '/openerp/database/do_create'
-    submit_text = _('OK')
+    submit_text = _('Create')
     strip_name = True
     form_attrs = {'onsubmit': 'return on_create()'}
     fields = [openobject.widgets.PasswordField(name='password', label=_('Super admin password:'), validator=formencode.validators.NotEmpty(), help=_("This is the password of the user that have the rights to administer databases. This is not a OpenERP user, just a super administrator. If you did not changed it, the password is 'admin' after installation.")),
@@ -87,7 +87,7 @@ class FormDrop(DBForm):
     name = "drop"
     string = _('Drop database')
     action = '/openerp/database/do_drop'
-    submit_text = _('OK')
+    submit_text = _('Drop')
     form_attrs = {'onsubmit': 'return window.confirm(_("Do you really want to drop the selected database?"))'}
     fields = [openobject.widgets.SelectField(name='dbname', options=get_db_list, label=_('Database:'), validator=validators.String(not_empty=True)),
               openobject.widgets.PasswordField(name='password', label=_('Password:'), validator=formencode.validators.NotEmpty())]
@@ -96,7 +96,7 @@ class FormBackup(DBForm):
     name = "backup"
     string = _('Backup database')
     action = '/openerp/database/do_backup'
-    submit_text = _('OK')
+    submit_text = _('Backup')
     fields = [openobject.widgets.SelectField(name='dbname', options=get_db_list, label=_('Database:'), validator=validators.String(not_empty=True)),
               openobject.widgets.PasswordField(name='password', label=_('Password:'), validator=formencode.validators.NotEmpty())]
 
@@ -104,7 +104,7 @@ class FormRestore(DBForm):
     name = "restore"
     string = _('Restore database')
     action = '/openerp/database/do_restore'
-    submit_text = _('OK')
+    submit_text = _('Restore')
     fields = [openobject.widgets.FileField(name="filename", label=_('File:')),
               openobject.widgets.PasswordField(name='password', label=_('Password:'), validator=formencode.validators.NotEmpty()),
               openobject.widgets.TextField(name='dbname', label=_('New database name:'), validator=formencode.validators.NotEmpty())]
@@ -113,7 +113,7 @@ class FormPassword(DBForm):
     name = "password"
     string = _('Change Administrator Password')
     action = '/openerp/database/do_password'
-    submit_text = _('OK')
+    submit_text = _('Change Password')
     fields = [openobject.widgets.PasswordField(name='old_password', label=_('Old Password:'), validator=formencode.validators.NotEmpty()),
               openobject.widgets.PasswordField(name='new_password', label=_('New Password:'), validator=formencode.validators.NotEmpty()),
               openobject.widgets.PasswordField(name='confirm_password', label=_('Confirm Password:'), validator=formencode.validators.NotEmpty())]
