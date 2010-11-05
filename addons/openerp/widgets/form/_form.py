@@ -625,7 +625,7 @@ class Button(TinyInputWidget):
         self.btype = attrs.get('special', attrs.get('type', 'workflow'))
         self.context = attrs.get("context", {})
         self.nolabel = True
-        self.target = "current"
+        self.target = ''
         if self.icon:
             self.icon = icons.get_icon(self.icon)
         self.default_focus = attrs.get('default_focus', 0)
