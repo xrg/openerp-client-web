@@ -312,7 +312,7 @@ register_widget(NewLine, ["newline"])
 class Label(TinyWidget):
 
     template = """
-    <div style="text-align: ${align}; width: 100%;">
+    <div style="text-align: ${align}; width: 100%; padding-right: 8px">
         ${field_value}
     </div>"""
 

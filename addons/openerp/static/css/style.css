@@ -592,6 +592,9 @@ table.o2m_box div.pagerbar-header strong {
 .label {
 	padding: 2px 2px 2px 6px;
 }
+table.fields td {
+    color: #4C4C4C;
+}
 
 .label,
 .action-buttons label {
