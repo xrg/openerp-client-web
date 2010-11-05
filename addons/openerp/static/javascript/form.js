@@ -842,14 +842,9 @@ function do_action(src){
     var context = $src.attr('context');
 
     if (openobject.dom.get('_terp_list')) {
-        var list = new ListView('_terp_list');
-        var ids = list.getSelectedRecords();
-
-        if (ids.length == 0) {
-            return error_display(_('You must select at least one record.'));
-        }
-
-        params['_terp_selection'] = '[' + ids.join(',') + ']';
+        params['_terp_selection'] = '[' +
+            new ListView('_terp_list').getSelectedRecords().join(',') +
+            ']';
     }
 
     var id = jQuery('#'+field).val();
@@ -966,16 +961,8 @@ function show_wkf(){
     var id;
 
     if (jQuery('#_terp_list').length) {
-        var lst = new ListView('_terp_list');
-        var ids = lst.getSelectedRecords();
-
-        if (ids.length < 1) {
-            error_display(_('You must select at least one record.'));
-            return;
-        }
-        id = ids[0];
-    }
-    else {
+        id = new ListView('_terp_list').getSelectedRecords()[0];
+    } else {
         var element = jQuery('#_terp_id');
         id = element && element.val() != 'False' ? element.val() : null;
     }
