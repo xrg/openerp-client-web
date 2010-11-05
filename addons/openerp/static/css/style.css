@@ -52,6 +52,9 @@ td.label:not(.search_fields) {
     /* Ugly hack meanwhile we decide if the width of cells should be computed or not */
     width: 1%;
 }
+table.form-container td.label {
+    width: auto;
+}
 div.non-editable td.item {
     background: white;
 }
