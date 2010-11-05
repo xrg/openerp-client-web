@@ -830,35 +830,30 @@ function do_report(id, relation){
 }
 
 function do_action(src){
-    var $src = jQuery(src);
-    var action_id = $src.attr('action_id');
-    var field = '_terp_id';
-    
-    var relation = $src.attr('relation');
-    var data = $src.attr('data');
-    var params = {};
-    
-    var domain = $src.attr('domain');
-    var context = $src.attr('context');
 
+    var params = {};
     if (openobject.dom.get('_terp_list')) {
         params['_terp_selection'] = '[' +
             new ListView('_terp_list').getSelectedRecords().join(',') +
             ']';
     }
 
+    var field = '_terp_id';
+    var $src = jQuery(src);
+
+    var action_id = $src.attr('action_id');
     var id = jQuery('#'+field).val();
     var source = jQuery('#'+field).attr('id');
+    var relation = $src.attr('relation');
+    var data = $src.attr('data');
 
-    var req = eval_domain_context_request({
+    eval_domain_context_request({
         'source': source,
         'active_id': id,
         'active_ids': params['_terp_selection'],
-        'domain': domain,
-        'context': context
-    });
-
-    req.addCallback(function(obj){
+        'domain': $src.attr('domain'),
+        'context': $src.attr('context')
+    }).addCallback(function(obj){
 
         var act = get_form_action('action');
         MochiKit.Base.update(params, {
