@@ -80,7 +80,7 @@ Var STARTMENU_FOLDER
 !define MUI_LICENSEPAGE_BUTTON "$(LicenseNext)"
 
 !insertmacro MUI_PAGE_WELCOME
-!insertmacro MUI_PAGE_LICENSE "..\doc\LICENSE.TXT"
+!insertmacro MUI_PAGE_LICENSE ".\doc\LICENSE.TXT"
 !insertmacro MUI_PAGE_DIRECTORY
 
 ;Start Menu Folder Page Configuration
@@ -147,18 +147,18 @@ Section "OpenERP Web" SecOpenERPWeb
     nsExec::Exec "net stop openerp-web"
     sleep 2
 
-    SetOutPath "$INSTDIR\python25"
+    SetOutPath "$INSTDIR"
 
     ;ADD YOUR OWN FILES HERE...
-    File /r /x "*.pyc" /x "*.pyo" /x "*.msi" /x "*~" "build\python25\*"
+    File /r "dist\*"
 
-    SetOutPath "$INSTDIR\bin"
-    File "start.bat"
-    File "stop.bat"
-    File "OpenERPWebService.py"
+    SetOutPath "$INSTDIR\service"
+    File /r "win32\dist\*"
+    File "win32\start.bat"
+    File "win32\stop.bat"
 
     SetOutPath "$INSTDIR\conf"
-    File "/oname=openerp-web.cfg" "..\doc\openerp-web.cfg"
+    File "/oname=openerp-web.cfg" ".\doc\openerp-web.cfg"
 
     ;Store installation folder
     WriteRegStr HKLM "Software\OpenERP Web" "" $INSTDIR
@@ -175,8 +175,9 @@ Section "OpenERP Web" SecOpenERPWeb
     !insertmacro MUI_STARTMENU_WRITE_BEGIN Application
         ;Create shortcuts
         CreateDirectory "$SMPROGRAMS\$STARTMENU_FOLDER"
-        CreateShortCut "$SMPROGRAMS\$STARTMENU_FOLDER\Start OpenERP Web.lnk" "$INSTDIR\bin\start.bat"
-        CreateShortCut "$SMPROGRAMS\$STARTMENU_FOLDER\Stop OpenERP Web.lnk" "$INSTDIR\bin\stop.bat"
+        
+        CreateShortCut "$SMPROGRAMS\$STARTMENU_FOLDER\Start OpenERP Web.lnk" "$INSTDIR\service\start.bat"
+        CreateShortCut "$SMPROGRAMS\$STARTMENU_FOLDER\Stop OpenERP Web.lnk" "$INSTDIR\service\stop.bat"
         CreateShortCut "$SMPROGRAMS\$STARTMENU_FOLDER\Edit Web Config.lnk" "notepad.exe" "$INSTDIR\conf\openerp-web.cfg"
 !ifndef ALLINONE
         CreateShortCut "$SMPROGRAMS\$STARTMENU_FOLDER\Uninstall.lnk" "$INSTDIR\uninstall.exe"
@@ -185,8 +186,8 @@ Section "OpenERP Web" SecOpenERPWeb
 	!insertmacro CreateInternetShortcut "$SMPROGRAMS\$STARTMENU_FOLDER\Translation" "https://translations.launchpad.net/openobject"
     !insertmacro MUI_STARTMENU_WRITE_END
 
-    nsExec::Exec '"$INSTDIR\python25\python.exe" "$INSTDIR\python25\Scripts\fixps.py"'
-    nsExec::Exec '"$INSTDIR\python25\python.exe" "$INSTDIR\bin\OpenERPWebService.py" --startup auto install'
+
+    nsExec::Exec '"$INSTDIR\service\OpenERPWebService.exe" -auto -install'
 
 SectionEnd
 
@@ -199,7 +200,7 @@ SectionEnd
 Section "Uninstall"
     nsExec::Exec "net stop openerp-web"
     sleep 2
-    nsExec::Exec '"$INSTDIR\python25\python.exe" "$INSTDIR\bin\OpenERPWebService.py" remove'
+    nsExec::Exec '"$INSTDIR\service\OpenERPWebService.exe" -remove'
     sleep 2
 
     RMDIR /r "$INSTDIR" 
