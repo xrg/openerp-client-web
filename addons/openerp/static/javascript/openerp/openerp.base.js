@@ -73,6 +73,7 @@ function doLoadingSuccess(app) {
     return function (data, status, xhr) {
         var popup_url = xhr.getResponseHeader('X-New-Window');
         if(popup_url) {
+            alert('Loading [' + popup_url + ']');
             openobject.tools.openWindow(popup_url);
             return;
         }
