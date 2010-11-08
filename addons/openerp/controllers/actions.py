@@ -312,6 +312,7 @@ ACTIONS_BY_TYPE = {
     'ir.actions.act_url': act_url
 }
 
+NEW_WINDOW_NAME = 'openerp-popup'
 def execute_opener(action, data):
     del action['target']
     url = ('/openerp/execute?' + urllib.urlencode({
@@ -319,10 +320,11 @@ def execute_opener(action, data):
         'data': simplejson.dumps(data)
     }))
     cherrypy.response.headers['X-New-Window'] = url
+    cherrypy.response.headers['X-New-Window-Name'] = NEW_WINDOW_NAME
     return """<script type="text/javascript">
-        window.open('%s', 'lose', "width=800,height=600");
+        window.open('%s', '%s', "width=800,height=600");
     </script>
-    """ % url
+    """ % (url, NEW_WINDOW_NAME)
 
 def execute(action, **data):
     """Execute the action with the provided data. for internal use only.
