@@ -31,7 +31,7 @@ openobject.tools = {
 
     openWindow: function(anchor, options) {
 
-        var opts = MochiKit.Base.update({
+        var opts = jQuery.extend({
             name        : 'win' + Math.round(Math.random() * 100000),
             center      : true,
             x           : -1,
