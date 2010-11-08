@@ -314,9 +314,10 @@ ACTIONS_BY_TYPE = {
 
 NEW_WINDOW_NAME = 'openerp-popup'
 def execute_opener(action, data):
-    del action['target']
+    # Add 'opened' mark to indicate we're now within the popup and can
+    # continue on during the second round of execution
     url = ('/openerp/execute?' + urllib.urlencode({
-        'action': simplejson.dumps(action),
+        'action': simplejson.dumps(dict(action, opened=True)),
         'data': simplejson.dumps(data)
     }))
     cherrypy.response.headers['X-New-Window'] = url
@@ -339,7 +340,7 @@ def execute(action, **data):
         #raise common.error('Error', 'Invalid action...')
         return close_popup()
 
-    if action.get('target') == 'new':
+    if action.get('target') == 'new' and not action.get('opened'):
         return execute_opener(action, data)
 
     data.setdefault('context', {}).update(expr_eval(action.get('context','{}'), data.get('context', {}).copy()))
