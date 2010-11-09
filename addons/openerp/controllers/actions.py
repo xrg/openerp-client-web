@@ -320,7 +320,8 @@ def execute_opener(action, data):
         'action': simplejson.dumps(dict(action, opened=True)),
         'data': simplejson.dumps(data)
     }))
-    cherrypy.response.headers['X-New-Window'] = url
+    cherrypy.response.headers['X-Target'] = 'new'
+    cherrypy.response.headers['Location'] = url
     cherrypy.response.headers['X-New-Window-Name'] = NEW_WINDOW_NAME
     return """<script type="text/javascript">
         window.open('%s', '%s', "width=800,height=600");

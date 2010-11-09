@@ -71,16 +71,18 @@ function loadingError(xhr) {
  */
 function doLoadingSuccess(app) {
     return function (data, status, xhr) {
-        var popup_url = xhr.getResponseHeader('X-New-Window');
-        if(popup_url) {
-            openobject.tools.openWindow(popup_url, {
-                name: xhr.getResponseHeader('X-New-Window-Name')
-            });
-            return;
+        var action_url = xhr.getResponseHeader('Location');
+        switch(xhr.getResponseHeader('X-Target')) {
+            case 'new':
+                openobject.tools.openWindow(action_url, {
+                    name: xhr.getResponseHeader('X-New-Window-Name')
+                });
+                break;
+            default:
+                jQuery(window).trigger('before-appcontent-change');
+                jQuery(app).html(xhr.responseText || data);
+                jQuery(window).trigger('after-appcontent-change');
         }
-        jQuery(window).trigger('before-appcontent-change');
-        jQuery(app).html(xhr.responseText || data);
-        jQuery(window).trigger('after-appcontent-change');
     }
 }
 
