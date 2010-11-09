@@ -353,7 +353,7 @@ class ImpEx(SecuredController):
         ids = params.ids or proxy.search(domain, 0, 0, 0, ctx)
         result = datas_read(ids, params.model, fields, context=ctx)
 
-        if result.get('warning', False):
+        if result.get('warning'):
             common.warning(unicode(result.get('warning', False)), _('Export Error'))
             return False
         result = result.get('datas',[])

@@ -253,14 +253,15 @@
         </tr>
         <tr>
         	<td class="side_spacing">
-        		<fieldset>
+        		<fieldset title="Restricts the number of exportable fields to ensure you will be able to import your data back in OpenERP">
                     <legend>${_("Select an Option to Export")}</legend>
                     <table>
                         <tr>
                             <td>
-                                <input type="checkbox" class="checkbox" name="import_compat" checked="checked"/>
+                                <input type="checkbox" class="checkbox" name="import_compat" id="import_compat"/>
                             </td>
-                            <td>${_("Import Compatible")}</td>
+                            <td><label for="import_compat"
+                                    >${_("Import Compatible")}</label></td>
                         </tr>
                     </table>
                 </fieldset>
