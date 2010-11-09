@@ -127,7 +127,6 @@ class ImpEx(SecuredController):
 
 
         proxy = rpc.RPCProxy('ir.exports')
-        new_list = []
 
         headers = [{'string' : 'Name', 'name' : 'name', 'type' : 'char'}]
         tree = treegrid.TreeGrid('export_fields',
@@ -188,9 +187,6 @@ class ImpEx(SecuredController):
             
         ctx.update(**rpc.session.context)
 
-        ids = kw.get('ids', '').split(',')
-        ids = [i for i in ids if i]
-        
         try:
             views = ast.literal_eval(kw['views'])
         except:
@@ -228,9 +224,6 @@ class ImpEx(SecuredController):
                 records += [record]
 
             elif not is_importing:
-#                if ids:
-#                    record['id'] = ids[i]
-#                else:
                 record['id'] = id
 
                 record['items'] = {'name' : nm}
@@ -273,9 +266,7 @@ class ImpEx(SecuredController):
         params, data = TinyDict.split(kw)
         
         ctx = dict((params.context or {}), **rpc.session.context)
-        
-        res = []
-        ids = []
+
         id = params.id
 
         res = self.get_data(params.model, ctx)
@@ -376,7 +367,6 @@ class ImpEx(SecuredController):
 
             for col in range(len(params.fields2)):
                 worksheet.write(0, col, ustr(params.fields2[col]))
-                col+1
 
             heading_xf = ezxf('align: wrap yes')
 
@@ -389,7 +379,6 @@ class ImpEx(SecuredController):
                     result[data][d] = re.sub("\r", " ", result[data][d])
                     worksheet.write(data+1, d, result[data][d], heading_xf)
                     worksheet.col(d).width = 8000
-                    d+1
 
             wb.save(fp)
 
@@ -516,9 +505,4 @@ class ImpEx(SecuredController):
                 d+= ('\t%s: %s\n' % (ustr(key),ustr(val)))
             error = _('Error trying to import this record:\n%s\nError Message:\n%s\n\n%s') % (d,res[2],res[3])
             raise common.warning(unicode(error), _('Importation Error'))
-
-        return self.imp(**kw)
-
-
-# vim: ts=4 sts=4 sw=4 si et
 
