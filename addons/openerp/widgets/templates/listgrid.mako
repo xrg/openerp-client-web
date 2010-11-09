@@ -347,17 +347,15 @@
                                     editable = jQuery('[id=${name}/_terp_editable]').val();
                                 }
                                 
-                                jQuery('table[id=${name}_grid] tr.grid-row').each(function() {
+                                jQuery('table[id=${name}_grid] tr.grid-row').click(function(event) {
                                     var $this = jQuery(this);
-                                    $this.click(function(event) {
-                                        if (event.detail == 1) {
-                                            if (!(jQuery(event.target).is('img, input'))) {
-                                                if (view_type == 'tree' && $this.attr('record')) {
-                                                    do_select($this.attr('record'), '${name}');
-                                                }  
-                                            }
-                                        }
-                                    });
+                                    if(event.detail != 1
+                                     || jQuery(event.target).is('img, input')
+                                     || view_type != 'tree'
+                                     || !$this.attr('record')) {
+                                        return;
+                                    }
+                                    do_select($this.attr('record'), '${name}');
                                 });
                             </script>
                         % endif
