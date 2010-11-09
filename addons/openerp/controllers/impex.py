@@ -210,29 +210,22 @@ class ImpEx(SecuredController):
             id = prefix + (prefix and '/' or '') + field
             nm = name + (name and '/' or '') + value['string']
 
-            if is_importing and (value.get('type') not in ('reference',)) and (not value.get('readonly', False) \
+            if is_importing and (value.get('type') not in ('reference',)) and (not value.get('readonly') \
                         or not dict(value.get('states', {}).get('draft', [('readonly', True)])).get('readonly', True)):
 
-                record['id'] = id
-                record['items'] = {'name' : nm}
-                record['action'] = 'javascript: void(0)'
-                record['target'] = None
-                record['icon'] = None
-                record['children'] = []
-                record['required'] = value.get('required', False)
+                record.update(id=id, items={'name': nm},
+                              action='javascript: void(0)', target=None,
+                              icon=None, children=[],
+                              required=value.get('required', False))
 
-                records += [record]
+                records.append(record)
 
             elif not is_importing:
-                record['id'] = id
+                record.update(id=id, items={'name': nm},
+                              action='javascript: void(0)', target=None,
+                              icon=None, children=[])
 
-                record['items'] = {'name' : nm}
-                record['action'] = 'javascript: void(0)'
-                record['target'] = None
-                record['icon'] = None
-                record['children'] = []
-
-                records += [record]
+                records.append(record)
 
             if len(nm.split('/')) < 3 and value.get('relation', False):
 
@@ -281,7 +274,7 @@ class ImpEx(SecuredController):
         ids = [f['name'] for f in fields]
 
         for name in ids:
-            name_list += [(name, res.get(name))]
+            name_list.append((name, res.get(name)))
 
         return dict(name_list=name_list)
 
@@ -299,13 +292,11 @@ class ImpEx(SecuredController):
             f1 = proxy.fields_view_get(False, 'tree', context)['fields']
             f2 = proxy.fields_view_get(False, 'form', context)['fields']
 
-            fields = {}
-            fields.update(f1)
+            fields = dict(f1)
             fields.update(f2)
 
         def rec(fields):
-
-            _fields = {}
+            _fields = {'id': {'string': 'ID'}, 'db_id': {'string': 'Database ID'}}
 
             def model_populate(fields, prefix_node='', prefix=None, prefix_value='', level=2):
                 fields_order = fields.keys()
@@ -320,7 +311,6 @@ class ImpEx(SecuredController):
                     if fields[field].get('relation', False) and level>0:
                         fields2 = rpc.session.execute('object', 'execute', fields[field]['relation'], 'fields_get', False, rpc.session.context)
                         model_populate(fields2, prefix_node+field+'/', None, st_name+'/', level-1)
-            fields.update({'id': {'string': 'ID'}, 'db_id': {'string': 'Database ID'}})
             model_populate(fields)
 
             return _fields
@@ -330,7 +320,7 @@ class ImpEx(SecuredController):
     @expose(content_type="application/octet-stream")
     def export_data(self, fname, fields, export_as="csv", add_names=False, import_compat=False, **kw):
 
-        params, data = TinyDict.split(kw)
+        params, data_index = TinyDict.split(kw)
         proxy = rpc.RPCProxy(params.model)
 
         if isinstance(fields, basestring):
@@ -355,7 +345,7 @@ class ImpEx(SecuredController):
         if export_as == 'xls':
             try:
                 import xlwt
-            except Exception, e:
+            except ImportError:
                   raise common.warning(_('Please Install xlwt Library.\nTo create spreadsheet files compatible with MS Excel.'), _('Import Error.'))
 
             ezxf = xlwt.easyxf
@@ -365,26 +355,25 @@ class ImpEx(SecuredController):
             wb = xlwt.Workbook()
             worksheet = wb.add_sheet('Sheet 1')
 
-            for col in range(len(params.fields2)):
-                worksheet.write(0, col, ustr(params.fields2[col]))
+            for index, col in enumerate(params.fields2):
+                worksheet.write(0, index, ustr(col))
 
             heading_xf = ezxf('align: wrap yes')
 
-            for data in range(len(result)):
-                for d in range(len(result[data])):
+            for data_index, data in enumerate(result):
+                for d in range(len(result[data_index])):
                     try:
-                        result[data][d] = ustr(result[data][d])
+                        data[d] = ustr(data[d])
                     except:
                         pass
-                    result[data][d] = re.sub("\r", " ", result[data][d])
-                    worksheet.write(data+1, d, result[data][d], heading_xf)
+                    data[d] = re.sub("\r", " ", data[d])
+                    worksheet.write(data_index+1, d, data[d], heading_xf)
                     worksheet.col(d).width = 8000
 
             wb.save(fp)
 
             fp.seek(0)
-            data = fp.read()
-            return data
+            return fp.read()
         else:
             return export_csv(params.fields2, result, add_names)
 
@@ -420,7 +409,9 @@ class ImpEx(SecuredController):
         _fields = {}
         _fields_invert = {}
         
-        fields = rpc.RPCProxy(params.model).fields_get(False, rpc.session.context)
+        fields = dict(rpc.RPCProxy(params.model).fields_get(False, rpc.session.context),
+                      id={'type': 'char', 'string': 'ID'},
+                      db_id={'type': 'char', 'string': 'Database ID'})
         
         def model_populate(fields, prefix_node='', prefix=None, prefix_value='', level=2):
             def str_comp(x,y):
@@ -432,7 +423,7 @@ class ImpEx(SecuredController):
             fields_order.sort(lambda x,y: str_comp(fields[x].get('string', ''), fields[y].get('string', '')))
             for field in fields_order:
                 if (fields[field].get('type','') not in ('reference',))\
-                            and (not fields[field].get('readonly', False)\
+                            and (not fields[field].get('readonly')\
                             or not dict(fields[field].get('states', {}).get(
                             'draft', [('readonly', True)])).get('readonly',True)):
                     
@@ -447,7 +438,6 @@ class ImpEx(SecuredController):
                         model_populate({'id': {'type': 'char', 'string': 'ID'}, 'db_id': {'type': 'char', 'string': 'Database ID'}},
                                        prefix_node+field+':', None, st_name+'/', level-1)
 
-        fields.update({'id': {'type': 'char', 'string': 'ID'}, 'db_id': {'type': 'char', 'string': 'Database ID'}})
         model_populate(fields)
 
         try:
@@ -462,9 +452,9 @@ class ImpEx(SecuredController):
                 for word in line:
                     word = ustr(word.decode(csvcode))
                     if word in _fields:
-                        fields += [(word, _fields[word])]
+                        fields.append((word, _fields[word]))
                     elif word in _fields_invert.keys():
-                        fields += [(_fields_invert[word], word)]
+                        fields.append((_fields_invert[word], word))
                     else:
                         raise common.warning(_("You cannot import this field %s, because we cannot auto-detect it" % (word,)))
                 break
@@ -483,7 +473,7 @@ class ImpEx(SecuredController):
         input=StringIO.StringIO(content)
         data = list(csv.reader(input, quotechar=str(csvdel), delimiter=str(csvsep)))[int(csvskip):]
         datas = []
-        ctx = dict(**rpc.session.context)
+        ctx = dict(rpc.session.context)
         
         if not isinstance(fields, list):
             fields = [fields]
