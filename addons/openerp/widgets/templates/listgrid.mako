@@ -349,8 +349,7 @@
 
                                 jQuery('table[id=${name}_grid] tr.grid-row').click(function(event) {
                                     var $this = jQuery(this);
-                                    if(event.detail != 1
-                                     || jQuery(event.target).is('img, input')
+                                    if(jQuery(event.target).is('img, input')
                                      || view_type != 'tree'
                                      || !$this.attr('record')) {
                                         return;
