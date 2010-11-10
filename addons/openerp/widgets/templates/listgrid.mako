@@ -54,7 +54,7 @@
             % if not m2m:
             <%
             	if impex:
-            		selector_click = "do_select('%s')" % (data['id'])  
+            		selector_click = "do_select('%s')" % (data['id'])
             	else:
             		selector_click = "new ListView('%s').onBooleanClicked(!this.checked, '%s')" % (name, data['id'])
             %>
@@ -334,7 +334,7 @@
                            });
                         </script>
                     % else:
-                        % if not dashboard:
+                        % if not dashboard and 'form' in view_mode:
                             <script type="text/javascript">
                                 var view_type;
                                 var editable;
@@ -346,7 +346,7 @@
                                     view_type = jQuery('[id=${name}/_terp_view_type]').val();
                                     editable = jQuery('[id=${name}/_terp_editable]').val();
                                 }
-                                
+
                                 jQuery('table[id=${name}_grid] tr.grid-row').click(function(event) {
                                     var $this = jQuery(this);
                                     if(event.detail != 1
