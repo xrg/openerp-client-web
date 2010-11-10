@@ -493,7 +493,7 @@ table.errorbox {
 
 .error_message_content {
 	font-size: 1.4em;
-	padding: 0px 5px 0px 0px;
+	padding: 0 5px 0 0;
 	text-align: center;
 	color: #333333;
     white-space: normal;
