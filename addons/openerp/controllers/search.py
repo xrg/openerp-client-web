@@ -170,12 +170,7 @@ class Search(Form):
             params.group_by = params.group_by.split(',')
 
         # Fixed header string problem for m2m,m2o field when parent context takes '_terp_view_name'
-        ctx2 = parent_context
-        for k,v in ctx2.items():
-            if k == '_terp_view_name':
-                del ctx2[k]
-        ctx2.update(context.copy())
-        context.update(ctx2)
+        parent_context.pop('_terp_view_name', None)
 
         return dict(domain=ustr(domain), context=ustr(parent_context), group_by = ustr(params.group_by))
 
