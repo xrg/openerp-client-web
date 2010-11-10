@@ -312,7 +312,7 @@ ACTIONS_BY_TYPE = {
     'ir.actions.act_url': act_url
 }
 
-NEW_WINDOW_NAME = 'openerp-popup'
+NEW_WINDOW_NAME = 'openerp_popup'
 def execute_opener(action, data):
     # Add 'opened' mark to indicate we're now within the popup and can
     # continue on during the second round of execution
