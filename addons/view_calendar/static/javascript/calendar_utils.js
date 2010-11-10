@@ -104,7 +104,7 @@ function getCalendar(day, mode, color_filters) {
     var contents = formContents(form);
     var params = {};
 
-    for (var i in contents[0]) {
+    for (var i = 0; i < contents[0].length; i++) {
         var k = contents[0][i];
         var v = contents[1][i];
 
