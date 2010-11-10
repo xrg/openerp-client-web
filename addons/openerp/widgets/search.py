@@ -326,6 +326,7 @@ class Search(TinyInputWidget):
             if node.localName in ('form', 'tree', 'search', 'group'):
                 if node.localName == 'group':
                     attrs['group_by_ctx'] = values.get('group_by_ctx')
+                    attrs['expand'] = expr_eval(attrs.get('expand',False),{'context':self.context})
                     Element = Group
                 else:
                     Element = Frame
