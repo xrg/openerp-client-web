@@ -49,17 +49,17 @@
             <td width="75%" valign="top" style="padding-top:10px;">
                 <h1>${_("Help:")} ${title}</h1>
                 <p class="process-links">
-                    <a target="_blank" href="${context_help}">
-                        ${_("Online Documentation")}
+                    <a class="cta-a" target="_blank" href="${context_help}" title="Online Documentation">
+                        ${_("Documentation")}
                     </a>
-                    <a target="_blank" href="http://www.openerp.com/forum/">
-                        ${_("Community Forum")}
+                    <a class="cta-a" target="_blank" href="http://www.openerp.com/forum/" title="Community Discussion">
+                        ${_("Forum")}
                     </a>
-                    <a target="_blank" href="http://www.openerp.com/services/books">
-                        ${_("Get Books")}
+                    <a class="cta-a" target="_blank" href="http://www.openerp.com/services/books" title="Get Books">
+                        ${_("Books")}
                     </a>
-                    <a target="_blank" href="http://www.openerp.com/services/subscribe-onsite">
-                        ${_("Get the OpenERP Warranty")}
+                    <a class="cta-a" target="_blank" href="http://www.openerp.com/services/subscribe-onsite" title="Get the OpenERP Warranty">
+                        ${_("Support / Maintenance")}
                     </a>
                 </p>
                 <p class="process-help-text">
