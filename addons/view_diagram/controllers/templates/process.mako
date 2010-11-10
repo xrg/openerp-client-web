@@ -46,8 +46,11 @@
 <%def name="content()">
     <table class="view" border="0" width="100%" height="100%" cellpadding="0" cellspacing="0">
         <tr>
-            <td width="75%" valign="top" style="padding-top:10px;">
-                <h1>${_("Help:")} ${title}</h1>
+            <td width="75%" valign="top" class="fields collapsed" style="padding-top:10px;">
+                <h1>${title} (${res_model})
+                    <span class="expand-button">(${_("show fields")})</span>
+                   <span class="collapse-button">(${_("hide fields")})</span>
+                </h1>
                 <p class="process-links">
                     <a class="cta-a" target="_blank" href="${context_help}" title="Online Documentation">
                         ${_("Documentation")}
@@ -108,11 +111,6 @@
         % if fields:
         <tr>
             <td colspan="2" class="fields collapsed">
-                <h2 style="padding: 5px 10px; font-weight:bold">
-                  ${res_model} ${_("fields")}
-                  <span class="expand-button">(${_("show")})</span>
-                  <span class="collapse-button">(${_("hide")})</span>
-                </h2>
                 <div align="left" style="padding: 5px 10px;">
                     <table border="0">
                     % for k, v in fields.items():

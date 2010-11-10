@@ -2298,6 +2298,7 @@ a.cta-a strong {
 }
 .process-links a {
     margin: 0 2%;
+    float: none;
 }
 .process-help-text {
     padding:5px 10px;
