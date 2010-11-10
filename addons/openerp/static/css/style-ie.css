@@ -55,6 +55,14 @@ img{behavior:expression((this.runtimeStyle.behavior="none")&&(/^data:.*;base64/i
 	float: left;
 }
 
+.ie7 .notebook-tab {
+	float: left;
+}
+
+.ie7 .item select {
+	width: 120px;
+}
+
 /**
  * vim: sts=4 st=4 et 
  *
