@@ -65,10 +65,12 @@
                         <a id="shortcut_add_remove" title="${_('Add / Remove Shortcut...')}" href="javascript: void(0)" class="${shortcut_class}"></a>
                     % endif
                     ${form.screen.string}
-                    <a class="help" href="${py.url('/view_diagram/process', res_model=form.screen.model, title=form.screen.string, res_id=form.screen.id)}"
-                       title="${_('Corporate Intelligence...')}">
-                        <small>Help</small>
-                    </a>
+                    % if obj_process:
+	                    <a class="help" href="${py.url('/view_diagram/process', res_model=form.screen.model, title=form.screen.string, res_id=form.screen.id)}"
+	                       title="${_('Corporate Intelligence...')}">
+	                        <small>Help</small>
+	                    </a>
+                    % endif
                     % if form.screen.view_type == 'form' and form.logs.logs:
                       <a id="show_server_logs" class="logs" href="javascript: void(0)"
                           title="${_('Show Logs...')}">

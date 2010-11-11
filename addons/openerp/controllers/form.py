@@ -256,11 +256,14 @@ class Form(SecuredController):
         elif params.view_type == 'diagram':
             display_name = {'field': form.screen.view['fields']['name']['string'], 'value': rpc.RPCProxy(params.model).name_get(form.screen.id)[0][1]}
 
+        # For Corporate Intelligence visibility.
+        obj_process = rpc.RPCProxy('ir.model').search([('model', '=', 'process.process')]) or None
+        
         tips = params.display_menu_tip
         if params.view_type == params.view_mode[0] and tips:
             tips = tips
 
-        return dict(form=form, pager=pager, buttons=buttons, path=self.path, can_shortcut=can_shortcut, shortcut_ids=shortcut_ids, display_name=display_name, title=title, tips = tips)
+        return dict(form=form, pager=pager, buttons=buttons, path=self.path, can_shortcut=can_shortcut, shortcut_ids=shortcut_ids, display_name=display_name, title=title, tips=tips, obj_process=obj_process)
 
     @expose('json', methods=('POST',))
     def close_or_disable_tips(self):
