@@ -66,8 +66,8 @@ class ViewForm(Form):
 
         self.search = None
         search_param = params.search_domain or []
-
-        for element in params.domain:
+        params_domain = params.domain or []
+        for element in params_domain:
             if element not in search_param:
                 if not isinstance(element,tuple):
                     search_param.append(element)
