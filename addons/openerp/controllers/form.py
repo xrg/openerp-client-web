@@ -1090,7 +1090,10 @@ class Form(SecuredController):
                 act = (value or None) and "javascript: void(0)"
                 x['string'] = x['name']
                 relates += [{'text': '... '+x['name'],
-                             'action': act and "do_action(%s, '%s', '%s', this, null, true)" %(x['id'], field, relation),
+                             'action_id': x['id'],
+                             'field': field,
+                             'relation': relation,
+                             'action': act and "do_action(this, true)",
                              'domain': x.get('domain', []),
                              'context': x.get('context', {})}]
 
