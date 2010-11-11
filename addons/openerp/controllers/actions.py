@@ -440,11 +440,10 @@ def execute_by_keyword(keyword, adds=None, **data):
         raise common.message(_('No action defined'))
 
     if len(keyact) == 1:
+        key = keyact.keys()[0]
         if data.get('context'):
             data['context'].update(rpc.session.context)
-        else:
-            data['context'] = rpc.session.context
-        return execute(action, **data)
+        return execute(keyact[key], **data)
     else:
         return Selection().create(keyact, **data)
 
