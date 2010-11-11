@@ -63,17 +63,17 @@ class ViewForm(Form):
             readonly = False
        
         self.is_dashboard = getattr(cherrypy.request, '_terp_dashboard', False)
-        
+
         self.search = None
         search_param = params.search_domain or []
-        if search_param:
-            for element in params.domain:
-                if element not in search_param:
-                    if not isinstance(element,tuple):
-                        search_param.append(element)
-                    else:
-                        key, op, value = element
-                        search_param.append((key, op, value))
+
+        for element in params.domain:
+            if element not in search_param:
+                if not isinstance(element,tuple):
+                    search_param.append(element)
+                else:
+                    key, op, value = element
+                    search_param.append((key, op, value))
 
         cherrypy.request.custom_search_domain = []
         cherrypy.request.custom_filter_domain = []
