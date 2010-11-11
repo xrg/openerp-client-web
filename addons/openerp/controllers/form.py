@@ -894,9 +894,14 @@ class Form(SecuredController):
             import actions
             return actions.execute_by_keyword(name, adds=adds, model=model, id=id, ids=ids, report_type='pdf')
         else:
-            raise common.message(_("No record selected"))
-
-
+            raise common.message(_("No record selected"))    
+    
+    @expose()
+    def report(self, **kw):
+        return self.do_action('client_print_multi', adds={'Print Screen': {'report_name':'printscreen.list',
+                                                                           'name': _('Print Screen'),
+                                                                           'type':'ir.actions.report.xml'}}, datas=kw)
+    
     @expose()
     def action(self, **kw):
         params, data = TinyDict.split(kw)
@@ -1075,9 +1080,9 @@ class Form(SecuredController):
 
             act = (value or None) and "javascript: void(0)"
 
-            actions = [{'text': 'Action', 'action': act and "do_action(null, '%s', '%s', this, null, true)" %(field, relation)},
+            actions = [{'text': 'Action', 'relation': relation, 'field': field, 'action': act and "do_action(this, true)"},
                        {'text': 'Report', 'action': act and "do_report('%s', '%s')" %(field, relation)}]
-
+            
             res = rpc.RPCProxy('ir.values').get('action', 'client_action_relate', [(relation, False)], False, rpc.session.context)
             res = [x[2] for x in res]
 

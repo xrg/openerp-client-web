@@ -719,6 +719,7 @@ function makeContextMenu(id, kind, relation, val){
     }).addCallback(function(obj){
         var $tbody = jQuery('<tbody>');
         jQuery.each(obj.defaults, function (_, default_) {
+            
             jQuery('<tr>').append(jQuery('<td>').append(
                 jQuery('<span>').click(function () {
                     hideContextMenu();
@@ -729,7 +730,7 @@ function makeContextMenu(id, kind, relation, val){
             $tbody.append('<hr>');
             jQuery.each(obj.actions, function (_, action) {
                 jQuery('<tr>').append(jQuery('<td>').append(
-                    jQuery('<span>')
+                    jQuery('<span>', {'field': action.field || '', 'relation': action.relation || ''})
                         .attr('class', action.action ? '' : 'disabled')
                         .click(function () {
                             if(action.action) {
@@ -829,38 +830,45 @@ function do_report(id, relation){
     window.open(openobject.http.getURL(act, params));
 }
 
-function do_action(src){
+function do_action(src, context_menu) {
     var params = {};
     if (openobject.dom.get('_terp_list')) {
         params['_terp_selection'] = '[' +
             new ListView('_terp_list').getSelectedRecords().join(',') +
             ']';
     }
-
-    var field = '_terp_id';
+    
     var $src = jQuery(src);
-
-    var id = jQuery('#'+field).val();
-
-    jQuery.extend(params, {
-        '_terp_id': id,
-        '_terp_action': $src.attr('action_id'),
-        '_terp_model': $src.attr('relation'),
-        'datas': $src.attr('data')
-    });
-
+    var field = $src.attr('field') || '_terp_id';
+    
+    var id = jQuery('[id="'+field+'"]').val();
+    var source = jQuery('[id="'+field+'"]').attr('id');
+    
+    var action_id = $src.attr('action_id') || null;
+    var relation = $src.attr('relation');
+    var datas = $src.attr('data') || null;
+    
+    var domain = $src.attr('domain');
+    var context = $src.attr('context');
+    var context_menu = context_menu ? true: null;
+        
     eval_domain_context_request({
         'active_id': id,
         'active_ids': params['_terp_selection'],
-        'source': jQuery('#'+field).attr('id'),
-        'domain': $src.attr('domain'),
-        'context': $src.attr('context')
+        'source': source,
+        'domain': domain,
+        'context': context
     }).addCallback(function(obj) {
         window.open(openobject.http.getURL(
             get_form_action('action'),
             jQuery.extend(params, {
+                '_terp_action': action_id,
                 '_terp_domain': obj.domain,
-                '_terp_context': obj.context
+                '_terp_context': obj.context,
+                '_terp_id': id,
+                '_terp_model': relation,
+                'datas': datas,
+                'context_menu': context_menu
             })
         ));
 
@@ -881,14 +889,12 @@ function translate_fields(src){
 }
 
 function on_context_menu(evt){
-
     if (!evt.modifier()) {
         return;
     }
     var $target = jQuery(evt.target());
 
     var kind = $target.attr('kind');
-
     if (!(kind && $target.is(':input, :enabled'))) {
         return;
     }
