@@ -104,6 +104,12 @@ class OpenM2O(Form):
 
         params.editable = params.get('_terp_editable', True)
 
+        if 'default_name' in params.get('_terp_context') and not params.id:
+            proxy = rpc.RPCProxy(params.model)
+            id = proxy.create(data, params.context)
+            params.ids = (params.ids or []) + [int(id)]
+            params.id = int(id)
+
         return self.create(params)
 
 # vim: ts=4 sts=4 sw=4 si et

@@ -2114,7 +2114,7 @@ div.action-buttons div.pager {
     -moz-box-shadow: 0 1px 0 transparent;
     -webkit-box-shadow: 0 1px 0 transparent;
     background: url(../images/button-a.gif) repeat-x;
-    color: #fff;
+    color: #fff !important;
     white-space: nowrap;
     font-size: 1em;
     font-weight: bold;
@@ -2125,10 +2125,6 @@ div.action-buttons div.pager {
 .button-a.disable {
     background: darkGray none repeat scroll 0 0;
     color: #8D8D8D;
-}
-
-.button-a:hover, .button-a:focus, .button-a:active {
-    background: #666666;
 }
 
 
