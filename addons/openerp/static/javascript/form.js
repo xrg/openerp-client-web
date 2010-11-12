@@ -55,6 +55,7 @@ function openRecord(id, src, target, readonly){
         'ids': openobject.dom.get(prefix + '_terp_ids').value,
         'view_ids': openobject.dom.get(prefix + '_terp_view_ids').value,
         'view_mode': openobject.dom.get(prefix + '_terp_view_mode').value,
+        'view_type': openobject.dom.get(prefix + '_terp_view_type').value,
         'domain': openobject.dom.get(prefix + '_terp_domain').value,
         'context': openobject.dom.get(prefix + '_terp_context').value,
         'offset': openobject.dom.get(prefix + '_terp_offset').value,

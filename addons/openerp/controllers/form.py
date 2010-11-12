@@ -213,7 +213,7 @@ class Form(SecuredController):
         id = form.screen.id
         buttons = TinyDict()    # toolbar
         buttons.new = (not editable or mode == 'tree') and mode != 'diagram'
-        buttons.edit = not editable and mode == 'form'
+        buttons.edit = not editable and (mode == 'form' or mode == 'diagram')
         buttons.save = editable and mode == 'form'
         buttons.cancel = editable and mode == 'form'
         buttons.delete = not editable and mode == 'form'
@@ -271,7 +271,7 @@ class Form(SecuredController):
 
     def _read_form(self, context, count, domain, filter_domain, id, ids, kw,
                    limit, model, offset, search_data, search_domain, source,
-                   view_ids, view_mode, notebook_tab, editable=False):
+                   view_ids, view_mode, view_type, notebook_tab, editable=False):
         """ Extract parameters for form reading/creation common to both
         self.edit and self.view
         """
@@ -280,6 +280,7 @@ class Form(SecuredController):
                                        '_terp_ids' : ids,
                                        '_terp_view_ids' : view_ids,
                                        '_terp_view_mode' : view_mode,
+                                       '_terp_view_type' : view_type,
                                        '_terp_source' : source,
                                        '_terp_domain' : domain,
                                        '_terp_context' : context,
@@ -292,7 +293,6 @@ class Form(SecuredController):
                                        '_terp_notebook_tab': notebook_tab})
 
         params.editable = editable
-        params.view_type = 'form'
 
         if kw.get('default_date'):
             params.context.update({'default_date' : kw['default_date']})
@@ -312,7 +312,7 @@ class Form(SecuredController):
 
     @expose()
     def edit(self, model, id=False, ids=None, view_ids=None,
-             view_mode=['form', 'tree'],source=None, domain=[], context={},
+             view_mode=['form', 'tree'], view_type=None, source=None, domain=[], context={},
              offset=0, limit=20, count=0, search_domain=None,
              search_data=None, filter_domain=None, **kw):
 
@@ -320,7 +320,7 @@ class Form(SecuredController):
         params = self._read_form(context, count, domain, filter_domain, id,
                                  ids, kw, limit, model, offset, search_data,
                                  search_domain, source, view_ids, view_mode,
-                                 notebook_tab, editable=True)
+                                 view_type, notebook_tab, editable=True)
 
         if not params.ids:
             params.count = 0
@@ -335,7 +335,7 @@ class Form(SecuredController):
 
     @expose()
     def view(self, model, id, ids=None, view_ids=None,
-             view_mode=['form', 'tree'], source=None, domain=[], context={},
+             view_mode=['form', 'tree'], view_type=None, source=None, domain=[], context={},
              offset=0, limit=20, count=0, search_domain=None,
              search_data=None, filter_domain=None, **kw):
 
@@ -343,7 +343,7 @@ class Form(SecuredController):
         params = self._read_form(context, count, domain, filter_domain, id,
                                  ids, kw, limit, model, offset, search_data,
                                  search_domain, source, view_ids, view_mode,
-                                 notebook_tab)
+                                 view_type, notebook_tab)
 
         if not params.ids:
             params.count = 1
