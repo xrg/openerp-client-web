@@ -312,7 +312,7 @@ class Form(SecuredController):
 
     @expose()
     def edit(self, model, id=False, ids=None, view_ids=None,
-             view_mode=['form', 'tree'], view_type=None, source=None, domain=[], context={},
+             view_mode=['form', 'tree'], view_type='form', source=None, domain=[], context={},
              offset=0, limit=20, count=0, search_domain=None,
              search_data=None, filter_domain=None, **kw):
 
