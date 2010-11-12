@@ -173,7 +173,7 @@
                     <div style="position:relative">
                         % if params.text and not params.ids:
                             <div class="no-record-warning">
-                                <p>${_("The record")} '${params.text}' ${_("does not exists.")}</p>
+                                <p>${_("The record '%(searched_string)s' does not exist.", searched_string=params.text)}</p>
                                 <p>
                                     <a class="button-a" href="javascript: void(0)"
                                        onclick="do_create()">${_("Create %(searched_string)s", searched_string=params.text)}</a>
