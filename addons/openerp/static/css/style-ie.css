@@ -51,18 +51,6 @@ div.box2 button {
 /* http://dean.edwards.name/my/base64-sordid.html */
 img{behavior:expression((this.runtimeStyle.behavior="none")&&(/^data:.*;base64/i.test(this.src))&&(this.src="/image/b64?"+this.src.slice(5)));}
 
-.ie7 #applications_menu li {
-	float: left;
-}
-
-.ie7 .notebook-tab {
-	float: left;
-}
-
-.ie7 .item select {
-	width: 120px;
-}
-
 /**
  * vim: sts=4 st=4 et 
  *
