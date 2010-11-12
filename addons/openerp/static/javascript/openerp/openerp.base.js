@@ -189,7 +189,7 @@ jQuery(document).delegate(
     }
 });
 
-jQuery(document).ajaxStop(function() {
+function caller_onchange(){
     var $caller = jQuery('[callback]:not([type="hidden"]):not([value=""]):not([disabled]):not([readonly]))')
     if($caller.length) {
         $caller.each(function(){
@@ -201,6 +201,11 @@ jQuery(document).ajaxStop(function() {
             }
         });
     }
+}
+jQuery(document).ready(function(){
+    caller_onchange();
+}).ajaxStop(function() {
+    caller_onchange();
 });
 
 // Hook onchange for all elements
