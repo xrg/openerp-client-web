@@ -81,7 +81,7 @@ class Search(Form):
         params.source = source
         params.selectable = kind
         params.limit = params.limit or 20
-        params.text = text
+
         ctx = rpc.session.context.copy()
         ctx.update(params.context or {})
         params.ids = []
@@ -99,7 +99,7 @@ class Search(Form):
             params.search_text = True
             # When id does not exists for m2o
             if not ids:
-                params.context.update({'default_name' : text})
+                params.context['default_name'] = text
         if kw and kw.get('return_to'):
             params['return_to'] = ast.literal_eval(kw['return_to'])
 

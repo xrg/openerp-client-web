@@ -171,12 +171,12 @@
             <tr>
                 <td style="padding: 5px">
                     <div style="position:relative">
-                        % if params.text and not params.ids:
+                        % if not params.ids and 'default_name' in params.context:
                             <div class="no-record-warning">
-                                <p>${_("Found no record '%(searched_string)s'.", searched_string=params.text)}</p>
+                                <p>${_("Found no record '%(searched_string)s'.", searched_string=params.context['default_name'])}</p>
                                 <p>
                                     <a class="button-a" href="javascript: void(0)"
-                                       onclick="do_create()">${_("Create %(searched_string)s", searched_string=params.text)}</a>
+                                       onclick="do_create()">${_("Create %(searched_string)s", searched_string=params.context['default_name'])}</a>
                                 </p>
                             </div>
                         % endif
