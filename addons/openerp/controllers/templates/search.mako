@@ -168,25 +168,21 @@
                     </table>
                 </td>
             </tr>
-            % if params.text and not params.ids:
             <tr>
-	            <td align="center">
-		            <table align="center" class="no-record-warning">
-		                <tr>
-		                	<td>${_("The record")} '${params.text}' ${_("does not exists.")}</td>
-		                </tr>
-		                <tr>
-		                    <td align="center" style="padding-top: 5px">
-		                        <a class="button-a" href="javascript: void(0)"
-		                           onclick="do_create()">${_("Create")}</a>
-		                    </td>
-		                </tr>
-		            </table>
-		        </td>
-            </tr>
-        % endif
-            <tr>
-                <td style="padding: 5px">${form.screen.display()}</td>
+                <td style="padding: 5px">
+                    <div style="position:relative">
+                        % if params.text and not params.ids:
+                            <div class="no-record-warning">
+                                <p>${_("The record")} '${params.text}' ${_("does not exists.")}</p>
+                                <p>
+                                    <a class="button-a" href="javascript: void(0)"
+                                       onclick="do_create()">${_("Create %(searched_string)s", searched_string=params.text)}</a>
+                                </p>
+                            </div>
+                        % endif
+                        ${form.screen.display()}
+                    </div>
+                </td>
             </tr>
         </table>
         <script type="text/javascript">
