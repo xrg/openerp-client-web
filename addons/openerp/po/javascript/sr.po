@@ -1,65 +1,64 @@
-# French translations for PROJECT.
-# Copyright (C) 2010 ORGANIZATION
-# This file is distributed under the same license as the PROJECT project.
+# Serbian translation for openobject-client-web
+# Copyright (c) 2010 Rosetta Contributors and Canonical Ltd 2010
+# This file is distributed under the same license as the openobject-client-web package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2010.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: PROJECT VERSION\n"
-"Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
+"Project-Id-Version: openobject-client-web\n"
+"Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2010-10-26 10:51+0200\n"
-"PO-Revision-Date: 2010-11-12 01:41+0000\n"
-"Last-Translator: Davide Corio - Domsense <davide.corio@domsense.com>\n"
-"Language-Team: it <LL@li.org>\n"
+"PO-Revision-Date: 2010-11-12 23:18+0000\n"
+"Last-Translator: zmmaj <Unknown>\n"
+"Language-Team: Serbian <sr@li.org>\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=utf-8\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Launchpad-Export-Date: 2010-11-13 04:55+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
-"Generated-By: Babel 0.9.4\n"
 
 #: static/javascript/form.js:99
 #, python-format
 msgid "You selected to open %(tabs)s tabs - do you want to continue?"
-msgstr "Hai deciso di aprire %(tabs)s tab - vuoi continuare?"
+msgstr "Selektovali ste da otvorite %(tabs)s tabove- zelite li da nastavite?"
 
 #: static/javascript/form.js:228
 msgid "Invalid form, correct red fields."
-msgstr "Form non valido, correggere i campi in rosso."
+msgstr "Neispravna forma, ispravite crveno oznacena polja"
 
 #: static/javascript/form.js:263
 msgid "Do you really want to delete this record?"
-msgstr "Vuoi veramente eliminare questo record?"
+msgstr "da li zaista zelite da izbrisete ovaj zapis?"
 
 #: static/javascript/form.js:892 static/javascript/form.js:1016
 #: static/javascript/listgrid.js:603
 msgid "You must select at least one record."
-msgstr "Devi selezionare almeno un record."
+msgstr "Morate selektovati makar jedan zapis"
 
 #: static/javascript/form.js:1039
 msgid "Do you really want to delete the attachment"
-msgstr "Vuoi veramente eliminare l'allegato?"
+msgstr "Da li zaista zelite da izbrisete dodatak ( attachment)"
 
 #: static/javascript/listgrid.js:605
 msgid "Do you really want to delete selected record(s) ?"
-msgstr "Vuoi veramente eliminare i/il record selezionato/i?"
+msgstr "Da li zaista zelite da izbrisete izabrani/e zapis/e ?"
 
 #: static/javascript/o2m.js:62
 msgid "Do you really want to delete record ?"
-msgstr "Vuoi veramente eliminare il record?"
+msgstr "Da li zaista zelite da izbrisete zapis?"
 
 #: static/javascript/viewed.js:71
 msgid "Do you really want to remove this node?"
-msgstr "Vuoi veramente eliminare questo nodo?"
+msgstr "Da li zaista zelite da uklonite ovaj cvor?"
 
 #: static/javascript/viewed.js:337
 msgid "Do you really wants to create an inherited view here?"
-msgstr "Vuoi veramente creare una vista ereditata in questa posizione?"
+msgstr "Da li zaista zelite da se ovde kreira poseban pregled?"
 
 #: static/javascript/openerp/openerp.ui.tips.js:59
 msgid "Object"
-msgstr "Oggetto"
+msgstr "Objekat"
 
 #: static/javascript/openerp/openerp.ui.tips.js:60
 msgid "Field"
-msgstr "Campo"
+msgstr "Polje"
