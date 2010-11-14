@@ -1,0 +1,1610 @@
+# Serbian translation for openobject-client-web
+# Copyright (c) 2010 Rosetta Contributors and Canonical Ltd 2010
+# This file is distributed under the same license as the openobject-client-web package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2010.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: openobject-client-web\n"
+"Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
+"POT-Creation-Date: 2010-10-26 10:51+0200\n"
+"PO-Revision-Date: 2010-11-13 15:41+0000\n"
+"Last-Translator: zmmaj <Unknown>\n"
+"Language-Team: Serbian <sr@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Launchpad-Export-Date: 2010-11-14 05:06+0000\n"
+"X-Generator: Launchpad (build Unknown)\n"
+
+#: validators.py:83
+msgid "Invalid literal for float"
+msgstr "Ne može se pokrenuti"
+
+#: validators.py:122 validators.py:127 validators.py:270
+msgid "Invalid datetime format"
+msgstr "Format datum/vreme neispravan"
+
+#: validators.py:174
+msgid "Please select a file."
+msgstr "Molim selektujte fajl"
+
+#: validators.py:255
+msgid "Please enter an email address"
+msgstr "Molim upišite Email adresu"
+
+#: validators.py:256
+msgid "An email address must contain a single @"
+msgstr "Email adresa moye sadryavati samo jedan karakter @"
+
+#: validators.py:257
+#, python-format
+msgid ""
+"The username portion of the email address is invalid (the portion before the "
+"@: %(username)s)"
+msgstr ""
+"Korisničko ime dela Email adrese je neispravno (deo pre @: %(username)s)"
+
+#: validators.py:258
+#, python-format
+msgid ""
+"The domain portion of the email address is invalid (the portion after the @: "
+"%(domain)s)"
+msgstr "Deo Domena Email adrese je neispravan ( deo posle @: %(domain)s)"
+
+#: validators.py:262
+msgid "You must start your URL with http://, https://, etc"
+msgstr "Morate yapoceti vaš URL sa http://, https://, itd"
+
+#: validators.py:263
+msgid "That is not a valid URL"
+msgstr "Ovo nije ispravan URL"
+
+#: validators.py:264
+#, python-format
+msgid "You must provide a full domain name (like %(domain)s.com)"
+msgstr "MOrate dati potpuno ime Domena ( kao npr %(domain)s.com)"
+
+#: validators.py:268
+msgid "Please enter an integer value"
+msgstr "Molim upišite brojčanu vrednost"
+
+#: validators.py:269
+msgid "Please enter a number"
+msgstr "MOlim upišite broj"
+
+#: controllers/actions.py:93
+msgid "Invalid View"
+msgstr "Neispravan Pregled"
+
+#: controllers/actions.py:127
+msgid "Error no report"
+msgstr "Greška, Nema Izveštaja"
+
+#: controllers/actions.py:153
+msgid "Nothing to print"
+msgstr "Ništa za štampu"
+
+#: controllers/actions.py:170
+msgid "Printing aborted, too long delay"
+msgstr "Štampanje otkazano, previše čekanja"
+
+#: controllers/actions.py:320
+msgid "Relative URLs are not supported"
+msgstr "Relativne URL adrese nisu podržane"
+
+#: controllers/actions.py:355
+msgid "Action not found"
+msgstr "Akcija nije nađena"
+
+#: controllers/actions.py:403
+msgid "No action defined"
+msgstr "Ni jedna akcija nije definisana"
+
+#: controllers/attachment.py:63
+msgid "No record selected, You can only attach to existing record..."
+msgstr ""
+"NI jedan zapis nije selektovan. Možeš jedino dodati postojećem zapisu..."
+
+#: controllers/database.py:72
+msgid "Create database"
+msgstr "Kreiraj DataBazu"
+
+#: controllers/database.py:74 controllers/database.py:90
+#: controllers/database.py:99 controllers/database.py:107
+#: controllers/database.py:116 controllers/templates/exp.mako:225
+#: controllers/templates/fieldpref.mako:102
+#: controllers/templates/selection.mako:45
+msgid "OK"
+msgstr "U Redu"
+
+#: controllers/database.py:77
+msgid "Super admin password:"
+msgstr "Super admin lozinka:"
+
+#: controllers/database.py:78 controllers/database.py:110
+msgid "New database name:"
+msgstr "Ime nove DataBaze"
+
+#: controllers/database.py:79
+msgid "Load Demonstration data:"
+msgstr "Uvezi demo podatke:"
+
+#: controllers/database.py:80
+msgid "Default Language:"
+msgstr "Podrazumevani jezik:"
+
+#: controllers/database.py:81
+msgid "Administrator password:"
+msgstr "Lozinka Administratora"
+
+#: controllers/database.py:82
+msgid "Confirm password:"
+msgstr "Potvrdi Lozinku:"
+
+#: controllers/database.py:88
+msgid "Drop database"
+msgstr "Ostavi DataBazu"
+
+#: controllers/database.py:92 controllers/database.py:100
+#: controllers/templates/login.mako:39
+msgid "Database:"
+msgstr "DataBaza:"
+
+#: controllers/database.py:93 controllers/database.py:101
+#: controllers/database.py:109 controllers/templates/login.mako:57
+#: controllers/templates/login_ajax.mako:78
+#: controllers/templates/login_ajax.mako:98
+msgid "Password:"
+msgstr "Lozinka:"
+
+#: controllers/database.py:97
+msgid "Backup database"
+msgstr "Backup DataBaze"
+
+#: controllers/database.py:105
+msgid "Restore database"
+msgstr "Povrati DataBazu"
+
+#: controllers/database.py:108
+msgid "File:"
+msgstr "Fajl:"
+
+#: controllers/database.py:114
+msgid "Change Administrator Password"
+msgstr "Promeni Lozinku Administratora"
+
+#: controllers/database.py:117
+msgid "Old Password:"
+msgstr "Stara Lozinka:"
+
+#: controllers/database.py:118
+msgid "New Password:"
+msgstr "Stara Lozinka"
+
+#: controllers/database.py:119
+msgid "Confirm Password:"
+msgstr "Potvrdi Lozinku"
+
+#: controllers/database.py:157
+msgid "You must avoid all accents, space or special characters."
+msgstr ""
+"Morate izbegavati sve akcente, prazan prostor ili specijalne karaktere."
+
+#: controllers/database.py:158
+msgid "Bad database name"
+msgstr "Loše ime DataBaze"
+
+#: controllers/database.py:179 controllers/database.py:187
+#: controllers/database.py:189
+msgid "Could not create database."
+msgstr "Ne mogu da kreiram DataBazu."
+
+#: controllers/database.py:180
+msgid "Database already exists"
+msgstr "DataBaza već postoji"
+
+#: controllers/database.py:183
+msgid ""
+"The server crashed during installation.\n"
+"We suggest you to drop this database."
+msgstr ""
+"Server je pao tokom instalacije.\n"
+"Predlažemo ti da napustiš ovu DataBazu."
+
+#: controllers/database.py:184
+msgid "Error during database creation"
+msgstr "Greška tokom kreiranja DataBaze"
+
+#: controllers/database.py:186 controllers/database.py:213
+#: controllers/database.py:260
+msgid "Bad database administrator password"
+msgstr "Loša lozinka administratora DataBaze"
+
+#: controllers/database.py:214
+msgid "Could not drop database."
+msgstr "Ne mogu da napustim DataBazu."
+
+#: controllers/database.py:216
+msgid "Could not drop database"
+msgstr "Ne mogu da napustim DataBazu"
+
+#: controllers/database.py:239
+msgid "Could not create backup."
+msgstr "Ne mogu da uradim backup."
+
+#: controllers/database.py:261
+msgid "Could not restore database."
+msgstr "Ne mogu da povratim DataBazu."
+
+#: controllers/database.py:263
+msgid "Could not restore database"
+msgstr "Ne mogu da povratim DataBazu"
+
+#: controllers/database.py:283
+msgid "Could not change super admin password."
+msgstr "Ne mogu da promenim Super admin Lozinku."
+
+#: controllers/database.py:284
+msgid "Bad password provided."
+msgstr "Dao si lošu lozinku."
+
+#: controllers/database.py:286
+msgid "Error, password not changed."
+msgstr "Greška, lozinka nije promenjena."
+
+#: controllers/error_page.py:86
+msgid ""
+"Your problem has been sent to the quality team\n"
+"We will recontact you after analysing the problem."
+msgstr ""
+"Tvoj problem je prosleđen kvalifikovanom timu\n"
+"Kontaktiraćemo vas nakon analize problema."
+
+#: controllers/error_page.py:88
+#, python-format
+msgid ""
+"Your problem could not be sent to the quality team\n"
+"Please report this error manually at %s"
+msgstr ""
+"Vaš problem nije mogao biti poslat kvalifikovanom timu\n"
+"Molim vas pošaljite grešku ručno na %s"
+
+#: controllers/form.py:545
+msgid "Invalid button type"
+msgstr "Tip Dugmeta neispravan"
+
+#: controllers/form.py:905 controllers/tree.py:241
+msgid "No record selected"
+msgstr "Nije selektovan zapis"
+
+#: controllers/form.py:932
+msgid "You must save this record to use the sidebar button"
+msgstr "Moraš sačuvati ovaj zapis da bi koristio sidebar dugme"
+
+#: controllers/form.py:972 utils/rpc.py:130 utils/rpc.py:141 utils/rpc.py:144
+#: widgets/listgrid.py:337 widgets/form/_form.py:910
+msgid "Application Error"
+msgstr "Greška Aplikacije"
+
+#: controllers/form.py:972
+#, python-format
+msgid "Wrong on_change trigger: %s"
+msgstr "Pogrešan on_change  okidač: %s"
+
+#: controllers/impex.py:71
+msgid ""
+"Operation failed\n"
+"I/O error"
+msgstr ""
+"Zadatak nije izvršen\n"
+"I/O Greška"
+
+#: controllers/impex.py:357
+msgid "Export Error"
+msgstr "Izvezi Grešku"
+
+#: controllers/impex.py:368
+msgid ""
+"Please Install xlwt Library.\n"
+"To create spreadsheet files compatible with MS Excel."
+msgstr ""
+"Molim instalirajte xlwt Biblioteku.\n"
+"Da bi kreirali proračunske tabele kompatibilne sa MS Exel tabelama."
+
+#: controllers/impex.py:368 controllers/impex.py:483
+msgid "Import Error."
+msgstr "Greška pri Uvozu."
+
+#: controllers/impex.py:467
+msgid "Error opening .CSV file"
+msgstr "Greška pri otvaranju ,CVS fajla"
+
+#: controllers/impex.py:467
+msgid "Input Error."
+msgstr "Greška Unosa"
+
+#: controllers/impex.py:480
+#, python-format
+msgid "You cannot import this field %s, because we cannot auto-detect it"
+msgstr "Ne možeš uvesti polje %s, zato što ga ne možemo autodetektovati"
+
+#: controllers/impex.py:483
+#, python-format
+msgid ""
+"Error processing your first line of the file.\n"
+"Field %s is unknown"
+msgstr ""
+"Greška pri obradi prve linije fajla.\n"
+"Polje %s je nepoznato"
+
+#: controllers/impex.py:510
+msgid "XML-RPC error"
+msgstr "XML-RPC Greška"
+
+#: controllers/impex.py:512
+#, python-format
+msgid "Imported %d objects"
+msgstr "Uveženi %d objekti"
+
+#: controllers/impex.py:517
+#, python-format
+msgid ""
+"Error trying to import this record:\n"
+"%s\n"
+"Error Message:\n"
+"%s\n"
+"\n"
+"%s"
+msgstr ""
+"Greška pri pokušaju da uvezem ovaj zapis:\n"
+"%s\n"
+"Poruka Greške:\n"
+"%s\n"
+"\n"
+"%s"
+
+#: controllers/impex.py:518
+msgid "Importation Error"
+msgstr "Greška pri uvozu"
+
+#: controllers/listgrid.py:56
+msgid "Parent record doesn't exists..."
+msgstr "Roditeljski zapis ne postoji..."
+
+#: controllers/preferences.py:64 controllers/templates/header.mako:54
+msgid "Preferences"
+msgstr "Podešavanja"
+
+#: controllers/root.py:169
+#, python-format
+msgid "Version %s"
+msgstr "Verzija %s"
+
+#: controllers/translator.py:140
+msgid "You need to save the resource before adding translations."
+msgstr "TRebaš sačuvati zapis pre dodavanja prevoda."
+
+#: controllers/tree.py:272
+msgid "No resource selected"
+msgstr "Nijedan resurs nije selektovan"
+
+#: controllers/utils.py:52
+msgid "Could not connect to server"
+msgstr "Ne mogu da se konektujem na Server"
+
+#: controllers/utils.py:143 controllers/templates/login_ajax.mako:111
+msgid "Bad username or password"
+msgstr "Loše korisničko ime ili lozinka"
+
+#: controllers/view_log.py:40
+msgid "ID"
+msgstr "ID"
+
+#: controllers/view_log.py:41
+msgid "Creation User"
+msgstr "Kreiranje Korisnika"
+
+#: controllers/view_log.py:42
+msgid "Creation Date"
+msgstr "Datum Kreiranja"
+
+#: controllers/view_log.py:43
+msgid "Latest Modification by"
+msgstr "Poslednje izmene uradio"
+
+#: controllers/view_log.py:44
+msgid "Latest Modification Date"
+msgstr "Datum poslednjih izmena"
+
+#: controllers/view_log.py:45
+msgid "Owner"
+msgstr "Vlasnik"
+
+#: controllers/view_log.py:46
+msgid "Group Owner"
+msgstr "Vlasnik Grupe"
+
+#: controllers/view_log.py:47
+msgid "Access Level"
+msgstr "Nivo Pristupa"
+
+#: controllers/view_log.py:48
+msgid "Internal module data ID"
+msgstr "ID podataka internog modula"
+
+#: controllers/viewed.py:228
+msgid "Invalid view id."
+msgstr "Neispravan ID pregleda"
+
+#: controllers/viewed.py:504
+msgid "Unable to create inherited view."
+msgstr "Ne mogu da kreiram pozvani pregled"
+
+#: controllers/viewed.py:506
+msgid "Can't create inherited view here."
+msgstr "Ne mogu da ovde kreiram pozvani pregled."
+
+#: controllers/viewed.py:509
+msgid "Not implemented yet!"
+msgstr "Još nije implementirano!"
+
+#: controllers/viewed.py:614
+msgid "Unable to update the view."
+msgstr "Ne mogu da osvežim pregled."
+
+#: controllers/viewed.py:868
+msgid "New Window"
+msgstr "Novi Prozor"
+
+#: controllers/viewed.py:880
+msgid "Save Button"
+msgstr "Dugme Sačuvaj"
+
+#: controllers/viewed.py:880
+msgid "Cancel Button"
+msgstr "Dugme Otkaži"
+
+#: controllers/viewed.py:880
+msgid "Open Button"
+msgstr "Dugme Otvori"
+
+#: controllers/viewed.py:886
+msgid "Left"
+msgstr "Levo"
+
+#: controllers/viewed.py:886
+msgid "Center"
+msgstr "Centar"
+
+#: controllers/viewed.py:886
+msgid "Right"
+msgstr "Desno"
+
+#: controllers/templates/about.mako:4
+msgid "About the OpenERP Web"
+msgstr "O OpenERP Web-u"
+
+#: controllers/templates/about.mako:15
+msgid "OpenERP Web"
+msgstr "OpenERP Web"
+
+#: controllers/templates/about.mako:21
+msgid "Copyright &copy; 2006-TODAY Tiny ERP Pvt. Ltd. All Rights Reserved."
+msgstr ""
+"Copyright &copy; 2006-TODAY Tiny ERP Pvt. Ltd. Sva Prava garantovana.."
+
+#: controllers/templates/about.mako:22
+msgid "OpenERP is a trademark of the Tiny Company."
+msgstr "OpenERP je zaštitni znak Tiny Kompanije."
+
+#: controllers/templates/about.mako:24
+#, python-format
+msgid "%(ooweb)s is jointly developed by %(tiny)s and %(axelor)s."
+msgstr "%(ooweb)s je konstantno unapređivan od strane %(tiny)s i %(axelor)s."
+
+#: controllers/templates/about.mako:31
+#, python-format
+msgid "Licenced under the terms of %(license)s"
+msgstr "Licencirano pod uslovima %(license)s"
+
+#: controllers/templates/about.mako:37
+msgid "About OpenERP"
+msgstr "O OpenERP-u"
+
+#: controllers/templates/about.mako:42
+#, python-format
+msgid ""
+"%(openobject)s is a free enterprise-scale software system that is designed "
+"to boost\n"
+"productivity and profit through data integration. It connects, improves and\n"
+"manages business processes in areas such as sales, finance, supply chain,\n"
+"project management, production, services, CRM, etc..\n"
+msgstr ""
+"%(openobject)s je besplatni knjigovodstveni softverski sistem koji je "
+"dizajniran da poveća\n"
+"produktivnost i profit kroz integraciju i analizu podataka. On konektuje, "
+"poboljšava i\n"
+"upravlja poslovnim procesima i područjima kao što su prodaja, finansije, "
+"lanac nabavke,\n"
+"Projektni menadžment , proizvodnja, servisiranje, CRM, itd itd itd..\n"
+
+#: controllers/templates/about.mako:50
+msgid ""
+"The system is platform-independent, and can be installed on Windows, Mac OS "
+"X,\n"
+"and various Linux and other Unix-based distributions. Its architecture "
+"enables\n"
+"new functionality to be rapidly created, modifications to be made to a\n"
+"production system and migration to a new version to be straightforward."
+msgstr ""
+"Sistem je platformski nezavistan, i može se instalirati na Windows-u, Mac OS "
+"X-u,\n"
+"i raznim Linux i Unix baziranim distribucijama. Njegova arhitektura "
+"omogućava\n"
+"izuzetne mogućnosti kao što su brzo postavljanje,Mogućnost jednostavnog i "
+"brzog seljenja \n"
+"na novu verziju."
+
+#: controllers/templates/about.mako:57
+msgid ""
+"Depending on your needs, OpenERP is available through a web or application "
+"client."
+msgstr ""
+"Ovisno o vašim potrebama. OpenERP je dostupan preko Web i Aplikacionog "
+"klijenta."
+
+#: controllers/templates/about.mako:62 widgets/templates/sidebar.mako:38
+msgid "Links"
+msgstr "Veze"
+
+#: controllers/templates/about.mako:68
+msgid "The Axelor Company"
+msgstr "Axelor kompanija"
+
+#: controllers/templates/about.mako:69
+msgid "The Tiny Company"
+msgstr "Tinz kompanija"
+
+#: controllers/templates/about.mako:83
+msgid "RESOURCES"
+msgstr "RESURSI"
+
+#: controllers/templates/about.mako:91
+msgid "Homepage"
+msgstr "Početna Strana"
+
+#: controllers/templates/about.mako:95
+msgid "Download"
+msgstr "Download"
+
+#: controllers/templates/about.mako:99
+msgid "Documentation"
+msgstr "Dokumentacija"
+
+#: controllers/templates/about.mako:103
+msgid "Modules"
+msgstr "Moduli"
+
+#: controllers/templates/about.mako:107
+msgid "Screencasts"
+msgstr "Screencastovi"
+
+#: controllers/templates/about.mako:111
+msgid "Community"
+msgstr "Zajednica"
+
+#: controllers/templates/about.mako:115
+msgid "SaaS Offers"
+msgstr "Saas Ponude"
+
+#: controllers/templates/about.mako:119
+msgid "Trainings"
+msgstr "Treninzi"
+
+#: controllers/templates/about.mako:123
+msgid "Services"
+msgstr "Servisi"
+
+#: controllers/templates/database.mako:49 controllers/templates/login.mako:4
+#: controllers/templates/login.mako:67 controllers/templates/login_ajax.mako:85
+#: controllers/templates/login_ajax.mako:104
+msgid "Login"
+msgstr "Prijava"
+
+#: controllers/templates/database.mako:51
+msgid "Create"
+msgstr "Kreiraj"
+
+#: controllers/templates/database.mako:53
+msgid "Drop"
+msgstr "Napusti"
+
+#: controllers/templates/database.mako:55
+msgid "Backup"
+msgstr "Backup"
+
+#: controllers/templates/database.mako:57
+msgid "Restore"
+msgstr "Povrati"
+
+#: controllers/templates/database.mako:59
+msgid "Password"
+msgstr "Lozinka"
+
+#: controllers/templates/error_page.mako:70
+msgid "An "
+msgstr "jedan "
+
+#: controllers/templates/error_page.mako:70
+msgid "has been reported."
+msgstr "je izvešten"
+
+#: controllers/templates/error_page.mako:72
+msgid "Let me fix it"
+msgstr "Dopusti da popravim"
+
+#: controllers/templates/error_page.mako:78
+msgid "Fix it for me"
+msgstr "Popravi umesto mene"
+
+#: controllers/templates/error_page.mako:83
+msgid "You do not have a valid OpenERP maintenance contract !"
+msgstr "Nemaš validan OpenERP ugovor o održavanju !"
+
+#: controllers/templates/error_page.mako:84
+msgid ""
+"If you are using OpenERP in production, it is recommended to have\n"
+"a maintenance program.\n"
+"\n"
+"The OpenERP maintenance contract provides you with bug fix guarantees and "
+"an\n"
+"automatic migration system so that we can start working on your problems "
+"within a few\n"
+"hours.\n"
+"\n"
+"With a maintenance contract, errors such as this one can be sent directly to "
+"the OpenERP\n"
+"team for review and evaluation.\n"
+"\n"
+"The maintenance program offers you:\n"
+"* Automatic migrations on new versions,\n"
+"* A bugfix guarantee,\n"
+"* Monthly announces of potential bugs and their fixes,\n"
+"* Security alerts by email and automatic migration,\n"
+"* Access to the customer portal.\n"
+msgstr ""
+"Ukoliko koristite OpenERP u proizvodnji, preporučeno je da imate\n"
+"ugovor o održavanju.\n"
+"OpenERP Ugovor o održavanju vam garantuje ispravke grešaka i automatski "
+"migraciju\n"
+"sistema, na način da nama omogućuje da krenemo da radimo na problemu za "
+"svega par\n"
+" sati.\n"
+"Sa ugovorom o održavanju, greške kao dosadašnje se mogu poslati direktno "
+"OpenERP\n"
+"timovima na uvid i rešavanje.\n"
+"\n"
+"Program održavanja vam nudi:\n"
+"*Automatsku migraciju na novu verziju aplikacije,\n"
+"*Garantovano rešavanje grešaka,\n"
+"*Mesečno objavljivanje potencijalnih grešaka i n jihovo rešavanje,\n"
+"*Sigurnosna upozorenja Emailom i automatskom migracijom,\n"
+"*Pristup korisničkom portalu.\n"
+
+#: controllers/templates/error_page.mako:106
+msgid ""
+"Your maintenance contract does not cover all modules installed in your "
+"system !\n"
+"If you are using OpenERP in production, it is highly suggested to upgrade "
+"your\n"
+"contract.\n"
+"\n"
+"If you have developed your own modules or installed third party module, we\n"
+"can provide you an additional maintenance contract for these modules. After\n"
+"having reviewed your modules, our quality team will ensure they will "
+"migrate\n"
+"automatically for all future stable versions of OpenERP at no extra cost.\n"
+"\n"
+"Here is the list of modules not covered by your maintenance contract:"
+msgstr ""
+"Vaš ogovor o održavanju NE pokriva sve module instalirane na vašem sistemu "
+"!\n"
+"Ako koristite OpenERP u Proizvodnji, mi vam preporučijrmo da obnovite vaš\n"
+"ugovor.\n"
+"\n"
+"Ukoliko imate ugradjene vaše sopstvene module ili instalirane module treće "
+"strane, mi\n"
+"vam možemo proslediti odgovarajuće ugovore za te module. Nakon\n"
+"pregleda vaših modula, naši kvalifikovani timovi će osigurati da i oni "
+"automatski migriraju\n"
+"za sve buduće verzije OpenERP-a potpuno besplatno.\n"
+"\n"
+"Ovde je lista modula koji nisu pokriveni vašim ugovorom:"
+
+#: controllers/templates/error_page.mako:128
+msgid "Maintenance contract."
+msgstr "Ugovor o Održavanju."
+
+#: controllers/templates/error_page.mako:129
+msgid ""
+"Your request will be sent to OpenERP and maintenance team will reply you "
+"shortly."
+msgstr ""
+"Vaš će zahtev biti prosleđen OpenERP -u i tim za održavanje će vam se ubrzo "
+"javiti."
+
+#: controllers/templates/error_page.mako:134
+msgid "Explain what you did:"
+msgstr "Objasni šta si uradio:"
+
+#: controllers/templates/error_page.mako:143
+msgid "Other Comments:"
+msgstr "Ostali Komentari:"
+
+#: controllers/templates/error_page.mako:155
+msgid "Send to Maintenance Team"
+msgstr "Pošalji timu za održavanje"
+
+#: controllers/templates/error_page.mako:182
+msgid "Write concurrency warning :"
+msgstr "Napiši upozorenje konkurentnosti :"
+
+#: controllers/templates/error_page.mako:187
+msgid ""
+"This document has been modified while you were editing it.\n"
+"Choose:\n"
+"\n"
+"    - \"Cancel\" to cancel saving.\n"
+"    - \"Write anyway\" to save your current version."
+msgstr ""
+"Ovaj je dokument izmenjen pri vašem uređivanju istog.\n"
+"Izaberi:\n"
+"\n"
+"    -\"Otkaži\" da otkažeš čuvanje\n"
+"    -\"Upiše svakako\" da sačuvaš svoje izmene."
+
+#: controllers/templates/error_page.mako:201
+#: controllers/templates/form.mako:128
+#: controllers/templates/preferences.mako:23
+#: controllers/templates/selection.mako:43
+#: controllers/templates/viewlist.mako:160 widgets/templates/listgrid.mako:33
+msgid "Cancel"
+msgstr "Otkaži"
+
+#: controllers/templates/error_page.mako:202
+msgid "Write Anyway"
+msgstr "Upiši Svakako"
+
+#: controllers/templates/exp.mako:143 widgets/templates/sidebar.mako:101
+msgid "Export"
+msgstr "Izvezi"
+
+#: controllers/templates/exp.mako:144 controllers/templates/fieldpref.mako:99
+#: controllers/templates/image.mako:71 controllers/templates/imp.mako:112
+#: controllers/templates/openm2m.mako:64 controllers/templates/openm2o.mako:57
+#: controllers/templates/openo2m.mako:86
+#: controllers/templates/save_filter.mako:24
+#: controllers/templates/search.mako:164
+#: controllers/templates/translator.mako:41
+#: controllers/templates/translator.mako:108
+#: controllers/templates/viewed.mako:37
+#: controllers/templates/viewed_new.mako:49
+#: controllers/templates/viewed_new_model.mako:42
+#: controllers/templates/viewed_preview.mako:28
+#: controllers/templates/viewlist.mako:129 widgets/templates/sidebar.mako:58
+#: widgets/templates/viewform.mako:31
+msgid "Close"
+msgstr "Zatvori"
+
+#: controllers/templates/exp.mako:146
+msgid "Export Data"
+msgstr "Izvezi podatke"
+
+#: controllers/templates/exp.mako:163 controllers/templates/form.mako:123
+#: controllers/templates/image.mako:68 widgets/form/templates/one2many.mako:20
+#: widgets/templates/listgrid.mako:102 widgets/templates/listgrid.mako:106
+#: widgets/templates/listgrid.mako:172 widgets/templates/listgrid.mako:177
+#: widgets/templates/listgroup.mako:125
+#: widgets/templates/multiple_group.mako:82 widgets/templates/sidebar.mako:58
+msgid "Delete"
+msgstr "Izbriši"
+
+#: controllers/templates/exp.mako:174 controllers/templates/imp.mako:124
+msgid "All fields"
+msgstr "Sva Polja"
+
+#: controllers/templates/exp.mako:176
+msgid "Fields to export"
+msgstr "Polja za izvoz"
+
+#: controllers/templates/exp.mako:186 controllers/templates/imp.mako:136
+#: widgets/templates/listgrid.mako:133 widgets/templates/sidebar.mako:46
+msgid "Add"
+msgstr "Dodaj"
+
+#: controllers/templates/exp.mako:191 controllers/templates/imp.mako:141
+#: controllers/templates/viewlist.mako:125
+msgid "Remove"
+msgstr "Ukloni"
+
+#: controllers/templates/exp.mako:196 controllers/templates/imp.mako:146
+msgid "Nothing"
+msgstr "Ništa"
+
+#: controllers/templates/exp.mako:201 controllers/templates/exp.mako:217
+msgid "Save List"
+msgstr "Sačuvaj listu"
+
+#: controllers/templates/exp.mako:220
+msgid "Name of This Export:"
+msgstr "Ime ovog Izvoza"
+
+#: controllers/templates/exp.mako:236 controllers/templates/imp.mako:178
+msgid "Options"
+msgstr "Opcije"
+
+#: controllers/templates/exp.mako:241
+msgid "Export as CSV"
+msgstr "Izvezi kao CSV"
+
+#: controllers/templates/exp.mako:242
+msgid "Export as Excel"
+msgstr "Izvezi kao Excel"
+
+#: controllers/templates/exp.mako:248
+msgid "Add field names"
+msgstr "Dodaj imena polja"
+
+#: controllers/templates/exp.mako:257
+msgid "Select an Option to Export"
+msgstr "Izaberi opciju za izvoz"
+
+#: controllers/templates/exp.mako:263
+msgid "Import Compatible"
+msgstr "Uvezi kompatibilno"
+
+#: controllers/templates/fieldpref.mako:4
+#: controllers/templates/fieldpref.mako:29
+msgid "Field Preferences"
+msgstr "Podešavanja Polja"
+
+#: controllers/templates/fieldpref.mako:39
+msgid "Field Name:"
+msgstr "Ime Polja:"
+
+#: controllers/templates/fieldpref.mako:43
+msgid "Domain:"
+msgstr "Domain:"
+
+#: controllers/templates/fieldpref.mako:47
+msgid "Default Value:"
+msgstr "Podrazumevana Vrednost:"
+
+#: controllers/templates/fieldpref.mako:57
+msgid "Value applicable for:"
+msgstr "Vrednost primenjiva za:"
+
+#: controllers/templates/fieldpref.mako:63
+msgid "Only for you"
+msgstr "Samo za tebe"
+
+#: controllers/templates/fieldpref.mako:67
+msgid "For all"
+msgstr "Za sve"
+
+#: controllers/templates/fieldpref.mako:76
+msgid "Value applicable if:"
+msgstr "Vrednost primenljiva ukoliko:"
+
+#: controllers/templates/fieldpref.mako:79
+msgid "Always applicable!"
+msgstr "Uvek primenljivo!"
+
+#: controllers/templates/footer.mako:3
+#, python-format
+msgid "&copy; 2008-2010 %(ooweb)s  SA. All Rights Reserved "
+msgstr ""
+"Copy text \t\r\n"
+"&copy; 2008-2010 %(ooweb)s SA. Sva prava zadržana "
+
+#: controllers/templates/footer.mako:6
+msgid "Significant contributions to the web client have been made by"
+msgstr "Značajniju kontribuciju za web klijent je uradio"
+
+#: controllers/templates/form.mako:65
+msgid "Add / Remove Shortcut..."
+msgstr "Dodaj / Ukloni Prečicu"
+
+#: controllers/templates/form.mako:69
+msgid "Corporate Intelligence..."
+msgstr "Korporativna Inteligencija..."
+
+#: controllers/templates/form.mako:74
+msgid "Show Logs..."
+msgstr "Prikaži Logove"
+
+#: controllers/templates/form.mako:84
+msgid "Tips"
+msgstr "Saveti"
+
+#: controllers/templates/form.mako:85
+msgid "hide"
+msgstr "sakrij"
+
+#: controllers/templates/form.mako:86
+msgid "Disable all Tips"
+msgstr "Onemogući sve Savete"
+
+#: controllers/templates/form.mako:99
+msgid "Create a new resource"
+msgstr "Kreiraj novi resurs"
+
+#: controllers/templates/form.mako:100 controllers/templates/search.mako:163
+#: controllers/templates/viewed_new_model.mako:36
+#: controllers/templates/viewlist.mako:119 widgets/form/_o2m.py:55
+#: widgets/form/templates/one2many.mako:18 widgets/templates/listgrid.mako:138
+#: widgets/templates/listgrid.mako:142
+msgid "New"
+msgstr "Novo"
+
+#: controllers/templates/form.mako:104
+msgid "Edit this resource"
+msgstr "Uredi ovaj resurs"
+
+#: controllers/templates/form.mako:105 controllers/templates/viewlist.mako:122
+#: widgets/templates/listgrid.mako:72 widgets/templates/listgrid.mako:76
+#: widgets/templates/listgrid.mako:184 widgets/templates/listgroup.mako:105
+#: widgets/templates/multiple_group.mako:63
+msgid "Edit"
+msgstr "Uredi"
+
+#: controllers/templates/form.mako:109
+msgid "Save this resource"
+msgstr "Sačuvaj ovaj resurs"
+
+#: controllers/templates/form.mako:110 controllers/templates/image.mako:66
+#: controllers/templates/openm2m.mako:61 controllers/templates/openm2o.mako:53
+#: controllers/templates/openo2m.mako:82
+#: controllers/templates/preferences.mako:24
+#: controllers/templates/save_filter.mako:23
+#: controllers/templates/translator.mako:39
+#: controllers/templates/translator.mako:106
+#: controllers/templates/viewed_new.mako:46
+#: controllers/templates/viewed_new_model.mako:39
+#: controllers/templates/viewlist.mako:157
+msgid "Save"
+msgstr "Sačuvaj"
+
+#: controllers/templates/form.mako:112
+msgid "Save & Edit this resource"
+msgstr "Sačuvaj & Uredi ovaj resurs"
+
+#: controllers/templates/form.mako:113
+msgid "Save & Edit"
+msgstr "Sačuvaj & Uredi"
+
+#: controllers/templates/form.mako:117
+msgid "Duplicate this resource"
+msgstr "Dupliciraj ovaj resurs"
+
+#: controllers/templates/form.mako:118
+msgid "Duplicate"
+msgstr "Dupliciraj"
+
+#: controllers/templates/form.mako:122
+msgid "Delete this resource"
+msgstr "Izbriši ovaj resurs"
+
+#: controllers/templates/form.mako:127
+msgid "Cancel editing the current resource"
+msgstr "Otkaži uređenje datog resursa"
+
+#: controllers/templates/form.mako:132
+msgid "Create new node"
+msgstr "Kreiraj novi čvor"
+
+#: controllers/templates/form.mako:133
+msgid "New Node"
+msgstr "Novi Čvor"
+
+#: controllers/templates/form.mako:137
+msgid "Show grid in workflow canvas"
+msgstr "Prikaži mrežu na radnom listu"
+
+#: controllers/templates/header.mako:30
+#, python-format
+msgid "%(company)s"
+msgstr "%(company)s"
+
+#: controllers/templates/header.mako:31 controllers/templates/index.mako:140
+#, python-format
+msgid "%(user)s"
+msgstr "%(user)s"
+
+#: controllers/templates/header.mako:42 controllers/templates/header.mako:44
+msgid "Home"
+msgstr "PočetnaStrana"
+
+#: controllers/templates/header.mako:50
+msgid "Requests"
+msgstr "Zahtevi"
+
+#: controllers/templates/header.mako:56
+msgid "Edit Preferences"
+msgstr "Uredi Podešavanja"
+
+#: controllers/templates/header.mako:59 controllers/templates/header.mako:61
+msgid "About"
+msgstr "O"
+
+#: controllers/templates/header.mako:65 controllers/templates/header.mako:67
+msgid "Help"
+msgstr "pomoć"
+
+#: controllers/templates/header.mako:72 controllers/templates/header.mako:74
+msgid "Clear Cache"
+msgstr "Izbriši Keš memoriju"
+
+#: controllers/templates/header.mako:79
+msgid "Logout"
+msgstr "Odjava"
+
+#: controllers/templates/image.mako:4 controllers/templates/image.mako:40
+msgid "Image"
+msgstr "Slika"
+
+#: controllers/templates/image.mako:56
+msgid "Add Resource:"
+msgstr "Dodaj Resurs:"
+
+#: controllers/templates/image.mako:67 widgets/form/templates/binary.mako:25
+msgid "Save As"
+msgstr "Sačuvaj Kao"
+
+#: controllers/templates/imp.mako:111 widgets/templates/sidebar.mako:98
+msgid "Import"
+msgstr "Uvezi"
+
+#: controllers/templates/imp.mako:114
+msgid "Import Data"
+msgstr "Uvezi Podatke"
+
+#: controllers/templates/imp.mako:126
+msgid "Fields to import"
+msgstr "Polja za Uvoz"
+
+#: controllers/templates/imp.mako:151
+msgid "Auto Detect"
+msgstr "Auto Detekcija"
+
+#: controllers/templates/imp.mako:170
+msgid "File to import"
+msgstr "Fajl za uvoz"
+
+#: controllers/templates/imp.mako:181
+msgid "Separator:"
+msgstr "Razdelnik:"
+
+#: controllers/templates/imp.mako:183
+msgid "Delimiter:"
+msgstr "Delimitar:"
+
+#: controllers/templates/imp.mako:187
+msgid "Encoding:"
+msgstr "Šifrovanje:"
+
+#: controllers/templates/imp.mako:194
+msgid "Lines to skip:"
+msgstr "Linije za preskočiti:"
+
+#: controllers/templates/index.mako:104
+msgid "Use On-Site"
+msgstr "Koristi Na-Sajtu"
+
+#: controllers/templates/index.mako:105
+msgid "Get the OpenERP Warranty"
+msgstr "Traži OpenERP Garanciju"
+
+#: controllers/templates/index.mako:112
+msgid "Use Online"
+msgstr "Koristi OnLajn"
+
+#: controllers/templates/index.mako:113
+msgid "Subscribe and start"
+msgstr "Prijavi se i kreni"
+
+#: controllers/templates/index.mako:142 controllers/templates/index.mako:147
+#, python-format
+msgid "Powered by %(openerp)s "
+msgstr "Pogonjeno od strane %(openerp)s "
+
+#: controllers/templates/login.mako:53 controllers/templates/login_ajax.mako:72
+#: controllers/templates/login_ajax.mako:94
+msgid "User:"
+msgstr "Korisnik:"
+
+#: controllers/templates/login.mako:64
+msgid "Databases"
+msgstr "DataBaze"
+
+#: controllers/templates/login.mako:84
+msgid "Top Contributor:"
+msgstr "Naj Kontributor:"
+
+#: controllers/templates/login.mako:94
+msgid ""
+"We think that daily job activities can be more intuitive, efficient, "
+"automated, .. and even fun."
+msgstr ""
+"Mi mislimo da dnevne poslovne aktivnosti mogu biti intuitivnije, efikasnije, "
+"automatizovanije,  .. čak i zabavne."
+
+#: controllers/templates/login.mako:95
+msgid "OpenERP's vision to be:"
+msgstr "Vizija OpenERP-a:"
+
+#: controllers/templates/login.mako:103
+msgid "Full featured"
+msgstr "Potpuno Funkcionalan"
+
+#: controllers/templates/login.mako:104
+msgid ""
+"Today's enterprise challenges are multiple. We provide one module for each "
+"need."
+msgstr ""
+"Današnji izazovi firmama su višestruki. Mi nudimo modul za svaki od njih."
+
+#: controllers/templates/login.mako:112
+msgid "Open Source"
+msgstr "OpenSource(Otvorenog Koda)"
+
+#: controllers/templates/login.mako:113
+msgid ""
+"To Build a great product, we rely on the knowledge of thousands of "
+"contributors."
+msgstr ""
+"Pri izradi ove aplikacije, oslanjali smo se na znanje hiljde kontributora."
+
+#: controllers/templates/login.mako:121
+msgid "User Friendly"
+msgstr "Prijateljski nastrojeno Korisniku"
+
+#: controllers/templates/login.mako:122
+msgid ""
+"In order to be productive, people need clean and easy to use interface."
+msgstr ""
+"Da bi bili produktivniji, ljudi trebaju čist i jednostavan korisnički "
+"interfejs."
+
+#: controllers/templates/modules.mako:4
+msgid "Module Management"
+msgstr "Upravljanje Modulima"
+
+#: controllers/templates/modules.mako:17
+msgid "Web Modules"
+msgstr "Web Moduli"
+
+#: controllers/templates/save_filter.mako:18
+msgid "Save as Filter"
+msgstr "Sačuvaj kao Filter"
+
+#: controllers/templates/save_filter.mako:36
+msgid "Filter Name"
+msgstr "Ime Filtera"
+
+#: controllers/templates/search.mako:147
+#, python-format
+msgid "Search %(name)s"
+msgstr "Traži %(name)s"
+
+#: controllers/templates/search.mako:161
+#: widgets/form/templates/datetime.mako:13
+msgid "Select"
+msgstr "Selektuj"
+
+#: controllers/templates/search.mako:162 widgets/_views.py:75
+#: widgets/form/templates/reference.mako:30 widgets/templates/viewform.mako:26
+msgid "Search"
+msgstr "Traži"
+
+#: controllers/templates/selection.mako:4
+msgid "Select action"
+msgstr "Izaberi Akciju"
+
+#: controllers/templates/selection.mako:23
+msgid "Select your action"
+msgstr "Izaberi svoju akciju"
+
+#: controllers/templates/server_log.mako:4
+msgid "Server Actions..."
+msgstr "Akcije Servera ..."
+
+#: controllers/templates/server_log.mako:14
+msgid "Server Actions"
+msgstr "Akcije Servera"
+
+#: controllers/templates/translator.mako:4
+msgid "Add Translations"
+msgstr "Dodaj Prevode"
+
+#: controllers/templates/translator.mako:17
+msgid "Add Translation"
+msgstr "Dodaj Prevod"
+
+#: controllers/templates/translator.mako:27
+msgid "Add Translation for:"
+msgstr "Dodaj Prevode za:"
+
+#: controllers/templates/translator.mako:31
+msgid "Fields"
+msgstr "Polja"
+
+#: controllers/templates/translator.mako:32
+msgid "Labels"
+msgstr "Polja"
+
+#: controllers/templates/translator.mako:33
+msgid "Relates"
+msgstr "Odnosi"
+
+#: controllers/templates/translator.mako:34
+msgid "View"
+msgstr "Pregled"
+
+#: controllers/templates/translator.mako:53
+msgid "Field"
+msgstr "Polje"
+
+#: controllers/templates/view_log.mako:4 controllers/templates/view_log.mako:12
+#: utils/common.py:55
+msgid "Information"
+msgstr "Informacija"
+
+#: controllers/templates/viewed.mako:17
+#, python-format
+msgid "View Editor %s - %s"
+msgstr "Editor Pregleda %s - %s"
+
+#: controllers/templates/viewed.mako:31
+msgid "Create a new inherited view"
+msgstr "Napravi novi uyrokovani Pregled"
+
+#: controllers/templates/viewed.mako:31
+msgid "Inherited View"
+msgstr "Uzrokovani Pregled"
+
+#: controllers/templates/viewed.mako:34
+msgid "Preview"
+msgstr "Pregled"
+
+#: controllers/templates/viewed_add.mako:6
+msgid "Node Type:"
+msgstr "Tip Čvora:"
+
+#: controllers/templates/viewed_add.mako:23
+msgid "New Field"
+msgstr "Novo Polje"
+
+#: controllers/templates/viewed_add.mako:27
+msgid "Position:"
+msgstr "Pozicija:"
+
+#: controllers/templates/viewlist.mako:4
+#: controllers/templates/viewlist.mako:108
+#, python-format
+msgid "Manage Views (%s)"
+msgstr "Uredi Preglede (%s)"
+
+#: controllers/templates/viewlist.mako:146
+#, python-format
+msgid "Create a view (%s)"
+msgstr "Kreiraj Pregled (%s)"
+
+#: controllers/templates/viewlist.mako:174
+msgid "View Name:"
+msgstr "Ime Pregleda:"
+
+#: controllers/templates/viewlist.mako:178
+msgid "View Type:"
+msgstr "Tip Pregleda:"
+
+#: controllers/templates/viewlist.mako:189
+msgid "Priority:"
+msgstr "Prioritet:"
+
+#: utils/common.py:45 utils/common.py:72
+msgid "Error"
+msgstr "Greska"
+
+#: utils/common.py:50 utils/common.py:75
+msgid "Warning"
+msgstr "Upozorenje"
+
+#: utils/rpc.py:139
+msgid "Access Denied"
+msgstr "Pristup Odbijen"
+
+#: utils/rpc.py:246
+msgid "Unsupported protocol."
+msgstr "Nepodržani protokol"
+
+#: utils/rpc.py:348
+msgid ""
+"You select a timezone but OpenERP could not find pytz library!\n"
+"The timezone functionality will be disable."
+msgstr ""
+"Selektovali ste vremensku zonu ali OpenERP ne može pronaći pytz biblioteku!\n"
+"Funkcionalnost Vremenske Zone će biti onemogućena."
+
+#: utils/rpc.py:355
+msgid "Not logged..."
+msgstr "Nije pristupio..."
+
+#: utils/rpc.py:355
+msgid "Authorization Error"
+msgstr "Greška Autorizacije"
+
+#: utils/rpc.py:420
+msgid "== Access Denied =="
+msgstr "==Pristup Odbijen=="
+
+#: widgets/_views.py:44
+msgid "Form"
+msgstr "Forma"
+
+#: widgets/_views.py:45
+msgid "Form view..."
+msgstr "Pregled Forme"
+
+#: widgets/_views.py:76
+msgid "Search view..."
+msgstr "Traži Pregled"
+
+#: widgets/listgrid.py:337 widgets/form/_form.py:910
+#, python-format
+msgid "Invalid view, duplicate field: %s"
+msgstr "Neispravan Pregled, duplicirano polje: %s"
+
+#: widgets/pager.py:67
+#, python-format
+msgid "%s"
+msgstr "%s"
+
+#: widgets/pager.py:78
+#, python-format
+msgid "%s - %s"
+msgstr "%s-%s"
+
+#: widgets/search.py:294
+msgid "Filters"
+msgstr "Filteri"
+
+#: widgets/search.py:298
+msgid "contains"
+msgstr "sadrži"
+
+#: widgets/search.py:298
+msgid "doesn't contain"
+msgstr "ne sadrži"
+
+#: widgets/search.py:299
+msgid "is equal to"
+msgstr "jednako je sa"
+
+#: widgets/search.py:299
+msgid "is not equal to"
+msgstr "nije jednako sa"
+
+#: widgets/search.py:300
+msgid "greater than"
+msgstr "Veće nego"
+
+#: widgets/search.py:300
+msgid "less than"
+msgstr "manje nego"
+
+#: widgets/search.py:301
+msgid "in"
+msgstr "u"
+
+#: widgets/search.py:301
+msgid "not in"
+msgstr "nije u"
+
+#: widgets/form/_action.py:58
+msgid "Action not found!"
+msgstr "Akcija nije pronađena!"
+
+#: widgets/form/_o2m.py:55 widgets/templates/listgrid.mako:136
+#: widgets/templates/listgrid.mako:142
+msgid "Create new record."
+msgstr "Kreiraj novi zapis."
+
+#: widgets/form/_o2m.py:68
+msgid "Save/New"
+msgstr "Sačuvaj/Novo"
+
+#: widgets/form/_o2m.py:68
+msgid "Save parent record."
+msgstr "Sačuvaj roditeljski zapis"
+
+#: widgets/form/_o2m.py:179
+#, python-format
+msgid "%d of %d"
+msgstr "%d od %d"
+
+#: widgets/form/_o2m.py:181
+#, python-format
+msgid "- of %d"
+msgstr "- od %d"
+
+#: widgets/form/templates/binary.mako:28
+msgid "add attachment"
+msgstr "dodaj dodatak (attachment)"
+
+#: widgets/form/templates/many2one.mako:2
+#: widgets/form/templates/reference.mako:33
+msgid "Open"
+msgstr "Otvori"
+
+#: widgets/form/templates/many2one.mako:2
+#: widgets/form/templates/reference.mako:33
+msgid "Open a resource"
+msgstr "Otvori Resurs"
+
+#: widgets/form/templates/one2many.mako:18
+msgid "Create new record..."
+msgstr "Kreiraj novi zapis"
+
+#: widgets/form/templates/one2many.mako:20
+msgid "Delete record..."
+msgstr "Obriši zapis"
+
+#: widgets/form/templates/one2many.mako:28
+msgid "Previous record..."
+msgstr "Predhodni zapis"
+
+#: widgets/form/templates/one2many.mako:30
+msgid "Next record..."
+msgstr "Sledeći zapis"
+
+#: widgets/form/templates/one2many.mako:37
+msgid "Translate me."
+msgstr "Prevedi me."
+
+#: widgets/templates/listgrid.mako:19
+msgid "Update"
+msgstr "Osveži"
+
+#: widgets/templates/listgrid.mako:131
+msgid "Add records..."
+msgstr "Dodaj zapise..."
+
+#: widgets/templates/listgrid.mako:170 widgets/templates/listgrid.mako:175
+msgid "Delete record(s)."
+msgstr "Obriši zapis(e)."
+
+#: widgets/templates/listgrid.mako:182
+msgid "Edit record(s)."
+msgstr "Uredi zapis(e)."
+
+#: widgets/templates/logs.mako:22
+msgid "More..."
+msgstr "Više..."
+
+#: widgets/templates/logs.mako:35
+msgid "Less..."
+msgstr "Manje..."
+
+#: widgets/templates/pager.mako:9
+msgid "<< First"
+msgstr "<<Prvi"
+
+#: widgets/templates/pager.mako:14
+msgid "< Previous"
+msgstr "< Predhodni"
+
+#: widgets/templates/pager.mako:19
+msgid "of"
+msgstr "od"
+
+#: widgets/templates/pager.mako:24
+msgid "Next >"
+msgstr "Sledeći >"
+
+#: widgets/templates/pager.mako:29
+msgid "Last >>"
+msgstr "Zadnji >>"
+
+#: widgets/templates/pager.mako:37
+msgid "Change Limit:"
+msgstr "Promeni Limit:"
+
+#: widgets/templates/sidebar.mako:30
+msgid "Reports"
+msgstr "Izveštaji"
+
+#: widgets/templates/sidebar.mako:34
+msgid "Actions"
+msgstr "Akcije"
+
+#: widgets/templates/sidebar.mako:42
+msgid "Submenu"
+msgstr "SubMeni"
+
+#: widgets/templates/sidebar.mako:47
+msgid "Attachments"
+msgstr "Dodaci(attachment)"
+
+#: widgets/templates/sidebar.mako:65
+msgid "File"
+msgstr "Fajl"
+
+#: widgets/templates/sidebar.mako:72
+msgid "Customize"
+msgstr "Prilagodi"
+
+#: widgets/templates/sidebar.mako:76
+msgid "Manage views of the current object"
+msgstr "Uredi Pregled datog objekta"
+
+#: widgets/templates/sidebar.mako:78
+msgid "Manage Views"
+msgstr "Uredi Preglede"
+
+#: widgets/templates/sidebar.mako:81
+msgid "Manage workflows of the current object"
+msgstr "Uredi Radne prostore datog objekta"
+
+#: widgets/templates/sidebar.mako:83
+msgid "Show Workflow"
+msgstr "Prikaži radni prostor"
+
+#: widgets/templates/sidebar.mako:86
+msgid "Customize current object or create a new object"
+msgstr "Prilagodi dati ili kreiraj novi objekat"
+
+#: widgets/templates/sidebar.mako:88
+msgid "Customize Object"
+msgstr "Prilagodi Objekat"
+
+#: widgets/templates/sidebar.mako:93
+msgid "Other Options"
+msgstr "Ostale Opcije"
+
+#: widgets/templates/sidebar.mako:105
+msgid "Translate"
+msgstr "Prevedi"
+
+#: widgets/templates/sidebar.mako:110
+msgid "View Log"
+msgstr "Pregledaj Log"
+
+#: widgets/templates/viewform.mako:25
+msgid "Filter records."
+msgstr "Filter zapisa."
+
+#: widgets/templates/viewform.mako:27
+msgid "Clear all."
+msgstr "Očisti sve."
+
+#: widgets/templates/viewform.mako:29
+msgid "Clear"
+msgstr "Očisti"
+
+#: widgets/templates/viewform.mako:35
+msgid "Save Filter."
+msgstr "Sačuvaj Filter."
+
+#: widgets/templates/viewform.mako:37
+msgid "Save Filter"
+msgstr "Sačuvaj Filter."
+
+#: widgets/templates/viewform.mako:38
+msgid "Manage Filter."
+msgstr "Uredi Filter"
+
+#: widgets/templates/viewform.mako:40
+msgid "Manage Filters"
+msgstr "Uredi Filter"
