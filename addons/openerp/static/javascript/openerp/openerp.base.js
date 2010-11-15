@@ -72,18 +72,40 @@ function loadingError(xhr) {
 function doLoadingSuccess(app) {
     return function (data, status, xhr) {
         var action_url = xhr.getResponseHeader('Location');
-        switch(xhr.getResponseHeader('X-Target')) {
-            case 'new':
-                openobject.tools.openWindow(action_url, {
-                    name: xhr.getResponseHeader('X-New-Window-Name')
-                });
-                break;
-            default:
-                jQuery(window).trigger('before-appcontent-change');
-                jQuery(app).html(xhr.responseText || data);
-                jQuery(window).trigger('after-appcontent-change');
+        var target = xhr.getResponseHeader('X-Target');
+        if(target) {
+            window.top.openAction(action_url, target);
+            return;
         }
+        jQuery(window).trigger('before-appcontent-change');
+        jQuery(app).html(xhr.responseText || data);
+        jQuery(window).trigger('after-appcontent-change');
     }
+}
+
+/**
+ * Manages navigation to actions
+ *
+ * @param action_url the URL of the action to open
+ * @param target the target, if any, defaults to 'current'
+ */
+function openAction(action_url, target) {
+    switch(target) {
+        case 'new':
+            var $holder = jQuery('<div>').append(
+                    jQuery('<iframe>', {
+                        src: action_url,
+                        width: 640,
+                        height: 480
+                    }));
+            $holder.appendTo(document.documentElement);
+            $holder.dialog({modal: true, dialogClass: 'action-dialog'});
+            break;
+        case 'current':
+        default:
+            openLink(action_url);
+    }
+    jQuery('.action-dialog:not(:last)').dialog('destroy').remove();
 }
 
 /**
