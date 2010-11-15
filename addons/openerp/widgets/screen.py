@@ -38,6 +38,7 @@ from openerp.widgets import TinyInputWidget
 class Screen(TinyInputWidget):
 
     template = """
+        <input type="hidden" id="${name}_terp_string" name="${name}_terp_string" value="${string}"/>
         <input type="hidden" id="${name}_terp_model" name="${name}_terp_model" value="${model}"/>
         <input type="hidden" id="${name}_terp_state" name="${name}_terp_state" value="${state}"/>
         <input type="hidden" id="${name}_terp_id" name="${name}_terp_id" value="${id}"/>
@@ -129,7 +130,6 @@ class Screen(TinyInputWidget):
 
         # get calendar options
         self.kalendar           = params.kalendar
-
         if self.view_mode:
             self.add_view_id(self.view_id, self.view_type)
 
