@@ -52,17 +52,30 @@
                    <span class="collapse-button">(${_("hide fields")})</span>
                 </h1>
                 <p class="process-links">
-                    <a class="cta-a" target="_blank" href="${context_help}" title="Online Documentation">
-                        ${_("Documentation")}
+                    <a class="cta-a" target="_blank" href="${context_help}">
+                        <span>
+                            <strong>${_("Documentation")}</strong>
+                            ${_("Opportunities Documentation Online")}
+                        </span>
+                        
                     </a>
-                    <a class="cta-a" target="_blank" href="http://www.openerp.com/forum/" title="Community Discussion">
-                        ${_("Forum")}
+                    <a class="cta-a" target="_blank" href="http://www.openerp.com/forum/">
+                        <span>
+                            <strong>${_("Forum")}</strong>
+                            ${_("Community Discussion")}
+                        </span>
                     </a>
-                    <a class="cta-a" target="_blank" href="http://www.openerp.com/services/books" title="Get Books">
-                        ${_("Books")}
+                    <a class="cta-a" target="_blank" href="http://www.openerp.com/services/books">
+                        <span>
+                            <strong>${_("Books")}</strong>
+                            ${_("Get the book on Amazone")}
+                        </span>
                     </a>
-                    <a class="cta-a" target="_blank" href="http://www.openerp.com/services/subscribe-onsite" title="Get the OpenERP Warranty">
-                        ${_("Support / Maintenance")}
+                    <a class="cta-a" target="_blank" href="http://www.openerp.com/services/subscribe-onsite">
+                        <span>
+                            <strong>${_("Support / Maintenance")}</strong>
+                            ${_("Get the OpenERP Warranty")}
+                        </span>
                     </a>
                 </p>
                 <p class="process-help-text">

@@ -2292,11 +2292,9 @@ a.cta-a strong {
     padding: 5px 10px;
     text-align: center;
 }
-.process-links a {
-    margin: 0 2%;
-    float: none;
-}
+
 .process-help-text {
+    float: left;
     padding:5px 10px;
     min-height:56px;
     font-size: 120%;
