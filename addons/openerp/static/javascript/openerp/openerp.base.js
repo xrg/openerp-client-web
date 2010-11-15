@@ -92,20 +92,25 @@ function doLoadingSuccess(app) {
 function openAction(action_url, target) {
     switch(target) {
         case 'new':
-            var $holder = jQuery('<div>').append(
-                    jQuery('<iframe>', {
-                        src: action_url,
-                        width: 640,
-                        height: 480
-                    }));
+            var $contentFrame = jQuery('<iframe>', {
+                src: action_url,
+                frameborder: 0,
+                width: '99%',
+                height: '99%'
+            });
+            var $holder = jQuery('<div class="action-dialog">').append($contentFrame);
             $holder.appendTo(document.documentElement);
-            $holder.dialog({modal: true, dialogClass: 'action-dialog'});
+            $holder.dialog({
+                modal: true,
+                width: 640,
+                height: 480
+            });
             break;
         case 'current':
         default:
             openLink(action_url);
     }
-    jQuery('.action-dialog:not(:last)').dialog('destroy').remove();
+    jQuery('.action-dialog:not(:last)').remove();
 }
 
 /**

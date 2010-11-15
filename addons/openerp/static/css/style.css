@@ -1021,3 +1021,7 @@ img.translatable {
     vertical-align: middle;
 }
 
+.action-dialog,
+.action-dialog .ui-dialog-content {
+    padding: 0 !important;
+}
