@@ -1,26 +1,29 @@
 <div>
     % if bin_data and not value_bin_size:
-        <input 
-            type="hidden" 
-            class="${css_class}" 
+        <input
+            type="hidden"
+            class="${css_class}"
             kind="${kind}"
-            id="${name}" 
+            id="${name}"
             name="${name}"
             value="${bin_data}"/>
     % endif
     <div id="${name}_binary_add" style="display: none;">
         % if editable and not readonly:
         <input ${py.attrs(attrs)}
-            type="file" 
-            class="${css_class}" 
+            type="file"
+            class="${css_class}"
             kind="${kind}"
-            disabled="disabled" 
-            id="${name}" 
+            disabled="disabled"
+            id="${name}"
             name="${name}"/>
         % endif
     </div>
     <div id="${name}_binary_buttons" class="binary_buttons">
-        <span>${value or text or ''}</span>
+        <input type="text" value="${value or text or ''}" readonly="readonly"/>
+        %if value or text:
+        	<input type="hidden" name="${name}" value="${value or text}"></input>
+       	% endif
         % if text:
         <a class="button-a" href="javascript: void(0)" onclick="save_binary_data('${name}', '${filename}')">${_("Save As")}</a>
         % endif
