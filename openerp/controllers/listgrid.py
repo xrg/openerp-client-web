@@ -141,7 +141,7 @@ class List(SecuredController):
 
         if source == '_terp_list':
             params.view_type = 'tree'
-            if params.search_domain:
+            if not params.edit_inline and params.search_domain:
                 params.domain += params.search_domain
 
         # default_get context
