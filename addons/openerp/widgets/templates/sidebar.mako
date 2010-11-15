@@ -1,10 +1,16 @@
-<%def name="sidebox_action_item(item, model, submenu)">
+<%def name="sidebox_action_item(item, model, submenu, report_icon)">
     % if submenu != 1:
     	<li data="${item}" action_id="${item['id']}" relation="${model}" onclick="validate_action(this, do_action)">
+            % if report_icon == 1:
+                <img src="/openerp/static/images/stock/gtk-print.png"/>&nbsp;
+            % endif
            <a href="javascript: void(0)" onclick="return false">${item['name']}</a>
         </li>
     % else:
         <li data="${item}">
+            % if report_icon == 1:
+                <img src="/openerp/static/images/stock/gtk-print.png"/>&nbsp;
+            % endif
             % if item['name']:
                 <a href="#" onclick="submenu_action('${item['action_id']}', '${model}');">
                     ${item['name']}
@@ -14,12 +20,12 @@
     % endif
 </%def>
 
-<%def name="make_sidebox(title, model, items, submenu=0)">
+<%def name="make_sidebox(title, model, items, submenu=0, report_icon=0)">
 <div class="sideheader-a"><h2>${title}</h2></div>
 <ul class="clean-a">
 	% for item in items:
         % if item:
-        	${sidebox_action_item(item, model, submenu)}
+        	${sidebox_action_item(item, model, submenu, report_icon)}
         % endif
     % endfor
 </ul>
@@ -27,7 +33,7 @@
 
 <div id="sidebar">
     % if reports:
-        ${make_sidebox(_("Reports"), model, reports)}
+        ${make_sidebox(_("Reports"), model, reports, report_icon=1)}
     % endif
 
     % if actions:
