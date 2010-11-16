@@ -196,6 +196,10 @@ def act_window_close(*args):
     return close_popup()
 
 def act_window(action, data):
+    if not action.get('opened'):
+        action.setdefault('target', 'current')
+        return act_window_opener(action, data)
+
     for key in ('res_id', 'res_model', 'view_type',
                 'view_mode', 'limit', 'search_view'):
         data[key] = action.get(key, data.get(key))
@@ -312,7 +316,7 @@ ACTIONS_BY_TYPE = {
     'ir.actions.act_url': act_url
 }
 
-def execute_opener(action, data):
+def act_window_opener(action, data):
     # Add 'opened' mark to indicate we're now within the popup and can
     # continue on during the second round of execution
     url = ('/openerp/execute?' + urllib.urlencode({
@@ -338,10 +342,6 @@ def execute(action, **data):
         #XXX: in gtk client just returns to the caller
         #raise common.error('Error', 'Invalid action...')
         return close_popup()
-
-    if not action.get('opened'):
-        action.setdefault('target', 'current')
-        return execute_opener(action, data)
 
     data.setdefault('context', {}).update(expr_eval(action.get('context','{}'), data.get('context', {}).copy()))
 
