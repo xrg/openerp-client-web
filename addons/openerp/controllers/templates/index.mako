@@ -116,16 +116,43 @@
                                             </li>
                                         </ul>
                                     </div>
-                                    <div class="box-a">
+                                    <div class="sideheader-a">
                                         <ul class="side">
+                                            <li>
+                                                <a class="button-a">${_("Add")}</a>
+                                            </li>
                                         </ul>
+                                        <h2>${_("Widgets")}</h2>
+                                    </div>
+                                    <div class="box-a" id="user_widgets">
                                         % for widget in widgets:
+                                            % if close_widget:
+                                                <ul class="side">
+                                                    <li>
+                                                        <a id="${widget['user_widget_id']}" class="close" href="${py.url('/openerp/close_user_widget', widget_id=widget['user_widget_id'])}">${_("Close")}</a>
+                                                    </li>
+                                                </ul>
+                                            % endif
                                             <div>
                                                 <h3>${widget['title']}</h3>
                                                 ${widget['content']|n}
                                             </div>
                                         % endfor
                                     </div>
+                                    % if close_widget:
+                                        <script type="text/javascript">
+                                            jQuery(document).ready(function(){
+                                                jQuery('#user_widgets.box-a ul.side a.close').click(function(){
+                                                    jQuery.post(this.href);
+                                                    var $p1 = jQuery(this).closest('.side').next();
+                                                    var $p2 =  jQuery(this).closest('.side');
+                                                    $p1.remove();
+                                                    $p2.remove();
+                                                    return false;
+                                                });
+                                            });
+                                        </script>
+                                    % endif
                                 </td>
                             </tr>
                         </table>

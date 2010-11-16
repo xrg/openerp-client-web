@@ -132,9 +132,29 @@ class Root(SecuredController):
                 tree.tree.onselection = None
                 tree.tree.onheaderclick = None
                 tree.tree.showheaders = 0
+                
         widgets = rpc.RPCProxy('res.widget')
+        user_widget = rpc.RPCProxy('res.widget.user')
+        user_widget_ids = rpc.RPCProxy('res.widget.user').search([('user_id', '=', rpc.session.uid)], 0, 0, 0, ctx)
+        show_user_widgets = []
+        close_widget = False
+        if user_widget_ids:
+            close_widget = True
+            for wid in user_widget.read(user_widget_ids, ['widget_id'], ctx):
+                widget = widgets.read([wid['widget_id'][0]], [], ctx)[0]
+                if widget not in show_user_widgets:
+                    widget.update(**{'user_widget_id': wid['id']})
+                    show_user_widgets.append(widget)
+        else:
+            show_user_widgets = widgets.read(widgets.search([], 0, 0, 0, ctx), [], ctx)
+        
         return dict(parents=parents, tools=tools, load_content=(next and next or ''),
-                    widgets=widgets.read(widgets.search([], 0, 0, 0, ctx), [], ctx))
+                    widgets=show_user_widgets, close_widget = close_widget)
+    
+    @expose('json', methods=('POST',))
+    def close_user_widget(self, widget_id):
+        rpc.RPCProxy('res.widget.user').unlink(widget_id, rpc.session.context)
+        return
 
     @expose(allow_json=True)
     @unsecured

@@ -1972,7 +1972,7 @@ td.tertiary div.wrap {
 
 .sideheader-a {
     position: relative;
-    padding-right: 21px;
+    padding-right: 30px;
     border-top: 1px solid #e1dede;
     border-bottom: 1px solid #d2cfcf;
     background: url(../images/sideheader-a-bg.png) 0 100% repeat-x;
@@ -1995,6 +1995,7 @@ td.tertiary div.wrap {
     padding-left: 3px;
     padding-right: 3px;
     font-size: 0.9em;
+    cursor: pointer;
 }
 
 .sideheader-a h2 {
@@ -2259,6 +2260,42 @@ a.cta-a strong {
 .w50 {
     width: 50% !important;
 }
+
+div.box-a ul.side {
+    float: right;
+    list-style: none;
+    margin: 7px 10px 0 0;
+    padding: 0;
+}
+
+div.box-a ul.side li {
+    display: inline;
+    float: left;
+    margin: 0 0 0 5px;
+}
+
+div.box-a ul.side li a {
+    float: left;
+    overflow: hidden;
+    width: 10px;
+    height: 10px;
+    background: url(../images/sideicons-a.gif) no-repeat;
+    text-indent: -10001px;
+}
+
+div.box-a ul.side li a.move {
+    background-position: 0 0;
+    cursor: move;
+}
+
+div.box-a ul.side li a.minimize {
+    background-position: -10px 0;
+}
+
+div.box-a ul.side li a.close {
+    background-position: -20px 0;
+}
+
 /* SPECIFIC
 ------------------------------------------- */
 
