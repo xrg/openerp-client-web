@@ -8,47 +8,48 @@ msgstr ""
 "Project-Id-Version: openobject-client-web\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2010-10-26 10:51+0200\n"
-"PO-Revision-Date: 2010-11-12 20:34+0000\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"PO-Revision-Date: 2010-11-15 17:16+0000\n"
+"Last-Translator: Thorsten Vocks (OpenBig.org) <thorsten.vocks@big-"
+"consulting.net>\n"
 "Language-Team: German <de@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2010-11-13 04:55+0000\n"
+"X-Launchpad-Export-Date: 2010-11-16 05:06+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: static/javascript/calendar_box.js:58
 msgid "Cancel"
-msgstr ""
+msgstr "Abbrechen"
 
 #: static/javascript/calendar_box.js:59
 msgid "Edit"
-msgstr ""
+msgstr "Bearbeiten"
 
 #: static/javascript/calendar_box.js:60
 msgid "Duplicate"
-msgstr ""
+msgstr "Duplizieren"
 
 #: static/javascript/calendar_box.js:61
 msgid "Delete"
-msgstr ""
+msgstr "Löschen"
 
 #: static/javascript/calendar_box.js:88
 msgid "Creation User: "
-msgstr ""
+msgstr "Anlegender Beutzer: "
 
 #: static/javascript/calendar_box.js:89
 msgid "Creation Date: "
-msgstr ""
+msgstr "Anlagedatum: "
 
 #: static/javascript/calendar_box.js:90
 msgid "Latest Modification by: "
-msgstr ""
+msgstr "Letzte Bearbeitung durch: "
 
 #: static/javascript/calendar_box.js:91
 msgid "Latest Modification Date: "
-msgstr ""
+msgstr "Letztes Bearbeitungsdatum: "
 
 #: static/javascript/calendar_box.js:175
 msgid "Do you really want to delete this record?"
-msgstr ""
+msgstr "Möchten Sie diesen Datensatz wirklich löschen?"

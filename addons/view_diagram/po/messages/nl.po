@@ -8,18 +8,18 @@ msgstr ""
 "Project-Id-Version: openobject-client-web\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2010-10-26 10:51+0200\n"
-"PO-Revision-Date: 2010-11-14 08:01+0000\n"
-"Last-Translator: OpenERP Web Administrators <Unknown>\n"
+"PO-Revision-Date: 2010-11-15 14:02+0000\n"
+"Last-Translator: Douwe Wullink (Dypalio) <Unknown>\n"
 "Language-Team: Dutch <nl@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2010-11-15 05:00+0000\n"
+"X-Launchpad-Export-Date: 2010-11-16 05:06+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: controllers/_diagram.py:100 controllers/_diagram.py:216
 msgid "Could not delete state"
-msgstr ""
+msgstr "Kon status niet verwijderen"
 
 #: controllers/_diagram.py:279
 msgid "No workflow associated!"
@@ -32,7 +32,7 @@ msgstr "Help: niet gedefinieerd"
 #: controllers/process.py:92
 #, python-format
 msgid "%(name)s - Resource: %(resource)s, State: %(state)s"
-msgstr ""
+msgstr "%(name)s - Resource: %(resource)s, Status: %(state)s"
 
 #: controllers/process.py:104
 msgid "Last modified by:"
@@ -53,7 +53,7 @@ msgstr "Online documentatie"
 
 #: controllers/templates/process.mako:56
 msgid "Community Forum"
-msgstr "Community forum"
+msgstr "Gemeenschap forum"
 
 #: controllers/templates/process.mako:59
 msgid "Get Books"

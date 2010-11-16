@@ -8,113 +8,114 @@ msgstr ""
 "Project-Id-Version: openobject-client-web\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2010-10-26 10:51+0200\n"
-"PO-Revision-Date: 2010-11-13 12:00+0000\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"PO-Revision-Date: 2010-11-15 17:14+0000\n"
+"Last-Translator: Thorsten Vocks (OpenBig.org) <thorsten.vocks@big-"
+"consulting.net>\n"
 "Language-Team: German <de@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2010-11-14 05:06+0000\n"
+"X-Launchpad-Export-Date: 2010-11-16 05:06+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: controllers/_diagram.py:100 controllers/_diagram.py:216
 msgid "Could not delete state"
-msgstr ""
+msgstr "Status konnte nicht gelöscht werden"
 
 #: controllers/_diagram.py:279
 msgid "No workflow associated!"
-msgstr ""
+msgstr "Kein Workflow zugewiesen!"
 
 #: controllers/process.py:53
 msgid "Help: Not Defined"
-msgstr ""
+msgstr "Hilfe: Nicht vorhanden"
 
 #: controllers/process.py:92
 #, python-format
 msgid "%(name)s - Resource: %(resource)s, State: %(state)s"
-msgstr ""
+msgstr "%(name)s - Ressource: %(resource)s, Status: %(state)s"
 
 #: controllers/process.py:104
 msgid "Last modified by:"
-msgstr ""
+msgstr "Zuletzt bearbeitet von:"
 
 #: controllers/templates/process.mako:4 controllers/templates/process.mako:73
 #: controllers/templates/process_tip.mako:5
 msgid "Process"
-msgstr ""
+msgstr "Prozess"
 
 #: controllers/templates/process.mako:50
 msgid "Help:"
-msgstr ""
+msgstr "Hilfe:"
 
 #: controllers/templates/process.mako:53
 msgid "Online Documentation"
-msgstr ""
+msgstr "Online Dokumentation"
 
 #: controllers/templates/process.mako:56
 msgid "Community Forum"
-msgstr ""
+msgstr "Community Forum"
 
 #: controllers/templates/process.mako:59
 msgid "Get Books"
-msgstr ""
+msgstr "Bücher beschaffen"
 
 #: controllers/templates/process.mako:62
 msgid "Get the OpenERP Warranty"
-msgstr ""
+msgstr "Die OpenERP Gewährleistung erwerben"
 
 #: controllers/templates/process.mako:83
 msgid "Select Process"
-msgstr ""
+msgstr "Prozess auswählen"
 
 #: controllers/templates/process.mako:89
 msgid "Select"
-msgstr ""
+msgstr "Auswählen"
 
 #: controllers/templates/process.mako:102
 msgid "[Edit Process]"
-msgstr ""
+msgstr "[Prozess bearbeiten]"
 
 #: controllers/templates/process.mako:112
 msgid "fields"
-msgstr ""
+msgstr "Felder"
 
 #: controllers/templates/process.mako:113
 msgid "show"
-msgstr ""
+msgstr "Zeigen"
 
 #: controllers/templates/process.mako:114
 msgid "hide"
-msgstr ""
+msgstr "Verstecken"
 
 #: controllers/templates/process_open.mako:54
 #: controllers/templates/process_tip.mako:20
 #: controllers/templates/wkf_popup.mako:52
 msgid "Close"
-msgstr ""
+msgstr "Schliessen"
 
 #: controllers/templates/process_open.mako:55
 #: controllers/templates/wkf_popup.mako:49
 msgid "Save"
-msgstr ""
+msgstr "Speichern"
 
 #: controllers/templates/workflow.mako:4
 msgid "Workflow"
-msgstr ""
+msgstr "Workflow"
 
 #: controllers/templates/workflow.mako:20
 #, python-format
 msgid "Workflow (%s)"
-msgstr ""
+msgstr "Workflow (%s)"
 
 #: widgets/_views.py:8
 msgid "Diagram"
-msgstr ""
+msgstr "Diagramm"
 
 #: widgets/_views.py:9
 msgid "Diagram view..."
-msgstr ""
+msgstr "Diagramm Ansicht"
 
 #: widgets/templates/diagram.mako:26
 msgid "Loading..."
-msgstr ""
+msgstr "Laden ..."
