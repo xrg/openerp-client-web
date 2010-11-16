@@ -12,10 +12,7 @@
     ${css.display()}
 % endfor
 
-    <script type="text/javascript" src="/openobject/static/javascript/MochiKit/MochiKit.js"></script>
-    <script type="text/javascript" src="/openobject/static/javascript/MochiKit/DragAndDrop.js"></script>
-    <script type="text/javascript" src="/openobject/static/javascript/MochiKit/Resizable.js"></script>
-    <script type="text/javascript" src="/openobject/static/javascript/MochiKit/Sortable.js"></script>
+    <script type="text/javascript" src="/openobject/static/javascript/MochiKit.js"></script>
 
     <script type="text/javascript" src="/openobject/static/javascript/jQuery/jquery-1.4.2.js"></script>
     <script type="text/javascript" src="/openobject/static/javascript/jQuery/jquery-ui-1.8.6.custom.min.js"></script>
