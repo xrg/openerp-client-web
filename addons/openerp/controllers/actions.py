@@ -339,7 +339,8 @@ def execute(action, **data):
         #raise common.error('Error', 'Invalid action...')
         return close_popup()
 
-    if 'target' in action and not action.get('opened'):
+    if not action.get('opened'):
+        action.setdefault('target', 'current')
         return execute_opener(action, data)
 
     data.setdefault('context', {}).update(expr_eval(action.get('context','{}'), data.get('context', {}).copy()))
