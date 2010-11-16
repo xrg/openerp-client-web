@@ -68,7 +68,7 @@
                     <a class="cta-a" target="_blank" href="http://www.openerp.com/services/books">
                         <span>
                             <strong>${_("Books")}</strong>
-                            ${_("Get the book on Amazone")}
+                            ${_("Get the book on Amazon")}
                         </span>
                     </a>
                     <a class="cta-a" target="_blank" href="http://www.openerp.com/services/subscribe-onsite">
