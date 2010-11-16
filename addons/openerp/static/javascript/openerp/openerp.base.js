@@ -90,6 +90,7 @@ function doLoadingSuccess(app) {
  * @param target the target, if any, defaults to 'current'
  */
 function openAction(action_url, target) {
+    var $dialogs = jQuery('.action-dialog');
     switch(target) {
         case 'new':
             var $contentFrame = jQuery('<iframe>', {
@@ -98,19 +99,24 @@ function openAction(action_url, target) {
                 width: '99%',
                 height: '99%'
             });
-            var $holder = jQuery('<div class="action-dialog">').append($contentFrame);
-            $holder.appendTo(document.documentElement);
-            $holder.dialog({
-                modal: true,
-                width: 640,
-                height: 480
-            });
+            jQuery('<div class="action-dialog">')
+                .appendTo(document.documentElement)
+                .dialog({
+                    modal: true,
+                    width: 640,
+                    height: 480
+                })
+                .append($contentFrame);
             break;
         case 'current':
         default:
             openLink(action_url);
     }
-    jQuery('.action-dialog:not(:last)').remove();
+    setTimeout(function () {
+        $dialogs.find('iframe').remove();
+        $dialogs.dialog('destroy');
+        $dialogs.remove();
+    });
 }
 
 /**
