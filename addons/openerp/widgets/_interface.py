@@ -230,18 +230,18 @@ class TinyInputWidget(TinyWidget, InputWidget):
     def update_params(self, d):
         super(TinyInputWidget, self).update_params(d)
 
-        attrs = d['attrs'] = {}
-
-        attrs['change_default'] = self.change_default or None
-        attrs['callback'] = self.callback or None
-        attrs['onchange'] = self.onchange
-
-        d['kind'] = self.kind
-        d['editable'] = self.editable
-        d['inline'] = self.inline
+        d.update(
+            kind=self.kind,
+            editable=self.editable,
+            inline=self.inline,
+            attrs={
+                'change_default': self.change_default or None,
+                'callback': self.callback or None,
+                'onchange': self.onchange
+            })
 
         if self.readonly:
-            attrs['disabled'] = 'disabled'
+            d['attrs']['disabled'] = 'disabled'
 
 
 class ConcurrencyInfo(TinyInputWidget):
