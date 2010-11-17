@@ -117,12 +117,6 @@ class TinyWidget(Widget):
     def name(self):
         return self._name
 
-    def get_last_update_info(resource, values):
-        result = {}
-        for item in values:
-            result["%s,%s" % (resource, item['id'])] = item.pop('__last_update', '')
-        return result
-
 class InputWidgetLabel(Widget):
     template = "/openerp/widgets/templates/label.mako"
     params = ['string', 'help']
