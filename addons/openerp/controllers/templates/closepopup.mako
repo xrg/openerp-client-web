@@ -11,8 +11,7 @@
             if(window.top != window) {
                 topWindow = window.top;
                 setTimeout(function () {
-                    var $dialog = jQuery(topWindow.document).find('.action-dialog');
-                    $dialog.dialog('close');
+                    topWindow.closeAction();
                 });
             } else {
                 topWindow = window.opener;

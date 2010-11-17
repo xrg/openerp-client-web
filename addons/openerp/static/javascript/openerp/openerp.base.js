@@ -107,8 +107,8 @@ function openAction(action_url, target) {
                     height: 480,
                     close: function () {
                         var $this = jQuery(this);
+                        $this.find('iframe').remove();
                         setTimeout(function () {
-                            $this.find('iframe').remove();
                             $this.dialog('destroy').remove();
                         });
                     }
@@ -120,6 +120,9 @@ function openAction(action_url, target) {
             openLink(action_url);
     }
     $dialogs.dialog('close');
+}
+function closeAction() {
+    jQuery('.action-dialog').dialog('close');
 }
 
 /**
