@@ -1,4 +1,4 @@
-# German translation for openobject-client-web
+# Swedish translation for openobject-client-web
 # Copyright (c) 2010 Rosetta Contributors and Canonical Ltd 2010
 # This file is distributed under the same license as the openobject-client-web package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2010.
@@ -8,10 +8,9 @@ msgstr ""
 "Project-Id-Version: openobject-client-web\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2010-10-26 10:51+0200\n"
-"PO-Revision-Date: 2010-11-16 08:08+0000\n"
-"Last-Translator: Thorsten Vocks (OpenBig.org) <thorsten.vocks@big-"
-"consulting.net>\n"
-"Language-Team: German <de@li.org>\n"
+"PO-Revision-Date: 2010-11-16 16:02+0000\n"
+"Last-Translator: Anders Eriksson, Aspirix AB <ae@mobilasystem.se>\n"
+"Language-Team: Swedish <sv@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -20,36 +19,36 @@ msgstr ""
 
 #: static/javascript/calendar_box.js:58
 msgid "Cancel"
-msgstr "Abbrechen"
+msgstr "Avbryt"
 
 #: static/javascript/calendar_box.js:59
 msgid "Edit"
-msgstr "Bearbeiten"
+msgstr "Editera"
 
 #: static/javascript/calendar_box.js:60
 msgid "Duplicate"
-msgstr "Duplizieren"
+msgstr "Duplicera"
 
 #: static/javascript/calendar_box.js:61
 msgid "Delete"
-msgstr "Löschen"
+msgstr "Ta bort"
 
 #: static/javascript/calendar_box.js:88
 msgid "Creation User: "
-msgstr "Anlegender Beutzer: "
+msgstr "Skapa användare "
 
 #: static/javascript/calendar_box.js:89
 msgid "Creation Date: "
-msgstr "Anlagedatum: "
+msgstr "Skapat datum: "
 
 #: static/javascript/calendar_box.js:90
 msgid "Latest Modification by: "
-msgstr "Letzte Bearbeitung durch: "
+msgstr "Senast modifierat av: "
 
 #: static/javascript/calendar_box.js:91
 msgid "Latest Modification Date: "
-msgstr "Letztes Bearbeitungsdatum: "
+msgstr "Senast modifierat den: "
 
 #: static/javascript/calendar_box.js:175
 msgid "Do you really want to delete this record?"
-msgstr "Möchten Sie diesen Datensatz wirklich löschen?"
+msgstr "Vill Ni verkligen ta bort denna post?"

@@ -1,4 +1,4 @@
-# German translation for openobject-client-web
+# Swedish translation for openobject-client-web
 # Copyright (c) 2010 Rosetta Contributors and Canonical Ltd 2010
 # This file is distributed under the same license as the openobject-client-web package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2010.
@@ -8,10 +8,9 @@ msgstr ""
 "Project-Id-Version: openobject-client-web\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2010-10-26 10:51+0200\n"
-"PO-Revision-Date: 2010-11-16 07:51+0000\n"
-"Last-Translator: Thorsten Vocks (OpenBig.org) <thorsten.vocks@big-"
-"consulting.net>\n"
-"Language-Team: German <de@li.org>\n"
+"PO-Revision-Date: 2010-11-16 18:14+0000\n"
+"Last-Translator: Anders Eriksson, Aspirix AB <ae@mobilasystem.se>\n"
+"Language-Team: Swedish <sv@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -20,33 +19,33 @@ msgstr ""
 
 #: controllers/_diagram.py:100 controllers/_diagram.py:216
 msgid "Could not delete state"
-msgstr "Status konnte nicht gelöscht werden"
+msgstr "Kunde inte radera tillstånd"
 
 #: controllers/_diagram.py:279
 msgid "No workflow associated!"
-msgstr "Kein Workflow zugewiesen!"
+msgstr "Inga arbetsflöden associerade!"
 
 #: controllers/process.py:53
 msgid "Help: Not Defined"
-msgstr "Hilfe: Nicht vorhanden"
+msgstr "Hjälp: Inte definerat"
 
 #: controllers/process.py:92
 #, python-format
 msgid "%(name)s - Resource: %(resource)s, State: %(state)s"
-msgstr "%(name)s - Ressource: %(resource)s, Status: %(state)s"
+msgstr ""
 
 #: controllers/process.py:104
 msgid "Last modified by:"
-msgstr "Zuletzt bearbeitet von:"
+msgstr "Senast ändrad av:"
 
 #: controllers/templates/process.mako:4 controllers/templates/process.mako:73
 #: controllers/templates/process_tip.mako:5
 msgid "Process"
-msgstr "Prozess"
+msgstr "Process"
 
 #: controllers/templates/process.mako:50
 msgid "Help:"
-msgstr "Hilfe:"
+msgstr "Hjälp:"
 
 #: controllers/templates/process.mako:53
 msgid "Online Documentation"
@@ -58,50 +57,50 @@ msgstr "Community Forum"
 
 #: controllers/templates/process.mako:59
 msgid "Get Books"
-msgstr "Bücher beschaffen"
+msgstr "Hämta böcker"
 
 #: controllers/templates/process.mako:62
 msgid "Get the OpenERP Warranty"
-msgstr "Die OpenERP Gewährleistung erwerben"
+msgstr "Hämta OpenERP garantin"
 
 #: controllers/templates/process.mako:83
 msgid "Select Process"
-msgstr "Prozess auswählen"
+msgstr "Välj process"
 
 #: controllers/templates/process.mako:89
 msgid "Select"
-msgstr "Auswählen"
+msgstr "Välj"
 
 #: controllers/templates/process.mako:102
 msgid "[Edit Process]"
-msgstr "[Prozess bearbeiten]"
+msgstr "[Editera process]"
 
 #: controllers/templates/process.mako:112
 msgid "fields"
-msgstr "Felder"
+msgstr "fält"
 
 #: controllers/templates/process.mako:113
 msgid "show"
-msgstr "Zeigen"
+msgstr "visa"
 
 #: controllers/templates/process.mako:114
 msgid "hide"
-msgstr "Verstecken"
+msgstr "dölj"
 
 #: controllers/templates/process_open.mako:54
 #: controllers/templates/process_tip.mako:20
 #: controllers/templates/wkf_popup.mako:52
 msgid "Close"
-msgstr "Schliessen"
+msgstr "Stäng"
 
 #: controllers/templates/process_open.mako:55
 #: controllers/templates/wkf_popup.mako:49
 msgid "Save"
-msgstr "Speichern"
+msgstr "Spara"
 
 #: controllers/templates/workflow.mako:4
 msgid "Workflow"
-msgstr "Workflow"
+msgstr "Arbetsflöde"
 
 #: controllers/templates/workflow.mako:20
 #, python-format
@@ -110,12 +109,12 @@ msgstr "Workflow (%s)"
 
 #: widgets/_views.py:8
 msgid "Diagram"
-msgstr "Diagramm"
+msgstr "Diagram"
 
 #: widgets/_views.py:9
 msgid "Diagram view..."
-msgstr "Diagramm Ansicht"
+msgstr "Diagramvy"
 
 #: widgets/templates/diagram.mako:26
 msgid "Loading..."
-msgstr "Laden ..."
+msgstr "Laddar"

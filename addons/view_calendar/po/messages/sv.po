@@ -1,4 +1,4 @@
-# Dutch translation for openobject-client-web
+# Swedish translation for openobject-client-web
 # Copyright (c) 2010 Rosetta Contributors and Canonical Ltd 2010
 # This file is distributed under the same license as the openobject-client-web package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2010.
@@ -8,9 +8,9 @@ msgstr ""
 "Project-Id-Version: openobject-client-web\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2010-10-26 10:51+0200\n"
-"PO-Revision-Date: 2010-11-16 07:28+0000\n"
-"Last-Translator: OpenERP Web Administrators <Unknown>\n"
-"Language-Team: Dutch <nl@li.org>\n"
+"PO-Revision-Date: 2010-11-16 16:06+0000\n"
+"Last-Translator: Anders Eriksson, Aspirix AB <ae@mobilasystem.se>\n"
+"Language-Team: Swedish <sv@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -19,19 +19,19 @@ msgstr ""
 
 #: controllers/templates/calpopup.mako:78
 msgid "Save"
-msgstr "Opslaan"
+msgstr "Spara"
 
 #: controllers/templates/calpopup.mako:81
 msgid "Close"
-msgstr "Sluiten"
+msgstr "Stäng"
 
 #: widgets/_views.py:10
 msgid "Calendar"
-msgstr "Agenda"
+msgstr "Kalender"
 
 #: widgets/_views.py:11
 msgid "Calendar view..."
-msgstr "Agenda weergave..."
+msgstr "Kalender vy..."
 
 #: widgets/_views.py:28
 msgid "Gantt"
@@ -39,35 +39,35 @@ msgstr "Gantt"
 
 #: widgets/_views.py:29
 msgid "Gantt view..."
-msgstr "Gantt weergave..."
+msgstr "Ganttvy..."
 
 #: widgets/utils.py:34
 msgid "Monday"
-msgstr "Maandag"
+msgstr "Måndag"
 
 #: widgets/utils.py:35
 msgid "Tuesday"
-msgstr "Dinsdag"
+msgstr "Tisdag"
 
 #: widgets/utils.py:36
 msgid "Wednesday"
-msgstr "Woensdag"
+msgstr "Onsdag"
 
 #: widgets/utils.py:37
 msgid "Thursday"
-msgstr "Donderdag"
+msgstr "Torsdag"
 
 #: widgets/utils.py:38
 msgid "Friday"
-msgstr "Vrijdag"
+msgstr "Fredag"
 
 #: widgets/utils.py:39
 msgid "Saturday"
-msgstr "Zaterdag"
+msgstr "Lördag"
 
 #: widgets/utils.py:40
 msgid "Sunday"
-msgstr "Zondag"
+msgstr "Söndag"
 
 #: widgets/utils.py:43
 msgid "January"
@@ -79,7 +79,7 @@ msgstr "Februari"
 
 #: widgets/utils.py:45
 msgid "March"
-msgstr "Maart"
+msgstr "Mars"
 
 #: widgets/utils.py:46
 msgid "April"
@@ -87,7 +87,7 @@ msgstr "April"
 
 #: widgets/utils.py:47
 msgid "May"
-msgstr "Mei"
+msgstr "Maj"
 
 #: widgets/utils.py:48
 msgid "June"
@@ -95,11 +95,11 @@ msgstr "Juni"
 
 #: widgets/utils.py:49
 msgid "July"
-msgstr "Juli"
+msgstr "Juni"
 
 #: widgets/utils.py:50
 msgid "August"
-msgstr "Augustus"
+msgstr "Augusti"
 
 #: widgets/utils.py:51
 msgid "September"
@@ -120,12 +120,12 @@ msgstr "December"
 #: widgets/utils.py:178
 #, python-format
 msgid "%(first)s to %(last)s %(month)s"
-msgstr "%(first)s tot %(last)s %(month)s"
+msgstr "%(first)s till %(last)s %(month)s"
 
 #: widgets/widgets.py:274
 #, python-format
 msgid "%s, Week %s"
-msgstr "%s, week %s"
+msgstr "%s, Vecka %s"
 
 #: widgets/widgets.py:287
 #, python-format
@@ -135,53 +135,53 @@ msgstr "%s - %s"
 #: widgets/widgets.py:289 widgets/widgets.py:312 widgets/widgets.py:356
 #, python-format
 msgid "Week %s"
-msgstr "Week %s"
+msgstr "Vecka %s"
 
 #: widgets/widgets.py:304
 #, python-format
 msgid "%s, Qtr %s"
-msgstr "%s, kwartaal %s"
+msgstr "%s, Kvartal %s"
 
 #: widgets/widgets.py:323
 #, python-format
 msgid "W %s"
-msgstr "W %s"
+msgstr "V %s"
 
 #: widgets/widgets.py:331 widgets/widgets.py:345
 #, python-format
 msgid "Year %s to Year %s"
-msgstr "Jaar %s tot jaar %s"
+msgstr "År %s till År %s"
 
 #: widgets/templates/day.mako:10 widgets/templates/day.mako:13
 #: widgets/templates/gantt.mako:11 widgets/templates/month.mako:10
 #: widgets/templates/week.mako:10
 msgid "Today"
-msgstr "Vandaag"
+msgstr "Idag"
 
 #: widgets/templates/day.mako:18 widgets/templates/month.mako:14
 #: widgets/templates/week.mako:14
 msgid "Month Calendar..."
-msgstr "Maandagenda"
+msgstr "Månadskalender"
 
 #: widgets/templates/day.mako:19 widgets/templates/month.mako:14
 #: widgets/templates/week.mako:15
 msgid "Month"
-msgstr "Maand"
+msgstr "Månad"
 
 #: widgets/templates/day.mako:22 widgets/templates/month.mako:17
 #: widgets/templates/week.mako:18
 msgid "Week Calendar..."
-msgstr "Weekagenda"
+msgstr "Veckokalender"
 
 #: widgets/templates/day.mako:23 widgets/templates/month.mako:18
 #: widgets/templates/week.mako:18
 msgid "Week"
-msgstr "Week"
+msgstr "Vecka"
 
 #: widgets/templates/day.mako:27 widgets/templates/month.mako:21
 #: widgets/templates/week.mako:21
 msgid "Day Calendar..."
-msgstr "Dagagenda"
+msgstr "Dagskalender"
 
 #: widgets/templates/day.mako:27 widgets/templates/month.mako:22
 #: widgets/templates/week.mako:22
@@ -191,19 +191,19 @@ msgstr "Dag"
 #: widgets/templates/gantt.mako:10 widgets/templates/month.mako:9
 #: widgets/templates/week.mako:9
 msgid "Today..."
-msgstr "Vandaag..."
+msgstr "Idag..."
 
 #: widgets/templates/gantt.mako:17 widgets/templates/gantt.mako:19
 msgid "Zoom In"
-msgstr "Inzoomen"
+msgstr "Förstora"
 
 #: widgets/templates/gantt.mako:25 widgets/templates/gantt.mako:27
 msgid "Zoom Out"
-msgstr "Uitzoomen"
+msgstr "Förminska"
 
 #: widgets/templates/groups.mako:4
 msgid "Add"
-msgstr "Toevoegen"
+msgstr "Lägg till"
 
 #: widgets/templates/sidebar.mako:3
 msgid "Navigator"
@@ -215,9 +215,9 @@ msgstr "Filter"
 
 #: widgets/templates/sidebar.mako:18
 msgid "Apply search filter"
-msgstr "Zoekfilter toepassen"
+msgstr "Applicera sökfilter"
 
 #: widgets/templates/week.mako:29
 #, python-format
 msgid "Week %(number)s"
-msgstr "Week %(number)s"
+msgstr "Vecka %(number)s"

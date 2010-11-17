@@ -1,4 +1,4 @@
-# Dutch translation for openobject-client-web
+# Swedish translation for openobject-client-web
 # Copyright (c) 2010 Rosetta Contributors and Canonical Ltd 2010
 # This file is distributed under the same license as the openobject-client-web package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2010.
@@ -8,9 +8,9 @@ msgstr ""
 "Project-Id-Version: openobject-client-web\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2010-10-26 10:51+0200\n"
-"PO-Revision-Date: 2010-11-16 08:04+0000\n"
-"Last-Translator: OpenERP Web Administrators <Unknown>\n"
-"Language-Team: Dutch <nl@li.org>\n"
+"PO-Revision-Date: 2010-11-16 18:33+0000\n"
+"Last-Translator: David Rinnan, Aspirix AB <david@aspirix.se>\n"
+"Language-Team: Swedish <sv@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -19,20 +19,20 @@ msgstr ""
 
 #: static/javascript/infobox.js:143
 msgid "Do you really want to delete this record?"
-msgstr "Wilt u dit record werkelijk verwijderen?"
+msgstr "Vill Ni verkligen ta bort denna post"
 
 #: static/javascript/process.js:178
 msgid "Notes:"
-msgstr "Notities:"
+msgstr "Noteringar"
 
 #: static/javascript/process.js:186
 msgid "Subflows:"
-msgstr "Subschemas:"
+msgstr "Underflöde"
 
 #: static/javascript/process.js:190
 msgid "Related:"
-msgstr "Gerelateerd:"
+msgstr "Relaterade"
 
 #: static/javascript/process.js:274
 msgid "Help"
-msgstr "Help"
+msgstr "Hjälp"
