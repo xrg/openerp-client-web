@@ -123,14 +123,6 @@ class TinyWidget(Widget):
             result["%s,%s" % (resource, item['id'])] = item.pop('__last_update', '')
         return result
 
-    def _update_concurrency_info(self, resource, records):
-        info = getattr(cherrypy.request, 'terp_concurrency_info', {})
-        vals = info.setdefault(resource, {})
-        for item in records:
-            vals[item['id']] = item.pop('__last_update', '')
-        cherrypy.request.terp_concurrency_info = info
-
-
 class InputWidgetLabel(Widget):
     template = "/openerp/widgets/templates/label.mako"
     params = ['string', 'help']
@@ -257,9 +249,21 @@ class ConcurrencyInfo(TinyInputWidget):
     """
 
     params = ['ids', 'model', 'info']
+
+    def __init__(self, model, ids):
+        super(ConcurrencyInfo, self).__init__(model=model, ids=ids)
+
     @property
     def info(self):
         return getattr(cherrypy.request, 'terp_concurrency_info', {})
+    @classmethod
+    def update(cls, resource, records):
+        info = getattr(cherrypy.request, 'terp_concurrency_info', {})
+        vals = info.setdefault(resource, {})
+        for item in records:
+            vals[item['id']] = item.pop('__last_update', '')
+        cherrypy.request.terp_concurrency_info = info
+
 
 from openobject import pooler
 

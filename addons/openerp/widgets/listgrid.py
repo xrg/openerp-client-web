@@ -185,7 +185,7 @@ class List(TinyWidget):
             except:
                 pass
             
-            self._update_concurrency_info(self.model, data)
+            ConcurrencyInfo.update(self.model, data)
             self.concurrency_info = ConcurrencyInfo(self.model, ids)
             
             order_data = [(d['id'], d) for d in data]

@@ -783,7 +783,7 @@ class Form(TinyInputWidget):
             if lval:
                 values = lval[0]
                 self.id = ids[0]
-                self._update_concurrency_info(self.model, [values])
+                ConcurrencyInfo.update(self.model, [values])
 
         elif 'datas' in view: # wizard data
 
