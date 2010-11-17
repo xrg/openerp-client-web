@@ -409,6 +409,9 @@ class Form(SecuredController):
             params.id = int(Model.create(data, ctx))
             params.ids = (params.ids or []) + [params.id]
             params.count += 1
+        tw.ConcurrencyInfo.update(
+            params.model, Model.read([params.id], ['__last_update'], ctx)
+        )
 
         button = params.button
 

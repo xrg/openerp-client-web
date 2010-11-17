@@ -31,6 +31,7 @@ import cherrypy
 
 from openobject.widgets import Widget
 from openobject.widgets import InputWidget
+import simplejson
 
 __all__ = ['TinyWidget', 'TinyInputWidget', 'ConcurrencyInfo',
            'register_widget', 'get_widget', 'get_registered_widgets',
@@ -259,6 +260,8 @@ class ConcurrencyInfo(TinyInputWidget):
         for item in records:
             vals[item['id']] = item.pop('__last_update', '')
         cherrypy.request.terp_concurrency_info = info
+        cherrypy.response.headers['X-Concurrency-Info'] = \
+            simplejson.dumps(info)
 
 
 from openobject import pooler

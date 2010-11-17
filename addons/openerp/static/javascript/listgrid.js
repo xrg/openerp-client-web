@@ -770,19 +770,7 @@ MochiKit.Base.update(ListView.prototype, {
 
                 openobject.dom.get(self.name).__listview = __listview;
 
-                // update concurrency info
-                jQuery.each(obj.info, function (model, model_data) {
-                    jQuery.each(model_data, function (id, concurrency_data) {
-                        var formatted_key = "'" + model + ',' + id + "'";
-                        var formatted_concurrency_value = (
-                            "(" + formatted_key + ", " +
-                                "'" + concurrency_data + "'" +
-                            ")"
-                        );
-                        jQuery('#' + model.replace('.', '-') + '-' + id)
-                            .val(formatted_concurrency_value);
-                    });
-                });
+                updateConcurrencyInfo(obj.info);
 
                 // set focus on the first field
                 var first = jQuery('input.listfields')[0] || null;

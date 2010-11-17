@@ -214,3 +214,27 @@ jQuery(document).delegate('[callback], [onchange_default]', 'change', function (
         onChange(this);
     }
 });
+
+/**
+ * Updates existing concurrency info with the data provided
+ * @param info a map of {model: {id: concurrency info}} serialized into the existing concurrency info inputs
+ */
+function updateConcurrencyInfo(info) {
+    jQuery.each(info, function (model, model_data) {
+        jQuery.each(model_data, function (id, concurrency_data) {
+            var formatted_key = "'" + model + ',' + id + "'";
+            var formatted_concurrency_value = (
+                    "(" + formatted_key + ", " +
+                            "'" + concurrency_data + "'" +
+                            ")"
+                    );
+            jQuery('#' + model.replace('.', '-') + '-' + id)
+                    .val(formatted_concurrency_value);
+        });
+    });
+}
+jQuery(document).ajaxComplete(function (e, xhr) {
+    var concurrencyInfo = xhr.getResponseHeader('X-Concurrency-Info');
+    if(!concurrencyInfo) return;
+    updateConcurrencyInfo(jQuery.parseJSON(concurrencyInfo));
+});
