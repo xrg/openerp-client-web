@@ -400,15 +400,14 @@ class Form(SecuredController):
         Model = rpc.RPCProxy(params.model)
         if params.id:
             ctx = utils.context_with_concurrency_info(params.context, params.concurrency_info)
-            id = Model.write([params.id], data, ctx)
+            Model.write([params.id], data, ctx)
         else:
             if params.default_o2m:
                 data.update(params.default_o2m)
 
             ctx = dict((params.context or {}), **rpc.session.context)
-            id = int(Model.create(data, ctx))
-            params.id = id
-            params.ids = (params.ids or []) + [id]
+            params.id = int(Model.create(data, ctx))
+            params.ids = (params.ids or []) + [params.id]
             params.count += 1
 
         button = params.button
@@ -422,8 +421,6 @@ class Form(SecuredController):
         current = params.chain_get(params.source or '')
         if current:
             current.id = None
-            if not params.id:
-                params.id = id
         elif not button:
             params.editable = False
 
