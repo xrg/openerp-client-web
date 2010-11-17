@@ -396,28 +396,21 @@ class Form(SecuredController):
         params, data = TinyDict.split(kw)
         # remember the current page (tab) of notebooks
         cherrypy.session['remember_notebooks'] = True
-        # bypass save, for button action in non-editable view
-        if not (params.button and params.editable and params.id):
 
-            proxy = rpc.RPCProxy(params.model)
-            if not params.id:
-                if params.default_o2m:
-                    data.update(params.default_o2m)
-                    
-                ctx = dict((params.context or {}), **rpc.session.context)
-                id = proxy.create(data, ctx)
-                params.ids = (params.ids or []) + [int(id)]
-                params.id = int(id)
-                params.count += 1
-            else:
-                ctx = utils.context_with_concurrency_info(params.context, params.concurrency_info)
-                id = proxy.write([params.id], data, ctx)
-                
-        elif params.button and params.editable and params.id:
-            proxy = rpc.RPCProxy(params.model)
+        Model = rpc.RPCProxy(params.model)
+        if params.id:
             ctx = utils.context_with_concurrency_info(params.context, params.concurrency_info)
-            id = proxy.write([params.id], data, ctx)
-            
+            id = Model.write([params.id], data, ctx)
+        else:
+            if params.default_o2m:
+                data.update(params.default_o2m)
+
+            ctx = dict((params.context or {}), **rpc.session.context)
+            id = int(Model.create(data, ctx))
+            params.id = id
+            params.ids = (params.ids or []) + [id]
+            params.count += 1
+
         button = params.button
 
         # perform button action
@@ -430,7 +423,7 @@ class Form(SecuredController):
         if current:
             current.id = None
             if not params.id:
-                params.id = int(id)
+                params.id = id
         elif not button:
             params.editable = False
 
