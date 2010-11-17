@@ -91,13 +91,6 @@ function doLoadingSuccess(app) {
  */
 function openAction(action_url, target) {
     var $dialogs = jQuery('.action-dialog');
-    // destroy previous action dialogs as soon as we can after having
-    // executed current action
-    setTimeout(function () {
-        $dialogs.find('iframe').remove();
-        $dialogs.dialog('destroy');
-        $dialogs.remove();
-    });
     switch(target) {
         case 'new':
             var $contentFrame = jQuery('<iframe>', {
@@ -111,7 +104,14 @@ function openAction(action_url, target) {
                 .dialog({
                     modal: true,
                     width: 640,
-                    height: 480
+                    height: 480,
+                    close: function () {
+                        var $this = jQuery(this);
+                        setTimeout(function () {
+                            $this.find('iframe').remove();
+                            $this.dialog('destroy').remove();
+                        });
+                    }
                 })
                 .append($contentFrame);
             break;
@@ -119,6 +119,7 @@ function openAction(action_url, target) {
         default:
             openLink(action_url);
     }
+    $dialogs.dialog('close');
 }
 
 /**

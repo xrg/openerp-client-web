@@ -449,7 +449,7 @@ def execute_by_keyword(keyword, adds=None, **data):
 
 @tools.expose(template="/openerp/controllers/templates/closepopup.mako")
 def close_popup(*args, **kw):
-    return dict()
+    return {}
 
 @tools.expose(template="/openerp/controllers/templates/report.mako")
 def report_link(report_name, **kw):
