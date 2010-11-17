@@ -129,7 +129,6 @@ jQuery(document).ready(function () {
         // do the same for forms
         jQuery(document).delegate('form:not([target])', 'submit', function () {
             var $form = jQuery(this);
-            $form.ajaxForm();
             // Don't make the wait box appear immediately
             waitBox.showAfter(FORM_WAIT_NO_ACTIVITY);
             $form.ajaxSubmit({
@@ -154,7 +153,6 @@ jQuery(document).ready(function () {
             waitBox = new openerp.ui.WaitBox();
             jQuery(document).delegate('form#view_form:not([target])', 'submit', function () {
                 var $form = jQuery('#view_form');
-                $form.ajaxForm();
                 // Make the wait box appear immediately
                 waitBox.show();
                 $form.ajaxSubmit({
