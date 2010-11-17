@@ -261,9 +261,7 @@ class List(SecuredController):
 
         info = {}
         if params.concurrency_info:
-            for m, v in getattr(cherrypy.request, 'terp_concurrency_info', {}).items():
-                for i, d in v.items():
-                    info['%s,%s' % (m, i)] = d
+            info = getattr(cherrypy.request, 'terp_concurrency_info', {})
 
         if params.get('_terp_clear'):
             view=ustr(frm.render())
