@@ -196,6 +196,10 @@ def act_window_close(*args):
     return close_popup()
 
 def act_window(action, data):
+    if not action.get('opened'):
+        action.setdefault('target', 'current')
+        return act_window_opener(action, data)
+
     for key in ('res_id', 'res_model', 'view_type',
                 'view_mode', 'limit', 'search_view'):
         data[key] = action.get(key, data.get(key))
@@ -312,21 +316,19 @@ ACTIONS_BY_TYPE = {
     'ir.actions.act_url': act_url
 }
 
-NEW_WINDOW_NAME = 'openerp_popup'
-def execute_opener(action, data):
+def act_window_opener(action, data):
     # Add 'opened' mark to indicate we're now within the popup and can
     # continue on during the second round of execution
     url = ('/openerp/execute?' + urllib.urlencode({
         'action': simplejson.dumps(dict(action, opened=True)),
         'data': simplejson.dumps(data)
     }))
-    cherrypy.response.headers['X-Target'] = 'new'
+    cherrypy.response.headers['X-Target'] = action['target']
     cherrypy.response.headers['Location'] = url
-    cherrypy.response.headers['X-New-Window-Name'] = NEW_WINDOW_NAME
     return """<script type="text/javascript">
-        window.open('%s', '%s', "width=800,height=600");
+        window.top.openAction('%s', '%s');
     </script>
-    """ % (url, NEW_WINDOW_NAME)
+    """ % (url, action['target'])
 
 def execute(action, **data):
     """Execute the action with the provided data. for internal use only.
@@ -340,9 +342,6 @@ def execute(action, **data):
         #XXX: in gtk client just returns to the caller
         #raise common.error('Error', 'Invalid action...')
         return close_popup()
-
-    if action.get('target') == 'new' and not action.get('opened'):
-        return execute_opener(action, data)
 
     data.setdefault('context', {}).update(expr_eval(action.get('context','{}'), data.get('context', {}).copy()))
 
@@ -450,7 +449,7 @@ def execute_by_keyword(keyword, adds=None, **data):
 
 @tools.expose(template="/openerp/controllers/templates/closepopup.mako")
 def close_popup(*args, **kw):
-    return dict()
+    return {}
 
 @tools.expose(template="/openerp/controllers/templates/report.mako")
 def report_link(report_name, **kw):
