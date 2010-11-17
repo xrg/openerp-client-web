@@ -186,13 +186,12 @@ def get_size(sz):
     return "%0.2f %s" % (s, units[i])
 
 def context_with_concurrency_info(context, concurrency_info):
-    ctx = (context or {}).copy()
+    ctx = (context or {})
     if not concurrency_info:
         return ctx
     if isinstance(concurrency_info, tuple):
         concurrency_info = [concurrency_info]
-    ctx['__last_update'] = dict(concurrency_info)
-    return ctx
+    return dict(ctx, __last_update=dict(concurrency_info))
 
 
 class TempFileName(str):
