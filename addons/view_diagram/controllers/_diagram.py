@@ -268,7 +268,7 @@ class Workflow(Form):
 
     _cp_path = "/view_diagram/workflow"
 
-    @expose(template="/view_diagram/controllers/templates/workflow.mako")
+    @expose(template="/openerp/controllers/templates/form.mako")
     def index(self, model, rec_id=None):
         
         proxy = rpc.RPCProxy("workflow")
@@ -287,9 +287,8 @@ class Workflow(Form):
             _terp_id=wkf['id'],
             _terp_view_mode=['tree', 'form', 'diagram']
         )
-        
-        form = tw.form_view.ViewForm(params, name="view_form", action="")
-        return dict(form=form, name=wkf['name'] ,workitems=result['workitems'].keys())
+        return self.create(params)
+
 
     @expose('json')
     def get_info(self, id, model, node_obj, conn_obj, src_node, des_node, **kw):

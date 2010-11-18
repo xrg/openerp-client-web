@@ -86,9 +86,8 @@
                href="javascript: void(0)">${_("Manage Views")}</a>
         </li>
         <li>
-            <a title="${_('Manage workflows of the current object')}"
-               onclick="show_wkf(); return false;"
-               href="javascript: void(0)">${_("Show Workflow")}</a>
+            <a title="${_('Edit workflow of the current object')}"
+               href="/view_diagram/workflow?model=${model}&amp;rec_id=${id}">${_("Edit Workflow")}</a>
         </li>
         <li>
             <a title="${_('Customize current object or create a new object')}"

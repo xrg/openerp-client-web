@@ -946,22 +946,6 @@ function submenu_action(action_id, model){
     }));
 }
 
-function show_wkf(){
-    var id;
-
-    if (jQuery('#_terp_list').length) {
-        id = new ListView('_terp_list').getSelectedRecords()[0];
-    } else {
-        var element = jQuery('#_terp_id');
-        id = element && element.val() != 'False' ? element.val() : null;
-    }
-
-    openobject.tools.openWindow(openobject.http.getURL('/view_diagram/workflow', {
-        model: jQuery('#_terp_model').val(),
-        rec_id: id
-    }));
-}
-
 /**
  * @event click
  *
