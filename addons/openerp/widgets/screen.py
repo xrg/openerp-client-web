@@ -166,7 +166,7 @@ class Screen(TinyInputWidget):
         self.toolbar = toolbar or None
         self.submenu = eval(ustr(submenu)) or None
 
-        self.hastoolbar = (toolbar or False) and True
-        self.hassubmenu = (submenu or False) and True
+        self.hastoolbar = bool(toolbar)
+        self.hassubmenu = bool(submenu)
 
 # vim: ts=4 sts=4 sw=4 si et
