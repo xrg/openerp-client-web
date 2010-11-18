@@ -133,7 +133,7 @@ def secured(fn):
                 user = ''
 
             db = kw.get('db', db)
-            user = kw.get('user', user)
+            user = ustr(kw.get('user', user))
             password = kw.get('password', '')
 
             # See if the user just tried to log in
