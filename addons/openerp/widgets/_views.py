@@ -58,7 +58,7 @@ class FormView(TinyView):
                            nodefault=screen.nodefault, nolinks=screen.link)
 
         if not screen.is_wizard and screen.ids is None:
-            limit = screen.limit or 20
+            limit = screen.limit or 50
             proxy = rpc.RPCProxy(screen.model)
             screen.ids = proxy.search(screen.domain, screen.offset or False,
                                       limit, 0, screen.context)

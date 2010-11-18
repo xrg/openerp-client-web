@@ -73,7 +73,7 @@ def make_domain(name, value, kind='char'):
 
     return []
 
-def search(model, offset=0, limit=20, domain=[], context={}, data={}):
+def search(model, offset=0, limit=50, domain=[], context={}, data={}):
     """A helper function to search for data by given criteria.
 
     @param model: the resource on which to make search
@@ -107,7 +107,7 @@ def search(model, offset=0, limit=20, domain=[], context={}, data={}):
     l = limit
     o = offset
 
-    if l < 1: l = 20
+    if l < 1: l = 50
     if o < 0: o = 0
 
     ctx = rpc.session.context.copy()
@@ -187,7 +187,7 @@ class Form(SecuredController):
         cherrypy.session['params'] = params
 
         params.offset = params.offset or 0
-        params.limit = params.limit or 20
+        params.limit = params.limit or 50
         params.count = params.count or 0
         params.view_type = params.view_type or params.view_mode[0]
 
@@ -313,7 +313,7 @@ class Form(SecuredController):
     @expose()
     def edit(self, model, id=False, ids=None, view_ids=None,
              view_mode=['form', 'tree'], view_type='form', source=None, domain=[], context={},
-             offset=0, limit=20, count=0, search_domain=None,
+             offset=0, limit=50, count=0, search_domain=None,
              search_data=None, filter_domain=None, **kw):
 
         notebook_tab = kw.get('notebook_tab') or 0
@@ -336,7 +336,7 @@ class Form(SecuredController):
     @expose()
     def view(self, model, id, ids=None, view_ids=None,
              view_mode=['form', 'tree'], view_type=None, source=None, domain=[], context={},
-             offset=0, limit=20, count=0, search_domain=None,
+             offset=0, limit=50, count=0, search_domain=None,
              search_data=None, filter_domain=None, **kw):
 
         notebook_tab = kw.get('notebook_tab') or 0
@@ -686,7 +686,7 @@ class Form(SecuredController):
                 params.ids.append(id)
                 params.count += 1
             
-        l = params.limit or 20
+        l = params.limit or 50
         o = params.offset or 0
         c = params.count or 0
 

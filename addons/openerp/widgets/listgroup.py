@@ -227,7 +227,7 @@ class MultipleGroup(List):
         self.pageable = kw.get('pageable', True)
 
         self.offset = kw.get('offset', 0)
-        self.limit = kw.get('limit', 80)
+        self.limit = kw.get('limit', 50)
         self.count = kw.get('count', 0)
         self.link = kw.get('nolinks')
         self.parent_group = parent_group or None

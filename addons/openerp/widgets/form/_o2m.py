@@ -155,7 +155,7 @@ class O2M(TinyInputWidget):
                 group_by_ctx = ctx.get('group_by')
 
         current.offset = current.offset or 0
-        current.limit = current.limit or 20
+        current.limit = current.limit or 50
         current.count = len(ids or [])
 
         # Group By for one2many list.

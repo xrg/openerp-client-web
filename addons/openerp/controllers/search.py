@@ -45,7 +45,7 @@ class Search(Form):
         params.view_type = 'tree'
 
         params.offset = params.offset or 0
-        params.limit = params.limit or 20
+        params.limit = params.limit or 50
         params.count = params.count or 0
         params.filter_domain = params.filter_domain or []
         params.editable = 0
@@ -80,7 +80,7 @@ class Search(Form):
 
         params.source = source
         params.selectable = kind
-        params.limit = params.limit or 20
+        params.limit = params.limit or 50
 
         ctx = rpc.session.context.copy()
         ctx.update(params.context or {})
