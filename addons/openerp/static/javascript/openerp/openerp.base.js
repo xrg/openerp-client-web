@@ -149,30 +149,23 @@ var LINK_WAIT_NO_ACTIVITY = 300;
 /** @constant */
 var FORM_WAIT_NO_ACTIVITY = 500;
 jQuery(document).ready(function () {
-    var waitBox;
     var $app = jQuery('#appContent');
     if ($app.length) {
         jQuery('body').delegate('a[href]:not([target="_blank"]):not([href^="#"]):not([href^="javascript"]):not([rel=external])', 'click', function(){
             validate_action();
         });
-        
-        waitBox = new openerp.ui.WaitBox();
+
         // open un-targeted links in #appContent via xhr. Links with @target are considered
         // external links. Ignore hash-links.
         jQuery(document).delegate('a[href]:not([target]):not([href^="#"]):not([href^="javascript"]):not([rel=external])', 'click', function () {
-            waitBox.showAfter(LINK_WAIT_NO_ACTIVITY);
-            openLink(jQuery(this).attr('href'),
-                     jQuery.proxy(waitBox, 'hide'));
+            openLink(jQuery(this).attr('href'));
             return false;
         });
         // do the same for forms
         jQuery(document).delegate('form:not([target])', 'submit', function () {
             var $form = jQuery(this);
-            // Don't make the wait box appear immediately
-            waitBox.showAfter(FORM_WAIT_NO_ACTIVITY);
             $form.ajaxSubmit({
                 data: {'requested_with': 'XMLHttpRequest'},
-                complete: jQuery.proxy(waitBox, 'hide'),
                 success: doLoadingSuccess($app[0]),
                 error: loadingError
             });
@@ -189,14 +182,11 @@ jQuery(document).ready(function () {
         }
         // For popup like o2m submit actions.
         else {
-            waitBox = new openerp.ui.WaitBox();
             jQuery(document).delegate('form#view_form:not([target])', 'submit', function () {
                 var $form = jQuery('#view_form');
                 // Make the wait box appear immediately
-                waitBox.show();
                 $form.ajaxSubmit({
                     data: {'requested_with': 'XMLHttpRequest'},
-                    complete: jQuery.proxy(waitBox, 'hide'),
                     success: doLoadingSuccess(jQuery('table.view')[0]),
                     error: loadingError
                 });

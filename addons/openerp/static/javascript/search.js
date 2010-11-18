@@ -601,10 +601,8 @@ function manage_filters() {
 }
 
 function final_search_domain(custom_domain, all_domains, group_by_ctx) {
-    var waitBox = new openerp.ui.WaitBox();
     if(group_by_ctx.length)
         group_by_ctx = group_by_ctx.join(',');
-    waitBox.showAfter(500);
     jQuery.ajax({
         url: '/openerp/search/eval_domain_filter',
         type: 'POST',
@@ -615,7 +613,6 @@ function final_search_domain(custom_domain, all_domains, group_by_ctx) {
             all_domains: all_domains,
             group_by_ctx: group_by_ctx
             },
-        complete: jQuery.proxy(waitBox, 'hide'),
         success: function(obj) {
             if (obj.domain) { // For direct search
 
