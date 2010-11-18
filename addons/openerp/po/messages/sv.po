@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: openobject-client-web\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2010-10-26 10:51+0200\n"
-"PO-Revision-Date: 2010-11-16 19:16+0000\n"
-"Last-Translator: David Rinnan, Aspirix AB <david@aspirix.se>\n"
+"PO-Revision-Date: 2010-11-17 08:07+0000\n"
+"Last-Translator: Anders Eriksson, Aspirix AB <ae@mobilasystem.se>\n"
 "Language-Team: Swedish <sv@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2010-11-17 04:50+0000\n"
+"X-Launchpad-Export-Date: 2010-11-18 04:45+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: validators.py:83
@@ -266,6 +266,8 @@ msgid ""
 "Your problem could not be sent to the quality team\n"
 "Please report this error manually at %s"
 msgstr ""
+"Det problem gick inte att sända till kvalitetsteamet\n"
+"Vänligen rapportera felet manuellt på %s"
 
 #: controllers/form.py:545
 msgid "Invalid button type"
@@ -325,6 +327,7 @@ msgstr "Input fel."
 #, python-format
 msgid "You cannot import this field %s, because we cannot auto-detect it"
 msgstr ""
+"Du kan inte importera detta fält %s, efter som vi inte kan autodetektera det"
 
 #: controllers/impex.py:483
 #, python-format
@@ -332,6 +335,8 @@ msgid ""
 "Error processing your first line of the file.\n"
 "Field %s is unknown"
 msgstr ""
+"Fel vid behandling av filens första rad.\n"
+"Fält %s är okänt"
 
 #: controllers/impex.py:510
 msgid "XML-RPC error"
@@ -352,6 +357,11 @@ msgid ""
 "\n"
 "%s"
 msgstr ""
+"Fel när man försöker importera denna post:\n"
+"%s\n"
+"Felmeddelande:\n"
+"%s\n"
+"%s"
 
 #: controllers/impex.py:518
 msgid "Importation Error"
@@ -888,7 +898,7 @@ msgstr "Alltid applicerbart!"
 #: controllers/templates/footer.mako:3
 #, python-format
 msgid "&copy; 2008-2010 %(ooweb)s  SA. All Rights Reserved "
-msgstr ""
+msgstr "&copy; 2008-2010 %(ooweb)s SA. All Rights Reserved "
 
 #: controllers/templates/footer.mako:6
 msgid "Significant contributions to the web client have been made by"
@@ -997,12 +1007,12 @@ msgstr "Visa rutnät på arbetsytan"
 #: controllers/templates/header.mako:30
 #, python-format
 msgid "%(company)s"
-msgstr ""
+msgstr "%(company)s"
 
 #: controllers/templates/header.mako:31 controllers/templates/index.mako:140
 #, python-format
 msgid "%(user)s"
-msgstr ""
+msgstr "%(user)s"
 
 #: controllers/templates/header.mako:42 controllers/templates/header.mako:44
 msgid "Home"
@@ -1099,7 +1109,7 @@ msgstr "Abonnera och kom igång"
 #: controllers/templates/index.mako:142 controllers/templates/index.mako:147
 #, python-format
 msgid "Powered by %(openerp)s "
-msgstr ""
+msgstr "Powered by %(openerp)s "
 
 #: controllers/templates/login.mako:53 controllers/templates/login_ajax.mako:72
 #: controllers/templates/login_ajax.mako:94
