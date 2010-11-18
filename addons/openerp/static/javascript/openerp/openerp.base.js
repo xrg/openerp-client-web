@@ -254,7 +254,7 @@ function updateConcurrencyInfo(info) {
 }
 
 var LOADER_THROBBER;
-var THROBBER_DELAY = 350;
+var THROBBER_DELAY = 300;
 function loader_throb() {
     var $loader = jQuery('#ajax_loading');
     if(/\.{3}$/.test($loader.text())) {
