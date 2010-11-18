@@ -33,10 +33,12 @@ body {
     }
 }
 
-body,textarea,input,select,option,button {
+body,textarea,input,select,option {
     color: #1f1f1f;
-    font-family: Ubuntu, Helvetica, sans-serif;
     line-height: 1.25;
+}
+body,textarea,input,select,option,button {
+    font-family: Ubuntu, Helvetica, sans-serif;
 }
 
 /*
