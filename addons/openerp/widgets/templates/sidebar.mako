@@ -85,10 +85,12 @@
                onclick="openobject.tools.openWindow('/openerp/viewlist?model=${model}', {height: 400})"
                href="javascript: void(0)">${_("Manage Views")}</a>
         </li>
+        % if id:
         <li>
             <a title="${_('Edit workflow of the current object')}"
                href="/view_diagram/workflow?model=${model}&amp;rec_id=${id}">${_("Edit Workflow")}</a>
         </li>
+        % endif
         <li>
             <a title="${_('Customize current object or create a new object')}"
                onclick="openobject.tools.openWindow('/openerp/viewed/new_model/edit?model=${model}')"
