@@ -317,6 +317,10 @@ ACTIONS_BY_TYPE = {
 }
 
 def act_window_opener(action, data):
+    # search_view key in action is >8k added to the URL every time, which
+    # breaks firefox (and probably Apache) as it's shoved into a header and
+    # then used back as a URL
+    action.pop('search_view', None)
     # Add 'opened' mark to indicate we're now within the popup and can
     # continue on during the second round of execution
     url = ('/openerp/execute?' + urllib.urlencode({
