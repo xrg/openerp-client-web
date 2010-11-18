@@ -226,23 +226,15 @@ jQuery(document).delegate(
     }
 });
 
-function caller_onchange(){
-    var $caller = jQuery('[callback]:not([type="hidden"]):not([value=""]):not([disabled]):not([readonly]))')
-    if($caller.length) {
-        $caller.each(function(){
-            if (jQuery(this).attr('kind') == 'boolean') {
-                onBooleanClicked(jQuery(this).attr('id'));
-            }
-            else {
-                jQuery(this).trigger('change');
-            }
-        });
-    }
-}
-jQuery(document).ready(function(){
-    caller_onchange();
-}).ajaxStop(function() {
-    caller_onchange();
+jQuery(document).bind('ready ajaxStop', function (){
+    var $caller = jQuery('[callback]:not([type="hidden"]):not([value=""]):not([disabled]):not([readonly]))');
+    $caller.each(function(){
+        if (jQuery(this).attr('kind') == 'boolean') {
+            onBooleanClicked(jQuery(this).attr('id'));
+        } else {
+            jQuery(this).change();
+        }
+    });
 });
 
 // Hook onchange for all elements
