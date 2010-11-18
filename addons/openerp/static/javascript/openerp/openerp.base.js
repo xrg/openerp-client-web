@@ -264,18 +264,32 @@ function updateConcurrencyInfo(info) {
 }
 
 var LOADER_THROBBER;
+var THROBBER_DELAY = 350;
+function loader_throb() {
+    var $loader = jQuery('#ajax_loading');
+    if(/\.{3}$/.test($loader.text())) {
+        // if we have three dots, reset to three nbsp
+        $loader.html($loader.text().replace(/\.{3}$/, '&nbsp;&nbsp;&nbsp;'));
+    } else {
+        // otherwise replace first space with a dot
+        $loader.text($loader.text().replace(/(\.*)(\s)(\s*)$/, '$1.$3'))
+    }
+    LOADER_THROBBER = setTimeout(loader_throb, THROBBER_DELAY);
+}
 jQuery(document).bind({
     ready: function() {
         jQuery('body').append(
-                jQuery('<div id="ajax_loading">Loading</div>'));
+                jQuery('<div id="ajax_loading">Loading&nbsp;&nbsp;&nbsp;</div>'));
     },
     ajaxStart: function() {
         var $loader = jQuery('#ajax_loading');
         $loader.css({
             left: (jQuery(window).width() - $loader.outerWidth()) / 2
         }).show();
+        loader_throb();
     },
     ajaxStop: function () {
+        clearTimeout(LOADER_THROBBER);
         jQuery('#ajax_loading').hide();
     },
     ajaxComplete: function (e, xhr) {
