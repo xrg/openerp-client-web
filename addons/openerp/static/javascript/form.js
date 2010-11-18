@@ -850,7 +850,7 @@ function do_action(src, context_menu) {
         'domain': domain,
         'context': context
     }).addCallback(function(obj) {
-        window.open(openobject.http.getURL(
+        openLink(openobject.http.getURL(
             get_form_action('action'),
             jQuery.extend(params, {
                 '_terp_action': action_id,
