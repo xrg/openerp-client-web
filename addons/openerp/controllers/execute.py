@@ -13,5 +13,5 @@ class Execute(controllers.SecuredController):
     def index(self, action, data):
         return actions.execute(
             simplejson.loads(action),
-            **simplejson.loads(data)
+            **dict((key.encode('ascii'), value) for key, value in simplejson.loads(data).iteritems())
         )
