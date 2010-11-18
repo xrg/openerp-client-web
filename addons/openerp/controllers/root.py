@@ -154,7 +154,11 @@ class Root(SecuredController):
     @expose('json', methods=('POST',))
     def close_user_widget(self, widget_id):
         rpc.RPCProxy('res.widget.user').unlink(widget_id, rpc.session.context)
-        return
+    
+    @expose()
+    def add_user_widget(self):
+        return actions.execute_window([False], 'res.widget.wizard')
+        
 
     @expose(allow_json=True)
     @unsecured

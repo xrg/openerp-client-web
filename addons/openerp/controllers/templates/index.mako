@@ -117,11 +117,13 @@
                                         </ul>
                                     </div>
                                     <div class="sideheader-a">
-                                        <ul class="side">
-                                            <li>
-                                                <a class="button-a">${_("Add")}</a>
-                                            </li>
-                                        </ul>
+                                        % if close_widget:
+                                            <ul class="side">
+                                                <li>
+                                                    <a class="button-a" href="${py.url('/openerp/add_user_widget')}" id="add_user_widget">${_("Add")}</a>
+                                                </li>
+                                            </ul>
+                                        % endif
                                         <h2>${_("Widgets")}</h2>
                                     </div>
                                     <div class="box-a" id="user_widgets">
@@ -148,6 +150,11 @@
                                                     var $p2 =  jQuery(this).closest('.side');
                                                     $p1.remove();
                                                     $p2.remove();
+                                                    return false;
+                                                });
+                                                
+                                                jQuery('#add_user_widget').click(function(){
+                                                    window.open(openobject.http.getURL(this.href));
                                                     return false;
                                                 });
                                             });
