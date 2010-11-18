@@ -263,23 +263,25 @@ function updateConcurrencyInfo(info) {
     });
 }
 
-jQuery(window).load(function(){
-	jQuery('body').append(
-		jQuery('<div>', {'id': 'ajax_loading'}).html('Loading...')
-	)
-});
+var LOADER_THROBBER;
+jQuery(document).bind({
+    ready: function() {
+        jQuery('body').append(
+                jQuery('<div id="ajax_loading">Loading</div>'));
+    },
+    ajaxStart: function() {
+        var $loader = jQuery('#ajax_loading');
+        $loader.css({
+            left: (jQuery(window).width() - $loader.outerWidth()) / 2
+        }).show();
+    },
+    ajaxStop: function () {
+        jQuery('#ajax_loading').hide();
+    },
+    ajaxComplete: function (e, xhr) {
+        var concurrencyInfo = xhr.getResponseHeader('X-Concurrency-Info');
+        if(!concurrencyInfo) return;
+        updateConcurrencyInfo(jQuery.parseJSON(concurrencyInfo));
 
-jQuery(document).ajaxSend(function(){
-	jQuery('#ajax_loading').css({
-		top:    $(window).height()/5 + $(window).scrollTop(),
-		left:   $(window).width()/2 + $(window).scrollLeft()
-	}).show();
-});
-
-jQuery(document).ajaxComplete(function (e, xhr) {
-	jQuery('#ajax_loading').hide();
-    var concurrencyInfo = xhr.getResponseHeader('X-Concurrency-Info');
-    if(!concurrencyInfo) return;
-    updateConcurrencyInfo(jQuery.parseJSON(concurrencyInfo));
-    
+    }
 });

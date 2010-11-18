@@ -2307,10 +2307,15 @@ a.cta-a strong {
 	line-height:20px;
 	padding:0 10px;
 	position:absolute;
+    position: fixed;
 	font-weight: bold;
 	-moz-border-radius:0 0 5px 5px;
 	-moz-box-shadow:0 3px 5px rgba(0, 0, 0, 0.4) inset;
 	z-index:100;
 	color:#FFFFFF;
 	display: none;
+    top: 0;
+    left: 50%;
+    width: 300px;
+    text-align: center;
 }
