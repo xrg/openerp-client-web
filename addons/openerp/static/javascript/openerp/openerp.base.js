@@ -270,8 +270,24 @@ function updateConcurrencyInfo(info) {
         });
     });
 }
+
+jQuery(window).load(function(){
+	jQuery('body').append(
+		jQuery('<div>', {'id': 'ajax_loading'}).html('Loading...')
+	)
+});
+
+jQuery(document).ajaxSend(function(){
+	jQuery('#ajax_loading').css({
+		top:    $(window).height()/5 + $(window).scrollTop(),
+		left:   $(window).width()/2 + $(window).scrollLeft()
+	}).show();
+});
+
 jQuery(document).ajaxComplete(function (e, xhr) {
+	jQuery('#ajax_loading').hide();
     var concurrencyInfo = xhr.getResponseHeader('X-Concurrency-Info');
     if(!concurrencyInfo) return;
     updateConcurrencyInfo(jQuery.parseJSON(concurrencyInfo));
+    
 });

@@ -2299,3 +2299,18 @@ a.cta-a strong {
     min-height:56px;
     font-size: 120%;
 }
+
+#ajax_loading {
+	background:url("../images/nav-bg-a.png") repeat-x scroll 0 0 transparent;
+	font-size:1em;
+	height:20px;
+	line-height:20px;
+	padding:0 10px;
+	position:absolute;
+	font-weight: bold;
+	-moz-border-radius:0 0 5px 5px;
+	-moz-box-shadow:0 3px 5px rgba(0, 0, 0, 0.4) inset;
+	z-index:100;
+	color:#FFFFFF;
+	display: none;
+}
