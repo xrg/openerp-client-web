@@ -80,7 +80,7 @@ li.notebook-tab-closable span.tab-title {
 }
 
 div.notebook-pages {
-    padding: 5px;
+    padding: 10px 5px;
     background: #f9f9f9;
     border-radius: 3px;
     -moz-border-radius: 3px;
