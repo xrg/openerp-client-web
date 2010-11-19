@@ -2303,19 +2303,19 @@ a.cta-a strong {
 }
 
 #ajax_loading {
-	background:url("../images/nav-bg-a.png") repeat-x scroll 0 0 transparent;
-	font-size:1em;
-	height:20px;
-	line-height:20px;
-	padding:0 10px;
-	position:absolute;
+    background: url("../images/nav-bg-a.png") repeat-x scroll 0 0 transparent;
+    font-size: 1em;
+    height: 20px;
+    line-height: 20px;
+    padding: 0 10px;
+    position: absolute;
     position: fixed;
-	font-weight: bold;
-	-moz-border-radius: 0 0 16px 16px;
-	border-radius: 0 0 16px 16px;
-	z-index:100;
-	color:#FFFFFF;
-	display: none;
+    font-weight: bold;
+    -moz-border-radius: 0 0 16px 16px;
+    border-radius: 0 0 16px 16px;
+    z-index: 100;
+    color: #FFFFFF;
+    display: none;
     top: 0;
     left: 50%;
     width: 300px;
