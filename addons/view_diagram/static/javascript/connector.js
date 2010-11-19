@@ -99,19 +99,15 @@ openobject.workflow.Connector.prototype.onmouseOut = function(event) {
 };
 
 openobject.workflow.Connector.prototype.edit = function() {
-    params = {
-        '_terp_model' : WORKFLOW.connector_obj,//'workflow.transition',
-        '_terp_start' : this.getSource().getParent().get_act_id(),
-        '_terp_end' : this.getTarget().getParent().get_act_id(),
-        '_terp_m2o_model': WORKFLOW.node_obj
+    var params = {
+        model: WORKFLOW.connector_obj//'workflow.transition'
     };
 	
     if (!isUndefinedOrNull(this.tr_id))
-        params['_terp_id'] = this.tr_id;
-		
-	var act = openobject.http.getURL('/view_diagram/workflow/connector/edit', params);
-	openobject.tools.openWindow(act);
-}
+        params['id'] = this.tr_id;
+
+    openobject.tools.openWindow(get_form_action('/openerp/form/edit', params));
+};
 
 openobject.workflow.Connector.prototype.get_tr_id = function() {
     return this.tr_id;
