@@ -267,12 +267,11 @@ function loader_throb() {
     LOADER_THROBBER = setTimeout(loader_throb, THROBBER_DELAY);
 }
 jQuery(document).bind({
-    ready: function() {
-        jQuery('body').append(
-                jQuery('<div id="ajax_loading">Loading&nbsp;&nbsp;&nbsp;</div>'));
-    },
     ajaxStart: function() {
         var $loader = jQuery('#ajax_loading');
+        if(!$loader.length) {
+            $loader = jQuery('<div id="ajax_loading">Loading&nbsp;&nbsp;&nbsp;</div>').appendTo(document.body);
+        }
         $loader.css({
             left: (jQuery(window).width() - $loader.outerWidth()) / 2
         }).show();
