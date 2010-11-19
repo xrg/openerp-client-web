@@ -334,7 +334,7 @@
                            });
                         </script>
                     % else:
-                        % if not dashboard and 'form' in view_mode:
+                        % if 'form' in view_mode:
                             <script type="text/javascript">
                                 var view_type;
                                 var editable;
