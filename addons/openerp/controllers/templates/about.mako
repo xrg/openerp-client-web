@@ -8,6 +8,7 @@
         }
         #body_form_td p {
             font-size: 120%;
+            padding:0 5px 5px;
         }
         
         ul {
@@ -24,7 +25,7 @@
         <tr>
             <td id="body_form_td">
                 <h1>${_("OpenERP Web")}</h1>
-                <h3>${version}</h3>
+                <h3 style="padding:0 5px 5px">${version}</h3>
                 <p>
                     ${_("Copyright &copy; 2006-TODAY Tiny ERP Pvt. Ltd. All Rights Reserved.")|n}<br/>
                     ${_("OpenERP is a trademark of the Tiny Company.")}
@@ -55,7 +56,7 @@
                     ${_("""Depending on your needs, OpenERP is available through a web or application client.""")}
                 </p>
                 <h1>${_("Links")}</h1>
-                <ul>
+                <ul style="padding-left:5px">
                     <li><a class="cta-a" target="_blank" href="http://www.openerp.com/">OpenERP</a></li>
                     <li><a class="cta-a" target="_blank" href="http://www.axelor.com/">${_("The Axelor Company")}</a></li>
                     <li><a class="cta-a" target="_blank" href="http://tiny.be/">${_("The Tiny Company")}</a></li>
