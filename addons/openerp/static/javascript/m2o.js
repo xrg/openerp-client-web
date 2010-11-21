@@ -46,7 +46,7 @@ ManyToOne.prototype.__init__ = function(name) {
 
     this.field = openobject.dom.get(name);
     this.text = openobject.dom.get(name + '_text');
-    this.editable = this.field.tagName.toLowerCase() == 'span' ? 'False' : 'True';
+    this.editable = this.field.tagName.toLowerCase() != 'span';
     //for autocomplete
     this.auto_hidden_id = openobject.dom.get('_hidden_' + name);
 
@@ -78,7 +78,7 @@ ManyToOne.prototype.__init__ = function(name) {
     this.relation = jQuery(this.field).attr('relation');
     jQuery(this.text).attr('autocomplete', 'OFF');
 
-    if(this.editable == 'True') {
+    if(this.editable) {
         connect(this.field, 'onchange', this, this.on_change);
         //connect(this.text, 'onchange', this, this.on_change_text);
         connect(this.text, 'onkeydown', this, this.on_keydown);
@@ -161,21 +161,18 @@ ManyToOne.prototype.open = function(id) {
 
     var model = this.relation;
     var source = this.name;
-    var editable = this.editable || 'True';
 
-    if(editable == 'True') {
-        // To open popup form in readonly mode.
-        if(jQuery(this.field).hasClass('readonlyfield')) {
-            editable = 'False';
-        }
+    var editable = this.editable;
+    if(editable && jQuery(this.field).hasClass('readonlyfield')) {
+        editable = false;
     }
-    var req = eval_domain_context_request({source: source, domain: domain, context: context});
 
+    var req = eval_domain_context_request({source: source, domain: domain, context: context});
     req.addCallback(function(obj) {
         openobject.tools.openWindow(openobject.http.getURL('/openerp/openm2o/edit', {
             _terp_model: model, _terp_id: id,
             _terp_domain: obj.domain, _terp_context: obj.context,
-            _terp_m2o: source, _terp_editable: editable}));
+            _terp_m2o: source, _terp_editable: editable ? 'True' : 'False'}));
     });
 };
 
