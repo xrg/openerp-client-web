@@ -1,0 +1,120 @@
+# Brazilian Portuguese translation for openobject-client-web
+# Copyright (c) 2010 Rosetta Contributors and Canonical Ltd 2010
+# This file is distributed under the same license as the openobject-client-web package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2010.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: openobject-client-web\n"
+"Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
+"POT-Creation-Date: 2010-10-26 10:51+0200\n"
+"PO-Revision-Date: 2010-11-20 15:06+0000\n"
+"Last-Translator: Luiz Fernando M.França <Unknown>\n"
+"Language-Team: Brazilian Portuguese <pt_BR@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Launchpad-Export-Date: 2010-11-21 04:49+0000\n"
+"X-Generator: Launchpad (build Unknown)\n"
+
+#: controllers/_diagram.py:100 controllers/_diagram.py:216
+msgid "Could not delete state"
+msgstr "Não pude excluir o estado"
+
+#: controllers/_diagram.py:279
+msgid "No workflow associated!"
+msgstr "Nenhum fluxo de trabalho associado!"
+
+#: controllers/process.py:53
+msgid "Help: Not Defined"
+msgstr "Ajuda: Nada definido"
+
+#: controllers/process.py:92
+#, python-format
+msgid "%(name)s - Resource: %(resource)s, State: %(state)s"
+msgstr "%(name)s - Recurso: %(resource)s, Estado: %(state)s"
+
+#: controllers/process.py:104
+msgid "Last modified by:"
+msgstr "Última atualização por:"
+
+#: controllers/templates/process.mako:4 controllers/templates/process.mako:73
+#: controllers/templates/process_tip.mako:5
+msgid "Process"
+msgstr "Processar"
+
+#: controllers/templates/process.mako:50
+msgid "Help:"
+msgstr "Ajuda:"
+
+#: controllers/templates/process.mako:53
+msgid "Online Documentation"
+msgstr "Documentação on-line"
+
+#: controllers/templates/process.mako:56
+msgid "Community Forum"
+msgstr "Forum da comunidade"
+
+#: controllers/templates/process.mako:59
+msgid "Get Books"
+msgstr "Adquirir livros"
+
+#: controllers/templates/process.mako:62
+msgid "Get the OpenERP Warranty"
+msgstr "Adquirir uma garantia OpenERP"
+
+#: controllers/templates/process.mako:83
+msgid "Select Process"
+msgstr "Selecionar processo"
+
+#: controllers/templates/process.mako:89
+msgid "Select"
+msgstr "Selecionar"
+
+#: controllers/templates/process.mako:102
+msgid "[Edit Process]"
+msgstr "[Editar processo]"
+
+#: controllers/templates/process.mako:112
+msgid "fields"
+msgstr "Campos"
+
+#: controllers/templates/process.mako:113
+msgid "show"
+msgstr "exibir"
+
+#: controllers/templates/process.mako:114
+msgid "hide"
+msgstr "esconder"
+
+#: controllers/templates/process_open.mako:54
+#: controllers/templates/process_tip.mako:20
+#: controllers/templates/wkf_popup.mako:52
+msgid "Close"
+msgstr "Fechar"
+
+#: controllers/templates/process_open.mako:55
+#: controllers/templates/wkf_popup.mako:49
+msgid "Save"
+msgstr "Salvar"
+
+#: controllers/templates/workflow.mako:4
+msgid "Workflow"
+msgstr "Fluxo de Trabalho"
+
+#: controllers/templates/workflow.mako:20
+#, python-format
+msgid "Workflow (%s)"
+msgstr "Fluxo de trabalho(%s)"
+
+#: widgets/_views.py:8
+msgid "Diagram"
+msgstr "Diagrama"
+
+#: widgets/_views.py:9
+msgid "Diagram view..."
+msgstr "Diagram..."
+
+#: widgets/templates/diagram.mako:26
+msgid "Loading..."
+msgstr "Carregando..."

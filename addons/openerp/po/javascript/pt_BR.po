@@ -1,0 +1,64 @@
+# Brazilian Portuguese translation for openobject-client-web
+# Copyright (c) 2010 Rosetta Contributors and Canonical Ltd 2010
+# This file is distributed under the same license as the openobject-client-web package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2010.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: openobject-client-web\n"
+"Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
+"POT-Creation-Date: 2010-10-26 10:51+0200\n"
+"PO-Revision-Date: 2010-11-20 15:16+0000\n"
+"Last-Translator: Luiz Fernando M.França <Unknown>\n"
+"Language-Team: Brazilian Portuguese <pt_BR@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Launchpad-Export-Date: 2010-11-21 04:48+0000\n"
+"X-Generator: Launchpad (build Unknown)\n"
+
+#: static/javascript/form.js:99
+#, python-format
+msgid "You selected to open %(tabs)s tabs - do you want to continue?"
+msgstr "Você selecionou abrir  a aba%(tabs)s - Quer continuar?"
+
+#: static/javascript/form.js:228
+msgid "Invalid form, correct red fields."
+msgstr "Form inválido, corrija os campos em vermelho."
+
+#: static/javascript/form.js:263
+msgid "Do you really want to delete this record?"
+msgstr "Quer realmente excluir estes registros?"
+
+#: static/javascript/form.js:892 static/javascript/form.js:1016
+#: static/javascript/listgrid.js:603
+msgid "You must select at least one record."
+msgstr "Precisa selecionar pelo menos um registro."
+
+#: static/javascript/form.js:1039
+msgid "Do you really want to delete the attachment"
+msgstr "Quer realmente excluir o anexo?"
+
+#: static/javascript/listgrid.js:605
+msgid "Do you really want to delete selected record(s) ?"
+msgstr "Quer realmente exvluir o(s) registro(s) selecionado(s)?"
+
+#: static/javascript/o2m.js:62
+msgid "Do you really want to delete record ?"
+msgstr "Quer realmente excluir o registro?"
+
+#: static/javascript/viewed.js:71
+msgid "Do you really want to remove this node?"
+msgstr "Quer realmente remover este nó?"
+
+#: static/javascript/viewed.js:337
+msgid "Do you really wants to create an inherited view here?"
+msgstr "Quer realmente criar uma view herdada aqui?"
+
+#: static/javascript/openerp/openerp.ui.tips.js:59
+msgid "Object"
+msgstr "Objeto"
+
+#: static/javascript/openerp/openerp.ui.tips.js:60
+msgid "Field"
+msgstr "Campo"
