@@ -46,6 +46,28 @@ function idSelector(nodeId) {
     return '#' + escapeId(nodeId);
 }
 
+(function ($) {
+    /**
+     * Replaces a class by an other one, if and only if it is present
+     *
+     * The code
+     *
+     * <code>$e.toggleClass(from, to)</code>
+     *
+     * is equivalent to the following code jQuery code:
+     *
+     * <code>if($e.hasClass(from)) { $e.toggleClass(from + ' ' + to); }</code>
+     *
+     * @param from the class to remove from the object
+     * @param to the class to add on the object if <code>was present</code>
+     */
+    $.fn.swapClass = function (from, to) {
+        if(!this.hasClass(from)) { return this; }
+        this.removeClass(from).addClass(to);
+        return this;
+    }
+})(jQuery);
+
 openobject.dom = {
 
     /**

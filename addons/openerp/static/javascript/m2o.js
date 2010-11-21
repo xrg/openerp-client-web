@@ -74,10 +74,9 @@ ManyToOne.prototype.__init__ = function(name) {
     this.open_img = openobject.dom.get(name + '_open');
     this.reference = openobject.dom.get(name + '_reference'); // reference widget
 
-    this.callback = getNodeAttribute(this.field, 'callback');
-    this.relation = getNodeAttribute(this.field, 'relation');
-    this.field_class = getNodeAttribute(this.field, 'class');
-    setNodeAttribute(this.text, 'autocomplete', 'OFF');
+    this.callback = jQuery(this.field).attr('callback');
+    this.relation = jQuery(this.field).attr('relation');
+    jQuery(this.text).attr('autocomplete', 'OFF');
 
     if(this.editable == 'True') {
         connect(this.field, 'onchange', this, this.on_change);
@@ -140,13 +139,13 @@ ManyToOne.prototype.select = function() {
     if(this.field.disabled) {
         return;
     }
-    if(this.field_class.indexOf('readonlyfield') == -1) {
+    if(!jQuery(this.field).hasClass('readonlyfield')) {
         this.get_matched();
     }
 };
 
 ManyToOne.prototype.open_record = function() {
-    this.field.value = this.field.value || getNodeAttribute(this.field, 'value');
+    this.field.value = this.field.value || jQuery(this.field).attr('value');
     if(this.field.value) {
         this.open(this.field.value);
     }
@@ -157,8 +156,8 @@ ManyToOne.prototype.create = function() {
 };
 
 ManyToOne.prototype.open = function(id) {
-    var domain = getNodeAttribute(this.field, 'domain');
-    var context = getNodeAttribute(this.field, 'context');
+    var domain = jQuery(this.field).attr('domain');
+    var context = jQuery(this.field).attr('context');
 
     var model = this.relation;
     var source = this.name;
@@ -166,7 +165,7 @@ ManyToOne.prototype.open = function(id) {
 
     if(editable == 'True') {
         // To open popup form in readonly mode.
-        if(this.field_class.indexOf('readonlyfield') != -1) {
+        if(jQuery(this.field).hasClass('readonlyfield')) {
             editable = 'False';
         }
     }
@@ -221,8 +220,8 @@ ManyToOne.prototype.on_reference_changed = function() {
 
     this.relation = this.reference.value;
     this.clearResults();
-    MochiKit.DOM.setNodeAttribute(this.field, 'relation', this.relation);
-    MochiKit.DOM.setNodeAttribute(this.text, 'relation', this.relation);
+    jQuery(this.field).attr('relation', this.relation);
+    jQuery(this.text).attr('relation', this.relation);
 
     this.change_icon();
 };
@@ -374,7 +373,7 @@ ManyToOne.prototype.on_keydown = function(evt) {
     }
 
     // F2
-    if(key == 113 || (key == 13 && !this.text.value && !hasElementClass(this.text, 'listfields'))) {
+    if(key == 113 || (key == 13 && !this.text.value && !jQuery(this.text).hasClass('listfields'))) {
         this.select(evt);
         evt.stop();
     }
@@ -403,8 +402,8 @@ ManyToOne.prototype.get_matched = function() {
 
     var m2o = this;
 
-    var domain = getNodeAttribute(this.field, 'domain');
-    var context = getNodeAttribute(this.field, 'context');
+    var domain = jQuery(this.field).attr('domain');
+    var context = jQuery(this.field).attr('context');
 
     var req = eval_domain_context_request({source: this.name, domain: domain, context: context});
 
@@ -438,11 +437,11 @@ ManyToOne.prototype.setReadonly = function(readonly) {
     this.text.disabled = readonly;
 
     if(readonly) {
-        MochiKit.DOM.addElementClass(this.field, 'readonlyfield');
-        MochiKit.DOM.addElementClass(this.text, 'readonlyfield');
+        jQuery(this.field).addClass('readonlyfield');
+        jQuery(this.text).addClass('readonlyfield');
     } else {
-        MochiKit.DOM.removeElementClass(this.field, 'readonlyfield');
-        MochiKit.DOM.removeElementClass(this.text, 'readonlyfield');
+        jQuery(this.field).removeClass('readonlyfield');
+        jQuery(this.text).removeClass('readonlyfield');
     }
 };
 
@@ -537,11 +536,11 @@ ManyToOne.prototype.displayResults = function(result) {
 ManyToOne.prototype.updateSelectedResult = function() {
     // Set classes to show currently selected row
     for(var i = 0; i < this.numResultRows; i++) {
+        var $selectedRow = jQuery(idSelector('autoComplete' + this.name + '_' + i));
         if(this.selectedResultRow == i) {
-            swapElementClass("autoComplete" + this.name + "_" + i, "autoTextNormalRow", "autoTextSelectedRow");
+            $selectedRow.swapClass("autoTextNormalRow", "autoTextSelectedRow");
 
             if (this.selectedResult) {
-                var $selectedRow = jQuery('[id="'+'autoComplete' + this.name + '_' + i + '"]');
 
                 var theCellHidden;
                 if(this.hasHiddenValue)
@@ -561,7 +560,7 @@ ManyToOne.prototype.updateSelectedResult = function() {
             }
         }
         else
-            swapElementClass("autoComplete" + this.name + "_" + i, "autoTextSelectedRow", "autoTextNormalRow");
+            $selectedRow.swapClass("autoTextSelectedRow", "autoTextNormalRow");
     }
     // Move the cursor to the end of the line
     var value = this.text.value;
