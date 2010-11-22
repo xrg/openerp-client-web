@@ -37,6 +37,7 @@ from openerp.widgets.form import generate_url_for_picture
 from error_page import _ep
 from openobject.tools import expose, redirect, validate, error_handler, exception_handler
 import openobject
+import simplejson
 
 def make_domain(name, value, kind='char'):
     """A helper function to generate domain for the given name, value pair.
@@ -1129,13 +1130,17 @@ class Form(SecuredController):
 
     # Possible to create shortcut for particular object or not.
     def can_shortcut_create(self):
+        """ We only handle creating shortcuts to menu actions (for now
+        anyway), and those go through the execute routine, so only match
+        execute()d actions concerning ir.ui.menu. And trees, just because
+        """
+        action_data = simplejson.loads(cherrypy.request.params.get('data', '{}'))
         return (rpc.session.is_logged() and
                 rpc.session.active_id and
-                (cherrypy.request.path_info == '/openerp/execute' or
-                cherrypy.request.path_info == '/openerp/form/switch') or
-                (cherrypy.request.params.get('model') and
-                cherrypy.request.path_info == '/openerp/form/edit')
-        )
+                ((cherrypy.request.path_info == '/openerp/execute'
+                  and action_data.get('model') == 'ir.ui.menu')
+                # FIXME: hack hack hack
+                 or cherrypy.request.params['_terp_source_view_type'] == 'tree'))
 
     @expose()
     def action_submenu(self, **kw):
