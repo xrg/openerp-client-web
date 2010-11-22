@@ -1143,7 +1143,7 @@ class Form(SecuredController):
                 ((cherrypy.request.path_info == '/openerp/execute'
                   and action_data.get('model') == 'ir.ui.menu')
                 # FIXME: hack hack hack
-                 or cherrypy.request.params['_terp_source_view_type'] == 'tree'))
+                 or cherrypy.request.params.get('_terp_source_view_type') == 'tree'))
 
     @expose()
     def action_submenu(self, **kw):
