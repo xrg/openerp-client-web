@@ -64,7 +64,7 @@ openobject.workflow.StateBase.prototype = {
         this.portD = null;
     },
     
-    init_label : function(color, workitems) {
+    init_label : function(color) {
     
         this.setDimension(100, 60);
         this.setDeleteable(false);
@@ -78,9 +78,6 @@ openobject.workflow.StateBase.prototype = {
             
         this.setBackgroundColor(new draw2d.Color(c[0], c[1], c[2]));
         
-        if (findIdentical(workitems, this.act_id) > -1)
-            this.setColor(new draw2d.Color(236, 20, 60));
-
         var html = this.getHTMLElement();    
         html.style.textAlign = 'center';
         html.style.marginLeft = 'auto';
@@ -177,12 +174,12 @@ openobject.workflow.StateOval = new Class;
 openobject.workflow.StateOval.prototype = $merge(openobject.workflow.StateOval.prototype, draw2d.Oval.prototype, openobject.workflow.StateBase.prototype);
 openobject.workflow.StateOval.implement({
     
-    initialize : function(params, workitems) {
+    initialize : function(params) {
         openobject.workflow.StateBase.call(this, params.id, params.action, params.kind, params.name, params.options);
         draw2d.Oval.call(this); 
         
         this.dragged = false;
-        this.init_label(params.color, workitems);
+        this.init_label(params.color);
     }   
 });
 
@@ -191,14 +188,14 @@ openobject.workflow.StateRectangle = new Class;
 openobject.workflow.StateRectangle.prototype = $merge(openobject.workflow.StateRectangle.prototype, draw2d.VectorFigure.prototype, openobject.workflow.StateBase.prototype);
 openobject.workflow.StateRectangle.implement({
     
-    initialize : function(params, workitems) {
+    initialize : function(params) {
         
         openobject.workflow.StateBase.call(this, params.id, params.action, params.kind, params.name, params.options);
         draw2d.VectorFigure.call(this);
         
         this.lineColor = new draw2d.Color(0,0,0);
         this.setLineWidth(1);
-        this.init_label(params.color, workitems);
+        this.init_label(params.color);
     },
     
     createHTMLElement : function() {
