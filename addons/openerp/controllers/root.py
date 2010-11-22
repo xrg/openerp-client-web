@@ -106,7 +106,7 @@ class Root(SecuredController):
         ctx = rpc.session.context.copy()
         menus = rpc.RPCProxy("ir.ui.menu")
         ids = menus.search([('parent_id', '=', False)], 0, 0, 0, ctx)
-        parents = menus.read(ids, ['name', 'action'], ctx)
+        parents = menus.read(ids, ['name', 'action', 'web_icon_datas', 'web_icon_hover_datas'], ctx)
             
         for parent in parents:
             if parent['id'] == id:

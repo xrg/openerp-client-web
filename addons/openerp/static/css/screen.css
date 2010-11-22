@@ -1551,6 +1551,15 @@ ul.sections-a li span.wrap a {
     border-bottom-color: #bcbbbb;
 }
 
+#web_icon,
+#web_icon_hover {
+    vertical-align: middle;
+}
+
+#web_icon_hover {
+    display: none;
+}
+
 ul.sections-a li span.wrap a:hover,ul.sections-a li span.wrap a:focus,ul.sections-a li span.wrap a:active
     {
     background-position: 50% -260px;
