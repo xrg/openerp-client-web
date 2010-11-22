@@ -525,6 +525,59 @@ function onChange(caller){
 
                 var kind = jQuery(fld).attr('kind');
 
+                if (!kind) {
+                    var class = jQuery(fld).attr('class');
+                    if (class=='gridview'){
+                        if (getElement('_terp_default_o2m/'+k) && !value) {
+                            if (getElement('_terp_default_o2m/'+k).value=='' && !value)
+                                continue;
+                            else if(getElement('_terp_default_o2m/'+k).value && !value) {
+                                getElement('_terp_default_o2m/'+k).value = '';
+                                new ListView(k).reload();
+                            }
+                        }
+                        else if (value) {
+                            var parentmodel = openobject.dom.get('_terp_model').value;
+                            var o2m_model = openobject.dom.get(prefix + k + '/_terp_model').value;
+                            var view_type = openobject.dom.get('_terp_view_type').value;
+                            var view_id = openobject.dom.get('_terp_view_id').value;
+                            var o2m_view_type = openobject.dom.get(prefix + k + '/_terp_view_type').value;
+                            var o2m_view_id = openobject.dom.get(prefix + k + '/_terp_view_id').value;
+                            var o2m_editable = openobject.dom.get(prefix + k + '/_terp_editable').value;
+                            var o2m_limit = openobject.dom.get(prefix + k + '/_terp_limit').value;
+                            var o2m_offset = openobject.dom.get(prefix + k + '/_terp_offset').value;
+                            var o2m_context = openobject.dom.get(prefix + k + '/_terp_context').value;
+                            var o2m_domain = openobject.dom.get(prefix + k + '/_terp_domain').value;
+                            var request = openobject.http.postJSON('/openerp/listgrid/get_o2m_defaults', { 'o2m_values': serializeJSON(value),
+                                   'model': parentmodel,
+                                   'o2m_model': o2m_model,
+                                   'name': k,
+                                   'view_type': view_type,
+                                   'view_id': view_id,
+                                   'o2m_view_type':o2m_view_type,
+                                   'o2m_view_id':o2m_view_id,
+                                   'editable': o2m_editable,
+                                   'limit': o2m_limit,
+                                   'offset': o2m_offset,
+                                   'o2m_context': o2m_context,
+                                   'o2m_domain': o2m_domain
+                            });
+                            request.addCallback(function(obj){
+                                jQuery(fld).closest('.list-a').replaceWith(obj.view);
+                                if (openobject.dom.get('_terp_default_o2m/'+k)) {
+                                    openobject.dom.get('_terp_default_o2m/'+k).value = obj.formated_o2m_values;
+                                }
+                                else {
+                                    var input = INPUT({'type': 'hidden', 'value': obj.formated_o2m_values, 'id': '_terp_default_o2m/'+k, 'name': '_terp_default_o2m/'+k})
+                                    getFirstParentByTagAndClassName(k, 'td', 'o2m_cell').appendChild(input);
+                                }
+                            });
+                        }
+                    }
+                    fld.__lock_onchange = true;
+                    return;
+                }
+
                 switch (kind) {
                     case 'picture':
                         fld.src = value;

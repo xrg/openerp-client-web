@@ -438,7 +438,7 @@ class Float(TinyInputWidget):
 #            self.default = 0.0
 
     def set_value(self, value):
-        self.default = value
+        self.default = value or 0.0
 
 register_widget(Float, ["float"])
 
@@ -502,8 +502,11 @@ class Selection(TinyInputWidget):
                 self.options = proxy.name_get(ids, ctx)
             except:
                 self.options = []
+
+        if self.options and self.options[0][0] == '' and isinstance(self.options[0][0], unicode):
+            self.validator = validators.Selection()
         # determine the actual type
-        if self.options and isinstance(self.options[0][0], basestring):
+        elif self.options and isinstance(self.options[0][0], basestring):
             self.kind = 'char'
             self.validator = validators.String()
         else:
