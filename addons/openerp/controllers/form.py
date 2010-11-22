@@ -1131,9 +1131,10 @@ class Form(SecuredController):
     def can_shortcut_create(self):
         return (rpc.session.is_logged() and
                 rpc.session.active_id and
-                (cherrypy.request.path_info == '/openerp/tree/open' and cherrypy.request.params.get('model') == 'ir.ui.menu')
-                or
-                (cherrypy.request.path_info == '/openerp/form/switch')
+                (cherrypy.request.path_info == '/openerp/execute' or
+                cherrypy.request.path_info == '/openerp/form/switch') or
+                (cherrypy.request.params.get('model') and
+                cherrypy.request.path_info == '/openerp/form/edit')
         )
 
     @expose()
