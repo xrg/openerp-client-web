@@ -135,9 +135,13 @@ class Screen(TinyInputWidget):
             ctx = rpc.session.context.copy()
             ctx.update(self.context)
             view = cache.fields_view_get(self.model, view_id, view_type, ctx, self.hastoolbar)
-        
+
         fields = view['fields']
-        for dom in self.domain:
+        domain = self.domain
+        if view_type == 'tree':
+            domain = sets.Set(self.domain).difference(sets.Set(cherrypy.request.terp_params.get('_terp_search_domain', [])))
+
+        for dom in domain:
             if dom[0] in fields:
                 field_dom = str(fields[dom[0]].setdefault('domain', []))
                 fields[dom[0]]['domain'] = field_dom[:1] + str(('id', dom[1], dom[2])) + ',' + field_dom[1:]
