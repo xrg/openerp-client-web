@@ -135,7 +135,7 @@ class Root(SecuredController):
                 
         widgets = rpc.RPCProxy('res.widget')
         user_widget = rpc.RPCProxy('res.widget.user')
-        user_widget_ids = rpc.RPCProxy('res.widget.user').search([('user_id', '=', rpc.session.uid)], 0, 0, 0, ctx)
+        user_widget_ids = user_widget.search([('user_id', '=', rpc.session.uid)], 0, 0, 0, ctx)
         show_user_widgets = []
         close_widget = False
         if user_widget_ids:
@@ -149,7 +149,7 @@ class Root(SecuredController):
             show_user_widgets = widgets.read(widgets.search([], 0, 0, 0, ctx), [], ctx)
         
         return dict(parents=parents, tools=tools, load_content=(next and next or ''),
-                    widgets=show_user_widgets, close_widget = close_widget)
+                    widgets=show_user_widgets, close_widget=close_widget)
     
     @expose('json', methods=('POST',))
     def close_user_widget(self, widget_id):
