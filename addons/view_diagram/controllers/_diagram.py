@@ -289,7 +289,7 @@ class Workflow(Form):
             _terp_view_type='diagram',
             _terp_model='workflow',
             _terp_ids=[wkf['id']],
-            _terp_editable=False,
+            _terp_editable=True,
             _terp_id=wkf['id'],
             _terp_view_mode=['tree', 'form', 'diagram']
         )
