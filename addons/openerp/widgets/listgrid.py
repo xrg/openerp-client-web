@@ -110,7 +110,7 @@ class List(TinyWidget):
         terp_params = getattr(cherrypy.request, 'terp_params', {})
         if terp_params:
             if terp_params.get('_terp_model'):
-                if terp_params['_terp_model'] == 'board.board':
+                if terp_params['_terp_model'] == 'board.board' and terp_params.view_type == 'form':
                     self.dashboard = 1
             if terp_params.get('_terp_source'):
                 if (str(terp_params.source) == self.source) or (terp_params.source == '_terp_list' and terp_params.sort_key):
