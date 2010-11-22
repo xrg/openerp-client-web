@@ -84,8 +84,8 @@
                 % if tips:
                     <div id="help-tips">
                         <p>${tips}</p>
-                        <a href="/openerp/form/close_or_disable_tips" id="disable-tips">${_("Disable all Tips")}</a>
-                        <a href="#hide" id="hide-tips">${_("Hide this Tip")}</a>
+                        <a href="/openerp/form/close_or_disable_tips" id="disable-tips" style="text-decoration: underline;">${_("Disable all Tips")}</a>
+                        <a href="#hide" id="hide-tips" style="text-decoration: underline;">${_("Hide this Tip")}</a>
                         <br style="clear: both"/>
                     </div>
                 % endif

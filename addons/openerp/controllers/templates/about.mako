@@ -32,11 +32,11 @@
                     
                     ${_("%(ooweb)s is jointly developed by %(tiny)s and %(axelor)s.",
                         ooweb="""<i>OpenERP Web</i>""",
-                        tiny="""<a target="_blank" href="http://tiny.be">Tiny</a>""",
-                        axelor="""<a target="_blank" href="http://www.axelor.com/">Axelor</a>""")|n}
+                        tiny="""<a target="_blank" href="http://tiny.be" style="text-decoration: underline;">Tiny</a>""",
+                        axelor="""<a target="_blank" href="http://www.axelor.com/" style="text-decoration: underline;">Axelor</a>""")|n}
                 </p>
                 <p>
-                    ${_("Licenced under the terms of %(license)s", license="""<a target="_blank" href="/LICENSE.txt">OpenERP Public License (OEPL) v1.1</a>""")|n}
+                    ${_("Licenced under the terms of %(license)s", license="""<a target="_blank" href="/LICENSE.txt" style="text-decoration: underline;">OpenERP Public License (OEPL) v1.1</a>""")|n}
                 </p>
                 <h1>${_("About OpenERP")}</h1>
                 <p>
@@ -44,7 +44,7 @@
                     productivity and profit through data integration. It connects, improves and
                     manages business processes in areas such as sales, finance, supply chain,
                     project management, production, services, CRM, etc..
-                    """, openobject="""<a target="_blank" href="http://openerp.com/">OpenERP</a>""")|n}
+                    """, openobject="""<a target="_blank" href="http://openerp.com/" style="text-decoration: underline;">OpenERP</a>""")|n}
                 </p>
                 <p>
                     ${_("""The system is platform-independent, and can be installed on Windows, Mac OS X,
@@ -71,33 +71,31 @@
                             </div>
                             <ul class="clean-a">
                                 <li>
-                                    <a target="_blank" href="http://www.openerp.com/">${_("Homepage")}</a>
+                                    <a target="_blank" style="text-decoration: underline;" href="http://www.openerp.com/">${_("Homepage")}</a>
                                 </li>
                                 <li>
-                                    <a target="_blank" href="http://www.openerp.com/downloads">${_("Download")}</a>
+                                    <a target="_blank" style="text-decoration: underline;" href="http://www.openerp.com/downloads">${_("Download")}</a>
                                 </li>
                                 <li>
-                                    <a target="_blank" href="http://doc.openerp.com/">${_("Documentation")}</a>
+                                    <a target="_blank" style="text-decoration: underline;" href="http://doc.openerp.com/">${_("Documentation")}</a>
                                 </li>
                                 <li>
-                                    <a target="_blank" href="http://doc.openerp.com/py-modindex.html">${_("Modules")}</a>
+                                    <a target="_blank" style="text-decoration: underline;" href="http://doc.openerp.com/py-modindex.html">${_("Modules")}</a>
                                 </li>
                                 <li>
-                                    <a target="_blank" href="http://www.openerp.tv/">${_("Screencasts")}</a>
+                                    <a target="_blank" style="text-decoration: underline;" href="http://www.openerp.tv/">${_("Screencasts")}</a>
                                 </li>
                                 <li>
-                                    <a target="_blank" href="http://www.openerp.com/community">${_("Community")}</a>
+                                    <a target="_blank" style="text-decoration: underline;" href="http://www.openerp.com/community">${_("Community")}</a>
                                 </li>
                                 <li>
-                                    <a target="_blank" href="http://www.openerp.com/online">${_("SaaS Offers")}</a>
+                                    <a target="_blank" style="text-decoration: underline;" href="http://www.openerp.com/online">${_("SaaS Offers")}</a>
                                 </li>
                                 <li>
-                                    <a target="_blank" href="http://www.openerp.com/services/trainings">${_("Trainings")}</a>
+                                    <a target="_blank" style="text-decoration: underline;" href="http://www.openerp.com/services/trainings">${_("Trainings")}</a>
                                 </li>
                                 <li>
-                                </li>
-                                <li>
-                                    <a target="_blank" href="http://www.openerp.com/services">${_("Services")}</a>
+                                    <a target="_blank" style="text-decoration: underline;" href="http://www.openerp.com/services">${_("Services")}</a>
                                 </li>
                             </ul>
                         </div>
