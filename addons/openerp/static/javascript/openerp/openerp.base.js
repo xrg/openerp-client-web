@@ -15,7 +15,7 @@ function openLink(url /*optional afterLoad */) {
     var afterLoad = arguments[1];
     if($app.length) {
         currentUrl = url;
-        window.location.hash = '#'+jQuery.param({'url': url});
+        window.location.href = '#'+jQuery.param({'url': url});
         jQuery.ajax({
             url: url,
             complete: function () {
