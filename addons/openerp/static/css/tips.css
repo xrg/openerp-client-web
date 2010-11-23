@@ -11,8 +11,7 @@ table.tooltip {
     background: #FCF9A7;
     border: 1px solid #999;
     padding: 0;
-    min-width: 300px;
-    max-width: 800px;
+    max-width: 500px;
 }
 
 table.tooltip .tip-text {
