@@ -71,7 +71,7 @@ def export_csv(fields, result, write_title=False):
         raise common.message(_("Operation failed\nI/O error")+"(%s)" % (errno,))
 
 def _fields_get_all(model, views, context=None):
-    
+
     context = context or {}
 
     def parse(root, fields):
@@ -117,7 +117,7 @@ class ImpEx(SecuredController):
     @expose(template="/openerp/controllers/templates/exp.mako")
     def exp(self, **kw):
         params, data = TinyDict.split(kw)
-        
+
         ctx = dict((params.context or {}), **rpc.session.context)
 
         views = {}
@@ -143,11 +143,17 @@ class ImpEx(SecuredController):
         new_list = listgrid.List(name='_terp_list', model='ir.exports', view=view, ids=None,
                                  domain=[('resource', '=', params.model)],
                                  context=ctx, selectable=1, editable=False, pageable=False, impex=True)
+        try:
+            import xlwt
+            options = [('xls', _('Export as Excel')),
+                       ('csv', _('Export as CSV'))]
+        except:
+            options = [('csv', _('Export as CSV'))]
 
 
         return dict(new_list=new_list, model=params.model, ids=params.ids, ctx=ctx,
                     search_domain=params.search_domain, source=params.source,
-                    tree=tree)
+                    tree=tree,options=options)
 
     @expose()
     def save_exp(self, **kw):
@@ -178,23 +184,23 @@ class ImpEx(SecuredController):
     @expose('json')
     def get_fields(self, model, prefix='', name='', field_parent=None, **kw):
 
-        is_importing = kw.get('is_importing', False)        
-        
+        is_importing = kw.get('is_importing', False)
+
         try:
             ctx = ast.literal_eval(kw['context'])
         except:
             ctx = {}
-            
+
         ctx.update(**rpc.session.context)
 
         try:
             views = ast.literal_eval(kw['views'])
         except:
             views = {}
-            
+
 
         fields = _fields_get_all(model, views, ctx)
-        
+
         fields.update({'id': {'string': 'ID'}, 'db_id': {'string': 'Database ID'}})
 
         fields_order = fields.keys()
@@ -257,7 +263,7 @@ class ImpEx(SecuredController):
     def get_namelist(self, **kw):
 
         params, data = TinyDict.split(kw)
-        
+
         ctx = dict((params.context or {}), **rpc.session.context)
 
         id = params.id
@@ -343,11 +349,8 @@ class ImpEx(SecuredController):
             params.fields2 = fields
 
         if export_as == 'xls':
-            try:
-                import xlwt
-            except ImportError:
-                  raise common.warning(_('Please Install xlwt Library.\nTo create spreadsheet files compatible with MS Excel.'), _('Import Error.'))
 
+            import xlwt
             ezxf = xlwt.easyxf
 
             fp = StringIO.StringIO()
@@ -380,9 +383,9 @@ class ImpEx(SecuredController):
     @expose(template="/openerp/controllers/templates/imp.mako")
     def imp(self, **kw):
         params, data = TinyDict.split(kw)
-        
+
         ctx = dict((params.context or {}), **rpc.session.context)
-        
+
         views = {}
         if params.view_mode and params.view_ids:
             for i, view in enumerate(params.view_mode):
@@ -408,11 +411,11 @@ class ImpEx(SecuredController):
 
         _fields = {}
         _fields_invert = {}
-        
+
         fields = dict(rpc.RPCProxy(params.model).fields_get(False, rpc.session.context),
                       id={'type': 'char', 'string': 'ID'},
                       db_id={'type': 'char', 'string': 'Database ID'})
-        
+
         def model_populate(fields, prefix_node='', prefix=None, prefix_value='', level=2):
             def str_comp(x,y):
                 if x<y: return 1
@@ -426,7 +429,7 @@ class ImpEx(SecuredController):
                             and (not fields[field].get('readonly')\
                             or not dict(fields[field].get('states', {}).get(
                             'draft', [('readonly', True)])).get('readonly',True)):
-                    
+
                     st_name = prefix_value+fields[field]['string'] or field
                     _fields[prefix_node+field] = st_name
                     _fields_invert[st_name] = prefix_node+field
@@ -474,7 +477,7 @@ class ImpEx(SecuredController):
         data = list(csv.reader(input, quotechar=str(csvdel), delimiter=str(csvsep)))[int(csvskip):]
         datas = []
         ctx = dict(rpc.session.context)
-        
+
         if not isinstance(fields, list):
             fields = [fields]
 
