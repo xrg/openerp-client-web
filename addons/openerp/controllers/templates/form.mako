@@ -160,8 +160,8 @@
                   else:
                       sidebar_class="closed"
                 %>
-                <td class="toggle-sidebar ${sidebar_class}"></td>
                 <td id="main_sidebar" valign="top">
+                    <a class="toggle-sidebar ${sidebar_class}" href="#">Toggle</a>
                     <div id="tertiary" class="${sidebar_class}">
                         <div id="tertiary_wrap">
                             ${form.sidebar.display()}

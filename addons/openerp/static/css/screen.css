@@ -1902,8 +1902,9 @@ td.tertiary div.wrap {
 #tertiary {
     position: relative;
     float: right;
-    min-height: 100%;
+    height: 100%;
     width: 180px;
+    background: #F0EEEE;
 }
 #tertiary.closed {
     display: none;
@@ -1915,6 +1916,11 @@ td.tertiary div.wrap {
 
 #main_sidebar {
     padding: 0;
+    position: relative;
+    min-width: 22px;
+    border-left: 1px solid #D2CFCF;
+    background: #EAE7E7;
+    height: 100%;
 }
 
 /* TODO: refactor sidebar as well as the toggle_accordion/open-close-menu
@@ -1923,14 +1929,24 @@ td.tertiary div.wrap {
    status, width, height, padding, cursor
 */
 .toggle-sidebar {
-    cursor: pointer;
-    height: 100%;
-    width: 11px;
-    padding: 0 5px;
-    background: #CECBCB url("../images/arrow_right.png") no-repeat scroll 50% 50%;
+    border-color: #D2CFCF;
+    border-style: solid;
+    display: block;
+    width: 21px;
+    height: 22px;
+    overflow: hidden;
+    text-indent: -10001px;
+    position: absolute;
+    right: 0;
+    z-index: 10;
+}
+.toggle-sidebar.open {
+    border-width:0 0 1px 1px;
+    background: url("../images/toggle-a-bg.png") no-repeat scroll -21px 0 transparent;
 }
 .toggle-sidebar.closed {
-    background-image: url(../images/arrow_left.png);
+    border-width:0 0 1px 0;
+    background: url("../images/toggle-a-bg.png") no-repeat scroll 0 0 transparent;
 }
 
 .sideheader-a {
@@ -2052,7 +2068,7 @@ button {
 }
 
 #body_form_td {
-    padding: 10px 4px 4px;
+    padding: 10px 8px 4px;
     border-color: #EAE7E7;
 }
 
