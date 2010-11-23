@@ -138,8 +138,9 @@ class Screen(TinyInputWidget):
 
         fields = view['fields']
         domain = self.domain
+        terp_params = getattr(cherrypy.request, 'terp_params', {})
         if view_type == 'tree':
-            domain = filter(lambda val:val not in self.domain,cherrypy.request.terp_params.get('_terp_search_domain', []))
+            domain = filter(lambda val:val not in self.domain, terp_params.get('_terp_search_domain', []))
 
         for dom in domain:
             if dom[0] in fields:
