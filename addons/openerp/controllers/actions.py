@@ -117,7 +117,6 @@ PRINT_FORMATS = {
      'odt' : 'application/vnd.oasis.opendocument.text',
      'ods' : 'application/vnd.oasis.opendocument.spreadsheet',
      'xls' : 'application/vnd.ms-excel',
-     'doc' : 'application/msword',
      'csv' : 'text/csv',
      'rtf' : 'application/rtf',
      'txt' : 'text/plain',
