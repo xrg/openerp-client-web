@@ -1565,54 +1565,6 @@ ul.sections-a li span.wrap a:hover,ul.sections-a li span.wrap a:focus,ul.section
     background-position: 50% -260px;
 }
 
-ul.sections-a li.sales span.wrap a {
-    background-image: url(../images/sections-a-i-money.png);
-}
-
-ul.sections-a li.project span.wrap a {
-    background-image: url(../images/sections-a-i-flag.png);
-}
-
-ul.sections-a li.warehouse span.wrap a {
-    background-image: url(../images/sections-a-i-box.png);
-}
-
-ul.sections-a li.knowledge span.wrap a {
-    background-image: url(../images/sections-a-i-books.png);
-}
-
-ul.sections-a li.manufacturing span.wrap a {
-    background-image: url(../images/sections-a-i-measure.png);
-}
-
-ul.sections-a li.accounting span.wrap a {
-    background-image: url(../images/sections-a-i-wallet.png);
-}
-
-ul.sections-a li.point-of-sale span.wrap a {
-    background-image: url(../images/sections-a-i-tag.png);
-}
-
-ul.sections-a li.human-resources span.wrap a {
-    background-image: url(../images/sections-a-i-person.png);
-}
-
-ul.sections-a li.purchases span.wrap a {
-    background-image: url(../images/sections-a-i-cart.png);
-}
-
-ul.sections-a li.reporting span.wrap a {
-    background-image: url(../images/sections-a-i-charts.png);
-}
-
-ul.sections-a li.administration span.wrap a {
-    background-image: url(../images/sections-a-i-briefcase.png);
-}
-
-ul.sections-a li.tools span.wrap a {
-    background-image: url(../images/sections-a-i-tools.png);
-}
-
 ul.sections-a li span.wrap a span {
     position: absolute;
     left: -5px;
