@@ -823,18 +823,18 @@ function do_report(id, relation){
 
 function do_action(src, context_menu) {
     var params = {};
+    var $src = jQuery(src);
+    var field = $src.attr('field') || '_terp_id';
+    var source = jQuery('[id="'+field+'"]').attr('id');
+
     if (openobject.dom.get('_terp_list')) {
         params['_terp_selection'] = '[' +
             new ListView('_terp_list').getSelectedRecords().join(',') +
             ']';
+    } else {
+        var id = jQuery('[id="'+field+'"]').val();
     }
-    
-    var $src = jQuery(src);
-    var field = $src.attr('field') || '_terp_id';
-    
-    var id = jQuery('[id="'+field+'"]').val();
-    var source = jQuery('[id="'+field+'"]').attr('id');
-    
+
     var action_id = $src.attr('action_id') || null;
     var relation = $src.attr('relation');
     var datas = $src.attr('data') || null;
