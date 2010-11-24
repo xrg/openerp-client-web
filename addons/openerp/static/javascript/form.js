@@ -537,11 +537,9 @@ function onChange(caller){
                             }
                         }
                         else {
-                            jQuery.ajax({
-                                url: '/openerp/listgrid/get_o2m_defaults',
-                                type: 'POST',
-                                dataType: 'json',
-                                data: { o2m_values: serializeJSON(value),
+                            jQuery.post(
+                                '/openerp/listgrid/get_o2m_defaults', {
+                                    o2m_values: serializeJSON(value),
                                     model: jQuery('#_terp_model').val(),
                                     o2m_model: jQuery('[id="'+prefix+k+'/_terp_model'+'"]').val(),
                                     name: k,
@@ -554,8 +552,7 @@ function onChange(caller){
                                     offset: jQuery('[id="'+prefix+k+'/_terp_offset'+'"]').val(),
                                     o2m_context: jQuery('[id="'+prefix+k+'/_terp_context'+'"]').val(),
                                     o2m_domain: jQuery('[id="'+prefix+k+'/_terp_domain'+'"]').val()
-                                },
-                                success: function(obj) {
+                                }, function(obj) {
                                     $current_field.closest('.list-a').replaceWith(obj.view);
                                     if ($default_o2m.length) {
                                         $default_o2m.attr('value', obj.formated_o2m_values);
@@ -566,8 +563,7 @@ function onChange(caller){
                                             jQuery('<input>', {'id': '_terp_default_o2m/'+k,  'type': 'hidden', 'name':'_terp_default_o2m/'+k }).val(obj.formated_o2m_values)
                                         );
                                     }
-                                }
-                            });
+                                }, 'json');
                         }
                     }
                     fld.__lock_onchange = true;
