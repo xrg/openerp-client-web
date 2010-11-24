@@ -585,27 +585,3 @@ ManyToOne.prototype.getOnclick = function(evt) {
     evt.event().keyCode = 13;
     this.on_keydown(evt);
 };
-
-function getLeft(s) {
-    return getParentOffset(s, "offsetLeft");
-}
-
-function getTop(s) {
-    return getParentOffset(s, "offsetTop");
-}
-
-function getBottom(s) {
-    return s.offsetHeight + getTop(s);
-}
-
-if(typeof getStyle != 'function' && typeof computedStyle == 'function')
-    getStyle = computedStyle; // MochiKit 1.3.1
-
-function getParentOffset(s, offsetType) {
-    var parentOffset = 0;
-    while(s && getStyle(s, 'position') != 'relative') {
-        parentOffset += s[offsetType];
-        s = s.offsetParent;
-    }
-    return parentOffset;
-}
