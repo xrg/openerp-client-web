@@ -67,7 +67,7 @@ ManyToOne.prototype.__init__ = function(name) {
     this.processCount = 0;
     this.takeFocus = false;
     this.hasFocus = false;
-    this.sugestionBoxMouseOver = false;
+    this.suggestionBoxMouseOver = false;
     this.selectedResult = false;
 
     this.select_img = openobject.dom.get(name + '_select');
@@ -129,7 +129,7 @@ ManyToOne.prototype.lostFocus = function() {
         this.clearResults();
     }
 
-    if(!this.sugestionBoxMouseOver || this.lastKey == 9) {
+    if(!this.suggestionBoxMouseOver || this.lastKey == 9) {
         this.lastKey = null;
         this.clearResults();
     }
@@ -576,14 +576,14 @@ ManyToOne.prototype.getMouseover = function(evt) {
     var target = evt.src().id;
     var id = target.split(this.name + "_")[1];
     this.selectedResult = false;
-    new ManyToOne(this.name).sugestionBoxMouseOver = true;
-    new ManyToOne(this.name).selectedResultRow = id;
-    new ManyToOne(this.name).updateSelectedResult();
+    this.suggestionBoxMouseOver = true;
+    this.selectedResultRow = id;
+    this.updateSelectedResult();
 };
 
 ManyToOne.prototype.getOnclick = function(evt) {
     evt.event().keyCode = 13;
-    new ManyToOne(this.name).on_keydown(evt);
+    this.on_keydown(evt);
 };
 
 function getLeft(s) {
