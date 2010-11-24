@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: openobject-client-web\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2010-10-26 10:51+0200\n"
-"PO-Revision-Date: 2010-11-21 07:50+0000\n"
-"Last-Translator: OpenERP Web Administrators <Unknown>\n"
+"PO-Revision-Date: 2010-11-23 12:19+0000\n"
+"Last-Translator: Thiago Medeiros <Unknown>\n"
 "Language-Team: Brazilian Portuguese <pt_BR@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2010-11-22 04:50+0000\n"
+"X-Launchpad-Export-Date: 2010-11-24 05:01+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: validators.py:83
@@ -455,7 +455,7 @@ msgstr "Ainda não implementado!"
 
 #: controllers/viewed.py:614
 msgid "Unable to update the view."
-msgstr ""
+msgstr "Não é possível atualizar a exibição."
 
 #: controllers/viewed.py:868
 msgid "New Window"
@@ -504,7 +504,7 @@ msgstr "OpenERP é marca registrada de empresa Tiny."
 #: controllers/templates/about.mako:24
 #, python-format
 msgid "%(ooweb)s is jointly developed by %(tiny)s and %(axelor)s."
-msgstr ""
+msgstr "%(ooweb)s é desenvolvido em conjunto por %(tiny)s e %(axelor)s."
 
 #: controllers/templates/about.mako:31
 #, python-format
@@ -577,7 +577,7 @@ msgstr "Módulos"
 
 #: controllers/templates/about.mako:107
 msgid "Screencasts"
-msgstr ""
+msgstr "Screencasts"
 
 #: controllers/templates/about.mako:111
 msgid "Community"
@@ -863,7 +863,7 @@ msgstr "Sempre aplicável!"
 #: controllers/templates/footer.mako:3
 #, python-format
 msgid "&copy; 2008-2010 %(ooweb)s  SA. All Rights Reserved "
-msgstr ""
+msgstr "&copy; 2008-2010 %(ooweb)s SA. Todos os Direitos Reservados "
 
 #: controllers/templates/footer.mako:6
 msgid "Significant contributions to the web client have been made by"
@@ -1127,12 +1127,14 @@ msgstr ""
 
 #: controllers/templates/login.mako:121
 msgid "User Friendly"
-msgstr ""
+msgstr "Uso Amigável"
 
 #: controllers/templates/login.mako:122
 msgid ""
 "In order to be productive, people need clean and easy to use interface."
 msgstr ""
+"Para ser produtivo, as pessoas precisam de um interface limpa e fácil de "
+"usar."
 
 #: controllers/templates/modules.mako:4
 msgid "Module Management"

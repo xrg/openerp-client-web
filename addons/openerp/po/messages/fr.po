@@ -8,35 +8,35 @@ msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2010-10-26 10:51+0200\n"
-"PO-Revision-Date: 2010-11-10 16:44+0000\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"PO-Revision-Date: 2010-11-23 17:51+0000\n"
+"Last-Translator: computerhelp <Unknown>\n"
 "Language-Team: fr <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2010-11-11 04:43+0000\n"
+"X-Launchpad-Export-Date: 2010-11-24 05:01+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 "Generated-By: Babel 0.9.4\n"
 
 #: validators.py:83
 msgid "Invalid literal for float"
-msgstr ""
+msgstr "Format de nombre réel invalide"
 
 #: validators.py:122 validators.py:127 validators.py:270
 msgid "Invalid datetime format"
-msgstr ""
+msgstr "Format de date invalide"
 
 #: validators.py:174
 msgid "Please select a file."
-msgstr ""
+msgstr "Veuillez sélectionner un fichier ."
 
 #: validators.py:255
 msgid "Please enter an email address"
-msgstr ""
+msgstr "Merci de saisir une adresse de courriel"
 
 #: validators.py:256
 msgid "An email address must contain a single @"
-msgstr ""
+msgstr "Une adresse de courriel doit contenir un seul @"
 
 #: validators.py:257
 #, python-format
@@ -54,11 +54,11 @@ msgstr ""
 
 #: validators.py:262
 msgid "You must start your URL with http://, https://, etc"
-msgstr ""
+msgstr "L'adresse URL doit commencer par http : / / , https : / /, etc ."
 
 #: validators.py:263
 msgid "That is not a valid URL"
-msgstr ""
+msgstr "Ce n ' est pas une URL valide"
 
 #: validators.py:264
 #, python-format
@@ -99,15 +99,17 @@ msgstr ""
 
 #: controllers/actions.py:403
 msgid "No action defined"
-msgstr ""
+msgstr "Pas d'action définie"
 
 #: controllers/attachment.py:63
 msgid "No record selected, You can only attach to existing record..."
 msgstr ""
+"Aucun enregistrement sélectionné , vous pouvez seulement attacher à un "
+"enregistrement existant ..."
 
 #: controllers/database.py:72
 msgid "Create database"
-msgstr ""
+msgstr "Créer une base de données"
 
 #: controllers/database.py:74 controllers/database.py:90
 #: controllers/database.py:99 controllers/database.py:107
@@ -119,7 +121,7 @@ msgstr ""
 
 #: controllers/database.py:77
 msgid "Super admin password:"
-msgstr ""
+msgstr "Mot de passe super administrateur :"
 
 #: controllers/database.py:78 controllers/database.py:110
 msgid "New database name:"
@@ -143,7 +145,7 @@ msgstr ""
 
 #: controllers/database.py:88
 msgid "Drop database"
-msgstr ""
+msgstr "Déplacer la base de données"
 
 #: controllers/database.py:92 controllers/database.py:100
 #: controllers/templates/login.mako:39
@@ -159,11 +161,11 @@ msgstr ""
 
 #: controllers/database.py:97
 msgid "Backup database"
-msgstr ""
+msgstr "Sauvegarder la base de données"
 
 #: controllers/database.py:105
 msgid "Restore database"
-msgstr ""
+msgstr "Restaurer la base de données"
 
 #: controllers/database.py:108
 msgid "File:"
@@ -171,7 +173,7 @@ msgstr ""
 
 #: controllers/database.py:114
 msgid "Change Administrator Password"
-msgstr ""
+msgstr "Changer le mot de passe de l'administrateur"
 
 #: controllers/database.py:117
 msgid "Old Password:"
@@ -187,11 +189,11 @@ msgstr ""
 
 #: controllers/database.py:157
 msgid "You must avoid all accents, space or special characters."
-msgstr ""
+msgstr "Les accents , espaces et caractères spéciaux ne sont pas autorisés ."
 
 #: controllers/database.py:158
 msgid "Bad database name"
-msgstr ""
+msgstr "Nom de la base de données incorrect"
 
 #: controllers/database.py:179 controllers/database.py:187
 #: controllers/database.py:189
@@ -200,7 +202,7 @@ msgstr ""
 
 #: controllers/database.py:180
 msgid "Database already exists"
-msgstr ""
+msgstr "Une base de données avec ce nom existe déjà"
 
 #: controllers/database.py:183
 msgid ""
@@ -215,7 +217,7 @@ msgstr ""
 #: controllers/database.py:186 controllers/database.py:213
 #: controllers/database.py:260
 msgid "Bad database administrator password"
-msgstr ""
+msgstr "Mot de passe administrateur incorrect"
 
 #: controllers/database.py:214
 msgid "Could not drop database."
@@ -223,11 +225,11 @@ msgstr ""
 
 #: controllers/database.py:216
 msgid "Could not drop database"
-msgstr ""
+msgstr "Impossible de supprimer la base de données"
 
 #: controllers/database.py:239
 msgid "Could not create backup."
-msgstr ""
+msgstr "Impossible de sauvegarder la base de données"
 
 #: controllers/database.py:261
 msgid "Could not restore database."
@@ -239,11 +241,11 @@ msgstr ""
 
 #: controllers/database.py:283
 msgid "Could not change super admin password."
-msgstr ""
+msgstr "Impossible de changer le mot de passe du super administrateur"
 
 #: controllers/database.py:284
 msgid "Bad password provided."
-msgstr ""
+msgstr "Mot de passe incorrect"
 
 #: controllers/database.py:286
 msgid "Error, password not changed."
@@ -254,6 +256,8 @@ msgid ""
 "Your problem has been sent to the quality team\n"
 "We will recontact you after analysing the problem."
 msgstr ""
+"Votre problème a été envoyé à l'équipe en charge de la qualité .\n"
+"Vous serez recontacté quand le problème aura été analysé ."
 
 #: controllers/error_page.py:88
 #, python-format
@@ -261,10 +265,12 @@ msgid ""
 "Your problem could not be sent to the quality team\n"
 "Please report this error manually at %s"
 msgstr ""
+"Votre problème ne peut pas être envoyé à l'équipe en charge de la qualité .\n"
+"Merci de reporter cette erreur à %s"
 
 #: controllers/form.py:545
 msgid "Invalid button type"
-msgstr ""
+msgstr "Type de bouton invalide"
 
 #: controllers/form.py:905 controllers/tree.py:241
 msgid "No record selected"
@@ -272,7 +278,7 @@ msgstr ""
 
 #: controllers/form.py:932
 msgid "You must save this record to use the sidebar button"
-msgstr ""
+msgstr "Vous devez enregistrer avant d'utiliser la barre latérale"
 
 #: controllers/form.py:972 utils/rpc.py:130 utils/rpc.py:141 utils/rpc.py:144
 #: widgets/listgrid.py:337 widgets/form/_form.py:910
@@ -299,18 +305,20 @@ msgid ""
 "Please Install xlwt Library.\n"
 "To create spreadsheet files compatible with MS Excel."
 msgstr ""
+"Merci d'installer la librairie xlwt .\n"
+"Pour créer des fichiers compatibles avec MS Excel."
 
 #: controllers/impex.py:368 controllers/impex.py:483
 msgid "Import Error."
-msgstr ""
+msgstr "Erreur d'importation ."
 
 #: controllers/impex.py:467
 msgid "Error opening .CSV file"
-msgstr ""
+msgstr "Erreur d ' ouverure du fichier CSV"
 
 #: controllers/impex.py:467
 msgid "Input Error."
-msgstr ""
+msgstr "Erreur d'entrée ."
 
 #: controllers/impex.py:480
 #, python-format
@@ -323,10 +331,12 @@ msgid ""
 "Error processing your first line of the file.\n"
 "Field %s is unknown"
 msgstr ""
+"Erreur lors du traitement de la première ligne du fichier .\n"
+"Le champ %s est inconnu ."
 
 #: controllers/impex.py:510
 msgid "XML-RPC error"
-msgstr ""
+msgstr "Erreur XML - RPC"
 
 #: controllers/impex.py:512
 #, python-format
@@ -343,6 +353,12 @@ msgid ""
 "\n"
 "%s"
 msgstr ""
+"Erreur lors de l'import de cet enregistrement :\n"
+"%s\n"
+"Message d'erreur :\n"
+"%s\n"
+"\n"
+"%s"
 
 #: controllers/impex.py:518
 msgid "Importation Error"
