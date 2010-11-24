@@ -8,12 +8,9 @@
             <option value=""></option>
             % for (k, v) in options:
                 % if relation == k:
-            <option value="${k}" selected="1">${v}</option>
-                % endif
-            % endfor
-            % for (k, v) in options:
-                % if relation != k:
-            <option value="${k}">${v}</option>
+                    <option value="${k}" selected>${v}</option>
+                % else:
+                    <option value="${k}">${v}</option>
                 % endif
             % endfor
         </select>
@@ -22,7 +19,7 @@
         <div class="m2o_container">
             <span class="m2o">
                 <input type="text" id='${name}_text' class="${css_class}"
-                ${py.attrs(attrs, kind=kind, relation=relation, value=text)}/>
+                    ${py.attrs(attrs, kind=kind, relation=relation, value=text)}/>
                 % if error:
                     <span class="fielderror">${error}</span>
                 % endif
@@ -38,9 +35,6 @@
     </td>
 </tr>
 </table>
-% endif
-
-% if editable:
     <script type="text/javascript">
         new ManyToOne('${name}');
     </script>

@@ -28,15 +28,13 @@
             new ManyToOne('${name}');
         </script>
     </%self:m2o_container>
-% endif
-
-% if not editable and link:
-    % if link == '1':
+% elif link:
+    % if link == '0':
+        <span id="${name}" ${py.attrs(kind=kind, value=value, relation=relation, link=link)}>${text}</span>
+    % else:
         <span id="${name}" name="${name}" ${py.attrs(kind=kind, value=value, relation=relation, context=ctx, domain=domain, link=link)}>
             <a style="color:#9A0404;" href="javascript: void(0)" onclick="new ManyToOne('${name}').open_record('${value}')">${text}</a>
         </span>
-    % elif link == '0':
-        <span id="${name}" ${py.attrs(kind=kind, value=value, relation=relation, link=link)}>${text}</span>
     % endif
 % endif
 
