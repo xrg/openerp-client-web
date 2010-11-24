@@ -297,7 +297,9 @@ class Search(Form):
                     search_data[field] = value.split('selection_')[1]
                 else:
                     if not 'm2o_' in value:
-                        domain.append((field, 'ilike', value))
+                        if '/' in value:
+                            value, operator = value.split('/')
+                        domain.append((field, operator, int(value)))
                         search_data[field] = value
                     else:
                         search_data[field] = value.split('m2o_')[1]

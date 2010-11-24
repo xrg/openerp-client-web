@@ -476,7 +476,7 @@ register_widget(ProgressBar, ["progressbar"])
 class Selection(TinyInputWidget):
     template = "/openerp/widgets/form/templates/selection.mako"
 
-    params = ['options', 'search_context', 'type2']
+    params = ['options', 'search_context', 'type2', 'operator']
     options = []
     search_context = {}
 
@@ -485,6 +485,7 @@ class Selection(TinyInputWidget):
 
         self.options = attrs.get('selection', [])
         self.type2 = attrs.get('type2')
+        self.operator = attrs.get('operator', '=')
         # m2o as selection
         if not self.options and attrs.get('relation') and attrs.get('widget') == 'selection':
             proxy = rpc.RPCProxy(attrs['relation'])

@@ -487,11 +487,13 @@ function parse_filters(src, id) {
         var kind = $fld.attr('kind');
         var fld_value = $fld.val();
         var fld_name = $fld.attr('name');
+        
         if(kind == 'selection') {
             if ($fld.val() != '') {
 
                 if ($fld.attr('type2') == 'many2one') {
-                    fld_value = parseInt($fld.val());
+                	var selection_operator = $fld.attr('operator');
+                    fld_value = $fld.val() + '/' + selection_operator;
                 }
                 else{
                     fld_value = 'selection_'+$fld.val();
@@ -513,7 +515,7 @@ function parse_filters(src, id) {
     });
     domains = serializeJSON(domains);
     all_domains['domains'] = domains;
-    all_domains['search_context'] =  search_context;
+    all_domains['search_context'] = search_context;
     var selected_boxes = getElementsByTagAndClassName('input', 'grid-domain-selector');
 
     forEach(selected_boxes, function(box){
