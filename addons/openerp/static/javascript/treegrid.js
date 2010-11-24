@@ -301,7 +301,6 @@ TreeNode.prototype = {
         if (this.element) {
             MochiKit.Signal.disconnect(this.eventOnKeyDown);
             MochiKit.Signal.disconnect(this.eventOnClick);
-            MochiKit.Signal.disconnect(this.eventOnDblClick);
         }
 
         if (pn.childNodes.length == 0 && pn.element_b) {
@@ -363,9 +362,10 @@ TreeNode.prototype = {
                         MochiKit.Signal.signal(this.tree, "onaction", this);
                     });
                 } else {
+                    var self = this;
                     link.click(function () {
-                        if(this.toggle) {
-                            this.toggle();
+                        if (jQuery(this).parents('tr:first').find('td:first span').is('.collapse, .expand')) {
+                            self.toggle();
                         }
                         // no action, stop everything
                         return false;
@@ -412,9 +412,8 @@ TreeNode.prototype = {
             MochiKit.DOM.appendChildNodes(this.element, td);
         }
 
-        // register OnClick, OnDblClick event
+        // register OnClick event
         this.eventOnClick = MochiKit.Signal.connect(this.element, 'onclick', this, this.onSelect);
-        this.eventOnDblClick = MochiKit.Signal.connect(this.element, 'ondblclick', this, this.toggle);
 
         return this.element;
     },
