@@ -555,7 +555,7 @@ function onChange(caller){
                                 }, function(obj) {
                                     $current_field.closest('.list-a').replaceWith(obj.view);
                                     if ($default_o2m.length) {
-                                        $default_o2m.attr('value', obj.formated_o2m_values);
+                                        $default_o2m.val(obj.formated_o2m_values);
                                     }
                                     else {
                                         var $parent = jQuery(idSelector(k)).parents('td.o2m_cell');
