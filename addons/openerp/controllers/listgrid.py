@@ -27,6 +27,7 @@
 #
 ###############################################################################
 import copy
+import simplejson
 
 import cherrypy
 from openerp.controllers import SecuredController
@@ -148,16 +149,11 @@ class List(SecuredController):
                          o2m_view_type, o2m_view_id, editable, limit, offset, o2m_context, o2m_domain):
 
         view_id = view_id or False
-        o2m_view_id = eval(o2m_view_id) or False
-
-        context = dict((eval(o2m_context) or {}), **rpc.session.context)
-
-        import simplejson
+        o2m_view_id = ast.literal_eval(o2m_view_id) or False
+        o2m_view_type = o2m_view_type or 'form'
+        context = dict(ast.literal_eval(o2m_context), **rpc.session.context)
         o2m_values = simplejson.loads(o2m_values)
-
-        if o2m_values and isinstance(o2m_values, unicode):
-            o2m_values = eval(o2m_values)
-
+        
         for o2m in o2m_values:
             o2m['id'] = 0
 
@@ -165,7 +161,7 @@ class List(SecuredController):
             view = cache.fields_view_get(o2m_model, o2m_view_id, o2m_view_type, context)
         else:
             view = cache.fields_view_get(model, view_id, view_type, rpc.session.context)
-            view = view['fields'].get(name).get('views').get(o2m_view_type)
+            view = view['fields'][name]['views'][o2m_view_type]
 
         list_view = listgrid.List(name, model, view, ids=None, domain=o2m_domain, context=context, default_data=copy.deepcopy(o2m_values), limit=20, editable= editable,o2m=1)
         view=ustr(list_view.render())
