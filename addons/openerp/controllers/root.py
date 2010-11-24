@@ -135,25 +135,39 @@ class Root(SecuredController):
                 
         widgets = rpc.RPCProxy('res.widget')
         user_widget = rpc.RPCProxy('res.widget.user')
-        user_widget_ids = user_widget.search([('user_id', '=', rpc.session.uid)], 0, 0, 0, ctx)
-        show_user_widgets = []
-        close_widget = False
-        if user_widget_ids:
-            close_widget = True
-            for wid in user_widget.read(user_widget_ids, ['widget_id'], ctx):
-                widget = widgets.read([wid['widget_id'][0]], [], ctx)[0]
-                if widget not in show_user_widgets:
-                    widget.update(**{'user_widget_id': wid['id']})
-                    show_user_widgets.append(widget)
-        else:
-            show_user_widgets = widgets.read(widgets.search([], 0, 0, 0, ctx), [], ctx)
+        user_widget_ids = user_widget.search([('user_id', '=', rpc.session.uid)], 0, 0, 0, ctx)#User specific widget
         
+        close_widget = False
+        show_user_widgets = []
+        if not user_widget_ids:
+            show_user_widgets = widgets.read(widgets.search([], 0, 0, 0, ctx), [], ctx)#readonly widget
+        else:
+            global_widget_ids = user_widget.search([('user_id', '=', False)], 0, 0, 0, ctx)#Global widget
+            
+            if global_widget_ids:
+                import sets
+                user_widget_ids = list(sets.Set(user_widget_ids).union(sets.Set(global_widget_ids)))
+                
+            close_widget = True
+            for wid in user_widget.read(user_widget_ids, ['widget_id', 'user_id'], ctx):
+                widget = widgets.read([wid['widget_id'][0]], [], ctx)[0]
+                if not wid['user_id']:
+                    widget.update(not_remove=True) #Global widgets not removable
+                if widget not in show_user_widgets:
+                    widget.update(user_widget_id = wid['id'])
+                    show_user_widgets.append(widget)
+            
         return dict(parents=parents, tools=tools, load_content=(next and next or ''),
                     widgets=show_user_widgets, close_widget=close_widget)
     
     @expose('json', methods=('POST',))
     def close_user_widget(self, widget_id):
-        rpc.RPCProxy('res.widget.user').unlink(widget_id, rpc.session.context)
+        error = None
+        try:
+            rpc.RPCProxy('res.widget.user').unlink(widget_id, rpc.session.context)
+        except Exception, e:
+            error = e
+        return dict(error=error)
     
     @expose()
     def add_user_widget(self):
