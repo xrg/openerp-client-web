@@ -79,27 +79,28 @@ ManyToOne.prototype.__init__ = function(name) {
     jQuery(this.text).attr('autocomplete', 'OFF');
 
     if(this.editable) {
-        connect(this.field, 'onchange', this, this.on_change);
-        //connect(this.text, 'onchange', this, this.on_change_text);
-        connect(this.text, 'onkeydown', this, this.on_keydown);
-        connect(this.text, 'onkeypress', this, this.on_keypress);
-        connect(this.text, 'onkeyup', this, this.on_keyup);
-        connect(this.text, 'onfocus', this, this.gotFocus);
-        connect(this.text, 'onblur', this, this.lostFocus);
+        jQuery(this.field).change(jQuery.proxy(this, 'on_change'));
+        jQuery(this.text).bind({
+            keydown: jQuery.proxy(this, 'on_keydown'),
+            keypress: jQuery.proxy(this, 'on_keypress'),
+            keyup: jQuery.proxy(this, 'on_keyup'),
+            focus: jQuery.proxy(this, 'gotFocus'),
+            blur: jQuery.proxy(this, 'lostFocus')
+        });
 
         if(this.hiddenField)
             this.lastHiddenResult = this.field.value;
         this.lastTextResult = this.text.value;
 
         if(this.select_img)
-            connect(this.select_img, 'onclick', this, this.select);
+            jQuery(this.select_img).click(jQuery.proxy(this, 'select'));
         if(this.open_img)
-            connect(this.open_img, 'onclick', this, function(evt) {
+            jQuery(this.open_img).click(jQuery.proxy(function(evt) {
                 on_context_menu(evt, this.text);
-            });
+            }, this));
 
         if(this.reference) {
-            connect(this.reference, 'onchange', this, this.on_reference_changed);
+            jQuery(this.reference).change(jQuery.proxy(this, 'on_reference_changed'));
         }
 
         this.is_inline = name.indexOf('_terp_listfields/') == 0;
@@ -112,7 +113,6 @@ ManyToOne.prototype.__init__ = function(name) {
             this.text.focus();
             this.gotFocus();
         }
-        bindMethods(this);
     }
 };
 
@@ -255,7 +255,7 @@ ManyToOne.prototype.on_keyup = function() {
     }
     if(this.delayedRequest) this.delayedRequest.cancel();
 
-    this.delayedRequest = callLater(this.completeDelay, this.doDelayedRequest);
+    this.delayedRequest = callLater(this.completeDelay, jQuery.proxy(this, 'doDelayedRequest'));
     if(this.auto_hidden_id) {
         if(this.lastTextResult == this.text.value)
             this.auto_hidden_id.value = this.lastHiddenResult;
@@ -266,28 +266,23 @@ ManyToOne.prototype.on_keyup = function() {
 };
 
 ManyToOne.prototype.on_keydown = function(evt) {
-    var event = evt.event() || window.evt.event();
-
-    var key = event.keyCode || event.which;
-    this.lastKey = key;
+    this.lastKey = evt.which;
     // Used to stop processing of further key functions
     this.specialKeyPressed = false;
-
-    if(evt.src()) {
-        if(evt.target().tagName == 'INPUT') {
+    if(evt.currentTarget) {
+        if(evt.target.tagName.toLowerCase() == 'input') {
             var w;
-            //IMP: jQuery('#this.name_select') will not work because of '/' in id.
             if(jQuery('#search_filter_data').is(':visible')) {
-                w = jQuery(evt.src()).width()
+                w = jQuery(evt.currentTarget).width()
             } else {
-                w = jQuery(evt.src()).width() + jQuery('[id="' + this.name + '_select' + '"]').width();
+                w = jQuery(evt.currentTarget).width() + jQuery(idSelector(this.name + '_select')).width();
             }
             jQuery('div.autoTextResults[id$="' + this.name + '"]').width(w)
         }
     }
 
     if(this.numResultRows > 0) {
-        switch (key) {
+        switch (evt.which) {
             // Enter Key
             //Single Click
             case 13:
@@ -348,43 +343,46 @@ ManyToOne.prototype.on_keydown = function(evt) {
             //pass
         }
 
-        if(key == 13 || key == 27 || key == 38 || key == 40)
+        if(evt.which == 13 || evt.which == 27 || evt.which == 38 || evt.which == 40)
             this.specialKeyPressed = true;
     }
 
-    if((key == 8 || key == 46) && this.field.value) {
+    if((evt.which == 8 || evt.which == 46) && this.field.value) {
         this.text.value = '';
         this.field.value = '';
         this.on_change(evt);
     }
 
     //Tab
-    if((key == 9) && this.text.value && !this.field.value) {
+    if((evt.which == 9) && this.text.value && !this.field.value) {
         this.get_matched();
     }
 
     // F1
-    if(key == 112) {
+    if(evt.which == 112) {
         this.create(evt);
-        evt.stop();
+        evt.stopPropagation();
+        evt.preventDefault();
     }
 
     // F2
-    if(key == 113 || (key == 13 && !this.text.value && !jQuery(this.text).hasClass('listfields'))) {
+    if(evt.which == 113 || (evt.which == 13 && !this.text.value && !jQuery(this.text).hasClass('listfields'))) {
         this.select(evt);
-        evt.stop();
+        evt.stopPropagation();
+        evt.preventDefault();
     }
 
     return !this.specialKeyPressed;
 };
 
 ManyToOne.prototype.on_keypress = function(evt) {
-    if(evt.event().keyCode == 9 || evt.modifier().ctrl) {
+    if(evt.which == 9 || evt.ctrlKey) {
         return;
     }
 
-    if((this.field.value && evt.key().string) || evt.event().keyCode == 13) {
-        evt.stop();
+    if((this.field.value && String.fromCharCode(evt.which)) || evt.which == 13) {
+        evt.stopPropagation();
+        evt.preventDefault();
     }
 };
 
@@ -505,8 +503,10 @@ ManyToOne.prototype.displayResults = function(result) {
                     TD({'id':result.values[i][0], 'class': 'm2o_coplition'},
                             createDOM("nobr", null, SPAN({'id':result.values[i][0], 'style':'text-transform:none;', 'title': currentItem}, currentItem))));
 
-            connect(currentRow, 'onmouseover', this, this.getMouseover);
-            connect(currentRow, 'onclick', this, this.getOnclick);
+            jQuery(currentRow).bind({
+                mouseover: jQuery.proxy(this, 'getMouseover'),
+                click: jQuery.proxy(this, 'getOnclick')
+            });
             appendChildNodes(fancyTableBody, currentRow);
 
             this.isShowingResults = true;
@@ -557,7 +557,7 @@ ManyToOne.prototype.updateSelectedResult = function() {
 };
 
 ManyToOne.prototype.getMouseover = function(evt) {
-    var target = evt.src().id;
+    var target = evt.currentTarget.id;
     var id = target.split(this.name + "_")[1];
     this.selectedResult = false;
     this.suggestionBoxMouseOver = true;
@@ -566,6 +566,6 @@ ManyToOne.prototype.getMouseover = function(evt) {
 };
 
 ManyToOne.prototype.getOnclick = function(evt) {
-    evt.event().keyCode = 13;
+    evt.which = 13;
     this.on_keydown(evt);
 };
