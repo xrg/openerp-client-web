@@ -44,7 +44,7 @@
                     </div>
                 </td>
             </tr>
-            % if tools:
+            % if tools is not None:
                 <tr>
                     <td id="secondary" class="sidenav-open">
                         <div class="wrap">

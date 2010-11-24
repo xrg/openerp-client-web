@@ -113,8 +113,7 @@ class Root(SecuredController):
                 parent['active'] = 'active'
                 if parent.get('action') and not next:
                     next = url('/openerp/custom_action', action=id)  
-        
-        tools = []
+
         if next or active:
             if not id and ids:
                 id = ids[0] 
@@ -132,6 +131,9 @@ class Root(SecuredController):
                 tree.tree.onselection = None
                 tree.tree.onheaderclick = None
                 tree.tree.showheaders = 0
+        else:
+            # display home action
+            tools = None
         widgets = rpc.RPCProxy('res.widget')
         return dict(parents=parents, tools=tools, load_content=(next and next or ''),
                     widgets=widgets.read(widgets.search([], 0, 0, 0, ctx), [], ctx))
