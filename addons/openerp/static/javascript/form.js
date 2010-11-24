@@ -541,24 +541,24 @@ function onChange(caller){
                                 '/openerp/listgrid/get_o2m_defaults', {
                                     o2m_values: serializeJSON(value),
                                     model: jQuery('#_terp_model').val(),
-                                    o2m_model: jQuery('[id="'+prefix+k+'/_terp_model'+'"]').val(),
+                                    o2m_model: jQuery(idSelector(prefix+k+'/_terp_model')).val(),
                                     name: k,
                                     view_type: jQuery('#_terp_view_type').val(),
                                     view_id: jQuery('#_terp_view_id').val(),
-                                    o2m_view_type: jQuery('[id="'+prefix+k+'/_terp_view_type'+'"]').val(),
-                                    o2m_view_id: jQuery('[id="'+prefix+k+'/_terp_view_id'+'"]').val(),
-                                    editable: jQuery('[id="'+prefix+k+'/_terp_editable'+'"]').val(),
-                                    limit: jQuery('[id="'+prefix+k+'/_terp_limit'+'"]').val(),
-                                    offset: jQuery('[id="'+prefix+k+'/_terp_offset'+'"]').val(),
-                                    o2m_context: jQuery('[id="'+prefix+k+'/_terp_context'+'"]').val(),
-                                    o2m_domain: jQuery('[id="'+prefix+k+'/_terp_domain'+'"]').val()
+                                    o2m_view_type: jQuery(idSelector(prefix+k+'/_terp_view_type')).val(),
+                                    o2m_view_id: jQuery(idSelector(prefix+k+'/_terp_view_id')).val(),
+                                    editable: jQuery(idSelector(prefix+k+'/_terp_editable')).val(),
+                                    limit: jQuery(idSelector(prefix+k+'/_terp_limit')).val(),
+                                    offset: jQuery(idSelector(prefix+k+'/_terp_offset')).val(),
+                                    o2m_context: jQuery(idSelector(prefix+k+'/_terp_context')).val(),
+                                    o2m_domain: jQuery(idSelector(prefix+k+'/_terp_domain')).val()
                                 }, function(obj) {
                                     $current_field.closest('.list-a').replaceWith(obj.view);
                                     if ($default_o2m.length) {
                                         $default_o2m.attr('value', obj.formated_o2m_values);
                                     }
                                     else {
-                                        var $parent = jQuery('[id="'+k+'"]').parents('td.o2m_cell');
+                                        var $parent = jQuery(idSelector(k)).parents('td.o2m_cell');
                                         jQuery($parent).append(
                                             jQuery('<input>', {'id': '_terp_default_o2m/'+k,  'type': 'hidden', 'name':'_terp_default_o2m/'+k }).val(obj.formated_o2m_values)
                                         );
