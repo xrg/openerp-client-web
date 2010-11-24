@@ -526,14 +526,14 @@ function onChange(caller){
                 var kind = $current_field.attr('kind');
 
                 if (!kind) {
-                    var $default_o2m = jQuery('[id="'+'_terp_default_o2m/'+k+'"]');
+                    var $default_o2m = jQuery(idSelector('_terp_default_o2m/'+k));
                     if ($current_field.hasClass('gridview')){
-                        if ($default_o2m && !value) {
-                            if ($default_o2m.val()=='')
-                                continue;
-                            else {
-                                $default_o2m.attr('value','');
+                        if ($default_o2m.length && !value) {
+                            if($default_o2m.val()) {
+                                $default_o2m.val('');
                                 new ListView(k).reload();
+                            } else {
+                                continue;
                             }
                         }
                         else {
