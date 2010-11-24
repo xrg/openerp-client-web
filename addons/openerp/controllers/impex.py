@@ -39,6 +39,13 @@ from openobject import tools
 from openobject.tools import expose, redirect, ast
 
 
+try:
+    import xlwt
+    xls_export_available = True
+except:
+    xls_export_available = False
+
+
 def datas_read(ids, model, fields, context=None):
     ctx = dict((context or {}), **rpc.session.context)
     return rpc.RPCProxy(model).export_data(ids, fields, ctx)
@@ -143,17 +150,12 @@ class ImpEx(SecuredController):
         new_list = listgrid.List(name='_terp_list', model='ir.exports', view=view, ids=None,
                                  domain=[('resource', '=', params.model)],
                                  context=ctx, selectable=1, editable=False, pageable=False, impex=True)
-        try:
-            import xlwt
-            options = [('xls', _('Export as Excel')),
-                       ('csv', _('Export as CSV'))]
-        except:
-            options = [('csv', _('Export as CSV'))]
-
+      
+		
 
         return dict(new_list=new_list, model=params.model, ids=params.ids, ctx=ctx,
                     search_domain=params.search_domain, source=params.source,
-                    tree=tree,options=options)
+                    tree=tree, xls_export_available=xls_export_available)
 
     @expose()
     def save_exp(self, **kw):

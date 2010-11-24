@@ -236,14 +236,22 @@
                     <legend>${_("Options")}</legend>
                     <table>
                         <tr>
+                            % if xls_export_available == True:
                             <td>
                                 <select id="export_as" name="export_as">
-                                    % for (k, v) in options:
-							            <option value="${k}" selected="1">${v}</option>
-            						% endfor
+                                    <option value="csv">${_("Export as CSV")}</option>
+                                    <option value="xls">${_("Export as Excel")}</option>
                                 </select>
                             </td>
+                            % else:
                             <td>
+                            	<input type="radio" id="export_as" name="export_as" value="csv" checked/>
+                            </td>
+                            <td>
+                            	${_("Export as CSV")}
+                            </td>
+                            % endif
+                            <td style="padding-left:5px">
                                 <input type="checkbox" class="checkbox" name="add_names" checked="checked"/>
                             </td>
                             <td>${_("Add field names")}</td>
