@@ -879,11 +879,12 @@ function translate_fields(src){
     }));
 }
 
-function on_context_menu(evt){
+function on_context_menu(evt, target){
     if (!evt.modifier()) {
         return;
     }
-    var $target = jQuery(evt.target());
+    target = target || evt.target();
+    $target = jQuery(target);
 
     var kind = $target.attr('kind');
     if (!(kind && $target.is(':input, :enabled'))) {
