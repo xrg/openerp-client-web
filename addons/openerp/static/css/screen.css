@@ -1937,10 +1937,10 @@ td.tertiary div.wrap {
     overflow: hidden;
     text-indent: -10001px;
     position: absolute;
-    right: 0;
     z-index: 10;
 }
 .toggle-sidebar.open {
+    margin-left: 158px;
     border-width:0 0 1px 1px;
     background: url("../images/toggle-a-bg.png") no-repeat scroll -21px 0 transparent;
 }
