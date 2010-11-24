@@ -62,6 +62,7 @@
                     <li><a class="cta-a" target="_blank" href="http://tiny.be/">${_("The Tiny Company")}</a></li>
                 </ul>
             </td>
+            <td  style="width:10px; background:#CECBCB; height:100%;"></td>
             <td valign="top" id="main_sidebar">
                 <div id="tertiary" class="open">
                     <div id="tertiary_wrap">
