@@ -558,9 +558,13 @@ function onChange(caller){
                                         $default_o2m.val(obj.formated_o2m_values);
                                     }
                                     else {
-                                        var $parent = jQuery(idSelector(k)).parents('td.o2m_cell');
-                                        jQuery($parent).append(
-                                            jQuery('<input>', {'id': '_terp_default_o2m/'+k,  'type': 'hidden', 'name':'_terp_default_o2m/'+k }).val(obj.formated_o2m_values)
+                                        jQuery(idSelector(k)).parents('td.o2m_cell').append(
+                                            jQuery('<input>', {
+                                                id: '_terp_default_o2m/'+k,
+                                                type: 'hidden',
+                                                name:'_terp_default_o2m/'+k,
+                                                value: obj.formated_o2m_values
+                                            })
                                         );
                                     }
                                 }, 'json');
