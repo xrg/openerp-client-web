@@ -167,8 +167,11 @@ ManyToOne.prototype.open = function(id) {
         editable = false;
     }
 
-    var req = eval_domain_context_request({source: source, domain: domain, context: context});
-    req.addCallback(function(obj) {
+    eval_domain_context_request({
+        source: source,
+        domain: domain,
+        context: context
+    }).addCallback(function(obj) {
         openobject.tools.openWindow(openobject.http.getURL('/openerp/openm2o/edit', {
             _terp_model: model, _terp_id: id,
             _terp_domain: obj.domain, _terp_context: obj.context,
@@ -183,12 +186,12 @@ ManyToOne.prototype.get_text = function() {
     } else {
         var text_field = this.text;
 
-        openobject.http.postJSON('/openerp/search/get_name', {
+        jQuery.post('/openerp/search/get_name', {
             model: this.relation,
             id : this.field.value
-        }).addCallback(function(obj) {
+        }, function(obj) {
             text_field.value = obj.name;
-        });
+        }, 'json');
     }
 };
 
@@ -402,28 +405,32 @@ ManyToOne.prototype.get_matched = function() {
     var domain = jQuery(this.field).attr('domain');
     var context = jQuery(this.field).attr('context');
 
-    var req = eval_domain_context_request({source: this.name, domain: domain, context: context});
-
-    req.addCallback(function(obj) {
+    eval_domain_context_request({
+        source: this.name,
+        domain: domain,
+        context: context
+    }).addCallback(function(obj) {
         var text = m2o.field.value ? '' : m2o.text.value;
 
-        var req2 = openobject.http.postJSON('/openerp/search/get_matched', {model: m2o.relation, text: text,
-            _terp_domain: obj.domain,
-            _terp_context: obj.context});
-
-        req2.addCallback(function(obj2) {
-            if(obj2.error) {
-                return error_display(obj2.error);
-            }
-            if(text && obj2.values.length == 1) {
-                var val = obj2.values[0];
-                m2o.field.value = val[0];
-                m2o.text.value = val[1];
-                m2o.on_change();
-            } else {
-                open_search_window(m2o.relation, domain, context, m2o.name, 1, text);
-            }
-        });
+        jQuery.post(
+            '/openerp/search/get_matched', {
+                model: m2o.relation,
+                text: text,
+                _terp_domain: obj.domain,
+                _terp_context: obj.context
+            }, function(matches) {
+                if(matches.error) {
+                    return error_display(matches.error);
+                }
+                if(text && matches.values.length == 1) {
+                    var val = matches.values[0];
+                    m2o.field.value = val[0];
+                    m2o.text.value = val[1];
+                    m2o.on_change();
+                } else {
+                    open_search_window(m2o.relation, domain, context, m2o.name, 1, text);
+                }
+            }, 'json');
     });
 };
 
@@ -466,10 +473,10 @@ ManyToOne.prototype.doDelayedRequest = function () {
     this.processCount++;
 
     this.lastSearch = this.text.value;
-    loadJSONDoc('/openerp/search/get_matched' + "?" + queryString({
+    jQuery.getJSON('/openerp/search/get_matched', {
         text: val,
         model: this.relation
-    })).addCallback(this.displayResults);
+    }, jQuery.proxy(this, 'displayResults'));
     return true;
 };
 
