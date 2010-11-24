@@ -132,6 +132,9 @@ class Root(SecuredController):
                 tree.tree.onselection = None
                 tree.tree.onheaderclick = None
                 tree.tree.showheaders = 0
+        else:
+            # display home action
+            tools = None
                 
         widgets = rpc.RPCProxy('res.widget')
         user_widget = rpc.RPCProxy('res.widget.user')
