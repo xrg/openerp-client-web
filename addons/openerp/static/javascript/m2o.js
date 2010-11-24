@@ -566,10 +566,6 @@ ManyToOne.prototype.updateSelectedResult = function() {
         else
             $selectedRow.swapClass("autoTextSelectedRow", "autoTextNormalRow");
     }
-    // Move the cursor to the end of the line
-    var value = this.text.value;
-    this.text.value = "";
-    this.text.value = value;
 };
 
 ManyToOne.prototype.getMouseover = function(evt) {
