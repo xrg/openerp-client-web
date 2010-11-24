@@ -38,6 +38,7 @@
                 <p>
                     ${_("Licenced under the terms of %(license)s", license="""<a target="_blank" href="/LICENSE.txt" style="text-decoration: underline;">OpenERP Public License (OEPL) v1.1</a>""")|n}
                 </p>
+                <br>
                 <h1>${_("About OpenERP")}</h1>
                 <p>
                     ${_("""%(openobject)s is a free enterprise-scale software system that is designed to boost
@@ -55,6 +56,7 @@
                 <p>
                     ${_("""Depending on your needs, OpenERP is available through a web or application client.""")}
                 </p>
+                <br>
                 <h1>${_("Links")}</h1>
                 <ul style="padding-left:5px">
                     <li><a class="cta-a" target="_blank" href="http://www.openerp.com/">OpenERP</a></li>
