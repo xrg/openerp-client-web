@@ -135,7 +135,8 @@ class Root(SecuredController):
             # display home action
             tools = None
         widgets = rpc.RPCProxy('res.widget')
-        return dict(parents=parents, tools=tools, load_content=(next and next or ''),
+        maintenance = rpc.RPCProxy('maintenance.contract').status()
+        return dict(parents=parents, tools=tools, maintenance=maintenance, load_content=(next and next or ''),
                     widgets=widgets.read(widgets.search([], 0, 0, 0, ctx), [], ctx))
 
     @expose(allow_json=True)

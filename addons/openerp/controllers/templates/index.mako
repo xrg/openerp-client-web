@@ -126,6 +126,7 @@
                                     </div>
                                 </td>
                                 <td class="tertiary">
+                                    % if maintenance['status'] == 'none':
                                     <div class="wrap" style="padding: 10px;">
                                         <ul class="split-a">
                                             <li class="one">
@@ -146,7 +147,8 @@
                                             </li>
                                         </ul>
                                     </div>
-                                    <div class="box-a">
+                                    % endif
+                                    <div class="box-a" style="margin-top: 10px">
                                         <ul class="side">
                                         </ul>
                                         % for widget in widgets:
