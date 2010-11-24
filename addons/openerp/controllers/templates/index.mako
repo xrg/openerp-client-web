@@ -117,13 +117,11 @@
                                         </ul>
                                     </div>
                                     <div class="sideheader-a">
-                                        % if close_widget:
-                                            <ul class="side">
-                                                <li>
-                                                    <a class="button-a" href="${py.url('/openerp/add_user_widget')}" id="add_user_widget">${_("Add")}</a>
-                                                </li>
-                                            </ul>
-                                        % endif
+                                        <ul class="side">
+                                            <li>
+                                                <a class="button-a" href="${py.url('/openerp/add_user_widget')}" id="add_user_widget">${_("Add")}</a>
+                                            </li>
+                                        </ul>
                                         <h2>${_("Widgets")}</h2>
                                     </div>
                                     <div class="box-a" id="user_widgets">
