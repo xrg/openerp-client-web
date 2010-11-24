@@ -301,10 +301,7 @@ ManyToOne.prototype.on_keydown = function(evt) {
                 var theCell = openobject.dom.select("TD", autoCompleteSelectedRow)[0];
 
                 var theCellHidden;
-                if(this.hasHiddenValue)
-                    theCellHidden = openobject.dom.select("TD", autoCompleteSelectedRow)[1];
-                else
-                    theCellHidden = openobject.dom.select("TD", null, autoCompleteSelectedRow)[0];
+                theCellHidden = openobject.dom.select("TD", null, autoCompleteSelectedRow)[0];
 
                 var autoCompleteText = scrapeText(theCell);
                 var autoCompleteHidden = scrapeText(theCellHidden);
@@ -499,18 +496,14 @@ ManyToOne.prototype.displayResults = function(result) {
             this.selectedResultRow = 0;
 
         this.isShowingResults = false;
-        this.hasHiddenValue = isArrayLike(result[0]);
+
 
         for(var i = 0; i <= (result.values.length - 1); i++) {
             var currentItem = result.values[i][1];
-            var currentItemValue = result.values[i][1];
 
             var currentRow = TR({"class": "autoTextNormalRow", "name": "autoComplete" + this.name + "_" + i, "id": "autoComplete" + this.name + "_" + i},
                     TD({'id':result.values[i][0], 'class': 'm2o_coplition'},
                             createDOM("nobr", null, SPAN({'id':result.values[i][0], 'style':'text-transform:none;', 'title': currentItem}, currentItem))));
-
-            if(this.hasHiddenValue)
-                appendChildNodes(currentRow, TD({"class": "autoTextHidden", 'id':result.values[i][0]}, SPAN({'id':result.values[i][0]}, currentItemValue)));
 
             connect(currentRow, 'onmouseover', this, this.getMouseover);
             connect(currentRow, 'onclick', this, this.getOnclick);
@@ -545,12 +538,7 @@ ManyToOne.prototype.updateSelectedResult = function() {
             $selectedRow.swapClass("autoTextNormalRow", "autoTextSelectedRow");
 
             if (this.selectedResult) {
-
-                var theCellHidden;
-                if(this.hasHiddenValue)
-                    theCellHidden = $selectedRow.find('TD')[1];
-                else
-                    theCellHidden = $selectedRow.find('TD')[0];
+                var theCellHidden = $selectedRow.find('TD')[0];
 
                 var autoCompleteText = jQuery($selectedRow.find('TD')[0]).find('span').text();
                 var autoCompleteHidden = jQuery(theCellHidden).find('span').text();
