@@ -150,8 +150,8 @@
                                         <ul class="side">
                                         </ul>
                                         % for widget in widgets:
-                                            <div>
-                                                <h3>${widget['title']}</h3>
+                                            <div class="sideheader-a" style="padding: 0">
+                                                <h2>${widget['title']}</h2>
                                                 ${widget['content']|n}
                                             </div>
                                         % endfor
