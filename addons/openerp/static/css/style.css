@@ -900,8 +900,8 @@ a#disable-tips:hover, a#hide-tips:hover {
     font-size: 1em !important;
     font-weight: bold;
     text-transform: uppercase;
-    text-shadow: #fff 0 1px 0;
-    color: #1F1F1F;
+    text-shadow: #eee 0 1px 0;
+    color: #4C4C4C;
     line-height: 1.25;
     white-space: nowrap;
     min-height: 40px;
@@ -918,11 +918,10 @@ a#disable-tips:hover, a#hide-tips:hover {
 .filter-a .filter_with_icon:focus,
 .filter-a .filter_with_icon:hover {
     background-color: #e6e6e6;
-    color: #000000;
 }
 .filter-a .filter_with_icon.active {
     background-color: #aaadb1;
-    color: #000000;
+    color: #1F1F1F;
 }
 
 .filter-a .filter_icon {
