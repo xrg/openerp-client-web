@@ -13,7 +13,7 @@ function setup_charts() {
 	});
 	
 }
-function reload_graph() {
+function reload_graph(clear) {
     this.name = '_terp_list';
     var args = {};
     var names = ('/' + this.name).split('/');
@@ -34,11 +34,15 @@ function reload_graph() {
             }
         });
     }
+    var _terp_search_domain = openobject.dom.get('_terp_search_domain').value;
+    if(clear) {
+        _terp_search_domain = '[]'
+    }
     args = jQuery.extend(args, {
             _terp_source: this.name,
             _terp_editable: openobject.dom.get('_terp_editable').value,
             _terp_group_by_ctx: openobject.dom.get('_terp_group_by_ctx').value,
-            _terp_search_domain: openobject.dom.get('_terp_search_domain').value,
+            _terp_search_domain: _terp_search_domain,
             _terp_search_data: openobject.dom.get('_terp_search_data').value,
             _terp_filter_domain: openobject.dom.get('_terp_filter_domain').value
 	});
