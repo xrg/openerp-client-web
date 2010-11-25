@@ -167,7 +167,7 @@
                                     </div>
                                     % endif
                                     <div class="sideheader-a">
-                                        <a href="${py.url('/openerp/add_user_widget')}"
+                                        <a href="${py.url('/openerp/widgets/add')}"
                                            id="add_user_widget" class="button-a"
                                                 style="right: 1px;">${_("Add")}</a>
                                         <h2>${_("Widgets")}</h2>
@@ -177,7 +177,7 @@
                                             <div class="sideheader-a" style="padding: 0">
                                                 % if widget['removable']:
                                                     <a id="${widget['user_widget_id']}"
-                                                       href="${py.url('/openerp/close_user_widget')}"
+                                                       href="${py.url('/openerp/widgets/remove')}"
                                                        class="close">${_("Close")}</a>
                                                 % endif
                                                 <h3>${widget['title']}</h3>

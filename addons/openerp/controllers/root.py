@@ -29,7 +29,7 @@
 import cherrypy
 
 import openobject
-from openerp.controllers import SecuredController, unsecured, actions, login as tiny_login, form
+from openerp.controllers import SecuredController, unsecured, actions, login as tiny_login, form, widgets
 from openerp.utils import rpc, cache, TinyDict
 
 from openobject.tools import url, expose, redirect
@@ -53,7 +53,6 @@ class Root(SecuredController):
     def index(self, next=None):
         """Index page, loads the view defined by `action_id`.
         """
-        
         if not next:
             user_action_id = rpc.RPCProxy("res.users").read([rpc.session.uid], ['action_id'], rpc.session.context)[0]['action_id']
             if user_action_id:
@@ -135,39 +134,11 @@ class Root(SecuredController):
             # display home action
             tools = None
 
-        widgets = rpc.RPCProxy('res.widget')
-        user_widgets = rpc.RPCProxy('res.widget.user')
-        widget_ids = user_widgets.search(
-                ['|', ('user_id', '=', rpc.session.uid), ('user_id', '=', False)],
-                0, 0, 0, ctx)
-
-        homepage_user_widgets = [
-            dict(widgets.read([wid['widget_id'][0]], [], ctx)[0],
-                 user_widget_id=wid['id'],
-                 # NULL user_id = global = non-removable
-                 removable=bool(wid['user_id']))
-            for wid in user_widgets.read(
-                widget_ids, ['widget_id', 'user_id'], ctx)
-        ]
-
         return dict(parents=parents, tools=tools, load_content=(next and next or ''),
                     maintenance=rpc.RPCProxy('maintenance.contract').status(),
-                    widgets=homepage_user_widgets)
-
-    @expose('json', methods=('POST',))
-    def close_user_widget(self, widget_id):
-        error = None
-        try:
-            rpc.RPCProxy('res.widget.user').unlink(widget_id, rpc.session.context)
-        except Exception, e:
-            error = e
-        return dict(error=error)
-
-    @expose()
-    def add_user_widget(self):
-        return actions.execute(
-            rpc.session.execute('object', 'execute', 'res.widget.wizard', 'action_get', {})
-        )
+                    widgets=openobject.pooler.get_pool()\
+                                      .get_controller('/openerp/widgets')\
+                                      .user_home_widgets(ctx))
 
     @expose(allow_json=True)
     @unsecured
