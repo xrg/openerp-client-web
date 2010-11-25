@@ -8,7 +8,7 @@
     <script type="text/javascript" src="/openerp/static/javascript/notebook/notebook.js"></script>
     
     <script type="text/javascript">
-        var DOCUMENT_TO_LOAD = "${load_content}";
+        var DOCUMENT_TO_LOAD = "${load_content|n}";
         var CAL_INSTANCE = null;
 
         jQuery(document).ready(function () {
