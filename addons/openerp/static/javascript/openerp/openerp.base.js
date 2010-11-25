@@ -216,7 +216,7 @@ jQuery(document).delegate(
     }
 });
 
-jQuery(document).bind('ready ajaxStop', function (){
+jQuery(document).bind('ready', function (){
     var $caller = jQuery('[callback]:not([type="hidden"]):not([value=""]):not([disabled]):not([readonly]))');
     $caller.each(function(){
         if (jQuery(this).attr('kind') == 'boolean') {

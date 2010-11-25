@@ -438,7 +438,7 @@ class Float(TinyInputWidget):
 #            self.default = 0.0
 
     def set_value(self, value):
-        self.default = value
+        self.default = value or 0.0
 
 register_widget(Float, ["float"])
 

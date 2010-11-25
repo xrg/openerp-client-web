@@ -522,8 +522,57 @@ function onChange(caller){
 
             if ((fld.value !== value) || flag) {
                 fld.value = value;
+                var $current_field = jQuery(fld);
+                var kind = $current_field.attr('kind');
 
-                var kind = jQuery(fld).attr('kind');
+                if (!kind) {
+                    var $default_o2m = jQuery(idSelector('_terp_default_o2m/'+k));
+                    if ($current_field.hasClass('gridview')){
+                        if ($default_o2m.length && !value) {
+                            if($default_o2m.val()) {
+                                $default_o2m.val('');
+                                new ListView(k).reload();
+                            } else {
+                                continue;
+                            }
+                        }
+                        else {
+                            jQuery.post(
+                                '/openerp/listgrid/get_o2m_defaults', {
+                                    o2m_values: serializeJSON(value),
+                                    model: jQuery('#_terp_model').val(),
+                                    o2m_model: jQuery(idSelector(prefix+k+'/_terp_model')).val(),
+                                    name: k,
+                                    view_type: jQuery('#_terp_view_type').val(),
+                                    view_id: jQuery('#_terp_view_id').val(),
+                                    o2m_view_type: jQuery(idSelector(prefix+k+'/_terp_view_type')).val(),
+                                    o2m_view_id: jQuery(idSelector(prefix+k+'/_terp_view_id')).val(),
+                                    editable: jQuery(idSelector(prefix+k+'/_terp_editable')).val(),
+                                    limit: jQuery(idSelector(prefix+k+'/_terp_limit')).val(),
+                                    offset: jQuery(idSelector(prefix+k+'/_terp_offset')).val(),
+                                    o2m_context: jQuery(idSelector(prefix+k+'/_terp_context')).val(),
+                                    o2m_domain: jQuery(idSelector(prefix+k+'/_terp_domain')).val()
+                                }, function(obj) {
+                                    $current_field.closest('.list-a').replaceWith(obj.view);
+                                    if ($default_o2m.length) {
+                                        $default_o2m.val(obj.formated_o2m_values);
+                                    }
+                                    else {
+                                        jQuery(idSelector(k)).parents('td.o2m_cell').append(
+                                            jQuery('<input>', {
+                                                id: '_terp_default_o2m/'+k,
+                                                type: 'hidden',
+                                                name:'_terp_default_o2m/'+k,
+                                                value: obj.formated_o2m_values
+                                            })
+                                        );
+                                    }
+                                }, 'json');
+                        }
+                    }
+                    fld.__lock_onchange = true;
+                    return;
+                }
 
                 switch (kind) {
                     case 'picture':

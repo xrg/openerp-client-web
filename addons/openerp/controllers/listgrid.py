@@ -26,6 +26,9 @@
 # You can see the MPL licence at: http://www.mozilla.org/MPL/MPL-1.1.html
 #
 ###############################################################################
+import copy
+import simplejson
+
 import cherrypy
 from openerp.controllers import SecuredController
 from openerp.utils import rpc, TinyDict, TinyForm, TinyFormError, context_with_concurrency_info, cache
@@ -140,6 +143,34 @@ class List(SecuredController):
         o2m_value = eval(o2m_value)
         o2m_value.pop(int(index))
         return dict(o2m_value=ustr(o2m_value))
+
+    @expose('json')
+    def get_o2m_defaults(self, o2m_values, model, o2m_model, name, view_type, view_id,
+                         o2m_view_type, o2m_view_id, editable, limit, offset, o2m_context, o2m_domain):
+
+        view_id = view_id or False
+        o2m_view_id = ast.literal_eval(o2m_view_id) or False
+        o2m_view_type = o2m_view_type or 'form'
+        context = dict(ast.literal_eval(o2m_context), **rpc.session.context)
+        o2m_values = simplejson.loads(o2m_values)
+        
+        for o2m in o2m_values:
+            o2m['id'] = 0
+
+        if o2m_view_id:
+            view = cache.fields_view_get(o2m_model, o2m_view_id, o2m_view_type, context)
+        else:
+            view = cache.fields_view_get(model, view_id, view_type, rpc.session.context)
+            view = view['fields'][name]['views'][o2m_view_type]
+
+        list_view = listgrid.List(name, model, view, ids=None, domain=o2m_domain, context=context, default_data=copy.deepcopy(o2m_values), limit=20, editable= editable,o2m=1)
+        view=ustr(list_view.render())
+        formated_o2m_values = []
+        for o2m in o2m_values:
+            o2m.pop('id', None)
+            formated_o2m_values.append((0, 0, o2m))
+
+        return dict(view=view, formated_o2m_values=ustr(formated_o2m_values))
 
     @expose()
     def multiple_groupby(self, model, name, grp_domain, group_by, view_id, view_type, parent_group, group_level, groups, no_leaf, **kw):
