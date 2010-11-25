@@ -15,9 +15,32 @@
             // Don't load doc if there is a hash-url, it takes precedence
             if(DOCUMENT_TO_LOAD && !hashUrl()) {
                 openLink(DOCUMENT_TO_LOAD);
+                return
             }
+
+            // Make home widgets closable
+            jQuery('#user_widgets a.close').click(function() {
+                var $widget = jQuery(this);
+                jQuery.post(
+                    '/openerp/close_user_widget',
+                    {widget_id: $widget.attr('id')},
+                    function(obj) {
+                        if(obj.error) {
+                            error_display(obj.error);
+                            return;
+                        }
+                        var $root = $widget.closest('.side');
+                        $root.next()
+                             .add($root)
+                             .remove();
+                    }, 'json');
+            });
+            // Addition of new home widgets
+            jQuery('#add_user_widget').click(function() {
+                window.open(this.href);
+                return false;
+            });
         });
-        
     </script>
 </%def>
 
@@ -139,31 +162,6 @@
                                             </div>
                                         % endfor
                                     </div>
-                                    <script type="text/javascript">
-                                        jQuery(document).ready(function(){
-                                            jQuery('#user_widgets a.close').click(function(){
-                                                var $widget = jQuery(this);
-                                                jQuery.post(
-                                                    '/openerp/close_user_widget',
-                                                    {widget_id: $widget.attr('id')},
-                                                    function(obj) {
-                                                        if(obj.error) {
-                                                            error_display(obj.error);
-                                                            return;
-                                                        }
-                                                        var $root = $widget.closest('.side');
-                                                        $root.next()
-                                                             .add($root)
-                                                             .remove();
-                                                    }, 'json');
-                                            });
-
-                                            jQuery('#add_user_widget').click(function(){
-                                                window.open(this.href);
-                                                return false;
-                                            });
-                                        });
-                                    </script>
                                 </td>
                             </tr>
                         </table>
