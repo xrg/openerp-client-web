@@ -251,7 +251,7 @@
                             <td style="padding-left:8px">
                                 <input type="checkbox" class="checkbox" name="import_compat" id="import_compat"/>
                             </td>
-                            <td style="padding-left:3px"><label for="import_compat"
+                            <td style="padding-left:3px"><label for="import_compat" title="Restricts the number of exportable fields in order to ensure the generated export will be importable back into OpenERP."
                                     >${_("Import Compatible")}</label></td>
                         </tr>
                     </table>
