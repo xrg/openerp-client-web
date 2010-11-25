@@ -2269,6 +2269,11 @@ a.cta-a strong {
 .process-links {
     padding: 5px 10px;
     text-align: center;
+    display: table;
+    margin: auto;
+}
+.process-links a.cta-a {
+    display: table-cell;
 }
 
 .process-help-text {

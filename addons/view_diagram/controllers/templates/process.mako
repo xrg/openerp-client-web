@@ -55,7 +55,7 @@
                     <a class="cta-a" target="_blank" href="${context_help}">
                         <span>
                             <strong>${_("Documentation")}</strong>
-                            ${_("Opportunities Documentation Online")}
+                            ${_("Read Documentation Online")}
                         </span>
                         
                     </a>
@@ -95,7 +95,7 @@
             <td colspan="1">
                 <input type="hidden" id="res_model" value="${res_model}"/>
                 <input type="hidden" id="res_id" value="${res_id}"/>
-                <fieldset style="margin: 0 0 10px 10px">
+                <fieldset style="margin: 0 0 10px 10px; display: inline; padding: 4px">
                     <legend><b style="padding: 4px;">${_("Select Process")}</b></legend>
                     <select id="select_workflow" name="select_workflow" style="min-width: 150px">
                         % for val, text in selection:
