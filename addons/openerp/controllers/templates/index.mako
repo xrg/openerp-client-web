@@ -126,7 +126,7 @@
                                     </div>
                                     <div class="box-a" id="user_widgets">
                                         % for widget in widgets:
-                                            % if close_widget and not widget.get('not_remove'):
+                                            % if not widget.get('not_remove'):
                                                 <ul class="side">
                                                     <li>
                                                         <a id="${widget['user_widget_id']}" class="close">${_("Close")}</a>
@@ -139,39 +139,30 @@
                                             </div>
                                         % endfor
                                     </div>
-                                    % if close_widget:
-                                        <script type="text/javascript">
-                                            jQuery(document).ready(function(){
-                                                jQuery('#user_widgets.box-a ul.side a.close').click(function(){
-                                                    var $widget = jQuery(this);
-                                                    jQuery.ajax({
-                                                        url: '/openerp/close_user_widget',
-                                                        data: {widget_id: $widget.attr('id')},
-                                                        type: 'POST',
-                                                        success: function(obj){
-                                                            if(obj.error) {
-                                                                error_display(obj.error)
-                                                                return;
-                                                            }
-                                                            else {
-                                                                var $p1 = $widget.closest('.side').next();
-                                                                var $p2 =  $widget.closest('.side');
-                                                                $p1.remove();
-                                                                $p2.remove();
-                                                                return false;
-                                                            }
-                                                            
+                                    <script type="text/javascript">
+                                        jQuery(document).ready(function(){
+                                            jQuery('#user_widgets.box-a ul.side a.close').click(function(){
+                                                var $widget = jQuery(this);
+                                                jQuery.post(
+                                                    '/openerp/close_user_widget',
+                                                    {widget_id: $widget.attr('id')},
+                                                    function(obj) {
+                                                        if(obj.error) {
+                                                            error_display(obj.error);
+                                                            return;
                                                         }
-                                                    });
-                                                });
-                                                
-                                                jQuery('#add_user_widget').click(function(){
-                                                    window.open(openobject.http.getURL(this.href));
-                                                    return false;
-                                                });
+                                                        $widget.closest('.side').next()
+                                                                .add($widget.closest('.side'))
+                                                                .remove();
+                                                    }, 'json');
                                             });
-                                        </script>
-                                    % endif
+
+                                            jQuery('#add_user_widget').click(function(){
+                                                window.open(this.href);
+                                                return false;
+                                            });
+                                        });
+                                    </script>
                                 </td>
                             </tr>
                         </table>

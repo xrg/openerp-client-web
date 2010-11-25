@@ -137,31 +137,22 @@ class Root(SecuredController):
             tools = None
                 
         widgets = rpc.RPCProxy('res.widget')
-        user_widget = rpc.RPCProxy('res.widget.user')
-        user_widget_ids = user_widget.search([('user_id', '=', rpc.session.uid)], 0, 0, 0, ctx)#User specific widget
+        user_widgets = rpc.RPCProxy('res.widget.user')
+        widget_ids = user_widgets.search(
+                ['|', ('user_id', '=', rpc.session.uid), ('user_id', '=', False)],
+                0, 0, 0, ctx)
         
-        close_widget = False
-        show_user_widgets = []
-        
-        global_widget_ids = user_widget.search([('user_id', '=', False)], 0, 0, 0, ctx)#Global widget
-        
-        if user_widget_ids:
-            import sets
-            user_widget_ids = list(sets.Set(user_widget_ids).union(sets.Set(global_widget_ids)))
-        else:
-            user_widget_ids = global_widget_ids
-            
-        close_widget = True
-        for wid in user_widget.read(user_widget_ids, ['widget_id', 'user_id'], ctx):
+        homepage_user_widgets = []
+        for wid in user_widgets.read(widget_ids, ['widget_id', 'user_id'], ctx):
             widget = widgets.read([wid['widget_id'][0]], [], ctx)[0]
             if not wid['user_id']:
-                widget.update(not_remove=True) #Global widgets not removable
-            if widget not in show_user_widgets:
-                widget.update(user_widget_id = wid['id'])
-                show_user_widgets.append(widget)
+                 # Global widgets are not removable
+                widget['not_remove'] = True
+            widget['user_widget_id'] = wid['id']
+            homepage_user_widgets.append(widget)
             
         return dict(parents=parents, tools=tools, load_content=(next and next or ''),
-                    widgets=show_user_widgets, close_widget=close_widget)
+                    widgets=homepage_user_widgets)
     
     @expose('json', methods=('POST',))
     def close_user_widget(self, widget_id):
