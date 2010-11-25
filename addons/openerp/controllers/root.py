@@ -142,13 +142,15 @@ class Root(SecuredController):
                 ['|', ('user_id', '=', rpc.session.uid), ('user_id', '=', False)],
                 0, 0, 0, ctx)
         
-        homepage_user_widgets = []
-        for wid in user_widgets.read(widget_ids, ['widget_id', 'user_id'], ctx):
-            widget = widgets.read([wid['widget_id'][0]], [], ctx)[0]
-            widget['removable'] = bool(wid['user_id'])
-            widget['user_widget_id'] = wid['id']
-            homepage_user_widgets.append(widget)
-            
+        homepage_user_widgets = [
+            dict(widgets.read([wid['widget_id'][0]], [], ctx)[0],
+                 user_widget_id=wid['id'],
+                 # NULL user_id = global = non-removable
+                 removable=bool(wid['user_id']))
+            for wid in user_widgets.read(
+                widget_ids, ['widget_id', 'user_id'], ctx)
+        ]
+
         return dict(parents=parents, tools=tools, load_content=(next and next or ''),
                     widgets=homepage_user_widgets)
     
