@@ -1920,6 +1920,13 @@ td.tertiary div.wrap {
     height: 100%;
 }
 
+#welcome_message {
+    padding: 10px;
+}
+#welcome_message a {
+    text-decoration: underline;
+}
+
 /* TODO: refactor sidebar as well as the toggle_accordion/open-close-menu
 
    Should not need to duplicate colors, borders (hack), images in open/close

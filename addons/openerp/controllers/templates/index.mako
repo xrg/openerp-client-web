@@ -138,26 +138,9 @@
                                     </div>
                                 </td>
                                 <td class="tertiary">
-                                    % if maintenance['status'] == 'none':
-                                    <div class="wrap" style="padding: 10px;">
-                                        <ul class="split-a">
-                                            <li class="one">
-                                                <a class="cta-a" href="http://www.openerp.com/services/subscribe-onsite" target="_blank">
-                                                    <span>
-                                                        <strong>${_('Use On-Site')}</strong>
-                                                        ${_("Get the OpenERP Warranty")}
-                                                    </span>
-                                                </a>
-                                            </li>
-                                            <li class="two">
-                                                <a class="cta-a" href="http://www.openerp.com/online" target="_blank">
-                                                    <span>
-                                                        <strong>${_('Use Online')}</strong>
-                                                        ${_("Subscribe and start")}
-                                                    </span>
-                                                </a>
-                                            </li>
-                                        </ul>
+                                	% if welcome_message:
+                                    <div id="welcome_message">
+                                		${welcome_message|n}
                                     </div>
                                     % endif
                                     <div class="sideheader-a">
