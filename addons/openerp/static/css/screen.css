@@ -784,7 +784,6 @@ div.box-a h2,div.box-a h3 {
     font-size: 1em;
     font-weight: bold;
     text-shadow: #fff 0 1px 0;
-    text-transform: uppercase;
 }
 
 div.box-a div.scroll {
@@ -1975,14 +1974,21 @@ td.tertiary div.wrap {
     font-size: 0.9em;
 }
 
-.sideheader-a h2 {
-    margin: 0 0 0 10px;;
-    padding: 0;
+.sideheader-a h2,
+.sideheader-a h3 {
+    margin: 0 0 0 10px;
+    padding: 0 !important;
     color: #8e8e8e;
     font-size: 1.2em;
     line-height: 21px;
     font-weight: bold;
     text-shadow: #fff 0 1px 0;
+}
+.sideheader-a h3,
+.box-a .sideheader-a h3 {
+    font-size: 1.1em;
+    margin-left: 20px;
+    background: none;
 }
 
 .sideheader-a a.button-a {
@@ -2237,6 +2243,18 @@ a.cta-a strong {
 .w50 {
     width: 50% !important;
 }
+
+div.box-a a.close {
+    background: url(../images/sideicons-a.gif) no-repeat -20px 0;
+    overflow: hidden;
+    width: 10px;
+    height: 10px;
+    text-indent: -10001px;
+    position: absolute;
+    top: 5px;
+    right: 5px;
+}
+
 /* SPECIFIC
 ------------------------------------------- */
 

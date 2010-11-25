@@ -134,10 +134,38 @@ class Root(SecuredController):
         else:
             # display home action
             tools = None
+
         widgets = rpc.RPCProxy('res.widget')
-        maintenance = rpc.RPCProxy('maintenance.contract').status()
-        return dict(parents=parents, tools=tools, maintenance=maintenance, load_content=(next and next or ''),
-                    widgets=widgets.read(widgets.search([], 0, 0, 0, ctx), [], ctx))
+        user_widgets = rpc.RPCProxy('res.widget.user')
+        widget_ids = user_widgets.search(
+                ['|', ('user_id', '=', rpc.session.uid), ('user_id', '=', False)],
+                0, 0, 0, ctx)
+
+        homepage_user_widgets = [
+            dict(widgets.read([wid['widget_id'][0]], [], ctx)[0],
+                 user_widget_id=wid['id'],
+                 # NULL user_id = global = non-removable
+                 removable=bool(wid['user_id']))
+            for wid in user_widgets.read(
+                widget_ids, ['widget_id', 'user_id'], ctx)
+        ]
+
+        return dict(parents=parents, tools=tools, load_content=(next and next or ''),
+                    maintenance=rpc.RPCProxy('maintenance.contract').status(),
+                    widgets=homepage_user_widgets)
+
+    @expose('json', methods=('POST',))
+    def close_user_widget(self, widget_id):
+        error = None
+        try:
+            rpc.RPCProxy('res.widget.user').unlink(widget_id, rpc.session.context)
+        except Exception, e:
+            error = e
+        return dict(error=error)
+
+    @expose()
+    def add_user_widget(self):
+        return actions.execute_window([False], 'res.widget.wizard')
 
     @expose(allow_json=True)
     @unsecured
