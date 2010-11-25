@@ -915,16 +915,12 @@ function do_action(src, context_menu) {
     });
 }
 
-function translate_fields(src){
+function translate_fields(src, params){
     var $src = jQuery(src);
-    var relation = $src.attr('relation');
-    var id = $src.attr('id');
-    var ctx = $src.attr('data');
-
     openobject.tools.openWindow(openobject.http.getURL('/openerp/translator',{
-        _terp_model: relation,
-        _terp_id: id,
-        _terp_context: ctx
+        _terp_model: (src ? $src.attr('relation') : params['relation']),
+        _terp_id: (src ? $src.attr('id') : params['id']),
+        _terp_context: (src ? $src.attr('data') : params['data']),
     }));
 }
 

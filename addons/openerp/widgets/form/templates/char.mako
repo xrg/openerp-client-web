@@ -7,7 +7,12 @@
             <img src="/openerp/static/images/stock/stock_translate.png" class="translatable" />
             <script type="text/javascript">
                 jQuery('img.translatable').click(function() {
-                    jQuery('a[xid=translate_fields]').click();
+                    var params = {
+                        'relation': '${model}',
+                        'id': jQuery('#_terp_id').attr('value'),
+                        'data': jQuery('#_terp_context').attr('value'),
+                    };
+                    translate_fields(null, params);
                 });
             </script>
         % endif
