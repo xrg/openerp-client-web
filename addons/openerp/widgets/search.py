@@ -59,7 +59,7 @@ def get_search_default(attrs={}, screen_context=None, default_domain=[]):
     if attrs.get('name', False):
         context_str = 'search_default_' + str(attrs['name'])
         from_context = screen_context.get(context_str, False)
-        default_search = from_context
+
     if flag:
         if default_domain and attrs.get('domain'):
             domain =  expr_eval(attrs.get('domain'))
@@ -70,8 +70,7 @@ def get_search_default(attrs={}, screen_context=None, default_domain=[]):
                 else:
                     default_val = default_search = False
         else:
-            if not from_context:
-                default_val = default_search =  False
+            default_val = default_search =  False
 
         if attrs.get('context'):
             ctx =  expr_eval(attrs.get('context', "{}"), {'self':attrs.get('name', False)})
@@ -82,7 +81,7 @@ def get_search_default(attrs={}, screen_context=None, default_domain=[]):
                     str_ctx = 'group_' + ctx.get('group_by')
                 default_val = str_ctx in screen_context.get('group_by', [])
                 default_search = str_ctx in screen_context.get('group_by', [])
-    return default_search or default_val
+    return default_search or default_val or from_context
 
 class RangeWidgetLabel(InputWidgetLabel):
     template = '/openerp/widgets/templates/search/rangewid_label.mako'
