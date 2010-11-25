@@ -25,7 +25,9 @@ function openLink(url /*optional afterLoad */) {
             error: loadingError
         });
     } else {
-        window.location.assign(url);
+        window.location.assign(
+            '/?' + jQuery.param({next: url})
+        );
     }
 }
 /**
@@ -71,10 +73,10 @@ function loadingError(xhr) {
  */
 function doLoadingSuccess(app) {
     return function (data, status, xhr) {
-        var action_url = xhr.getResponseHeader('Location');
         var target = xhr.getResponseHeader('X-Target');
         if(target) {
-            window.top.openAction(action_url, target);
+            window.top.openAction(
+                xhr.getResponseHeader('Location'), target);
             return;
         }
         jQuery(window).trigger('before-appcontent-change');
@@ -174,8 +176,9 @@ jQuery(document).ready(function () {
     } else {
         if(jQuery(document).find('div#root').length) {
             jQuery(document).delegate('a[href]:not([target]):not([href^="#"]):not([href^="javascript"]):not([rel=external])', 'click', function() {
-                window.location.href = openobject.http.getURL('/openerp', {
-                    'next': jQuery(this).attr('href')
+                jQuery.ajax({
+                    url: jQuery(this).attr('href'),
+                    success: doLoadingSuccess(null)
                 });
                 return false;
             });
