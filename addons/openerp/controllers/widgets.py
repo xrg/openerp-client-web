@@ -9,7 +9,7 @@ class Widgets(SecuredController):
     @openobject.tools.expose()
     def add(self):
         return actions.execute(
-            openerp.utils.rpc.session.execute('object', 'execute', 'res.widget.wizard', 'action_get', {})
+            openerp.utils.rpc.RPCProxy('res.widget.wizard').action_get({})
         )
 
     @openobject.tools.expose('json', methods=('POST',))

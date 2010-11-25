@@ -49,14 +49,13 @@ class Attachment(SecuredController):
         if id:
             ctx = dict(rpc.session.context)
 
-            action = rpc.session.execute('object', 'execute', 'ir.attachment', 'action_get', ctx)
-
-            action.update(
+            action = dict(
+                rpc.RPCProxy('ir.attachment').action_get(ctx),
                 domain=[('res_model', '=', model), ('res_id', '=', id)],
                 context=dict(ctx,
-                     default_res_model=model,
-                     default_res_id=id
-             ))
+                             default_res_model=model,
+                             default_res_id=id
+            ))
 
             return actions.execute(action)
         else:
