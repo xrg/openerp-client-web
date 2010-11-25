@@ -7,9 +7,9 @@
 
     <script type="text/javascript">
         function add_fields(){
-        
+
             var tree = treeGrids['${tree.name}'];
-            
+
             var fields = tree.selection;
             var select = openobject.dom.get('fields');
 
@@ -28,7 +28,7 @@
                 select.options.add(new Option(text, id));
             });
         }
-		
+
         function open_savelist(id) {
             var elem = openobject.dom.get(id);
             elem.style.display = elem.style.display == 'none' ? '' : 'none';
@@ -56,7 +56,7 @@
                 });
             }
         }
-        
+
         function do_select(id, src) {
             openobject.dom.get('fields').innerHTML = '';
             var model = openobject.dom.get('_terp_model').value;
@@ -87,7 +87,7 @@
             var id = boxes[0].value;
             form.action = openobject.http.getURL('/openerp/impex/delete_listname', {'_terp_id' : id});
   			form.submit();
-  			
+
         }
 
         function reload(name_list) {
@@ -148,7 +148,7 @@
                     </tr>
                 </table>
             </td>
-        </tr>        
+        </tr>
         % if new_list.ids:
         <tr>
             <td class="side_spacing">
@@ -211,13 +211,13 @@
             </td>
         </tr>
         <tr>
-            <td class="side_spacing">            
+            <td class="side_spacing">
                 <div id="savelist" style="display: none">
                     <fieldset>
                         <legend>${_("Save List")}</legend>
                         <table>
-                            <tr>                           
-                                <td class="label">${_("Name of This Export:")}</td>                            
+                            <tr>
+                                <td class="label">${_("Name of This Export:")}</td>
                                 <td>
                                     <input type="text" id="savelist_name" name="savelist_name"/>
                                 </td>
@@ -226,41 +226,36 @@
                                 </td>
                             </tr>
                         </table>
-                    </fieldset>         
-                </div>   
-            </td>
-        </tr>        
-        <tr>
-            <td class="side_spacing">
-                <fieldset>
-                    <legend>${_("Options")}</legend>
-                    <table>
-                        <tr>
-                            <td>
-                                <select id="export_as" name="export_as">
-                                    <option value="csv">${_("Export as CSV")}</option>
-                                    <option value="xls">${_("Export as Excel")}</option>
-                                </select>
-                            </td>
-                            <td>
-                                <input type="checkbox" class="checkbox" name="add_names" checked="checked"/>
-                            </td>
-                            <td>${_("Add field names")}</td>
-                        </tr>
-                    </table>
-                </fieldset>
+                    </fieldset>
+                </div>
             </td>
         </tr>
         <tr>
         	<td class="side_spacing">
         		<fieldset title="Restricts the number of exportable fields to ensure you will be able to import your data back in OpenERP">
-                    <legend>${_("Select an Option to Export")}</legend>
+                    <legend>${_("Select Options to Export")}</legend>
                     <table>
-                        <tr>
+                    	<tr>
+                        	% if xls_export_available == True:
+                            	<td style="padding-right: 8px;">
+                                	<select style="height:18px" id="export_as" name="export_as">
+                                    	<option value="csv">${_("Export as CSV")}</option>
+                                    	<option value="xls">${_("Export as Excel")}</option>
+                                	</select>
+                            	</td>
+                        	% else:
+	                            <td>
+	                            	<input type="hidden" id="export_as" name="export_as" value="csv"/>
+	                            </td>
+                        	% endif
                             <td>
+                                <input type="checkbox" class="checkbox" name="add_names" checked="checked"/>
+                            </td>
+                            <td style="padding-left:3px">${_("Add field names")}</td>
+                            <td style="padding-left:8px">
                                 <input type="checkbox" class="checkbox" name="import_compat" id="import_compat"/>
                             </td>
-                            <td><label for="import_compat"
+                            <td style="padding-left:3px"><label for="import_compat"
                                     >${_("Import Compatible")}</label></td>
                         </tr>
                     </table>
