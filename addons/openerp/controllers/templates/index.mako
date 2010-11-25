@@ -182,7 +182,7 @@
                                             <div class="sideheader-a" style="padding: 0">
                                                 % if widget['removable']:
                                                     <a id="${widget['user_widget_id']}"
-                                                       href="/openerp/close_user_widget"
+                                                       href="${py.url('/openerp/close_user_widget')}"
                                                        class="close">${_("Close")}</a>
                                                 % endif
                                                 <h3>${widget['title']}</h3>
