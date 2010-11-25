@@ -35,11 +35,6 @@
                              .remove();
                     }, 'json');
             });
-            // Addition of new home widgets
-            jQuery('#add_user_widget').click(function() {
-                window.open(this.href);
-                return false;
-            });
         });
     </script>
 </%def>

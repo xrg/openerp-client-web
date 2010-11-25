@@ -165,7 +165,9 @@ class Root(SecuredController):
 
     @expose()
     def add_user_widget(self):
-        return actions.execute_window([False], 'res.widget.wizard')
+        return actions.execute(
+            rpc.session.execute('object', 'execute', 'res.widget.wizard', 'action_get', {})
+        )
 
     @expose(allow_json=True)
     @unsecured
