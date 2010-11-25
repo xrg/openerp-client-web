@@ -141,7 +141,7 @@
                                     </div>
                                     <script type="text/javascript">
                                         jQuery(document).ready(function(){
-                                            jQuery('#user_widgets.box-a ul.side a.close').click(function(){
+                                            jQuery('#user_widgets a.close').click(function(){
                                                 var $widget = jQuery(this);
                                                 jQuery.post(
                                                     '/openerp/close_user_widget',
@@ -151,9 +151,10 @@
                                                             error_display(obj.error);
                                                             return;
                                                         }
-                                                        $widget.closest('.side').next()
-                                                                .add($widget.closest('.side'))
-                                                                .remove();
+                                                        var $root = $widget.closest('.side');
+                                                        $root.next()
+                                                             .add($root)
+                                                             .remove();
                                                     }, 'json');
                                             });
 
