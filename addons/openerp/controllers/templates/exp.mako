@@ -119,7 +119,7 @@
             openobject.dom.get('_terp_fields2').value = '[' + fields2.join(',') + ']';
             jQuery('#'+form).attr('target', 'new');
             jQuery('#'+form).attr('action', openobject.http.getURL(
-                '/openerp/impex/export_data/data.' + openobject.dom.get('export_as').value)
+                '/openerp/impex/export_data/data.' + (jQuery('#export_as').val() || 'csv'))
             ).submit();
         }
     </script>
@@ -236,17 +236,13 @@
                     <legend>${_("Select Options to Export")}</legend>
                     <table>
                     	<tr>
-                        	% if xls_export_available == True:
+                        	% if xls_export_available:
                             	<td style="padding-right: 8px;">
                                 	<select style="height:18px" id="export_as" name="export_as">
                                     	<option value="csv">${_("Export as CSV")}</option>
                                     	<option value="xls">${_("Export as Excel")}</option>
                                 	</select>
                             	</td>
-                        	% else:
-	                            <td>
-	                            	<input type="hidden" id="export_as" name="export_as" value="csv"/>
-	                            </td>
                         	% endif
                             <td>
                                 <input type="checkbox" class="checkbox" name="add_names" checked="checked"/>
