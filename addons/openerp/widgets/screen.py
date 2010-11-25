@@ -99,7 +99,8 @@ class Screen(TinyInputWidget):
         if self.view_ids and self.view_type in self.view_mode:
             idx = self.view_mode.index(self.view_type)
             self.view_id = self.view_ids[idx]
-
+ 
+        self.search_domain = params.search_domain or []
         self.domain        = params.domain or []
         self.context       = params.context or {}
         self.nodefault     = params.nodefault or False
