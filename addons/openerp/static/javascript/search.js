@@ -493,7 +493,7 @@ function parse_filters(src, id) {
 
                 if ($fld.attr('type2') == 'many2one') {
                 	var selection_operator = $fld.attr('operator');
-                    fld_value = $fld.val() + '/' + selection_operator;
+                    fld_value = $fld.val() + '/operator/' + selection_operator;
                 }
                 else{
                     fld_value = 'selection_'+$fld.val();

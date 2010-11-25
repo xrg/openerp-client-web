@@ -3,7 +3,7 @@
 # This file is distributed under the same license as the PROJECT project.
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2010.
 #
-#,
+#, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
@@ -17,12 +17,4 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel None\n"
-
-#: widgets/_views.py:8
-msgid "Graph"
-msgstr ""
-
-#: widgets/_views.py:9
-msgid "Graph view..."
-msgstr ""
 
