@@ -126,7 +126,7 @@
                                     </div>
                                     <div class="box-a" id="user_widgets">
                                         % for widget in widgets:
-                                            % if not widget.get('not_remove'):
+                                            % if widget['removable']:
                                                 <ul class="side">
                                                     <li>
                                                         <a id="${widget['user_widget_id']}" class="close">${_("Close")}</a>

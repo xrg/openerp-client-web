@@ -145,9 +145,7 @@ class Root(SecuredController):
         homepage_user_widgets = []
         for wid in user_widgets.read(widget_ids, ['widget_id', 'user_id'], ctx):
             widget = widgets.read([wid['widget_id'][0]], [], ctx)[0]
-            if not wid['user_id']:
-                 # Global widgets are not removable
-                widget['not_remove'] = True
+            widget['removable'] = bool(wid['user_id'])
             widget['user_widget_id'] = wid['id']
             homepage_user_widgets.append(widget)
             
