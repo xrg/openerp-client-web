@@ -922,9 +922,6 @@ class Form(SecuredController):
         type = action.get('type')
         act_id = params.action
 
-        if not params.selection and not params.id:
-            raise common.message(_('You must save this record to use the sidebar button'))
-
         if not act_id:
             return self.do_action('client_action_multi', datas=kw)
 
