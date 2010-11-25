@@ -1,27 +1,29 @@
-# Ukrainian translation for openobject-client-web
-# Copyright (c) 2010 Rosetta Contributors and Canonical Ltd 2010
-# This file is distributed under the same license as the openobject-client-web package.
+# Ukrainian translations for PROJECT.
+# Copyright (C) 2010 ORGANIZATION
+# This file is distributed under the same license as the PROJECT project.
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2010.
 #
+#, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: openobject-client-web\n"
-"Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
+"Project-Id-Version: PROJECT VERSION\n"
+"Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2010-10-26 10:51+0200\n"
-"PO-Revision-Date: 2010-11-24 07:23+0000\n"
-"Last-Translator: cpa(OpenERP) <cpa@tinyerp.com>\n"
-"Language-Team: Ukrainian <uk@li.org>\n"
+"PO-Revision-Date: 2010-11-25 10:31+0530\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: uk <LL@li.org>\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
+"n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2)\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2010-11-25 04:52+0000\n"
-"X-Generator: Launchpad (build Unknown)\n"
+"Generated-By: Babel None\n"
 
-#: controllers/_diagram.py:100 controllers/_diagram.py:216
+#: controllers/_diagram.py:100 controllers/_diagram.py:160
 msgid "Could not delete state"
 msgstr ""
 
-#: controllers/_diagram.py:279
+#: controllers/_diagram.py:223
 msgid "No workflow associated!"
 msgstr ""
 
@@ -38,53 +40,61 @@ msgstr ""
 msgid "Last modified by:"
 msgstr ""
 
-#: controllers/templates/process.mako:4 controllers/templates/process.mako:73
+#: controllers/templates/process.mako:4 controllers/templates/process.mako:89
 #: controllers/templates/process_tip.mako:5
 msgid "Process"
-msgstr "Процес"
-
-#: controllers/templates/process.mako:50
-msgid "Help:"
-msgstr "Довідка:"
-
-#: controllers/templates/process.mako:53
-msgid "Online Documentation"
-msgstr "Документація в інтернеті"
-
-#: controllers/templates/process.mako:56
-msgid "Community Forum"
-msgstr "Форум комьюніті"
-
-#: controllers/templates/process.mako:59
-msgid "Get Books"
 msgstr ""
 
-#: controllers/templates/process.mako:62
+#: controllers/templates/process.mako:51
+msgid "show fields"
+msgstr ""
+
+#: controllers/templates/process.mako:52
+msgid "hide fields"
+msgstr ""
+
+#: controllers/templates/process.mako:57
+msgid "Documentation"
+msgstr ""
+
+#: controllers/templates/process.mako:58
+msgid "Opportunities Documentation Online"
+msgstr ""
+
+#: controllers/templates/process.mako:64
+msgid "Forum"
+msgstr ""
+
+#: controllers/templates/process.mako:65
+msgid "Community Discussion"
+msgstr ""
+
+#: controllers/templates/process.mako:70
+msgid "Books"
+msgstr ""
+
+#: controllers/templates/process.mako:71
+msgid "Get the book on Amazon"
+msgstr ""
+
+#: controllers/templates/process.mako:76
+msgid "Support / Maintenance"
+msgstr ""
+
+#: controllers/templates/process.mako:77
 msgid "Get the OpenERP Warranty"
-msgstr "Отримати гарантію OpenERP"
+msgstr ""
 
-#: controllers/templates/process.mako:83
+#: controllers/templates/process.mako:99
 msgid "Select Process"
-msgstr "Виберіть Процесс"
+msgstr ""
 
-#: controllers/templates/process.mako:89
+#: controllers/templates/process.mako:105
 msgid "Select"
-msgstr "Вибрати"
+msgstr ""
 
-#: controllers/templates/process.mako:102
+#: controllers/templates/process.mako:118
 msgid "[Edit Process]"
-msgstr ""
-
-#: controllers/templates/process.mako:112
-msgid "fields"
-msgstr ""
-
-#: controllers/templates/process.mako:113
-msgid "show"
-msgstr ""
-
-#: controllers/templates/process.mako:114
-msgid "hide"
 msgstr ""
 
 #: controllers/templates/process_open.mako:54
@@ -118,3 +128,25 @@ msgstr ""
 #: widgets/templates/diagram.mako:26
 msgid "Loading..."
 msgstr ""
+
+#~ msgid "Help:"
+#~ msgstr ""
+
+#~ msgid "Online Documentation"
+#~ msgstr ""
+
+#~ msgid "Community Forum"
+#~ msgstr ""
+
+#~ msgid "Get Books"
+#~ msgstr ""
+
+#~ msgid "fields"
+#~ msgstr ""
+
+#~ msgid "show"
+#~ msgstr ""
+
+#~ msgid "hide"
+#~ msgstr ""
+

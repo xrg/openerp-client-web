@@ -8,38 +8,37 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2010-10-26 10:51+0200\n"
+"POT-Creation-Date: 2010-11-25 10:30+0530\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Generated-By: Babel 0.9.4\n"
+"Generated-By: Babel None\n"
 
-#: static/javascript/form.js:99
+#: static/javascript/form.js:100
 #, python-format
 msgid "You selected to open %(tabs)s tabs - do you want to continue?"
 msgstr ""
 
-#: static/javascript/form.js:228
+#: static/javascript/form.js:177
 msgid "Invalid form, correct red fields."
 msgstr ""
 
-#: static/javascript/form.js:263
+#: static/javascript/form.js:212
 msgid "Do you really want to delete this record?"
 msgstr ""
 
-#: static/javascript/form.js:892 static/javascript/form.js:1016
-#: static/javascript/listgrid.js:603
-msgid "You must select at least one record."
-msgstr ""
-
-#: static/javascript/form.js:1039
+#: static/javascript/form.js:957
 msgid "Do you really want to delete the attachment"
 msgstr ""
 
-#: static/javascript/listgrid.js:605
+#: static/javascript/listgrid.js:510 static/javascript/o2m.js:103
+msgid "To edit Record, please first save it."
+msgstr ""
+
+#: static/javascript/listgrid.js:618
 msgid "Do you really want to delete selected record(s) ?"
 msgstr ""
 

@@ -8,14 +8,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2010-10-26 10:51+0200\n"
+"POT-Creation-Date: 2010-11-25 10:30+0530\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Generated-By: Babel 0.9.4\n"
+"Generated-By: Babel None\n"
 
 #: controllers/templates/calpopup.mako:78
 msgid "Save"
@@ -122,74 +122,74 @@ msgstr ""
 msgid "%(first)s to %(last)s %(month)s"
 msgstr ""
 
-#: widgets/widgets.py:274
+#: widgets/widgets.py:289
 #, python-format
 msgid "%s, Week %s"
 msgstr ""
 
-#: widgets/widgets.py:287
+#: widgets/widgets.py:302
 #, python-format
 msgid "%s - %s"
 msgstr ""
 
-#: widgets/widgets.py:289 widgets/widgets.py:312 widgets/widgets.py:356
+#: widgets/widgets.py:304 widgets/widgets.py:327 widgets/widgets.py:371
 #, python-format
 msgid "Week %s"
 msgstr ""
 
-#: widgets/widgets.py:304
+#: widgets/widgets.py:319
 #, python-format
 msgid "%s, Qtr %s"
 msgstr ""
 
-#: widgets/widgets.py:323
+#: widgets/widgets.py:338
 #, python-format
 msgid "W %s"
 msgstr ""
 
-#: widgets/widgets.py:331 widgets/widgets.py:345
+#: widgets/widgets.py:346 widgets/widgets.py:360
 #, python-format
 msgid "Year %s to Year %s"
 msgstr ""
 
-#: widgets/templates/day.mako:10 widgets/templates/day.mako:13
-#: widgets/templates/gantt.mako:11 widgets/templates/month.mako:10
-#: widgets/templates/week.mako:10
+#: widgets/templates/day.mako:8 widgets/templates/day.mako:11
+#: widgets/templates/gantt.mako:11 widgets/templates/month.mako:8
+#: widgets/templates/week.mako:8
 msgid "Today"
 msgstr ""
 
-#: widgets/templates/day.mako:18 widgets/templates/month.mako:14
-#: widgets/templates/week.mako:14
+#: widgets/templates/day.mako:34 widgets/templates/month.mako:28
+#: widgets/templates/week.mako:30
 msgid "Month Calendar..."
 msgstr ""
 
-#: widgets/templates/day.mako:19 widgets/templates/month.mako:14
-#: widgets/templates/week.mako:15
+#: widgets/templates/day.mako:35 widgets/templates/month.mako:28
+#: widgets/templates/week.mako:31
 msgid "Month"
 msgstr ""
 
-#: widgets/templates/day.mako:22 widgets/templates/month.mako:17
-#: widgets/templates/week.mako:18
+#: widgets/templates/day.mako:38 widgets/templates/month.mako:31
+#: widgets/templates/week.mako:34
 msgid "Week Calendar..."
 msgstr ""
 
-#: widgets/templates/day.mako:23 widgets/templates/month.mako:18
-#: widgets/templates/week.mako:18
+#: widgets/templates/day.mako:39 widgets/templates/month.mako:32
+#: widgets/templates/week.mako:34
 msgid "Week"
 msgstr ""
 
-#: widgets/templates/day.mako:27 widgets/templates/month.mako:21
-#: widgets/templates/week.mako:21
+#: widgets/templates/day.mako:43 widgets/templates/month.mako:35
+#: widgets/templates/week.mako:37
 msgid "Day Calendar..."
 msgstr ""
 
-#: widgets/templates/day.mako:27 widgets/templates/month.mako:22
-#: widgets/templates/week.mako:22
+#: widgets/templates/day.mako:43 widgets/templates/month.mako:36
+#: widgets/templates/week.mako:38
 msgid "Day"
 msgstr ""
 
-#: widgets/templates/gantt.mako:10 widgets/templates/month.mako:9
-#: widgets/templates/week.mako:9
+#: widgets/templates/gantt.mako:10 widgets/templates/month.mako:7
+#: widgets/templates/week.mako:7
 msgid "Today..."
 msgstr ""
 
@@ -209,15 +209,7 @@ msgstr ""
 msgid "Navigator"
 msgstr ""
 
-#: widgets/templates/sidebar.mako:12
-msgid "Filter"
-msgstr ""
-
-#: widgets/templates/sidebar.mako:18
-msgid "Apply search filter"
-msgstr ""
-
-#: widgets/templates/week.mako:29
+#: widgets/templates/week.mako:24
 #, python-format
 msgid "Week %(number)s"
 msgstr ""

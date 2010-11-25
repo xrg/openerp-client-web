@@ -1,223 +1,223 @@
-# Italian translation for openobject-client-web
-# Copyright (c) 2010 Rosetta Contributors and Canonical Ltd 2010
-# This file is distributed under the same license as the openobject-client-web package.
+# Italian translations for PROJECT.
+# Copyright (C) 2010 ORGANIZATION
+# This file is distributed under the same license as the PROJECT project.
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2010.
 #
+#, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: openobject-client-web\n"
-"Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
+"Project-Id-Version: PROJECT VERSION\n"
+"Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2010-10-26 10:51+0200\n"
-"PO-Revision-Date: 2010-11-13 08:14+0000\n"
-"Last-Translator: Davide Corio - Domsense <davide.corio@domsense.com>\n"
-"Language-Team: Italian <it@li.org>\n"
+"PO-Revision-Date: 2010-11-25 10:31+0530\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: it <LL@li.org>\n"
+"Plural-Forms: nplurals=2; plural=(n != 1)\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2010-11-14 05:06+0000\n"
-"X-Generator: Launchpad (build Unknown)\n"
+"Generated-By: Babel None\n"
 
 #: controllers/templates/calpopup.mako:78
 msgid "Save"
-msgstr "Salva"
+msgstr ""
 
 #: controllers/templates/calpopup.mako:81
 msgid "Close"
-msgstr "Chiudi"
+msgstr ""
 
 #: widgets/_views.py:10
 msgid "Calendar"
-msgstr "Calendario"
+msgstr ""
 
 #: widgets/_views.py:11
 msgid "Calendar view..."
-msgstr "Vista calendario..."
+msgstr ""
 
 #: widgets/_views.py:28
 msgid "Gantt"
-msgstr "Gantt"
+msgstr ""
 
 #: widgets/_views.py:29
 msgid "Gantt view..."
-msgstr "Vista gantt..."
+msgstr ""
 
 #: widgets/utils.py:34
 msgid "Monday"
-msgstr "Lunedì"
+msgstr ""
 
 #: widgets/utils.py:35
 msgid "Tuesday"
-msgstr "Martedì"
+msgstr ""
 
 #: widgets/utils.py:36
 msgid "Wednesday"
-msgstr "Mercoledì"
+msgstr ""
 
 #: widgets/utils.py:37
 msgid "Thursday"
-msgstr "Giovedì"
+msgstr ""
 
 #: widgets/utils.py:38
 msgid "Friday"
-msgstr "Venerdì"
+msgstr ""
 
 #: widgets/utils.py:39
 msgid "Saturday"
-msgstr "Sabato"
+msgstr ""
 
 #: widgets/utils.py:40
 msgid "Sunday"
-msgstr "Domenica"
+msgstr ""
 
 #: widgets/utils.py:43
 msgid "January"
-msgstr "Gennaio"
+msgstr ""
 
 #: widgets/utils.py:44
 msgid "February"
-msgstr "Febbraio"
+msgstr ""
 
 #: widgets/utils.py:45
 msgid "March"
-msgstr "Marzo"
+msgstr ""
 
 #: widgets/utils.py:46
 msgid "April"
-msgstr "Aprile"
+msgstr ""
 
 #: widgets/utils.py:47
 msgid "May"
-msgstr "Maggio"
+msgstr ""
 
 #: widgets/utils.py:48
 msgid "June"
-msgstr "Giugno"
+msgstr ""
 
 #: widgets/utils.py:49
 msgid "July"
-msgstr "Luglio"
+msgstr ""
 
 #: widgets/utils.py:50
 msgid "August"
-msgstr "Agosto"
+msgstr ""
 
 #: widgets/utils.py:51
 msgid "September"
-msgstr "Settembre"
+msgstr ""
 
 #: widgets/utils.py:52
 msgid "October"
-msgstr "Ottobre"
+msgstr ""
 
 #: widgets/utils.py:53
 msgid "November"
-msgstr "Novembre"
+msgstr ""
 
 #: widgets/utils.py:54
 msgid "December"
-msgstr "Dicembre"
+msgstr ""
 
 #: widgets/utils.py:178
 #, python-format
 msgid "%(first)s to %(last)s %(month)s"
-msgstr "%(first)s - %(last)s %(month)s"
+msgstr ""
 
-#: widgets/widgets.py:274
+#: widgets/widgets.py:289
 #, python-format
 msgid "%s, Week %s"
-msgstr "%s, Settimana %s"
+msgstr ""
 
-#: widgets/widgets.py:287
+#: widgets/widgets.py:302
 #, python-format
 msgid "%s - %s"
-msgstr "%s - %s"
+msgstr ""
 
-#: widgets/widgets.py:289 widgets/widgets.py:312 widgets/widgets.py:356
+#: widgets/widgets.py:304 widgets/widgets.py:327 widgets/widgets.py:371
 #, python-format
 msgid "Week %s"
-msgstr "Settimana %s"
+msgstr ""
 
-#: widgets/widgets.py:304
+#: widgets/widgets.py:319
 #, python-format
 msgid "%s, Qtr %s"
-msgstr "%s, Quadrimestre %s"
+msgstr ""
 
-#: widgets/widgets.py:323
+#: widgets/widgets.py:338
 #, python-format
 msgid "W %s"
-msgstr "W %s"
+msgstr ""
 
-#: widgets/widgets.py:331 widgets/widgets.py:345
+#: widgets/widgets.py:346 widgets/widgets.py:360
 #, python-format
 msgid "Year %s to Year %s"
-msgstr "Year %s - Year %s"
+msgstr ""
 
-#: widgets/templates/day.mako:10 widgets/templates/day.mako:13
-#: widgets/templates/gantt.mako:11 widgets/templates/month.mako:10
-#: widgets/templates/week.mako:10
+#: widgets/templates/day.mako:8 widgets/templates/day.mako:11
+#: widgets/templates/gantt.mako:11 widgets/templates/month.mako:8
+#: widgets/templates/week.mako:8
 msgid "Today"
-msgstr "Oggi"
+msgstr ""
 
-#: widgets/templates/day.mako:18 widgets/templates/month.mako:14
-#: widgets/templates/week.mako:14
+#: widgets/templates/day.mako:34 widgets/templates/month.mako:28
+#: widgets/templates/week.mako:30
 msgid "Month Calendar..."
-msgstr "Calendario Mensile..."
+msgstr ""
 
-#: widgets/templates/day.mako:19 widgets/templates/month.mako:14
-#: widgets/templates/week.mako:15
+#: widgets/templates/day.mako:35 widgets/templates/month.mako:28
+#: widgets/templates/week.mako:31
 msgid "Month"
-msgstr "Mese"
+msgstr ""
 
-#: widgets/templates/day.mako:22 widgets/templates/month.mako:17
-#: widgets/templates/week.mako:18
+#: widgets/templates/day.mako:38 widgets/templates/month.mako:31
+#: widgets/templates/week.mako:34
 msgid "Week Calendar..."
-msgstr "Calendario Settimanale..."
+msgstr ""
 
-#: widgets/templates/day.mako:23 widgets/templates/month.mako:18
-#: widgets/templates/week.mako:18
+#: widgets/templates/day.mako:39 widgets/templates/month.mako:32
+#: widgets/templates/week.mako:34
 msgid "Week"
-msgstr "Settimana"
+msgstr ""
 
-#: widgets/templates/day.mako:27 widgets/templates/month.mako:21
-#: widgets/templates/week.mako:21
+#: widgets/templates/day.mako:43 widgets/templates/month.mako:35
+#: widgets/templates/week.mako:37
 msgid "Day Calendar..."
-msgstr "Calendario Giornaliero..."
+msgstr ""
 
-#: widgets/templates/day.mako:27 widgets/templates/month.mako:22
-#: widgets/templates/week.mako:22
+#: widgets/templates/day.mako:43 widgets/templates/month.mako:36
+#: widgets/templates/week.mako:38
 msgid "Day"
-msgstr "Giorno"
+msgstr ""
 
-#: widgets/templates/gantt.mako:10 widgets/templates/month.mako:9
-#: widgets/templates/week.mako:9
+#: widgets/templates/gantt.mako:10 widgets/templates/month.mako:7
+#: widgets/templates/week.mako:7
 msgid "Today..."
-msgstr "Oggi..."
+msgstr ""
 
 #: widgets/templates/gantt.mako:17 widgets/templates/gantt.mako:19
 msgid "Zoom In"
-msgstr "Zoom In"
+msgstr ""
 
 #: widgets/templates/gantt.mako:25 widgets/templates/gantt.mako:27
 msgid "Zoom Out"
-msgstr "Zoom Out"
+msgstr ""
 
 #: widgets/templates/groups.mako:4
 msgid "Add"
-msgstr "Aggiungi"
+msgstr ""
 
 #: widgets/templates/sidebar.mako:3
 msgid "Navigator"
-msgstr "Navigatore"
+msgstr ""
 
-#: widgets/templates/sidebar.mako:12
-msgid "Filter"
-msgstr "Filtro"
-
-#: widgets/templates/sidebar.mako:18
-msgid "Apply search filter"
-msgstr "Applica filtro di ricerca"
-
-#: widgets/templates/week.mako:29
+#: widgets/templates/week.mako:24
 #, python-format
 msgid "Week %(number)s"
-msgstr "Settimana %(number)s"
+msgstr ""
+
+#~ msgid "Filter"
+#~ msgstr ""
+
+#~ msgid "Apply search filter"
+#~ msgstr ""
+

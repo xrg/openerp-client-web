@@ -1,64 +1,69 @@
-# Serbian translation for openobject-client-web
-# Copyright (c) 2010 Rosetta Contributors and Canonical Ltd 2010
-# This file is distributed under the same license as the openobject-client-web package.
+# Serbian translations for PROJECT.
+# Copyright (C) 2010 ORGANIZATION
+# This file is distributed under the same license as the PROJECT project.
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2010.
 #
+#, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: openobject-client-web\n"
-"Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
+"Project-Id-Version: PROJECT VERSION\n"
+"Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2010-10-26 10:51+0200\n"
-"PO-Revision-Date: 2010-11-13 08:23+0000\n"
-"Last-Translator: OpenERP Web Administrators <Unknown>\n"
-"Language-Team: Serbian <sr@li.org>\n"
+"PO-Revision-Date: 2010-11-25 10:31+0530\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: sr <LL@li.org>\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
+"n%10< =4 && (n%100<10 || n%100>=20) ? 1 : 2)\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2010-11-14 05:06+0000\n"
-"X-Generator: Launchpad (build Unknown)\n"
+"Generated-By: Babel None\n"
 
-#: static/javascript/form.js:99
+#: static/javascript/form.js:100
 #, python-format
 msgid "You selected to open %(tabs)s tabs - do you want to continue?"
-msgstr "Selektovali ste da otvorite %(tabs)s tabove- zelite li da nastavite?"
+msgstr ""
 
-#: static/javascript/form.js:228
+#: static/javascript/form.js:177
 msgid "Invalid form, correct red fields."
-msgstr "Neispravna forma, ispravite crveno oznacena polja"
+msgstr ""
 
-#: static/javascript/form.js:263
+#: static/javascript/form.js:212
 msgid "Do you really want to delete this record?"
-msgstr "da li zaista zelite da izbrisete ovaj zapis?"
+msgstr ""
 
-#: static/javascript/form.js:892 static/javascript/form.js:1016
-#: static/javascript/listgrid.js:603
-msgid "You must select at least one record."
-msgstr "Morate selektovati makar jedan zapis"
-
-#: static/javascript/form.js:1039
+#: static/javascript/form.js:957
 msgid "Do you really want to delete the attachment"
-msgstr "Da li zaista zelite da izbrisete dodatak ( attachment)"
+msgstr ""
 
-#: static/javascript/listgrid.js:605
+#: static/javascript/listgrid.js:510 static/javascript/o2m.js:103
+msgid "To edit Record, please first save it."
+msgstr ""
+
+#: static/javascript/listgrid.js:618
 msgid "Do you really want to delete selected record(s) ?"
-msgstr "Da li zaista zelite da izbrisete izabrani/e zapis/e ?"
+msgstr ""
 
 #: static/javascript/o2m.js:62
 msgid "Do you really want to delete record ?"
-msgstr "Da li zaista zelite da izbrisete zapis?"
+msgstr ""
 
 #: static/javascript/viewed.js:71
 msgid "Do you really want to remove this node?"
-msgstr "Da li zaista zelite da uklonite ovaj cvor?"
+msgstr ""
 
 #: static/javascript/viewed.js:337
 msgid "Do you really wants to create an inherited view here?"
-msgstr "Da li zaista zelite da se ovde kreira poseban pregled?"
+msgstr ""
 
 #: static/javascript/openerp/openerp.ui.tips.js:59
 msgid "Object"
-msgstr "Objekat"
+msgstr ""
 
 #: static/javascript/openerp/openerp.ui.tips.js:60
 msgid "Field"
-msgstr "Polje"
+msgstr ""
+
+#~ msgid "You must select at least one record."
+#~ msgstr ""
+

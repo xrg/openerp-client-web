@@ -1,120 +1,151 @@
-# Italian translation for openobject-client-web
-# Copyright (c) 2010 Rosetta Contributors and Canonical Ltd 2010
-# This file is distributed under the same license as the openobject-client-web package.
+# Italian translations for PROJECT.
+# Copyright (C) 2010 ORGANIZATION
+# This file is distributed under the same license as the PROJECT project.
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2010.
 #
+#, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: openobject-client-web\n"
-"Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
+"Project-Id-Version: PROJECT VERSION\n"
+"Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2010-10-26 10:51+0200\n"
-"PO-Revision-Date: 2010-11-24 07:15+0000\n"
-"Last-Translator: cpa(OpenERP) <cpa@tinyerp.com>\n"
-"Language-Team: Italian <it@li.org>\n"
+"PO-Revision-Date: 2010-11-25 10:31+0530\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: it <LL@li.org>\n"
+"Plural-Forms: nplurals=2; plural=(n != 1)\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2010-11-25 04:52+0000\n"
-"X-Generator: Launchpad (build Unknown)\n"
+"Generated-By: Babel None\n"
 
-#: controllers/_diagram.py:100 controllers/_diagram.py:216
+#: controllers/_diagram.py:100 controllers/_diagram.py:160
 msgid "Could not delete state"
-msgstr "Impossibile eliminare lo stato"
+msgstr ""
 
-#: controllers/_diagram.py:279
+#: controllers/_diagram.py:223
 msgid "No workflow associated!"
-msgstr "Nessun flusso di lavoro associato!"
+msgstr ""
 
 #: controllers/process.py:53
 msgid "Help: Not Defined"
-msgstr "Aiuto: Non definito"
+msgstr ""
 
 #: controllers/process.py:92
 #, python-format
 msgid "%(name)s - Resource: %(resource)s, State: %(state)s"
-msgstr "%(name)s - Risorse: %(resource)s, Stato: %(state)s"
+msgstr ""
 
 #: controllers/process.py:104
 msgid "Last modified by:"
-msgstr "Ultima modifica di:"
-
-#: controllers/templates/process.mako:4 controllers/templates/process.mako:73
-#: controllers/templates/process_tip.mako:5
-msgid "Process"
-msgstr "Processo"
-
-#: controllers/templates/process.mako:50
-msgid "Help:"
-msgstr "Aiuto:"
-
-#: controllers/templates/process.mako:53
-msgid "Online Documentation"
-msgstr "Documentazione Online"
-
-#: controllers/templates/process.mako:56
-msgid "Community Forum"
-msgstr "Forum"
-
-#: controllers/templates/process.mako:59
-msgid "Get Books"
 msgstr ""
 
-#: controllers/templates/process.mako:62
+#: controllers/templates/process.mako:4 controllers/templates/process.mako:89
+#: controllers/templates/process_tip.mako:5
+msgid "Process"
+msgstr ""
+
+#: controllers/templates/process.mako:51
+msgid "show fields"
+msgstr ""
+
+#: controllers/templates/process.mako:52
+msgid "hide fields"
+msgstr ""
+
+#: controllers/templates/process.mako:57
+msgid "Documentation"
+msgstr ""
+
+#: controllers/templates/process.mako:58
+msgid "Opportunities Documentation Online"
+msgstr ""
+
+#: controllers/templates/process.mako:64
+msgid "Forum"
+msgstr ""
+
+#: controllers/templates/process.mako:65
+msgid "Community Discussion"
+msgstr ""
+
+#: controllers/templates/process.mako:70
+msgid "Books"
+msgstr ""
+
+#: controllers/templates/process.mako:71
+msgid "Get the book on Amazon"
+msgstr ""
+
+#: controllers/templates/process.mako:76
+msgid "Support / Maintenance"
+msgstr ""
+
+#: controllers/templates/process.mako:77
 msgid "Get the OpenERP Warranty"
-msgstr "Prendi la Garanzia OpenERP"
+msgstr ""
 
-#: controllers/templates/process.mako:83
+#: controllers/templates/process.mako:99
 msgid "Select Process"
-msgstr "Seleziona processo"
+msgstr ""
 
-#: controllers/templates/process.mako:89
+#: controllers/templates/process.mako:105
 msgid "Select"
-msgstr "Seleziona"
+msgstr ""
 
-#: controllers/templates/process.mako:102
+#: controllers/templates/process.mako:118
 msgid "[Edit Process]"
-msgstr "[Modifica Processo]"
-
-#: controllers/templates/process.mako:112
-msgid "fields"
-msgstr "campi"
-
-#: controllers/templates/process.mako:113
-msgid "show"
-msgstr "mostra"
-
-#: controllers/templates/process.mako:114
-msgid "hide"
-msgstr "nascondi"
+msgstr ""
 
 #: controllers/templates/process_open.mako:54
 #: controllers/templates/process_tip.mako:20
 #: controllers/templates/wkf_popup.mako:52
 msgid "Close"
-msgstr "Chiudi"
+msgstr ""
 
 #: controllers/templates/process_open.mako:55
 #: controllers/templates/wkf_popup.mako:49
 msgid "Save"
-msgstr "Salva"
+msgstr ""
 
 #: controllers/templates/workflow.mako:4
 msgid "Workflow"
-msgstr "Flusso di lavoro"
+msgstr ""
 
 #: controllers/templates/workflow.mako:20
 #, python-format
 msgid "Workflow (%s)"
-msgstr "Workflow (%s)"
+msgstr ""
 
 #: widgets/_views.py:8
 msgid "Diagram"
-msgstr "Diagramma"
+msgstr ""
 
 #: widgets/_views.py:9
 msgid "Diagram view..."
-msgstr "Schema di vista..."
+msgstr ""
 
 #: widgets/templates/diagram.mako:26
 msgid "Loading..."
-msgstr "Caricamento..."
+msgstr ""
+
+#~ msgid "Help:"
+#~ msgstr ""
+
+#~ msgid "Online Documentation"
+#~ msgstr ""
+
+#~ msgid "Community Forum"
+#~ msgstr ""
+
+#~ msgid "Get Books"
+#~ msgstr ""
+
+#~ msgid "fields"
+#~ msgstr ""
+
+#~ msgid "show"
+#~ msgstr ""
+
+#~ msgid "hide"
+#~ msgstr ""
+
