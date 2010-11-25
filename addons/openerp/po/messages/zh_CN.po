@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: openobject-client-web\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2010-10-26 10:51+0200\n"
-"PO-Revision-Date: 2010-11-11 08:17+0000\n"
-"Last-Translator: OpenERP Web Administrators <Unknown>\n"
+"PO-Revision-Date: 2010-11-25 01:31+0000\n"
+"Last-Translator: Wei \"oldrev\" Li <oldrev@gmail.com>\n"
 "Language-Team: Chinese (Simplified) <zh_CN@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2010-11-12 04:45+0000\n"
+"X-Launchpad-Export-Date: 2010-11-25 04:52+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: validators.py:83
@@ -62,7 +62,7 @@ msgstr "还没有一个有效的URL"
 #: validators.py:264
 #, python-format
 msgid "You must provide a full domain name (like %(domain)s.com)"
-msgstr ""
+msgstr "您必须提供一个完整的域名（如：%(domain)s.com）"
 
 #: validators.py:268
 msgid "Please enter an integer value"
@@ -78,19 +78,19 @@ msgstr "无效视图"
 
 #: controllers/actions.py:127
 msgid "Error no report"
-msgstr ""
+msgstr "生成报表出错！"
 
 #: controllers/actions.py:153
 msgid "Nothing to print"
-msgstr ""
+msgstr "没有可打印的东西"
 
 #: controllers/actions.py:170
 msgid "Printing aborted, too long delay"
-msgstr ""
+msgstr "等待超时，打印终止"
 
 #: controllers/actions.py:320
 msgid "Relative URLs are not supported"
-msgstr ""
+msgstr "不支持相关URL"
 
 #: controllers/actions.py:355
 msgid "Action not found"
@@ -102,7 +102,7 @@ msgstr "未定义Action"
 
 #: controllers/attachment.py:63
 msgid "No record selected, You can only attach to existing record..."
-msgstr ""
+msgstr "没有选定记录，您只能附加到存在的记录上"
 
 #: controllers/database.py:72
 msgid "Create database"
@@ -154,105 +154,107 @@ msgstr "帐套:"
 #: controllers/templates/login_ajax.mako:78
 #: controllers/templates/login_ajax.mako:98
 msgid "Password:"
-msgstr ""
+msgstr "密码："
 
 #: controllers/database.py:97
 msgid "Backup database"
-msgstr ""
+msgstr "数据库（账套）备份"
 
 #: controllers/database.py:105
 msgid "Restore database"
-msgstr ""
+msgstr "数据库（账套）恢复"
 
 #: controllers/database.py:108
 msgid "File:"
-msgstr ""
+msgstr "文件："
 
 #: controllers/database.py:114
 msgid "Change Administrator Password"
-msgstr ""
+msgstr "管理员密码更改"
 
 #: controllers/database.py:117
 msgid "Old Password:"
-msgstr ""
+msgstr "旧密码"
 
 #: controllers/database.py:118
 msgid "New Password:"
-msgstr ""
+msgstr "新密码："
 
 #: controllers/database.py:119
 msgid "Confirm Password:"
-msgstr ""
+msgstr "确认密码："
 
 #: controllers/database.py:157
 msgid "You must avoid all accents, space or special characters."
-msgstr ""
+msgstr "必须忽略重音符号、空格及特殊字符。"
 
 #: controllers/database.py:158
 msgid "Bad database name"
-msgstr ""
+msgstr "数据库名错误"
 
 #: controllers/database.py:179 controllers/database.py:187
 #: controllers/database.py:189
 msgid "Could not create database."
-msgstr ""
+msgstr "创建帐套数据库失败。"
 
 #: controllers/database.py:180
 msgid "Database already exists"
-msgstr ""
+msgstr "帐套数据库已经存在"
 
 #: controllers/database.py:183
 msgid ""
 "The server crashed during installation.\n"
 "We suggest you to drop this database."
 msgstr ""
+"账套数据库创建不成功。\n"
+"建议删除该数据库（帐套）。"
 
 #: controllers/database.py:184
 msgid "Error during database creation"
-msgstr ""
+msgstr "账套数据库创建过程中出错"
 
 #: controllers/database.py:186 controllers/database.py:213
 #: controllers/database.py:260
 msgid "Bad database administrator password"
-msgstr ""
+msgstr "账套数据库管理员密码错误"
 
 #: controllers/database.py:214
 msgid "Could not drop database."
-msgstr ""
+msgstr "删除帐套数据库失败。"
 
 #: controllers/database.py:216
 msgid "Could not drop database"
-msgstr ""
+msgstr "删除帐套数据库失败"
 
 #: controllers/database.py:239
 msgid "Could not create backup."
-msgstr ""
+msgstr "备份创建失败"
 
 #: controllers/database.py:261
 msgid "Could not restore database."
-msgstr ""
+msgstr "恢复帐套数据库失败。"
 
 #: controllers/database.py:263
 msgid "Could not restore database"
-msgstr ""
+msgstr "恢复帐套数据库失败。"
 
 #: controllers/database.py:283
 msgid "Could not change super admin password."
-msgstr ""
+msgstr "不能变更超级管理员密码"
 
 #: controllers/database.py:284
 msgid "Bad password provided."
-msgstr ""
+msgstr "密码错误"
 
 #: controllers/database.py:286
 msgid "Error, password not changed."
-msgstr ""
+msgstr "出错，密码未更改。"
 
 #: controllers/error_page.py:86
 msgid ""
 "Your problem has been sent to the quality team\n"
 "We will recontact you after analysing the problem."
-msgstr ""
+msgstr "您的问题已经发送，我们会在分析该问题后和您联系。"
 
 #: controllers/error_page.py:88
 #, python-format
@@ -260,23 +262,25 @@ msgid ""
 "Your problem could not be sent to the quality team\n"
 "Please report this error manually at %s"
 msgstr ""
+"您的问题无法发送到质量控制组\n"
+"请与 %s 联系手工报告该错误"
 
 #: controllers/form.py:545
 msgid "Invalid button type"
-msgstr ""
+msgstr "按键类型无效"
 
 #: controllers/form.py:905 controllers/tree.py:241
 msgid "No record selected"
-msgstr ""
+msgstr "未选择记录"
 
 #: controllers/form.py:932
 msgid "You must save this record to use the sidebar button"
-msgstr ""
+msgstr "您必须使用侧边栏按钮保存这条记录"
 
 #: controllers/form.py:972 utils/rpc.py:130 utils/rpc.py:141 utils/rpc.py:144
 #: widgets/listgrid.py:337 widgets/form/_form.py:910
 msgid "Application Error"
-msgstr ""
+msgstr "应用程序错误"
 
 #: controllers/form.py:972
 #, python-format
@@ -288,33 +292,35 @@ msgid ""
 "Operation failed\n"
 "I/O error"
 msgstr ""
+"操作失败\n"
+"I/O错误"
 
 #: controllers/impex.py:357
 msgid "Export Error"
-msgstr ""
+msgstr "导出错误"
 
 #: controllers/impex.py:368
 msgid ""
 "Please Install xlwt Library.\n"
 "To create spreadsheet files compatible with MS Excel."
-msgstr ""
+msgstr "创建兼容MS Excel的电子表请安装xlwt库文件"
 
 #: controllers/impex.py:368 controllers/impex.py:483
 msgid "Import Error."
-msgstr ""
+msgstr "导入错误"
 
 #: controllers/impex.py:467
 msgid "Error opening .CSV file"
-msgstr ""
+msgstr "打开 .CSV 文件时发生错误"
 
 #: controllers/impex.py:467
 msgid "Input Error."
-msgstr ""
+msgstr "输入错误"
 
 #: controllers/impex.py:480
 #, python-format
 msgid "You cannot import this field %s, because we cannot auto-detect it"
-msgstr ""
+msgstr "您不能导入字段 %s，因为我们不能自动检测它"
 
 #: controllers/impex.py:483
 #, python-format
@@ -325,12 +331,12 @@ msgstr ""
 
 #: controllers/impex.py:510
 msgid "XML-RPC error"
-msgstr ""
+msgstr "XML-RPC 错误"
 
 #: controllers/impex.py:512
 #, python-format
 msgid "Imported %d objects"
-msgstr ""
+msgstr "已导入 %d 个对象"
 
 #: controllers/impex.py:517
 #, python-format
@@ -342,23 +348,28 @@ msgid ""
 "\n"
 "%s"
 msgstr ""
+"试图导入记录失败：\n"
+"%s\n"
+"错误信息：\n"
+"%s\n"
+"%s"
 
 #: controllers/impex.py:518
 msgid "Importation Error"
-msgstr ""
+msgstr "导入错误"
 
 #: controllers/listgrid.py:56
 msgid "Parent record doesn't exists..."
-msgstr ""
+msgstr "父记录不存在"
 
 #: controllers/preferences.py:64 controllers/templates/header.mako:54
 msgid "Preferences"
-msgstr ""
+msgstr "设置"
 
 #: controllers/root.py:169
 #, python-format
 msgid "Version %s"
-msgstr ""
+msgstr "版本 %s"
 
 #: controllers/translator.py:140
 msgid "You need to save the resource before adding translations."
@@ -366,39 +377,39 @@ msgstr ""
 
 #: controllers/tree.py:272
 msgid "No resource selected"
-msgstr ""
+msgstr "没有选择资源"
 
 #: controllers/utils.py:52
 msgid "Could not connect to server"
-msgstr ""
+msgstr "无法连接到服务器"
 
 #: controllers/utils.py:143 controllers/templates/login_ajax.mako:111
 msgid "Bad username or password"
-msgstr ""
+msgstr "用户名或密码错误"
 
 #: controllers/view_log.py:40
 msgid "ID"
-msgstr ""
+msgstr "ID"
 
 #: controllers/view_log.py:41
 msgid "Creation User"
-msgstr ""
+msgstr "创建用户"
 
 #: controllers/view_log.py:42
 msgid "Creation Date"
-msgstr ""
+msgstr "创建日期"
 
 #: controllers/view_log.py:43
 msgid "Latest Modification by"
-msgstr ""
+msgstr "最新更改者"
 
 #: controllers/view_log.py:44
 msgid "Latest Modification Date"
-msgstr ""
+msgstr "最新更改日期"
 
 #: controllers/view_log.py:45
 msgid "Owner"
-msgstr ""
+msgstr "所有者"
 
 #: controllers/view_log.py:46
 msgid "Group Owner"
@@ -406,19 +417,19 @@ msgstr ""
 
 #: controllers/view_log.py:47
 msgid "Access Level"
-msgstr ""
+msgstr "授权级别"
 
 #: controllers/view_log.py:48
 msgid "Internal module data ID"
-msgstr ""
+msgstr "内部模块数据ID"
 
 #: controllers/viewed.py:228
 msgid "Invalid view id."
-msgstr ""
+msgstr "视图ID无效"
 
 #: controllers/viewed.py:504
 msgid "Unable to create inherited view."
-msgstr ""
+msgstr "无法创建继承视图"
 
 #: controllers/viewed.py:506
 msgid "Can't create inherited view here."

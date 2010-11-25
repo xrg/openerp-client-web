@@ -1,4 +1,4 @@
-# Ukrainian translation for openobject-client-web
+# Galician translation for openobject-client-web
 # Copyright (c) 2010 Rosetta Contributors and Canonical Ltd 2010
 # This file is distributed under the same license as the openobject-client-web package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2010.
@@ -8,9 +8,9 @@ msgstr ""
 "Project-Id-Version: openobject-client-web\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2010-10-26 10:51+0200\n"
-"PO-Revision-Date: 2010-11-24 07:00+0000\n"
-"Last-Translator: cpa(OpenERP) <cpa@tinyerp.com>\n"
-"Language-Team: Ukrainian <uk@li.org>\n"
+"PO-Revision-Date: 2010-11-24 14:54+0000\n"
+"Last-Translator: David Diz <Unknown>\n"
+"Language-Team: Galician <gl@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -19,8 +19,8 @@ msgstr ""
 
 #: widgets/_views.py:8
 msgid "Graph"
-msgstr "Графік"
+msgstr "Gráfico"
 
 #: widgets/_views.py:9
 msgid "Graph view..."
-msgstr "Графік перегляду ..."
+msgstr "Vista de gráfico..."
