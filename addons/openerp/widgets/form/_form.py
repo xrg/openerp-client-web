@@ -646,14 +646,21 @@ register_widget(Button, ["button"])
 class Group(TinyWidget):
 
     template = "/openerp/widgets/form/templates/group.mako"
-    params = ["expand_grp_id", "default", "view_type"]
+    params = ["expand_grp_id", "default", "view_type", "states"]
     member_widgets = ["frame"]
     valign = "top"
     colspan = 4
     col = 4
+    states = None
+    visible = True
 
     def __init__(self, **attrs):
         super(Group, self).__init__(**attrs)
+
+        if isinstance(self.states, basestring):
+            self.states = self.states.split(',')
+        self.set_state(attrs.get('state', 'draft'))
+
         self.default = int(attrs.get('expand', 0))
         self.frame = Frame(**attrs)
         self.nolabel = True
@@ -662,6 +669,10 @@ class Group(TinyWidget):
         if attrs.get('group_by_ctx'):
             self.default = 1
         self.expand_grp_id = 'expand_grp_%s' % (random.randint(0,10000))
+
+    def set_state(self, state):
+        if self.states:
+            self.visible = state in self.states
 
 register_widget(Group, ["group"])
 
