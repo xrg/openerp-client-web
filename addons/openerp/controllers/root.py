@@ -34,6 +34,11 @@ from openerp.utils import rpc, cache, TinyDict
 
 from openobject.tools import url, expose, redirect
 
+<<<<<<< TREE
+=======
+_MAXIMUM_NUMBER_WELCOME_MESSAGES = 3
+
+>>>>>>> MERGE-SOURCE
 def _cp_on_error():
     cherrypy.request.pool = openobject.pooler.get_pool()
 
@@ -137,7 +142,7 @@ class Root(SecuredController):
             tools = None
 
         return dict(parents=parents, tools=tools, load_content=(next and next or ''),
-                    welcome_message=rpc.RPCProxy('publisher_warranty.contract').get_last_user_message(),
+                    welcome_messages=rpc.RPCProxy('publisher_warranty.contract').get_last_user_messages(_MAXIMUM_NUMBER_WELCOME_MESSAGES),
                     widgets=openobject.pooler.get_pool()\
                                       .get_controller('/openerp/widgets')\
                                       .user_home_widgets(ctx))

@@ -138,17 +138,11 @@
                                     </div>
                                 </td>
                                 <td class="tertiary">
-                                	% if welcome_message:
+                                	% for welcome_message in welcome_messages:
                                     <div id="welcome_message">
-                                		${welcome_message|n}
+                                		${welcome_message[1]|n}
                                     </div>
-                                    % endif
-                                    <div class="sideheader-a">
-                                        <a href="${py.url('/openerp/widgets/add')}"
-                                           id="add_user_widget" class="button-a"
-                                                style="right: 1px;">${_("Add")}</a>
-                                        <h2>${_("Widgets")}</h2>
-                                    </div>
+                                    % endfor
                                     <div class="box-a" id="user_widgets">
                                         % for widget in widgets:
                                             <div class="sideheader-a" style="padding: 0">
