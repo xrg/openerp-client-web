@@ -79,5 +79,4 @@ class Preferences(Form):
     @expose()
     def clear_cache(self):
         cache.clear()
-        raise redirect('/openerp')
-# vim: ts=4 sts=4 sw=4 si et
+        raise redirect('/')
