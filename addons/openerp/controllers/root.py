@@ -34,7 +34,6 @@ from openerp.utils import rpc, cache, TinyDict
 
 from openobject.tools import url, expose, redirect
 
-
 def _cp_on_error():
     cherrypy.request.pool = openobject.pooler.get_pool()
 
@@ -105,8 +104,8 @@ class Root(SecuredController):
         ctx = rpc.session.context.copy()
         menus = rpc.RPCProxy("ir.ui.menu")
         ids = menus.search([('parent_id', '=', False)], 0, 0, 0, ctx)
-        parents = menus.read(ids, ['name', 'action', 'web_icon_datas', 'web_icon_hover_datas'], ctx)
-            
+        parents = menus.read(ids, ['name', 'action', 'web_icon_data', 'web_icon_hover_data'], ctx)
+
         for parent in parents:
             if parent['id'] == id:
                 parent['active'] = 'active'

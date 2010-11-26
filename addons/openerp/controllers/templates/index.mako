@@ -106,11 +106,11 @@
                                                             <table width="100%" height="100%" cellspacing="0" cellpadding="1">
                                                                 <tr>
                                                                     <td align="center" style="height: 100px;">
-                                                                        % if parent.get('web_icon_datas'):
-                                                                            <img id="web_icon" src="data:image/png;base64,${parent['web_icon_datas']}"/>
+                                                                        % if parent['web_icon_data']:
+                                                                            <img id="web_icon" src="data:image/png;base64,${parent['web_icon_data']}"/>
                                                                         % endif
-                                                                        %if parent.get('web_icon_hover_datas'):
-                                                                            <img id="web_icon_hover" src="data:image/png;base64,${parent['web_icon_hover_datas']}"/>
+                                                                        %if parent['web_icon_hover_data']:
+                                                                            <img id="web_icon_hover" src="data:image/png;base64,${parent['web_icon_hover_data']}"/>
                                                                         % endif
                                                                     </td>
                                                                 </tr>
