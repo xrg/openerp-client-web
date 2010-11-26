@@ -34,6 +34,8 @@ from openerp.widgets import get_widget
 from openobject.i18n import format
 
 from listgrid import List, CELLTYPES
+from pager import Pager
+
 
 def parse(group_by, hiddens, headers, group_level, groups):
 
@@ -213,6 +215,12 @@ class ListGroup(List):
 
         self.grouped, grp_ids = parse_groups(self.group_by_ctx, self.grp_records, self.headers, self.ids, model,  self.offset, self.limit, self.context, self.data, self.field_total, fields)
 
+        if self.pageable:
+            self.count = len(self.grouped)
+            self.pager = Pager(ids=self.ids, offset=self.offset, limit=self.limit, count=self.count)
+            self.pager._name = self.name
+
+
 class MultipleGroup(List):
 
     template = "/openerp/widgets/templates/multiple_group.mako"
@@ -229,6 +237,7 @@ class MultipleGroup(List):
         self.offset = kw.get('offset', 0)
         self.limit = kw.get('limit', 50)
         self.count = kw.get('count', 0)
+
         self.link = kw.get('nolinks')
         self.parent_group = parent_group or None
         self.group_level = group_level or 0

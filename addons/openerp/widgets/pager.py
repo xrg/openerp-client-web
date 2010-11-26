@@ -40,7 +40,6 @@ class Pager(TinyWidget):
     UNLIMITED = -1
 
     def __init__(self, id=False, ids=[], offset=0, limit=50, count=0, view_type='tree'):
-
         super(Pager, self).__init__()
 
         self.id = id
@@ -50,8 +49,6 @@ class Pager(TinyWidget):
         self.offset = offset or 0
         self.limit = limit or 50
         self.count = count or 0
-        self.pager_options = []
-        
         self.pager_options = [20, 50, 100, 500]
 
         if self.limit != Pager.UNLIMITED and len(self.ids) > self.limit:
@@ -70,6 +67,7 @@ class Pager(TinyWidget):
             self.next = index < self.count
 
         else:
+
             index = (self.count or 0) and self.offset + 1
 
             o = self.offset + len(self.ids)

@@ -18,9 +18,9 @@ background = '#F5F5F5'
                         subgroup_expander = ''
                         subgroup_class = ''
                     else:
-	                    subgroup_expander = "new ListView('%s').group_by('%s', '%s', '%s', this)" % (
-	                        name, grp_row['group_by_id'], grp_row['group_id'], group_by_no_leaf)
-	                    subgroup_class = 'group-expand'
+                      subgroup_expander = "new ListView('%s').group_by('%s', '%s', '%s', this)" % (
+                          name, grp_row['group_by_id'], grp_row['group_id'], group_by_no_leaf)
+                      subgroup_class = 'group-expand'
                 else:
                     subgroup_expander = ''
                     subgroup_class = ''
