@@ -1550,12 +1550,11 @@ ul.sections-a li span.wrap a {
     border-bottom-color: #bcbbbb;
 }
 
-#web_icon,
-#web_icon_hover {
+li.web_dashboard img {
     vertical-align: middle;
 }
 
-#web_icon_hover {
+li.web_dashboard img.hover {
     display: none;
 }
 

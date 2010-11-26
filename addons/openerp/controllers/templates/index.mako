@@ -12,6 +12,14 @@
         var CAL_INSTANCE = null;
 
         jQuery(document).ready(function () {
+            jQuery('.web_dashboard').hover(function () {
+                var $dashboard_item = jQuery(this);
+                if(!$dashboard_item.find('img.hover')) {
+                    return;
+                }
+                $dashboard_item.find('img').toggle();
+            });
+
             // Don't load doc if there is a hash-url, it takes precedence
             if(DOCUMENT_TO_LOAD && !hashUrl()) {
                 openLink(DOCUMENT_TO_LOAD);
@@ -107,10 +115,10 @@
                                                                 <tr>
                                                                     <td align="center" style="height: 100px;">
                                                                         % if parent['web_icon_data']:
-                                                                            <img id="web_icon" src="data:image/png;base64,${parent['web_icon_data']}"/>
+                                                                            <img src="data:image/png;base64,${parent['web_icon_data']}" alt=""/>
                                                                         % endif
                                                                         %if parent['web_icon_hover_data']:
-                                                                            <img id="web_icon_hover" src="data:image/png;base64,${parent['web_icon_hover_data']}"/>
+                                                                            <img class="hover" src="data:image/png;base64,${parent['web_icon_hover_data']}" alt=""/>
                                                                         % endif
                                                                     </td>
                                                                 </tr>
@@ -124,20 +132,6 @@
                                                             </table>
                                                         </a>
                                                     </span>
-                                                    % if parent.get('web_icon_hover_datas'):
-                                                        <script type="text/javascript">
-                                                            jQuery(document).ready(function(){
-                                                                jQuery("li.web_dashboard#${parent['id']}").mouseover(function() {
-                                                                    jQuery(this).find('#web_icon').hide();
-                                                                    jQuery(this).find('#web_icon_hover').show();
-                                                                });
-                                                                jQuery("li.web_dashboard#${parent['id']}").mouseout(function(){
-                                                                    jQuery(this).find('#web_icon').show();
-                                                                    jQuery(this).find('#web_icon_hover').hide();
-                                                                });
-                                                            });
-                                                        </script>
-                                                    % endif
                                                 </li>
                                             % endfor
                                         </ul>

@@ -110,7 +110,10 @@ class Root(SecuredController):
             if parent['id'] == id:
                 parent['active'] = 'active'
                 if parent.get('action') and not next:
-                    next = url('/openerp/custom_action', action=id)  
+                    next = url('/openerp/custom_action', action=id)
+            # If only the hover image exists, use it as regular image as well
+            if parent['web_icon_hover_data'] and not parent['web_icon_data']:
+                parent['web_icon_data'] = parent['web_icon_hover_data']
 
         if next or active:
             if not id and ids:
