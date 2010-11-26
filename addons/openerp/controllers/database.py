@@ -138,6 +138,27 @@ class Database(BaseController):
     _cp_path = "/openerp/database"
     msg = {}
 
+    def __init__(self, *args, **kwargs):
+        super(Database, self).__init__(*args, **kwargs)
+        self._msg = {}
+
+    def get_msg(self):
+        return self._msg
+
+    def set_msg(self, msg):
+        # msg will be displayed by javascript:
+        # we need to remove some characters like '\n':
+        if 'title' in msg:
+            msg['title'] = msg['title'].replace('\n', '')
+        if 'message' in msg:
+            msg['message'] = msg['message'].replace('\n', '')
+        self._msg = msg
+
+    msg = property(get_msg, set_msg)
+
+    def sanitize(self, msg):
+        return msg.replace('\n', '<br />')
+
     @expose()
     def index(self, *args, **kw):
         self.msg = {}
