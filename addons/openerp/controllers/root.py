@@ -34,11 +34,8 @@ from openerp.utils import rpc, cache, TinyDict
 
 from openobject.tools import url, expose, redirect
 
-<<<<<<< TREE
-=======
 _MAXIMUM_NUMBER_WELCOME_MESSAGES = 3
 
->>>>>>> MERGE-SOURCE
 def _cp_on_error():
     cherrypy.request.pool = openobject.pooler.get_pool()
 
