@@ -43,6 +43,23 @@
                              .remove();
                     }, 'json');
             });
+            // Make system logs deletable
+            jQuery('#welcome_message a.close').click(function() {
+                var $mess = jQuery(this);
+                jQuery.post(
+                		$mess.attr('href'),
+                    {log_id: $mess.attr('id')},
+                    function(obj) {
+                        if(obj.error) {
+                            error_display(obj.error);
+                            return;
+                        }
+                        var $root = $mess.closest('.welcome_message_item');
+                        $root.next()
+                             .add($root)
+                             .remove();
+                    }, 'json');
+            });
         });
     </script>
 </%def>
@@ -138,11 +155,18 @@
                                     </div>
                                 </td>
                                 <td class="tertiary">
-                                	% for welcome_message in welcome_messages:
-                                    <div id="welcome_message">
-                                		${welcome_message[1]|n}
+                                    <div id="welcome_message" class="box-a">
+	                                	% for welcome_message in welcome_messages:
+	                                    	<div class="welcome_message_item">
+		                                		${welcome_message[1]|n}
+		                                		% if show_close_btn:
+			                                    	<a id="${welcome_message[0]}"
+				                                        href="${py.url('/openerp/remove_log')}"
+				                                        class="close">&nbsp;&nbsp;&nbsp;&nbsp;</a>
+			                                    % endif
+		                                    </div>
+	                                    % endfor
                                     </div>
-                                    % endfor
                                     <div class="box-a" id="user_widgets">
                                         % for widget in widgets:
                                             <div class="sideheader-a" style="padding: 0">

@@ -1926,6 +1926,10 @@ td.tertiary div.wrap {
 #welcome_message a {
     text-decoration: underline;
 }
+#welcome_message a.close {
+    text-decoration: none;
+    position: inherit;
+}
 
 /* TODO: refactor sidebar as well as the toggle_accordion/open-close-menu
 
