@@ -8,16 +8,34 @@
     <script type="text/javascript" src="/openerp/static/javascript/notebook/notebook.js"></script>
     
     <script type="text/javascript">
-        var DOCUMENT_TO_LOAD = "${load_content}";
+        var DOCUMENT_TO_LOAD = "${load_content|n}";
         var CAL_INSTANCE = null;
 
         jQuery(document).ready(function () {
             // Don't load doc if there is a hash-url, it takes precedence
             if(DOCUMENT_TO_LOAD && !hashUrl()) {
                 openLink(DOCUMENT_TO_LOAD);
+                return
             }
+
+            // Make user home widgets deletable
+            jQuery('#user_widgets a.close').click(function() {
+                var $widget = jQuery(this);
+                jQuery.post(
+                    $widget.attr('href'),
+                    {widget_id: $widget.attr('id')},
+                    function(obj) {
+                        if(obj.error) {
+                            error_display(obj.error);
+                            return;
+                        }
+                        var $root = $widget.closest('.sideheader-a');
+                        $root.next()
+                             .add($root)
+                             .remove();
+                    }, 'json');
+            });
         });
-        
     </script>
 </%def>
 
@@ -148,12 +166,23 @@
                                         </ul>
                                     </div>
                                     % endif
-                                    <div class="box-a" style="margin-top: 10px">
-                                        <ul class="side">
-                                        </ul>
+                                    <div class="sideheader-a">
+                                        <a href="${py.url('/openerp/widgets/add')}"
+                                           id="add_user_widget" class="button-a"
+                                                style="right: 1px;">${_("Add")}</a>
+                                        <h2>${_("Widgets")}</h2>
+                                    </div>
+                                    <div class="box-a" id="user_widgets">
                                         % for widget in widgets:
                                             <div class="sideheader-a" style="padding: 0">
-                                                <h2>${widget['title']}</h2>
+                                                % if widget['removable']:
+                                                    <a id="${widget['user_widget_id']}"
+                                                       href="${py.url('/openerp/widgets/remove')}"
+                                                       class="close">${_("Close")}</a>
+                                                % endif
+                                                <h3>${widget['title']}</h3>
+                                            </div>
+                                            <div class="clean-a">
                                                 ${widget['content']|n}
                                             </div>
                                         % endfor

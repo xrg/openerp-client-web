@@ -52,14 +52,18 @@ else:
                 </li>
 
                 <li class="preferences">
-                    <a href="${py.url('/openerp/pref/create')}" class="preferences" target="_blank">${_("Preferences")}</a>
+                    <a href="${py.url('/openerp/pref/create')}"
+                       class="preferences" target="_blank">${_("Preferences")}</a>
                     <ul>
-                        <li class="first last"><a href="${py.url('/openerp/pref/create')}" target="_blank">${_("Edit Preferences")}</a></li>
+                        <li class="first last"><a href="${py.url('/openerp/pref/create')}"
+                                                  target="_blank">${_("Edit Preferences")}</a></li>
                     </ul>
                 </li>
-                <li><a href="/openerp/about" class="info">${_("About")}</a>
+                <li><a href="${py.url('/', next='/openerp/about')}"
+                       target="_top" class="info">${_("About")}</a>
                     <ul>
-                        <li class="first last"><a href="/openerp/about">${_("About")}</a></li>
+                        <li class="first last"><a href="${py.url('/', next='/openerp/about')}"
+                                                  target="_top">${_("About")}</a></li>
                     </ul>
                 </li>
 
@@ -70,9 +74,11 @@ else:
                 </li>
 
                 % if cp.config('server.environment') == 'production':
-                    <li id="clear_cache"><a href="${py.url('/openerp/pref/clear_cache')}" class="clear_cache">${_("Clear Cache")}</a>
+                    <li id="clear_cache"><a href="${py.url('/openerp/pref/clear_cache')}"
+                                            class="clear_cache" target="_top">${_("Clear Cache")}</a>
                         <ul>
-                            <li class="first last"><a href="javascript: void(0);">${_("Clear Cache")}</a></li>
+                            <li class="first last"><a href="${py.url('/openerp/pref/clear_cache')}"
+                                                      target="_top">${_("Clear Cache")}</a></li>
                         </ul>
                     </li>
                 % endif

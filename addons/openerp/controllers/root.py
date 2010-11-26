@@ -29,7 +29,7 @@
 import cherrypy
 
 import openobject
-from openerp.controllers import SecuredController, unsecured, actions, login as tiny_login, form
+from openerp.controllers import SecuredController, unsecured, actions, login as tiny_login, form, widgets
 from openerp.utils import rpc, cache, TinyDict
 
 from openobject.tools import url, expose, redirect
@@ -53,7 +53,6 @@ class Root(SecuredController):
     def index(self, next=None):
         """Index page, loads the view defined by `action_id`.
         """
-        
         if not next:
             user_action_id = rpc.RPCProxy("res.users").read([rpc.session.uid], ['action_id'], rpc.session.context)[0]['action_id']
             if user_action_id:
@@ -134,10 +133,12 @@ class Root(SecuredController):
         else:
             # display home action
             tools = None
-        widgets = rpc.RPCProxy('res.widget')
-        maintenance = rpc.RPCProxy('maintenance.contract').status()
-        return dict(parents=parents, tools=tools, maintenance=maintenance, load_content=(next and next or ''),
-                    widgets=widgets.read(widgets.search([], 0, 0, 0, ctx), [], ctx))
+
+        return dict(parents=parents, tools=tools, load_content=(next and next or ''),
+                    maintenance=rpc.RPCProxy('maintenance.contract').status(),
+                    widgets=openobject.pooler.get_pool()\
+                                      .get_controller('/openerp/widgets')\
+                                      .user_home_widgets(ctx))
 
     @expose(allow_json=True)
     @unsecured

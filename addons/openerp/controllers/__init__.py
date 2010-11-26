@@ -5,9 +5,10 @@ import error_page
 
 import actions
 
+import widgets
+import form
 import root
 
-import form
 import tree
 import wizard
 import search
