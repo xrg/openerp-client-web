@@ -97,10 +97,11 @@ class Frame(TinyWidget):
             elif isinstance(child, TinyInputWidget):
                 self.add_hidden(child)
 
-        self.compute_cells_width()
 
         if self.is_search:
             self.fix_group_colspans()
+        else:
+            self.compute_cells_width()
 
     def add_row(self):
 
@@ -245,15 +246,14 @@ class Frame(TinyWidget):
             remaining_colspan = 0
             cells = []
             for (attrs, widget) in selected_row:
-                if not attrs.get('is_search'):
-                    colspan = attrs.get('colspan', 1)
-                    if isinstance(widget, basestring):
-                        remaining_width -= colspan
-                        if not attrs.has_key('width'):
-                            attrs['width'] = '%d%%' % colspan
-                    else:
-                        remaining_colspan += colspan
-                        cells.append((colspan, attrs, widget))
+                colspan = attrs.get('colspan', 1)
+                if isinstance(widget, basestring):
+                    remaining_width -= colspan
+                    if not attrs.has_key('width'):
+                        attrs['width'] = '%d%%' % colspan
+                else:
+                    remaining_colspan += colspan
+                    cells.append((colspan, attrs, widget))
             if remaining_colspan and remaining_width:
                 width_unit = remaining_width / remaining_colspan
                 for cell in cells:
