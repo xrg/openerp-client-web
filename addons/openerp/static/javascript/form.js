@@ -920,16 +920,54 @@ function translate_fields(src, params){
     openobject.tools.openWindow(openobject.http.getURL('/openerp/translator',{
         _terp_model: (src ? $src.attr('relation') : params['relation']),
         _terp_id: (src ? $src.attr('id') : params['id']),
-        _terp_context: (src ? $src.attr('data') : params['data']),
+        _terp_context: (src ? $src.attr('data') : params['data'])
     }));
 }
 
-function on_context_menu(evt, target){
-    if (!evt.modifier()) {
+/**
+ * Adapts targets for functions which may be bound using both jQuery and
+ * MochiKit event handlers
+ *
+ * @param evt the library's event
+ */
+function targetDammit(evt) {
+    if(typeof(evt.target) == 'function') {
+        // mochikit
+        return evt.target();
+    }
+    return evt.target;
+}
+/**
+ * Adapts mouse position on page for functions which may be bound using both
+ * jQuery and MochiKit event handlers
+ *
+ * @param evt the library's events
+ */
+function mousePositionDammit(evt) {
+    if(evt.mouse) {
+        // mochikit
+        return evt.mouse().page;
+    }
+    return {
+        x: evt.pageX,
+        y: evt.pageY
+    }
+}
+/**
+ * Forces event to stop whether it was generated using jQuery or Mochikit
+ *
+ * @param evt the event
+ */
+function stopEventDammit(evt) {
+    if(evt.stop) {
+        evt.stop();
         return;
     }
-    target = target || evt.target();
-    $target = jQuery(target);
+    evt.stopPropagation();
+    evt.preventDefault();
+}
+function on_context_menu(evt, target){
+    var $target = jQuery(target || targetDammit(evt));
 
     var kind = $target.attr('kind');
     if (!(kind && $target.is(':input, :enabled'))) {
@@ -956,13 +994,13 @@ function on_context_menu(evt, target){
     }
     var $src = jQuery('[id="' + src + '"]');
 
-    var click_position = evt.mouse().page;
+    var click_position = mousePositionDammit(evt);
     $menu.offset({top: 0, left: 0});
     $menu.offset({top: click_position.y - 5, left: click_position.x - 5});
     $menu.hide();
     makeContextMenu(src, kind, $src.attr('relation'), $src.val());
 
-    evt.stop();
+    stopEventDammit(evt);
 }
 
 function open_url(site){
