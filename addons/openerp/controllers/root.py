@@ -137,7 +137,6 @@ class Root(SecuredController):
             tools = None
 
         return dict(parents=parents, tools=tools, load_content=(next and next or ''),
-                    maintenance=rpc.RPCProxy('maintenance.contract').status(),
                     widgets=openobject.pooler.get_pool()\
                                       .get_controller('/openerp/widgets')\
                                       .user_home_widgets(ctx))
