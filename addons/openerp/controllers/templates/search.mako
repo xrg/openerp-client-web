@@ -159,7 +159,7 @@
                         <tr>
                             <td width="100%">
                                 % if params.selectable != 1:
-                                    <a class="button-a" href="javascript: void(0)" onclick="do_select()">${_("Select")}</a>
+                                    <a class="button-a select-link" href="javascript: void(0)" onclick="do_select()">${_("Select")}</a>
                                 % endif
                             	<a class="button-a" href="javascript: void(0)" onclick="search_filter()">${_("Search")}</a>
                            	    <a class="button-a" href="javascript: void(0)" onclick="do_create()">${_("New")}</a>
@@ -198,6 +198,16 @@
                         _terp_context: openobject.dom.get('_terp_context').value}));
                 });
             }
+            jQuery('table.search_table input:text').eq(0).focus();
+            % if params.selectable == 2:
+                var $select_link = jQuery('a.select-link').hide();
+                jQuery('form#search_form').click(function(event) {
+                    if ($(event.target).is("input[type=checkbox]")) {
+                        $select_link.show();
+                        $(this).unbind('click');
+                    }
+                });
+            % endif
         </script>
     </form>
 </div>
