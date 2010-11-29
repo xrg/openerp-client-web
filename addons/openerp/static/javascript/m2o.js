@@ -494,8 +494,9 @@ ManyToOne.prototype.displayResults = function(result) {
             }).append(jQuery('<span>', {
                 'id':result.values[i][0],
                 'style':'text-transform:none; white-space: nowrap',
-                'title': currentItem
-            }).text(currentItem))).bind({
+                'title': currentItem,
+                'text': currentItem
+            }))).bind({
                 mouseover: mouseOver,
                 click: onClick
             }).appendTo($resultsTable);
