@@ -50,6 +50,7 @@ ManyToOne.prototype.__init__ = function(name) {
     //for autocomplete
     this.auto_hidden_id = openobject.dom.get('_hidden_' + name);
 
+    this.hiddenField = null;
     this.selectedResultRow = 0;
     this.numResultRows = 0;
     this.specialKeyPressed = false;
@@ -86,6 +87,8 @@ ManyToOne.prototype.__init__ = function(name) {
             blur: jQuery.proxy(this, 'lostFocus')
         });
 
+        if(this.hiddenField)
+            this.lastHiddenResult = this.field.value;
         this.lastTextResult = this.text.value;
 
         if(this.select_img)
@@ -283,22 +286,32 @@ ManyToOne.prototype.on_keydown = function(evt) {
             //Single Click
             case 13:
             case 1:
-                var $autoCompleteSelectedRow = jQuery(idSelector("autoComplete" + this.name + "_" + this.selectedResultRow));
-                if(this.onlySuggest && !$autoCompleteSelectedRow.length) {
+                var autoCompleteSelectedRow = openobject.dom.get("autoComplete" + this.name + "_" + this.selectedResultRow);
+                if(this.onlySuggest && autoCompleteSelectedRow == null) {
                     this.clearResults();
                     break;
                 }
 
-                var $cell = $autoCompleteSelectedRow.find('td');
-                this.field.value = $cell.attr('id');
-                this.text.value = $cell.text();
+                var theCell = openobject.dom.select("TD", autoCompleteSelectedRow)[0];
+
+                var theCellHidden;
+                theCellHidden = openobject.dom.select("TD", null, autoCompleteSelectedRow)[0];
+
+                var autoCompleteText = scrapeText(theCell);
+                var autoCompleteHidden = scrapeText(theCellHidden);
+
+                this.field.value = theCell.id;
+                this.text.value = autoCompleteText;
 
                 if(this.callback) {
                     onChange(this.name);
                 }
                 this.change_icon();
                 //this.on_change();
-                this.lastTextResult = $cell.text();
+                this.lastTextResult = autoCompleteText;
+                if(this.hiddenField)
+                    this.hiddenField.value = autoCompleteHidden;
+                this.lastHiddenResult = autoCompleteHidden;
                 this.clearResults();
                 break;
 
@@ -374,7 +387,7 @@ ManyToOne.prototype.on_keypress = function(evt) {
 
 ManyToOne.prototype.get_matched = function() {
     if(openobject.http.AJAX_COUNT > 0) {
-        return callLater(1, jQuery.proxy(this, 'get_matched'));
+        return callLater(1, this.get_matched);
     }
 
     if(!this.relation) {
@@ -527,14 +540,21 @@ ManyToOne.prototype.updateSelectedResult = function() {
             $selectedRow.swapClass("autoTextNormalRow", "autoTextSelectedRow");
 
             if (this.selectedResult) {
-                var $cell = $selectedRow.find('td');
-                this.field.value = $cell.attr('id');
-                this.text.value = $cell.text();
-                this.lastTextResult = $cell.text();
+                var theCellHidden = $selectedRow.find('TD')[0];
+
+                var autoCompleteText = jQuery($selectedRow.find('TD')[0]).find('span').text();
+                var autoCompleteHidden = jQuery(theCellHidden).find('span').text();
+
+                this.field.value = $selectedRow.find('TD')[0].id;
+                this.text.value = autoCompleteText;
+                this.lastTextResult = autoCompleteText;
+                if(this.hiddenField)
+                    this.hiddenField.value = autoCompleteHidden;
+                this.lastHiddenResult = autoCompleteHidden;
             }
-        } else {
-            $selectedRow.swapClass("autoTextSelectedRow", "autoTextNormalRow");
         }
+        else
+            $selectedRow.swapClass("autoTextSelectedRow", "autoTextNormalRow");
     }
 };
 
