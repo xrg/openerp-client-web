@@ -482,7 +482,8 @@ ManyToOne.prototype.displayResults = function(result) {
 
         this.isShowingResults = false;
 
-
+        var mouseOver = jQuery.proxy(this, 'getMouseover');
+        var onClick = jQuery.proxy(this, 'getOnclick');
         for(var i = 0; i <= (result.values.length - 1); i++) {
             var currentItem = result.values[i][1];
 
@@ -491,8 +492,8 @@ ManyToOne.prototype.displayResults = function(result) {
                             createDOM("nobr", null, SPAN({'id':result.values[i][0], 'style':'text-transform:none;', 'title': currentItem}, currentItem))));
 
             jQuery(currentRow).bind({
-                mouseover: jQuery.proxy(this, 'getMouseover'),
-                click: jQuery.proxy(this, 'getOnclick')
+                mouseover: mouseOver,
+                click: onClick
             });
             jQuery(fancyTableBody).append(currentRow);
 
