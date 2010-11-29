@@ -56,10 +56,8 @@ ManyToOne.prototype.__init__ = function(name) {
     this.lastKey = null;
     this.delayedRequest = null;
     this.completeDelay = 1;
-    this.hasHiddenValue = false;
     this.lastTextResult = null;
     this.lastSearch = null;
-    this.takeFocus = false;
     this.hasFocus = false;
     this.suggestionBoxMouseOver = false;
     this.selectedResult = false;
@@ -100,11 +98,6 @@ ManyToOne.prototype.__init__ = function(name) {
         this.field._m2o = this;
 
         this.change_icon();
-
-        if(this.takeFocus) {
-            this.text.focus();
-            this.gotFocus();
-        }
     }
 };
 
