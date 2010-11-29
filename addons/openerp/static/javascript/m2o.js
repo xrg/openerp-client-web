@@ -265,7 +265,7 @@ ManyToOne.prototype.setCompletionText = function ($selectedRow) {
 
     var autoCompleteText = $cell.find('span').text();
 
-    this.field.value = $cell.attr('id');
+    this.field.value = $cell.attr('data-id');
     this.text.value = autoCompleteText;
     this.lastTextResult = autoCompleteText;
 };
@@ -497,10 +497,9 @@ ManyToOne.prototype.displayResults = function(result) {
                 "mouseover": mouseOver,
                 "click": onClick
             }).append(jQuery('<td>', {
-                'id':currentObject[0],
+                'data-id':currentObject[0],
                 'class': 'm2o_coplition'
             }).append(jQuery('<span>', {
-                'id':currentObject[0],
                 'style':'text-transform:none; white-space: nowrap',
                 'title': currentObject[1],
                 'text': currentObject[1]
