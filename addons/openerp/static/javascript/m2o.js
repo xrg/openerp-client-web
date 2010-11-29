@@ -487,7 +487,9 @@ ManyToOne.prototype.displayResults = function(result) {
             jQuery('<tr>', {
                 "class": "autoTextNormalRow",
                 "name": "autoComplete" + this.name + "_" + i,
-                "id": "autoComplete" + this.name + "_" + i
+                "id": "autoComplete" + this.name + "_" + i,
+                "mouseover": mouseOver,
+                "click": onClick
             }).append(jQuery('<td>', {
                 'id':result.values[i][0],
                 'class': 'm2o_coplition'
@@ -496,10 +498,7 @@ ManyToOne.prototype.displayResults = function(result) {
                 'style':'text-transform:none; white-space: nowrap',
                 'title': currentItem,
                 'text': currentItem
-            }))).bind({
-                mouseover: mouseOver,
-                click: onClick
-            }).appendTo($resultsTable);
+            }))).appendTo($resultsTable);
         }
         jQuery(fancyTable).append($resultsTable);
         // Swap out the old results with the newly created table
