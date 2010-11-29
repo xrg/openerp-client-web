@@ -59,7 +59,6 @@ ManyToOne.prototype.__init__ = function(name) {
     this.hasHiddenValue = false;
     this.lastTextResult = null;
     this.lastSearch = null;
-    this.onlySuggest = false;
     this.processCount = 0;
     this.takeFocus = false;
     this.hasFocus = false;
@@ -285,10 +284,6 @@ ManyToOne.prototype.on_keydown = function(evt) {
             case 13:
             case 1:
                 var $selectedRow = jQuery(idSelector("autoComplete" + this.name + "_" + this.selectedResultRow));
-                if(this.onlySuggest && $selectedRow.length) {
-                    this.clearResults();
-                    break;
-                }
 
                 this.setCompletionText($selectedRow);
 
@@ -464,10 +459,7 @@ ManyToOne.prototype.displayResults = function(result) {
             "id": "autoCompleteTable" + this.name});
         this.numResultRows = result.values.length;
 
-        if(this.onlySuggest)
-            this.selectedResultRow = null;
-        else
-            this.selectedResultRow = 0;
+        this.selectedResultRow = 0;
 
         var mouseOver = jQuery.proxy(this, 'getMouseover');
         var onClick = jQuery.proxy(this, 'getOnclick');
