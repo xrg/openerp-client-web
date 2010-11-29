@@ -494,20 +494,20 @@ ManyToOne.prototype.displayResults = function(result) {
                 mouseover: jQuery.proxy(this, 'getMouseover'),
                 click: jQuery.proxy(this, 'getOnclick')
             });
-            appendChildNodes(fancyTableBody, currentRow);
+            jQuery(fancyTableBody).append(currentRow);
 
             this.isShowingResults = true;
         }
-        appendChildNodes(fancyTable, fancyTableBody);
+        jQuery(fancyTable).append(fancyTableBody);
         // Swap out the old results with the newly created table
-        var resultsHolder = openobject.dom.get("autoCompleteResults_" + this.name);
+        var $resultsHolder = jQuery("#autoCompleteResults_" + this.name);
         if(this.isShowingResults) {
-            replaceChildNodes(resultsHolder, fancyTable);
+            $resultsHolder.empty().append(fancyTable);
             this.updateSelectedResult();
-            jQuery(resultsHolder).show();
+            $resultsHolder.show();
+        } else {
+            $resultsHolder.hide();
         }
-        else
-            jQuery(resultsHolder).hide();
 
         this.processCount--;
         return true;
