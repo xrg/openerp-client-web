@@ -50,7 +50,6 @@ ManyToOne.prototype.__init__ = function(name) {
     //for autocomplete
     this.auto_hidden_id = openobject.dom.get('_hidden_' + name);
 
-    this.hiddenField = null;
     this.selectedResultRow = 0;
     this.numResultRows = 0;
     this.specialKeyPressed = false;
@@ -87,8 +86,6 @@ ManyToOne.prototype.__init__ = function(name) {
             blur: jQuery.proxy(this, 'lostFocus')
         });
 
-        if(this.hiddenField)
-            this.lastHiddenResult = this.field.value;
         this.lastTextResult = this.text.value;
 
         if(this.select_img)
@@ -309,8 +306,6 @@ ManyToOne.prototype.on_keydown = function(evt) {
                 this.change_icon();
                 //this.on_change();
                 this.lastTextResult = autoCompleteText;
-                if(this.hiddenField)
-                    this.hiddenField.value = autoCompleteHidden;
                 this.lastHiddenResult = autoCompleteHidden;
                 this.clearResults();
                 break;
@@ -548,8 +543,6 @@ ManyToOne.prototype.updateSelectedResult = function() {
                 this.field.value = $selectedRow.find('TD')[0].id;
                 this.text.value = autoCompleteText;
                 this.lastTextResult = autoCompleteText;
-                if(this.hiddenField)
-                    this.hiddenField.value = autoCompleteHidden;
                 this.lastHiddenResult = autoCompleteHidden;
             }
         }
