@@ -433,7 +433,7 @@ ManyToOne.prototype.setReadonly = function(readonly) {
 
 ManyToOne.prototype.clearResults = function() {
     // Hide all the results
-    hideElement(openobject.dom.get("autoCompleteResults_" + this.name));
+    jQuery("#autoCompleteResults_" + this.name).hide();
     // Clear out our result tracking
     this.selectedResultRow = 0;
     this.numResultRows = 0;
@@ -504,10 +504,10 @@ ManyToOne.prototype.displayResults = function(result) {
         if(this.isShowingResults) {
             replaceChildNodes(resultsHolder, fancyTable);
             this.updateSelectedResult();
-            showElement(resultsHolder);
+            jQuery(resultsHolder).show();
         }
         else
-            hideElement(resultsHolder);
+            jQuery(resultsHolder).hide();
 
         this.processCount--;
         return true;
