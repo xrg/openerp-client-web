@@ -59,7 +59,6 @@ ManyToOne.prototype.__init__ = function(name) {
     this.hasHiddenValue = false;
     this.lastTextResult = null;
     this.lastSearch = null;
-    this.processCount = 0;
     this.takeFocus = false;
     this.hasFocus = false;
     this.suggestionBoxMouseOver = false;
@@ -435,8 +434,6 @@ ManyToOne.prototype.doDelayedRequest = function () {
     }
 
     // Get what we are searching for
-    this.processCount++;
-
     this.lastSearch = this.text.value;
     jQuery.getJSON('/openerp/search/get_matched', {
         text: val,
@@ -449,7 +446,6 @@ ManyToOne.prototype.displayResults = function(result) {
     try {
         if(!this.hasFocus) {
             this.updateSelectedResult();
-            this.processCount--;
             return false;
         }
 
@@ -491,7 +487,6 @@ ManyToOne.prototype.displayResults = function(result) {
             $resultsHolder.hide();
         }
 
-        this.processCount--;
         return true;
     }
     catch(e) {
