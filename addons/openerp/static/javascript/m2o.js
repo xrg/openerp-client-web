@@ -283,30 +283,24 @@ ManyToOne.prototype.on_keydown = function(evt) {
             //Single Click
             case 13:
             case 1:
-                var autoCompleteSelectedRow = openobject.dom.get("autoComplete" + this.name + "_" + this.selectedResultRow);
-                if(this.onlySuggest && autoCompleteSelectedRow == null) {
+                var $selectedRow = jQuery(idSelector("autoComplete" + this.name + "_" + this.selectedResultRow));
+                if(this.onlySuggest && $selectedRow.length) {
                     this.clearResults();
                     break;
                 }
 
-                var theCell = openobject.dom.select("TD", autoCompleteSelectedRow)[0];
+                var $cell = $selectedRow.find('td');
 
-                var theCellHidden;
-                theCellHidden = openobject.dom.select("TD", null, autoCompleteSelectedRow)[0];
+                var autoCompleteText = $cell.find('span').text();
 
-                var autoCompleteText = scrapeText(theCell);
-                var autoCompleteHidden = scrapeText(theCellHidden);
-
-                this.field.value = theCell.id;
+                this.field.value = $cell.attr('id');
                 this.text.value = autoCompleteText;
+                this.lastTextResult = autoCompleteText;
 
                 if(this.callback) {
                     onChange(this.name);
                 }
                 this.change_icon();
-                //this.on_change();
-                this.lastTextResult = autoCompleteText;
-                this.lastHiddenResult = autoCompleteHidden;
                 this.clearResults();
                 break;
 
