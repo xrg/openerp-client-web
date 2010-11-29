@@ -535,19 +535,18 @@ ManyToOne.prototype.updateSelectedResult = function() {
             $selectedRow.swapClass("autoTextNormalRow", "autoTextSelectedRow");
 
             if (this.selectedResult) {
-                var theCellHidden = $selectedRow.find('TD')[0];
+                var $cell = $selectedRow.find('td');
 
-                var autoCompleteText = jQuery($selectedRow.find('TD')[0]).find('span').text();
-                var autoCompleteHidden = jQuery(theCellHidden).find('span').text();
+                var autoCompleteText = $cell.find('span').text();
 
-                this.field.value = $selectedRow.find('TD')[0].id;
+                this.field.value = $cell.attr('id');
                 this.text.value = autoCompleteText;
                 this.lastTextResult = autoCompleteText;
-                this.lastHiddenResult = autoCompleteHidden;
+                this.lastHiddenResult = autoCompleteText;
             }
-        }
-        else
+        } else {
             $selectedRow.swapClass("autoTextSelectedRow", "autoTextNormalRow");
+        }
     }
 };
 
