@@ -215,8 +215,7 @@ ManyToOne.prototype.on_reference_changed = function() {
 
     this.relation = this.reference.value;
     this.clearResults();
-    jQuery(this.field).attr('relation', this.relation);
-    jQuery(this.text).attr('relation', this.relation);
+    jQuery([this.field, this.text]).attr('relation', this.relation);
 
     this.change_icon();
 };
@@ -227,13 +226,8 @@ ManyToOne.prototype.change_icon = function() {
     }
 
     if(this.is_inline && this.open_img) {
-        if(this.field.value) {
-            jQuery(this.select_img).hide();
-            jQuery(this.open_img).show();
-        } else {
-            jQuery(this.select_img).show();
-            jQuery(this.open_img).hide();
-        }
+        jQuery(this.select_img).toggle(!this.field.value);
+        jQuery(this.open_img).toggle(!!this.field.value);
     }
 };
 
@@ -421,18 +415,10 @@ ManyToOne.prototype.get_matched = function() {
 };
 
 ManyToOne.prototype.setReadonly = function(readonly) {
-    this.field.readOnly = readonly;
-    this.field.disabled = readonly;
-    this.text.readOnly = readonly;
-    this.text.disabled = readonly;
-
-    if(readonly) {
-        jQuery(this.field).addClass('readonlyfield');
-        jQuery(this.text).addClass('readonlyfield');
-    } else {
-        jQuery(this.field).removeClass('readonlyfield');
-        jQuery(this.text).removeClass('readonlyfield');
-    }
+    jQuery([this.field, this.text])
+            .attr({'readOnly': readonly,
+                   'disabled': readonly})
+            .toggleClass('readonly', !!readonly);
 };
 
 ManyToOne.prototype.clearResults = function() {
