@@ -486,25 +486,26 @@ ManyToOne.prototype.displayResults = function(result) {
 
         var mouseOver = jQuery.proxy(this, 'getMouseover');
         var onClick = jQuery.proxy(this, 'getOnclick');
-        for(var i = 0; i <= (result.values.length - 1); i++) {
-            var currentItem = result.values[i][1];
+        var rowName = "autoComplete" + this.name + "_";
+        jQuery.each(result.values, function (i, currentObject) {
+            var currentItem = currentObject[1];
 
             jQuery('<tr>', {
                 "class": "autoTextNormalRow",
-                "name": "autoComplete" + this.name + "_" + i,
-                "id": "autoComplete" + this.name + "_" + i,
+                "name": rowName + i,
+                "id": rowName + i,
                 "mouseover": mouseOver,
                 "click": onClick
             }).append(jQuery('<td>', {
-                'id':result.values[i][0],
+                'id':currentObject[0],
                 'class': 'm2o_coplition'
             }).append(jQuery('<span>', {
-                'id':result.values[i][0],
+                'id':currentObject[0],
                 'style':'text-transform:none; white-space: nowrap',
                 'title': currentItem,
                 'text': currentItem
             }))).appendTo($resultsTable);
-        }
+        });
         jQuery(fancyTable).append($resultsTable);
         // Swap out the old results with the newly created table
         var $resultsHolder = jQuery(idSelector("autoCompleteResults_" + this.name));
