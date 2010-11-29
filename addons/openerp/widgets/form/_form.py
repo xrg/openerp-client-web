@@ -97,6 +97,8 @@ class Frame(TinyWidget):
             elif isinstance(child, TinyInputWidget):
                 self.add_hidden(child)
 
+        self.compute_cells_width()
+
         if self.is_search:
             self.fix_group_colspans()
 
@@ -226,6 +228,39 @@ class Frame(TinyWidget):
         if isinstance(widget, TinyInputWidget) and hasattr(cherrypy.request, 'terp_validators'):
             self._add_validator(widget)
         self.hiddens.append(widget)
+
+    def compute_cells_width(self):
+        """ Basic cells width computation. Use 1% for labels, so it looks more like gtk client.
+
+        A bit hacky but better than nothing
+        """
+        # TODO: handle width remain for the last row's cell. Decide if hidden fields should be excluded or not.
+        selected_row = []
+        for row in self.table:
+            if len(row) > len(selected_row):
+                selected_row = row
+        # Work on row with the most cells
+        if len(selected_row):
+            remaining_width = 100
+            remaining_colspan = 0
+            cells = []
+            for (attrs, widget) in selected_row:
+                if not attrs.get('is_search'):
+                    colspan = attrs.get('colspan', 1)
+                    if isinstance(widget, basestring):
+                        remaining_width -= colspan
+                        if not attrs.has_key('width'):
+                            attrs['width'] = '%d%%' % colspan
+                    else:
+                        remaining_colspan += colspan
+                        cells.append((colspan, attrs, widget))
+            if remaining_colspan and remaining_width:
+                width_unit = remaining_width / remaining_colspan
+                for cell in cells:
+                    width = cell[0] * width_unit
+                    remaining_width -= width
+                    if not cell[1].has_key('width'):
+                        cell[1]['width'] = '%d%%' % width
 
     def fix_group_colspans(self):
         """ Colspans in search view are currently broken.
