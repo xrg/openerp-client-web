@@ -58,7 +58,6 @@ ManyToOne.prototype.__init__ = function(name) {
     this.completeDelay = 1;
     this.hasHiddenValue = false;
     this.lastTextResult = null;
-    this.lastHiddenResult = null;
     this.lastSearch = null;
     this.onlySuggest = false;
     this.minChars = 1;
@@ -254,11 +253,21 @@ ManyToOne.prototype.on_keyup = function() {
     this.delayedRequest = callLater(this.completeDelay, jQuery.proxy(this, 'doDelayedRequest'));
     if(this.auto_hidden_id) {
         if(this.lastTextResult == this.text.value)
-            this.auto_hidden_id.value = this.lastHiddenResult;
+            this.auto_hidden_id.value = this.lastTextResult;
         else
             this.auto_hidden_id.value = '';
     }
     return true;
+};
+
+ManyToOne.prototype.setCompletionText = function ($selectedRow) {
+    var $cell = $selectedRow.find('td');
+
+    var autoCompleteText = $cell.find('span').text();
+
+    this.field.value = $cell.attr('id');
+    this.text.value = autoCompleteText;
+    this.lastTextResult = autoCompleteText;
 };
 
 ManyToOne.prototype.on_keydown = function(evt) {
@@ -289,13 +298,7 @@ ManyToOne.prototype.on_keydown = function(evt) {
                     break;
                 }
 
-                var $cell = $selectedRow.find('td');
-
-                var autoCompleteText = $cell.find('span').text();
-
-                this.field.value = $cell.attr('id');
-                this.text.value = autoCompleteText;
-                this.lastTextResult = autoCompleteText;
+                this.setCompletionText($selectedRow);
 
                 if(this.callback) {
                     onChange(this.name);
@@ -529,14 +532,7 @@ ManyToOne.prototype.updateSelectedResult = function() {
             $selectedRow.swapClass("autoTextNormalRow", "autoTextSelectedRow");
 
             if (this.selectedResult) {
-                var $cell = $selectedRow.find('td');
-
-                var autoCompleteText = $cell.find('span').text();
-
-                this.field.value = $cell.attr('id');
-                this.text.value = autoCompleteText;
-                this.lastTextResult = autoCompleteText;
-                this.lastHiddenResult = autoCompleteText;
+                this.setCompletionText($selectedRow);
             }
         } else {
             $selectedRow.swapClass("autoTextSelectedRow", "autoTextNormalRow");
