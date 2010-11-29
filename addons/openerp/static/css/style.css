@@ -26,6 +26,27 @@ div#search_filter_data table tr:nth-child(2) div.group-collapse
     margin-top: 6px;
 }
 
+.no-record-warning {
+    -moz-border-radius: 4px;
+    -webkit-border-radius: 4px;
+    border-radius: 4px;
+    border: 1px solid #666666;
+    background: white;
+    font-size: 1.5em;
+    font-weight: bold;
+    padding: 5px;
+    position: absolute;
+    width: 350px;
+    height: 54px;
+    left: 50%;
+    margin-left: -175px;
+    top: 50%;
+    margin-top: -27px;
+}
+.no-record-warning p {
+    text-align: center;
+    margin: 5px 0;
+}
 div.wizard_toolbar {
 	float: right;
 }
@@ -40,6 +61,23 @@ div.wizard_toolbar {
 
 table.fields {
     border: none;
+}
+div.non-editable table.fields td {
+    border: 1px solid #F0EEEE;
+    height: 20px;
+}
+div.non-editable div.notebook table.fields td {
+    border: 1px solid #F9F9F9;
+}
+td.label:not(.search_fields) {
+    /* Ugly hack meanwhile we decide if the width of cells should be computed or not */
+    width: 1%;
+}
+table.form-container td.label {
+    width: auto;
+}
+div.non-editable td.item {
+    background: white;
 }
 
 button, .button {
@@ -170,8 +208,8 @@ div#search_filter_data select.selection {
     background-color: #fff;
     color: #000;
     border: 1px solid #999999;
-    width: 95px;
-    min-width: 95px;
+    width: 70px;
+    min-width: 70px;
 }
 #search_filter_data button,
 #search_filter_data .button {
@@ -381,8 +419,7 @@ button.inactive {
 }
 
 .errorfield {
-    border: 1px solid #D00;
-    color: #D00;
+    border: 1px solid #D00 !important;
     background: #FFFFFE;
 }
 
@@ -456,7 +493,7 @@ table.errorbox {
 
 .error_message_content {
 	font-size: 1.4em;
-	padding: 0px 5px 0px 0px;
+	padding: 0 5px 0 0;
 	text-align: center;
 	color: #333333;
     white-space: normal;
@@ -569,11 +606,14 @@ table.o2m_box div.pagerbar-header strong {
 .label,
 .item,
 #groupdata_table .item {
-    padding: 2px 4px;
+    padding: 2px 8px 2px 4px;
 }
 
 .label {
 	padding: 2px 2px 2px 6px;
+}
+table.fields td {
+    color: #4C4C4C;
 }
 
 .label,
@@ -591,11 +631,13 @@ table.o2m_box div.pagerbar-header strong {
 }
 .item input,
 .item select {
-    min-width: 100%;
+    width: 100%;
+    min-width: 60px;
 }
 
 .item .fields {
     width: 100%;
+    min-width: 60px;
 }
 
 .item input,
@@ -610,13 +652,15 @@ table.o2m_box div.pagerbar-header strong {
 }
 
 .item input {
-    padding: 2px 3px;
+    /* Warning : setting horizontal padding causes input to cross the boundaries of it's parent element */
+    padding-top: 2px;
 }
 
 .item input.m2o,
 .item input.reference {
     padding-right: 0;
-    min-width: 100%;
+    width: 100%;
+    min-width: 60px;
 }
 
 .m2o_container {
@@ -629,7 +673,7 @@ table.o2m_box div.pagerbar-header strong {
 .m2o_select {
     position: absolute;
     right: 2px;
-    top: 0;
+    top: -2px;
 }
 .item img.datetime {
     margin-left: -18px;
@@ -812,31 +856,26 @@ div#serverlog a {
     color: #511712;
 }
 
-#help-tips, #help-tips h3, #help-tips a {
-    color: #511712;
-}
 #help-tips {
     border-radius: 3px;
     -moz-border-radius: 3px;
     -webkit-border-radius: 3px;
     background: #fff none repeat scroll 0 0;
     border: 1px solid #CECBCB;
-    margin-bottom:3px;
+    margin: 2px 0 6px 0;
     padding: 1px 5px;
+    color: #4C4C4C;
 }
 
-#help-tips h3 {
-    padding-left: 10px;
-    font-size: 130%;
-    display: inline;
-}
-#help-tips a {
-    font-size: 90%;
-    font-weight: normal;
-}
-#disable-tips {
+#disable-tips, #hide-tips {
     float: right;
+    font-size: 0.9em;
+    padding: 0 4px;
 }
+a#disable-tips:hover, a#hide-tips:hover {
+    text-decoration: underline;
+}
+
 #help-tips p {
     padding: 6px 1px 4px;
 }
@@ -861,8 +900,8 @@ div#serverlog a {
     font-size: 1em !important;
     font-weight: bold;
     text-transform: uppercase;
-    text-shadow: #fff 0 1px 0;
-    color: #1F1F1F;
+    text-shadow: #eee 0 1px 0;
+    color: #4C4C4C;
     line-height: 1.25;
     white-space: nowrap;
     min-height: 40px;
@@ -879,11 +918,10 @@ div#serverlog a {
 .filter-a .filter_with_icon:focus,
 .filter-a .filter_with_icon:hover {
     background-color: #e6e6e6;
-    color: #000000;
 }
 .filter-a .filter_with_icon.active {
     background-color: #aaadb1;
-    color: #000000;
+    color: #1F1F1F;
 }
 
 .filter-a .filter_icon {
@@ -982,3 +1020,7 @@ img.translatable {
     vertical-align: middle;
 }
 
+.action-dialog,
+.action-dialog .ui-dialog-content {
+    padding: 0 !important;
+}

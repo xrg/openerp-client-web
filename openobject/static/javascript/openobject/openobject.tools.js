@@ -31,18 +31,19 @@ openobject.tools = {
 
     openWindow: function(anchor, options) {
 
-        var opts = MochiKit.Base.update({
+        var opts = jQuery.extend({
             name        : 'win' + Math.round(Math.random() * 100000),
             center      : true,
-            x           : null,
-            y           : null,
+            x           : -1,
+            y           : -1,
             width       : 800, //screen.availWidth - 200,
             height      : 600, //screen.availHeight - 200,
             scrollbars  : true,
             fullscreen  : false,
             menubar     : false,
             locationbar : false,
-            resizable   : true
+            resizable   : true,
+            autosize    : true
         }, options || {});
 
         //opts.width = opts.width > 0 ? opts.width : 800;
@@ -50,22 +51,24 @@ openobject.tools = {
 
         var args = [];
 
-        args.push("height=", opts.fullscreen ? screen.availHeight : opts.height, ',');
-        args.push("width=", opts.fullscreen ? screen.availWidth : opts.width, ',');
+        if (opts.autosize) {
+            args.push("height=", opts.fullscreen ? screen.availHeight : opts.height, ',');
+            args.push("width=", opts.fullscreen ? screen.availWidth : opts.width, ',');
 
-        if (!opts.center) {
-            opts.x = 0;
-            opts.y = 0;
-        } else if (!opts.fullscreen) {
-            opts.y = Math.floor((screen.availHeight - opts.height - (screen.height - screen.availHeight)) / 2);
-            opts.x = Math.floor((screen.availWidth - opts.width - (screen.width - screen.availWidth)) / 2);
-        }
+            if (!opts.center) {
+                if(opts.x == -1) {opts.x = 0;}
+                if(opts.y == -1) {opts.y = 0;}
+            } else if (!opts.fullscreen) {
+                opts.y = Math.floor((screen.availHeight - opts.height - (screen.height - screen.availHeight)) / 2);
+                opts.x = Math.floor((screen.availWidth - opts.width - (screen.width - screen.availWidth)) / 2);
+            }
 
-        if(opts.x != null && opts.y != null) {
-            args.push("screenx=", opts.x, ',');
-            args.push("screeny=", opts.y, ',');
-            args.push("left=", opts.x, ',');
-            args.push("top=", opts.y, ',');
+            if(opts.x != -1 && opts.y != -1) {
+                args.push("screenx=", opts.x, ',');
+                args.push("screeny=", opts.y, ',');
+                args.push("left=", opts.x, ',');
+                args.push("top=", opts.y, ',');
+            }
         }
 
         if (opts.scrollbars) {

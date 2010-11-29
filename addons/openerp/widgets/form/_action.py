@@ -94,7 +94,7 @@ class Action(TinyInputWidget):
                     context=self.context,
                     domain=self.domain,
                     offset = 0,
-                    limit = 20
+                    limit = 50
                 )
 
                 # get pager vars if set

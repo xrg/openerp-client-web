@@ -338,9 +338,9 @@ MochiKit.Base.update(openobject.process.Transition.prototype, {
         var roles = data.roles || [];
 
         var elem = this.getHTMLElement();
-        elem.style.cursor = 'pointer';
+        elem.style.cursor = 'help';
 
-        MochiKit.Signal.connect(elem, 'ondblclick', this, this._makeTipText);
+        MochiKit.Signal.connect(elem, 'onclick', this, this._makeTipText);
 
         if (roles.length) {
             var role_img = new draw2d.ImageFigure('/openerp/static/images/stock/stock_person.png');
@@ -381,7 +381,7 @@ MochiKit.Base.update(openobject.process.Transition.prototype, {
 
         var params = {'title_tip': MochiKit.DOM.emitHTML(title)}
 
-        openobject.tools.openWindow(openobject.http.getURL("/view_diagram/process/open_tip", params), {width: 450, height: 250});
+        openAction(openobject.http.getURL("/view_diagram/process/open_tip", params), 'new');
     }
 });
 

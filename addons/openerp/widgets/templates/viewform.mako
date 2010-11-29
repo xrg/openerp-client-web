@@ -24,8 +24,14 @@
                         <td align="left">
                              <button title="${_('Filter records.')}" onclick="search_filter(); return false;">
                              ${_("Search")}</button>
+                             <%
+                                if screen.view_type == 'tree':
+                                    clear_filters = "new ListView('_terp_list').clear();"
+                                else:
+                                    clear_filters = "reload_graph(true)"
+                            %>
                              <button title="${_('Clear all.')}" id="clear_all_filters"
-                             onclick="new ListView('_terp_list').clear(); return false;"
+                             onclick="${clear_filters}; return false;"
                              >${_("Clear")}</button>
                              % if context_menu:
                                 <button title="${_('Close')}" onclick="window.close()" href="javascript: void(0)">${_("Close")}</button>

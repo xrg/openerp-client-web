@@ -12,8 +12,15 @@
         function do_select(id, src) {
             viewRecord(id, src);
         }
+        function save_o2m(el) {
+            jQuery(el).attr('disabled', 'disabled');
+            submit_form('save');
+            setTimeout(function(){
+                  jQuery(el).attr('disabled', '');
+            }, 3000);
+        }
 
-        jQuery(document).ready(function (){
+        function fetchParentData() {
 
             var pwin = window.opener;
             var pform = pwin.document.forms['view_form'];
@@ -54,7 +61,7 @@
                 window.close();
             }
 
-        });
+        }
 
     </script>
 </%def>
@@ -79,14 +86,14 @@
                         <tr>
                             % if form.screen.editable:
 	                            <td class="save_close">
-	                            	<a class="button-a" onclick="submit_form('save')" href="javascript: void(0)">${_("Save")}</a>
+                                    <button onclick="save_o2m(this); return false;" style="height: 20px;" class="button-a">${_("Save")}</button>
 	                            </td>
                             % endif
                             <td class="save_close">
-                            	<a class="button-a" onclick="window.close()" href="javascript: void(0)">${_("Close")}</a>
+                            	<button class="button-a" style="height: 20px;" onclick="window.close()">${_("Close")}</button>
                             </td>
                             <td width="100%">
-                            </td>                            
+                            </td>
                         </tr>
                     </table>
                 </div>
@@ -96,4 +103,7 @@
             <td style="padding: 2px 5px 5px;">${form.display()}</td>
         </tr>
     </table>
+    <script type="text/javascript">
+        fetchParentData();
+    </script>
 </%def>

@@ -20,7 +20,7 @@ html.webkit {
 body {
     height: 100%;
     background: #F0EEEE;
-    font-size: 62.5%;
+    font-size: 70%;
 }
 
 * html body {
@@ -35,8 +35,10 @@ body {
 
 body,textarea,input,select,option {
     color: #1f1f1f;
-    font-family: Sans, Verdana, Helvetica, sans-serif;
     line-height: 1.25;
+}
+body,textarea,input,select,option,button {
+    font-family: Ubuntu, Helvetica, sans-serif;
 }
 
 /*
@@ -125,6 +127,18 @@ hr {
 p.raw-text {
     min-height: 6em;
     white-space: pre-line;
+}
+
+input[type=text], select, textarea {
+    padding: 2px;
+    border: 1px solid #999;
+    border-radius: 3px;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+    background: #fff;
+}
+select {
+    padding: 1px;
 }
 
 /* LAYOUT
@@ -526,7 +540,7 @@ p#cmp_logo {
     display: inline-block;
     margin: 6px 1px;
     text-align: center;
-    font-size: 1em;
+    font-size: .9em;
     text-transform: uppercase;
     font-weight: bold;
 }
@@ -575,7 +589,7 @@ p#cmp_logo {
 
 #primary div.wrap {
     padding-top: 0;
-    height: 100%;
+    min-height: 100%;
 }
 #secondary div.wrap {
     min-width: 180px;
@@ -770,7 +784,6 @@ div.box-a h2,div.box-a h3 {
     font-size: 1em;
     font-weight: bold;
     text-shadow: #fff 0 1px 0;
-    text-transform: uppercase;
 }
 
 div.box-a div.scroll {
@@ -868,14 +881,8 @@ div.fields-a p {
 }
 
 div.fields-a p input.text {
-    width: 150px;
-    padding: 2px;
-    border: 1px solid;
     border-color: #cecbcb #dfdddd #fff;
-    border-radius: 3px;
-    -moz-border-radius: 3px;
-    -webkit-border-radius: 3px;
-    background: #fff;
+    width: 150px;
     vertical-align: middle;
 }
 
@@ -1236,7 +1243,7 @@ table td .delete {
     background-image: url(../images/iconset-b-remove.gif);
 }
 
-sup.help {
+span.help {
     color: darkgreen;
     vertical-align:top;
     position: relative;
@@ -1543,57 +1550,17 @@ ul.sections-a li span.wrap a {
     border-bottom-color: #bcbbbb;
 }
 
+li.web_dashboard img {
+    vertical-align: middle;
+}
+
+li.web_dashboard img.hover {
+    display: none;
+}
+
 ul.sections-a li span.wrap a:hover,ul.sections-a li span.wrap a:focus,ul.sections-a li span.wrap a:active
     {
     background-position: 50% -260px;
-}
-
-ul.sections-a li.sales span.wrap a {
-    background-image: url(../images/sections-a-i-money.png);
-}
-
-ul.sections-a li.project span.wrap a {
-    background-image: url(../images/sections-a-i-flag.png);
-}
-
-ul.sections-a li.warehouse span.wrap a {
-    background-image: url(../images/sections-a-i-box.png);
-}
-
-ul.sections-a li.knowledge span.wrap a {
-    background-image: url(../images/sections-a-i-books.png);
-}
-
-ul.sections-a li.manufacturing span.wrap a {
-    background-image: url(../images/sections-a-i-measure.png);
-}
-
-ul.sections-a li.accounting span.wrap a {
-    background-image: url(../images/sections-a-i-wallet.png);
-}
-
-ul.sections-a li.point-of-sale span.wrap a {
-    background-image: url(../images/sections-a-i-tag.png);
-}
-
-ul.sections-a li.human-resources span.wrap a {
-    background-image: url(../images/sections-a-i-person.png);
-}
-
-ul.sections-a li.purchases span.wrap a {
-    background-image: url(../images/sections-a-i-cart.png);
-}
-
-ul.sections-a li.reporting span.wrap a {
-    background-image: url(../images/sections-a-i-charts.png);
-}
-
-ul.sections-a li.administration span.wrap a {
-    background-image: url(../images/sections-a-i-briefcase.png);
-}
-
-ul.sections-a li.tools span.wrap a {
-    background-image: url(../images/sections-a-i-tools.png);
 }
 
 ul.sections-a li span.wrap a span {
@@ -1664,13 +1631,13 @@ ul.sections-a li span.wrap a:hover span strong,ul.sections-a li span.wrap a:focu
 #sidenav-a li > span {
     display: block;
     height: 20px;
-    padding-left: 5px;
-    font-size: 1.25em;
+    padding: 0 5px;
+    font-size: 1.1em;
     background: url(../images/sidenav-link-a.png) 0 100% repeat-x;
     line-height: 20px;
     text-decoration: none !important;
     cursor: pointer;
-    min-width: 174px;
+    white-space: nowrap;
 }
 
 #sidenav-a .tree-grid,
@@ -1687,7 +1654,7 @@ ul.sections-a li span.wrap a:hover span strong,ul.sections-a li span.wrap a:focu
 #sidenav-a li .tree-grid .row {
     height: 21px;
     color: #fff;
-    font-size: 1.2em;
+    font-size: 1.1em;
     line-height: 20px;
     font-weight: normal;
     text-transform: none;
@@ -1714,7 +1681,6 @@ ul.split-a {
     overflow: hidden;
     list-style: none;
     width: 100%;
-    margin: 0 0 15px;
     padding: 0;
 }
 
@@ -1933,8 +1899,9 @@ td.tertiary div.wrap {
 #tertiary {
     position: relative;
     float: right;
-    min-height: 100%;
+    height: 100%;
     width: 180px;
+    background: #F0EEEE;
 }
 #tertiary.closed {
     display: none;
@@ -1946,6 +1913,11 @@ td.tertiary div.wrap {
 
 #main_sidebar {
     padding: 0;
+    position: relative;
+    min-width: 22px;
+    border-left: 1px solid #D2CFCF;
+    background: #EAE7E7;
+    height: 100%;
 }
 
 /* TODO: refactor sidebar as well as the toggle_accordion/open-close-menu
@@ -1954,14 +1926,24 @@ td.tertiary div.wrap {
    status, width, height, padding, cursor
 */
 .toggle-sidebar {
-    cursor: pointer;
-    height: 100%;
-    width: 11px;
-    padding: 0 5px;
-    background: #CECBCB url("../images/arrow_right.png") no-repeat scroll 50% 50%;
+    border-color: #D2CFCF;
+    border-style: solid;
+    display: block;
+    width: 21px;
+    height: 22px;
+    overflow: hidden;
+    text-indent: -10001px;
+    position: absolute;
+    z-index: 10;
+}
+.toggle-sidebar.open {
+    margin-left: 158px;
+    border-width:0 0 1px 1px;
+    background: url("../images/toggle-a-bg.png") no-repeat scroll -21px 0 transparent;
 }
 .toggle-sidebar.closed {
-    background-image: url(../images/arrow_left.png);
+    border-width:0 0 1px 0;
+    background: url("../images/toggle-a-bg.png") no-repeat scroll 0 0 transparent;
 }
 
 .sideheader-a {
@@ -1991,14 +1973,21 @@ td.tertiary div.wrap {
     font-size: 0.9em;
 }
 
-.sideheader-a h2 {
-    margin: 0 0 0 10px;;
-    padding: 0;
+.sideheader-a h2,
+.sideheader-a h3 {
+    margin: 0 0 0 10px;
+    padding: 0 !important;
     color: #8e8e8e;
     font-size: 1.2em;
     line-height: 21px;
     font-weight: bold;
     text-shadow: #fff 0 1px 0;
+}
+.sideheader-a h3,
+.box-a .sideheader-a h3 {
+    font-size: 1.1em;
+    margin-left: 20px;
+    background: none;
 }
 
 .sideheader-a a.button-a {
@@ -2083,7 +2072,7 @@ button {
 }
 
 #body_form_td {
-    padding: 10px 4px 4px;
+    padding: 10px 8px 4px;
     border-color: #EAE7E7;
 }
 
@@ -2108,21 +2097,17 @@ div.action-buttons div.pager {
     -moz-box-shadow: 0 1px 0 transparent;
     -webkit-box-shadow: 0 1px 0 transparent;
     background: url(../images/button-a.gif) repeat-x;
-    color: #fff;
+    color: #fff !important;
     white-space: nowrap;
     font-size: 1em;
     font-weight: bold;
-    line-height: 18px;
+    line-height: 19px;
     text-shadow: #6a6969 0 1px 0;
 }
 
 .button-a.disable {
     background: darkGray none repeat scroll 0 0;
     color: #8D8D8D;
-}
-
-.button-a:hover, .button-a:focus, .button-a:active {
-    background: #666666;
 }
 
 
@@ -2257,6 +2242,18 @@ a.cta-a strong {
 .w50 {
     width: 50% !important;
 }
+
+div.box-a a.close {
+    background: url(../images/sideicons-a.gif) no-repeat -20px 0;
+    overflow: hidden;
+    width: 10px;
+    height: 10px;
+    text-indent: -10001px;
+    position: absolute;
+    top: 5px;
+    right: 5px;
+}
+
 /* SPECIFIC
 ------------------------------------------- */
 
@@ -2289,16 +2286,36 @@ a.cta-a strong {
 .process-links {
     padding: 5px 10px;
     text-align: center;
+    display: table;
+    margin: auto;
 }
-.process-links a {
-    color:#9a0404;
-    font-size:1.25em;
-    font-weight:bold;
-    font-style:italic;
-    margin: 0 2%;
+.process-links a.cta-a {
+    display: table-cell;
 }
+
 .process-help-text {
+    float: left;
     padding:5px 10px;
     min-height:56px;
     font-size: 120%;
+}
+
+#ajax_loading {
+    background: url("../images/nav-bg-a.png") repeat-x scroll 0 0 transparent;
+    font-size: 1em;
+    height: 20px;
+    line-height: 20px;
+    padding: 0 10px;
+    position: absolute;
+    position: fixed;
+    font-weight: bold;
+    -moz-border-radius: 0 0 16px 16px;
+    border-radius: 0 0 16px 16px;
+    z-index: 100;
+    color: #FFFFFF;
+    display: none;
+    top: 0;
+    left: 50%;
+    width: 300px;
+    text-align: center;
 }

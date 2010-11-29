@@ -487,11 +487,13 @@ function parse_filters(src, id) {
         var kind = $fld.attr('kind');
         var fld_value = $fld.val();
         var fld_name = $fld.attr('name');
+        
         if(kind == 'selection') {
             if ($fld.val() != '') {
 
                 if ($fld.attr('type2') == 'many2one') {
-                    fld_value = parseInt($fld.val());
+                	var selection_operator = $fld.attr('operator');
+                    fld_value = $fld.val() + '/' + selection_operator;
                 }
                 else{
                     fld_value = 'selection_'+$fld.val();
@@ -513,7 +515,7 @@ function parse_filters(src, id) {
     });
     domains = serializeJSON(domains);
     all_domains['domains'] = domains;
-    all_domains['search_context'] =  search_context;
+    all_domains['search_context'] = search_context;
     var selected_boxes = getElementsByTagAndClassName('input', 'grid-domain-selector');
 
     forEach(selected_boxes, function(box){
@@ -601,10 +603,8 @@ function manage_filters() {
 }
 
 function final_search_domain(custom_domain, all_domains, group_by_ctx) {
-    var waitBox = new openerp.ui.WaitBox();
     if(group_by_ctx.length)
         group_by_ctx = group_by_ctx.join(',');
-    waitBox.showAfter(500);
     jQuery.ajax({
         url: '/openerp/search/eval_domain_filter',
         type: 'POST',
@@ -615,7 +615,6 @@ function final_search_domain(custom_domain, all_domains, group_by_ctx) {
             all_domains: all_domains,
             group_by_ctx: group_by_ctx
             },
-        complete: jQuery.proxy(waitBox, 'hide'),
         success: function(obj) {
             if (obj.domain) { // For direct search
 

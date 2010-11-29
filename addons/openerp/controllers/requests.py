@@ -27,7 +27,7 @@
 #
 ###############################################################################
 import cherrypy
-from openerp.controllers import SecuredController
+from openerp.controllers import SecuredController, actions
 from openerp.utils import rpc
 
 from openobject.tools import expose
@@ -53,9 +53,7 @@ class Requests(SecuredController):
 
     @expose()
     def default(self):
-        import actions
-        return actions.execute_window(False, 'res.request', res_id=None,
-            domain=[('act_to', '=', rpc.session.uid), ('active', '=', True)], view_type='form', mode='tree,form')
-
-
-# vim: ts=4 sts=4 sw=4 si et
+        return actions.execute(
+            rpc.RPCProxy('ir.actions.act_window')\
+                    .for_xml_id('base', 'res_request-act')
+        )

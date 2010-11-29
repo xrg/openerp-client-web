@@ -38,6 +38,7 @@ from openerp.widgets import TinyInputWidget
 class Screen(TinyInputWidget):
 
     template = """
+        <input type="hidden" id="${name}_terp_string" name="${name}_terp_string" value="${string}"/>
         <input type="hidden" id="${name}_terp_model" name="${name}_terp_model" value="${model}"/>
         <input type="hidden" id="${name}_terp_state" name="${name}_terp_state" value="${state}"/>
         <input type="hidden" id="${name}_terp_id" name="${name}_terp_id" value="${id}"/>
@@ -84,6 +85,7 @@ class Screen(TinyInputWidget):
         self.view_id       = False
         self.group_by_ctx  = params.group_by_ctx or []        
         self.is_wizard = params.is_wizard
+        self.default_value = params.default_data or []
         
         self.m2m = kw.get('_m2m', 0)
         self.o2m = kw.get('_o2m', 0)
@@ -97,7 +99,8 @@ class Screen(TinyInputWidget):
         if self.view_ids and self.view_type in self.view_mode:
             idx = self.view_mode.index(self.view_type)
             self.view_id = self.view_ids[idx]
-
+ 
+        self.search_domain = params.search_domain or []
         self.domain        = params.domain or []
         self.context       = params.context or {}
         self.nodefault     = params.nodefault or False
@@ -128,7 +131,6 @@ class Screen(TinyInputWidget):
 
         # get calendar options
         self.kalendar           = params.kalendar
-
         if self.view_mode:
             self.add_view_id(self.view_id, self.view_type)
 
@@ -165,7 +167,7 @@ class Screen(TinyInputWidget):
         self.toolbar = toolbar or None
         self.submenu = eval(ustr(submenu)) or None
 
-        self.hastoolbar = (toolbar or False) and True
-        self.hassubmenu = (submenu or False) and True
+        self.hastoolbar = bool(toolbar)
+        self.hassubmenu = bool(submenu)
 
 # vim: ts=4 sts=4 sw=4 si et

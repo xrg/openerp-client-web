@@ -162,13 +162,27 @@
                             	<a class="button-a" href="javascript: void(0)" onclick="search_filter()">${_("Search")}</a>
                            	    <a class="button-a" href="javascript: void(0)" onclick="do_create()">${_("New")}</a>
                             	<a class="button-a" style="margin-left:10px;" href="javascript: void(0)" onclick="window.close()">${_("Close")}</a>
+                            
                             </td>
                         </tr>
                     </table>
                 </td>
             </tr>
             <tr>
-                <td style="padding: 5px">${form.screen.display()}</td>
+                <td style="padding: 5px">
+                    <div style="position:relative">
+                        % if not params.ids and 'default_name' in params.context:
+                            <div class="no-record-warning">
+                                <p>${_("Found no record '%(searched_string)s'.", searched_string=params.context['default_name'])}</p>
+                                <p>
+                                    <a class="button-a" href="javascript: void(0)"
+                                       onclick="do_create()">${_("Create %(searched_string)s", searched_string=params.context['default_name'])}</a>
+                                </p>
+                            </div>
+                        % endif
+                        ${form.screen.display()}
+                    </div>
+                </td>
             </tr>
         </table>
         <script type="text/javascript">

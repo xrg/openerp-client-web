@@ -65,10 +65,12 @@
                         <a id="shortcut_add_remove" title="${_('Add / Remove Shortcut...')}" href="javascript: void(0)" class="${shortcut_class}"></a>
                     % endif
                     ${form.screen.string}
-                    <a class="help" href="${py.url('/view_diagram/process', res_model=form.screen.model, title=form.screen.string, res_id=form.screen.id)}"
-                       title="${_('Corporate Intelligence...')}">
-                        <small>Help</small>
-                    </a>
+                    % if obj_process:
+	                    <a class="help" href="${py.url('/view_diagram/process', res_model=form.screen.model, title=form.screen.string, res_id=form.screen.id)}"
+	                       title="${_('Corporate Intelligence...')}">
+	                        <small>Help</small>
+	                    </a>
+                    % endif
                     % if form.screen.view_type == 'form' and form.logs.logs:
                       <a id="show_server_logs" class="logs" href="javascript: void(0)"
                           title="${_('Show Logs...')}">
@@ -81,10 +83,10 @@
                 </h1>
                 % if tips:
                     <div id="help-tips">
-                        <h3>${_("Tips")}</h3>
-                        <a href="#hide" id="hide-tips">(${_("hide")})</a>
-                        <a href="/openerp/form/close_or_disable_tips" id="disable-tips">${_("Disable all Tips")}</a>
                         <p>${tips}</p>
+                        <a href="/openerp/form/close_or_disable_tips" id="disable-tips" style="text-decoration: underline;">${_("Disable all Tips")}</a>
+                        <a href="#hide" id="hide-tips" style="text-decoration: underline;">${_("Hide this Tip")}</a>
+                        <br style="clear: both"/>
                     </div>
                 % endif
                 % if form.screen.view_type == 'form':
@@ -92,7 +94,7 @@
                         ${form.logs.display()}
                     % endif
                 % endif
-                % if form.screen.view_type in ['form', 'diagram'] and buttons.toolbar and form.screen.model != 'board.board':
+                % if form.screen.view_type in ['form', 'diagram'] and buttons.toolbar and not is_dashboard:
                 <div class="wrapper action-buttons">
                     <ul class="inline-b left w50">
                         % if buttons.new:
@@ -113,7 +115,7 @@
                             <a href="javascript: void(0);" onclick="submit_form('save_and_edit')" class="button-a">${_("Save & Edit")}</a>
                         </li>
                         % endif
-                        % if buttons.edit:
+                        % if buttons.edit and form.screen.view_type== 'form':
                         <li title="${_('Duplicate this resource')}">
                             <a href="javascript: void(0);" onclick="submit_form('duplicate')" class="button-a">${_("Duplicate")}</a>
                         </li>
@@ -135,7 +137,7 @@
                         % endif
                         % if buttons.show_grid:
                         <li title="${_('Show grid in workflow canvas')}">
-                            <label for="show_diagram_grid">Show grid:
+                            <label for="show_diagram_grid">${_('Show grid')}:
                                 <input type="checkbox" checked="checked" class="checkbox" id="show_diagram_grid"
                                        value="" onchange="show_grid(this); return false">
                             </label>
@@ -148,7 +150,7 @@
                     % endif
                 </div>
                 % endif
-                <div>${form.display()}</div>
+                <div${ " class='non-editable'" if not form.screen.editable and form.screen.view_type == 'form' else "" | n }>${form.display()}</div>
 
             </td>
             % if form.sidebar:
@@ -158,8 +160,8 @@
                   else:
                       sidebar_class="closed"
                 %>
-                <td class="toggle-sidebar ${sidebar_class}"></td>
                 <td id="main_sidebar" valign="top">
+                    <a class="toggle-sidebar ${sidebar_class}" href="#">Toggle</a>
                     <div id="tertiary" class="${sidebar_class}">
                         <div id="tertiary_wrap">
                             ${form.sidebar.display()}

@@ -4,11 +4,10 @@
         kind="${kind}"
         name="${name}"
         type2 = "${type2}"
+        operator="${operator}"
         class="${css_class}"
         search_context="${search_context}" ${py.attrs(attrs)}>
-        % if not required:
-            <option value=""></option>
-        % endif
+        <option value=""></option>
         % for (k, v) in options:
         <option value="${k}" ${py.selector(k==value)}>${v}</option>
         % endfor

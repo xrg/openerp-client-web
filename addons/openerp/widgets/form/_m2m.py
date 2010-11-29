@@ -113,7 +113,7 @@ class M2M(TinyInputWidget):
             current = TinyDict()
 
         current.offset = current.offset or 0
-        current.limit = current.limit or 20
+        current.limit = current.limit or 50
         current.count = len(ids or [])
 
         if current.view_mode: view_mode = current.view_mode

@@ -27,13 +27,15 @@
 #
 ###############################################################################
 import cherrypy
-from openerp.controllers import SecuredController, unsecured, actions, login as tiny_login, form
+
+import openobject
+from openerp.controllers import SecuredController, unsecured, actions, login as tiny_login, form, widgets
 from openerp.utils import rpc, cache, TinyDict
 
 from openobject.tools import url, expose, redirect
 
-
 def _cp_on_error():
+    cherrypy.request.pool = openobject.pooler.get_pool()
 
     errorpage = cherrypy.request.pool.get_controller("/openerp/errorpage")
     message = errorpage.render()
@@ -50,7 +52,6 @@ class Root(SecuredController):
     def index(self, next=None):
         """Index page, loads the view defined by `action_id`.
         """
-        
         if not next:
             user_action_id = rpc.RPCProxy("res.users").read([rpc.session.uid], ['action_id'], rpc.session.context)[0]['action_id']
             if user_action_id:
@@ -103,15 +104,17 @@ class Root(SecuredController):
         ctx = rpc.session.context.copy()
         menus = rpc.RPCProxy("ir.ui.menu")
         ids = menus.search([('parent_id', '=', False)], 0, 0, 0, ctx)
-        parents = menus.read(ids, ['name', 'action'], ctx)
-            
+        parents = menus.read(ids, ['name', 'action', 'web_icon_data', 'web_icon_hover_data'], ctx)
+
         for parent in parents:
             if parent['id'] == id:
                 parent['active'] = 'active'
                 if parent.get('action') and not next:
-                    next = url('/openerp/custom_action', action=id)  
-        
-        tools = []
+                    next = url('/openerp/custom_action', action=id)
+            # If only the hover image exists, use it as regular image as well
+            if parent['web_icon_hover_data'] and not parent['web_icon_data']:
+                parent['web_icon_data'] = parent['web_icon_hover_data']
+
         if next or active:
             if not id and ids:
                 id = ids[0] 
@@ -129,9 +132,15 @@ class Root(SecuredController):
                 tree.tree.onselection = None
                 tree.tree.onheaderclick = None
                 tree.tree.showheaders = 0
-        widgets = rpc.RPCProxy('res.widget')
+        else:
+            # display home action
+            tools = None
+
         return dict(parents=parents, tools=tools, load_content=(next and next or ''),
-                    widgets=widgets.read(widgets.search([], 0, 0, 0, ctx), [], ctx))
+                    maintenance=rpc.RPCProxy('maintenance.contract').status(),
+                    widgets=openobject.pooler.get_pool()\
+                                      .get_controller('/openerp/widgets')\
+                                      .user_home_widgets(ctx))
 
     @expose(allow_json=True)
     @unsecured

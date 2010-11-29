@@ -41,8 +41,8 @@ class Widget(object):
     parent = None
 
     def __new__(cls, *args, **kwargs):
-        pool = openobject.pooler.get_pool()
-        actual_cls = pool.get(cls.widget_key, group='widgets')
+        actual_cls = openobject.pooler.get_pool().get(
+                cls.widget_key, group='widgets')
         # if there is nothing in the pool yet (uh?)
         return object.__new__(actual_cls or cls)
 
@@ -366,19 +366,21 @@ class InputWidget(Widget):
 
         super(InputWidget, self).update_params(params)
 
+        classes = set(params.css_classes)
         if not self.strip_name:
 
             if self.is_required:
-                params.css_classes.append('requiredfield')
+                classes.add('requiredfield')
 
             if self.is_readonly:
-                params.css_classes.append('readonlyfield')
+                classes.add('readonlyfield')
 
             if self.is_disabled:
-                params.css_classes.append('disabledfield')
+                classes.add('disabledfield')
 
-            if params.error:
-                params.css_classes.append('errorfield')
+            if getattr(params, 'error', None):
+                classes.add('errorfield')
+        params.css_classes = list(classes)
 
         params['error_for'] = lambda f: self.error_for(f, params['error'])
 

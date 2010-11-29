@@ -150,62 +150,6 @@ class Connector(Form):
 
     _cp_path = "/view_diagram/workflow/connector"
 
-    @expose(template="/view_diagram/controllers/templates/wkf_popup.mako")
-    def create(self, params, tg_errors=None):
-
-        params.path = self.path
-        params.function = 'update_connection'
-
-        if params.id and cherrypy.request.path_info == self.path + '/view':
-            params.load_counter = 2
-
-        proxy_field = rpc.RPCProxy('ir.model.fields')
-        field_ids = proxy_field.search([('ttype', '=', 'many2one'),
-                                        ('model', '=', params.model),
-                                        ('relation', '=', params.m2o_model)])
-        fields = map(lambda field: field['name'],
-                     proxy_field.read(field_ids, ['name'],
-                                      rpc.session.context))
-
-        connector = rpc.RPCProxy(params.model).read(params.id, fields,
-                                                    rpc.session.context)
-
-        params.hidden_fields = [tw.form.Hidden(name=fields[0],
-                                               default=connector[fields[0]]),
-                                tw.form.Hidden(name=fields[1],
-                                               default=connector[fields[1]]),
-                                tw.form.Hidden(name='_terp_m2o_model',
-                                               default=params.m2o_model),]
-
-        form = self.create_form(params, tg_errors)
-
-        field_act_from = form.screen.widget.get_widgets_by_name(fields[0])[0]
-        field_act_from.set_value(params.start or False)
-        field_act_from.readonly = True
-
-        field_act_to = form.screen.widget.get_widgets_by_name(fields[1])[0]
-        field_act_to.set_value(params.end or False)
-        field_act_to.readonly = True
-
-        vals = getattr(cherrypy.request, 'terp_validators', {})
-        vals[fields[0]] = validators.Int()
-        vals[fields[1]] = validators.Int()
-
-        return dict(form=form, params=params)
-
-    @expose()
-    def edit(self, **kw):
-        params, data = TinyDict.split(kw)
-
-        if not params.model:
-            params.update(kw)
-
-        params.view_mode = ['form']
-        params.view_type = 'form'
-        params.editable = True
-
-        return self.create(params)
-
     @expose('json', methods=('POST',))
     def delete(self, conn_obj, id, **kw):
         error_msg = None
@@ -268,7 +212,7 @@ class Workflow(Form):
 
     _cp_path = "/view_diagram/workflow"
 
-    @expose(template="/view_diagram/controllers/templates/workflow.mako")
+    @expose(template="/openerp/controllers/templates/form.mako")
     def index(self, model, rec_id=None):
         
         proxy = rpc.RPCProxy("workflow")
@@ -287,9 +231,8 @@ class Workflow(Form):
             _terp_id=wkf['id'],
             _terp_view_mode=['tree', 'form', 'diagram']
         )
-        
-        form = tw.form_view.ViewForm(params, name="view_form", action="")
-        return dict(form=form, name=wkf['name'] ,workitems=result['workitems'].keys())
+        return self.create(params)
+
 
     @expose('json')
     def get_info(self, id, model, node_obj, conn_obj, src_node, des_node, **kw):

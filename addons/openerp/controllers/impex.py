@@ -39,6 +39,13 @@ from openobject import tools
 from openobject.tools import expose, redirect, ast
 
 
+try:
+    import xlwt
+    xls_export_available = True
+except:
+    xls_export_available = False
+
+
 def datas_read(ids, model, fields, context=None):
     ctx = dict((context or {}), **rpc.session.context)
     return rpc.RPCProxy(model).export_data(ids, fields, ctx)
@@ -71,7 +78,7 @@ def export_csv(fields, result, write_title=False):
         raise common.message(_("Operation failed\nI/O error")+"(%s)" % (errno,))
 
 def _fields_get_all(model, views, context=None):
-    
+
     context = context or {}
 
     def parse(root, fields):
@@ -117,7 +124,7 @@ class ImpEx(SecuredController):
     @expose(template="/openerp/controllers/templates/exp.mako")
     def exp(self, **kw):
         params, data = TinyDict.split(kw)
-        
+
         ctx = dict((params.context or {}), **rpc.session.context)
 
         views = {}
@@ -127,7 +134,6 @@ class ImpEx(SecuredController):
 
 
         proxy = rpc.RPCProxy('ir.exports')
-        new_list = []
 
         headers = [{'string' : 'Name', 'name' : 'name', 'type' : 'char'}]
         tree = treegrid.TreeGrid('export_fields',
@@ -144,11 +150,12 @@ class ImpEx(SecuredController):
         new_list = listgrid.List(name='_terp_list', model='ir.exports', view=view, ids=None,
                                  domain=[('resource', '=', params.model)],
                                  context=ctx, selectable=1, editable=False, pageable=False, impex=True)
-
+      
+		
 
         return dict(new_list=new_list, model=params.model, ids=params.ids, ctx=ctx,
                     search_domain=params.search_domain, source=params.source,
-                    tree=tree)
+                    tree=tree, xls_export_available=xls_export_available)
 
     @expose()
     def save_exp(self, **kw):
@@ -179,26 +186,23 @@ class ImpEx(SecuredController):
     @expose('json')
     def get_fields(self, model, prefix='', name='', field_parent=None, **kw):
 
-        is_importing = kw.get('is_importing', False)        
-        
+        is_importing = kw.get('is_importing', False)
+
         try:
             ctx = ast.literal_eval(kw['context'])
         except:
             ctx = {}
-            
+
         ctx.update(**rpc.session.context)
 
-        ids = kw.get('ids', '').split(',')
-        ids = [i for i in ids if i]
-        
         try:
             views = ast.literal_eval(kw['views'])
         except:
             views = {}
-            
+
 
         fields = _fields_get_all(model, views, ctx)
-        
+
         fields.update({'id': {'string': 'ID'}, 'db_id': {'string': 'Database ID'}})
 
         fields_order = fields.keys()
@@ -214,32 +218,22 @@ class ImpEx(SecuredController):
             id = prefix + (prefix and '/' or '') + field
             nm = name + (name and '/' or '') + value['string']
 
-            if is_importing and (value.get('type') not in ('reference',)) and (not value.get('readonly', False) \
+            if is_importing and (value.get('type') not in ('reference',)) and (not value.get('readonly') \
                         or not dict(value.get('states', {}).get('draft', [('readonly', True)])).get('readonly', True)):
 
-                record['id'] = id
-                record['items'] = {'name' : nm}
-                record['action'] = 'javascript: void(0)'
-                record['target'] = None
-                record['icon'] = None
-                record['children'] = []
-                record['required'] = value.get('required', False)
+                record.update(id=id, items={'name': nm},
+                              action='javascript: void(0)', target=None,
+                              icon=None, children=[],
+                              required=value.get('required', False))
 
-                records += [record]
+                records.append(record)
 
             elif not is_importing:
-#                if ids:
-#                    record['id'] = ids[i]
-#                else:
-                record['id'] = id
+                record.update(id=id, items={'name': nm},
+                              action='javascript: void(0)', target=None,
+                              icon=None, children=[])
 
-                record['items'] = {'name' : nm}
-                record['action'] = 'javascript: void(0)'
-                record['target'] = None
-                record['icon'] = None
-                record['children'] = []
-
-                records += [record]
+                records.append(record)
 
             if len(nm.split('/')) < 3 and value.get('relation', False):
 
@@ -271,11 +265,9 @@ class ImpEx(SecuredController):
     def get_namelist(self, **kw):
 
         params, data = TinyDict.split(kw)
-        
+
         ctx = dict((params.context or {}), **rpc.session.context)
-        
-        res = []
-        ids = []
+
         id = params.id
 
         res = self.get_data(params.model, ctx)
@@ -290,7 +282,7 @@ class ImpEx(SecuredController):
         ids = [f['name'] for f in fields]
 
         for name in ids:
-            name_list += [(name, res.get(name))]
+            name_list.append((name, res.get(name)))
 
         return dict(name_list=name_list)
 
@@ -308,13 +300,11 @@ class ImpEx(SecuredController):
             f1 = proxy.fields_view_get(False, 'tree', context)['fields']
             f2 = proxy.fields_view_get(False, 'form', context)['fields']
 
-            fields = {}
-            fields.update(f1)
+            fields = dict(f1)
             fields.update(f2)
 
         def rec(fields):
-
-            _fields = {}
+            _fields = {'id': {'string': 'ID'}, 'db_id': {'string': 'Database ID'}}
 
             def model_populate(fields, prefix_node='', prefix=None, prefix_value='', level=2):
                 fields_order = fields.keys()
@@ -329,7 +319,6 @@ class ImpEx(SecuredController):
                     if fields[field].get('relation', False) and level>0:
                         fields2 = rpc.session.execute('object', 'execute', fields[field]['relation'], 'fields_get', False, rpc.session.context)
                         model_populate(fields2, prefix_node+field+'/', None, st_name+'/', level-1)
-            fields.update({'id': {'string': 'ID'}, 'db_id': {'string': 'Database ID'}})
             model_populate(fields)
 
             return _fields
@@ -339,7 +328,7 @@ class ImpEx(SecuredController):
     @expose(content_type="application/octet-stream")
     def export_data(self, fname, fields, export_as="csv", add_names=False, import_compat=False, **kw):
 
-        params, data = TinyDict.split(kw)
+        params, data_index = TinyDict.split(kw)
         proxy = rpc.RPCProxy(params.model)
 
         if isinstance(fields, basestring):
@@ -353,7 +342,7 @@ class ImpEx(SecuredController):
         ids = params.ids or proxy.search(domain, 0, 0, 0, ctx)
         result = datas_read(ids, params.model, fields, context=ctx)
 
-        if result.get('warning', False):
+        if result.get('warning'):
             common.warning(unicode(result.get('warning', False)), _('Export Error'))
             return False
         result = result.get('datas',[])
@@ -362,11 +351,8 @@ class ImpEx(SecuredController):
             params.fields2 = fields
 
         if export_as == 'xls':
-            try:
-                import xlwt
-            except Exception, e:
-                  raise common.warning(_('Please Install xlwt Library.\nTo create spreadsheet files compatible with MS Excel.'), _('Import Error.'))
 
+            import xlwt
             ezxf = xlwt.easyxf
 
             fp = StringIO.StringIO()
@@ -374,37 +360,34 @@ class ImpEx(SecuredController):
             wb = xlwt.Workbook()
             worksheet = wb.add_sheet('Sheet 1')
 
-            for col in range(len(params.fields2)):
-                worksheet.write(0, col, ustr(params.fields2[col]))
-                col+1
+            for index, col in enumerate(params.fields2):
+                worksheet.write(0, index, ustr(col))
 
             heading_xf = ezxf('align: wrap yes')
 
-            for data in range(len(result)):
-                for d in range(len(result[data])):
+            for data_index, data in enumerate(result):
+                for d in range(len(result[data_index])):
                     try:
-                        result[data][d] = ustr(result[data][d])
+                        data[d] = ustr(data[d])
                     except:
                         pass
-                    result[data][d] = re.sub("\r", " ", result[data][d])
-                    worksheet.write(data+1, d, result[data][d], heading_xf)
+                    data[d] = re.sub("\r", " ", data[d])
+                    worksheet.write(data_index+1, d, data[d], heading_xf)
                     worksheet.col(d).width = 8000
-                    d+1
 
             wb.save(fp)
 
             fp.seek(0)
-            data = fp.read()
-            return data
+            return fp.read()
         else:
             return export_csv(params.fields2, result, add_names)
 
     @expose(template="/openerp/controllers/templates/imp.mako")
     def imp(self, **kw):
         params, data = TinyDict.split(kw)
-        
+
         ctx = dict((params.context or {}), **rpc.session.context)
-        
+
         views = {}
         if params.view_mode and params.view_ids:
             for i, view in enumerate(params.view_mode):
@@ -430,9 +413,11 @@ class ImpEx(SecuredController):
 
         _fields = {}
         _fields_invert = {}
-        
-        fields = rpc.RPCProxy(params.model).fields_get(False, rpc.session.context)
-        
+
+        fields = dict(rpc.RPCProxy(params.model).fields_get(False, rpc.session.context),
+                      id={'type': 'char', 'string': 'ID'},
+                      db_id={'type': 'char', 'string': 'Database ID'})
+
         def model_populate(fields, prefix_node='', prefix=None, prefix_value='', level=2):
             def str_comp(x,y):
                 if x<y: return 1
@@ -443,10 +428,10 @@ class ImpEx(SecuredController):
             fields_order.sort(lambda x,y: str_comp(fields[x].get('string', ''), fields[y].get('string', '')))
             for field in fields_order:
                 if (fields[field].get('type','') not in ('reference',))\
-                            and (not fields[field].get('readonly', False)\
+                            and (not fields[field].get('readonly')\
                             or not dict(fields[field].get('states', {}).get(
                             'draft', [('readonly', True)])).get('readonly',True)):
-                    
+
                     st_name = prefix_value+fields[field]['string'] or field
                     _fields[prefix_node+field] = st_name
                     _fields_invert[st_name] = prefix_node+field
@@ -458,7 +443,6 @@ class ImpEx(SecuredController):
                         model_populate({'id': {'type': 'char', 'string': 'ID'}, 'db_id': {'type': 'char', 'string': 'Database ID'}},
                                        prefix_node+field+':', None, st_name+'/', level-1)
 
-        fields.update({'id': {'type': 'char', 'string': 'ID'}, 'db_id': {'type': 'char', 'string': 'Database ID'}})
         model_populate(fields)
 
         try:
@@ -473,9 +457,9 @@ class ImpEx(SecuredController):
                 for word in line:
                     word = ustr(word.decode(csvcode))
                     if word in _fields:
-                        fields += [(word, _fields[word])]
+                        fields.append((word, _fields[word]))
                     elif word in _fields_invert.keys():
-                        fields += [(_fields_invert[word], word)]
+                        fields.append((_fields_invert[word], word))
                     else:
                         raise common.warning(_("You cannot import this field %s, because we cannot auto-detect it" % (word,)))
                 break
@@ -494,8 +478,8 @@ class ImpEx(SecuredController):
         input=StringIO.StringIO(content)
         data = list(csv.reader(input, quotechar=str(csvdel), delimiter=str(csvsep)))[int(csvskip):]
         datas = []
-        ctx = dict(**rpc.session.context)
-        
+        ctx = dict(rpc.session.context)
+
         if not isinstance(fields, list):
             fields = [fields]
 
@@ -516,9 +500,4 @@ class ImpEx(SecuredController):
                 d+= ('\t%s: %s\n' % (ustr(key),ustr(val)))
             error = _('Error trying to import this record:\n%s\nError Message:\n%s\n\n%s') % (d,res[2],res[3])
             raise common.warning(unicode(error), _('Importation Error'))
-
-        return self.imp(**kw)
-
-
-# vim: ts=4 sts=4 sw=4 si et
 

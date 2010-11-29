@@ -51,23 +51,19 @@ else:
                     </ul>
                 </li>
 
-                <li><a id="open_prefs" href="javascript: void(0);" class="preferences">${_("Preferences")}</a>
+                <li class="preferences">
+                    <a href="${py.url('/openerp/pref/create')}"
+                       class="preferences" target="_blank">${_("Preferences")}</a>
                     <ul>
-                        <li class="first last"><a id="open_prefs_inner" href="javascript: void(0);">${_("Edit Preferences")}</a></li>
+                        <li class="first last"><a href="${py.url('/openerp/pref/create')}"
+                                                  target="_blank">${_("Edit Preferences")}</a></li>
                     </ul>
-
-                    <script type="text/javascript">
-                        jQuery('#open_prefs,#open_prefs_inner').click(function() {
-                            openobject.tools.openWindow(
-                                openobject.http.getURL('/openerp/pref/create', null)
-                            );
-                        });
-                    </script>
                 </li>
-
-                <li><a href="/openerp/about" class="info">${_("About")}</a>
+                <li><a href="${py.url('/', next='/openerp/about')}"
+                       target="_top" class="info">${_("About")}</a>
                     <ul>
-                        <li class="first last"><a href="/openerp/about">${_("About")}</a></li>
+                        <li class="first last"><a href="${py.url('/', next='/openerp/about')}"
+                                                  target="_top">${_("About")}</a></li>
                     </ul>
                 </li>
 
@@ -78,9 +74,11 @@ else:
                 </li>
 
                 % if cp.config('server.environment') == 'production':
-                    <li id="clear_cache"><a href="${py.url('/openerp/pref/clear_cache')}" class="clear_cache">${_("Clear Cache")}</a>
+                    <li id="clear_cache"><a href="${py.url('/openerp/pref/clear_cache')}"
+                                            class="clear_cache" target="_top">${_("Clear Cache")}</a>
                         <ul>
-                            <li class="first last"><a href="javascript: void(0);">${_("Clear Cache")}</a></li>
+                            <li class="first last"><a href="${py.url('/openerp/pref/clear_cache')}"
+                                                      target="_top">${_("Clear Cache")}</a></li>
                         </ul>
                     </li>
                 % endif
@@ -104,3 +102,9 @@ else:
     % endif
     </div>
 </td>
+<script type="text/javascript">
+    jQuery('.tools li.preferences a').click(function (e) {
+        e.preventDefault();
+        openobject.tools.openWindow(this.href);
+    });
+</script>

@@ -17,7 +17,7 @@
     <tr>
         <td align="right">
             <div class="box2">
-                <button type="button" onclick="window.close()">${_("Close")}</button>
+                <button type="button" onclick="window.top.closeAction()">${_("Close")}</button>
             </div>
         </td>
     </tr>

@@ -1,10 +1,16 @@
-<%def name="sidebox_action_item(item, model, submenu)">
+<%def name="sidebox_action_item(item, model, submenu, icon)">
     % if submenu != 1:
     	<li data="${item}" action_id="${item['id']}" relation="${model}" onclick="validate_action(this, do_action)">
+            % if icon:
+                <img src="${icon}" alt=""/>
+            % endif
            <a href="javascript: void(0)" onclick="return false">${item['name']}</a>
         </li>
     % else:
         <li data="${item}">
+            % if icon:
+                <img src="${icon}" alt=""/>
+            % endif
             % if item['name']:
                 <a href="#" onclick="submenu_action('${item['action_id']}', '${model}');">
                     ${item['name']}
@@ -14,12 +20,12 @@
     % endif
 </%def>
 
-<%def name="make_sidebox(title, model, items, submenu=0)">
+<%def name="make_sidebox(title, model, items, submenu=0, icon=None)">
 <div class="sideheader-a"><h2>${title}</h2></div>
 <ul class="clean-a">
 	% for item in items:
         % if item:
-        	${sidebox_action_item(item, model, submenu)}
+        	${sidebox_action_item(item, model, submenu, icon)}
         % endif
     % endfor
 </ul>
@@ -27,7 +33,7 @@
 
 <div id="sidebar">
     % if reports:
-        ${make_sidebox(_("Reports"), model, reports)}
+        ${make_sidebox(_("Reports"), model, reports, icon='/openerp/static/images/stock/gtk-print.png')}
     % endif
 
     % if actions:
@@ -79,11 +85,12 @@
                onclick="openobject.tools.openWindow('/openerp/viewlist?model=${model}', {height: 400})"
                href="javascript: void(0)">${_("Manage Views")}</a>
         </li>
+        % if id:
         <li>
-            <a title="${_('Manage workflows of the current object')}"
-               onclick="show_wkf(); return false;"
-               href="javascript: void(0)">${_("Show Workflow")}</a>
+            <a title="${_('Edit workflow of the current object')}"
+               href="/view_diagram/workflow?model=${model}&amp;rec_id=${id}">${_("Edit Workflow")}</a>
         </li>
+        % endif
         <li>
             <a title="${_('Customize current object or create a new object')}"
                onclick="openobject.tools.openWindow('/openerp/viewed/new_model/edit?model=${model}')"

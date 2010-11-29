@@ -18,6 +18,8 @@
 	<button type="button" class="${ul_class} ${a_class}" title="${help}" onclick="search_filter(jQuery('#${filter_id}'), this);">
        % if icon:
            <img src="${icon}" width="16" height="16" alt="">
+       % else:
+           <img src="/openerp/static/images/icons/go-home.png" width="16" height="16" alt="">
        % endif
        % if text:
            ${text}

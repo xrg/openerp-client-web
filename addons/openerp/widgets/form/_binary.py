@@ -83,8 +83,8 @@ class Image(TinyInputWidget):
 
     params = ["src", "width", "height", "model", "id", "field", "stock", 'bin_src']
     src = ""
-    width = 32
-    height = 32
+    width = None
+    height = None
     field = ''
     stock = True
 
@@ -103,8 +103,8 @@ class Image(TinyInputWidget):
                 self.bin_src =attrs['value']
             else:
                 self.src =  self.bin_src = ''
-            self.height = attrs.get('img_height', attrs.get('height', 65))
-            self.width = attrs.get('img_width', attrs.get('width', 200))
+            self.height = attrs.get('img_height', attrs.get('height', None))
+            self.width = attrs.get('img_width', attrs.get('width', None))
             self.validator = validators.Binary()
         else:
             self.src =  icons.get_icon(icon)

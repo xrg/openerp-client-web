@@ -284,10 +284,16 @@ class Separator(TinyWidget):
     template = "/openerp/widgets/form/templates/separator.mako"
     params = ["orientation"]
 
+    def get_default_colspan(self):
+        if self.orientation == 'horizontal':
+            return 4
+        else:
+            return 1
+
     def __init__(self, **attrs):
         super(Separator, self).__init__(**attrs)
-        self.colspan = int(attrs.get('colspan', 4))
         self.orientation = attrs.get('orientation', 'horizontal')
+        self.colspan = int(attrs.get('colspan', self.get_default_colspan()))
         self.rowspan = int(attrs.get('rowspan', 1))
         self.nolabel = True
 
@@ -306,7 +312,7 @@ register_widget(NewLine, ["newline"])
 class Label(TinyWidget):
 
     template = """
-    <div style="text-align: ${align}; width: 100%;">
+    <div style="text-align: ${align}; width: 100%; padding-right: 8px">
         ${field_value}
     </div>"""
 
@@ -432,7 +438,7 @@ class Float(TinyInputWidget):
 #            self.default = 0.0
 
     def set_value(self, value):
-        self.default = value
+        self.default = value or 0.0
 
 register_widget(Float, ["float"])
 
@@ -470,7 +476,7 @@ register_widget(ProgressBar, ["progressbar"])
 class Selection(TinyInputWidget):
     template = "/openerp/widgets/form/templates/selection.mako"
 
-    params = ['options', 'search_context', 'type2']
+    params = ['options', 'search_context', 'type2', 'operator']
     options = []
     search_context = {}
 
@@ -479,6 +485,7 @@ class Selection(TinyInputWidget):
 
         self.options = attrs.get('selection', [])
         self.type2 = attrs.get('type2')
+        self.operator = attrs.get('operator', '=')
         # m2o as selection
         if not self.options and attrs.get('relation') and attrs.get('widget') == 'selection':
             proxy = rpc.RPCProxy(attrs['relation'])
@@ -496,8 +503,11 @@ class Selection(TinyInputWidget):
                 self.options = proxy.name_get(ids, ctx)
             except:
                 self.options = []
+
+        if self.options and self.options[0][0] == '' and isinstance(self.options[0][0], unicode):
+            self.validator = validators.Selection()
         # determine the actual type
-        if self.options and isinstance(self.options[0][0], basestring):
+        elif self.options and isinstance(self.options[0][0], basestring):
             self.kind = 'char'
             self.validator = validators.String()
         else:
@@ -534,12 +544,12 @@ class DTLink(JSLink):
         lang = get_locale()
         link = "jscal/lang/calendar-%s.js" % lang
 
-        if os.path.exists(tools.resources.find_resource("openerp", "static", link)):
+        if tools.resources.resource_exists("openerp", "static", link):
             d.link = tools.url(["/openerp/static", link])
         else:
             lang = lang.split('_')[0]
             link = "jscal/lang/calendar-%s.js" % lang
-            if os.path.exists(tools.resources.find_resource("openerp", "static", link)):
+            if tools.resources.resource_exists("openerp", "static", link):
                 d.link = tools.url(["/openerp/static", link])
 
 class DateTime(TinyInputWidget):
@@ -619,7 +629,7 @@ class Button(TinyInputWidget):
         self.btype = attrs.get('special', attrs.get('type', 'workflow'))
         self.context = attrs.get("context", {})
         self.nolabel = True
-        self.target = "current"
+        self.target = ''
         if self.icon:
             self.icon = icons.get_icon(self.icon)
         self.default_focus = attrs.get('default_focus', 0)
@@ -636,14 +646,21 @@ register_widget(Button, ["button"])
 class Group(TinyWidget):
 
     template = "/openerp/widgets/form/templates/group.mako"
-    params = ["expand_grp_id", "default", "view_type"]
+    params = ["expand_grp_id", "default", "view_type", "states"]
     member_widgets = ["frame"]
     valign = "top"
     colspan = 4
     col = 4
+    states = None
+    visible = True
 
     def __init__(self, **attrs):
         super(Group, self).__init__(**attrs)
+
+        if isinstance(self.states, basestring):
+            self.states = self.states.split(',')
+        self.set_state(attrs.get('state', 'draft'))
+
         self.default = int(attrs.get('expand', 0))
         self.frame = Frame(**attrs)
         self.nolabel = True
@@ -652,6 +669,10 @@ class Group(TinyWidget):
         if attrs.get('group_by_ctx'):
             self.default = 1
         self.expand_grp_id = 'expand_grp_%s' % (random.randint(0,10000))
+
+    def set_state(self, state):
+        if self.states:
+            self.visible = state in self.states
 
 register_widget(Group, ["group"])
 
@@ -777,7 +798,7 @@ class Form(TinyInputWidget):
             if lval:
                 values = lval[0]
                 self.id = ids[0]
-                self._update_concurrency_info(self.model, [values])
+                ConcurrencyInfo.update(self.model, [values])
 
         elif 'datas' in view: # wizard data
 

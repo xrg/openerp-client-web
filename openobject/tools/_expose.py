@@ -35,7 +35,7 @@ import simplejson
 from mako.template import Template
 from mako.lookup import TemplateLookup
 
-from openobject import templating
+from openobject import templating, paths, pooler
 
 import _utils as utils
 import resources
@@ -52,23 +52,20 @@ for res in resources.find_resources("openobject", "..", ["*.mako", "*.cfg"]):
 filters = ["__content"]
 imports = ["from openobject.tools import content as __content"]
 
-class TL(TemplateLookup):
+TEMPLATE_LOOKUP_GROUP = 'template_lookup'
+def get_template_lookup():
+    """Return the Template Lookup for the current database"""
 
-    cache = {}
+    lookup = pooler.get_pool().get(None, TEMPLATE_LOOKUP_GROUP)
+    if not lookup:
+        lookup = TemplateLookup(
+                directories=[paths.root(), paths.addons()],
+                default_filters=filters,
+                imports=imports,
+                preprocessor=templating.edition_preprocessor)
+        pooler.get_pool().get_group(TEMPLATE_LOOKUP_GROUP)[None] = lookup
 
-    def get_template(self, uri):
-        try:
-            return self.cache[str(uri)]
-        except Exception, e:
-            pass
-        self.cache[str(uri)] = res = super(TL, self).get_template(uri)
-        return res
-
-template_lookup = TL(directories=[resources.find_resource("openobject", ".."),
-                                  resources.find_resource("openobject", "../addons")],
-                     default_filters=filters,
-                     imports=imports,
-                     preprocessor=templating.edition_preprocessor)
+    return lookup
 
 def load_template(template):
 
@@ -76,7 +73,7 @@ def load_template(template):
         return template
 
     if re.match('(.+)\.(html|mako)\s*$', template):
-        return template_lookup.get_template(template)
+        return get_template_lookup().get_template(template)
     else:
         return Template(template, default_filters=filters, imports=imports)
 
@@ -198,7 +195,6 @@ def expose(format='html', template=None, content_type=None, allow_json=False, me
                 raise cherrypy.HTTPError(405)
 
             res = func(*args, **kw)
-
             if format == 'json' or (allow_json and 'allow_json' in cherrypy.request.params):
                 cherrypy.response.headers['Content-Type'] = 'text/javascript'
                 return simplejson.dumps(res)

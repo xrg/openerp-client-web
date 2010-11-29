@@ -110,7 +110,7 @@ class List(TinyWidget):
         terp_params = getattr(cherrypy.request, 'terp_params', {})
         if terp_params:
             if terp_params.get('_terp_model'):
-                if terp_params['_terp_model'] == 'board.board':
+                if terp_params['_terp_model'] == 'board.board' and terp_params.view_type == 'form':
                     self.dashboard = 1
             if terp_params.get('_terp_source'):
                 if (str(terp_params.source) == self.source) or (terp_params.source == '_terp_list' and terp_params.sort_key):
@@ -153,7 +153,7 @@ class List(TinyWidget):
 
         proxy = rpc.RPCProxy(model)
 
-        if not self.o2m and not self.m2m and not terp_params.get('_terp_search_text'):
+        if not kw.get('default_data') and not self.o2m and not self.m2m and not terp_params.get('_terp_search_text'):
             if self.limit > 0:
                 if self.sort_key:
                     ids = proxy.search(search_param, self.offset, self.limit, self.sort_key + ' ' +self.sort_order, context)
@@ -185,7 +185,7 @@ class List(TinyWidget):
             except:
                 pass
             
-            self._update_concurrency_info(self.model, data)
+            ConcurrencyInfo.update(self.model, data)
             self.concurrency_info = ConcurrencyInfo(self.model, ids)
             
             order_data = [(d['id'], d) for d in data]
@@ -197,6 +197,9 @@ class List(TinyWidget):
                 self.data_dict[item['id']] = item.copy()
 
             self.ids = ids
+        elif kw.get('default_data', []):
+            data = kw['default_data']
+
 
         self.values = copy.deepcopy(data)
         self.headers, self.hiddens, self.data, self.field_total, self.buttons = self.parse(root, fields, data)

@@ -5,5 +5,5 @@
     <span class="fielderror">${error}</span>
     % endif
 % else:
-    <a href="${value}">${value}</a>
+    <a href="${value}" target="_blank">${value}</a>
 % endif

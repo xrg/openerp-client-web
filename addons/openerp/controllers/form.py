@@ -37,6 +37,7 @@ from openerp.widgets.form import generate_url_for_picture
 from error_page import _ep
 from openobject.tools import expose, redirect, validate, error_handler, exception_handler
 import openobject
+import simplejson
 
 def make_domain(name, value, kind='char'):
     """A helper function to generate domain for the given name, value pair.
@@ -73,7 +74,7 @@ def make_domain(name, value, kind='char'):
 
     return []
 
-def search(model, offset=0, limit=20, domain=[], context={}, data={}):
+def search(model, offset=0, limit=50, domain=[], context={}, data={}):
     """A helper function to search for data by given criteria.
 
     @param model: the resource on which to make search
@@ -107,7 +108,7 @@ def search(model, offset=0, limit=20, domain=[], context={}, data={}):
     l = limit
     o = offset
 
-    if l < 1: l = 20
+    if l < 1: l = 50
     if o < 0: o = 0
 
     ctx = rpc.session.context.copy()
@@ -187,7 +188,7 @@ class Form(SecuredController):
         cherrypy.session['params'] = params
 
         params.offset = params.offset or 0
-        params.limit = params.limit or 20
+        params.limit = params.limit or 50
         params.count = params.count or 0
         params.view_type = params.view_type or params.view_mode[0]
 
@@ -213,7 +214,7 @@ class Form(SecuredController):
         id = form.screen.id
         buttons = TinyDict()    # toolbar
         buttons.new = (not editable or mode == 'tree') and mode != 'diagram'
-        buttons.edit = not editable and mode == 'form'
+        buttons.edit = not editable and (mode == 'form' or mode == 'diagram')
         buttons.save = editable and mode == 'form'
         buttons.cancel = editable and mode == 'form'
         buttons.delete = not editable and mode == 'form'
@@ -256,11 +257,17 @@ class Form(SecuredController):
         elif params.view_type == 'diagram':
             display_name = {'field': form.screen.view['fields']['name']['string'], 'value': rpc.RPCProxy(params.model).name_get(form.screen.id)[0][1]}
 
+        # For Corporate Intelligence visibility.
+        obj_process = rpc.RPCProxy('ir.model').search([('model', '=', 'process.process')]) or None
+        
         tips = params.display_menu_tip
         if params.view_type == params.view_mode[0] and tips:
             tips = tips
-
-        return dict(form=form, pager=pager, buttons=buttons, path=self.path, can_shortcut=can_shortcut, shortcut_ids=shortcut_ids, display_name=display_name, title=title, tips = tips)
+        
+        is_dashboard = False
+        if form.screen.model == 'board.board' and form.screen.view_type == 'form':
+            is_dashboard = True
+        return dict(form=form, pager=pager, buttons=buttons, path=self.path, can_shortcut=can_shortcut, shortcut_ids=shortcut_ids, display_name=display_name, title=title, tips=tips, obj_process=obj_process, is_dashboard=is_dashboard)
 
     @expose('json', methods=('POST',))
     def close_or_disable_tips(self):
@@ -268,7 +275,7 @@ class Form(SecuredController):
 
     def _read_form(self, context, count, domain, filter_domain, id, ids, kw,
                    limit, model, offset, search_data, search_domain, source,
-                   view_ids, view_mode, notebook_tab, editable=False):
+                   view_ids, view_mode, view_type, notebook_tab, editable=False):
         """ Extract parameters for form reading/creation common to both
         self.edit and self.view
         """
@@ -277,6 +284,7 @@ class Form(SecuredController):
                                        '_terp_ids' : ids,
                                        '_terp_view_ids' : view_ids,
                                        '_terp_view_mode' : view_mode,
+                                       '_terp_view_type' : view_type,
                                        '_terp_source' : source,
                                        '_terp_domain' : domain,
                                        '_terp_context' : context,
@@ -289,7 +297,6 @@ class Form(SecuredController):
                                        '_terp_notebook_tab': notebook_tab})
 
         params.editable = editable
-        params.view_type = 'form'
 
         if kw.get('default_date'):
             params.context.update({'default_date' : kw['default_date']})
@@ -309,15 +316,15 @@ class Form(SecuredController):
 
     @expose()
     def edit(self, model, id=False, ids=None, view_ids=None,
-             view_mode=['form', 'tree'],source=None, domain=[], context={},
-             offset=0, limit=20, count=0, search_domain=None,
+             view_mode=['form', 'tree'], view_type='form', source=None, domain=[], context={},
+             offset=0, limit=50, count=0, search_domain=None,
              search_data=None, filter_domain=None, **kw):
 
         notebook_tab = kw.get('notebook_tab') or 0
         params = self._read_form(context, count, domain, filter_domain, id,
                                  ids, kw, limit, model, offset, search_data,
                                  search_domain, source, view_ids, view_mode,
-                                 notebook_tab, editable=True)
+                                 view_type, notebook_tab, editable=True)
 
         if not params.ids:
             params.count = 0
@@ -332,15 +339,15 @@ class Form(SecuredController):
 
     @expose()
     def view(self, model, id, ids=None, view_ids=None,
-             view_mode=['form', 'tree'], source=None, domain=[], context={},
-             offset=0, limit=20, count=0, search_domain=None,
+             view_mode=['form', 'tree'], view_type=None, source=None, domain=[], context={},
+             offset=0, limit=50, count=0, search_domain=None,
              search_data=None, filter_domain=None, **kw):
 
         notebook_tab = kw.get('notebook_tab') or 0
         params = self._read_form(context, count, domain, filter_domain, id,
                                  ids, kw, limit, model, offset, search_data,
                                  search_domain, source, view_ids, view_mode,
-                                 notebook_tab)
+                                 view_type, notebook_tab)
 
         if not params.ids:
             params.count = 1
@@ -393,25 +400,23 @@ class Form(SecuredController):
         params, data = TinyDict.split(kw)
         # remember the current page (tab) of notebooks
         cherrypy.session['remember_notebooks'] = True
-        # bypass save, for button action in non-editable view
-        if not (params.button and params.editable and params.id):
 
-            proxy = rpc.RPCProxy(params.model)
-            if not params.id:
-                ctx = dict((params.context or {}), **rpc.session.context)
-                id = proxy.create(data, ctx)
-                params.ids = (params.ids or []) + [int(id)]
-                params.id = int(id)
-                params.count += 1
-            else:
-                ctx = utils.context_with_concurrency_info(params.context, params.concurrency_info)
-                id = proxy.write([params.id], data, ctx)
-                
-        elif params.button and params.editable and params.id:
-            proxy = rpc.RPCProxy(params.model)
+        Model = rpc.RPCProxy(params.model)
+        if params.id:
             ctx = utils.context_with_concurrency_info(params.context, params.concurrency_info)
-            id = proxy.write([params.id], data, ctx)
-            
+            Model.write([params.id], data, ctx)
+        else:
+            if params.default_o2m:
+                data.update(params.default_o2m)
+
+            ctx = dict((params.context or {}), **rpc.session.context)
+            params.id = int(Model.create(data, ctx))
+            params.ids = (params.ids or []) + [params.id]
+            params.count += 1
+        tw.ConcurrencyInfo.update(
+            params.model, Model.read([params.id], ['__last_update'], ctx)
+        )
+
         button = params.button
 
         # perform button action
@@ -423,8 +428,6 @@ class Form(SecuredController):
         current = params.chain_get(params.source or '')
         if current:
             current.id = None
-            if not params.id:
-                params.id = int(id)
         elif not button:
             params.editable = False
 
@@ -474,71 +477,83 @@ class Form(SecuredController):
             raise redirect(self.path + '/edit', source=params.source, **args)
         raise redirect(self.path + '/view', **args)
 
-    def button_action(self, params):
-
-        button = params.button
-
-        name = ustr(button.name)
-        name = name.rsplit('/', 1)[-1]
-
-        btype = button.btype
-        model = button.model
-        id = button.id or params.id
-
-        id = (id or False) and (id)
-        ids = (id or []) and [id]
-
-        ctx = dict((params.context or {}), **rpc.session.context)
-        ctx.update(button.context or {})
-
-        if btype == 'cancel':
-            if name:
-                button.btype = "object"
-                params.id = False
-                res = self.button_action(params)
-                if res:
-                    return res
-
-            import actions
-            return actions.close_popup()
-
-        elif btype == 'save':
+    def button_action_cancel(self, name, params):
+        if name:
+            params.button.btype = "object"
             params.id = False
-
-        elif btype == 'workflow':
-            res = rpc.session.execute('object', 'exec_workflow', model, name, id)
-            if isinstance(res, dict):
-                import actions
-                return actions.execute(res, ids=[id])
-
-        elif btype == 'object':
-
-            res = rpc.session.execute('object', 'execute', model, name, ids, ctx)
-
-            if isinstance(res, dict):
-                import actions
-                return actions.execute(res, ids=[id])
-
-        elif btype == 'action':
-            import actions
-
-            action_id = int(name)
-            action_type = actions.get_action_type(action_id)
-
-            if action_type == 'ir.actions.wizard':
-                cherrypy.session['wizard_parent_form'] = self.path
-                cherrypy.session['wizard_parent_params'] = params.parent_params or params
-
-            res = actions.execute_by_id(action_id, type=action_type,
-                                        model=model, id=id, ids=ids,
-                                        context=ctx or {})
+            res = self.button_action(params)
             if res:
                 return res
 
-        else:
-            raise common.warning(_('Invalid button type'))
-
+        import actions
+        return actions.close_popup()
+    def button_action_save(self, _, params):
+        params.id = False
         params.button = None
+
+    def button_action_workflow(self, name, params):
+        model, id, _, _ = self._get_button_infos(params)
+        res = rpc.session.execute('object', 'exec_workflow', model, name, id)
+        if isinstance(res, dict):
+            import actions
+            return actions.execute(res, ids=[id])
+        params.button = None
+
+    def button_action_object(self, name, params):
+        model, id, ids, ctx = self._get_button_infos(params)
+
+        res = rpc.session.execute('object', 'execute', model, name, ids, ctx)
+
+        if isinstance(res, dict):
+            import actions
+            return actions.execute(res, ids=[id])
+        params.button = None
+
+    def button_action_action(self, name, params):
+        model, id, ids, ctx = self._get_button_infos(params)
+        import actions
+
+        action_id = int(name)
+        action_type = actions.get_action_type(action_id)
+
+        if action_type == 'ir.actions.wizard':
+            cherrypy.session['wizard_parent_form'] = self.path
+            cherrypy.session['wizard_parent_params'] = params.parent_params or params
+
+        res = actions.execute_by_id(
+                action_id, type=action_type,
+                model=model, id=id, ids=ids,
+                context=ctx or {})
+        if res:
+            return res
+        params.button = None
+
+    BUTTON_ACTIONS_BY_BTYPE = {
+        'action': button_action_action,
+        'cancel': button_action_cancel,
+        'object': button_action_object,
+        'save': button_action_save,
+        'workflow': button_action_workflow,
+    }
+
+    def _get_button_infos(self, params):
+        model = params.button.model
+        id = params.button.id or params.id
+        id = (id or False) and (id)
+        ids = (id or []) and [id]
+        ctx = dict((params.context or {}), **rpc.session.context)
+        ctx.update(params.button.context or {})
+        return model, id, ids, ctx
+
+    def button_action(self, params):
+        button_name = openobject.ustr(params.button.name)
+        button_name = button_name.rsplit('/', 1)[-1]
+
+        btype = params.button.btype
+        try:
+            return self.BUTTON_ACTIONS_BY_BTYPE[btype](self, button_name, params)
+        except KeyError:
+            raise common.warning(_('Invalid button type "%s"') % btype)
 
     @expose()
     def duplicate(self, **kw):
@@ -675,7 +690,7 @@ class Form(SecuredController):
                 params.ids.append(id)
                 params.count += 1
             
-        l = params.limit or 20
+        l = params.limit or 50
         o = params.offset or 0
         c = params.count or 0
 
@@ -857,26 +872,6 @@ class Form(SecuredController):
         params.view_type = params.source_view_type
         return self.create(params)
 
-    @expose()
-    def switch_o2m(self, **kw):
-
-        params, data = TinyDict.split(kw)
-        current = params.chain_get(params.source or '') or params
-
-        current.view_type = params.source_view_type
-
-        current.ids = current.ids or []
-        if not current.id and current.ids:
-            current.id = current.ids[0]
-
-        try:
-            frm = self.create_form(params)
-            wid = frm.screen.get_widgets_by_name(params.source)[0]
-        except Exception, e:
-            return 'ERROR: ' + str(e)
-
-        return wid.render()
-
     def do_action(self, name, adds={}, datas={}):
         params, data = TinyDict.split(datas)
 
@@ -896,9 +891,14 @@ class Form(SecuredController):
             import actions
             return actions.execute_by_keyword(name, adds=adds, model=model, id=id, ids=ids, report_type='pdf')
         else:
-            raise common.message(_("No record selected"))
-
-
+            raise common.message(_("No record selected"))    
+    
+    @expose()
+    def report(self, **kw):
+        return self.do_action('client_print_multi', adds={'Print Screen': {'report_name':'printscreen.list',
+                                                                           'name': _('Print Screen'),
+                                                                           'type':'ir.actions.report.xml'}}, datas=kw)
+    
     @expose()
     def action(self, **kw):
         params, data = TinyDict.split(kw)
@@ -1070,16 +1070,21 @@ class Form(SecuredController):
         actions = []
         relates = []
 
-        defaults = [{'text': 'Set to default value', 'action': "set_to_default('%s', '%s')" % (field, model)},
-                    {'text': 'Set as default', 'action': "set_as_default('%s', '%s')"  % (field, model)}]
+        if kind == "many2one":
+            defaults.append({'text': 'Open resource', 'action': "new ManyToOne('%s').open_record('%s')" % (field, value)})
+
+        defaults += [
+            {'text': 'Set to default value', 'action': "set_to_default('%s', '%s')" % (field, model)},
+            {'text': 'Set as default', 'action': "set_as_default('%s', '%s')"  % (field, model)}
+        ]
 
         if kind=='many2one':
 
             act = (value or None) and "javascript: void(0)"
 
-            actions = [{'text': 'Action', 'action': act and "do_action(null, '%s', '%s', this, null, true)" %(field, relation)},
+            actions = [{'text': 'Action', 'relation': relation, 'field': field, 'action': act and "do_action(this, true)"},
                        {'text': 'Report', 'action': act and "do_report('%s', '%s')" %(field, relation)}]
-
+            
             res = rpc.RPCProxy('ir.values').get('action', 'client_action_relate', [(relation, False)], False, rpc.session.context)
             res = [x[2] for x in res]
 
@@ -1087,7 +1092,10 @@ class Form(SecuredController):
                 act = (value or None) and "javascript: void(0)"
                 x['string'] = x['name']
                 relates += [{'text': '... '+x['name'],
-                             'action': act and "do_action(%s, '%s', '%s', this, null, true)" %(x['id'], field, relation),
+                             'action_id': x['id'],
+                             'field': field,
+                             'relation': relation,
+                             'action': act and "do_action(this, true)",
                              'domain': x.get('domain', []),
                              'context': x.get('context', {})}]
 
@@ -1130,12 +1138,17 @@ class Form(SecuredController):
 
     # Possible to create shortcut for particular object or not.
     def can_shortcut_create(self):
+        """ We only handle creating shortcuts to menu actions (for now
+        anyway), and those go through the execute routine, so only match
+        execute()d actions concerning ir.ui.menu. And trees, just because
+        """
+        action_data = simplejson.loads(cherrypy.request.params.get('data', '{}'))
         return (rpc.session.is_logged() and
                 rpc.session.active_id and
-                (cherrypy.request.path_info == '/openerp/tree/open' and cherrypy.request.params.get('model') == 'ir.ui.menu')
-                or
-                (cherrypy.request.path_info == '/openerp/form/switch')
-        )
+                ((cherrypy.request.path_info == '/openerp/execute'
+                  and action_data.get('model') == 'ir.ui.menu')
+                # FIXME: hack hack hack
+                 or cherrypy.request.params.get('_terp_source_view_type') == 'tree'))
 
     @expose()
     def action_submenu(self, **kw):

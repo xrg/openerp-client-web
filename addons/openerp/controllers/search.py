@@ -45,7 +45,7 @@ class Search(Form):
         params.view_type = 'tree'
 
         params.offset = params.offset or 0
-        params.limit = params.limit or 20
+        params.limit = params.limit or 50
         params.count = params.count or 0
         params.filter_domain = params.filter_domain or []
         params.editable = 0
@@ -80,7 +80,8 @@ class Search(Form):
 
         params.source = source
         params.selectable = kind
-        params.limit = params.limit or 20
+        params.limit = params.limit or 50
+
         ctx = rpc.session.context.copy()
         ctx.update(params.context or {})
         params.ids = []
@@ -95,9 +96,13 @@ class Search(Form):
                 count = proxy.search_count(params.domain, ctx)
             params.count = count
         if text:
-                params.search_text = True
+            params.search_text = True
+            # When id does not exists for m2o
+            if not ids:
+                params.context['default_name'] = text
         if kw and kw.get('return_to'):
             params['return_to'] = ast.literal_eval(kw['return_to'])
+
         return self.create(params)
 
     @expose('json')
@@ -168,6 +173,9 @@ class Search(Form):
         parent_context.update(context)
         if not isinstance(params.group_by, list):
             params.group_by = params.group_by.split(',')
+
+        # Fixed header string problem for m2m,m2o field when parent context takes '_terp_view_name'
+        parent_context.pop('_terp_view_name', None)
 
         return dict(domain=ustr(domain), context=ustr(parent_context), group_by = ustr(params.group_by))
 
@@ -289,7 +297,11 @@ class Search(Form):
                     search_data[field] = value.split('selection_')[1]
                 else:
                     if not 'm2o_' in value:
-                        domain.append((field, 'ilike', value))
+                        operator = 'ilike'
+                        if '/' in value:
+                            value, operator = value.split('/')
+                            value = int(value)
+                        domain.append((field, operator, value))
                         search_data[field] = value
                     else:
                         search_data[field] = value.split('m2o_')[1]

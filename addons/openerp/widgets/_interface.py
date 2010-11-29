@@ -31,6 +31,7 @@ import cherrypy
 
 from openobject.widgets import Widget
 from openobject.widgets import InputWidget
+import simplejson
 
 __all__ = ['TinyWidget', 'TinyInputWidget', 'ConcurrencyInfo',
            'register_widget', 'get_widget', 'get_registered_widgets',
@@ -116,20 +117,6 @@ class TinyWidget(Widget):
     @property
     def name(self):
         return self._name
-
-    def get_last_update_info(resource, values):
-        result = {}
-        for item in values:
-            result["%s,%s" % (resource, item['id'])] = item.pop('__last_update', '')
-        return result
-
-    def _update_concurrency_info(self, resource, records):
-        info = getattr(cherrypy.request, 'terp_concurrency_info', {})
-        vals = info.setdefault(resource, {})
-        for item in records:
-            vals[item['id']] = item.pop('__last_update', '')
-        cherrypy.request.terp_concurrency_info = info
-
 
 class InputWidgetLabel(Widget):
     template = "/openerp/widgets/templates/label.mako"
@@ -230,18 +217,18 @@ class TinyInputWidget(TinyWidget, InputWidget):
     def update_params(self, d):
         super(TinyInputWidget, self).update_params(d)
 
-        attrs = d['attrs'] = {}
-
-        attrs['change_default'] = self.change_default or None
-        attrs['callback'] = self.callback or None
-        attrs['onchange'] = self.onchange
-
-        d['kind'] = self.kind
-        d['editable'] = self.editable
-        d['inline'] = self.inline
+        d.update(
+            kind=self.kind,
+            editable=self.editable,
+            inline=self.inline,
+            attrs={
+                'change_default': self.change_default or None,
+                'callback': self.callback or None,
+                'onchange': self.onchange
+            })
 
         if self.readonly:
-            attrs['disabled'] = 'disabled'
+            d['attrs']['disabled'] = 'disabled'
 
 
 class ConcurrencyInfo(TinyInputWidget):
@@ -250,7 +237,9 @@ class ConcurrencyInfo(TinyInputWidget):
     % if ids and model in info:
         % for id in ids:
             % if id in info[model]:
-                <input type="hidden" name="_terp_concurrency_info" value="('${model},${id}', '${info[model][id]}')"/>
+                <input type="hidden" name="_terp_concurrency_info"
+                       id="${model.replace('.', '-')}-${id}"
+                       value="('${model},${id}', '${info[model][id]}')"/>
             % endif
         % endfor
     % endif
@@ -264,6 +253,16 @@ class ConcurrencyInfo(TinyInputWidget):
     @property
     def info(self):
         return getattr(cherrypy.request, 'terp_concurrency_info', {})
+    @classmethod
+    def update(cls, resource, records):
+        info = getattr(cherrypy.request, 'terp_concurrency_info', {})
+        vals = info.setdefault(resource, {})
+        for item in records:
+            vals[item['id']] = item.pop('__last_update', '')
+        cherrypy.request.terp_concurrency_info = info
+        cherrypy.response.headers['X-Concurrency-Info'] = \
+            simplejson.dumps(info)
+
 
 from openobject import pooler
 

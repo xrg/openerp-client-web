@@ -1,35 +1,46 @@
 <div id="Calendar" class="box-a calendar-a">
-    <p class="side">
-        <a class="button-a prev" href="javascript: void(0)" onclick="getCalendar('${week.prev()[0].isoformat()}')">
-            <img src="/openerp/static/images/cal_left.png" width="14" height="14" border="0"/>
-        </a>
-        <a class="button-a next" href="javascript: void(0)" onclick="getCalendar('${week.next()[0].isoformat()}')">
-            <img src="/openerp/static/images/cal_right.png" width="14" height="14" border="0"/>
-        </a>
-        <a class="button-a" href="javascript:void(0)" title="${_('Today...')}" 
-            onclick="getCalendar('${selected_day.today().isoformat()}', 'day')">${_("Today")}</a>
-    </p>
-    <ul class="head">
-        <li>
-            <a href="javascript: void(0)" title="${_('Month Calendar...')}" 
-                onclick="getCalendar(null, 'month')">${_("Month")}</a>
-        </li>
-        <li class="active-tab">
-            <a href="javascript: void(0)" title="${_('Week Calendar...')}">${_("Week")}</a>
-        </li>
-        <li>
-            <a href="javascript: void(0)" title="${_('Day Calendar...')}" 
-                onclick="getCalendar(null, 'day')">${_("Day")}</a>
-        </li>
-    </ul>
-    <div class="inner">
-        <h4>
-            <span>
-                ${week}
-                <small>(${_('Week %(number)s', number=week.number)})</small>
-            </span>
-        </h4>
-    </div>
+    <table border="0" width="100%" class="cal-navigation">
+        <tr>
+            <td width="30%">
+                <ul class="cal-pager">
+                    <li class="today">
+                        <a class="button-a" href="javascript:void(0)" title="${_('Today...')}" 
+                            onclick="getCalendar('${selected_day.today().isoformat()}', 'day')">${_("Today")}</a>
+                    </li>
+                    <li>
+                        <a class="button-a prev" href="javascript: void(0)" onclick="getCalendar('${week.prev()[0].isoformat()}')">
+                            <img src="/openerp/static/images/cal_left.png" width="14" height="14" border="0"/>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="button-a next" href="javascript: void(0)" onclick="getCalendar('${week.next()[0].isoformat()}')">
+                            <img src="/openerp/static/images/cal_right.png" width="14" height="14" border="0"/>
+                        </a>
+                    </li>
+                </ul>
+            </td>
+            <td width="40%" align="center">
+                <span>${week}
+                    <small>(${_('Week %(number)s', number=week.number)})</small>
+                </span>
+            </td>
+            <td align="right">
+                <ul class="head">
+                    <li>
+                        <a href="javascript: void(0)" title="${_('Month Calendar...')}" 
+                            onclick="getCalendar(null, 'month')">${_("Month")}</a>
+                    </li>
+                    <li class="active-tab">
+                        <a href="javascript: void(0)" title="${_('Week Calendar...')}">${_("Week")}</a>
+                    </li>
+                    <li>
+                        <a href="javascript: void(0)" title="${_('Day Calendar...')}" 
+                            onclick="getCalendar(null, 'day')">${_("Day")}</a>
+                    </li>
+                </ul>
+            </td>
+        </tr>
+    </table>
     <table border="0" id="calContainer" width="100%">
         <tr>
             <td id="calMainArea" valign="top">

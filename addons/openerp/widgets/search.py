@@ -326,6 +326,7 @@ class Search(TinyInputWidget):
             if node.localName in ('form', 'tree', 'search', 'group'):
                 if node.localName == 'group':
                     attrs['group_by_ctx'] = values.get('group_by_ctx')
+                    attrs['expand'] = expr_eval(attrs.get('expand',False),{'context':self.context})
                     Element = Group
                 else:
                     Element = Frame
@@ -403,7 +404,7 @@ class Search(TinyInputWidget):
                     field.callback = None
 
                     if kind == 'boolean':
-                        field.options = [(1, 'Yes'),(0, 'No')]
+                        field.options = [[1,_('Yes')],[0,_('No')]]
                         field.validator.if_empty = ''
 
                     default_search = None
@@ -482,8 +483,18 @@ class FiltersGroup(form.Group):
 class Char(form.Char): pass
 class DateTime(form.DateTime): pass
 class Float(form.Float): pass
-class Frame(form.Frame): pass
-class Group(form.Group): pass
+class Frame(form.Frame):
+    def base_widget_attrs(self, widget, colspan, rowspan):
+        attrs = super(Frame, self).base_widget_attrs(widget, colspan, rowspan)
+        for key in ('colspan', 'rowspan', 'height', 'width'):
+            if key in attrs: del attrs[key]
+        return attrs
+
+class Group(form.Group):
+    def __init__(self, **attrs):
+        super(Group, self).__init__(**attrs)
+        self.frame = Frame(**attrs)
+
 class Integer(form.Integer): pass
 class NewLine(form.NewLine): pass
 class Selection(form.Selection): pass

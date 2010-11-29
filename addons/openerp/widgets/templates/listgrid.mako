@@ -54,7 +54,7 @@
             % if not m2m:
             <%
             	if impex:
-            		selector_click = "do_select('%s')" % (data['id'])  
+            		selector_click = "do_select('%s')" % (data['id'])
             	else:
             		selector_click = "new ListView('%s').onBooleanClicked(!this.checked, '%s')" % (name, data['id'])
             %>
@@ -104,7 +104,7 @@
             % else:
                 <img src="/openerp/static/images/iconset-b-remove.gif" class="listImage"
                     border="0" title="${_('Delete')}"
-                    onclick="new ListView('${name}').remove(${data['id']})"/>
+                    onclick="new ListView('${name}').remove(${data['id']}, this)"/>
             % endif
         </td>
     % endif
@@ -334,7 +334,7 @@
                            });
                         </script>
                     % else:
-                        % if not dashboard:
+                        % if 'form' in view_mode:
                             <script type="text/javascript">
                                 var view_type;
                                 var editable;
@@ -346,18 +346,15 @@
                                     view_type = jQuery('[id=${name}/_terp_view_type]').val();
                                     editable = jQuery('[id=${name}/_terp_editable]').val();
                                 }
-                                
-                                jQuery('table[id=${name}_grid] tr.grid-row').each(function() {
+
+                                jQuery('table[id=${name}_grid] tr.grid-row').click(function(event) {
                                     var $this = jQuery(this);
-                                    $this.click(function(event) {
-                                        if (event.detail == 1) {
-                                            if (!(jQuery(event.target).is('img, input'))) {
-                                                if (view_type == 'tree' && $this.attr('record')) {
-                                                    do_select($this.attr('record'), '${name}');
-                                                }  
-                                            }
-                                        }
-                                    });
+                                    if(jQuery(event.target).is('img, input')
+                                     || view_type != 'tree'
+                                     || !$this.attr('record')) {
+                                        return;
+                                    }
+                                    do_select($this.attr('record'), '${name}');
                                 });
                             </script>
                         % endif

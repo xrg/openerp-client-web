@@ -58,7 +58,7 @@ class FormView(TinyView):
                            nodefault=screen.nodefault, nolinks=screen.link)
 
         if not screen.is_wizard and screen.ids is None:
-            limit = screen.limit or 20
+            limit = screen.limit or 50
             proxy = rpc.RPCProxy(screen.model)
             screen.ids = proxy.search(screen.domain, screen.offset or False,
                                       limit, 0, screen.context)
@@ -103,7 +103,8 @@ class ListView(TinyView):
                                     selectable=screen.selectable,
                                     offset=screen.offset, limit=screen.limit,
                                     count=screen.count, nolinks=screen.link,
-                                    m2m=screen.m2m, o2m=screen.o2m)
+                                    m2m=screen.m2m, o2m=screen.o2m,
+                                    default_data=screen.default_value)
 
         screen.ids = widget.ids
         screen.limit = widget.limit

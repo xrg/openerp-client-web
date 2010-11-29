@@ -275,6 +275,9 @@ class ViewEd(SecuredController):
             doc_src = xml.dom.minidom.parseString(src.encode('utf-8'))
             doc_dest = xml.dom.minidom.parseString(inherit.encode('utf-8'))
             for node2 in doc_dest.childNodes:
+
+                if node2.localName == 'data':
+                    continue
                 if not node2.nodeType==node2.ELEMENT_NODE:
                     continue
                 node = _find(doc_src, node2)

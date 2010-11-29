@@ -506,6 +506,9 @@ MochiKit.Base.update(ListView.prototype, {
     },
 
     edit: function(edit_inline, default_get_ctx) {
+    	if (edit_inline==0)
+    		return error_display(_('To edit Record, please first save it.'));
+
         this.reload(edit_inline, null, default_get_ctx);
     },
 
@@ -592,18 +595,28 @@ MochiKit.Base.update(ListView.prototype, {
         var self = this;
         var args = getFormParams('_terp_concurrency_info');
 
-        if (!ids) {
+        if(ids==0) {
+            var $o2m = jQuery(idSelector('_terp_default_o2m/' + this.name));
+            var $tr = jQuery(arguments[1]).parents('tr.grid-row:first');
+
+            jQuery.post('/openerp/listgrid/remove_o2m_defaults', {
+                o2m_value: $o2m.val(),
+                index: $tr.get(0).rowIndex - 1
+            }, function (result) {
+                $o2m.val(result.o2m_value);
+                $tr.remove();
+            }, 'json');
+            return;
+        }
+        else if (!ids) {
             ids = this.getSelectedRecords();
             if (ids.length > 0) {
                 ids = '[' + ids.join(', ') + ']';
             }
         }
 
-        if (ids.length == 0) {
-            return error_display(_('You must select at least one record.'));
-        }
-        else if (!confirm(_('Do you really want to delete selected record(s) ?'))) {
-            return false;
+        if(ids.length == 0 || !confirm(_('Do you really want to delete selected record(s) ?'))) {
+            return;
         }
 
         var $terp_ids;
@@ -757,17 +770,7 @@ MochiKit.Base.update(ListView.prototype, {
 
                 openobject.dom.get(self.name).__listview = __listview;
 
-                // update concurrency info
-                for (var key in obj.info) {
-                    try {
-                        var items = openobject.dom.select("[name=_terp_concurrency_info][value*=" + key + "]");
-                        var value = "('" + key + "', '" + obj.info[key] + "')";
-                        for (var i = 0; i < items.length; i++) {
-                            items[i].value = value;
-                        }
-                    } catch(e) {
-                    }
-                }
+                updateConcurrencyInfo(obj.info);
 
                 // set focus on the first field
                 var first = jQuery('input.listfields')[0] || null;

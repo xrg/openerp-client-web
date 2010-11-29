@@ -46,20 +46,36 @@
 <%def name="content()">
     <table class="view" border="0" width="100%" height="100%" cellpadding="0" cellspacing="0">
         <tr>
-            <td width="75%" valign="top" style="padding-top:10px;">
-                <h1>${_("Help:")} ${title}</h1>
+            <td width="75%" valign="top" class="fields collapsed" style="padding-top:10px;">
+                <h1>${title} (${res_model})
+                    <span class="expand-button">(${_("show fields")})</span>
+                   <span class="collapse-button">(${_("hide fields")})</span>
+                </h1>
                 <p class="process-links">
-                    <a target="_blank" href="${context_help}">
-                        ${_("Online Documentation")}
+                    <a class="cta-a" target="_blank" href="${context_help}">
+                        <span>
+                            <strong>${_("Documentation")}</strong>
+                            ${_("Read Documentation Online")}
+                        </span>
+                        
                     </a>
-                    <a target="_blank" href="http://www.openerp.com/forum/">
-                        ${_("Community Forum")}
+                    <a class="cta-a" target="_blank" href="http://www.openerp.com/forum/">
+                        <span>
+                            <strong>${_("Forum")}</strong>
+                            ${_("Community Discussion")}
+                        </span>
                     </a>
-                    <a target="_blank" href="http://www.openerp.com/services/books">
-                        ${_("Get Books")}
+                    <a class="cta-a" target="_blank" href="http://www.openerp.com/services/books">
+                        <span>
+                            <strong>${_("Books")}</strong>
+                            ${_("Get the book on Amazon")}
+                        </span>
                     </a>
-                    <a target="_blank" href="http://www.openerp.com/services/subscribe-onsite">
-                        ${_("Get the OpenERP Warranty")}
+                    <a class="cta-a" target="_blank" href="http://www.openerp.com/services/subscribe-onsite">
+                        <span>
+                            <strong>${_("Support / Maintenance")}</strong>
+                            ${_("Get the OpenERP Warranty")}
+                        </span>
                     </a>
                 </p>
                 <p class="process-help-text">
@@ -79,7 +95,7 @@
             <td colspan="1">
                 <input type="hidden" id="res_model" value="${res_model}"/>
                 <input type="hidden" id="res_id" value="${res_id}"/>
-                <fieldset style="margin: 0 0 10px 10px">
+                <fieldset style="margin: 0 0 10px 10px; display: inline; padding: 4px">
                     <legend><b style="padding: 4px;">${_("Select Process")}</b></legend>
                     <select id="select_workflow" name="select_workflow" style="min-width: 150px">
                         % for val, text in selection:
@@ -108,11 +124,6 @@
         % if fields:
         <tr>
             <td colspan="2" class="fields collapsed">
-                <h2 style="padding: 5px 10px; font-weight:bold">
-                  ${res_model} ${_("fields")}
-                  <span class="expand-button">(${_("show")})</span>
-                  <span class="collapse-button">(${_("hide")})</span>
-                </h2>
                 <div align="left" style="padding: 5px 10px;">
                     <table border="0">
                     % for k, v in fields.items():

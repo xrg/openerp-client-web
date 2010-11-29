@@ -30,18 +30,18 @@
 """This module implementes action methods.
 """
 import base64
-import datetime
 import time
 
 import cherrypy
 from openerp.utils import rpc, common, expr_eval, TinyDict
 
-from openobject.tools import redirect
 from form import Form
 from openobject import tools
 from selection import Selection
 from tree import Tree
 from wizard import Wizard
+import urllib
+import simplejson
 
 def execute_window(view_ids, model, res_id=False, domain=None, view_type='form', context=None,
                    mode='form,tree', name=None, target=None, limit=None, search_view=None,
@@ -117,7 +117,6 @@ PRINT_FORMATS = {
      'odt' : 'application/vnd.oasis.opendocument.text',
      'ods' : 'application/vnd.oasis.opendocument.spreadsheet',
      'xls' : 'application/vnd.ms-excel',
-     'doc' : 'application/msword',
      'csv' : 'text/csv',
      'rtf' : 'application/rtf',
      'txt' : 'text/plain',
@@ -162,8 +161,11 @@ def execute_report(name, **data):
         report_id = rpc.session.execute('report', 'report', name, ids, datas, ctx)
         state = False
         attempt = 0
+        val = None
         while not state:
             val = rpc.session.execute('report', 'report_get', report_id)
+            if not val:
+                return False
             state = val['state']
             if not state:
                 time.sleep(1)
@@ -182,12 +184,154 @@ def execute_report(name, **data):
                 report_name = proxy.read(res[0], ['name'])['name']
 
         report_name = report_name.replace('Print ', '')
-        cherrypy.response.headers['Content-Disposition'] = 'filename="' + report_name + '.' + report_type + '"';
+        cherrypy.response.headers['Content-Disposition'] = 'filename="' + report_name + '.' + report_type + '"'
 
         return _print_data(val)
 
     except rpc.RPCException, e:
         raise e
+
+def act_window_close(*args):
+    return close_popup()
+
+def act_window(action, data):
+    if not action.get('opened'):
+        action.setdefault('target', 'current')
+        return act_window_opener(action, data)
+
+    for key in ('res_id', 'res_model', 'view_type',
+                'view_mode', 'limit', 'search_view'):
+        data[key] = action.get(key, data.get(key))
+    if not data.get('search_view') and data.get('search_view_id'):
+        data['search_view'] = str(rpc.session.execute(
+                'object', 'execute', data['res_model'], 'fields_view_get',
+                data['search_view_id'], 'search', data['context']))
+    if not data.get('limit'):
+        data['limit'] = 50
+    view_ids = False
+    if action.get('views', []):
+        if isinstance(action['views'], list):
+            view_ids = [x[0] for x in action['views']]
+            data['view_mode'] = ",".join([x[1] for x in action['views']])
+        else:
+            if action.get('view_id'):
+                view_ids = [action['view_id'][0]]
+    elif action.get('view_id'):
+        view_ids = [action['view_id'][0]]
+    if not action.get('domain'):
+        action['domain'] = '[]'
+
+    ctx = dict(data.get('context', {}),
+        active_id=data.get('id', False),
+        active_ids=data.get('ids', []),
+        active_model=data.get('model', False)
+    )
+    ctx.update(expr_eval(action.get('context', '{}'), ctx))
+
+    search_view = action.get('search_view_id')
+    if search_view:
+        if isinstance(search_view, (list, tuple)):
+            ctx['search_view'] = search_view[0]
+        else:
+            ctx['search_view'] = search_view
+
+        # save active_id in session
+    rpc.session.active_id = data.get('id')
+    domain = expr_eval(action['domain'], ctx)
+    if data.get('domain'):
+        domain.append(data['domain'])
+
+    if 'menu' in data['res_model'] and action.get('name') == 'Menu':
+        return close_popup()
+
+    if action.get('display_menu_tip'):
+        display_menu_tip = action.get('help')
+    else:
+        display_menu_tip = None
+
+    return execute_window(view_ids,
+                          data['res_model'],
+                          data['res_id'],
+                          domain,
+                          action['view_type'],
+                          ctx, data['view_mode'],
+                          name=action.get('name'),
+                          target=action.get('target'),
+                          limit=data.get('limit'),
+                          search_view=data['search_view'],
+                          context_menu=data.get('context_menu'),
+                          display_menu_tip=display_menu_tip)
+
+def server(action, data):
+    context = dict(data.get('context', {}),
+        active_id=data.get('id', False),
+        active_ids=data.get('ids', [])
+    )
+    action_result = rpc.RPCProxy('ir.actions.server').run([action['id']], context)
+    if action_result:
+        if not isinstance(action_result, list):
+            action_result = [action_result]
+
+        output = ''
+        for r in action_result:
+            output = execute(r, **data)
+        return output
+    else:
+        return ''
+
+def wizard(action, data):
+    if 'window' in data:
+        del data['window']
+    data['context'] = dict(
+        data.get('context', {}),
+        **action.get('context', {})
+    )
+    return execute_wizard(action['wiz_name'], **data)
+
+def custom_report(action, data):
+    data.update(action.get('datas', {}))
+    data['report_id'] = action['report_id']
+    return report_link('custom', **data)
+
+def xml_report(action, data):
+    data.update(action.get('datas', {}))
+    return report_link(action['report_name'], **data)
+
+def act_url(action, data):
+    return execute_url(**dict(data,
+        url=action['url'],
+        target=action['target'],
+        type=action['type']
+    ))
+
+ACTIONS_BY_TYPE = {
+    'ir.actions.act_window_close': act_window_close,
+    'ir.actions.act_window': act_window,
+    'ir.actions.submenu': act_window,
+    'ir.actions.server': server,
+    'ir.actions.wizard': wizard,
+    'ir.actions.report.custom': custom_report,
+    'ir.actions.report.xml': xml_report,
+    'ir.actions.act_url': act_url
+}
+
+def act_window_opener(action, data):
+    # search_view key in action is >8k added to the URL every time, which
+    # breaks firefox (and probably Apache) as it's shoved into a header and
+    # then used back as a URL
+    action.pop('search_view', None)
+    # Add 'opened' mark to indicate we're now within the popup and can
+    # continue on during the second round of execution
+    url = ('/openerp/execute?' + urllib.urlencode({
+        'action': simplejson.dumps(dict(action, opened=True)),
+        'data': simplejson.dumps(data)
+    }))
+    cherrypy.response.headers['X-Target'] = action['target']
+    cherrypy.response.headers['Location'] = url
+    return """<script type="text/javascript">
+        window.top.openAction('%s', '%s');
+    </script>
+    """ % (url, action['target'])
 
 def execute(action, **data):
     """Execute the action with the provided data. for internal use only.
@@ -197,128 +341,15 @@ def execute(action, **data):
 
     @return: mostly XHTML code
     """
-
     if 'type' not in action:
         #XXX: in gtk client just returns to the caller
         #raise common.error('Error', 'Invalid action...')
         return close_popup()
 
     data.setdefault('context', {}).update(expr_eval(action.get('context','{}'), data.get('context', {}).copy()))
-    if action['type'] == 'ir.actions.act_window_close':
-        return close_popup()
 
-    elif action['type'] in ['ir.actions.act_window', 'ir.actions.submenu']:
-        for key in ('res_id', 'res_model', 'view_type', 'view_mode', 'limit', 'search_view'):
-            data[key] = action.get(key, data.get(key, None))
-
-        if not data.get('search_view') and data.get('search_view_id'):
-            data['search_view'] = str(rpc.session.execute('object', 'execute', datas['res_model'],
-                                    'fields_view_get', datas['search_view_id'], 'search', context))
-
-        if not data.get('limit'):
-            data['limit'] = 50
-
-        view_ids=False
-        if action.get('views', []):
-            if isinstance(action['views'], list):
-                view_ids=[x[0] for x in action['views']]
-                data['view_mode']=",".join([x[1] for x in action['views']])
-            else:
-                if action.get('view_id', False):
-                    view_ids=[action['view_id'][0]]
-        elif action.get('view_id', False):
-            view_ids=[action['view_id'][0]]
-
-        if not action.get('domain', False):
-            action['domain']='[]'
-
-        ctx = data.get('context', {}).copy()
-        ctx.update({'active_id': data.get('id', False), 'active_ids': data.get('ids', []), 'active_model': data.get('model',False)})
-        ctx.update(expr_eval(action.get('context', '{}'), ctx.copy()))
-
-
-        search_view = action.get('search_view_id')
-        if search_view:
-            if isinstance(search_view, (list, tuple)):
-                ctx['search_view'] = search_view[0]
-            else:
-                ctx['search_view'] = search_view
-
-        # save active_id in session
-        rpc.session.active_id = data.get('id')
-
-        domain = expr_eval(action['domain'], ctx)
-
-        if data.get('domain', False):
-            domain.append(data['domain'])
-
-        if 'menu' in data['res_model'] and action.get('name') == 'Menu':
-            return close_popup()
-
-        display_menu_tip = action.get('display_menu_tip')
-        if display_menu_tip:
-            display_menu_tip = action.get('help')
-
-        res = execute_window(view_ids,
-                             data['res_model'],
-                             data['res_id'],
-                             domain,
-                             action['view_type'],
-                             ctx, data['view_mode'],
-                             name=action.get('name'),
-                             target=action.get('target'),
-                             limit=data.get('limit'),
-                             search_view = data['search_view'],
-                             context_menu= data.get('context_menu'),
-                             display_menu_tip=display_menu_tip)
-
-        return res
-
-    elif action['type']=='ir.actions.server':
-
-        ctx = data.get('context', {}).copy()
-        ctx.update({'active_id': data.get('id', False), 'active_ids': data.get('ids', [])})
-
-        res = rpc.RPCProxy('ir.actions.server').run([action['id']], ctx)
-        if res:
-            if not isinstance(res, list):
-                res = [res]
-                
-            output = ''
-            for r in res:
-                output = execute(r, **data)
-            return output
-        else:
-            return ''
-
-    elif action['type']=='ir.actions.wizard':
-        if 'window' in data:
-            del data['window']
-
-        ctx1 = data.get('context', {}).copy()
-        ctx2 = action.get('context', {}).copy()
-
-        ctx1.update(ctx2)
-
-        data['context'] = ctx1
-
-        return execute_wizard(action['wiz_name'], **data)
-
-    elif action['type']=='ir.actions.report.custom':
-        data.update(action.get('datas',{}))
-        data['report_id'] = action['report_id']
-        return report_link('custom', **data)
-
-    elif action['type']=='ir.actions.report.xml':
-        data.update(action.get('datas',{}))
-        return report_link(action['report_name'], **data)
-
-    elif action['type']=="ir.actions.act_url":
-        data['url'] = action['url']
-        data['target'] = action['target']
-        data['type'] = action['type']
-
-        return execute_url(**data)
+    action_executor = ACTIONS_BY_TYPE[action['type']]
+    return action_executor(action, data)
 
 def execute_url(**data):
     url = data.get('url') or ''
@@ -401,6 +432,7 @@ def execute_by_keyword(keyword, adds=None, **data):
             raise e
 
     keyact = {}
+    action = None
     for action in actions:
         keyact[action['name']] = action
 
@@ -410,15 +442,17 @@ def execute_by_keyword(keyword, adds=None, **data):
         raise common.message(_('No action defined'))
 
     if len(keyact) == 1:
-        data['context'].update(rpc.session.context)
-        return execute(action, **data)
+        key = keyact.keys()[0]
+        if data.get('context'):
+            data['context'].update(rpc.session.context)
+        return execute(keyact[key], **data)
     else:
         return Selection().create(keyact, **data)
 
 
 @tools.expose(template="/openerp/controllers/templates/closepopup.mako")
 def close_popup(*args, **kw):
-    return dict()
+    return {}
 
 @tools.expose(template="/openerp/controllers/templates/report.mako")
 def report_link(report_name, **kw):

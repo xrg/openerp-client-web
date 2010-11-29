@@ -38,7 +38,7 @@ from openobject.tools import url, expose, redirect, validate, error_handler
 import openobject
 
 from openerp import validators
-from openerp.utils import rpc
+from openerp.utils import common, rpc
 
 def get_lang_list():
     langs = [('en_US', 'English (US)')]
@@ -71,15 +71,15 @@ class FormCreate(DBForm):
     name = "create"
     string = _('Create database')
     action = '/openerp/database/do_create'
-    submit_text = _('OK')
+    submit_text = _('Create')
     strip_name = True
     form_attrs = {'onsubmit': 'return on_create()'}
-    fields = [openobject.widgets.PasswordField(name='password', label=_('Super admin password:'), validator=formencode.validators.NotEmpty()),
-              openobject.widgets.TextField(name='dbname', label=_('New database name:'), validator=formencode.validators.NotEmpty()),
-              openobject.widgets.CheckBox(name='demo_data', label=_('Load Demonstration data:'), default=True, validator=validators.Bool(if_empty=False)),
-              openobject.widgets.SelectField(name='language', options=get_lang_list, validator=validators.String(), label=_('Default Language:')),
-              openobject.widgets.PasswordField(name='admin_password', label=_('Administrator password:'), validator=formencode.validators.NotEmpty()),
-              openobject.widgets.PasswordField(name='confirm_password', label=_('Confirm password:'), validator=formencode.validators.NotEmpty())
+    fields = [openobject.widgets.PasswordField(name='password', label=_('Super admin password:'), validator=formencode.validators.NotEmpty(), help=_("This is the password of the user that have the rights to administer databases. This is not a OpenERP user, just a super administrator. If you did not changed it, the password is 'admin' after installation.")),
+              openobject.widgets.TextField(name='dbname', label=_('New database name:'), validator=formencode.validators.NotEmpty(), help=_("Choose the name of the database that will be created. The name must not contain any special character. Exemple: 'terp'.")),
+              openobject.widgets.CheckBox(name='demo_data', label=_('Load Demonstration data:'), default=True, validator=validators.Bool(if_empty=False), help=_("Check this box if you want demonstration data to be installed on your new database. These data will help you to understand OpenERP, with predefined products, partners, etc.")),
+              openobject.widgets.SelectField(name='language', options=get_lang_list, validator=validators.String(), label=_('Default Language:'), help=_("Choose the default language that will be installed for this database. You will be able to install new languages after installation through the administration menu.")),
+              openobject.widgets.PasswordField(name='admin_password', label=_('Administrator password:'), validator=formencode.validators.NotEmpty(), help=_("This is the password of the 'admin' user that will be created in your new database.")),
+              openobject.widgets.PasswordField(name='confirm_password', label=_('Confirm password:'), validator=formencode.validators.NotEmpty(), help=_("This is the password of the 'admin' user that will be created in your new database. It has to be the same than the above field."))
               ]
     validator = openobject.validators.Schema(chained_validators=[formencode.validators.FieldsMatch("admin_password","confirm_password")])
 
@@ -87,7 +87,7 @@ class FormDrop(DBForm):
     name = "drop"
     string = _('Drop database')
     action = '/openerp/database/do_drop'
-    submit_text = _('OK')
+    submit_text = _('Drop')
     form_attrs = {'onsubmit': 'return window.confirm(_("Do you really want to drop the selected database?"))'}
     fields = [openobject.widgets.SelectField(name='dbname', options=get_db_list, label=_('Database:'), validator=validators.String(not_empty=True)),
               openobject.widgets.PasswordField(name='password', label=_('Password:'), validator=formencode.validators.NotEmpty())]
@@ -96,7 +96,7 @@ class FormBackup(DBForm):
     name = "backup"
     string = _('Backup database')
     action = '/openerp/database/do_backup'
-    submit_text = _('OK')
+    submit_text = _('Backup')
     fields = [openobject.widgets.SelectField(name='dbname', options=get_db_list, label=_('Database:'), validator=validators.String(not_empty=True)),
               openobject.widgets.PasswordField(name='password', label=_('Password:'), validator=formencode.validators.NotEmpty())]
 
@@ -104,7 +104,7 @@ class FormRestore(DBForm):
     name = "restore"
     string = _('Restore database')
     action = '/openerp/database/do_restore'
-    submit_text = _('OK')
+    submit_text = _('Restore')
     fields = [openobject.widgets.FileField(name="filename", label=_('File:')),
               openobject.widgets.PasswordField(name='password', label=_('Password:'), validator=formencode.validators.NotEmpty()),
               openobject.widgets.TextField(name='dbname', label=_('New database name:'), validator=formencode.validators.NotEmpty())]
@@ -113,12 +113,13 @@ class FormPassword(DBForm):
     name = "password"
     string = _('Change Administrator Password')
     action = '/openerp/database/do_password'
-    submit_text = _('OK')
+    submit_text = _('Change Password')
     fields = [openobject.widgets.PasswordField(name='old_password', label=_('Old Password:'), validator=formencode.validators.NotEmpty()),
               openobject.widgets.PasswordField(name='new_password', label=_('New Password:'), validator=formencode.validators.NotEmpty()),
               openobject.widgets.PasswordField(name='confirm_password', label=_('Confirm Password:'), validator=formencode.validators.NotEmpty())]
 
     validator = openobject.validators.Schema(chained_validators=[formencode.validators.FieldsMatch("new_password","confirm_password")])
+
 
 
 _FORMS = {
@@ -129,10 +130,34 @@ _FORMS = {
     'password': FormPassword()
 }
 
+class DatabaseCreationError(Exception): pass
+class DatabaseCreationCrash(DatabaseCreationError): pass
+
 class Database(BaseController):
 
     _cp_path = "/openerp/database"
     msg = {}
+
+    def __init__(self, *args, **kwargs):
+        super(Database, self).__init__(*args, **kwargs)
+        self._msg = {}
+
+    def get_msg(self):
+        return self._msg
+
+    def set_msg(self, msg):
+        # msg will be displayed by javascript:
+        # we need to remove some characters like '\n':
+        if 'title' in msg:
+            msg['title'] = msg['title'].replace('\n', '')
+        if 'message' in msg:
+            msg['message'] = msg['message'].replace('\n', '')
+        self._msg = msg
+
+    msg = property(get_msg, set_msg)
+
+    def sanitize(self, msg):
+        return msg.replace('\n', '<br />')
 
     @expose()
     def index(self, *args, **kw):
@@ -156,7 +181,7 @@ class Database(BaseController):
         if not re.match('^[a-zA-Z][a-zA-Z0-9_]+$', dbname):
             self.msg = {'message': ustr(_("You must avoid all accents, space or special characters.")),
                         'title': ustr(_('Bad database name'))}
-            raise redirect('/openerp/database/create')
+            return self.create()
 
         ok = False
         try:
@@ -173,22 +198,19 @@ class Database(BaseController):
                     else:
                         time.sleep(1)
                 except:
-                    raise Exception('DbFailed')
-        except Exception, e:
-            if e.args == ('DbExist',):
-                 self.msg = {'message': (_("Could not create database.")),
-                             'title': (_('Database already exists'))}
+                    raise DatabaseCreationCrash()
+        except DatabaseCreationCrash:
+            self.msg = {'message': (_("The server crashed during installation.\nWe suggest you to drop this database.")),
+                        'title': (_('Error during database creation'))}
+            return self.create()
+        except common.AccessDenied, e:
+            self.msg = {'message': _('Bad super admin password'),
+                        'title' : e.title}
+            return self.create()
+        except Exception:
+            self.msg = {'message':_("Could not create database.")}
 
-            elif e.args == ('DbFailed'):
-                self.msg = {'message': (_("The server crashed during installation.\nWe suggest you to drop this database.")),
-                            'title': (_('Error during database creation'))}
-            elif getattr(e, 'faultCode', False) == 'AccessDenied':
-                self.msg = {'message': (_('Bad database administrator password')),
-                            'title' : (_("Could not create database."))}
-            else:
-                self.msg = {'message':(_("Could not create database."))}
-
-            raise redirect('/openerp/database/create')
+            return self.create()
 
         if ok:
             raise redirect('/openerp/menu', {'next': '/openerp/home'})
@@ -208,14 +230,13 @@ class Database(BaseController):
         self.msg = {}
         try:
             rpc.session.execute_db('drop', password, dbname)
-        except Exception, e:
-            if getattr(e, 'faultCode', False) == 'AccessDenied':
-                self.msg = {'message': (_('Bad database administrator password')),
-                            'title': (_("Could not drop database."))}
-            else:
-                self.msg = {'message' : (_("Could not drop database"))}
+        except common.AccessDenied, e:
+            self.msg = {'message': _('Bad super admin password'),
+                        'title' : e.title}
+        except Exception:
+            self.msg = {'message' : _("Could not drop database")}
 
-        raise redirect("/openerp/database/drop")
+        return self.drop()
 
     @expose(template="/openerp/controllers/templates/database.mako")
     def backup(self, tg_errors=None, **kw):
@@ -235,9 +256,9 @@ class Database(BaseController):
                 cherrypy.response.headers['Content-Type'] = "application/data"
                 cherrypy.response.headers['Content-Disposition'] = 'filename="' + dbname + '.dump"'
                 return base64.decodestring(res)
-        except Exception, e:
-            self.msg = {'message' : (_("Could not create backup."))}
-            raise redirect('/openerp/database/backup')
+        except Exception:
+            self.msg = {'message' : _("Could not create backup.")}
+            return self.backup()
         raise redirect('/openerp/login')
 
     @expose(template="/openerp/controllers/templates/database.mako")
@@ -255,13 +276,13 @@ class Database(BaseController):
         try:
             data = base64.encodestring(filename.file.read())
             rpc.session.execute_db('restore', password, dbname, data)
-        except Exception, e:
-            if getattr(e, 'faultCode', False) == 'AccessDenied':
-                self.msg = {'message': (_('Bad database administrator password')),
-                            'title': (_("Could not restore database."))}
-            else:
-                self.msg = {'message': (_("Could not restore database"))}
-                raise redirect('/openerp/database/restore')
+        except common.AccessDenied, e:
+            self.msg = {'message': _('Bad super admin password'),
+                        'title' : e.title}
+            return self.restore()
+        except Exception:
+            self.msg = {'message': _("Could not restore database")}
+            return self.restore()
         raise redirect('/openerp/login', db=dbname)
 
     @expose(template="/openerp/controllers/templates/database.mako")
@@ -278,14 +299,13 @@ class Database(BaseController):
         self.msg = {}
         try:
             rpc.session.execute_db('change_admin_password', old_password, new_password)
-        except Exception,e:
-            if getattr(e, 'faultCode', False) == 'AccessDenied':
-                self.msg = {'message': (_('Could not change super admin password.')),
-                            'title': (_("Bad password provided."))}
-            else:
-                self.msg = {'message': (_("Error, password not changed."))}
-
-            raise redirect('/openerp/database/password')
+        except common.AccessDenied, e:
+            self.msg = {'message': _('Bad super admin password'),
+                        'title' : e.title}
+            return self.password()
+        except Exception:
+            self.msg = {'message': _("Error, password not changed.")}
+            return self.password()
         raise redirect('/openerp/login')
 
 # vim: ts=4 sts=4 sw=4 si et

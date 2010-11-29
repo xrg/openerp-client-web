@@ -23,16 +23,20 @@
                 '_terp_context': openobject.dom.get('_terp_context').value
             };
 
-            var req = openobject.http.postJSON('/view_calendar/calpopup/get_defaults', params);
-            req.addCallback(function(obj){
-                forEach(items(obj), function(item){
-                    var k = item[0];
-                    var v = item[1];
+            jQuery.ajax({
+                url:'/view_calendar/calpopup/get_defaults',
+                dataType: 'json',
+                type: 'POST',
+                data: params,
+                success: function(obj) {
+                    forEach(items(obj), function(item){
+                        var k = item[0];
+                        var v = item[1];
+                        var e = openobject.dom.get(k);
 
-                    var e = openobject.dom.get(k);
-
-                    if (e) e.value = v;
-                });
+                        if (e) e.value = v;
+                    });
+                }
             });
         }
 

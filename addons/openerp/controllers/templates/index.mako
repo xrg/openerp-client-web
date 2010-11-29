@@ -8,16 +8,42 @@
     <script type="text/javascript" src="/openerp/static/javascript/notebook/notebook.js"></script>
     
     <script type="text/javascript">
-        var DOCUMENT_TO_LOAD = "${load_content}";
+        var DOCUMENT_TO_LOAD = "${load_content|n}";
         var CAL_INSTANCE = null;
 
         jQuery(document).ready(function () {
+            jQuery('.web_dashboard').hover(function () {
+                var $dashboard_item = jQuery(this);
+                if(!$dashboard_item.find('img.hover')) {
+                    return;
+                }
+                $dashboard_item.find('img').toggle();
+            });
+
             // Don't load doc if there is a hash-url, it takes precedence
             if(DOCUMENT_TO_LOAD && !hashUrl()) {
                 openLink(DOCUMENT_TO_LOAD);
+                return
             }
+
+            // Make user home widgets deletable
+            jQuery('#user_widgets a.close').click(function() {
+                var $widget = jQuery(this);
+                jQuery.post(
+                    $widget.attr('href'),
+                    {widget_id: $widget.attr('id')},
+                    function(obj) {
+                        if(obj.error) {
+                            error_display(obj.error);
+                            return;
+                        }
+                        var $root = $widget.closest('.sideheader-a');
+                        $root.next()
+                             .add($root)
+                             .remove();
+                    }, 'json');
+            });
         });
-        
     </script>
 </%def>
 
@@ -44,7 +70,7 @@
                     </div>
                 </td>
             </tr>
-            % if tools:
+            % if tools is not None:
                 <tr>
                     <td id="secondary" class="sidenav-open">
                         <div class="wrap">
@@ -82,12 +108,28 @@
                                     <div class="wrap" style="padding: 10px;">
                                         <ul class="sections-a">
                                             % for parent in parents:
-                                                <li class="${'-'.join(parent['name'].split(' ')).lower()}">
+                                                <li class="web_dashboard" id="${parent['id']}">
                                                     <span class="wrap">
                                                         <a href="${py.url('/openerp/menu', active=parent['id'])}" target="_top">
-                                                            <span>
-                                                                <strong>${parent['name']}</strong>
-                                                            </span>
+                                                            <table width="100%" height="100%" cellspacing="0" cellpadding="1">
+                                                                <tr>
+                                                                    <td align="center" style="height: 100px;">
+                                                                        % if parent['web_icon_data']:
+                                                                            <img src="data:image/png;base64,${parent['web_icon_data']}" alt=""/>
+                                                                        % endif
+                                                                        %if parent['web_icon_hover_data']:
+                                                                            <img class="hover" src="data:image/png;base64,${parent['web_icon_hover_data']}" alt=""/>
+                                                                        % endif
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>
+                                                                        <span>
+                                                                            <strong>${parent['name']}</strong>
+                                                                        </span>
+                                                                    </td>
+                                                                </tr>
+                                                            </table>
                                                         </a>
                                                     </span>
                                                 </li>
@@ -96,6 +138,7 @@
                                     </div>
                                 </td>
                                 <td class="tertiary">
+                                    % if maintenance['status'] == 'none':
                                     <div class="wrap" style="padding: 10px;">
                                         <ul class="split-a">
                                             <li class="one">
@@ -116,12 +159,24 @@
                                             </li>
                                         </ul>
                                     </div>
-                                    <div class="box-a">
-                                        <ul class="side">
-                                        </ul>
+                                    % endif
+                                    <div class="sideheader-a">
+                                        <a href="${py.url('/openerp/widgets/add')}"
+                                           id="add_user_widget" class="button-a"
+                                                style="right: 1px;">${_("Add")}</a>
+                                        <h2>${_("Widgets")}</h2>
+                                    </div>
+                                    <div class="box-a" id="user_widgets">
                                         % for widget in widgets:
-                                            <div>
+                                            <div class="sideheader-a" style="padding: 0">
+                                                % if widget['removable']:
+                                                    <a id="${widget['user_widget_id']}"
+                                                       href="${py.url('/openerp/widgets/remove')}"
+                                                       class="close">${_("Close")}</a>
+                                                % endif
                                                 <h3>${widget['title']}</h3>
+                                            </div>
+                                            <div class="clean-a">
                                                 ${widget['content']|n}
                                             </div>
                                         % endfor

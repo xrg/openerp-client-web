@@ -16,7 +16,7 @@ class CalendarView(TinyView):
         widget = get_calendar(view=screen.view,
                               model=screen.model,
                               ids=screen.ids,
-                              domain=screen.domain,
+                              domain=screen.domain or screen.search_domain,
                               context=screen.context,
                               options=screen.kalendar)
         return widget

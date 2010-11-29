@@ -29,13 +29,10 @@
 
 import xml.dom.minidom
 
-import cherrypy
-
 from openobject.tools import url
-from openobject.widgets import Form, JSLink, locations
+from openobject.widgets import Form
 
 from openerp.utils import rpc
-from openerp.utils import cache
 from openerp.utils import node_attributes
 
 from sidebar import Sidebar
@@ -109,12 +106,11 @@ class ViewTree(Form):
         self.id = id
         self.ids = ids
 
-        submenu = {}
         toolbar = {}
         for item, value in view.get('toolbar', {}).items():
             if value: toolbar[item] = value
         if toolbar:
-            self.sidebar = Sidebar(self.model, submenu, toolbar, context=self.context)
+            self.sidebar = Sidebar(self.model, None, toolbar, context=self.context)
 
         # get the correct view title
         self.string = self.context.get('_terp_view_name', self.string) or self.string

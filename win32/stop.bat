@@ -2,4 +2,4 @@
 
 @net stop openerp-web
 
-cls
+pause

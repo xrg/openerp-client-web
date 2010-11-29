@@ -123,6 +123,7 @@
 .calGantt .calGroupLabel:hover,
 .calGantt .calEventLabel:hover {
     color: blue;
+    text-decoration: underline;
 }
 
 .calGantt .calEventLabel {

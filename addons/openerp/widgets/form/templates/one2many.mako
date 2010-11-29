@@ -21,17 +21,6 @@
 	               			%endif
 	               		</div>
 	               	</td>
-                    % if pager_info:
-                    <td width="65%" style="text-align: left" align="left">
-                        <div class="pager">
-                            <p id="_${name}_link_span" class="paging">
-                                <a class="prev nav" title="${_('Previous record...')}" href="javascript: void(0)" onclick="submit_form('previous', '${name}');"></a>
-                                <span>${pager_info}</span>
-                                <a class="next nav" title="${_('Next record...')}" href="javascript: void(0)" onclick="submit_form('next', '${name}');"></a>
-                            </p>
-                        </div>
-                    </td>
-                    % endif
                     <td>
                         % if not screen.editable and screen.view_type=='form':
                         <img class="button" title="${_('Translate me.')}" alt="${_('Translate me.')}"
@@ -44,11 +33,25 @@
         </td>
     </tr>
     % endif
+    % if pager_info:
+             <td width="65%" style="text-align: left" align="left">
+                 <div class="pager">
+                     <p id="_${name}_link_span" class="paging">
+                         <a class="prev nav" title="${_('Previous record...')}" href="javascript: void(0)" onclick="submit_form('previous', '${name}');"></a>
+                         <span>${pager_info}</span>
+                         <a class="next nav" title="${_('Next record...')}" href="javascript: void(0)" onclick="submit_form('next', '${name}');"></a>
+                     </p>
+                 </div>
+             </td>
+	% endif
     <tr>
         % if screen:
         <td class="o2m_cell">
             <input type="hidden" name="${name}/__id" id="${name}/__id" value="${id}" ${py.disabled(screen.view_type!="form")}/>
             <input type="hidden" name="${name}/_terp_default_get_ctx" id="${name}/_terp_default_get_ctx" value="${default_get_ctx}"/>
+            % if default_value:
+            	<input type="hidden" name="_terp_default_o2m/${name}" id="_terp_default_o2m/${name}" value="${default_value}"/>
+            %endif
             ${screen.display()}
         </td>
         % endif

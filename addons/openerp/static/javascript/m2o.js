@@ -95,7 +95,9 @@ ManyToOne.prototype.__init__ = function(name) {
         if(this.select_img)
             connect(this.select_img, 'onclick', this, this.select);
         if(this.open_img)
-            connect(this.open_img, 'onclick', this, this.open_record);
+            connect(this.open_img, 'onclick', this, function(evt) {
+                on_context_menu(evt, this.text);
+            });
 
         if(this.reference) {
             connect(this.reference, 'onchange', this, this.on_reference_changed);

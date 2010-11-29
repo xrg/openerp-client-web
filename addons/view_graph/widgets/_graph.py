@@ -420,6 +420,7 @@ class BarChart(GraphData):
             return {'y_max': mx, 'y_min': mn, 'y_steps': tk}
 
         temp_lbl = []
+        stack_labels = []
         dataset = result.setdefault('dataset', [])
 
         for i in label_x:
@@ -439,7 +440,11 @@ class BarChart(GraphData):
             i = re.sub(ur'[Ñ]', 'N', i)
 
             lbl = {'text': i, 'colour': "#432BAF"}
-            temp_lbl.append(lbl)
+            
+            if len(axis_group) > 1:
+                stack_labels.append(lbl)
+            else:
+                temp_lbl.append(lbl)
 
         url = []
 

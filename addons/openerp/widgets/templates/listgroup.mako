@@ -202,6 +202,20 @@ import itertools
                     });
                 </script>
             % endif
+            % if editable:
+                <script type="text/javascript">
+                    jQuery('table[id=${name}_grid] tr.grid-row').click(function(event) {
+                        var $this = jQuery(this);
+                        if(event.detail != 1
+                         || jQuery(event.target).is('img, input')
+                         || view_type != 'tree'
+                         || !$this.attr('record')) {
+                            return;
+                        }
+                        do_select($this.attr('record'), '${name}');
+                    });
+                </script>
+            % endif
         </td>
     </tr>
 

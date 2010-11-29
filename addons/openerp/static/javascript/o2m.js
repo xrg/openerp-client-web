@@ -99,7 +99,9 @@ One2Many.prototype = {
 
     edit: function(id, readonly) {
         var names = this.name.split('/');
-
+        if (id!='False' && id==0) {
+        	return error_display(_('To edit Record, please first save it.'));
+        }
         var parents = [];
         // get the required view params to get proper view
         var params = {
@@ -165,17 +167,25 @@ One2Many.prototype = {
         var btn=MochiKit.DOM.getElement(this.name+'_btn_');
         var grid=MochiKit.DOM.getElement(this.name+'_grid');
         var edit=MochiKit.DOM.getElement(this.name + '/_terp_editable');
-        
+        var rows = jQuery('table[id='+this.name+'_grid] tr.grid-row');
         if (readonly) {
-            jQuery('table.one2many[id$="'+this.name+'"]').addClass('m2o_readonly')	
+            jQuery('table.one2many[id$="'+this.name+'"]').addClass('m2o_readonly');
             if(btn){btn.style.display='none';}
             MochiKit.Base.map(function (el) {el.style.display='none'},MochiKit.Selector.findChildElements(grid,['.selector']));
             edit.value= 0;
+            if (rows && rows.length) {
+                rows.each(function(index, row) {
+                    jQuery(row).unbind('click');});
+            }
         }
         else{
             if(btn){btn.style.display='';}
             MochiKit.Base.map(function (el) {el.style.display=''},MochiKit.Selector.findChildElements(grid,['.selector']));
-             edit.value = 1;
+            edit.value = 1;
+            if (rows && rows.length) {
+                rows.each(function(index, row) {
+                    jQuery(row).bind('click');});
+            }
         }
     }
 };

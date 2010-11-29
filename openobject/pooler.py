@@ -33,8 +33,8 @@ class Pool(object):
     def get(self, key, group):
         return self.get_group(group).get(key, None)
 
-    def get_group(self, key):
-        return self.types_pool.get(key, {})
+    def get_group(self, group):
+        return self.types_pool.setdefault(group, {})
 
     def get_controller(self, name):
         """ Fetches and initializes a controller instance
