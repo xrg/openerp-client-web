@@ -60,7 +60,6 @@ ManyToOne.prototype.__init__ = function(name) {
     this.lastTextResult = null;
     this.lastSearch = null;
     this.onlySuggest = false;
-    this.minChars = 1;
     this.processCount = 0;
     this.takeFocus = false;
     this.hasFocus = false;
@@ -113,7 +112,6 @@ ManyToOne.prototype.__init__ = function(name) {
 
 ManyToOne.prototype.gotFocus = function(evt) {
     this.hasFocus = true;
-    if(!this.minChars) this.on_keyup(evt);
 };
 
 ManyToOne.prototype.lostFocus = function() {
@@ -235,7 +233,7 @@ ManyToOne.prototype.on_keyup = function() {
     // Stop processing if a special key has been pressed. Or if the last search requested the same string
     if(this.specialKeyPressed || (this.text.value == this.lastSearch)) return false;
 
-    if(this.minChars && this.text.value.length < this.minChars) {
+    if(!this.text.value.length) {
         if(this.delayedRequest) {
             this.delayedRequest.cancel();
             this.clearResults();
@@ -436,7 +434,7 @@ ManyToOne.prototype.doDelayedRequest = function () {
     var val = s.lastIndexOf(',') >= 0 ? s.substring(s.lastIndexOf(',') + 1).replace(/^\s+|\s+$/g, "") : s.replace(/^\s+|\s+$/g, "");
 
     // Check again if less than required chars, then we won't search.
-    if(this.minChars && val.length < this.minChars) {
+    if(!val.length) {
         this.clearResults();
         return false;
     }
