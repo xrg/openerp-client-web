@@ -476,7 +476,6 @@ ManyToOne.prototype.displayResults = function(result) {
 
         var fancyTable = TABLE({"class": "autoTextTable","name": "autoCompleteTable" + this.name,
             "id": "autoCompleteTable" + this.name}, null);
-        var $resultsTable = jQuery('<tbody>');
         this.numResultRows = result.values.length;
 
         if(this.onlySuggest)
@@ -487,9 +486,8 @@ ManyToOne.prototype.displayResults = function(result) {
         var mouseOver = jQuery.proxy(this, 'getMouseover');
         var onClick = jQuery.proxy(this, 'getOnclick');
         var rowName = "autoComplete" + this.name + "_";
+        var $resultsTable = jQuery('<tbody>');
         jQuery.each(result.values, function (i, currentObject) {
-            var currentItem = currentObject[1];
-
             jQuery('<tr>', {
                 "class": "autoTextNormalRow",
                 "name": rowName + i,
@@ -502,8 +500,8 @@ ManyToOne.prototype.displayResults = function(result) {
             }).append(jQuery('<span>', {
                 'id':currentObject[0],
                 'style':'text-transform:none; white-space: nowrap',
-                'title': currentItem,
-                'text': currentItem
+                'title': currentObject[1],
+                'text': currentObject[1]
             }))).appendTo($resultsTable);
         });
         jQuery(fancyTable).append($resultsTable);
