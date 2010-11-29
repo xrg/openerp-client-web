@@ -484,15 +484,21 @@ ManyToOne.prototype.displayResults = function(result) {
         for(var i = 0; i <= (result.values.length - 1); i++) {
             var currentItem = result.values[i][1];
 
-            var currentRow = TR({"class": "autoTextNormalRow", "name": "autoComplete" + this.name + "_" + i, "id": "autoComplete" + this.name + "_" + i},
-                    TD({'id':result.values[i][0], 'class': 'm2o_coplition'},
-                            createDOM("nobr", null, SPAN({'id':result.values[i][0], 'style':'text-transform:none;', 'title': currentItem}, currentItem))));
-
-            jQuery(currentRow).bind({
+            jQuery('<tr>', {
+                "class": "autoTextNormalRow",
+                "name": "autoComplete" + this.name + "_" + i,
+                "id": "autoComplete" + this.name + "_" + i
+            }).append(jQuery('<td>', {
+                'id':result.values[i][0],
+                'class': 'm2o_coplition'
+            }).append(jQuery('<span>', {
+                'id':result.values[i][0],
+                'style':'text-transform:none; white-space: nowrap',
+                'title': currentItem
+            }).text(currentItem))).bind({
                 mouseover: mouseOver,
                 click: onClick
-            });
-            $resultsTable.append(currentRow);
+            }).appendTo($resultsTable);
         }
         jQuery(fancyTable).append($resultsTable);
         // Swap out the old results with the newly created table
