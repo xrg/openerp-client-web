@@ -53,7 +53,6 @@ ManyToOne.prototype.__init__ = function(name) {
     this.selectedResultRow = 0;
     this.numResultRows = 0;
     this.specialKeyPressed = false;
-    this.isShowingResults = false;
     this.lastKey = null;
     this.delayedRequest = null;
     this.completeDelay = 1;
@@ -472,15 +471,13 @@ ManyToOne.prototype.displayResults = function(result) {
 
         var fancyTable = TABLE({"class": "autoTextTable","name": "autoCompleteTable" + this.name,
             "id": "autoCompleteTable" + this.name}, null);
-        var fancyTableBody = TBODY(null, null);
+        var $resultsTable = jQuery('<tbody>');
         this.numResultRows = result.values.length;
 
         if(this.onlySuggest)
             this.selectedResultRow = null;
         else
             this.selectedResultRow = 0;
-
-        this.isShowingResults = false;
 
         var mouseOver = jQuery.proxy(this, 'getMouseover');
         var onClick = jQuery.proxy(this, 'getOnclick');
@@ -495,14 +492,12 @@ ManyToOne.prototype.displayResults = function(result) {
                 mouseover: mouseOver,
                 click: onClick
             });
-            jQuery(fancyTableBody).append(currentRow);
-
-            this.isShowingResults = true;
+            $resultsTable.append(currentRow);
         }
-        jQuery(fancyTable).append(fancyTableBody);
+        jQuery(fancyTable).append($resultsTable);
         // Swap out the old results with the newly created table
         var $resultsHolder = jQuery(idSelector("autoCompleteResults_" + this.name));
-        if(this.isShowingResults) {
+        if($resultsTable.children().length) {
             $resultsHolder.empty().append(fancyTable);
             this.updateSelectedResult();
             $resultsHolder.show();
