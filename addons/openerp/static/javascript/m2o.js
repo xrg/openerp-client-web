@@ -433,7 +433,7 @@ ManyToOne.prototype.setReadonly = function(readonly) {
 
 ManyToOne.prototype.clearResults = function() {
     // Hide all the results
-    jQuery("#autoCompleteResults_" + this.name).hide();
+    jQuery(idSelector("autoCompleteResults_" + this.name)).hide();
     // Clear out our result tracking
     this.selectedResultRow = 0;
     this.numResultRows = 0;
@@ -500,7 +500,7 @@ ManyToOne.prototype.displayResults = function(result) {
         }
         jQuery(fancyTable).append(fancyTableBody);
         // Swap out the old results with the newly created table
-        var $resultsHolder = jQuery("#autoCompleteResults_" + this.name);
+        var $resultsHolder = jQuery(idSelector("autoCompleteResults_" + this.name));
         if(this.isShowingResults) {
             $resultsHolder.empty().append(fancyTable);
             this.updateSelectedResult();
