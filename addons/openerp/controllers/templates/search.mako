@@ -154,14 +154,16 @@
                 <td>${form.search.display()}</td>
             </tr>
             <tr>
-                <td class="toolbar" style="padding: 0 5px;">
+                <td class="toolbar" style="padding: 4px 5px 0px;">
                     <table cellpadding="0" cellspacing="0">
                         <tr>
                             <td width="100%">
-                            	<a class="button-a" style="margin-right:10px;" href="javascript: void(0)" onclick="do_select()">${_("Select")}</a>
+                                % if params.selectable != 1:
+                                    <a class="button-a" href="javascript: void(0)" onclick="do_select()">${_("Select")}</a>
+                                % endif
                             	<a class="button-a" href="javascript: void(0)" onclick="search_filter()">${_("Search")}</a>
                            	    <a class="button-a" href="javascript: void(0)" onclick="do_create()">${_("New")}</a>
-                            	<a class="button-a" style="margin-left:10px;" href="javascript: void(0)" onclick="window.close()">${_("Close")}</a>
+                            	<a class="button-a" href="javascript: void(0)" onclick="window.close()">${_("Close")}</a>
                             
                             </td>
                         </tr>
