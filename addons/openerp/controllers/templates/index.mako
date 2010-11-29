@@ -102,7 +102,7 @@
             % else:
                 <tr>
                     <td colspan="3" height="100%" valign="top">
-                        <table width="100%">
+                        <table width="100%" height="100%">
                             <tr>
                                 <td id="primary" width="70%">
                                     <div class="wrap" style="padding: 10px;">
