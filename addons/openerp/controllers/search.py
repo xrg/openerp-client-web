@@ -199,7 +199,6 @@ class Search(Form):
         data = {}
         res = proxy.fields_get()
 
-        frm = {}
         all_values = {}
 
         for k, v in record.items():
