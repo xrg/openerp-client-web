@@ -82,8 +82,8 @@ class Search(Form):
         params.selectable = kind
         params.limit = params.limit or 50
 
-        ctx = rpc.session.context.copy()
-        ctx.update(params.context or {})
+        ctx = dict(rpc.session.context,
+                   **(params.context or {}))
         params.ids = []
         proxy = rpc.RPCProxy(model)
         ids = proxy.name_search(text or '', params.domain or [], 'ilike', ctx)
