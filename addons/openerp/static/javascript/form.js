@@ -720,18 +720,15 @@ function eval_domain_context_request(options){
 }
 
 function open_search_window(relation, domain, context, source, kind, text){
-
-    var req = eval_domain_context_request({
-        'source': source,
-        'domain': domain,
-        'context': context
-    });
-
     if (kind == 2 && source.indexOf('_terp_listfields/') == 0) {
         text = "";
     }
 
-    req.addCallback(function(obj){
+    eval_domain_context_request({
+        'source': source,
+        'domain': domain,
+        'context': context
+    }).addCallback(function(obj){
         openobject.tools.openWindow(openobject.http.getURL('/openerp/search/new', {
             'model': relation,
             'domain': obj.domain,
