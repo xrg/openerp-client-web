@@ -17,9 +17,15 @@
 
     <script type="text/javascript">
         var form_controller = '/openerp/search';
+        function close_dialog() {
+            window.close()
+        }
     </script>
     % if params.selectable == KINDS['M2O']:
     <script type="text/javascript">
+        function close_dialog() {
+            window.top.jQuery(window.frameElement).dialog('close');
+        }
         function do_select(selected_id){
             if (!selected_id) {
                 var ids = new ListView('_terp_list').getSelectedRecords();
@@ -42,7 +48,7 @@
                 $value.change();
             }
 
-            $(window.frameElement).dialog('close');
+            close_dialog();
         }
         
         function do_create(){
@@ -78,7 +84,7 @@
                             return;
                        }
                     }
-                    window.close()
+                    close_dialog();
                 }
             </script>
         % else:
@@ -111,7 +117,7 @@
 
 		                m2m.setValue(ids);
 		            }
-		            window.close();
+		            close_dialog();
 		        }
 		    </script>
         % endif
@@ -162,7 +168,7 @@
                                 % endif
                             	<a class="button-a" href="javascript: void(0)" onclick="search_filter()">${_("Search")}</a>
                            	    <a class="button-a" href="javascript: void(0)" onclick="do_create()">${_("New")}</a>
-                            	<a class="button-a" href="javascript: void(0)" onclick="window.close()">${_("Close")}</a>
+                            	<a class="button-a" href="javascript: void(0)" onclick="close_dialog();">${_("Close")}</a>
                             
                             </td>
                         </tr>
