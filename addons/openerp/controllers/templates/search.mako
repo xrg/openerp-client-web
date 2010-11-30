@@ -1,10 +1,16 @@
 <%inherit file="/openerp/controllers/templates/base_dispatch.mako"/>
+<%!
+    KINDS = {
+        'M2O': 1,
+        'M2M': 2
+    }
+%>        
 
 <%def name="header()">
     <%
-        if params.selectable == 1:
+        if params.selectable == KINDS['M2O']:
             create_url = "/openm2o/edit"
-        elif params.selectable == 2:
+        elif params.selectable == KINDS['M2M']:
             create_url = "/openm2m/new"
     %>
     <title>Search ${form.screen.string}</title>
@@ -12,7 +18,7 @@
     <script type="text/javascript">
         var form_controller = '/openerp/search';
     </script>
-    % if params.selectable == 1:
+    % if params.selectable == KINDS['M2O']:
     <script type="text/javascript">
         function do_select(res_id){
             var selected_id = res_id
@@ -52,7 +58,7 @@
                 _terp_context: openobject.dom.get('_terp_context').value}));
         }
     </script>
-    % elif params.selectable == 2:
+    % elif params.selectable == KINDS['M2M']:
         % if params.get('return_to'):
             <script type="text/javascript">
                 function do_select() {
@@ -196,7 +202,7 @@
                 });
             }
             jQuery('table.search_table input:text').eq(0).focus();
-            % if params.selectable == 2:
+            % if params.selectable == KINDS['M2M']:
                 var $select_link = jQuery('a.select-link').hide();
                 jQuery('form#search_form').click(function(event) {
                     if ($(event.target).is("input[type=checkbox]")) {
