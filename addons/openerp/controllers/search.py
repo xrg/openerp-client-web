@@ -206,12 +206,12 @@ class Search(Form):
             values = {}
             for key, val in v.items():
                 for field in val:
-                    fld = {}
-                    datas = {}
-                    fld['value'] = val[field]
-                    fld['type'] = res[field].get('type')
+                    fld = {
+                        'value': val[field],
+                        'type': res[field].get('type')
+                    }
+                    datas = {field: fld}
 
-                    data[field] = fld
                     try:
                         frm = TinyForm(**data).to_python()
                     except TinyFormError, e:
