@@ -1020,7 +1020,7 @@ img.translatable {
     vertical-align: middle;
 }
 
-.action-dialog {
+iframe.ui-dialog-content {
     padding: 0 !important;
     width: 100% !important;
 }

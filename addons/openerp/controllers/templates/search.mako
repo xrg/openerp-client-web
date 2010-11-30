@@ -20,9 +20,7 @@
     </script>
     % if params.selectable == KINDS['M2O']:
     <script type="text/javascript">
-        function do_select(res_id){
-            var selected_id = res_id
-
+        function do_select(selected_id){
             if (!selected_id) {
                 var ids = new ListView('_terp_list').getSelectedRecords();
 
@@ -31,8 +29,7 @@
 
                 selected_id = ids[0];
             }
-
-            var $ = window.opener.jQuery;
+            var $ = window.parent.jQuery;
             var $value = $(idSelector('${params.source}'));
             var $text = $(idSelector('${params.source}_text'));
 
@@ -43,10 +40,9 @@
                 $value[0].onchange();
             } else {
                 $value.change();
-                window.opener.MochiKit.Signal.signal($value[0], 'onchange');
             }
 
-            window.close();
+            $(window.frameElement).dialog('close');
         }
         
         function do_create(){

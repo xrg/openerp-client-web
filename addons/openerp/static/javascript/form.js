@@ -719,8 +719,10 @@ function eval_domain_context_request(options){
     });
 }
 
+var KIND_M2O = 1;
+var KIND_M2M = 2;
 function open_search_window(relation, domain, context, source, kind, text){
-    if (kind == 2 && source.indexOf('_terp_listfields/') == 0) {
+    if (kind == KIND_M2M && source.indexOf('_terp_listfields/') == 0) {
         text = "";
     }
 
@@ -729,14 +731,32 @@ function open_search_window(relation, domain, context, source, kind, text){
         'domain': domain,
         'context': context
     }).addCallback(function(obj){
-        openobject.tools.openWindow(openobject.http.getURL('/openerp/search/new', {
+        var dialog_url = openobject.http.getURL('/openerp/search/new', {
             'model': relation,
             'domain': obj.domain,
             'context': obj.context,
             'source': source,
             'kind': kind,
             'text': text
-        }));
+        });
+        switch(kind) {
+            case KIND_M2O:
+                jQuery('<iframe>', {
+                    src: dialog_url,
+                    frameborders: 0
+                }).appendTo(document.documentElement)
+                    .dialog({
+                        modal: true,
+                        width: 640,
+                        height: 480,
+                        close: function () {
+                            jQuery(this).dialog('destroy').remove();
+                        }
+                    });
+                break;
+            default:
+                openobject.tools.openWindow(dialog_url);
+        }
     });
 }
 
