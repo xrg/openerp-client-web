@@ -247,10 +247,12 @@ class Frame(TinyWidget):
             cells = []
             for (attrs, widget) in selected_row:
                 colspan = attrs.get('colspan', 1)
-                if isinstance(widget, basestring):
+                if isinstance(widget, basestring) or attrs.has_key('width'):
                     remaining_width -= colspan
                     if not attrs.has_key('width'):
                         attrs['width'] = '%d%%' % colspan
+                    else:
+                        attrs['style'] = 'min-width: %spx' % str(attrs['width'])
                 else:
                     remaining_colspan += colspan
                     cells.append((colspan, attrs, widget))
