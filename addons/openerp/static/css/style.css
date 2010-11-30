@@ -597,6 +597,7 @@ table.o2m_box div.pagerbar-header strong {
 }
 .view .separator.vertical {
     border-left-width: 1px;
+    padding-right: 5px;
 }
 
 .view .selection_search {

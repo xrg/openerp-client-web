@@ -331,6 +331,8 @@ class Separator(TinyWidget):
         self.colspan = int(attrs.get('colspan', self.get_default_colspan()))
         self.rowspan = int(attrs.get('rowspan', 1))
         self.nolabel = True
+        if self.orientation == 'vertical':
+            self.width = 1
 
 register_widget(Separator, ["separator"])
 
