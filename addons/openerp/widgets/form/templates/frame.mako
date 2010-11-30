@@ -10,14 +10,15 @@
             % if isinstance(widget, basestring):
                 <% widget_item = attrs['widget_item'][1] %>
                 % if attrs.get('is_search'):
+                    <% filters = attrs.get('widget_item')[1].filters %>
                     <table class="search_table">
                         <tr>
-                            <td ${py.attrs(attrs.get('widget_item')[0])} width="${attrs.get('width')}">
+                            <td ${py.attrs(attrs.get('widget_item')[0])} width="${attrs.get('width')}" colspan="${ '2' if filters else '1' }" >
                                 ${widget_item.label.display()}
                             </td>
                         </tr>
                         <tr>
-                             <td ${py.attrs(attrs.get('widget_item')[0])} width="${attrs.get('width')}">
+                             <td ${py.attrs(attrs.get('widget_item')[0])}>
                                 % if widget_item.kind in ('char', 'selection', 'one2many', 'many2many'):
                                     <span class="filter_item">
                                         ${display_member(widget_item)}
@@ -25,7 +26,11 @@
                                 % else:
                                     ${display_member(widget_item)}
                                 % endif
-                                % for filter_widget in attrs.get('widget_item')[1].filters:
+                            % if filters:
+                            </td>
+                            <td>
+                            % endif
+                                % for filter_widget in filters:
                                     ${display_member(filter_widget)}
                                 % endfor
                              </td>
