@@ -25,24 +25,21 @@
 
                 selected_id = ids[0];
             }
-            
-            with (window.opener) {
-                
-                var value_field = openobject.dom.get('${params.source}');
-                var text_field = openobject.dom.get('${params.source}_text');
-                
-                value_field.value = selected_id;
-            
-                if (text_field){
-                    text_field.value = '';
-                }
 
-                if (value_field.onchange){
-                    value_field.onchange();
-                }else{
-                    MochiKit.Signal.signal(value_field, 'onchange');
-                }
+            var $ = window.opener.jQuery;
+            var $value = $(idSelector('${params.source}'));
+            var $text = $(idSelector('${params.source}_text'));
+
+            $value.val(selected_id);
+            $text.val('');
+
+            if($value[0].onchange) {
+                $value[0].onchange();
+            } else {
+                $value.change();
+                window.opener.MochiKit.Signal.signal($value[0], 'onchange');
             }
+
             window.close();
         }
         
