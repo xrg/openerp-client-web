@@ -49,10 +49,6 @@ from openobject.i18n.format import convert_date_format_in_domain
 
 def get_search_default(attrs={}, screen_context=None, default_domain=[]):
 
-    flag = True
-    if cherrypy.request.path_info == '/openerp/tree/open':
-        flag = False
-
     screen_context = screen_context or {}
     default_domain = attrs.get('default_domain', default_domain)
     default_search = False
@@ -63,29 +59,29 @@ def get_search_default(attrs={}, screen_context=None, default_domain=[]):
 
     if attrs.get('name', False):
         context_str = 'search_default_' + str(attrs['name'])
-        default_search = screen_context.get(context_str, False)
+        result = screen_context.get(context_str)
+        if result: return result
 
-    if flag:
-        if default_domain and attrs.get('domain'):
-            domain =  expr_eval(attrs.get('domain'))
-            for d in domain:
-                if d in default_domain:
-                    default_val = default_search = True
+    if default_domain and attrs.get('domain'):
+        domain =  expr_eval(attrs.get('domain'))
+        for d in domain:
+            if d in default_domain:
+                default_val = default_search = True
 
-                else:
-                    default_val = default_search = False
-        else:
-            default_val = default_search =  False
+            else:
+                default_val = default_search = False
+    else:
+        default_val = default_search =  False
 
-        if attrs.get('context'):
-            ctx =  expr_eval(attrs.get('context', "{}"), {'self':attrs.get('name', False)})
-            if ctx.get('group_by'):
-                if isinstance(ctx['group_by'], list):
-                    str_ctx = map(lambda x: 'group_' + x, ctx.get('group_by'))
-                else:
-                    str_ctx = 'group_' + ctx.get('group_by')
-                default_val = str_ctx in screen_context.get('group_by', [])
-                default_search = str_ctx in screen_context.get('group_by', [])
+    if attrs.get('context'):
+        ctx =  expr_eval(attrs.get('context', "{}"), {'self':attrs.get('name', False)})
+        if ctx.get('group_by'):
+            if isinstance(ctx['group_by'], list):
+                str_ctx = map(lambda x: 'group_' + x, ctx.get('group_by'))
+            else:
+                str_ctx = 'group_' + ctx.get('group_by')
+            default_val = str_ctx in screen_context.get('group_by', [])
+            default_search = str_ctx in screen_context.get('group_by', [])
     return default_search or default_val
 
 class RangeWidgetLabel(InputWidgetLabel):
