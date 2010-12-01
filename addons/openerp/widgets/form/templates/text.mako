@@ -1,6 +1,6 @@
 % if editable:
     % if inline:
-        <input id ="${name}" name="${name}" type="text" class="${css_class}"
+        <input id ="${name}" name="${name}" type="text" class="${css_class}" size="1"
             ${py.attrs(attrs, kind=kind, value=value)}/>
     % else:
         <textarea rows="6" id ="${name}" name="${name}" class="${css_class}"
