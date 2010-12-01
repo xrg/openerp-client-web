@@ -216,45 +216,52 @@ def convert_date_format_in_domain(domain, fields, context):
         lang_def = lang_proxy.read(lang_id, [])
 
     fixed_domain = []
-    for key, op, val in domain:
-        if key in date_fields:
-            dtype = date_fields[key]
-            if dtype == 'date':
-                user_dformat = lang_def['date_format']
-                server_dformat = DT_FORMAT_INFO['date'][0]
-            elif dtype == 'time':
-                user_dformat = lang_def['time_format']
-                server_dformat = DT_FORMAT_INFO['time'][0]
-            elif dtype == 'datetime':
-                user_dformat = lang_def['date_format'] + ' ' + lang_def['time_format']
-                server_dformat = DT_FORMAT_INFO['datetime'][0]
+    #import pdb; pdb.set_trace()
+    print
 
-            # not supported on all systems: %C %D %e %F %g %G %h %l %P %r %R %s %T %u %V %z
-            time_format_convert_map = {
-                '%D': '%m/%d/%y',
-                '%e': '%d',
-                '%F': '%Y-%m-%d',
-                '%g': '%y',
-                '%h': '%b',
-                '%l': '%I',
-                '%P': '%p',
-                '%R': '%H:%M',
-                '%r': '%I:%M:%S %p',
-                '%T': '%H:%M:%S',
-                '%z': '%Z',
-            }
+    for item in domain:
+        if len(item) != 3:
+            fixed_domain.append(item)
+        else:
+            key, op, val = item
+            if key in date_fields:
+                dtype = date_fields[key]
+                if dtype == 'date':
+                    user_dformat = lang_def['date_format']
+                    server_dformat = DT_FORMAT_INFO['date'][0]
+                elif dtype == 'time':
+                    user_dformat = lang_def['time_format']
+                    server_dformat = DT_FORMAT_INFO['time'][0]
+                elif dtype == 'datetime':
+                    user_dformat = lang_def['date_format'] + ' ' + lang_def['time_format']
+                    server_dformat = DT_FORMAT_INFO['datetime'][0]
 
-            ok = True
-            for k, v in time_format_convert_map.items():
-                if k in user_dformat:
-                    user_dformat = user_dformat.replace(k, v)
-            if re.findall(r'%[CGsuV]', user_dformat):
-                ok = False
+                # not supported on all systems: %C %D %e %F %g %G %h %l %P %r %R %s %T %u %V %z
+                time_format_convert_map = {
+                    '%D': '%m/%d/%y',
+                    '%e': '%d',
+                    '%F': '%Y-%m-%d',
+                    '%g': '%y',
+                    '%h': '%b',
+                    '%l': '%I',
+                    '%P': '%p',
+                    '%R': '%H:%M',
+                    '%r': '%I:%M:%S %p',
+                    '%T': '%H:%M:%S',
+                    '%z': '%Z',
+                }
 
-            if ok:
-                val = DT.datetime.strptime(val, user_dformat).strftime(server_dformat)
+                ok = True
+                for k, v in time_format_convert_map.items():
+                    if k in user_dformat:
+                        user_dformat = user_dformat.replace(k, v)
+                if re.findall(r'%[CGsuV]', user_dformat):
+                    ok = False
 
-        fixed_domain.append((key, op, val))
+                if ok:
+                    val = DT.datetime.strptime(val, user_dformat).strftime(server_dformat)
+
+            fixed_domain.append((key, op, val))
 
     return fixed_domain
 
