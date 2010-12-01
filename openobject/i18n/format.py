@@ -216,8 +216,6 @@ def convert_date_format_in_domain(domain, fields, context):
         lang_def = lang_proxy.read(lang_id, [])
 
     fixed_domain = []
-    #import pdb; pdb.set_trace()
-    print
 
     for item in domain:
         if len(item) != 3:
