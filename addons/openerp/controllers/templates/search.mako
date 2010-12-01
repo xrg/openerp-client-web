@@ -50,15 +50,6 @@
 
             close_dialog();
         }
-        
-        function do_create(){
-            openLink(openobject.http.getURL('/openerp/openm2o/edit', {
-                _terp_model: '${params.model}',
-                _terp_source: '${params.source}',
-                _terp_m2o: '${params.source}',
-                _terp_domain: openobject.dom.get('_terp_domain').value,
-                _terp_context: openobject.dom.get('_terp_context').value}));
-        }
     </script>
     % elif params.selectable == KINDS['M2M']:
         % if params.get('return_to'):
@@ -121,17 +112,17 @@
 		        }
 		    </script>
         % endif
-         <script type="text/javascript">
-                function do_create(){
-                    openLink(openobject.http.getURL('/openerp/openm2m/new', {
-                        _terp_model: '${params.model}',
-                        _terp_source: '${params.source}',
-                        _terp_m2m: '${params.source}',
-                        _terp_domain: openobject.dom.get('_terp_domain').value,
-                        _terp_context: openobject.dom.get('_terp_context').value}));
-                }
-          </script>
     % endif
+    <script type="text/javascript">
+        function do_create(){
+            openLink(openobject.http.getURL('${create_url}', {
+                _terp_model: '${params.model}',
+                _terp_source: '${params.source}',
+                _terp_m2m: '${params.source}',
+                _terp_domain: openobject.dom.get('_terp_domain').value,
+                _terp_context: openobject.dom.get('_terp_context').value}));
+        }
+    </script>
 </%def>
 
 <%def name="content()">
