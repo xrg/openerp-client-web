@@ -102,7 +102,7 @@
     % endif
     <script type="text/javascript">
         function do_create(){
-            openLink(openobject.http.getURL('${create_url}', {
+            openLink(openobject.http.getURL('/openerp${create_url}', {
                 _terp_model: '${params.model}',
                 _terp_source: '${params.source}',
                 _terp_m2m: '${params.source}',
