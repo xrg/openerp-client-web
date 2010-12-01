@@ -231,6 +231,7 @@ function submit_form(action, src, target){
     // Cant use $form.attr due to http://dev.jquery.com/ticket/3113 as there is a form with a field called
     // action when creating an activity
     $form[0].setAttribute('action', action);
+    $form.attr("target", target);
     $form.submit();
 }
 
