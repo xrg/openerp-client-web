@@ -35,6 +35,8 @@ import pytz
 from babel import dates, numbers
 
 from openobject.i18n.utils import get_locale
+#from openerp.utils import cache
+#from openerp.utils import rpc
 
 __all__ = ['DT_SERVER_FORMATS', 'get_datetime_format',
            'format_datetime', 'parse_datetime',
@@ -196,6 +198,65 @@ def parse_datetime(value, kind="datetime", as_timetuple=False):
         return value
 
     return time.strftime(server_format, value)
+
+def convert_date_format_in_domain(domain, fields, context):
+    from view_calendar.widgets.utils import DT_FORMAT_INFO
+    from openerp.utils import rpc
+
+    date_fields = dict([(field_name, field_def['type'])
+                            for field_name, field_def
+                                in fields.items()
+                                    if field_def['type'] in ['date', 'datetime', 'time']])
+
+    lang = context.get('lang', 'en_US')
+    lang_proxy = rpc.RPCProxy('res.lang')
+    lang_ids = lang_proxy.search([('iso_code', '=', lang)])
+    if lang_ids:
+        lang_id = lang_ids[0]
+        lang_def = lang_proxy.read(lang_id, [])
+
+    fixed_domain = []
+    for key, op, val in domain:
+        if key in date_fields:
+            dtype = date_fields[key]
+            if dtype == 'date':
+                user_dformat = lang_def['date_format']
+                server_dformat = DT_FORMAT_INFO['date'][0]
+            elif dtype == 'time':
+                user_dformat = lang_def['time_format']
+                server_dformat = DT_FORMAT_INFO['time'][0]
+            elif dtype == 'datetime':
+                user_dformat = lang_def['date_format'] + ' ' + lang_def['time_format']
+                server_dformat = DT_FORMAT_INFO['datetime'][0]
+
+            # not supported on all systems: %C %D %e %F %g %G %h %l %P %r %R %s %T %u %V %z
+            time_format_convert_map = {
+                '%D': '%m/%d/%y',
+                '%e': '%d',
+                '%F': '%Y-%m-%d',
+                '%g': '%y',
+                '%h': '%b',
+                '%l': '%I',
+                '%P': '%p',
+                '%R': '%H:%M',
+                '%r': '%I:%M:%S %p',
+                '%T': '%H:%M:%S',
+                '%z': '%Z',
+            }
+
+            ok = True
+            for k, v in time_format_convert_map.items():
+                if k in user_dformat:
+                    user_dformat = user_dformat.replace(k, v)
+            if re.findall(r'%[CGsuV]', user_dformat):
+                ok = False
+
+            if ok:
+                val = DT.datetime.strptime(val, user_dformat).strftime(server_dformat)
+
+        fixed_domain.append((key, op, val))
+
+    return fixed_domain
 
 def format_decimal(value, digits=2):
     locale = get_locale()

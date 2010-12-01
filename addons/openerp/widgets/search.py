@@ -36,10 +36,15 @@ import xml.dom.minidom
 
 import cherrypy
 import copy
+import datetime
+import re
+
 from openerp.utils import rpc, cache, icons, node_attributes, expr_eval
 from openerp.widgets import TinyInputWidget, InputWidgetLabel, form
 
 from openobject.widgets import JSLink, locations
+
+from openobject.i18n.format import convert_date_format_in_domain
 
 
 def get_search_default(attrs={}, screen_context=None, default_domain=[]):
@@ -210,6 +215,9 @@ class Search(TinyInputWidget):
 
     def __init__(self, source, model, domain=None, context=None, values={}, filter_domain=None, search_view=None, group_by_ctx=[], **kw):
 
+        from olilib.openerp import Terp, ppt, pst
+        print
+
         super(Search, self).__init__(model=model)
 
         self.domain = copy.deepcopy(domain) or []
@@ -244,6 +252,9 @@ class Search(TinyInputWidget):
         self.fields_list = []
         fields = self.search_view['fields']
 
+        self.domain = convert_date_format_in_domain(domain, fields, self.context)
+        self.listof_domain = self.domain
+
         try:
             dom = xml.dom.minidom.parseString(self.search_view['arch'])
         except:
@@ -271,7 +282,7 @@ class Search(TinyInputWidget):
 
         if self.fields_list:
             self.fields_list.sort(lambda x, y: cmp(x[1], y[1]))
-        
+
         self.frame = self.parse(model, dom, self.fields, values)
         if self.frame:
             self.frame = self.frame[0]
@@ -298,7 +309,7 @@ class Search(TinyInputWidget):
             ('=', _('is equal to')), ('<>', _('is not equal to')),
             ('>', _('greater than')), ('<', _('less than')),
             ('in', _('in')), ('not in', _('not in'))]
-        
+
         self.flt_domain = str(self.filter_domain).replace("(", "[").replace(')', ']')
         self.custom_filter_domain = self.filter_domain
 
