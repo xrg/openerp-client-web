@@ -214,10 +214,6 @@ class Search(TinyInputWidget):
     member_widgets = ['frame']
 
     def __init__(self, source, model, domain=None, context=None, values={}, filter_domain=None, search_view=None, group_by_ctx=[], **kw):
-
-        from olilib.openerp import Terp, ppt, pst
-        print
-
         super(Search, self).__init__(model=model)
 
         self.domain = copy.deepcopy(domain) or []
