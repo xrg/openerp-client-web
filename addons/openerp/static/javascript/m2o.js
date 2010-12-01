@@ -516,3 +516,97 @@ ManyToOne.prototype.getOnclick = function(evt) {
     evt.which = 13;
     this.on_keydown(evt);
 };
+
+(function ($) {
+    /**
+     * Opens an m2o dialog linked to the provided <code>$this</code> window,
+     * with the selected options.
+     *
+     * @param $this the parent window of the opened dialog, contains the
+     * input to fill with the selected m2o value if any
+     * @param options A map of options to provide to the xhr call.
+     * The <code>source</code> key is also used for the id of the element
+     * (in <code>$this</code>) on which any selected m2o value should be set.
+     */
+    function open($this, options) {
+        return $('<iframe>', {
+            src: openobject.http.getURL('/openerp/search/new', options),
+            frameborder: 0
+        }).data('source_window', $this[0])
+          .data('source_id', options.source)
+          .appendTo(document.documentElement)
+          .dialog({
+              modal: true,
+              width: 640,
+              height: 480,
+              close: function () {
+                  jQuery(this).dialog('destroy').remove();
+              }
+          });
+    }
+
+    /**
+     * Closes the m2o dialog it was called from (represented by
+     * <code>$this</code>, setting the related m2o input to the provided
+     * <code>value</code>, if any.
+     *
+     * @param $this the window of the dialog to close
+     * @param value optional, the value to set the m2o input to if it is
+     * provided
+     */
+    function close($this, value) {
+        var $frame = $($this.attr('frameElement'));
+        if(value) {
+            // the m2o input to set is in the source_window, which is set as
+            // a `data` of the dialog iframe
+            var jQ = $frame.data('source_window').jQuery;
+            var source_id = $frame.data('source_id');
+            jQ(idSelector(source_id + '_text')).val('');
+            var $m2o_field = jQ(idSelector(source_id)).val(value);
+
+            if($m2o_field[0].onchange) {
+                $m2o_field[0].onchange();
+            } else {
+                $m2o_field.change();
+            }
+        }
+        $frame.dialog('close');
+        return null;
+    }
+
+    /**
+     * Manage m2o dialogs for this scope
+     * <ul>
+     *  <li><p>Called with only options, opens a new m2o dialog linking to the
+     *         current scope.</p></li>
+     *  <li><p>Called with the <code>"close"</code> command, closes the m2o
+     *         dialog it was invoked from and focuses its parent scope.
+     *  </p></li>
+     *  <li><p>Called with the <code>"close"</code> command and an argument,
+     *         sets that argument as the m2o value of the parent widget and
+     *         closes the m2o dialog it was invoked from as above.
+     *  </p></li>
+     * </ul>
+     *
+     * @returns the m2o container (iframe) if one was created
+     */
+    $.m2o = function () {
+        // $this should be the holder for the window from which $.m2o was
+        // originally called, even if $.m2o() was bubbled to the top of
+        // the window stack.
+        var $this;
+        if(this == $) $this = $(window);
+        else $this = $(this);
+        if(window != window.top) {
+            return window.top.jQuery.m2o.apply($this[0], arguments);
+        }
+        // We're at the top-level window, $this is the window from which the
+        // original $.m2o call was performed, window being the current window
+        // level.
+        if(arguments[0] === "close") {
+            return close($this, arguments[1]);
+        } else {
+            return open($this, arguments[0]);
+        }
+    };
+})(jQuery);

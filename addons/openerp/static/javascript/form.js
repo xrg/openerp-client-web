@@ -741,18 +741,14 @@ function open_search_window(relation, domain, context, source, kind, text){
         });
         switch(kind) {
             case KIND_M2O:
-                jQuery('<iframe>', {
-                    src: dialog_url,
-                    frameborders: 0
-                }).appendTo(document.documentElement)
-                    .dialog({
-                        modal: true,
-                        width: 640,
-                        height: 480,
-                        close: function () {
-                            jQuery(this).dialog('destroy').remove();
-                        }
-                    });
+                jQuery.m2o({
+                    'model': relation,
+                    'domain': obj.domain,
+                    'context': obj.context,
+                    'source': source,
+                    'kind': kind,
+                    'text': text
+                });
                 break;
             default:
                 openobject.tools.openWindow(dialog_url);

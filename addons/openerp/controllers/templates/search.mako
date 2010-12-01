@@ -24,7 +24,7 @@
     % if params.selectable == KINDS['M2O']:
     <script type="text/javascript">
         function close_dialog() {
-            window.top.jQuery(window.frameElement).dialog('close');
+            $.m2o('close');
         }
         function do_select(selected_id){
             if (!selected_id) {
@@ -35,20 +35,7 @@
 
                 selected_id = ids[0];
             }
-            var $ = window.parent.jQuery;
-            var $value = $(idSelector('${params.source}'));
-            var $text = $(idSelector('${params.source}_text'));
-
-            $value.val(selected_id);
-            $text.val('');
-
-            if($value[0].onchange) {
-                $value[0].onchange();
-            } else {
-                $value.change();
-            }
-
-            close_dialog();
+            $.m2o('close', selected_id);
         }
     </script>
     % elif params.selectable == KINDS['M2M']:
