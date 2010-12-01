@@ -80,8 +80,8 @@ def get_search_default(attrs={}, screen_context=None, default_domain=[]):
                 str_ctx = map(lambda x: 'group_' + x, ctx.get('group_by'))
             else:
                 str_ctx = 'group_' + ctx.get('group_by')
-            default_val = str_ctx in screen_context.get('group_by', [])
-            default_search = str_ctx in screen_context.get('group_by', [])
+            return str_ctx in screen_context.get('group_by', [])
+
     return default_search or default_val
 
 class RangeWidgetLabel(InputWidgetLabel):
