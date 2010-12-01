@@ -28,7 +28,7 @@
                                 % endif
                             % if filters:
                             </td>
-                            <td>
+                            <td width="1%" nowrap="true">
                             % endif
                                 % for filter_widget in filters:
                                     ${display_member(filter_widget)}
