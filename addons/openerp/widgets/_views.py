@@ -85,11 +85,6 @@ class ListView(TinyView):
     _priority = 0
 
     def __call__(self, screen):
-        if screen.domain and screen.domain[0][0] == 'date_order':
-            from olilib.openerp import Terp, ppt, pst
-            #import pydb; pydb.debugger(['set listsize 40'])
-            print
-
         fields = screen.view['fields']
         try:
             screen.domain = convert_date_format_in_domain(screen.domain, fields, screen.context)
