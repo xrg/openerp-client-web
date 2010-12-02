@@ -41,31 +41,41 @@ div.box-a ul.side li a.close {
 
 div.box-a p.side,table.box-a p.side {
     display: inline;
-    float: right;
+    float: left;
+    white-space: nowrap;
+    position: relative;
+    top: -2px;
+    background: white;
+    border-top-left-radius: 4px;
+    -moz-border-radius-topleft: 4px;
+    -webkit-border-top-left-radius: 4px;
+    border-top-right-radius: 4px;
+    -moz-border-radius-topright: 4px;
+    -webkit-border-top-right-radius: 4px;
+}
+#Calendar.month-view p.side {
+    padding: 2px 35px 0;
+}
+#Calendar.week-view p.side, #Calendar.day-view p.side {
+    padding: 2px 70px 0;
 }
 
-div.calendar-a ul.head,table.calendar-a ul.head, 
-div.calendar-a ul.cal-pager,table.calendar-a ul.cal-pager {
+div.calendar-a ul.head,table.calendar-a ul.head {
 	list-style: none;
     height: 18px;
     margin: 0 0 5px;
     padding: 0;
-    background: transparent;
+    background: #F0EEEE;
 }
 
-div.calendar-a ul.head,table.calendar-a ul.head {
-    background: #F0EEEE !important;
-}
-
-
-div.calendar-a ul.head li, table.calendar-a ul.head li,
-div.calendar-a ul.cal-pager li,table.calendar-a ul.cal-pager li {
-	float: left;
+div.calendar-a ul.head li, table.calendar-a ul.head li {
+	float: right;
 	padding: 0 5px 0 5px;
     color: #9f9f9f;
+    font-size: 0.9em;
     font-weight: bold;
     text-transform: uppercase;
-    background: transparent;
+    background: #D0D0D0;
     border-top-left-radius: 4px;
     -moz-border-radius-topleft: 4px;
     -webkit-border-top-left-radius: 4px;
@@ -74,13 +84,8 @@ div.calendar-a ul.cal-pager li,table.calendar-a ul.cal-pager li {
     -webkit-border-top-right-radius: 4px;
     margin-right: 2px;
 }
-
-div.calendar-a ul.cal-pager li.today a,table.calendar-a ul.cal-pager li.today a {
-    line-height: 22px;
-}
-
-div.calendar-a ul.head li, table.calendar-a ul.head li {
-    background: #D0D0D0 !important;
+div.calendar-a ul.head li:first-child, table.calendar-a ul.head li:first-child {
+    margin-right: 0;
 }
 div.calendar-a ul.head li.notab, div.calendar-a ul.head li.notab:hover {
     background: transparent;
@@ -104,16 +109,14 @@ div.calendar-a ul.head li.active-tab a {
     cursor: default;
 }
 
-div.calendar-a table.cal-navigation span,
-table.calendar-a table.cal-navigation span {
-    background: #fff;
-    font-size: 1em;
-    font-weight: 600;
+p.side span {
+    color: #333;
+    font-size: 1.2em;
+    font-weight: bold;
+    padding-left: 1em;
 }
-
-div.calendar-a table.cal-navigation small,
-table.calendar-a table.cal-navigation small {
-    color: #bbb;
+p.side span small {
+    color: #aaa;
     font-size: 1em;
     font-weight: 400;
 }
@@ -193,15 +196,18 @@ div.minical-a h3 a.prev {
     left: 0;
     border-right: 1px solid #dedbdb;
 }
-a.button-a.prev, a.button-a.next {
-    margin-right: 2px;
+#Calendar a.button-a.prev, a.button-a.next {
+    margin-right: 3px;
 }
-a.button-a.prev img, a.button-a.next img {
+#Calendar a.button-a.prev img, a.button-a.next img {
     position: relative;
     top: 3px;
 }
-a.button-a.next img {
+#Calendar a.button-a.next img {
     left: 1px;
+}
+#Calendar a.button-a:hover {
+    background: #666;
 }
 
 div.minical-a h3 a.next {
@@ -253,7 +259,8 @@ div.minical-a table td.last {
     border-right: none;
 }
 
-a.button-a.today {
-    background: none repeat scroll 0 0 #666;
+.button.disabled, .button-a.disabled {
     cursor: default;
+    background: #666;
+    border: 1px solid #333;
 }
