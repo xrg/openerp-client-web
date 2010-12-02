@@ -200,6 +200,13 @@ def parse_datetime(value, kind="datetime", as_timetuple=False):
     return time.strftime(server_format, value)
 
 def convert_date_format_in_domain(domain, fields, context):
+    try:
+        return _convert_date_format_in_domain(domain, fields, context)
+    except Exception, e:
+        print "Error in convert_date_format_in_domain: %s" % (e, )
+        return domain
+
+def _convert_date_format_in_domain(domain, fields, context):
     from view_calendar.widgets.utils import DT_FORMAT_INFO
     from openerp.utils import rpc
 
@@ -217,6 +224,21 @@ def convert_date_format_in_domain(domain, fields, context):
 
     fixed_domain = []
 
+    # not supported on all systems: %C %D %e %F %g %G %h %l %P %r %R %s %T %u %V %z
+    time_format_convert_map = {
+        '%D': '%m/%d/%y',
+        '%e': '%d',
+        '%F': '%Y-%m-%d',
+        '%g': '%y',
+        '%h': '%b',
+        '%l': '%I',
+        '%P': '%p',
+        '%R': '%H:%M',
+        '%r': '%I:%M:%S %p',
+        '%T': '%H:%M:%S',
+        '%z': '%Z',
+    }
+
     for item in domain:
         if len(item) != 3:
             fixed_domain.append(item)
@@ -233,21 +255,6 @@ def convert_date_format_in_domain(domain, fields, context):
                 elif dtype == 'datetime':
                     user_dformat = lang_def['date_format'] + ' ' + lang_def['time_format']
                     server_dformat = DT_FORMAT_INFO['datetime'][0]
-
-                # not supported on all systems: %C %D %e %F %g %G %h %l %P %r %R %s %T %u %V %z
-                time_format_convert_map = {
-                    '%D': '%m/%d/%y',
-                    '%e': '%d',
-                    '%F': '%Y-%m-%d',
-                    '%g': '%y',
-                    '%h': '%b',
-                    '%l': '%I',
-                    '%P': '%p',
-                    '%R': '%H:%M',
-                    '%r': '%I:%M:%S %p',
-                    '%T': '%H:%M:%S',
-                    '%z': '%Z',
-                }
 
                 ok = True
                 for k, v in time_format_convert_map.items():
