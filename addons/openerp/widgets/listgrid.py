@@ -28,7 +28,6 @@
 ###############################################################################
 import copy
 import math
-import time
 import xml.dom.minidom
 from itertools import chain, count
 
@@ -40,7 +39,6 @@ import form
 from openobject import tools
 from openobject.tools import ast
 from openobject.i18n import format
-from openobject.widgets import JSLink
 from pager import Pager
 
 
