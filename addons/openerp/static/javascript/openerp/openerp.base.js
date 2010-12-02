@@ -25,9 +25,7 @@ function openLink(url /*optional afterLoad */) {
             error: loadingError
         });
     } else {
-        window.location.assign(
-            '/?' + jQuery.param({next: url})
-        );
+        window.location.assign(url);
     }
 }
 /**
