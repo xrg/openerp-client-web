@@ -69,17 +69,13 @@ class FormField(InputWidget):
 class Label(FormField):
     """A simple label for a form field."""
 
-    template = """
-    <label id="${field_id}" class="${css_class}" ${py.attrs(attrs)}>${value}</label>"
-    """
+    template = "/openobject/widgets/templates/label.mako"
 
 
 class Input(FormField):
     """A standard, form input field."""
 
-    template = """\
-    <input type="${type}" ${py.attrs(attrs)} class="${css_class}"/>
-    """
+    template = "/openobject/widgets/templates/input.mako"
 
     params = {
         'type': 'Input type',
@@ -158,10 +154,7 @@ class RadioButton(Input):
 
 class TextArea(Input):
 
-    template = """\
-    <textarea ${py.attrs(attrs)} class="${css_class}"
-        rows="${rows}" cols="${cols}">${value}</textarea>
-    """
+    template = "/openobject/widgets/templates/textarea.mako"
 
     params = {'rows': 'Number of rows to render',
               'cols' : 'Number of columns to render'}
@@ -171,21 +164,7 @@ class TextArea(Input):
 
 class SelectField(Input):
 
-    template = """\
-    <select ${py.attrs(attrs)} class="${css_class}">
-    % for group, options in grouped_options:
-    % if group:
-    <optgroup label="${group}">
-    % endif
-        % for val, desc, _attrs in options:
-        <option value="${val}" ${py.attrs(_attrs)}>${desc}</option>
-        % endfor
-    % if group:
-    </optgroup>
-    % endif
-    % endfor
-    </select>
-    """
+    template = "/openobject/widgets/templates/select.mako"
 
     params = {
         'options': 'A list of tuples with the options for the select field',
@@ -245,46 +224,7 @@ class SelectField(Input):
 
 class Form(FormField):
 
-    template = """\
-    <form ${py.attrs(attrs)} class="${css_class}">
-        % if hidden_fields:
-        <div>
-            % for child in hidden_fields:
-            ${display_member(child)}
-            % endfor
-        </div>
-        % endif
-        <table class="form-container">
-            % for child in fields:
-            <%
-                error = error_for(child)
-                label = label_for(child)
-                help = help_for(child)
-            %>
-            <tr>
-                <td class="label">
-                    % if help:
-                        <label id="${child.name}.label" for="${child.name}" class="fieldlabel help" title="${help}">${label}</label>
-                        <span class="help" title="${help}">?</span>
-                    % else:
-                        <label id="${child.name}.label" for="${child.name}" class="fieldlabel">${label}</label>
-                    % endif
-                </td>
-                <td class="fieldcol">
-                    ${display_member(child)}
-                    % if error:
-                    <span class="fielderror">${error}</span>
-                    % endif
-                </td>
-            </tr>
-            % endfor
-            <tr>
-                <td>&nbsp;</td>
-                <td align="right" style="padding: 0px 5px 5px 0px;"><button type="submit" class="static_boxes">${submit_text}</button></td>
-            </tr>
-        </table>
-    </form>
-    """
+    template = "/openobject/widgets/templates/form.mako"
 
     params = ['action', 'method', 'submit_text']
     member_widgets = ['hidden_fields', 'fields']

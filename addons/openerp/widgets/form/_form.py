@@ -343,17 +343,14 @@ class NewLine(TinyWidget):
     """NewLine widget just tells the Frame widget to start new row during
     layout process.
     """
-    template = "<span/>"
+    template = "/openerp/widgets/form/templates/newline.mako"
 
 register_widget(NewLine, ["newline"])
 
 
 class Label(TinyWidget):
 
-    template = """
-    <div style="text-align: ${align}; width: 100%; padding-right: 8px">
-        ${field_value}
-    </div>"""
+    template = "/openerp/widgets/form/templates/label.mako"
 
     params = ["field_value", "align"]
 
@@ -727,18 +724,7 @@ register_widget(Dashbar, ["dashbar"])
 
 
 class HPaned(TinyWidget):
-
-    template = """
-    <table width="100%" class="hpaned">
-        <tr>
-            % for child in children:
-            <td style="padding: 0 3px 0 0;" valign="top">
-                ${display_member(child)}
-            </td>
-            % endfor
-        </tr>
-    </table>
-    """
+    template = "/openerp/widgets/form/templates/hpaned.mako"
 
     member_widgets = ['children']
 
@@ -751,17 +737,7 @@ register_widget(HPaned, ["hpaned"])
 
 class VPaned(TinyWidget):
 
-    template = """
-    <table width="100%" class="vpaned">
-        % for child in children:
-        <tr>
-            <td style="padding: 0 3px 0 0;" valign="top">
-                ${display_member(child)}
-            </td>
-        </tr>
-        % endfor
-    </table>
-    """
+    template = "/openerp/widgets/form/templates/vpaned.mako"
 
     member_widgets = ['children']
 
@@ -793,12 +769,7 @@ class Form(TinyInputWidget):
     """A generic form widget
     """
 
-    template = """
-    % if frame:
-        ${concurrency_info.display()}
-        ${display_member(frame)}
-    % endif
-    """
+    template = "/openerp/widgets/form/templates/form.mako"
 
     params = ['id']
     member_widgets = ['frame', 'concurrency_info']

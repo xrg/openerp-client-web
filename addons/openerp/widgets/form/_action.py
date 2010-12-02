@@ -36,11 +36,7 @@ __all__ = ["Action"]
 
 
 class Action(TinyInputWidget):
-    template = """
-    % if screen:
-        ${display_member(screen)}
-    % endif
-    """
+    template = "/openerp/widgets/form/templates/action.mako"
 
     params = ['string']
     member_widgets = ['screen']
