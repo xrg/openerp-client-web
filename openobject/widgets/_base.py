@@ -186,7 +186,8 @@ class Widget(object):
             params_for=lambda f: self.params_for(f, **d),
             display_member=lambda f: self.display_member(f, v, **d))
 
-        params.css_class = ' '.join(set([params['css_class'] or ''] + params['css_classes']))
+        if params['css_classes'] and params['css_class']:
+            params.css_class = ' '.join(set(params['css_classes']).add([params['css_class']]))
 
     def display(self, value=None, **params):
 
