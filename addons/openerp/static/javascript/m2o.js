@@ -156,10 +156,15 @@ ManyToOne.prototype.open = function(id) {
         domain: domain,
         context: context
     }).addCallback(function(obj) {
-        openobject.tools.openWindow(openobject.http.getURL('/openerp/openm2o/edit', {
-            _terp_model: model, _terp_id: id,
-            _terp_domain: obj.domain, _terp_context: obj.context,
-            _terp_m2o: source, _terp_editable: editable ? 'True' : 'False'}));
+        $.m2o({
+            record: true,
+            _terp_model: model,
+            _terp_id: id,
+            _terp_domain: obj.domain,
+            _terp_context: obj.context,
+            _terp_m2o: source,
+            _terp_editable: editable ? 'True' : 'False'
+        });
     });
 };
 
@@ -527,13 +532,21 @@ ManyToOne.prototype.getOnclick = function(evt) {
      * @param options A map of options to provide to the xhr call.
      * The <code>source</code> key is also used for the id of the element
      * (in <code>$this</code>) on which any selected m2o value should be set.
+     * The <code>record</code> key indicates whether a record should be opened
+     * instead of a search view
      */
     function open($this, options) {
+        var url;
+        if(options.record) {
+            url = '/openerp/openm2o/edit'
+        } else {
+            url = '/openerp/search/new';
+        }
         return $('<iframe>', {
-            src: openobject.http.getURL('/openerp/search/new', options),
+            src: openobject.http.getURL(url, options),
             frameborder: 0
         }).data('source_window', $this[0])
-          .data('source_id', options.source)
+          .data('source_id', options.source || null)
           .appendTo(document.documentElement)
           .dialog({
               modal: true,
