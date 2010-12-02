@@ -203,7 +203,7 @@ def convert_date_format_in_domain(domain, fields, context):
     try:
         return _convert_date_format_in_domain(domain, fields, context)
     except Exception, e:
-        print "Error in convert_date_format_in_domain: %s" % (e, )
+        cherrypy.log.error("Error in convert_date_format_in_domain:\n", traceback=True)
         return domain
 
 def _convert_date_format_in_domain(domain, fields, context):
