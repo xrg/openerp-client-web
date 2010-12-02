@@ -155,17 +155,20 @@ function hashUrl() {
 var LINK_WAIT_NO_ACTIVITY = 300;
 /** @constant */
 var FORM_WAIT_NO_ACTIVITY = 500;
-jQuery(document).ready(function () {
+
+function addLinkHandlers() {
+//jQuery(document).ready(function () {
     var $app = jQuery('#appContent');
     if ($app.length) {
-        jQuery('body').delegate('a[href]:not([target="_blank"]):not([href^="#"]):not([href^="javascript"]):not([rel=external])', 'click', function(){
+        jQuery('body').delegate('a[href]:not([target="_blank"]):not([href^="#"]):not([href^="javascript"]):not([rel=external])', 'click', function(e){
             validate_action();
         });
 
         // open un-targeted links in #appContent via xhr. Links with @target are considered
         // external links. Ignore hash-links.
-        jQuery(document).delegate('a[href]:not([target]):not([href^="#"]):not([href^="javascript"]):not([rel=external])', 'click', function () {
+        jQuery(document).delegate('a[href]:not([target]):not([href^="#"]):not([href^="javascript"]):not([rel=external])', 'click', function (e) {
             openLink(jQuery(this).attr('href'));
+            e.preventDefault();
             return false;
         });
         // do the same for forms
@@ -180,11 +183,12 @@ jQuery(document).ready(function () {
         });
     } else {
         if(jQuery(document).find('div#root').length) {
-            jQuery(document).delegate('a[href]:not([target]):not([href^="#"]):not([href^="javascript"]):not([rel=external])', 'click', function() {
+            jQuery(document).delegate('a[href]:not([target]):not([href^="#"]):not([href^="javascript"]):not([rel=external])', 'click', function(e) {
                 jQuery.ajax({
                     url: jQuery(this).attr('href'),
                     success: doLoadingSuccess(null)
                 });
+                e.preventDefault();
                 return false;
             });
         }
@@ -213,7 +217,10 @@ jQuery(document).ready(function () {
     });
     // if the initially loaded URL had a hash-url inside
     jQuery(window).trigger('hashchange');
-});
+}
+//});
+
+//addLinkHandlers();
 
 // Hook onclick for boolean alteration propagation
 jQuery(document).delegate(

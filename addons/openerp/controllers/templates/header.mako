@@ -107,4 +107,10 @@ else:
         e.preventDefault();
         openobject.tools.openWindow(this.href);
     });
+
+    jQuery('div#shortcuts a ').live('click', function (e) {
+        e.preventDefault();
+    });
+
 </script>
+

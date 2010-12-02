@@ -6,10 +6,29 @@
     <script type="text/javascript" src="/openerp/static/javascript/accordion.js"></script>
     <script type="text/javascript" src="/openerp/static/javascript/treegrid.js"></script>
     <script type="text/javascript" src="/openerp/static/javascript/notebook/notebook.js"></script>
-    
+
     <script type="text/javascript">
         var DOCUMENT_TO_LOAD = "${load_content|n}";
         var CAL_INSTANCE = null;
+
+        // Make user home widgets deletable
+        jQuery('#user_widgets a.close').live('click', function(e) {
+            var $widget = jQuery(this);
+            jQuery.post(
+                $widget.attr('href'),
+                {widget_id: $widget.attr('id')},
+                function(obj) {
+                    if(obj.error) {
+                        error_display(obj.error);
+                        return;
+                    }
+                    var $root = $widget.closest('.sideheader-a');
+                    $root.next()
+                         .add($root)
+                         .remove();
+                }, 'json');
+            e.preventDefault();
+        });
 
         jQuery(document).ready(function () {
             jQuery('.web_dashboard').hover(function () {
@@ -25,24 +44,6 @@
                 openLink(DOCUMENT_TO_LOAD);
                 return
             }
-
-            // Make user home widgets deletable
-            jQuery('#user_widgets a.close').click(function() {
-                var $widget = jQuery(this);
-                jQuery.post(
-                    $widget.attr('href'),
-                    {widget_id: $widget.attr('id')},
-                    function(obj) {
-                        if(obj.error) {
-                            error_display(obj.error);
-                            return;
-                        }
-                        var $root = $widget.closest('.sideheader-a');
-                        $root.next()
-                             .add($root)
-                             .remove();
-                    }, 'json');
-            });
         });
     </script>
 </%def>
@@ -163,6 +164,11 @@
                                            id="add_user_widget" class="button-a"
                                                 style="right: 1px;">${_("Add")}</a>
                                         <h2>${_("Widgets")}</h2>
+                                        <script type="text/javascript">
+                                            jQuery('#add_user_widget').live('click', function (e) {
+                                                e.preventDefault();
+                                            });
+                                        </script>
                                     </div>
                                     <div class="box-a" id="user_widgets">
                                         % for widget in widgets:
