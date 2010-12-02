@@ -217,7 +217,7 @@ class List(TinyWidget):
             self.pager = Pager(ids=self.ids, offset=self.offset, limit=self.limit, count=self.count)
             self.pager._name = self.name
            
-        if self.editable and context.get('set_editable',False):#Treeview editable by default or set_editable in context
+        if self.editable and context.get('set_editable'):#Treeview editable by default or set_editable in context
             attrs['editable'] = "bottom"
         
         # make editors
@@ -398,10 +398,7 @@ class List(TinyWidget):
         return headers, hiddens, data, field_total, buttons
 
 class Char(TinyWidget):
-
-    template = """\
-    <span>${text}</span>
-    """
+    template = "/openerp/widgets/templates/listgrid/char.mako"
 
     params = ['text', 'link', 'value']
 
@@ -573,21 +570,7 @@ class Button(TinyInputWidget):
 
     params = ['icon', 'id', 'parent_grid', 'btype', 'confirm', 'width', 'context']
 
-    template="""
-    % if visible and not icon:
-    <a class="button-b" href="javascript: void(0)" ${py.attrs(attrs, context=ctx)} title="${help}"
-        onclick="new ListView('${parent_grid}').onButtonClick('${name}', '${btype}', ${id}, '${confirm}', getNodeAttribute(this, 'context'))">
-        ${string}
-    </a>
-    % endif
-    % if visible and icon:
-    <img height="16" width="16" class="listImage" src="${icon}" title="${help}" context="${ctx}" ${py.attrs(attrs)}
-        onclick="new ListView('${parent_grid}').onButtonClick('${name}', '${btype}', ${id}, '${confirm}', getNodeAttribute(this, 'context'))"/>
-    % endif
-    % if not visible and not icon:
-    <span>&nbsp;</span>
-    % endif
-    """
+    template = "/openerp/widgets/templates/listgrid/button.mako"
 
     def __init__(self, **attrs):
         super(Button, self).__init__(**attrs)
