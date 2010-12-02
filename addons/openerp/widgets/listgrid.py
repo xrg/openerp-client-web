@@ -217,7 +217,7 @@ class List(TinyWidget):
             self.pager = Pager(ids=self.ids, offset=self.offset, limit=self.limit, count=self.count)
             self.pager._name = self.name
            
-        if self.editable and context.get('set_editable',False):#Treeview editable by default or set_editable in context
+        if self.editable and context.get('set_editable'):#Treeview editable by default or set_editable in context
             attrs['editable'] = "bottom"
         
         # make editors
