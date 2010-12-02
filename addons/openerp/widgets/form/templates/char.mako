@@ -1,6 +1,6 @@
 % if editable:
     <span class="char">
-        <input type="${password and 'password' or 'text'}"
+        <input type="${password and 'password' or 'text'}" size="1"
             id="${name}" name="${name}" class="${css_class}"
             ${py.attrs(attrs, kind=kind, maxlength=size, value=value)}/>
         % if translatable:

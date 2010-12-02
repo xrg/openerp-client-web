@@ -16,14 +16,14 @@ table.view {
     border: none;
 }
 
-div#search_filter_data table {
-	width: auto !important;
-}
-
 div#search_filter_data table tr:nth-child(2) div.group-expand,
 div#search_filter_data table tr:nth-child(2) div.group-collapse
 {
     margin-top: 6px;
+}
+
+td.item.search_filters {
+    width: 1%;
 }
 
 .no-record-warning {
@@ -208,8 +208,6 @@ div#search_filter_data select.selection {
     background-color: #fff;
     color: #000;
     border: 1px solid #999999;
-    width: 70px;
-    min-width: 70px;
 }
 #search_filter_data button,
 #search_filter_data .button {
@@ -305,6 +303,9 @@ td.custom-filter ul {
     padding: 0 5px 0 0;
 }
 
+.search_table {
+    width: 100%;
+}
 .search_table .filter-a {
     display: inline;
 }
@@ -597,6 +598,7 @@ table.o2m_box div.pagerbar-header strong {
 }
 .view .separator.vertical {
     border-left-width: 1px;
+    padding-right: 5px;
 }
 
 .view .selection_search {

@@ -82,8 +82,8 @@ class Search(Form):
         params.selectable = kind
         params.limit = params.limit or 50
 
-        ctx = rpc.session.context.copy()
-        ctx.update(params.context or {})
+        ctx = dict(rpc.session.context,
+                   **(params.context or {}))
         params.ids = []
         proxy = rpc.RPCProxy(model)
         ids = proxy.name_search(text or '', params.domain or [], 'ilike', ctx)
@@ -100,7 +100,7 @@ class Search(Form):
             # When id does not exists for m2o
             if not ids:
                 params.context['default_name'] = text
-        if kw and kw.get('return_to'):
+        if kw.get('return_to'):
             params['return_to'] = ast.literal_eval(kw['return_to'])
 
         return self.create(params)
@@ -136,13 +136,16 @@ class Search(Form):
             pctx = pctx.chain_get(prefix)
 
         #update active_id in context for links
-        parent_context.update({'active_id':  params.active_id or False,
-                              'active_ids':  params.active_ids or []})
+        parent_context.update(
+            active_id=params.active_id or False,
+            active_ids=params.active_ids or [])
 
-        ctx['parent'] = pctx
-        ctx['context'] = parent_context
-        ctx['active_id'] = params.active_id or False
-        ctx['active_ids'] = params.active_ids or []
+        ctx.update(
+            parent=pctx,
+            context=parent_context,
+            active_id=params.active_id or False,
+            active_ids=params.active_ids or []
+        )
 
         if params.active_id and not params.active_ids:
             ctx['active_ids'] = [params.active_id]

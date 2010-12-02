@@ -48,9 +48,7 @@ class Link(Resource):
 
 class JSLink(Link):
 
-    template = """\
-    <script type="text/javascript" src="${link}" ${py.attrs(charset=charset, defer=defer)}></script>\
-    """
+    template = "/openobject/widgets/templates/jslink.mako"
 
     params = {
         'charset': 'The character encoding of the linked script',
@@ -67,10 +65,7 @@ class CSSLink(Link):
         'media': 'Specify the media attribute for the css link tag'
     }
 
-    template = """\
-    <link rel="stylesheet" type="text/css" href="${link}" ${py.attrs(media=media)}/>\
-    """
-
+    template = "/openobject/widgets/templates/csslink.mako"
 
 class Source(Resource):
 
@@ -91,11 +86,7 @@ class Source(Resource):
 class JSSource(Source):
     """A JavaScript source snippet."""
 
-    template = """\
-    <script type="text/javascript" ${py.attrs(defer=defer)}>
-        ${src|n}
-    </script>\
-    """
+    template = "/openobject/widgets/templates/jssource.mako"
 
     params = {
         'defer': 'If true, browser may defer execution of the script'
@@ -105,11 +96,7 @@ class JSSource(Source):
 class CSSSource(Source):
     """A CSS source snippet."""
 
-    template = """\
-    <style type="text/css" ${py.attrs(media=media)}>
-        ${src|n}
-    </style>\
-    """
+    template = "/openobject/widgets/templates/csssource.mako"
 
     params = {
         'src': 'The CSS source for the link',

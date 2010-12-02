@@ -68,15 +68,9 @@ def get_template_lookup():
     return lookup
 
 def load_template(template):
-
     if not isinstance(template, basestring):
         return template
-
-    if re.match('(.+)\.(html|mako)\s*$', template):
-        return get_template_lookup().get_template(template)
-    else:
-        return Template(template, default_filters=filters, imports=imports)
-
+    return get_template_lookup().get_template(template)
 
 class _Provider(dict):
 

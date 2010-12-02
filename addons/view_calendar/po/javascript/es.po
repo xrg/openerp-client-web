@@ -1,0 +1,67 @@
+# Spanish translation for openobject-client-web
+# Copyright (c) 2010 Rosetta Contributors and Canonical Ltd 2010
+# This file is distributed under the same license as the openobject-client-web package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2010.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: openobject-client-web\n"
+"Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
+"POT-Creation-Date: 2010-11-25 10:30+0530\n"
+"PO-Revision-Date: 2010-11-28 00:50+0000\n"
+"Last-Translator: Jordi Esteve (www.zikzakmedia.com) "
+"<jesteve@zikzakmedia.com>\n"
+"Language-Team: Spanish <es@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Launchpad-Export-Date: 2010-11-29 04:50+0000\n"
+"X-Generator: Launchpad (build Unknown)\n"
+
+#: static/javascript/calendar_box.js:58
+msgid "Cancel"
+msgstr "Cancelar"
+
+#: static/javascript/calendar_box.js:59
+msgid "Edit"
+msgstr "Editar"
+
+#: static/javascript/calendar_box.js:60
+msgid "Duplicate"
+msgstr "Duplicar"
+
+#: static/javascript/calendar_box.js:61
+msgid "Delete"
+msgstr "Eliminar"
+
+#: static/javascript/calendar_box.js:88
+msgid "Creation User: "
+msgstr "Creado por el usuario: "
+
+#: static/javascript/calendar_box.js:89
+msgid "Creation Date: "
+msgstr "Fecha de creación: "
+
+#: static/javascript/calendar_box.js:90
+msgid "Latest Modification by: "
+msgstr "Última modificación por: "
+
+#: static/javascript/calendar_box.js:91
+msgid "Latest Modification Date: "
+msgstr "Fecha última modificación: "
+
+#: static/javascript/calendar_box.js:175
+msgid "Do you really want to delete this record?"
+msgstr "¿Realmente desea eliminar este registro?"
+
+#: static/javascript/calendar_gantt.js:259
+#: static/javascript/calendar_month.js:413
+#: static/javascript/calendar_week.js:277
+#: static/javascript/calendar_week.js:680
+msgid "This calendar object can no longer be moved !"
+msgstr "¡No se puede mover más este objeto calendario!"
+
+#: static/javascript/calendar_gantt.js:321
+#: static/javascript/calendar_week.js:104
+msgid "This calendar object can no longer be resized !"
+msgstr "¡No se puede cambiar más el tamaño de este objeto calendario!"

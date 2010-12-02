@@ -17,7 +17,7 @@ class Widgets(SecuredController):
         error = None
         try:
             openerp.utils.rpc.RPCProxy('res.widget.user').unlink(
-                    widget_id, openerp.utils.rpc.session.context)
+                    int(widget_id), openerp.utils.rpc.session.context)
         except Exception, e:
             error = e
         return dict(error=error)

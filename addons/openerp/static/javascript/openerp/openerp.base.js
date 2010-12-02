@@ -75,8 +75,13 @@ function doLoadingSuccess(app) {
     return function (data, status, xhr) {
         var target = xhr.getResponseHeader('X-Target');
         if(target) {
-            window.top.openAction(
-                xhr.getResponseHeader('Location'), target);
+            var _openAction;
+            if (window.top.openAction) {
+                _openAction = window.top.openAction;
+            } else {
+                _openAction = openAction;
+            }
+            _openAction(xhr.getResponseHeader('Location'), target);
             return;
         }
         jQuery(window).trigger('before-appcontent-change');

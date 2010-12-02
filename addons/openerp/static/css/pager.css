@@ -5,6 +5,9 @@
     vertical-align: middle;
     overflow: hidden;
 }
+.pager select {
+    width: auto;
+}
 
 .pager .paging {
     line-height: 1;

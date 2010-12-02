@@ -48,8 +48,6 @@
         <tr>
             <td width="75%" valign="top" class="fields collapsed" style="padding-top:10px;">
                 <h1>${title} (${res_model})
-                    <span class="expand-button">(${_("show fields")})</span>
-                   <span class="collapse-button">(${_("hide fields")})</span>
                 </h1>
                 <p class="process-links">
                     <a class="cta-a" target="_blank" href="${context_help}">
@@ -115,7 +113,10 @@
                 <input type="hidden" id="res_id" value="${res_id}"/>
                 <div id="process_canvas" style="margin-top: 0"></div>
                 <div align="left" style="padding: 5px 10px;">
-                    <a target="_blank" id="show_customize_menu" href="${py.url('/openerp/form/edit', model='process.process', id=id)}">${_("[Edit Process]")}</a><br/>
+                    <a target="_blank" id="show_customize_menu" href="${py.url('/openerp/form/edit', model='process.process', id=id)}">${_("[Edit Process]")}</a>
+                    <span class="fields collapsed"><span class="expand-button">${_("[show fields]")}</span></span>
+                    <span class="fields collapsed"><span class="collapse-button">${_("[hide fields]")}</span></span>
+                    <br/>
                 </div>
             </td>
         </tr>

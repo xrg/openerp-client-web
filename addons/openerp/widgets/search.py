@@ -36,17 +36,18 @@ import xml.dom.minidom
 
 import cherrypy
 import copy
+import datetime
+import re
+
 from openerp.utils import rpc, cache, icons, node_attributes, expr_eval
 from openerp.widgets import TinyInputWidget, InputWidgetLabel, form
 
 from openobject.widgets import JSLink, locations
 
+from openobject.i18n.format import convert_date_format_in_domain
+
 
 def get_search_default(attrs={}, screen_context=None, default_domain=[]):
-
-    flag = True
-    if cherrypy.request.path_info == '/openerp/tree/open':
-        flag = False
 
     screen_context = screen_context or {}
     default_domain = attrs.get('default_domain', default_domain)
@@ -58,30 +59,28 @@ def get_search_default(attrs={}, screen_context=None, default_domain=[]):
 
     if attrs.get('name', False):
         context_str = 'search_default_' + str(attrs['name'])
-        default_search = screen_context.get(context_str, False)
+        result = screen_context.get(context_str)
+        if result: return result
 
-    if flag:
-        if default_domain and attrs.get('domain'):
-            domain =  expr_eval(attrs.get('domain'))
-            for d in domain:
-                if d in default_domain:
-                    default_val = default_search = True
+    if attrs.get('context'):
+        ctx =  expr_eval(attrs.get('context', "{}"), {'self':attrs.get('name', False)})
+        if ctx.get('group_by'):
+            if isinstance(ctx['group_by'], list):
+                str_ctx = map(lambda x: 'group_' + x, ctx.get('group_by'))
+            else:
+                str_ctx = 'group_' + ctx.get('group_by')
+            return str_ctx in screen_context.get('group_by', [])
 
-                else:
-                    default_val = default_search = False
-        else:
-            default_val = default_search =  False
-
-        if attrs.get('context'):
-            ctx =  expr_eval(attrs.get('context', "{}"), {'self':attrs.get('name', False)})
-            if ctx.get('group_by'):
-                if isinstance(ctx['group_by'], list):
-                    str_ctx = map(lambda x: 'group_' + x, ctx.get('group_by'))
-                else:
-                    str_ctx = 'group_' + ctx.get('group_by')
-                default_val = str_ctx in screen_context.get('group_by', [])
-                default_search = str_ctx in screen_context.get('group_by', [])
-    return default_search or default_val
+    if default_domain and attrs.get('domain'):
+        domain =  expr_eval(attrs.get('domain'))
+        for d in domain:
+            if d in default_domain:
+                default_search = True
+            else:
+                default_search = False
+        return default_search
+    else:
+        return False
 
 class RangeWidgetLabel(InputWidgetLabel):
     template = '/openerp/widgets/templates/search/rangewid_label.mako'
@@ -209,7 +208,6 @@ class Search(TinyInputWidget):
     member_widgets = ['frame']
 
     def __init__(self, source, model, domain=None, context=None, values={}, filter_domain=None, search_view=None, group_by_ctx=[], **kw):
-
         super(Search, self).__init__(model=model)
 
         self.domain = copy.deepcopy(domain) or []
@@ -244,6 +242,9 @@ class Search(TinyInputWidget):
         self.fields_list = []
         fields = self.search_view['fields']
 
+        self.domain = convert_date_format_in_domain(domain, fields, self.context)
+        self.listof_domain = self.domain
+
         try:
             dom = xml.dom.minidom.parseString(self.search_view['arch'])
         except:
@@ -271,7 +272,7 @@ class Search(TinyInputWidget):
 
         if self.fields_list:
             self.fields_list.sort(lambda x, y: cmp(x[1], y[1]))
-        
+
         self.frame = self.parse(model, dom, self.fields, values)
         if self.frame:
             self.frame = self.frame[0]
@@ -298,7 +299,7 @@ class Search(TinyInputWidget):
             ('=', _('is equal to')), ('<>', _('is not equal to')),
             ('>', _('greater than')), ('<', _('less than')),
             ('in', _('in')), ('not in', _('not in'))]
-        
+
         self.flt_domain = str(self.filter_domain).replace("(", "[").replace(')', ']')
         self.custom_filter_domain = self.filter_domain
 

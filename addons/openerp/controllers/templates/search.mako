@@ -25,24 +25,21 @@
 
                 selected_id = ids[0];
             }
-            
-            with (window.opener) {
-                
-                var value_field = openobject.dom.get('${params.source}');
-                var text_field = openobject.dom.get('${params.source}_text');
-                
-                value_field.value = selected_id;
-            
-                if (text_field){
-                    text_field.value = '';
-                }
 
-                if (value_field.onchange){
-                    value_field.onchange();
-                }else{
-                    MochiKit.Signal.signal(value_field, 'onchange');
-                }
+            var $ = window.opener.jQuery;
+            var $value = $(idSelector('${params.source}'));
+            var $text = $(idSelector('${params.source}_text'));
+
+            $value.val(selected_id);
+            $text.val('');
+
+            if($value[0].onchange) {
+                $value[0].onchange();
+            } else {
+                $value.change();
+                window.opener.MochiKit.Signal.signal($value[0], 'onchange');
             }
+
             window.close();
         }
         
@@ -154,14 +151,16 @@
                 <td>${form.search.display()}</td>
             </tr>
             <tr>
-                <td class="toolbar" style="padding: 0 5px;">
+                <td class="toolbar" style="padding: 4px 5px 0px;">
                     <table cellpadding="0" cellspacing="0">
                         <tr>
                             <td width="100%">
-                            	<a class="button-a" style="margin-right:10px;" href="javascript: void(0)" onclick="do_select()">${_("Select")}</a>
+                                % if params.selectable != 1:
+                                    <a class="button-a select-link" href="javascript: void(0)" onclick="do_select()">${_("Select")}</a>
+                                % endif
                             	<a class="button-a" href="javascript: void(0)" onclick="search_filter()">${_("Search")}</a>
                            	    <a class="button-a" href="javascript: void(0)" onclick="do_create()">${_("New")}</a>
-                            	<a class="button-a" style="margin-left:10px;" href="javascript: void(0)" onclick="window.close()">${_("Close")}</a>
+                            	<a class="button-a" href="javascript: void(0)" onclick="window.close()">${_("Close")}</a>
                             
                             </td>
                         </tr>
@@ -196,6 +195,16 @@
                         _terp_context: openobject.dom.get('_terp_context').value}));
                 });
             }
+            jQuery('table.search_table input:text').eq(0).focus();
+            % if params.selectable == 2:
+                var $select_link = jQuery('a.select-link').hide();
+                jQuery('form#search_form').click(function(event) {
+                    if ($(event.target).is("input[type=checkbox]")) {
+                        $select_link.show();
+                        $(this).unbind('click');
+                    }
+                });
+            % endif
         </script>
     </form>
 </div>

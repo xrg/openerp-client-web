@@ -5,6 +5,7 @@
         name='${name}' 
         id ='${name}' 
         value="${value}" 
+        size="1"
         class="${css_class}" ${py.attrs(attrs)}/>
 % endif
 

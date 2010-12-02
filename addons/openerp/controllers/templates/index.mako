@@ -102,7 +102,7 @@
             % else:
                 <tr>
                     <td colspan="3" height="100%" valign="top">
-                        <table width="100%">
+                        <table width="100%" height="100%">
                             <tr>
                                 <td id="primary" width="70%">
                                     <div class="wrap" style="padding: 10px;">
@@ -138,7 +138,6 @@
                                     </div>
                                 </td>
                                 <td class="tertiary">
-                                    % if maintenance['status'] == 'none':
                                     <div class="wrap" style="padding: 10px;">
                                         <ul class="split-a">
                                             <li class="one">
@@ -159,7 +158,6 @@
                                             </li>
                                         </ul>
                                     </div>
-                                    % endif
                                     <div class="sideheader-a">
                                         <a href="${py.url('/openerp/widgets/add')}"
                                            id="add_user_widget" class="button-a"

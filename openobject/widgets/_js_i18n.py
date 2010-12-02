@@ -6,12 +6,7 @@ from _resource import JSLink
 
 
 class JSI18n(JSLink):
-
-    template = """\
-    % for m, tr in translations:
-        <script type="text/javascript" src="/${m}/static/${tr}"></script>
-    % endfor
-    """
+    template = "/openobject/widgets/templates/js_i18n.mako"
 
     params = ["translations"]
     def update_params(self, d):

@@ -1,6 +1,12 @@
+
+import copy
+import datetime
+import re
+
 from openobject import pooler
 
 from openerp.utils import rpc
+from openobject.i18n.format import convert_date_format_in_domain
 
 import form
 import listgrid
@@ -8,6 +14,7 @@ import listgroup
 
 __all__ = ["TinyView", "FormView", "ListView",
            "get_view_widget", "get_registered_views"]
+
 
 class ViewType(type):
 
@@ -20,6 +27,7 @@ class ViewType(type):
             pooler.register_object(obj, key=kind, group="view_types")
 
         return obj
+
 
 class TinyView(object):
 
@@ -77,7 +85,10 @@ class ListView(TinyView):
     _priority = 0
 
     def __call__(self, screen):
-        
+        fields = screen.view['fields']
+        screen.domain = convert_date_format_in_domain(screen.domain, fields, screen.context)
+        screen.search_domain = convert_date_format_in_domain(screen.search_domain, fields, screen.context)
+
         if screen.group_by_ctx or screen.context.get('group_by') or screen.context.get('group_by_no_leaf'):
             widget = listgroup.ListGroup(screen.name or '_terp_list',
                                         model=screen.model,
@@ -109,8 +120,9 @@ class ListView(TinyView):
         screen.ids = widget.ids
         screen.limit = widget.limit
         screen.count = widget.count
-            
+
         return widget
+
 
 def get_view_widget(kind, screen):
 

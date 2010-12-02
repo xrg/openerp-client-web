@@ -53,10 +53,12 @@
         <td class="grid-cell selector">
             % if not m2m:
             <%
-            	if impex:
-            		selector_click = "do_select('%s')" % (data['id'])
-            	else:
-            		selector_click = "new ListView('%s').onBooleanClicked(!this.checked, '%s')" % (name, data['id'])
+                if impex:
+                    selector_click = "do_select('%s')" % (data['id'])
+                else:
+                    selector_click = "new ListView('%s').onBooleanClicked(!this.checked, '%s');" % (name, data['id'])
+                    if selector == "radio":
+                        selector_click += " do_select();"
             %>
             <input type="${selector}" class="${selector} grid-record-selector"
                 id="${name}/${data['id']}" name="${(checkbox_name or None) and name}"

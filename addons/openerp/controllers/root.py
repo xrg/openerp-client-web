@@ -137,14 +137,13 @@ class Root(SecuredController):
             tools = None
 
         return dict(parents=parents, tools=tools, load_content=(next and next or ''),
-                    maintenance=rpc.RPCProxy('maintenance.contract').status(),
                     widgets=openobject.pooler.get_pool()\
                                       .get_controller('/openerp/widgets')\
                                       .user_home_widgets(ctx))
 
     @expose(allow_json=True)
     @unsecured
-    def login(self, db=None, user=None, password=None, style=None, location=None, **kw):
+    def login(self, db=None, user=None, password=None, style=None, location=None, message=None, **kw):
 
         location = url(location or '/', kw or {})
 
@@ -161,7 +160,7 @@ class Root(SecuredController):
             return dict(db=db, user=user, password=password, location=location,
                     style=style, cp_template="/openerp/controllers/templates/login_ajax.mako")
 
-        return tiny_login(target=location, db=db, user=user, password=password, action="login")
+        return tiny_login(target=location, db=db, user=user, password=password, action="login", message=message)
 
     @expose()
     @unsecured
