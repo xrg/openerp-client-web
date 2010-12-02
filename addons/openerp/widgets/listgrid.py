@@ -44,7 +44,7 @@ from pager import Pager
 
 class List(TinyWidget):
 
-    template = "/openerp/widgets/templates/listgrid.mako"
+    template = "/openerp/widgets/templates/listgrid/listgrid.mako"
     params = ['name', 'data', 'columns', 'headers', 'model', 'selectable', 'editable',
               'pageable', 'selector', 'source', 'offset', 'limit', 'show_links', 'editors', 'view_mode',
               'hiddens', 'edit_inline', 'field_total', 'link', 'checkbox_name', 'm2m', 'min_rows', 'string', 'o2m', 'dashboard', 'impex']
