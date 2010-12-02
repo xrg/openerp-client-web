@@ -516,15 +516,10 @@ class Int(Char):
         return 0
 
 class ProgressBar(Char):
+    template = "/openerp/widgets/templates/listgrid/progressbar.mako"
 
     params = ['range']
 
-    template = """
-        <div style="position: relative; border: 1px solid gray; font-size: 11px;">&nbsp;
-            <div style="position: absolute; top:0px; left: 0px; background: #afafaf; width: ${range}%; height: 100%;"></div>
-            <div style="position: absolute; top:0px; left: 0px; width: 100%; height: 100%; text-align: center">${text}%</div>
-        </div>
-    """
 
     def get_text(self):
         if not self.value:
@@ -553,10 +548,9 @@ class DateTime(Char):
         return ustr(self.value or '')
 
 class Boolean(Char):
+    templates = "/openerp/widgets/templates/listgrid/boolean.mako"
 
     params = ['val', 'kind']
-
-    template = """ <input type="checkbox" kind="${kind}" class="checkbox" readonly="readonly" disabled="disabled" ${py.checker(val)} value="${val}"> """
 
     def get_text(self):
         self.val = int(self.value)
@@ -623,5 +617,3 @@ CELLTYPES = {
         'boolean' : Boolean,
         'progressbar' : ProgressBar
 }
-
-# vim: ts=4 sts=4 sw=4 si et
