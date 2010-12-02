@@ -217,10 +217,12 @@ def _convert_date_format_in_domain(domain, fields, context):
 
     lang = context.get('lang', 'en_US')
     lang_proxy = rpc.RPCProxy('res.lang')
-    lang_ids = lang_proxy.search([('iso_code', '=', lang)])
+    lang_ids = lang_proxy.search([('code', '=', lang)])
     if lang_ids:
         lang_id = lang_ids[0]
         lang_def = lang_proxy.read(lang_id, [])
+    else:
+        return domain
 
     fixed_domain = []
 
