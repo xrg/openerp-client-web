@@ -308,8 +308,7 @@
                                     revert: 'valid',
                                     connectToSortable: 'tr.grid-row',
                                     helper: function(){
-                                        var htmlStr = jQuery(this).html();
-                                        return jQuery('<table><tr id class="ui-widget-header">'+htmlStr+'</tr></table>');
+                                        return jQuery(this).clone();
                                     },
                                     axis: 'y'
                                 });
