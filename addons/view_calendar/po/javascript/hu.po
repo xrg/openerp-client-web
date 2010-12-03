@@ -8,59 +8,59 @@ msgstr ""
 "Project-Id-Version: openobject-client-web\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2010-11-25 10:30+0530\n"
-"PO-Revision-Date: 2010-11-29 14:35+0000\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"PO-Revision-Date: 2010-12-02 15:02+0000\n"
+"Last-Translator: Noemi Kormendi <Unknown>\n"
 "Language-Team: Hungarian <hu@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2010-11-30 04:48+0000\n"
+"X-Launchpad-Export-Date: 2010-12-03 05:05+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: static/javascript/calendar_box.js:58
 msgid "Cancel"
-msgstr ""
+msgstr "Mégsem"
 
 #: static/javascript/calendar_box.js:59
 msgid "Edit"
-msgstr ""
+msgstr "Szerkesztés"
 
 #: static/javascript/calendar_box.js:60
 msgid "Duplicate"
-msgstr ""
+msgstr "Duplikáció"
 
 #: static/javascript/calendar_box.js:61
 msgid "Delete"
-msgstr ""
+msgstr "Törlés"
 
 #: static/javascript/calendar_box.js:88
 msgid "Creation User: "
-msgstr ""
+msgstr "Létrehozta: "
 
 #: static/javascript/calendar_box.js:89
 msgid "Creation Date: "
-msgstr ""
+msgstr "Létrehozás dátuma: "
 
 #: static/javascript/calendar_box.js:90
 msgid "Latest Modification by: "
-msgstr ""
+msgstr "Utoljára módosította: "
 
 #: static/javascript/calendar_box.js:91
 msgid "Latest Modification Date: "
-msgstr ""
+msgstr "Utolsó módosítás dátuma: "
 
 #: static/javascript/calendar_box.js:175
 msgid "Do you really want to delete this record?"
-msgstr ""
+msgstr "Biztos benne, hogy törli ezt a rekordot?"
 
 #: static/javascript/calendar_gantt.js:259
 #: static/javascript/calendar_month.js:413
 #: static/javascript/calendar_week.js:277
 #: static/javascript/calendar_week.js:680
 msgid "This calendar object can no longer be moved !"
-msgstr ""
+msgstr "Ez a naptár objektum többé már nem mozgatható !"
 
 #: static/javascript/calendar_gantt.js:321
 #: static/javascript/calendar_week.js:104
 msgid "This calendar object can no longer be resized !"
-msgstr ""
+msgstr "Ez a naptár objektum többé már nem méretezhető át !"
