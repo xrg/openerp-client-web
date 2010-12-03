@@ -68,7 +68,7 @@ class M2O(TinyInputWidget):
             self.text = value
         else:
             self.default = value
-            self.text = rpc.name_get(self.relation, self.default)
+            self.text = rpc.name_get(self.relation, self.default, rpc.session.context)
 
     def update_params(self, d):
         super(M2O, self).update_params(d)
@@ -78,7 +78,7 @@ class M2O(TinyInputWidget):
                 value = expr_eval(d['value'], {'context':rpc.session.context})
             except:
                 value = d['value']
-            d['text'] = rpc.name_get(self.relation, value)
+            d['text'] = rpc.name_get(self.relation, value, rpc.session.context)
 
 register_widget(M2O, ["many2one"])
 

@@ -197,7 +197,7 @@ class Search(Form):
 
         proxy = rpc.RPCProxy(model)
         data = {}
-        res = proxy.fields_get()
+        res = proxy.fields_get(False, rpc.session.context)
 
         frm = {}
         all_values = {}
@@ -433,7 +433,7 @@ class Search(Form):
 
     @expose('json')
     def get_name(self, model, id):
-        return dict(name=rpc.name_get(model, id))
+        return dict(name=rpc.name_get(model, id, rpc.session.context))
 
     @expose('json')
     def get_matched(self, model, text, limit=10, **kw):

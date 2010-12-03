@@ -48,7 +48,7 @@ class Process(SecuredController):
         selection = None
         process_title = None
 
-        fields = rpc.RPCProxy(res_model).fields_get([], {})
+        fields = rpc.RPCProxy(res_model).fields_get([], rpc.session.context)
 
         help = _('Help: Not Defined')
         help_ids = rpc.session.execute('object', 'execute', 'ir.actions.act_window', 'search', [('res_model','=',res_model)])

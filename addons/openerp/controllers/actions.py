@@ -206,8 +206,8 @@ def act_window(action, data):
         data['search_view'] = str(rpc.session.execute(
                 'object', 'execute', data['res_model'], 'fields_view_get',
                 data['search_view_id'], 'search', data['context']))
-    if not data.get('limit'):
-        data['limit'] = 50
+    if data.get('limit'):
+        data['limit'] = 20
     view_ids = False
     if action.get('views', []):
         if isinstance(action['views'], list):
