@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: openobject-client-web\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2010-11-25 10:30+0530\n"
-"PO-Revision-Date: 2010-11-28 17:08+0000\n"
-"Last-Translator: Pomazan Bogdan <Unknown>\n"
+"PO-Revision-Date: 2010-12-03 09:50+0000\n"
+"Last-Translator: Nikolay Chesnokov <chesnokov_n@msn.com>\n"
 "Language-Team: Russian <ru@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2010-11-29 04:50+0000\n"
+"X-Launchpad-Export-Date: 2010-12-04 05:13+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: static/javascript/calendar_box.js:58
@@ -35,32 +35,32 @@ msgstr "Удалить"
 
 #: static/javascript/calendar_box.js:88
 msgid "Creation User: "
-msgstr ""
+msgstr "Созданный пользоаптель: "
 
 #: static/javascript/calendar_box.js:89
 msgid "Creation Date: "
-msgstr ""
+msgstr "Дата создания: "
 
 #: static/javascript/calendar_box.js:90
 msgid "Latest Modification by: "
-msgstr ""
+msgstr "Последнее изменение: "
 
 #: static/javascript/calendar_box.js:91
 msgid "Latest Modification Date: "
-msgstr ""
+msgstr "Дата последнего изменения: "
 
 #: static/javascript/calendar_box.js:175
 msgid "Do you really want to delete this record?"
-msgstr ""
+msgstr "Вы действительно хотите удалить эту запись?"
 
 #: static/javascript/calendar_gantt.js:259
 #: static/javascript/calendar_month.js:413
 #: static/javascript/calendar_week.js:277
 #: static/javascript/calendar_week.js:680
 msgid "This calendar object can no longer be moved !"
-msgstr ""
+msgstr "Этот объект календаря больше не может быть перемещен!"
 
 #: static/javascript/calendar_gantt.js:321
 #: static/javascript/calendar_week.js:104
 msgid "This calendar object can no longer be resized !"
-msgstr ""
+msgstr "Этот объект календаря больше не может быть изменен размер!"
