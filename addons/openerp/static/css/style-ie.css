@@ -67,6 +67,10 @@ img{behavior:expression((this.runtimeStyle.behavior="none")&&(/^data:.*;base64/i
 	margin-left: 0;
 }
 
+.ie7 #secondary div.wrap {
+	width: 180px;
+}
+
 /**
  * vim: sts=4 st=4 et 
  *

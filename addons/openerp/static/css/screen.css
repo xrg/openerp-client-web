@@ -585,6 +585,11 @@ p#cmp_logo {
     min-height: 100%;
     vertical-align: top;
     padding: 0;
+    width: 100%;
+}
+
+#primary.first-page-primary {
+	width: 70%;
 }
 
 #primary div.wrap {

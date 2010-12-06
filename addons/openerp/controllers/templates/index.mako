@@ -93,7 +93,7 @@
                             </script>
                         </div>
                     </td>
-                    <td id="primary" width="100%" height="100%">
+                    <td id="primary" height="100%">
                         <div class="wrap">
                             <div id="appContent"></div>
                         </div>
@@ -104,7 +104,7 @@
                     <td colspan="3" height="100%" valign="top">
                         <table width="100%" height="100%">
                             <tr>
-                                <td id="primary" width="70%">
+                                <td id="primary" class="first-page-primary">
                                     <div class="wrap" style="padding: 10px;">
                                         <ul class="sections-a">
                                             % for parent in parents:
