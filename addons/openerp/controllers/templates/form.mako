@@ -71,9 +71,12 @@
                         ${_('Read %s') % form.screen.string}
                     % elif form.screen.id:
                         ${_('Edit %s') % form.screen.string}
-                    % else:
+                    % elif not is_dashboard and form.screen.hastoolbar:
                         ${_('Create %s') % form.screen.string}
+                    % else:
+                        ${form.screen.string}
                     % endif
+
                     % if obj_process:
 	                    <a class="help" href="${py.url('/view_diagram/process', res_model=form.screen.model, title=form.screen.string, res_id=form.screen.id)}"
 	                       title="${_('Corporate Intelligence...')}">
