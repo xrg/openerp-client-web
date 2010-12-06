@@ -44,7 +44,7 @@
             <option value=""></option>
             % for k in pager_options:
                 <option value="${k}" ${py.selector(limit=='${k]}')}>${k}</option>
-            %endfor
+            % endfor
             <option value="-1" ${py.selector(limit==-1)}>unlimited</option>
         </select>
     </div>
