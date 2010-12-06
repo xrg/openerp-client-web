@@ -63,6 +63,10 @@ img{behavior:expression((this.runtimeStyle.behavior="none")&&(/^data:.*;base64/i
 	width: 120px;
 }
 
+.ie7 .item IMG.datetime {
+	margin-left: 0;
+}
+
 /**
  * vim: sts=4 st=4 et 
  *
