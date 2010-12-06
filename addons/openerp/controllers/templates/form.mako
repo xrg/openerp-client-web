@@ -64,7 +64,16 @@
                     % if can_shortcut:
                         <a id="shortcut_add_remove" title="${_('Add / Remove Shortcut...')}" href="javascript: void(0)" class="${shortcut_class}"></a>
                     % endif
-                    ${form.screen.string}
+
+                    % if form.screen.view_type != 'form':
+                        ${_('Search %s') % form.screen.string}
+                    % elif not form.screen.editable:
+                        ${_('Read %s') % form.screen.string}
+                    % elif form.screen.id:
+                        ${_('Edit %s') % form.screen.string}
+                    % else:
+                        ${_('Create %s') % form.screen.string}
+                    % endif
                     % if obj_process:
 	                    <a class="help" href="${py.url('/view_diagram/process', res_model=form.screen.model, title=form.screen.string, res_id=form.screen.id)}"
 	                       title="${_('Corporate Intelligence...')}">
