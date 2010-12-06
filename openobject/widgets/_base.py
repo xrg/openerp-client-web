@@ -166,14 +166,17 @@ class Widget(object):
         return item.display(v, **d)
 
     def update_params(self, params):
-
         # Populate dict with attrs from self listed at params and member_widgets
-        for k in ifilterfalse(params.__contains__, chain(self.params, self.member_widgets)):
+        if self.member_widgets:
+            chained = chain(self.params, self.member_widgets)
+        else:
+            chained = self.params
+        for k in ifilterfalse(params.__contains__, chained):
             attr = getattr(self, k, None)
-            if attr is not None:
-                if not isinstance(attr, Widget) and callable(attr):
-                    attr = attr()
-            params[k] = attr
+            if attr is not None and callable(attr):
+                params[k] = attr()
+            else:
+                params[k] = attr
 
         for w in self.iter_member_widgets():
             w.parent = self
