@@ -155,32 +155,6 @@
                                     </div>
                                 </td>
                                 <td class="tertiary">
-                                    <div class="wrap" style="padding: 10px;">
-                                        <ul class="split-a">
-                                            <li class="one">
-                                                <a class="cta-a" href="http://www.openerp.com/services/subscribe-onsite" target="_blank">
-                                                    <span>
-                                                        <strong>${_('Use On-Site')}</strong>
-                                                        ${_("Get the OpenERP Warranty")}
-                                                    </span>
-                                                </a>
-                                            </li>
-                                            <li class="two">
-                                                <a class="cta-a" href="http://www.openerp.com/online" target="_blank">
-                                                    <span>
-                                                        <strong>${_('Use Online')}</strong>
-                                                        ${_("Subscribe and start")}
-                                                    </span>
-                                                </a>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                    <div class="sideheader-a">
-                                        <a href="${py.url('/openerp/widgets/add')}"
-                                           id="add_user_widget" class="button-a"
-                                                style="right: 1px;">${_("Add")}</a>
-                                        <h2>${_("Widgets")}</h2>
-                                    </div>
                                     <div id="welcome_message" class="box-a">
 	                                	% for welcome_message in welcome_messages:
 	                                    	<div class="welcome_message_item">
@@ -193,6 +167,12 @@
 		                                    </div>
 	                                    % endfor
 	                                </div>
+                                    <div class="sideheader-a">
+                                        <a href="${py.url('/openerp/widgets/add')}"
+                                           id="add_user_widget" class="button-a"
+                                                style="right: 1px;">${_("Add")}</a>
+                                        <h2>${_("Widgets")}</h2>
+                                    </div>
                                     <div class="box-a" id="user_widgets">
                                         % for widget in widgets:
                                             <div class="sideheader-a" style="padding: 0">
