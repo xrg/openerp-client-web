@@ -186,19 +186,25 @@ class Widget(object):
             params_for=lambda f: self.params_for(f, **d),
             display_member=lambda f: self.display_member(f, v, **d))
 
-        if params['css_classes'] and params['css_class']:
-            params.css_class = ' '.join(set(params['css_classes']).add([params['css_class']]))
+        if params['css_classes']:
+            if params['css_class']:
+                params['css_class'] = ' '.join(set(params['css_classes']).union([params['css_class']]))
+            else:
+                params['css_class'] = ' '.join(params['css_classes'])
 
     def display(self, value=None, **params):
+        params = make_bunch(params)
+        params.update(
+            member_widgets_params=params.copy(),
+            value=self.adjust_value(value, **params))
 
-        params['member_widgets_params'] = params.copy()
+        self.update_params(params)
 
-        d = make_bunch(params)
-        d.value = self.adjust_value(value, **params)
-
-        self.update_params(d)
-
-        d['css_class'] = ' '.join(set([d['css_class'] or ''] + d['css_classes']))
+        if params['css_classes']:
+            if params['css_class']:
+                params['css_class'] = ' '.join(set(params['css_classes']).union([params['css_class']]))
+            else:
+                params['css_class'] = ' '.join(params['css_classes'])
 
         return tools.render_template(
                 tools.load_template(
