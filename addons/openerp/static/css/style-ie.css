@@ -71,6 +71,14 @@ img{behavior:expression((this.runtimeStyle.behavior="none")&&(/^data:.*;base64/i
 	width: 180px;
 }
 
+.ie7 #search_filter_data .fields .filters-group .fields {
+	width: 100%;	
+}
+
+.ie7 td.search_filters.item {
+	width: auto;
+}
+
 /**
  * vim: sts=4 st=4 et 
  *
