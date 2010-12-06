@@ -27,7 +27,7 @@ class JSI18n(JSLink):
             _, pr = os.path.split(pr)
             translations.append((pr, tr))
 
-        d.translations = translations
+        d['translations'] = translations
 
 
 js_i18n = JSI18n(None, None)
