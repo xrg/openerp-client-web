@@ -147,7 +147,7 @@ class Root(SecuredController):
 
     @expose(allow_json=True)
     @unsecured
-    def login(self, db=None, user=None, password=None, style=None, location=None, **kw):
+    def login(self, db=None, user=None, password=None, style=None, location=None, message=None, **kw):
 
         location = url(location or '/', kw or {})
 
@@ -164,7 +164,7 @@ class Root(SecuredController):
             return dict(db=db, user=user, password=password, location=location,
                     style=style, cp_template="/openerp/controllers/templates/login_ajax.mako")
 
-        return tiny_login(target=location, db=db, user=user, password=password, action="login")
+        return tiny_login(target=location, db=db, user=user, password=password, action="login", message=message)
 
     @expose()
     @unsecured

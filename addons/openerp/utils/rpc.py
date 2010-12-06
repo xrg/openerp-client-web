@@ -303,6 +303,10 @@ class RPCSession(object):
         if uid <= 0:
             return -1
 
+        self._logged_as(db, uid, password)
+        return uid
+
+    def _logged_as(self, db, uid, password):
         self.storage['uid'] = uid
         self.storage['db'] = db
         self.storage['password'] = password
@@ -315,8 +319,6 @@ class RPCSession(object):
         self.storage['loginname'] = res_users['login']
         # set the context
         self.context_reload()
-
-        return uid
 
     def logout(self):
         try:

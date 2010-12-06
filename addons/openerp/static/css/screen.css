@@ -129,7 +129,7 @@ p.raw-text {
     white-space: pre-line;
 }
 
-input[type=text], select, textarea {
+input[type=text], input[type=password], select, textarea {
     padding: 2px;
     border: 1px solid #999;
     border-radius: 3px;
@@ -2284,6 +2284,7 @@ div.box-a a.close {
 .fields.collapsed div {
     display: none;
 }
+
 .fields.expanded .expand-button {
     display: none;
 }

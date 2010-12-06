@@ -231,6 +231,7 @@ function submit_form(action, src, target){
     // Cant use $form.attr due to http://dev.jquery.com/ticket/3113 as there is a form with a field called
     // action when creating an activity
     $form[0].setAttribute('action', action);
+    $form.attr("target", target);
     $form.submit();
 }
 
@@ -720,18 +721,15 @@ function eval_domain_context_request(options){
 }
 
 function open_search_window(relation, domain, context, source, kind, text){
-
-    var req = eval_domain_context_request({
-        'source': source,
-        'domain': domain,
-        'context': context
-    });
-
     if (kind == 2 && source.indexOf('_terp_listfields/') == 0) {
         text = "";
     }
 
-    req.addCallback(function(obj){
+    eval_domain_context_request({
+        'source': source,
+        'domain': domain,
+        'context': context
+    }).addCallback(function(obj){
         openobject.tools.openWindow(openobject.http.getURL('/openerp/search/new', {
             'model': relation,
             'domain': obj.domain,
@@ -920,16 +918,54 @@ function translate_fields(src, params){
     openobject.tools.openWindow(openobject.http.getURL('/openerp/translator',{
         _terp_model: (src ? $src.attr('relation') : params['relation']),
         _terp_id: (src ? $src.attr('id') : params['id']),
-        _terp_context: (src ? $src.attr('data') : params['data']),
+        _terp_context: (src ? $src.attr('data') : params['data'])
     }));
 }
 
-function on_context_menu(evt, target){
-    if (!evt.modifier()) {
+/**
+ * Adapts targets for functions which may be bound using both jQuery and
+ * MochiKit event handlers
+ *
+ * @param evt the library's event
+ */
+function targetDammit(evt) {
+    if(typeof(evt.target) == 'function') {
+        // mochikit
+        return evt.target();
+    }
+    return evt.target;
+}
+/**
+ * Adapts mouse position on page for functions which may be bound using both
+ * jQuery and MochiKit event handlers
+ *
+ * @param evt the library's events
+ */
+function mousePositionDammit(evt) {
+    if(evt.mouse) {
+        // mochikit
+        return evt.mouse().page;
+    }
+    return {
+        x: evt.pageX,
+        y: evt.pageY
+    }
+}
+/**
+ * Forces event to stop whether it was generated using jQuery or Mochikit
+ *
+ * @param evt the event
+ */
+function stopEventDammit(evt) {
+    if(evt.stop) {
+        evt.stop();
         return;
     }
-    target = target || evt.target();
-    $target = jQuery(target);
+    evt.stopPropagation();
+    evt.preventDefault();
+}
+function on_context_menu(evt, target){
+    var $target = jQuery(target || targetDammit(evt));
 
     var kind = $target.attr('kind');
     if (!(kind && $target.is(':input, :enabled'))) {
@@ -956,13 +992,13 @@ function on_context_menu(evt, target){
     }
     var $src = jQuery('[id="' + src + '"]');
 
-    var click_position = evt.mouse().page;
+    var click_position = mousePositionDammit(evt);
     $menu.offset({top: 0, left: 0});
     $menu.offset({top: click_position.y - 5, left: click_position.x - 5});
     $menu.hide();
     makeContextMenu(src, kind, $src.attr('relation'), $src.val());
 
-    evt.stop();
+    stopEventDammit(evt);
 }
 
 function open_url(site){
@@ -1104,18 +1140,20 @@ var RESOURCE_ID;
  */
 function add_shortcut_to_bar(id){
     jQuery.getJSON('/openerp/shortcuts/by_resource', function(data){
-        var $shortcuts = jQuery('#shortcuts');
-        var $shortcuts_list = $shortcuts.children('ul');
-        $shortcuts_list.append(jQuery('<li>', {
-            'class': $shortcuts_list.children().length ? '' : 'first'
-        }).append(jQuery('<a>', {
-            'id': 'shortcut_' + id,
-            'href': openobject.http.getURL('/openerp/tree/open', {
-                'id': id,
-                'model': 'ir.ui.menu'
-            })
-        }).append(jQuery('<span>').text(data[id]['name']))));
-        $shortcuts.trigger('altered');
+        if (data[id]) {
+            var $shortcuts = jQuery('#shortcuts');
+            var $shortcuts_list = $shortcuts.children('ul');
+            $shortcuts_list.append(jQuery('<li>', {
+                'class': $shortcuts_list.children().length ? '' : 'first'
+            }).append(jQuery('<a>', {
+                'id': 'shortcut_' + id,
+                'href': openobject.http.getURL('/openerp/tree/open', {
+                    'id': id,
+                    'model': 'ir.ui.menu'
+                })
+            }).append(jQuery('<span>').text(data[id]['name']))));
+            $shortcuts.trigger('altered');
+        }
     });
 }
 

@@ -124,7 +124,7 @@ def parse_groups(group_by, grp_records, headers, ids, model,  offset, limit, con
 
 class ListGroup(List):
 
-    template = "/openerp/widgets/templates/listgroup.mako"
+    template = "/openerp/widgets/templates/listgrid/listgroup.mako"
     params = ['grp_records', 'group_by_ctx', 'grouped', 'group_by_no_leaf']
 
     def __init__(self, name, model, view, ids=[], domain=[], context={}, **kw):
@@ -223,7 +223,7 @@ class ListGroup(List):
 
 class MultipleGroup(List):
 
-    template = "/openerp/widgets/templates/multiple_group.mako"
+    template = "/openerp/widgets/templates/listgrid/multiple_group.mako"
     params = ['grp_records', 'group_by_ctx', 'grouped', 'parent_group', 'group_level', 'group_by_no_leaf']
 
     def __init__(self, name, model, view, ids=[], domain=[], parent_group=None, group_level=0, groups = [], context={}, **kw):

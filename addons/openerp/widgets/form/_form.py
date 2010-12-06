@@ -97,8 +97,11 @@ class Frame(TinyWidget):
             elif isinstance(child, TinyInputWidget):
                 self.add_hidden(child)
 
+
         if self.is_search:
             self.fix_group_colspans()
+        else:
+            self.compute_cells_width()
 
     def add_row(self):
 
@@ -227,6 +230,40 @@ class Frame(TinyWidget):
             self._add_validator(widget)
         self.hiddens.append(widget)
 
+    def compute_cells_width(self):
+        """ Basic cells width computation. Use 1% for labels, so it looks more like gtk client.
+
+        A bit hacky but better than nothing
+        """
+        # TODO: handle width remain for the last row's cell. Decide if hidden fields should be excluded or not.
+        selected_row = []
+        for row in self.table:
+            if len(row) > len(selected_row):
+                selected_row = row
+        # Work on row with the most cells
+        if len(selected_row):
+            remaining_width = 100
+            remaining_colspan = 0
+            cells = []
+            for (attrs, widget) in selected_row:
+                colspan = attrs.get('colspan', 1)
+                if isinstance(widget, basestring) or attrs.has_key('width'):
+                    remaining_width -= colspan
+                    if not attrs.has_key('width'):
+                        attrs['width'] = '%d%%' % colspan
+                    else:
+                        attrs['style'] = 'min-width: %spx' % str(attrs['width'])
+                else:
+                    remaining_colspan += colspan
+                    cells.append((colspan, attrs, widget))
+            if remaining_colspan and remaining_width:
+                width_unit = remaining_width / remaining_colspan
+                for cell in cells:
+                    width = cell[0] * width_unit
+                    remaining_width -= width
+                    if not cell[1].has_key('width'):
+                        cell[1]['width'] = '%d%%' % width
+
     def fix_group_colspans(self):
         """ Colspans in search view are currently broken.
 
@@ -296,6 +333,8 @@ class Separator(TinyWidget):
         self.colspan = int(attrs.get('colspan', self.get_default_colspan()))
         self.rowspan = int(attrs.get('rowspan', 1))
         self.nolabel = True
+        if self.orientation == 'vertical':
+            self.width = 1
 
 register_widget(Separator, ["separator"])
 
@@ -304,17 +343,14 @@ class NewLine(TinyWidget):
     """NewLine widget just tells the Frame widget to start new row during
     layout process.
     """
-    template = "<span/>"
+    template = "/openerp/widgets/form/templates/newline.mako"
 
 register_widget(NewLine, ["newline"])
 
 
 class Label(TinyWidget):
 
-    template = """
-    <div style="text-align: ${align}; width: 100%; padding-right: 8px">
-        ${field_value}
-    </div>"""
+    template = "/openerp/widgets/form/templates/label.mako"
 
     params = ["field_value", "align"]
 
@@ -688,18 +724,7 @@ register_widget(Dashbar, ["dashbar"])
 
 
 class HPaned(TinyWidget):
-
-    template = """
-    <table width="100%" class="hpaned">
-        <tr>
-            % for child in children:
-            <td style="padding: 0 3px 0 0;" valign="top">
-                ${display_member(child)}
-            </td>
-            % endfor
-        </tr>
-    </table>
-    """
+    template = "/openerp/widgets/form/templates/hpaned.mako"
 
     member_widgets = ['children']
 
@@ -712,17 +737,7 @@ register_widget(HPaned, ["hpaned"])
 
 class VPaned(TinyWidget):
 
-    template = """
-    <table width="100%" class="vpaned">
-        % for child in children:
-        <tr>
-            <td style="padding: 0 3px 0 0;" valign="top">
-                ${display_member(child)}
-            </td>
-        </tr>
-        % endfor
-    </table>
-    """
+    template = "/openerp/widgets/form/templates/vpaned.mako"
 
     member_widgets = ['children']
 
@@ -754,12 +769,7 @@ class Form(TinyInputWidget):
     """A generic form widget
     """
 
-    template = """
-    % if frame:
-        ${concurrency_info.display()}
-        ${display_member(frame)}
-    % endif
-    """
+    template = "/openerp/widgets/form/templates/form.mako"
 
     params = ['id']
     member_widgets = ['frame', 'concurrency_info']

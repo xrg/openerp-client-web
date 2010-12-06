@@ -2,7 +2,7 @@
 <table class="item-wrapper" width="100%">
 <tr>
     <td style="padding: 0px;">
-        <input type="text" id="${name}" name="${name}" autocomplete="OFF"
+        <input type="text" id="${name}" name="${name}" autocomplete="OFF" size="1"
         class="${css_class}" ${py.attrs(attrs, kind=kind, value=value)}/>
         % if error:
         <span class="fielderror">${error}</span>

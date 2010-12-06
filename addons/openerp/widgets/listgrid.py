@@ -28,7 +28,6 @@
 ###############################################################################
 import copy
 import math
-import time
 import xml.dom.minidom
 from itertools import chain, count
 
@@ -40,13 +39,12 @@ import form
 from openobject import tools
 from openobject.tools import ast
 from openobject.i18n import format
-from openobject.widgets import JSLink
 from pager import Pager
 
 
 class List(TinyWidget):
 
-    template = "/openerp/widgets/templates/listgrid.mako"
+    template = "/openerp/widgets/templates/listgrid/listgrid.mako"
     params = ['name', 'data', 'columns', 'headers', 'model', 'selectable', 'editable',
               'pageable', 'selector', 'source', 'offset', 'limit', 'show_links', 'editors', 'view_mode',
               'hiddens', 'edit_inline', 'field_total', 'link', 'checkbox_name', 'm2m', 'min_rows', 'string', 'o2m', 'dashboard', 'impex']
@@ -217,7 +215,7 @@ class List(TinyWidget):
             self.pager = Pager(ids=self.ids, offset=self.offset, limit=self.limit, count=self.count)
             self.pager._name = self.name
            
-        if self.editable and context.get('set_editable',False):#Treeview editable by default or set_editable in context
+        if self.editable and context.get('set_editable'):#Treeview editable by default or set_editable in context
             attrs['editable'] = "bottom"
         
         # make editors
@@ -398,10 +396,7 @@ class List(TinyWidget):
         return headers, hiddens, data, field_total, buttons
 
 class Char(TinyWidget):
-
-    template = """\
-    <span>${text}</span>
-    """
+    template = "/openerp/widgets/templates/listgrid/char.mako"
 
     params = ['text', 'link', 'value']
 
@@ -519,15 +514,10 @@ class Int(Char):
         return 0
 
 class ProgressBar(Char):
+    template = "/openerp/widgets/templates/listgrid/progressbar.mako"
 
     params = ['range']
 
-    template = """
-        <div style="position: relative; border: 1px solid gray; font-size: 11px;">&nbsp;
-            <div style="position: absolute; top:0px; left: 0px; background: #afafaf; width: ${range}%; height: 100%;"></div>
-            <div style="position: absolute; top:0px; left: 0px; width: 100%; height: 100%; text-align: center">${text}%</div>
-        </div>
-    """
 
     def get_text(self):
         if not self.value:
@@ -556,10 +546,9 @@ class DateTime(Char):
         return ustr(self.value or '')
 
 class Boolean(Char):
+    templates = "/openerp/widgets/templates/listgrid/boolean.mako"
 
     params = ['val', 'kind']
-
-    template = """ <input type="checkbox" kind="${kind}" class="checkbox" readonly="readonly" disabled="disabled" ${py.checker(val)} value="${val}"> """
 
     def get_text(self):
         self.val = int(self.value)
@@ -573,21 +562,7 @@ class Button(TinyInputWidget):
 
     params = ['icon', 'id', 'parent_grid', 'btype', 'confirm', 'width', 'context']
 
-    template="""
-    % if visible and not icon:
-    <a class="button-b" href="javascript: void(0)" ${py.attrs(attrs, context=ctx)} title="${help}"
-        onclick="new ListView('${parent_grid}').onButtonClick('${name}', '${btype}', ${id}, '${confirm}', getNodeAttribute(this, 'context'))">
-        ${string}
-    </a>
-    % endif
-    % if visible and icon:
-    <img height="16" width="16" class="listImage" src="${icon}" title="${help}" context="${ctx}" ${py.attrs(attrs)}
-        onclick="new ListView('${parent_grid}').onButtonClick('${name}', '${btype}', ${id}, '${confirm}', getNodeAttribute(this, 'context'))"/>
-    % endif
-    % if not visible and not icon:
-    <span>&nbsp;</span>
-    % endif
-    """
+    template = "/openerp/widgets/templates/listgrid/button.mako"
 
     def __init__(self, **attrs):
         super(Button, self).__init__(**attrs)
@@ -640,5 +615,3 @@ CELLTYPES = {
         'boolean' : Boolean,
         'progressbar' : ProgressBar
 }
-
-# vim: ts=4 sts=4 sw=4 si et
