@@ -197,7 +197,7 @@ class Widget(object):
             display_member=lambda f: self.display_member(f, v, **d))
     def display(self, value=None, **params):
         params.update(
-            member_widgets_params=params.copy(),
+            member_widgets_params=params.copy() if params else {},
             value=self.adjust_value(value, **params))
 
         self.update_params(params)
