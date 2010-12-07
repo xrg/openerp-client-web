@@ -10,7 +10,7 @@ from openobject import tools
 from openobject.validators import *
 
 from _meta import WidgetType
-from _utils import OrderedSet, make_bunch
+from _utils import OrderedSet
 
 
 __all__ = ['Widget', 'InputWidget']
@@ -165,15 +165,25 @@ class Widget(object):
         d = self.params_for(item, **params)
         return item.display(v, **d)
 
-    def update_params(self, params):
+    def set_css_classes(self, params):
+        if params['css_classes']:
+            classes = set(params['css_classes'])
+            if params['css_class']:
+                classes.add(params['css_class'])
+            params['css_class'] = ' '.join(classes)
 
+    def update_params(self, params):
         # Populate dict with attrs from self listed at params and member_widgets
-        for k in ifilterfalse(params.__contains__, chain(self.params, self.member_widgets)):
-            attr = getattr(self, k, None)
-            if attr is not None:
-                if not isinstance(attr, Widget) and callable(attr):
-                    attr = attr()
-            params[k] = attr
+        if self.member_widgets:
+            chained = chain(self.params, self.member_widgets)
+        else:
+            chained = self.params
+        params_to_update = ((name, getattr(self, name, None))
+                            for name in chained
+                            if name not in params)
+        params.update(
+            (name, (attr() if callable(attr) else attr))
+            for name, attr in params_to_update)
 
         for w in self.iter_member_widgets():
             w.parent = self
@@ -185,23 +195,17 @@ class Widget(object):
             value_for=lambda f: self.value_for(f, v),
             params_for=lambda f: self.params_for(f, **d),
             display_member=lambda f: self.display_member(f, v, **d))
-
-        params.css_class = ' '.join(set([params['css_class'] or ''] + params['css_classes']))
-
     def display(self, value=None, **params):
+        params.update(
+            member_widgets_params=params.copy() if params else {},
+            value=self.adjust_value(value, **params))
 
-        params['member_widgets_params'] = params.copy()
-
-        d = make_bunch(params)
-        d.value = self.adjust_value(value, **params)
-
-        self.update_params(d)
-
-        d['css_class'] = ' '.join(set([d['css_class'] or ''] + d['css_classes']))
+        self.update_params(params)
+        self.set_css_classes(params)
 
         return tools.render_template(
                 tools.load_template(
-                    self.template), d)
+                    self.template), params)
 
     def render(self, value=None, **params):
         return self.display(value, **params)
@@ -367,21 +371,19 @@ class InputWidget(Widget):
 
         super(InputWidget, self).update_params(params)
 
-        classes = set(params.css_classes)
         if not self.strip_name:
-
+            classes = params['css_classes']
             if self.is_required:
-                classes.add('requiredfield')
+                classes.append('requiredfield')
 
             if self.is_readonly:
-                classes.add('readonlyfield')
+                classes.append('readonlyfield')
 
             if self.is_disabled:
-                classes.add('disabledfield')
+                classes.append('disabledfield')
 
             if getattr(params, 'error', None):
-                classes.add('errorfield')
-        params.css_classes = list(classes)
+                classes.append('errorfield')
 
         params['error_for'] = lambda f: self.error_for(f, params['error'])
 

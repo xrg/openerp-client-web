@@ -33,24 +33,3 @@ class OrderedSet(set):
     def discard(self, value):
         if value in self._items:
             self._items.remove(value)
-
-
-class Bunch(dict):
-    __setattr__ = dict.__setitem__
-
-    def __delattr__(self, name):
-        try:
-            del self[name]
-        except KeyError:
-            raise AttributeError(name)
-
-    def __getattr__(self, name):
-        try:
-            return self[name]
-        except KeyError:
-            raise AttributeError(name)
-
-
-def make_bunch(d):
-    """Converts a dict instance into a Bunch"""
-    return Bunch(d)
