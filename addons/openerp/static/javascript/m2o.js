@@ -66,6 +66,8 @@ ManyToOne.prototype.__init__ = function(name) {
     this.hasFocus = false;
     this.suggestionBoxMouseOver = false;
     this.selectedResult = false;
+    this.eval_domain = null;
+    this.eval_context = null;
 
     this.select_img = openobject.dom.get(name + '_select');
     this.open_img = openobject.dom.get(name + '_open');
@@ -428,6 +430,8 @@ ManyToOne.prototype.clearResults = function() {
     this.selectedResultRow = 0;
     this.numResultRows = 0;
     this.lastSearch = null;
+    this.eval_domain = null;
+    this.eval_context = null;
 };
 
 ManyToOne.prototype.doDelayedRequest = function () {
@@ -445,10 +449,29 @@ ManyToOne.prototype.doDelayedRequest = function () {
     this.processCount++;
 
     this.lastSearch = this.text.value;
-    jQuery.getJSON('/openerp/search/get_matched', {
-        text: val,
-        model: this.relation
-    }, jQuery.proxy(this, 'displayResults'));
+    if (this.numResultRows==0) {
+        var self = this;
+        var req = eval_domain_context_request({source: this.name, domain: getNodeAttribute(this.field, 'domain'), context: getNodeAttribute(this.field, 'context')});
+        req.addCallback(function(obj) {
+            self.eval_domain = obj.domain;
+            self.eval_context = obj.context
+
+            jQuery.getJSON('/openerp/search/get_matched', {
+                text: val,
+                model: self.relation,
+                _terp_domain: self.eval_domain,
+                _terp_context: self.eval_context
+            }, jQuery.proxy(self, 'displayResults'));
+        });
+    }
+    else {
+        jQuery.getJSON('/openerp/search/get_matched', {
+                text: val,
+                model: this.relation,
+                _terp_domain: this.eval_domain,
+                _terp_context: this.eval_context
+            }, jQuery.proxy(this, 'displayResults'));
+    }
     return true;
 };
 
