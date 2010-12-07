@@ -180,7 +180,7 @@ class Widget(object):
             chained = self.params
         for k in ifilterfalse(params.__contains__, chained):
             attr = getattr(self, k, None)
-            if attr is not None and callable(attr):
+            if callable(attr):
                 params[k] = attr()
             else:
                 params[k] = attr
