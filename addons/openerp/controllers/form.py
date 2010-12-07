@@ -1049,7 +1049,7 @@ class Form(SecuredController):
             relation = v.get('relation')
 
             if relation and kind in ('many2one', 'reference') and values.get(k):
-                values[k] = [values[k], rpc.name_get(relation, values[k], ctx)]
+                values[k] = [values[k], rpc.name_get(relation, values[k], context)]
 
             if kind == 'picture':
                 values[k] = generate_url_for_picture(model, k, ctx.id, values[k])
