@@ -178,12 +178,12 @@ class Widget(object):
             chained = chain(self.params, self.member_widgets)
         else:
             chained = self.params
-        for k in ifilterfalse(params.__contains__, chained):
-            attr = getattr(self, k, None)
-            if callable(attr):
-                params[k] = attr()
-            else:
-                params[k] = attr
+        params_to_update = ((name, getattr(self, name, None))
+                            for name in chained
+                            if name not in params)
+        params.update(
+            (name, (attr() if callable(attr) else attr))
+            for name, attr in params_to_update)
 
         for w in self.iter_member_widgets():
             w.parent = self
