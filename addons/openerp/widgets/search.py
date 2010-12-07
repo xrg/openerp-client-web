@@ -58,9 +58,8 @@ def get_search_default(attrs={}, screen_context=None, default_domain=[]):
         default_val = expr_eval(default_val, {'context':screen_context})
 
     if attrs.get('name', False):
-        context_str = 'search_default_' + str(attrs['name'])
-        result = screen_context.get(context_str)
-        if result: return result
+        if screen_context.get('search_default_' + str(attrs['name'])):
+            return default_val
 
     if attrs.get('context'):
         ctx =  expr_eval(attrs.get('context', "{}"), {'self':attrs.get('name', False)})
