@@ -92,7 +92,7 @@ def search(model, offset=0, limit=50, domain=[], context={}, data={}):
     data = data or {}
 
     proxy = rpc.RPCProxy(model)
-    fields = proxy.fields_get([], {})
+    fields = proxy.fields_get([], rpc.session.context)
 
     search_domain = domain[:]
     search_data = {}
@@ -255,7 +255,7 @@ class Form(SecuredController):
                     display_name = {'field': form.screen.view['fields']['name']['string'], 'value': ustr(form.screen.view['fields']['name']['value'])}
                     title= ustr(display_name['field']) + ':' + ustr(display_name['value'])
         elif params.view_type == 'diagram':
-            display_name = {'field': form.screen.view['fields']['name']['string'], 'value': rpc.RPCProxy(params.model).name_get(form.screen.id)[0][1]}
+            display_name = {'field': form.screen.view['fields']['name']['string'], 'value': rpc.RPCProxy(params.model).name_get(form.screen.id, rpc.session.context)[0][1]}
 
         # For Corporate Intelligence visibility.
         obj_process = rpc.RPCProxy('ir.model').search([('model', '=', 'process.process')]) or None
@@ -1049,7 +1049,7 @@ class Form(SecuredController):
             relation = v.get('relation')
 
             if relation and kind in ('many2one', 'reference') and values.get(k):
-                values[k] = [values[k], rpc.name_get(relation, values[k])]
+                values[k] = [values[k], rpc.name_get(relation, values[k], context)]
 
             if kind == 'picture':
                 values[k] = generate_url_for_picture(model, k, ctx.id, values[k])

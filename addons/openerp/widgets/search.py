@@ -255,7 +255,7 @@ class Search(TinyInputWidget):
 
         self.fields_type = {}
         self.fields = fields
-        all_fields = rpc.session.execute('object', 'execute', model, 'fields_get')
+        all_fields = rpc.session.execute('object', 'execute', model, 'fields_get', rpc.session.context)
         if len(fields) != len(all_fields):
             common_fields = [f for f in all_fields if f in fields]
             for f in common_fields:
@@ -418,7 +418,7 @@ class Search(TinyInputWidget):
 
                             if kind == 'many2one' and model:
                                 try:
-                                    value = rpc.name_get(model, default_search)
+                                    value = rpc.name_get(model, default_search, self.context)
                                 except Exception,e:
                                     value = defval
                                 defval = value or ''

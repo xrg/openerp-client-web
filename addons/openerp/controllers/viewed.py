@@ -189,7 +189,7 @@ def _get_model(node, parent_model):
     parents.reverse()
 
     for parent in parents:
-        field = rpc.RPCProxy(parent_model).fields_get([parent])
+        field = rpc.RPCProxy(parent_model).fields_get([parent], rpc.session.context)
 
         if field:
             if field[parent].get('relation'):
