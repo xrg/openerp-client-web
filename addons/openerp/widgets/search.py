@@ -71,12 +71,8 @@ def get_search_default(attrs={}, screen_context=None, default_domain=[]):
             return str_ctx in screen_context.get('group_by', [])
 
     if default_domain and 'domain' in attrs:
-        domain =  expr_eval(attrs.get('domain'))
-        for d in domain:
-            if d in default_domain:
-                default_search = True
-            else:
-                default_search = False
+        for d in expr_eval(attrs.get('domain')):
+            default_search = (d in default_domain)
         return default_search
     else:
         return False
