@@ -62,12 +62,13 @@ def get_search_default(attrs={}, screen_context=None, default_domain=[]):
         return default_val
 
     if 'context' in attrs:
-        ctx =  expr_eval(attrs.get('context', "{}"), {'self':attrs.get('name', False)})
-        if ctx.get('group_by'):
-            if isinstance(ctx['group_by'], list):
-                str_ctx = map(lambda x: 'group_' + x, ctx.get('group_by'))
+        ctx = expr_eval(attrs.get('context', "{}"), {'self':attrs.get('name', False)})
+        group_by = ctx.get('group_by')
+        if group_by:
+            if isinstance(group_by, list):
+                str_ctx = map(lambda x: 'group_' + x, group_by)
             else:
-                str_ctx = 'group_' + ctx.get('group_by')
+                str_ctx = 'group_' + group_by
             return str_ctx in screen_context.get('group_by', [])
 
     if default_domain and 'domain' in attrs:
