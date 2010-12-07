@@ -165,6 +165,13 @@ class Widget(object):
         d = self.params_for(item, **params)
         return item.display(v, **d)
 
+    def set_css_classes(self, params):
+        if params['css_classes']:
+            classes = set(params['css_classes'])
+            if params['css_class']:
+                classes.add(params['css_class'])
+            params['css_class'] = ' '.join(classes)
+
     def update_params(self, params):
         # Populate dict with attrs from self listed at params and member_widgets
         if self.member_widgets:
@@ -189,12 +196,6 @@ class Widget(object):
             params_for=lambda f: self.params_for(f, **d),
             display_member=lambda f: self.display_member(f, v, **d))
 
-        if params['css_classes']:
-            if params['css_class']:
-                params['css_class'] = ' '.join(set(params['css_classes']).union([params['css_class']]))
-            else:
-                params['css_class'] = ' '.join(params['css_classes'])
-
     def display(self, value=None, **params):
         params = make_bunch(params)
         params.update(
@@ -202,12 +203,7 @@ class Widget(object):
             value=self.adjust_value(value, **params))
 
         self.update_params(params)
-
-        if params['css_classes']:
-            if params['css_class']:
-                params['css_class'] = ' '.join(set(params['css_classes']).union([params['css_class']]))
-            else:
-                params['css_class'] = ' '.join(params['css_classes'])
+        self.set_css_classes(params)
 
         return tools.render_template(
                 tools.load_template(
