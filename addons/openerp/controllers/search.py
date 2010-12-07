@@ -301,8 +301,8 @@ class Search(Form):
                 else:
                     if not 'm2o_' in value:
                         operator = 'ilike'
-                        if '/' in value:
-                            value, operator = value.split('/')
+                        if '__' in value:
+                            value, operator = value.split('__')
                             value = int(value)
                         domain.append((field, operator, value))
                         search_data[field] = value

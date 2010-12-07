@@ -487,16 +487,23 @@ function parse_filters(src, id) {
         var kind = $fld.attr('kind');
         var fld_value = $fld.val();
         var fld_name = $fld.attr('name');
+        var class = $fld.attr('class');
         
-        if(kind == 'selection') {
+        // For selection box to consider value for domain instead of key.
+        if (class=='selection' && kind=='char') {
+        	if ($fld.val() != '') {
+        		log("val.."+$fld.val());
+        	}
+        }
+        else if(kind == 'selection') {
             if ($fld.val() != '') {
 
                 if ($fld.attr('type2') == 'many2one') {
                 	var selection_operator = $fld.attr('operator');
-                    fld_value = $fld.val() + '/' + selection_operator;
+                    fld_value = $fld.val() + '__' + selection_operator;
                 }
                 else{
-                    fld_value = 'selection_'+$fld.val();
+                    fld_value = 'selection_' + $fld.val();
                 }
                 if ($fld.attr('search_context')) {
                     search_context['context'] = $fld.attr('search_context');
