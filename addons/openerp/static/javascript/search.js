@@ -487,15 +487,8 @@ function parse_filters(src, id) {
         var kind = $fld.attr('kind');
         var fld_value = $fld.val();
         var fld_name = $fld.attr('name');
-        var class = $fld.attr('class');
-        
-        // For selection box to consider value for domain instead of key.
-        if (class=='selection' && kind=='char') {
-        	if ($fld.val() != '') {
-        		log("val.."+$fld.val());
-        	}
-        }
-        else if(kind == 'selection') {
+
+        if(kind == 'selection') {
             if ($fld.val() != '') {
 
                 if ($fld.attr('type2') == 'many2one') {
