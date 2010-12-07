@@ -526,7 +526,7 @@ function onChange(caller){
                 var $current_field = jQuery(fld);
                 var kind = $current_field.attr('kind');
 
-                if (!kind) {
+                if (!kind && jQuery('#_terp_id').val()=='False') {
                     var $default_o2m = jQuery(idSelector('_terp_default_o2m/'+k));
                     if ($current_field.hasClass('gridview')){
                         if ($default_o2m.length && !value) {
