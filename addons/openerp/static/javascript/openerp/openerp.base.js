@@ -25,9 +25,7 @@ function openLink(url /*optional afterLoad */) {
             error: loadingError
         });
     } else {
-        window.location.assign(
-            '/?' + jQuery.param({next: url})
-        );
+        window.location.assign(url);
     }
 }
 /**
@@ -101,27 +99,19 @@ function openAction(action_url, target) {
     var $dialogs = jQuery('.action-dialog');
     switch(target) {
         case 'new':
-            var $contentFrame = jQuery('<iframe>', {
+            jQuery('<iframe>', {
                 src: action_url,
-                frameborder: 0,
-                width: '99%',
-                height: '99%'
-            });
-            jQuery('<div class="action-dialog">')
-                .appendTo(document.documentElement)
+                'class': 'action-dialog',
+                frameborder: 0
+            }).appendTo(document.documentElement)
                 .dialog({
                     modal: true,
                     width: 640,
                     height: 480,
                     close: function () {
-                        var $this = jQuery(this);
-                        $this.find('iframe').remove();
-                        setTimeout(function () {
-                            $this.dialog('destroy').remove();
-                        });
+                        jQuery(this).dialog('destroy').remove();
                     }
-                })
-                .append($contentFrame);
+                });
             break;
         case 'current':
         default:
