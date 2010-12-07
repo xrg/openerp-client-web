@@ -57,11 +57,11 @@ def get_search_default(attrs={}, screen_context=None, default_domain=[]):
     if default_val:
         default_val = expr_eval(default_val, {'context':screen_context})
 
-    if attrs.get('name', False):
-        if screen_context.get('search_default_' + str(attrs['name'])):
-            return default_val
+    if 'name' in attrs and \
+       screen_context.get('search_default_' + str(attrs['name'])):
+        return default_val
 
-    if attrs.get('context'):
+    if 'context' in attrs:
         ctx =  expr_eval(attrs.get('context', "{}"), {'self':attrs.get('name', False)})
         if ctx.get('group_by'):
             if isinstance(ctx['group_by'], list):
@@ -70,7 +70,7 @@ def get_search_default(attrs={}, screen_context=None, default_domain=[]):
                 str_ctx = 'group_' + ctx.get('group_by')
             return str_ctx in screen_context.get('group_by', [])
 
-    if default_domain and attrs.get('domain'):
+    if default_domain and 'domain' in attrs:
         domain =  expr_eval(attrs.get('domain'))
         for d in domain:
             if d in default_domain:
