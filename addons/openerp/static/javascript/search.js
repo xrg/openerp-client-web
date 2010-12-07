@@ -598,7 +598,7 @@ function save_filter() {
             type: 'POST',
             data: sf_params,
             success: function(xhr) {
-                jQuery.fancybox(xhr, {showCloseButton: false})
+                jQuery.fancybox(xhr, {showCloseButton: false, scrolling: 'no'})
             }
         });
     });

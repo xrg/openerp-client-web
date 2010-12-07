@@ -37,7 +37,8 @@ function openLink(url /*optional afterLoad */) {
 function displayErrorOverlay(xhr) {
     var options = {
         showCloseButton: true,
-        overlayOpacity: 0.7
+        overlayOpacity: 0.7,
+        scrolling: 'no'
     };
     if(xhr.getResponseHeader('X-Maintenance-Error')) {
         options['autoDimensions'] = false;
