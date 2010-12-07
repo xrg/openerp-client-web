@@ -15,7 +15,15 @@ function openLink(url /*optional afterLoad */) {
     var afterLoad = arguments[1];
     if($app.length) {
         currentUrl = url;
-        window.location.href = '#'+jQuery.param({'url': url});
+        var hash = '#'+jQuery.param({'url': url});
+        try {
+            window.location.hash = hash;
+        } catch (e) {
+            // MSIE throws an Access Denied error when trying to set hash,
+            // but in other browsers this breaks wizards closing with a
+            // `current` target: they set the whole URL and navigate to it.
+            window.location.href = hash;
+        }
         jQuery.ajax({
             url: url,
             complete: function () {
