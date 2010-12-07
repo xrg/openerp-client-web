@@ -214,10 +214,10 @@ class TinyInputWidget(TinyWidget, InputWidget):
 
         return self.get_value()
 
-    def update_params(self, d):
-        super(TinyInputWidget, self).update_params(d)
+    def update_params(self, params):
+        super(TinyInputWidget, self).update_params(params)
 
-        d.update(
+        params.update(
             kind=self.kind,
             editable=self.editable,
             inline=self.inline,
@@ -228,7 +228,7 @@ class TinyInputWidget(TinyWidget, InputWidget):
             })
 
         if self.readonly:
-            d['attrs']['disabled'] = 'disabled'
+            params['attrs']['disabled'] = 'disabled'
 
 
 class ConcurrencyInfo(TinyInputWidget):

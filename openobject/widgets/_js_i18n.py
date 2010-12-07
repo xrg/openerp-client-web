@@ -9,9 +9,8 @@ class JSI18n(JSLink):
     template = "/openobject/widgets/templates/js_i18n.mako"
 
     params = ["translations"]
-    def update_params(self, d):
-
-        super(JSLink, self).update_params(d)
+    def update_params(self, params):
+        super(JSLink, self).update_params(params)
 
         locale = i18n.get_locale()
         try:
@@ -27,7 +26,7 @@ class JSI18n(JSLink):
             _, pr = os.path.split(pr)
             translations.append((pr, tr))
 
-        d['translations'] = translations
+        params['translations'] = translations
 
 
 js_i18n = JSI18n(None, None)

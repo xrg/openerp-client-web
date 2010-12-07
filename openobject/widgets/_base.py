@@ -10,7 +10,7 @@ from openobject import tools
 from openobject.validators import *
 
 from _meta import WidgetType
-from _utils import OrderedSet, make_bunch
+from _utils import OrderedSet
 
 
 __all__ = ['Widget', 'InputWidget']
@@ -195,9 +195,7 @@ class Widget(object):
             value_for=lambda f: self.value_for(f, v),
             params_for=lambda f: self.params_for(f, **d),
             display_member=lambda f: self.display_member(f, v, **d))
-
     def display(self, value=None, **params):
-        params = make_bunch(params)
         params.update(
             member_widgets_params=params.copy(),
             value=self.adjust_value(value, **params))
@@ -373,21 +371,19 @@ class InputWidget(Widget):
 
         super(InputWidget, self).update_params(params)
 
-        classes = set(params.css_classes)
         if not self.strip_name:
-
+            classes = params['css_classes']
             if self.is_required:
-                classes.add('requiredfield')
+                classes.append('requiredfield')
 
             if self.is_readonly:
-                classes.add('readonlyfield')
+                classes.append('readonlyfield')
 
             if self.is_disabled:
-                classes.add('disabledfield')
+                classes.append('disabledfield')
 
             if getattr(params, 'error', None):
-                classes.add('errorfield')
-        params.css_classes = list(classes)
+                classes.append('errorfield')
 
         params['error_for'] = lambda f: self.error_for(f, params['error'])
 

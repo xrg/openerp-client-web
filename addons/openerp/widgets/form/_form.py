@@ -549,11 +549,11 @@ class Selection(TinyInputWidget):
         else:
             self.validator = validators.Selection()
 
-    def update_params(self, d):
-        super(Selection, self).update_params(d)
+    def update_params(self, params):
+        super(Selection, self).update_params(params)
 
         if self.search_context:
-            d.setdefault('css_classes', []).append('selection_search')
+            params.setdefault('css_classes', []).append('selection_search')
 
     def set_value(self, value):
 
@@ -574,19 +574,19 @@ register_widget(Selection, ["selection"])
 
 class DTLink(JSLink):
 
-    def update_params(self, d):
-        super(DTLink, self).update_params(d)
+    def update_params(self, params):
+        super(DTLink, self).update_params(params)
 
         lang = get_locale()
         link = "jscal/lang/calendar-%s.js" % lang
 
         if tools.resources.resource_exists("openerp", "static", link):
-            d.link = tools.url(["/openerp/static", link])
+            params['link'] = tools.url(["/openerp/static", link])
         else:
             lang = lang.split('_')[0]
             link = "jscal/lang/calendar-%s.js" % lang
             if tools.resources.resource_exists("openerp", "static", link):
-                d.link = tools.url(["/openerp/static", link])
+                params['link'] = tools.url(["/openerp/static", link])
 
 class DateTime(TinyInputWidget):
 
