@@ -65,14 +65,8 @@
                         <a id="shortcut_add_remove" title="${_('Add / Remove Shortcut...')}" href="javascript: void(0)" class="${shortcut_class}"></a>
                     % endif
 
-                    % if form.screen.view_type != 'form':
-                        ${_('Search %s') % form.screen.string}
-                    % elif not form.screen.editable:
-                        ${_('Read %s') % form.screen.string}
-                    % elif form.screen.id:
-                        ${_('Edit %s') % form.screen.string}
-                    % elif not is_dashboard and form.screen.hastoolbar:
-                        ${_('Create %s') % form.screen.string}
+                    % if form.screen.view_type == 'tree':
+                        ${_('Search: %s') % form.screen.string}
                     % else:
                         ${form.screen.string}
                     % endif
