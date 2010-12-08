@@ -126,6 +126,9 @@ function openAction(action_url, target) {
                     }
                 });
             break;
+        case 'popup':
+            window.open(action_url);
+            break;
         case 'current':
         default:
             openLink(action_url);

@@ -11,15 +11,27 @@
         }
         jQuery(document).ready(function() {
             document.title = '${title}' + ' - OpenERP';
+            /*
             % if form.screen.view_type == 'form':
+            */
             validateForm();
+            /*
             % endif
+            */
+            /*
             % if can_shortcut:
+            */
             jQuery('#shortcut_add_remove').click(toggle_shortcut);
+            /*
             % endif
+            */
+            /*
             % if form.screen.model == 'res.request' and form.screen.ids:
+            */
             jQuery('ul.tools li a.req_messages small').text('${len(form.screen.ids)}');
+            /*
             % endif
+            */
         });
     </script>
 
