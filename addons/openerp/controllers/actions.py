@@ -357,7 +357,7 @@ def execute_url(**data):
         raise common.message(_('Relative URLs are not supported'))
     
     # Unknown URL required to open in new window/tab.
-    if url.startswith('http://') or url.startswith('http://'):
+    if data['target'] != 'self' or url.startswith('http://') or url.startswith('http://'):
         return """<script type="text/javascript">
                         window.open('%s')
                     </script>
