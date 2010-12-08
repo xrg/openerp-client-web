@@ -886,18 +886,27 @@ function do_report(id, relation){
 
 function do_action(src, context_menu) {
     var params = {};
+    var $src = jQuery(src);
+    var field = $src.attr('field') || '_terp_id';
+    var source = jQuery('[id="'+field+'"]').attr('id');
+
     if (openobject.dom.get('_terp_list')) {
         params['_terp_selection'] = '[' +
             new ListView('_terp_list').getSelectedRecords().join(',') +
             ']';
+        if (eval(params['_terp_selection']).length == 0) {
+            var ids = eval(jQuery('#_terp_ids').val());
+            if (ids && ids.length > 0){
+                params['_terp_selection'] = '[' + ids[0] + ']';
+            } else {
+                error_display(_('You must select one or several records !'));
+            }
+        }
+        var id = eval(params['_terp_selection'])[0]
+    } else {
+        var id = jQuery('[id="'+field+'"]').val();
     }
-    
-    var $src = jQuery(src);
-    var field = $src.attr('field') || '_terp_id';
-    
-    var id = jQuery('[id="'+field+'"]').val();
-    var source = jQuery('[id="'+field+'"]').attr('id');
-    
+
     var action_id = $src.attr('action_id') || null;
     var relation = $src.attr('relation');
     var datas = $src.attr('data') || null;
