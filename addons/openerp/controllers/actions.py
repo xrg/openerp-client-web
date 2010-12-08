@@ -344,7 +344,7 @@ def execute(action, **data):
     if 'type' not in action:
         #XXX: in gtk client just returns to the caller
         #raise common.error('Error', 'Invalid action...')
-        return close_popup()
+        return close_popup(reload=False)
 
     data.setdefault('context', {}).update(expr_eval(action.get('context','{}'), data.get('context', {}).copy()))
 
@@ -451,8 +451,16 @@ def execute_by_keyword(keyword, adds=None, **data):
 
 
 @tools.expose(template="/openerp/controllers/templates/closepopup.mako")
-def close_popup(*args, **kw):
-    return {}
+def close_popup(reload=True):
+    """ Closes an opened dialog box or popup.
+
+    :param reload: whether the background view should be reloaded when closing the popup
+    :type reload: bool
+
+    :return: the rendered popup-closing template
+    :rtype: str
+    """
+    return {'reload': reload}
 
 @tools.expose(template="/openerp/controllers/templates/report.mako")
 def report_link(report_name, **kw):

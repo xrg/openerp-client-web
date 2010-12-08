@@ -15,6 +15,7 @@ function openLink(url /*optional afterLoad */) {
     var afterLoad = arguments[1];
     if($app.length) {
         currentUrl = url;
+        // TODO: should not be done for actions with target=True
         var hash = '#'+jQuery.param({'url': url});
         try {
             window.location.hash = hash;
