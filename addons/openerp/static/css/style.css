@@ -297,12 +297,6 @@ div.group-expand, div.group-collapse {
     display: block;
 }
 
-#groupdata_table td {
-    padding: 0;
-}
-
-
-
 td.custom-filter ul {
     float: left;
     list-style: none;
@@ -612,15 +606,13 @@ table.o2m_box div.pagerbar-header strong {
     background-color: turquoise;
 }
 
-.label,
-.item,
-#groupdata_table .item {
-    padding: 2px 8px 2px 4px;
+.label {
+    padding: 2px 6px;
+}
+.item {
+    padding: 2px;
 }
 
-.label {
-	padding: 2px 2px 2px 6px;
-}
 table.fields td {
     color: #4C4C4C;
 }
@@ -641,12 +633,10 @@ table.fields td {
 .item input,
 .item select {
     width: 100%;
-    min-width: 60px;
 }
 
 .item .fields {
     width: 100%;
-    min-width: 60px;
 }
 
 .item input,
@@ -660,20 +650,13 @@ table.fields td {
     vertical-align: middle;
 }
 
-.item input {
-    /* Warning : setting horizontal padding causes input to cross the boundaries of it's parent element */
-    padding-top: 2px;
-}
-
 .item input.m2o,
 .item input.reference {
-    padding-right: 0;
-    width: 100%;
-    min-width: 60px;
+    padding-right: 14px;
 }
 
 .m2o_container {
-    padding-right: 20px;
+    padding-right: 16px;
     white-space: nowrap;
 }
 .m2o {

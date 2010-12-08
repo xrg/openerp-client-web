@@ -130,6 +130,10 @@ p.raw-text {
 }
 
 input[type=text], input[type=password], select, textarea {
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    -ms-box-sizing: border-box;
+    box-sizing: border-box;
     padding: 2px;
     border: 1px solid #999;
     border-radius: 3px;
@@ -2146,7 +2150,7 @@ a.button-b, button.button-b {
     font-weight: bold;
     line-height: 16px;
     text-shadow: #fff 0 1px 0;
-    min-width: 99%;
+    min-width: 100%;
 }
 .button-b img {
     vertical-align: -30%;

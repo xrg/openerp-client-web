@@ -4,7 +4,7 @@
             ${py.attrs(attrs, kind=kind, value=value)}/>
     % else:
         <textarea rows="6" id ="${name}" name="${name}" class="${css_class}"
-            ${py.attrs(attrs, kind=kind)} style="width: 99%;">${value}</textarea>
+            ${py.attrs(attrs, kind=kind)} style="width: 100%;">${value}</textarea>
         <script type="text/javascript">
             if (!window.browser.isWebKit) {
                 new openerp.ui.TextArea('${name}');
