@@ -76,7 +76,14 @@ td.label:not(.search_fields) {
 table.form-container td.label {
     width: auto;
 }
-div.non-editable td.item {
+div.non-editable td.item-char,
+div.non-editable td.item-selection,
+div.non-editable td.item-datetime,
+div.non-editable td.item-email,
+div.non-editable td.item-url,
+div.non-editable td.item-float,
+div.non-editable td.item-boolean,
+div.non-editable td.item-m2o {
     background: white;
 }
 
