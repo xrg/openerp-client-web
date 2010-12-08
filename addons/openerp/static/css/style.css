@@ -633,6 +633,7 @@ table.fields td {
 .item input,
 .item select {
     width: 100%;
+    min-width: 90px;
 }
 
 .item .fields {
@@ -667,8 +668,12 @@ table.fields td {
     right: 2px;
     top: -2px;
 }
+input.datetime {
+    float: left;
+}
 .item img.datetime {
-    margin-left: -18px;
+    float: left;
+    margin: 2px 0 0 -19px;
 }
 
 img.m2o_select,
