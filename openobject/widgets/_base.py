@@ -99,6 +99,7 @@ class Widget(object):
     def adjust_value(self, value, **params):
         """Adjust the value sent to the template on display."""
         if value is None:
+            if self.default is None: return False
             value = self.default
             if callable(value):
                 value = value()

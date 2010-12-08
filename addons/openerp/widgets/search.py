@@ -185,9 +185,6 @@ class Filter(TinyInputWidget):
 class M2O_search(form.M2O):
     template = "/openerp/widgets/templates/search/many2one.mako"
     def __init__(self, **attrs):
-        if attrs.get('default', False) == 'uid':
-            attrs['default'] = rpc.session.uid
-
         attrs['m2o_filter_domain'] = attrs.get('filter_domain')
 
         super(M2O_search, self).__init__(**attrs)
