@@ -53,10 +53,6 @@ def get_search_default(attrs={}, screen_context=None, default_domain=[]):
     default_domain = attrs.get('default_domain', default_domain)
     default_search = False
 
-    default_val = attrs.get('default')
-    if default_val:
-        default_val = expr_eval(default_val, {'context':screen_context})
-
     if 'name' in attrs:
         search_default = screen_context.get('search_default_' + str(attrs['name']))
         if search_default: return search_default
