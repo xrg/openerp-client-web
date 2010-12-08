@@ -192,7 +192,8 @@ MochiKit.Base.update(ListView.prototype, {
         return this.$getEditors(false, newlist).each(function(){
             var $this = jQuery(this);
             var $cell = $this.parent('.grid-cell');
-            $this.attr('autocomplete', 'OFF').width($cell.width());
+            //$this.attr('autocomplete', 'OFF').width($cell.width());
+            $this.attr('autocomplete', 'OFF');
         }).get();
     },
 

@@ -84,13 +84,12 @@
 
 .grid-row.editors .grid-cell {
     background-color: #FFFFBF;
-    padding: 2px 2px 2px 7px;
 }
 
 .grid-row.editors input,
 .grid-row.editors select,
 .grid-row.editors textarea {
-    width: 99%;
+    width: 100%;
 }
 
 .grid .float,
