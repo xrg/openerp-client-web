@@ -7,9 +7,13 @@
         operator="${operator}"
         class="${css_class}"
         search_context="${search_context}" ${py.attrs(attrs)}>
-        <option value=""></option>
-        % for (k, v) in options:
-        <option value="${k}" ${py.selector(k==value)}>${v}</option>
+        ## add empty option only if no empty option exist
+        ## and no default value is set
+        % if all(label for _, label in options) and not value:
+            <option value=""></option>
+        % endif
+        % for (val, label) in options:
+            <option value="${val}" ${py.selector(val==value)}>${label}</option>
         % endfor
     </select>
     % if error:
