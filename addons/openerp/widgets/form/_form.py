@@ -215,6 +215,8 @@ class Frame(TinyWidget):
 
                 attrs['class'] = ' '.join(classes)
                 attrs['nowrap'] = 'nowrap'
+        else:
+            attrs['class'] = attrs.get('class', '') + ' item-%s' % widget.__class__.__name__.lower()
 
         td = [attrs, widget]
         if getattr(widget, 'full_name', None) and self.is_search and label_table:
