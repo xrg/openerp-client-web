@@ -435,7 +435,7 @@ class M2O(Char):
     def get_text(self):
 
         if isinstance(self.value, int):
-            self.value = self.value, rpc.name_get(self.attrs['relation'], self.value)
+            self.value = self.value, rpc.name_get(self.attrs['relation'], self.value, rpc.session.context)
 
         if self.value and len(self.value) > 0:
             if isinstance(self.value, tuple):

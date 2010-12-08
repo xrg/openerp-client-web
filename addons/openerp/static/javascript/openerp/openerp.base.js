@@ -15,7 +15,15 @@ function openLink(url /*optional afterLoad */) {
     var afterLoad = arguments[1];
     if($app.length) {
         currentUrl = url;
-        window.location.href = '#'+jQuery.param({'url': url});
+        var hash = '#'+jQuery.param({'url': url});
+        try {
+            window.location.hash = hash;
+        } catch (e) {
+            // MSIE throws an Access Denied error when trying to set hash,
+            // but in other browsers this breaks wizards closing with a
+            // `current` target: they set the whole URL and navigate to it.
+            window.location.href = hash;
+        }
         jQuery.ajax({
             url: url,
             complete: function () {
@@ -25,9 +33,7 @@ function openLink(url /*optional afterLoad */) {
             error: loadingError
         });
     } else {
-        window.location.assign(
-            '/?' + jQuery.param({next: url})
-        );
+        window.location.assign(url);
     }
 }
 /**
@@ -37,7 +43,8 @@ function openLink(url /*optional afterLoad */) {
 function displayErrorOverlay(xhr) {
     var options = {
         showCloseButton: true,
-        overlayOpacity: 0.7
+        overlayOpacity: 0.7,
+        scrolling: 'no'
     };
     if(xhr.getResponseHeader('X-Maintenance-Error')) {
         options['autoDimensions'] = false;
@@ -100,27 +107,19 @@ function openAction(action_url, target) {
     var $dialogs = jQuery('.action-dialog');
     switch(target) {
         case 'new':
-            var $contentFrame = jQuery('<iframe>', {
+            jQuery('<iframe>', {
                 src: action_url,
-                frameborder: 0,
-                width: '99%',
-                height: '99%'
-            });
-            jQuery('<div class="action-dialog">')
-                .appendTo(document.documentElement)
+                'class': 'action-dialog',
+                frameborder: 0
+            }).appendTo(document.documentElement)
                 .dialog({
                     modal: true,
                     width: 640,
                     height: 480,
                     close: function () {
-                        var $this = jQuery(this);
-                        $this.find('iframe').remove();
-                        setTimeout(function () {
-                            $this.dialog('destroy').remove();
-                        });
+                        jQuery(this).dialog('destroy').remove();
                     }
-                })
-                .append($contentFrame);
+                });
             break;
         case 'current':
         default:

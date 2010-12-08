@@ -1,22 +1,32 @@
 <%inherit file="/openerp/controllers/templates/base_dispatch.mako"/>
+<%!
+    KINDS = {
+        'M2O': 1,
+        'M2M': 2
+    }
+%>        
 
 <%def name="header()">
     <%
-        if params.selectable == 1:
+        if params.selectable == KINDS['M2O']:
             create_url = "/openm2o/edit"
-        elif params.selectable == 2:
+        elif params.selectable == KINDS['M2M']:
             create_url = "/openm2m/new"
     %>
     <title>Search ${form.screen.string}</title>
 
     <script type="text/javascript">
         var form_controller = '/openerp/search';
+        function close_dialog() {
+            window.close()
+        }
     </script>
-    % if params.selectable == 1:
+    % if params.selectable == KINDS['M2O']:
     <script type="text/javascript">
-        function do_select(res_id){
-            var selected_id = res_id
-
+        function close_dialog() {
+            $.m2o('close');
+        }
+        function do_select(selected_id){
             if (!selected_id) {
                 var ids = new ListView('_terp_list').getSelectedRecords();
 
@@ -25,34 +35,10 @@
 
                 selected_id = ids[0];
             }
-
-            var $ = window.opener.jQuery;
-            var $value = $(idSelector('${params.source}'));
-            var $text = $(idSelector('${params.source}_text'));
-
-            $value.val(selected_id);
-            $text.val('');
-
-            if($value[0].onchange) {
-                $value[0].onchange();
-            } else {
-                $value.change();
-                window.opener.MochiKit.Signal.signal($value[0], 'onchange');
-            }
-
-            window.close();
-        }
-        
-        function do_create(){
-            openLink(openobject.http.getURL('/openerp/openm2o/edit', {
-                _terp_model: '${params.model}',
-                _terp_source: '${params.source}',
-                _terp_m2o: '${params.source}',
-                _terp_domain: openobject.dom.get('_terp_domain').value,
-                _terp_context: openobject.dom.get('_terp_context').value}));
+            $.m2o('close', selected_id);
         }
     </script>
-    % elif params.selectable == 2:
+    % elif params.selectable == KINDS['M2M']:
         % if params.get('return_to'):
             <script type="text/javascript">
                 function do_select() {
@@ -76,7 +62,7 @@
                             return;
                        }
                     }
-                    window.close()
+                    close_dialog();
                 }
             </script>
         % else:
@@ -109,21 +95,21 @@
 
 		                m2m.setValue(ids);
 		            }
-		            window.close();
+		            close_dialog();
 		        }
 		    </script>
         % endif
-         <script type="text/javascript">
-                function do_create(){
-                    openLink(openobject.http.getURL('/openerp/openm2m/new', {
-                        _terp_model: '${params.model}',
-                        _terp_source: '${params.source}',
-                        _terp_m2m: '${params.source}',
-                        _terp_domain: openobject.dom.get('_terp_domain').value,
-                        _terp_context: openobject.dom.get('_terp_context').value}));
-                }
-          </script>
     % endif
+    <script type="text/javascript">
+        function do_create(){
+            openLink(openobject.http.getURL('/openerp${create_url}', {
+                _terp_model: '${params.model}',
+                _terp_source: '${params.source}',
+                _terp_m2m: '${params.source}',
+                _terp_domain: openobject.dom.get('_terp_domain').value,
+                _terp_context: openobject.dom.get('_terp_context').value}));
+        }
+    </script>
 </%def>
 
 <%def name="content()">
@@ -160,7 +146,7 @@
                                 % endif
                             	<a class="button-a" href="javascript: void(0)" onclick="search_filter()">${_("Search")}</a>
                            	    <a class="button-a" href="javascript: void(0)" onclick="do_create()">${_("New")}</a>
-                            	<a class="button-a" href="javascript: void(0)" onclick="window.close()">${_("Close")}</a>
+                            	<a class="button-a" href="javascript: void(0)" onclick="close_dialog();">${_("Close")}</a>
                             
                             </td>
                         </tr>
@@ -196,7 +182,7 @@
                 });
             }
             jQuery('table.search_table input:text').eq(0).focus();
-            % if params.selectable == 2:
+            % if params.selectable == KINDS['M2M']:
                 var $select_link = jQuery('a.select-link').hide();
                 jQuery('form#search_form').click(function(event) {
                     if ($(event.target).is("input[type=checkbox]")) {

@@ -64,21 +64,30 @@
             <td valign="top">${display_member(screen)}</td>
         </tr>
     </table>
-    % if screen.view_type == 'tree':
+
 	    <script type="text/javascript">
 
 	        jQuery(document).ready(function() {
-	           var filter_box_index = jQuery('#${name} div.filter-a').closest('td.item:first').index();
-	           var input_index = jQuery('#${name} input[type!="hidden"][type="text"]:first').closest('td.label').index();
-
-	           if(filter_box_index >= 0 && (filter_box_index <  input_index)) {
-                    jQuery('#${name} div.filter-a:first button').focus();
-	           }
-	            else {
-                    jQuery('#${name} input[type!="hidden"][type="text"]:first').focus();
-	            }
-	        });
-	    </script>
-    % endif
+                var $caller = jQuery('[callback]:not([type="hidden"]):not([value=""]):not([disabled]):not([readonly]))');
+                $caller.each(function(){
+                    if (jQuery(this).attr('kind') == 'boolean') {
+                        onBooleanClicked(jQuery(this).attr('id'));
+                    }
+                    else {
+                        jQuery(this).change();
+                    }
+                });
+                % if screen.view_type == 'tree':
+                    var filter_box_index = jQuery('#${name} div.filter-a').closest('td.item:first').index();
+                    var input_index = jQuery('#${name} input[type!="hidden"][type="text"]:first').closest('td.label').index();
+                    if(filter_box_index >= 0 && (filter_box_index <  input_index)) {
+                        jQuery('#${name} div.filter-a:first button').focus();
+                    }
+                    else {
+                        jQuery('#${name} input[type!="hidden"][type="text"]:first').focus();
+                    }
+                % endif
+            });
+        </script>
 % endif
 </form>

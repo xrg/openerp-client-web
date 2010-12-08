@@ -1919,7 +1919,7 @@ td.tertiary div.wrap {
 #main_sidebar {
     padding: 0;
     position: relative;
-    min-width: 22px;
+    min-width: 16px;
     border-left: 1px solid #D2CFCF;
     background: #EAE7E7;
     height: 100%;
@@ -1934,7 +1934,7 @@ td.tertiary div.wrap {
     border-color: #D2CFCF;
     border-style: solid;
     display: block;
-    width: 21px;
+    width: 15px;
     height: 22px;
     overflow: hidden;
     text-indent: -10001px;
@@ -1943,12 +1943,13 @@ td.tertiary div.wrap {
 }
 .toggle-sidebar.open {
     margin-left: 158px;
+    width: 21px;
     border-width:0 0 1px 1px;
     background: url("../images/toggle-a-bg.png") no-repeat scroll -21px 0 transparent;
 }
 .toggle-sidebar.closed {
     border-width:0 0 1px 0;
-    background: url("../images/toggle-a-bg.png") no-repeat scroll 0 0 transparent;
+    background: url("../images/toggle-a-bg.png") no-repeat scroll -3px 0 transparent;
 }
 
 .sideheader-a {
