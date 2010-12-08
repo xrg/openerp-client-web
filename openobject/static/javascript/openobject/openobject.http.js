@@ -158,5 +158,61 @@ openobject.http = {
     }
 };
 
-// vim: ts=4 sts=4 sw=4 si et
+(function ($) {
+    /**
+     * Extract the current hash-url from the page's location
+     *
+     * @returns the current hash-url if any, otherwise returns `null`
+     */
+    function getHashUrl() {
+        var newUrl = null;
+        // would use window.location.hash but...
+        // https://bugzilla.mozilla.org/show_bug.cgi?id=483304
+        var hashValue = window.location.href.split('#')[1] || '';
+        jQuery.each(hashValue.split('&'), function (i, element) {
+            var e = element.split("=");
+            if(e[0] === 'url') {
+                newUrl = decodeURIComponent(e[1]);
+            }
+        });
+        return newUrl;
+    }
 
+    /**
+     * Sets the current hash-url, as well as the $.hash.currentUrl member
+     *  variable
+     *
+     * @param url the hash-url to set
+     */
+    function setHashUrl(url) {
+        $.hash.currentUrl = url;
+        var hash = '#' + jQuery.param({'url': url});
+        try {
+            window.location.hash = hash;
+        } catch (e) {
+            // MSIE throws an Access Denied error when trying to set hash,
+            // but in other browsers this breaks wizards closing with a
+            // `current` target: they set the whole URL and navigate to it.
+            window.location.href = hash;
+        }
+    }
+
+    /**
+     * If a URL is provided, sets that url as the hash-url for the current
+     * page. Otherwise, returns the current hash-url.
+     *
+     * Sets the current URL as an attribute of itself for hash-checking
+     * purposes
+     *
+     * @param url the url to set
+     *
+     * @field currentUrl the last URL set by a <code>$.hash(url)</code>
+     * call specifically
+     */
+    $.hash = function (url) {
+        if(!url) {
+            return getHashUrl();
+        }
+        setHashUrl(url);
+    }
+})(jQuery);

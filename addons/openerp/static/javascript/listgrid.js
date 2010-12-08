@@ -730,7 +730,7 @@ MochiKit.Base.update(ListView.prototype, {
             data: args,
             dataType: 'jsonp',
             type: 'POST',
-            error: loadingError,
+            error: loadingError(),
             success: function(obj) {
                 var _terp_id = openobject.dom.get(self.name + '/_terp_id') || openobject.dom.get('_terp_id');
                 var _terp_ids = openobject.dom.get(self.name + '/_terp_ids') || openobject.dom.get('_terp_ids');

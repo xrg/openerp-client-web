@@ -486,7 +486,7 @@ class Form(SecuredController):
                 return res
 
         import actions
-        return actions.close_popup()
+        return actions.close_popup(reload=False)
     def button_action_save(self, _, params):
         params.id = False
         params.button = None
