@@ -14,24 +14,13 @@ function openLink(url /*optional afterLoad */) {
     var $app = jQuery('#appContent');
     var afterLoad = arguments[1];
     if($app.length) {
-        currentUrl = url;
-        // TODO: should not be done for actions with target=True
-        var hash = '#'+jQuery.param({'url': url});
-        try {
-            window.location.hash = hash;
-        } catch (e) {
-            // MSIE throws an Access Denied error when trying to set hash,
-            // but in other browsers this breaks wizards closing with a
-            // `current` target: they set the whole URL and navigate to it.
-            window.location.href = hash;
-        }
         jQuery.ajax({
             url: url,
             complete: function () {
                 if(afterLoad) { afterLoad(); }
             },
-            success: doLoadingSuccess($app[0]),
-            error: loadingError
+            success: doLoadingSuccess($app[0], url),
+            error: loadingError(url)
         });
     } else {
         window.location.assign(url);
@@ -57,29 +46,42 @@ function displayErrorOverlay(xhr) {
  * Handles errors when loading page via XHR
  * TODO: maybe we should set this as the global error handler via jQuery.ajaxSetup
  *
- * @param xhr The XHR object
+ * @param url The URL to set, if any, in case of 500 error (so users can just
+ * C-R or C-F5).
  */
-function loadingError(xhr) {
-    switch (xhr.status) {
-        case 500:
-            displayErrorOverlay(xhr);
-            break;
-        case 401: // Redirect to login, probably
-            window.location.assign(
-                xhr.getResponseHeader('Location'));
-            break;
-        default:
-            if(window.console) {
-                console.warn("Failed to load ", xhr.url, ":", xhr.status, xhr.statusText);
-            }
+function loadingError(/*url*/) {
+    var url;
+    if(arguments[0]) {
+        url = arguments[0]
+    }
+    return function (xhr) {
+        if(url) { setHashUrl(url); }
+        switch (xhr.status) {
+            case 500:
+                displayErrorOverlay(xhr);
+                break;
+            case 401: // Redirect to login, probably
+                window.location.assign(
+                        xhr.getResponseHeader('Location'));
+                break;
+            default:
+                if(window.console) {
+                    console.warn("Failed to load ", xhr.url, ":", xhr.status, xhr.statusText);
+                }
+        }
     }
 }
 
 /**
  * Creates a LoadingSuccess execution for the providing app element
  * @param app the element to insert successful content in
+ * @param url the url being opened, to set as hash-url param
  */
-function doLoadingSuccess(app) {
+function doLoadingSuccess(app/*, url*/) {
+    var url;
+    if(arguments[1]) {
+        url = arguments[1];
+    }
     return function (data, status, xhr) {
         var target = xhr.getResponseHeader('X-Target');
         if(target) {
@@ -91,6 +93,10 @@ function doLoadingSuccess(app) {
             }
             _openAction(xhr.getResponseHeader('Location'), target);
             return;
+        }
+        if(url) {
+            // only set url when we're actually opening the action
+            setHashUrl(url);
         }
         jQuery(window).trigger('before-appcontent-change');
         jQuery(app).html(xhr.responseText || data);
@@ -150,6 +156,19 @@ function hashUrl() {
     return newUrl;
 }
 
+function setHashUrl(url) {
+    currentUrl = url;
+    var hash = '#' + jQuery.param({'url': url});
+    try {
+        window.location.hash = hash;
+    } catch (e) {
+        // MSIE throws an Access Denied error when trying to set hash,
+        // but in other browsers this breaks wizards closing with a
+        // `current` target: they set the whole URL and navigate to it.
+        window.location.href = hash;
+    }
+}
+
 // Timers before displaying the wait box, in case the remote query takes too long
 /** @constant */
 var LINK_WAIT_NO_ACTIVITY = 300;
@@ -174,7 +193,7 @@ jQuery(document).ready(function () {
             $form.ajaxSubmit({
                 data: {'requested_with': 'XMLHttpRequest'},
                 success: doLoadingSuccess($app[0]),
-                error: loadingError
+                error: loadingError()
             });
             return false;
         });
@@ -183,7 +202,7 @@ jQuery(document).ready(function () {
             jQuery(document).delegate('a[href]:not([target]):not([href^="#"]):not([href^="javascript"]):not([rel=external])', 'click', function() {
                 jQuery.ajax({
                     url: jQuery(this).attr('href'),
-                    success: doLoadingSuccess(null)
+                    success: doLoadingSuccess(jQuery(this).attr('href'))
                 });
                 return false;
             });
@@ -196,7 +215,7 @@ jQuery(document).ready(function () {
                 $form.ajaxSubmit({
                     data: {'requested_with': 'XMLHttpRequest'},
                     success: doLoadingSuccess(jQuery('table.view')[0]),
-                    error: loadingError
+                    error: loadingError()
                 });
                 return false;
             });

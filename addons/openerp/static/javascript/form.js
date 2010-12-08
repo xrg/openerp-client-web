@@ -1224,7 +1224,7 @@ function validate_action() {
         }
         
         $form.ajaxSubmit({
-            error: loadingError,
+            error: loadingError(),
             async: false,
             success: function(data, status, xhr){
                 if (arguments.length) {
