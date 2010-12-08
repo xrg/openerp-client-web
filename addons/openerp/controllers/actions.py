@@ -353,30 +353,20 @@ def execute(action, **data):
 
 def execute_url(**data):
     url = data.get('url') or ''
-
     if not ('://' in url or url.startswith('/')):
         raise common.message(_('Relative URLs are not supported'))
     
     # Unknown URL required to open in new window/tab.
     if url.startswith('http://') or url.startswith('http://'):
-        return """<html>
-                <head>
-                    <script language="javascript" type="text/javascript">
+        return """<script type="text/javascript">
                         window.open('%s')
                     </script>
-                </head>
-                <body></body>
-                </html>
-                """ % (tools.redirect(url)[0][0])
+                """ % (url)
     else:
-        return """<html>
-                    <head>
-                        <script language="javascript" type="text/javascript">
-                            openLink('%s')
-                        </script>
-                    </head>
-                </html>
-                """ % (tools.redirect(url)[0][0])
+        return """<script type="text/javascript">
+                      openLink('%s')
+                  </script>
+                """ % (url)
     
 
 def get_action_type(act_id):
