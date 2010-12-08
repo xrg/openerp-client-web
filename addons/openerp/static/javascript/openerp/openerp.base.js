@@ -1,5 +1,3 @@
-// cache for the current hash url so we can know if it's changed
-var currentUrl;
 /**
  * Opens the provided URL in the application content section.
  *
@@ -55,7 +53,7 @@ function loadingError(/*url*/) {
         url = arguments[0]
     }
     return function (xhr) {
-        if(url) { setHashUrl(url); }
+        if(url) { $.hash(url); }
         switch (xhr.status) {
             case 500:
                 displayErrorOverlay(xhr);
@@ -96,7 +94,7 @@ function doLoadingSuccess(app/*, url*/) {
         }
         if(url) {
             // only set url when we're actually opening the action
-            setHashUrl(url);
+            $.hash(url);
         }
         jQuery(window).trigger('before-appcontent-change');
         jQuery(app).html(xhr.responseText || data);
@@ -136,37 +134,6 @@ function openAction(action_url, target) {
 }
 function closeAction() {
     jQuery('.action-dialog').dialog('close');
-}
-
-/**
- * Extract the current hash-url from the page's location
- *
- * @returns the current hash-url if any, otherwise returns `null`
- */
-function hashUrl() {
-    var newUrl = null;
-    // would use window.location.hash but... https://bugzilla.mozilla.org/show_bug.cgi?id=483304
-    var hashValue = window.location.href.split('#')[1] || '';
-    jQuery.each(hashValue.split('&'), function (i, element) {
-        var e = element.split("=");
-        if(e[0] === 'url') {
-            newUrl = decodeURIComponent(e[1]);
-        }
-    });
-    return newUrl;
-}
-
-function setHashUrl(url) {
-    currentUrl = url;
-    var hash = '#' + jQuery.param({'url': url});
-    try {
-        window.location.hash = hash;
-    } catch (e) {
-        // MSIE throws an Access Denied error when trying to set hash,
-        // but in other browsers this breaks wizards closing with a
-        // `current` target: they set the whole URL and navigate to it.
-        window.location.href = hash;
-    }
 }
 
 // Timers before displaying the wait box, in case the remote query takes too long
@@ -224,8 +191,8 @@ jQuery(document).ready(function () {
 
     // wash for hash changes
     jQuery(window).bind('hashchange', function () {
-        var newUrl = hashUrl();
-        if(!newUrl || newUrl == currentUrl) {
+        var newUrl = $.hash();
+        if(!newUrl || newUrl == $.hash.currentUrl) {
             return;
         }
         openLink(newUrl);
