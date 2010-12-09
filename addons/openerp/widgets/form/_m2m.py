@@ -26,17 +26,12 @@
 # You can see the MPL licence at: http://www.mozilla.org/MPL/MPL-1.1.html
 #
 ###############################################################################
-
-import time
-
 import cherrypy
 
 from openerp.utils import rpc
-from openerp.utils import cache
 from openerp.utils import TinyDict
 from openerp.utils import expr_eval
 
-from openerp.widgets.listgrid import List
 from openerp.widgets.screen import Screen
 
 from openerp.widgets import TinyInputWidget
