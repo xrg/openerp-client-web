@@ -416,6 +416,8 @@ class Form(SecuredController):
         tw.ConcurrencyInfo.update(
             params.model, Model.read([params.id], ['__last_update'], ctx)
         )
+        
+        cherrypy.request.params = params
 
         button = params.button
 
