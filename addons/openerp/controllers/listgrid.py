@@ -330,9 +330,7 @@ class List(SecuredController):
                     import actions
                     return actions.execute(res, ids=[id])
                 else:
-                    return """<script type="text/javascript">
-                        new ListView('_terp_list').reload();
-                    </script>"""
+                    return True
 
             elif btype == 'object':
                 ctx = params.context or {}
@@ -343,9 +341,7 @@ class List(SecuredController):
                     import actions
                     return actions.execute(res, ids=[id])
                 else:
-                    return """<script type="text/javascript">
-                        new ListView('_terp_list').reload();
-                    </script>"""
+                    return True
                 
                         
             elif btype == 'action':
@@ -362,15 +358,12 @@ class List(SecuredController):
                 if res:
                     return res
                 else:
-                    return """<script type="text/javascript">
-                        new ListView('_terp_list').reload();
-                    </script>"""
+                    return True
 
             else:
-                error = "Unallowed button type"
-                return error
+                return dict(error = "Unallowed button type")
         except Exception, e:
-            return ustr(e)
+            return dict(error = ustr(e))
 
     @expose('json', methods=('POST',))
     def groupbyDrag(self, model, children, domain):
