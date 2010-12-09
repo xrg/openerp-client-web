@@ -52,7 +52,6 @@ Many2Many.prototype = {
         this.text = openobject.dom.get(name + '_set');
 
         this.btnAdd = openobject.dom.get(name + '_button1');
-//        this.btnDel = openobject.dom.get('_' + name + '_button2');
 
         this.terp_ids = openobject.dom.get(name + '/_terp_ids');
         this.model = getNodeAttribute(this.id, 'relation');
@@ -124,7 +123,7 @@ Many2Many.prototype = {
     getValue: function() {
         var ids = this.hasList ? this.terp_ids.value : this.id.value;
         try {
-            res = eval(ids);
+            var res = eval(ids);
             if (res.length)
                 return res;
         } catch(e) {
@@ -156,8 +155,8 @@ Many2Many.prototype = {
 
     setReadonly: function(readonly) {
 
-        var field = jQuery('[id="'+this.name +'"]') || this.id
-        field.attr('readOnly', readonly)
+        var field = jQuery('[id="'+this.name +'"]') || this.id;
+        field.attr('readOnly', readonly);
         this.text.readOnly = readonly;
 
         if (readonly) {
@@ -165,7 +164,7 @@ Many2Many.prototype = {
             jQuery(this.text).addClass('readonlyfield');
 
         } else {
-            jQuery(field).removeClass('readonlyfield')
+            jQuery(field).removeClass('readonlyfield');
             jQuery(this.text).removeClass('readonlyfield');
         }
     }
