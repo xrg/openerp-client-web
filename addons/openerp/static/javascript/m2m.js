@@ -59,7 +59,9 @@ Many2Many.prototype = {
         this.hasList = !!openobject.dom.get(name + '_container');
 
         jQuery([this.id, this.text]).change(jQuery.proxy(this, 'onChange'));
-
+        jQuery(this.btnAdd).click(jQuery.proxy(this, 'addRecords'));
+        jQuery(idSelector(this.name + '_delete_record')).click(
+                jQuery.proxy(this, 'remove'));
         if (!this.hasList) {
             jQuery(this.text).keydown(jQuery.proxy(function(evt) {
                 switch (evt.which) {
@@ -80,7 +82,7 @@ Many2Many.prototype = {
     },
 
     onClick: function() {
-        this.btnAdd.onclick();
+        jQuery(this.btnAdd).click();
     },
 
     onChange: function() {
@@ -141,6 +143,7 @@ Many2Many.prototype = {
 
         jQuery([this.id, this.terp_ids]).val('[' + ids.join(',') + ']');
         this.onChange();
+        return false;
     },
 
     setReadonly: function(readonly) {
@@ -149,5 +152,16 @@ Many2Many.prototype = {
         $field.add(this.text)
                 .attr('readOnly', readonly)
                 .toggleClass('readonlyfield', readonly);
+    },
+
+    addRecords: function () {
+        var $this = jQuery(idSelector('_m2m_' + this.name));
+        open_search_window(
+                $this.attr('relation'),
+                $this.attr('domain'),
+                $this.attr('context'),
+                this.name, 2,
+                jQuery(idSelector(this.name + '_set')).val());
+        return false;
     }
 };
