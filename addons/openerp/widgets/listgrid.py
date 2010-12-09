@@ -223,20 +223,14 @@ class List(TinyWidget):
 
             for f, fa in self.headers:
                 if not isinstance(fa, int):
-                    k = fa.get('type', 'char')
-                    if not get_widget(k):
-                        k = 'char'
-
                     fa['prefix'] = '_terp_listfields' + ((self.name != '_terp_list' or '') and '/' + self.name)
                     fa['inline'] = True
-                    self.editors[f] = get_widget(k)(**fa)
+                    
+                    Widget = get_widget(fa.get('type', 'char')) or get_widget('char')
+                    self.editors[f] = Widget(**fa)
 
             # generate hidden fields
             for f, fa in self.hiddens:
-                k = fa.get('type', 'char')
-                if not get_widget(k):
-                    k = 'char'
-
                 fa['prefix'] = '_terp_listfields' + ((self.name != '_terp_list' or '') and '/' + self.name)
                 self.editors[f] = form.Hidden(**fa)
 
