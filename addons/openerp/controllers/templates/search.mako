@@ -23,9 +23,8 @@
     </script>
     % if params.selectable == KINDS['M2O']:
     <script type="text/javascript">
-        window.top.console.log($);
         function close_dialog() {
-            $.m2o('close');
+            jQuery.m2o('close');
         }
         function do_select(selected_id){
             if (!selected_id) {
@@ -36,7 +35,7 @@
 
                 selected_id = ids[0];
             }
-            $.m2o('close', selected_id);
+            jQuery.m2o('close', selected_id);
         }
     </script>
     % elif params.selectable == KINDS['M2M']:
@@ -172,25 +171,15 @@
             </tr>
         </table>
         <script type="text/javascript">
-            if(jQuery('#${form_name} tr.pagerbar:first td.pager-cell-button')) {
-                jQuery('#${form_name} tr.pagerbar:first td.pager-cell-button:first a').click(function() {
-                    openLink(openobject.http.getURL('/openerp/openm2m/new', {
-                        _terp_model: '${params.model}',
-                        _terp_source: '${params.source}',
-                        _terp_m2m: '${params.source}',
-                        _terp_domain: openobject.dom.get('_terp_domain').value,
-                        _terp_context: openobject.dom.get('_terp_context').value}));
-                });
-            }
             jQuery('table.search_table input:text').eq(0).focus();
             /*
             % if params.selectable == KINDS['M2M']:
             */
                 var $select_link = jQuery('a.select-link').hide();
                 jQuery('form#search_form').click(function(event) {
-                    if ($(event.target).is("input[type=checkbox]")) {
+                    if (jQuery(event.target).is("input[type=checkbox]")) {
                         $select_link.show();
-                        $(this).unbind('click');
+                        jQuery(this).unbind('click');
                     }
                 });
             /*
