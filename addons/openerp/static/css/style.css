@@ -82,6 +82,7 @@ div.non-editable td.item-datetime,
 div.non-editable td.item-email,
 div.non-editable td.item-url,
 div.non-editable td.item-float,
+div.non-editable td.item-integer,
 div.non-editable td.item-boolean,
 div.non-editable td.item-m2o {
     background: white;
