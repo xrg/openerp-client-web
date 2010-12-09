@@ -23,6 +23,7 @@
     </script>
     % if params.selectable == KINDS['M2O']:
     <script type="text/javascript">
+        window.top.console.log($);
         function close_dialog() {
             $.m2o('close');
         }
@@ -182,7 +183,9 @@
                 });
             }
             jQuery('table.search_table input:text').eq(0).focus();
+            /*
             % if params.selectable == KINDS['M2M']:
+            */
                 var $select_link = jQuery('a.select-link').hide();
                 jQuery('form#search_form').click(function(event) {
                     if ($(event.target).is("input[type=checkbox]")) {
@@ -190,7 +193,9 @@
                         $(this).unbind('click');
                     }
                 });
+            /*
             % endif
+            */
         </script>
     </form>
 </div>
