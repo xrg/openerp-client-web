@@ -146,6 +146,9 @@ class Frame(TinyWidget):
 
         label_size = label and 1 or 0
 
+        if label_size == 1 and colspan == 2:
+            colspan = 1
+
         if self.columns and colspan + self.x + label_size > self.columns:
             self.add_row()
 
