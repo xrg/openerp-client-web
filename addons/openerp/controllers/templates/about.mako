@@ -23,7 +23,7 @@
 <%def name="content()">
     <table class="view" width="100%" cellspacing="0" cellpadding="0" border="0">
         <tr>
-            <td id="body_form_td">
+            <td id="body_form_td" colspan="2">
                 <h1>${_("OpenERP Web")}</h1>
                 <h3 style="padding:0 5px 5px">${version}</h3>
                 <p>
@@ -32,7 +32,7 @@
                     
                     ${_("%(ooweb)s is jointly developed by %(tiny)s and %(axelor)s.",
                         ooweb="""<i>OpenERP Web</i>""",
-                        tiny="""<a target="_blank" href="http://tiny.be" style="text-decoration: underline;">Tiny</a>""",
+                        tiny="""<a target="_blank" href="http://www.openerp.com" style="text-decoration: underline;">OpenERP</a>""",
                         axelor="""<a target="_blank" href="http://www.axelor.com/" style="text-decoration: underline;">Axelor</a>""")|n}
                 </p>
                 <p>
@@ -56,53 +56,6 @@
                 <p>
                     ${_("""Depending on your needs, OpenERP is available through a web or application client.""")}
                 </p>
-                <br>
-                <h1>${_("Links")}</h1>
-                <ul style="padding-left:5px">
-                    <li><a class="cta-a" target="_blank" href="http://www.openerp.com/">OpenERP</a></li>
-                    <li><a class="cta-a" target="_blank" href="http://www.axelor.com/">${_("The Axelor Company")}</a></li>
-                    <li><a class="cta-a" target="_blank" href="http://tiny.be/">${_("The Tiny Company")}</a></li>
-                </ul>
-            </td>
-            <td valign="top" id="main_sidebar">
-                <div id="tertiary" class="open">
-                    <div id="tertiary_wrap">
-                        <div id="sidebar">
-                            <div class="sideheader-a">
-                                <h2>${_("RESOURCES")}</h2>
-                            </div>
-                            <ul class="clean-a">
-                                <li>
-                                    <a target="_blank" style="text-decoration: underline;" href="http://www.openerp.com/">${_("Homepage")}</a>
-                                </li>
-                                <li>
-                                    <a target="_blank" style="text-decoration: underline;" href="http://www.openerp.com/downloads">${_("Download")}</a>
-                                </li>
-                                <li>
-                                    <a target="_blank" style="text-decoration: underline;" href="http://doc.openerp.com/">${_("Documentation")}</a>
-                                </li>
-                                <li>
-                                    <a target="_blank" style="text-decoration: underline;" href="http://doc.openerp.com/py-modindex.html">${_("Modules")}</a>
-                                </li>
-                                <li>
-                                    <a target="_blank" style="text-decoration: underline;" href="http://www.openerp.tv/">${_("Screencasts")}</a>
-                                </li>
-                                <li>
-                                    <a target="_blank" style="text-decoration: underline;" href="http://www.openerp.com/community">${_("Community")}</a>
-                                </li>
-                                <li>
-                                    <a target="_blank" style="text-decoration: underline;" href="http://www.openerp.com/online">${_("SaaS Offers")}</a>
-                                </li>
-                                <li>
-                                    <a target="_blank" style="text-decoration: underline;" href="http://www.openerp.com/services/trainings">${_("Trainings")}</a>
-                                </li>
-                                <li>
-                                    <a target="_blank" style="text-decoration: underline;" href="http://www.openerp.com/services">${_("Services")}</a>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
             </td>
         </tr>
     </table>
