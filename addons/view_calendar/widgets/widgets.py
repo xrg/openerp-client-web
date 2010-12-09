@@ -373,7 +373,7 @@ class GanttCalendar(ICalendar):
 
         if self.level:
             field = self.level['link']
-            fields = rpc.RPCProxy(self.model).fields_get([field])
+            fields = rpc.RPCProxy(self.model).fields_get([field], rpc.session.context)
             self.fields.update(fields)
 
         self.events = self.get_events(self.days)

@@ -63,9 +63,9 @@ class DBForm(openobject.widgets.Form):
         for f in self.fields:
             self.validator.add_field(f.name, f.validator)
 
-    def update_params(self, d):
-        super(DBForm, self).update_params(d)
-        d.attrs['action'] = url(self.action)
+    def update_params(self, params):
+        super(DBForm, self).update_params(params)
+        params['attrs']['action'] = url(self.action)
 
 class FormCreate(DBForm):
     name = "create"

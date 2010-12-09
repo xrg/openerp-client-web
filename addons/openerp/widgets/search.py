@@ -53,31 +53,23 @@ def get_search_default(attrs={}, screen_context=None, default_domain=[]):
     default_domain = attrs.get('default_domain', default_domain)
     default_search = False
 
-    default_val = attrs.get('default')
-    if default_val:
-        default_val = expr_eval(default_val, {'context':screen_context})
+    if 'name' in attrs:
+        search_default = screen_context.get('search_default_' + str(attrs['name']))
+        if search_default: return search_default
 
-    if attrs.get('name', False):
-        context_str = 'search_default_' + str(attrs['name'])
-        result = screen_context.get(context_str)
-        if result: return result
-
-    if attrs.get('context'):
-        ctx =  expr_eval(attrs.get('context', "{}"), {'self':attrs.get('name', False)})
-        if ctx.get('group_by'):
-            if isinstance(ctx['group_by'], list):
-                str_ctx = map(lambda x: 'group_' + x, ctx.get('group_by'))
+    if 'context' in attrs:
+        ctx = expr_eval(attrs.get('context', "{}"), {'self':attrs.get('name', False)})
+        group_by = ctx.get('group_by')
+        if group_by:
+            if isinstance(group_by, list):
+                str_ctx = map(lambda x: 'group_' + x, group_by)
             else:
-                str_ctx = 'group_' + ctx.get('group_by')
+                str_ctx = 'group_' + group_by
             return str_ctx in screen_context.get('group_by', [])
 
-    if default_domain and attrs.get('domain'):
-        domain =  expr_eval(attrs.get('domain'))
-        for d in domain:
-            if d in default_domain:
-                default_search = True
-            else:
-                default_search = False
+    if default_domain and 'domain' in attrs:
+        for d in expr_eval(attrs.get('domain')):
+            default_search = (d in default_domain)
         return default_search
     else:
         return False
@@ -193,9 +185,6 @@ class Filter(TinyInputWidget):
 class M2O_search(form.M2O):
     template = "/openerp/widgets/templates/search/many2one.mako"
     def __init__(self, **attrs):
-        if attrs.get('default', False) == 'uid':
-            attrs['default'] = rpc.session.uid
-
         attrs['m2o_filter_domain'] = attrs.get('filter_domain')
 
         super(M2O_search, self).__init__(**attrs)
@@ -255,7 +244,7 @@ class Search(TinyInputWidget):
 
         self.fields_type = {}
         self.fields = fields
-        all_fields = rpc.session.execute('object', 'execute', model, 'fields_get')
+        all_fields = rpc.session.execute('object', 'execute', model, 'fields_get', rpc.session.context)
         if len(fields) != len(all_fields):
             common_fields = [f for f in all_fields if f in fields]
             for f in common_fields:
@@ -418,7 +407,7 @@ class Search(TinyInputWidget):
 
                             if kind == 'many2one' and model:
                                 try:
-                                    value = rpc.name_get(model, default_search)
+                                    value = rpc.name_get(model, default_search, self.context)
                                 except Exception,e:
                                     value = defval
                                 defval = value or ''

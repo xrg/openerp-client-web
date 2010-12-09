@@ -11,15 +11,27 @@
         }
         jQuery(document).ready(function() {
             document.title = '${title}' + ' - OpenERP';
+            /*
             % if form.screen.view_type == 'form':
+            */
             validateForm();
+            /*
             % endif
+            */
+            /*
             % if can_shortcut:
+            */
             jQuery('#shortcut_add_remove').click(toggle_shortcut);
+            /*
             % endif
+            */
+            /*
             % if form.screen.model == 'res.request' and form.screen.ids:
+            */
             jQuery('ul.tools li a.req_messages small').text('${len(form.screen.ids)}');
+            /*
             % endif
+            */
         });
     </script>
 
@@ -64,7 +76,13 @@
                     % if can_shortcut:
                         <a id="shortcut_add_remove" title="${_('Add / Remove Shortcut...')}" href="javascript: void(0)" class="${shortcut_class}"></a>
                     % endif
-                    ${form.screen.string}
+
+                    % if form.screen.view_type == 'tree':
+                        ${_('Search: %s') % form.screen.string}
+                    % else:
+                        ${form.screen.string}
+                    % endif
+
                     % if obj_process:
 	                    <a class="help" href="${py.url('/view_diagram/process', res_model=form.screen.model, title=form.screen.string, res_id=form.screen.id)}"
 	                       title="${_('Corporate Intelligence...')}">

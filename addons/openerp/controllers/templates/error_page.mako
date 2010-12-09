@@ -40,6 +40,12 @@
         % endif
         function close_error_window() {
             if (jQuery('div#fancybox-wrap').is(':visible')) {
+                % if all_params and all_params.id:
+                    if(jQuery('#_terp_ids').length) {
+                        jQuery('#_terp_ids').val('${all_params.ids}')
+                        jQuery('#_terp_id').val('${all_params.id}')
+                    }
+                % endif
                 jQuery.fancybox.close();
                 return;
             }

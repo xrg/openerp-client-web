@@ -129,10 +129,10 @@ class ViewForm(Form):
             self.hidden_fields = params.hidden_fields
 
         #self.fields = cherrypy.request.terp_fields
-    def update_params(self, d):
-        super(ViewForm, self).update_params(d)
+    def update_params(self, params):
+        super(ViewForm, self).update_params(params)
         if self.search:            
-            d.attrs['onsubmit']='submit_search_form()';
+            params['attrs']['onsubmit']='submit_search_form()'
         
 
 

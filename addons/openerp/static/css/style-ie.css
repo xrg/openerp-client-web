@@ -1,6 +1,6 @@
 td.label,
 .item {
-    padding: 0 2px;
+    padding: 2px;
 }
 
 td.label {
@@ -48,6 +48,9 @@ div.box2 button {
     padding: 0 4px;
 }
 
+button.button-b {
+	min-width: 0;
+}
 /* http://dean.edwards.name/my/base64-sordid.html */
 img{behavior:expression((this.runtimeStyle.behavior="none")&&(/^data:.*;base64/i.test(this.src))&&(this.src="/image/b64?"+this.src.slice(5)));}
 

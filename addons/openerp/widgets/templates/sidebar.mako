@@ -1,13 +1,14 @@
 <%def name="sidebox_action_item(item, model, submenu, icon)">
     % if submenu != 1:
-    	<li data="${item}" action_id="${item['id']}" relation="${model}" onclick="validate_action(this, do_action)">
+    	<li action_id="${item['id']}" relation="${model}" domain="${item.get('domain')}"
+    	   context="${item.get('context')}" onclick="validate_action(this, do_action)">
             % if icon:
                 <img src="${icon}" alt=""/>
             % endif
            <a href="javascript: void(0)" onclick="return false">${item['name']}</a>
         </li>
     % else:
-        <li data="${item}">
+        <li>
             % if icon:
                 <img src="${icon}" alt=""/>
             % endif

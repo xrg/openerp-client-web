@@ -197,21 +197,20 @@ class Search(Form):
 
         proxy = rpc.RPCProxy(model)
         data = {}
-        res = proxy.fields_get()
+        res = proxy.fields_get(False, rpc.session.context)
 
-        frm = {}
         all_values = {}
 
         for k, v in record.items():
             values = {}
             for key, val in v.items():
                 for field in val:
-                    fld = {}
-                    datas = {}
-                    fld['value'] = val[field]
-                    fld['type'] = res[field].get('type')
+                    fld = {
+                        'value': val[field],
+                        'type': res[field].get('type')
+                    }
+                    datas = {field: fld}
 
-                    data[field] = fld
                     try:
                         frm = TinyForm(**data).to_python()
                     except TinyFormError, e:
@@ -301,8 +300,8 @@ class Search(Form):
                 else:
                     if not 'm2o_' in value:
                         operator = 'ilike'
-                        if '/' in value:
-                            value, operator = value.split('/')
+                        if '__' in value:
+                            value, operator = value.split('__')
                             value = int(value)
                         domain.append((field, operator, value))
                         search_data[field] = value
@@ -433,7 +432,7 @@ class Search(Form):
 
     @expose('json')
     def get_name(self, model, id):
-        return dict(name=rpc.name_get(model, id))
+        return dict(name=rpc.name_get(model, id, rpc.session.context))
 
     @expose('json')
     def get_matched(self, model, text, limit=10, **kw):

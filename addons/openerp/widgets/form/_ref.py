@@ -57,7 +57,7 @@ class Reference(TinyInputWidget):
     def set_value(self, value):
         if value:
             self.relation, self.default = value.split(",")
-            self.text = rpc.name_get(self.relation, self.default)
+            self.text = rpc.name_get(self.relation, self.default, rpc.session.context)
         else:
             self.relation = ''
             self.default = ''

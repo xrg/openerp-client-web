@@ -192,7 +192,8 @@ MochiKit.Base.update(ListView.prototype, {
         return this.$getEditors(false, newlist).each(function(){
             var $this = jQuery(this);
             var $cell = $this.parent('.grid-cell');
-            $this.attr('autocomplete', 'OFF').width($cell.width());
+            //$this.attr('autocomplete', 'OFF').width($cell.width());
+            $this.attr('autocomplete', 'OFF');
         }).get();
     },
 
@@ -730,7 +731,7 @@ MochiKit.Base.update(ListView.prototype, {
             data: args,
             dataType: 'jsonp',
             type: 'POST',
-            error: loadingError,
+            error: loadingError(),
             success: function(obj) {
                 var _terp_id = openobject.dom.get(self.name + '/_terp_id') || openobject.dom.get('_terp_id');
                 var _terp_ids = openobject.dom.get(self.name + '/_terp_ids') || openobject.dom.get('_terp_ids');

@@ -55,6 +55,8 @@ def expr_eval(string, context=None):
             for i,v in string.items():
                 if v=='active_id':
                     string[i] = eval(v,context)
+                elif v==['active_id']:
+                    string[i] = eval(v[0],context)
         return string
 
 def node_attributes(node):

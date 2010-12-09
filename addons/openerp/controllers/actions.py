@@ -206,8 +206,8 @@ def act_window(action, data):
         data['search_view'] = str(rpc.session.execute(
                 'object', 'execute', data['res_model'], 'fields_view_get',
                 data['search_view_id'], 'search', data['context']))
-    if not data.get('limit'):
-        data['limit'] = 50
+    if data.get('limit'):
+        data['limit'] = 20
     view_ids = False
     if action.get('views', []):
         if isinstance(action['views'], list):
@@ -344,7 +344,7 @@ def execute(action, **data):
     if 'type' not in action:
         #XXX: in gtk client just returns to the caller
         #raise common.error('Error', 'Invalid action...')
-        return close_popup()
+        return close_popup(reload=False)
 
     data.setdefault('context', {}).update(expr_eval(action.get('context','{}'), data.get('context', {}).copy()))
 
@@ -353,30 +353,22 @@ def execute(action, **data):
 
 def execute_url(**data):
     url = data.get('url') or ''
-
     if not ('://' in url or url.startswith('/')):
         raise common.message(_('Relative URLs are not supported'))
     
     # Unknown URL required to open in new window/tab.
-    if url.startswith('http://') or url.startswith('http://'):
-        return """<html>
-                <head>
-                    <script language="javascript" type="text/javascript">
+    if data['target'] != 'self' or url.startswith('http://') or url.startswith('http://'):
+        cherrypy.response.headers['X-Target'] = 'popup'
+        cherrypy.response.headers['Location'] = url
+        return """<script type="text/javascript">
                         window.open('%s')
                     </script>
-                </head>
-                <body></body>
-                </html>
-                """ % (tools.redirect(url)[0][0])
+                """ % (url)
     else:
-        return """<html>
-                    <head>
-                        <script language="javascript" type="text/javascript">
-                            openLink('%s')
-                        </script>
-                    </head>
-                </html>
-                """ % (tools.redirect(url)[0][0])
+        return """<script type="text/javascript">
+                      openLink('%s')
+                  </script>
+                """ % (url)
     
 
 def get_action_type(act_id):
@@ -451,10 +443,21 @@ def execute_by_keyword(keyword, adds=None, **data):
 
 
 @tools.expose(template="/openerp/controllers/templates/closepopup.mako")
-def close_popup(*args, **kw):
-    return {}
+def close_popup(reload=True):
+    """ Closes an opened dialog box or popup.
+
+    :param reload: whether the background view should be reloaded when closing the popup
+    :type reload: bool
+
+    :return: the rendered popup-closing template
+    :rtype: str
+    """
+    return {'reload': reload}
 
 @tools.expose(template="/openerp/controllers/templates/report.mako")
 def report_link(report_name, **kw):
+    cherrypy.response.headers['X-Target'] = 'popup'
+    cherrypy.response.headers['Location'] = tools.url(
+            '/openerp/report', report_name=report_name, **kw)
     return dict(name=report_name, data=kw)
     

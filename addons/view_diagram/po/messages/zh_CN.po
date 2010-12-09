@@ -1,34 +1,33 @@
-# Swedish translations for PROJECT.
-# Copyright (C) 2010 ORGANIZATION
-# This file is distributed under the same license as the PROJECT project.
+# Chinese (Simplified) translation for openobject-client-web
+# Copyright (c) 2010 Rosetta Contributors and Canonical Ltd 2010
+# This file is distributed under the same license as the openobject-client-web package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2010.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: PROJECT VERSION\n"
-"Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
+"Project-Id-Version: openobject-client-web\n"
+"Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2010-11-25 10:31+0530\n"
-"PO-Revision-Date: 2010-12-08 16:01+0000\n"
-"Last-Translator: Magnus Brandt, Aspirix AB <Unknown>\n"
-"Language-Team: sv <LL@li.org>\n"
+"PO-Revision-Date: 2010-12-08 04:40+0000\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: Chinese (Simplified) <zh_CN@li.org>\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=utf-8\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Launchpad-Export-Date: 2010-12-09 04:50+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
-"Generated-By: Babel None\n"
 
 #: controllers/_diagram.py:100 controllers/_diagram.py:160
 msgid "Could not delete state"
-msgstr "Kunde inte radera tillstånd"
+msgstr ""
 
 #: controllers/_diagram.py:223
 msgid "No workflow associated!"
-msgstr "Inga arbetsflöden associerade!"
+msgstr ""
 
 #: controllers/process.py:53
 msgid "Help: Not Defined"
-msgstr "Hjälp: Inte definerat"
+msgstr ""
 
 #: controllers/process.py:92
 #, python-format
@@ -37,12 +36,12 @@ msgstr ""
 
 #: controllers/process.py:104
 msgid "Last modified by:"
-msgstr "Senast ändrad av:"
+msgstr ""
 
 #: controllers/templates/process.mako:4 controllers/templates/process.mako:89
 #: controllers/templates/process_tip.mako:5
 msgid "Process"
-msgstr "Process"
+msgstr ""
 
 #: controllers/templates/process.mako:51
 msgid "show fields"
@@ -54,7 +53,7 @@ msgstr ""
 
 #: controllers/templates/process.mako:57
 msgid "Documentation"
-msgstr "Dokumentation"
+msgstr ""
 
 #: controllers/templates/process.mako:58
 msgid "Opportunities Documentation Online"
@@ -62,7 +61,7 @@ msgstr ""
 
 #: controllers/templates/process.mako:64
 msgid "Forum"
-msgstr "Forum"
+msgstr ""
 
 #: controllers/templates/process.mako:65
 msgid "Community Discussion"
@@ -70,11 +69,11 @@ msgstr ""
 
 #: controllers/templates/process.mako:70
 msgid "Books"
-msgstr "Böcker"
+msgstr ""
 
 #: controllers/templates/process.mako:71
 msgid "Get the book on Amazon"
-msgstr "Hämta den här boken på Amazon"
+msgstr ""
 
 #: controllers/templates/process.mako:76
 msgid "Support / Maintenance"
@@ -82,69 +81,48 @@ msgstr ""
 
 #: controllers/templates/process.mako:77
 msgid "Get the OpenERP Warranty"
-msgstr "Hämta OpenERP garantin"
+msgstr ""
 
 #: controllers/templates/process.mako:99
 msgid "Select Process"
-msgstr "Välj process"
+msgstr ""
 
 #: controllers/templates/process.mako:105
 msgid "Select"
-msgstr "Välj"
+msgstr ""
 
 #: controllers/templates/process.mako:118
 msgid "[Edit Process]"
-msgstr "[Editera process]"
+msgstr ""
 
 #: controllers/templates/process_open.mako:54
 #: controllers/templates/process_tip.mako:20
 #: controllers/templates/wkf_popup.mako:52
 msgid "Close"
-msgstr "Stäng"
+msgstr ""
 
 #: controllers/templates/process_open.mako:55
 #: controllers/templates/wkf_popup.mako:49
 msgid "Save"
-msgstr "Spara"
+msgstr ""
 
 #: controllers/templates/workflow.mako:4
 msgid "Workflow"
-msgstr "Arbetsflöde"
+msgstr ""
 
 #: controllers/templates/workflow.mako:20
 #, python-format
 msgid "Workflow (%s)"
-msgstr "Workflow (%s)"
+msgstr ""
 
 #: widgets/_views.py:8
 msgid "Diagram"
-msgstr "Diagram"
+msgstr ""
 
 #: widgets/_views.py:9
 msgid "Diagram view..."
-msgstr "Diagramvy"
+msgstr ""
 
 #: widgets/templates/diagram.mako:26
 msgid "Loading..."
-msgstr "Laddar"
-
-#~ msgid "Online Documentation"
-#~ msgstr "Online Dokumentation"
-
-#~ msgid "Help:"
-#~ msgstr "Hjälp:"
-
-#~ msgid "Get Books"
-#~ msgstr "Hämta böcker"
-
-#~ msgid "show"
-#~ msgstr "visa"
-
-#~ msgid "fields"
-#~ msgstr "fält"
-
-#~ msgid "hide"
-#~ msgstr "dölj"
-
-#~ msgid "Community Forum"
-#~ msgstr "Community Forum"
+msgstr ""

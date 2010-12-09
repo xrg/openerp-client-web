@@ -21,7 +21,7 @@
             });
 
             // Don't load doc if there is a hash-url, it takes precedence
-            if(DOCUMENT_TO_LOAD && !hashUrl()) {
+            if(DOCUMENT_TO_LOAD && !$.hash()) {
                 openLink(DOCUMENT_TO_LOAD);
                 return
             }

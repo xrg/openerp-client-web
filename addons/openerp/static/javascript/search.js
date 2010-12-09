@@ -487,16 +487,16 @@ function parse_filters(src, id) {
         var kind = $fld.attr('kind');
         var fld_value = $fld.val();
         var fld_name = $fld.attr('name');
-        
+
         if(kind == 'selection') {
-            if ($fld.val() != '') {
+            if ($fld.val() != '' && $fld.val() != 'False') {
 
                 if ($fld.attr('type2') == 'many2one') {
                 	var selection_operator = $fld.attr('operator');
-                    fld_value = $fld.val() + '/' + selection_operator;
+                    fld_value = $fld.val() + '__' + selection_operator;
                 }
                 else{
-                    fld_value = 'selection_'+$fld.val();
+                    fld_value = 'selection_' + $fld.val();
                 }
                 if ($fld.attr('search_context')) {
                     search_context['context'] = $fld.attr('search_context');
@@ -508,6 +508,11 @@ function parse_filters(src, id) {
             if($fld.attr('m2o_filter_domain')){
                 fld_value = 'm2o_'+ fld_value;
             }
+        }
+        
+        if(kind == 'boolean') {
+            fld_value = parseInt(fld_value);
+            domains[fld_name] = fld_value;
         }
 
         if(fld_value && fld_value!='')
@@ -591,7 +596,7 @@ function save_filter() {
             type: 'POST',
             data: sf_params,
             success: function(xhr) {
-                jQuery.fancybox(xhr, {showCloseButton: false})
+                jQuery.fancybox(xhr, {showCloseButton: false, scrolling: 'no'})
             }
         });
     });

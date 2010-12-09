@@ -68,17 +68,17 @@ class M2O(TinyInputWidget):
             self.text = value
         else:
             self.default = value
-            self.text = rpc.name_get(self.relation, self.default)
+            self.text = rpc.name_get(self.relation, self.default, rpc.session.context)
 
-    def update_params(self, d):
-        super(M2O, self).update_params(d)
+    def update_params(self, params):
+        super(M2O, self).update_params(params)
 
-        if d['value'] and not d['text']:
+        if params['value'] and not params['text']:
             try:
-                value = expr_eval(d['value'], {'context':rpc.session.context})
+                value = expr_eval(params['value'], {'context':rpc.session.context})
             except:
-                value = d['value']
-            d['text'] = rpc.name_get(self.relation, value)
+                value = params['value']
+            params['text'] = rpc.name_get(self.relation, value, rpc.session.context)
 
 register_widget(M2O, ["many2one"])
 
