@@ -308,7 +308,6 @@ class List(SecuredController):
     @expose('json')
     def button_action(self, **kw):
         params, data = TinyDict.split(kw)
-
         error = None
         reload = (params.context or {}).get('reload', False)
         result = {}
@@ -326,20 +325,28 @@ class List(SecuredController):
         try:
 
             if btype == 'workflow':
-                rpc.session.execute('object', 'exec_workflow', model, name, id)
+                res = rpc.session.execute('object', 'exec_workflow', model, name, id)
+                if isinstance(res, dict):
+                    import actions
+                    return actions.execute(res, ids=[id])
+                else:
+                    return """<script type="text/javascript">
+                        new ListView('_terp_list').reload();
+                    </script>"""
 
             elif btype == 'object':
                 ctx = params.context or {}
                 ctx.update(rpc.session.context.copy())
                 res = rpc.session.execute('object', 'execute', model, name, ids, ctx)
                 
-                if isinstance(res, dict) and res.get('type'):
-                    if  res['type'] == 'ir.actions.act_url':
-                        result = res
-                    elif res['type'] == 'ir.actions.act_window':
-                        import actions
-                        res  = actions.execute(res)
-                        return dict(res = res)
+                if isinstance(res, dict):
+                    import actions
+                    return actions.execute(res, ids=[id])
+                else:
+                    return """<script type="text/javascript">
+                        new ListView('_terp_list').reload();
+                    </script>"""
+                
                         
             elif btype == 'action':
                 import actions
@@ -352,19 +359,18 @@ class List(SecuredController):
                     cherrypy.session['wizard_parent_params'] = params
 
                 res = actions.execute_by_id(action_id, type=action_type, model=model, id=id, ids=ids, context=ctx or {})
-                if isinstance(res, dict) and res.get('type') == 'ir.actions.act_url':
-                    result = res
-                elif isinstance(res, basestring):
-                    return dict(res = res)
+                if res:
+                    return res
                 else:
-                    error = "Button action has returned another view.."
+                    return """<script type="text/javascript">
+                        new ListView('_terp_list').reload();
+                    </script>"""
 
             else:
                 error = "Unallowed button type"
+                return error
         except Exception, e:
-            error = ustr(e)
-
-        return dict(error=error, result=result, reload=reload)
+            return ustr(e)
 
     @expose('json', methods=('POST',))
     def groupbyDrag(self, model, children, domain):
