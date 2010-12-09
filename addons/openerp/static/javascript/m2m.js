@@ -51,17 +51,18 @@ Many2Many.prototype = {
         this.id = openobject.dom.get(name + '_id');
         this.text = openobject.dom.get(name + '_set');
 
-        this.btnAdd = openobject.dom.get(name + '_button1');
-
         this.terp_ids = openobject.dom.get(name + '/_terp_ids');
         this.model = jQuery(this.id).attr('relation');
 
         this.hasList = !!openobject.dom.get(name + '_container');
 
         jQuery([this.id, this.text]).change(jQuery.proxy(this, 'onChange'));
-        jQuery(this.btnAdd).click(jQuery.proxy(this, 'addRecords'));
+
+        jQuery(idSelector(this.name + '_add_records')).click(
+                jQuery.proxy(this, 'addRecords'));
         jQuery(idSelector(this.name + '_delete_record')).click(
                 jQuery.proxy(this, 'remove'));
+        
         if (!this.hasList) {
             jQuery(this.text).keydown(jQuery.proxy(function(evt) {
                 switch (evt.which) {
@@ -71,7 +72,7 @@ Many2Many.prototype = {
                         this.onChange();
                         return false;
                     case 113:
-                        this.onClick();
+                        this.addRecords();
                         return false;
                 }
             }, this));
@@ -79,10 +80,6 @@ Many2Many.prototype = {
 
         // save the reference
         openobject.dom.get(name)._m2m = this;
-    },
-
-    onClick: function() {
-        jQuery(this.btnAdd).click();
     },
 
     onChange: function() {
@@ -96,7 +93,6 @@ Many2Many.prototype = {
     },
 
     setValue: function(ids) {
-
         ids = /^\[.*\]/.test(ids) ? ids : '[' + ids + ']';
         ids = eval(ids);
 

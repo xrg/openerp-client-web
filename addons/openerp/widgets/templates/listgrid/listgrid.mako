@@ -130,7 +130,7 @@
                                 % if editable:
                                     <td class="pager-cell-button">
                                         % if m2m:
-                                            <button title="${_('Add records...')}" id="${name}_button1">
+                                            <button title="${_('Add records...')}" id="${name}_add_records">
                                                     ${_('Add')}
                                             </button>
                                         % elif o2m:
