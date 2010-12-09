@@ -176,11 +176,10 @@
             % if params.selectable == KINDS['M2M']:
             */
                 var $select_link = jQuery('a.select-link').hide();
-                jQuery('form#search_form').click(function(event) {
-                    if (jQuery(event.target).is("input[type=checkbox]")) {
-                        $select_link.show();
-                        jQuery(this).unbind('click');
-                    }
+                jQuery('#search_form').click(function(event) {
+                    if (!jQuery(event.target).is(".grid-record-selector")) { return; }
+                    $select_link.toggle(
+                        !!jQuery('#search_form .grid-record-selector:checked').length)
                 });
             /*
             % endif
