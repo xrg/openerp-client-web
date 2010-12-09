@@ -489,7 +489,7 @@ function parse_filters(src, id) {
         var fld_name = $fld.attr('name');
 
         if(kind == 'selection') {
-            if ($fld.val() != '') {
+            if ($fld.val() != '' && $fld.val() != 'False') {
 
                 if ($fld.attr('type2') == 'many2one') {
                 	var selection_operator = $fld.attr('operator');
@@ -508,6 +508,11 @@ function parse_filters(src, id) {
             if($fld.attr('m2o_filter_domain')){
                 fld_value = 'm2o_'+ fld_value;
             }
+        }
+        
+        if(kind == 'boolean') {
+            fld_value = parseInt(fld_value);
+            domains[fld_name] = fld_value;
         }
 
         if(fld_value && fld_value!='')
