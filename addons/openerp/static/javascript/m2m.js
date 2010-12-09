@@ -52,7 +52,6 @@ Many2Many.prototype = {
         this.text = openobject.dom.get(name + '_set');
 
         this.terp_ids = openobject.dom.get(name + '/_terp_ids');
-        this.model = jQuery(this.id).attr('relation');
 
         this.hasList = !!openobject.dom.get(name + '_container');
 
