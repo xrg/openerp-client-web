@@ -54,28 +54,24 @@ Many2Many.prototype = {
         this.btnAdd = openobject.dom.get(name + '_button1');
 
         this.terp_ids = openobject.dom.get(name + '/_terp_ids');
-        this.model = getNodeAttribute(this.id, 'relation');
+        this.model = jQuery(this.id).attr('relation');
 
-        this.hasList = openobject.dom.get(name + '_container') ? true : false;
+        this.hasList = !!openobject.dom.get(name + '_container');
 
-        MochiKit.Signal.connect(this.id, 'onchange', this, this.onChange);
-        MochiKit.Signal.connect(this.text, 'onchange', this, this.onChange);
+        jQuery([this.id, this.text]).change(jQuery.proxy(this, 'onChange'));
 
         if (!this.hasList) {
-            MochiKit.Signal.connect(this.text, 'onkeydown', bind(function(evt) {
-                var key = evt.event().keyCode;
-
-                if (key == 8 || key == 46) {
-                    evt.stop();
-                    this.id.value = '';
-                    this.onChange();
+            jQuery(this.text).keydown(jQuery.proxy(function(evt) {
+                switch (evt.which) {
+                    case 8:
+                    case 46:
+                        this.id.value = '';
+                        this.onChange();
+                        return false;
+                    case 113:
+                        this.onClick();
+                        return false;
                 }
-
-                if (key == 113) {
-                    evt.stop();
-                    this.onClick();
-                }
-
             }, this));
         }
 
@@ -102,20 +98,16 @@ Many2Many.prototype = {
         ids = /^\[.*\]/.test(ids) ? ids : '[' + ids + ']';
         ids = eval(ids);
 
+        var $id = jQuery(this.id).val('[' + ids.join(',') + ']');
         if (this.hasList) {
-
-            this.terp_ids.value = '[' + ids.join(',') + ']';
-            this.id.value = '[' + ids.join(',') + ']';
-
+            jQuery(this.terp_ids).val('[' + ids.join(',') + ']');
             ListView(this.name).reload();
-
         } else {
-            this.text.value = '(' + ids.length + ')';
-            this.id.value = '[' + ids.join(',') + ']';
-            openobject.dom.get(this.name).value = ids;
+            jQuery(this.text).val('(' + ids.length + ')');
+            jQuery(idSelector(this.name)).val(ids);
         }
 
-        if (getNodeAttribute(this.id, 'callback')) {
+        if ($id.attr('callback')) {
             onChange(this.id);
         }
     },
@@ -133,39 +125,29 @@ Many2Many.prototype = {
     },
 
     remove: function(remove_id) {
-
         var ids = eval(this.terp_ids.value) || [];
-        var boxes = ListView(this.name).getSelectedItems();
+        var $selectedItems = ListView(this.name).$getSelectedItems();
 
-        if (boxes.length <= 0 && !remove_id)
+        if (!(remove_id || $selectedItems.length)) {
             return;
+        }
 
-        boxes = MochiKit.Base.map(function(box) {
-            return parseInt(box.value);
-        }, boxes);
+        var ids_to_remove = remove_id ? [remove_id]
+                                      : $selectedItems.map(function() {return parseInt(this.value, 10);}).get();
 
-        var removed_ids = remove_id ? [remove_id] : boxes;
-        ids = MochiKit.Base.filter(function(id) {
-            return MochiKit.Base.findIdentical(removed_ids, id) == -1;
-        }, ids);
+        ids = jQuery.grep(ids, function(id) {
+            return jQuery.inArray(id, ids_to_remove) == -1;
+        });
 
-        this.id.value = this.terp_ids.value = '[' + ids.join(',') + ']';
+        jQuery([this.id, this.terp_ids]).val('[' + ids.join(',') + ']');
         this.onChange();
     },
 
     setReadonly: function(readonly) {
-
-        var field = jQuery('[id="'+this.name +'"]') || this.id;
-        field.attr('readOnly', readonly);
-        this.text.readOnly = readonly;
-
-        if (readonly) {
-            jQuery(field).addClass('readonlyfield');
-            jQuery(this.text).addClass('readonlyfield');
-
-        } else {
-            jQuery(field).removeClass('readonlyfield');
-            jQuery(this.text).removeClass('readonlyfield');
-        }
+        var $field = jQuery(idSelector(this.name));
+        if(!$field.length) $field = jQuery(this.id);
+        $field.add(this.text)
+                .attr('readOnly', readonly)
+                .toggleClass('readonlyfield', readonly);
     }
 };

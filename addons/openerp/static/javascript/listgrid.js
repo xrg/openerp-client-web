@@ -124,7 +124,7 @@ ListView.prototype = {
     },
 
     getSelectedRecords: function() {
-        return jQuery(this.getSelectedItems()).map(function() {
+        return this.$getSelectedItems().map(function() {
             if(this.value) {
                 return this.value
             } else {
@@ -134,10 +134,16 @@ ListView.prototype = {
         }).get();
     },
 
+    $getSelectedItems: function () {
+       return jQuery(idSelector(this.name))
+                .find('input.grid-record-selector')
+                .filter(function() {
+            return this.id && this.checked;
+        })
+    },
+
     getSelectedItems: function() {
-        return filter(function(box) {
-            return box.id && box.checked;
-        }, openobject.dom.select('input.grid-record-selector', this.name));
+        return this.$getSelectedItems().get();
     },
 
     onBooleanClicked: function() {
