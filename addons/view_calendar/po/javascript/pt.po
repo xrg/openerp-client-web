@@ -1,4 +1,4 @@
-# Chinese (Simplified) translation for openobject-client-web
+# Portuguese translation for openobject-client-web
 # Copyright (c) 2010 Rosetta Contributors and Canonical Ltd 2010
 # This file is distributed under the same license as the openobject-client-web package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2010.
@@ -8,9 +8,9 @@ msgstr ""
 "Project-Id-Version: openobject-client-web\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2010-11-25 10:30+0530\n"
-"PO-Revision-Date: 2010-12-08 04:04+0000\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: Chinese (Simplified) <zh_CN@li.org>\n"
+"PO-Revision-Date: 2010-12-08 23:50+0000\n"
+"Last-Translator: Paulino Ascenção <Unknown>\n"
+"Language-Team: Portuguese <pt@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -19,48 +19,48 @@ msgstr ""
 
 #: static/javascript/calendar_box.js:58
 msgid "Cancel"
-msgstr ""
+msgstr "Cancelar"
 
 #: static/javascript/calendar_box.js:59
 msgid "Edit"
-msgstr ""
+msgstr "Editar"
 
 #: static/javascript/calendar_box.js:60
 msgid "Duplicate"
-msgstr ""
+msgstr "Duplicado"
 
 #: static/javascript/calendar_box.js:61
 msgid "Delete"
-msgstr ""
+msgstr "Eliminar"
 
 #: static/javascript/calendar_box.js:88
 msgid "Creation User: "
-msgstr ""
+msgstr "Utilizador criador: "
 
 #: static/javascript/calendar_box.js:89
 msgid "Creation Date: "
-msgstr ""
+msgstr "Data de criação: "
 
 #: static/javascript/calendar_box.js:90
 msgid "Latest Modification by: "
-msgstr ""
+msgstr "Última alteração por: "
 
 #: static/javascript/calendar_box.js:91
 msgid "Latest Modification Date: "
-msgstr ""
+msgstr "Data da última alteração: "
 
 #: static/javascript/calendar_box.js:175
 msgid "Do you really want to delete this record?"
-msgstr ""
+msgstr "Quer realmente eliminar este registo?"
 
 #: static/javascript/calendar_gantt.js:259
 #: static/javascript/calendar_month.js:413
 #: static/javascript/calendar_week.js:277
 #: static/javascript/calendar_week.js:680
 msgid "This calendar object can no longer be moved !"
-msgstr ""
+msgstr "O objeto calendário não pode mais ser movido!"
 
 #: static/javascript/calendar_gantt.js:321
 #: static/javascript/calendar_week.js:104
 msgid "This calendar object can no longer be resized !"
-msgstr ""
+msgstr "O objeto calendário não pode mais ser redimensionado!"
