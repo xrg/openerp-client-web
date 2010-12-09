@@ -100,8 +100,6 @@ class Frame(TinyWidget):
 
         if self.is_search:
             self.fix_group_colspans()
-        else:
-            self.compute_cells_width()
 
     def add_row(self):
 
@@ -174,6 +172,8 @@ class Frame(TinyWidget):
                 if getattr(widget, 'full_name', None):
                     attrs['class'] = attrs.get('class', 'label') + ' search_filters search_fields'
                     label_table = td
+            else:
+                attrs['width'] = '1%'
             tr.append(td)
 
         if isinstance(widget, TinyInputWidget) and hasattr(cherrypy.request, 'terp_validators'):
@@ -220,6 +220,11 @@ class Frame(TinyWidget):
                 attrs['nowrap'] = 'nowrap'
 
         attrs['class'] = attrs.get('class', '') + ' item-%s' % widget.__class__.__name__.lower()
+        if self.columns and not attrs.has_key('width'):
+            if label:
+                attrs['width'] = str((100 / self.columns) * (colspan + 1) - 1) + '%'
+            else:
+                attrs['width'] = str((100 / self.columns) * colspan) + '%'
 
         td = [attrs, widget]
         if getattr(widget, 'full_name', None) and self.is_search and label_table:
@@ -234,40 +239,6 @@ class Frame(TinyWidget):
         if isinstance(widget, TinyInputWidget) and hasattr(cherrypy.request, 'terp_validators'):
             self._add_validator(widget)
         self.hiddens.append(widget)
-
-    def compute_cells_width(self):
-        """ Basic cells width computation. Use 1% for labels, so it looks more like gtk client.
-
-        A bit hacky but better than nothing
-        """
-        # TODO: handle width remain for the last row's cell. Decide if hidden fields should be excluded or not.
-        selected_row = []
-        for row in self.table:
-            if len(row) > len(selected_row):
-                selected_row = row
-        # Work on row with the most cells
-        if len(selected_row):
-            remaining_width = 100
-            remaining_colspan = 0
-            cells = []
-            for (attrs, widget) in selected_row:
-                colspan = attrs.get('colspan', 1)
-                if isinstance(widget, basestring) or attrs.has_key('width'):
-                    remaining_width -= colspan
-                    if not attrs.has_key('width'):
-                        attrs['width'] = '%d%%' % colspan
-                    else:
-                        attrs['style'] = 'min-width: %spx' % str(attrs['width'])
-                else:
-                    remaining_colspan += colspan
-                    cells.append((colspan, attrs, widget))
-            if remaining_colspan and remaining_width:
-                width_unit = remaining_width / remaining_colspan
-                for cell in cells:
-                    width = cell[0] * width_unit
-                    remaining_width -= width
-                    if not cell[1].has_key('width'):
-                        cell[1]['width'] = '%d%%' % width
 
     def fix_group_colspans(self):
         """ Colspans in search view are currently broken.
