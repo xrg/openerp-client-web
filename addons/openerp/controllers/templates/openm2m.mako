@@ -15,26 +15,13 @@
 
         jQuery(document).ready(function() {
 
-            var id = parseInt(openobject.dom.get('_terp_id').value) || null;
-            var lc = parseInt(openobject.dom.get('_terp_load_counter').value) || 0;
+            var id = parseInt(openobject.dom.get('_terp_id').value, 10) || null;
+            var lc = parseInt(openobject.dom.get('_terp_load_counter').value, 10) || 0;
 
-            if (lc > 0 && id) {
-
-                with(window.opener) {
-
-                    var m2m = Many2Many('${params.m2m}');
-                    var ids = m2m.getValue();
-                    
-                    if (MochiKit.Base.findIdentical(ids, id) == -1)
-                        ids.push(id);
-
-                    m2m.setValue(ids);
-                }
+            if(lc <= 1) {
+                return;
             }
-
-            if (lc > 1) {
-                window.close();
-            }
+            jQuery.m2m('close', id && [id]);
         });
 
     </script>
@@ -61,7 +48,7 @@
                             	<a class="button-a" href="javascript: void(0)" onclick="submit_form('save')">${_("Save")}</a>
                             </td>
                             <td class="save_close">
-                            	<a class="button-a" href="javascript: void(0)" onclick="window.close()">${_("Close")}</a>
+                            	<a class="button-a" onclick="jQuery.m2m('close');" href="javascript: void(0)">${_("Close")}</a>
                             </td>
                             <td width="100%">
                             </td>

@@ -209,20 +209,22 @@ Many2Many.prototype = {
     function close($this, values) {
         var $frame = $($this.attr('frameElement'));
 
-        var original_window = $frame.data('source_window');
-        // the m2m input to set is in the source_window, which is set as
-        // a `data` of the dialog iframe
-        var Many2Many = original_window.Many2Many;
-        var source_id = $frame.data('source_id');
+        if(values && values.length) {
+            var original_window = $frame.data('source_window');
+            // the m2m input to set is in the source_window, which is set as
+            // a `data` of the dialog iframe
+            var Many2Many = original_window.Many2Many;
+            var source_id = $frame.data('source_id');
 
-        var m2m = Many2Many(source_id);
-        var ids = m2m.getValue();
-        jQuery.each(values, function (_, value) {
-            if(jQuery.inArray(value, ids) == -1) {
-                ids.push(value);
-            }
-        });
-        m2m.setValue(ids);
+            var m2m = Many2Many(source_id);
+            var ids = m2m.getValue();
+            jQuery.each(values, function (_, value) {
+                if(jQuery.inArray(value, ids) == -1) {
+                    ids.push(value);
+                }
+            });
+            m2m.setValue(ids);
+        }
 
         $frame.dialog('close');
         return null;
