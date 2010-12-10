@@ -13,7 +13,7 @@
             <option value=""></option>
         % endif
         % for (val, label) in options:
-            <option value="${val}" ${py.selector(val==value)}>${label}</option>
+            <option value="${val}" ${py.selector(val==(value or False))}>${label}</option>
         % endfor
     </select>
     % if error:
