@@ -44,9 +44,11 @@
                 <div class="footer_tool_box">
                     <table border="0" cellpadding="0" cellspacing="0" width="100%" style="border: none;">
                         <tr>
-                            <td class="save_close">
-                            	<a class="button-a" href="javascript: void(0)" onclick="submit_form('save')">${_("Save")}</a>
-                            </td>
+                            % if form.screen.editable:
+                                <td class="save_close">
+                                    <a class="button-a" onclick="submit_form('save')" href="javascript: void(0)">${_("Save")}</a>
+                                </td>
+                            % endif
                             <td class="save_close">
                             	<a class="button-a" onclick="jQuery.m2m('close');" href="javascript: void(0)">${_("Close")}</a>
                             </td>
