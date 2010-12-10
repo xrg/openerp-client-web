@@ -57,11 +57,12 @@ Many2Many.prototype = {
 
         jQuery([this.id, this.text]).change(jQuery.proxy(this, 'onChange'));
 
-        jQuery(idSelector(this.name + '_add_records')).click(
-                jQuery.proxy(this, 'addRecords'));
-        jQuery(idSelector(this.name + '_delete_record')).click(
-                jQuery.proxy(this, 'remove'));
-        
+        jQuery(idSelector('_m2m_' + this.name)).delegate(
+            idSelector(this.name + '_add_records'), 'click', jQuery.proxy(this, 'addRecords')
+        ).delegate(
+            idSelector(this.name + '_delete_record'), 'click', jQuery.proxy(this, 'remove')
+        );
+
         if (!this.hasList) {
             jQuery(this.text).keydown(jQuery.proxy(function(evt) {
                 switch (evt.which) {
