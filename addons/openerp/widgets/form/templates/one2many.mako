@@ -14,7 +14,7 @@
                 <tr class="pagerbar">
 	               	<td class="pagerbar-cell" align="left" width="${pager_width}">
 	               		<div class="pagerbar-header">
-	               			<strong>${screen.string}</strong><nobr>
+	               			<strong>${screen.string}</strong>
 	               			<a class="button-a" href="javascript: void(0)" title="${_('Create new record...')}" onclick="new One2Many('${name}', ${(screen.view_type == 'tree' or 0) and len(screen.widget.editors)}).create(); return false;">${_('New')}</a>
 	               			%if id:
 	               				<a class="button-a" href="javascript: void(0);" title="${_('Delete record...')}" onclick="new One2Many('${name}', ${(screen.view_type == 'tree' or 0) and len(screen.widget.editors)}).remove(${id}); return false;">${_("Delete")}</a>
@@ -34,15 +34,17 @@
     </tr>
     % endif
     % if pager_info:
-             <td width="65%" style="text-align: left" align="left">
-                 <div class="pager">
-                     <p id="_${name}_link_span" class="paging">
-                         <a class="prev nav" title="${_('Previous record...')}" href="javascript: void(0)" onclick="submit_form('previous', '${name}');"></a>
-                         <span>${pager_info}</span>
-                         <a class="next nav" title="${_('Next record...')}" href="javascript: void(0)" onclick="submit_form('next', '${name}');"></a>
-                     </p>
-                 </div>
-             </td>
+    <tr>
+         <td width="65%" style="text-align: left" align="left">
+             <div class="pager">
+                 <p id="_${name}_link_span" class="paging">
+                     <a class="prev nav" title="${_('Previous record...')}" href="javascript: void(0)" onclick="submit_form('previous', '${name}');"></a>
+                     <span>${pager_info}</span>
+                     <a class="next nav" title="${_('Next record...')}" href="javascript: void(0)" onclick="submit_form('next', '${name}');"></a>
+                 </p>
+             </div>
+         </td>
+    </tr>
 	% endif
     <tr>
         % if screen:
