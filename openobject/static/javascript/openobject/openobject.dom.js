@@ -36,7 +36,7 @@ if (typeof(jQuery) == "undefined") {
  * @param id the DOM id
  */
 function escapeId(id) {
-    return id.replace(/[^\r\n\f0-9a-f]/ig, "\\$&");
+    return id.replace(/[^\r\n\f0-9a-z_-]/ig, "\\$&");
 }
 /**
  * Transforms a node id in the corresponding CSS selector: escapes the id and prefixes with '#'.
