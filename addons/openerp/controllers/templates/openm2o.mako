@@ -16,7 +16,7 @@
         jQuery(document).ready(function() {
         
             var id = parseInt(openobject.dom.get('_terp_id').value, 10) || null;
-            var lc = parseInt(openobject.dom.get('_terp_load_counter', 10).value) || 1;
+            var lc = parseInt(openobject.dom.get('_terp_load_counter').value, 10) || 1;
 
             if(lc <= 1) {
                 return;
