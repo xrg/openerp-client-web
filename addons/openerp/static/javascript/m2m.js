@@ -161,3 +161,106 @@ Many2Many.prototype = {
         return false;
     }
 };
+
+(function ($) {
+    /**
+     * Opens an m2m dialog linked to the provided <code>$this</code> window,
+     * with the selected options.
+     *
+     * @param $this the parent window of the opened dialog, contains the
+     * input to fill with the selected m2m value if any
+     * @param options A map of options to provide to the xhr call.
+     * The <code>source</code> key is also used for the id of the element
+     * (in <code>$this</code>) on which any selected m2o value should be set.
+     * The <code>record</code> key indicates whether a record should be opened
+     * instead of a search view
+     */
+    function open($this, options) {
+        var url;
+        if(options.record) {
+            url = '/openerp/openm2m/create'
+        } else {
+            url = '/openerp/search/new';
+        }
+        return $('<iframe>', {
+            src: openobject.http.getURL(url, options),
+            frameborder: 0
+        }).data('source_window', $this[0])
+          .data('source_id', options.source || null)
+          .appendTo(document.documentElement)
+          .dialog({
+              modal: true,
+              width: 640,
+              height: 480,
+              close: function () {
+                  jQuery(this).dialog('destroy').remove();
+              }
+          });
+    }
+
+    /**
+     * Closes the m2m dialog it was called from (represented by
+     * <code>$this</code>, setting the related m2m input to the provided
+     * <code>value</code>, if any.
+     *
+     * @param $this the window of the dialog to close
+     * @param values optional, the values to add to the m2m
+     */
+    function close($this, values) {
+        var $frame = $($this.attr('frameElement'));
+
+        var original_window = $frame.data('source_window');
+        // the m2m input to set is in the source_window, which is set as
+        // a `data` of the dialog iframe
+        var Many2Many = original_window.Many2Many;
+        var source_id = $frame.data('source_id');
+
+        var m2m = Many2Many(source_id);
+        var ids = m2m.getValue();
+        jQuery.each(values, function (_, value) {
+            if(jQuery.inArray(value, ids) == -1) {
+                ids.push(value);
+            }
+        });
+        m2m.setValue(ids);
+
+        $frame.dialog('close');
+        return null;
+    }
+
+    /**
+     * Manage m2m dialogs for this scope
+     * <ul>
+     *  <li><p>Called with only options, opens a new m2m dialog linking to the
+     *         current scope.</p></li>
+     *  <li><p>Called with the <code>"close"</code> command, closes the m2m
+     *         dialog it was invoked from and focuses its parent scope.
+     *  </p></li>
+     *  <li><p>Called with the <code>"close"</code> command and an argument,
+     *         sets that argument as the m2m value of the parent widget and
+     *         closes the m2m dialog it was invoked from as above.
+     *  </p></li>
+     * </ul>
+     *
+     * @returns the m2m container (iframe) if one was created
+     */
+    $.m2m = function () {
+        // $this should be the holder for the window from which $.m2m was
+        // originally called, even if $.m2m() was bubbled to the top of
+        // the window stack.
+        var $this;
+        if(this == $) $this = $(window);
+        else $this = $(this);
+        if(window != window.top) {
+            return window.top.jQuery.m2m.apply($this[0], arguments);
+        }
+        // We're at the top-level window, $this is the window from which the
+        // original $.m2m call was performed, window being the current window
+        // level.
+        if(arguments[0] === "close") {
+            return close($this, arguments[1]);
+        } else {
+            return open($this, arguments[0]);
+        }
+    };
+})(jQuery);
