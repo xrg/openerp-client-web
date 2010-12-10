@@ -218,12 +218,10 @@ Many2Many.prototype = {
 
             var m2m = Many2Many(source_id);
             var ids = m2m.getValue();
-            jQuery.each(values, function (_, value) {
-                if(jQuery.inArray(value, ids) == -1) {
-                    ids.push(value);
-                }
-            });
-            m2m.setValue(ids);
+            m2m.setValue(
+                ids.concat(jQuery.grep(values, function (value) {
+                    return (jQuery.inArray(value, ids) == -1);
+            })));
         }
 
         $frame.dialog('close');
