@@ -11,6 +11,8 @@
             var args = {
                 explanation: openobject.dom.get('explanation').value,
                 remarks: openobject.dom.get('remarks').value,
+                name: openobject.dom.get('issue_name').value,
+                email: openobject.dom.get('email').value,
                 tb: openobject.dom.get('error').value
             };
 
@@ -133,6 +135,24 @@ ${MAINTENANCE_CONTRACTS_LINK|n}
                                             <td colspan="2" align="center">
                                                 <strong>${_("Maintenance contract.")}</strong><br/><br/>
                                                 <em>${_("Your request will be sent to OpenERP and maintenance team will reply you shortly.")}</em>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="label"><label for="issue_name">${_("Summary of the problem:")}</label></td>
+                                            <td class="item">
+                                                <textarea id="issue_name" name="issue_name" class="text"></textarea>
+                                                <script type="text/javascript">
+                                                    new openerp.ui.TextArea('issue_name');
+                                                </script>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="label"><label for="email">${_("Your email address:")}</label></td>
+                                            <td class="item">
+                                                <textarea id="email" name="email" class="text"></textarea>
+                                                <script type="text/javascript">
+                                                    new openerp.ui.TextArea('email');
+                                                </script>
                                             </td>
                                         </tr>
                                         <tr>
