@@ -53,7 +53,7 @@ def get_search_default(attrs={}, screen_context=None, default_domain=[]):
     default_domain = attrs.get('default_domain', default_domain)
     default_search = False
 
-    if 'name' in attrs:
+    if cherrypy.request.path_info != '/openerp/listgrid/get' and 'name' in attrs:
         search_default = screen_context.get('search_default_' + str(attrs['name']))
         if search_default: return search_default
 
