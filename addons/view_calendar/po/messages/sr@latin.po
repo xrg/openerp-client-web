@@ -1,27 +1,25 @@
-# Serbian translations for PROJECT.
-# Copyright (C) 2010 ORGANIZATION
-# This file is distributed under the same license as the PROJECT project.
+# Serbian latin translation for openobject-client-web
+# Copyright (c) 2010 Rosetta Contributors and Canonical Ltd 2010
+# This file is distributed under the same license as the openobject-client-web package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2010.
 #
-#,
 msgid ""
 msgstr ""
-"Project-Id-Version: PROJECT VERSION\n"
-"Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2010-10-26 10:51+0200\n"
-"PO-Revision-Date: 2010-11-25 10:31+0530\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: sr <LL@li.org>\n"
-"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
-"n%10< =4 && (n%100<10 || n%100>=20) ? 1 : 2)\n"
+"Project-Id-Version: openobject-client-web\n"
+"Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
+"POT-Creation-Date: 2010-11-25 10:30+0530\n"
+"PO-Revision-Date: 2010-12-10 14:57+0000\n"
+"Last-Translator: Milan Milosevic <Unknown>\n"
+"Language-Team: Serbian latin <sr@latin@li.org>\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=utf-8\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Generated-By: Babel None\n"
+"X-Launchpad-Export-Date: 2010-12-11 04:46+0000\n"
+"X-Generator: Launchpad (build Unknown)\n"
 
 #: controllers/templates/calpopup.mako:78
 msgid "Save"
-msgstr ""
+msgstr "Sačuvaj"
 
 #: controllers/templates/calpopup.mako:81
 msgid "Close"
@@ -61,7 +59,7 @@ msgstr ""
 
 #: widgets/utils.py:38
 msgid "Friday"
-msgstr ""
+msgstr "Petak"
 
 #: widgets/utils.py:39
 msgid "Saturday"
@@ -215,10 +213,3 @@ msgstr ""
 #, python-format
 msgid "Week %(number)s"
 msgstr ""
-
-#~ msgid "Filter"
-#~ msgstr ""
-
-#~ msgid "Apply search filter"
-#~ msgstr ""
-
