@@ -524,20 +524,24 @@ function onChange(caller){
             if ((fld.value !== value) || flag) {
                 fld.value = value;
                 var $current_field = jQuery(fld);
-                var kind = $current_field.attr('kind');
+                var kind = $current_field.attr('kind')
 
-                if (!kind) {
-                    var $default_o2m = jQuery(idSelector('_terp_default_o2m/'+k));
-                    if ($current_field.hasClass('gridview')){
+                //o2m and m2m
+                if ($current_field.hasClass('gridview') && !kind){
+                    if (jQuery('#_terp_id').val()=='False') {//default o2m
+                        var $o2m_current = jQuery(fld);
+                        var k_o2m = k;
+                        var $default_o2m = jQuery(idSelector('_terp_default_o2m/'+k));
+
                         if ($default_o2m.length && !value) {
                             if($default_o2m.val()) {
                                 $default_o2m.val('');
-                                new ListView(k).reload();
+                                new ListView(prefix + k).reload();
                             } else {
                                 continue;
                             }
                         }
-                        else {
+                        else if (value){ //necessary when value then it perform
                             jQuery.post(
                                 '/openerp/listgrid/get_o2m_defaults', {
                                     o2m_values: serializeJSON(value),
@@ -554,25 +558,26 @@ function onChange(caller){
                                     o2m_context: jQuery(idSelector(prefix+k+'/_terp_context')).val(),
                                     o2m_domain: jQuery(idSelector(prefix+k+'/_terp_domain')).val()
                                 }, function(obj) {
-                                    $current_field.closest('.list-a').replaceWith(obj.view);
+                                    $o2m_current.closest('.list-a').replaceWith(obj.view);
                                     if ($default_o2m.length) {
                                         $default_o2m.val(obj.formated_o2m_values);
                                     }
                                     else {
-                                        jQuery(idSelector(k)).parents('td.o2m_cell').append(
+                                        jQuery(idSelector(k_o2m)).parents('td.o2m_cell').append(
                                             jQuery('<input>', {
-                                                id: '_terp_default_o2m/'+k,
+                                                id: '_terp_default_o2m/'+k_o2m,
                                                 type: 'hidden',
-                                                name:'_terp_default_o2m/'+k,
+                                                name:'_terp_default_o2m/'+k_o2m,
                                                 value: obj.formated_o2m_values
                                             })
                                         );
                                     }
+                                    $o2m_current.attr('__lock_onchange', false);
                                 }, 'json');
-                        }
+                            }
+                    } else {
+                        new ListView(prefix + k).reload();
                     }
-                    fld.__lock_onchange = true;
-                    return;
                 }
 
                 switch (kind) {
@@ -720,8 +725,10 @@ function eval_domain_context_request(options){
     });
 }
 
+var KIND_M2O = 1;
+var KIND_M2M = 2;
 function open_search_window(relation, domain, context, source, kind, text){
-    if (kind == 2 && source.indexOf('_terp_listfields/') == 0) {
+    if (kind == KIND_M2M && source.indexOf('_terp_listfields/') == 0) {
         text = "";
     }
 
@@ -730,14 +737,28 @@ function open_search_window(relation, domain, context, source, kind, text){
         'domain': domain,
         'context': context
     }).addCallback(function(obj){
-        openobject.tools.openWindow(openobject.http.getURL('/openerp/search/new', {
+        var dialog_url = openobject.http.getURL('/openerp/search/new', {
             'model': relation,
             'domain': obj.domain,
             'context': obj.context,
             'source': source,
             'kind': kind,
             'text': text
-        }));
+        });
+        switch(kind) {
+            case KIND_M2O:
+                jQuery.m2o({
+                    'model': relation,
+                    'domain': obj.domain,
+                    'context': obj.context,
+                    'source': source,
+                    'kind': kind,
+                    'text': text
+                });
+                break;
+            default:
+                openobject.tools.openWindow(dialog_url);
+        }
     });
 }
 
@@ -870,18 +891,27 @@ function do_report(id, relation){
 
 function do_action(src, context_menu) {
     var params = {};
+    var $src = jQuery(src);
+    var field = $src.attr('field') || '_terp_id';
+    var source = jQuery('[id="'+field+'"]').attr('id');
+
     if (openobject.dom.get('_terp_list')) {
         params['_terp_selection'] = '[' +
             new ListView('_terp_list').getSelectedRecords().join(',') +
             ']';
+        if (eval(params['_terp_selection']).length == 0) {
+            var ids = eval(jQuery('#_terp_ids').val());
+            if (ids && ids.length > 0){
+                params['_terp_selection'] = '[' + ids[0] + ']';
+            } else {
+                error_display(_('You must select one or several records !'));
+            }
+        }
+        var id = eval(params['_terp_selection'])[0]
+    } else {
+        var id = jQuery('[id="'+field+'"]').val();
     }
-    
-    var $src = jQuery(src);
-    var field = $src.attr('field') || '_terp_id';
-    
-    var id = jQuery('[id="'+field+'"]').val();
-    var source = jQuery('[id="'+field+'"]').attr('id');
-    
+
     var action_id = $src.attr('action_id') || null;
     var relation = $src.attr('relation');
     var datas = $src.attr('data') || null;
@@ -1199,7 +1229,7 @@ function validate_action() {
         }
         
         $form.ajaxSubmit({
-            error: loadingError,
+            error: loadingError(),
             async: false,
             success: function(data, status, xhr){
                 if (arguments.length) {

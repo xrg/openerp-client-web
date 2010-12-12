@@ -1,5 +1,5 @@
 .calGantt {
-    background-color: #F4F4F4;
+    background-color: #FFFFFF;
     padding: 8px;
     padding-top: 4px;
     position: relative;
@@ -35,6 +35,15 @@
     font-size: .9em;
     
     padding: 2px 0px;
+}
+
+#Calendar.gantt-view p.side {
+    padding: 2px 8px 0;
+}
+#Calendar.gantt-view ul.head li.notab {
+    padding: 0;
+    position: relative;
+    top: -4px;
 }
 
 .calGantt #calListC,

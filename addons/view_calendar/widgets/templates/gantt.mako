@@ -1,20 +1,25 @@
-<div id="Calendar" class="box-a calendar-a">
+<div id="Calendar" class="box-a calendar-a gantt-view">
 
     <p class="side">
+        % if days[0] == days[0].today():
+            <a class="button-a disabled" href="javascript: void(0)">${_("Today")}</a>
+           % else:
+               <a class="button-a" href="javascript: void(0)" title="${_('Today...')}"
+                onclick="getCalendar('${days[0].today().isoformat()}', 'day')">${_("Today")}</a>
+        % endif
         <a class="button-a prev" href="javascript: void(0)" onclick="getCalendar('${days[0].prev().isoformat()}')">
             <img src="/openerp/static/images/cal_left.png" width="14" height="14" border="0"/>
         </a>
         <a class="button-a next" href="javascript: void(0)" onclick="getCalendar('${days[-1].next().isoformat()}')">
             <img src="/openerp/static/images/cal_right.png" width="14" height="14" border="0"/>
         </a>
-        <a class="button-a" href="javascript: void(0)" title="${_('Today...')}"
-            onclick="getCalendar('${days[0].today().isoformat()}', 'day')">${_("Today")}</a>
+        <span class="date-title">${title}</span>
     </p>
 
     <ul class="head">
         <li class="notab">
         % if mode == 'day':
-        <img title="${_('Zoom In')}" height="16" width="16" src="/openerp/static/images/stock-disabled/gtk-zoom-in.png"/>
+        <img title="${_('Zoom In')}" height="16" width="16" class="button disabled" src="/openerp/static/images/stock-disabled/gtk-zoom-in.png"/>
         % else:
         <img title="${_('Zoom In')}" height="16" width="16" class="button" src="/openerp/static/images/stock/gtk-zoom-in.png"
             onclick="ganttZoomIn()"/>
@@ -22,19 +27,13 @@
         </li>
         <li class="notab">
         % if mode == '5years':
-        <img title="${_('Zoom Out')}" height="16" width="16" src="/openerp/static/images/stock-disabled/gtk-zoom-out.png"/>
+        <img title="${_('Zoom Out')}" height="16" width="16" class="button disabled" src="/openerp/static/images/stock-disabled/gtk-zoom-out.png"/>
         % else:
         <img title="${_('Zoom Out')}" height="16" width="16" class="button" src="/openerp/static/images/stock/gtk-zoom-out.png"
             onclick="ganttZoomOut()"/>
         % endif
         </li>
     </ul>
-
-    <div class="inner">
-        <h4>
-            <span>${title}</span>
-        </h4>
-    </div>
 
     <table border="0" id="calContainer" width="100%">
     <tr>

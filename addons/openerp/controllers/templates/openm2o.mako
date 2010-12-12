@@ -15,18 +15,13 @@
         
         jQuery(document).ready(function() {
         
-            var id = parseInt(openobject.dom.get('_terp_id').value) || null;
-            var lc = parseInt(openobject.dom.get('_terp_load_counter').value) || 1;
+            var id = parseInt(openobject.dom.get('_terp_id').value, 10) || null;
+            var lc = parseInt(openobject.dom.get('_terp_load_counter', 10).value) || 1;
 
-            if (lc > 1 && id) {
-                window.opener.document.getElementById('${params.m2o}').value = id;
-                window.opener.document.getElementById('${params.m2o}_text').value = '';
-                window.opener.setTimeout("signal(openobject.dom.get('${params.m2o}'), 'onchange')", 0);
+            if(lc <= 1) {
+                return;
             }
-
-            if (lc > 1) {
-                window.close();
-            }
+            $.m2o('close', id);
         });
     </script>
 </%def>
@@ -54,7 +49,7 @@
 	                            </td>
                             % endif
                             <td class="save_close">
-                            	<a class="button-a" onclick="window.close()" href="javascript: void(0)">${_("Close")}</a>
+                            	<a class="button-a" onclick="$.m2o('close');" href="javascript: void(0)">${_("Close")}</a>
                             </td>
                             <td width="100%">
                             </td>

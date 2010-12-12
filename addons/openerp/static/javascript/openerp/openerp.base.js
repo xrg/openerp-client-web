@@ -1,5 +1,3 @@
-// cache for the current hash url so we can know if it's changed
-var currentUrl;
 /**
  * Opens the provided URL in the application content section.
  *
@@ -14,20 +12,16 @@ function openLink(url /*optional afterLoad */) {
     var $app = jQuery('#appContent');
     var afterLoad = arguments[1];
     if($app.length) {
-        currentUrl = url;
-        window.location.href = '#'+jQuery.param({'url': url});
         jQuery.ajax({
             url: url,
             complete: function () {
                 if(afterLoad) { afterLoad(); }
             },
-            success: doLoadingSuccess($app[0]),
-            error: loadingError
+            success: doLoadingSuccess($app[0], url),
+            error: loadingError(url)
         });
     } else {
-        window.location.assign(
-            '/?' + jQuery.param({next: url})
-        );
+        window.location.assign(url);
     }
 }
 /**
@@ -37,7 +31,8 @@ function openLink(url /*optional afterLoad */) {
 function displayErrorOverlay(xhr) {
     var options = {
         showCloseButton: true,
-        overlayOpacity: 0.7
+        overlayOpacity: 0.7,
+        scrolling: 'no'
     };
     if(xhr.getResponseHeader('X-Maintenance-Error')) {
         options['autoDimensions'] = false;
@@ -49,29 +44,42 @@ function displayErrorOverlay(xhr) {
  * Handles errors when loading page via XHR
  * TODO: maybe we should set this as the global error handler via jQuery.ajaxSetup
  *
- * @param xhr The XHR object
+ * @param url The URL to set, if any, in case of 500 error (so users can just
+ * C-R or C-F5).
  */
-function loadingError(xhr) {
-    switch (xhr.status) {
-        case 500:
-            displayErrorOverlay(xhr);
-            break;
-        case 401: // Redirect to login, probably
-            window.location.assign(
-                xhr.getResponseHeader('Location'));
-            break;
-        default:
-            if(window.console) {
-                console.warn("Failed to load ", xhr.url, ":", xhr.status, xhr.statusText);
-            }
+function loadingError(/*url*/) {
+    var url;
+    if(arguments[0]) {
+        url = arguments[0]
+    }
+    return function (xhr) {
+        if(url) { $.hash(url); }
+        switch (xhr.status) {
+            case 500:
+                displayErrorOverlay(xhr);
+                break;
+            case 401: // Redirect to login, probably
+                window.location.assign(
+                        xhr.getResponseHeader('Location'));
+                break;
+            default:
+                if(window.console) {
+                    console.warn("Failed to load ", xhr.url, ":", xhr.status, xhr.statusText);
+                }
+        }
     }
 }
 
 /**
  * Creates a LoadingSuccess execution for the providing app element
  * @param app the element to insert successful content in
+ * @param url the url being opened, to set as hash-url param
  */
-function doLoadingSuccess(app) {
+function doLoadingSuccess(app/*, url*/) {
+    var url;
+    if(arguments[1]) {
+        url = arguments[1];
+    }
     return function (data, status, xhr) {
         var target = xhr.getResponseHeader('X-Target');
         if(target) {
@@ -83,6 +91,10 @@ function doLoadingSuccess(app) {
             }
             _openAction(xhr.getResponseHeader('Location'), target);
             return;
+        }
+        if(url) {
+            // only set url when we're actually opening the action
+            $.hash(url);
         }
         jQuery(window).trigger('before-appcontent-change');
         jQuery(app).html(xhr.responseText || data);
@@ -100,27 +112,22 @@ function openAction(action_url, target) {
     var $dialogs = jQuery('.action-dialog');
     switch(target) {
         case 'new':
-            var $contentFrame = jQuery('<iframe>', {
+            jQuery('<iframe>', {
                 src: action_url,
-                frameborder: 0,
-                width: '99%',
-                height: '99%'
-            });
-            jQuery('<div class="action-dialog">')
-                .appendTo(document.documentElement)
+                'class': 'action-dialog',
+                frameborder: 0
+            }).appendTo(document.documentElement)
                 .dialog({
                     modal: true,
                     width: 640,
                     height: 480,
                     close: function () {
-                        var $this = jQuery(this);
-                        $this.find('iframe').remove();
-                        setTimeout(function () {
-                            $this.dialog('destroy').remove();
-                        });
+                        jQuery(this).dialog('destroy').remove();
                     }
-                })
-                .append($contentFrame);
+                });
+            break;
+        case 'popup':
+            window.open(action_url);
             break;
         case 'current':
         default:
@@ -130,24 +137,6 @@ function openAction(action_url, target) {
 }
 function closeAction() {
     jQuery('.action-dialog').dialog('close');
-}
-
-/**
- * Extract the current hash-url from the page's location
- *
- * @returns the current hash-url if any, otherwise returns `null`
- */
-function hashUrl() {
-    var newUrl = null;
-    // would use window.location.hash but... https://bugzilla.mozilla.org/show_bug.cgi?id=483304
-    var hashValue = window.location.href.split('#')[1] || '';
-    jQuery.each(hashValue.split('&'), function (i, element) {
-        var e = element.split("=");
-        if(e[0] === 'url') {
-            newUrl = decodeURIComponent(e[1]);
-        }
-    });
-    return newUrl;
 }
 
 // Timers before displaying the wait box, in case the remote query takes too long
@@ -174,7 +163,7 @@ jQuery(document).ready(function () {
             $form.ajaxSubmit({
                 data: {'requested_with': 'XMLHttpRequest'},
                 success: doLoadingSuccess($app[0]),
-                error: loadingError
+                error: loadingError()
             });
             return false;
         });
@@ -183,7 +172,7 @@ jQuery(document).ready(function () {
             jQuery(document).delegate('a[href]:not([target]):not([href^="#"]):not([href^="javascript"]):not([rel=external])', 'click', function() {
                 jQuery.ajax({
                     url: jQuery(this).attr('href'),
-                    success: doLoadingSuccess(null)
+                    success: doLoadingSuccess(jQuery(this).attr('href'))
                 });
                 return false;
             });
@@ -196,7 +185,7 @@ jQuery(document).ready(function () {
                 $form.ajaxSubmit({
                     data: {'requested_with': 'XMLHttpRequest'},
                     success: doLoadingSuccess(jQuery('table.view')[0]),
-                    error: loadingError
+                    error: loadingError()
                 });
                 return false;
             });
@@ -205,8 +194,8 @@ jQuery(document).ready(function () {
 
     // wash for hash changes
     jQuery(window).bind('hashchange', function () {
-        var newUrl = hashUrl();
-        if(!newUrl || newUrl == currentUrl) {
+        var newUrl = $.hash();
+        if(!newUrl || newUrl == $.hash.currentUrl) {
             return;
         }
         openLink(newUrl);

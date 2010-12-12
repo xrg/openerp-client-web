@@ -67,7 +67,7 @@ One2Many.prototype = {
 	
 	req.addCallback(function(obj) {
             if (obj.error) {
-                jQuery.fancybox(obj.error);
+                jQuery.fancybox(obj.error, {scrolling: 'no'});
             }
             else {
                 window.location.reload();

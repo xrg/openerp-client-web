@@ -56,16 +56,13 @@ ManyToOne.prototype.__init__ = function(name) {
     this.lastKey = null;
     this.delayedRequest = null;
     this.completeDelay = 1;
-    this.hasHiddenValue = false;
     this.lastTextResult = null;
     this.lastSearch = null;
-    this.onlySuggest = false;
-    this.minChars = 1;
-    this.processCount = 0;
-    this.takeFocus = false;
     this.hasFocus = false;
     this.suggestionBoxMouseOver = false;
     this.selectedResult = false;
+    this.eval_domain = null;
+    this.eval_context = null;
 
     this.select_img = openobject.dom.get(name + '_select');
     this.open_img = openobject.dom.get(name + '_open');
@@ -103,17 +100,11 @@ ManyToOne.prototype.__init__ = function(name) {
         this.field._m2o = this;
 
         this.change_icon();
-
-        if(this.takeFocus) {
-            this.text.focus();
-            this.gotFocus();
-        }
     }
 };
 
 ManyToOne.prototype.gotFocus = function(evt) {
     this.hasFocus = true;
-    if(!this.minChars) this.on_keyup(evt);
 };
 
 ManyToOne.prototype.lostFocus = function() {
@@ -167,10 +158,15 @@ ManyToOne.prototype.open = function(id) {
         domain: domain,
         context: context
     }).addCallback(function(obj) {
-        openobject.tools.openWindow(openobject.http.getURL('/openerp/openm2o/edit', {
-            _terp_model: model, _terp_id: id,
-            _terp_domain: obj.domain, _terp_context: obj.context,
-            _terp_m2o: source, _terp_editable: editable ? 'True' : 'False'}));
+        $.m2o({
+            record: true,
+            _terp_model: model,
+            _terp_id: id,
+            _terp_domain: obj.domain,
+            _terp_context: obj.context,
+            _terp_m2o: source,
+            _terp_editable: editable ? 'True' : 'False'
+        });
     });
 };
 
@@ -235,7 +231,7 @@ ManyToOne.prototype.on_keyup = function() {
     // Stop processing if a special key has been pressed. Or if the last search requested the same string
     if(this.specialKeyPressed || (this.text.value == this.lastSearch)) return false;
 
-    if(this.minChars && this.text.value.length < this.minChars) {
+    if(!this.text.value.length) {
         if(this.delayedRequest) {
             this.delayedRequest.cancel();
             this.clearResults();
@@ -287,10 +283,6 @@ ManyToOne.prototype.on_keydown = function(evt) {
             case 13:
             case 1:
                 var $selectedRow = jQuery(idSelector("autoComplete" + this.name + "_" + this.selectedResultRow));
-                if(this.onlySuggest && $selectedRow.length) {
-                    this.clearResults();
-                    break;
-                }
 
                 this.setCompletionText($selectedRow);
 
@@ -428,6 +420,8 @@ ManyToOne.prototype.clearResults = function() {
     this.selectedResultRow = 0;
     this.numResultRows = 0;
     this.lastSearch = null;
+    this.eval_domain = null;
+    this.eval_context = null;
 };
 
 ManyToOne.prototype.doDelayedRequest = function () {
@@ -436,19 +430,36 @@ ManyToOne.prototype.doDelayedRequest = function () {
     var val = s.lastIndexOf(',') >= 0 ? s.substring(s.lastIndexOf(',') + 1).replace(/^\s+|\s+$/g, "") : s.replace(/^\s+|\s+$/g, "");
 
     // Check again if less than required chars, then we won't search.
-    if(this.minChars && val.length < this.minChars) {
+    if(!val.length) {
         this.clearResults();
         return false;
     }
 
     // Get what we are searching for
-    this.processCount++;
-
     this.lastSearch = this.text.value;
-    jQuery.getJSON('/openerp/search/get_matched', {
-        text: val,
-        model: this.relation
-    }, jQuery.proxy(this, 'displayResults'));
+    if (this.numResultRows==0) {
+        var self = this;
+        var req = eval_domain_context_request({source: this.name, domain: getNodeAttribute(this.field, 'domain'), context: getNodeAttribute(this.field, 'context')});
+        req.addCallback(function(obj) {
+            self.eval_domain = obj.domain;
+            self.eval_context = obj.context
+
+            jQuery.getJSON('/openerp/search/get_matched', {
+                text: val,
+                model: self.relation,
+                _terp_domain: self.eval_domain,
+                _terp_context: self.eval_context
+            }, jQuery.proxy(self, 'displayResults'));
+        });
+    }
+    else {
+        jQuery.getJSON('/openerp/search/get_matched', {
+                text: val,
+                model: this.relation,
+                _terp_domain: this.eval_domain,
+                _terp_context: this.eval_context
+            }, jQuery.proxy(this, 'displayResults'));
+    }
     return true;
 };
 
@@ -456,7 +467,6 @@ ManyToOne.prototype.displayResults = function(result) {
     try {
         if(!this.hasFocus) {
             this.updateSelectedResult();
-            this.processCount--;
             return false;
         }
 
@@ -466,10 +476,7 @@ ManyToOne.prototype.displayResults = function(result) {
             "id": "autoCompleteTable" + this.name});
         this.numResultRows = result.values.length;
 
-        if(this.onlySuggest)
-            this.selectedResultRow = null;
-        else
-            this.selectedResultRow = 0;
+        this.selectedResultRow = 0;
 
         var mouseOver = jQuery.proxy(this, 'getMouseover');
         var onClick = jQuery.proxy(this, 'getOnclick');
@@ -501,7 +508,6 @@ ManyToOne.prototype.displayResults = function(result) {
             $resultsHolder.hide();
         }
 
-        this.processCount--;
         return true;
     }
     catch(e) {
@@ -538,3 +544,105 @@ ManyToOne.prototype.getOnclick = function(evt) {
     evt.which = 13;
     this.on_keydown(evt);
 };
+
+(function ($) {
+    /**
+     * Opens an m2o dialog linked to the provided <code>$this</code> window,
+     * with the selected options.
+     *
+     * @param $this the parent window of the opened dialog, contains the
+     * input to fill with the selected m2o value if any
+     * @param options A map of options to provide to the xhr call.
+     * The <code>source</code> key is also used for the id of the element
+     * (in <code>$this</code>) on which any selected m2o value should be set.
+     * The <code>record</code> key indicates whether a record should be opened
+     * instead of a search view
+     */
+    function open($this, options) {
+        var url;
+        if(options.record) {
+            url = '/openerp/openm2o/edit'
+        } else {
+            url = '/openerp/search/new';
+        }
+        return $('<iframe>', {
+            src: openobject.http.getURL(url, options),
+            frameborder: 0
+        }).data('source_window', $this[0])
+          .data('source_id', options.source || null)
+          .appendTo(document.documentElement)
+          .dialog({
+              modal: true,
+              width: 640,
+              height: 480,
+              close: function () {
+                  jQuery(this).dialog('destroy').remove();
+              }
+          });
+    }
+
+    /**
+     * Closes the m2o dialog it was called from (represented by
+     * <code>$this</code>, setting the related m2o input to the provided
+     * <code>value</code>, if any.
+     *
+     * @param $this the window of the dialog to close
+     * @param value optional, the value to set the m2o input to if it is
+     * provided
+     */
+    function close($this, value) {
+        var $frame = $($this.attr('frameElement'));
+        if(value) {
+            // the m2o input to set is in the source_window, which is set as
+            // a `data` of the dialog iframe
+            var jQ = $frame.data('source_window').jQuery;
+            var source_id = $frame.data('source_id');
+            jQ(idSelector(source_id + '_text')).val('');
+            var $m2o_field = jQ(idSelector(source_id)).val(value);
+
+            if($m2o_field[0].onchange) {
+                $m2o_field[0].onchange();
+            } else {
+                $m2o_field.change();
+            }
+        }
+        $frame.dialog('close');
+        return null;
+    }
+
+    /**
+     * Manage m2o dialogs for this scope
+     * <ul>
+     *  <li><p>Called with only options, opens a new m2o dialog linking to the
+     *         current scope.</p></li>
+     *  <li><p>Called with the <code>"close"</code> command, closes the m2o
+     *         dialog it was invoked from and focuses its parent scope.
+     *  </p></li>
+     *  <li><p>Called with the <code>"close"</code> command and an argument,
+     *         sets that argument as the m2o value of the parent widget and
+     *         closes the m2o dialog it was invoked from as above.
+     *  </p></li>
+     * </ul>
+     *
+     * @returns the m2o container (iframe) if one was created
+     */
+    $.m2o = function () {
+        // $this should be the holder for the window from which $.m2o was
+        // originally called, even if $.m2o() was bubbled to the top of
+        // the window stack.
+        var $this;
+        if(this == $) $this = $(window);
+        else $this = $(this);
+        if(window != window.top) {
+            return window.top.jQuery.m2o.apply($this[0], arguments);
+        }
+        // We're at the top-level window, $this is the window from which the
+        // original $.m2o call was performed, window being the current window
+        // level.
+        if(arguments[0] === "close") {
+            return close($this, arguments[1]);
+        } else {
+            return open($this, arguments[0]);
+        }
+    };
+})(jQuery);

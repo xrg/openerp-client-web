@@ -3,38 +3,38 @@
 # This file is distributed under the same license as the PROJECT project.
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2010.
 #
-#,
 msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2010-10-26 10:51+0200\n"
-"PO-Revision-Date: 2010-11-25 10:31+0530\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"POT-Creation-Date: 2010-11-25 10:31+0530\n"
+"PO-Revision-Date: 2010-12-07 07:56+0000\n"
+"Last-Translator: Thorsten Vocks (OpenBig.org) <thorsten.vocks@big-"
+"consulting.net>\n"
 "Language-Team: de <LL@li.org>\n"
-"Plural-Forms: nplurals=2; plural=(n != 1)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"X-Launchpad-Export-Date: 2010-12-08 04:49+0000\n"
+"X-Generator: Launchpad (build Unknown)\n"
 "Generated-By: Babel None\n"
 
 #: static/javascript/infobox.js:143
 msgid "Do you really want to delete this record?"
-msgstr ""
+msgstr "Möchten Sie diesen Datensatz wirklich löschen?"
 
 #: static/javascript/process.js:178
 msgid "Notes:"
-msgstr ""
+msgstr "Notizen:"
 
 #: static/javascript/process.js:186
 msgid "Subflows:"
-msgstr ""
+msgstr "Unterprozesse:"
 
 #: static/javascript/process.js:190
 msgid "Related:"
-msgstr ""
+msgstr "Zugehörig:"
 
 #: static/javascript/process.js:274
 msgid "Help"
-msgstr ""
-
+msgstr "Hilfe"

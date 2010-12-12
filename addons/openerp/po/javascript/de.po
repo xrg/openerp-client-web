@@ -3,66 +3,67 @@
 # This file is distributed under the same license as the PROJECT project.
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2010.
 #
-#,
 msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2010-10-26 10:51+0200\n"
-"PO-Revision-Date: 2010-11-25 10:31+0530\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"POT-Creation-Date: 2010-11-25 10:30+0530\n"
+"PO-Revision-Date: 2010-12-07 07:47+0000\n"
+"Last-Translator: Thorsten Vocks (OpenBig.org) <thorsten.vocks@big-"
+"consulting.net>\n"
 "Language-Team: de <LL@li.org>\n"
-"Plural-Forms: nplurals=2; plural=(n != 1)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"X-Launchpad-Export-Date: 2010-12-08 04:49+0000\n"
+"X-Generator: Launchpad (build Unknown)\n"
 "Generated-By: Babel None\n"
 
 #: static/javascript/form.js:100
 #, python-format
 msgid "You selected to open %(tabs)s tabs - do you want to continue?"
 msgstr ""
+"Sie haben %(tabs)s Tabs zum Öffnen ausgewählt - möchten Sie fortfahren?"
 
 #: static/javascript/form.js:177
 msgid "Invalid form, correct red fields."
-msgstr ""
+msgstr "Ungültiges Formular - bitte korrigieren Sie die roten Felder."
 
 #: static/javascript/form.js:212
 msgid "Do you really want to delete this record?"
-msgstr ""
+msgstr "Möchten Sie diesen Datensatz wirklich löschen?"
 
 #: static/javascript/form.js:957
 msgid "Do you really want to delete the attachment"
-msgstr ""
+msgstr "Möchten Sie den Dateianhang wirklich löschen?"
 
 #: static/javascript/listgrid.js:510 static/javascript/o2m.js:103
 msgid "To edit Record, please first save it."
-msgstr ""
+msgstr "Um den Eintrag zu barbeiten, bitte erst speichern."
 
 #: static/javascript/listgrid.js:618
 msgid "Do you really want to delete selected record(s) ?"
-msgstr ""
+msgstr "Möchten Sie wirklich die ausgewählten Daten(sätze) löschen?"
 
 #: static/javascript/o2m.js:62
 msgid "Do you really want to delete record ?"
-msgstr ""
+msgstr "Möchten Sie wirklich den ausgewählten Datensatz löschen?"
 
 #: static/javascript/viewed.js:71
 msgid "Do you really want to remove this node?"
-msgstr ""
+msgstr "Möchten Sie diesen Knoten wirklich entfernen?"
 
 #: static/javascript/viewed.js:337
 msgid "Do you really wants to create an inherited view here?"
-msgstr ""
+msgstr "Möchten Sie wirklich eine vererbte Ansicht anlegen?"
 
 #: static/javascript/openerp/openerp.ui.tips.js:59
 msgid "Object"
-msgstr ""
+msgstr "Objekt"
 
 #: static/javascript/openerp/openerp.ui.tips.js:60
 msgid "Field"
-msgstr ""
+msgstr "Feld"
 
 #~ msgid "You must select at least one record."
-#~ msgstr ""
-
+#~ msgstr "Sie müssen mindestens einen Datensatz auswählen."

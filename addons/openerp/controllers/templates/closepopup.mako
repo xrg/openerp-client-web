@@ -17,6 +17,9 @@
                 topWindow = window.opener;
                 setTimeout(close);
             }
+            /*
+            % if reload:
+            */
             var $doc = jQuery(topWindow.document);
             switch($doc.find('#_terp_view_type').val()) {
                 case null:
@@ -32,6 +35,9 @@
                 form_action = 'save_and_edit';
             }
             topWindow.submit_form(form_action);
+            /*
+            % endif
+            */
         });
     </script>
 </%def>

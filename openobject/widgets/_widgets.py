@@ -2,7 +2,6 @@ import re
 
 from _base import *
 from _resource import *
-from _utils import make_bunch
 
 import formencode
 
@@ -49,22 +48,16 @@ class FormField(InputWidget):
             name = self.name[pos+1:]
             self.label_text = name2label(name)
 
-        self.attrs = make_bunch(self.attrs or {})
+        self.attrs = self.attrs or {}
 
-    def update_params(self, d):
-        super(FormField, self).update_params(d)
-
-    def update_attrs(self, d, *args, **kw):
-
+    def update_attrs(self, params, *args, **kw):
         for arg in args:
             if isinstance(arg, dict):
-                d.attrs.update(arg)
+                params['attrs'].update(arg)
             else:
-                d.attrs[arg] = d[arg]
+                params['attrs'][arg] = params[arg]
 
-        for name, value in kw.items():
-            d.attrs[name] = value
-
+        params['attrs'].update(kw)
 
 class Label(FormField):
     """A simple label for a form field."""
@@ -83,10 +76,10 @@ class Input(FormField):
 
     type = "text"
 
-    def update_params(self, d):
-        super(Input, self).update_params(d)
-        d.field_id = self.full_name.replace('.', '_')
-        self.update_attrs(d, "name", "value", id=d.field_id, title=self.help_text)
+    def update_params(self, params):
+        super(Input, self).update_params(params)
+        params['field_id'] = self.full_name.replace('.', '_')
+        self.update_attrs(params, "name", "value", id=params['field_id'], title=self.help_text)
 
 
 class TextField(Input):
@@ -131,21 +124,21 @@ class ImageButton(Input):
               'height': 'Height of the image',
               'alt': 'Alternate text for the image'}
 
-    def update_params(self, d):
-        super(ImageButton, self).update_params(d)
-        self.update_params(d, "width", "height", "src", "alt")
+    def update_params(self, params):
+        super(ImageButton, self).update_params(params)
+        self.update_params(params, "width", "height", "src", "alt")
 
 
 class CheckBox(Input):
     type = "checkbox"
     validator = formencode.validators.Bool
-    def update_params(self, d):
-        super(CheckBox, self).update_params(d)
+    def update_params(self, params):
+        super(CheckBox, self).update_params(params)
         try:
-            checked = self.validator.to_python(d.value)
+            checked = self.validator.to_python(params['value'])
         except formencode.api.Invalid:
             checked = False
-        d.attrs['checked'] = checked or None
+        params['attrs']['checked'] = checked or None
 
 
 class RadioButton(Input):
@@ -184,16 +177,16 @@ class SelectField(Input):
             return value is not None and option_value in value
         return option_value == value
 
-    def update_params(self, d):
-        super(SelectField, self).update_params(d)
+    def update_params(self, params):
+        super(SelectField, self).update_params(params)
         grouped_options = []
         options = []
-        d['options'] = self._iterate_options(d['options'])
+        params['options'] = self._iterate_options(params['options'])
         # Coerce value if possible so _is_options_selected can compare python
         # values. This is needed when validation fails because FE will send
         # uncoerced values.
-        value = self.safe_validate(d['value'])
-        for optgroup in d["options"]:
+        value = self.safe_validate(params['value'])
+        for optgroup in params["options"]:
             if isinstance(optgroup[1], (list,tuple)):
                 group = True
                 optlist = optgroup[1][:]
@@ -213,14 +206,14 @@ class SelectField(Input):
                 grouped_options.append((optgroup[0], optlist))
         # options provides a list of *flat* options leaving out any eventual
         # group, useful for backward compatibility and simpler widgets
-        d["options"] = options
+        params["options"] = options
         if grouped_options:
-            d["grouped_options"] = grouped_options
+            params["grouped_options"] = grouped_options
         else:
-            d["grouped_options"] = [(None, options)]
+            params["grouped_options"] = [(None, options)]
 
         if self.multiple:
-            d.attrs.multiple = "multiple"
+            params['attrs']['multiple'] = "multiple"
 
 class Form(FormField):
 
@@ -245,13 +238,13 @@ class Form(FormField):
     def help_for(self, field):
         return getattr(field, "help", None)
 
-    def update_params(self, d):
-        super(Form, self).update_params(d)
+    def update_params(self, params):
+        super(Form, self).update_params(params)
 
-        d['label_for'] = self.label_for
-        d['help_for'] = self.help_for
-        self.update_attrs(d, self.form_attrs)
-        self.update_attrs(d, "name", "action", "method", id=self.name)
+        params['label_for'] = self.label_for
+        params['help_for'] = self.help_for
+        self.update_attrs(params, self.form_attrs)
+        self.update_attrs(params, "name", "action", "method", id=self.name)
 
         if self.file_upload:
             self.attrs.setdefault('enctype', 'multipart/form-data')
