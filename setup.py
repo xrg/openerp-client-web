@@ -22,7 +22,7 @@ if version_dash_incompatible:
     version = version.split('-')[0]
 
 FILE_PATTERNS = \
-    r'.+\.(py|cfg|po|pot|mo|txt|rst|gif|png|jpg|ico|mako|html|js|css|htc|swf)$'
+    r'.+\.(py|cfg|po|pot|mo|txt|rst|gif|png|jpg|ico|mako|html|js|css|htc|swf)$'    
 def find_data_files(source, dest=None, patterns=FILE_PATTERNS):
     file_matcher = re.compile(patterns, re.I)
     if dest is None: dest = source
@@ -40,6 +40,20 @@ def find_data_files(source, dest=None, patterns=FILE_PATTERNS):
                 (dest_dir, cur_files))
 
     return out
+
+DATAFILE_GLOBS = [ 
+        '*.cfg',
+        '*.po', '*.pot',
+        '*.mo', # ?
+        '*.txt', '*.rst',
+        '*.gif', '*.png', '*.jpg', '*.ico',
+        '*.mako', '*.html', '*.js', '*.css',
+        '*.htc', '*.swf' ]
+
+DATAFILE_GLOBS_O = [
+        '*.cfg', '*.css', '*.js', '*.mako',
+        '*.gif', '*.png', '*.jpg', '*.ico'
+        ]
 
 setup(
     name=name,
@@ -69,8 +83,21 @@ setup(
         'openobject.i18n',
         'openobject.test',
         'openobject.tools',
-        'openobject.widgets'
+        'openobject.widgets',
+        'addons.openerp',
+        'addons.view_calendar',
+        'addons.view_diagram',
+        'addons.view_graph',
+        'addons.widget_ckeditor',
     ],
+    package_data = {
+        'openobject': DATAFILE_GLOBS_O,
+        'addons.openerp': DATAFILE_GLOBS,
+        'addons.view_calendar': DATAFILE_GLOBS,
+        'addons.view_diagram': DATAFILE_GLOBS,
+        'addons.view_graph': DATAFILE_GLOBS,
+        'addons.widget_ckeditor': DATAFILE_GLOBS,
+    },
     classifiers=[
         'Development Status :: 5 - Production/Stable',
         'Operating System :: OS Independent',
@@ -79,13 +106,7 @@ setup(
         'Topic :: Office/Business :: Financial',
         ],
     scripts=['scripts/openerp-web'],
-    data_files=(find_data_files('addons/openerp')
-              + find_data_files('addons/view_calendar')
-              + find_data_files('addons/view_diagram')
-              + find_data_files('addons/view_graph')
-              + find_data_files('addons/widget_ckeditor')
-              + find_data_files('doc', patterns='')
-              + find_data_files('openobject', patterns=r'.+\.(cfg|css|js|mako|gif|png|jpg|ico)')
+    data_files=(find_data_files('doc', dest=os.path.join('doc', 'openerp-web'), patterns='')
               + opts.pop('data_files', [])
     ),
     **opts
