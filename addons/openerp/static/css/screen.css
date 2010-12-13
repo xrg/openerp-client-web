@@ -2259,6 +2259,11 @@ div.box-a a.close {
     right: 5px;
 }
 
+img.no_image {
+    border: 1px solid gray;
+    background: transperant;
+}
+
 /* SPECIFIC
 ------------------------------------------- */
 

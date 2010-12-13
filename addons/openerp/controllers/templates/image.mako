@@ -3,7 +3,6 @@
 <%def name="header()">
     <title>${_("Image")}</title>
     <script type="text/javascript">
-
         function do_delete(form, id, field){
             setNodeAttribute(form, 'action', openobject.http.getURL('/openerp/image/delete', {id: id}));
             jQuery('#'+form).submit();
@@ -19,7 +18,7 @@
             var img = window.opener.document.getElementById('${field}');
             if(saved != '' && !parseInt(saved, 10)) {
                 img.src = "data:image/png;base64," + document.getElementById('value').value;
-                window.opener.document.getElementById('_${field}').value =  document.getElementById('value').value;
+                jQuery('input[id=${field}][type="hidden"][is_image]', window.opener.document).val(document.getElementById('value').value);
             }
             else{
                 img.src = img.src + '&' + Math.random();
