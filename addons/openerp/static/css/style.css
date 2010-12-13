@@ -835,6 +835,23 @@ div#more_logs {
 	display: none;
 }
 
+div#system-logs {
+    padding: 10px;
+}
+div#system-logs table {
+    border: none;
+}
+div#system-logs a {
+    text-decoration: underline;
+    font-weight: bold;
+}
+div#system-logs table tr:hover {
+    background: #eee;
+}
+div#system-logs table tr td {
+    padding: 2px;
+}
+
 div#serverlog {
     border-radius: 3px;
     -moz-border-radius: 3px;

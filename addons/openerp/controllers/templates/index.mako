@@ -44,19 +44,24 @@
                     }, 'json');
             });
             // Make system logs deletable
-            jQuery('#welcome_message a.close').click(function() {
-                var $mess = jQuery(this);
+            jQuery('#system-logs a.close-system-log').click(function() {
+                var $link = jQuery(this);
                 jQuery.post(
-                		$mess.attr('href'),
-                    {log_id: $mess.attr('id')},
+                    $link.attr('href'),
+                    { log_id: $link.attr('id').replace('system-log-', '') },
                     function(obj) {
                         if(obj.error) {
                             error_display(obj.error);
                             return;
                         }
-                        var $root = $mess.closest('.welcome_message_item');
-                        $root.remove();
+                        if ($link.parents('table').eq(0).find('tr').length == 1) {
+                            $('#system-logs').prev().hide();
+                            $('#system-logs').hide();
+                        } else {
+                            $link.parents('tr').eq(0).remove();
+                        }
                     }, 'json');
+                return false;
             });
         });
     </script>
@@ -153,20 +158,30 @@
                                     </div>
                                 </td>
                                 <td class="tertiary">
-                                	% if len(welcome_messages) > 0:
-                                    <div id="welcome_message" class="box-a">
-	                                	% for welcome_message in welcome_messages:
-	                                    	<div class="welcome_message_item">
-		                                		${welcome_message[1]|n}
-		                                		% if show_close_btn:
-			                                    	<a id="${welcome_message[0]}"
-				                                        href="${py.url('/openerp/remove_log')}"
-				                                        class="close">&nbsp;&nbsp;&nbsp;&nbsp;</a>
-			                                    % endif
-		                                    </div>
-	                                    % endfor
-	                                </div>
-	                                % endif
+                                    % if len(welcome_messages):
+                                        <div class="sideheader-a">
+                                            <h2>${_("System Logs")}</h2>
+                                        </div>
+                                        <div class="box-a" id="system-logs">
+                                            <table width="100%">
+                                            % for welcome_message in welcome_messages:
+                                                <tr>
+                                                    <td colspan="${ '1' if show_close_btn else '2'}">
+                                                        ${welcome_message[1]|n}
+                                                    </td>
+                                                    % if show_close_btn:
+                                                    <td>
+                                                        <a id="system-log-${welcome_message[0]}" href="${py.url('/openerp/remove_log')}" class="close-system-log">
+                                                            <img id="closeServerLog" style="cursor: pointer;" align="right"
+                                                             src="/openerp/static/images/attachments-a-close.png" title="Close">
+                                                        </a>
+                                                    </td>
+                                                    % endif
+                                                </tr>
+                                            % endfor
+                                            </table>
+                                        </div>
+                                    % endif
                                     <div class="sideheader-a">
                                         <a href="${py.url('/openerp/widgets/add')}"
                                            id="add_user_widget" class="button-a"
