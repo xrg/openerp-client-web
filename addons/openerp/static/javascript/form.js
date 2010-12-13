@@ -1225,7 +1225,7 @@ function validate_action() {
     var $form = jQuery('#view_form');
     if ($form.data('is_form_changed') && confirm('The record has been modified \n Do you want to save it ?')) {
         if (!validate_required($form.get(0))) {
-            return;
+            return false;
         }
         
         $form.ajaxSubmit({
@@ -1244,4 +1244,5 @@ function validate_action() {
         var action = arguments[1];
         action(params);
     }
+    return true;
 }

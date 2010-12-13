@@ -147,8 +147,11 @@ var FORM_WAIT_NO_ACTIVITY = 500;
 jQuery(document).ready(function () {
     var $app = jQuery('#appContent');
     if ($app.length) {
-        jQuery('body').delegate('a[href]:not([target="_blank"]):not([href^="#"]):not([href^="javascript"]):not([rel=external])', 'click', function(){
-            validate_action();
+        jQuery('body').delegate('a[href]:not([target="_blank"]):not([href^="#"]):not([href^="javascript"]):not([rel=external])', 'click', function(event){
+            if (!validate_action()) {
+                event.stopImmediatePropagation();
+                return false;
+            }
         });
 
         // open un-targeted links in #appContent via xhr. Links with @target are considered
