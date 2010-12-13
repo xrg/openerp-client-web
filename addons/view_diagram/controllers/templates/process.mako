@@ -71,7 +71,7 @@
                     </a>
                     <a class="cta-a" target="_blank" href="http://www.openerp.com/services/subscribe-onsite">
                         <span>
-                            <strong>${_("Support / Maintenance")}</strong>
+                            <strong>${_("Support / Publisher Warranty")}</strong>
                             ${_("Get the OpenERP Warranty")}
                         </span>
                     </a>
