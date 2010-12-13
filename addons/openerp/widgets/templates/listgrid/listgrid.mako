@@ -67,6 +67,10 @@
             % endif
         </td>
     % endif
+    % for field, field_attrs in hiddens:
+        ${data[field].display()}
+    % endfor
+
     % if editable:
         <td class="grid-cell selector">
             % if not editors:

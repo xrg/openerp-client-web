@@ -203,7 +203,8 @@ class List(TinyWidget):
         self.headers, self.hiddens, self.data, self.field_total, self.buttons = self.parse(root, fields, data)
 
         for k, v in self.field_total.items():
-            self.field_total[k][1] = self.do_sum(self.data, k)
+            if(len([test[0] for test in self.hiddens if test[0] == k])) <= 0:
+                self.field_total[k][1] = self.do_sum(self.data, k)
 
         self.columns = len(self.headers)
 
@@ -367,7 +368,6 @@ class List(TinyWidget):
 
                     if invisible:
                         hiddens += [(name, fields[name])]
-#                        continue
 
                     if 'sum' in attrs:
                         field_total[name] = [attrs['sum'], 0.0]
@@ -375,7 +375,11 @@ class List(TinyWidget):
                     for i, row in enumerate(data):
 
                         row_value = values[i]
-                        cell = CELLTYPES[kind](value=row_value.get(name, False), **fields[name])
+                        if invisible:
+                            cell = form.Hidden(**fields[name])
+                            cell.set_value(row_value.get(name, False))
+                        else:
+                            cell = CELLTYPES[kind](value=row_value.get(name, False), **fields[name])
 
                         for color, expr in self.colors.items():
                             try:
@@ -573,7 +577,7 @@ class Button(TinyInputWidget):
 
         self.btype = attrs.get('special', attrs.get('type', 'workflow'))
         self.icon = attrs.get('icon')
-
+        self.attrs = attrs.get('attrs', '{}')
         if self.icon:
             self.icon = icons.get_icon(self.icon)
 
@@ -599,6 +603,10 @@ class Button(TinyInputWidget):
             visible = state in self.states
 
         return dict(id=id, visible=visible)
+
+    def update_params(self, d):
+        super(Button, self).update_params(d)
+        d.attrs['attrs']=self.attrs
 
 
 CELLTYPES = {

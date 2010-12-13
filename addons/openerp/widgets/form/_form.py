@@ -616,8 +616,7 @@ class Hidden(TinyInputWidget):
         self.widget = get_widget(kind)(**attrs)
         self.validator = self.widget.validator
         self.relation = attrs.get('relation') or None
-        if self.readonly:
-            self.editable = self.readonly
+        self.editable = self.readonly
         if 'field_id' not in attrs:
             self.field_id = self.name
 
