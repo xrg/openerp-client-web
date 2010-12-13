@@ -155,6 +155,7 @@
                                     </div>
                                 </td>
                                 <td class="tertiary">
+                                	% if len(welcome_messages) > 0:
                                     <div id="welcome_message" class="box-a">
 	                                	% for welcome_message in welcome_messages:
 	                                    	<div class="welcome_message_item">
@@ -167,6 +168,7 @@
 		                                    </div>
 	                                    % endfor
 	                                </div>
+	                                % endif
                                     <div class="sideheader-a">
                                         <a href="${py.url('/openerp/widgets/add')}"
                                            id="add_user_widget" class="button-a"
