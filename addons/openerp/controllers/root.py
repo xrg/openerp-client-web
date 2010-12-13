@@ -34,6 +34,8 @@ from openerp.utils import rpc, cache, TinyDict
 
 from openobject.tools import url, expose, redirect
 
+_MAXIMUM_NUMBER_WELCOME_MESSAGES = 3
+
 def _cp_on_error():
     cherrypy.request.pool = openobject.pooler.get_pool()
 
@@ -137,6 +139,8 @@ class Root(SecuredController):
             tools = None
 
         return dict(parents=parents, tools=tools, load_content=(next and next or ''),
+                    welcome_messages=rpc.RPCProxy('publisher_warranty.contract').get_last_user_messages(_MAXIMUM_NUMBER_WELCOME_MESSAGES),
+                    show_close_btn=rpc.session.uid == 1,
                     widgets=openobject.pooler.get_pool()\
                                       .get_controller('/openerp/widgets')\
                                       .user_home_widgets(ctx))
@@ -180,6 +184,15 @@ class Root(SecuredController):
     @expose()
     def blank(self):
         return ''
+    
+    @openobject.tools.expose('json', methods=('POST',))
+    def remove_log(self, log_id):
+        error = None
+        try:
+            rpc.RPCProxy('publisher_warranty.contract').del_user_message(log_id)
+        except Exception, e:
+            error = e
+        return dict(error=error)
 
 
 # vim: ts=4 sts=4 sw=4 si et

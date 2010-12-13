@@ -43,6 +43,21 @@
                              .remove();
                     }, 'json');
             });
+            // Make system logs deletable
+            jQuery('#welcome_message a.close').click(function() {
+                var $mess = jQuery(this);
+                jQuery.post(
+                		$mess.attr('href'),
+                    {log_id: $mess.attr('id')},
+                    function(obj) {
+                        if(obj.error) {
+                            error_display(obj.error);
+                            return;
+                        }
+                        var $root = $mess.closest('.welcome_message_item');
+                        $root.remove();
+                    }, 'json');
+            });
         });
     </script>
 </%def>
@@ -138,26 +153,20 @@
                                     </div>
                                 </td>
                                 <td class="tertiary">
-                                    <div class="wrap" style="padding: 10px;">
-                                        <ul class="split-a">
-                                            <li class="one">
-                                                <a class="cta-a" href="http://www.openerp.com/services/subscribe-onsite" target="_blank">
-                                                    <span>
-                                                        <strong>${_('Use On-Site')}</strong>
-                                                        ${_("Get the OpenERP Warranty")}
-                                                    </span>
-                                                </a>
-                                            </li>
-                                            <li class="two">
-                                                <a class="cta-a" href="http://www.openerp.com/online" target="_blank">
-                                                    <span>
-                                                        <strong>${_('Use Online')}</strong>
-                                                        ${_("Subscribe and start")}
-                                                    </span>
-                                                </a>
-                                            </li>
-                                        </ul>
-                                    </div>
+                                	% if len(welcome_messages) > 0:
+                                    <div id="welcome_message" class="box-a">
+	                                	% for welcome_message in welcome_messages:
+	                                    	<div class="welcome_message_item">
+		                                		${welcome_message[1]|n}
+		                                		% if show_close_btn:
+			                                    	<a id="${welcome_message[0]}"
+				                                        href="${py.url('/openerp/remove_log')}"
+				                                        class="close">&nbsp;&nbsp;&nbsp;&nbsp;</a>
+			                                    % endif
+		                                    </div>
+	                                    % endfor
+	                                </div>
+	                                % endif
                                     <div class="sideheader-a">
                                         <a href="${py.url('/openerp/widgets/add')}"
                                            id="add_user_widget" class="button-a"

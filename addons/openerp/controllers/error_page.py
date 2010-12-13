@@ -79,9 +79,9 @@ class ErrorPage(BaseController):
                     concurrency=concurrency, all_params=all_params, target=target)
 
     @expose('json')
-    def submit(self, tb, explanation, remarks):
+    def submit(self, tb, explanation, remarks, name):
         try:
-            res = rpc.RPCProxy('maintenance.contract').send(tb, explanation, remarks)
+            res = rpc.RPCProxy('maintenance.contract').send(tb, explanation, remarks, name)
             if res:
                 return dict(message=_('Your problem has been sent to the quality team\nWe will recontact you after analysing the problem.'))
             else:
