@@ -173,18 +173,10 @@ jQuery(document).ready(function () {
     } else {
         if(jQuery(document).find('div#root').length) {
             jQuery(document).delegate('a[href]:not([target]):not([href^="#"]):not([href^="javascript"]):not([rel=external])', 'click', function() {
-                
-                if(jQuery(this).parents('td.tertiary').length) {
-                    jQuery.ajax({
-                        url: jQuery(this).attr('href'),
-                        success: doLoadingSuccess(jQuery(this).attr('href'))
-                    });        
-                }
-                else {
-                    window.location.href = openobject.http.getURL('/openerp', {
-                        'next': jQuery(this).attr('href')
-                    });                        
-                }
+                jQuery.ajax({
+                    url: jQuery(this).attr('href'),
+                    success: doLoadingSuccess(jQuery(this).attr('href'))
+                });
                 return false;
             });
         }

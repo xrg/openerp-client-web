@@ -97,6 +97,7 @@ class Root(SecuredController):
     @expose(template="/openerp/controllers/templates/index.mako")
     def menu(self, active=None, next=None):
         from openerp.widgets import tree_view
+        
         try:
             id = int(active)
         except:
