@@ -294,12 +294,15 @@ function form_setRequired(container, field, required) {
     if (!field) {
         field = container;
     }
-    
-    if (required) {
-        MochiKit.DOM.addElementClass(field, 'requiredfield');
-    } else {
-        MochiKit.DOM.removeElementClass(field, 'requiredfield');
-    }
+	var editable = getElement('_terp_editable').value;
+
+    if (editable == 'True') {
+	    if (required) {
+	        MochiKit.DOM.addElementClass(field, 'requiredfield');
+	    } else {
+	        MochiKit.DOM.removeElementClass(field, 'requiredfield');
+	    }
+	}
     MochiKit.DOM.removeElementClass(field, 'errorfield');
 
     var kind = MochiKit.DOM.getNodeAttribute(field, 'kind');
