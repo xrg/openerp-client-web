@@ -55,9 +55,7 @@
                             return;
                         }
                         var $root = $mess.closest('.welcome_message_item');
-                        $root.next()
-                             .add($root)
-                             .remove();
+                        $root.remove();
                     }, 'json');
             });
         });
