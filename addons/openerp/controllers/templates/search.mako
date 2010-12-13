@@ -17,9 +17,6 @@
 
     <script type="text/javascript">
         var form_controller = '/openerp/search';
-        function close_dialog() {
-            window.close()
-        }
     </script>
     % if params.selectable == KINDS['M2O']:
     <script type="text/javascript">
@@ -41,6 +38,9 @@
     % elif params.selectable == KINDS['M2M']:
         % if params.get('return_to'):
             <script type="text/javascript">
+                function close_dialog() {
+                    window.close()
+                }
                 function do_select() {
                     var list_this = new ListView('_terp_list');
                     with(window.opener) {
@@ -67,6 +67,9 @@
             </script>
         % else:
 		    <script type="text/javascript">
+                function close_dialog() {
+                    jQuery.m2m('close');
+                }
 		        function do_select(id) {
                     jQuery.m2m('close',
                         id ? [id]
