@@ -42,6 +42,14 @@ class Root(BaseController):
             if header not in request.headers:
                 request.headers[header] = value
 
+    def prevent_csrf(self, request):
+        """ Check HTTP_REFERRER for POST requests in order to prevent CSRF """
+        if request.method == 'POST':
+            host = request.headers.get('Host', '')
+            ref = request.headers.get('Referer', '/').split('/')
+            if not len(ref) >= 3 or not ref[2] == host:
+                raise cherrypy.HTTPError(403, "Request Forbidden -- You are not allowed to access this resource.")
+
     @expose()
     def default(self, *args, **kw):
         autoreloader_enabled = bool(
@@ -66,6 +74,7 @@ class Root(BaseController):
 
         request = cherrypy.request
         self.reset_custom_headers_post_redirection(request)
+        self.prevent_csrf(request)
         func, vpath = self.find_handler()
 
         if func:
