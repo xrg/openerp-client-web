@@ -577,7 +577,7 @@ class Button(TinyInputWidget):
 
         self.btype = attrs.get('special', attrs.get('type', 'workflow'))
         self.icon = attrs.get('icon')
-        self.attrs = attrs.get('attrs', '{}')
+        self.attrs = attrs.get('attrs', {})
         if self.icon:
             self.icon = icons.get_icon(self.icon)
 
@@ -604,9 +604,9 @@ class Button(TinyInputWidget):
 
         return dict(id=id, visible=visible)
 
-    def update_params(self, d):
-        super(Button, self).update_params(d)
-        d.attrs['attrs']=self.attrs
+    def update_params(self, params):
+        super(Button, self).update_params(params)
+        params['attrs']=self.attrs
 
 
 CELLTYPES = {
