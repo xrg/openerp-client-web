@@ -65,22 +65,6 @@ class OpenO2M(Form):
         params.prefix = params.o2m
         params.views = wid.view
 
-        # IE hack, get context from cookies (see o2m.js)
-        o2m_context = {}
-        parent_context = {}
-        try:
-            o2m_context = urllib.unquote(cherrypy.request.cookie['_terp_o2m_context'].value)
-            parent_context = urllib.unquote(cherrypy.request.cookie['_terp_parent_context'].value)
-            cherrypy.request.cookie['_terp_o2m_context']['expires'] = 0
-            cherrypy.response.cookie['_terp_o2m_context']['expires'] = 0
-            cherrypy.request.cookie['_terp_parent_context']['expires'] = 0
-            cherrypy.response.cookie['_terp_parent_context']['expires'] = 0
-        except:
-            pass
-
-        params.o2m_context = params.o2m_context or o2m_context
-        params.parent_context = params.parent_context or parent_context
-
         ctx = params.context or {}
         ctx.update(params.parent_context or {})
         ctx.update(params.o2m_context or {})
@@ -136,8 +120,6 @@ class OpenO2M(Form):
         current = params.chain_get(prefix)
 
         params.load_counter = 1
-        if current and current.id and not params.button:
-            params.load_counter = 2
 
         ids = current.ids
         fld = params.o2m.split('/')[-1]
