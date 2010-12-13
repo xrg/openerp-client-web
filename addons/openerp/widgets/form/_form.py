@@ -623,7 +623,12 @@ class Hidden(TinyInputWidget):
     def set_value(self, value):
         self.widget.set_value(value)
         self.default = self.widget.default
-
+        
+    def get_sortable_text(self):
+        """ If returns anything other then None, the return value will be
+        used to sort the listgrid. Useful for localized data.
+        """
+        return None
 
 class Button(TinyInputWidget):
 
