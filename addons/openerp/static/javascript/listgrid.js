@@ -124,7 +124,7 @@ ListView.prototype = {
     },
 
     getSelectedRecords: function() {
-        return jQuery(this.getSelectedItems()).map(function() {
+        return this.$getSelectedItems().map(function() {
             if(this.value) {
                 return this.value
             } else {
@@ -134,10 +134,16 @@ ListView.prototype = {
         }).get();
     },
 
+    $getSelectedItems: function () {
+       return jQuery(idSelector(this.name))
+                .find('input.grid-record-selector')
+                .filter(function() {
+            return this.id && this.checked;
+        })
+    },
+
     getSelectedItems: function() {
-        return filter(function(box) {
-            return box.id && box.checked;
-        }, openobject.dom.select('input.grid-record-selector', this.name));
+        return this.$getSelectedItems().get();
     },
 
     onBooleanClicked: function() {
@@ -463,11 +469,14 @@ MochiKit.Base.update(ListView.prototype, {
             _terp_button_type : btype
         };
 
-        var req = eval_domain_context_request({source: this.name, context : context || '{}',active_id: id, active_ids: openobject.dom.get(prefix + '_terp_ids').value});
-        req.addCallback(function(res) {
+        eval_domain_context_request({
+            source: this.name,
+            context : context || '{}',
+            active_id: id,
+            active_ids: openobject.dom.get(prefix + '_terp_ids').value
+        }).addCallback(function(res) {
             params['_terp_context'] = res.context;
-            var req = openobject.http.postJSON('/openerp/listgrid/button_action', params);
-            req.addCallback(function(obj) {
+            openobject.http.postJSON('/openerp/listgrid/button_action', params).addCallback(function(obj) {
                 if (obj.error) {
                     return error_display(obj.error);
                 }

@@ -737,27 +737,21 @@ function open_search_window(relation, domain, context, source, kind, text){
         'domain': domain,
         'context': context
     }).addCallback(function(obj){
-        var dialog_url = openobject.http.getURL('/openerp/search/new', {
+        var options = {
             'model': relation,
             'domain': obj.domain,
             'context': obj.context,
             'source': source,
             'kind': kind,
             'text': text
-        });
+        };
         switch(kind) {
             case KIND_M2O:
-                jQuery.m2o({
-                    'model': relation,
-                    'domain': obj.domain,
-                    'context': obj.context,
-                    'source': source,
-                    'kind': kind,
-                    'text': text
-                });
+                jQuery.m2o(options);
                 break;
-            default:
-                openobject.tools.openWindow(dialog_url);
+            case KIND_M2M:
+                jQuery.m2m(options);
+                break;
         }
     });
 }
