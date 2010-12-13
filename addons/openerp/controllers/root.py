@@ -54,6 +54,7 @@ class Root(SecuredController):
     def index(self, next=None):
         """Index page, loads the view defined by `action_id`.
         """
+        print "\n\n\n\n\n\n INNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNn",next
         if not next:
             user_action_id = rpc.RPCProxy("res.users").read([rpc.session.uid], ['action_id'], rpc.session.context)[0]['action_id']
             if user_action_id:
@@ -97,7 +98,7 @@ class Root(SecuredController):
     @expose(template="/openerp/controllers/templates/index.mako")
     def menu(self, active=None, next=None):
         from openerp.widgets import tree_view
-        
+        print "\n\n next>>>>>>>>>"
         try:
             id = int(active)
         except:
