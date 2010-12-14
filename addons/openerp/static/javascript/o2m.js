@@ -228,7 +228,7 @@ One2Many.prototype = {
             method: 'POST',
             action: '/openerp/openo2m/edit',
             target: frame_identifier
-        });
+        }).appendTo(document.documentElement);
         jQuery.each(options, function (key, value) {
             $form.append(jQuery('<input>', {
                 type: 'hidden',
@@ -236,7 +236,9 @@ One2Many.prototype = {
                 value: value
             }));
         });
-        $form.submit();
+        setTimeout(function () {
+            $form.submit();
+        });
         return $frame;
     }
 
