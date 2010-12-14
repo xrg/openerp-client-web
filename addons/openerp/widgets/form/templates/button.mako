@@ -3,7 +3,9 @@
         name="${name}"
         type="button"
         href="javascript: void(0)"
+        % if editable:
         onclick="buttonClicked('${name}', '${btype}', '${model}', '${id}', '${confirm}', '${target}', getNodeAttribute(this, 'context'));"
+        % endif
         style="height: 20px;"
         ${py.attrs(attrs, context=ctx)}>
     % if string:

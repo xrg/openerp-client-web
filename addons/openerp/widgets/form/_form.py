@@ -871,6 +871,7 @@ class Form(TinyInputWidget):
                 views.append(NewLine(**attrs))
 
             elif node.localName=='button':
+                attrs['editable'] = self.editable
                 views.append(Button(model=self.model, id=self.id, **attrs))
 
             elif node.localName == 'form':
