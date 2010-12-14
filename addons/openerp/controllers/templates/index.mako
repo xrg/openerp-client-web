@@ -6,10 +6,29 @@
     <script type="text/javascript" src="/openerp/static/javascript/accordion.js"></script>
     <script type="text/javascript" src="/openerp/static/javascript/treegrid.js"></script>
     <script type="text/javascript" src="/openerp/static/javascript/notebook/notebook.js"></script>
-    
+
     <script type="text/javascript">
         var DOCUMENT_TO_LOAD = "${load_content|n}";
         var CAL_INSTANCE = null;
+
+        // Make user home widgets deletable
+        jQuery(document).delegate('#user_widgets a.close', 'click', function(e) {
+            var $widget = jQuery(this);
+            jQuery.post(
+                $widget.attr('href'),
+                {widget_id: $widget.attr('id')},
+                function(obj) {
+                    if(obj.error) {
+                        error_display(obj.error);
+                        return;
+                    }
+                    var $root = $widget.closest('.sideheader-a');
+                    $root.next()
+                         .add($root)
+                         .remove();
+                }, 'json');
+            return false;
+        });
 
         jQuery(document).ready(function () {
             jQuery('.web_dashboard').hover(function () {
@@ -25,44 +44,26 @@
                 openLink(DOCUMENT_TO_LOAD);
                 return
             }
-
-            // Make user home widgets deletable
-            jQuery('#user_widgets a.close').click(function() {
-                var $widget = jQuery(this);
-                jQuery.post(
-                    $widget.attr('href'),
-                    {widget_id: $widget.attr('id')},
-                    function(obj) {
-                        if(obj.error) {
-                            error_display(obj.error);
-                            return;
-                        }
-                        var $root = $widget.closest('.sideheader-a');
-                        $root.next()
-                             .add($root)
-                             .remove();
-                    }, 'json');
-            });
-            // Make system logs deletable
-            jQuery('#system-logs a.close-system-log').click(function() {
-                var $link = jQuery(this);
-                jQuery.post(
-                    $link.attr('href'),
-                    { log_id: $link.attr('id').replace('system-log-', '') },
-                    function(obj) {
-                        if(obj.error) {
-                            error_display(obj.error);
-                            return;
-                        }
-                        if ($link.parents('table').eq(0).find('tr').length == 1) {
-                            $('#system-logs').prev().hide();
-                            $('#system-logs').hide();
-                        } else {
-                            $link.parents('tr').eq(0).remove();
-                        }
-                    }, 'json');
-                return false;
-            });
+        });
+        // Make system logs deletable
+        jQuery('#system-logs a.close-system-log').click(function() {
+            var $link = jQuery(this);
+            jQuery.post(
+                $link.attr('href'),
+                { log_id: $link.attr('id').replace('system-log-', '') },
+                function(obj) {
+                    if(obj.error) {
+                        error_display(obj.error);
+                        return;
+                    }
+                    if ($link.parents('table').eq(0).find('tr').length == 1) {
+                        $('#system-logs').prev().hide();
+                        $('#system-logs').hide();
+                    } else {
+                        $link.parents('tr').eq(0).remove();
+                    }
+                }, 'json');
+            return false;
         });
     </script>
 </%def>
