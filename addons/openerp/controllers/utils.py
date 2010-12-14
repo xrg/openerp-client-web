@@ -91,27 +91,23 @@ def login(target, db=None, user=None, password=None, action=None, message=None, 
 def secured(fn):
     """A Decorator to make a SecuredController controller method secured.
     """
-    def clear_login_fields(kw={}):
+    def clear_login_fields(kw):
 
         if not kw.get('login_action'):
             return
 
-        if kw.has_key('db'): del kw['db']
-        if kw.has_key('user'): del kw['user']
-        if kw.has_key('password'): del kw['password']
-        if kw.has_key('login_action'): del kw['login_action']
+        for k in ('db', 'user', 'password'):
+            kw.pop(k, None)
+        for k in kw.keys():
+            if k.startswith('login_'):
+                del kw[k]
 
-    def get_orig_args(kw={}):
+    def get_orig_args(kw):
         if not kw.get('login_action'):
             return kw
 
         new_kw = kw.copy()
-
-        if new_kw.has_key('db'): del new_kw['db']
-        if new_kw.has_key('user'): del new_kw['user']
-        if new_kw.has_key('password'): del new_kw['password']
-        if new_kw.has_key('login_action'): del new_kw['login_action']
-
+        clear_login_fields(new_kw)
         return new_kw
 
     def wrapper(*args, **kw):
