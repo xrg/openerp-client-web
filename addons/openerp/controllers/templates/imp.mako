@@ -98,14 +98,17 @@
             }).submit();
         }
 
-	% if error:
-		var $error_div = jQuery("<div id='error' title=${error.get('title', 'Warning')}></div>");
-		var $error_tbl = jQuery('<table class="errorbox">');
-		$error_tbl.append('<tr><td style="padding: 4px 2px;" width="10%"><img src="/openerp/static/images/warning.png"></td><td class="error_message_content"><pre>${error["message"]}</pre></td></tr>');
-	    $error_tbl.append('<tr><td style="padding: 0 8px 5px 0; vertical-align:top;" align="right" colspan="2"><a class="button-a" id="error_btn" onclick="jQuery(\'#error\').dialog(\'close\');">OK</a></td></tr>');
-		$error_div.append($error_tbl);
-		jQuery(window.parent.document.body).append($error_div);
-	% endif
+    % if error:
+        var $error_div = jQuery('\
+            <div id="error" style="display: none" title="${error.get('title', 'Warning')}"> \
+                <table class="errorbox"> \
+                <tr><td style="padding: 4px 2px;" width="10%"><img src="/openerp/static/images/warning.png"></td><td class="error_message_content"><pre>${error["message"]}</pre></td></tr> \
+                <tr><td style="padding: 0 8px 5px 0; vertical-align:top;" align="right" colspan="2"><a class="button-a" id="error_btn" onclick="jQuery(\'#error\').dialog(\'close\');">OK</a></td></tr> \
+                </table> \
+            </div> \
+        ');
+        jQuery(window.parent.document.body).append($error_div);
+    % endif
 
     </script>
 </%def>
