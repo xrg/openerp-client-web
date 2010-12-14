@@ -336,14 +336,13 @@ class List(SecuredController):
                 ctx = params.context or {}
                 ctx.update(rpc.session.context.copy())
                 res = rpc.session.execute('object', 'execute', model, name, ids, ctx)
-                
+
                 if isinstance(res, dict):
                     import actions
                     return actions.execute(res, ids=[id])
                 else:
                     return True
-                
-                        
+
             elif btype == 'action':
                 import actions
 
@@ -355,10 +354,7 @@ class List(SecuredController):
                     cherrypy.session['wizard_parent_params'] = params
 
                 res = actions.execute_by_id(action_id, type=action_type, model=model, id=id, ids=ids, context=ctx or {})
-                if res:
-                    return res
-                else:
-                    return True
+                return res or True
 
             else:
                 return dict(error = "Unallowed button type")

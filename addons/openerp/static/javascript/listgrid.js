@@ -441,7 +441,6 @@ MochiKit.Base.update(ListView.prototype, {
         var self = this;
         var _list = this.name;
         var prefix = this.name == '_terp_list' ? '' : this.name + '/';
-        console.log('Prefix', prefix, this.name)
         if (btype == "open") {
             return window.open(get_form_action('/openerp/form/edit', {
                 id: id,
