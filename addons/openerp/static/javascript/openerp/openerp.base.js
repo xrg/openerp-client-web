@@ -94,7 +94,7 @@ function doLoadingSuccess(app/*, url*/) {
         }
         if(url) {
             // only set url when we're actually opening the action
-            $.hash(url);
+            jQuery.hash(url);
         }
         jQuery(window).trigger('before-appcontent-change');
         jQuery(app).html(xhr.responseText || data);

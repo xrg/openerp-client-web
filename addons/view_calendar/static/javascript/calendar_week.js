@@ -137,7 +137,7 @@ WeekCalendar.Header.prototype = {
         forEach(days, function(day) {
 
             var div = DIV({'class' : 'calDayHeader', 'style' : 'position: absolute; top : 0pt;'},
-                    A({'href': 'javascript: void(0)',
+                    MochiKit.DOM.A({'href': 'javascript: void(0)',
                         'onclick': "getCalendar('" + getNodeAttribute(day, 'dtDay') + "', 'day'); return false;"}, MochiKit.DOM.scrapeText(day)));
 
             self.elements = self.elements.concat(div);
