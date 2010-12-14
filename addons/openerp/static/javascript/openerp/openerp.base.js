@@ -150,25 +150,32 @@ function hashUrl() {
     return newUrl;
 }
 
-// Timers before displaying the wait box, in case the remote query takes too long
-/** @constant */
+/** Timers before displaying the wait box, in case the remote query takes too long */
 var LINK_WAIT_NO_ACTIVITY = 300;
 /** @constant */
 var FORM_WAIT_NO_ACTIVITY = 500;
+/**
+ * selector for delegation to links nobody handles
+ */
+var UNTARGETED_LINKS_SELECTOR = 'a[href]:not([target]):not([href^="#"]):not([href^="javascript"]):not([rel=external])';
 
-function addLinkHandlers() {
-//jQuery(document).ready(function () {
+// Prevent action links from blowing up when clicked before document.ready()
+jQuery(document).delegate(UNTARGETED_LINKS_SELECTOR, 'click', function (e) {
+    e.preventDefault();
+});
+jQuery(document).ready(function () {
+    // cleanup preventer
+    jQuery(document).undelegate(UNTARGETED_LINKS_SELECTOR);
     var $app = jQuery('#appContent');
     if ($app.length) {
-        jQuery('body').delegate('a[href]:not([target="_blank"]):not([href^="#"]):not([href^="javascript"]):not([rel=external])', 'click', function(e){
+        jQuery('body').delegate('a[href]:not([target="_blank"]):not([href^="#"]):not([href^="javascript"]):not([rel=external])', 'click', function(){
             validate_action();
         });
 
         // open un-targeted links in #appContent via xhr. Links with @target are considered
         // external links. Ignore hash-links.
-        jQuery(document).delegate('a[href]:not([target]):not([href^="#"]):not([href^="javascript"]):not([rel=external])', 'click', function (e) {
+        jQuery(document).delegate(UNTARGETED_LINKS_SELECTOR, 'click', function () {
             openLink(jQuery(this).attr('href'));
-            e.preventDefault();
             return false;
         });
         // do the same for forms
@@ -183,12 +190,11 @@ function addLinkHandlers() {
         });
     } else {
         if(jQuery(document).find('div#root').length) {
-            jQuery(document).delegate('a[href]:not([target]):not([href^="#"]):not([href^="javascript"]):not([rel=external])', 'click', function(e) {
+            jQuery(document).delegate(UNTARGETED_LINKS_SELECTOR, 'click', function() {
                 jQuery.ajax({
                     url: jQuery(this).attr('href'),
                     success: doLoadingSuccess(null)
                 });
-                e.preventDefault();
                 return false;
             });
         }
@@ -217,10 +223,8 @@ function addLinkHandlers() {
     });
     // if the initially loaded URL had a hash-url inside
     jQuery(window).trigger('hashchange');
-}
-//});
+});
 
-//addLinkHandlers();
 
 // Hook onclick for boolean alteration propagation
 jQuery(document).delegate(

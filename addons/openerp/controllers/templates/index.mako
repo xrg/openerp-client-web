@@ -12,7 +12,7 @@
         var CAL_INSTANCE = null;
 
         // Make user home widgets deletable
-        jQuery('#user_widgets a.close').live('click', function(e) {
+        jQuery(document).delegate('#user_widgets a.close', 'click', function(e) {
             var $widget = jQuery(this);
             jQuery.post(
                 $widget.attr('href'),
@@ -27,7 +27,7 @@
                          .add($root)
                          .remove();
                 }, 'json');
-            e.preventDefault();
+            return false;
         });
 
         jQuery(document).ready(function () {
@@ -164,11 +164,6 @@
                                            id="add_user_widget" class="button-a"
                                                 style="right: 1px;">${_("Add")}</a>
                                         <h2>${_("Widgets")}</h2>
-                                        <script type="text/javascript">
-                                            jQuery('#add_user_widget').live('click', function (e) {
-                                                e.preventDefault();
-                                            });
-                                        </script>
                                     </div>
                                     <div class="box-a" id="user_widgets">
                                         % for widget in widgets:

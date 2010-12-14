@@ -58,11 +58,5 @@ ${self.content()}
     ${js.display()}
 % endfor
 
-<script type="text/javascript">
-
-addLinkHandlers();
-
-</script>
-
 </body>
 </html>
