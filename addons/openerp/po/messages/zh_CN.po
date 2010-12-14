@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2010-11-25 10:30+0530\n"
-"PO-Revision-Date: 2010-11-25 08:17+0000\n"
-"Last-Translator: Wei \"oldrev\" Li <oldrev@gmail.com>\n"
+"PO-Revision-Date: 2010-12-13 13:01+0000\n"
+"Last-Translator: Joshua Jan <Unknown>\n"
 "Language-Team: zh_CN <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2010-11-26 04:49+0000\n"
+"X-Launchpad-Export-Date: 2010-12-14 04:56+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 "Generated-By: Babel None\n"
 
@@ -43,14 +43,14 @@ msgstr "email地址中应该有个@符号"
 msgid ""
 "The username portion of the email address is invalid (the portion before the "
 "@: %(username)s)"
-msgstr ""
+msgstr "Email用户名部分无效(%(username)s 需要 @ 前面)"
 
 #: validators.py:258
 #, python-format
 msgid ""
 "The domain portion of the email address is invalid (the portion after the @: "
 "%(domain)s)"
-msgstr ""
+msgstr "Email域名部分无效(@后面需要 %(domain)s)"
 
 #: validators.py:262
 msgid "You must start your URL with http://, https://, etc"
