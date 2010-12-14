@@ -2036,15 +2036,17 @@ td.tertiary div.wrap {
     max-width: 100%;
 }
 
-button {
+div.attachments div.sideheader-a {
+    margin-bottom: 7px;
 }
-
 #sidebar div.sideheader-a a {
     padding: 1px 4px;
 }
 
 #sidebar #add-attachment {
-    right: 1px;
+    float: right;
+    line-height: 13px;
+    margin-right: 7px;
 }
 
 .attachments-a li {
