@@ -20,9 +20,15 @@ function openLink(url /*optional afterLoad */) {
             success: doLoadingSuccess($app[0], url),
             error: loadingError(url)
         });
-    } else {
-        window.location.assign(url);
+        return;
     }
+    // Home screen
+    if(jQuery('#root').length) {
+        window.location.assign(
+            '/?' + jQuery.param({next: url}));
+        return;
+    }
+    window.location.assign(url);
 }
 /**
  * Displays a fancybox containing the error display
