@@ -150,8 +150,8 @@ class ImpEx(SecuredController):
         new_list = listgrid.List(name='_terp_list', model='ir.exports', view=view, ids=None,
                                  domain=[('resource', '=', params.model)],
                                  context=ctx, selectable=1, editable=False, pageable=False, impex=True)
-      
-		
+
+
 
         return dict(new_list=new_list, model=params.model, ids=params.ids, ctx=ctx,
                     search_domain=params.search_domain, source=params.source,
@@ -383,7 +383,7 @@ class ImpEx(SecuredController):
             return export_csv(params.fields2, result, add_names)
 
     @expose(template="/openerp/controllers/templates/imp.mako")
-    def imp(self, **kw):
+    def imp(self, error=None, **kw):
         params, data = TinyDict.split(kw)
 
         ctx = dict((params.context or {}), **rpc.session.context)
@@ -405,7 +405,7 @@ class ImpEx(SecuredController):
 
         tree.show_headers = False
 
-        return dict(model=params.model, source=params.source, tree=tree, fields=kw.get('fields', {}))
+        return dict(error=error, model=params.model, source=params.source, tree=tree, fields=kw.get('fields', {}))
 
     @expose()
     def detect_data(self, csvfile, csvsep, csvdel, csvcode, csvskip, **kw):
@@ -413,6 +413,7 @@ class ImpEx(SecuredController):
 
         _fields = {}
         _fields_invert = {}
+        error = None
 
         fields = dict(rpc.RPCProxy(params.model).fields_get(False, rpc.session.context),
                       id={'type': 'char', 'string': 'ID'},
@@ -461,19 +462,19 @@ class ImpEx(SecuredController):
                     elif word in _fields_invert.keys():
                         fields.append((_fields_invert[word], word))
                     else:
-                        raise common.warning(_("You cannot import this field %s, because we cannot auto-detect it" % (word,)))
+                        error = {'message':_("You cannot import this field %s, because we cannot auto-detect it" % (word,))}
                 break
         except:
-            raise common.warning(_('Error processing your first line of the file.\nField %s is unknown') % (word,), _('Import Error.'))
+            error = {'message':_('Error processing your first line of the file. Field %s is unknown') % (word,), 'title':_('Import Error.')}
 
         kw['fields'] = fields
-        return self.imp(**kw)
+        return self.imp(error=error, **kw)
 
     @expose()
     def import_data(self, csvfile, csvsep, csvdel, csvcode, csvskip, fields=[], **kw):
 
         params, data = TinyDict.split(kw)
-
+        res = None
         content = csvfile.file.read()
         input=StringIO.StringIO(content)
         data = list(csv.reader(input, quotechar=str(csvdel), delimiter=str(csvsep)))[int(csvskip):]
@@ -492,12 +493,16 @@ class ImpEx(SecuredController):
             res = rpc.session.execute('object', 'execute', params.model, 'import_data', fields, datas, 'init', '', False, ctx)
         except Exception, e:
             raise common.warning(ustr(e), _('XML-RPC error'))
+
+
         if res[0]>=0:
-            raise common.message(_('Imported %d objects') % (res[0],))
+            error = {'message':_('Imported %d objects') % (res[0],)}
+
         else:
             d = ''
             for key,val in res[1].items():
-                d+= ('\t%s: %s\n' % (ustr(key),ustr(val)))
-            error = _('Error trying to import this record:\n%s\nError Message:\n%s\n\n%s') % (d,res[2],res[3])
-            raise common.warning(unicode(error), _('Importation Error'))
+                d+= ('%s: %s' % (ustr(key),ustr(val)))
+            msg = _('Error trying to import this record:%s. ErrorMessage:%s %s') % (d,res[2],res[3])
+            error = {'message':ustr(msg), 'title':_('ImportationError')}
 
+        return self.imp(error=error, **kw)

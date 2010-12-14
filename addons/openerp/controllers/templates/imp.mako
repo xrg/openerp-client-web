@@ -4,12 +4,13 @@
     <title>Import Data</title>
 
 	<link rel="stylesheet" type="text/css" href="/openerp/static/css/impex.css"/>
+	<link rel="stylesheet" type="text/css" href="/openerp/static/css/database.css"/>
 
     <script type="text/javascript">
         function add_fields(){
-        
+
             var tree = treeGrids['${tree.name}'];
-            
+
             var fields = tree.selection;
             var select = openobject.dom.get('fields');
 
@@ -57,6 +58,12 @@
         }
 
         function on_detector(src){
+        	jQuery('#error').dialog({
+			    modal: true,
+		        resizable: false,
+			    close: function(ev, ui) { $(this).remove(); }
+			});
+
             var d = openobject.dom.get("detector");
 
             if (d.contentDocument)
@@ -90,6 +97,18 @@
                 'action': openobject.http.getURL('/openerp/impex/detect_data')
             }).submit();
         }
+
+    % if error:
+        var $error_div = jQuery('\
+            <div id="error" style="display: none" title="${error.get('title', 'Warning')}"> \
+                <table class="errorbox"> \
+                <tr><td style="padding: 4px 2px;" width="10%"><img src="/openerp/static/images/warning.png"></td><td class="error_message_content"><pre>${error["message"]}</pre></td></tr> \
+                <tr><td style="padding: 0 8px 5px 0; vertical-align:top;" align="right" colspan="2"><a class="button-a" id="error_btn" onclick="jQuery(\'#error\').dialog(\'close\');">OK</a></td></tr> \
+                </table> \
+            </div> \
+        ');
+        jQuery(window.parent.document.body).append($error_div);
+    % endif
 
     </script>
 </%def>
