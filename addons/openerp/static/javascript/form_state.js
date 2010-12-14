@@ -176,11 +176,11 @@ function form_evalExpr(prefix, expr, ref_elem) {
         var ex = expr[i];
         var elem = null;
         if (ref_elem.parents('table.grid').length) {
-            var parent = ref_elem.parents('tr.grid-row')
-            var elem = parent.find(idSelector(prefix + ex[0]))
+            var parent = ref_elem.parents('tr.grid-row');
+            var elem = parent.find(idSelector(prefix + ex[0]));
         }
         if (!elem || !elem.length) {
-            var elem = jQuery(idSelector(prefix + ex[0]))
+            var elem = jQuery(idSelector(prefix + ex[0]));
         }
 
         if (ex.length==1) {
