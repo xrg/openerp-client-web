@@ -550,7 +550,7 @@ class DateTime(Char):
         return ustr(self.value or '')
 
 class Boolean(Char):
-    templates = "/openerp/widgets/templates/listgrid/boolean.mako"
+    template = "/openerp/widgets/templates/listgrid/boolean.mako"
 
     params = ['val', 'kind']
 
@@ -606,7 +606,7 @@ class Button(TinyInputWidget):
 
     def update_params(self, params):
         super(Button, self).update_params(params)
-        params['attrs']=self.attrs
+        params['attrs']['attrs']=self.attrs
 
 
 CELLTYPES = {
