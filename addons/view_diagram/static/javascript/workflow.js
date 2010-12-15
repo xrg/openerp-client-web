@@ -68,7 +68,6 @@ openobject.workflow.Workflow.implement({
         this.setSnapToGrid(true);
 		
 		this.id = null;
-		this.workitems = [];
 		this.node_obj = openobject.dom.get('node').value;
 		this.connector_obj = openobject.dom.get('connector').value;
 		this.src_node_nm = openobject.dom.get('src_node').value;
@@ -78,9 +77,6 @@ openobject.workflow.Workflow.implement({
 		this.states = {};
 		this.connectors = {};		
 		this.selected = null;
-
-        if(getElement('workitems'))
-            this.workitems = eval(getElement('workitems').value);
 
 //		dummy state
 		this.state = new openobject.workflow.StateOval({}, []);
@@ -97,7 +93,7 @@ openobject.workflow.Workflow.implement({
         this.bgcolors = getElement('bgcolors').value;
         this.shapes = getElement('shapes').value;	
         
-        if (!getElement('workitems') || this.workitems.length>0)        			
+        if (openobject.dom.get('wkf_id'))
             this.draw_graph(openobject.dom.get('wkf_id').value);
         else {            
             openobject.dom.get('loading').style.display = 'none';
@@ -122,9 +118,9 @@ openobject.workflow.Workflow.implement({
                 var node = obj.nodes[i];
 
                 if(node['shape']=='ellipse')
-                    var state = new openobject.workflow.StateOval(node, self.workitems);
+                    var state = new openobject.workflow.StateOval(node);
 		        else if(node['shape']=='rectangle')
-                    var state = new openobject.workflow.StateRectangle(node, self.workitems);
+                    var state = new openobject.workflow.StateRectangle(node);
 		          
                 self.addFigure(state, node['x'], node['y']);
                 state.initPort();
@@ -278,9 +274,9 @@ openobject.workflow.Workflow.implement({
 
 				if(!flag) {
 			        if(!data['subflow_id'])
-			             var state = new openobject.workflow.StateOval(data, self.workitems);
+			             var state = new openobject.workflow.StateOval(data);
 			        else
-			             var state = new openobject.workflow.StateRectangle(data, self.workitems);
+			             var state = new openobject.workflow.StateRectangle(data);
 
 			        self.addFigure(state, position.x, position.y);
 			        self.states[id] = state;
