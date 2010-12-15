@@ -1,0 +1,63 @@
+# Slovak translation for openobject-client-web
+# Copyright (c) 2010 Rosetta Contributors and Canonical Ltd 2010
+# This file is distributed under the same license as the openobject-client-web package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2010.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: openobject-client-web\n"
+"Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
+"POT-Creation-Date: 2010-11-25 10:30+0530\n"
+"PO-Revision-Date: 2010-12-14 14:58+0000\n"
+"Last-Translator: Peter Kohaut <peter.kohaut@gmail.com>\n"
+"Language-Team: Slovak <sk@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Launchpad-Export-Date: 2010-12-15 04:39+0000\n"
+"X-Generator: Launchpad (build Unknown)\n"
+
+#: static/javascript/form.js:100
+#, python-format
+msgid "You selected to open %(tabs)s tabs - do you want to continue?"
+msgstr "Vybrali ste, že chcete otvoriť záložky %(tabs)s - chcete pokračovať?"
+
+#: static/javascript/form.js:177
+msgid "Invalid form, correct red fields."
+msgstr "Zlý formulár, opravte červené polia."
+
+#: static/javascript/form.js:212
+msgid "Do you really want to delete this record?"
+msgstr "Naozaj chcete vymazať tento záznam?"
+
+#: static/javascript/form.js:957
+msgid "Do you really want to delete the attachment"
+msgstr "Naozaj chcete vymazať túto prílohu"
+
+#: static/javascript/listgrid.js:510 static/javascript/o2m.js:103
+msgid "To edit Record, please first save it."
+msgstr "Ak chcete upraviť záznam, najprv ho uložte."
+
+#: static/javascript/listgrid.js:618
+msgid "Do you really want to delete selected record(s) ?"
+msgstr "Naozaj chcete vymazať vybrané záznamy?"
+
+#: static/javascript/o2m.js:62
+msgid "Do you really want to delete record ?"
+msgstr "Naozaj chcete vymazať záznam?"
+
+#: static/javascript/viewed.js:71
+msgid "Do you really want to remove this node?"
+msgstr "Naozaj chcete odstrániť tento uzol?"
+
+#: static/javascript/viewed.js:337
+msgid "Do you really wants to create an inherited view here?"
+msgstr "Naozaj tu chcete vytvoriť zdedenú obrazovku?"
+
+#: static/javascript/openerp/openerp.ui.tips.js:59
+msgid "Object"
+msgstr "Objekt"
+
+#: static/javascript/openerp/openerp.ui.tips.js:60
+msgid "Field"
+msgstr "Pole"

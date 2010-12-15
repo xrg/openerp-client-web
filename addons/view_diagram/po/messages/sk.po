@@ -1,4 +1,4 @@
-# Chinese (Simplified) translation for openobject-client-web
+# Slovak translation for openobject-client-web
 # Copyright (c) 2010 Rosetta Contributors and Canonical Ltd 2010
 # This file is distributed under the same license as the openobject-client-web package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2010.
@@ -8,9 +8,9 @@ msgstr ""
 "Project-Id-Version: openobject-client-web\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2010-11-25 10:31+0530\n"
-"PO-Revision-Date: 2010-12-14 14:01+0000\n"
-"Last-Translator: Joshua Jan <Unknown>\n"
-"Language-Team: Chinese (Simplified) <zh_CN@li.org>\n"
+"PO-Revision-Date: 2010-12-14 15:13+0000\n"
+"Last-Translator: Peter Kohaut <peter.kohaut@gmail.com>\n"
+"Language-Team: Slovak <sk@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -19,110 +19,110 @@ msgstr ""
 
 #: controllers/_diagram.py:100 controllers/_diagram.py:160
 msgid "Could not delete state"
-msgstr "无法删除状态"
+msgstr "Nie je možné vymazať stav"
 
 #: controllers/_diagram.py:223
 msgid "No workflow associated!"
-msgstr "无相关工作流!"
+msgstr "Nie je priradený pracovný tok!"
 
 #: controllers/process.py:53
 msgid "Help: Not Defined"
-msgstr "帮助: 未定义"
+msgstr "Pomoc: Nedefinovaný"
 
 #: controllers/process.py:92
 #, python-format
 msgid "%(name)s - Resource: %(resource)s, State: %(state)s"
-msgstr "%(name)s - 资源: %(resource)s, 状态: %(state)s"
+msgstr "%(name)s - Prostriedok: %(resource)s, Stav: %(state)s"
 
 #: controllers/process.py:104
 msgid "Last modified by:"
-msgstr "最近修改者："
+msgstr "Poslednú zmenu vykonal:"
 
 #: controllers/templates/process.mako:4 controllers/templates/process.mako:89
 #: controllers/templates/process_tip.mako:5
 msgid "Process"
-msgstr "处理"
+msgstr "Spracovať"
 
 #: controllers/templates/process.mako:51
 msgid "show fields"
-msgstr "显示字段"
+msgstr "zobraziť polia"
 
 #: controllers/templates/process.mako:52
 msgid "hide fields"
-msgstr "隐藏字段"
+msgstr "skryť polia"
 
 #: controllers/templates/process.mako:57
 msgid "Documentation"
-msgstr "文档"
+msgstr "Dokumentácia"
 
 #: controllers/templates/process.mako:58
 msgid "Opportunities Documentation Online"
-msgstr "在线的商机文档"
+msgstr "Dokumentácia príležitostí online"
 
 #: controllers/templates/process.mako:64
 msgid "Forum"
-msgstr "论坛"
+msgstr "Fórum"
 
 #: controllers/templates/process.mako:65
 msgid "Community Discussion"
-msgstr "社区"
+msgstr "Používateľská diskusia"
 
 #: controllers/templates/process.mako:70
 msgid "Books"
-msgstr "书籍"
+msgstr "Knihy"
 
 #: controllers/templates/process.mako:71
 msgid "Get the book on Amazon"
-msgstr "在Amazon购书"
+msgstr "Získajte knihu z Amazon"
 
 #: controllers/templates/process.mako:76
 msgid "Support / Maintenance"
-msgstr "支持/维护"
+msgstr "Podpora / Údržba"
 
 #: controllers/templates/process.mako:77
 msgid "Get the OpenERP Warranty"
-msgstr "获取openerp授权"
+msgstr "Získajte záruku OpenERP"
 
 #: controllers/templates/process.mako:99
 msgid "Select Process"
-msgstr "选择处理"
+msgstr "Vybraný proces"
 
 #: controllers/templates/process.mako:105
 msgid "Select"
-msgstr "选择"
+msgstr "Vybrať"
 
 #: controllers/templates/process.mako:118
 msgid "[Edit Process]"
-msgstr "[编辑处理]"
+msgstr "[Upraviť proces]"
 
 #: controllers/templates/process_open.mako:54
 #: controllers/templates/process_tip.mako:20
 #: controllers/templates/wkf_popup.mako:52
 msgid "Close"
-msgstr "关闭"
+msgstr "Zatvoriť"
 
 #: controllers/templates/process_open.mako:55
 #: controllers/templates/wkf_popup.mako:49
 msgid "Save"
-msgstr "保存"
+msgstr "Uložiť"
 
 #: controllers/templates/workflow.mako:4
 msgid "Workflow"
-msgstr "工作流"
+msgstr "Pracovný tok"
 
 #: controllers/templates/workflow.mako:20
 #, python-format
 msgid "Workflow (%s)"
-msgstr "工作流(%s)"
+msgstr "Pracovný tok (%s)"
 
 #: widgets/_views.py:8
 msgid "Diagram"
-msgstr "图表"
+msgstr "Diagram"
 
 #: widgets/_views.py:9
 msgid "Diagram view..."
-msgstr "图表视图"
+msgstr "Zobrazenie diagramu..."
 
 #: widgets/templates/diagram.mako:26
 msgid "Loading..."
-msgstr "正在加载..."
+msgstr "Načítava sa..."

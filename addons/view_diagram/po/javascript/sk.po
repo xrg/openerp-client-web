@@ -1,4 +1,4 @@
-# Chinese (Simplified) translation for openobject-client-web
+# Slovak translation for openobject-client-web
 # Copyright (c) 2010 Rosetta Contributors and Canonical Ltd 2010
 # This file is distributed under the same license as the openobject-client-web package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2010.
@@ -8,9 +8,9 @@ msgstr ""
 "Project-Id-Version: openobject-client-web\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2010-11-25 10:31+0530\n"
-"PO-Revision-Date: 2010-12-14 10:45+0000\n"
-"Last-Translator: Black Jack <onetimespeed@hotmail.com>\n"
-"Language-Team: Chinese (Simplified) <zh_CN@li.org>\n"
+"PO-Revision-Date: 2010-12-14 14:51+0000\n"
+"Last-Translator: Peter Kohaut <peter.kohaut@gmail.com>\n"
+"Language-Team: Slovak <sk@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -19,20 +19,20 @@ msgstr ""
 
 #: static/javascript/infobox.js:143
 msgid "Do you really want to delete this record?"
-msgstr "您确认要删除这记录吗？"
+msgstr "Naozaj chcete vymazať tento záznam?"
 
 #: static/javascript/process.js:178
 msgid "Notes:"
-msgstr "备注："
+msgstr "Poznámky:"
 
 #: static/javascript/process.js:186
 msgid "Subflows:"
-msgstr "子工作流："
+msgstr "Vnorené toky:"
 
 #: static/javascript/process.js:190
 msgid "Related:"
-msgstr "相关的："
+msgstr "Súvisiace:"
 
 #: static/javascript/process.js:274
 msgid "Help"
-msgstr "帮助"
+msgstr "Pomoc"
