@@ -28,23 +28,23 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 var One2Many = function(name, inline) {
-    
+
     this.name = name;
     this.inline = inline > 0;
-    
+
     this.model = openobject.dom.get(name + '/_terp_model').value;
     this.mode = openobject.dom.get(name + '/_terp_view_type').value;
-    
+
     if (openobject.dom.get(name + '/_terp_default_get_ctx'))
         this.default_get_ctx = openobject.dom.get(name + '/_terp_default_get_ctx').value;
-    
+
     var parent_prefix = name.indexOf('/') > -1 ? name.slice(0, name.lastIndexOf('/') + 1) : '';
-    
+
     this.parent_model = openobject.dom.get(parent_prefix + '_terp_model').value;
     this.parent_id = openobject.dom.get(parent_prefix + '_terp_id').value;
     this.parent_context = openobject.dom.get(parent_prefix + '_terp_context').value;
     this.parent_view_id = openobject.dom.get(parent_prefix + '_terp_view_id').value;
-    
+
     // hide new button when editors are visible
     if (this.mode == 'tree' && this.inline) {
         var self = this;
@@ -58,13 +58,13 @@ var One2Many = function(name, inline) {
 One2Many.prototype = {
 
 	remove: function(id) {
-		
+
 	if (!confirm(_('Do you really want to delete record ?'))) {
             return false;
     }
-        
+
 	var req = openobject.http.postJSON('/openerp/openo2m/delete', {'model': this.model, 'id': id});
-	
+
 	req.addCallback(function(obj) {
             if (obj.error) {
                 jQuery.fancybox(obj.error, {scrolling: 'no'});
@@ -133,36 +133,28 @@ One2Many.prototype = {
             _terp_parent_view_id: this.parent_view_id,
             _terp_o2m: this.name,
             _terp_o2m_model: this.model,
-            _terp_o2m_id: id,
             _terp_editable: readonly ? 0 : 1
         });
-                    
+
+        if(id != null) {
+            params['_terp_o2m_id'] = id;
+        }
         if (id && id != 'False' && !this.default_get_ctx) {
-            return openobject.tools.openWindow(openobject.http.getURL('/openerp/openo2m/edit', params));
+            jQuery.o2m(params);
+            return;
         }
 
         eval_domain_context_request({
             source: this.name,
             context : this.default_get_ctx
         }).addCallback(function(res) {
-            //XXX: IE hack, long context value generate long URI
-            if (!window.browser.isIE) {
-                params['_terp_o2m_context'] = res.context;
-                params['_terp_parent_context'] = this.parent_context;
-                return openobject.tools.openWindow(openobject.http.getURL('/openerp/openo2m/edit', params));
-            }
-            
-            openobject.http.setCookie('_terp_o2m_context', res.context || '{}');
-            openobject.http.setCookie('_terp_parent_context', this.parent_context || '{}');
-            try {
-                return openobject.tools.openWindow(openobject.http.getURL('/openerp/openo2m/edit', params));
-            } finally {
-                openobject.http.delCookie('_terp_o2m_context');
-                openobject.http.delCookie('_terp_parent_context');
-            }
+            jQuery.o2m(jQuery.extend(params, {
+                _terp_o2m_context: res.context,
+                _terp_parent_context: this.parent_context
+            }));
         });
     },
-    
+
     setReadonly: function(readonly) {
         var btn=MochiKit.DOM.getElement(this.name+'_btn_');
         var grid=MochiKit.DOM.getElement(this.name+'_grid');
@@ -189,3 +181,169 @@ One2Many.prototype = {
         }
     }
 };
+
+(function ($) {
+    /**
+     * Frame counter, used to uniquify (monotonously increasing) frame id in
+     * order to ensure we avoid collisions between o2m frames (in case we
+     * have nested o2ms somehow), as we need to get a frame we can target
+     * with a form submission.
+     */
+    var frame_counter = 0;
+
+    function frame_data($this, data) {
+        return $($this.attr('frameElement')).data(data);
+    }
+
+    /**
+     * Opens an o2m dialog linked to the provided <code>$this</code> window,
+     * with the selected options.
+     *
+     * @param $this the parent window of the opened dialog, contains the
+     * input to fill with the selected o2m value if any
+     * @param options A map of options to provide to the newly opened iframe
+     * call.
+     */
+    function open($this, options) {
+        var frame_identifier = 'test-frame' + frame_counter++;
+        var $frame = $('<iframe>', {
+            src: 'about:blank',
+            // never sure whether the iframe is targetted by name or by id,
+            // so let's just set both
+            id: frame_identifier,
+            name: frame_identifier,
+            frameborder: 0
+        }).data('source-window', $this[0])
+          .data('list', options['_terp_o2m'])
+          .appendTo(document.documentElement)
+          .dialog({
+              modal: true,
+              width: 640,
+              height: 480,
+              close: function () {
+                  jQuery(this).dialog('destroy').remove();
+              }
+          });
+        var $form = jQuery('<form>', {
+            method: 'POST',
+            action: '/openerp/openo2m/edit',
+            target: frame_identifier
+        }).appendTo(document.documentElement);
+        jQuery.each(options, function (key, value) {
+            $form.append(jQuery('<input>', {
+                type: 'hidden',
+                name: key,
+                value: value
+            }));
+        });
+        setTimeout(function () {
+            $form.submit();
+        });
+        return $frame;
+    }
+
+
+    var fetched_attrs = ['id', 'name', 'value', 'kind', 'class', 'domain',
+                         'context', 'relation'];
+
+    
+    function initialize($frame_window) {
+        // Within initialize, <code>jQ</code> is the "toplevel" jQuery whereas
+        // <code>$</code> is the jQuery from within the iframe
+        var jQ = jQuery;
+        var $ = $frame_window[0].jQuery;
+
+        var $form = $('#view_form');
+
+        var list_id = frame_data($frame_window, 'list');
+        jQ('#view_form :input[name]:not(:button)').each(function () {
+            if (this.name.indexOf(list_id) == 0) {
+                return;
+            }
+            var $this = $(this);
+            var attrs = {};
+            $.each(fetched_attrs, function (index, attribute) {
+                var attr = $this.attr(attribute);
+                if(!attr) { return; }
+                attrs[attribute] = attr;
+            });
+            $form.append($('<input>', $.extend(attrs, {
+                type: 'hidden',
+                disabled: 'disabled',
+                value: $this.val()
+            })));
+        });
+
+        var lc = parseInt($('#_terp_load_counter').val(), 10) || 0;
+        if(lc) {
+            $.o2m('refresh');
+        }
+    }
+
+    /**
+     * Refreshes the backing ListView to make the newly added items appear.
+     *
+     * @param $this the window of the dialog to close
+     */
+    function refresh($this) {
+        setTimeout(function () {
+            frame_data($this, 'source-window')
+                .ListView(frame_data($this, 'list'))
+                    .reload(null, 1);
+        })
+    }
+
+    /**
+     * Closes the o2m dialog it was called from (represented by
+     * <code>$this</code>.
+     *
+     * @param $this the window of the dialog to close
+     */
+    function close($this) {
+        $($this.attr('frameElement')).dialog('close');
+        return null;
+    }
+
+    /**
+     * Manage o2m dialogs for this scope
+     * <ul>
+     *  <li><p>Called with only options, opens a new o2m dialog linking to the
+     *         current scope.</p></li>
+     *  <li><p>Called with the <code>"init"</code> command, performs the
+     *         initial setup for the o2m dialog within the opened iframe
+     *  </p></li>
+     *  <li><p>Called with the <code>"close"</code> command, closes the o2m
+     *         dialog it was invoked from and focuses its parent scope.
+     *  </p></li>
+     *  <li><p>Called with the <code>"refresh"</code> command, reloads
+     *         the backing ListView to make the new items in it appear.
+     *  </p></li>
+     * </ul>
+     *
+     * @returns the o2m container (iframe) if one was created
+     */
+    $.o2m = function () {
+        // $this should be the holder for the window from which $.o2m was
+        // originally called, even if $.o2m() was bubbled to the top of
+        // the window stack.
+        var $this;
+        if(this == $) $this = $(window);
+        else $this = $(this);
+        if(window != window.top) {
+            return window.top.jQuery.o2m.apply($this[0], arguments);
+        }
+        // We're at the top-level window, $this is the window from which the
+        // original $.o2m call was performed, window being the current window
+        // level.
+        switch(arguments[0]) {
+            case 'close':
+                return close($this);
+            case 'refresh':
+                return refresh($this);
+            case 'init':
+                return initialize($this);
+            default:
+                return open($this, arguments[0]);
+        }
+    };
+})(jQuery);
