@@ -45,7 +45,7 @@ from openobject.widgets import JSLink, locations
 from openobject.i18n.format import convert_date_format_in_domain
 
 
-def get_search_default(attrs, screen_context=None, default_domain=[])
+def get_search_default(attrs, screen_context=None, default_domain=[]):
     screen_context = screen_context or {}
 
     if 'context' in attrs:
