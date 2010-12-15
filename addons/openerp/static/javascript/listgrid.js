@@ -443,8 +443,9 @@ MochiKit.Base.update(ListView.prototype, {
         if (sure && !confirm(sure)) {
             return;
         }
-
+        
         var self = this;
+        var _list = this.name;
         var prefix = this.name == '_terp_list' ? '' : this.name + '/';
 
         if (btype == "open") {
@@ -475,34 +476,22 @@ MochiKit.Base.update(ListView.prototype, {
             active_id: id,
             active_ids: openobject.dom.get(prefix + '_terp_ids').value
         }).addCallback(function(res) {
-            params['_terp_context'] = res.context;
-            openobject.http.postJSON('/openerp/listgrid/button_action', params).addCallback(function(obj) {
-                if (obj.error) {
-                    return error_display(obj.error);
-                }
-
-                if (obj.result && obj.result.url) {
-                    window.open(obj.result.url);
-                }
-
-                if(obj.res) {
-                    var popup_win = openobject.tools.openWindow("");
-                    if(window.browser.isGecko) {
-                        popup_win.document.write(obj.res);
-                        popup_win.document.close();
-                    }
-                    else {
-                        popup_win.document.close();
-                        popup_win.document.write(obj.res);
-                    }
-                    return false;
-                }
-
-                if (obj.reload) {
-                    window.location.reload();
-                } else {
-                    self.reload();
-                }
+            var $form = jQuery('#listgrid_button_action');
+            params['_terp_context'] = res.context || '{}';
+            if($form.length) {
+                $form.remove();
+            }
+            var $form = jQuery('<form>', {
+                'id': 'listgrid_button_action',
+                'name': 'listgrid_button_action',
+                'action':'/openerp/listgrid/button_action',
+                'method': 'post',
+                'enctype': 'multipart/form-data'
+            }).appendTo(document.documentElement);
+            $form.ajaxSubmit({
+                data: params,
+                success: doLoadingSuccess(jQuery('#appContent')),
+                error: loadingError()
             });
         });
     }
