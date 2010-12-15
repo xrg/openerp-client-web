@@ -413,10 +413,10 @@ class Search(TinyInputWidget):
                             if attrs.get('filter_domain'):
                                 domain = expr_eval(attrs['filter_domain'], {'self': defval})
                             else:
-                                if field.kind in ('selection') and type2 == 'many2one':
+                                if field.kind == 'selection' and type2 == 'many2one':
                                     domain = [(name, '=', int(defval))]
 
-                                elif field.kind in ('selection'):
+                                elif field.kind == 'selection':
                                     domain = [(name, '=', defval)]
 
                                 elif field.kind in ('date','datetime'):
