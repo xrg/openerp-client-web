@@ -207,7 +207,7 @@ MonthCalendar.prototype = {
                 nCreationId: cuid,
                 nWriteDate: toISOTimestamp(wdate),
                 nWriteId: wuid
-            }, params.text);
+            }, PRE(null,params.text));
 
             div.className = params.className;
             div.title = params.title;

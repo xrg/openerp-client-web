@@ -702,7 +702,7 @@ WeekCalendar.DayGrid.prototype = {
             t.shift();
             t = t.join(' - ');
 
-            title.innerHTML = s.strftime('%H:%M') + ' - ' + t;
+            title.innerHTML = '<pre>' + s.strftime('%H:%M') + ' - ' + t + '</pre>';
         });
 
         req.addBoth(function(obj) {
