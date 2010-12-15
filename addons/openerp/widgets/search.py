@@ -36,8 +36,6 @@ import xml.dom.minidom
 
 import cherrypy
 import copy
-import datetime
-import re
 
 from openerp.utils import rpc, cache, icons, node_attributes, expr_eval
 from openerp.widgets import TinyInputWidget, InputWidgetLabel, form
@@ -412,7 +410,6 @@ class Search(TinyInputWidget):
                                     value = defval
                                 defval = value or ''
 
-                            domain = []
                             if attrs.get('filter_domain'):
                                 domain = expr_eval(attrs['filter_domain'], {'self': defval})
                             else:
