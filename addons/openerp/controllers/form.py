@@ -402,21 +402,25 @@ class Form(SecuredController):
         cherrypy.session['remember_notebooks'] = True
 
         Model = rpc.RPCProxy(params.model)
-        if params.id:
-            ctx = utils.context_with_concurrency_info(params.context, params.concurrency_info)
-            Model.write([params.id], data, ctx)
-        else:
-            if params.default_o2m:
-                data.update(params.default_o2m)
+        # bypass save, for button action in non-editable view
+        if (not(params.button) and params.editable) or not params.id:
+            if not params.id:
 
-            ctx = dict((params.context or {}), **rpc.session.context)
-            params.id = int(Model.create(data, ctx))
-            params.ids = (params.ids or []) + [params.id]
-            params.count += 1
-        tw.ConcurrencyInfo.update(
-            params.model, Model.read([params.id], ['__last_update'], ctx)
-        )
-        
+                if params.default_o2m:
+                    data.update(params.default_o2m)
+
+                ctx = dict((params.context or {}), **rpc.session.context)
+                params.id = int(Model.create(data, ctx))
+                params.ids = (params.ids or []) + [params.id]
+                params.count += 1
+            else:
+                 ctx = utils.context_with_concurrency_info(params.context, params.concurrency_info)
+                 Model.write([params.id], data, ctx)
+
+            tw.ConcurrencyInfo.update(
+                params.model, Model.read([params.id], ['__last_update'], ctx)
+            )
+
         cherrypy.request.params = params
 
         button = params.button
