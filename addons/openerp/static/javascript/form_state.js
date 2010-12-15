@@ -93,7 +93,7 @@ function form_onStateChange(container, widget, states, evt) {
 }
 
 function form_hookAttrChange() {
-    var $items = jQuery('td[attrs], div.notebook-page[attrs]');
+    var $items = jQuery('[attrs]');
     var fields = {};
 
     $items.each(function(){
@@ -120,13 +120,13 @@ function form_hookAttrChange() {
             var expr_fields = {}; // check if field appears more then once in the expr
 
             if (attrs[attr] == ''){
-                return form_onAttrChange(container, widget, attr, attrs[attr]);
+                return form_onAttrChange(container, widget, attr, attrs[attr], $this);
             }
-            
+
             forEach(attrs[attr], function(n){
 
                 if (typeof(n) == "number") { // {'invisible': [1]}
-                    return form_onAttrChange(container, widget, attr, n);
+                    return form_onAttrChange(container, widget, attr, n, $this);
                 }
 
                 var name = prefix + n[0];
@@ -136,7 +136,7 @@ function form_hookAttrChange() {
                     expr_fields[field.id] = 1;
                     // events disconnected during hook_onStateChange,
                     // don't redisconnect or may break onStateChange
-                    var $field = jQuery(field).bind('onAttrChange', partial(form_onAttrChange, container, widget, attr, attrs[attr]));
+                    var $field = jQuery(field).bind('onAttrChange', partial(form_onAttrChange, container, widget, attr, attrs[attr], $this));
                     $field.change(function () {
                         jQuery(this).trigger('onAttrChange');
                     });
@@ -150,12 +150,12 @@ function form_hookAttrChange() {
     }
 }
 
-function form_onAttrChange(container, widgetName, attr, expr) {
+function form_onAttrChange(container, widgetName, attr, expr, elem) {
 
     var prefix = widgetName.slice(0, widgetName.lastIndexOf('/') + 1);
     var widget = openobject.dom.get(widgetName);
 
-    var result = form_evalExpr(prefix, expr);
+    var result = form_evalExpr(prefix, expr, elem);
 
     switch (attr) {
         case 'readonly': form_setReadonly(container, widget, result);
@@ -168,26 +168,33 @@ function form_onAttrChange(container, widgetName, attr, expr) {
     }
 }
 
-function form_evalExpr(prefix, expr) {
+function form_evalExpr(prefix, expr, ref_elem) {
 
     var stack = [];
     for (var i = 0; i < expr.length; i++) {
 
         var ex = expr[i];
-        var elem = openobject.dom.get(prefix + ex[0]);
-        
+        var elem = null;
+        if (ref_elem.parents('table.grid').length) {
+            var parent = ref_elem.parents('tr.grid-row');
+            var elem = parent.find(idSelector(prefix + ex[0]));
+        }
+        if (!elem || !elem.length) {
+            var elem = jQuery(idSelector(prefix + ex[0]));
+        }
+
         if (ex.length==1) {
             stack.push(ex[0]);
             continue;
         }
         
-        if (!elem) 
+        if (!elem)
             continue;
-        
+
         var op = ex[1];
         var val = ex[2];
-        var elem_value = elem.value || getNodeAttribute(elem, 'value') || elem.innerHTML;
-        
+        var elem_value = elem.attr('value') || elem.text();
+
         switch (op.toLowerCase()) {
             case '=':
             case '==':

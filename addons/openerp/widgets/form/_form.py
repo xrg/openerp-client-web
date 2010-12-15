@@ -616,15 +616,19 @@ class Hidden(TinyInputWidget):
         self.widget = get_widget(kind)(**attrs)
         self.validator = self.widget.validator
         self.relation = attrs.get('relation') or None
-        if self.readonly:
-            self.editable = self.readonly
+        self.editable = self.readonly
         if 'field_id' not in attrs:
             self.field_id = self.name
 
     def set_value(self, value):
         self.widget.set_value(value)
         self.default = self.widget.default
-
+        
+    def get_sortable_text(self):
+        """ If returns anything other then None, the return value will be
+        used to sort the listgrid. Useful for localized data.
+        """
+        return None
 
 class Button(TinyInputWidget):
 
