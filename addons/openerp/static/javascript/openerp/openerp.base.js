@@ -103,7 +103,22 @@ function doLoadingSuccess(app/*, url*/) {
             jQuery.hash(url);
         }
         jQuery(window).trigger('before-appcontent-change');
-        jQuery(app).html(xhr.responseText || data);
+        var data = xhr.responseText || data;
+        if (xhr.getResponseHeader('Content-Type') == 'text/javascript') {
+            try {
+                var data = jQuery.parseJSON(data);
+                if (data.error) {
+                    return error_display(data.error);
+                }
+                if (data.reload) {
+                    window.location.reload();
+                }
+            } catch(e) {
+                return error_display('doLoadingSuccess: Cannot parse JSON');
+            }
+        } else {
+            jQuery(app).html(data);
+        }
         jQuery(window).trigger('after-appcontent-change');
     }
 }

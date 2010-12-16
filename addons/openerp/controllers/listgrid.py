@@ -341,7 +341,7 @@ class List(SecuredController):
                     import actions
                     return actions.execute(res, ids=[id])
                 else:
-                    return True
+                    return dict(reload=True)
 
             elif btype == 'action':
                 import actions
