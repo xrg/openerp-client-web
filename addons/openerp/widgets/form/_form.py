@@ -553,13 +553,13 @@ class DTLink(JSLink):
     def update_params(self, params):
         super(DTLink, self).update_params(params)
 
-        lang = get_locale()
-        link = "jscal/lang/calendar-%s.js" % lang
+        locale = get_locale()
+        link = "jscal/lang/calendar-%s.js" % locale
 
         if tools.resources.resource_exists("openerp", "static", link):
             params['link'] = tools.url(["/openerp/static", link])
         else:
-            lang = lang.split('_')[0]
+            lang = locale.language
             link = "jscal/lang/calendar-%s.js" % lang
             if tools.resources.resource_exists("openerp", "static", link):
                 params['link'] = tools.url(["/openerp/static", link])
