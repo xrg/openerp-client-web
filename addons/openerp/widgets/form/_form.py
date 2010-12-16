@@ -773,14 +773,6 @@ class Form(TinyInputWidget):
         values = {}
         defaults = {}
 
-        # update values according to domain
-        for d in domain:
-            if d[0] in fields:
-                if d[1] == '=':
-                    values[d[0]] = d[2]
-                if d[1] == 'in' and len(d[2]) == 1:
-                    values[d[0]] = d[2][0]
-
         if ids:
             lval = proxy.read(ids[:1], fields.keys() + ['__last_update'], self.context)
             if lval:
