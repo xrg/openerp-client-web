@@ -118,7 +118,7 @@
     padding: 2px;
     font-weight: 600;
     line-height: 1em;
-    white-space: nowrap;
+    white-space: pre-wrap;
     overflow: hidden;
     cursor: pointer;
     border-radius: 5px; 
@@ -144,7 +144,7 @@
     color: #000;
     font-weight: bold;
     padding: 2px;
-    white-space: nowrap;
+    white-space: pre-wrap;
     cursor: move;
 }
 

@@ -73,7 +73,7 @@
                             nWriteId="${evt.write_uid}"
                             style="background-color: ${evt.color};"
                             class="calEvent noAllDay ${evt.classes}">
-                           <div style="height: 10px;" class="calEventTitle"><pre>${evt.starts.strftime('%H:%M')} - ${evt.title}</pre></div>
+                           <div style="height: 10px;" class="calEventTitle">${evt.starts.strftime('%H:%M')} - ${evt.title}</div>
                            <div class="calEventDesc">${evt.description}</div>
                            <div class="calEventGrip"></div>
                         </div>
