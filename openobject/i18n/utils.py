@@ -66,10 +66,7 @@ def get_locale(locale=None):
         return locale
 
     try:
-        locale = cherrypy.session['locale']
-        babel.core.Locale.parse(locale)
-        if locale:
-            return locale
+        return babel.core.Locale.parse(cherrypy.session['locale'])
     except AttributeError:
         cherrypy.log.error(
             'Error when trying to get locale, likely due to session tools '
@@ -79,7 +76,6 @@ def get_locale(locale=None):
         pass # we're at the login page and apparently it cannot get rpc
     except babel.core.UnknownLocaleError:
         # user created stupid locale, fallback to defaults
-
         pass
 
     try:
@@ -87,10 +83,10 @@ def get_locale(locale=None):
         if header:
             accept_languages = get_accept_languages(header)
             if accept_languages:
-                return accept_languages[0]
+                return babel.core.Locale.parse(accept_languages[0])
     except AttributeError:
         pass
 
-    return "en"
+    return babel.core.Locale("en")
 
 

@@ -87,7 +87,7 @@ class Node(Singleton):
 
 
 def get_info(module):
-    mod_path = os.path.join(paths.addons(), module)
+    mod_path = paths.addons(module)
     if not os.path.isdir(mod_path):
         return {}
 
@@ -173,12 +173,12 @@ def load_module_graph(db_name, graph, config):
 
         imp_module(package.name)
 
-        static = os.path.join(paths.addons(), package.name, "static")
+        static = paths.addons(package.name, 'static')
         if os.path.isdir(static):
             from openobject.widgets import register_resource_directory
             register_resource_directory(config, package.name, static)
 
-        localedir = os.path.join(paths.addons(), package.name, "locales")
+        localedir = paths.addons(package.name, 'locale')
         if os.path.isdir(localedir):
             i18n.load_translations(localedir, domain="messages")
             i18n.load_translations(localedir, domain="javascript")
@@ -194,7 +194,7 @@ _loaded_addons = {}
 
 def get_local_addons():
     return [f for f in os.listdir(paths.addons()) \
-              if os.path.isfile(os.path.join(paths.addons(), f, "__openerp__.py"))]
+              if os.path.isfile(paths.addons(f, "__openerp__.py"))]
 
 def load_addons(db_name, config):
     if db_name in _loaded:

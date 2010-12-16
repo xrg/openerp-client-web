@@ -47,7 +47,7 @@ def _get_modules(modules):
         modules = modules.split(",")
 
     for module in modules:
-        d = os.path.join(paths.addons(), module)
+        d = paths.addons(module)
         if os.path.isfile(os.path.join(d, '__openerp__.py')):
             yield module, d
 

@@ -1,10 +1,9 @@
 import os
-import sys
-import string
 
 import cherrypy
 
-from babel.support import Translations
+import babel
+import babel.support
 
 from openobject.i18n.utils import get_locale
 
@@ -16,20 +15,15 @@ _translations = {}
 
 
 def get_translations(locale, domain=None):
-
     domain = domain or "messages"
 
-    cats = _translations.setdefault(domain, {})
+    domain_catalog = _translations.setdefault(domain, {})
     try:
-        return cats[locale]
+        return domain_catalog[locale]
     except KeyError:
-        path = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-        load_translations(os.path.join(path, "locales"), [locale])
-        return cats[locale]
-
+        return domain_catalog[locale.language]
 
 def load_translations(path, locales=None, domain=None):
-
     domain = domain or "messages"
     catalog = _translations.setdefault(domain, {})
 
@@ -40,10 +34,9 @@ def load_translations(path, locales=None, domain=None):
         jspath = os.path.join(os.path.dirname(path), "static", "javascript", "i18n")
 
     for lang in locales:
-
         if domain == "messages":
-            tr = Translations.load(path, [lang], domain)
-            if isinstance(tr, Translations):
+            tr = babel.support.Translations.load(path, [lang], domain)
+            if isinstance(tr, babel.support.Translations):
                 if lang in catalog:
                     catalog[lang].merge(tr)
                 else:
@@ -68,6 +61,8 @@ def _gettext(key, locale=None, domain=None):
     """
     if locale is None:
         locale = get_locale()
+    elif not isinstance(locale, babel.Locale):
+        locale = babel.Locale.parse(locale)
     if key == '':
         return '' # special case
     try:
