@@ -419,7 +419,10 @@ class Search(TinyInputWidget):
 
                                 elif field.kind in ('date','datetime'):
                                     domain = [(name, '>=', defval)]
-
+                                    
+                                elif field.kind == 'boolean':
+                                    domain = [(name, '=', defval)]
+                                               
                                 else:
                                     domain = [(name,fields[name].get('comparator','ilike'), defval)]
 
