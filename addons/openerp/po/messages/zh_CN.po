@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2010-11-25 10:30+0530\n"
-"PO-Revision-Date: 2010-12-14 15:44+0000\n"
+"PO-Revision-Date: 2010-12-15 08:39+0000\n"
 "Last-Translator: Joshua Jan <Unknown>\n"
 "Language-Team: zh_CN <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2010-12-15 04:39+0000\n"
+"X-Launchpad-Export-Date: 2010-12-16 04:43+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 "Generated-By: Babel None\n"
 
@@ -365,6 +365,8 @@ msgid ""
 "Error processing your first line of the file.\n"
 "Field %s is unknown"
 msgstr ""
+"处理文件第一行的时候发生错误。\n"
+"未知字段： %s"
 
 #: controllers/impex.py:489
 msgid "XML-RPC error"
@@ -715,7 +717,7 @@ msgstr "发送给维护小组"
 
 #: controllers/templates/error_page.mako:182
 msgid "Write concurrency warning :"
-msgstr ""
+msgstr "并发修改警告："
 
 #: controllers/templates/error_page.mako:187
 msgid ""
@@ -725,6 +727,11 @@ msgid ""
 "    - \"Cancel\" to cancel saving.\n"
 "    - \"Write anyway\" to save your current version."
 msgstr ""
+"当您修改此文档时其已经被其他人修改了。\n"
+"请选择处理方式：\n"
+"\n"
+"    - 单击”取消“按钮取消放弃您的修改。\n"
+"    - 单击“总是写入”按钮保存您修改的版本。"
 
 #: controllers/templates/error_page.mako:201
 #: controllers/templates/form.mako:130
@@ -778,7 +785,7 @@ msgstr "全部字段"
 
 #: controllers/templates/exp.mako:176
 msgid "Fields to export"
-msgstr ""
+msgstr "要导出的字段"
 
 #: controllers/templates/exp.mako:186 controllers/templates/imp.mako:136
 #: widgets/templates/listgrid.mako:133 widgets/templates/sidebar.mako:53
@@ -866,7 +873,7 @@ msgstr ""
 
 #: controllers/templates/fieldpref.mako:79
 msgid "Always applicable!"
-msgstr ""
+msgstr "总是合适的"
 
 #: controllers/templates/footer.mako:3
 #, python-format
@@ -891,15 +898,15 @@ msgstr "显示日志"
 
 #: controllers/templates/form.mako:87
 msgid "Disable all Tips"
-msgstr ""
+msgstr "禁止所有提示"
 
 #: controllers/templates/form.mako:88
 msgid "Hide this Tip"
-msgstr ""
+msgstr "隐藏此提示"
 
 #: controllers/templates/form.mako:101
 msgid "Create a new resource"
-msgstr ""
+msgstr "新建资源"
 
 #: controllers/templates/form.mako:102 controllers/templates/search.mako:163
 #: controllers/templates/viewed_new_model.mako:36
@@ -1021,7 +1028,7 @@ msgstr "图像"
 
 #: controllers/templates/image.mako:56
 msgid "Add Resource:"
-msgstr ""
+msgstr "添加资源："
 
 #: controllers/templates/image.mako:67 widgets/form/templates/binary.mako:28
 msgid "Save As"
@@ -1061,7 +1068,7 @@ msgstr "编码:"
 
 #: controllers/templates/imp.mako:194
 msgid "Lines to skip:"
-msgstr ""
+msgstr "要跳过的行："
 
 #: controllers/templates/index.mako:135
 msgid "Use On-Site"
@@ -1069,11 +1076,11 @@ msgstr ""
 
 #: controllers/templates/index.mako:136
 msgid "Get the OpenERP Warranty"
-msgstr ""
+msgstr "获取openerp授权"
 
 #: controllers/templates/index.mako:143
 msgid "Use Online"
-msgstr ""
+msgstr "在线使用"
 
 #: controllers/templates/index.mako:144
 msgid "Subscribe and start"
@@ -1087,15 +1094,15 @@ msgstr ""
 #: controllers/templates/login.mako:53 controllers/templates/login_ajax.mako:72
 #: controllers/templates/login_ajax.mako:94
 msgid "User:"
-msgstr ""
+msgstr "用户："
 
 #: controllers/templates/login.mako:64
 msgid "Databases"
-msgstr ""
+msgstr "帐套"
 
 #: controllers/templates/login.mako:84
 msgid "Top Contributor:"
-msgstr ""
+msgstr "顶级贡献者："
 
 #: controllers/templates/login.mako:94
 msgid ""
@@ -1109,7 +1116,7 @@ msgstr ""
 
 #: controllers/templates/login.mako:103
 msgid "Full featured"
-msgstr ""
+msgstr "完整特性"
 
 #: controllers/templates/login.mako:104
 msgid ""
@@ -1119,7 +1126,7 @@ msgstr ""
 
 #: controllers/templates/login.mako:112
 msgid "Open Source"
-msgstr ""
+msgstr "开源"
 
 #: controllers/templates/login.mako:113
 msgid ""
@@ -1129,7 +1136,7 @@ msgstr ""
 
 #: controllers/templates/login.mako:121
 msgid "User Friendly"
-msgstr ""
+msgstr "用户友好"
 
 #: controllers/templates/login.mako:122
 msgid ""
@@ -1138,7 +1145,7 @@ msgstr ""
 
 #: controllers/templates/modules.mako:4
 msgid "Module Management"
-msgstr ""
+msgstr "模块管理"
 
 #: controllers/templates/modules.mako:17
 msgid "Web Modules"
@@ -1146,61 +1153,61 @@ msgstr ""
 
 #: controllers/templates/save_filter.mako:18
 msgid "Save as Filter"
-msgstr ""
+msgstr "另存为过滤器"
 
 #: controllers/templates/save_filter.mako:30
 msgid "Filter Name"
-msgstr ""
+msgstr "过滤器名称"
 
 #: controllers/templates/search.mako:147
 #, python-format
 msgid "Search %(name)s"
-msgstr ""
+msgstr "搜索 %(name)s"
 
 #: controllers/templates/search.mako:161
 #: widgets/form/templates/datetime.mako:13
 msgid "Select"
-msgstr ""
+msgstr "请选择"
 
 #: controllers/templates/search.mako:162 widgets/_views.py:75
 #: widgets/form/templates/many2one.mako:22
 #: widgets/form/templates/reference.mako:30 widgets/templates/viewform.mako:26
 msgid "Search"
-msgstr ""
+msgstr "搜索"
 
 #: controllers/templates/search.mako:176
 #, python-format
 msgid "Found no record '%(searched_string)s'."
-msgstr ""
+msgstr "找不到记录 '%(searched_string)s'."
 
 #: controllers/templates/search.mako:179
 #, python-format
 msgid "Create %(searched_string)s"
-msgstr ""
+msgstr "创建 %(searched_string)s"
 
 #: controllers/templates/selection.mako:4
 msgid "Select action"
-msgstr ""
+msgstr "选择动作"
 
 #: controllers/templates/selection.mako:23
 msgid "Select your action"
-msgstr ""
+msgstr "选择您需要的动作"
 
 #: controllers/templates/server_log.mako:4
 msgid "Server Actions..."
-msgstr ""
+msgstr "服务器动作"
 
 #: controllers/templates/server_log.mako:14
 msgid "Server Actions"
-msgstr ""
+msgstr "服务器动作列表"
 
 #: controllers/templates/translator.mako:4
 msgid "Add Translations"
-msgstr ""
+msgstr "添加翻译"
 
 #: controllers/templates/translator.mako:17
 msgid "Add Translation"
-msgstr ""
+msgstr "添加翻译"
 
 #: controllers/templates/translator.mako:27
 msgid "Add Translation for:"
@@ -1208,11 +1215,11 @@ msgstr ""
 
 #: controllers/templates/translator.mako:31
 msgid "Fields"
-msgstr ""
+msgstr "字段列表"
 
 #: controllers/templates/translator.mako:32
 msgid "Labels"
-msgstr ""
+msgstr "标签"
 
 #: controllers/templates/translator.mako:33
 msgid "Relates"
@@ -1220,84 +1227,84 @@ msgstr ""
 
 #: controllers/templates/translator.mako:34
 msgid "View"
-msgstr ""
+msgstr "视图"
 
 #: controllers/templates/translator.mako:53
 msgid "Field"
-msgstr ""
+msgstr "字段"
 
 #: controllers/templates/view_log.mako:4 controllers/templates/view_log.mako:12
 #: utils/common.py:55
 msgid "Information"
-msgstr ""
+msgstr "信息"
 
 #: controllers/templates/viewed.mako:17
 #, python-format
 msgid "View Editor %s - %s"
-msgstr ""
+msgstr "视图编辑器 %s - %s"
 
 #: controllers/templates/viewed.mako:31
 msgid "Create a new inherited view"
-msgstr ""
+msgstr "创建一个继承视图"
 
 #: controllers/templates/viewed.mako:31
 msgid "Inherited View"
-msgstr ""
+msgstr "继承视图"
 
 #: controllers/templates/viewed.mako:34
 msgid "Preview"
-msgstr ""
+msgstr "预览"
 
 #: controllers/templates/viewed_add.mako:6
 msgid "Node Type:"
-msgstr ""
+msgstr "节点类型："
 
 #: controllers/templates/viewed_add.mako:23
 msgid "New Field"
-msgstr ""
+msgstr "新建字段"
 
 #: controllers/templates/viewed_add.mako:27
 msgid "Position:"
-msgstr ""
+msgstr "位置："
 
 #: controllers/templates/viewlist.mako:4
 #: controllers/templates/viewlist.mako:108
 #, python-format
 msgid "Manage Views (%s)"
-msgstr ""
+msgstr "管理视图 (%s)"
 
 #: controllers/templates/viewlist.mako:146
 #, python-format
 msgid "Create a view (%s)"
-msgstr ""
+msgstr "创建视图 (%s)"
 
 #: controllers/templates/viewlist.mako:174
 msgid "View Name:"
-msgstr ""
+msgstr "视图名称："
 
 #: controllers/templates/viewlist.mako:178
 msgid "View Type:"
-msgstr ""
+msgstr "视图类型："
 
 #: controllers/templates/viewlist.mako:189
 msgid "Priority:"
-msgstr ""
+msgstr "优先级："
 
 #: utils/common.py:45 utils/common.py:74
 msgid "Error"
-msgstr ""
+msgstr "错误"
 
 #: utils/common.py:50 utils/common.py:77
 msgid "Warning"
-msgstr ""
+msgstr "警告"
 
 #: utils/rpc.py:139
 msgid "Access Denied"
-msgstr ""
+msgstr "访问被拒绝"
 
 #: utils/rpc.py:246
 msgid "Unsupported protocol."
-msgstr ""
+msgstr "不支持的协议。"
 
 #: utils/rpc.py:348
 msgid ""
@@ -1307,32 +1314,32 @@ msgstr ""
 
 #: utils/rpc.py:355
 msgid "Not logged..."
-msgstr ""
+msgstr "尚未登录"
 
 #: utils/rpc.py:355
 msgid "Authorization Error"
-msgstr ""
+msgstr "认证错误"
 
 #: utils/rpc.py:420
 msgid "== Access Denied =="
-msgstr ""
+msgstr "== 拒绝访问 =="
 
 #: widgets/_views.py:44
 msgid "Form"
-msgstr ""
+msgstr "表格"
 
 #: widgets/_views.py:45
 msgid "Form view..."
-msgstr ""
+msgstr "表单视图"
 
 #: widgets/_views.py:76
 msgid "Search view..."
-msgstr ""
+msgstr "搜索视图"
 
 #: widgets/listgrid.py:340 widgets/form/_form.py:921
 #, python-format
 msgid "Invalid view, duplicate field: %s"
-msgstr ""
+msgstr "无效的视图，字段 %s 重复"
 
 #: widgets/pager.py:67
 #, python-format
@@ -1346,65 +1353,65 @@ msgstr ""
 
 #: widgets/search.py:297
 msgid "contains"
-msgstr ""
+msgstr "包含"
 
 #: widgets/search.py:297
 msgid "doesn't contain"
-msgstr ""
+msgstr "不包含"
 
 #: widgets/search.py:298
 msgid "is equal to"
-msgstr ""
+msgstr "等于"
 
 #: widgets/search.py:298
 msgid "is not equal to"
-msgstr ""
+msgstr "不等于"
 
 #: widgets/search.py:299
 msgid "greater than"
-msgstr ""
+msgstr "大于"
 
 #: widgets/search.py:299
 msgid "less than"
-msgstr ""
+msgstr "小于"
 
 #: widgets/search.py:300
 msgid "in"
-msgstr ""
+msgstr "位于"
 
 #: widgets/search.py:300
 msgid "not in"
-msgstr ""
+msgstr "不属于"
 
 #: widgets/search.py:407
 msgid "Yes"
-msgstr ""
+msgstr "是"
 
 #: widgets/search.py:407
 msgid "No"
-msgstr ""
+msgstr "否"
 
 #: widgets/form/_action.py:58
 msgid "Action not found!"
-msgstr ""
+msgstr "找不到动作！"
 
 #: widgets/form/_o2m.py:57 widgets/templates/listgrid.mako:136
 #: widgets/templates/listgrid.mako:142
 msgid "Create new record."
-msgstr ""
+msgstr "创建记录"
 
 #: widgets/form/_o2m.py:70
 msgid "Save/New"
-msgstr ""
+msgstr "保存或新建"
 
 #: widgets/form/_o2m.py:70
 msgid "Save parent record."
-msgstr ""
+msgstr "保存上级记录"
 
 #: widgets/form/_o2m.py:185
 #, python-format
 msgid "%d of %d"
-msgstr ""
+msgstr "第 %d 条(共 %d)"
 
 #: widgets/form/_o2m.py:187
 #, python-format
@@ -1413,12 +1420,12 @@ msgstr ""
 
 #: widgets/form/templates/binary.mako:31
 msgid "add attachment"
-msgstr ""
+msgstr "添加附件"
 
 #: widgets/form/templates/many2one.mako:2
 #: widgets/form/templates/reference.mako:33
 msgid "Open"
-msgstr ""
+msgstr "打开"
 
 #: widgets/form/templates/many2one.mako:2
 #: widgets/form/templates/reference.mako:33
@@ -1427,27 +1434,27 @@ msgstr ""
 
 #: widgets/form/templates/one2many.mako:18
 msgid "Create new record..."
-msgstr ""
+msgstr "创建新记录"
 
 #: widgets/form/templates/one2many.mako:20
 msgid "Delete record..."
-msgstr ""
+msgstr "删除记录"
 
 #: widgets/form/templates/one2many.mako:26
 msgid "Translate me."
-msgstr ""
+msgstr "删除本记录"
 
 #: widgets/form/templates/one2many.mako:40
 msgid "Previous record..."
-msgstr ""
+msgstr "上一条记录"
 
 #: widgets/form/templates/one2many.mako:42
 msgid "Next record..."
-msgstr ""
+msgstr "下一条记录"
 
 #: widgets/templates/listgrid.mako:19
 msgid "Update"
-msgstr ""
+msgstr "更新"
 
 #: widgets/templates/listgrid.mako:131
 msgid "Add records..."
@@ -1455,27 +1462,27 @@ msgstr ""
 
 #: widgets/templates/listgrid.mako:170 widgets/templates/listgrid.mako:175
 msgid "Delete record(s)."
-msgstr ""
+msgstr "删除记录"
 
 #: widgets/templates/listgrid.mako:182
 msgid "Edit record(s)."
-msgstr ""
+msgstr "编辑记录"
 
 #: widgets/templates/logs.mako:22
 msgid "More..."
-msgstr ""
+msgstr "更多..."
 
 #: widgets/templates/logs.mako:35
 msgid "Less..."
-msgstr ""
+msgstr "更少"
 
 #: widgets/templates/pager.mako:9
 msgid "<< First"
-msgstr ""
+msgstr "<< 首页"
 
 #: widgets/templates/pager.mako:14
 msgid "< Previous"
-msgstr ""
+msgstr "< 上一页"
 
 #: widgets/templates/pager.mako:19
 msgid "of"
@@ -1483,11 +1490,11 @@ msgstr ""
 
 #: widgets/templates/pager.mako:24
 msgid "Next >"
-msgstr ""
+msgstr "下一页 >"
 
 #: widgets/templates/pager.mako:29
 msgid "Last >>"
-msgstr ""
+msgstr "末页 >>"
 
 #: widgets/templates/pager.mako:37
 msgid "Change Limit:"
@@ -1495,15 +1502,15 @@ msgstr ""
 
 #: widgets/templates/sidebar.mako:36
 msgid "Reports"
-msgstr ""
+msgstr "报表列表"
 
 #: widgets/templates/sidebar.mako:40 widgets/templates/viewform.mako:51
 msgid "Actions"
-msgstr ""
+msgstr "动作列表"
 
 #: widgets/templates/sidebar.mako:48
 msgid "Submenu"
-msgstr ""
+msgstr "子菜单"
 
 #: widgets/templates/sidebar.mako:54
 msgid "Attachments"
@@ -1511,43 +1518,43 @@ msgstr ""
 
 #: widgets/templates/sidebar.mako:72
 msgid "File"
-msgstr ""
+msgstr "文件"
 
 #: widgets/templates/sidebar.mako:80
 msgid "Customize"
-msgstr ""
+msgstr "自定义"
 
 #: widgets/templates/sidebar.mako:84
 msgid "Manage views of the current object"
-msgstr ""
+msgstr "管理当前对象的视图"
 
 #: widgets/templates/sidebar.mako:86
 msgid "Manage Views"
-msgstr ""
+msgstr "管理视图"
 
 #: widgets/templates/sidebar.mako:90
 msgid "Edit workflow of the current object"
-msgstr ""
+msgstr "编辑当前对象的工作流"
 
 #: widgets/templates/sidebar.mako:91
 msgid "Edit Workflow"
-msgstr ""
+msgstr "编辑工作流"
 
 #: widgets/templates/sidebar.mako:95
 msgid "Customize current object or create a new object"
-msgstr ""
+msgstr "定制当前对象或创建新对象"
 
 #: widgets/templates/sidebar.mako:97
 msgid "Customize Object"
-msgstr ""
+msgstr "定制对象"
 
 #: widgets/templates/sidebar.mako:102
 msgid "Other Options"
-msgstr ""
+msgstr "其他选项"
 
 #: widgets/templates/sidebar.mako:114
 msgid "Translate"
-msgstr ""
+msgstr "翻译"
 
 #: widgets/templates/sidebar.mako:119
 msgid "View Log"
