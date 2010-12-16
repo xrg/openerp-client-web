@@ -1,3 +1,5 @@
+import gettext as _gt
+import pprint
 import os
 
 import cherrypy
@@ -14,17 +16,9 @@ _translations = {}
 
 
 def get_translations(locale, domain=None):
-
     domain = domain or "messages"
 
-    cats = _translations.setdefault(domain, {})
-    try:
-        return cats[locale]
-    except KeyError:
-        path = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-        load_translations(os.path.join(path, "locales"), [locale])
-        return cats[locale]
-
+    return _translations.setdefault(domain, {})[locale]
 
 def load_translations(path, locales=None, domain=None):
 
