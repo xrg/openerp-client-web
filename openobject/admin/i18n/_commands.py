@@ -121,20 +121,6 @@ class BabelCommand(BaseCommand):
 
         return pot, po, mo
 
-    def init(self, locale, domain, path):
-
-        _locales = _get_locales(path, locale)
-
-        for l in _locales:
-
-            pot, po, mo = self.get_files(l, domain, path)
-                
-            if not os.path.exists(os.path.join(path, 'locale')):
-                os.makedirs(os.path.join(path, 'locale'))
-
-            print "Creating '%s'" % (po)
-            self.execute("init", l=l, D=domain, o=po, i=pot)
-
     def extract(self, locale, domain, path):
 
         pot, po, mo = self.get_files(locale, domain, path)
@@ -149,24 +135,6 @@ class BabelCommand(BaseCommand):
 
         print "Creating '%s'" % pot
         self.execute("extract", '.', o=pot, F=mappath)
-
-    def update(self, locale, domain, path):
-
-        if not locale:
-            _locales = _get_locales(path, locale)
-            for l in _locales:
-                self.update(l, domain, path)
-            return
-
-        pot, po, mo = self.get_files(locale, domain, path)
-
-        if not os.path.exists(po):
-            return
-
-        _make_backup(po)
-
-        print "Updating '%s'" % po
-        self.execute("update", "-N", D=domain, l=locale, i=pot, o=po)
 
     def compile(self, locale, domain, path):
 
@@ -241,17 +209,15 @@ openobject.gettext.update(
         self.parser.add_option("-l", "--locale", dest="locale", help="locale (e.g. en_US, fr_FR)")
         self.parser.add_option("-D", "--domain", dest="domain", help="domain (e.g. messages, javascript)")
 
-        self.parser.add_option("-a", "--init", dest="a", metavar="ALL", help="create catalogs for the given addons")
         self.parser.add_option("-x", "--extract", dest="x", metavar="ALL", help="extract messages for the given addons")
-        self.parser.add_option("-u", "--update", dest="u", metavar="ALL", help="update message catalogs for the given addons")
         self.parser.add_option("-c", "--compile", dest="c", metavar="ALL", help="compile po files for the given addons")
         self.parser.add_option("-k", "--clean", dest="k", action="store_true", help="clean all backup files.")
 
         options, args = self.parser.parse_args(argv)
 
-        m = [o for o in [options.a, options.x, options.u, options.c, options.k] if o]
+        m = [o for o in [options.x, options.c, options.k] if o]
         if not m:
-            self.parser.error("Required one of '--init, --extract, --update, --compile, --clean'")
+            self.parser.error("Required one of '--extract, --compile, --clean'")
 
 
         if options.k:
@@ -260,14 +226,8 @@ openobject.gettext.update(
         modules = _get_modules(m[0])
         action = None
 
-        if options.a:
-            action = self.init
-
-        elif options.x:
+        if options.x:
             action = self.extract
-
-        elif options.u:
-            action = self.update
 
         elif options.c:
             action = self.compile
