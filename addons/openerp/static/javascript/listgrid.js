@@ -386,7 +386,7 @@ MochiKit.Base.update(ListView.prototype, {
     clear: function() {
         group_by = new Array();
         filter_context = [];
-        this.reload(-1, null, this.default_get_ctx, true)
+        this.reload(null, null, this.default_get_ctx, true)
     }
 });
 
