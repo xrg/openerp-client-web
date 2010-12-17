@@ -18,10 +18,10 @@ def get_translations(locale, domain=None):
     domain = domain or "messages"
 
     domain_catalog = _translations.setdefault(domain, {})
-    try:
+
+    if locale in domain_catalog:
         return domain_catalog[locale]
-    except KeyError:
-        return domain_catalog[locale.language]
+    return domain_catalog[locale.language]
 
 def load_translations(path, locales=None, domain=None):
     domain = domain or "messages"
