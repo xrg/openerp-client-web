@@ -114,11 +114,13 @@ class BabelCommand(BaseCommand):
 
         os.chdir(path)
 
-        print "Creating '%s'" % pot
+        print "Creating '%s'..." % pot
         self.execute("extract", '.', o=pot, F=mappath)
 
     def compile(self, locale, domain, path):
-
+        assert (domain == 'javascript'),\
+            "Compilation of the messages domain is performed on the fly, MO"\
+            "files compiled manually will be ignored"
         if not locale:
             _locales = _get_locales(path, locale)
             for l in _locales:
@@ -134,44 +136,32 @@ class BabelCommand(BaseCommand):
         if not os.path.exists(opath):
             os.makedirs(opath)
 
-        print "Compiling '%s'" % po
+        print "Compiling '%s'..." % po
         self.execute("compile", D=domain, l=locale, i=po, o=mo)
 
-        if domain == "javascript":
+        tr = Translations.load(os.path.join(path, 'locale'), [locale], domain)
+        messages = tr._catalog
+        messages.pop("")
 
-            try:
-                tr = Translations.load(os.path.join(path, 'locale'), [locale], domain)
-                messages = tr._catalog
-                messages.pop("")
-            except Exception, e:
-                return
+        jspath = os.path.join(path, "static", "javascript", "i18n")
+        if not os.path.exists(jspath):
+            os.makedirs(jspath)
+        jspath = os.path.join(jspath, "%s.js" % locale)
 
-            jspath = os.path.join(path, "static", "javascript", "i18n")
-            if not os.path.exists(jspath):
-                os.makedirs(jspath)
-            jspath = os.path.join(jspath, "%s.js" % locale)
+        import simplejson
+        messages = simplejson.dumps(messages)
 
-            import simplejson
-            messages = simplejson.dumps(messages)
-
-            text = """
+        text = """
 // Auto generated file. Please don't modify.
 openobject.gettext.update(
 %(messages)s
 );
 
 """ % dict(messages=messages)
-
-            try:
-                fo = open(jspath, 'w')
-                fo.write(text)
-                fo.close()
-
-                print "Creating '%s'" % jspath
-
-            except Exception, e:
-                pass
-
+        print "Creating '%s'..." % jspath
+        fo = open(jspath, 'w')
+        fo.write(text)
+        fo.close()
 
     def run(self, argv):
 
