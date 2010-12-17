@@ -31,3 +31,4 @@ import viewed
 import viewlist
 import modules
 import execute
+import j18n

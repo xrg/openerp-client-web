@@ -1,5 +1,6 @@
 from __future__ import with_statement
 
+import hashlib
 import glob
 import tempfile
 import os
@@ -30,20 +31,23 @@ def get_translations(locale, domain=None):
         return domain_catalog[locale]
     return domain_catalog[locale.language]
 
-def _load_messages_translation(path, locale):
+def _load_translation(path, locale, domain):
     """ Loads the locale's translation for the addon at the provided path
     :param path: an addon's path, should contain a po/messages subdir
     :type path: str
     :param locale: the locale to load
     :type locale: babel.Locale
+    :param domain: the domain to load the translation in (and from)
+    :type domain: str
     :rtype: babel.support.Translations | gettext.NullTranslation
     """
-    locale_path = join(_machine_objects_cache, 'locale')
-    popath = join(path, 'po', 'messages', '%s.po' % locale)
+    locale_path = join(_machine_objects_cache,
+                       hashlib.md5(path).hexdigest()[:8], 'locale')
+    popath = join(path, 'po', domain, '%s.po' % locale)
     modir = join(locale_path, str(locale), 'LC_MESSAGES')
     if not exists(modir):
         os.makedirs(modir, 0700)
-    mopath = join(modir, 'messages.mo')
+    mopath = join(modir, domain + '.mo')
 
     if not exists(mopath) or getmtime(mopath) < getmtime(popath):
         # generate MO file if none exists or the MO file is older than the PO
@@ -53,43 +57,25 @@ def _load_messages_translation(path, locale):
                 babel.messages.mofile.write_mo(
                         mofile,
                         babel.messages.pofile.read_po(
-                                pofile, locale, 'messages'))
-
+                                pofile, locale, domain))
     return babel.support.Translations.load(
-            locale_path, [locale], 'messages')
+            locale_path, [locale], domain)
 
-def _load_messages_translations(locales, path):
+def _load_translations(path, locales, domain):
     if not locales:
         locales = (
             splitext(basename(p))[0]
-            for p in glob.glob(join(path, 'po', 'messages', '*.po')))
+            for p in glob.glob(join(path, 'po', domain, '*.po')))
 
-    catalog = _translations.setdefault('messages', {})
+    catalog = _translations.setdefault(domain, {})
     for locale in locales:
-        tr = _load_messages_translation(path, locale)
+        tr = _load_translation(path, locale, domain)
         if isinstance(tr, babel.support.Translations):
             if locale in catalog:
                 catalog[locale].merge(tr)
             else:
                 catalog[locale] = tr
 
-def _load_javascript_translations(locales, path):
-    catalog = _translations.setdefault('javascript', {})
-    jspath = join(path, "static", "javascript", "i18n")
-    if not isdir(jspath): return
-    if not locales:
-        locales = [splitext(f)[0]
-                   for f in os.listdir(jspath)]
-    for locale in locales:
-        fname = join(jspath, "%s.js" % locale)
-        if exists(fname):
-            _all = catalog.setdefault(locale, [])
-            _all.append(fname)
-
-_translations_loaders = {
-    'messages': _load_messages_translations,
-    'javascript': _load_javascript_translations
-}
 def load_translations(path, locales=None, domain="messages"):
     """
     :param path: the root of the addon from which the translation will be
@@ -100,9 +86,9 @@ def load_translations(path, locales=None, domain="messages"):
                     none provide
     :type locales: [str] or None
     :param domain: the domain to load
-    :type domain: "messages" | "javascript"
+    :type domain: str
     """
-    _translations_loaders[domain](locales, path)
+    _load_translations(path, locales, domain)
 
 def _gettext(key, locale=None, domain=None):
     """Get the gettext value for key.
