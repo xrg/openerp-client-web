@@ -24,22 +24,23 @@ def get_translations(locale, domain=None):
     return domain_catalog[locale.language]
 
 def _load_messages_translations(domain, locales, path):
+    print path
     catalog = _translations.setdefault(domain, {})
-    for lang in locales:
-        tr = babel.support.Translations.load(path, [lang], domain)
+    for locale in locales:
+        tr = babel.support.Translations.load(path, [locale], domain)
         if isinstance(tr, babel.support.Translations):
-            if lang in catalog:
-                catalog[lang].merge(tr)
+            if locale in catalog:
+                catalog[locale].merge(tr)
             else:
-                catalog[lang] = tr
+                catalog[locale] = tr
 
 def _load_javascript_translations(domain, locales, path):
     catalog = _translations.setdefault(domain, {})
     jspath = os.path.join(os.path.dirname(path), "static", "javascript", "i18n")
-    for lang in locales:
-        fname = os.path.join(jspath, "%s.js" % lang)
+    for locale in locales:
+        fname = os.path.join(jspath, "%s.js" % locale)
         if os.path.exists(fname):
-            _all = catalog.setdefault(lang, [])
+            _all = catalog.setdefault(locale, [])
             _all.append(fname)
 
 _translations_loaders = {
