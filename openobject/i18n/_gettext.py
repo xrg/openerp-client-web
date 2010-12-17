@@ -23,31 +23,35 @@ def get_translations(locale, domain=None):
         return domain_catalog[locale]
     return domain_catalog[locale.language]
 
+def _load_messages_translations(domain, locales, path):
+    catalog = _translations.setdefault(domain, {})
+    for lang in locales:
+        tr = babel.support.Translations.load(path, [lang], domain)
+        if isinstance(tr, babel.support.Translations):
+            if lang in catalog:
+                catalog[lang].merge(tr)
+            else:
+                catalog[lang] = tr
+
+def _load_javascript_translations(domain, locales, path):
+    catalog = _translations.setdefault(domain, {})
+    jspath = os.path.join(os.path.dirname(path), "static", "javascript", "i18n")
+    for lang in locales:
+        fname = os.path.join(jspath, "%s.js" % lang)
+        if os.path.exists(fname):
+            _all = catalog.setdefault(lang, [])
+            _all.append(fname)
+
+_translations_loaders = {
+    'messages': _load_messages_translations,
+    'javascript': _load_javascript_translations
+}
 def load_translations(path, locales=None, domain=None):
     domain = domain or "messages"
-    catalog = _translations.setdefault(domain, {})
 
     if not locales:
         locales = [f for f in os.listdir(path) if os.path.isdir(os.path.join(path, f))]
-
-    if domain == "javascript":
-        jspath = os.path.join(os.path.dirname(path), "static", "javascript", "i18n")
-
-    for lang in locales:
-        if domain == "messages":
-            tr = babel.support.Translations.load(path, [lang], domain)
-            if isinstance(tr, babel.support.Translations):
-                if lang in catalog:
-                    catalog[lang].merge(tr)
-                else:
-                    catalog[lang] = tr
-
-        if domain == "javascript":
-            fname = os.path.join(jspath, "%s.js" % lang)
-            if os.path.exists(fname):
-                _all = catalog.setdefault(lang, [])
-                _all.append(fname)
-
+    _translations_loaders[domain](domain, locales, path)
 
 def _gettext(key, locale=None, domain=None):
     """Get the gettext value for key.
