@@ -1,4 +1,6 @@
+import glob
 import os
+from os.path import basename, exists, isdir, join, splitext
 
 import cherrypy
 
@@ -24,11 +26,13 @@ def get_translations(locale, domain=None):
     return domain_catalog[locale.language]
 
 def _load_messages_translations(domain, locales, path):
-    locale_path = os.path.join(path, 'locale')
-    if not os.path.isdir(locale_path): return
+    locale_path = join(path, 'locale')
+    if not isdir(locale_path): return
+
     if not locales:
-        locales = [f for f in os.listdir(locale_path)
-                   if os.path.isdir(os.path.join(locale_path, f))]
+        locales = (
+            splitext(basename(p))[0]
+            for p in glob.glob(join(path, 'po', 'messages', '*.po')))
 
     catalog = _translations.setdefault(domain, {})
     for locale in locales:
@@ -42,14 +46,14 @@ def _load_messages_translations(domain, locales, path):
 
 def _load_javascript_translations(domain, locales, path):
     catalog = _translations.setdefault(domain, {})
-    jspath = os.path.join(path, "static", "javascript", "i18n")
-    if not os.path.isdir(jspath): return
+    jspath = join(path, "static", "javascript", "i18n")
+    if not isdir(jspath): return
     if not locales:
-        locales = [os.path.splitext(f)[0]
+        locales = [splitext(f)[0]
                    for f in os.listdir(jspath)]
     for locale in locales:
-        fname = os.path.join(jspath, "%s.js" % locale)
-        if os.path.exists(fname):
+        fname = join(jspath, "%s.js" % locale)
+        if exists(fname):
             _all = catalog.setdefault(locale, [])
             _all.append(fname)
 
