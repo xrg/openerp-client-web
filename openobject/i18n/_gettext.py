@@ -1,10 +1,15 @@
+from __future__ import with_statement
+
 import glob
+import tempfile
 import os
-from os.path import basename, exists, isdir, join, splitext
+from os.path import basename, exists, getmtime, isdir, join, splitext
 
 import cherrypy
 
 import babel
+import babel.messages.mofile
+import babel.messages.pofile
 import babel.support
 
 from openobject.i18n.utils import get_locale
@@ -14,7 +19,7 @@ __all__ = ['get_translations', 'load_translations', 'gettext', 'install']
 
 
 _translations = {}
-
+_machine_objects_cache = tempfile.mkdtemp()
 
 def get_translations(locale, domain=None):
     domain = domain or "messages"
@@ -25,10 +30,35 @@ def get_translations(locale, domain=None):
         return domain_catalog[locale]
     return domain_catalog[locale.language]
 
-def _load_messages_translations(locales, path):
-    locale_path = join(path, 'locale')
-    if not isdir(locale_path): return
+def _load_messages_translation(path, locale):
+    """ Loads the locale's translation for the addon at the provided path
+    :param path: an addon's path, should contain a po/messages subdir
+    :type path: str
+    :param locale: the locale to load
+    :type locale: babel.Locale
+    :rtype: babel.support.Translations | gettext.NullTranslation
+    """
+    locale_path = join(_machine_objects_cache, 'locale')
+    popath = join(path, 'po', 'messages', '%s.po' % locale)
+    modir = join(locale_path, str(locale), 'LC_MESSAGES')
+    if not exists(modir):
+        os.makedirs(modir, 0700)
+    mopath = join(modir, 'messages.mo')
 
+    if not exists(mopath) or getmtime(mopath) < getmtime(popath):
+        # generate MO file if none exists or the MO file is older than the PO
+        # file (== the PO file got updated since the cache was built)
+        with open(popath, 'rb') as pofile:
+            with open(mopath, 'wb') as mofile:
+                babel.messages.mofile.write_mo(
+                        mofile,
+                        babel.messages.pofile.read_po(
+                                pofile, locale, 'messages'))
+
+    return babel.support.Translations.load(
+            locale_path, [locale], 'messages')
+
+def _load_messages_translations(locales, path):
     if not locales:
         locales = (
             splitext(basename(p))[0]
@@ -36,8 +66,7 @@ def _load_messages_translations(locales, path):
 
     catalog = _translations.setdefault('messages', {})
     for locale in locales:
-        tr = babel.support.Translations.load(
-                locale_path, [locale], 'messages')
+        tr = _load_messages_translation(path, locale)
         if isinstance(tr, babel.support.Translations):
             if locale in catalog:
                 catalog[locale].merge(tr)
