@@ -72,8 +72,9 @@ def _get_locales(path, locale=None):
 
 class BabelCommand(BaseCommand):
 
-    name = "i18n"
-    description = "i18n commands"
+    name = "extract"
+    description = "Extract messages from the source files and create the "\
+                  "corresponding POTs, also used to update an existing POT"
 
     def __init__(self):
         super(BabelCommand, self).__init__()
@@ -117,79 +118,18 @@ class BabelCommand(BaseCommand):
         print "Creating '%s'..." % pot
         self.execute("extract", '.', o=pot, F=mappath)
 
-    def compile(self, locale, domain, path):
-        assert (domain == 'javascript'),\
-            "Compilation of the messages domain is performed on the fly, MO"\
-            "files compiled manually will be ignored"
-        if not locale:
-            _locales = _get_locales(path, locale)
-            for l in _locales:
-                self.compile(l, domain, path)
-            return
-
-        pot, po, mo = self.get_files(locale, domain, path)
-
-        if not os.path.exists(po):
-            return
-        
-        opath = os.path.dirname(mo)
-        if not os.path.exists(opath):
-            os.makedirs(opath)
-
-        print "Compiling '%s'..." % po
-        self.execute("compile", D=domain, l=locale, i=po, o=mo)
-
-        tr = Translations.load(os.path.join(path, 'locale'), [locale], domain)
-        messages = tr._catalog
-        messages.pop("")
-
-        jspath = os.path.join(path, "static", "javascript", "i18n")
-        if not os.path.exists(jspath):
-            os.makedirs(jspath)
-        jspath = os.path.join(jspath, "%s.js" % locale)
-
-        import simplejson
-        messages = simplejson.dumps(messages)
-
-        text = """
-// Auto generated file. Please don't modify.
-openobject.gettext.update(
-%(messages)s
-);
-
-""" % dict(messages=messages)
-        print "Creating '%s'..." % jspath
-        fo = open(jspath, 'w')
-        fo.write(text)
-        fo.close()
-
     def run(self, argv):
 
         self.parser.add_option("-l", "--locale", dest="locale", help="locale (e.g. en_US, fr_FR)")
         self.parser.add_option("-D", "--domain", dest="domain", help="domain (e.g. messages, javascript)")
 
-        self.parser.add_option("-x", "--extract", dest="x", metavar="ALL", help="extract messages for the given addons")
-        self.parser.add_option("-c", "--compile", dest="c", metavar="ALL", help="compile po files for the given addons")
-
         options, args = self.parser.parse_args(argv)
 
-        m = [o for o in [options.x, options.c] if o]
-        if not m:
-            self.parser.error("Required one of '--extract, --compile'")
-
-        modules = _get_modules(m[0])
-        action = None
-
-        if options.x:
-            action = self.extract
-
-        elif options.c:
-            action = self.compile
-
+        modules = _get_modules(args[0])
         domains = ["messages", "javascript"]
         if options.domain:
             domains = options.domain.split(",")
 
         for m, p in modules:
             for d in domains:
-                action(options.locale, d, p)
+                self.extract(options.locale, d, p)
