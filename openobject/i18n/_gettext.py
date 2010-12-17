@@ -25,7 +25,7 @@ def get_translations(locale, domain=None):
         return domain_catalog[locale]
     return domain_catalog[locale.language]
 
-def _load_messages_translations(domain, locales, path):
+def _load_messages_translations(locales, path):
     locale_path = join(path, 'locale')
     if not isdir(locale_path): return
 
@@ -34,18 +34,18 @@ def _load_messages_translations(domain, locales, path):
             splitext(basename(p))[0]
             for p in glob.glob(join(path, 'po', 'messages', '*.po')))
 
-    catalog = _translations.setdefault(domain, {})
+    catalog = _translations.setdefault('messages', {})
     for locale in locales:
         tr = babel.support.Translations.load(
-                locale_path, [locale], domain)
+                locale_path, [locale], 'messages')
         if isinstance(tr, babel.support.Translations):
             if locale in catalog:
                 catalog[locale].merge(tr)
             else:
                 catalog[locale] = tr
 
-def _load_javascript_translations(domain, locales, path):
-    catalog = _translations.setdefault(domain, {})
+def _load_javascript_translations(locales, path):
+    catalog = _translations.setdefault('javascript', {})
     jspath = join(path, "static", "javascript", "i18n")
     if not isdir(jspath): return
     if not locales:
@@ -73,7 +73,7 @@ def load_translations(path, locales=None, domain="messages"):
     :param domain: the domain to load
     :type domain: "messages" | "javascript"
     """
-    _translations_loaders[domain](domain, locales, path)
+    _translations_loaders[domain](locales, path)
 
 def _gettext(key, locale=None, domain=None):
     """Get the gettext value for key.
