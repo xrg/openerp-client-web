@@ -69,8 +69,6 @@ def _gettext(key, locale=None, domain=None):
         return get_translations(locale, domain).ugettext(key)
     except KeyError:
         return key
-    except IOError:
-        return key
 
 class lazystring(object):
     """Has a number of lazily evaluated functions replicating a string.
