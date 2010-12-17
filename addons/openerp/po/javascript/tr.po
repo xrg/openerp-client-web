@@ -1,0 +1,63 @@
+# Turkish translation for openobject-client-web
+# Copyright (c) 2010 Rosetta Contributors and Canonical Ltd 2010
+# This file is distributed under the same license as the openobject-client-web package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2010.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: openobject-client-web\n"
+"Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
+"POT-Creation-Date: 2010-11-25 10:30+0530\n"
+"PO-Revision-Date: 2010-12-16 15:29+0000\n"
+"Last-Translator: yuka <Unknown>\n"
+"Language-Team: Turkish <tr@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Launchpad-Export-Date: 2010-12-17 04:54+0000\n"
+"X-Generator: Launchpad (build Unknown)\n"
+
+#: static/javascript/form.js:100
+#, python-format
+msgid "You selected to open %(tabs)s tabs - do you want to continue?"
+msgstr "Sekmelerini %(tabs) seçtiniz - Devam etmek istiyor musunuz?"
+
+#: static/javascript/form.js:177
+msgid "Invalid form, correct red fields."
+msgstr "Hatalı form, kırmızıyla renklendirilen alanları düzeltiniz."
+
+#: static/javascript/form.js:212
+msgid "Do you really want to delete this record?"
+msgstr "Bu kayıtı silmek istediğinden emin misin?"
+
+#: static/javascript/form.js:957
+msgid "Do you really want to delete the attachment"
+msgstr "Bu eki silmek istediğinden emin misin?"
+
+#: static/javascript/listgrid.js:510 static/javascript/o2m.js:103
+msgid "To edit Record, please first save it."
+msgstr "Bu kaydı düzenlemek için önce kaydetmeniz gerekiyor."
+
+#: static/javascript/listgrid.js:618
+msgid "Do you really want to delete selected record(s) ?"
+msgstr "Bu kayıt(lar)ı silmek istediğinden emin misin?"
+
+#: static/javascript/o2m.js:62
+msgid "Do you really want to delete record ?"
+msgstr "Bu kayıtı silmek istediğinden emin misin?"
+
+#: static/javascript/viewed.js:71
+msgid "Do you really want to remove this node?"
+msgstr "Bu kayıtı gerçekten silmek istiyor musunuz?"
+
+#: static/javascript/viewed.js:337
+msgid "Do you really wants to create an inherited view here?"
+msgstr "Bağlantılı görünüm oluşturmak istediğinden emin misin?"
+
+#: static/javascript/openerp/openerp.ui.tips.js:59
+msgid "Object"
+msgstr "Nesne"
+
+#: static/javascript/openerp/openerp.ui.tips.js:60
+msgid "Field"
+msgstr "Alan"

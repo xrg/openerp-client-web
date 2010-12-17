@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2010-11-25 10:30+0530\n"
-"PO-Revision-Date: 2010-12-15 07:17+0000\n"
-"Last-Translator: OpenERP Web Administrators <Unknown>\n"
+"PO-Revision-Date: 2010-12-16 13:43+0000\n"
+"Last-Translator: Xavier (Open ERP) <Unknown>\n"
 "Language-Team: fr <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2010-12-16 04:43+0000\n"
+"X-Launchpad-Export-Date: 2010-12-17 04:55+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 "Generated-By: Babel None\n"
 
@@ -971,7 +971,7 @@ msgstr "Masquer cette astuce"
 
 #: controllers/templates/form.mako:101
 msgid "Create a new resource"
-msgstr ""
+msgstr "Créer une nouvelle ressource"
 
 #: controllers/templates/form.mako:102 controllers/templates/search.mako:163
 #: controllers/templates/viewed_new_model.mako:36
@@ -979,7 +979,7 @@ msgstr ""
 #: widgets/form/templates/one2many.mako:18 widgets/templates/listgrid.mako:138
 #: widgets/templates/listgrid.mako:142
 msgid "New"
-msgstr ""
+msgstr "Ajouter"
 
 #: controllers/templates/form.mako:106
 msgid "Edit this resource"
@@ -990,7 +990,7 @@ msgstr "Éditer cette ressource"
 #: widgets/templates/listgrid.mako:184 widgets/templates/listgroup.mako:105
 #: widgets/templates/multiple_group.mako:63
 msgid "Edit"
-msgstr ""
+msgstr "Éditer"
 
 #: controllers/templates/form.mako:111
 msgid "Save this resource"
@@ -1007,7 +1007,7 @@ msgstr "Enregistrer cette ressource"
 #: controllers/templates/viewed_new_model.mako:39
 #: controllers/templates/viewlist.mako:157
 msgid "Save"
-msgstr ""
+msgstr "Sauver"
 
 #: controllers/templates/form.mako:114
 msgid "Save & Edit this resource"
@@ -1023,11 +1023,11 @@ msgstr "Dupliquer cette ressource"
 
 #: controllers/templates/form.mako:120
 msgid "Duplicate"
-msgstr ""
+msgstr "Dupliquer"
 
 #: controllers/templates/form.mako:124
 msgid "Delete this resource"
-msgstr ""
+msgstr "Supprimer cette ressource"
 
 #: controllers/templates/form.mako:129
 msgid "Cancel editing the current resource"
@@ -1035,7 +1035,7 @@ msgstr "Abandonner l'édition de la ressource courante"
 
 #: controllers/templates/form.mako:134
 msgid "Create new node"
-msgstr ""
+msgstr "Créer un nouveau nœud"
 
 #: controllers/templates/form.mako:135
 msgid "New Node"
@@ -1047,7 +1047,7 @@ msgstr "Afficher la grille dans l'éditeur de workflow"
 
 #: controllers/templates/form.mako:140
 msgid "Show grid"
-msgstr ""
+msgstr "Afficher la grille"
 
 #: controllers/templates/header.mako:30
 #, python-format
@@ -1061,31 +1061,31 @@ msgstr "%(user)s"
 
 #: controllers/templates/header.mako:42 controllers/templates/header.mako:44
 msgid "Home"
-msgstr ""
+msgstr "Accueil"
 
 #: controllers/templates/header.mako:50
 msgid "Requests"
-msgstr ""
+msgstr "Requêtes"
 
 #: controllers/templates/header.mako:57
 msgid "Edit Preferences"
-msgstr ""
+msgstr "Éditer les préférences"
 
 #: controllers/templates/header.mako:60 controllers/templates/header.mako:62
 msgid "About"
-msgstr ""
+msgstr "À propos"
 
 #: controllers/templates/header.mako:66 controllers/templates/header.mako:68
 msgid "Help"
-msgstr ""
+msgstr "Aide"
 
 #: controllers/templates/header.mako:73 controllers/templates/header.mako:75
 msgid "Clear Cache"
-msgstr ""
+msgstr "Effacer le cache"
 
 #: controllers/templates/header.mako:80
 msgid "Logout"
-msgstr ""
+msgstr "Se déconnecter"
 
 #: controllers/templates/image.mako:4 controllers/templates/image.mako:40
 msgid "Image"
@@ -1097,11 +1097,11 @@ msgstr "Ajouter une ressource :"
 
 #: controllers/templates/image.mako:67 widgets/form/templates/binary.mako:28
 msgid "Save As"
-msgstr ""
+msgstr "Enregistrer sous..."
 
 #: controllers/templates/imp.mako:111 widgets/templates/sidebar.mako:107
 msgid "Import"
-msgstr ""
+msgstr "Importer"
 
 #: controllers/templates/imp.mako:114
 msgid "Import Data"
@@ -1109,27 +1109,27 @@ msgstr "Importer les données"
 
 #: controllers/templates/imp.mako:126
 msgid "Fields to import"
-msgstr ""
+msgstr "Champs à importer"
 
 #: controllers/templates/imp.mako:151
 msgid "Auto Detect"
-msgstr ""
+msgstr "Détecter automatiquement"
 
 #: controllers/templates/imp.mako:170
 msgid "File to import"
-msgstr ""
+msgstr "Fichier à importer"
 
 #: controllers/templates/imp.mako:181
 msgid "Separator:"
-msgstr ""
+msgstr "Séparateur :"
 
 #: controllers/templates/imp.mako:183
 msgid "Delimiter:"
-msgstr ""
+msgstr "Délimiteur :"
 
 #: controllers/templates/imp.mako:187
 msgid "Encoding:"
-msgstr ""
+msgstr "Encodage :"
 
 #: controllers/templates/imp.mako:194
 msgid "Lines to skip:"
@@ -1141,7 +1141,7 @@ msgstr "Utiliser sur site"
 
 #: controllers/templates/index.mako:136
 msgid "Get the OpenERP Warranty"
-msgstr ""
+msgstr "Obtenir la garantie OpenERP"
 
 #: controllers/templates/index.mako:143
 msgid "Use Online"
@@ -1159,11 +1159,11 @@ msgstr "Fonctionne grâce à %(openerp)s "
 #: controllers/templates/login.mako:53 controllers/templates/login_ajax.mako:72
 #: controllers/templates/login_ajax.mako:94
 msgid "User:"
-msgstr ""
+msgstr "Utilisateur :"
 
 #: controllers/templates/login.mako:64
 msgid "Databases"
-msgstr ""
+msgstr "Bases de données"
 
 #: controllers/templates/login.mako:84
 msgid "Top Contributor:"
@@ -1193,7 +1193,7 @@ msgstr ""
 
 #: controllers/templates/login.mako:112
 msgid "Open Source"
-msgstr ""
+msgstr "Open Source"
 
 #: controllers/templates/login.mako:113
 msgid ""
@@ -1228,7 +1228,7 @@ msgstr "Enregistrer comme filtre"
 
 #: controllers/templates/save_filter.mako:30
 msgid "Filter Name"
-msgstr ""
+msgstr "Nom du Filtre"
 
 #: controllers/templates/search.mako:147
 #, python-format
@@ -1238,13 +1238,13 @@ msgstr "Rechercher %(name)s"
 #: controllers/templates/search.mako:161
 #: widgets/form/templates/datetime.mako:13
 msgid "Select"
-msgstr ""
+msgstr "Sélectionner"
 
 #: controllers/templates/search.mako:162 widgets/_views.py:75
 #: widgets/form/templates/many2one.mako:22
 #: widgets/form/templates/reference.mako:30 widgets/templates/viewform.mako:26
 msgid "Search"
-msgstr ""
+msgstr "Rechercher"
 
 #: controllers/templates/search.mako:176
 #, python-format
@@ -1262,7 +1262,7 @@ msgstr "Choisir une action"
 
 #: controllers/templates/selection.mako:23
 msgid "Select your action"
-msgstr ""
+msgstr "Sélectionner votre action"
 
 #: controllers/templates/server_log.mako:4
 msgid "Server Actions..."
@@ -1270,7 +1270,7 @@ msgstr "Action du serveur..."
 
 #: controllers/templates/server_log.mako:14
 msgid "Server Actions"
-msgstr ""
+msgstr "Actions du Serveur"
 
 #: controllers/templates/translator.mako:4
 msgid "Add Translations"
@@ -1286,7 +1286,7 @@ msgstr "Ajouter une traduction pour :"
 
 #: controllers/templates/translator.mako:31
 msgid "Fields"
-msgstr ""
+msgstr "Champs"
 
 #: controllers/templates/translator.mako:32
 msgid "Labels"
@@ -1298,21 +1298,21 @@ msgstr ""
 
 #: controllers/templates/translator.mako:34
 msgid "View"
-msgstr ""
+msgstr "Vue"
 
 #: controllers/templates/translator.mako:53
 msgid "Field"
-msgstr ""
+msgstr "Champ"
 
 #: controllers/templates/view_log.mako:4 controllers/templates/view_log.mako:12
 #: utils/common.py:55
 msgid "Information"
-msgstr ""
+msgstr "Information"
 
 #: controllers/templates/viewed.mako:17
 #, python-format
 msgid "View Editor %s - %s"
-msgstr ""
+msgstr "Voir Éditeur %s - %s"
 
 #: controllers/templates/viewed.mako:31
 msgid "Create a new inherited view"
@@ -1320,11 +1320,11 @@ msgstr "Créer une nouvelle vue héritée"
 
 #: controllers/templates/viewed.mako:31
 msgid "Inherited View"
-msgstr ""
+msgstr "Vue Héritée"
 
 #: controllers/templates/viewed.mako:34
 msgid "Preview"
-msgstr ""
+msgstr "Aperçu"
 
 #: controllers/templates/viewed_add.mako:6
 msgid "Node Type:"
@@ -1332,11 +1332,11 @@ msgstr "Type de noeud :"
 
 #: controllers/templates/viewed_add.mako:23
 msgid "New Field"
-msgstr ""
+msgstr "Nouveau Champ"
 
 #: controllers/templates/viewed_add.mako:27
 msgid "Position:"
-msgstr ""
+msgstr "Position :"
 
 #: controllers/templates/viewlist.mako:4
 #: controllers/templates/viewlist.mako:108
@@ -1359,19 +1359,19 @@ msgstr "Type de vue :"
 
 #: controllers/templates/viewlist.mako:189
 msgid "Priority:"
-msgstr ""
+msgstr "Priorité :"
 
 #: utils/common.py:45 utils/common.py:74
 msgid "Error"
-msgstr ""
+msgstr "Erreur"
 
 #: utils/common.py:50 utils/common.py:77
 msgid "Warning"
-msgstr ""
+msgstr "Avertissement"
 
 #: utils/rpc.py:139
 msgid "Access Denied"
-msgstr ""
+msgstr "Accès Refusé"
 
 #: utils/rpc.py:246
 msgid "Unsupported protocol."
@@ -1392,7 +1392,7 @@ msgstr "Non connecté..."
 
 #: utils/rpc.py:355
 msgid "Authorization Error"
-msgstr ""
+msgstr "Erreur d'Autorisation"
 
 #: utils/rpc.py:420
 msgid "== Access Denied =="
@@ -1400,7 +1400,7 @@ msgstr "== Accès refusé =="
 
 #: widgets/_views.py:44
 msgid "Form"
-msgstr ""
+msgstr "Formulaire"
 
 #: widgets/_views.py:45
 msgid "Form view..."
@@ -1418,16 +1418,16 @@ msgstr "Vue invalide, champ dupliqué : %s"
 #: widgets/pager.py:67
 #, python-format
 msgid "%s"
-msgstr ""
+msgstr "%s"
 
 #: widgets/pager.py:78
 #, python-format
 msgid "%s - %s"
-msgstr ""
+msgstr "%s - %s"
 
 #: widgets/search.py:297
 msgid "contains"
-msgstr ""
+msgstr "contient"
 
 #: widgets/search.py:297
 msgid "doesn't contain"
@@ -1435,35 +1435,35 @@ msgstr "ne contient pas"
 
 #: widgets/search.py:298
 msgid "is equal to"
-msgstr ""
+msgstr "est égal à"
 
 #: widgets/search.py:298
 msgid "is not equal to"
-msgstr ""
+msgstr "n'est pas égal à"
 
 #: widgets/search.py:299
 msgid "greater than"
-msgstr ""
+msgstr "supérieur à"
 
 #: widgets/search.py:299
 msgid "less than"
-msgstr ""
+msgstr "inférieur à"
 
 #: widgets/search.py:300
 msgid "in"
-msgstr ""
+msgstr "dans"
 
 #: widgets/search.py:300
 msgid "not in"
-msgstr ""
+msgstr "pas contenu dans"
 
 #: widgets/search.py:407
 msgid "Yes"
-msgstr ""
+msgstr "Oui"
 
 #: widgets/search.py:407
 msgid "No"
-msgstr ""
+msgstr "Non"
 
 #: widgets/form/_action.py:58
 msgid "Action not found!"
@@ -1485,7 +1485,7 @@ msgstr "Enregister l'enregistrement parent."
 #: widgets/form/_o2m.py:185
 #, python-format
 msgid "%d of %d"
-msgstr ""
+msgstr "%d de %d"
 
 #: widgets/form/_o2m.py:187
 #, python-format
@@ -1499,7 +1499,7 @@ msgstr "ajouter une pièce jointe"
 #: widgets/form/templates/many2one.mako:2
 #: widgets/form/templates/reference.mako:33
 msgid "Open"
-msgstr ""
+msgstr "Ouvrir"
 
 #: widgets/form/templates/many2one.mako:2
 #: widgets/form/templates/reference.mako:33
@@ -1528,7 +1528,7 @@ msgstr "Enregistrement suivant..."
 
 #: widgets/templates/listgrid.mako:19
 msgid "Update"
-msgstr ""
+msgstr "Mettre à jour"
 
 #: widgets/templates/listgrid.mako:131
 msgid "Add records..."
@@ -1544,7 +1544,7 @@ msgstr "Éditer l'(es) enregistrement(s)"
 
 #: widgets/templates/logs.mako:22
 msgid "More..."
-msgstr ""
+msgstr "Autres..."
 
 #: widgets/templates/logs.mako:35
 msgid "Less..."
@@ -1556,15 +1556,15 @@ msgstr "<< Premier"
 
 #: widgets/templates/pager.mako:14
 msgid "< Previous"
-msgstr ""
+msgstr "< Précédent"
 
 #: widgets/templates/pager.mako:19
 msgid "of"
-msgstr ""
+msgstr "sur"
 
 #: widgets/templates/pager.mako:24
 msgid "Next >"
-msgstr ""
+msgstr "Suivant >"
 
 #: widgets/templates/pager.mako:29
 msgid "Last >>"
@@ -1572,31 +1572,31 @@ msgstr "Dernier >>"
 
 #: widgets/templates/pager.mako:37
 msgid "Change Limit:"
-msgstr ""
+msgstr "Nombre de lignes à afficher:"
 
 #: widgets/templates/sidebar.mako:36
 msgid "Reports"
-msgstr ""
+msgstr "Rapports"
 
 #: widgets/templates/sidebar.mako:40 widgets/templates/viewform.mako:51
 msgid "Actions"
-msgstr ""
+msgstr "Actions"
 
 #: widgets/templates/sidebar.mako:48
 msgid "Submenu"
-msgstr ""
+msgstr "Sous-menu"
 
 #: widgets/templates/sidebar.mako:54
 msgid "Attachments"
-msgstr ""
+msgstr "Pièces jointes"
 
 #: widgets/templates/sidebar.mako:72
 msgid "File"
-msgstr ""
+msgstr "Fichier"
 
 #: widgets/templates/sidebar.mako:80
 msgid "Customize"
-msgstr ""
+msgstr "Personnaliser"
 
 #: widgets/templates/sidebar.mako:84
 msgid "Manage views of the current object"
@@ -1624,19 +1624,19 @@ msgstr "Personnaliser l'objet"
 
 #: widgets/templates/sidebar.mako:102
 msgid "Other Options"
-msgstr ""
+msgstr "Autres Options"
 
 #: widgets/templates/sidebar.mako:114
 msgid "Translate"
-msgstr ""
+msgstr "Traduire"
 
 #: widgets/templates/sidebar.mako:119
 msgid "View Log"
-msgstr ""
+msgstr "Voir le journal"
 
 #: widgets/templates/viewform.mako:25
 msgid "Filter records."
-msgstr ""
+msgstr "Filtrer les enregistrements."
 
 #: widgets/templates/viewform.mako:33
 msgid "Clear all."
@@ -1644,27 +1644,27 @@ msgstr "Tout effacer."
 
 #: widgets/templates/viewform.mako:35
 msgid "Clear"
-msgstr ""
+msgstr "Vider"
 
 #: widgets/templates/viewform.mako:43
 msgid "Filters"
-msgstr ""
+msgstr "Filtres"
 
 #: widgets/templates/viewform.mako:45
 msgid "Saved Filters"
-msgstr ""
+msgstr "Filtres Enregistrés"
 
 #: widgets/templates/viewform.mako:52
 msgid "New Filter"
-msgstr ""
+msgstr "Nouveau filtre"
 
 #: widgets/templates/viewform.mako:53
 msgid "Save Filter"
-msgstr ""
+msgstr "Enregistrer le filtre"
 
 #: widgets/templates/viewform.mako:54
 msgid "Manage Filters"
-msgstr ""
+msgstr "Gérer les filtres"
 
 #~ msgid "Database already exists"
 #~ msgstr "Une base de données avec ce nom existe déjà"
