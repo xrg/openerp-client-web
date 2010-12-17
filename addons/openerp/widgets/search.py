@@ -406,7 +406,7 @@ class Search(TinyInputWidget):
 
                             if kind == 'many2one' and model:
                                 try:
-                                    value = rpc.name_get(model, default_search, self.context)
+                                    value = str(rpc.name_get(model, default_search, self.context))
                                 except Exception,e:
                                     value = defval
                                 defval = value or ''
