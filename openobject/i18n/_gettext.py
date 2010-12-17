@@ -24,10 +24,16 @@ def get_translations(locale, domain=None):
     return domain_catalog[locale.language]
 
 def _load_messages_translations(domain, locales, path):
-    print path
+    locale_path = os.path.join(path, 'locale')
+    if not os.path.isdir(locale_path): return
+    if not locales:
+        locales = [f for f in os.listdir(locale_path)
+                   if os.path.isdir(os.path.join(locale_path, f))]
+
     catalog = _translations.setdefault(domain, {})
     for locale in locales:
-        tr = babel.support.Translations.load(path, [locale], domain)
+        tr = babel.support.Translations.load(
+                locale_path, [locale], domain)
         if isinstance(tr, babel.support.Translations):
             if locale in catalog:
                 catalog[locale].merge(tr)
@@ -36,7 +42,11 @@ def _load_messages_translations(domain, locales, path):
 
 def _load_javascript_translations(domain, locales, path):
     catalog = _translations.setdefault(domain, {})
-    jspath = os.path.join(os.path.dirname(path), "static", "javascript", "i18n")
+    jspath = os.path.join(path, "static", "javascript", "i18n")
+    if not os.path.isdir(jspath): return
+    if not locales:
+        locales = [os.path.splitext(f)[0]
+                   for f in os.listdir(jspath)]
     for locale in locales:
         fname = os.path.join(jspath, "%s.js" % locale)
         if os.path.exists(fname):
@@ -47,11 +57,18 @@ _translations_loaders = {
     'messages': _load_messages_translations,
     'javascript': _load_javascript_translations
 }
-def load_translations(path, locales=None, domain=None):
-    domain = domain or "messages"
-
-    if not locales:
-        locales = [f for f in os.listdir(path) if os.path.isdir(os.path.join(path, f))]
+def load_translations(path, locales=None, domain="messages"):
+    """
+    :param path: the root of the addon from which the translation will be
+                 loaded (should probably have at least a filled 'po'
+                 directory)
+    :type path: str
+    :param locales: a list of locales to load, loads all locales if
+                    none provide
+    :type locales: [str] or None
+    :param domain: the domain to load
+    :type domain: "messages" | "javascript"
+    """
     _translations_loaders[domain](domain, locales, path)
 
 def _gettext(key, locale=None, domain=None):

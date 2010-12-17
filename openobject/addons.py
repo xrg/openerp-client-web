@@ -178,10 +178,10 @@ def load_module_graph(db_name, graph, config):
             from openobject.widgets import register_resource_directory
             register_resource_directory(config, package.name, static)
 
-        localedir = paths.addons(package.name, 'locale')
-        if os.path.isdir(localedir):
-            i18n.load_translations(localedir, domain="messages")
-            i18n.load_translations(localedir, domain="javascript")
+        addon_path = paths.addons(package.name)
+        if os.path.isdir(paths.addons(package.name, 'po')):
+            i18n.load_translations(addon_path)
+            i18n.load_translations(addon_path, domain="javascript")
 
         _loaded_addons[package.name] = True
 
