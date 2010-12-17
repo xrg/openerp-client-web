@@ -1,5 +1,6 @@
 from __future__ import with_statement
 
+import hashlib
 import glob
 import tempfile
 import os
@@ -40,7 +41,8 @@ def _load_translation(path, locale, domain):
     :type domain: str
     :rtype: babel.support.Translations | gettext.NullTranslation
     """
-    locale_path = join(_machine_objects_cache, 'locale')
+    locale_path = join(_machine_objects_cache,
+                       hashlib.md5(path).hexdigest()[:8], 'locale')
     popath = join(path, 'po', domain, '%s.po' % locale)
     modir = join(locale_path, str(locale), 'LC_MESSAGES')
     if not exists(modir):
@@ -56,7 +58,6 @@ def _load_translation(path, locale, domain):
                         mofile,
                         babel.messages.pofile.read_po(
                                 pofile, locale, domain))
-
     return babel.support.Translations.load(
             locale_path, [locale], domain)
 
