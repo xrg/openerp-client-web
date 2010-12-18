@@ -3,66 +3,69 @@
 # This file is distributed under the same license as the PROJECT project.
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2010.
 #
-#,
 msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2010-10-26 10:51+0200\n"
-"PO-Revision-Date: 2010-11-25 10:31+0530\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"POT-Creation-Date: 2010-12-17 10:28+0100\n"
+"PO-Revision-Date: 2010-11-16 07:55+0000\n"
+"Last-Translator: OpenERP Web Administrators <Unknown>\n"
 "Language-Team: nl <LL@li.org>\n"
-"Plural-Forms: nplurals=2; plural=(n != 1)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"X-Launchpad-Export-Date: 2010-12-18 05:02+0000\n"
+"X-Generator: Launchpad (build Unknown)\n"
 "Generated-By: Babel None\n"
 
 #: static/javascript/form.js:100
 #, python-format
 msgid "You selected to open %(tabs)s tabs - do you want to continue?"
-msgstr ""
+msgstr "U heeft %(tabs)s geselecteerd - wilt u doorgaan?"
 
 #: static/javascript/form.js:177
 msgid "Invalid form, correct red fields."
-msgstr ""
+msgstr "Ongeldig formulier, corrigeer de rode velden."
 
 #: static/javascript/form.js:212
 msgid "Do you really want to delete this record?"
+msgstr "Wilt u dit record werkelijk verwijderen?"
+
+#: static/javascript/form.js:901
+msgid "You must select one or several records !"
 msgstr ""
 
-#: static/javascript/form.js:957
+#: static/javascript/form.js:1062
 msgid "Do you really want to delete the attachment"
-msgstr ""
+msgstr "Wilt u deze bijlage werkelijk verwijderen?"
 
-#: static/javascript/listgrid.js:510 static/javascript/o2m.js:103
+#: static/javascript/listgrid.js:509 static/javascript/o2m.js:103
 msgid "To edit Record, please first save it."
 msgstr ""
 
-#: static/javascript/listgrid.js:618
+#: static/javascript/listgrid.js:617
 msgid "Do you really want to delete selected record(s) ?"
-msgstr ""
+msgstr "Wilt u de geselecteerde records werkelijk verwijderen?"
 
 #: static/javascript/o2m.js:62
 msgid "Do you really want to delete record ?"
-msgstr ""
+msgstr "Wilt u dit record werkelijk verwijderen?"
 
 #: static/javascript/viewed.js:71
 msgid "Do you really want to remove this node?"
-msgstr ""
+msgstr "Wilt u dit knooppunt werkelijk verwijderen?"
 
 #: static/javascript/viewed.js:337
 msgid "Do you really wants to create an inherited view here?"
-msgstr ""
+msgstr "Wilt u hier werkelijk een overerfde weergave maken?"
 
 #: static/javascript/openerp/openerp.ui.tips.js:59
 msgid "Object"
-msgstr ""
+msgstr "Object"
 
 #: static/javascript/openerp/openerp.ui.tips.js:60
 msgid "Field"
-msgstr ""
+msgstr "Veld"
 
 #~ msgid "You must select at least one record."
-#~ msgstr ""
-
+#~ msgstr "U moet tenminste één record selecteren."

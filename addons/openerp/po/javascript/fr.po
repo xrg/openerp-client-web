@@ -7,14 +7,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2010-11-25 10:30+0530\n"
-"PO-Revision-Date: 2010-11-29 07:15+0000\n"
-"Last-Translator: OpenERP Web Administrators <Unknown>\n"
+"POT-Creation-Date: 2010-12-17 10:28+0100\n"
+"PO-Revision-Date: 2010-12-17 11:17+0000\n"
+"Last-Translator: Xavier (Open ERP) <Unknown>\n"
 "Language-Team: fr <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2010-11-30 04:48+0000\n"
+"X-Launchpad-Export-Date: 2010-12-18 05:02+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 "Generated-By: Babel None\n"
 
@@ -33,15 +33,19 @@ msgstr ""
 msgid "Do you really want to delete this record?"
 msgstr "Voulez-vous réellement supprimer cet enregistrement?"
 
-#: static/javascript/form.js:957
+#: static/javascript/form.js:901
+msgid "You must select one or several records !"
+msgstr "Vous devez sélectionner au moins un enregistrement!"
+
+#: static/javascript/form.js:1062
 msgid "Do you really want to delete the attachment"
 msgstr "Voulez-vous réellement supprimer ce fichier attaché?"
 
-#: static/javascript/listgrid.js:510 static/javascript/o2m.js:103
+#: static/javascript/listgrid.js:509 static/javascript/o2m.js:103
 msgid "To edit Record, please first save it."
 msgstr "Pour éditer l'enregistrement, vous devez d'abord le sauvegarder."
 
-#: static/javascript/listgrid.js:618
+#: static/javascript/listgrid.js:617
 msgid "Do you really want to delete selected record(s) ?"
 msgstr "Voulez-vous réellement supprimer les enregistrements sélectionnés?"
 
