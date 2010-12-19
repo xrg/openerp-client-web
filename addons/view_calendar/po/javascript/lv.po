@@ -1,67 +1,66 @@
-# Dutch translations for PROJECT.
-# Copyright (C) 2010 ORGANIZATION
-# This file is distributed under the same license as the PROJECT project.
+# Latvian translation for openobject-client-web
+# Copyright (c) 2010 Rosetta Contributors and Canonical Ltd 2010
+# This file is distributed under the same license as the openobject-client-web package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2010.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: PROJECT VERSION\n"
-"Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
+"Project-Id-Version: openobject-client-web\n"
+"Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2010-12-17 10:28+0100\n"
-"PO-Revision-Date: 2010-12-18 11:28+0000\n"
-"Last-Translator: Douwe Wullink (Dypalio) <Unknown>\n"
-"Language-Team: nl <LL@li.org>\n"
+"PO-Revision-Date: 2010-12-18 14:30+0000\n"
+"Last-Translator: Vladimirs Kuzmins <Unknown>\n"
+"Language-Team: Latvian <lv@li.org>\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=utf-8\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Launchpad-Export-Date: 2010-12-19 04:45+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
-"Generated-By: Babel None\n"
 
 #: static/javascript/calendar_box.js:58
 msgid "Cancel"
-msgstr "Annuleren"
+msgstr "Atcelt"
 
 #: static/javascript/calendar_box.js:59
 msgid "Edit"
-msgstr "Wijzigen"
+msgstr "Labot"
 
 #: static/javascript/calendar_box.js:60
 msgid "Duplicate"
-msgstr "Dupliceren"
+msgstr "Dublēt"
 
 #: static/javascript/calendar_box.js:61
 msgid "Delete"
-msgstr "Verwijderen"
+msgstr "Dzēst"
 
 #: static/javascript/calendar_box.js:88
 msgid "Creation User: "
-msgstr "Gebruiker gemaakt: "
+msgstr "Izveidoja: "
 
 #: static/javascript/calendar_box.js:89
 msgid "Creation Date: "
-msgstr "Datum gemaakt: "
+msgstr "Izveid. datums: "
 
 #: static/javascript/calendar_box.js:90
 msgid "Latest Modification by: "
-msgstr "Laatst gewijzigd door: "
+msgstr "Laboja: "
 
 #: static/javascript/calendar_box.js:91
 msgid "Latest Modification Date: "
-msgstr "Laatst gewijzigd op: "
+msgstr "Labošanas datums: "
 
 #: static/javascript/calendar_box.js:175
 msgid "Do you really want to delete this record?"
-msgstr "Wilt u dit record werkelijk verwijderen?"
+msgstr "Vai tiešām vēlaties izdzēst šo ierakstu?"
 
 #: static/javascript/calendar_gantt.js:259
 #: static/javascript/calendar_month.js:413
 #: static/javascript/calendar_week.js:277
 #: static/javascript/calendar_week.js:680
 msgid "This calendar object can no longer be moved !"
-msgstr "Het agenda object kan niet meer worden verplaatst !"
+msgstr "Šo kalendāra objektu vairs nevar pārvietot!"
 
 #: static/javascript/calendar_gantt.js:321
 #: static/javascript/calendar_week.js:104
 msgid "This calendar object can no longer be resized !"
-msgstr "Het agenda object kan niet meer verkleinen/vergroten !"
+msgstr "Šim kalendāra obejektam vairs nevar mainīt apmērus?"

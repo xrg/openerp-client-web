@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2010-12-17 10:28+0100\n"
-"PO-Revision-Date: 2010-11-16 07:45+0000\n"
-"Last-Translator: OpenERP Web Administrators <Unknown>\n"
+"PO-Revision-Date: 2010-12-18 11:25+0000\n"
+"Last-Translator: Douwe Wullink (Dypalio) <Unknown>\n"
 "Language-Team: nl <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2010-12-18 05:02+0000\n"
+"X-Launchpad-Export-Date: 2010-12-19 04:45+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 "Generated-By: Babel None\n"
 
@@ -128,6 +128,9 @@ msgid ""
 "databases. This is not a OpenERP user, just a super administrator. If you "
 "did not changed it, the password is 'admin' after installation."
 msgstr ""
+"Dit is het wachtwoord van de gebruiker die rechten heeft om databases te "
+"beheren. Dit is geen OpenERP gebruiker, maar een superbeheerder. Als u dit "
+"niet gewijzigd heeft, is dit na installatie 'admin'."
 
 #: controllers/database.py:78 controllers/database.py:110
 msgid "New database name:"
@@ -138,6 +141,8 @@ msgid ""
 "Choose the name of the database that will be created. The name must not "
 "contain any special character. Exemple: 'terp'."
 msgstr ""
+"Kies de naam van de database die zal worden gemaakt. De naam mag geen "
+"speciale tekens bevatten. Voorbeeld: 'terp'."
 
 #: controllers/database.py:79
 msgid "Load Demonstration data:"
@@ -149,6 +154,9 @@ msgid ""
 "database. These data will help you to understand OpenERP, with predefined "
 "products, partners, etc."
 msgstr ""
+"Vink dit aan als u de voorbeeldgegevens wilt laden in uw nieuwe database. "
+"Deze gegevens zullen u helpen de werking van OpenERP te begrijpen met "
+"voorgedefinieerde producten, relaties, enz."
 
 #: controllers/database.py:80
 msgid "Default Language:"
@@ -160,6 +168,8 @@ msgid ""
 "will be able to install new languages after installation through the "
 "administration menu."
 msgstr ""
+"Kies de standaardtaal die geïnstalleerd wordt voor deze database. Het is "
+"mogelijk nieuwe talen te installeren na installatie middels het Beheer-menu."
 
 #: controllers/database.py:81
 msgid "Administrator password:"
@@ -170,6 +180,8 @@ msgid ""
 "This is the password of the 'admin' user that will be created in your new "
 "database."
 msgstr ""
+"Dit is het wachtwoord van de 'admin' gebruiker die wordt gemaakt voor uw "
+"nieuwe database."
 
 #: controllers/database.py:82
 msgid "Confirm password:"
@@ -180,6 +192,8 @@ msgid ""
 "This is the password of the 'admin' user that will be created in your new "
 "database. It has to be the same than the above field."
 msgstr ""
+"Dit is het wachtwoord van de 'admin' gebruiker die wordt gemaakt voor uw "
+"nieuwe database. Het moet gelijk zijn aan het voorgaande veld."
 
 #: controllers/database.py:88
 msgid "Drop database"
@@ -227,7 +241,7 @@ msgstr "Beheerder wachtwoord wijzigen"
 
 #: controllers/database.py:116
 msgid "Change Password"
-msgstr ""
+msgstr "Wachtwoord wijzigen"
 
 #: controllers/database.py:117
 msgid "Old Password:"
@@ -264,7 +278,7 @@ msgstr "Fout tijdens maken database"
 #: controllers/database.py:207 controllers/database.py:234
 #: controllers/database.py:280 controllers/database.py:303
 msgid "Bad super admin password"
-msgstr ""
+msgstr "Slecht superbeheerder wachtwoord"
 
 #: controllers/database.py:211
 msgid "Could not create database."
@@ -306,7 +320,7 @@ msgstr ""
 #: controllers/form.py:562
 #, python-format
 msgid "Invalid button type \"%s\""
-msgstr ""
+msgstr "Ongeldige knopsoort \"%s\""
 
 #: controllers/form.py:900 controllers/tree.py:241
 msgid "No record selected"
@@ -314,7 +328,7 @@ msgstr "Geen record geselecteerd"
 
 #: controllers/form.py:905
 msgid "Print Screen"
-msgstr ""
+msgstr "Schermafdruk"
 
 #: controllers/form.py:974 utils/rpc.py:130 utils/rpc.py:141 utils/rpc.py:144
 #: widgets/listgrid.py:333 widgets/form/_form.py:913
@@ -356,6 +370,7 @@ msgstr ""
 #, python-format
 msgid "Error processing your first line of the file. Field %s is unknown"
 msgstr ""
+"Fout bij verwerking eerste regel van het bestand. Veld %s is onbekend"
 
 #: controllers/impex.py:468
 msgid "Import Error."
@@ -373,11 +388,11 @@ msgstr "%d objecten geimporteerd"
 #: controllers/impex.py:505
 #, python-format
 msgid "Error trying to import this record:%s. ErrorMessage:%s %s"
-msgstr ""
+msgstr "Fout bij pging importeren van dit record:%s. Foutmelding:%s %s"
 
 #: controllers/impex.py:506
 msgid "ImportationError"
-msgstr ""
+msgstr "Importeerfout"
 
 #: controllers/listgrid.py:59
 msgid "Parent record doesn't exists..."
@@ -639,7 +654,7 @@ msgstr ""
 
 #: controllers/templates/error_page.mako:140
 msgid "Summary of the problem:"
-msgstr ""
+msgstr "Samenvatting van het probleem:"
 
 #: controllers/templates/error_page.mako:147
 msgid "Explain what you did:"
@@ -1336,11 +1351,11 @@ msgstr "niet in"
 
 #: widgets/search.py:396
 msgid "Yes"
-msgstr ""
+msgstr "Ja"
 
 #: widgets/search.py:396
 msgid "No"
-msgstr ""
+msgstr "Nee"
 
 #: widgets/form/_action.py:54
 msgid "Action not found!"
@@ -1517,11 +1532,11 @@ msgstr "Filters"
 
 #: widgets/templates/viewform.mako:45
 msgid "Saved Filters"
-msgstr ""
+msgstr "Bewaarde filters"
 
 #: widgets/templates/viewform.mako:52
 msgid "New Filter"
-msgstr ""
+msgstr "Nieuw filter"
 
 #: widgets/templates/viewform.mako:53
 msgid "Save Filter"

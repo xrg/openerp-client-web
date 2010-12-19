@@ -1,42 +1,41 @@
-# French translations for PROJECT.
-# Copyright (C) 2010 ORGANIZATION
-# This file is distributed under the same license as the PROJECT project.
+# Latvian translation for openobject-client-web
+# Copyright (c) 2010 Rosetta Contributors and Canonical Ltd 2010
+# This file is distributed under the same license as the openobject-client-web package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2010.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: PROJECT VERSION\n"
-"Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
+"Project-Id-Version: openobject-client-web\n"
+"Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2010-12-17 10:28+0100\n"
-"PO-Revision-Date: 2010-12-18 15:56+0000\n"
-"Last-Translator: OpenERP Web Administrators <Unknown>\n"
-"Language-Team: fr <LL@li.org>\n"
+"PO-Revision-Date: 2010-12-18 16:23+0000\n"
+"Last-Translator: Vladimirs Kuzmins <Unknown>\n"
+"Language-Team: Latvian <lv@li.org>\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=utf-8\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Launchpad-Export-Date: 2010-12-19 04:46+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
-"Generated-By: Babel None\n"
 
 #: validators.py:83
 msgid "Invalid literal for float"
-msgstr "Format de nombre réel invalide"
+msgstr "Nepareizs simbols reālam skaitlim"
 
 #: validators.py:122 validators.py:127 validators.py:270
 msgid "Invalid datetime format"
-msgstr "Format de date invalide"
+msgstr "Nepareizs datuma/laik formāts"
 
 #: validators.py:174
 msgid "Please select a file."
-msgstr "Veuillez sélectionner un fichier ."
+msgstr "Lūdzu, izvēlēties failu!"
 
 #: validators.py:255
 msgid "Please enter an email address"
-msgstr "Merci de saisir une adresse de courriel"
+msgstr "Lūdzu, ievadiet e-pasta adresi!"
 
 #: validators.py:256
 msgid "An email address must contain a single @"
-msgstr "Une adresse de courriel doit contenir un seul @"
+msgstr "E-pasta adresei jāsatur viens vienīgs @"
 
 #: validators.py:257
 #, python-format
@@ -44,8 +43,6 @@ msgid ""
 "The username portion of the email address is invalid (the portion before the "
 "@: %(username)s)"
 msgstr ""
-"La partie du nom de la personne de l'adresse du courriel est invalide (la "
-"partie avant le @: %(username)s)"
 
 #: validators.py:258
 #, python-format
@@ -53,76 +50,72 @@ msgid ""
 "The domain portion of the email address is invalid (the portion after the @: "
 "%(domain)s)"
 msgstr ""
-"Le domaine de l'adresse de courriel est invalide (la portion après le @: "
-"%(domain)s)"
 
 #: validators.py:262
 msgid "You must start your URL with http://, https://, etc"
-msgstr "L'adresse URL doit commencer par http : / / , https : / /, etc ."
+msgstr "URL jāsākās ar http://, https://, utt."
 
 #: validators.py:263
 msgid "That is not a valid URL"
-msgstr "Ce n ' est pas une URL valide"
+msgstr "Šis nav valīds URL"
 
 #: validators.py:264
 #, python-format
 msgid "You must provide a full domain name (like %(domain)s.com)"
 msgstr ""
-"Vous devez fournir un nom de domaine complet (du type %(domain)s.com)"
 
 #: validators.py:268
 msgid "Please enter an integer value"
-msgstr "Veuillez saisir un nombre entier"
+msgstr "Lūdzu, ievadiet veselu skaitli!"
 
 #: validators.py:269
 msgid "Please enter a number"
-msgstr "Veuillez saisir un nombre"
+msgstr "Lūdzu, ievadiet skaitli!"
 
 #: controllers/actions.py:99
 msgid "Invalid View"
-msgstr "Vue non valide"
+msgstr "Nepareiz skatījums"
 
 #: controllers/actions.py:132
 msgid "Error no report"
-msgstr "Erreur pas de rapport"
+msgstr "Kļūda: nav atskaites"
 
 #: controllers/actions.py:158
 msgid "Nothing to print"
-msgstr "Rien à imprimer"
+msgstr "Nav ko drukāt"
 
 #: controllers/actions.py:178
 msgid "Printing aborted, too long delay"
-msgstr "Impression interrompue, délais trop long"
+msgstr "Drukāšana pārtraukta - pārāk ilga aizkave"
 
 #: controllers/actions.py:361
 msgid "Relative URLs are not supported"
-msgstr "Les URL relatives ne sont pas supportées"
+msgstr "Relatīvie URL netiek atbalstīti"
 
 #: controllers/actions.py:389
 msgid "Action not found"
-msgstr "Action non trouvée"
+msgstr "Darbība nav atrasta"
 
 #: controllers/actions.py:438
 msgid "No action defined"
-msgstr "Pas d'action définie"
+msgstr "Nav definētas darbības"
 
 #: controllers/attachment.py:62
 msgid "No record selected, You can only attach to existing record..."
 msgstr ""
-"Aucun enregistrement sélectionné , vous pouvez seulement attacher à un "
-"enregistrement existant ..."
+"Nav izvēlēts ieraksts, piesaistīt var tikai pie eksistējoša ieraksta..."
 
 #: controllers/database.py:72
 msgid "Create database"
-msgstr "Créer une base de données"
+msgstr "Izveidot datubāzi"
 
 #: controllers/database.py:74 controllers/templates/database.mako:52
 msgid "Create"
-msgstr "Créer"
+msgstr "Izveidot"
 
 #: controllers/database.py:77
 msgid "Super admin password:"
-msgstr "Mot de passe super administrateur :"
+msgstr "Super admin parole:"
 
 #: controllers/database.py:77
 msgid ""
@@ -130,26 +123,25 @@ msgid ""
 "databases. This is not a OpenERP user, just a super administrator. If you "
 "did not changed it, the password is 'admin' after installation."
 msgstr ""
-"Ceci est le mot de passe de l'utilisateur qui a les droits pour administrer "
-"les base de données. Ce n'est pas un utilisateur OpenERP, juste un super "
-"utilisateur. Si vous ne l'avez pas changé, le mot de passe est 'admin' àprès "
-"l'installation."
+"Šī ir parole lietotājam, kas drīkst administrēt datubāzes. Šis nav OpenERP "
+"lietotājs - bet gan Super Administrātors. Ja neesi veicis izmaiņas, pēc "
+"uzstādīšanas parole būs 'admin'."
 
 #: controllers/database.py:78 controllers/database.py:110
 msgid "New database name:"
-msgstr "Nom de la nouvelle base de données :"
+msgstr "Jaunās datubāzes nosaukums:"
 
 #: controllers/database.py:78
 msgid ""
 "Choose the name of the database that will be created. The name must not "
 "contain any special character. Exemple: 'terp'."
 msgstr ""
-"Choississez le nom de la base de données qui sera créée. Le nom ne doit pas "
-"contenir de caractères spéciaux. Exemple: 'oerp'"
+"Norādi jaunās datubāzes nosaukumu. Piemēram: 'terp'. Piezīme: nosaukums "
+"nedrīkst saturēt speciālos simbolus un atstarpes."
 
 #: controllers/database.py:79
 msgid "Load Demonstration data:"
-msgstr "Charger les données de démonstration:"
+msgstr "Ielādēt demonstrācijas datus:"
 
 #: controllers/database.py:79
 msgid ""
@@ -157,13 +149,12 @@ msgid ""
 "database. These data will help you to understand OpenERP, with predefined "
 "products, partners, etc."
 msgstr ""
-"Cocher cette case si vous voulez que les données de démonstration soient "
-"installées dans votre nouvelle base de données. Ces données vous aideront à "
-"comprendre OpenERP. avec des produits prédéfinis, partenaires, etc."
+"Atzīmē šo lauku, ja vēlies lai jaunajā datubāzē tiktu ielādēti "
+"demonstrācijas dati. Kā piemēri, tie palīdzēs ātrāk apgūt OpenERP."
 
 #: controllers/database.py:80
 msgid "Default Language:"
-msgstr "Langue par défaut :"
+msgstr "Noklusējuma valoda:"
 
 #: controllers/database.py:80
 msgid ""
@@ -171,147 +162,139 @@ msgid ""
 "will be able to install new languages after installation through the "
 "administration menu."
 msgstr ""
-"Choisir la langue par défaut qui sera installé dans cette base de données. "
-"Vous pourrez en installer de nouveau après l'installation via le menu "
-"administration."
+"Norādi datubāzes valodu. Caur administrācijas paneli varēsi pielikt valodas "
+"arī pēc uzstādīšanas."
 
 #: controllers/database.py:81
 msgid "Administrator password:"
-msgstr "Mot de passe de l'administrateur:"
+msgstr "Administratora parole:"
 
 #: controllers/database.py:81
 msgid ""
 "This is the password of the 'admin' user that will be created in your new "
 "database."
 msgstr ""
-"Ceci est le mot de passe de l'utilisateur 'admin' qui sera créé dans votre "
-"nouvelle base de données."
 
 #: controllers/database.py:82
 msgid "Confirm password:"
-msgstr "Confirmez le mot de passe :"
+msgstr "Apstipriniet paroli:"
 
 #: controllers/database.py:82
 msgid ""
 "This is the password of the 'admin' user that will be created in your new "
 "database. It has to be the same than the above field."
 msgstr ""
-"Ceci est le mot de passe de l'utilisateur 'admin' qui sera créé dans votre "
-"nouvelle base de données. Il doit être le même que celui entré dans le champ "
-"ci-dessus."
 
 #: controllers/database.py:88
 msgid "Drop database"
-msgstr "Déplacer la base de données"
+msgstr "Dzēst datubāzi"
 
 #: controllers/database.py:90 controllers/templates/database.mako:54
 msgid "Drop"
-msgstr "Supprimer"
+msgstr "Dzēst"
 
 #: controllers/database.py:92 controllers/database.py:100
 #: controllers/templates/login.mako:39
 msgid "Database:"
-msgstr "Base de données:"
+msgstr "Datubāze:"
 
 #: controllers/database.py:93 controllers/database.py:101
 #: controllers/database.py:109 controllers/templates/login.mako:57
 #: controllers/templates/login_ajax.mako:78
 #: controllers/templates/login_ajax.mako:98
 msgid "Password:"
-msgstr "Mot de passe:"
+msgstr "Parole:"
 
 #: controllers/database.py:97
 msgid "Backup database"
-msgstr "Sauvegarder la base de données"
+msgstr "Veidot datubāzes rez. kopiju"
 
 #: controllers/database.py:99 controllers/templates/database.mako:56
 msgid "Backup"
-msgstr "Sauvegarder"
+msgstr "Veidot dublējumu"
 
 #: controllers/database.py:105
 msgid "Restore database"
-msgstr "Restaurer la base de données"
+msgstr "Atjaunot datubāzi"
 
 #: controllers/database.py:107 controllers/templates/database.mako:58
 msgid "Restore"
-msgstr "Restaurer"
+msgstr "Atjaunot"
 
 #: controllers/database.py:108
 msgid "File:"
-msgstr "Fichier:"
+msgstr "Fails:"
 
 #: controllers/database.py:114
 msgid "Change Administrator Password"
-msgstr "Changer le mot de passe de l'administrateur"
+msgstr ""
 
 #: controllers/database.py:116
 msgid "Change Password"
-msgstr "Changer de mot de passe"
+msgstr "Mainīt paroli"
 
 #: controllers/database.py:117
 msgid "Old Password:"
-msgstr "Ancien mot de passe:"
+msgstr "Veca parole:"
 
 #: controllers/database.py:118
 msgid "New Password:"
-msgstr "Nouveau mot de passe:"
+msgstr "Jauna parole:"
 
 #: controllers/database.py:119
 msgid "Confirm Password:"
-msgstr "Confirmer le mot de passe:"
+msgstr "Apstipriniet paroli:"
 
 #: controllers/database.py:182
 msgid "You must avoid all accents, space or special characters."
-msgstr "Les accents , espaces et caractères spéciaux ne sont pas autorisés ."
+msgstr ""
 
 #: controllers/database.py:183
 msgid "Bad database name"
-msgstr "Nom de la base de données incorrect"
+msgstr ""
 
 #: controllers/database.py:203
 msgid ""
 "The server crashed during installation.\n"
 "We suggest you to drop this database."
 msgstr ""
-"Le serveur s'est arrêté anormalement lors de l'installation.\n"
-"Nous vous suggérons de supprimer la base de données."
+"Serveris pārtrauca darbu instalācijas laikā.\n"
+"Mēs iesakām izdzēst šo datubāzi."
 
 #: controllers/database.py:204
 msgid "Error during database creation"
-msgstr "Erreur lors de la création de la base de données"
+msgstr "Kļūda veidojot datubāzi"
 
 #: controllers/database.py:207 controllers/database.py:234
 #: controllers/database.py:280 controllers/database.py:303
 msgid "Bad super admin password"
-msgstr "Mot de passe super-administrateur incorrect"
+msgstr ""
 
 #: controllers/database.py:211
 msgid "Could not create database."
-msgstr "Impossible de créer une base de données"
+msgstr "Nevar izveidot datubāzi."
 
 #: controllers/database.py:237
 msgid "Could not drop database"
-msgstr "Impossible de supprimer la base de données"
+msgstr "Nevar izdzēst datubāzi."
 
 #: controllers/database.py:260
 msgid "Could not create backup."
-msgstr "Impossible de sauvegarder la base de données"
+msgstr "Nevar izveidot dublējumu."
 
 #: controllers/database.py:284
 msgid "Could not restore database"
-msgstr "Impossible de restaurer la base de données"
+msgstr "Nevar atjaunot datubāzi"
 
 #: controllers/database.py:307
 msgid "Error, password not changed."
-msgstr "Erreur, mot de passe inchangé."
+msgstr "Notikusi kļūda, parole nav nomainīta."
 
 #: controllers/error_page.py:86
 msgid ""
 "Your problem has been sent to the quality team\n"
 "We will recontact you after analysing the problem."
 msgstr ""
-"Votre problème a été envoyé à l'équipe en charge de la qualité .\n"
-"Vous serez recontacté quand le problème aura été analysé ."
 
 #: controllers/error_page.py:88
 #, python-format
@@ -319,205 +302,198 @@ msgid ""
 "Your problem could not be sent to the quality team\n"
 "Please report this error manually at %s"
 msgstr ""
-"Votre problème ne peut pas être envoyé à l'équipe en charge de la qualité .\n"
-"Merci de reporter cette erreur à %s"
 
 #: controllers/form.py:562
 #, python-format
 msgid "Invalid button type \"%s\""
-msgstr "Type de bouton \"%s\" non valide"
+msgstr "Nepareizs pogas tips \"%s\""
 
 #: controllers/form.py:900 controllers/tree.py:241
 msgid "No record selected"
-msgstr "Pas d'enregistrement sélectionné"
+msgstr "Nav izvēlēts neviens ieraksts"
 
 #: controllers/form.py:905
 msgid "Print Screen"
-msgstr "Impr. écran"
+msgstr "Drukāt ekrāna saturu"
 
 #: controllers/form.py:974 utils/rpc.py:130 utils/rpc.py:141 utils/rpc.py:144
 #: widgets/listgrid.py:333 widgets/form/_form.py:913
 msgid "Application Error"
-msgstr "Erreur de l'application"
+msgstr "Programmas kļūda"
 
 #: controllers/form.py:974
 #, python-format
 msgid "Wrong on_change trigger: %s"
-msgstr "Mauvais déclencheur on_change : %s"
+msgstr "Nepareizs on_change trigeris: %s"
 
 #: controllers/impex.py:78
 msgid ""
 "Operation failed\n"
 "I/O error"
 msgstr ""
-"Échec de l'opération\n"
-"Erreur E/S"
+"Operācija neizdevās\n"
+"Iev./Izv. kļūda"
 
 #: controllers/impex.py:346
 msgid "Export Error"
-msgstr "Erreur d'exportation"
+msgstr "Eksporta kļūda"
 
 #: controllers/impex.py:452
 msgid "Error opening .CSV file"
-msgstr "Erreur d ' ouverure du fichier CSV"
+msgstr "Kļūda atverot .CSV failu"
 
 #: controllers/impex.py:452
 msgid "Input Error."
-msgstr "Erreur d'entrée ."
+msgstr "Ievades kļūda."
 
 #: controllers/impex.py:465
 #, python-format
 msgid "You cannot import this field %s, because we cannot auto-detect it"
 msgstr ""
-"Vous ne pouvez pas importer ce champs %s, car nous ne pouvons pas le "
-"détecter automatiquement."
 
 #: controllers/impex.py:468
 #, python-format
 msgid "Error processing your first line of the file. Field %s is unknown"
 msgstr ""
-"Erreur pendant le traitement de la première ligne du fichier. Le champ %s "
-"est inconnu"
 
 #: controllers/impex.py:468
 msgid "Import Error."
-msgstr "Erreur d'importation ."
+msgstr "Importa kļuda."
 
 #: controllers/impex.py:495
 msgid "XML-RPC error"
-msgstr "Erreur XML - RPC"
+msgstr "XML-RPC kļūda"
 
 #: controllers/impex.py:499
 #, python-format
 msgid "Imported %d objects"
-msgstr "%d objets importés"
+msgstr "Importēti %d objekti"
 
 #: controllers/impex.py:505
 #, python-format
 msgid "Error trying to import this record:%s. ErrorMessage:%s %s"
 msgstr ""
-"Erreur pendant l'import de cet enregistrement:%s. Message d'erreur: %s %s"
 
 #: controllers/impex.py:506
 msgid "ImportationError"
-msgstr "Erreur d'Import"
+msgstr "Importa kļuda"
 
 #: controllers/listgrid.py:59
 msgid "Parent record doesn't exists..."
-msgstr "L'enregistrement parent n'existe pas..."
+msgstr ""
 
 #: controllers/preferences.py:64 controllers/templates/header.mako:56
 msgid "Preferences"
-msgstr "Préférences"
+msgstr "Iestatījumi"
 
 #: controllers/root.py:181
 #, python-format
 msgid "Version %s"
-msgstr "Version %s"
+msgstr "Versija %s"
 
 #: controllers/translator.py:140
 msgid "You need to save the resource before adding translations."
-msgstr "Vous devez enregistrer la ressource avant d'ajouter des traductions."
+msgstr ""
 
 #: controllers/tree.py:272
 msgid "No resource selected"
-msgstr "Aucune ressource sélectionnée"
+msgstr "Nav izvēlēta resursa"
 
 #: controllers/utils.py:52
 msgid "Could not connect to server"
-msgstr "Impossible de se connecter au serveur"
+msgstr "Nevar pieslēgties serverim"
 
 #: controllers/utils.py:139 controllers/templates/login_ajax.mako:111
 msgid "Bad username or password"
-msgstr "Mauvais nom d'utilisateur ou mot de passe"
+msgstr ""
 
 #: controllers/view_log.py:40
 msgid "ID"
-msgstr "Id."
+msgstr "ID"
 
 #: controllers/view_log.py:41
 msgid "Creation User"
-msgstr "Utilisateur de création"
+msgstr "Izveidoja"
 
 #: controllers/view_log.py:42
 msgid "Creation Date"
-msgstr "Date de création"
+msgstr "Izveidošanas datums"
 
 #: controllers/view_log.py:43
 msgid "Latest Modification by"
-msgstr "Dernière modification par"
+msgstr "Pedējais labojis"
 
 #: controllers/view_log.py:44
 msgid "Latest Modification Date"
-msgstr "Dernière date de modification"
+msgstr "Pēdējās labošanas datums"
 
 #: controllers/view_log.py:45
 msgid "Owner"
-msgstr "Propriétaire"
+msgstr "Īpašnieks"
 
 #: controllers/view_log.py:46
 msgid "Group Owner"
-msgstr "Propriétaire du groupe"
+msgstr "Grupas īpašnieks"
 
 #: controllers/view_log.py:47
 msgid "Access Level"
-msgstr "Niveau d'accès"
+msgstr "Piekļuves līmenis"
 
 #: controllers/view_log.py:48
 msgid "Internal module data ID"
-msgstr "ID du module de données interne"
+msgstr ""
 
 #: controllers/viewed.py:228
 msgid "Invalid view id."
-msgstr "Id. de la vue non valide"
+msgstr "Nepareizs skatījuma ID"
 
 #: controllers/viewed.py:507
 msgid "Unable to create inherited view."
-msgstr "Impossible de créer une vue héritée"
+msgstr "Neizdevās izveidot mantoto skatījumu."
 
 #: controllers/viewed.py:509
 msgid "Can't create inherited view here."
-msgstr "Impossible de créer une vue héritée ici."
+msgstr "Šeit nevar izveidot mantoto skatījumu."
 
 #: controllers/viewed.py:512
 msgid "Not implemented yet!"
-msgstr "Pas encore implémenté!"
+msgstr "Pagaidām nav realizēts!"
 
 #: controllers/viewed.py:617
 msgid "Unable to update the view."
-msgstr "Impossible de mettre à jour la vue."
+msgstr "Neizdevās papildināt skatījumu."
 
 #: controllers/viewed.py:871
 msgid "New Window"
-msgstr "Nouvelle fenêtre"
+msgstr "Jauns logs"
 
 #: controllers/viewed.py:883
 msgid "Save Button"
-msgstr "Bouton sauvegarder"
+msgstr ""
 
 #: controllers/viewed.py:883
 msgid "Cancel Button"
-msgstr "Bouton annuler"
+msgstr ""
 
 #: controllers/viewed.py:883
 msgid "Open Button"
-msgstr "Bouton ouvrir"
+msgstr ""
 
 #: controllers/viewed.py:889
 msgid "Left"
-msgstr "Gauche"
+msgstr "Pēc kreisās"
 
 #: controllers/viewed.py:889
 msgid "Center"
-msgstr "Centrer"
+msgstr "Centrēt"
 
 #: controllers/viewed.py:889
 msgid "Right"
-msgstr "Droite"
+msgstr "Pēc labās"
 
 #: controllers/templates/about.mako:4
 msgid "About the OpenERP Web"
-msgstr "A propos de la version web d'OpenERP"
+msgstr "Par OpenERP Web"
 
 #: controllers/templates/about.mako:27
 msgid "OpenERP Web"
@@ -525,25 +501,25 @@ msgstr "OpenERP Web"
 
 #: controllers/templates/about.mako:30
 msgid "Copyright &copy; 2006-TODAY Tiny ERP Pvt. Ltd. All Rights Reserved."
-msgstr "Copyright &copy; 2006-TODAY Tiny ERP Pvt. Ltd. Tous droits réservés."
+msgstr ""
 
 #: controllers/templates/about.mako:31
 msgid "OpenERP is a trademark of the Tiny Company."
-msgstr "OpenERP est une marque déposée de la société Tiny."
+msgstr ""
 
 #: controllers/templates/about.mako:33
 #, python-format
 msgid "%(ooweb)s is jointly developed by %(tiny)s and %(axelor)s."
-msgstr "%(ooweb)s développé conjointement par  %(tiny)s et %(axelor)s."
+msgstr ""
 
 #: controllers/templates/about.mako:39
 #, python-format
 msgid "Licenced under the terms of %(license)s"
-msgstr "Publier sous les termes de la licence %(license)s"
+msgstr ""
 
 #: controllers/templates/about.mako:42
 msgid "About OpenERP"
-msgstr "A propos d'OpenERP"
+msgstr "Par OpenERP"
 
 #: controllers/templates/about.mako:44
 #, python-format
@@ -575,34 +551,32 @@ msgid ""
 "Depending on your needs, OpenERP is available through a web or application "
 "client."
 msgstr ""
-"Selon vos besoins, OpenERP est disponible en client léger (web) ou comme "
-"application."
 
 #: controllers/templates/database.mako:50 controllers/templates/login.mako:4
 #: controllers/templates/login.mako:67 controllers/templates/login_ajax.mako:85
 #: controllers/templates/login_ajax.mako:104
 msgid "Login"
-msgstr "Identifiant"
+msgstr "Lietotājs"
 
 #: controllers/templates/database.mako:60
 msgid "Password"
-msgstr "Mot de passe"
+msgstr "Parole"
 
 #: controllers/templates/error_page.mako:77
 msgid "An "
-msgstr "Un "
+msgstr ""
 
 #: controllers/templates/error_page.mako:77
 msgid "has been reported."
-msgstr "a été rapporté"
+msgstr ""
 
 #: controllers/templates/error_page.mako:79
 msgid "Let me fix it"
-msgstr "Laisser moi le corriger"
+msgstr ""
 
 #: controllers/templates/error_page.mako:85
 msgid "Fix it for me"
-msgstr "Corriger le pour moi"
+msgstr ""
 
 #: controllers/templates/error_page.mako:90
 msgid "You do not have a valid OpenERP publisher warranty contract !"
@@ -651,7 +625,7 @@ msgstr ""
 
 #: controllers/templates/error_page.mako:135
 msgid "Publisher warranty contract."
-msgstr ""
+msgstr "Izdevēja garantijas līgums."
 
 #: controllers/templates/error_page.mako:136
 msgid ""
@@ -661,15 +635,15 @@ msgstr ""
 
 #: controllers/templates/error_page.mako:140
 msgid "Summary of the problem:"
-msgstr ""
+msgstr "Problēmas kopsavilkums:"
 
 #: controllers/templates/error_page.mako:147
 msgid "Explain what you did:"
-msgstr "Expliquer nous ce que vous faisiez:"
+msgstr "Aprakastiet kas tika darīts:"
 
 #: controllers/templates/error_page.mako:156
 msgid "Other Comments:"
-msgstr "Autres commentaires"
+msgstr "Citi komentāri:"
 
 #: controllers/templates/error_page.mako:168
 msgid "Send to Publisher Warranty Team"
@@ -677,7 +651,7 @@ msgstr ""
 
 #: controllers/templates/error_page.mako:195
 msgid "Write concurrency warning :"
-msgstr "Alerte sur écriture concurrente"
+msgstr ""
 
 #: controllers/templates/error_page.mako:200
 msgid ""
@@ -687,10 +661,6 @@ msgid ""
 "    - \"Cancel\" to cancel saving.\n"
 "    - \"Write anyway\" to save your current version."
 msgstr ""
-"Ce document a été modifié pendant que vous l'editiez.\n"
-"Choisisser :\n"
-"    -\"Annuler\" pour ne pas enregistrer ce que vous venez de modifier ;\n"
-"    -\"Forcer l'écriture\" pour enregistrer la version actuelle."
 
 #: controllers/templates/error_page.mako:214
 #: controllers/templates/form.mako:148
@@ -699,15 +669,15 @@ msgstr ""
 #: controllers/templates/viewlist.mako:160
 #: widgets/templates/listgrid/listgrid.mako:33
 msgid "Cancel"
-msgstr "Annuler"
+msgstr "Atcelt"
 
 #: controllers/templates/error_page.mako:215
 msgid "Write Anyway"
-msgstr "Forcer l'écriture"
+msgstr ""
 
 #: controllers/templates/exp.mako:143 widgets/templates/sidebar.mako:112
 msgid "Export"
-msgstr "Exporter"
+msgstr "Eksportēt"
 
 #: controllers/templates/exp.mako:144 controllers/templates/fieldpref.mako:99
 #: controllers/templates/image.mako:70 controllers/templates/imp.mako:131
@@ -724,11 +694,11 @@ msgstr "Exporter"
 #: controllers/templates/viewlist.mako:129 widgets/templates/sidebar.mako:67
 #: widgets/templates/viewform.mako:37
 msgid "Close"
-msgstr "Fermer"
+msgstr "Aizvērt"
 
 #: controllers/templates/exp.mako:146
 msgid "Export Data"
-msgstr "Exporter les données"
+msgstr "Eksportēt datus"
 
 #: controllers/templates/exp.mako:163 controllers/templates/form.mako:143
 #: controllers/templates/image.mako:67 widgets/form/templates/one2many.mako:20
@@ -740,43 +710,43 @@ msgstr "Exporter les données"
 #: widgets/templates/listgrid/listgroup.mako:127
 #: widgets/templates/listgrid/multiple_group.mako:82
 msgid "Delete"
-msgstr "Supprimer"
+msgstr "Dzēst"
 
 #: controllers/templates/exp.mako:174 controllers/templates/imp.mako:143
 msgid "All fields"
-msgstr "Tous les champs"
+msgstr "Visus laukus"
 
 #: controllers/templates/exp.mako:176
 msgid "Fields to export"
-msgstr "Champs à exporter"
+msgstr "Lauki eksportam"
 
 #: controllers/templates/exp.mako:186 controllers/templates/imp.mako:155
 #: controllers/templates/index.mako:189 widgets/templates/sidebar.mako:56
 #: widgets/templates/listgrid/listgrid.mako:138
 msgid "Add"
-msgstr "Ajouter"
+msgstr "Pievienot"
 
 #: controllers/templates/exp.mako:191 controllers/templates/imp.mako:160
 #: controllers/templates/viewlist.mako:125
 msgid "Remove"
-msgstr "Supprimer"
+msgstr "Izņemt"
 
 #: controllers/templates/exp.mako:196 controllers/templates/imp.mako:165
 msgid "Nothing"
-msgstr "Rien du tout"
+msgstr "Nevienu"
 
 #: controllers/templates/exp.mako:201 controllers/templates/exp.mako:217
 msgid "Save List"
-msgstr "Sauvegarder la liste"
+msgstr "Saglabāt sarakstu"
 
 #: controllers/templates/exp.mako:220
 msgid "Name of This Export:"
-msgstr "Nom de cet export"
+msgstr "Šī eksporta nosaukums:"
 
 #: controllers/templates/exp.mako:225 controllers/templates/fieldpref.mako:102
 #: controllers/templates/selection.mako:45
 msgid "OK"
-msgstr "OK"
+msgstr "Labi"
 
 #: controllers/templates/exp.mako:236
 msgid "Select Options to Export"
@@ -784,94 +754,94 @@ msgstr ""
 
 #: controllers/templates/exp.mako:242
 msgid "Export as CSV"
-msgstr "Exporter au format CSV"
+msgstr "Eksportēt kā CSV"
 
 #: controllers/templates/exp.mako:243
 msgid "Export as Excel"
-msgstr "Exporter au format Excel"
+msgstr "Eksportēt kā Excel"
 
 #: controllers/templates/exp.mako:250
 msgid "Add field names"
-msgstr "Ajouter le nom des champs"
+msgstr "Pievienot lauku nosaukumus"
 
 #: controllers/templates/exp.mako:255
 msgid "Import Compatible"
-msgstr "Compatible avec l'importation de données"
+msgstr ""
 
 #: controllers/templates/fieldpref.mako:4
 #: controllers/templates/fieldpref.mako:29
 msgid "Field Preferences"
-msgstr "Propriétés du Champ"
+msgstr ""
 
 #: controllers/templates/fieldpref.mako:39
 msgid "Field Name:"
-msgstr "Nom du champ:"
+msgstr "Lauka nosaukums:"
 
 #: controllers/templates/fieldpref.mako:43
 msgid "Domain:"
-msgstr "Domaine:"
+msgstr "Domēns:"
 
 #: controllers/templates/fieldpref.mako:47
 msgid "Default Value:"
-msgstr "Valeur par défaut:"
+msgstr "Neklusējuma vērtība:"
 
 #: controllers/templates/fieldpref.mako:57
 msgid "Value applicable for:"
-msgstr "Valeur applicable pour:"
+msgstr "Vērtību pielietot:"
 
 #: controllers/templates/fieldpref.mako:63
 msgid "Only for you"
-msgstr "Seulement pour vous"
+msgstr "Tikai man"
 
 #: controllers/templates/fieldpref.mako:67
 msgid "For all"
-msgstr "Pour tous les utilisateurs"
+msgstr "Visiem"
 
 #: controllers/templates/fieldpref.mako:76
 msgid "Value applicable if:"
-msgstr "Valeur applicable si :"
+msgstr "Vērtību pielietot, ja:"
 
 #: controllers/templates/fieldpref.mako:79
 msgid "Always applicable!"
-msgstr "Toujours applicable!"
+msgstr "Pielietojama vienmēr!"
 
 #: controllers/templates/footer.mako:3
 #, python-format
 msgid "&copy; 2008-2010 %(ooweb)s  SA. All Rights Reserved "
-msgstr "&copy; 2008-2010 %(ooweb)s  SA. Tous droits réservés "
+msgstr ""
 
 #: controllers/templates/footer.mako:6
 msgid "Significant contributions to the web client have been made by"
-msgstr "Des contributions importantes ont été faites sur le client web par"
+msgstr ""
 
 #: controllers/templates/form.mako:77
 msgid "Add / Remove Shortcut..."
-msgstr "Ajouter / supprimer un raccourci..."
+msgstr "Pievienot/izņemt īsinājumuj"
 
 #: controllers/templates/form.mako:81
 #, python-format
 msgid "Search: %s"
-msgstr "Rechercher: %s"
+msgstr "Meklēt: %s"
 
 #: controllers/templates/form.mako:88
 msgid "Corporate Intelligence..."
-msgstr "Décisionnel..."
+msgstr "Korporatīva inteliģence..."
 
 #: controllers/templates/form.mako:94
 msgid "Show Logs..."
-msgstr "Voir les informations..."
+msgstr "Rādīt žurnālus..."
 
 #: controllers/templates/form.mako:105
 msgid "Disable all Tips"
-msgstr "Désactiver toutes les astuces"
+msgstr "Atslēgt visus padomus"
 
 #: controllers/templates/form.mako:106
 msgid "Hide this Tip"
-msgstr "Masquer cette astuce"
+msgstr "Slēpt šo padomu"
 
 #: controllers/templates/form.mako:119
 msgid "Create a new resource"
-msgstr "Créer une nouvelle ressource"
+msgstr "Izveidot jaunu resursu"
 
 #: controllers/templates/form.mako:120 controllers/templates/search.mako:128
 #: controllers/templates/viewed_new_model.mako:36
@@ -880,11 +850,11 @@ msgstr "Créer une nouvelle ressource"
 #: widgets/templates/listgrid/listgrid.mako:143
 #: widgets/templates/listgrid/listgrid.mako:147
 msgid "New"
-msgstr "Ajouter"
+msgstr "Jauns"
 
 #: controllers/templates/form.mako:124
 msgid "Edit this resource"
-msgstr "Éditer cette ressource"
+msgstr "Labot šo resursu"
 
 #: controllers/templates/form.mako:125 controllers/templates/viewlist.mako:122
 #: widgets/templates/listgrid/listgrid.mako:78
@@ -893,11 +863,11 @@ msgstr "Éditer cette ressource"
 #: widgets/templates/listgrid/listgroup.mako:107
 #: widgets/templates/listgrid/multiple_group.mako:63
 msgid "Edit"
-msgstr "Éditer"
+msgstr "Labot"
 
 #: controllers/templates/form.mako:129
 msgid "Save this resource"
-msgstr "Enregistrer cette ressource"
+msgstr "Saglabāt šo resursu"
 
 #: controllers/templates/form.mako:130 controllers/templates/image.mako:65
 #: controllers/templates/openm2.mako:48 controllers/templates/openo2m.mako:34
@@ -909,47 +879,47 @@ msgstr "Enregistrer cette ressource"
 #: controllers/templates/viewed_new_model.mako:39
 #: controllers/templates/viewlist.mako:157
 msgid "Save"
-msgstr "Sauver"
+msgstr "Saglabāt"
 
 #: controllers/templates/form.mako:132
 msgid "Save & Edit this resource"
-msgstr "Enregistrer et éditer cette ressource"
+msgstr "Saglabāt & Labot šo resursu"
 
 #: controllers/templates/form.mako:133
 msgid "Save & Edit"
-msgstr "Enregistrer et éditer"
+msgstr "Saglabāt & Labot"
 
 #: controllers/templates/form.mako:137
 msgid "Duplicate this resource"
-msgstr "Dupliquer cette ressource"
+msgstr "Dublēt šo resursu"
 
 #: controllers/templates/form.mako:138
 msgid "Duplicate"
-msgstr "Dupliquer"
+msgstr "Dublēt"
 
 #: controllers/templates/form.mako:142
 msgid "Delete this resource"
-msgstr "Supprimer cette ressource"
+msgstr "Dzēst šo resursu"
 
 #: controllers/templates/form.mako:147
 msgid "Cancel editing the current resource"
-msgstr "Abandonner l'édition de la ressource courante"
+msgstr "Atcelt atvērtā resursa labošanu"
 
 #: controllers/templates/form.mako:152
 msgid "Create new node"
-msgstr "Créer un nouveau nœud"
+msgstr "Izveidot jaunu mezglu"
 
 #: controllers/templates/form.mako:153
 msgid "New Node"
-msgstr "Nouveau nœud"
+msgstr "Jauns mezgls"
 
 #: controllers/templates/form.mako:157
 msgid "Show grid in workflow canvas"
-msgstr "Afficher la grille dans l'éditeur de workflow"
+msgstr "Rādīt režģi darbplūsmu skatā"
 
 #: controllers/templates/form.mako:158
 msgid "Show grid"
-msgstr "Afficher la grille"
+msgstr "Rādīt režģi"
 
 #: controllers/templates/header.mako:30
 #, python-format
@@ -963,125 +933,123 @@ msgstr "%(user)s"
 
 #: controllers/templates/header.mako:42 controllers/templates/header.mako:44
 msgid "Home"
-msgstr "Accueil"
+msgstr "Sākums"
 
 #: controllers/templates/header.mako:50
 msgid "Requests"
-msgstr "Requêtes"
+msgstr "Pieprasījumi"
 
 #: controllers/templates/header.mako:59
 msgid "Edit Preferences"
-msgstr "Éditer les préférences"
+msgstr "Labot iestatījumus"
 
 #: controllers/templates/header.mako:63 controllers/templates/header.mako:66
 msgid "About"
-msgstr "À propos"
+msgstr "Par"
 
 #: controllers/templates/header.mako:70 controllers/templates/header.mako:72
 msgid "Help"
-msgstr "Aide"
+msgstr "Palīdzība"
 
 #: controllers/templates/header.mako:78 controllers/templates/header.mako:81
 msgid "Clear Cache"
-msgstr "Effacer le cache"
+msgstr "Iztīrīt kešatmiņu"
 
 #: controllers/templates/header.mako:86
 msgid "Logout"
-msgstr "Se déconnecter"
+msgstr "Atteikties"
 
 #: controllers/templates/image.mako:4 controllers/templates/image.mako:39
 msgid "Image"
-msgstr "Image"
+msgstr "Attēls"
 
 #: controllers/templates/image.mako:55
 msgid "Add Resource:"
-msgstr "Ajouter une ressource :"
+msgstr "Pievienot resursu:"
 
 #: controllers/templates/image.mako:66 widgets/form/templates/binary.mako:28
 msgid "Save As"
-msgstr "Enregistrer sous..."
+msgstr "Saglabāt kā"
 
 #: controllers/templates/imp.mako:130 widgets/templates/sidebar.mako:109
 msgid "Import"
-msgstr "Importer"
+msgstr "Importēt"
 
 #: controllers/templates/imp.mako:133
 msgid "Import Data"
-msgstr "Importer les données"
+msgstr "Importēt datus"
 
 #: controllers/templates/imp.mako:145
 msgid "Fields to import"
-msgstr "Champs à importer"
+msgstr "Lauki importam"
 
 #: controllers/templates/imp.mako:170
 msgid "Auto Detect"
-msgstr "Détecter automatiquement"
+msgstr "Noteikt automātiski"
 
 #: controllers/templates/imp.mako:189
 msgid "File to import"
-msgstr "Fichier à importer"
+msgstr "Fails importam"
 
 #: controllers/templates/imp.mako:197
 msgid "Options"
-msgstr "Paramètres"
+msgstr "Iespējas"
 
 #: controllers/templates/imp.mako:200
 msgid "Separator:"
-msgstr "Séparateur :"
+msgstr "Atdalītājs:"
 
 #: controllers/templates/imp.mako:202
 msgid "Delimiter:"
-msgstr "Délimiteur :"
+msgstr "Norobežotājs:"
 
 #: controllers/templates/imp.mako:206
 msgid "Encoding:"
-msgstr "Encodage :"
+msgstr "Kodējums:"
 
 #: controllers/templates/imp.mako:213
 msgid "Lines to skip:"
-msgstr "Lignes à éviter"
+msgstr "Izlaist rindas:"
 
 #: controllers/templates/index.mako:164
 msgid "System Logs"
-msgstr "Journaux Système"
+msgstr "Sistēmas žurnāli"
 
 #: controllers/templates/index.mako:190
 msgid "Widgets"
-msgstr "Widgets"
+msgstr "Sīkrīki"
 
 #: controllers/templates/index.mako:220 controllers/templates/index.mako:225
 #, python-format
 msgid "Powered by %(openerp)s "
-msgstr "Fonctionne grâce à %(openerp)s "
+msgstr ""
 
 #: controllers/templates/login.mako:53 controllers/templates/login_ajax.mako:72
 #: controllers/templates/login_ajax.mako:94
 msgid "User:"
-msgstr "Utilisateur :"
+msgstr "Lietotājs:"
 
 #: controllers/templates/login.mako:64
 msgid "Databases"
-msgstr "Bases de données"
+msgstr "Datubāzes"
 
 #: controllers/templates/login.mako:84
 msgid "Top Contributor:"
-msgstr "Meilleur contributeur :"
+msgstr ""
 
 #: controllers/templates/login.mako:94
 msgid ""
 "We think that daily job activities can be more intuitive, efficient, "
 "automated, .. and even fun."
 msgstr ""
-"Nous pensons que les activités quotidiennes peuvent être plus intuitives, "
-"plus efficaces, plus automatisées,.. et même plus amusantes"
 
 #: controllers/templates/login.mako:95
 msgid "OpenERP's vision to be:"
-msgstr "La vision d'OpenERP est d'être :"
+msgstr ""
 
 #: controllers/templates/login.mako:103
 msgid "Full featured"
-msgstr "Très complet"
+msgstr ""
 
 #: controllers/templates/login.mako:104
 msgid ""
@@ -1091,226 +1059,219 @@ msgstr ""
 
 #: controllers/templates/login.mako:112
 msgid "Open Source"
-msgstr "Open Source"
+msgstr ""
 
 #: controllers/templates/login.mako:113
 msgid ""
 "To Build a great product, we rely on the knowledge of thousands of "
 "contributors."
 msgstr ""
-"Pour construire un très bon produit, nous nous appuyons sur la connaissance "
-"de milliers de contributeurs."
 
 #: controllers/templates/login.mako:121
 msgid "User Friendly"
-msgstr "Convivial"
+msgstr ""
 
 #: controllers/templates/login.mako:122
 msgid ""
 "In order to be productive, people need clean and easy to use interface."
 msgstr ""
-"Afin d'être productifs, les utilisateurs ont besoin d'une interface claire "
-"et facile à utiliser."
 
 #: controllers/templates/modules.mako:4
 msgid "Module Management"
-msgstr "Gestion des modules"
+msgstr ""
 
 #: controllers/templates/modules.mako:17
 msgid "Web Modules"
-msgstr "Modules web"
+msgstr "Tīmekļa moduļi"
 
 #: controllers/templates/save_filter.mako:18
 msgid "Save as Filter"
-msgstr "Enregistrer comme filtre"
+msgstr "Saglabāt kā filtru:"
 
 #: controllers/templates/save_filter.mako:30
 msgid "Filter Name"
-msgstr "Nom du Filtre"
+msgstr "Filtra nosaukums"
 
 #: controllers/templates/search.mako:110
 #, python-format
 msgid "Search %(name)s"
-msgstr "Rechercher %(name)s"
+msgstr "Meklēt %(name)s"
 
 #: controllers/templates/search.mako:125 widgets/form/templates/datetime.mako:8
 msgid "Select"
-msgstr "Sélectionner"
+msgstr "Izvēlēties"
 
 #: controllers/templates/search.mako:127 widgets/_views.py:83
 #: widgets/form/templates/many2one.mako:22
 #: widgets/form/templates/reference.mako:27 widgets/templates/viewform.mako:26
 msgid "Search"
-msgstr "Rechercher"
+msgstr "Meklēt"
 
 #: controllers/templates/search.mako:141
 #, python-format
 msgid "Found no record '%(searched_string)s'."
-msgstr "Aucun enregistrement trouvé '%(searched_string)s'."
+msgstr "Neatrada ierakstu '%(searched_string)s'."
 
 #: controllers/templates/search.mako:144
 #, python-format
 msgid "Create %(searched_string)s"
-msgstr "Créer %(searched_string)s"
+msgstr "Izveidot %(searched_string)s"
 
 #: controllers/templates/selection.mako:4
 msgid "Select action"
-msgstr "Choisir une action"
+msgstr "Izvēlēties darbību"
 
 #: controllers/templates/selection.mako:23
 msgid "Select your action"
-msgstr "Sélectionner votre action"
+msgstr "Izvēlies savu darbību"
 
 #: controllers/templates/server_log.mako:4
 msgid "Server Actions..."
-msgstr "Action du serveur..."
+msgstr "Servera darbības..."
 
 #: controllers/templates/server_log.mako:14
 msgid "Server Actions"
-msgstr "Actions du Serveur"
+msgstr "Servera darbības"
 
 #: controllers/templates/translator.mako:4
 msgid "Add Translations"
-msgstr "Ajouter des traductions"
+msgstr "Pievienot tulkojumus"
 
 #: controllers/templates/translator.mako:17
 msgid "Add Translation"
-msgstr "Ajouter une traduction"
+msgstr "Pievienot tulkojumu"
 
 #: controllers/templates/translator.mako:27
 msgid "Add Translation for:"
-msgstr "Ajouter une traduction pour :"
+msgstr "Pievienot tulkojumu:"
 
 #: controllers/templates/translator.mako:31
 msgid "Fields"
-msgstr "Champs"
+msgstr "Lauki"
 
 #: controllers/templates/translator.mako:32
 msgid "Labels"
-msgstr ""
+msgstr "Nosaukumi"
 
 #: controllers/templates/translator.mako:33
 msgid "Relates"
-msgstr ""
+msgstr "Saistīts"
 
 #: controllers/templates/translator.mako:34
 msgid "View"
-msgstr "Vue"
+msgstr "Skatījums"
 
 #: controllers/templates/translator.mako:53
 msgid "Field"
-msgstr "Champ"
+msgstr "Lauks"
 
 #: controllers/templates/view_log.mako:4 controllers/templates/view_log.mako:12
 #: utils/common.py:55
 msgid "Information"
-msgstr "Information"
+msgstr "Informācija"
 
 #: controllers/templates/viewed.mako:17
 #, python-format
 msgid "View Editor %s - %s"
-msgstr "Voir Éditeur %s - %s"
+msgstr "Skatījuma redaktors %s - %s"
 
 #: controllers/templates/viewed.mako:31
 msgid "Create a new inherited view"
-msgstr "Créer une nouvelle vue héritée"
+msgstr "Izveidot jaunu mantoto skatījumu"
 
 #: controllers/templates/viewed.mako:31
 msgid "Inherited View"
-msgstr "Vue Héritée"
+msgstr "Mantotais Skatījums"
 
 #: controllers/templates/viewed.mako:34
 msgid "Preview"
-msgstr "Aperçu"
+msgstr "Priekšskatīt"
 
 #: controllers/templates/viewed_add.mako:6
 msgid "Node Type:"
-msgstr "Type de noeud :"
+msgstr "Mezgla tips:"
 
 #: controllers/templates/viewed_add.mako:23
 msgid "New Field"
-msgstr "Nouveau Champ"
+msgstr "Jauns lauks"
 
 #: controllers/templates/viewed_add.mako:27
 msgid "Position:"
-msgstr "Position :"
+msgstr "Pozīcija:"
 
 #: controllers/templates/viewlist.mako:4
 #: controllers/templates/viewlist.mako:108
 #, python-format
 msgid "Manage Views (%s)"
-msgstr "Gérer les vues (%s)"
+msgstr "Pārvaldīt skatījumus (%s)"
 
 #: controllers/templates/viewlist.mako:146
 #, python-format
 msgid "Create a view (%s)"
-msgstr "Créer une vue (%s)"
+msgstr "Izveidot skatījumu (%s)"
 
 #: controllers/templates/viewlist.mako:174
 msgid "View Name:"
-msgstr "Nom de la vue :"
+msgstr "Skatījuma nosaukums:"
 
 #: controllers/templates/viewlist.mako:178
 msgid "View Type:"
-msgstr "Type de vue :"
+msgstr "Skatījuma tips:"
 
 #: controllers/templates/viewlist.mako:189
 msgid "Priority:"
-msgstr "Priorité :"
+msgstr "Prioritāte:"
 
 #: utils/common.py:45 utils/common.py:74
 msgid "Error"
-msgstr "Erreur"
+msgstr "Kļūda"
 
 #: utils/common.py:50 utils/common.py:77
 msgid "Warning"
-msgstr "Avertissement"
+msgstr "Brīdinājums"
 
 #: utils/rpc.py:139
 msgid "Access Denied"
-msgstr "Accès Refusé"
+msgstr "Piekļuve liegta"
 
 #: utils/rpc.py:246
 msgid "Unsupported protocol."
-msgstr "Protocole non supporté."
+msgstr "Neatbalstīt protokols."
 
 #: utils/rpc.py:350
 msgid ""
 "You select a timezone but OpenERP could not find pytz library!\n"
 "The timezone functionality will be disable."
 msgstr ""
-"Vous avez sélectionné un fuseau horaire mais OpenERP n'a pas pu trouver la "
-"librairie pytz !\n"
-"La gestion des fuseaux va être désactivée."
 
 #: utils/rpc.py:357
 msgid "Not logged..."
-msgstr "Non connecté..."
+msgstr ""
 
 #: utils/rpc.py:357
 msgid "Authorization Error"
-msgstr "Erreur d'Autorisation"
+msgstr "Pilnvaru kļūda"
 
 #: utils/rpc.py:422
 msgid "== Access Denied =="
-msgstr "== Accès refusé =="
+msgstr ""
 
 #: widgets/_views.py:52
 msgid "Form"
-msgstr "Formulaire"
+msgstr "Veidlapa"
 
 #: widgets/_views.py:53
 msgid "Form view..."
-msgstr "Vue formulaire..."
+msgstr "Veidlapas skatījums...."
 
 #: widgets/_views.py:84
 msgid "Search view..."
-msgstr "Vue de recherche..."
+msgstr "Meklēšanas skatījums..."
 
 #: widgets/listgrid.py:333 widgets/form/_form.py:913
 #, python-format
 msgid "Invalid view, duplicate field: %s"
-msgstr "Vue invalide, champ dupliqué : %s"
+msgstr "Kļūdains skatījums, atkārtojās lauks: %s"
 
 #: widgets/pager.py:64
 #, python-format
@@ -1324,435 +1285,246 @@ msgstr "%s - %s"
 
 #: widgets/search.py:286
 msgid "contains"
-msgstr "contient"
+msgstr "satur"
 
 #: widgets/search.py:286
 msgid "doesn't contain"
-msgstr "ne contient pas"
+msgstr "nesatur"
 
 #: widgets/search.py:287
 msgid "is equal to"
-msgstr "est égal à"
+msgstr "vienāds ar"
 
 #: widgets/search.py:287
 msgid "is not equal to"
-msgstr "n'est pas égal à"
+msgstr "nav vienāds ar"
 
 #: widgets/search.py:288
 msgid "greater than"
-msgstr "supérieur à"
+msgstr "lielāks par"
 
 #: widgets/search.py:288
 msgid "less than"
-msgstr "inférieur à"
+msgstr "mazāks par"
 
 #: widgets/search.py:289
 msgid "in"
-msgstr "dans"
+msgstr "iekš"
 
 #: widgets/search.py:289
 msgid "not in"
-msgstr "pas contenu dans"
+msgstr "nav iekš"
 
 #: widgets/search.py:396
 msgid "Yes"
-msgstr "Oui"
+msgstr "Jā"
 
 #: widgets/search.py:396
 msgid "No"
-msgstr "Non"
+msgstr "Nē"
 
 #: widgets/form/_action.py:54
 msgid "Action not found!"
-msgstr "Action non trouvée"
+msgstr "Darbība nav atrasta!"
 
 #: widgets/form/_o2m.py:57 widgets/templates/listgrid/listgrid.mako:141
 #: widgets/templates/listgrid/listgrid.mako:147
 msgid "Create new record."
-msgstr "Créer un nouvel enregistrement"
+msgstr "Izveidot jaunu ierakstu."
 
 #: widgets/form/_o2m.py:70
 msgid "Save/New"
-msgstr "Enregister/Nouveau"
+msgstr "Saglabāt/Jauns"
 
 #: widgets/form/_o2m.py:70
 msgid "Save parent record."
-msgstr "Enregister l'enregistrement parent."
+msgstr ""
 
 #: widgets/form/_o2m.py:185
 #, python-format
 msgid "%d of %d"
-msgstr "%d de %d"
+msgstr "%d no %d"
 
 #: widgets/form/_o2m.py:187
 #, python-format
 msgid "- of %d"
-msgstr "- de %d"
+msgstr "- no %d"
 
 #: widgets/form/templates/binary.mako:31
 msgid "add attachment"
-msgstr "ajouter une pièce jointe"
+msgstr "pievienot piesaistni"
 
 #: widgets/form/templates/many2one.mako:2
 #: widgets/form/templates/reference.mako:30
 msgid "Open"
-msgstr "Ouvrir"
+msgstr "Atvērt"
 
 #: widgets/form/templates/many2one.mako:2
 #: widgets/form/templates/reference.mako:30
 msgid "Open a resource"
-msgstr "Ouvrir une ressource"
+msgstr "Atvērt resursu"
 
 #: widgets/form/templates/one2many.mako:18
 msgid "Create new record..."
-msgstr "Créer un nouvel enregistrement..."
+msgstr "Izveidot jaunu ierakstu..."
 
 #: widgets/form/templates/one2many.mako:20
 msgid "Delete record..."
-msgstr "Effacer l'enregistrement..."
+msgstr "Dzēst ierakstu..."
 
 #: widgets/form/templates/one2many.mako:26
 msgid "Translate me."
-msgstr "Traduisez-moi."
+msgstr "Iztulko mani."
 
 #: widgets/form/templates/one2many.mako:41
 msgid "Previous record..."
-msgstr "Enregistrement précédent..."
+msgstr "Iepriekšējais ieraksts..."
 
 #: widgets/form/templates/one2many.mako:43
 msgid "Next record..."
-msgstr "Enregistrement suivant..."
+msgstr "Nākamais ieraksts...."
 
 #: widgets/templates/logs.mako:22
 msgid "More..."
-msgstr "Autres..."
+msgstr "Vairāk..."
 
 #: widgets/templates/logs.mako:35
 msgid "Less..."
-msgstr "Moins..."
+msgstr "Mazāk..."
 
 #: widgets/templates/pager.mako:9
 msgid "<< First"
-msgstr "<< Premier"
+msgstr "<< Pirm."
 
 #: widgets/templates/pager.mako:14
 msgid "< Previous"
-msgstr "< Précédent"
+msgstr "< Iepriekš."
 
 #: widgets/templates/pager.mako:19
 msgid "of"
-msgstr "sur"
+msgstr "no"
 
 #: widgets/templates/pager.mako:24
 msgid "Next >"
-msgstr "Suivant >"
+msgstr "Nākam. >"
 
 #: widgets/templates/pager.mako:29
 msgid "Last >>"
-msgstr "Dernier >>"
+msgstr "Pēdēj. >>"
 
 #: widgets/templates/pager.mako:37
 msgid "Change Limit:"
-msgstr "Nombre de lignes à afficher:"
+msgstr "Mainīt limitu:"
 
 #: widgets/templates/sidebar.mako:37
 msgid "Reports"
-msgstr "Rapports"
+msgstr "Atskaites"
 
 #: widgets/templates/sidebar.mako:41 widgets/templates/viewform.mako:51
 msgid "Actions"
-msgstr "Actions"
+msgstr "Darbības"
 
 #: widgets/templates/sidebar.mako:45
 msgid "Links"
-msgstr "Liens"
+msgstr "Saites"
 
 #: widgets/templates/sidebar.mako:49
 msgid "Submenu"
-msgstr "Sous-menu"
+msgstr "Apakšizvēlne"
 
 #: widgets/templates/sidebar.mako:54
 msgid "Attachments"
-msgstr "Pièces jointes"
+msgstr "Piesaistnes"
 
 #: widgets/templates/sidebar.mako:74
 msgid "File"
-msgstr "Fichier"
+msgstr "Fails"
 
 #: widgets/templates/sidebar.mako:82
 msgid "Customize"
-msgstr "Personnaliser"
+msgstr "Pielāgot"
 
 #: widgets/templates/sidebar.mako:86
 msgid "Manage views of the current object"
-msgstr "Gérer les vues de l'objet courant"
+msgstr "Pārvaldīt skatījumus atvērtajam objektam"
 
 #: widgets/templates/sidebar.mako:88
 msgid "Manage Views"
-msgstr "Gérer les vues"
+msgstr "Pārvaldīt skatījumus"
 
 #: widgets/templates/sidebar.mako:92
 msgid "Edit workflow of the current object"
-msgstr "Editer le déroulement des opérations de l'objet courant"
+msgstr "Labot darbplūsmu atvērtajam objektam"
 
 #: widgets/templates/sidebar.mako:93
 msgid "Edit Workflow"
-msgstr "Editer le workflow"
+msgstr "Labot darbplūsmu"
 
 #: widgets/templates/sidebar.mako:97
 msgid "Customize current object or create a new object"
-msgstr "Personnalier l'objet actuel ou créer un nouvel objet"
+msgstr "Pielāgot atvērto objektu vai izveidot jaunu"
 
 #: widgets/templates/sidebar.mako:99
 msgid "Customize Object"
-msgstr "Personnaliser l'objet"
+msgstr "Pielāgot objektu"
 
 #: widgets/templates/sidebar.mako:104
 msgid "Other Options"
-msgstr "Autres Options"
+msgstr "Citas iespējas"
 
 #: widgets/templates/sidebar.mako:116
 msgid "Translate"
-msgstr "Traduire"
+msgstr "Tulkot"
 
 #: widgets/templates/sidebar.mako:121
 msgid "View Log"
-msgstr "Voir le journal"
+msgstr "Aplūkot žurnālu"
 
 #: widgets/templates/viewform.mako:25
 msgid "Filter records."
-msgstr "Filtrer les enregistrements."
+msgstr "Filtrēt ierakstus."
 
 #: widgets/templates/viewform.mako:33
 msgid "Clear all."
-msgstr "Tout effacer."
+msgstr "Iztīrīt visu."
 
 #: widgets/templates/viewform.mako:35
 msgid "Clear"
-msgstr "Vider"
+msgstr "Iztīrīt"
 
 #: widgets/templates/viewform.mako:43
 msgid "Filters"
-msgstr "Filtres"
+msgstr "Filtri"
 
 #: widgets/templates/viewform.mako:45
 msgid "Saved Filters"
-msgstr "Filtres Enregistrés"
+msgstr "Saglabātie filtri"
 
 #: widgets/templates/viewform.mako:52
 msgid "New Filter"
-msgstr "Nouveau filtre"
+msgstr ""
 
 #: widgets/templates/viewform.mako:53
 msgid "Save Filter"
-msgstr "Enregistrer le filtre"
+msgstr ""
 
 #: widgets/templates/viewform.mako:54
 msgid "Manage Filters"
-msgstr "Gérer les filtres"
+msgstr ""
 
 #: widgets/templates/listgrid/listgrid.mako:19
 msgid "Update"
-msgstr "Mettre à jour"
+msgstr ""
 
 #: widgets/templates/listgrid/listgrid.mako:137
 msgid "Add records..."
-msgstr "Ajouter des enregistrements..."
+msgstr ""
 
 #: widgets/templates/listgrid/listgrid.mako:175
 #: widgets/templates/listgrid/listgrid.mako:179
 msgid "Delete record(s)."
-msgstr "Supprimer l'(es) enregistrement(s)."
+msgstr ""
 
 #: widgets/templates/listgrid/listgrid.mako:186
 msgid "Edit record(s)."
-msgstr "Éditer l'(es) enregistrement(s)"
-
-#~ msgid "Database already exists"
-#~ msgstr "Une base de données avec ce nom existe déjà"
-
-#~ msgid "Bad database administrator password"
-#~ msgstr "Mot de passe administrateur incorrect"
-
-#~ msgid "Bad password provided."
-#~ msgstr "Mot de passe incorrect"
-
-#~ msgid "Could not change super admin password."
-#~ msgstr "Impossible de changer le mot de passe du super administrateur"
-
-#~ msgid "You must save this record to use the sidebar button"
-#~ msgstr "Vous devez enregistrer avant d'utiliser la barre latérale"
-
-#~ msgid "Invalid button type"
-#~ msgstr "Type de bouton invalide"
-
-#~ msgid "Importation Error"
-#~ msgstr "Erreur lors de l'importation"
-
-#~ msgid "The Axelor Company"
-#~ msgstr "Axelor"
-
-#~ msgid "The Tiny Company"
-#~ msgstr "Tiny"
-
-#~ msgid "RESOURCES"
-#~ msgstr "RESSOURCES"
-
-#~ msgid "SaaS Offers"
-#~ msgstr "Offres hébergées (Saas)"
-
-#, python-format
-#~ msgid ""
-#~ "Error processing your first line of the file.\n"
-#~ "Field %s is unknown"
-#~ msgstr ""
-#~ "Erreur lors du traitement de la première ligne du fichier .\n"
-#~ "Le champ %s est inconnu ."
-
-#~ msgid ""
-#~ "Please Install xlwt Library.\n"
-#~ "To create spreadsheet files compatible with MS Excel."
-#~ msgstr ""
-#~ "Merci d'installer la librairie xlwt .\n"
-#~ "Pour créer des fichiers compatibles avec MS Excel."
-
-#, python-format
-#~ msgid ""
-#~ "Error trying to import this record:\n"
-#~ "%s\n"
-#~ "Error Message:\n"
-#~ "%s\n"
-#~ "\n"
-#~ "%s"
-#~ msgstr ""
-#~ "Erreur lors de l'import de cet enregistrement :\n"
-#~ "%s\n"
-#~ "Message d'erreur :\n"
-#~ "%s\n"
-#~ "\n"
-#~ "%s"
-
-#~ msgid ""
-#~ "Your request will be sent to OpenERP and maintenance team will reply you "
-#~ "shortly."
-#~ msgstr ""
-#~ "Votre demande va être envoyée à OpenERP et l'équipe de maintenance va vous "
-#~ "répondre très prochainement."
-
-#~ msgid ""
-#~ "Your maintenance contract does not cover all modules installed in your "
-#~ "system !\n"
-#~ "If you are using OpenERP in production, it is highly suggested to upgrade "
-#~ "your\n"
-#~ "contract.\n"
-#~ "\n"
-#~ "If you have developed your own modules or installed third party module, we\n"
-#~ "can provide you an additional maintenance contract for these modules. After\n"
-#~ "having reviewed your modules, our quality team will ensure they will "
-#~ "migrate\n"
-#~ "automatically for all future stable versions of OpenERP at no extra cost.\n"
-#~ "\n"
-#~ "Here is the list of modules not covered by your maintenance contract:"
-#~ msgstr ""
-#~ "Le contrat de maintenance ne couvre pas tous les modules installés sur votre "
-#~ "système !\n"
-#~ "Si vous utilisez OpenERP en production, il est fortement conseillé de mettre "
-#~ "à jour votre contrat.\n"
-#~ "\n"
-#~ "Si vous avez développé vos propres modules ou installés des modules fournis "
-#~ "par un tiers, nous\n"
-#~ "pouvons vous fournir un contrat de maintenance complémentaire pour ces "
-#~ "modules. Après avoir\n"
-#~ "revu vos modules, notre équipe qualité s'assurera de la possible migration "
-#~ "automatique vers\n"
-#~ "toutes les futures versions stables sans coût supplémentaire.\n"
-#~ "\n"
-#~ "Les modules non couverts par le contrat de maintenance sont :"
-
-#~ msgid "Select an Option to Export"
-#~ msgstr "Sélectionner une option d'exportation"
-
-#~ msgid "Use On-Site"
-#~ msgstr "Utiliser sur site"
-
-#~ msgid "Use Online"
-#~ msgstr "Utiliser en ligne"
-
-#~ msgid "Subscribe and start"
-#~ msgstr "Souscrire et démarrer"
-
-#~ msgid "Homepage"
-#~ msgstr "Page d'accueil"
-
-#~ msgid "Download"
-#~ msgstr "Télécharger"
-
-#~ msgid "Documentation"
-#~ msgstr "Documentation"
-
-#~ msgid "Modules"
-#~ msgstr "Modules"
-
-#~ msgid "Screencasts"
-#~ msgstr "Demonstrations en vidéo"
-
-#~ msgid "Community"
-#~ msgstr "Communautée"
-
-#~ msgid "Services"
-#~ msgstr "Services"
-
-#~ msgid "Trainings"
-#~ msgstr "Formations"
-
-#~ msgid "You do not have a valid OpenERP maintenance contract !"
-#~ msgstr "Vous n'avez pas de contrat de maintenance OpenERP valide !"
-
-#~ msgid "Maintenance contract."
-#~ msgstr "Contrat de maintenance."
-
-#~ msgid "Send to Maintenance Team"
-#~ msgstr "Envoyer à l'équipe de maintenance"
-
-#~ msgid ""
-#~ "If you are using OpenERP in production, it is recommended to have\n"
-#~ "a maintenance program.\n"
-#~ "\n"
-#~ "The OpenERP maintenance contract provides you with bug fix guarantees and "
-#~ "an\n"
-#~ "automatic migration system so that we can start working on your problems "
-#~ "within a few\n"
-#~ "hours.\n"
-#~ "\n"
-#~ "With a maintenance contract, errors such as this one can be sent directly to "
-#~ "the OpenERP\n"
-#~ "team for review and evaluation.\n"
-#~ "\n"
-#~ "The maintenance program offers you:\n"
-#~ "* Automatic migrations on new versions,\n"
-#~ "* A bugfix guarantee,\n"
-#~ "* Monthly announces of potential bugs and their fixes,\n"
-#~ "* Security alerts by email and automatic migration,\n"
-#~ "* Access to the customer portal.\n"
-#~ msgstr ""
-#~ "Si vous utilisez OpenERP en production,il est recommandé d'avoir un contrat "
-#~ "de\n"
-#~ "maintenance.\n"
-#~ "\n"
-#~ "Le contrat de maintenance OpenERP vous fournit une garantie de correction "
-#~ "des bogues et un système de migrations automatiques ce qui nous permet de "
-#~ "commencer à travailler sur votre problème en quelques heures.\n"
-#~ "\n"
-#~ "Avec le contrat de maintenance, les erreurs comme celle que vous rencontrez "
-#~ "actuellemnt peuvent être envoyées directement à l'équipe d'OpenERP pour être "
-#~ "revues et évaluées.\n"
-#~ "\n"
-#~ "Le contrat de maintenance vous permet de bénéficier de:\n"
-#~ "* migrations automatiques vers les nouvelles versions,\n"
-#~ "* une garantie de correction des bogues,\n"
-#~ "* annonces mensuelles des bogues potentiels,\n"
-#~ "* alertes de sécurité et de migration automatique par courriel,\n"
-#~ "* accès au portail des clients.\n"
-
-#~ msgid "Get the OpenERP Warranty"
-#~ msgstr "Obtenir la garantie OpenERP"
+msgstr ""
