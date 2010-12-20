@@ -51,7 +51,7 @@ class ModuleForm(form.Form):
 
     def get_new_modules(self):
         modules = rpc.RPCProxy('ir.module.module')
-        web_modules = [module[0] if isinstance(module, tuple) else module
+        web_modules = [module[0] if isinstance(module, (tuple,list)) else module
                        for module in modules.list_web()]
         if not web_modules: return []
 
