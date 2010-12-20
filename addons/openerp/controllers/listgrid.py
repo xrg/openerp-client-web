@@ -290,10 +290,6 @@ class List(SecuredController):
         if params.edit_inline:
             wid.edit_inline = params.edit_inline
 
-        info = {}
-        if params.concurrency_info:
-            info = getattr(cherrypy.request, 'terp_concurrency_info', {})
-
         if params.get('_terp_clear'):
             view=ustr(frm.render())
         else:
@@ -303,7 +299,7 @@ class List(SecuredController):
 
         if frm.logs and frm.screen.view_type == 'tree':
             server_logs = ustr(frm.logs.render())
-        return dict(ids=ids, count=count, view=view, info=info, logs=server_logs)
+        return dict(ids=ids, count=count, view=view, logs=server_logs)
 
     @expose('json')
     def button_action(self, **kw):

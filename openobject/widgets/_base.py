@@ -195,13 +195,17 @@ class Widget(object):
             value_for=lambda f: self.value_for(f, v),
             params_for=lambda f: self.params_for(f, **d),
             display_member=lambda f: self.display_member(f, v, **d))
-    def display(self, value=None, **params):
+
+    def setup_params(self, value=None, **params):
         params.update(
             member_widgets_params=params.copy() if params else {},
             value=self.adjust_value(value, **params))
-
         self.update_params(params)
         self.set_css_classes(params)
+        return params
+
+    def display(self, value=None, **params):
+        params = self.setup_params(value, **params)
 
         return tools.render_template(
                 tools.load_template(

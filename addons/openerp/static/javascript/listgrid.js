@@ -194,27 +194,24 @@ ListView.prototype = {
 // inline editor related functions
 MochiKit.Base.update(ListView.prototype, {
 
-    adjustEditors: function(newlist) {
-        return this.$getEditors(false, newlist).each(function(){
-            var $this = jQuery(this);
-            var $cell = $this.parent('.grid-cell');
-            //$this.attr('autocomplete', 'OFF').width($cell.width());
-            $this.attr('autocomplete', 'OFF');
-        }).get();
+    $adjustEditors: function(newlist) {
+        return this.$getEditors(false, newlist)
+                   .attr('autocomplete', 'OFF');
     },
 
-    bindKeyEventsToEditors: function(editors) {
-        var self = this;
-        jQuery(editors).filter(function () {
+    bindKeyEventsToEditors: function($editors) {
+        $editors.filter(function () {
             return this.type != 'hidden' && !this.disabled;
-        }).each(function () {
-            jQuery(this).addClass('listfields');
-            connect(this, 'onkeydown', self, self.onKeyDown);
-        });
+        }).addClass('listfields')
+          .keydown(jQuery.proxy(this, 'onKeyDown'));
     },
 
     $getEditors: function(named, dom) {
-        return jQuery(openobject.dom.select("input, select, textarea", dom ? dom : this.name)).filter(function() {
+        var base = jQuery(dom ? dom : idSelector(this.name));
+        return base.find("input")
+                .add("select", base)
+                .add("textarea", base)
+                .filter(function() {
             var name = named ? this.name : this.id;
             return name && name.indexOf('_terp_listfields') == 0;
         });
@@ -757,19 +754,16 @@ MochiKit.Base.update(ListView.prototype, {
 
                 else {
                     var __listview = openobject.dom.get(self.name).__listview;
-                    jQuery('[id="'+self.name+'"]').parent().replaceWith(obj.view);
+                    jQuery(idSelector(self.name)).parent().replaceWith(obj.view);
                 }
 
-                var newlist = jQuery('[id="'+self.name+'"]');
-
-                var editors = self.adjustEditors(newlist.get(0));
-                if (editors.length > 0) {
-                    self.bindKeyEventsToEditors(editors);
+                var $editors = self.$adjustEditors(
+                        document.getElementById(self.name));
+                if ($editors.length > 0) {
+                    self.bindKeyEventsToEditors($editors);
                 }
 
                 openobject.dom.get(self.name).__listview = __listview;
-
-                updateConcurrencyInfo(obj.info);
 
                 // set focus on the first field
                 var first = jQuery('input.listfields')[0] || null;
@@ -779,8 +773,8 @@ MochiKit.Base.update(ListView.prototype, {
                 }
 
                 // call on_change for default values
-                if (editors.length && edit_inline == -1) {
-                    jQuery(editors).each(function () {
+                if ($editors.length && edit_inline == -1) {
+                    $editors.each(function () {
                         var $this = jQuery(this);
                         if ($this.val() && $this.attr('callback')) {
                             MochiKit.Signal.signal(this, 'onchange');
