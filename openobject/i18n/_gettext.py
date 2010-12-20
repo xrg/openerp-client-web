@@ -73,7 +73,11 @@ def _load_translations(path, locales, domain):
             tr = _load_translation(path, locale, domain)
         except SyntaxError, e:
             # http://babel.edgewall.org/ticket/213
-            cherrypy.log.error('Syntax error during translations loading', traceback=True)
+            cherrypy.log.error(
+                    'Syntax error while loading translation for locale "%s" '
+                    'from addon "%s"\n' % (
+                        locale, path),
+                    traceback=True)
             tr = None
         if isinstance(tr, babel.support.Translations):
             if locale in catalog:
