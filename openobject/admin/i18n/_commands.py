@@ -64,7 +64,8 @@ def _get_locales(path, locale=None):
     if locale:
         for l in locale.split(","):
             yield l
-            
+        return
+
     if os.path.exists(os.path.join(path, 'po', 'messages')):
         for f in os.listdir(os.path.join(path, 'po', 'messages')):
             if f.endswith('.po'):
@@ -97,6 +98,7 @@ class BabelCommand(BaseCommand):
         super(BabelCommand, self).__init__()
         self.cmd = CommandLineInterface()
         self._args = ["", "-q"]
+        self._force = False
 
     def execute(self, command, *args, **kw):
 
@@ -132,8 +134,11 @@ class BabelCommand(BaseCommand):
             if not os.path.exists(os.path.join(path, 'locale')):
                 os.makedirs(os.path.join(path, 'locale'))
 
-            print "Creating '%s'" % (po)
-            self.execute("init", l=l, D=domain, o=po, i=pot)
+            if os.path.exists(po) and not self._force:
+                print "Skipping existing '%s'" % po
+            else:
+                print "Creating '%s'" % (po,)
+                self.execute("init", l=l, D=domain, o=po, i=pot)
 
     def extract(self, locale, domain, path):
 
@@ -240,6 +245,8 @@ openobject.gettext.update(
 
         self.parser.add_option("-l", "--locale", dest="locale", help="locale (e.g. en_US, fr_FR)")
         self.parser.add_option("-D", "--domain", dest="domain", help="domain (e.g. messages, javascript)")
+        self.parser.add_option("-f", "--force", dest="force", action="store_true", 
+                        help="force creation of new .po files, if they already exist")
 
         self.parser.add_option("-a", "--init", dest="a", metavar="ALL", help="create catalogs for the given addons")
         self.parser.add_option("-x", "--extract", dest="x", metavar="ALL", help="extract messages for the given addons")
@@ -253,7 +260,7 @@ openobject.gettext.update(
         if not m:
             self.parser.error("Required one of '--init, --extract, --update, --compile, --clean'")
 
-
+        self._force = options.force
         if options.k:
             m = ["all"]
 
