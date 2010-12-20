@@ -69,7 +69,12 @@ def _load_translations(path, locales, domain):
 
     catalog = _translations.setdefault(domain, {})
     for locale in locales:
-        tr = _load_translation(path, locale, domain)
+        try:
+            tr = _load_translation(path, locale, domain)
+        except SyntaxError, e:
+            # http://babel.edgewall.org/ticket/213
+            cherrypy.log.error('Syntax error during translations loading', traceback=True)
+            tr = None
         if isinstance(tr, babel.support.Translations):
             if locale in catalog:
                 catalog[locale].merge(tr)
