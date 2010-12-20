@@ -51,7 +51,8 @@ class ModuleForm(form.Form):
 
     def get_new_modules(self):
         modules = rpc.RPCProxy('ir.module.module')
-        web_modules = modules.list_web()
+        web_modules = [module[0] if isinstance(module, tuple) else module
+                       for module in modules.list_web()]
         if not web_modules: return []
 
         addons_to_download = [
