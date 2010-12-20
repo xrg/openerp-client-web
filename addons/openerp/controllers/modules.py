@@ -59,7 +59,7 @@ class ModuleForm(form.Form):
             if not os.path.isdir(paths.addons(module))
         ]
         # avoid querying for 0 addons if we have everything already
-        if not addons_to_download: return web_modules
+        if not addons_to_download: return []
         web_payload = modules.get_web(addons_to_download)
         for module in web_payload:
             # Due to the way zip_directory works on the server, we get a toplevel dir called "web" for our addon,
