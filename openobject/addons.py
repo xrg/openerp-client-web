@@ -85,6 +85,8 @@ class Node(Singleton):
             s += '%s`-> %s' % ('   ' * depth, c._pprint(depth+1))
         return s
 
+def exists(module):
+    return os.path.exists(paths.addons(module, '__openerp__.py'))
 
 def get_info(module):
     mod_path = paths.addons(module)

@@ -46,15 +46,27 @@ class ModuleForm(form.Form):
         form = self.create_form(params)
         return dict(form=form, params=params)
 
+    def has_new_modules(self):
+        """ Returns whether there are new web modules available for download
+        (brand new or updates)
+
+        :rtype bool:
+        """
+        return bool([
+            name for (name, version) in rpc.RPCProxy('ir.module.module').list_web()
+            if (not addons.exists(name)
+                or version > addons.get_info(name).get('version', '0'))
+        ])
+
     def get_new_modules(self):
         modules = rpc.RPCProxy('ir.module.module')
-        web_modules = [module[0] if isinstance(module, (tuple,list)) else module
-                       for module in modules.list_web()]
+        web_modules = modules.list_web()
         if not web_modules: return []
 
         addons_to_download = [
-            module for module in web_modules
-            if not os.path.isdir(paths.addons(module))
+            name for (name, version) in web_modules
+            if (not addons.exists(name)
+                or version > addons.get_info(name).get('version', '0'))
         ]
         # avoid querying for 0 addons if we have everything already
         if not addons_to_download: return []
@@ -79,8 +91,9 @@ class ModuleForm(form.Form):
             descriptor.write('# -*- coding: utf-8 -*-\n')
             descriptor.write("%s" % ({
                 'name': module['name'].encode('utf-8'),
+                'version': module['version'].encode('utf-8'),
                 # addons depend at least of openerp
                 'depends': dependencies or ['openerp'],
             },))
             descriptor.close()
-        return web_modules
+        return addons_to_download
