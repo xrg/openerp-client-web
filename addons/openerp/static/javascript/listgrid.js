@@ -765,8 +765,6 @@ MochiKit.Base.update(ListView.prototype, {
 
                 openobject.dom.get(self.name).__listview = __listview;
 
-                updateConcurrencyInfo(obj.info);
-
                 // set focus on the first field
                 var first = jQuery('input.listfields')[0] || null;
                 if (first) {
