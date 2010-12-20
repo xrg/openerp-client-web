@@ -6,3 +6,5 @@
 /bin
 /dist
 /include
+/addons/*/locale/*/LC_MESSAGES/*.mo
+/addons/*/static/javascript/i18n/*.js
