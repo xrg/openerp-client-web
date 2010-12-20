@@ -403,12 +403,11 @@ class Form(SecuredController):
 
         Model = rpc.RPCProxy(params.model)
         # bypass save, for button action in non-editable view
-        if (not(params.button) and params.editable) or not params.id:
+        if params.editable:
             if not params.id:
 
                 if params.default_o2m:
                     data.update(params.default_o2m)
-
                 ctx = dict((params.context or {}), **rpc.session.context)
                 params.id = int(Model.create(data, ctx))
                 params.ids = (params.ids or []) + [params.id]
