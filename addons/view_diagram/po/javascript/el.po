@@ -1,0 +1,43 @@
+# Greek translations for PROJECT.
+# Copyright (C) 2010 ORGANIZATION
+# This file is distributed under the same license as the PROJECT project.
+#
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2010.
+# P. Christeas <p_christ@hol.gr>, 2010.
+msgid ""
+msgstr ""
+"Project-Id-Version: PROJECT VERSION\n"
+"Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
+"POT-Creation-Date: 2010-11-25 10:31+0530\n"
+"PO-Revision-Date: 2010-12-20 10:38+0200\n"
+"Last-Translator: P. Christeas <p_christ@hol.gr>\n"
+"Language-Team: Greek <openerp@lists.hellug.gr>\n"
+"Plural-Forms: nplurals=2; plural=(n != 1)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 1.0dev\n"
+"X-Generator: Lokalize 1.0\n"
+
+#: static/javascript/infobox.js:143
+msgid "Do you really want to delete this record?"
+msgstr "Θέλετε πραγματικά να σβήσετε την εγγραφή;"
+
+#: static/javascript/process.js:178
+#, fuzzy
+msgid "Notes:"
+msgstr "Σημειώσεις"
+
+#: static/javascript/process.js:186
+msgid "Subflows:"
+msgstr ""
+
+#: static/javascript/process.js:190
+msgid "Related:"
+msgstr "Σχετικά με:"
+
+#: static/javascript/process.js:274
+msgid "Help"
+msgstr "Βοήθεια"
+
+
