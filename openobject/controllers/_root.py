@@ -21,7 +21,7 @@ class Root(BaseController):
     ]
     def reset_custom_headers_post_redirection(self, request):
         """ Firefox doesn't forward headers it has no reason to touch
-        (standard or custom headers, does't matter) during redirection.
+        (standard or custom headers, doesn't matter) during redirection.
 
         To try and fix that, we're setting the headers we need forwarded as
         query parameters during the redirection process, but we're still
@@ -55,7 +55,7 @@ class Root(BaseController):
         autoreloader_enabled = bool(
                 getattr(cherrypy.engine.autoreload, 'thread', None))
         if autoreloader_enabled:
-            # stop (actually don't listento) the autoreloader the process
+            # stop (actually don't listen to) the auto-reloader the process
             # doesn't restart due to downloading new add-ons or refreshing
             # existing ones
             cherrypy.engine.autoreload.unsubscribe()
