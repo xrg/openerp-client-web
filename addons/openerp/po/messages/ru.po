@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: openobject-client-web\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2010-12-17 10:28+0100\n"
-"PO-Revision-Date: 2010-11-28 17:44+0000\n"
-"Last-Translator: Pomazan Bogdan <Unknown>\n"
+"PO-Revision-Date: 2010-12-19 13:22+0000\n"
+"Last-Translator: Denis Konchekov <Unknown>\n"
 "Language-Team: Russian <ru@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2010-12-18 05:03+0000\n"
+"X-Launchpad-Export-Date: 2010-12-20 04:49+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: validators.py:83
@@ -86,11 +86,11 @@ msgstr "Нет документов для печати"
 
 #: controllers/actions.py:178
 msgid "Printing aborted, too long delay"
-msgstr ""
+msgstr "Печать прервана, слишком долгая задержка"
 
 #: controllers/actions.py:361
 msgid "Relative URLs are not supported"
-msgstr ""
+msgstr "Относительные URL не поддерживаются"
 
 #: controllers/actions.py:389
 msgid "Action not found"
@@ -103,6 +103,7 @@ msgstr ""
 #: controllers/attachment.py:62
 msgid "No record selected, You can only attach to existing record..."
 msgstr ""
+"Не выбрана запись, Вы можете прикрепить только к существующей записи..."
 
 #: controllers/database.py:72
 msgid "Create database"
@@ -114,7 +115,7 @@ msgstr "Создать"
 
 #: controllers/database.py:77
 msgid "Super admin password:"
-msgstr ""
+msgstr "Пароль супер администратора:"
 
 #: controllers/database.py:77
 msgid ""
@@ -141,7 +142,7 @@ msgstr ""
 
 #: controllers/database.py:79
 msgid "Load Demonstration data:"
-msgstr ""
+msgstr "Загрузить демонстрационные данные:"
 
 #: controllers/database.py:79
 msgid ""
@@ -175,6 +176,8 @@ msgid ""
 "This is the password of the 'admin' user that will be created in your new "
 "database."
 msgstr ""
+"Это пароль пользователя 'admin', который будет создан в Вашей новой базе "
+"данных."
 
 #: controllers/database.py:82
 msgid "Confirm password:"
@@ -185,10 +188,12 @@ msgid ""
 "This is the password of the 'admin' user that will be created in your new "
 "database. It has to be the same than the above field."
 msgstr ""
+"Это пароль пользователя 'admin', который будет создан в Вашей новой базе "
+"данных. Он должен быть таким же как и в поле выше."
 
 #: controllers/database.py:88
 msgid "Drop database"
-msgstr ""
+msgstr "Удалить базу данных"
 
 #: controllers/database.py:90 controllers/templates/database.mako:54
 msgid "Drop"
@@ -208,7 +213,7 @@ msgstr "Пароль:"
 
 #: controllers/database.py:97
 msgid "Backup database"
-msgstr ""
+msgstr "Сделать резервную копию базы данных"
 
 #: controllers/database.py:99 controllers/templates/database.mako:56
 msgid "Backup"
@@ -216,7 +221,7 @@ msgstr "Резервное копирование"
 
 #: controllers/database.py:105
 msgid "Restore database"
-msgstr ""
+msgstr "Восстановить базу данных из резервной копии"
 
 #: controllers/database.py:107 controllers/templates/database.mako:58
 msgid "Restore"
@@ -228,7 +233,7 @@ msgstr "Файл:"
 
 #: controllers/database.py:114
 msgid "Change Administrator Password"
-msgstr ""
+msgstr "Изменить пароль администратора"
 
 #: controllers/database.py:116
 msgid "Change Password"
@@ -252,7 +257,7 @@ msgstr ""
 
 #: controllers/database.py:183
 msgid "Bad database name"
-msgstr ""
+msgstr "Плохое имя базы данных"
 
 #: controllers/database.py:203
 msgid ""
@@ -269,7 +274,7 @@ msgstr "Ошибка при создании базы данных"
 #: controllers/database.py:207 controllers/database.py:234
 #: controllers/database.py:280 controllers/database.py:303
 msgid "Bad super admin password"
-msgstr ""
+msgstr "Неверный пароль супер администратора"
 
 #: controllers/database.py:211
 msgid "Could not create database."
@@ -277,11 +282,11 @@ msgstr "Невозможно создать базу данных."
 
 #: controllers/database.py:237
 msgid "Could not drop database"
-msgstr ""
+msgstr "Невозможно удалить базу данных"
 
 #: controllers/database.py:260
 msgid "Could not create backup."
-msgstr ""
+msgstr "Невозможно создать резервную копию."
 
 #: controllers/database.py:284
 msgid "Could not restore database"
@@ -296,6 +301,8 @@ msgid ""
 "Your problem has been sent to the quality team\n"
 "We will recontact you after analysing the problem."
 msgstr ""
+"Ваша проблема отправлена команде качества.\n"
+"Мы свяжемся с Вами после анализа  проблемы."
 
 #: controllers/error_page.py:88
 #, python-format
@@ -303,11 +310,13 @@ msgid ""
 "Your problem could not be sent to the quality team\n"
 "Please report this error manually at %s"
 msgstr ""
+"Ваша проблема не может быть отправлена команде качества.\n"
+"Пожалуйста, сообщите о проблеме самостоятельно на %s"
 
 #: controllers/form.py:562
 #, python-format
 msgid "Invalid button type \"%s\""
-msgstr ""
+msgstr "Неверный тип кнопки \"%s\""
 
 #: controllers/form.py:900 controllers/tree.py:241
 msgid "No record selected"
@@ -325,13 +334,15 @@ msgstr "Ошибка приложения"
 #: controllers/form.py:974
 #, python-format
 msgid "Wrong on_change trigger: %s"
-msgstr ""
+msgstr "Неправильный on_change триггер: %s"
 
 #: controllers/impex.py:78
 msgid ""
 "Operation failed\n"
 "I/O error"
 msgstr ""
+"Не  удалось выполнить операцию\n"
+"Ошибка ввода/вывода"
 
 #: controllers/impex.py:346
 msgid "Export Error"
@@ -339,11 +350,11 @@ msgstr "Ошибка экспорта"
 
 #: controllers/impex.py:452
 msgid "Error opening .CSV file"
-msgstr ""
+msgstr "Ошибка при открытии .CSV файла"
 
 #: controllers/impex.py:452
 msgid "Input Error."
-msgstr ""
+msgstr "Ошибка ввода."
 
 #: controllers/impex.py:465
 #, python-format
@@ -354,33 +365,34 @@ msgstr ""
 #: controllers/impex.py:468
 #, python-format
 msgid "Error processing your first line of the file. Field %s is unknown"
-msgstr ""
+msgstr "Ошибка обработки первой строки файла. Поле %s неизвестно"
 
 #: controllers/impex.py:468
 msgid "Import Error."
-msgstr ""
+msgstr "Ошибка импорта"
 
 #: controllers/impex.py:495
 msgid "XML-RPC error"
-msgstr ""
+msgstr "Ошибка XML-RPC"
 
 #: controllers/impex.py:499
 #, python-format
 msgid "Imported %d objects"
-msgstr ""
+msgstr "Импортировано %d объектов"
 
 #: controllers/impex.py:505
 #, python-format
 msgid "Error trying to import this record:%s. ErrorMessage:%s %s"
 msgstr ""
+"Ошибка при попытке импортировать эту запись: %s. Сообщение об ошибке: %s %s"
 
 #: controllers/impex.py:506
 msgid "ImportationError"
-msgstr ""
+msgstr "Ошибка импорта"
 
 #: controllers/listgrid.py:59
 msgid "Parent record doesn't exists..."
-msgstr ""
+msgstr "Родительская запись не существует..."
 
 #: controllers/preferences.py:64 controllers/templates/header.mako:56
 msgid "Preferences"
@@ -393,11 +405,11 @@ msgstr "Версия %s"
 
 #: controllers/translator.py:140
 msgid "You need to save the resource before adding translations."
-msgstr ""
+msgstr "Вы должны сохранить ресурс перед добавлением переводов."
 
 #: controllers/tree.py:272
 msgid "No resource selected"
-msgstr ""
+msgstr "Ни один ресурс не выбран"
 
 #: controllers/utils.py:52
 msgid "Could not connect to server"
@@ -405,7 +417,7 @@ msgstr "Не могу соединиться с сервером"
 
 #: controllers/utils.py:139 controllers/templates/login_ajax.mako:111
 msgid "Bad username or password"
-msgstr ""
+msgstr "Неверное имя пользователя или пароль"
 
 #: controllers/view_log.py:40
 msgid "ID"
@@ -433,7 +445,7 @@ msgstr "Владелец"
 
 #: controllers/view_log.py:46
 msgid "Group Owner"
-msgstr ""
+msgstr "Владелец группы"
 
 #: controllers/view_log.py:47
 msgid "Access Level"
@@ -469,7 +481,7 @@ msgstr "Новое Окно"
 
 #: controllers/viewed.py:883
 msgid "Save Button"
-msgstr ""
+msgstr "Кнопка Сохранить"
 
 #: controllers/viewed.py:883
 msgid "Cancel Button"
@@ -477,7 +489,7 @@ msgstr "Кнопка отмены"
 
 #: controllers/viewed.py:883
 msgid "Open Button"
-msgstr ""
+msgstr "Кнопка Открыть"
 
 #: controllers/viewed.py:889
 msgid "Left"
@@ -493,29 +505,29 @@ msgstr "Вправо"
 
 #: controllers/templates/about.mako:4
 msgid "About the OpenERP Web"
-msgstr ""
+msgstr "О OpenERP Web"
 
 #: controllers/templates/about.mako:27
 msgid "OpenERP Web"
-msgstr ""
+msgstr "OpenERP Web"
 
 #: controllers/templates/about.mako:30
 msgid "Copyright &copy; 2006-TODAY Tiny ERP Pvt. Ltd. All Rights Reserved."
-msgstr ""
+msgstr "Copyright &copy; 2006-TODAY Tiny ERP Pvt. Ltd. Все права защищены.."
 
 #: controllers/templates/about.mako:31
 msgid "OpenERP is a trademark of the Tiny Company."
-msgstr ""
+msgstr "OpenERP - товарный знак Tiny Company."
 
 #: controllers/templates/about.mako:33
 #, python-format
 msgid "%(ooweb)s is jointly developed by %(tiny)s and %(axelor)s."
-msgstr ""
+msgstr "%(ooweb)s совместно разработаны %(tiny)s и %(axelor)s."
 
 #: controllers/templates/about.mako:39
 #, python-format
 msgid "Licenced under the terms of %(license)s"
-msgstr ""
+msgstr "Лицензировано в соответствии с условиями %(license)s"
 
 #: controllers/templates/about.mako:42
 msgid "About OpenERP"
@@ -533,6 +545,14 @@ msgid ""
 "                    project management, production, services, CRM, etc..\n"
 "                    "
 msgstr ""
+"%(openobject)s - это бесплатная программная система масштаба предприятия, "
+"которая предназначена повысить\n"
+"                    производительность и прибыль благодаря интеграции "
+"данных. Она связывает, совершенствует и\n"
+"                    управляет бизнес-процессами в таких областях как "
+"продажи, финансы, логистические цепочки, \n"
+"                    управление проектами, производство, услуги, CRM и т.д.\n"
+"                    "
 
 #: controllers/templates/about.mako:51
 msgid ""
@@ -551,6 +571,8 @@ msgid ""
 "Depending on your needs, OpenERP is available through a web or application "
 "client."
 msgstr ""
+"В зависимости от Ваших потребностей, OpenERP доступна как web-клиент или как "
+"настольное приложение."
 
 #: controllers/templates/database.mako:50 controllers/templates/login.mako:4
 #: controllers/templates/login.mako:67 controllers/templates/login_ajax.mako:85
@@ -568,19 +590,19 @@ msgstr ""
 
 #: controllers/templates/error_page.mako:77
 msgid "has been reported."
-msgstr ""
+msgstr "передана."
 
 #: controllers/templates/error_page.mako:79
 msgid "Let me fix it"
-msgstr ""
+msgstr "Позвольте мне это исправить"
 
 #: controllers/templates/error_page.mako:85
 msgid "Fix it for me"
-msgstr ""
+msgstr "Исправить это для меня"
 
 #: controllers/templates/error_page.mako:90
 msgid "You do not have a valid OpenERP publisher warranty contract !"
-msgstr ""
+msgstr "У Вас нет действующего гарантийного контракта !"
 
 #: controllers/templates/error_page.mako:91
 msgid ""
@@ -651,7 +673,7 @@ msgstr ""
 
 #: controllers/templates/error_page.mako:195
 msgid "Write concurrency warning :"
-msgstr ""
+msgstr "Предупреждение об одновременной записи:"
 
 #: controllers/templates/error_page.mako:200
 msgid ""
@@ -661,6 +683,11 @@ msgid ""
 "    - \"Cancel\" to cancel saving.\n"
 "    - \"Write anyway\" to save your current version."
 msgstr ""
+"Этот документ был изменен, пока вы редактировали его.\n"
+"Выберите:\n"
+"\n"
+"    - \"Отменить\" для отмены сохранения.\n"
+"    - \"Записать в любом случае\" для сохранения Вашей текущей версии."
 
 #: controllers/templates/error_page.mako:214
 #: controllers/templates/form.mako:148
@@ -673,7 +700,7 @@ msgstr "Отменить"
 
 #: controllers/templates/error_page.mako:215
 msgid "Write Anyway"
-msgstr ""
+msgstr "Записать в любом случае"
 
 #: controllers/templates/exp.mako:143 widgets/templates/sidebar.mako:112
 msgid "Export"
@@ -718,7 +745,7 @@ msgstr "Все поля"
 
 #: controllers/templates/exp.mako:176
 msgid "Fields to export"
-msgstr ""
+msgstr "Поля для экспорта"
 
 #: controllers/templates/exp.mako:186 controllers/templates/imp.mako:155
 #: controllers/templates/index.mako:189 widgets/templates/sidebar.mako:56
@@ -741,7 +768,7 @@ msgstr "Сохранить список"
 
 #: controllers/templates/exp.mako:220
 msgid "Name of This Export:"
-msgstr ""
+msgstr "Название этого экспорта:"
 
 #: controllers/templates/exp.mako:225 controllers/templates/fieldpref.mako:102
 #: controllers/templates/selection.mako:45
@@ -750,7 +777,7 @@ msgstr "OK"
 
 #: controllers/templates/exp.mako:236
 msgid "Select Options to Export"
-msgstr ""
+msgstr "Выберите опции для экспорта"
 
 #: controllers/templates/exp.mako:242
 msgid "Export as CSV"
@@ -758,11 +785,11 @@ msgstr "Экспорт в CSV"
 
 #: controllers/templates/exp.mako:243
 msgid "Export as Excel"
-msgstr ""
+msgstr "Экспорт в Excel"
 
 #: controllers/templates/exp.mako:250
 msgid "Add field names"
-msgstr ""
+msgstr "Добавить названия полей"
 
 #: controllers/templates/exp.mako:255
 msgid "Import Compatible"
@@ -787,32 +814,32 @@ msgstr "Значение по умолчанию:"
 
 #: controllers/templates/fieldpref.mako:57
 msgid "Value applicable for:"
-msgstr ""
+msgstr "Значение применимо для:"
 
 #: controllers/templates/fieldpref.mako:63
 msgid "Only for you"
-msgstr ""
+msgstr "Только для Вас"
 
 #: controllers/templates/fieldpref.mako:67
 msgid "For all"
-msgstr ""
+msgstr "Для всех"
 
 #: controllers/templates/fieldpref.mako:76
 msgid "Value applicable if:"
-msgstr ""
+msgstr "Значение применимо, если:"
 
 #: controllers/templates/fieldpref.mako:79
 msgid "Always applicable!"
-msgstr ""
+msgstr "Всегда применимо!"
 
 #: controllers/templates/footer.mako:3
 #, python-format
 msgid "&copy; 2008-2010 %(ooweb)s  SA. All Rights Reserved "
-msgstr ""
+msgstr "&copy; 2008-2010 %(ooweb)s  SA. Все права защищены "
 
 #: controllers/templates/footer.mako:6
 msgid "Significant contributions to the web client have been made by"
-msgstr ""
+msgstr "Значительный вклад в web-клиент был сделан"
 
 #: controllers/templates/form.mako:77
 msgid "Add / Remove Shortcut..."
@@ -821,7 +848,7 @@ msgstr "Добавить / Удалить ярлык..."
 #: controllers/templates/form.mako:81
 #, python-format
 msgid "Search: %s"
-msgstr ""
+msgstr "Поиск: %s"
 
 #: controllers/templates/form.mako:88
 msgid "Corporate Intelligence..."
@@ -829,15 +856,15 @@ msgstr ""
 
 #: controllers/templates/form.mako:94
 msgid "Show Logs..."
-msgstr ""
+msgstr "Показать логи..."
 
 #: controllers/templates/form.mako:105
 msgid "Disable all Tips"
-msgstr ""
+msgstr "Отключить все подсказки"
 
 #: controllers/templates/form.mako:106
 msgid "Hide this Tip"
-msgstr ""
+msgstr "Скрыть эту подсказку"
 
 #: controllers/templates/form.mako:119
 msgid "Create a new resource"
@@ -854,7 +881,7 @@ msgstr "Новый"
 
 #: controllers/templates/form.mako:124
 msgid "Edit this resource"
-msgstr ""
+msgstr "Редактировать этот ресурс"
 
 #: controllers/templates/form.mako:125 controllers/templates/viewlist.mako:122
 #: widgets/templates/listgrid/listgrid.mako:78
@@ -867,7 +894,7 @@ msgstr "Изменить"
 
 #: controllers/templates/form.mako:129
 msgid "Save this resource"
-msgstr ""
+msgstr "Сохранить этот ресурс"
 
 #: controllers/templates/form.mako:130 controllers/templates/image.mako:65
 #: controllers/templates/openm2.mako:48 controllers/templates/openo2m.mako:34
@@ -883,15 +910,15 @@ msgstr "Сохранить"
 
 #: controllers/templates/form.mako:132
 msgid "Save & Edit this resource"
-msgstr ""
+msgstr "Сохранить и редактировать этот ресурс"
 
 #: controllers/templates/form.mako:133
 msgid "Save & Edit"
-msgstr ""
+msgstr "Сохранить и редактировать"
 
 #: controllers/templates/form.mako:137
 msgid "Duplicate this resource"
-msgstr ""
+msgstr "Дублировать этот ресурс"
 
 #: controllers/templates/form.mako:138
 msgid "Duplicate"
@@ -903,7 +930,7 @@ msgstr "Удалить объект"
 
 #: controllers/templates/form.mako:147
 msgid "Cancel editing the current resource"
-msgstr ""
+msgstr "Отменить редактирование текущего ресурса"
 
 #: controllers/templates/form.mako:152
 msgid "Create new node"
@@ -924,12 +951,12 @@ msgstr "Показать сетку"
 #: controllers/templates/header.mako:30
 #, python-format
 msgid "%(company)s"
-msgstr ""
+msgstr "%(company)s"
 
 #: controllers/templates/header.mako:31 controllers/templates/index.mako:218
 #, python-format
 msgid "%(user)s"
-msgstr ""
+msgstr "%(user)s"
 
 #: controllers/templates/header.mako:42 controllers/templates/header.mako:44
 msgid "Home"
@@ -937,7 +964,7 @@ msgstr "Главная"
 
 #: controllers/templates/header.mako:50
 msgid "Requests"
-msgstr ""
+msgstr "Запросы"
 
 #: controllers/templates/header.mako:59
 msgid "Edit Preferences"
@@ -965,7 +992,7 @@ msgstr "Изображение"
 
 #: controllers/templates/image.mako:55
 msgid "Add Resource:"
-msgstr ""
+msgstr "Добавить ресурс"
 
 #: controllers/templates/image.mako:66 widgets/form/templates/binary.mako:28
 msgid "Save As"
@@ -1001,7 +1028,7 @@ msgstr "Разделитель:"
 
 #: controllers/templates/imp.mako:202
 msgid "Delimiter:"
-msgstr ""
+msgstr "Разделитель:"
 
 #: controllers/templates/imp.mako:206
 msgid "Encoding:"
@@ -1009,15 +1036,15 @@ msgstr "Кодирование:"
 
 #: controllers/templates/imp.mako:213
 msgid "Lines to skip:"
-msgstr ""
+msgstr "Пропустить строк:"
 
 #: controllers/templates/index.mako:164
 msgid "System Logs"
-msgstr ""
+msgstr "Системные журналы"
 
 #: controllers/templates/index.mako:190
 msgid "Widgets"
-msgstr ""
+msgstr "Виджеты"
 
 #: controllers/templates/index.mako:220 controllers/templates/index.mako:225
 #, python-format
@@ -1042,6 +1069,8 @@ msgid ""
 "We think that daily job activities can be more intuitive, efficient, "
 "automated, .. and even fun."
 msgstr ""
+"Мы считаем, что повседневная рабочая деятельность может быть более простой, "
+"эффективной, автоматизированной... и даже веселой."
 
 #: controllers/templates/login.mako:95
 msgid "OpenERP's vision to be:"
@@ -1078,24 +1107,24 @@ msgstr ""
 
 #: controllers/templates/modules.mako:4
 msgid "Module Management"
-msgstr ""
+msgstr "Управление модулями"
 
 #: controllers/templates/modules.mako:17
 msgid "Web Modules"
-msgstr ""
+msgstr "Веб-модули"
 
 #: controllers/templates/save_filter.mako:18
 msgid "Save as Filter"
-msgstr ""
+msgstr "Сохранить как фильтр"
 
 #: controllers/templates/save_filter.mako:30
 msgid "Filter Name"
-msgstr ""
+msgstr "Название фильтра"
 
 #: controllers/templates/search.mako:110
 #, python-format
 msgid "Search %(name)s"
-msgstr ""
+msgstr "Поиск %(name)s"
 
 #: controllers/templates/search.mako:125 widgets/form/templates/datetime.mako:8
 msgid "Select"
@@ -1110,12 +1139,12 @@ msgstr "Поиск"
 #: controllers/templates/search.mako:141
 #, python-format
 msgid "Found no record '%(searched_string)s'."
-msgstr ""
+msgstr "Не найдено ни одной записи '%(searched_string)s'."
 
 #: controllers/templates/search.mako:144
 #, python-format
 msgid "Create %(searched_string)s"
-msgstr ""
+msgstr "Создать %(searched_string)s"
 
 #: controllers/templates/selection.mako:4
 msgid "Select action"
@@ -1135,7 +1164,7 @@ msgstr "Действия сервера"
 
 #: controllers/templates/translator.mako:4
 msgid "Add Translations"
-msgstr ""
+msgstr "Добавить переводы"
 
 #: controllers/templates/translator.mako:17
 msgid "Add Translation"
@@ -1143,7 +1172,7 @@ msgstr "Добавить перевод"
 
 #: controllers/templates/translator.mako:27
 msgid "Add Translation for:"
-msgstr ""
+msgstr "Добавить перевод для:"
 
 #: controllers/templates/translator.mako:31
 msgid "Fields"
@@ -1155,7 +1184,7 @@ msgstr "Метки"
 
 #: controllers/templates/translator.mako:33
 msgid "Relates"
-msgstr ""
+msgstr "Относится"
 
 #: controllers/templates/translator.mako:34
 msgid "View"
@@ -1168,7 +1197,7 @@ msgstr "Поле"
 #: controllers/templates/view_log.mako:4 controllers/templates/view_log.mako:12
 #: utils/common.py:55
 msgid "Information"
-msgstr ""
+msgstr "Информация"
 
 #: controllers/templates/viewed.mako:17
 #, python-format
@@ -1189,7 +1218,7 @@ msgstr "Просмотр"
 
 #: controllers/templates/viewed_add.mako:6
 msgid "Node Type:"
-msgstr ""
+msgstr "Тип узла:"
 
 #: controllers/templates/viewed_add.mako:23
 msgid "New Field"
@@ -1236,13 +1265,15 @@ msgstr "Доступ Запрещён"
 
 #: utils/rpc.py:246
 msgid "Unsupported protocol."
-msgstr ""
+msgstr "Неподдерживаемый протокол"
 
 #: utils/rpc.py:350
 msgid ""
 "You select a timezone but OpenERP could not find pytz library!\n"
 "The timezone functionality will be disable."
 msgstr ""
+"Вы выбрали часовой пояс, но OpenERP не может найти библиотеку pytz!\n"
+"Функции, связанные с часовыми поясами, будут отключены."
 
 #: utils/rpc.py:357
 msgid "Not logged..."
@@ -1254,7 +1285,7 @@ msgstr "Ошибка авторизации"
 
 #: utils/rpc.py:422
 msgid "== Access Denied =="
-msgstr ""
+msgstr "== В доступе отказано =="
 
 #: widgets/_views.py:52
 msgid "Form"
@@ -1330,15 +1361,15 @@ msgstr ""
 #: widgets/form/_o2m.py:57 widgets/templates/listgrid/listgrid.mako:141
 #: widgets/templates/listgrid/listgrid.mako:147
 msgid "Create new record."
-msgstr ""
+msgstr "Создать новую запись."
 
 #: widgets/form/_o2m.py:70
 msgid "Save/New"
-msgstr ""
+msgstr "Сохранить/Новый"
 
 #: widgets/form/_o2m.py:70
 msgid "Save parent record."
-msgstr ""
+msgstr "Сохранить родительскую запись."
 
 #: widgets/form/_o2m.py:185
 #, python-format
@@ -1348,11 +1379,11 @@ msgstr "%d из %d"
 #: widgets/form/_o2m.py:187
 #, python-format
 msgid "- of %d"
-msgstr ""
+msgstr "- из %d"
 
 #: widgets/form/templates/binary.mako:31
 msgid "add attachment"
-msgstr ""
+msgstr "добавить вложение"
 
 #: widgets/form/templates/many2one.mako:2
 #: widgets/form/templates/reference.mako:30
@@ -1362,7 +1393,7 @@ msgstr "Открыть"
 #: widgets/form/templates/many2one.mako:2
 #: widgets/form/templates/reference.mako:30
 msgid "Open a resource"
-msgstr ""
+msgstr "Открыть ресурс"
 
 #: widgets/form/templates/one2many.mako:18
 msgid "Create new record..."
@@ -1390,11 +1421,11 @@ msgstr "Еще..."
 
 #: widgets/templates/logs.mako:35
 msgid "Less..."
-msgstr ""
+msgstr "Меньше..."
 
 #: widgets/templates/pager.mako:9
 msgid "<< First"
-msgstr ""
+msgstr "<< Первая"
 
 #: widgets/templates/pager.mako:14
 msgid "< Previous"
@@ -1410,7 +1441,7 @@ msgstr "Следующее >"
 
 #: widgets/templates/pager.mako:29
 msgid "Last >>"
-msgstr ""
+msgstr "Последняя >>"
 
 #: widgets/templates/pager.mako:37
 msgid "Change Limit:"
