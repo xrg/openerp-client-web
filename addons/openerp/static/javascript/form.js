@@ -476,14 +476,35 @@ function onChange(caller){
     var context = is_list ? openobject.dom.get(prefix.slice(17) + '_terp_context').value : openobject.dom.get(prefix + '_terp_context').value;
     var id = is_list ? openobject.dom.get(prefix.slice(17) + '_terp_id').value : openobject.dom.get(prefix + '_terp_id').value;
 
-    var req = openobject.http.postJSON(callback ? '/openerp/form/on_change' : '/openerp/form/change_default_get', jQuery.extend({}, getFormData(1), {
-        _terp_caller: is_list ? caller.id.slice(17) : caller.id,
-        _terp_callback: callback,
-        _terp_model: model,
-        _terp_context: context,
-        _terp_value: caller.value,
-        id: id
-    }));
+    var post_url = callback ? '/openerp/form/on_change' : '/openerp/form/change_default_get';
+    
+    var first_part_obj = getFormData(1);
+    /* testing if the record is an empty record, if it does not contain anything except
+     * an id, the on_change method is not called
+     */
+    var nbr_elems = 0;
+    var elem_id;
+    for(var key in first_part_obj) {
+    	nbr_elems++;
+    	if (nbr_elems > 1)
+    		break;
+    	elem_id = key;
+    }
+    if(nbr_elems == 1 && new RegExp(".*\/\_\_id","g").test(elem_id)) {
+    	return;
+    }
+    
+    var second_part_obj = {
+		_terp_caller: is_list ? caller.id.slice(17) : caller.id,
+		_terp_callback: callback,
+		_terp_model: model,
+		_terp_context: context,
+		_terp_value: caller.value,
+		id: id
+	};
+    var full_post_obj = jQuery.extend({}, first_part_obj, second_part_obj);
+
+    var req = openobject.http.postJSON(post_url, full_post_obj);
 
     req.addCallback(function(obj){
 
