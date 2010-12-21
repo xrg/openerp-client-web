@@ -1,3 +1,5 @@
+import errno
+import logging
 import os
 import imp
 import itertools
@@ -85,6 +87,8 @@ class Node(Singleton):
             s += '%s`-> %s' % ('   ' * depth, c._pprint(depth+1))
         return s
 
+def exists(module):
+    return os.path.exists(paths.addons(module, '__openerp__.py'))
 
 def get_info(module):
     mod_path = paths.addons(module)
@@ -216,3 +220,10 @@ def load_addons(db_name, config):
         load_module_graph(db_name, graph, config)
 
     _loaded[db_name] = True
+
+writeable = os.access('addons', os.W_OK)
+if not writeable:
+    cherrypy.log.error(
+            "Can not write to the addons directory '%s', "
+           "will not be able to download web modules" % paths.addons(),
+            "WARNING", severity=logging.WARNING)

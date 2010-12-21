@@ -61,12 +61,10 @@ class Root(BaseController):
             cherrypy.engine.autoreload.unsubscribe()
         try:
             obj = pooler.get_pool().get_controller("/openerp/modules")
-            new_modules = obj.get_new_modules()
+            if obj.has_new_modules():
+                pooler.restart_pool()
         except AuthenticationError:
-            new_modules = []
-
-        if new_modules:
-            pooler.restart_pool()
+            pass
 
         if autoreloader_enabled:
             # re-enable auto-reloading if it was enabled before
