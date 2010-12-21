@@ -5,46 +5,13 @@ import zipfile
 from cStringIO import StringIO
 
 from openerp.controllers import form
-from openerp.utils import rpc, TinyDict
+from openerp.utils import rpc
 
 from openobject import paths, addons
-from openobject.tools import expose, zip
+from openobject.tools import zip
 
 class ModuleForm(form.Form):
     _cp_path = "/openerp/modules"
-
-    @expose(template="/openerp/controllers/templates/modules.mako")
-    def index(self):
-        modules = addons.get_local_addons()
-        data = []
-
-        for name in modules:
-            mod = addons.get_info(name)
-
-            mod['module'] = name
-
-            mod.pop("depends", None)
-            mod.pop("version", None)
-            if mod.pop("active", False):
-                mod["state"] = "uninstallable"
-
-            data.append(mod)
-
-        proxy = rpc.RPCProxy("ir.module.web")
-        proxy.update_module_list(data)
-
-        params = TinyDict()
-        params.model = "ir.module.web"
-        params.view_type = "tree"
-        params.view_mode = "['tree']"
-        params.ids = None
-        params.editable = False
-
-        params.context = ctx = rpc.session.context.copy()
-        ctx['reload'] = True
-
-        form = self.create_form(params)
-        return dict(form=form, params=params)
 
     def has_new_modules(self):
         """ Returns whether there are new web modules available for download
