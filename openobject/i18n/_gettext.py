@@ -1,10 +1,12 @@
 from __future__ import with_statement
 
-import hashlib
+import atexit
 import glob
-import tempfile
+import hashlib
 import os
-from os.path import basename, exists, getmtime, isdir, join, splitext
+import shutil
+import tempfile
+from os.path import basename, exists, getmtime, join, splitext
 
 import cherrypy
 
@@ -21,6 +23,9 @@ __all__ = ['get_translations', 'load_translations', 'gettext', 'install']
 
 _translations = {}
 _machine_objects_cache = tempfile.mkdtemp()
+@atexit.register
+def cache_cleanup():
+    shutil.rmtree(_machine_objects_cache)
 
 def get_translations(locale, domain=None):
     domain = domain or "messages"
