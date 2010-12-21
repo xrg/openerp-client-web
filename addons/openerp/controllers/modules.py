@@ -7,17 +7,14 @@ from cStringIO import StringIO
 from openerp.controllers import form
 from openerp.utils import rpc, TinyDict
 
-from openobject import paths
-from openobject.tools import expose
-
+from openobject import paths, addons
+from openobject.tools import expose, zip
 
 class ModuleForm(form.Form):
     _cp_path = "/openerp/modules"
 
     @expose(template="/openerp/controllers/templates/modules.mako")
     def index(self):
-        from openobject import addons
-
         modules = addons.get_local_addons()
         data = []
 
@@ -67,7 +64,7 @@ class ModuleForm(form.Form):
             # rather than having it named "the right way". Dump to temp directory and move to right name.
             temp_dir = tempfile.mkdtemp()
             module_content = zipfile.ZipFile(StringIO(module['content'].decode('base64')))
-            module_content.extractall(temp_dir)
+            zip.extractall(module_content, temp_dir)
             module_content.close()
 
             # cleanup any existing addon of the same name
