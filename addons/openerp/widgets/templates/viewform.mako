@@ -68,15 +68,6 @@
 	    <script type="text/javascript">
 
 	        jQuery(document).ready(function() {
-                var $caller = jQuery('[callback]:not([type="hidden"]):not([value=""]):not([disabled]):not([readonly]))');
-                $caller.each(function(){
-                    if (jQuery(this).attr('kind') == 'boolean') {
-                        onBooleanClicked(jQuery(this).attr('id'));
-                    }
-                    else {
-                        jQuery(this).change();
-                    }
-                });
                 % if screen.view_type == 'tree':
                     var filter_box_index = jQuery('#${name} div.filter-a').closest('td.item:first').index();
                     var input_index = jQuery('#${name} input[type!="hidden"][type="text"]:first').closest('td.label').index();

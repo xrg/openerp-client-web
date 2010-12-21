@@ -120,6 +120,15 @@ function doLoadingSuccess(app/*, url*/) {
             jQuery(app).html(data);
         }
         jQuery(window).trigger('after-appcontent-change');
+        var $caller = jQuery('[callback]:not([type="hidden"]):not([value=""]):not([disabled]):not([readonly]))');
+        $caller.each(function(){
+            if (jQuery(this).attr('kind') == 'boolean') {
+                onBooleanClicked(jQuery(this).attr('id'));
+            }
+            else {
+                jQuery(this).change();
+            }
+        });
     }
 }
 
