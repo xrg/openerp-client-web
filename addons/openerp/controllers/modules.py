@@ -26,6 +26,7 @@ class ModuleForm(form.Form):
         ])
 
     def get_new_modules(self):
+        if not addons.writeable: return []
         modules = rpc.RPCProxy('ir.module.module')
         web_modules = modules.list_web()
         if not web_modules: return []
