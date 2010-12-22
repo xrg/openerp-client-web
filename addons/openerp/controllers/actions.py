@@ -154,7 +154,7 @@ def execute_report(name, **data):
 
     if not ids:
         ids =  rpc.session.execute('object', 'execute', datas['model'], 'search', [])
-        if ids == []:
+        if not ids:
             raise common.message(_('Nothing to print'))
 
         datas['id'] = ids[0]
