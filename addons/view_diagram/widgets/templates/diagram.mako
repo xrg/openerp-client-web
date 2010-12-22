@@ -16,7 +16,8 @@
 <input type="hidden" id="bgcolors" name="bgcolors" value="${bgcolor}"/>
 <input type="hidden" id="shapes" name="shapes" value="${shapes}"/>
 <input type="hidden" id="conn_flds" name="conn_flds" value="${conn_flds}"/>
-
+<input type="hidden" id="node_flds_string" name="node_flds_string" value="${node_flds_string}"/>
+<input type="hidden" id="conn_flds_string" name="conn_flds_string" value="${conn_flds_string}"/>
 <table width="100%">
     <tr>
         <td height="100%" width="100%" valign="top" style="padding: 0;">
