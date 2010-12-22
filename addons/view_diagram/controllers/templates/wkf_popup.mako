@@ -16,10 +16,10 @@
             if (lc > 1) {
 
                 if (id != 0) {
-            	    window.opener.setTimeout("WORKFLOW.${params.function}"+"("+id+")", 0);
+            	    window.top.setTimeout("WORKFLOW.${params.function}("+id+")", 0);
                }
 
-               return window.close();
+               return window.frameElement.close();
             }
         }
 
@@ -49,7 +49,7 @@
                                 <a class="button-a" href="javascript: void(0)" onclick="submit_form('save')">${_("Save")}</a>
                             </td>
                             <td style="padding: 0 2px 0 0px;">
-                                <a class="button-a" href="javascript: void(0)" onclick="window.close()">${_("Close")}</a>
+                                <a class="button-a" href="javascript: void(0)" onclick="window.frameElement.close()">${_("Close")}</a>
                             </td>
                             <td width="100%">
                             </td>

@@ -141,7 +141,7 @@
                     <tr>
                     	<td class="exp-header" align="left">
                     		<a class="button-a" href="javascript: void(0)" onclick="do_export('view_form')">${_("Export")}</a>
-                            <a class="button-a" href="javascript: void(0)" onclick="window.close()">${_("Close")}</a>
+                            <a class="button-a" href="javascript: void(0)" onclick="window.frameElement.close()">${_("Close")}</a>
                     	</td>
                         <td align="center" class="pop_head_font">${_("Export Data")}</td>
                         <td width="30%"></td>

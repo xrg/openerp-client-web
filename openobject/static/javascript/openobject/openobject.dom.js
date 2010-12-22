@@ -68,6 +68,55 @@ function idSelector(nodeId) {
     }
 })(jQuery);
 
+(function ($) {
+    function open($this, frame_attrs, data) {
+        var $frame = $('<iframe>', $.extend({
+            frameborder: 0
+        }, frame_attrs || {}))
+            .appendTo(document.documentElement)
+            .data('source-window', $this[0])
+            .data(data || {})
+            .dialog({
+                modal: true,
+                width: 640,
+                height: 480,
+                close: function () {
+                    this.close = null;
+                    jQuery(this).dialog('destroy').remove();
+                }
+            });
+        $frame[0].close = function () {
+            $frame.dialog('close');
+        };
+        return $frame;
+    }
+    /**
+     * Creates an iframe-based jquery-ui dialog.
+     *
+     * Currently, the size of the dialog is hardcoded to 640x480, needs to
+     * be fixed.
+     *
+     * The dialog is also modal, and destroyed on close.
+     *
+     * @param frame_attrs The attributes to provide to the iframe being
+     * generated, should hold at least an <code>src</code> key
+     * @param data <code>jQuery.data</code> to be set on the iframe element
+     *  (<code>window.frameElement</code> from within the iframe)
+     */
+    $.frame_dialog = function (frame_attrs, data) {
+        // $this should be the holder for the window from which
+        // $.frame_dialog was originally called, even if $.frame_dialog()
+        // was bubbled to the top of the window stack.
+        var $this;
+        if(this == $) $this = $(window);
+        else $this = $(this);
+        if(window != window.top) {
+            return window.top.jQuery.frame_dialog.apply($this[0], arguments);
+        }
+        return open($this, frame_attrs, data);
+    }
+})(jQuery);
+
 openobject.dom = {
 
     /**

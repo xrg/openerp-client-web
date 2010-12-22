@@ -128,7 +128,7 @@
                     <tr>
                     	<td class="imp-header" align="left">
                             <a class="button-a" href="javascript: void(0)" onclick="do_import('import_data');">${_("Import")}</a>
-                            <a class="button-a" href="javascript: void(0)" onclick="window.close()">${_("Close")}</a>
+                            <a class="button-a" href="javascript: void(0)" onclick="window.frameElement.close()">${_("Close")}</a>
                         </td>
                         <td align="center" class="pop_head_font">${_("Import Data")}</td>
                         <td width="30%"></td>

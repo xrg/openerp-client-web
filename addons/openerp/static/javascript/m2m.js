@@ -182,20 +182,12 @@ Many2Many.prototype = {
         } else {
             url = '/openerp/search/new';
         }
-        return $('<iframe>', {
-            src: openobject.http.getURL(url, options),
-            frameborder: 0
-        }).data('source_window', $this[0])
-          .data('source_id', options.source || null)
-          .appendTo(document.documentElement)
-          .dialog({
-              modal: true,
-              width: 640,
-              height: 480,
-              close: function () {
-                  jQuery(this).dialog('destroy').remove();
-              }
-          });
+        return $.frame_dialog({
+                src: openobject.http.getURL(url, options)
+            }, {
+                'source-window': $this[0],
+                source_id: options.source || null
+            });
     }
 
     /**
@@ -207,11 +199,17 @@ Many2Many.prototype = {
      * @param values optional, the values to add to the m2m
      */
     function close($this, values) {
+        // Warning: this may involve as much as 3 different windows:
+        // * `window` is the toplevel (window.top)
+        // * `$this` is the $(window) contained within the iframe we're closing
+        // * `original_window` (`$frame.data('source-window')`) is the window
+        //   (potentially contained within an iframe itself) which originally
+        //   asked for an m2m dialog to be opened.
         var $frame = $($this.attr('frameElement'));
 
         if(values && values.length) {
-            var original_window = $frame.data('source_window');
-            // the m2m input to set is in the source_window, which is set as
+            var original_window = $frame.data('source-window');
+            // the m2m input to set is in the source-window, which is set as
             // a `data` of the dialog iframe
             var Many2Many = original_window.Many2Many;
             var source_id = $frame.data('source_id');

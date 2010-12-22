@@ -206,24 +206,15 @@ One2Many.prototype = {
      */
     function open($this, options) {
         var frame_identifier = 'test-frame' + frame_counter++;
-        var $frame = $('<iframe>', {
+        var $frame = $.frame_dialog({
             src: 'about:blank',
             // never sure whether the iframe is targetted by name or by id,
             // so let's just set both
             id: frame_identifier,
-            name: frame_identifier,
-            frameborder: 0
-        }).data('source-window', $this[0])
-          .data('list', options['_terp_o2m'])
-          .appendTo(document.documentElement)
-          .dialog({
-              modal: true,
-              width: 640,
-              height: 480,
-              close: function () {
-                  jQuery(this).dialog('destroy').remove();
-              }
-          });
+            name: frame_identifier
+        }, {'source-window': $this[0],
+            'list': options['_terp_o2m']
+        });
         var $form = jQuery('<form>', {
             method: 'POST',
             action: '/openerp/openo2m/edit',

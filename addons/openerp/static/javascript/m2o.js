@@ -565,20 +565,12 @@ ManyToOne.prototype.getOnclick = function(evt) {
         } else {
             url = '/openerp/search/new';
         }
-        return $('<iframe>', {
-            src: openobject.http.getURL(url, options),
-            frameborder: 0
-        }).data('source_window', $this[0])
-          .data('source_id', options.source || null)
-          .appendTo(document.documentElement)
-          .dialog({
-              modal: true,
-              width: 640,
-              height: 480,
-              close: function () {
-                  jQuery(this).dialog('destroy').remove();
-              }
-          });
+        return $.frame_dialog({
+                src: openobject.http.getURL(url, options)
+            }, {
+                'source-window': $this[0],
+                source_id: options.source || null
+            });
     }
 
     /**
@@ -593,9 +585,9 @@ ManyToOne.prototype.getOnclick = function(evt) {
     function close($this, value) {
         var $frame = $($this.attr('frameElement'));
         if(value) {
-            // the m2o input to set is in the source_window, which is set as
+            // the m2o input to set is in the source-window, which is set as
             // a `data` of the dialog iframe
-            var jQ = $frame.data('source_window').jQuery;
+            var jQ = $frame.data('source-window').jQuery;
             var source_id = $frame.data('source_id');
             jQ(idSelector(source_id + '_text')).val('');
             var $m2o_field = jQ(idSelector(source_id)).val(value);
