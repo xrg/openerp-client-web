@@ -39,7 +39,7 @@ class Preferences(Form):
     _cp_path = "/openerp/pref"
 
     @expose(template="/openerp/controllers/templates/preferences.mako")
-    def create(self):
+    def create(self, saved=False):
 
         tg_errors = None
         proxy = rpc.RPCProxy('res.users')
@@ -66,7 +66,7 @@ class Preferences(Form):
         params.editable = True
         form = self.create_form(params, tg_errors)
 
-        return dict(form=form, params=params, editable=True)
+        return dict(form=form, params=params, editable=True, saved=saved)
 
     @expose(methods=('POST',))
     def ok(self, **kw):
@@ -74,7 +74,7 @@ class Preferences(Form):
         proxy = rpc.RPCProxy('res.users')
         proxy.write([rpc.session.uid], data)
         rpc.session.context_reload()
-        raise redirect('/openerp/pref/create')
+        raise redirect('/openerp/pref/create', saved=True)
 
     @expose()
     def clear_cache(self):

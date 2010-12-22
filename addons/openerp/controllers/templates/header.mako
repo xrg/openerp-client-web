@@ -105,6 +105,6 @@ else:
 <script type="text/javascript">
     jQuery('.tools li.preferences a').click(function (e) {
         e.preventDefault();
-        openobject.tools.openWindow(this.href);
+        jQuery.frame_dialog({src:this.href});
     });
 </script>
