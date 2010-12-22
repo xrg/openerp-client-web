@@ -956,11 +956,11 @@ function do_action(src, context_menu) {
 
 function translate_fields(src, params){
     var $src = jQuery(src);
-    openobject.tools.openWindow(openobject.http.getURL('/openerp/translator',{
+    jQuery.frame_dialog({src:openobject.http.getURL('/openerp/translator',{
         _terp_model: (src ? $src.attr('relation') : params['relation']),
         _terp_id: (src ? $src.attr('id') : params['id']),
         _terp_context: (src ? $src.attr('data') : params['data'])
-    }));
+    })});
 }
 
 /**
