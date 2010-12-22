@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: openobject-client-web\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2010-12-17 10:28+0100\n"
-"PO-Revision-Date: 2010-12-19 12:40+0000\n"
-"Last-Translator: Denis Konchekov <Unknown>\n"
+"PO-Revision-Date: 2010-12-20 11:13+0000\n"
+"Last-Translator: Nikolay Chesnokov <chesnokov_n@msn.com>\n"
 "Language-Team: Russian <ru@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2010-12-20 04:49+0000\n"
+"X-Launchpad-Export-Date: 2010-12-22 04:46+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: controllers/_diagram.py:100 controllers/_diagram.py:222
@@ -69,15 +69,15 @@ msgstr "Купить книгу на Amazon"
 
 #: controllers/templates/process.mako:74
 msgid "Support / Publisher Warranty"
-msgstr ""
+msgstr "Поддержка/Гарантия издателя"
 
 #: controllers/templates/process.mako:75
 msgid "Get the OpenERP Warranty"
-msgstr ""
+msgstr "Прочитай гарантию OpenERP"
 
 #: controllers/templates/process.mako:97
 msgid "Select Process"
-msgstr ""
+msgstr "Выбрать процесс"
 
 #: controllers/templates/process.mako:103
 msgid "Select"
@@ -121,7 +121,7 @@ msgstr "Диаграмма"
 
 #: widgets/_views.py:9
 msgid "Diagram view..."
-msgstr ""
+msgstr "Вид диаграмма..."
 
 #: widgets/templates/diagram.mako:26
 msgid "Loading..."

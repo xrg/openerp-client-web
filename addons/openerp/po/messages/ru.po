@@ -8,22 +8,22 @@ msgstr ""
 "Project-Id-Version: openobject-client-web\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2010-12-17 10:28+0100\n"
-"PO-Revision-Date: 2010-12-19 13:22+0000\n"
-"Last-Translator: Denis Konchekov <Unknown>\n"
+"PO-Revision-Date: 2010-12-20 12:41+0000\n"
+"Last-Translator: Nikolay Chesnokov <chesnokov_n@msn.com>\n"
 "Language-Team: Russian <ru@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2010-12-20 04:49+0000\n"
+"X-Launchpad-Export-Date: 2010-12-22 04:46+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: validators.py:83
 msgid "Invalid literal for float"
-msgstr ""
+msgstr "Неверный литерал для дробного числа"
 
 #: validators.py:122 validators.py:127 validators.py:270
 msgid "Invalid datetime format"
-msgstr ""
+msgstr "Неверный формат даты и времени"
 
 #: validators.py:174
 msgid "Please select a file."
@@ -31,7 +31,7 @@ msgstr "Пожалуйста, выберите файл."
 
 #: validators.py:255
 msgid "Please enter an email address"
-msgstr ""
+msgstr "Пожалуйста введите адрес электронной почты"
 
 #: validators.py:256
 msgid "An email address must contain a single @"
@@ -66,7 +66,7 @@ msgstr ""
 
 #: validators.py:268
 msgid "Please enter an integer value"
-msgstr ""
+msgstr "Пожалуйста, введите целое число"
 
 #: validators.py:269
 msgid "Please enter a number"
@@ -1559,3 +1559,27 @@ msgstr "Удалить запись(и)."
 #: widgets/templates/listgrid/listgrid.mako:186
 msgid "Edit record(s)."
 msgstr ""
+
+#~ msgid "RESOURCES"
+#~ msgstr "Ресурсы"
+
+#~ msgid "Homepage"
+#~ msgstr "Домашняя страница"
+
+#~ msgid "Download"
+#~ msgstr "Загрузить"
+
+#~ msgid "Documentation"
+#~ msgstr "Документация"
+
+#~ msgid "Modules"
+#~ msgstr "Модули"
+
+#~ msgid "Community"
+#~ msgstr "Сообщество"
+
+#~ msgid "Services"
+#~ msgstr "Службы"
+
+#~ msgid "Send to Maintenance Team"
+#~ msgstr "Отправить Команде Поддержки"

@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2010-12-17 10:28+0100\n"
-"PO-Revision-Date: 2010-12-04 08:23+0000\n"
-"Last-Translator: Cristiano Korndörfer <codigo.aberto@dorfer.com.br>\n"
+"PO-Revision-Date: 2010-12-20 19:03+0000\n"
+"Last-Translator: Alexsandro Haag <Unknown>\n"
 "Language-Team: pt_BR <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2010-12-18 05:03+0000\n"
+"X-Launchpad-Export-Date: 2010-12-22 04:46+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 "Generated-By: Babel None\n"
 
@@ -371,6 +371,7 @@ msgstr ""
 #, python-format
 msgid "Error processing your first line of the file. Field %s is unknown"
 msgstr ""
+"Erro ao processar a primeira linha do arquivo. Campo %s é desconhecido"
 
 #: controllers/impex.py:468
 msgid "Import Error."
@@ -388,11 +389,11 @@ msgstr "Os objetos %d foram importados"
 #: controllers/impex.py:505
 #, python-format
 msgid "Error trying to import this record:%s. ErrorMessage:%s %s"
-msgstr ""
+msgstr "Erro ao tentar importar este registro: %s. Mensagem de Erro: %s %s"
 
 #: controllers/impex.py:506
 msgid "ImportationError"
-msgstr ""
+msgstr "Erro de Importação"
 
 #: controllers/listgrid.py:59
 msgid "Parent record doesn't exists..."
@@ -549,6 +550,16 @@ msgid ""
 "                    project management, production, services, CRM, etc..\n"
 "                    "
 msgstr ""
+"%(openobject)s é um sistema de software livre de escala corporativa que é "
+"desenhado para impulsionar\n"
+"                    a produtividade e  lucro através da integração de dados. "
+"Ele se conecta, melhora \n"
+"e \n"
+"                    gerencia processos de negócio em áreas como vendas, "
+"finanças, cadeia de suprimentos,\n"
+"                    gerenciamento de projetos, produção, serviços, CRM, "
+"etc..\n"
+"                    "
 
 #: controllers/templates/about.mako:51
 msgid ""
@@ -598,7 +609,7 @@ msgstr "Corrigir para mim"
 
 #: controllers/templates/error_page.mako:90
 msgid "You do not have a valid OpenERP publisher warranty contract !"
-msgstr ""
+msgstr "Você não possui um contrato válido de garantia do OpenERP !"
 
 #: controllers/templates/error_page.mako:91
 msgid ""
@@ -643,17 +654,19 @@ msgstr ""
 
 #: controllers/templates/error_page.mako:135
 msgid "Publisher warranty contract."
-msgstr ""
+msgstr "Contrato de Garantia"
 
 #: controllers/templates/error_page.mako:136
 msgid ""
 "Your request will be sent to OpenERP and publisher warranty team will reply "
 "you shortly."
 msgstr ""
+"Sua solicitação foi enviada para a OpenERP e o time de Garantia e Suporte "
+"irá responder a você rapidamente."
 
 #: controllers/templates/error_page.mako:140
 msgid "Summary of the problem:"
-msgstr ""
+msgstr "Resumo do problema:"
 
 #: controllers/templates/error_page.mako:147
 msgid "Explain what you did:"
@@ -665,7 +678,7 @@ msgstr "Outros comentários:"
 
 #: controllers/templates/error_page.mako:168
 msgid "Send to Publisher Warranty Team"
-msgstr ""
+msgstr "Enviar para o Time de Garantia e Suporte"
 
 #: controllers/templates/error_page.mako:195
 msgid "Write concurrency warning :"
@@ -773,7 +786,7 @@ msgstr "OK"
 
 #: controllers/templates/exp.mako:236
 msgid "Select Options to Export"
-msgstr ""
+msgstr "Selecione as Opções para Exportar"
 
 #: controllers/templates/exp.mako:242
 msgid "Export as CSV"
@@ -844,7 +857,7 @@ msgstr "Incluir /Remover atalho..."
 #: controllers/templates/form.mako:81
 #, python-format
 msgid "Search: %s"
-msgstr ""
+msgstr "Pesquisar: %s"
 
 #: controllers/templates/form.mako:88
 msgid "Corporate Intelligence..."
@@ -1036,11 +1049,11 @@ msgstr "Linhas para saltar:"
 
 #: controllers/templates/index.mako:164
 msgid "System Logs"
-msgstr ""
+msgstr "Logs do Sistema"
 
 #: controllers/templates/index.mako:190
 msgid "Widgets"
-msgstr ""
+msgstr "Widgets"
 
 #: controllers/templates/index.mako:220 controllers/templates/index.mako:225
 #, python-format

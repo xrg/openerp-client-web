@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2010-12-17 10:28+0100\n"
-"PO-Revision-Date: 2010-12-04 08:28+0000\n"
-"Last-Translator: OpenERP Web Administrators <Unknown>\n"
+"PO-Revision-Date: 2010-12-20 18:46+0000\n"
+"Last-Translator: Alexsandro Haag <Unknown>\n"
 "Language-Team: pt_BR <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2010-12-18 05:03+0000\n"
+"X-Launchpad-Export-Date: 2010-12-22 04:46+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 "Generated-By: Babel None\n"
 
@@ -50,7 +50,7 @@ msgstr "Documentação"
 
 #: controllers/templates/process.mako:56
 msgid "Read Documentation Online"
-msgstr ""
+msgstr "Ler Documentação Online"
 
 #: controllers/templates/process.mako:62
 msgid "Forum"
@@ -70,7 +70,7 @@ msgstr "Obtenha o livro na Amazon"
 
 #: controllers/templates/process.mako:74
 msgid "Support / Publisher Warranty"
-msgstr ""
+msgstr "Suporte / Garantia do Publicador"
 
 #: controllers/templates/process.mako:75
 msgid "Get the OpenERP Warranty"
@@ -90,11 +90,11 @@ msgstr "[Editar processo]"
 
 #: controllers/templates/process.mako:117
 msgid "[show fields]"
-msgstr ""
+msgstr "[mostrar campos]"
 
 #: controllers/templates/process.mako:118
 msgid "[hide fields]"
-msgstr ""
+msgstr "[esconder campos]"
 
 #: controllers/templates/process_open.mako:54
 #: controllers/templates/process_tip.mako:20
