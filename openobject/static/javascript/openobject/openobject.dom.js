@@ -81,6 +81,7 @@ function idSelector(nodeId) {
                 width: 640,
                 height: 480,
                 close: function () {
+                    this.close = null;
                     jQuery(this).dialog('destroy').remove();
                 }
             });
