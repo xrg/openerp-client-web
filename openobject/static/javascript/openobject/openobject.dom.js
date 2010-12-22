@@ -68,6 +68,37 @@ function idSelector(nodeId) {
     }
 })(jQuery);
 
+(function ($) {
+    /**
+     * Creates an iframe-based jquery-ui dialog.
+     *
+     * Currently, the size of the dialog is hardcoded to 640x480, needs to
+     * be fixed.
+     *
+     * The dialog is also modal, and destroyed on close.
+     *
+     * @param frame_attrs The attributes to provide to the iframe being
+     * generated, should hold at least an <code>src</code> key
+     * @param data <code>jQuery.data</code> to be set on the iframe element
+     *  (<code>window.frameElement</code> from within the iframe)
+     */
+    $.frame_dialog = function (frame_attrs, data) {
+        return $('<iframe>', $.extend({
+                frameborder: 0
+            }, frame_attrs || {}))
+                .appendTo(document.documentElement)
+                .data(data || {})
+                .dialog({
+                    modal: true,
+                    width: 640,
+                    height: 480,
+                    close: function () {
+                        jQuery(this).dialog('destroy').remove();
+                    }
+                });
+    }
+})(jQuery);
+
 openobject.dom = {
 
     /**

@@ -142,19 +142,10 @@ function openAction(action_url, target) {
     var $dialogs = jQuery('.action-dialog');
     switch(target) {
         case 'new':
-            jQuery('<iframe>', {
+            jQuery.frame_dialog({
                 src: action_url,
-                'class': 'action-dialog',
-                frameborder: 0
-            }).appendTo(document.documentElement)
-                .dialog({
-                    modal: true,
-                    width: 640,
-                    height: 480,
-                    close: function () {
-                        jQuery(this).dialog('destroy').remove();
-                    }
-                });
+                'class': 'action-dialog'
+            });
             break;
         case 'popup':
             window.open(action_url);

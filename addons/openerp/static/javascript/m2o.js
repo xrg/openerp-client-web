@@ -565,20 +565,12 @@ ManyToOne.prototype.getOnclick = function(evt) {
         } else {
             url = '/openerp/search/new';
         }
-        return $('<iframe>', {
-            src: openobject.http.getURL(url, options),
-            frameborder: 0
-        }).data('source_window', $this[0])
-          .data('source_id', options.source || null)
-          .appendTo(document.documentElement)
-          .dialog({
-              modal: true,
-              width: 640,
-              height: 480,
-              close: function () {
-                  jQuery(this).dialog('destroy').remove();
-              }
-          });
+        return $.frame_dialog({
+                src: openobject.http.getURL(url, options)
+            }, {
+                source_window: $this[0],
+                source_id: options.source || null
+            });
     }
 
     /**
