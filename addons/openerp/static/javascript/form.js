@@ -461,8 +461,10 @@ function getFormParams(name){
 
 function onChange(caller){
     caller = openobject.dom.get(caller);
-    var callback = jQuery(caller).attr('callback');
-    var change_default = jQuery(caller).attr('change_default');
+    var $caller = jQuery(caller);
+    var $form = $caller.closest('form');
+    var callback = $caller.attr('callback');
+    var change_default = $caller.attr('change_default');
 
     if (!(callback || change_default) || caller.__lock_onchange) {
         return;
@@ -472,17 +474,14 @@ function onChange(caller){
     var prefix = caller.name || caller.id;
     prefix = prefix.slice(0, prefix.lastIndexOf('/') + 1);
 
-    var model = is_list ? openobject.dom.get(prefix.slice(17) + '_terp_model').value : openobject.dom.get(prefix + '_terp_model').value;
-    var context = is_list ? openobject.dom.get(prefix.slice(17) + '_terp_context').value : openobject.dom.get(prefix + '_terp_context').value;
-    var id = is_list ? openobject.dom.get(prefix.slice(17) + '_terp_id').value : openobject.dom.get(prefix + '_terp_id').value;
-
+    var select = function (id) { return $form.find(idSelector(prefix.slice(is_list ? 17 : 0) + id)); };
     var req = openobject.http.postJSON(callback ? '/openerp/form/on_change' : '/openerp/form/change_default_get', jQuery.extend({}, getFormData(1), {
         _terp_caller: is_list ? caller.id.slice(17) : caller.id,
         _terp_callback: callback,
-        _terp_model: model,
-        _terp_context: context,
         _terp_value: caller.value,
-        id: id
+        _terp_model: select('_terp_model').val(),
+        _terp_context: select('_terp_context').val(),
+        id: select('_terp_id').val()
     }));
 
     req.addCallback(function(obj){
