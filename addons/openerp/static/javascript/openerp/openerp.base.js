@@ -111,7 +111,12 @@ function doLoadingSuccess(app/*, url*/) {
                     return error_display(data.error);
                 }
                 if (data.reload) {
-                    window.location.reload();
+                    var view_type = jQuery('#_terp_view_type').val();
+                    if (view_type == 'tree') {
+                        new ListView('_terp_list').reload();
+                    } else {
+                        window.location.reload();
+                    }
                 }
             } catch(e) {
                 return error_display('doLoadingSuccess: Cannot parse JSON');
