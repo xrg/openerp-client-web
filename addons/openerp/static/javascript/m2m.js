@@ -185,7 +185,7 @@ Many2Many.prototype = {
         return $.frame_dialog({
                 src: openobject.http.getURL(url, options)
             }, {
-                source_window: $this[0],
+                'source-window': $this[0],
                 source_id: options.source || null
             });
     }
@@ -202,14 +202,14 @@ Many2Many.prototype = {
         // Warning: this may involve as much as 3 different windows:
         // * `window` is the toplevel (window.top)
         // * `$this` is the $(window) contained within the iframe we're closing
-        // * `original_window` (`$frame.data('source_window')`) is the window
+        // * `original_window` (`$frame.data('source-window')`) is the window
         //   (potentially contained within an iframe itself) which originally
         //   asked for an m2m dialog to be opened.
         var $frame = $($this.attr('frameElement'));
 
         if(values && values.length) {
-            var original_window = $frame.data('source_window');
-            // the m2m input to set is in the source_window, which is set as
+            var original_window = $frame.data('source-window');
+            // the m2m input to set is in the source-window, which is set as
             // a `data` of the dialog iframe
             var Many2Many = original_window.Many2Many;
             var source_id = $frame.data('source_id');

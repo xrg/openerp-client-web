@@ -69,6 +69,26 @@ function idSelector(nodeId) {
 })(jQuery);
 
 (function ($) {
+    function open($this, frame_attrs, data) {
+        var $frame = $('<iframe>', $.extend({
+            frameborder: 0
+        }, frame_attrs || {}))
+            .appendTo(document.documentElement)
+            .data('source-window', $this[0])
+            .data(data || {})
+            .dialog({
+                modal: true,
+                width: 640,
+                height: 480,
+                close: function () {
+                    jQuery(this).dialog('destroy').remove();
+                }
+            });
+        $frame[0].close = function () {
+            $frame.dialog('close');
+        };
+        return $frame;
+    }
     /**
      * Creates an iframe-based jquery-ui dialog.
      *
@@ -83,19 +103,16 @@ function idSelector(nodeId) {
      *  (<code>window.frameElement</code> from within the iframe)
      */
     $.frame_dialog = function (frame_attrs, data) {
-        return $('<iframe>', $.extend({
-                frameborder: 0
-            }, frame_attrs || {}))
-                .appendTo(document.documentElement)
-                .data(data || {})
-                .dialog({
-                    modal: true,
-                    width: 640,
-                    height: 480,
-                    close: function () {
-                        jQuery(this).dialog('destroy').remove();
-                    }
-                });
+        // $this should be the holder for the window from which
+        // $.frame_dialog was originally called, even if $.frame_dialog()
+        // was bubbled to the top of the window stack.
+        var $this;
+        if(this == $) $this = $(window);
+        else $this = $(this);
+        if(window != window.top) {
+            return window.top.jQuery.frame_dialog.apply($this[0], arguments);
+        }
+        return open($this, frame_attrs, data);
     }
 })(jQuery);
 

@@ -39,7 +39,7 @@
                            		<a class="button-a" href="javascript: void(0)" onclick="submit_form('save_and_edit')">${_("Save")}</a>
                             </td>
                             <td class="save_close">
-                            	<a class="button-a" href="javascript: void(0)" onclick="window.close()">${_("Close")}</a>
+                            	<a class="button-a" href="javascript: void(0)" onclick="window.frameElement.close();">${_("Close")}</a>
                            	</td>
                           	<td width="100%">
                            	</td>
