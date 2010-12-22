@@ -108,7 +108,8 @@ openobject.workflow.Workflow.implement({
 		req = openobject.http.postJSON('/view_diagram/workflow/get_info',{id:wkf_id, model:getElement('_terp_model').value,
 		                                                      node_obj: self.node_obj, conn_obj:self.connector_obj,
 		                                                      src_node: self.src_node_nm, des_node:self.des_node_nm,
-		                                                      node_flds_v: this.node_flds_v, node_flds_h: this.node_flds_h, conn_flds: this.conn_flds,
+		                                                      node_flds_v: this.node_flds_v, node_flds_h: this.node_flds_h, node_flds_string: jQuery('#node_flds_string').val(),
+		                                                      conn_flds: this.conn_flds, conn_flds_string: jQuery('#conn_flds_string').val(),
 		                                                      bgcolors: this.bgcolors, shapes: this.shapes});
 		req.addCallback(function(obj) {	
 			self.in_transition_field = obj['in_transition_field'];
@@ -260,6 +261,7 @@ openobject.workflow.Workflow.implement({
 																					out_transition_field: this.out_transition_field,
 							                                                        node_flds_v: this.node_flds_v, 
 							                                                        node_flds_h: this.node_flds_h,
+							                                                        node_flds_string: jQuery('#node_flds_string').val(),
 							                                                        bgcolors: this.bgcolors, 
 							                                                        shapes: this.shapes
 							                                                        });
@@ -331,7 +333,8 @@ openobject.workflow.Workflow.implement({
 		                                                                  act_from: act_from, 
 		                                                                  act_to: act_to,
 		                                                                  id: id,
-		                                                                  conn_flds: this.conn_flds});
+		                                                                  conn_flds: this.conn_flds,
+		                                                                  conn_flds_string: jQuery('#conn_flds_string').val()});
 		req.addCallback(function(obj) {
 			var data = obj.data;
 

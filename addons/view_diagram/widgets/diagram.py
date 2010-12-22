@@ -38,7 +38,7 @@ class Diagram(TinyWidget):
     template = "/view_diagram/widgets/templates/diagram.mako"
     member_widgets = []
     
-    params = ['dia_id', 'node', 'connector', 'src_node', 'des_node', 'node_flds', 'conn_flds', 'bgcolor', 'shapes']
+    params = ['dia_id', 'node', 'connector', 'src_node', 'des_node', 'node_flds', 'conn_flds', 'bgcolor', 'shapes', 'node_flds_string', 'conn_flds_string']
     
     pager = None
     dia_id = None
@@ -50,6 +50,8 @@ class Diagram(TinyWidget):
     conn_flds = []
     bgcolor = {}
     shapes = {}
+    node_flds_string = []
+    conn_flds_string = []
     
     css = [CSSLink("view_diagram", 'css/graph.css')]
     javascript = [JSLink("view_diagram", 'javascript/draw2d/wz_jsgraphics.js'),
@@ -66,7 +68,6 @@ class Diagram(TinyWidget):
     
     def __init__(self, name, model, view,
                  ids=None, domain=None, context=None, **kw):
-        
         super(Diagram, self).__init__(name=name, model=model, ids=ids)
         
         if ids:
@@ -78,9 +79,9 @@ class Diagram(TinyWidget):
         
         self.string = attrs.get('string')
         
-        self.parse(root)
+        self.parse(root, view['fields'])
         
-    def parse(self, root):        
+    def parse(self, root, fields):        
         self.node_flds['visible'] = []
         self.node_flds['invisible'] = []
         
@@ -94,16 +95,20 @@ class Diagram(TinyWidget):
                 for fld in node.childNodes:
                     if fld.nodeName == 'field':       
                         attrs = node_attributes(fld)
+                        name = attrs['name']
                         if attrs.has_key('invisible') and attrs['invisible']=='1':
-                            self.node_flds['invisible'].append(attrs['name'])
+                            self.node_flds['invisible'].append(name)
                         else:                  
-                            self.node_flds['visible'].append(attrs['name'])
+                            self.node_flds['visible'].append(name)
+                            self.node_flds_string.append(fields[name].get('string', name.title()))
             elif node.nodeName == 'arrow':
                 attrs = node_attributes(node)
                 self.connector = attrs['object']
                 self.src_node = attrs['source']
                 self.des_node = attrs['destination']
                 
-                for fld in node.childNodes:
-                    if fld.nodeName == 'field':                        
-                        self.conn_flds.append(str(node_attributes(fld)['name']))
+                for fld in node.childNodes:                    
+                    if fld.nodeName == 'field':
+                        name = node_attributes(fld)['name']
+                        self.conn_flds_string.append(fields[name].get('string', name.title()))                        
+                        self.conn_flds.append(str(name))

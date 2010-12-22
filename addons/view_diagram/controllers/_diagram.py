@@ -105,6 +105,7 @@ class State(Form):
     def get_info(self, node_obj, id, in_transition_field, out_transition_field, **kw):
         node_flds_visible = eval(kw.get('node_flds_v', '[]'))
         node_flds_hidden = eval(kw.get('node_flds_h', '[]'))
+        node_flds_string = eval(kw.get('node_flds_string', '[]'))
         
         bgcolors = {}
         for color_spec in kw.get('bgcolors', '').split(';'):
@@ -140,8 +141,8 @@ class State(Form):
             if eval(expr, result):
                 data['shape'] = shape                    
 
-        for fld in node_flds_visible:
-            data['options'][fld.title()] = result[fld]
+        for i, fld in enumerate(node_flds_visible):
+            data['options'][node_flds_string[i]] = result[fld]
             
         return dict(data=data)
     
@@ -226,6 +227,7 @@ class Connector(Form):
     @expose('json')
     def auto_create(self, conn_obj, src, des, act_from, act_to, **kw):
         conn_flds = eval(kw.get('conn_flds', '[]'))
+        conn_flds_string = eval(kw.get('conn_flds_string', '[]'))
         proxy_tr = rpc.RPCProxy(conn_obj)
         
         if not(kw.get('id', False)):
@@ -247,8 +249,8 @@ class Connector(Form):
             'options': {}
         }
         
-        for fld in conn_flds:
-            data['options'][fld.title()] = result[fld]
+        for i, fld in enumerate(conn_flds):
+            data['options'][conn_flds_string[i]] = result[fld]
         
         if id > 0:
             return {'flag': True, 'data': data}
@@ -301,7 +303,9 @@ class Workflow(Form):
         
         node_flds_visible = eval(kw.get('node_flds_v', '[]'))
         node_flds_hidden = eval(kw.get('node_flds_h', '[]'))
+        node_flds_string = eval(kw.get('node_flds_string', []))
         conn_flds = eval(kw.get('conn_flds', '[]'))
+        conn_flds_string = eval(kw.get('conn_flds_string', []))
         bgcolors = {}
         
         for color_spec in kw.get('bgcolors', '').split(';'):
@@ -350,8 +354,8 @@ class Workflow(Form):
                       'options': {}
                       })
 
-            for fld in conn_flds:
-                t['options'][fld.title()] = tr[fld]
+            for i, fld in enumerate(conn_flds):
+                t['options'][conn_flds_string[i]] = tr[fld]
         
         proxy_field = rpc.RPCProxy('ir.model.fields')
         field_ids = proxy_field.search([('model', '=', model), ('relation', '=', node_obj)], 0, 0, 0, rpc.session.context)
@@ -384,8 +388,8 @@ class Workflow(Form):
                 if eval(expr, act):
                     n['shape'] = shape
             
-            for fld in node_flds_visible:
-                n['options'][fld.title()] = act[fld]
+            for i, fld in enumerate(node_flds_visible):
+                n['options'][node_flds_string[i]] = act[fld]
         
         #to relate m2o field of transition to corresponding o2m in activity        
         in_transition_field_id = proxy_field.search([('relation', '=', conn_obj), ('relation_field', '=', des_node), ('model', '=', node_obj)], 0, 0, 0, rpc.session.context)
