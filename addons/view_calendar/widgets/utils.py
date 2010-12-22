@@ -129,9 +129,11 @@ class Week(object):
         y = self._day.year
         m = self._day.month
         d = self._day.day
-
-        wd = calendar.weekday(y, m, d)
-
+        
+        wd = Day(y, m, d).isoweekday()
+        if wd==7:
+           wd=0
+           
         result = []
 
         for i in range(wd, 0, -1):
@@ -143,7 +145,7 @@ class Week(object):
         return result
 
     def number(self):
-        return self._day.strftime('%W')
+        return self._day.strftime('%U')
 
     days = property(days)
     number = property(number)
@@ -204,15 +206,13 @@ class Month(object):
     def days(self):
         days = []
 
-        starts = self.range[0]
         first = Day(self.year, self.month, 1)
-
+        starts = first.isocalendar()[2]
         for i in range(starts, 0, -1):
             days += [first.fromordinal(first.toordinal() - i)]
 
         for i in range(42 - starts):
-            days += [first.fromordinal(first.toordinal() + i)]
-
+            days += [first.fromordinal(first.toordinal() + i)]   
         return days
 
     def weeks(self):

@@ -40,7 +40,7 @@ MonthCalendar.prototype = {
 
         this.starts = MochiKit.DateTime.isoDate(getNodeAttribute('calMonth', 'dtStart'));
         this.first = MochiKit.DateTime.isoDate(getNodeAttribute('calMonth', 'dtFirst'));
-        this.firstWeek = this.first.getWeek(1);
+
 
         this.month = this.first.getMonth();
 
@@ -87,18 +87,25 @@ MonthCalendar.prototype = {
         this.weeks = [];
 
         var dt = new Date(this.starts);
+        var weekcount = dt.getWeek(0);
         for (var i = 0; i < 6; i++) {
 
             var week = new MonthCalendar.Week(this, dt);
             this.weeks = this.weeks.concat(week);
-
-            var a = MochiKit.DOM.A({href: 'javascript: void(0)', onclick : "getCalendar('" + week.days[0] + "', 'week')"}, this.firstWeek + i);
-
-            appendChildNodes('calTimeCol', DIV({'style': 'height: 133px'}, a));
-
-            for (var j = 0; j < 7; j ++) {
+			
+			for (var j = 0; j < 7; j ++) {
+                if (weekcount >= 52){
+					if (dt.getWeek(0) == 1){
+						weekcount = 1;
+					}
+                }
                 dt = dt.getNext();
             }
+			
+            var a = MochiKit.DOM.A({href: 'javascript: void(0)', onclick : "getCalendar('" + week.days[0] + "', 'week')"}, weekcount);
+            appendChildNodes('calTimeCol', DIV({'style': 'height: 133px'}, a));
+			 
+			weekcount= weekcount + 1;  
         }
 
         //calEventNew
@@ -235,10 +242,10 @@ MonthCalendar.prototype = {
 
         var getWeekIndex = function(dt) {
             // get the first day of the week and return the week number
-            while (dt.getWeekDay() > 0) {
+            while (dt.getWeekDay() < 6) {
                 dt = dt.getPrevious();
             }
-            return dt.getWeek(1);
+            return dt.getWeek(0);
         }
 
         var self = this;
@@ -515,10 +522,10 @@ MonthCalendar.Week.prototype = {
                 for (var j = i + 1; j < i + evt.dayspan; j++) {
 
                     if (j == 7) break;
-
+					
                     var d = self.days[j];
                     var cnt = containers[d];
-
+					
                     forEach(cnt.events, function(e) {
                         cnt.rows.push(evt.row);
                         e.row = e.row >= evt.row ? e.row + 1 : e.row;
