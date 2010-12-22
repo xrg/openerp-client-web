@@ -132,7 +132,7 @@ class GraphData(object):
             add_grp_field = rpc.session.execute('object', 'execute', self.model, 'fields_get', [self.group_by[0]], {})
             fields.update(add_grp_field)
         axis, axis_data, axis_group = self.parse(root, fields)
-        
+
         if  self.group_by:
             axis[0] = self.group_by[0]
             axis_data.update(add_grp_field)
@@ -176,7 +176,7 @@ class GraphData(object):
                     else:
                         res[x] = ''
                 else:
-                    res[x] = float(value[x])
+                    res[x] = value[x] and float(value[x]) or 0.0
 
             if axis and isinstance(value[axis[0]], (tuple, list)):
                 res['id'] = value[axis[0]][0]
@@ -249,7 +249,7 @@ class GraphData(object):
                     'prod_id': val[axis[0]]
                 }
                 lbl = val[axis[0]]
-                
+
                 val[axis[0]] = ustr(val[axis[0]])
                 key_value = val[axis[0]]
                 key = urllib.quote_plus(ustr(key_value).encode('utf-8'))
@@ -364,14 +364,14 @@ class BarChart(GraphData):
     def __init__(self, model, view=False, view_id=False, ids=[], domain=[], view_mode=[], context={}, group_by=[]):
         super(BarChart, self).__init__(model, view, view_id, ids, domain, view_mode, context,group_by)
         self.context = context
-        
+
     def get_data(self):
 
         result = {}
         ctx =  rpc.session.context.copy()
         ctx.update(self.context)
         res = super(BarChart, self).get_graph_data()
-        
+
         if len(res) > 1:
             values = res[0]
             domain = res[1]
@@ -440,7 +440,7 @@ class BarChart(GraphData):
             i = re.sub(ur'[Ñ]', 'N', i)
 
             lbl = {'text': i, 'colour': "#432BAF"}
-            
+
             if len(axis_group) > 1:
                 stack_labels.append(lbl)
             else:
