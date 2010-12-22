@@ -199,6 +199,12 @@ Many2Many.prototype = {
      * @param values optional, the values to add to the m2m
      */
     function close($this, values) {
+        // Warning: this may involve as much as 3 different windows:
+        // * `window` is the toplevel (window.top)
+        // * `$this` is the $(window) contained within the iframe we're closing
+        // * `original_window` (`$frame.data('source_window')`) is the window
+        //   (potentially contained within an iframe itself) which originally
+        //   asked for an m2m dialog to be opened.
         var $frame = $($this.attr('frameElement'));
 
         if(values && values.length) {
