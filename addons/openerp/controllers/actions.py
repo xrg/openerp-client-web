@@ -320,16 +320,27 @@ ACTIONS_BY_TYPE = {
 }
 
 def act_window_opener(action, data):
+    # Action of target 'current' (or no target) should open in a new tab
+    # unless they were triggered from a menu
+    open_new_tab = False
+    if action['target'] == 'current' and data.get('model') != 'ir.ui.menu':
+        action['target'] = 'popup'
+        open_new_tab = True
+
     # search_view key in action is >8k added to the URL every time, which
     # breaks firefox (and probably Apache) as it's shoved into a header and
     # then used back as a URL
     action.pop('search_view', None)
+
     # Add 'opened' mark to indicate we're now within the popup and can
     # continue on during the second round of execution
     url = ('/openerp/execute?' + urllib.urlencode({
         'action': simplejson.dumps(dict(action, opened=True)),
         'data': simplejson.dumps(data)
     }))
+    if open_new_tab:
+        url = '/?' + urllib.urlencode({'next': url})
+
     cherrypy.response.headers['X-Target'] = action['target']
     cherrypy.response.headers['Location'] = url
     return """<script type="text/javascript">

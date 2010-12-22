@@ -460,54 +460,50 @@ function getFormParams(name){
 }
 
 function onChange(caller){
-    caller = openobject.dom.get(caller);
-    var callback = jQuery(caller).attr('callback');
-    var change_default = jQuery(caller).attr('change_default');
+    var $caller = jQuery(openobject.dom.get(caller));
+    var $form = $caller.closest('form');
 
-    if (!(callback || change_default) || caller.__lock_onchange) {
+    var callback = $caller.attr('callback');
+    var change_default = $caller.attr('change_default');
+
+    if (!(callback || change_default) || $caller[0].__lock_onchange) {
         return;
     }
 
-    var is_list = caller.id.indexOf('_terp_listfields') == 0;
-    var prefix = caller.name || caller.id;
+    var is_list = $caller.attr('id').indexOf('_terp_listfields') == 0;
+    var prefix = $caller.attr('name') || $caller.attr('id');
     prefix = prefix.slice(0, prefix.lastIndexOf('/') + 1);
 
-    var model = is_list ? openobject.dom.get(prefix.slice(17) + '_terp_model').value : openobject.dom.get(prefix + '_terp_model').value;
-    var context = is_list ? openobject.dom.get(prefix.slice(17) + '_terp_context').value : openobject.dom.get(prefix + '_terp_context').value;
-    var id = is_list ? openobject.dom.get(prefix.slice(17) + '_terp_id').value : openobject.dom.get(prefix + '_terp_id').value;
+    var id_slice_offset = is_list ? 17 : 0;
+    var id_prefix = prefix.slice(id_slice_offset);
+    var select = function (id) { return $form.find(idSelector(id_prefix + id)); };
 
     var post_url = callback ? '/openerp/form/on_change' : '/openerp/form/change_default_get';
     
-    var first_part_obj = getFormData(1);
+    var form_data = getFormData(1);
     /* testing if the record is an empty record, if it does not contain anything except
      * an id, the on_change method is not called
      */
     var nbr_elems = 0;
     var elem_id;
-    for(var key in first_part_obj) {
+    for(var key in form_data) {
     	nbr_elems++;
     	if (nbr_elems > 1)
     		break;
     	elem_id = key;
     }
-    if(nbr_elems == 1 && new RegExp(".*\/\_\_id","g").test(elem_id)) {
+    if(nbr_elems == 1 && /\/__id$/.test(elem_id)) {
     	return;
     }
-    
-    var second_part_obj = {
-		_terp_caller: is_list ? caller.id.slice(17) : caller.id,
-		_terp_callback: callback,
-		_terp_model: model,
-		_terp_context: context,
-		_terp_value: caller.value,
-		id: id
-	};
-    var full_post_obj = jQuery.extend({}, first_part_obj, second_part_obj);
 
-    var req = openobject.http.postJSON(post_url, full_post_obj);
-
-    req.addCallback(function(obj){
-
+    openobject.http.postJSON(post_url, jQuery.extend({}, form_data, {
+        _terp_callback: callback,
+        _terp_caller: $caller.attr('id').slice(id_slice_offset),
+        _terp_value: $caller.val(),
+        _terp_model: select('_terp_model').val(),
+        _terp_context: select('_terp_context').val(),
+        id: select('_terp_id').val()
+    })).addCallback(function(obj){
         if (obj.error) {
             return error_popup(obj)
         }
