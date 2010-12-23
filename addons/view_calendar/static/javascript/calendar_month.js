@@ -87,7 +87,7 @@ MonthCalendar.prototype = {
         this.weeks = [];
 
         var dt = new Date(this.starts);
-        var weekcount = dt.getWeek(0);
+        var weekcount = dt.getWeek();
         for (var i = 0; i < 6; i++) {
 
             var week = new MonthCalendar.Week(this, dt);
@@ -95,7 +95,7 @@ MonthCalendar.prototype = {
 			
 			for (var j = 0; j < 7; j ++) {
                 if (weekcount >= 52){
-					if (dt.getWeek(0) == 1){
+					if (dt.getWeek() == 1){
 						weekcount = 1;
 					}
                 }
@@ -245,7 +245,7 @@ MonthCalendar.prototype = {
             while (dt.getWeekDay() < 6) {
                 dt = dt.getPrevious();
             }
-            return dt.getWeek(0);
+            return dt.getWeek();
         }
 
         var self = this;
