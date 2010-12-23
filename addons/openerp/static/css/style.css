@@ -869,7 +869,7 @@ div#serverlog a {
 
 #help-tips {
     background: #fff none repeat scroll 0 0;
-    border: 1px solid #CECBCB;
+    border-bottom: 1px solid #CECBCB;
     padding: 1px 10px;
     color: #4C4C4C;
 }
