@@ -150,6 +150,8 @@ function openAction(action_url, target) {
             jQuery.frame_dialog({
                 src: action_url,
                 'class': 'action-dialog'
+            }, null, {
+                width: 800
             });
             break;
         case 'popup':
