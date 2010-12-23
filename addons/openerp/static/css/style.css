@@ -885,6 +885,7 @@ a#disable-tips:hover, a#hide-tips:hover {
 
 #help-tips p {
     padding: 6px 1px 4px;
+    font-size: 105%;
 }
 
 .pager-cell-button {
