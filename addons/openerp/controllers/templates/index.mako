@@ -186,7 +186,7 @@
                                     <div class="sideheader-a">
                                         <a href="${py.url('/openerp/widgets/add')}"
                                            id="add_user_widget" class="button-a"
-                                                style="right: 1px;">${_("Add")}</a>
+                                                style="right: 1px;">${_("More")}</a>
                                         <h2>${_("Widgets")}</h2>
                                     </div>
                                     <div class="box-a" id="user_widgets">
