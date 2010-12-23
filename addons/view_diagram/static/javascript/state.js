@@ -134,7 +134,7 @@ openobject.workflow.StateBase.prototype = {
             params['_terp_id'] = this.act_id;
             
         var act = openobject.http.getURL('/view_diagram/workflow/state/edit', params);
-        jQuery.frame_dialog({src:act});
+        jQuery.frame_dialog({src:act}, null, { height: 450 });
     },
 
     ondblClick : function(event) {

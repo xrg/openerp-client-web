@@ -95,7 +95,7 @@
         % endif
         <li>
             <a title="${_('Customize current object or create a new object')}"
-               onclick="jQuery.frame_dialog({src:'/openerp/viewed/new_model/edit?model=${model}'})"
+               onclick="jQuery.frame_dialog({src:'/openerp/viewed/new_model/edit?model=${model}'}, null, { width: '80%', max_width: 1000, height: '90%' })"
                href="javascript: void(0)">${_("Customize Object")}</a>
         </li>
     </ul>

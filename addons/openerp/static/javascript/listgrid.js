@@ -823,7 +823,11 @@ MochiKit.Base.update(ListView.prototype, {
             _terp_search_domain: openobject.dom.get('_terp_search_domain').value,
             _terp_ids: ids,
             _terp_view_ids : this.view_ids,
-            _terp_view_mode : this.view_mode})});
+            _terp_view_mode : this.view_mode})
+        }, null, {
+            height: '98%',
+            max_height: 600
+        });
     },
 
     importData: function() {
@@ -832,7 +836,11 @@ MochiKit.Base.update(ListView.prototype, {
             _terp_context: openobject.dom.get('_terp_context').value,
             _terp_source: this.name,
             _terp_view_ids : this.view_ids,
-            _terp_view_mode : this.view_mode})});
+            _terp_view_mode : this.view_mode})
+        }, null, {
+            height: '98%',
+            max_height: 550
+        });
     }
 });
 

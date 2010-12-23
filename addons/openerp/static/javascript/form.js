@@ -966,7 +966,9 @@ function translate_fields(src, params){
         _terp_model: (src ? $src.attr('relation') : params['relation']),
         _terp_id: (src ? $src.attr('id') : params['id']),
         _terp_context: (src ? $src.attr('data') : params['data'])
-    })});
+    })}, null, {
+        height: 400
+    });
 }
 
 /**

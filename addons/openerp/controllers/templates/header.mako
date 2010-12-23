@@ -105,6 +105,10 @@ else:
 <script type="text/javascript">
     jQuery('.tools li.preferences a').click(function (e) {
         e.preventDefault();
-        jQuery.frame_dialog({src:this.href});
+        jQuery.frame_dialog({
+            src:this.href
+        }, null, {
+            height: 400
+        });
     });
 </script>

@@ -570,6 +570,10 @@ ManyToOne.prototype.getOnclick = function(evt) {
             }, {
                 'source-window': $this[0],
                 source_id: options.source || null
+            }, {
+                width: '80%',
+                max_width: 1200,
+                height: '90%'
             });
     }
 
