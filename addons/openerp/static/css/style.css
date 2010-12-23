@@ -868,13 +868,9 @@ div#serverlog a {
 }
 
 #help-tips {
-    border-radius: 3px;
-    -moz-border-radius: 3px;
-    -webkit-border-radius: 3px;
     background: #fff none repeat scroll 0 0;
     border: 1px solid #CECBCB;
-    margin: 2px 0 6px 0;
-    padding: 1px 5px;
+    padding: 1px 10px;
     color: #4C4C4C;
 }
 

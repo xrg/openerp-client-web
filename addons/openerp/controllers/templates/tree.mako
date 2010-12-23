@@ -26,7 +26,7 @@
     %>
     <table id="treeview" class="view" width="100%" border="0" cellpadding="0" cellspacing="0">
         <tr>
-            <td id="body_form_td" width="100%" valign="top">
+            <td id="body_form" width="100%" valign="top">
                 <h1>
                     % if can_shortcut:
                         <a id="shortcut_add_remove" href="javascript: void(0)" class="${shortcut_class}"></a>
