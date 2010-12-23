@@ -334,7 +334,7 @@ WeekCalendar.AllDayGrid.prototype = {
         var elem = getElement('calEventNew');
         var dt = MochiKit.DateTime.isoTimestamp(getNodeAttribute(elem, 'dtStart'));
         
-        editCalendarRecord(null, toISOTimestamp(dt));
+        editCalendarRecord(null);
     },
 
     splitEvent : function(record, params) {
@@ -778,7 +778,7 @@ WeekCalendar.DayGrid.prototype = {
 
         setNodeAttribute(elem, 'dtend', toISOTimestamp(e));
 
-        editCalendarRecord(null, toISOTimestamp(dt));
+        editCalendarRecord(null);
 
         hideElement('calEventNew');
     },

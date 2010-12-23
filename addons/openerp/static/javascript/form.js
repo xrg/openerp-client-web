@@ -460,6 +460,12 @@ function getFormParams(name){
 }
 
 function onChange(caller){
+
+    if (openobject.http.AJAX_COUNT > 0) {
+        callLater(1, onChange, caller);
+        return;
+    }
+
     var $caller = jQuery(openobject.dom.get(caller));
     var $form = $caller.closest('form');
 
