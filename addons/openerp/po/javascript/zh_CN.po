@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: openobject-client-web\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2010-12-17 10:28+0100\n"
-"PO-Revision-Date: 2010-12-13 12:43+0000\n"
-"Last-Translator: Joshua Jan <Unknown>\n"
+"PO-Revision-Date: 2010-12-22 10:21+0000\n"
+"Last-Translator: Weichen Wang <Unknown>\n"
 "Language-Team: Chinese (Simplified) <zh_CN@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2010-12-18 05:02+0000\n"
+"X-Launchpad-Export-Date: 2010-12-23 05:01+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: static/javascript/form.js:100
@@ -32,7 +32,7 @@ msgstr "您确认要删除这记录吗？"
 
 #: static/javascript/form.js:901
 msgid "You must select one or several records !"
-msgstr ""
+msgstr "请选择一或多条记录！"
 
 #: static/javascript/form.js:1062
 msgid "Do you really want to delete the attachment"

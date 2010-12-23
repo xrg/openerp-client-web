@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: openobject-client-web\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2010-12-17 10:28+0100\n"
-"PO-Revision-Date: 2010-12-20 12:41+0000\n"
+"PO-Revision-Date: 2010-12-22 11:19+0000\n"
 "Last-Translator: Nikolay Chesnokov <chesnokov_n@msn.com>\n"
 "Language-Team: Russian <ru@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2010-12-22 04:46+0000\n"
+"X-Launchpad-Export-Date: 2010-12-23 05:01+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: validators.py:83
@@ -35,7 +35,7 @@ msgstr "Пожалуйста введите адрес электронной п
 
 #: validators.py:256
 msgid "An email address must contain a single @"
-msgstr ""
+msgstr "Адрес электронной почты должен содержать одну @"
 
 #: validators.py:257
 #, python-format
@@ -43,6 +43,8 @@ msgid ""
 "The username portion of the email address is invalid (the portion before the "
 "@: %(username)s)"
 msgstr ""
+"Имя пользователя часть адреса электронной почты является недействительным "
+"(часть перед @:%(username)s)"
 
 #: validators.py:258
 #, python-format
@@ -50,6 +52,8 @@ msgid ""
 "The domain portion of the email address is invalid (the portion after the @: "
 "%(domain)s)"
 msgstr ""
+"Часть адреса электронной почты домен является недопустимым (часть после "
+"@:%(domain)s)"
 
 #: validators.py:262
 msgid "You must start your URL with http://, https://, etc"
@@ -57,12 +61,12 @@ msgstr "Вы должны использовать в начале URL http://, 
 
 #: validators.py:263
 msgid "That is not a valid URL"
-msgstr ""
+msgstr "Это неверный URL"
 
 #: validators.py:264
 #, python-format
 msgid "You must provide a full domain name (like %(domain)s.com)"
-msgstr ""
+msgstr "Вы должны предоставить полное доменное имя (подобно %(domain)s.com)"
 
 #: validators.py:268
 msgid "Please enter an integer value"
@@ -74,7 +78,7 @@ msgstr "Пожалуйста, введите число"
 
 #: controllers/actions.py:99
 msgid "Invalid View"
-msgstr ""
+msgstr "Неверный обзор"
 
 #: controllers/actions.py:132
 msgid "Error no report"
@@ -94,11 +98,11 @@ msgstr "Относительные URL не поддерживаются"
 
 #: controllers/actions.py:389
 msgid "Action not found"
-msgstr ""
+msgstr "Действие не найдено"
 
 #: controllers/actions.py:438
 msgid "No action defined"
-msgstr ""
+msgstr "Деййствие не определено"
 
 #: controllers/attachment.py:62
 msgid "No record selected, You can only attach to existing record..."
@@ -254,6 +258,7 @@ msgstr "Подтверждение пароля:"
 #: controllers/database.py:182
 msgid "You must avoid all accents, space or special characters."
 msgstr ""
+"Вы можете использовать только латинские буквы, цифры и знак подчеркивания."
 
 #: controllers/database.py:183
 msgid "Bad database name"
@@ -453,19 +458,19 @@ msgstr "Уровень доступа"
 
 #: controllers/view_log.py:48
 msgid "Internal module data ID"
-msgstr ""
+msgstr "Идентификатор данных ынутренненго модуля"
 
 #: controllers/viewed.py:228
 msgid "Invalid view id."
-msgstr ""
+msgstr "Неверный идентификатор обзора"
 
 #: controllers/viewed.py:507
 msgid "Unable to create inherited view."
-msgstr ""
+msgstr "Невозвожно создать унаследованный обзор"
 
 #: controllers/viewed.py:509
 msgid "Can't create inherited view here."
-msgstr ""
+msgstr "Здесь не удается создать унаследованный обзор"
 
 #: controllers/viewed.py:512
 msgid "Not implemented yet!"
@@ -473,7 +478,7 @@ msgstr "Ещё не реализовано!"
 
 #: controllers/viewed.py:617
 msgid "Unable to update the view."
-msgstr ""
+msgstr "Невозможно обновить обзор"
 
 #: controllers/viewed.py:871
 msgid "New Window"
@@ -565,6 +570,12 @@ msgid ""
 "                    production system and migration to a new version to be "
 "straightforward."
 msgstr ""
+"Система платформонезависима и может быть установлена на Windows, Mac OS X,\n"
+"                    а также на различные Linux и другие Unix-основанные "
+"системы. Ее архитектура позволяет\n"
+"                    быстро добавлять новую функциональность, а изменения в "
+"работающей системе и\n"
+"                    миграция на новую версию просты в осуществлении."
 
 #: controllers/templates/about.mako:57
 msgid ""
@@ -647,17 +658,19 @@ msgstr ""
 
 #: controllers/templates/error_page.mako:135
 msgid "Publisher warranty contract."
-msgstr ""
+msgstr "Гарантийный контракт издателя"
 
 #: controllers/templates/error_page.mako:136
 msgid ""
 "Your request will be sent to OpenERP and publisher warranty team will reply "
 "you shortly."
 msgstr ""
+"Ваш запрос будет отправлен на OpenERP и команда издателя гарантирует "
+"ответить вам в ближайшее время."
 
 #: controllers/templates/error_page.mako:140
 msgid "Summary of the problem:"
-msgstr ""
+msgstr "Резюме проблемы:"
 
 #: controllers/templates/error_page.mako:147
 msgid "Explain what you did:"
@@ -665,11 +678,11 @@ msgstr "Опишите ваши действия:"
 
 #: controllers/templates/error_page.mako:156
 msgid "Other Comments:"
-msgstr ""
+msgstr "Прочие коментарии"
 
 #: controllers/templates/error_page.mako:168
 msgid "Send to Publisher Warranty Team"
-msgstr ""
+msgstr "Отправить гарантию каманде издателя"
 
 #: controllers/templates/error_page.mako:195
 msgid "Write concurrency warning :"
@@ -852,7 +865,7 @@ msgstr "Поиск: %s"
 
 #: controllers/templates/form.mako:88
 msgid "Corporate Intelligence..."
-msgstr ""
+msgstr "Корпоративный интеллект ..."
 
 #: controllers/templates/form.mako:94
 msgid "Show Logs..."
@@ -938,11 +951,11 @@ msgstr "Создайте новый узел"
 
 #: controllers/templates/form.mako:153
 msgid "New Node"
-msgstr ""
+msgstr "Новый узел"
 
 #: controllers/templates/form.mako:157
 msgid "Show grid in workflow canvas"
-msgstr ""
+msgstr "Показывать сетку на холсте рабочего процесса"
 
 #: controllers/templates/form.mako:158
 msgid "Show grid"
@@ -1049,7 +1062,7 @@ msgstr "Виджеты"
 #: controllers/templates/index.mako:220 controllers/templates/index.mako:225
 #, python-format
 msgid "Powered by %(openerp)s "
-msgstr ""
+msgstr "Разработано %(openerp)s "
 
 #: controllers/templates/login.mako:53 controllers/templates/login_ajax.mako:72
 #: controllers/templates/login_ajax.mako:94
@@ -1062,7 +1075,7 @@ msgstr "Базы данных"
 
 #: controllers/templates/login.mako:84
 msgid "Top Contributor:"
-msgstr ""
+msgstr "Ведущий автор"
 
 #: controllers/templates/login.mako:94
 msgid ""
@@ -1074,17 +1087,19 @@ msgstr ""
 
 #: controllers/templates/login.mako:95
 msgid "OpenERP's vision to be:"
-msgstr ""
+msgstr "OpenERP's видение"
 
 #: controllers/templates/login.mako:103
 msgid "Full featured"
-msgstr ""
+msgstr "Полнофункциональный"
 
 #: controllers/templates/login.mako:104
 msgid ""
 "Today's enterprise challenges are multiple. We provide one module for each "
 "need."
 msgstr ""
+"Современный вызов многим предприятиям. Мы представляем один модуль для "
+"каждой потребности."
 
 #: controllers/templates/login.mako:112
 msgid "Open Source"
@@ -1095,15 +1110,18 @@ msgid ""
 "To Build a great product, we rely on the knowledge of thousands of "
 "contributors."
 msgstr ""
+"При построенииь большого продукта, мы опираемся на знания тысяч участников."
 
 #: controllers/templates/login.mako:121
 msgid "User Friendly"
-msgstr ""
+msgstr "Дружественный"
 
 #: controllers/templates/login.mako:122
 msgid ""
 "In order to be productive, people need clean and easy to use interface."
 msgstr ""
+"Для того, чтобы работать продуктивно, люди нуждаются в удобном и простом в "
+"использовании интерфейсе."
 
 #: controllers/templates/modules.mako:4
 msgid "Module Management"
@@ -1156,7 +1174,7 @@ msgstr "Выберите действие"
 
 #: controllers/templates/server_log.mako:4
 msgid "Server Actions..."
-msgstr ""
+msgstr "События сервера"
 
 #: controllers/templates/server_log.mako:14
 msgid "Server Actions"
@@ -1202,11 +1220,11 @@ msgstr "Информация"
 #: controllers/templates/viewed.mako:17
 #, python-format
 msgid "View Editor %s - %s"
-msgstr ""
+msgstr "Редактор обзора %s - %s"
 
 #: controllers/templates/viewed.mako:31
 msgid "Create a new inherited view"
-msgstr ""
+msgstr "Создать новый унаследованный обзор"
 
 #: controllers/templates/viewed.mako:31
 msgid "Inherited View"
@@ -1232,20 +1250,20 @@ msgstr "Позиция:"
 #: controllers/templates/viewlist.mako:108
 #, python-format
 msgid "Manage Views (%s)"
-msgstr ""
+msgstr "Управление обзором (%s)"
 
 #: controllers/templates/viewlist.mako:146
 #, python-format
 msgid "Create a view (%s)"
-msgstr ""
+msgstr "Создать обзор (%s)"
 
 #: controllers/templates/viewlist.mako:174
 msgid "View Name:"
-msgstr ""
+msgstr "Имя обзора"
 
 #: controllers/templates/viewlist.mako:178
 msgid "View Type:"
-msgstr ""
+msgstr "Тип обзора"
 
 #: controllers/templates/viewlist.mako:189
 msgid "Priority:"
@@ -1277,7 +1295,7 @@ msgstr ""
 
 #: utils/rpc.py:357
 msgid "Not logged..."
-msgstr ""
+msgstr "Не зарегестрирован..."
 
 #: utils/rpc.py:357
 msgid "Authorization Error"
@@ -1293,16 +1311,16 @@ msgstr "Форма"
 
 #: widgets/_views.py:53
 msgid "Form view..."
-msgstr ""
+msgstr "Обзор в виде формы"
 
 #: widgets/_views.py:84
 msgid "Search view..."
-msgstr ""
+msgstr "Обзор для поиска"
 
 #: widgets/listgrid.py:333 widgets/form/_form.py:913
 #, python-format
 msgid "Invalid view, duplicate field: %s"
-msgstr ""
+msgstr "Неверный обзор, дублировано поле: %s"
 
 #: widgets/pager.py:64
 #, python-format
@@ -1356,7 +1374,7 @@ msgstr "Нет"
 
 #: widgets/form/_action.py:54
 msgid "Action not found!"
-msgstr ""
+msgstr "Событие не рапеделено!"
 
 #: widgets/form/_o2m.py:57 widgets/templates/listgrid/listgrid.mako:141
 #: widgets/templates/listgrid/listgrid.mako:147
@@ -1445,7 +1463,7 @@ msgstr "Последняя >>"
 
 #: widgets/templates/pager.mako:37
 msgid "Change Limit:"
-msgstr ""
+msgstr "Изменить ограничение"
 
 #: widgets/templates/sidebar.mako:37
 msgid "Reports"
@@ -1477,27 +1495,27 @@ msgstr "Настройка"
 
 #: widgets/templates/sidebar.mako:86
 msgid "Manage views of the current object"
-msgstr ""
+msgstr "Управлять обзором текущего объекта"
 
 #: widgets/templates/sidebar.mako:88
 msgid "Manage Views"
-msgstr ""
+msgstr "Управление обзорами"
 
 #: widgets/templates/sidebar.mako:92
 msgid "Edit workflow of the current object"
-msgstr ""
+msgstr "Редактировать поток операций текущего объекта"
 
 #: widgets/templates/sidebar.mako:93
 msgid "Edit Workflow"
-msgstr ""
+msgstr "Редактировать поток операций"
 
 #: widgets/templates/sidebar.mako:97
 msgid "Customize current object or create a new object"
-msgstr ""
+msgstr "Настройка текущего объекта или создать новый объект"
 
 #: widgets/templates/sidebar.mako:99
 msgid "Customize Object"
-msgstr ""
+msgstr "Настройка объекта"
 
 #: widgets/templates/sidebar.mako:104
 msgid "Other Options"
@@ -1513,7 +1531,7 @@ msgstr "Просмотреть журнал"
 
 #: widgets/templates/viewform.mako:25
 msgid "Filter records."
-msgstr ""
+msgstr "Филтр записей"
 
 #: widgets/templates/viewform.mako:33
 msgid "Clear all."
@@ -1541,7 +1559,7 @@ msgstr "Сохранить фильтр"
 
 #: widgets/templates/viewform.mako:54
 msgid "Manage Filters"
-msgstr ""
+msgstr "Управление фильтрами"
 
 #: widgets/templates/listgrid/listgrid.mako:19
 msgid "Update"
@@ -1558,7 +1576,7 @@ msgstr "Удалить запись(и)."
 
 #: widgets/templates/listgrid/listgrid.mako:186
 msgid "Edit record(s)."
-msgstr ""
+msgstr "Редактировать запись(и)"
 
 #~ msgid "RESOURCES"
 #~ msgstr "Ресурсы"
