@@ -67,6 +67,10 @@
             % endif
         </td>
     % endif
+    % for field, field_attrs in hiddens:
+        ${data[field].display()}
+    % endfor
+
     % if editable:
         <td class="grid-cell selector">
             % if not editors:
@@ -130,8 +134,7 @@
                                 % if editable:
                                     <td class="pager-cell-button">
                                         % if m2m:
-                                            <button title="${_('Add records...')}" id="${name}_button1"
-                                                onclick="open_search_window(jQuery('[id=_m2m_${name}]').attr('relation'), jQuery('[id=_m2m_${name}]').attr('domain'), jQuery('#_m2m_${name}').attr('context'),'${name}', 2, jQuery('[id=${name}_set]').val()); return false;">
+                                            <button title="${_('Add records...')}" id="${name}_add_records">
                                                     ${_('Add')}
                                             </button>
                                         % elif o2m:
@@ -169,9 +172,8 @@
                                     </td>
                                     <td class="pager-cell-button" style="display: none;">
                                         % if m2m:
-                                            <button id="${name}_delete_record" title="${_('Delete record(s).')}"
-                                                onclick="new Many2Many('${name}').remove(); return false;">
-                                                    ${_('Delete')}
+                                            <button id="${name}_delete_record" title="${_('Delete record(s).')}">
+                                                ${_('Delete')}
                                             </button>
                                         % else:
                                             <button id="${name}_delete_record" title="${_('Delete record(s).')}"

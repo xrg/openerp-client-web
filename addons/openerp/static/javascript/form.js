@@ -460,33 +460,56 @@ function getFormParams(name){
 }
 
 function onChange(caller){
-    caller = openobject.dom.get(caller);
-    var callback = jQuery(caller).attr('callback');
-    var change_default = jQuery(caller).attr('change_default');
 
-    if (!(callback || change_default) || caller.__lock_onchange) {
+    if (openobject.http.AJAX_COUNT > 0) {
+        callLater(1, onChange, caller);
         return;
     }
 
-    var is_list = caller.id.indexOf('_terp_listfields') == 0;
-    var prefix = caller.name || caller.id;
+    var $caller = jQuery(openobject.dom.get(caller));
+    var $form = $caller.closest('form');
+
+    var callback = $caller.attr('callback');
+    var change_default = $caller.attr('change_default');
+
+    if (!(callback || change_default) || $caller[0].__lock_onchange) {
+        return;
+    }
+
+    var is_list = $caller.attr('id').indexOf('_terp_listfields') == 0;
+    var prefix = $caller.attr('name') || $caller.attr('id');
     prefix = prefix.slice(0, prefix.lastIndexOf('/') + 1);
 
-    var model = is_list ? openobject.dom.get(prefix.slice(17) + '_terp_model').value : openobject.dom.get(prefix + '_terp_model').value;
-    var context = is_list ? openobject.dom.get(prefix.slice(17) + '_terp_context').value : openobject.dom.get(prefix + '_terp_context').value;
-    var id = is_list ? openobject.dom.get(prefix.slice(17) + '_terp_id').value : openobject.dom.get(prefix + '_terp_id').value;
+    var id_slice_offset = is_list ? 17 : 0;
+    var id_prefix = prefix.slice(id_slice_offset);
+    var select = function (id) { return $form.find(idSelector(id_prefix + id)); };
 
-    var req = openobject.http.postJSON(callback ? '/openerp/form/on_change' : '/openerp/form/change_default_get', jQuery.extend({}, getFormData(1), {
-        _terp_caller: is_list ? caller.id.slice(17) : caller.id,
+    var post_url = callback ? '/openerp/form/on_change' : '/openerp/form/change_default_get';
+    
+    var form_data = getFormData(1);
+    /* testing if the record is an empty record, if it does not contain anything except
+     * an id, the on_change method is not called
+     */
+    var nbr_elems = 0;
+    var elem_id;
+    for(var key in form_data) {
+    	nbr_elems++;
+    	if (nbr_elems > 1)
+    		break;
+    	elem_id = key;
+    }
+    if(nbr_elems == 1 && /\/__id$/.test(elem_id)) {
+    	return;
+    }
+
+    openobject.http.postJSON(post_url, jQuery.extend({}, form_data, {
         _terp_callback: callback,
-        _terp_model: model,
-        _terp_context: context,
-        _terp_value: caller.value,
-        id: id
-    }));
-
-    req.addCallback(function(obj){
-
+        _terp_caller: $caller.attr('id').slice(id_slice_offset),
+        _terp_value: $caller.val(),
+        _terp_model: select('_terp_model').val(),
+        _terp_context: select('_terp_context').val(),
+        id: select('_terp_id').val()
+    })).addCallback(function(obj){
         if (obj.error) {
             return error_popup(obj)
         }
@@ -737,27 +760,21 @@ function open_search_window(relation, domain, context, source, kind, text){
         'domain': domain,
         'context': context
     }).addCallback(function(obj){
-        var dialog_url = openobject.http.getURL('/openerp/search/new', {
+        var options = {
             'model': relation,
             'domain': obj.domain,
             'context': obj.context,
             'source': source,
             'kind': kind,
             'text': text
-        });
+        };
         switch(kind) {
             case KIND_M2O:
-                jQuery.m2o({
-                    'model': relation,
-                    'domain': obj.domain,
-                    'context': obj.context,
-                    'source': source,
-                    'kind': kind,
-                    'text': text
-                });
+                jQuery.m2o(options);
                 break;
-            default:
-                openobject.tools.openWindow(dialog_url);
+            case KIND_M2M:
+                jQuery.m2m(options);
+                break;
         }
     });
 }
@@ -945,11 +962,13 @@ function do_action(src, context_menu) {
 
 function translate_fields(src, params){
     var $src = jQuery(src);
-    openobject.tools.openWindow(openobject.http.getURL('/openerp/translator',{
+    jQuery.frame_dialog({src:openobject.http.getURL('/openerp/translator',{
         _terp_model: (src ? $src.attr('relation') : params['relation']),
         _terp_id: (src ? $src.attr('id') : params['id']),
         _terp_context: (src ? $src.attr('data') : params['data'])
-    }));
+    })}, null, {
+        height: 400
+    });
 }
 
 /**
@@ -1225,7 +1244,7 @@ function validate_action() {
     var $form = jQuery('#view_form');
     if ($form.data('is_form_changed') && confirm('The record has been modified \n Do you want to save it ?')) {
         if (!validate_required($form.get(0))) {
-            return;
+            return false;
         }
         
         $form.ajaxSubmit({
@@ -1244,4 +1263,5 @@ function validate_action() {
         var action = arguments[1];
         action(params);
     }
+    return true;
 }

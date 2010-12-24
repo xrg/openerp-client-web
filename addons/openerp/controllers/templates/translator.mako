@@ -38,7 +38,7 @@
                             % if data:
                                 <td class="save_close"><button type="submit">${_("Save")}</button></td>
                             % endif
-                            <td class="save_close"><button type="" onclick="window.close()">${_("Close")}</button> </td>
+                            <td class="save_close"><button type="" onclick="window.frameElement.close()">${_("Close")}</button> </td>
                         </tr>
                     </table>
                 </div>
@@ -105,7 +105,7 @@
                                 <td width="100%">&nbsp;</td>
                                 <td class="save_close"><button type="submit">${_("Save")}</button></td>
                                 <td>
-                                	<td class="save_close"><button type="" onclick="window.close()">${_("Close")}</button> </td>
+                                	<td class="save_close"><button type="" onclick="window.frameElement.close()">${_("Close")}</button> </td>
                                	</td>
                             </tr>
                         </table>

@@ -2036,15 +2036,17 @@ td.tertiary div.wrap {
     max-width: 100%;
 }
 
-button {
+div.attachments div.sideheader-a {
+    margin-bottom: 7px;
 }
-
 #sidebar div.sideheader-a a {
     padding: 1px 4px;
 }
 
 #sidebar #add-attachment {
-    right: 1px;
+    float: right;
+    line-height: 13px;
+    margin-right: 7px;
 }
 
 .attachments-a li {
@@ -2076,9 +2078,8 @@ button {
     text-indent: -10001px;
 }
 
-#body_form_td {
+#body_form {
     padding: 10px 8px 4px;
-    border-color: #EAE7E7;
 }
 
 div.action-buttons {
@@ -2257,6 +2258,11 @@ div.box-a a.close {
     position: absolute;
     top: 5px;
     right: 5px;
+}
+
+img.no_image {
+    border: 1px solid gray;
+    background: transparent;
 }
 
 /* SPECIFIC

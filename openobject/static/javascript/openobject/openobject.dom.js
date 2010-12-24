@@ -36,7 +36,7 @@ if (typeof(jQuery) == "undefined") {
  * @param id the DOM id
  */
 function escapeId(id) {
-    return id.replace(/[^\r\n\f0-9a-f]/ig, "\\$&");
+    return id.replace(/[^\r\n\f0-9a-z_-]/ig, "\\$&");
 }
 /**
  * Transforms a node id in the corresponding CSS selector: escapes the id and prefixes with '#'.
@@ -65,6 +65,90 @@ function idSelector(nodeId) {
         if(!this.hasClass(from)) { return this; }
         this.removeClass(from).addClass(to);
         return this;
+    }
+})(jQuery);
+
+(function ($) {
+    function open($this, frame_attrs, data, options) {
+        var options = $.extend(true, {
+            modal: true,
+            close: function () {
+                this.close = null;
+                $(this).dialog('destroy').remove();
+            }
+        }, options);
+
+        options.width = get_width(options.width || "700px");
+        options.min_width = get_width(options.min_width || 0);
+        options.max_width = get_width(options.max_width || "100%");
+        options.height = get_height(options.height || "500px");
+        options.min_height = get_height(options.min_height || 0);
+        options.max_height = get_height(options.max_height || "100%");
+
+        if (options.width > options.max_width) options.width = options.max_width;
+        if (options.width < options.min_width) options.width = options.min_width;
+        if (options.height > options.max_height) options.height = options.max_height;
+        if (options.height < options.min_height) options.height = options.min_height;
+
+        var $frame = $('<iframe>', $.extend({
+            frameborder: 0
+        }, frame_attrs || {}))
+            .appendTo(document.documentElement)
+            .data('source-window', $this[0])
+            .data(data || {})
+            .dialog({
+                modal: options.modal,
+                width: options.width,
+                height: options.height,
+                close:  options.close
+            });
+        $frame[0].close = function () {
+            $frame.dialog('close');
+        };
+        return $frame;
+    }
+
+    function get_width(val) {
+        return get_size(val.toString(), $(window.top).width());
+    }
+
+    function get_height(val) {
+        return get_size(val.toString(), $(window.top).height());
+    }
+
+    function get_size(val, available_size) {
+        if (val.slice(-1) == "%") {
+            return Math.round(available_size / 100 * parseInt(val.slice(0, -1)));
+        } else {
+            return parseInt(val);
+        }
+    }
+    /**
+     * Creates an iframe-based jquery-ui dialog.
+     *
+     * Currently, the size of the dialog is hardcoded to 640x480, needs to
+     * be fixed.
+     *
+     * The dialog is also modal, and destroyed on close.
+     *
+     * @param frame_attrs The attributes to provide to the iframe being
+     * generated, should hold at least an <code>src</code> key
+     * @param data <code>jQuery.data</code> to be set on the iframe element
+     *  (<code>window.frameElement</code> from within the iframe)
+     * @param options Options/Properties of the dialog
+     *  width, height, min_width, max_width, min_height, max_height (in px or %)
+     */
+    $.frame_dialog = function (frame_attrs, data, options) {
+        // $this should be the holder for the window from which
+        // $.frame_dialog was originally called, even if $.frame_dialog()
+        // was bubbled to the top of the window stack.
+        var $this;
+        if(this == $) $this = $(window);
+        else $this = $(this);
+        if(window != window.top) {
+            return window.top.jQuery.frame_dialog.apply($this[0], arguments);
+        }
+        return open($this, frame_attrs, data, options);
     }
 })(jQuery);
 

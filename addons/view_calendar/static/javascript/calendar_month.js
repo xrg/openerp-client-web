@@ -40,7 +40,7 @@ MonthCalendar.prototype = {
 
         this.starts = MochiKit.DateTime.isoDate(getNodeAttribute('calMonth', 'dtStart'));
         this.first = MochiKit.DateTime.isoDate(getNodeAttribute('calMonth', 'dtFirst'));
-        this.firstWeek = this.first.getWeek(1);
+
 
         this.month = this.first.getMonth();
 
@@ -87,18 +87,25 @@ MonthCalendar.prototype = {
         this.weeks = [];
 
         var dt = new Date(this.starts);
+        var weekcount = dt.getWeek();
         for (var i = 0; i < 6; i++) {
 
             var week = new MonthCalendar.Week(this, dt);
             this.weeks = this.weeks.concat(week);
-
-            var a = A({href: 'javascript: void(0)', onclick : "getCalendar('" + week.days[0] + "', 'week')"}, this.firstWeek + i);
-
-            appendChildNodes('calTimeCol', DIV({'style': 'height: 133px'}, a));
-
-            for (var j = 0; j < 7; j ++) {
+			
+			for (var j = 0; j < 7; j ++) {
+                if (weekcount >= 52){
+					if (dt.getWeek() == 1){
+						weekcount = 1;
+					}
+                }
                 dt = dt.getNext();
             }
+			
+            var a = MochiKit.DOM.A({href: 'javascript: void(0)', onclick : "getCalendar('" + week.days[0] + "', 'week')"}, weekcount);
+            appendChildNodes('calTimeCol', DIV({'style': 'height: 133px'}, a));
+			 
+			weekcount= weekcount + 1;  
         }
 
         //calEventNew
@@ -175,7 +182,7 @@ MonthCalendar.prototype = {
         var elem = getElement('calEventNew');
         var dt = MochiKit.DateTime.isoTimestamp(getNodeAttribute(elem, 'dtStart'));
         
-        editCalendarRecord(null, toISOTimestamp(dt));
+        editCalendarRecord(null);
     },
 
     splitEvent : function(record, params) {
@@ -235,10 +242,10 @@ MonthCalendar.prototype = {
 
         var getWeekIndex = function(dt) {
             // get the first day of the week and return the week number
-            while (dt.getWeekDay() > 0) {
+            while (dt.getWeekDay() < 6) {
                 dt = dt.getPrevious();
             }
-            return dt.getWeek(1);
+            return dt.getWeek();
         }
 
         var self = this;
@@ -340,7 +347,7 @@ MonthCalendar.Week.prototype = {
 
             var md = DIV({'class': 'calMonthDay', 'dtDay' : toISODate(dt)},
                     DIV({'class':'calMonthDayTitle'},
-                            A({'href':'javascript: void(0)',
+                            MochiKit.DOM.A({'href':'javascript: void(0)',
                                 'onclick': "getCalendar('" + toISODate(dt) + "', 'day')"}, dt.getDate())));
 
             if (dt.getMonth() != this.calendar.first.getMonth()) {
@@ -515,10 +522,10 @@ MonthCalendar.Week.prototype = {
                 for (var j = i + 1; j < i + evt.dayspan; j++) {
 
                     if (j == 7) break;
-
+					
                     var d = self.days[j];
                     var cnt = containers[d];
-
+					
                     forEach(cnt.events, function(e) {
                         cnt.rows.push(evt.row);
                         e.row = e.row >= evt.row ? e.row + 1 : e.row;
@@ -540,7 +547,7 @@ MonthCalendar.Week.prototype = {
                 e = container.events[container.events.length - 1];
                 if (e.row > 5) {
                     appendChildNodes(element, DIV({'class': 'calEventInfo'},
-                            A({'href':'javascript: void(0)',
+                            MochiKit.DOM.A({'href':'javascript: void(0)',
                                'onclick': "getCalendar('" + dt + "', 'day')"},
                                '+ (' + (e.row - 5) + ') more...')));
                 }

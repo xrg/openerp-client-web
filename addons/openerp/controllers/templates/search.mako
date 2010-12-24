@@ -17,14 +17,11 @@
 
     <script type="text/javascript">
         var form_controller = '/openerp/search';
-        function close_dialog() {
-            window.close()
-        }
     </script>
     % if params.selectable == KINDS['M2O']:
     <script type="text/javascript">
         function close_dialog() {
-            $.m2o('close');
+            jQuery.m2o('close');
         }
         function do_select(selected_id){
             if (!selected_id) {
@@ -35,12 +32,15 @@
 
                 selected_id = ids[0];
             }
-            $.m2o('close', selected_id);
+            jQuery.m2o('close', selected_id);
         }
     </script>
     % elif params.selectable == KINDS['M2M']:
         % if params.get('return_to'):
             <script type="text/javascript">
+                function close_dialog() {
+                    window.close()
+                }
                 function do_select() {
                     var list_this = new ListView('_terp_list');
                     with(window.opener) {
@@ -67,35 +67,15 @@
             </script>
         % else:
 		    <script type="text/javascript">
-
+                function close_dialog() {
+                    jQuery.m2m('close');
+                }
 		        function do_select(id) {
-
-		            var source = "${params.source}";
-		            var list_this = new ListView('_terp_list');
-
-		            with(window.opener) {
-
-		                var m2m = Many2Many('${params.source}');
-		                var ids = m2m.getValue();
-
-		                if (id){
-		                    if (findValue(ids, id) == -1) ids.push(id);
-		                } else {
-		                    var boxes = list_this.getSelectedItems();
-
-		                    if(boxes.length == 0) {
-		                        error_display(_("No record selected..."));
-		                        return;
-		                    }
-
-		                    forEach(boxes, function(b){
-		                        if (findValue(ids, b.value) == -1) ids.push(b.value);
-		                    });
-		                }
-
-		                m2m.setValue(ids);
-		            }
-		            close_dialog();
+                    jQuery.m2m('close',
+                        id ? [id]
+                           : ListView('_terp_list').$getSelectedItems().map(function () {
+                                return parseInt(this.value, 10); }).get()
+                    );
 		        }
 		    </script>
         % endif
@@ -171,26 +151,19 @@
             </tr>
         </table>
         <script type="text/javascript">
-            if(jQuery('#${form_name} tr.pagerbar:first td.pager-cell-button')) {
-                jQuery('#${form_name} tr.pagerbar:first td.pager-cell-button:first a').click(function() {
-                    openLink(openobject.http.getURL('/openerp/openm2m/new', {
-                        _terp_model: '${params.model}',
-                        _terp_source: '${params.source}',
-                        _terp_m2m: '${params.source}',
-                        _terp_domain: openobject.dom.get('_terp_domain').value,
-                        _terp_context: openobject.dom.get('_terp_context').value}));
-                });
-            }
             jQuery('table.search_table input:text').eq(0).focus();
+            /*
             % if params.selectable == KINDS['M2M']:
+            */
                 var $select_link = jQuery('a.select-link').hide();
-                jQuery('form#search_form').click(function(event) {
-                    if ($(event.target).is("input[type=checkbox]")) {
-                        $select_link.show();
-                        $(this).unbind('click');
-                    }
+                jQuery('#search_form').click(function(event) {
+                    if (!jQuery(event.target).is(".grid-record-selector")) { return; }
+                    $select_link.toggle(
+                        !!jQuery('#search_form .grid-record-selector:checked').length)
                 });
+            /*
             % endif
+            */
         </script>
     </form>
 </div>

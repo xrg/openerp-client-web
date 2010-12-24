@@ -137,7 +137,7 @@ WeekCalendar.Header.prototype = {
         forEach(days, function(day) {
 
             var div = DIV({'class' : 'calDayHeader', 'style' : 'position: absolute; top : 0pt;'},
-                    A({'href': 'javascript: void(0)',
+                    MochiKit.DOM.A({'href': 'javascript: void(0)',
                         'onclick': "getCalendar('" + getNodeAttribute(day, 'dtDay') + "', 'day'); return false;"}, MochiKit.DOM.scrapeText(day)));
 
             self.elements = self.elements.concat(div);
@@ -334,7 +334,7 @@ WeekCalendar.AllDayGrid.prototype = {
         var elem = getElement('calEventNew');
         var dt = MochiKit.DateTime.isoTimestamp(getNodeAttribute(elem, 'dtStart'));
         
-        editCalendarRecord(null, toISOTimestamp(dt));
+        editCalendarRecord(null);
     },
 
     splitEvent : function(record, params) {
@@ -778,7 +778,7 @@ WeekCalendar.DayGrid.prototype = {
 
         setNodeAttribute(elem, 'dtend', toISOTimestamp(e));
 
-        editCalendarRecord(null, toISOTimestamp(dt));
+        editCalendarRecord(null);
 
         hideElement('calEventNew');
     },

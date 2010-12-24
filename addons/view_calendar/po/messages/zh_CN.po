@@ -1,0 +1,215 @@
+# Chinese (Simplified) translation for openobject-client-web
+# Copyright (c) 2010 Rosetta Contributors and Canonical Ltd 2010
+# This file is distributed under the same license as the openobject-client-web package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2010.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: openobject-client-web\n"
+"Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
+"POT-Creation-Date: 2010-12-17 10:28+0100\n"
+"PO-Revision-Date: 2010-12-22 10:16+0000\n"
+"Last-Translator: Weichen Wang <Unknown>\n"
+"Language-Team: Chinese (Simplified) <zh_CN@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Launchpad-Export-Date: 2010-12-23 05:01+0000\n"
+"X-Generator: Launchpad (build Unknown)\n"
+
+#: controllers/templates/calpopup.mako:82
+msgid "Save"
+msgstr "保存"
+
+#: controllers/templates/calpopup.mako:85
+msgid "Close"
+msgstr "关闭"
+
+#: widgets/_views.py:10
+msgid "Calendar"
+msgstr "日程表"
+
+#: widgets/_views.py:11
+msgid "Calendar view..."
+msgstr "日程表视图"
+
+#: widgets/_views.py:28
+msgid "Gantt"
+msgstr "甘特表"
+
+#: widgets/_views.py:29
+msgid "Gantt view..."
+msgstr "甘特表视图"
+
+#: widgets/utils.py:34
+msgid "Monday"
+msgstr "星期一"
+
+#: widgets/utils.py:35
+msgid "Tuesday"
+msgstr "星期二"
+
+#: widgets/utils.py:36
+msgid "Wednesday"
+msgstr "星期三"
+
+#: widgets/utils.py:37
+msgid "Thursday"
+msgstr "星期四"
+
+#: widgets/utils.py:38
+msgid "Friday"
+msgstr "星期五"
+
+#: widgets/utils.py:39
+msgid "Saturday"
+msgstr "星期六"
+
+#: widgets/utils.py:40
+msgid "Sunday"
+msgstr "星期日"
+
+#: widgets/utils.py:43
+msgid "January"
+msgstr "一月"
+
+#: widgets/utils.py:44
+msgid "February"
+msgstr "二月"
+
+#: widgets/utils.py:45
+msgid "March"
+msgstr "三月"
+
+#: widgets/utils.py:46
+msgid "April"
+msgstr "四月"
+
+#: widgets/utils.py:47
+msgid "May"
+msgstr "五月"
+
+#: widgets/utils.py:48
+msgid "June"
+msgstr "六月"
+
+#: widgets/utils.py:49
+msgid "July"
+msgstr "七月"
+
+#: widgets/utils.py:50
+msgid "August"
+msgstr "八月"
+
+#: widgets/utils.py:51
+msgid "September"
+msgstr "九月"
+
+#: widgets/utils.py:52
+msgid "October"
+msgstr "十月"
+
+#: widgets/utils.py:53
+msgid "November"
+msgstr "十一月"
+
+#: widgets/utils.py:54
+msgid "December"
+msgstr "十二月"
+
+#: widgets/utils.py:178
+#, python-format
+msgid "%(first)s to %(last)s %(month)s"
+msgstr "%(first)s 至 %(last)s %(month)s"
+
+#: widgets/widgets.py:289
+#, python-format
+msgid "%s, Week %s"
+msgstr "%s, Week %s"
+
+#: widgets/widgets.py:302
+#, python-format
+msgid "%s - %s"
+msgstr "%s - %s"
+
+#: widgets/widgets.py:304 widgets/widgets.py:327 widgets/widgets.py:371
+#, python-format
+msgid "Week %s"
+msgstr "Week %s"
+
+#: widgets/widgets.py:319
+#, python-format
+msgid "%s, Qtr %s"
+msgstr "%s, Qtr %s"
+
+#: widgets/widgets.py:338
+#, python-format
+msgid "W %s"
+msgstr "W %s"
+
+#: widgets/widgets.py:346 widgets/widgets.py:360
+#, python-format
+msgid "Year %s to Year %s"
+msgstr "Year %s 至 Year %s"
+
+#: widgets/templates/day.mako:4 widgets/templates/day.mako:7
+#: widgets/templates/gantt.mako:5 widgets/templates/gantt.mako:8
+#: widgets/templates/month.mako:4 widgets/templates/week.mako:4
+msgid "Today"
+msgstr "今天"
+
+#: widgets/templates/day.mako:21 widgets/templates/month.mako:15
+#: widgets/templates/week.mako:18
+msgid "Month Calendar..."
+msgstr "月历"
+
+#: widgets/templates/day.mako:22 widgets/templates/month.mako:15
+#: widgets/templates/week.mako:19
+msgid "Month"
+msgstr "月份"
+
+#: widgets/templates/day.mako:25 widgets/templates/month.mako:18
+#: widgets/templates/week.mako:22
+msgid "Week Calendar..."
+msgstr "周历"
+
+#: widgets/templates/day.mako:26 widgets/templates/month.mako:19
+#: widgets/templates/week.mako:22
+msgid "Week"
+msgstr "星期"
+
+#: widgets/templates/day.mako:30 widgets/templates/month.mako:22
+#: widgets/templates/week.mako:25
+msgid "Day Calendar..."
+msgstr "日历"
+
+#: widgets/templates/day.mako:30 widgets/templates/month.mako:23
+#: widgets/templates/week.mako:26
+msgid "Day"
+msgstr "日"
+
+#: widgets/templates/gantt.mako:7 widgets/templates/month.mako:3
+#: widgets/templates/week.mako:3
+msgid "Today..."
+msgstr "今天"
+
+#: widgets/templates/gantt.mako:22 widgets/templates/gantt.mako:24
+msgid "Zoom In"
+msgstr "放大"
+
+#: widgets/templates/gantt.mako:30 widgets/templates/gantt.mako:32
+msgid "Zoom Out"
+msgstr "缩小"
+
+#: widgets/templates/groups.mako:4
+msgid "Add"
+msgstr "增加"
+
+#: widgets/templates/sidebar.mako:3
+msgid "Navigator"
+msgstr "导航器"
+
+#: widgets/templates/week.mako:13
+#, python-format
+msgid "Week %(number)s"
+msgstr "Week %(number)s"

@@ -51,9 +51,10 @@
     % if view_type == 'form':
     <div class="attachments">
         <div class="sideheader-a">
-            <a href="#" id="add-attachment" class="button-a" style="line-height: 13px;">${_("Add")}</a>
             <h2>${_("Attachments")}</h2>
         </div>
+        <a href="#" id="add-attachment" class="button-a" style="line-height: 13px;">${_("Add")}</a>
+        <br style="clear: both"/>
         <ul id="attachments" class="attachments-a">
             % for attachment in attachments:
                 <!-- don't forget to also change jquery template in form.js/createAttachment -->
@@ -94,7 +95,7 @@
         % endif
         <li>
             <a title="${_('Customize current object or create a new object')}"
-               onclick="openobject.tools.openWindow('/openerp/viewed/new_model/edit?model=${model}')"
+               onclick="jQuery.frame_dialog({src:'/openerp/viewed/new_model/edit?model=${model}'}, null, { width: '80%', max_width: 1000, height: '90%' })"
                href="javascript: void(0)">${_("Customize Object")}</a>
         </li>
     </ul>

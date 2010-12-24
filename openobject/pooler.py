@@ -50,7 +50,11 @@ class Pool(object):
             if package in registry:
                 for key, typ in registry[package].iteritems():
                     types = self.types_pool.setdefault(group, {})
-                    if key in types and typ not in types[key].mro():
+                    if key in types:
+                        # new type is already a super class of current type
+                        # for the key, don't build new type
+                        if issubclass(types[key], typ):
+                            continue
                         # already have an object there, build subtype
                         types[key] = type(typ.__name__,
                                           (typ, types[key]),

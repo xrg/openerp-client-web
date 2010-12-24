@@ -20,9 +20,15 @@ function openLink(url /*optional afterLoad */) {
             success: doLoadingSuccess($app[0], url),
             error: loadingError(url)
         });
-    } else {
-        window.location.assign(url);
+        return;
     }
+    // Home screen
+    if(jQuery('#root').length) {
+        window.location.assign(
+            '/?' + jQuery.param({next: url}));
+        return;
+    }
+    window.location.assign(url);
 }
 /**
  * Displays a fancybox containing the error display
@@ -94,11 +100,40 @@ function doLoadingSuccess(app/*, url*/) {
         }
         if(url) {
             // only set url when we're actually opening the action
-            $.hash(url);
+            jQuery.hash(url);
         }
         jQuery(window).trigger('before-appcontent-change');
-        jQuery(app).html(xhr.responseText || data);
+        var data = xhr.responseText || data;
+        if (xhr.getResponseHeader('Content-Type') == 'text/javascript') {
+            try {
+                var data = jQuery.parseJSON(data);
+                if (data.error) {
+                    return error_display(data.error);
+                }
+                if (data.reload) {
+                    var view_type = jQuery('#_terp_view_type').val();
+                    if (view_type == 'tree') {
+                        new ListView('_terp_list').reload();
+                    } else {
+                        window.location.reload();
+                    }
+                }
+            } catch(e) {
+                return error_display('doLoadingSuccess: Cannot parse JSON');
+            }
+        } else {
+            jQuery(app).html(data);
+        }
         jQuery(window).trigger('after-appcontent-change');
+        var $caller = jQuery('[callback]:not([type="hidden"]):not([value=""]):not([disabled]):not([readonly]))');
+        $caller.each(function(){
+            if (jQuery(this).attr('kind') == 'boolean') {
+                onBooleanClicked(jQuery(this).attr('id'));
+            }
+            else {
+                jQuery(this).change();
+            }
+        });
     }
 }
 
@@ -112,19 +147,12 @@ function openAction(action_url, target) {
     var $dialogs = jQuery('.action-dialog');
     switch(target) {
         case 'new':
-            jQuery('<iframe>', {
+            jQuery.frame_dialog({
                 src: action_url,
-                'class': 'action-dialog',
-                frameborder: 0
-            }).appendTo(document.documentElement)
-                .dialog({
-                    modal: true,
-                    width: 640,
-                    height: 480,
-                    close: function () {
-                        jQuery(this).dialog('destroy').remove();
-                    }
-                });
+                'class': 'action-dialog'
+            }, null, {
+                width: 800
+            });
             break;
         case 'popup':
             window.open(action_url);
@@ -140,20 +168,33 @@ function closeAction() {
 }
 
 // Timers before displaying the wait box, in case the remote query takes too long
-/** @constant */
 var LINK_WAIT_NO_ACTIVITY = 300;
 /** @constant */
 var FORM_WAIT_NO_ACTIVITY = 500;
+/**
+ * selector for delegation to links nobody handles
+ */
+var UNTARGETED_LINKS_SELECTOR = 'a[href]:not([target]):not([href^="#"]):not([href^="javascript"]):not([rel=external])';
+
+// Prevent action links from blowing up when clicked before document.ready()
+jQuery(document).delegate(UNTARGETED_LINKS_SELECTOR, 'click', function (e) {
+    e.preventDefault();
+});
 jQuery(document).ready(function () {
+    // cleanup preventer
+    jQuery(document).undelegate(UNTARGETED_LINKS_SELECTOR);
     var $app = jQuery('#appContent');
     if ($app.length) {
-        jQuery('body').delegate('a[href]:not([target="_blank"]):not([href^="#"]):not([href^="javascript"]):not([rel=external])', 'click', function(){
-            validate_action();
+        jQuery('body').delegate('a[href]:not([target="_blank"]):not([href^="#"]):not([href^="javascript"]):not([rel=external])', 'click', function(event){
+            if (!validate_action()) {
+                event.stopImmediatePropagation();
+                return false;
+            }
         });
 
         // open un-targeted links in #appContent via xhr. Links with @target are considered
         // external links. Ignore hash-links.
-        jQuery(document).delegate('a[href]:not([target]):not([href^="#"]):not([href^="javascript"]):not([rel=external])', 'click', function () {
+        jQuery(document).delegate(UNTARGETED_LINKS_SELECTOR, 'click', function () {
             openLink(jQuery(this).attr('href'));
             return false;
         });
@@ -169,7 +210,7 @@ jQuery(document).ready(function () {
         });
     } else {
         if(jQuery(document).find('div#root').length) {
-            jQuery(document).delegate('a[href]:not([target]):not([href^="#"]):not([href^="javascript"]):not([rel=external])', 'click', function() {
+            jQuery(document).delegate(UNTARGETED_LINKS_SELECTOR, 'click', function() {
                 jQuery.ajax({
                     url: jQuery(this).attr('href'),
                     success: doLoadingSuccess(jQuery(this).attr('href'))

@@ -124,7 +124,7 @@ ListView.prototype = {
     },
 
     getSelectedRecords: function() {
-        return jQuery(this.getSelectedItems()).map(function() {
+        return this.$getSelectedItems().map(function() {
             if(this.value) {
                 return this.value
             } else {
@@ -134,10 +134,16 @@ ListView.prototype = {
         }).get();
     },
 
+    $getSelectedItems: function () {
+       return jQuery(idSelector(this.name))
+                .find('input.grid-record-selector')
+                .filter(function() {
+            return this.id && this.checked;
+        })
+    },
+
     getSelectedItems: function() {
-        return filter(function(box) {
-            return box.id && box.checked;
-        }, openobject.dom.select('input.grid-record-selector', this.name));
+        return this.$getSelectedItems().get();
     },
 
     onBooleanClicked: function() {
@@ -188,27 +194,24 @@ ListView.prototype = {
 // inline editor related functions
 MochiKit.Base.update(ListView.prototype, {
 
-    adjustEditors: function(newlist) {
-        return this.$getEditors(false, newlist).each(function(){
-            var $this = jQuery(this);
-            var $cell = $this.parent('.grid-cell');
-            //$this.attr('autocomplete', 'OFF').width($cell.width());
-            $this.attr('autocomplete', 'OFF');
-        }).get();
+    $adjustEditors: function(newlist) {
+        return this.$getEditors(false, newlist)
+                   .attr('autocomplete', 'OFF');
     },
 
-    bindKeyEventsToEditors: function(editors) {
-        var self = this;
-        jQuery(editors).filter(function () {
+    bindKeyEventsToEditors: function($editors) {
+        $editors.filter(function () {
             return this.type != 'hidden' && !this.disabled;
-        }).each(function () {
-            jQuery(this).addClass('listfields');
-            connect(this, 'onkeydown', self, self.onKeyDown);
-        });
+        }).addClass('listfields')
+          .keydown(jQuery.proxy(this, 'onKeyDown'));
     },
 
     $getEditors: function(named, dom) {
-        return jQuery(openobject.dom.select("input, select, textarea", dom ? dom : this.name)).filter(function() {
+        var base = jQuery(dom ? dom : idSelector(this.name));
+        return base.find("input")
+                .add("select", base)
+                .add("textarea", base)
+                .filter(function() {
             var name = named ? this.name : this.id;
             return name && name.indexOf('_terp_listfields') == 0;
         });
@@ -380,7 +383,7 @@ MochiKit.Base.update(ListView.prototype, {
     clear: function() {
         group_by = new Array();
         filter_context = [];
-        this.reload(-1, null, this.default_get_ctx, true)
+        this.reload(null, null, this.default_get_ctx, true)
     }
 });
 
@@ -437,8 +440,9 @@ MochiKit.Base.update(ListView.prototype, {
         if (sure && !confirm(sure)) {
             return;
         }
-
+        
         var self = this;
+        var _list = this.name;
         var prefix = this.name == '_terp_list' ? '' : this.name + '/';
 
         if (btype == "open") {
@@ -463,37 +467,28 @@ MochiKit.Base.update(ListView.prototype, {
             _terp_button_type : btype
         };
 
-        var req = eval_domain_context_request({source: this.name, context : context || '{}',active_id: id, active_ids: openobject.dom.get(prefix + '_terp_ids').value});
-        req.addCallback(function(res) {
-            params['_terp_context'] = res.context;
-            var req = openobject.http.postJSON('/openerp/listgrid/button_action', params);
-            req.addCallback(function(obj) {
-                if (obj.error) {
-                    return error_display(obj.error);
-                }
-
-                if (obj.result && obj.result.url) {
-                    window.open(obj.result.url);
-                }
-
-                if(obj.res) {
-                    var popup_win = openobject.tools.openWindow("");
-                    if(window.browser.isGecko) {
-                        popup_win.document.write(obj.res);
-                        popup_win.document.close();
-                    }
-                    else {
-                        popup_win.document.close();
-                        popup_win.document.write(obj.res);
-                    }
-                    return false;
-                }
-
-                if (obj.reload) {
-                    window.location.reload();
-                } else {
-                    self.reload();
-                }
+        eval_domain_context_request({
+            source: this.name,
+            context : context || '{}',
+            active_id: id,
+            active_ids: openobject.dom.get(prefix + '_terp_ids').value
+        }).addCallback(function(res) {
+            var $form = jQuery('#listgrid_button_action');
+            params['_terp_context'] = res.context || '{}';
+            if($form.length) {
+                $form.remove();
+            }
+            var $form = jQuery('<form>', {
+                'id': 'listgrid_button_action',
+                'name': 'listgrid_button_action',
+                'action':'/openerp/listgrid/button_action',
+                'method': 'post',
+                'enctype': 'multipart/form-data'
+            }).appendTo(document.documentElement);
+            $form.ajaxSubmit({
+                data: params,
+                success: doLoadingSuccess(jQuery('#appContent')),
+                error: loadingError()
             });
         });
     }
@@ -759,19 +754,16 @@ MochiKit.Base.update(ListView.prototype, {
 
                 else {
                     var __listview = openobject.dom.get(self.name).__listview;
-                    jQuery('[id="'+self.name+'"]').parent().replaceWith(obj.view);
+                    jQuery(idSelector(self.name)).parent().replaceWith(obj.view);
                 }
 
-                var newlist = jQuery('[id="'+self.name+'"]');
-
-                var editors = self.adjustEditors(newlist.get(0));
-                if (editors.length > 0) {
-                    self.bindKeyEventsToEditors(editors);
+                var $editors = self.$adjustEditors(
+                        document.getElementById(self.name));
+                if ($editors.length > 0) {
+                    self.bindKeyEventsToEditors($editors);
                 }
 
                 openobject.dom.get(self.name).__listview = __listview;
-
-                updateConcurrencyInfo(obj.info);
 
                 // set focus on the first field
                 var first = jQuery('input.listfields')[0] || null;
@@ -781,8 +773,8 @@ MochiKit.Base.update(ListView.prototype, {
                 }
 
                 // call on_change for default values
-                if (editors.length && edit_inline == -1) {
-                    jQuery(editors).each(function () {
+                if ($editors.length && edit_inline == -1) {
+                    $editors.each(function () {
                         var $this = jQuery(this);
                         if ($this.val() && $this.attr('callback')) {
                             MochiKit.Signal.signal(this, 'onchange');
@@ -824,23 +816,31 @@ MochiKit.Base.update(ListView.prototype, {
         }
 
         ids = '[' + ids.join(',') + ']';
-        openobject.tools.openWindow(openobject.http.getURL('/openerp/impex/exp', {
+        jQuery.frame_dialog({src:openobject.http.getURL('/openerp/impex/exp', {
             _terp_model: this.model,
             _terp_source: this.name,
             _terp_context: openobject.dom.get('_terp_context').value,
             _terp_search_domain: openobject.dom.get('_terp_search_domain').value,
             _terp_ids: ids,
             _terp_view_ids : this.view_ids,
-            _terp_view_mode : this.view_mode}),{width: 700, height: 610});
+            _terp_view_mode : this.view_mode})
+        }, null, {
+            height: '98%',
+            max_height: 600
+        });
     },
 
     importData: function() {
-        openobject.tools.openWindow(openobject.http.getURL('/openerp/impex/imp', {
+        jQuery.frame_dialog({src:openobject.http.getURL('/openerp/impex/imp', {
             _terp_model: this.model,
             _terp_context: openobject.dom.get('_terp_context').value,
             _terp_source: this.name,
             _terp_view_ids : this.view_ids,
-            _terp_view_mode : this.view_mode}),{width: 700, height: 500});
+            _terp_view_mode : this.view_mode})
+        }, null, {
+            height: '98%',
+            max_height: 550
+        });
     }
 });
 

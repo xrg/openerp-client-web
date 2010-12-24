@@ -7,22 +7,22 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2010-11-25 10:30+0530\n"
+"POT-Creation-Date: 2010-12-17 10:28+0100\n"
 "PO-Revision-Date: 2010-11-29 07:17+0000\n"
 "Last-Translator: OpenERP Web Administrators <Unknown>\n"
 "Language-Team: fr <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2010-11-30 04:48+0000\n"
+"X-Launchpad-Export-Date: 2010-12-18 05:02+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 "Generated-By: Babel None\n"
 
-#: controllers/templates/calpopup.mako:78
+#: controllers/templates/calpopup.mako:82
 msgid "Save"
 msgstr "Sauvegarder"
 
-#: controllers/templates/calpopup.mako:81
+#: controllers/templates/calpopup.mako:85
 msgid "Close"
 msgstr "Fermer"
 
@@ -153,52 +153,52 @@ msgstr "S %s"
 msgid "Year %s to Year %s"
 msgstr "Année %s à l'année %s"
 
-#: widgets/templates/day.mako:8 widgets/templates/day.mako:11
-#: widgets/templates/gantt.mako:11 widgets/templates/month.mako:8
-#: widgets/templates/week.mako:8
+#: widgets/templates/day.mako:4 widgets/templates/day.mako:7
+#: widgets/templates/gantt.mako:5 widgets/templates/gantt.mako:8
+#: widgets/templates/month.mako:4 widgets/templates/week.mako:4
 msgid "Today"
 msgstr "Aujourd'hui"
 
-#: widgets/templates/day.mako:34 widgets/templates/month.mako:28
-#: widgets/templates/week.mako:30
+#: widgets/templates/day.mako:21 widgets/templates/month.mako:15
+#: widgets/templates/week.mako:18
 msgid "Month Calendar..."
 msgstr "Calendrier mensuel"
 
-#: widgets/templates/day.mako:35 widgets/templates/month.mako:28
-#: widgets/templates/week.mako:31
+#: widgets/templates/day.mako:22 widgets/templates/month.mako:15
+#: widgets/templates/week.mako:19
 msgid "Month"
 msgstr "Mois"
 
-#: widgets/templates/day.mako:38 widgets/templates/month.mako:31
-#: widgets/templates/week.mako:34
+#: widgets/templates/day.mako:25 widgets/templates/month.mako:18
+#: widgets/templates/week.mako:22
 msgid "Week Calendar..."
 msgstr "Calendrier hebdomadaire..."
 
-#: widgets/templates/day.mako:39 widgets/templates/month.mako:32
-#: widgets/templates/week.mako:34
+#: widgets/templates/day.mako:26 widgets/templates/month.mako:19
+#: widgets/templates/week.mako:22
 msgid "Week"
 msgstr "Semaine"
 
-#: widgets/templates/day.mako:43 widgets/templates/month.mako:35
-#: widgets/templates/week.mako:37
+#: widgets/templates/day.mako:30 widgets/templates/month.mako:22
+#: widgets/templates/week.mako:25
 msgid "Day Calendar..."
 msgstr "Calendrier journalier..."
 
-#: widgets/templates/day.mako:43 widgets/templates/month.mako:36
-#: widgets/templates/week.mako:38
+#: widgets/templates/day.mako:30 widgets/templates/month.mako:23
+#: widgets/templates/week.mako:26
 msgid "Day"
 msgstr "Jour"
 
-#: widgets/templates/gantt.mako:10 widgets/templates/month.mako:7
-#: widgets/templates/week.mako:7
+#: widgets/templates/gantt.mako:7 widgets/templates/month.mako:3
+#: widgets/templates/week.mako:3
 msgid "Today..."
 msgstr "Aujourd'hui..."
 
-#: widgets/templates/gantt.mako:17 widgets/templates/gantt.mako:19
+#: widgets/templates/gantt.mako:22 widgets/templates/gantt.mako:24
 msgid "Zoom In"
 msgstr "Zoom avant"
 
-#: widgets/templates/gantt.mako:25 widgets/templates/gantt.mako:27
+#: widgets/templates/gantt.mako:30 widgets/templates/gantt.mako:32
 msgid "Zoom Out"
 msgstr "Zoom arrière"
 
@@ -210,7 +210,7 @@ msgstr "Ajouter"
 msgid "Navigator"
 msgstr "Navigateur"
 
-#: widgets/templates/week.mako:24
+#: widgets/templates/week.mako:13
 #, python-format
 msgid "Week %(number)s"
 msgstr "Semaine %(number)s"

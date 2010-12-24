@@ -7,21 +7,21 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openobject-client-web\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2010-11-25 10:31+0530\n"
+"POT-Creation-Date: 2010-12-17 10:28+0100\n"
 "PO-Revision-Date: 2010-12-08 23:47+0000\n"
 "Last-Translator: Paulino Ascenção <Unknown>\n"
 "Language-Team: Portuguese <pt@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2010-12-10 05:01+0000\n"
+"X-Launchpad-Export-Date: 2010-12-18 05:03+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
-#: controllers/_diagram.py:100 controllers/_diagram.py:160
+#: controllers/_diagram.py:100 controllers/_diagram.py:222
 msgid "Could not delete state"
 msgstr "Não pode eliminar o estado"
 
-#: controllers/_diagram.py:223
+#: controllers/_diagram.py:285
 msgid "No workflow associated!"
 msgstr "Nenhum fluxo de trabalho associado!"
 
@@ -38,62 +38,62 @@ msgstr "%(name)s - recurso: %(resource)s, estado: %(state)s"
 msgid "Last modified by:"
 msgstr "Última alteração por:"
 
-#: controllers/templates/process.mako:4 controllers/templates/process.mako:89
+#: controllers/templates/process.mako:4 controllers/templates/process.mako:87
 #: controllers/templates/process_tip.mako:5
 msgid "Process"
 msgstr "Processo"
 
-#: controllers/templates/process.mako:51
-msgid "show fields"
-msgstr "mostrar campos"
-
-#: controllers/templates/process.mako:52
-msgid "hide fields"
-msgstr "esconder campos"
-
-#: controllers/templates/process.mako:57
+#: controllers/templates/process.mako:55
 msgid "Documentation"
 msgstr "Documentação"
 
-#: controllers/templates/process.mako:58
-msgid "Opportunities Documentation Online"
-msgstr "Documentação Online das Oportunidades"
+#: controllers/templates/process.mako:56
+msgid "Read Documentation Online"
+msgstr ""
 
-#: controllers/templates/process.mako:64
+#: controllers/templates/process.mako:62
 msgid "Forum"
 msgstr ""
 
-#: controllers/templates/process.mako:65
+#: controllers/templates/process.mako:63
 msgid "Community Discussion"
 msgstr "Discussão da comunidade"
 
-#: controllers/templates/process.mako:70
+#: controllers/templates/process.mako:68
 msgid "Books"
 msgstr "Livros"
 
-#: controllers/templates/process.mako:71
+#: controllers/templates/process.mako:69
 msgid "Get the book on Amazon"
 msgstr "Obtenha o livro na Amazon"
 
-#: controllers/templates/process.mako:76
-msgid "Support / Maintenance"
-msgstr "Suporte / Manutenção"
+#: controllers/templates/process.mako:74
+msgid "Support / Publisher Warranty"
+msgstr ""
 
-#: controllers/templates/process.mako:77
+#: controllers/templates/process.mako:75
 msgid "Get the OpenERP Warranty"
 msgstr "Adquirir garantia OpenERP"
 
-#: controllers/templates/process.mako:99
+#: controllers/templates/process.mako:97
 msgid "Select Process"
 msgstr "Selecionar processo"
 
-#: controllers/templates/process.mako:105
+#: controllers/templates/process.mako:103
 msgid "Select"
 msgstr "Selecionar"
 
-#: controllers/templates/process.mako:118
+#: controllers/templates/process.mako:116
 msgid "[Edit Process]"
 msgstr "[Editar processo]"
+
+#: controllers/templates/process.mako:117
+msgid "[show fields]"
+msgstr ""
+
+#: controllers/templates/process.mako:118
+msgid "[hide fields]"
+msgstr ""
 
 #: controllers/templates/process_open.mako:54
 #: controllers/templates/process_tip.mako:20

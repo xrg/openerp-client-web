@@ -32,12 +32,25 @@
             onclick="openobject.tools.openWindow(openobject.http.getURL('/openerp/image', {model: '${model}', id: '${id}', field : '${field}'}), {width: 500, height: 300});"
         />
     % else:
-        <input type="file" class="${css_class}" id="${name}" ${py.attrs(attrs)} name="${name}"/>
+        <img 
+            id="${field}"
+            name="${name}" 
+            border='1' 
+            alt="Click here to add new image." 
+            align="left" 
+            src=""
+            width="100"
+            height="100"
+            class="${css_class} no_image"
+            ${py.attrs(attrs)}
+            onclick="openobject.tools.openWindow(openobject.http.getURL('/openerp/image', {model: '${model}', id: '${id}', field : '${field}'}), {width: 500, height: 300});" 
+        />
     % endif
 % else:
     % if id:
         <img
             id="${field}"
+            name="${name}"
             border='1'
             align="left"
             src="${src}"
@@ -49,6 +62,7 @@
             % endif
         />
     % else:
+        
         % if src:
             <img
                 src="data:image/png;base64,${src}"
@@ -78,7 +92,6 @@
                 % endif
             />
         % endif
-        
     % endif
 % endif
-<input type="hidden" id="_${field}" name="${name}" value="${src or bin_src or ''}">
+<input type="hidden" id="${name}" name="${name}" is_image="true" value="${src or bin_src or ''}"/>

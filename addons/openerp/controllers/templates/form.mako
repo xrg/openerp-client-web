@@ -63,7 +63,16 @@
     %>
     <table id="main_form_body" class="view" cellpadding="0" cellspacing="0" border="0" width="100%">
         <tr>
-            <td id="body_form_td" width="100%" valign="top">
+            <td width="100%" valign="top">
+                % if tips:
+                    <div id="help-tips">
+                        <p>${tips}</p>
+                        <a href="/openerp/form/close_or_disable_tips" id="disable-tips" style="text-decoration: underline;">${_("Disable all Tips")}</a>
+                        <a href="#hide" id="hide-tips" style="text-decoration: underline;">${_("Hide this Tip")}</a>
+                        <br style="clear: both"/>
+                    </div>
+                % endif
+                <div id="body_form">
                 % if buttons.toolbar:
                     <ul id="view-selector">
                     % for view in buttons.views:
@@ -99,14 +108,6 @@
                           <small class="sub">${display_name['field']} : ${display_name['value']}</small>
                     % endif
                 </h1>
-                % if tips:
-                    <div id="help-tips">
-                        <p>${tips}</p>
-                        <a href="/openerp/form/close_or_disable_tips" id="disable-tips" style="text-decoration: underline;">${_("Disable all Tips")}</a>
-                        <a href="#hide" id="hide-tips" style="text-decoration: underline;">${_("Hide this Tip")}</a>
-                        <br style="clear: both"/>
-                    </div>
-                % endif
                 % if form.screen.view_type == 'form':
                     % if form.logs.logs:
                         ${form.logs.display()}
@@ -169,6 +170,7 @@
                 </div>
                 % endif
                 <div${ " class='non-editable'" if not form.screen.editable and form.screen.view_type == 'form' else "" | n }>${form.display()}</div>
+                </div>
 
             </td>
             % if form.sidebar:

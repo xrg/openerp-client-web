@@ -47,7 +47,7 @@ def _get_modules(modules):
         modules = modules.split(",")
 
     for module in modules:
-        d = os.path.join(paths.addons(), module)
+        d = paths.addons(module)
         if os.path.isfile(os.path.join(d, '__openerp__.py')):
             yield module, d
 
@@ -70,24 +70,6 @@ def _get_locales(path, locale=None):
         for f in os.listdir(os.path.join(path, 'po', 'messages')):
             if f.endswith('.po'):
                 yield f[:-3]
-
-def _make_backup(fpath):
-
-    if os.path.exists(fpath):
-        i = 0
-        while True:
-            i += 1
-            npath = '%s.%s.bak' % (fpath, i)
-            if not os.path.exists(npath):
-                break
-        try:
-            fo = open(npath, "w")
-            try:
-                fo.write(open(fpath).read())
-            finally:
-                fo.close()
-        except:
-            pass
 
 class BabelCommand(BaseCommand):
 
@@ -150,9 +132,8 @@ class BabelCommand(BaseCommand):
         mappath = os.path.join(os.path.dirname(__file__), "mapping", "%s.cfg" % domain)
 
         os.chdir(path)
-        _make_backup(pot)
 
-        print "Creating '%s'" % pot
+        print "Creating '%s'..." % pot
         self.execute("extract", '.', o=pot, F=mappath)
 
     def update(self, locale, domain, path):
@@ -289,5 +270,3 @@ openobject.gettext.update(
         for m, p in modules:
             for d in domains:
                 action(options.locale, d, p)
-
-# vim: ts=4 sts=4 sw=4 si et

@@ -1,0 +1,128 @@
+# Latvian translation for openobject-client-web
+# Copyright (c) 2010 Rosetta Contributors and Canonical Ltd 2010
+# This file is distributed under the same license as the openobject-client-web package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2010.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: openobject-client-web\n"
+"Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
+"POT-Creation-Date: 2010-12-17 10:28+0100\n"
+"PO-Revision-Date: 2010-12-18 14:45+0000\n"
+"Last-Translator: Vladimirs Kuzmins <Unknown>\n"
+"Language-Team: Latvian <lv@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Launchpad-Export-Date: 2010-12-19 04:46+0000\n"
+"X-Generator: Launchpad (build Unknown)\n"
+
+#: controllers/_diagram.py:100 controllers/_diagram.py:222
+msgid "Could not delete state"
+msgstr "Stāvokli nevarēja izdzēst"
+
+#: controllers/_diagram.py:285
+msgid "No workflow associated!"
+msgstr "Nav piesaistītas darbplūsmas!"
+
+#: controllers/process.py:53
+msgid "Help: Not Defined"
+msgstr "Palīdzība: Nav definēts"
+
+#: controllers/process.py:92
+#, python-format
+msgid "%(name)s - Resource: %(resource)s, State: %(state)s"
+msgstr "%(name)s - Resurss: %(resource)s, Stāvoklis: %(state)s"
+
+#: controllers/process.py:104
+msgid "Last modified by:"
+msgstr "Laboja:"
+
+#: controllers/templates/process.mako:4 controllers/templates/process.mako:87
+#: controllers/templates/process_tip.mako:5
+msgid "Process"
+msgstr "Process"
+
+#: controllers/templates/process.mako:55
+msgid "Documentation"
+msgstr "Dokumentācija"
+
+#: controllers/templates/process.mako:56
+msgid "Read Documentation Online"
+msgstr "Lasiet dokumentāciju tiešsaistē"
+
+#: controllers/templates/process.mako:62
+msgid "Forum"
+msgstr "Forums"
+
+#: controllers/templates/process.mako:63
+msgid "Community Discussion"
+msgstr "Kopienas diskusijas"
+
+#: controllers/templates/process.mako:68
+msgid "Books"
+msgstr "Grāmatas"
+
+#: controllers/templates/process.mako:69
+msgid "Get the book on Amazon"
+msgstr "Dabūt grāmatu Amazon"
+
+#: controllers/templates/process.mako:74
+msgid "Support / Publisher Warranty"
+msgstr "Uzturēšana / Izdevēja garantija"
+
+#: controllers/templates/process.mako:75
+msgid "Get the OpenERP Warranty"
+msgstr "Dabūt OpenERP garantiju"
+
+#: controllers/templates/process.mako:97
+msgid "Select Process"
+msgstr "Izvēlēties Procesu"
+
+#: controllers/templates/process.mako:103
+msgid "Select"
+msgstr "Izvēlēties"
+
+#: controllers/templates/process.mako:116
+msgid "[Edit Process]"
+msgstr "[Rediģēt procesu]"
+
+#: controllers/templates/process.mako:117
+msgid "[show fields]"
+msgstr "[rādīt laukus]"
+
+#: controllers/templates/process.mako:118
+msgid "[hide fields]"
+msgstr "[slēpt laukus]"
+
+#: controllers/templates/process_open.mako:54
+#: controllers/templates/process_tip.mako:20
+#: controllers/templates/wkf_popup.mako:52
+msgid "Close"
+msgstr "Aizvērt"
+
+#: controllers/templates/process_open.mako:55
+#: controllers/templates/wkf_popup.mako:49
+msgid "Save"
+msgstr "Saglabāt"
+
+#: controllers/templates/workflow.mako:4
+msgid "Workflow"
+msgstr "Darbplūsma"
+
+#: controllers/templates/workflow.mako:20
+#, python-format
+msgid "Workflow (%s)"
+msgstr "Darbplūsma (%s)"
+
+#: widgets/_views.py:8
+msgid "Diagram"
+msgstr "Diagramma"
+
+#: widgets/_views.py:9
+msgid "Diagram view..."
+msgstr "Diagrammas skats..."
+
+#: widgets/templates/diagram.mako:26
+msgid "Loading..."
+msgstr "Notiek ielāde..."

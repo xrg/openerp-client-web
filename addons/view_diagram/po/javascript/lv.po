@@ -1,0 +1,38 @@
+# Latvian translation for openobject-client-web
+# Copyright (c) 2010 Rosetta Contributors and Canonical Ltd 2010
+# This file is distributed under the same license as the openobject-client-web package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2010.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: openobject-client-web\n"
+"Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
+"POT-Creation-Date: 2010-12-17 10:28+0100\n"
+"PO-Revision-Date: 2010-12-18 14:34+0000\n"
+"Last-Translator: Vladimirs Kuzmins <Unknown>\n"
+"Language-Team: Latvian <lv@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Launchpad-Export-Date: 2010-12-19 04:45+0000\n"
+"X-Generator: Launchpad (build Unknown)\n"
+
+#: static/javascript/infobox.js:143
+msgid "Do you really want to delete this record?"
+msgstr "Vai tiešām vēlaties izdzēst šo ierakstu?"
+
+#: static/javascript/process.js:178
+msgid "Notes:"
+msgstr "Piezīmes:"
+
+#: static/javascript/process.js:186
+msgid "Subflows:"
+msgstr "Apakšplūsmas:"
+
+#: static/javascript/process.js:190
+msgid "Related:"
+msgstr "Saistītais:"
+
+#: static/javascript/process.js:274
+msgid "Help"
+msgstr "Palīdzība"

@@ -66,7 +66,6 @@ background = '#F5F5F5'
             % for i, (field, field_attrs) in enumerate(headers):
                 % if field != 'button':
                     <td class="grid-cell ${field_attrs.get('type', 'char')}"
-                        style="${(ch.get(field).color or None) and 'color: ' + ch.get(field).color};"
                         sortable_value="${ch.get(field).get_sortable_text()}">
                         <span>${ch[field].display()}</span>
                     </td>

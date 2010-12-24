@@ -37,7 +37,7 @@
                             <table width="100%" align="center" cellspacing="2px" cellpadding="0" style="border:none;">
                                 <tr>
                                     <td class="label"><label for="db">${_("Database:")}</label></td>
-                                    <td style="padding: 5px 5px 5px 2px;">
+                                    <td style="padding: 3px;">
                                         % if dblist is None:
                                             <input type="text" name="db" id="db" class="db_user_pass" value="${db}"/>
                                         % else:
@@ -51,11 +51,11 @@
                                 </tr>
                                 <tr>
                                     <td class="label"><label for="user">${_("User:")}</label></td>
-                                    <td style="padding: 0px 10px 5px 2px;"><input type="text" id="user" name="user" class="db_user_pass" value="${user}" autofocus="true"/></td>
+                                    <td style="padding: 3px;"><input type="text" id="user" name="user" class="db_user_pass" value="${user}" autofocus="true"/></td>
                                 </tr>
                                 <tr>
                                     <td class="label"><label for="password">${_("Password:")}</label></td>
-                                    <td style="padding: 0px 10px 5px 2px;"><input type="password" value="${password}" id="password" name="password" class="db_user_pass"/></td>
+                                    <td style="padding: 3px;"><input type="password" value="${password}" id="password" name="password" class="db_user_pass"/></td>
                                 </tr>
                                 <tr>
                                     <td></td>

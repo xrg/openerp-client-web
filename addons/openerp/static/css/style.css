@@ -69,10 +69,6 @@ div.non-editable table.fields td {
 div.non-editable div.notebook table.fields td {
     border: 1px solid #F9F9F9;
 }
-td.label:not(.search_fields) {
-    /* Ugly hack meanwhile we decide if the width of cells should be computed or not */
-    width: 1%;
-}
 table.form-container td.label {
     width: auto;
 }
@@ -741,7 +737,7 @@ table.m2o_readonly {
 }
 
 .view_form_options {
-    padding: 3px 0 3px 0;
+    padding: 3px 0 8px 0;
 }
 .view_form_options div {
     margin: 3px 0;
@@ -775,7 +771,7 @@ input.db_user_pass {
 
 td.db_login_buttons {
     text-align: right;
-    padding-right: 5px;
+    padding: 5px 3px 0 0;
 }
 
 /* POPUPS */
@@ -835,6 +831,23 @@ div#more_logs {
 	display: none;
 }
 
+div#system-logs {
+    padding: 10px;
+}
+div#system-logs table {
+    border: none;
+}
+div#system-logs a {
+    text-decoration: underline;
+    font-weight: bold;
+}
+div#system-logs table tr:hover {
+    background: #eee;
+}
+div#system-logs table tr td {
+    padding: 2px;
+}
+
 div#serverlog {
     border-radius: 3px;
     -moz-border-radius: 3px;
@@ -855,13 +868,9 @@ div#serverlog a {
 }
 
 #help-tips {
-    border-radius: 3px;
-    -moz-border-radius: 3px;
-    -webkit-border-radius: 3px;
     background: #fff none repeat scroll 0 0;
-    border: 1px solid #CECBCB;
-    margin: 2px 0 6px 0;
-    padding: 1px 5px;
+    border-bottom: 1px solid #CECBCB;
+    padding: 1px 10px;
     color: #4C4C4C;
 }
 
@@ -876,6 +885,7 @@ a#disable-tips:hover, a#hide-tips:hover {
 
 #help-tips p {
     padding: 6px 1px 4px;
+    font-size: 105%;
 }
 
 .pager-cell-button {

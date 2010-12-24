@@ -6,10 +6,29 @@
     <script type="text/javascript" src="/openerp/static/javascript/accordion.js"></script>
     <script type="text/javascript" src="/openerp/static/javascript/treegrid.js"></script>
     <script type="text/javascript" src="/openerp/static/javascript/notebook/notebook.js"></script>
-    
+
     <script type="text/javascript">
         var DOCUMENT_TO_LOAD = "${load_content|n}";
         var CAL_INSTANCE = null;
+
+        // Make user home widgets deletable
+        jQuery(document).delegate('#user_widgets a.close', 'click', function(e) {
+            var $widget = jQuery(this);
+            jQuery.post(
+                $widget.attr('href'),
+                {widget_id: $widget.attr('id')},
+                function(obj) {
+                    if(obj.error) {
+                        error_display(obj.error);
+                        return;
+                    }
+                    var $root = $widget.closest('.sideheader-a');
+                    $root.next()
+                         .add($root)
+                         .remove();
+                }, 'json');
+            return false;
+        });
 
         jQuery(document).ready(function () {
             jQuery('.web_dashboard').hover(function () {
@@ -25,24 +44,26 @@
                 openLink(DOCUMENT_TO_LOAD);
                 return
             }
-
-            // Make user home widgets deletable
-            jQuery('#user_widgets a.close').click(function() {
-                var $widget = jQuery(this);
-                jQuery.post(
-                    $widget.attr('href'),
-                    {widget_id: $widget.attr('id')},
-                    function(obj) {
-                        if(obj.error) {
-                            error_display(obj.error);
-                            return;
-                        }
-                        var $root = $widget.closest('.sideheader-a');
-                        $root.next()
-                             .add($root)
-                             .remove();
-                    }, 'json');
-            });
+        });
+        // Make system logs deletable
+        jQuery('#system-logs a.close-system-log').click(function() {
+            var $link = jQuery(this);
+            jQuery.post(
+                $link.attr('href'),
+                { log_id: $link.attr('id').replace('system-log-', '') },
+                function(obj) {
+                    if(obj.error) {
+                        error_display(obj.error);
+                        return;
+                    }
+                    if ($link.parents('table').eq(0).find('tr').length == 1) {
+                        $('#system-logs').prev().hide();
+                        $('#system-logs').hide();
+                    } else {
+                        $link.parents('tr').eq(0).remove();
+                    }
+                }, 'json');
+            return false;
         });
     </script>
 </%def>
@@ -138,30 +159,34 @@
                                     </div>
                                 </td>
                                 <td class="tertiary">
-                                    <div class="wrap" style="padding: 10px;">
-                                        <ul class="split-a">
-                                            <li class="one">
-                                                <a class="cta-a" href="http://www.openerp.com/services/subscribe-onsite" target="_blank">
-                                                    <span>
-                                                        <strong>${_('Use On-Site')}</strong>
-                                                        ${_("Get the OpenERP Warranty")}
-                                                    </span>
-                                                </a>
-                                            </li>
-                                            <li class="two">
-                                                <a class="cta-a" href="http://www.openerp.com/online" target="_blank">
-                                                    <span>
-                                                        <strong>${_('Use Online')}</strong>
-                                                        ${_("Subscribe and start")}
-                                                    </span>
-                                                </a>
-                                            </li>
-                                        </ul>
-                                    </div>
+                                    % if len(welcome_messages):
+                                        <div class="sideheader-a">
+                                            <h2>${_("System Logs")}</h2>
+                                        </div>
+                                        <div class="box-a" id="system-logs">
+                                            <table width="100%">
+                                            % for welcome_message in welcome_messages:
+                                                <tr>
+                                                    <td colspan="${ '1' if show_close_btn else '2'}">
+                                                        ${welcome_message[1]|n}
+                                                    </td>
+                                                    % if show_close_btn:
+                                                    <td>
+                                                        <a id="system-log-${welcome_message[0]}" href="${py.url('/openerp/remove_log')}" class="close-system-log">
+                                                            <img id="closeServerLog" style="cursor: pointer;" align="right"
+                                                             src="/openerp/static/images/attachments-a-close.png" title="Close">
+                                                        </a>
+                                                    </td>
+                                                    % endif
+                                                </tr>
+                                            % endfor
+                                            </table>
+                                        </div>
+                                    % endif
                                     <div class="sideheader-a">
                                         <a href="${py.url('/openerp/widgets/add')}"
                                            id="add_user_widget" class="button-a"
-                                                style="right: 1px;">${_("Add")}</a>
+                                                style="right: 1px;">${_("More")}</a>
                                         <h2>${_("Widgets")}</h2>
                                     </div>
                                     <div class="box-a" id="user_widgets">

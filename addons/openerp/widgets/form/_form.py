@@ -552,15 +552,13 @@ class DTLink(JSLink):
 
     def update_params(self, params):
         super(DTLink, self).update_params(params)
+        locale = get_locale()
 
-        lang = get_locale()
-        link = "jscal/lang/calendar-%s.js" % lang
-
+        link = "jscal/lang/calendar-%s.js" % locale
         if tools.resources.resource_exists("openerp", "static", link):
             params['link'] = tools.url(["/openerp/static", link])
         else:
-            lang = lang.split('_')[0]
-            link = "jscal/lang/calendar-%s.js" % lang
+            link = "jscal/lang/calendar-%s.js" % locale.language
             if tools.resources.resource_exists("openerp", "static", link):
                 params['link'] = tools.url(["/openerp/static", link])
 
@@ -616,15 +614,19 @@ class Hidden(TinyInputWidget):
         self.widget = get_widget(kind)(**attrs)
         self.validator = self.widget.validator
         self.relation = attrs.get('relation') or None
-        if self.readonly:
-            self.editable = self.readonly
+        self.editable = self.readonly
         if 'field_id' not in attrs:
             self.field_id = self.name
 
     def set_value(self, value):
         self.widget.set_value(value)
         self.default = self.widget.default
-
+        
+    def get_sortable_text(self):
+        """ If returns anything other then None, the return value will be
+        used to sort the listgrid. Useful for localized data.
+        """
+        return None
 
 class Button(TinyInputWidget):
 
@@ -769,14 +771,6 @@ class Form(TinyInputWidget):
         values = {}
         defaults = {}
 
-        # update values according to domain
-        for d in domain:
-            if d[0] in fields:
-                if d[1] == '=':
-                    values[d[0]] = d[2]
-                if d[1] == 'in' and len(d[2]) == 1:
-                    values[d[0]] = d[2][0]
-
         if ids:
             lval = proxy.read(ids[:1], fields.keys() + ['__last_update'], self.context)
             if lval:
@@ -871,6 +865,7 @@ class Form(TinyInputWidget):
                 views.append(NewLine(**attrs))
 
             elif node.localName=='button':
+                attrs['editable'] = self.editable
                 views.append(Button(model=self.model, id=self.id, **attrs))
 
             elif node.localName == 'form':

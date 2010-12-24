@@ -22,7 +22,7 @@
                 '_terp_ends' : ends,
                 '_terp_context': openobject.dom.get('_terp_context').value
             };
-
+            openobject.http.AJAX_COUNT += 1
             jQuery.ajax({
                 url:'/view_calendar/calpopup/get_defaults',
                 dataType: 'json',
@@ -36,6 +36,7 @@
 
                         if (e) e.value = v;
                     });
+                    openobject.http.AJAX_COUNT -= 1;
                 }
             });
         }

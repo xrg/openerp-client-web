@@ -36,8 +36,6 @@ import xml.dom.minidom
 
 import cherrypy
 import copy
-import datetime
-import re
 
 from openerp.utils import rpc, cache, icons, node_attributes, expr_eval
 from openerp.widgets import TinyInputWidget, InputWidgetLabel, form
@@ -47,15 +45,8 @@ from openobject.widgets import JSLink, locations
 from openobject.i18n.format import convert_date_format_in_domain
 
 
-def get_search_default(attrs={}, screen_context=None, default_domain=[]):
-
+def get_search_default(attrs, screen_context=None, default_domain=[]):
     screen_context = screen_context or {}
-    default_domain = attrs.get('default_domain', default_domain)
-    default_search = False
-
-    if cherrypy.request.path_info != '/openerp/listgrid/get' and 'name' in attrs:
-        search_default = screen_context.get('search_default_' + str(attrs['name']))
-        if search_default: return search_default
 
     if 'context' in attrs:
         ctx = expr_eval(attrs.get('context', "{}"), {'self':attrs.get('name', False)})
@@ -67,12 +58,20 @@ def get_search_default(attrs={}, screen_context=None, default_domain=[]):
                 str_ctx = 'group_' + group_by
             return str_ctx in screen_context.get('group_by', [])
 
-    if default_domain and 'domain' in attrs:
-        for d in expr_eval(attrs.get('domain')):
-            default_search = (d in default_domain)
-        return default_search
-    else:
-        return False
+    if cherrypy.request.path_info != '/openerp/listgrid/get' and 'name' in attrs:
+        search_default = screen_context.get('search_default_' + attrs['name'])
+        if search_default:
+            # The value of search_default_$field can be either a literal
+            # (integer, string, ...) or the name of a search_default context
+            # variable. Try .get()ing the value in case it's a context object,
+            # otherwise return the literal itself
+            # ...
+            # or so I expected, apparently somebody else already did the
+            # resolution of those, so either we have a truthy value and we
+            # return it, or we don't and we don't do anything
+            return search_default
+
+    return False
 
 class RangeWidgetLabel(InputWidgetLabel):
     template = '/openerp/widgets/templates/search/rangewid_label.mako'
@@ -412,25 +411,24 @@ class Search(TinyInputWidget):
                                     value = defval
                                 defval = value or ''
 
-                            domain = []
                             if attrs.get('filter_domain'):
                                 domain = expr_eval(attrs['filter_domain'], {'self': defval})
                             else:
-                                if field.kind in ('selection') and type2 == 'many2one':
-                                    domain = [(name, '=', int(defval))]
-
-                                elif field.kind in ('selection'):
-                                    domain = [(name, '=', defval)]
+                                if field.kind == 'selection':
+                                    domain = [(name, '=', int(defval) if type2 == 'many2one' else defval)]
 
                                 elif field.kind in ('date','datetime'):
                                     domain = [(name, '>=', defval)]
-
+                                    
+                                elif field.kind == 'boolean':
+                                    domain = [(name, '=', defval)]
+                                               
                                 else:
                                     domain = [(name,fields[name].get('comparator','ilike'), defval)]
 
                             field.set_value(defval)
                             self.listof_domain += [i for i in domain if not i in self.listof_domain]
-                            self.context.update(expr_eval(attrs.get('context',"{}"), {'self': defval}))
+                            self.context.update(expr_eval(attrs.get('context',"{}"), {'self': default_search}))
 
                     if (not default_search) and name in values and isinstance(field, TinyInputWidget):
                         field.set_value(values[name])

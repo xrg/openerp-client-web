@@ -5,64 +5,9 @@
 
     <script type="text/javascript">
         var form_controller = '/openerp/openo2m';
-    </script>
-
-    <script type="text/javascript">
-
         function do_select(id, src) {
             viewRecord(id, src);
         }
-        function save_o2m(el) {
-            jQuery(el).attr('disabled', 'disabled');
-            submit_form('save');
-            setTimeout(function(){
-                  jQuery(el).attr('disabled', '');
-            }, 3000);
-        }
-
-        function fetchParentData() {
-
-            var pwin = window.opener;
-            var pform = pwin.document.forms['view_form'];
-
-            var form = document.forms['view_form'];
-            var fields = [];
-
-            var required_attrs = ['id', 'name', 'value', 'kind', 'class', 'domain', 'context', 'relation'];
-
-            MochiKit.Iter.forEach(pform.elements, function(e){
-
-                if (e.name && e.type != 'button' && e.name.indexOf('${params.o2m}') != 0){
-
-                    var attrs = {};
-                    MochiKit.Iter.forEach(required_attrs, function(n){
-                        if (e.attributes[n]) attrs[n] = e.attributes[n].value;
-                    });
-                    attrs['type'] = 'hidden';
-                    attrs['disabled'] = 'disabled';
-                    attrs['value'] = e.value;
-
-                    var fld = MochiKit.DOM.INPUT(attrs);
-                    fields = fields.concat(fld);
-                }
-            });
-
-            MochiKit.DOM.appendChildNodes(form, fields);
-
-            var lc = openobject.dom.get('_terp_load_counter').value;
-
-            lc = parseInt(lc) || 0;
-
-            if (lc > 0) {
-                window.opener.setTimeout("new ListView('${params.o2m}').reload(null, 1)", 0.5);
-            }
-
-            if (lc > 1) {
-                window.close();
-            }
-
-        }
-
     </script>
 </%def>
 
@@ -86,11 +31,11 @@
                         <tr>
                             % if form.screen.editable:
 	                            <td class="save_close">
-                                    <button onclick="save_o2m(this); return false;" style="height: 20px;" class="button-a">${_("Save")}</button>
+                                    <button onclick="submit_form('save'); return false;" style="height: 20px;" class="button-a">${_("Save")}</button>
 	                            </td>
                             % endif
                             <td class="save_close">
-                            	<button class="button-a" style="height: 20px;" onclick="window.close()">${_("Close")}</button>
+                            	<button class="button-a" style="height: 20px;" onclick="jQuery.o2m('close'); return false;">${_("Close")}</button>
                             </td>
                             <td width="100%">
                             </td>
@@ -104,6 +49,9 @@
         </tr>
     </table>
     <script type="text/javascript">
-        fetchParentData();
+        jQuery('form').submit(function () {
+            jQuery('.save_close:eq(0) button').attr('disabled', true);
+        });
+        jQuery.o2m('init');
     </script>
 </%def>

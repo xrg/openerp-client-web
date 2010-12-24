@@ -21,7 +21,7 @@ class Root(BaseController):
     ]
     def reset_custom_headers_post_redirection(self, request):
         """ Firefox doesn't forward headers it has no reason to touch
-        (standard or custom headers, does't matter) during redirection.
+        (standard or custom headers, doesn't matter) during redirection.
 
         To try and fix that, we're setting the headers we need forwarded as
         query parameters during the redirection process, but we're still
@@ -42,23 +42,29 @@ class Root(BaseController):
             if header not in request.headers:
                 request.headers[header] = value
 
+    def prevent_csrf(self, request):
+        """ Check HTTP_REFERRER for POST requests in order to prevent CSRF """
+        if request.method == 'POST':
+            host = request.headers.get('Host', '')
+            ref = request.headers.get('Referer', '/').split('/')
+            if not len(ref) >= 3 or not ref[2] == host:
+                raise cherrypy.HTTPError(403, "Request Forbidden -- You are not allowed to access this resource.")
+
     @expose()
     def default(self, *args, **kw):
         autoreloader_enabled = bool(
                 getattr(cherrypy.engine.autoreload, 'thread', None))
         if autoreloader_enabled:
-            # stop (actually don't listento) the autoreloader the process
+            # stop (actually don't listen to) the auto-reloader the process
             # doesn't restart due to downloading new add-ons or refreshing
             # existing ones
             cherrypy.engine.autoreload.unsubscribe()
         try:
             obj = pooler.get_pool().get_controller("/openerp/modules")
-            new_modules = obj.get_new_modules()
+            if obj.has_new_modules():
+                pooler.restart_pool()
         except AuthenticationError:
-            new_modules = []
-
-        if new_modules:
-            pooler.restart_pool()
+            pass
 
         if autoreloader_enabled:
             # re-enable auto-reloading if it was enabled before
@@ -66,6 +72,7 @@ class Root(BaseController):
 
         request = cherrypy.request
         self.reset_custom_headers_post_redirection(request)
+        self.prevent_csrf(request)
         func, vpath = self.find_handler()
 
         if func:

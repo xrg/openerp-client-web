@@ -3,10 +3,10 @@
 <%def name="header()">
     <title>${_("About the OpenERP Web")}</title>
     <style type="text/css">
-        #body_form_td a {
+        #body_form a {
             color: blue;
         }
-        #body_form_td p {
+        #body_form p {
             font-size: 120%;
             padding:0 5px 5px;
         }
@@ -23,7 +23,7 @@
 <%def name="content()">
     <table class="view" width="100%" cellspacing="0" cellpadding="0" border="0">
         <tr>
-            <td id="body_form_td" colspan="2">
+            <td id="body_form" colspan="2">
                 <h1>${_("OpenERP Web")}</h1>
                 <h3 style="padding:0 5px 5px">${version}</h3>
                 <p>

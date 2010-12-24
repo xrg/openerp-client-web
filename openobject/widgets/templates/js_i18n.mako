@@ -1,3 +1,1 @@
-% for m, tr in translations:
-    <script type="text/javascript" src="/${m}/static/${tr}"></script>
-% endfor
+<script type="text/javascript" src="/openerp/j18n/${locale}"></script>

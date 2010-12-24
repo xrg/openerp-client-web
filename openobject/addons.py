@@ -1,3 +1,5 @@
+import errno
+import logging
 import os
 import imp
 import itertools
@@ -85,9 +87,11 @@ class Node(Singleton):
             s += '%s`-> %s' % ('   ' * depth, c._pprint(depth+1))
         return s
 
+def exists(module):
+    return os.path.exists(paths.addons(module, '__openerp__.py'))
 
 def get_info(module):
-    mod_path = os.path.join(paths.addons(), module)
+    mod_path = paths.addons(module)
     if not os.path.isdir(mod_path):
         return {}
 
@@ -173,15 +177,15 @@ def load_module_graph(db_name, graph, config):
 
         imp_module(package.name)
 
-        static = os.path.join(paths.addons(), package.name, "static")
+        static = paths.addons(package.name, 'static')
         if os.path.isdir(static):
             from openobject.widgets import register_resource_directory
             register_resource_directory(config, package.name, static)
 
-        localedir = os.path.join(paths.addons(), package.name, "locales")
-        if os.path.isdir(localedir):
-            i18n.load_translations(localedir, domain="messages")
-            i18n.load_translations(localedir, domain="javascript")
+        addon_path = paths.addons(package.name)
+        if os.path.isdir(paths.addons(package.name, 'po')):
+            i18n.load_translations(addon_path)
+            i18n.load_translations(addon_path, domain="javascript")
 
         _loaded_addons[package.name] = True
 
@@ -194,7 +198,7 @@ _loaded_addons = {}
 
 def get_local_addons():
     return [f for f in os.listdir(paths.addons()) \
-              if os.path.isfile(os.path.join(paths.addons(), f, "__openerp__.py"))]
+              if os.path.isfile(paths.addons(f, "__openerp__.py"))]
 
 def load_addons(db_name, config):
     if db_name in _loaded:
@@ -216,3 +220,10 @@ def load_addons(db_name, config):
         load_module_graph(db_name, graph, config)
 
     _loaded[db_name] = True
+
+writeable = os.access('addons', os.W_OK)
+if not writeable:
+    cherrypy.log.error(
+            "Can not write to the addons directory '%s', "
+           "will not be able to download web modules" % paths.addons(),
+            "WARNING", severity=logging.WARNING)
