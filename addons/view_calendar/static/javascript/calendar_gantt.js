@@ -79,8 +79,12 @@ GanttCalendar.prototype = {
         this.evtLoad = MochiKit.Signal.connect(window, 'onload', this, 'onResize');
         this.evtResize = MochiKit.Signal.connect(window, 'onresize', this, 'onResize');
         this.evtScrollGrid = MochiKit.Signal.connect('calGridC', 'onscroll', this, 'onScrollGrid');
-        this.evtMouseUp = MochiKit.Signal.connect('calGridC', 'onmouseup', this, 'onMouseUp');
-
+        if (browser.isGecko || browser.isIE) {
+        	this.evtMouseUp = MochiKit.Signal.connect('calGrid', 'onmouseup', this, 'onMouseUp');
+        }
+        else {
+        	this.evtMouseUp = MochiKit.Signal.connect('calGridC', 'onmouseup', this, 'onMouseUp');
+        }
         this.evtEventDrag = MochiKit.Signal.connect(MochiKit.DragAndDrop.Draggables, 'drag', this, 'onEventDrag');
         this.evtEventDragged = MochiKit.Signal.connect(MochiKit.DragAndDrop.Draggables, 'end', this, 'onEventDragged');
         this.evtEventResized = MochiKit.Signal.connect(MochiKit.DragAndDrop.Resizables, 'end', this, 'onEventResized');
