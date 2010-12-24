@@ -8,23 +8,25 @@ msgstr ""
 "Project-Id-Version: openobject-client-web\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2010-12-17 10:28+0100\n"
-"PO-Revision-Date: 2010-11-13 08:24+0000\n"
-"Last-Translator: OpenERP Web Administrators <Unknown>\n"
+"PO-Revision-Date: 2010-12-23 13:58+0000\n"
+"Last-Translator: Urtzi Odriozola <Unknown>\n"
 "Language-Team: Basque <eu@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2010-12-18 05:02+0000\n"
+"X-Launchpad-Export-Date: 2010-12-24 04:56+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: static/javascript/form.js:100
 #, python-format
 msgid "You selected to open %(tabs)s tabs - do you want to continue?"
 msgstr ""
+"Hurrengo %(tabs)s erlaitzak irekitzeko aukeratu dituzu - jarraitu nahi ahal "
+"duzu?"
 
 #: static/javascript/form.js:177
 msgid "Invalid form, correct red fields."
-msgstr ""
+msgstr "Formulario okerra, zuzendu eremu gorriak."
 
 #: static/javascript/form.js:212
 msgid "Do you really want to delete this record?"
@@ -32,7 +34,7 @@ msgstr "Benetan ezabatu nahi duzu erregistro hau?"
 
 #: static/javascript/form.js:901
 msgid "You must select one or several records !"
-msgstr ""
+msgstr "Erregistro bat edo gehiago hautatu behar dituzu!"
 
 #: static/javascript/form.js:1062
 msgid "Do you really want to delete the attachment"
@@ -40,7 +42,7 @@ msgstr "Benetan ezabatu nahi duzu eranskina?"
 
 #: static/javascript/listgrid.js:509 static/javascript/o2m.js:103
 msgid "To edit Record, please first save it."
-msgstr ""
+msgstr "Erregistroa aldatzeko, lehenik eta behin gorde mesedez."
 
 #: static/javascript/listgrid.js:617
 msgid "Do you really want to delete selected record(s) ?"
@@ -48,15 +50,15 @@ msgstr "Benetan ezabatu nahi dituzu hautatutako erregistroa(k)?"
 
 #: static/javascript/o2m.js:62
 msgid "Do you really want to delete record ?"
-msgstr "Benetan ezabatu nahi dituzu erregistroa?"
+msgstr "Benetan ezabatu nahi duzu erregistroa?"
 
 #: static/javascript/viewed.js:71
 msgid "Do you really want to remove this node?"
-msgstr ""
+msgstr "Benetan ezabatu nahi al duzu nodo hau?"
 
 #: static/javascript/viewed.js:337
 msgid "Do you really wants to create an inherited view here?"
-msgstr ""
+msgstr "Beneta sortu nahi al duzu oinordeko ikuspegia hemen?"
 
 #: static/javascript/openerp/openerp.ui.tips.js:59
 msgid "Object"
@@ -64,7 +66,7 @@ msgstr "Objektua"
 
 #: static/javascript/openerp/openerp.ui.tips.js:60
 msgid "Field"
-msgstr ""
+msgstr "Eremua"
 
 #~ msgid "You must select at least one record."
 #~ msgstr "Gutxienez erregistro bat hautatu behar duzu."

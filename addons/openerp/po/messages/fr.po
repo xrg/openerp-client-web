@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2010-12-17 10:28+0100\n"
-"PO-Revision-Date: 2010-12-18 15:56+0000\n"
-"Last-Translator: OpenERP Web Administrators <Unknown>\n"
+"PO-Revision-Date: 2010-12-23 19:59+0000\n"
+"Last-Translator: Quentin THEURET <quentin@theuret.net>\n"
 "Language-Team: fr <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2010-12-19 04:46+0000\n"
+"X-Launchpad-Export-Date: 2010-12-24 04:57+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 "Generated-By: Babel None\n"
 
@@ -557,6 +557,14 @@ msgid ""
 "                    project management, production, services, CRM, etc..\n"
 "                    "
 msgstr ""
+"%(openobject)s est un logiciel d'entreprise qui est fait pour améliorer la\n"
+"                    productivité et la rentabilité grâce à l'intégration des "
+"données. Il met en relation, améliore et\n"
+"                    gère les processus dans les domaines des ventes, de la "
+"finance, de la logistique,\n"
+"                    de la gestion de projets , la production, les services, "
+"la gestion de la relation client, etc.\n"
+"                    "
 
 #: controllers/templates/about.mako:51
 msgid ""
@@ -569,6 +577,14 @@ msgid ""
 "                    production system and migration to a new version to be "
 "straightforward."
 msgstr ""
+"Le logiciel est indépendant du système d'exploitation et peut être installé "
+"sur Windows, Mac OS X,\n"
+"                    et Linux (et autres distributions basées sur Unix) . Son "
+" architecture permet\n"
+"                    la création rapide de nouvelles fonctionnalités, les "
+"modifications sur des  systèmes\n"
+"                    en production et les  migrations vers de nouvelles  "
+"versions sont faciles."
 
 #: controllers/templates/about.mako:57
 msgid ""
@@ -780,7 +796,7 @@ msgstr "OK"
 
 #: controllers/templates/exp.mako:236
 msgid "Select Options to Export"
-msgstr ""
+msgstr "Sélectionner les options pour l'exportation"
 
 #: controllers/templates/exp.mako:242
 msgid "Export as CSV"
@@ -1088,6 +1104,8 @@ msgid ""
 "Today's enterprise challenges are multiple. We provide one module for each "
 "need."
 msgstr ""
+"Les défis de l'entreprise d'aujourd'hui sont multiples. Nous proposons un "
+"module pour chaque besoin."
 
 #: controllers/templates/login.mako:112
 msgid "Open Source"
@@ -1191,7 +1209,7 @@ msgstr ""
 
 #: controllers/templates/translator.mako:33
 msgid "Relates"
-msgstr ""
+msgstr "Concerne"
 
 #: controllers/templates/translator.mako:34
 msgid "View"
