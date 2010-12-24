@@ -428,7 +428,7 @@ class Search(TinyInputWidget):
 
                             field.set_value(defval)
                             self.listof_domain += [i for i in domain if not i in self.listof_domain]
-                            self.context.update(expr_eval(attrs.get('context',"{}"), {'self': defval}))
+                            self.context.update(expr_eval(attrs.get('context',"{}"), {'self': default_search}))
 
                     if (not default_search) and name in values and isinstance(field, TinyInputWidget):
                         field.set_value(values[name])
