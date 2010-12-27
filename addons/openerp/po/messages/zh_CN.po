@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2010-12-17 10:28+0100\n"
-"PO-Revision-Date: 2010-12-23 08:19+0000\n"
-"Last-Translator: OpenERP Web Administrators <Unknown>\n"
+"PO-Revision-Date: 2010-12-26 09:30+0000\n"
+"Last-Translator: Wei \"oldrev\" Li <oldrev@gmail.com>\n"
 "Language-Team: zh_CN <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2010-12-24 04:57+0000\n"
+"X-Launchpad-Export-Date: 2010-12-27 04:38+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 "Generated-By: Babel None\n"
 
@@ -300,7 +300,7 @@ msgstr ""
 #: controllers/form.py:562
 #, python-format
 msgid "Invalid button type \"%s\""
-msgstr "非法的按钮类型 \"%s\""
+msgstr "无效的按钮类型 \"%s\""
 
 #: controllers/form.py:900 controllers/tree.py:241
 msgid "No record selected"
@@ -378,7 +378,7 @@ msgstr "父记录不存在"
 
 #: controllers/preferences.py:64 controllers/templates/header.mako:56
 msgid "Preferences"
-msgstr "设置"
+msgstr "首选项"
 
 #: controllers/root.py:181
 #, python-format
@@ -544,10 +544,10 @@ msgid ""
 "                    production system and migration to a new version to be "
 "straightforward."
 msgstr ""
-"此系统是独立于操作平台，可以在Windows， Max OS X，\n"
-"                    和多种Linux和基于Unix的系统。它的构架使得\n"
-"                    使得新功能能够被迅速开发，使得修改能够被应用于\n"
-"                    生产系统上，能够使得移植到新版本变得直截了当。"
+"此系统是独立于操作平台，可以在 Windows， Max OS X，\n"
+"                    和各种各样的 Linux 和其它基于 Unix "
+"的发行版上安装。它的构架能迅速开发新功能，使得对系统的修改能够被应用于\n"
+"                    正在使用（运行）的系统上，而且使移植到新版本变得很简单。"
 
 #: controllers/templates/about.mako:57
 msgid ""
