@@ -45,7 +45,9 @@
             </td>
         </tr>
         <tr>
-            <td style="padding: 2px 5px 5px;">${form.display()}</td>
+            <td style="padding: 2px 5px 5px;">
+                <div${ " class='non-editable'" if not form.screen.editable and form.screen.view_type == 'form' else "" | n }>${form.display()}</div>
+            </td>
         </tr>
     </table>
     <script type="text/javascript">
