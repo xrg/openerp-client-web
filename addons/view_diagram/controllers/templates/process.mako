@@ -13,8 +13,8 @@
     <script src="/view_diagram/static/javascript/process.js"></script>
 
     <script type="text/javascript">
-        var context_help = function() {
-            return window.open(openobject.http.getURL('http://doc.openerp.com/index.php', {model: 'process.process', lang:'${rpc.session.context.get('lang', 'en')}'}));
+        openobject.process.Node.prototype.onHelp = function() {
+            window.open(this.data.url || "http://doc.openerp.com/index.php?model=" + this.data.model + "&lang=${lang}&version=${version}");
         }
     </script>
     % if selection:
