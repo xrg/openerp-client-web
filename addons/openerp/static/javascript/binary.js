@@ -99,12 +99,17 @@ function set_binary_filename(src, filename) {
     }
     var $parent = $src.parent();
     var $check_src = $parent.find('input[type=hidden][id="'+name+'"]');
-    if($check_src.length) {
+    if ($check_src.length) {
         $check_src.val($src.attr("files")[0].getAsBinary())
     }
-    $parent.append(
-        jQuery('<input>', {'type': 'hidden', 'id': name, 'name': name, 'kind': $src.attr('kind')}).val($src.attr("files")[0].getAsBinary())
-    )
+    else {
+        $parent.append(jQuery('<input>', {
+            'type': 'hidden',
+            'id': name,
+            'name': name,
+            'kind': $src.attr('kind')
+        }).val($src.attr("files")[0].getAsBinary()))
+    }
     $src.removeAttr('name')
     if (target) {
         target.value = fname;
