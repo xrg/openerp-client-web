@@ -32,7 +32,7 @@ import re
 import cherrypy
 from openerp import utils, widgets as tw, validators
 from openerp.controllers import SecuredController
-from openerp.utils import rpc, common, TinyDict, TinyForm
+from openerp.utils import rpc, common, TinyDict, TinyForm, expr_eval
 from openerp.widgets.form import generate_url_for_picture
 from error_page import _ep
 from openobject.tools import expose, redirect, validate, error_handler, exception_handler
@@ -937,7 +937,7 @@ class Form(SecuredController):
         if domain:
             if isinstance(domain, basestring):
                 domain = eval(domain)
-            domain.extend(eval(action.get('domain', '[]')))
+            domain.extend(expr_eval(action.get('domain', '[]'), context))
             action['domain'] = ustr(domain)
 
         action['context'] = context or {}
