@@ -364,7 +364,7 @@ TreeNode.prototype = {
                 } else {
                     var self = this;
                     link.click(function () {
-                        if (jQuery(this).parents('tr:first').find('td:first span').is('.collapse, .expand')) {
+                        if (jQuery(this).parents('tr.row:first').find('td:first span').is('.collapse, .expand')) {
                             self.toggle();
                         }
                         // no action, stop everything
