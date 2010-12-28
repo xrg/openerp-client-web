@@ -280,12 +280,12 @@ One2Many.prototype = {
      *
      * @param $this the window of the dialog to close
      */
-    function refresh($this) {
+    function refresh($this, close_o2m) {
         setTimeout(function () {
             frame_data($this, 'source-window')
                 .ListView(frame_data($this, 'list'))
                     .reload(null, 1);
-            if(arguments[1] || typeof arguments[1] != undefined) {
+            if(close_o2m) {
                 close($this);
             }
                 
