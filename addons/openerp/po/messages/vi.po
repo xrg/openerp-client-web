@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: openobject-client-web\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2010-12-17 10:28+0100\n"
-"PO-Revision-Date: 2010-12-24 22:14+0000\n"
+"PO-Revision-Date: 2010-12-27 07:16+0000\n"
 "Last-Translator: Phong Nguyen <Unknown>\n"
 "Language-Team: Vietnamese <vi@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2010-12-25 04:50+0000\n"
+"X-Launchpad-Export-Date: 2010-12-28 04:40+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: validators.py:83
@@ -270,11 +270,11 @@ msgstr ""
 
 #: controllers/database.py:260
 msgid "Could not create backup."
-msgstr ""
+msgstr "Không tạo được bản lưu."
 
 #: controllers/database.py:284
 msgid "Could not restore database"
-msgstr ""
+msgstr "Không thể khôi phục CSDL"
 
 #: controllers/database.py:307
 msgid "Error, password not changed."
@@ -285,6 +285,8 @@ msgid ""
 "Your problem has been sent to the quality team\n"
 "We will recontact you after analysing the problem."
 msgstr ""
+"Vấn đề của bạn đã được gửi đến nhóm quản lý chất lượng\n"
+"Chúng tôi sẽ liên hệ lại với bạn sau khi phân tích vấn đề."
 
 #: controllers/error_page.py:88
 #, python-format
@@ -292,6 +294,8 @@ msgid ""
 "Your problem could not be sent to the quality team\n"
 "Please report this error manually at %s"
 msgstr ""
+"Vấn đề của bạn không thể gửi được đến nhóm quản lý chất lượng\n"
+"Vui lòng báo cáo lỗi này một cách thủ công tại %s"
 
 #: controllers/form.py:562
 #, python-format
@@ -300,7 +304,7 @@ msgstr ""
 
 #: controllers/form.py:900 controllers/tree.py:241
 msgid "No record selected"
-msgstr ""
+msgstr "Không có bản ghi được chọn"
 
 #: controllers/form.py:905
 msgid "Print Screen"
@@ -324,11 +328,11 @@ msgstr ""
 
 #: controllers/impex.py:346
 msgid "Export Error"
-msgstr ""
+msgstr "Lỗi xuất dữ liệu"
 
 #: controllers/impex.py:452
 msgid "Error opening .CSV file"
-msgstr ""
+msgstr "Lỗi mở tập tin .CSV"
 
 #: controllers/impex.py:452
 msgid "Input Error."
@@ -385,7 +389,7 @@ msgstr ""
 
 #: controllers/tree.py:272
 msgid "No resource selected"
-msgstr ""
+msgstr "Không có tài nguyên được chọn"
 
 #: controllers/utils.py:52
 msgid "Could not connect to server"
@@ -393,7 +397,7 @@ msgstr "Không thể kết nối đến máy chủ"
 
 #: controllers/utils.py:139 controllers/templates/login_ajax.mako:111
 msgid "Bad username or password"
-msgstr ""
+msgstr "Tên người dùng hoặc mật khẩu không hợp lệ"
 
 #: controllers/view_log.py:40
 msgid "ID"
@@ -401,7 +405,7 @@ msgstr "ID"
 
 #: controllers/view_log.py:41
 msgid "Creation User"
-msgstr ""
+msgstr "Người tạo"
 
 #: controllers/view_log.py:42
 msgid "Creation Date"
@@ -421,7 +425,7 @@ msgstr "Chủ sở hữu"
 
 #: controllers/view_log.py:46
 msgid "Group Owner"
-msgstr ""
+msgstr "Nhóm chủ sở hữu"
 
 #: controllers/view_log.py:47
 msgid "Access Level"
@@ -507,7 +511,7 @@ msgstr ""
 
 #: controllers/templates/about.mako:42
 msgid "About OpenERP"
-msgstr ""
+msgstr "Giới thiệu OpenERP"
 
 #: controllers/templates/about.mako:44
 #, python-format
