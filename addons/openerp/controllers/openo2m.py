@@ -140,7 +140,12 @@ class OpenO2M(Form):
             res = self.button_action(current)
             if res:
                 return res
-
+        if params.close:
+            return """
+            <script type="text/javascript">
+                jQuery.o2m('refresh_n_close');
+            </script>
+            """
         return self.create(params)
 
     @expose()

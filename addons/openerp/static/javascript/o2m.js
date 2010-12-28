@@ -285,6 +285,10 @@ One2Many.prototype = {
             frame_data($this, 'source-window')
                 .ListView(frame_data($this, 'list'))
                     .reload(null, 1);
+            if(arguments[1] || typeof arguments[1] != undefined) {
+                close($this);
+            }
+                
         })
     }
 
@@ -337,6 +341,8 @@ One2Many.prototype = {
                 return refresh($this);
             case 'init':
                 return initialize($this);
+            case 'refresh_n_close':
+                return refresh($this, true);
             default:
                 return open($this, arguments[0]);
         }

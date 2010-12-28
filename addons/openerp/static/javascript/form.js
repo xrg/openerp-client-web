@@ -220,6 +220,11 @@ function submit_form(action, src, target){
         action = 'save';
         args['_terp_return_edit'] = 1;
     }
+    
+    if(action == 'save_and_close') {
+        action = 'save';
+        args['_terp_close'] = 1;
+    }
 
     action = get_form_action(action, args);
 

@@ -30,12 +30,15 @@
                     <table border="0" cellpadding="0" cellspacing="0" width="100%" style="border: none;">
                         <tr>
                             % if form.screen.editable:
-	                            <td class="save_close">
-                                    <button onclick="submit_form('save'); return false;" style="height: 20px;" class="button-a">${_("Save")}</button>
-	                            </td>
+                                <td class="save_close">
+                                    <button onclick="submit_form('save_and_close'); return false;" style="height: 20px;" class="button-a">${_("Save & Close")}</button>
+                                </td>
+                                <td class="save_close">
+                                    <button onclick="submit_form('save'); return false;" style="height: 20px;" class="button-a">${_("Save & New")}</button>
+                                </td>
                             % endif
                             <td class="save_close">
-                            	<button class="button-a" style="height: 20px;" onclick="jQuery.o2m('close'); return false;">${_("Close")}</button>
+                            	<button class="button-a" style="height: 20px;" onclick="jQuery.o2m('close'); return false;">${_("Cancel")}</button>
                             </td>
                             <td width="100%">
                             </td>
