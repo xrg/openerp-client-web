@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 import os
 import shutil
+import zipfile
 
 def extract_zip_file(zip_file, outdirectory):
     zf = zipfile.ZipFile(zip_file)
