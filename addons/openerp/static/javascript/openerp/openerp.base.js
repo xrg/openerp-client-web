@@ -42,6 +42,7 @@ function displayErrorOverlay(xhr) {
     };
     if(xhr.getResponseHeader('X-Maintenance-Error')) {
         options['autoDimensions'] = false;
+        options['scrolling'] = 'auto';
     }
     jQuery.fancybox(xhr.responseText, options);
 }

@@ -1812,6 +1812,8 @@ table#title_header {
     margin: 5px 3px 3px;
     padding: 0 0 0 20px;
     font-size: 1em;
+}
+.error-section h5, .error-section h5 label {
     cursor: pointer;
 }
 
