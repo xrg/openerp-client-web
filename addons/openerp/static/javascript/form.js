@@ -1240,8 +1240,10 @@ function toggle_shortcut(){
 
 
 function validateForm(){
-    jQuery('#view_form table tr td:first').find('input:not([type=hidden]), select').change(function(){
-        jQuery('#view_form').data('is_form_changed', true);
+    jQuery('#view_form table tr td:first').find('input:not([type=hidden]), select').change(function(e, automatic){
+        if (!automatic) {
+            jQuery('#view_form').data('is_form_changed', true);
+        }
     });
 }
 

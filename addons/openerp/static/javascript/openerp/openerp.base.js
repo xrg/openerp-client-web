@@ -132,7 +132,9 @@ function doLoadingSuccess(app/*, url*/) {
                 onBooleanClicked(jQuery(this).attr('id'));
             }
             else {
-                jQuery(this).change();
+                // We pass an arbitrary parameter to the event so we can
+                // differenciate a user event from a trigger
+                jQuery(this).trigger('change', [true]);
             }
         });
     }
