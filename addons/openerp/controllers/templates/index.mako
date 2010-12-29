@@ -114,7 +114,7 @@
                             </script>
                         </div>
                     </td>
-                    <td id="primary" height="100%">
+                    <td id="primary">
                         <div class="wrap">
                             <div id="appContent"></div>
                         </div>
