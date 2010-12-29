@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: openobject-client-web\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2010-12-17 10:28+0100\n"
-"PO-Revision-Date: 2010-12-27 07:16+0000\n"
+"PO-Revision-Date: 2010-12-28 06:59+0000\n"
 "Last-Translator: Phong Nguyen <Unknown>\n"
 "Language-Team: Vietnamese <vi@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2010-12-28 04:40+0000\n"
+"X-Launchpad-Export-Date: 2010-12-29 04:41+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: validators.py:83
@@ -627,15 +627,15 @@ msgstr ""
 
 #: controllers/templates/error_page.mako:140
 msgid "Summary of the problem:"
-msgstr ""
+msgstr "Tóm tắt nội dung vấn đề:"
 
 #: controllers/templates/error_page.mako:147
 msgid "Explain what you did:"
-msgstr ""
+msgstr "Giải thích bạn đã làm gì:"
 
 #: controllers/templates/error_page.mako:156
 msgid "Other Comments:"
-msgstr ""
+msgstr "Các ghi chú khác:"
 
 #: controllers/templates/error_page.mako:168
 msgid "Send to Publisher Warranty Team"
@@ -643,7 +643,7 @@ msgstr ""
 
 #: controllers/templates/error_page.mako:195
 msgid "Write concurrency warning :"
-msgstr ""
+msgstr "Cảnh báo ghi đồng hành :"
 
 #: controllers/templates/error_page.mako:200
 msgid ""

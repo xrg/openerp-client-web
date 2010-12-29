@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2010-12-17 10:28+0100\n"
-"PO-Revision-Date: 2010-11-21 07:49+0000\n"
-"Last-Translator: OpenERP Web Administrators <Unknown>\n"
+"PO-Revision-Date: 2010-12-28 09:52+0000\n"
+"Last-Translator: Grzegorz Grzelak (Cirrus.pl) <Unknown>\n"
 "Language-Team: pl <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2010-12-18 05:03+0000\n"
+"X-Launchpad-Export-Date: 2010-12-29 04:41+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 "Generated-By: Babel None\n"
 
@@ -46,11 +46,11 @@ msgstr "Przetwarzaj"
 
 #: controllers/templates/process.mako:55
 msgid "Documentation"
-msgstr ""
+msgstr "Dokumentacja"
 
 #: controllers/templates/process.mako:56
 msgid "Read Documentation Online"
-msgstr ""
+msgstr "Czytaj dokumentację online"
 
 #: controllers/templates/process.mako:62
 msgid "Forum"
@@ -58,19 +58,19 @@ msgstr ""
 
 #: controllers/templates/process.mako:63
 msgid "Community Discussion"
-msgstr ""
+msgstr "Dyskusja w społeczności"
 
 #: controllers/templates/process.mako:68
 msgid "Books"
-msgstr ""
+msgstr "Książki"
 
 #: controllers/templates/process.mako:69
 msgid "Get the book on Amazon"
-msgstr ""
+msgstr "Zamów książkę przez Amazon."
 
 #: controllers/templates/process.mako:74
 msgid "Support / Publisher Warranty"
-msgstr ""
+msgstr "Wsparcie / Gwarancja wydawcy"
 
 #: controllers/templates/process.mako:75
 msgid "Get the OpenERP Warranty"
@@ -86,15 +86,15 @@ msgstr "Wybierz"
 
 #: controllers/templates/process.mako:116
 msgid "[Edit Process]"
-msgstr ""
+msgstr "[Edytuj proces]"
 
 #: controllers/templates/process.mako:117
 msgid "[show fields]"
-msgstr ""
+msgstr "[Pokaż pola]"
 
 #: controllers/templates/process.mako:118
 msgid "[hide fields]"
-msgstr ""
+msgstr "[Ukryj pola]"
 
 #: controllers/templates/process_open.mako:54
 #: controllers/templates/process_tip.mako:20
