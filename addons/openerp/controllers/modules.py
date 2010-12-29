@@ -8,7 +8,7 @@ from openerp.controllers import form
 from openerp.utils import rpc
 
 from openobject import paths, addons
-from openobject.tools import zip
+from openobject.tools import extract_zip_file
 
 class ModuleForm(form.Form):
     _cp_path = "/openerp/modules"
@@ -43,9 +43,7 @@ class ModuleForm(form.Form):
             # Due to the way zip_directory works on the server, we get a toplevel dir called "web" for our addon,
             # rather than having it named "the right way". Dump to temp directory and move to right name.
             temp_dir = tempfile.mkdtemp()
-            module_content = zipfile.ZipFile(StringIO(module['content'].decode('base64')))
-            zip.extractall(module_content, temp_dir)
-            module_content.close()
+            extract_zip_file(StringIO(module['content'].decode('base64')), temp_dir)
 
             # cleanup any existing addon of the same name
             module_dir = paths.addons(module['name'])
