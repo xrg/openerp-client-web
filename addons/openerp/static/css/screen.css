@@ -2051,10 +2051,10 @@ div.attachments div.sideheader-a {
     padding: 1px 4px;
 }
 
-#sidebar #add-attachment {
+#sidebar .attachment-button {
     float: right;
     line-height: 13px;
-    margin-right: 7px;
+    margin: 0 7px 4px;
 }
 
 .attachments-a li {
