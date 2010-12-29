@@ -1247,21 +1247,25 @@ function validateForm(){
 
 function validate_action() {
     var $form = jQuery('#view_form');
-    if ($form.data('is_form_changed') && confirm('The record has been modified \n Do you want to save it ?')) {
-        if (!validate_required($form.get(0))) {
+    if ($form.data('is_form_changed')) {
+        if (confirm('The record has been modified \n Do you want to save it ?')) {
+            if (!validate_required($form.get(0))) {
+                return false;
+            }
+            
+            $form.ajaxSubmit({
+                error: loadingError(),
+                async: false,
+                success: function(data, status, xhr){
+                    if (arguments.length) {
+                        $form.find('#_terp_id').val(jQuery(xhr.responseText).find('#_terp_id').val());
+                    }
+                    $form.removeData('is_form_changed');
+                }
+            });
+        } else {
             return false;
         }
-        
-        $form.ajaxSubmit({
-            error: loadingError(),
-            async: false,
-            success: function(data, status, xhr){
-                if (arguments.length) {
-                    $form.find('#_terp_id').val(jQuery(xhr.responseText).find('#_terp_id').val());
-                }
-                $form.removeData('is_form_changed');
-            }
-        });
     }
     if (arguments.length) {
         var params = arguments[0];
