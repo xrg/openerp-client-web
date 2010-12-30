@@ -2011,7 +2011,7 @@ td.tertiary div.wrap {
 
 #sidebar ul,#sidebar form {
     list-style: none;
-    margin: 6px 10px;
+    margin: 6px 5px 6px 10px;
     padding: 0;
 }
 
@@ -2054,7 +2054,7 @@ div.attachments div.sideheader-a {
 #sidebar .attachment-button {
     float: right;
     line-height: 13px;
-    margin: 0 7px 4px;
+    margin: 0px 5px 4px 0px;
 }
 
 .attachments-a li {
