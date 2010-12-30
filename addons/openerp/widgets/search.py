@@ -220,8 +220,8 @@ class Search(TinyInputWidget):
         ctx = dict(rpc.session.context, **self.context)
         if not self.groupby and (values and values.get('group_by_ctx')):
             self.groupby = values['group_by_ctx']
-            
-        view_id = ctx.get('search_view') or False
+        
+        view_id = False
 
         if isinstance (self.search_view, basestring):
             self.search_view = eval(self.search_view)
