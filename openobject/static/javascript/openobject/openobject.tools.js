@@ -43,7 +43,8 @@ openobject.tools = {
             menubar     : false,
             locationbar : false,
             resizable   : true,
-            autosize    : true
+            autosize    : true,
+            toolbar     : false
         }, options || {});
 
         //opts.width = opts.width > 0 ? opts.width : 800;
@@ -76,6 +77,9 @@ openobject.tools = {
         }
         if (opts.menubar) {
             args.push("menubar=1,");
+        }
+        if (opts.toolbar) {
+            args.push("toolbar=1,");
         }
         if (opts.locationbar) {
             args.push("location=1,");
