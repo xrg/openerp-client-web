@@ -180,12 +180,7 @@ class Filter(TinyInputWidget):
         if not self.def_checked and attrs.get('group_by_ctx'):
             if self.group_context in attrs['group_by_ctx']:
                 self.def_checked = True
-        if self.filter_domain and default_domain:
-            from openobject.tools import ast
-            check_domain = ast.literal_eval(self.filter_domain)
-            if isinstance(check_domain, list) and check_domain:
-                if check_domain[0] in default_domain and not self.def_checked:
-                    self.def_checked = True
+        
 class M2O_search(form.M2O):
     template = "/openerp/widgets/templates/search/many2one.mako"
     def __init__(self, **attrs):
