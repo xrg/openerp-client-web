@@ -323,7 +323,7 @@ def act_window_opener(action, data):
     # Action of target 'current' (or no target) should open in a new tab
     # unless they were triggered from a menu
     open_new_tab = False
-    if action['target'] == 'current' and data.get('model') != 'ir.ui.menu':
+    if action['target'] == 'current' and action.get('res_model') != 'ir.ui.menu' and data.get('model') != 'ir.ui.menu':
         action['target'] = 'popup'
         open_new_tab = True
 
