@@ -166,6 +166,17 @@ class O2M(TinyInputWidget):
         if current.view_type == 'tree' and self.readonly:
             self.editable = False
         
+        if self.view_type == 'form':
+            if current.id and not self.id:
+                self.id = current.id
+                params.id = self.id
+        
+        if self.view_type == 'tree' and pparams:
+            if pparams.id:
+                self.editable = True
+            else:
+                self.editable = False
+        
         self.screen = Screen(current, prefix=self.name, views_preloaded=view,
                              editable=self.editable, readonly=self.readonly,
                              selectable=0, nolinks=self.link, _o2m=1)

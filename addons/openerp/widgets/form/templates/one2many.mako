@@ -2,6 +2,8 @@
     if view_type == 'form':
         pager_width = '35%'
         o2m_css_class = ''
+        if name!= source and not screen.id:
+            o2m_css_class = 'readonlyfield'
     else:
         pager_width = '100%'
         o2m_css_class = 'o2m_box'
