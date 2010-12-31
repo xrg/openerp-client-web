@@ -150,13 +150,7 @@
                 </td>
             </tr>
         </table>
-        <script type="text/javascript">
-        	jQuery('#search-filter').click(function () {
-        		
-                jQuery('#no-record-warning').hide();
-                return search_filter();
-            });
-    </script>
+        
         <script type="text/javascript">
             jQuery('table.search_table input:text').eq(0).focus();
             /*
