@@ -589,11 +589,18 @@ p#cmp_logo {
     min-height: 100%;
     vertical-align: top;
     padding: 0;
+    width: 100%;
+    height: 100%;
+}
+
+#primary.first-page-primary {
+	width: 70%;
 }
 
 #primary div.wrap {
     padding-top: 0;
     min-height: 100%;
+    height: 100%;
 }
 #secondary div.wrap {
     min-width: 180px;
@@ -954,7 +961,6 @@ div.footer-b p {
     padding: 0 15px;
     font-size: 0.9em;
     font-weight: bold;
-    text-transform: uppercase;
 }
 
 div.footer-a p a {
@@ -1807,6 +1813,8 @@ table#title_header {
     margin: 5px 3px 3px;
     padding: 0 0 0 20px;
     font-size: 1em;
+}
+.error-section h5, .error-section h5 label {
     cursor: pointer;
 }
 
@@ -2003,7 +2011,7 @@ td.tertiary div.wrap {
 
 #sidebar ul,#sidebar form {
     list-style: none;
-    margin: 6px 10px;
+    margin: 6px 5px 6px 10px;
     padding: 0;
 }
 
@@ -2043,10 +2051,10 @@ div.attachments div.sideheader-a {
     padding: 1px 4px;
 }
 
-#sidebar #add-attachment {
+#sidebar .attachment-button {
     float: right;
     line-height: 13px;
-    margin-right: 7px;
+    margin: 0px 5px 4px 0px;
 }
 
 .attachments-a li {

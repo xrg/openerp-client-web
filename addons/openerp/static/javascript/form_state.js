@@ -64,8 +64,12 @@ function form_hookStateChange() {
 }
 
 function form_onStateChange(container, widget, states, evt) {
-
-    var src = evt.src();
+    var src;
+    if(evt.src)
+        src = evt.src();
+    else
+        src = evt.target;
+    
     var value = typeof(src.value) == "undefined" ? getNodeAttribute(src, 'value') || src.innerHTML : src.value;
 
     if (MochiKit.Base.isArrayLike(states)) {

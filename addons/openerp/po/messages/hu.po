@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: openobject-client-web\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2010-12-17 10:28+0100\n"
-"PO-Revision-Date: 2010-11-29 14:35+0000\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"PO-Revision-Date: 2010-12-28 20:59+0000\n"
+"Last-Translator: NOVOTRADE SYSTEMHOUSE <openerp@novotrade.hu>\n"
 "Language-Team: Hungarian <hu@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2010-12-18 05:02+0000\n"
+"X-Launchpad-Export-Date: 2010-12-29 04:41+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: validators.py:83
@@ -82,7 +82,7 @@ msgstr ""
 
 #: controllers/actions.py:158
 msgid "Nothing to print"
-msgstr ""
+msgstr "Nincs mit nyomtatni"
 
 #: controllers/actions.py:178
 msgid "Printing aborted, too long delay"
@@ -110,7 +110,7 @@ msgstr ""
 
 #: controllers/database.py:74 controllers/templates/database.mako:52
 msgid "Create"
-msgstr ""
+msgstr "Létrehozás"
 
 #: controllers/database.py:77
 msgid "Super admin password:"
@@ -122,16 +122,21 @@ msgid ""
 "databases. This is not a OpenERP user, just a super administrator. If you "
 "did not changed it, the password is 'admin' after installation."
 msgstr ""
+"Ez annak a felhasználónak a jelszava, akinek joga van adatbázisok "
+"adminisztrálására. Ez nem egy OpenERP felhasználó, hanem egy szuper "
+"adminisztrátor. Ha ezt nem változtatja meg, telepítés után a jelszó 'admin'."
 
 #: controllers/database.py:78 controllers/database.py:110
 msgid "New database name:"
-msgstr ""
+msgstr "Új adatbázis neve:"
 
 #: controllers/database.py:78
 msgid ""
 "Choose the name of the database that will be created. The name must not "
 "contain any special character. Exemple: 'terp'."
 msgstr ""
+"Válassza ki az adatbázs nevét, melyet létrehoz. A név nem tartalmazhat "
+"speciális karaktereket. Például: 'terp'."
 
 #: controllers/database.py:79
 msgid "Load Demonstration data:"
@@ -143,6 +148,9 @@ msgid ""
 "database. These data will help you to understand OpenERP, with predefined "
 "products, partners, etc."
 msgstr ""
+"Pipálja ki ezt a jelölőnégyzetet, ha szeretné, hogy a demo adatok telepítve "
+"legyenek az új adatbázisában. Ezek az adatok segítenek Önnek, hogy megértse "
+"az OpenERP-t, előre meghatározott termékekkel, partnerekkel, stb."
 
 #: controllers/database.py:80
 msgid "Default Language:"
@@ -154,6 +162,9 @@ msgid ""
 "will be able to install new languages after installation through the "
 "administration menu."
 msgstr ""
+"Válassza ki az alapértelmezett nyelvet, amely telepítve lesz ehhez az "
+"adatbázishoz. A beállítás után telepíthet új nyelveket az adminisztrációs "
+"menün keresztül."
 
 #: controllers/database.py:81
 msgid "Administrator password:"
@@ -167,7 +178,7 @@ msgstr ""
 
 #: controllers/database.py:82
 msgid "Confirm password:"
-msgstr ""
+msgstr "Jelszó megerősítése:"
 
 #: controllers/database.py:82
 msgid ""
@@ -181,19 +192,19 @@ msgstr ""
 
 #: controllers/database.py:90 controllers/templates/database.mako:54
 msgid "Drop"
-msgstr ""
+msgstr "Eldobás"
 
 #: controllers/database.py:92 controllers/database.py:100
 #: controllers/templates/login.mako:39
 msgid "Database:"
-msgstr ""
+msgstr "Adatbázis:"
 
 #: controllers/database.py:93 controllers/database.py:101
 #: controllers/database.py:109 controllers/templates/login.mako:57
 #: controllers/templates/login_ajax.mako:78
 #: controllers/templates/login_ajax.mako:98
 msgid "Password:"
-msgstr ""
+msgstr "Jelszó:"
 
 #: controllers/database.py:97
 msgid "Backup database"
@@ -201,7 +212,7 @@ msgstr ""
 
 #: controllers/database.py:99 controllers/templates/database.mako:56
 msgid "Backup"
-msgstr ""
+msgstr "Mentés"
 
 #: controllers/database.py:105
 msgid "Restore database"
@@ -209,11 +220,11 @@ msgstr ""
 
 #: controllers/database.py:107 controllers/templates/database.mako:58
 msgid "Restore"
-msgstr ""
+msgstr "Visszaállítás"
 
 #: controllers/database.py:108
 msgid "File:"
-msgstr ""
+msgstr "Fájl:"
 
 #: controllers/database.py:114
 msgid "Change Administrator Password"
@@ -221,7 +232,7 @@ msgstr ""
 
 #: controllers/database.py:116
 msgid "Change Password"
-msgstr ""
+msgstr "Jelszó módosítása"
 
 #: controllers/database.py:117
 msgid "Old Password:"
@@ -229,7 +240,7 @@ msgstr ""
 
 #: controllers/database.py:118
 msgid "New Password:"
-msgstr ""
+msgstr "Új jelszó:"
 
 #: controllers/database.py:119
 msgid "Confirm Password:"
@@ -248,6 +259,8 @@ msgid ""
 "The server crashed during installation.\n"
 "We suggest you to drop this database."
 msgstr ""
+"A szerver összeomlott az installálás során.\n"
+"Javasoljuk, hogy dobja el az adatbázist."
 
 #: controllers/database.py:204
 msgid "Error during database creation"
@@ -260,7 +273,7 @@ msgstr ""
 
 #: controllers/database.py:211
 msgid "Could not create database."
-msgstr ""
+msgstr "Az adatbázis nem hozható létre."
 
 #: controllers/database.py:237
 msgid "Could not drop database"
@@ -276,7 +289,7 @@ msgstr ""
 
 #: controllers/database.py:307
 msgid "Error, password not changed."
-msgstr ""
+msgstr "Hiba, a jelszó nem változott."
 
 #: controllers/error_page.py:86
 msgid ""
@@ -298,16 +311,16 @@ msgstr ""
 
 #: controllers/form.py:900 controllers/tree.py:241
 msgid "No record selected"
-msgstr ""
+msgstr "Nincs rekord kiválasztva"
 
 #: controllers/form.py:905
 msgid "Print Screen"
-msgstr ""
+msgstr "Képernyőkép"
 
 #: controllers/form.py:974 utils/rpc.py:130 utils/rpc.py:141 utils/rpc.py:144
 #: widgets/listgrid.py:333 widgets/form/_form.py:913
 msgid "Application Error"
-msgstr ""
+msgstr "Alkalmazáshiba"
 
 #: controllers/form.py:974
 #, python-format
@@ -322,7 +335,7 @@ msgstr ""
 
 #: controllers/impex.py:346
 msgid "Export Error"
-msgstr ""
+msgstr "Exportálási hiba"
 
 #: controllers/impex.py:452
 msgid "Error opening .CSV file"
@@ -335,7 +348,7 @@ msgstr ""
 #: controllers/impex.py:465
 #, python-format
 msgid "You cannot import this field %s, because we cannot auto-detect it"
-msgstr ""
+msgstr "Nem lehet importálni ezt a %s mezőt, mert nem tudjuk ellenőrizni azt"
 
 #: controllers/impex.py:468
 #, python-format
@@ -370,12 +383,12 @@ msgstr ""
 
 #: controllers/preferences.py:64 controllers/templates/header.mako:56
 msgid "Preferences"
-msgstr ""
+msgstr "Beállítások"
 
 #: controllers/root.py:181
 #, python-format
 msgid "Version %s"
-msgstr ""
+msgstr "Verzió %s"
 
 #: controllers/translator.py:140
 msgid "You need to save the resource before adding translations."
@@ -387,35 +400,35 @@ msgstr ""
 
 #: controllers/utils.py:52
 msgid "Could not connect to server"
-msgstr ""
+msgstr "Nem lehet a kiszolgálóhoz csatlakozni"
 
 #: controllers/utils.py:139 controllers/templates/login_ajax.mako:111
 msgid "Bad username or password"
-msgstr ""
+msgstr "Hibás felhasználónév vagy jelszó"
 
 #: controllers/view_log.py:40
 msgid "ID"
-msgstr ""
+msgstr "Azonosító"
 
 #: controllers/view_log.py:41
 msgid "Creation User"
-msgstr ""
+msgstr "Létrehozta"
 
 #: controllers/view_log.py:42
 msgid "Creation Date"
-msgstr ""
+msgstr "Létrehozás dátuma"
 
 #: controllers/view_log.py:43
 msgid "Latest Modification by"
-msgstr ""
+msgstr "Utoljára módosította"
 
 #: controllers/view_log.py:44
 msgid "Latest Modification Date"
-msgstr ""
+msgstr "Utolsó módosítás dátuma"
 
 #: controllers/view_log.py:45
 msgid "Owner"
-msgstr ""
+msgstr "Tulajdonos"
 
 #: controllers/view_log.py:46
 msgid "Group Owner"
@@ -423,7 +436,7 @@ msgstr ""
 
 #: controllers/view_log.py:47
 msgid "Access Level"
-msgstr ""
+msgstr "Hozzáférési szint"
 
 #: controllers/view_log.py:48
 msgid "Internal module data ID"
@@ -451,7 +464,7 @@ msgstr ""
 
 #: controllers/viewed.py:871
 msgid "New Window"
-msgstr ""
+msgstr "Új ablak"
 
 #: controllers/viewed.py:883
 msgid "Save Button"
@@ -459,7 +472,7 @@ msgstr ""
 
 #: controllers/viewed.py:883
 msgid "Cancel Button"
-msgstr ""
+msgstr "Mégse gomb"
 
 #: controllers/viewed.py:883
 msgid "Open Button"
@@ -467,15 +480,15 @@ msgstr ""
 
 #: controllers/viewed.py:889
 msgid "Left"
-msgstr ""
+msgstr "Balra"
 
 #: controllers/viewed.py:889
 msgid "Center"
-msgstr ""
+msgstr "Középre"
 
 #: controllers/viewed.py:889
 msgid "Right"
-msgstr ""
+msgstr "Jobbra"
 
 #: controllers/templates/about.mako:4
 msgid "About the OpenERP Web"
@@ -505,7 +518,7 @@ msgstr ""
 
 #: controllers/templates/about.mako:42
 msgid "About OpenERP"
-msgstr ""
+msgstr "OpenERP - Névjegy"
 
 #: controllers/templates/about.mako:44
 #, python-format
@@ -542,11 +555,11 @@ msgstr ""
 #: controllers/templates/login.mako:67 controllers/templates/login_ajax.mako:85
 #: controllers/templates/login_ajax.mako:104
 msgid "Login"
-msgstr ""
+msgstr "Bejelentkezés"
 
 #: controllers/templates/database.mako:60
 msgid "Password"
-msgstr ""
+msgstr "Jelszó"
 
 #: controllers/templates/error_page.mako:77
 msgid "An "
@@ -625,11 +638,11 @@ msgstr ""
 
 #: controllers/templates/error_page.mako:147
 msgid "Explain what you did:"
-msgstr ""
+msgstr "Írja le, mit csinált:"
 
 #: controllers/templates/error_page.mako:156
 msgid "Other Comments:"
-msgstr ""
+msgstr "További megjegyzések"
 
 #: controllers/templates/error_page.mako:168
 msgid "Send to Publisher Warranty Team"
@@ -655,7 +668,7 @@ msgstr ""
 #: controllers/templates/viewlist.mako:160
 #: widgets/templates/listgrid/listgrid.mako:33
 msgid "Cancel"
-msgstr ""
+msgstr "Mégse"
 
 #: controllers/templates/error_page.mako:215
 msgid "Write Anyway"
@@ -663,7 +676,7 @@ msgstr ""
 
 #: controllers/templates/exp.mako:143 widgets/templates/sidebar.mako:112
 msgid "Export"
-msgstr ""
+msgstr "Exportálás"
 
 #: controllers/templates/exp.mako:144 controllers/templates/fieldpref.mako:99
 #: controllers/templates/image.mako:70 controllers/templates/imp.mako:131
@@ -680,11 +693,11 @@ msgstr ""
 #: controllers/templates/viewlist.mako:129 widgets/templates/sidebar.mako:67
 #: widgets/templates/viewform.mako:37
 msgid "Close"
-msgstr ""
+msgstr "Bezárás"
 
 #: controllers/templates/exp.mako:146
 msgid "Export Data"
-msgstr ""
+msgstr "Adatok exportálása"
 
 #: controllers/templates/exp.mako:163 controllers/templates/form.mako:143
 #: controllers/templates/image.mako:67 widgets/form/templates/one2many.mako:20
@@ -696,11 +709,11 @@ msgstr ""
 #: widgets/templates/listgrid/listgroup.mako:127
 #: widgets/templates/listgrid/multiple_group.mako:82
 msgid "Delete"
-msgstr ""
+msgstr "Törlés"
 
 #: controllers/templates/exp.mako:174 controllers/templates/imp.mako:143
 msgid "All fields"
-msgstr ""
+msgstr "Minden mező"
 
 #: controllers/templates/exp.mako:176
 msgid "Fields to export"
@@ -710,20 +723,20 @@ msgstr ""
 #: controllers/templates/index.mako:189 widgets/templates/sidebar.mako:56
 #: widgets/templates/listgrid/listgrid.mako:138
 msgid "Add"
-msgstr ""
+msgstr "Hozzáadás"
 
 #: controllers/templates/exp.mako:191 controllers/templates/imp.mako:160
 #: controllers/templates/viewlist.mako:125
 msgid "Remove"
-msgstr ""
+msgstr "Eltávolít"
 
 #: controllers/templates/exp.mako:196 controllers/templates/imp.mako:165
 msgid "Nothing"
-msgstr ""
+msgstr "Egyiket sem"
 
 #: controllers/templates/exp.mako:201 controllers/templates/exp.mako:217
 msgid "Save List"
-msgstr ""
+msgstr "Lista mentése"
 
 #: controllers/templates/exp.mako:220
 msgid "Name of This Export:"
@@ -732,7 +745,7 @@ msgstr ""
 #: controllers/templates/exp.mako:225 controllers/templates/fieldpref.mako:102
 #: controllers/templates/selection.mako:45
 msgid "OK"
-msgstr ""
+msgstr "OK"
 
 #: controllers/templates/exp.mako:236
 msgid "Select Options to Export"
@@ -740,11 +753,11 @@ msgstr ""
 
 #: controllers/templates/exp.mako:242
 msgid "Export as CSV"
-msgstr ""
+msgstr "Exportálás CSV-be"
 
 #: controllers/templates/exp.mako:243
 msgid "Export as Excel"
-msgstr ""
+msgstr "Exportálás Excel-be"
 
 #: controllers/templates/exp.mako:250
 msgid "Add field names"
@@ -752,24 +765,24 @@ msgstr ""
 
 #: controllers/templates/exp.mako:255
 msgid "Import Compatible"
-msgstr ""
+msgstr "Import kompatibilis"
 
 #: controllers/templates/fieldpref.mako:4
 #: controllers/templates/fieldpref.mako:29
 msgid "Field Preferences"
-msgstr ""
+msgstr "Mező tulajdonságok"
 
 #: controllers/templates/fieldpref.mako:39
 msgid "Field Name:"
-msgstr ""
+msgstr "Mező neve:"
 
 #: controllers/templates/fieldpref.mako:43
 msgid "Domain:"
-msgstr ""
+msgstr "Tartomány:"
 
 #: controllers/templates/fieldpref.mako:47
 msgid "Default Value:"
-msgstr ""
+msgstr "Alapértelmezett érték:"
 
 #: controllers/templates/fieldpref.mako:57
 msgid "Value applicable for:"
@@ -807,7 +820,7 @@ msgstr ""
 #: controllers/templates/form.mako:81
 #, python-format
 msgid "Search: %s"
-msgstr ""
+msgstr "Keresés: %s"
 
 #: controllers/templates/form.mako:88
 msgid "Corporate Intelligence..."
@@ -827,7 +840,7 @@ msgstr ""
 
 #: controllers/templates/form.mako:119
 msgid "Create a new resource"
-msgstr ""
+msgstr "Új rekord"
 
 #: controllers/templates/form.mako:120 controllers/templates/search.mako:128
 #: controllers/templates/viewed_new_model.mako:36
@@ -836,7 +849,7 @@ msgstr ""
 #: widgets/templates/listgrid/listgrid.mako:143
 #: widgets/templates/listgrid/listgrid.mako:147
 msgid "New"
-msgstr ""
+msgstr "Új"
 
 #: controllers/templates/form.mako:124
 msgid "Edit this resource"
@@ -849,7 +862,7 @@ msgstr ""
 #: widgets/templates/listgrid/listgroup.mako:107
 #: widgets/templates/listgrid/multiple_group.mako:63
 msgid "Edit"
-msgstr ""
+msgstr "Szerkesztés"
 
 #: controllers/templates/form.mako:129
 msgid "Save this resource"
@@ -865,7 +878,7 @@ msgstr ""
 #: controllers/templates/viewed_new_model.mako:39
 #: controllers/templates/viewlist.mako:157
 msgid "Save"
-msgstr ""
+msgstr "Mentés"
 
 #: controllers/templates/form.mako:132
 msgid "Save & Edit this resource"
@@ -885,7 +898,7 @@ msgstr ""
 
 #: controllers/templates/form.mako:142
 msgid "Delete this resource"
-msgstr ""
+msgstr "Rekord törlése"
 
 #: controllers/templates/form.mako:147
 msgid "Cancel editing the current resource"
@@ -923,19 +936,19 @@ msgstr ""
 
 #: controllers/templates/header.mako:50
 msgid "Requests"
-msgstr ""
+msgstr "Kérések"
 
 #: controllers/templates/header.mako:59
 msgid "Edit Preferences"
-msgstr ""
+msgstr "Tulajdonságok szerkesztése"
 
 #: controllers/templates/header.mako:63 controllers/templates/header.mako:66
 msgid "About"
-msgstr ""
+msgstr "Névjegy"
 
 #: controllers/templates/header.mako:70 controllers/templates/header.mako:72
 msgid "Help"
-msgstr ""
+msgstr "Súgó"
 
 #: controllers/templates/header.mako:78 controllers/templates/header.mako:81
 msgid "Clear Cache"
@@ -943,11 +956,11 @@ msgstr ""
 
 #: controllers/templates/header.mako:86
 msgid "Logout"
-msgstr ""
+msgstr "Kijelentkezés"
 
 #: controllers/templates/image.mako:4 controllers/templates/image.mako:39
 msgid "Image"
-msgstr ""
+msgstr "Kép"
 
 #: controllers/templates/image.mako:55
 msgid "Add Resource:"
@@ -955,43 +968,43 @@ msgstr ""
 
 #: controllers/templates/image.mako:66 widgets/form/templates/binary.mako:28
 msgid "Save As"
-msgstr ""
+msgstr "Mentés másként"
 
 #: controllers/templates/imp.mako:130 widgets/templates/sidebar.mako:109
 msgid "Import"
-msgstr ""
+msgstr "Importálás"
 
 #: controllers/templates/imp.mako:133
 msgid "Import Data"
-msgstr ""
+msgstr "Adatok importálása"
 
 #: controllers/templates/imp.mako:145
 msgid "Fields to import"
-msgstr ""
+msgstr "Importálandó mezők"
 
 #: controllers/templates/imp.mako:170
 msgid "Auto Detect"
-msgstr ""
+msgstr "Automatikus felismerés"
 
 #: controllers/templates/imp.mako:189
 msgid "File to import"
-msgstr ""
+msgstr "Importálandó fájl"
 
 #: controllers/templates/imp.mako:197
 msgid "Options"
-msgstr ""
+msgstr "Opciók"
 
 #: controllers/templates/imp.mako:200
 msgid "Separator:"
-msgstr ""
+msgstr "Elválasztó:"
 
 #: controllers/templates/imp.mako:202
 msgid "Delimiter:"
-msgstr ""
+msgstr "Elválasztó:"
 
 #: controllers/templates/imp.mako:206
 msgid "Encoding:"
-msgstr ""
+msgstr "Kódolás:"
 
 #: controllers/templates/imp.mako:213
 msgid "Lines to skip:"
@@ -999,11 +1012,11 @@ msgstr ""
 
 #: controllers/templates/index.mako:164
 msgid "System Logs"
-msgstr ""
+msgstr "Rendszernaplók"
 
 #: controllers/templates/index.mako:190
 msgid "Widgets"
-msgstr ""
+msgstr "Widgetek"
 
 #: controllers/templates/index.mako:220 controllers/templates/index.mako:225
 #, python-format
@@ -1013,11 +1026,11 @@ msgstr ""
 #: controllers/templates/login.mako:53 controllers/templates/login_ajax.mako:72
 #: controllers/templates/login_ajax.mako:94
 msgid "User:"
-msgstr ""
+msgstr "Felhasználó:"
 
 #: controllers/templates/login.mako:64
 msgid "Databases"
-msgstr ""
+msgstr "Adatbázisok"
 
 #: controllers/templates/login.mako:84
 msgid "Top Contributor:"
@@ -1045,7 +1058,7 @@ msgstr ""
 
 #: controllers/templates/login.mako:112
 msgid "Open Source"
-msgstr ""
+msgstr "Nyílt forrású"
 
 #: controllers/templates/login.mako:113
 msgid ""
@@ -1055,7 +1068,7 @@ msgstr ""
 
 #: controllers/templates/login.mako:121
 msgid "User Friendly"
-msgstr ""
+msgstr "Felhasználóbarát"
 
 #: controllers/templates/login.mako:122
 msgid ""
@@ -1064,19 +1077,19 @@ msgstr ""
 
 #: controllers/templates/modules.mako:4
 msgid "Module Management"
-msgstr ""
+msgstr "Modul menedzsment"
 
 #: controllers/templates/modules.mako:17
 msgid "Web Modules"
-msgstr ""
+msgstr "Web modulok"
 
 #: controllers/templates/save_filter.mako:18
 msgid "Save as Filter"
-msgstr ""
+msgstr "Mentés szűrőként"
 
 #: controllers/templates/save_filter.mako:30
 msgid "Filter Name"
-msgstr ""
+msgstr "Szűrő neve"
 
 #: controllers/templates/search.mako:110
 #, python-format
@@ -1085,13 +1098,13 @@ msgstr ""
 
 #: controllers/templates/search.mako:125 widgets/form/templates/datetime.mako:8
 msgid "Select"
-msgstr ""
+msgstr "Kiválasztás"
 
 #: controllers/templates/search.mako:127 widgets/_views.py:83
 #: widgets/form/templates/many2one.mako:22
 #: widgets/form/templates/reference.mako:27 widgets/templates/viewform.mako:26
 msgid "Search"
-msgstr ""
+msgstr "Keresés"
 
 #: controllers/templates/search.mako:141
 #, python-format
@@ -1105,11 +1118,11 @@ msgstr ""
 
 #: controllers/templates/selection.mako:4
 msgid "Select action"
-msgstr ""
+msgstr "Művelet választás"
 
 #: controllers/templates/selection.mako:23
 msgid "Select your action"
-msgstr ""
+msgstr "Válasszon műveletet"
 
 #: controllers/templates/server_log.mako:4
 msgid "Server Actions..."
@@ -1121,11 +1134,11 @@ msgstr ""
 
 #: controllers/templates/translator.mako:4
 msgid "Add Translations"
-msgstr ""
+msgstr "Fordítások hozzáadása"
 
 #: controllers/templates/translator.mako:17
 msgid "Add Translation"
-msgstr ""
+msgstr "Fordítás hozzáadása"
 
 #: controllers/templates/translator.mako:27
 msgid "Add Translation for:"
@@ -1133,11 +1146,11 @@ msgstr ""
 
 #: controllers/templates/translator.mako:31
 msgid "Fields"
-msgstr ""
+msgstr "Mezők"
 
 #: controllers/templates/translator.mako:32
 msgid "Labels"
-msgstr ""
+msgstr "Címkék"
 
 #: controllers/templates/translator.mako:33
 msgid "Relates"
@@ -1149,12 +1162,12 @@ msgstr ""
 
 #: controllers/templates/translator.mako:53
 msgid "Field"
-msgstr ""
+msgstr "Mező"
 
 #: controllers/templates/view_log.mako:4 controllers/templates/view_log.mako:12
 #: utils/common.py:55
 msgid "Information"
-msgstr ""
+msgstr "Információ"
 
 #: controllers/templates/viewed.mako:17
 #, python-format
@@ -1171,7 +1184,7 @@ msgstr ""
 
 #: controllers/templates/viewed.mako:34
 msgid "Preview"
-msgstr ""
+msgstr "Előnézet"
 
 #: controllers/templates/viewed_add.mako:6
 msgid "Node Type:"
@@ -1179,11 +1192,11 @@ msgstr ""
 
 #: controllers/templates/viewed_add.mako:23
 msgid "New Field"
-msgstr ""
+msgstr "Új mező"
 
 #: controllers/templates/viewed_add.mako:27
 msgid "Position:"
-msgstr ""
+msgstr "Pozíció:"
 
 #: controllers/templates/viewlist.mako:4
 #: controllers/templates/viewlist.mako:108
@@ -1206,23 +1219,23 @@ msgstr ""
 
 #: controllers/templates/viewlist.mako:189
 msgid "Priority:"
-msgstr ""
+msgstr "Prioritás:"
 
 #: utils/common.py:45 utils/common.py:74
 msgid "Error"
-msgstr ""
+msgstr "Hiba"
 
 #: utils/common.py:50 utils/common.py:77
 msgid "Warning"
-msgstr ""
+msgstr "Figyelmeztetés"
 
 #: utils/rpc.py:139
 msgid "Access Denied"
-msgstr ""
+msgstr "Hozzáférés megtagadva"
 
 #: utils/rpc.py:246
 msgid "Unsupported protocol."
-msgstr ""
+msgstr "Nem támogatott protokoll."
 
 #: utils/rpc.py:350
 msgid ""
@@ -1236,23 +1249,23 @@ msgstr ""
 
 #: utils/rpc.py:357
 msgid "Authorization Error"
-msgstr ""
+msgstr "Hitelesítési hiba"
 
 #: utils/rpc.py:422
 msgid "== Access Denied =="
-msgstr ""
+msgstr "== Hozzáférés megtagadva =="
 
 #: widgets/_views.py:52
 msgid "Form"
-msgstr ""
+msgstr "Űrlap"
 
 #: widgets/_views.py:53
 msgid "Form view..."
-msgstr ""
+msgstr "Űrlap nézet..."
 
 #: widgets/_views.py:84
 msgid "Search view..."
-msgstr ""
+msgstr "Keresés nézet..."
 
 #: widgets/listgrid.py:333 widgets/form/_form.py:913
 #, python-format
@@ -1262,52 +1275,52 @@ msgstr ""
 #: widgets/pager.py:64
 #, python-format
 msgid "%s"
-msgstr ""
+msgstr "%s"
 
 #: widgets/pager.py:76
 #, python-format
 msgid "%s - %s"
-msgstr ""
+msgstr "%s - %s"
 
 #: widgets/search.py:286
 msgid "contains"
-msgstr ""
+msgstr "tartalmazza"
 
 #: widgets/search.py:286
 msgid "doesn't contain"
-msgstr ""
+msgstr "nem tartalmazza"
 
 #: widgets/search.py:287
 msgid "is equal to"
-msgstr ""
+msgstr "egyenlő"
 
 #: widgets/search.py:287
 msgid "is not equal to"
-msgstr ""
+msgstr "nem egyenlő"
 
 #: widgets/search.py:288
 msgid "greater than"
-msgstr ""
+msgstr "nagyobb, mint"
 
 #: widgets/search.py:288
 msgid "less than"
-msgstr ""
+msgstr "kisebb, mint"
 
 #: widgets/search.py:289
 msgid "in"
-msgstr ""
+msgstr "eleme"
 
 #: widgets/search.py:289
 msgid "not in"
-msgstr ""
+msgstr "nem eleme"
 
 #: widgets/search.py:396
 msgid "Yes"
-msgstr ""
+msgstr "Igen"
 
 #: widgets/search.py:396
 msgid "No"
-msgstr ""
+msgstr "Nem"
 
 #: widgets/form/_action.py:54
 msgid "Action not found!"
@@ -1316,7 +1329,7 @@ msgstr ""
 #: widgets/form/_o2m.py:57 widgets/templates/listgrid/listgrid.mako:141
 #: widgets/templates/listgrid/listgrid.mako:147
 msgid "Create new record."
-msgstr ""
+msgstr "Új rekord létrehozása."
 
 #: widgets/form/_o2m.py:70
 msgid "Save/New"
@@ -1329,7 +1342,7 @@ msgstr ""
 #: widgets/form/_o2m.py:185
 #, python-format
 msgid "%d of %d"
-msgstr ""
+msgstr "%d / %d"
 
 #: widgets/form/_o2m.py:187
 #, python-format
@@ -1338,12 +1351,12 @@ msgstr ""
 
 #: widgets/form/templates/binary.mako:31
 msgid "add attachment"
-msgstr ""
+msgstr "melléklet hozzáadása"
 
 #: widgets/form/templates/many2one.mako:2
 #: widgets/form/templates/reference.mako:30
 msgid "Open"
-msgstr ""
+msgstr "Megnyit"
 
 #: widgets/form/templates/many2one.mako:2
 #: widgets/form/templates/reference.mako:30
@@ -1380,23 +1393,23 @@ msgstr ""
 
 #: widgets/templates/pager.mako:9
 msgid "<< First"
-msgstr ""
+msgstr "<< Első"
 
 #: widgets/templates/pager.mako:14
 msgid "< Previous"
-msgstr ""
+msgstr "< Előző"
 
 #: widgets/templates/pager.mako:19
 msgid "of"
-msgstr ""
+msgstr "/"
 
 #: widgets/templates/pager.mako:24
 msgid "Next >"
-msgstr ""
+msgstr "Következő >"
 
 #: widgets/templates/pager.mako:29
 msgid "Last >>"
-msgstr ""
+msgstr "Utolsó >>"
 
 #: widgets/templates/pager.mako:37
 msgid "Change Limit:"
@@ -1404,31 +1417,31 @@ msgstr ""
 
 #: widgets/templates/sidebar.mako:37
 msgid "Reports"
-msgstr ""
+msgstr "Jelentések"
 
 #: widgets/templates/sidebar.mako:41 widgets/templates/viewform.mako:51
 msgid "Actions"
-msgstr ""
+msgstr "Műveletek"
 
 #: widgets/templates/sidebar.mako:45
 msgid "Links"
-msgstr ""
+msgstr "Hivatkozások"
 
 #: widgets/templates/sidebar.mako:49
 msgid "Submenu"
-msgstr ""
+msgstr "Almenü"
 
 #: widgets/templates/sidebar.mako:54
 msgid "Attachments"
-msgstr ""
+msgstr "Mellékletek"
 
 #: widgets/templates/sidebar.mako:74
 msgid "File"
-msgstr ""
+msgstr "Fájl"
 
 #: widgets/templates/sidebar.mako:82
 msgid "Customize"
-msgstr ""
+msgstr "Testreszabás"
 
 #: widgets/templates/sidebar.mako:86
 msgid "Manage views of the current object"
@@ -1452,19 +1465,19 @@ msgstr ""
 
 #: widgets/templates/sidebar.mako:99
 msgid "Customize Object"
-msgstr ""
+msgstr "Objektum testreszabása"
 
 #: widgets/templates/sidebar.mako:104
 msgid "Other Options"
-msgstr ""
+msgstr "Egyéb opciók"
 
 #: widgets/templates/sidebar.mako:116
 msgid "Translate"
-msgstr ""
+msgstr "Fordítás"
 
 #: widgets/templates/sidebar.mako:121
 msgid "View Log"
-msgstr ""
+msgstr "Napló megtekintése"
 
 #: widgets/templates/viewform.mako:25
 msgid "Filter records."
@@ -1476,15 +1489,15 @@ msgstr ""
 
 #: widgets/templates/viewform.mako:35
 msgid "Clear"
-msgstr ""
+msgstr "Törlés"
 
 #: widgets/templates/viewform.mako:43
 msgid "Filters"
-msgstr ""
+msgstr "Szűrők"
 
 #: widgets/templates/viewform.mako:45
 msgid "Saved Filters"
-msgstr ""
+msgstr "Mentett szűrők"
 
 #: widgets/templates/viewform.mako:52
 msgid "New Filter"

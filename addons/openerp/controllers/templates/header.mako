@@ -18,6 +18,9 @@ if rpc.session.is_logged():
     logged = True
 else:
     logged = False
+
+from openobject import release
+version = release.version
 %>
 <td id="top" colspan="3">
     <p id="cmp_logo">
@@ -67,9 +70,9 @@ else:
                     </ul>
                 </li>
 
-                <li><a target="_blank" href="http://doc.openerp.com/book" class="help">${_("Help")}</a>
+                <li><a target="_blank" href="http://doc.openerp.com/book?version=${version}" class="help">${_("Help")}</a>
                     <ul>
-                        <li class="first last"><a target="_blank" href="http://doc.openerp.com/book">${_("Help")}</a></li>
+                        <li class="first last"><a target="_blank" href="http://doc.openerp.com/book?version={version}">${_("Help")}</a></li>
                     </ul>
                 </li>
 

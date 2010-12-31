@@ -180,7 +180,7 @@ class Filter(TinyInputWidget):
         if not self.def_checked and attrs.get('group_by_ctx'):
             if self.group_context in attrs['group_by_ctx']:
                 self.def_checked = True
-
+        
 class M2O_search(form.M2O):
     template = "/openerp/widgets/templates/search/many2one.mako"
     def __init__(self, **attrs):
@@ -218,8 +218,10 @@ class Search(TinyInputWidget):
             values = {}
 
         ctx = dict(rpc.session.context, **self.context)
-
-        view_id = ctx.get('search_view') or False
+        if not self.groupby and (values and values.get('group_by_ctx')):
+            self.groupby = values['group_by_ctx']
+        
+        view_id = False
 
         if isinstance (self.search_view, basestring):
             self.search_view = eval(self.search_view)

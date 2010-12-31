@@ -59,7 +59,9 @@
             </td>
         </tr>
         <tr>
-            <td>${form.display()}</td>
+            <td>
+                <div${ " class='non-editable'" if not form.screen.editable and form.screen.view_type == 'form' else "" | n }>${form.display()}</div>
+            </td>
         </tr>
     </table>
 </%def>

@@ -124,10 +124,10 @@
                                 % if params.selectable != 1:
                                     <a class="button-a select-link" href="javascript: void(0)" onclick="do_select()">${_("Select")}</a>
                                 % endif
-                            	<a class="button-a" href="javascript: void(0)" onclick="search_filter()">${_("Search")}</a>
+                            	<a id="search-filter" class="button-a" href="javascript: void(0)" onclick="search_filter()" >${_("Search")}</a>
                            	    <a class="button-a" href="javascript: void(0)" onclick="do_create()">${_("New")}</a>
                             	<a class="button-a" href="javascript: void(0)" onclick="close_dialog();">${_("Close")}</a>
-                            
+	                            
                             </td>
                         </tr>
                     </table>
@@ -136,20 +136,27 @@
             <tr>
                 <td style="padding: 5px">
                     <div style="position:relative">
+                       
+                        ${form.screen.display()}
                         % if not params.ids and 'default_name' in params.context:
-                            <div class="no-record-warning">
-                                <p>${_("Found no record '%(searched_string)s'.", searched_string=params.context['default_name'])}</p>
+                            <div id="no-record-warning" class="no-record-warning">
+                                <p>${_("No record found : '%(searched_string)s'.", searched_string=params.context['default_name'])}</p>
                                 <p>
-                                    <a class="button-a" href="javascript: void(0)"
-                                       onclick="do_create()">${_("Create %(searched_string)s", searched_string=params.context['default_name'])}</a>
+                                    <a class="button-a" href="javascript: void(0)" onclick="do_create()">${_("Create")}</a>
                                 </p>
                             </div>
-                        % endif
-                        ${form.screen.display()}
+                        % endif 
                     </div>
                 </td>
             </tr>
         </table>
+        <script type="text/javascript">
+        	jQuery('#search-filter').click(function () {
+        		
+                jQuery('#no-record-warning').hide();
+                return search_filter();
+            });
+    </script>
         <script type="text/javascript">
             jQuery('table.search_table input:text').eq(0).focus();
             /*

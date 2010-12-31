@@ -220,6 +220,11 @@ function submit_form(action, src, target){
         action = 'save';
         args['_terp_return_edit'] = 1;
     }
+    
+    if(action == 'save_and_close') {
+        action = 'save';
+        args['_terp_close'] = 1;
+    }
 
     action = get_form_action(action, args);
 
@@ -602,10 +607,32 @@ function onChange(caller){
                         new ListView(prefix + k).reload();
                     }
                 }
-
+                
                 switch (kind) {
                     case 'picture':
                         fld.src = value;
+                        break;
+                    case 'many2many':
+                        if(value) {
+                            var fld_name = jQuery(fld).attr('name');
+                            var fld_val = '['+ value.join(',') + ']';
+                            var old_m2m = jQuery(idSelector(fld_name)).closest('.list-a');
+                            jQuery.ajax({
+                                url: '/openerp/listgrid/get_m2m',
+                                data: {
+                                    'name': fld_name,
+                                    'model': jQuery(fld).attr('relation'),
+                                    'view_id': jQuery(idSelector(fld_name + '/_terp_view_id')).val(),
+                                    'view_type': jQuery(idSelector(fld_name + '/_terp_view_type')).val(),
+                                    'ids': fld_val
+                                },
+                                dataType: 'json',
+                                error: loadingError(),
+                                success: function(obj){
+                                    jQuery(old_m2m).replaceWith(obj.m2m_view);
+                                }
+                            });
+                        }
                         break;
                     case 'many2one':
                         fld.value = value[0] || '';
@@ -626,10 +653,7 @@ function onChange(caller){
                     case 'selection':
                         if (typeof(value)=='object') {
                             var opts = [OPTION({'value': ''})];
-                            for (i in value) {
-                                var item = value[i];
-                                opts.push(OPTION({'value': item[0]}, item[1]));
-                            }
+                            opts.push(OPTION({'value': value[0], 'selected' : value[1] }, value[1]));
                             MochiKit.DOM.replaceChildNodes(fld, map(function(x){return x;}, opts));
                         }
                         else {
@@ -1235,29 +1259,19 @@ function toggle_shortcut(){
 
 
 function validateForm(){
-    jQuery('#view_form table tr td:first').find('input:not([type=hidden]), select').change(function(){
-        jQuery('#view_form').data('is_form_changed', true);
+    jQuery('#view_form table tr td:first').find('input:not([type=hidden]), select').change(function(e, automatic){
+        if (!automatic) {
+            jQuery('#view_form').data('is_form_changed', true);
+        }
     });
 }
 
 function validate_action() {
     var $form = jQuery('#view_form');
-    if ($form.data('is_form_changed') && confirm('The record has been modified \n Do you want to save it ?')) {
-        if (!validate_required($form.get(0))) {
-            return false;
-        }
-        
-        $form.ajaxSubmit({
-            error: loadingError(),
-            async: false,
-            success: function(data, status, xhr){
-                if (arguments.length) {
-                    $form.find('#_terp_id').val(jQuery(xhr.responseText).find('#_terp_id').val());
-                }
-                $form.removeData('is_form_changed');
-            }
-        });
+    if ($form.data('is_form_changed') && !confirm('Warning, the record has been modified\nDo you want to discard your changes ?')) {
+        return false;
     }
+    $form.removeData('is_form_changed');
     if (arguments.length) {
         var params = arguments[0];
         var action = arguments[1];

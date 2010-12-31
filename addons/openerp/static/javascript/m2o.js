@@ -564,6 +564,13 @@ ManyToOne.prototype.getOnclick = function(evt) {
             url = '/openerp/openm2o/edit'
         } else {
             url = '/openerp/search/new';
+            
+            // if new record is closed without saving source value need to blank
+            var $frame = $($this.attr('frameElement'));
+            var $source_elem = $frame.contents().find(idSelector(options.source+'_text'));
+            if($source_elem)
+                $source_elem.val('');
+            
         }
         return $.frame_dialog({
                 src: openobject.http.getURL(url, options)

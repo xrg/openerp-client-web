@@ -99,6 +99,7 @@ class Search(Form):
             params.search_text = True
             # When id does not exists for m2o
             if not ids:
+                params.search_text = False
                 params.context['default_name'] = text
         if kw.get('return_to'):
             params['return_to'] = ast.literal_eval(kw['return_to'])

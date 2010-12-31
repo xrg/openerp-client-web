@@ -42,6 +42,7 @@ function displayErrorOverlay(xhr) {
     };
     if(xhr.getResponseHeader('X-Maintenance-Error')) {
         options['autoDimensions'] = false;
+        options['scrolling'] = 'auto';
     }
     jQuery.fancybox(xhr.responseText, options);
 }
@@ -131,7 +132,9 @@ function doLoadingSuccess(app/*, url*/) {
                 onBooleanClicked(jQuery(this).attr('id'));
             }
             else {
-                jQuery(this).change();
+                // We pass an arbitrary parameter to the event so we can
+                // differenciate a user event from a trigger
+                jQuery(this).trigger('change', [true]);
             }
         });
     }

@@ -34,10 +34,10 @@ import thread
 
 class OpenERPWebService(win32serviceutil.ServiceFramework):
     # required info
-    _svc_name_ = "openerp-web"
-    _svc_display_name_ = "OpenERP Web"
+    _svc_name_ = "openerp-web-6.0"
+    _svc_display_name_ = "OpenERP Web 6.0"
     # optionnal info
-    _svc_description_ = "OpenERP Web service"
+    _svc_description_ = "OpenERP Web 6.0 service"
 
     def __init__(self, args):
         win32serviceutil.ServiceFramework.__init__(self, args)
@@ -64,9 +64,11 @@ class OpenERPWebService(win32serviceutil.ServiceFramework):
         # The server finds now its configuration automatically on Windows
         # We start the ERP Web as an independent process, but we keep its handle
         # The server's binary must be one directory above the service's binary (when py2exe'd the python libraries shouldn' mix)
+
         service_dir = os.path.dirname(sys.argv[0])
         server_dir = os.path.split(service_dir)[0]
         server_path = os.path.join(server_dir, 'openerp-web.exe')
+
         self.openerp_process = subprocess.Popen([server_path], cwd=server_dir, creationflags=win32process.CREATE_NO_WINDOW)
 
 

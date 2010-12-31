@@ -759,7 +759,7 @@ class Form(TinyInputWidget):
         fields = view['fields']
         self.string = attrs.get('string', '')
         self.link = attrs.get('link', nolinks)
-
+        self.model = model
         self.id = None
 
         proxy = rpc.RPCProxy(model)
@@ -788,7 +788,7 @@ class Form(TinyInputWidget):
 
         elif not self.nodefault: # default
             try:
-                defaults = proxy.default_get(fields.keys(), self.context)
+                defaults = self.get_defaults(fields, domain, self.context)
             except:
                 pass
 
@@ -987,6 +987,24 @@ class Form(TinyInputWidget):
         cherrypy.request.terp_record[name] =  field.get_value()
 
         return field
+
+    def get_defaults(self, fields, domain=[], context={}):
+        if len(fields):
+            proxy = rpc.RPCProxy(self.model)
+            default_values = proxy.default_get(fields.keys(), context)
+            for d in domain:
+                if d[0] in fields and not fields.get(d[0], {}).get('readonly',False):
+                    if d[1] == '=':
+                        if d[2]:
+                            value = d[2]
+                            # domain containing fields like M2M/O2M should return values as list
+                            if fields[d[0]].get('type', '') in ('many2many','one2many'):
+                                if not isinstance(d[2], (bool,list)):
+                                    value = [d[2]]
+                            default_values[d[0]] = value
+                    if d[1] == 'in' and len(d[2]) == 1:
+                        default_values[d[0]] = d[2][0]
+            return default_values
 
 
 # vim: ts=4 sts=4 sw=4 si et

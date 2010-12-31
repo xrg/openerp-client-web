@@ -196,6 +196,12 @@ class TinyDict(dict):
             res[k] = v
         return res
 
+    def __getstate__(self):
+        return self.__dict__
+
+    def __setstate__(self, d):
+        self.__dict__.update(d)
+
 _VALIDATORS = {
     'date': lambda *a: validators.DateTime(kind="date"),
     'time': lambda *a: validators.DateTime(kind="time"),

@@ -47,7 +47,8 @@ openerp.ui = {};
             if(on_toggle) {
                 $.proxy(on_toggle, this)(linked);
             }
-            $(window).trigger('on-appcontent-resize')
+            $(window).trigger('on-appcontent-resize');
+            return false;
         });
         return this;
     }

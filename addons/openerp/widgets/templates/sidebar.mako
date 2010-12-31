@@ -53,7 +53,7 @@
         <div class="sideheader-a">
             <h2>${_("Attachments")}</h2>
         </div>
-        <a href="#" id="add-attachment" class="button-a" style="line-height: 13px;">${_("Add")}</a>
+        <a href="#" id="add-attachment" class="button-a attachment-button">${_("Add")}</a>
         <br style="clear: both"/>
         <ul id="attachments" class="attachments-a">
             % for attachment in attachments:

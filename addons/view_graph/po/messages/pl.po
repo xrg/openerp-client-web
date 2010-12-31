@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: openobject-client-web\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2010-12-17 10:28+0100\n"
-"PO-Revision-Date: 2010-12-28 09:45+0000\n"
+"PO-Revision-Date: 2010-12-28 09:46+0000\n"
 "Last-Translator: Grzegorz Grzelak (Cirrus.pl) <Unknown>\n"
 "Language-Team: Polish <pl@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -17,22 +17,10 @@ msgstr ""
 "X-Launchpad-Export-Date: 2010-12-29 04:41+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
-#: static/javascript/infobox.js:143
-msgid "Do you really want to delete this record?"
-msgstr "Na pewno chcesz usunąć ten rekord?"
+#: widgets/_views.py:8
+msgid "Graph"
+msgstr "Wykres"
 
-#: static/javascript/process.js:178
-msgid "Notes:"
-msgstr "Notatki:"
-
-#: static/javascript/process.js:186
-msgid "Subflows:"
-msgstr "Podobiegi:"
-
-#: static/javascript/process.js:190
-msgid "Related:"
-msgstr "Związane:"
-
-#: static/javascript/process.js:274
-msgid "Help"
-msgstr "Pomoc"
+#: widgets/_views.py:9
+msgid "Graph view..."
+msgstr "Widok wykresu..."

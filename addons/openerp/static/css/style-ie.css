@@ -66,6 +66,42 @@ img{behavior:expression((this.runtimeStyle.behavior="none")&&(/^data:.*;base64/i
 	width: 120px;
 }
 
+.ie7 .item input {
+	width: 120px;
+}
+
+.ie7 .item .item-wrapper td {
+	width: 120px;
+}
+
+.ie7 .item IMG.datetime {
+	margin-left: 0;
+}
+
+.ie7 #secondary div.wrap {
+	width: 180px;
+}
+
+.ie7 #search_filter_data .fields .filters-group .fields {
+	width: 100%;	
+}
+
+.ie7 td.search_filters.item {
+	width: auto;
+}
+
+.ie7 td.search_filters.item .filter-a {
+	width: auto;
+}
+
+.ie7 .filter-a .filter_with_icon {
+	min-width: auto;
+}
+
+.ie #primary {
+	height:auto;
+}
+
 /**
  * vim: sts=4 st=4 et 
  *

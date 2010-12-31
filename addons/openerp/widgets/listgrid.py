@@ -370,7 +370,8 @@ class List(TinyWidget):
 
                         row_value = values[i]
                         if invisible:
-                            cell = form.Hidden(**fields[name])
+                            fields[name]['readonly'] = True
+                            cell = Hidden(**fields[name])
                             cell.set_value(row_value.get(name, False))
                         else:
                             cell = CELLTYPES[kind](value=row_value.get(name, False), **fields[name])
@@ -601,6 +602,35 @@ class Button(TinyInputWidget):
     def update_params(self, params):
         super(Button, self).update_params(params)
         params['attrs']['attrs']=self.attrs
+
+class Hidden(TinyInputWidget):
+    template = "openerp/widgets/templates/listgrid/hidden.mako"
+
+    params = ['relation', 'field_id']
+    member_widgets = ['widget']
+
+    def __init__(self, **attrs):
+        super(Hidden, self).__init__(**attrs)
+        kind = self.kind or 'text'
+        self.widget = get_widget(kind)(**attrs)
+        self.validator = self.widget.validator
+        self.relation = attrs.get('relation') or None
+        self.editable = self.readonly
+        if 'field_id' not in attrs:
+            self.field_id = self.name
+
+    def set_value(self, value):
+        self.widget.set_value(value)
+        self.default = self.widget.default
+
+    def get_sortable_text(self):
+        """ If returns anything other then None, the return value will be
+        used to sort the listgrid. Useful for localized data.
+        """
+        return None
+
+    def update_params(self, params):
+        super(Hidden, self).update_params(params)
 
 
 CELLTYPES = {

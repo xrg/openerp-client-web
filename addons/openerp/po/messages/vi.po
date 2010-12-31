@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: openobject-client-web\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2010-12-17 10:28+0100\n"
-"PO-Revision-Date: 2010-12-24 04:39+0000\n"
+"PO-Revision-Date: 2010-12-28 06:59+0000\n"
 "Last-Translator: Phong Nguyen <Unknown>\n"
 "Language-Team: Vietnamese <vi@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2010-12-24 04:57+0000\n"
+"X-Launchpad-Export-Date: 2010-12-29 04:41+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: validators.py:83
@@ -23,11 +23,11 @@ msgstr ""
 
 #: validators.py:122 validators.py:127 validators.py:270
 msgid "Invalid datetime format"
-msgstr ""
+msgstr "Định dạng ngày giờ không hợp lệ"
 
 #: validators.py:174
 msgid "Please select a file."
-msgstr ""
+msgstr "Vui lòng chọn một tập tin."
 
 #: validators.py:255
 msgid "Please enter an email address"
@@ -135,7 +135,7 @@ msgstr ""
 
 #: controllers/database.py:79
 msgid "Load Demonstration data:"
-msgstr ""
+msgstr "Nạp dữ liệu mẫu:"
 
 #: controllers/database.py:79
 msgid ""
@@ -219,7 +219,7 @@ msgstr "Tập tin:"
 
 #: controllers/database.py:114
 msgid "Change Administrator Password"
-msgstr ""
+msgstr "Thay đổi mật khẩu Quản trị viên"
 
 #: controllers/database.py:116
 msgid "Change Password"
@@ -270,11 +270,11 @@ msgstr ""
 
 #: controllers/database.py:260
 msgid "Could not create backup."
-msgstr ""
+msgstr "Không tạo được bản lưu."
 
 #: controllers/database.py:284
 msgid "Could not restore database"
-msgstr ""
+msgstr "Không thể khôi phục CSDL"
 
 #: controllers/database.py:307
 msgid "Error, password not changed."
@@ -285,6 +285,8 @@ msgid ""
 "Your problem has been sent to the quality team\n"
 "We will recontact you after analysing the problem."
 msgstr ""
+"Vấn đề của bạn đã được gửi đến nhóm quản lý chất lượng\n"
+"Chúng tôi sẽ liên hệ lại với bạn sau khi phân tích vấn đề."
 
 #: controllers/error_page.py:88
 #, python-format
@@ -292,6 +294,8 @@ msgid ""
 "Your problem could not be sent to the quality team\n"
 "Please report this error manually at %s"
 msgstr ""
+"Vấn đề của bạn không thể gửi được đến nhóm quản lý chất lượng\n"
+"Vui lòng báo cáo lỗi này một cách thủ công tại %s"
 
 #: controllers/form.py:562
 #, python-format
@@ -300,7 +304,7 @@ msgstr ""
 
 #: controllers/form.py:900 controllers/tree.py:241
 msgid "No record selected"
-msgstr ""
+msgstr "Không có bản ghi được chọn"
 
 #: controllers/form.py:905
 msgid "Print Screen"
@@ -324,11 +328,11 @@ msgstr ""
 
 #: controllers/impex.py:346
 msgid "Export Error"
-msgstr ""
+msgstr "Lỗi xuất dữ liệu"
 
 #: controllers/impex.py:452
 msgid "Error opening .CSV file"
-msgstr ""
+msgstr "Lỗi mở tập tin .CSV"
 
 #: controllers/impex.py:452
 msgid "Input Error."
@@ -385,7 +389,7 @@ msgstr ""
 
 #: controllers/tree.py:272
 msgid "No resource selected"
-msgstr ""
+msgstr "Không có tài nguyên được chọn"
 
 #: controllers/utils.py:52
 msgid "Could not connect to server"
@@ -393,7 +397,7 @@ msgstr "Không thể kết nối đến máy chủ"
 
 #: controllers/utils.py:139 controllers/templates/login_ajax.mako:111
 msgid "Bad username or password"
-msgstr ""
+msgstr "Tên người dùng hoặc mật khẩu không hợp lệ"
 
 #: controllers/view_log.py:40
 msgid "ID"
@@ -401,7 +405,7 @@ msgstr "ID"
 
 #: controllers/view_log.py:41
 msgid "Creation User"
-msgstr ""
+msgstr "Người tạo"
 
 #: controllers/view_log.py:42
 msgid "Creation Date"
@@ -421,7 +425,7 @@ msgstr "Chủ sở hữu"
 
 #: controllers/view_log.py:46
 msgid "Group Owner"
-msgstr ""
+msgstr "Nhóm chủ sở hữu"
 
 #: controllers/view_log.py:47
 msgid "Access Level"
@@ -507,7 +511,7 @@ msgstr ""
 
 #: controllers/templates/about.mako:42
 msgid "About OpenERP"
-msgstr ""
+msgstr "Giới thiệu OpenERP"
 
 #: controllers/templates/about.mako:44
 #, python-format
@@ -623,15 +627,15 @@ msgstr ""
 
 #: controllers/templates/error_page.mako:140
 msgid "Summary of the problem:"
-msgstr ""
+msgstr "Tóm tắt nội dung vấn đề:"
 
 #: controllers/templates/error_page.mako:147
 msgid "Explain what you did:"
-msgstr ""
+msgstr "Giải thích bạn đã làm gì:"
 
 #: controllers/templates/error_page.mako:156
 msgid "Other Comments:"
-msgstr ""
+msgstr "Các ghi chú khác:"
 
 #: controllers/templates/error_page.mako:168
 msgid "Send to Publisher Warranty Team"
@@ -639,7 +643,7 @@ msgstr ""
 
 #: controllers/templates/error_page.mako:195
 msgid "Write concurrency warning :"
-msgstr ""
+msgstr "Cảnh báo ghi đồng hành :"
 
 #: controllers/templates/error_page.mako:200
 msgid ""
@@ -1289,11 +1293,11 @@ msgstr ""
 
 #: widgets/search.py:288
 msgid "greater than"
-msgstr ""
+msgstr "lớn hơn"
 
 #: widgets/search.py:288
 msgid "less than"
-msgstr ""
+msgstr "nhỏ hơn"
 
 #: widgets/search.py:289
 msgid "in"
@@ -1305,11 +1309,11 @@ msgstr ""
 
 #: widgets/search.py:396
 msgid "Yes"
-msgstr ""
+msgstr "Có"
 
 #: widgets/search.py:396
 msgid "No"
-msgstr ""
+msgstr "Không"
 
 #: widgets/form/_action.py:54
 msgid "Action not found!"
@@ -1331,7 +1335,7 @@ msgstr ""
 #: widgets/form/_o2m.py:185
 #, python-format
 msgid "%d of %d"
-msgstr ""
+msgstr "%d của %d"
 
 #: widgets/form/_o2m.py:187
 #, python-format
@@ -1345,7 +1349,7 @@ msgstr ""
 #: widgets/form/templates/many2one.mako:2
 #: widgets/form/templates/reference.mako:30
 msgid "Open"
-msgstr ""
+msgstr "Mở"
 
 #: widgets/form/templates/many2one.mako:2
 #: widgets/form/templates/reference.mako:30
@@ -1374,7 +1378,7 @@ msgstr ""
 
 #: widgets/templates/logs.mako:22
 msgid "More..."
-msgstr ""
+msgstr "Thêm nữa..."
 
 #: widgets/templates/logs.mako:35
 msgid "Less..."
@@ -1382,23 +1386,23 @@ msgstr ""
 
 #: widgets/templates/pager.mako:9
 msgid "<< First"
-msgstr ""
+msgstr "<< Đầu tiên"
 
 #: widgets/templates/pager.mako:14
 msgid "< Previous"
-msgstr ""
+msgstr "<Trước"
 
 #: widgets/templates/pager.mako:19
 msgid "of"
-msgstr ""
+msgstr "của"
 
 #: widgets/templates/pager.mako:24
 msgid "Next >"
-msgstr ""
+msgstr "Tiếp >"
 
 #: widgets/templates/pager.mako:29
 msgid "Last >>"
-msgstr ""
+msgstr "Cuối cùng"
 
 #: widgets/templates/pager.mako:37
 msgid "Change Limit:"
@@ -1406,7 +1410,7 @@ msgstr ""
 
 #: widgets/templates/sidebar.mako:37
 msgid "Reports"
-msgstr ""
+msgstr "Các báo cáo"
 
 #: widgets/templates/sidebar.mako:41 widgets/templates/viewform.mako:51
 msgid "Actions"
@@ -1418,7 +1422,7 @@ msgstr ""
 
 #: widgets/templates/sidebar.mako:49
 msgid "Submenu"
-msgstr ""
+msgstr "Trình đơn con"
 
 #: widgets/templates/sidebar.mako:54
 msgid "Attachments"
@@ -1426,11 +1430,11 @@ msgstr ""
 
 #: widgets/templates/sidebar.mako:74
 msgid "File"
-msgstr ""
+msgstr "Tập tin"
 
 #: widgets/templates/sidebar.mako:82
 msgid "Customize"
-msgstr ""
+msgstr "Tùy chỉnh"
 
 #: widgets/templates/sidebar.mako:86
 msgid "Manage views of the current object"
@@ -1458,11 +1462,11 @@ msgstr ""
 
 #: widgets/templates/sidebar.mako:104
 msgid "Other Options"
-msgstr ""
+msgstr "Các lựa chọn khác"
 
 #: widgets/templates/sidebar.mako:116
 msgid "Translate"
-msgstr ""
+msgstr "Dịch"
 
 #: widgets/templates/sidebar.mako:121
 msgid "View Log"
@@ -1482,27 +1486,27 @@ msgstr ""
 
 #: widgets/templates/viewform.mako:43
 msgid "Filters"
-msgstr ""
+msgstr "Các bộ lọc"
 
 #: widgets/templates/viewform.mako:45
 msgid "Saved Filters"
-msgstr ""
+msgstr "Các bộ lọc đã lưu"
 
 #: widgets/templates/viewform.mako:52
 msgid "New Filter"
-msgstr ""
+msgstr "Bộ lọc mới"
 
 #: widgets/templates/viewform.mako:53
 msgid "Save Filter"
-msgstr ""
+msgstr "Bộ lọc đã lưu"
 
 #: widgets/templates/viewform.mako:54
 msgid "Manage Filters"
-msgstr ""
+msgstr "Quản lý các bộ lọc"
 
 #: widgets/templates/listgrid/listgrid.mako:19
 msgid "Update"
-msgstr ""
+msgstr "Cập nhật"
 
 #: widgets/templates/listgrid/listgrid.mako:137
 msgid "Add records..."

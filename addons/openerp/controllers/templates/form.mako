@@ -45,10 +45,10 @@
     %>
     <li class="${kind}" title="${desc}">
         % if kind in form.screen.view_mode:
-            <a href="#" onclick="validate_action('${kind}',switchView); return false;"
+            <a href="javascript:void(0)" onclick="validate_action('${kind}',switchView); return false;"
                class="${cls}">${kind}</a>
         % else:
-            <a href="#" class="inactive">${kind}</a>
+            <a href="javascript:void(0)" class="inactive">${kind}</a>
         % endif
     </li>
 </%def>
@@ -181,7 +181,7 @@
                       sidebar_class="closed"
                 %>
                 <td id="main_sidebar" valign="top">
-                    <a class="toggle-sidebar ${sidebar_class}" href="#">Toggle</a>
+                    <a class="toggle-sidebar ${sidebar_class}" href="javascript:void(0)">Toggle</a>
                     <div id="tertiary" class="${sidebar_class}">
                         <div id="tertiary_wrap">
                             ${form.sidebar.display()}

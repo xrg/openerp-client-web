@@ -83,7 +83,7 @@ function set_binary_filename(src, filename) {
     
     var $src = jQuery(src);
     
-    var name = $src.attr('name');
+    var name = $src.attr('name') || $src.attr('id');
     
     var prefix = name.split('/'); prefix.pop();
     var prefix = prefix.join('/'); prefix = prefix ? prefix + '/' : '';
@@ -97,7 +97,20 @@ function set_binary_filename(src, filename) {
     else {
         fname = fname.split('/'); fname = fname.pop();
     }
-    
+    var $parent = $src.parent();
+    var $check_src = $parent.find('input[type=hidden][id="'+name+'"]');
+    if ($check_src.length) {
+        $check_src.val($src.attr("files")[0].getAsBinary())
+    }
+    else {
+        $parent.append(jQuery('<input>', {
+            'type': 'hidden',
+            'id': name,
+            'name': name,
+            'kind': $src.attr('kind')
+        }).val($src.attr("files")[0].getAsBinary()))
+    }
+    $src.removeAttr('name')
     if (target) {
         target.value = fname;
     }

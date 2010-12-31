@@ -182,12 +182,6 @@
                                             </button>
                                         % endif
                                     </td>
-                                    <td class="pager-cell-button" style="display: none;">
-                                        <button id="${name}_edit_record" title="${_('Edit record(s).')}"
-                                                onclick="editSelectedRecord(); return false;">
-                                                    ${_('Edit')}
-                                        </button>
-                                    </td>
                                 % endif
                                 <td class="pager-cell" style="width: 90%">
                                     ${pager.display()}
