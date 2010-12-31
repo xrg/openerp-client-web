@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2010-12-17 10:28+0100\n"
-"PO-Revision-Date: 2010-12-07 07:47+0000\n"
+"PO-Revision-Date: 2010-12-30 08:44+0000\n"
 "Last-Translator: Thorsten Vocks (OpenBig.org) <thorsten.vocks@big-"
 "consulting.net>\n"
 "Language-Team: de <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2010-12-18 05:02+0000\n"
+"X-Launchpad-Export-Date: 2010-12-31 05:22+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 "Generated-By: Babel None\n"
 
@@ -35,7 +35,7 @@ msgstr "Möchten Sie diesen Datensatz wirklich löschen?"
 
 #: static/javascript/form.js:901
 msgid "You must select one or several records !"
-msgstr ""
+msgstr "Sie müssen einen oder mehrere Datensätze auswählen !"
 
 #: static/javascript/form.js:1062
 msgid "Do you really want to delete the attachment"

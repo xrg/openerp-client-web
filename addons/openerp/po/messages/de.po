@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2010-12-17 10:28+0100\n"
-"PO-Revision-Date: 2010-12-07 07:53+0000\n"
+"PO-Revision-Date: 2010-12-30 09:04+0000\n"
 "Last-Translator: Thorsten Vocks (OpenBig.org) <thorsten.vocks@big-"
 "consulting.net>\n"
 "Language-Team: de <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2010-12-18 05:02+0000\n"
+"X-Launchpad-Export-Date: 2010-12-31 05:22+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 "Generated-By: Babel None\n"
 
@@ -374,6 +374,8 @@ msgstr ""
 #, python-format
 msgid "Error processing your first line of the file. Field %s is unknown"
 msgstr ""
+"Fehler bei der Verarbeitung in der ersten Zeile Ihrer Datei. Das Feld %s ist "
+"unbekannt."
 
 #: controllers/impex.py:468
 msgid "Import Error."
@@ -391,11 +393,11 @@ msgstr "%d Objekte wurden importiert"
 #: controllers/impex.py:505
 #, python-format
 msgid "Error trying to import this record:%s. ErrorMessage:%s %s"
-msgstr ""
+msgstr "Fehler beim Impotieren des Eintrags: %s. Fehlermeldung: %s %s"
 
 #: controllers/impex.py:506
 msgid "ImportationError"
-msgstr ""
+msgstr "Importfehler"
 
 #: controllers/listgrid.py:59
 msgid "Parent record doesn't exists..."
@@ -614,7 +616,7 @@ msgstr "Beheben Sie es für mich"
 
 #: controllers/templates/error_page.mako:90
 msgid "You do not have a valid OpenERP publisher warranty contract !"
-msgstr ""
+msgstr "Sie haben keinen gültigen OpenERP Wartungsvertrag !"
 
 #: controllers/templates/error_page.mako:91
 msgid ""
@@ -638,6 +640,27 @@ msgid ""
 "* Security alerts by email and automatic migration,\n"
 "* Access to the customer portal.\n"
 msgstr ""
+"Wenn Sie OpenERP produktiv einsetzen, wird Ihnen vom Herausgeber der "
+"Abschluss \n"
+"eines Wartungsvertrags empfohlen.\n"
+"\n"
+"Der Wartungsvertrag bietet Ihnen zum einen eine Bugfix Garantie und die "
+"Option einer\n"
+"automatischen Migration auf eine nächst höhere Version. Hierdurch können Sie "
+"innerhalb\n"
+"weniger Stunden gegebenenfalls auftretende Probleme über den Wartungsvertrag "
+"lösen.\n"
+"\n"
+"Durch einen Wartungsvertrag, können Fehler und Probleme direkt an das "
+"OpenERP\n"
+"Wartungsteam zwecks Überprüfung und Behebung weitergeleitet werden.\n"
+"\n"
+"Die Herstellergarantie bietet Ihnen konkret:\n"
+"* Automatische Migration auf eine aktuelle Version\n"
+"* Eine Garantie zur Fehlerbehebung\n"
+"* Eine monatliche Liste der aufgetretenen Probleme und Lösungen\n"
+"* Benachrichtigung bei Sicherheitsproblemen und automatischer Migration\n"
+"* Zugriff auf das OpenERP Kundenportal\n"
 
 #: controllers/templates/error_page.mako:113
 msgid ""
@@ -656,20 +679,39 @@ msgid ""
 "\n"
 "Here is the list of modules not covered by your publisher warranty contract:"
 msgstr ""
+"Der Wartungsvertrag deckt nicht zwingend alle installierten Module Ihrer "
+"OpenERP Installation ab.\n"
+"Wenn Sie OpenERP im produktiven Betrieb einsetzen, empfehlen wir Ihnen ein "
+"Update des\n"
+"Wartungsvertrags.\n"
+"\n"
+"Wenn Sie eigene Module entwickelt haben, oder Module anderer Entwickler der "
+"OpenERP Community\n"
+"einsetzen möchten, können wir Ihnen einen erweiterten Wartungsvertrag für "
+"diese Module anbieten.\n"
+"Nachdem das von Ihnen entwickelte Modul durch das OpenERP Qualitätsteam "
+"zertifiziert wurde, \n"
+"sichert OpenERP eine automatische Migration auf alle zukünftigen OpenERP "
+"Versionen (stable) ohne \n"
+"Zusatzkosten zum Wartungsvertrag.\n"
+"\n"
+"Aktuell werden folgende Module über den Wartungsvertrag abgebildet:"
 
 #: controllers/templates/error_page.mako:135
 msgid "Publisher warranty contract."
-msgstr ""
+msgstr "Wartungsvertrag des Herausgebers"
 
 #: controllers/templates/error_page.mako:136
 msgid ""
 "Your request will be sent to OpenERP and publisher warranty team will reply "
 "you shortly."
 msgstr ""
+"Ihre Anfrage wird direkt an OpenERP gesendet. Das Team für die "
+"Qualitätssicherung wird sich bei Ihnen melden."
 
 #: controllers/templates/error_page.mako:140
 msgid "Summary of the problem:"
-msgstr ""
+msgstr "Zusammenfassung des Problems:"
 
 #: controllers/templates/error_page.mako:147
 msgid "Explain what you did:"
@@ -681,7 +723,7 @@ msgstr "Andere Anmerkungen:"
 
 #: controllers/templates/error_page.mako:168
 msgid "Send to Publisher Warranty Team"
-msgstr ""
+msgstr "Sende an Qualitätssicherung"
 
 #: controllers/templates/error_page.mako:195
 msgid "Write concurrency warning :"
@@ -788,7 +830,7 @@ msgstr "OK"
 
 #: controllers/templates/exp.mako:236
 msgid "Select Options to Export"
-msgstr ""
+msgstr "Optionen für den Export auswählen"
 
 #: controllers/templates/exp.mako:242
 msgid "Export as CSV"
@@ -861,7 +903,7 @@ msgstr "Hinzufügen/Entfernen Verknüpfung ..."
 #: controllers/templates/form.mako:81
 #, python-format
 msgid "Search: %s"
-msgstr ""
+msgstr "Suche: %s"
 
 #: controllers/templates/form.mako:88
 msgid "Corporate Intelligence..."
@@ -1053,11 +1095,11 @@ msgstr "Zu überspringende Zeilen:"
 
 #: controllers/templates/index.mako:164
 msgid "System Logs"
-msgstr ""
+msgstr "System Protokolle"
 
 #: controllers/templates/index.mako:190
 msgid "Widgets"
-msgstr ""
+msgstr "Widgets"
 
 #: controllers/templates/index.mako:220 controllers/templates/index.mako:225
 #, python-format
