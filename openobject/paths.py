@@ -24,9 +24,14 @@ if not (ROOT_PATH and os.path.exists(ROOT_PATH)):
         ROOT_PATH = os.path.dirname(sys.executable)
 ROOT_PATH = os.path.normpath(ROOT_PATH)
 
-ADDONS_PATH = os.path.join(ROOT_PATH, 'addons')
-assert os.path.isdir(ADDONS_PATH), "Unable to locate addons."
+if os.path.isdir(os.path.join(ROOT_PATH, 'addons')):
+    ADDONS_PATH = os.path.join(ROOT_PATH, 'addons')
+elif os.path.isdir(os.path.join(ROOT_PATH, 'openobject', 'addons')):
+    ADDONS_PATH =os.path.join(ROOT_PATH, 'openobject', 'addons')
+else:
+    raise IOError("Unable to locate addons path under %s." % ROOT_PATH)
 
+# print "Addons path found at:", ADDONS_PATH
 sys.path.insert(0, ADDONS_PATH)
 
 def addons(*sections): return os.path.join(ADDONS_PATH, *sections)
