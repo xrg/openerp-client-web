@@ -4,7 +4,7 @@ import os
 import re
 import sys
 
-from setuptools import setup
+from setuptools import setup, find_packages
 
 
 execfile(os.path.join("openobject", "release.py"))
@@ -41,6 +41,19 @@ def find_data_files(source, dest=None, patterns=FILE_PATTERNS):
 
     return out
 
+def find_all_packages(modlist):
+    """A helper to find all python modules under some name.
+    
+    Example, given modlist=['addons.openerp'] it will scan and
+    find ['addons.openerp', 'addons.openerp.controllers', ...]
+    """
+    res = []
+    for mod in modlist:
+	res.append(mod)
+	for submod in find_packages(mod.replace('.','/')):
+	    res.append(mod + '.' + submod)
+    return res
+
 DATAFILE_GLOBS = [ 
         '*.cfg',
         '*.po', '*.pot',
@@ -65,6 +78,7 @@ setup(
     url=url,
     download_url=download_url,
     license=license,
+    include_package_data=True,
     install_requires=[
         "CherryPy >= 3.1.2",
         "Mako >= 0.2.4",
@@ -84,20 +98,13 @@ setup(
         'openobject.test',
         'openobject.tools',
         'openobject.widgets',
+    ] + find_all_packages( [
         'addons.openerp',
         'addons.view_calendar',
         'addons.view_diagram',
         'addons.view_graph',
         'addons.widget_ckeditor',
-    ],
-    package_data = {
-        'openobject': DATAFILE_GLOBS_O,
-        'addons.openerp': DATAFILE_GLOBS,
-        'addons.view_calendar': DATAFILE_GLOBS,
-        'addons.view_diagram': DATAFILE_GLOBS,
-        'addons.view_graph': DATAFILE_GLOBS,
-        'addons.widget_ckeditor': DATAFILE_GLOBS,
-    },
+        ] ),
     classifiers=[
         'Development Status :: 5 - Production/Stable',
         'Operating System :: OS Independent',
