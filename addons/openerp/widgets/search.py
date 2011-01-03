@@ -221,9 +221,8 @@ class Search(TinyInputWidget):
         if not self.groupby and (values and values.get('group_by_ctx')):
             self.groupby = values['group_by_ctx']
         
-        view_id = False
-        if ctx.get('search_view'):
-            view_id = ctx['search_view']
+        view_id = kw.get('search_view_id', False)
+        
             
         if isinstance (self.search_view, basestring):
             self.search_view = eval(self.search_view)
