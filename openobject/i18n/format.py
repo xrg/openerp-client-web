@@ -266,7 +266,9 @@ def _convert_date_format_in_domain(domain, fields, context):
                     ok = False
 
                 if ok:
-                    val = DT.datetime.strptime(val, user_dformat).strftime(server_dformat)
+                    val = parse_datetime(val, dtype)
+                    if val:
+                        val = DT.datetime.strptime( DT.datetime.strptime(val, server_dformat).strftime(user_dformat), user_dformat).strftime(server_dformat)
 
             fixed_domain.append((key, op, val))
 

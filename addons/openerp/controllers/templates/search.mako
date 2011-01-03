@@ -124,7 +124,7 @@
                                 % if params.selectable != 1:
                                     <a class="button-a select-link" href="javascript: void(0)" onclick="do_select()">${_("Select")}</a>
                                 % endif
-                            	<a id="search-filter" class="button-a" href="javascript: void(0)" onclick="search_filter()" >${_("Search")}</a>
+                            	<a class="button-a" href="javascript: void(0)" onclick="search_filter()" >${_("Search")}</a>
                            	    <a class="button-a" href="javascript: void(0)" onclick="do_create()">${_("New")}</a>
                             	<a class="button-a" href="javascript: void(0)" onclick="close_dialog();">${_("Close")}</a>
 	                            
@@ -150,13 +150,7 @@
                 </td>
             </tr>
         </table>
-        <script type="text/javascript">
-        	jQuery('#search-filter').click(function () {
-        		
-                jQuery('#no-record-warning').hide();
-                return search_filter();
-            });
-    </script>
+        
         <script type="text/javascript">
             jQuery('table.search_table input:text').eq(0).focus();
             /*

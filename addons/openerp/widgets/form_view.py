@@ -79,9 +79,14 @@ class ViewForm(Form):
         cherrypy.request.custom_filter_domain = []
 
         if params.view_type in ('tree', 'graph'):
+            search_view_id = False
+            if params and '_terp_search_view' in params:
+                if not params.search_view and params.context:
+                    search_view_id = params.context.get('search_view')
+                    
             self.search = Search(source=params.source, model=params.model, domain=search_param, context=params.context, values=params.search_data or {},
                                  filter_domain=params.filter_domain or [], search_view=params.search_view, group_by_ctx=params.group_by_ctx or [],
-                                 **{'clear': params.get('_terp_clear')})
+                                 **{'clear': params.get('_terp_clear'), 'search_view_id': search_view_id})
 
             cherrypy.request.custom_search_domain = self.search.listof_domain or []
             cherrypy.request.custom_filter_domain = self.search.custom_filter_domain or []
