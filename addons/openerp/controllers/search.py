@@ -27,6 +27,7 @@
 #
 ###############################################################################
 from openerp.utils import rpc, expr_eval, TinyDict, TinyForm, TinyFormError
+import copy
 
 import actions
 from form import Form
@@ -112,9 +113,9 @@ class Search(Form):
 
         domain = kw.get('_terp_domain', [])
         context = params.context or {}
-
-        parent_context = dict(params.parent_context or {},
-                              **rpc.session.context)
+        params.context = params.context or {}
+        parent_context = self.context_get(dict(params.context, **rpc.session.context),
+                                           params.parent_context) or {}
         if 'group_by' in parent_context:
             if isinstance(params.group_by, str):
                 parent_context['group_by'] = params.group_by.split(',')
@@ -173,7 +174,6 @@ class Search(Form):
 
         if isinstance(context, dict):
             context = expr_eval(context, ctx)
-
         parent_context.update(context)
         if not isinstance(params.group_by, list):
             params.group_by = params.group_by.split(',')
@@ -449,3 +449,20 @@ class Search(Form):
             }
         except Exception, e:
             return {'error': ustr(e), 'values': False}
+
+    def context_get(self, field_context, parent_context):
+        # Need to remove default keys,group_by,search_default of the parent context
+        context = {}
+        context.update(parent_context)
+        context_own = context.copy()
+        for ctx in context.items():
+            if ctx[0].startswith('default_') or ctx[0] in ('set_editable','set_visible')\
+             or ctx[0] == 'group_by' or ctx[0].startswith('search_default_'):
+                del context_own[ctx[0]]
+
+        field_context_str = field_context or '{}'
+        if field_context_str:
+            field_context = expr_eval('dict(%s)' % field_context_str)
+            context_own.update(field_context)
+
+        return context_own
