@@ -260,17 +260,20 @@ jQuery(document).delegate(
 jQuery(document).bind('ready', function (){
     var $caller = jQuery('[callback]:not([type="hidden"]):not([value=""]):not([disabled]):not([readonly]))');
     $caller.each(function(){
-        if (jQuery(this).attr('kind') == 'boolean') {
-            onBooleanClicked(jQuery(this).attr('id'));
-        } else {
-            jQuery(this).change();
+        if (!jQuery(this).val()) {
+            if (jQuery(this).attr('kind') == 'boolean') {
+                onBooleanClicked(jQuery(this).attr('id'));
+            }
+            else {
+                jQuery(this).change();
+            }
         }
     });
 });
 
 // Hook onchange for all elements
 jQuery(document).delegate('[callback], [onchange_default]', 'change', function () {
-    if(window.onChange && !jQuery(this).is(':input.checkbox:enabled')) {
+    if(window.onChange && !jQuery(this).is(':input.checkbox:enabled') && !jQuery(this).val()) {
         onChange(this);
     }
 });
