@@ -75,7 +75,6 @@ def get_locale(locale=None):
     except (ImportError, KeyError):
         pass # we're at the login page and apparently it cannot get rpc
     except babel.core.UnknownLocaleError:
-        # user created stupid locale, fallback to defaults
         pass
 
     try:
