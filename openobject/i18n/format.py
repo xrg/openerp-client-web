@@ -67,19 +67,29 @@ def get_datetime_format(kind="datetime"):
     @return: string
 
     @todo: cache formats to improve performance.
-    @todo: extend user preferences to allow customisable date format (tiny server).
     """
+    if 'lang' in cherrypy.session:
+        # server-defined formatting
+        if kind == 'time':
+            return cherrypy.session['lang']['time_format']
+        elif kind == 'date':
+            return cherrypy.session['lang']['date_format']
+        else:
+            return "%(date_format)s %(time_format)s"% cherrypy.session['lang']
 
-    fmt = "%H:%M:%S"
-
-    if kind != "time":
-        fmt =  dates.get_date_format("short", locale=get_locale()).format
-        fmt = _to_posix_format(fmt)
-
-    if kind == "datetime":
-        fmt += " %H:%M:%S"
-
-    return fmt
+    # TODO: correctly convert from LDML to POSIX datetime formatting
+    # current converter is trivial and lame and probably very easy to break
+    date_format = _to_posix_format(dates.get_date_format(
+            format='short', locale=get_locale())).format
+    if kind == 'time':
+        # Should use dates.get_time_format(locale=get_locale())
+        return '%H:%M:%S'
+    elif kind == 'date':
+        return date_format
+    else:
+        # Should use dates.get_datetime_format, but that one returns
+        # a 2.6-style formats
+        return "%s %s" % (date_format, '%H:%M:%S')
 
 def tz_convert(struct_time, action):
     # if no client timezone is configured, consider the client is in the same
