@@ -88,7 +88,9 @@ function doLoadingSuccess(app/*, url*/) {
         url = arguments[1];
     }
     return function (data, status, xhr) {
-        var target = xhr.getResponseHeader('X-Target');
+        var target;
+        if(xhr.getResponseHeader)
+            target = xhr.getResponseHeader('X-Target');
         if(target) {
             var _openAction;
             if (window.top.openAction) {
@@ -105,7 +107,7 @@ function doLoadingSuccess(app/*, url*/) {
         }
         jQuery(window).trigger('before-appcontent-change');
         var data = xhr.responseText || data;
-        if (xhr.getResponseHeader('Content-Type') == 'text/javascript') {
+        if (xhr.getResponseHeader && xhr.getResponseHeader('Content-Type') == 'text/javascript') {
             try {
                 var data = jQuery.parseJSON(data);
                 if (data.error) {
