@@ -24,7 +24,7 @@ def parse_http_accept_header(accept):
     Accept-Encoding and Accept-Language headers.
 
     """
-    if accept is None:
+    if not accept:
         return []
     items = []
     for item in accept.split(','):
