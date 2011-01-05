@@ -17,6 +17,9 @@ import babel.support
 
 from openobject.i18n.utils import get_locale
 
+import logging
+_logger = logging.getLogger(__name__)
+
 
 __all__ = ['get_translations', 'load_translations', 'gettext', 'install']
 
@@ -78,7 +81,7 @@ def _load_translations(path, locales, domain):
             tr = _load_translation(path, locale, domain)
         except SyntaxError, e:
             # http://babel.edgewall.org/ticket/213
-            cherrypy.log.error(
+            _logger.debug(
                     'Syntax error while loading translation for locale "%s" '
                     'from addon "%s"\n' % (
                         locale, path),
