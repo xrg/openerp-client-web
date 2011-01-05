@@ -47,9 +47,9 @@ except:
     xls_export_available = False
 
 
-def datas_read(ids, model, fields, context=None):
+def datas_read(ids, model, flds, context=None):
     ctx = dict((context or {}), **rpc.session.context)
-    return rpc.RPCProxy(model).export_data(ids, fields, ctx)
+    return rpc.RPCProxy(model).export_data(ids, flds, ctx)
 
 def export_csv(fields, result, write_title=False):
     try:
