@@ -55,10 +55,8 @@ def get_accept_languages(accept):
     HTTP Accept-Language string.See W3C RFC 2616
     (http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html) for specification.
     """
-    langs = parse_http_accept_header(accept)
-    for index, lang in enumerate(langs):
-        langs[index] = lang_in_gettext_format(lang)
-    return langs
+    return map(lang_in_gettext_format,
+               parse_http_accept_header(accept))
 
 def get_locale(locale=None):
 
