@@ -372,8 +372,14 @@ class ImpEx(SecuredController):
         params, data_index = TinyDict.split(kw)
         proxy = rpc.RPCProxy(params.model)
 
+        flds = []
+        for item in fields:
+            fld = item
+            fld = fld.replace('/.id','.id')
+            flds.append(fld)
+
         if isinstance(fields, basestring):
-            fields = [fields]
+            flds = [fields]
 
         ctx = dict((params.context or {}), **rpc.session.context)
         ctx['import_comp'] = import_compat
@@ -381,7 +387,7 @@ class ImpEx(SecuredController):
         domain = params.seach_domain or []
 
         ids = params.ids or proxy.search(domain, 0, 0, 0, ctx)
-        result = datas_read(ids, params.model, fields, context=ctx)
+        result = datas_read(ids, params.model, flds, context=ctx)
 
         if result.get('warning'):
             common.warning(unicode(result.get('warning', False)), _('Export Error'))
@@ -502,6 +508,7 @@ class ImpEx(SecuredController):
             records.append(row)
             if i == limit:
                 break
+
         try:
             for line in records:
                 for word in line:
