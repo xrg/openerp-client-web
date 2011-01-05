@@ -78,14 +78,14 @@ def get_locale(locale=None):
         pass
 
     try:
-        header = cherrypy.request.headers.get("Accept-Language")
-        if header:
-            accept_languages = get_accept_languages(header)
-            if accept_languages:
-                return babel.core.Locale.parse(accept_languages[0])
+        for candidate_language in get_accept_languages(
+                cherrypy.request.headers.get("Accept-Language", '')):
+            try:
+                return babel.core.Locale.parse(candidate_language)
+            except babel.core.UnknownLocaleError:
+                # Locale Babel does not know about, go to next
+                pass
     except AttributeError:
         pass
 
     return babel.core.Locale("en")
-
-
