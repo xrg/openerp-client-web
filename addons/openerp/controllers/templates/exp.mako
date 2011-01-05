@@ -74,6 +74,17 @@
             });
         }
 
+        function do_import_cmp(form){
+        	var import_com
+			if(jQuery("#import_compat").attr("checked")==true){
+				import_com = 1;
+			}
+
+			jQuery('#'+form).attr({
+	                'action': openobject.http.getURL('/openerp/impex/exp',{'import_com':import_com})
+            	}).submit();
+        }
+
         function delete_listname() {
 			var form = document.forms['view_form'];
             var list = new ListView('_terp_list');
@@ -115,7 +126,6 @@
                 o.selected = true;
                 fields2 = fields2.concat('"' + o.text + '"');
             });
-
             openobject.dom.get('_terp_fields2').value = '[' + fields2.join(',') + ']';
             jQuery('#'+form).attr('target', 'new');
             jQuery('#'+form).attr('action', openobject.http.getURL(
@@ -126,7 +136,7 @@
 </%def>
 
 <%def name="content()">
-    <form id='view_form' action="/openerp/impex/export_data" method="post" onsubmit="return false;">
+    <form id='view_form' action="/openerp/impex/export_data" method="post" target="_self" onsubmit="return false;">
 
     <input type="hidden" id="_terp_model" name="_terp_model" value="${model}"/>
     <input type="hidden" id="_terp_ids" name="_terp_ids" value="${ids}"/>
@@ -249,7 +259,11 @@
                             </td>
                             <td style="padding-left:3px">${_("Add field names")}</td>
                             <td style="padding-left:8px">
-                                <input type="checkbox" class="checkbox" name="import_compat" id="import_compat"/>
+                            % if import_com == '1' :
+                                <input type="checkbox" class="checkbox" name="import_compat" id="import_compat" checked="checked" onclick="do_import_cmp('view_form')"/>
+                            % else :
+                                <input type="checkbox" class="checkbox" name="import_compat" id="import_compat" onclick="do_import_cmp('view_form')"/>
+                            % endif
                             </td>
                             <td style="padding-left:3px"><label for="import_compat" title="Restricts the number of exportable fields in order to ensure the generated export will be importable back into OpenERP."
                                     >${_("Import Compatible")}</label></td>

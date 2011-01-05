@@ -44,6 +44,9 @@
         }
 
         function do_import(form){
+			if (document.getElementById('record').innerHTML){
+				document.getElementById('record').innerHTML = " "
+			}
 
             var options = openobject.dom.get('fields').options;
 
@@ -87,6 +90,9 @@
         }
 
         function do_autodetect(form){
+			if (document.getElementById('record').innerHTML){
+				document.getElementById('record').innerHTML = " "
+			}
 
             if (! openobject.dom.get('csvfile').value ){
                 return error_display(_('You must select an import file first.'));
@@ -96,6 +102,7 @@
                 'target': "detector",
                 'action': openobject.http.getURL('/openerp/impex/detect_data')
             }).submit();
+
         }
 
     % if error:
@@ -109,6 +116,31 @@
         ');
         jQuery(window.parent.document.body).append($error_div);
     % endif
+
+	% if records:
+        var $rec = jQuery('\
+        	<table class="grid" width="100%">\
+	        	% for j, i in enumerate(records):
+	        		% if j == 0:
+		        		<tr class="grid-header">\
+		        		<th class="grid-cell">${i[0]}</th>\
+						<th class="grid-cell">${i[1]}</th>\
+						<th class="grid-cell">${i[2]}</th>\
+						</tr>\
+					% else:
+						<tr class="grid-row">\
+		        		<td class="grid-cell">${i[0]}</td>\
+						<td class="grid-cell">${i[1]}</td>\
+						<td class="grid-cell">${i[2]}</td>\
+						</tr>\
+					% endif
+				% endfor
+			</table>\
+		');
+		jQuery(window.parent.document.getElementById('record')).append($rec);
+	% endif
+
+
 
     </script>
 </%def>
@@ -139,6 +171,9 @@
         <tr>
             <td class="side_spacing">
                 <table class="fields-selector-import" cellspacing="5" border="0">
+                	<tr>
+			        	<div id="record" align="center"></div>
+			        </tr>
                     <tr>
                         <th class="fields-selector-left">${_("All fields")}</th>
                         <th class="fields-selector-center">&nbsp;</th>
