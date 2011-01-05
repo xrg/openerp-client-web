@@ -281,7 +281,7 @@ def _convert_date_format_in_domain(domain, fields, context):
 def format_decimal(value, digits=2):
     locale = get_locale()
     v = ("%%.%df" % digits) % value
-    if digits == 0:
+    if not digits:
         return numbers.format_number(value, locale=locale)
     num, decimals = v.split(".", 1)
 
