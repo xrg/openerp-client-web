@@ -75,18 +75,20 @@ def get_locale(locale=None):
     except (ImportError, KeyError):
         pass # we're at the login page and apparently it cannot get rpc
     except babel.core.UnknownLocaleError:
-        # user created stupid locale, fallback to defaults
         pass
 
     try:
-        header = cherrypy.request.headers.get("Accept-Language")
-        if header:
-            accept_languages = get_accept_languages(header)
-            if accept_languages:
-                return babel.core.Locale.parse(accept_languages[0])
+        accept_language = cherrypy.request.headers.get("Accept-Language", '')
+        for candidate_language in get_accept_languages(accept_language):
+            try:
+                return babel.core.Locale.parse(candidate_language)
+            except babel.core.UnknownLocaleError:
+                cherrypy.log.error("Unknown locale '%s' from Accept-Language "
+                                   "header '%s', skipping to next locale",
+                                   context="i18n", severity=logging.WARN)
+                # Locale Babel does not know about, go to next
+                pass
     except AttributeError:
         pass
 
     return babel.core.Locale("en")
-
-
