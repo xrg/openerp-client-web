@@ -848,11 +848,13 @@ function makeContextMenu(id, kind, relation, val){
 
             jQuery.each(obj.relates, function (_, relate) {
                 jQuery('<tr>').append(jQuery('<td>').append(
-                    jQuery('<span>')
-                        .css({
+                    jQuery('<span>',
+                        {
                             'class': relate.action ? '' : 'disabled',
                             'domain': relate.domain,
-                            'context': relate.domain
+                            'context': relate.domain,
+                            'field': relate.field || '',
+                            'relation': relate.relation || ''
                         }).click(function () {
                             if(relate.action) {
                                 hideContextMenu();
