@@ -798,8 +798,9 @@ class Form(TinyInputWidget):
         elif 'x_state' in fields: # if nodefault and x_state get x_state only (for custom objects)
             defaults = proxy.default_get(['x_state'], self.context)
 
-        for k, v in defaults.items():
-            values.setdefault(k, v)
+        if defaults:
+            for k, v in defaults.items():
+                values.setdefault(k, v)
 
         self.state = values.get('state', values.get('x_state'))
 
