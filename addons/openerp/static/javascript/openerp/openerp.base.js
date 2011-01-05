@@ -228,7 +228,7 @@ jQuery(document).ready(function () {
                 // Make the wait box appear immediately
                 $form.ajaxSubmit({
                     data: {'requested_with': 'XMLHttpRequest'},
-                    success: doLoadingSuccess(jQuery('table.view')[0]),
+                    success: doLoadingSuccess(jQuery('body')),
                     error: loadingError()
                 });
                 return false;
