@@ -215,15 +215,9 @@ def _convert_date_format_in_domain(domain, fields, context):
                                 in fields.items()
                                     if field_def['type'] in ['date', 'datetime', 'time']])
 
-    lang = context.get('lang', 'en_US')
-    lang_proxy = rpc.RPCProxy('res.lang')
-    lang_ids = lang_proxy.search([('code', '=', lang)])
-    if lang_ids:
-        lang_id = lang_ids[0]
-        lang_def = lang_proxy.read(lang_id, [])
-    else:
+    if 'lang' not in cherrypy.session:
         return domain
-
+    lang_def = cherrypy.session['lang']
     fixed_domain = []
 
     # not supported on all systems: %C %D %e %F %g %G %h %l %P %r %R %s %T %u %V %z
