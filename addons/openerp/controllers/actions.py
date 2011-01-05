@@ -230,6 +230,10 @@ def act_window(action, data):
         active_ids=data.get('ids', []),
         active_model=data.get('model', False)
     )
+    
+    if action.get('context') and isinstance(action['context'], dict):
+        action['context']['active_ids'] = ctx['active_ids'] or []
+    
     ctx.update(expr_eval(action.get('context', '{}'), ctx))
 
     search_view = action.get('search_view_id')
