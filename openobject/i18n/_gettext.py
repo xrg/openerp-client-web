@@ -3,6 +3,7 @@ from __future__ import with_statement
 import atexit
 import glob
 import hashlib
+import logging
 import os
 import shutil
 import tempfile
@@ -16,9 +17,6 @@ import babel.messages.pofile
 import babel.support
 
 from openobject.i18n.utils import get_locale
-
-import logging
-_logger = logging.getLogger(__name__)
 
 
 __all__ = ['get_translations', 'load_translations', 'gettext', 'install']
@@ -81,10 +79,11 @@ def _load_translations(path, locales, domain):
             tr = _load_translation(path, locale, domain)
         except SyntaxError, e:
             # http://babel.edgewall.org/ticket/213
-            _logger.debug(
+            cherrypy.log.error(
                     'Syntax error while loading translation for locale "%s" '
                     'from addon "%s"\n' % (
                         locale, path),
+                    severity=logging.DEBUG,
                     traceback=True)
             tr = None
         if isinstance(tr, babel.support.Translations):
