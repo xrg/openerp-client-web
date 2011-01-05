@@ -350,7 +350,13 @@ class RPCSession(object):
                 raise common.warning(_('You select a timezone but OpenERP could not find pytz library!\nThe timezone functionality will be disable.'))
 
         # set locale in session
-        self.storage['locale'] = self.context.get('lang')
+        self.storage['locale'] = self.context.get('lang', 'en_US')
+        lang_ids = self.execute(
+                'object', 'execute', 'res.lang',
+                'search', [('code', '=', self.storage['locale'])])
+        if lang_ids:
+            self.storage['lang'] = self.execute(
+                    'object', 'execute', 'res.lang', 'read', lang_ids[0], [])
 
     def execute(self, obj, method, *args):
         if not self.is_logged():
