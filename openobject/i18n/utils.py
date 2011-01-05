@@ -78,7 +78,7 @@ def get_locale(locale=None):
         pass
 
     try:
-        accept_language = cherrypy.request.headers.get("Accept-Language", '')
+        accept_language = cherrypy.request.headers.get("Accept-Language")
         for candidate_language in get_accept_languages(accept_language):
             try:
                 return babel.core.Locale.parse(candidate_language)
