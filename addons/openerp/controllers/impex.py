@@ -211,7 +211,7 @@ class ImpEx(SecuredController):
         fields = _fields_get_all(model, views, ctx)
         if cherrypy.session.get('fld'):
             m2ofields = cherrypy.session.get('fld')
-            for i in cherrypy.session.get('fld'):
+            for i in m2ofields:
                 if i == parent:
                     fields = {}
         else:
@@ -395,7 +395,7 @@ class ImpEx(SecuredController):
         result = result.get('datas',[])
 
         if import_compat:
-            params.fields2 = fields
+            params.fields2 = flds
 
         if export_as == 'xls':
 
