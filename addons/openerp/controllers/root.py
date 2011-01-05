@@ -150,12 +150,7 @@ class Root(SecuredController):
     @expose(allow_json=True)
     @unsecured
     def login(self, db=None, user=None, password=None, style=None, location=None, message=None, **kw):
-
         location = url(location or '/', kw or {})
-
-        if db and user and user.startswith("anonymous"):
-            if rpc.session.login(db, user, password):
-                raise redirect(location)
 
         if cherrypy.request.params.get('tg_format') == 'json':
             if rpc.session.login(db, user, password) > 0:
