@@ -35,7 +35,7 @@ import cherrypy
 from openobject.tools import expose
 from openobject.i18n import format
 
-from openerp.utils import rpc, TinyDict, context_with_concurrency_info
+from openerp.utils import rpc, TinyDict, context_with_concurrency_info, cache
 
 from openerp.controllers.form import Form
 
@@ -227,9 +227,9 @@ class TinyCalendar(Form):
         level = params.level
         level_value = params.level_value
 
-        proxy = rpc.RPCProxy(model)
-        fields = proxy.fields_get([])
+        fields = cache.fields_get(model, [], rpc.session.context)
 
+        proxy = rpc.RPCProxy(model)
         if id and level and level_value:
             try:
                 proxy.write([id], {level['link']: level_value})

@@ -205,7 +205,7 @@ def _get_field_attrs(node, parent_model):
     model = _get_model(node, parent_model)
 
     name = node.getAttribute('name')
-    field = rpc.RPCProxy(model).fields_get([name])
+    field = cache.fields_get(model, [name], rpc.session.context)
 
     if field:
          field = field[name]
@@ -406,8 +406,7 @@ class ViewEd(SecuredController):
             kind = 'char'
             try:
                 model = _get_model(field, parent_model=res['model'])
-                proxy = rpc.RPCProxy(model)
-                attrs2 = proxy.fields_get([attrs['name']])[attrs['name']]
+                attrs2 = cache.fields_get(model, [attrs['name']], rpc.session.context)[attrs['name']]
 
                 attrs2.update(attrs)
 

@@ -129,7 +129,7 @@ class GraphData(object):
         self.group_by = group_by
         add_grp_field = ''
         if self.group_by and not fields.has_key(self.group_by[0]):
-            add_grp_field = rpc.session.execute('object', 'execute', self.model, 'fields_get', [self.group_by[0]], {})
+            add_grp_field = cache.fields_get(self.model, [self.group_by[0]], rpc.session.context)
             fields.update(add_grp_field)
         axis, axis_data, axis_group = self.parse(root, fields)
 
