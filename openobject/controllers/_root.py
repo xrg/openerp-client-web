@@ -1,3 +1,4 @@
+import urlparse
 import cherrypy
 
 from openobject import pooler
@@ -45,9 +46,8 @@ class Root(BaseController):
     def prevent_csrf(self, request):
         """ Check HTTP_REFERRER for POST requests in order to prevent CSRF """
         if request.method == 'POST':
-            host = request.headers.get('Host', '')
-            ref = request.headers.get('Referer', '/').split('/')
-            if not len(ref) >= 3 or not ref[2] == host:
+            referer = request.headers.get('Referer', '')
+            if not(urlparse.urlsplit(referer).path and referer.startswith(request.base)):
                 raise cherrypy.HTTPError(403, "Request Forbidden -- You are not allowed to access this resource.")
 
     @expose()
