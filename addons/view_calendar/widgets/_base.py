@@ -35,7 +35,7 @@ import xml.dom.minidom
 from openobject.i18n import format
 from openobject.widgets import JSLink, CSSLink
 
-from openerp.utils import rpc, node_attributes
+from openerp.utils import rpc, node_attributes, cache
 
 from openerp.widgets import TinyWidget, ConcurrencyInfo, get_widget
 
@@ -150,8 +150,6 @@ class ICalendar(TinyWidget):
         except:
             pass
 
-        proxy = rpc.RPCProxy(model)
-
         view_id = view.get('view_id', False)
 
         dom = xml.dom.minidom.parseString(view['arch'].encode('utf-8'))
@@ -177,7 +175,7 @@ class ICalendar(TinyWidget):
 
         fields = list(set([x for x in fields if x]))
 
-        self.fields = proxy.fields_get(fields)
+        self.fields = cache.fields_get(model, fields, rpc.session.context)
 
         if self.color_field and options and options.colors:
             self.colors = options.colors
