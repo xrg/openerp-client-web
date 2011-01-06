@@ -52,6 +52,9 @@ class Root(BaseController):
 
     @expose()
     def default(self, *args, **kw):
+        # If we don't set it to a `False` default, we're probably going to
+        # throw *a lot* which we don't want.
+        cherrypy.request.loading_addons = False
         autoreloader_enabled = bool(
                 getattr(cherrypy.engine.autoreload, 'thread', None))
         if autoreloader_enabled:

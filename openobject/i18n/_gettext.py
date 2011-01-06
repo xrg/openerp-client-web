@@ -171,9 +171,9 @@ def lazify(func):
 _lazy_gettext = lazify(_gettext)
 
 def gettext(key, locale=None, domain=None):
-    if cherrypy.request.app:
-        return _gettext(key, locale, domain)
-    return _lazy_gettext(key, locale, domain)
+    if cherrypy.request.loading_addons:
+        return _lazy_gettext(key, locale, domain)
+    return _gettext(key, locale, domain)
 
 def gettext2(key, locale=None, domain=None, **kw):
     value = gettext(key, locale, domain)
