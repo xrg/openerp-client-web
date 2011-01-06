@@ -24,7 +24,7 @@ def parse_http_accept_header(accept):
     Accept-Encoding and Accept-Language headers.
 
     """
-    if accept is None:
+    if not accept:
         return []
     items = []
     for item in accept.split(','):
@@ -55,10 +55,8 @@ def get_accept_languages(accept):
     HTTP Accept-Language string.See W3C RFC 2616
     (http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html) for specification.
     """
-    langs = parse_http_accept_header(accept)
-    for index, lang in enumerate(langs):
-        langs[index] = lang_in_gettext_format(lang)
-    return langs
+    return map(lang_in_gettext_format,
+               parse_http_accept_header(accept))
 
 def get_locale(locale=None):
 
@@ -75,18 +73,20 @@ def get_locale(locale=None):
     except (ImportError, KeyError):
         pass # we're at the login page and apparently it cannot get rpc
     except babel.core.UnknownLocaleError:
-        # user created stupid locale, fallback to defaults
         pass
 
     try:
-        header = cherrypy.request.headers.get("Accept-Language")
-        if header:
-            accept_languages = get_accept_languages(header)
-            if accept_languages:
-                return babel.core.Locale.parse(accept_languages[0])
+        accept_language = cherrypy.request.headers.get("Accept-Language")
+        for candidate_language in get_accept_languages(accept_language):
+            try:
+                return babel.core.Locale.parse(candidate_language)
+            except babel.core.UnknownLocaleError:
+                cherrypy.log.error("Unknown locale '%s' from Accept-Language "
+                                   "header '%s', skipping to next locale",
+                                   context="i18n", severity=logging.WARN)
+                # Locale Babel does not know about, go to next
+                pass
     except AttributeError:
         pass
 
     return babel.core.Locale("en")
-
-

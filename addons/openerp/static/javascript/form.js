@@ -807,6 +807,9 @@ function makeContextMenu(id, kind, relation, val){
     var act = get_form_action('get_context_menu');
 
     var prefix = id.indexOf('/') > -1 ? id.slice(0, id.lastIndexOf('/')) + '/' : '';
+    if ((prefix.split('/')[0])== '_terp_listfields') {
+        prefix = ''
+    }
 
     var model = prefix ? openobject.dom.get(prefix + '_terp_model').value : openobject.dom.get('_terp_model').value;
 
@@ -845,11 +848,13 @@ function makeContextMenu(id, kind, relation, val){
 
             jQuery.each(obj.relates, function (_, relate) {
                 jQuery('<tr>').append(jQuery('<td>').append(
-                    jQuery('<span>')
-                        .css({
+                    jQuery('<span>',
+                        {
                             'class': relate.action ? '' : 'disabled',
                             'domain': relate.domain,
-                            'context': relate.domain
+                            'context': relate.domain,
+                            'field': relate.field || '',
+                            'relation': relate.relation || ''
                         }).click(function () {
                             if(relate.action) {
                                 hideContextMenu();
@@ -1141,6 +1146,9 @@ function removeAttachment() {
  */
 function createAttachment(){
     var $form = jQuery(this);
+    if(!jQuery(idSelector('_terp_id')).val() || jQuery(idSelector('_terp_id')).val() == 'False') {
+        return error_display(_('No record selected ! You can only attach to existing record.'));
+    }
     if(!$form.find(':file, :text')
              .filter(function () {return jQuery(this).val();})
              .length) {

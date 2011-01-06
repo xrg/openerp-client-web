@@ -67,19 +67,29 @@ def get_datetime_format(kind="datetime"):
     @return: string
 
     @todo: cache formats to improve performance.
-    @todo: extend user preferences to allow customisable date format (tiny server).
     """
+    if 'lang' in cherrypy.session:
+        # server-defined formatting
+        if kind == 'time':
+            return cherrypy.session['lang']['time_format']
+        elif kind == 'date':
+            return cherrypy.session['lang']['date_format']
+        else:
+            return "%(date_format)s %(time_format)s"% cherrypy.session['lang']
 
-    fmt = "%H:%M:%S"
-
-    if kind != "time":
-        fmt =  dates.get_date_format("short", locale=get_locale()).format
-        fmt = _to_posix_format(fmt)
-
-    if kind == "datetime":
-        fmt += " %H:%M:%S"
-
-    return fmt
+    # TODO: correctly convert from LDML to POSIX datetime formatting
+    # current converter is trivial and lame and probably very easy to break
+    date_format = _to_posix_format(dates.get_date_format(
+            format='short', locale=get_locale())).format
+    if kind == 'time':
+        # Should use dates.get_time_format(locale=get_locale())
+        return '%H:%M:%S'
+    elif kind == 'date':
+        return date_format
+    else:
+        # Should use dates.get_datetime_format, but that one returns
+        # a 2.6-style formats
+        return "%s %s" % (date_format, '%H:%M:%S')
 
 def tz_convert(struct_time, action):
     # if no client timezone is configured, consider the client is in the same
@@ -215,15 +225,9 @@ def _convert_date_format_in_domain(domain, fields, context):
                                 in fields.items()
                                     if field_def['type'] in ['date', 'datetime', 'time']])
 
-    lang = context.get('lang', 'en_US')
-    lang_proxy = rpc.RPCProxy('res.lang')
-    lang_ids = lang_proxy.search([('code', '=', lang)])
-    if lang_ids:
-        lang_id = lang_ids[0]
-        lang_def = lang_proxy.read(lang_id, [])
-    else:
+    if 'lang' not in cherrypy.session:
         return domain
-
+    lang_def = cherrypy.session['lang']
     fixed_domain = []
 
     # not supported on all systems: %C %D %e %F %g %G %h %l %P %r %R %s %T %u %V %z
@@ -277,7 +281,7 @@ def _convert_date_format_in_domain(domain, fields, context):
 def format_decimal(value, digits=2):
     locale = get_locale()
     v = ("%%.%df" % digits) % value
-    if digits == 0:
+    if not digits:
         return numbers.format_number(value, locale=locale)
     num, decimals = v.split(".", 1)
 

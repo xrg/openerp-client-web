@@ -1,3 +1,4 @@
+import logging
 import os
 import sys
 from locale import getlocale
@@ -96,4 +97,11 @@ def configure(app_config):
     cherrypy.config.update(_global)
     application.merge(app_config)
 
-# vim: ts=4 sts=4 sw=4 si et
+    # logging config
+    error_level = logging._levelNames.get(
+        _global.get('log.error_level'), 'WARNING')
+    access_level = logging._levelNames.get(
+        _global.get('log.access_level'), 'INFO')
+
+    cherrypy.log.error_log.setLevel(error_level)
+    cherrypy.log.access_log.setLevel(access_level)

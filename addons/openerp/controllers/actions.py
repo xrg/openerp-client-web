@@ -230,6 +230,10 @@ def act_window(action, data):
         active_ids=data.get('ids', []),
         active_model=data.get('model', False)
     )
+    
+    if action.get('context') and isinstance(action['context'], dict):
+        action['context']['active_ids'] = ctx['active_ids'] or []
+    
     ctx.update(expr_eval(action.get('context', '{}'), ctx))
 
     search_view = action.get('search_view_id')
@@ -321,9 +325,11 @@ ACTIONS_BY_TYPE = {
 
 def act_window_opener(action, data):
     # Action of target 'current' (or no target) should open in a new tab
-    # unless they were triggered from a menu
+    # unless it is triggered from a menu
+    # or if it is not tied to an object (ex: home action after login)
     open_new_tab = False
-    if action['target'] == 'current' and action.get('res_model') != 'ir.ui.menu' and data.get('model') != 'ir.ui.menu':
+    if action['target'] == 'current' and action.get('res_model') != 'ir.ui.menu' and data.get('model') != 'ir.ui.menu' \
+            and data.get('model') is not None:
         action['target'] = 'popup'
         open_new_tab = True
 

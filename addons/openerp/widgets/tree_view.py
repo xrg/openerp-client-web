@@ -125,8 +125,8 @@ class ViewTree(Form):
             attrs = node_attributes(node)
 
             field = fields.get(attrs['name'])
-            field.update(attrs)
-
-            self.headers.append(field)
+            if field and not attrs.get('invisible'):
+                field.update(attrs)
+                self.headers.append(field)
 
 # vim: ts=4 sts=4 sw=4 si et

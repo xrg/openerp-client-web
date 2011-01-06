@@ -3,6 +3,7 @@ from __future__ import with_statement
 import atexit
 import glob
 import hashlib
+import logging
 import os
 import shutil
 import tempfile
@@ -76,13 +77,16 @@ def _load_translations(path, locales, domain):
     for locale in locales:
         try:
             tr = _load_translation(path, locale, domain)
-        except SyntaxError, e:
+        except SyntaxError:
             # http://babel.edgewall.org/ticket/213
             cherrypy.log.error(
-                    'Syntax error while loading translation for locale "%s" '
-                    'from addon "%s"\n' % (
-                        locale, path),
-                    traceback=True)
+                    'Could not load translation domain "%s" for'
+                    ' locale "%s" in addon %s' % (
+                        domain, locale, basename(path)),
+                    context="i18n",
+                    severity=logging.WARNING)
+            cherrypy.log.error(context='i18n', severity=logging.DEBUG,
+                               traceback=True)
             tr = None
         if isinstance(tr, babel.support.Translations):
             if locale in catalog:

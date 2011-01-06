@@ -198,7 +198,6 @@ class List(TinyWidget):
         elif kw.get('default_data', []):
             data = kw['default_data']
 
-
         self.values = copy.deepcopy(data)
         self.headers, self.hiddens, self.data, self.field_total, self.buttons = self.parse(root, fields, data)
 
@@ -437,7 +436,7 @@ class M2O(Char):
             self.value = self.value, rpc.name_get(self.attrs['relation'], self.value, rpc.session.context)
 
         if self.value and len(self.value) > 0:
-            if isinstance(self.value, tuple):
+            if isinstance(self.value, (tuple, list)):
                 return self.value[-1]
             else:
                 return self.value

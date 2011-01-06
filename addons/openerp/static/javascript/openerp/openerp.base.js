@@ -88,7 +88,9 @@ function doLoadingSuccess(app/*, url*/) {
         url = arguments[1];
     }
     return function (data, status, xhr) {
-        var target = xhr.getResponseHeader('X-Target');
+        var target;
+        if(xhr.getResponseHeader)
+            target = xhr.getResponseHeader('X-Target');
         if(target) {
             var _openAction;
             if (window.top.openAction) {
@@ -105,7 +107,7 @@ function doLoadingSuccess(app/*, url*/) {
         }
         jQuery(window).trigger('before-appcontent-change');
         var data = xhr.responseText || data;
-        if (xhr.getResponseHeader('Content-Type') == 'text/javascript') {
+        if (xhr.getResponseHeader && xhr.getResponseHeader('Content-Type') == 'text/javascript') {
             try {
                 var data = jQuery.parseJSON(data);
                 if (data.error) {
@@ -228,7 +230,7 @@ jQuery(document).ready(function () {
                 // Make the wait box appear immediately
                 $form.ajaxSubmit({
                     data: {'requested_with': 'XMLHttpRequest'},
-                    success: doLoadingSuccess(jQuery('table.view')[0]),
+                    success: doLoadingSuccess(jQuery('body')),
                     error: loadingError()
                 });
                 return false;
@@ -260,10 +262,13 @@ jQuery(document).delegate(
 jQuery(document).bind('ready', function (){
     var $caller = jQuery('[callback]:not([type="hidden"]):not([value=""]):not([disabled]):not([readonly]))');
     $caller.each(function(){
-        if (jQuery(this).attr('kind') == 'boolean') {
-            onBooleanClicked(jQuery(this).attr('id'));
-        } else {
-            jQuery(this).change();
+        if (!jQuery(this).val()) {
+            if (jQuery(this).attr('kind') == 'boolean') {
+                onBooleanClicked(jQuery(this).attr('id'));
+            }
+            else {
+                jQuery(this).change();
+            }
         }
     });
 });
