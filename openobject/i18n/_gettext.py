@@ -179,8 +179,8 @@ def gettext2(key, locale=None, domain=None, **kw):
     value = gettext(key, locale, domain)
     if kw:
         try:
-            return value % kw or None
-        except:
+            return value % kw
+        except KeyError:
             pass
     return value
 
