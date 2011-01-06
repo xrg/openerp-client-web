@@ -125,7 +125,7 @@ class ViewTree(Form):
             attrs = node_attributes(node)
 
             field = fields.get(attrs['name'])
-            if field:
+            if field and not attrs.get('invisible'):
                 field.update(attrs)
                 self.headers.append(field)
 
