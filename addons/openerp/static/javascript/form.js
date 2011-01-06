@@ -1146,6 +1146,9 @@ function removeAttachment() {
  */
 function createAttachment(){
     var $form = jQuery(this);
+    if(!jQuery(idSelector('_terp_id')).val() || jQuery(idSelector('_terp_id')).val() == 'False') {
+        return error_display(_('No record selected ! You can only attach to existing record.'));
+    }
     if(!$form.find(':file, :text')
              .filter(function () {return jQuery(this).val();})
              .length) {
