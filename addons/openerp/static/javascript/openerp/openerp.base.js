@@ -128,6 +128,21 @@ function doLoadingSuccess(app/*, url*/) {
             jQuery(app).html(data);
         }
         jQuery(window).trigger('after-appcontent-change');
+
+        // Only autocall form onchanges if we're on a new object, existing
+        // objects should not get their onchange callbacks called
+        // automatically on edition
+        if (jQuery('#_terp_id').val() == 'False') {
+            jQuery('[callback]:not([type="hidden"]):not([value=""]):not([disabled]):not([readonly]))').each(function() {
+                if (jQuery(this).attr('kind') == 'boolean') {
+                    onBooleanClicked(jQuery(this).attr('id'));
+                } else {
+                    // We pass an arbitrary parameter to the event so we can
+                    // differenciate a user event from a trigger
+                    jQuery(this).trigger('change', [true]);
+                }
+            });
+        }
     }
 }
 
