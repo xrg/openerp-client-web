@@ -603,7 +603,7 @@ function onChange(caller){
                                     $o2m_current.attr('__lock_onchange', false);
                                 }, 'json');
                             }
-                    } else {
+                    } else if(value){
                         new ListView(prefix + k).reload();
                     }
                 }
