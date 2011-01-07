@@ -24,6 +24,9 @@
                 </tr>
                 <tr>
                 <td style="text-align: right; padding: 0 15px 5px 0;">
+                    <button type='button' class="static_boxes"
+                            onclick="jQuery.frame_dialog({'src': '/openerp/pref/password'}); return false;"
+                            >${_("Change Password")}</button>
                     <button type='button' class="static_boxes" onclick="window.frameElement.close();">${_("Cancel")}</button>
                     <button type='button' class="static_boxes" onclick="submit_form('ok');">${_("Save")}</button>
                 </td>
