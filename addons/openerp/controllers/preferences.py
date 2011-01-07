@@ -26,19 +26,25 @@
 # You can see the MPL licence at: http://www.mozilla.org/MPL/MPL-1.1.html
 #
 ###############################################################################
-from openerp.utils import rpc, TinyDict, cache
-
-from form import Form
+import cherrypy
+import openerp.utils.common
+import openerp.utils.rpc
 from openobject.tools import expose, redirect
 
-import cherrypy
+from openerp.utils import rpc, TinyDict, cache
 
+import database
+from form import Form
+
+class PrefsPassword(database.FormPassword):
+    action = "/openerp/pref/password"
+    string = _('Change your password')
 
 class Preferences(Form):
 
     _cp_path = "/openerp/pref"
 
-    @expose(template="/openerp/controllers/templates/preferences.mako")
+    @expose(template="/openerp/controllers/templates/preferences/index.mako")
     def create(self, saved=False):
 
         tg_errors = None
@@ -75,6 +81,29 @@ class Preferences(Form):
         proxy.write([rpc.session.uid], data)
         rpc.session.context_reload()
         raise redirect('/openerp/pref/create', saved=True)
+
+    @expose(template='/openerp/controllers/templates/preferences/password.mako')
+    def password(self, old_password='', new_password='', confirm_password=''):
+        context = {'form': PrefsPassword(), 'errors': []}
+        if cherrypy.request.method != 'POST':
+            return context
+
+        if not (old_password.strip() and new_password.strip() and confirm_password.strip()):
+            context['errors'].append(_('All passwords have to be filled.'))
+        if new_password != confirm_password:
+            context['errors'].append(_('The new password and its confirmation must be identical.'))
+        if context['errors']: return context
+
+        try:
+            if openerp.utils.rpc.RPCProxy('res.users').change_password(
+                    old_password, new_password, rpc.session.context):
+                rpc.session.password = new_password
+                return dict(context, changed=True)
+            context['errors'].append(
+                _('Could not change your password.'))
+        except openerp.utils.common.AccessDenied:
+            context['errors'].append(_('Original password incorrect, your password was not changed.'))
+        return context
 
     @expose()
     def clear_cache(self):

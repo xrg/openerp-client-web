@@ -111,7 +111,7 @@ version = release.version
         jQuery.frame_dialog({
             src:this.href
         }, null, {
-            height: 400
+            height: 350
         });
     });
 </script>
