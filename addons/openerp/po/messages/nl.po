@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2010-12-17 10:28+0100\n"
-"PO-Revision-Date: 2010-12-19 08:08+0000\n"
-"Last-Translator: OpenERP Web Administrators <Unknown>\n"
+"PO-Revision-Date: 2011-01-06 18:47+0000\n"
+"Last-Translator: Douwe Wullink (Dypalio) <Unknown>\n"
 "Language-Team: nl <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2010-12-20 04:49+0000\n"
+"X-Launchpad-Export-Date: 2011-01-07 05:00+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 "Generated-By: Babel None\n"
 
@@ -550,6 +550,14 @@ msgid ""
 "                    project management, production, services, CRM, etc..\n"
 "                    "
 msgstr ""
+"%(openobject)s is een gratis bedrijfsbreed software systeem dat is ontworpen "
+"om productiviteit\n"
+"                    en resultaat te verhogen door data integratie. Het "
+"verbindt, verbetert en beheert\n"
+"                    bedrijfsprocessen in vlakken als verkoop, financiën, "
+"supply chain, project\n"
+"                    management, productie, services, CRM, etc..\n"
+"                    "
 
 #: controllers/templates/about.mako:51
 msgid ""
@@ -562,6 +570,13 @@ msgid ""
 "                    production system and migration to a new version to be "
 "straightforward."
 msgstr ""
+"Het systeem is platform-onafhankelijk, en kan wordne geinstalleerd op "
+"Windows, Mac OS X,\n"
+"                    en verscheidene Linux en andere Unix-based distributies. "
+"Haar architectuur laat\n"
+"                    toe om snel nieuwe functionaliteit te maken, "
+"modificaties aan te brengen aan een\n"
+"                    productie systeem en te migreren naar een nieuwe versie."
 
 #: controllers/templates/about.mako:57
 msgid ""
@@ -599,7 +614,7 @@ msgstr "Herstel dit voor mij"
 
 #: controllers/templates/error_page.mako:90
 msgid "You do not have a valid OpenERP publisher warranty contract !"
-msgstr ""
+msgstr "U heeft geen geldige OpenERP uitgever garantie contract!"
 
 #: controllers/templates/error_page.mako:91
 msgid ""
@@ -623,6 +638,25 @@ msgid ""
 "* Security alerts by email and automatic migration,\n"
 "* Access to the customer portal.\n"
 msgstr ""
+"Als u OpenERP in productie gebruikt, is het aan te bevelen om een uitgever\n"
+"garantie programma te hebben.\n"
+"\n"
+"Het OpenERP uitgever garantie contract voorziet u met foutherstel garanties "
+"en een \n"
+"automatisch migratie systeem zodat we binnen een paar uur aan de slag "
+"kunnen\n"
+"met uw problemen.\n"
+"\n"
+"Met een uitgever garantie contract, kunnen fouten zoals deze direct worden "
+"opgestuurd\n"
+"naar het OpenERP team voor nader onderzoek.\n"
+"\n"
+"Het uitgever garantie programma biedt u:\n"
+"* Automatische migraties naar nieuwe versies,\n"
+"* Een bugfix garantie,\n"
+"* Maandelijkse annonceringen van potentiële bugs and hun fixes,\n"
+"* Beveiliging alerts per email en automatische migratie,\n"
+"* Toegang tot het klanten portaal.\n"
 
 #: controllers/templates/error_page.mako:113
 msgid ""
@@ -641,16 +675,35 @@ msgid ""
 "\n"
 "Here is the list of modules not covered by your publisher warranty contract:"
 msgstr ""
+"Uw uitgever garantie contract dekt niet alle geïnstalleerde modules in uw "
+"systeem !\n"
+"Als u OpenERP in productie gebruikt, is het sterk aan te bevelen om uw "
+"contract op\n"
+"te waarderen.\n"
+"\n"
+"Als u eigen modules heeft ontwikkeld or modules van derden heeft "
+"geïnstalleerd, \n"
+"kunnen we u van een aanvullend uitgever garantie contract voor deze modules "
+"voorzien.\n"
+"Na bestudering en evaluatie van uw modules, zorgt ons kwaliteitsteam ervoor "
+"dat ze\n"
+"automatisch migreren bij alle toekomstige stabiele versies van OpenERP "
+"zonder extra kosten.\n"
+"\n"
+"Hier is de lijst van modules die momenteel niet worden gedekt door uw "
+"uitgever garantie contract:"
 
 #: controllers/templates/error_page.mako:135
 msgid "Publisher warranty contract."
-msgstr ""
+msgstr "Uitgever garantie contract."
 
 #: controllers/templates/error_page.mako:136
 msgid ""
 "Your request will be sent to OpenERP and publisher warranty team will reply "
 "you shortly."
 msgstr ""
+"Uw aanvraag wordt naar OpenERP gestuurd en het uitgever garantie team zal u "
+"snel beantwoorden."
 
 #: controllers/templates/error_page.mako:140
 msgid "Summary of the problem:"
@@ -666,7 +719,7 @@ msgstr "Andere opmerkingen:"
 
 #: controllers/templates/error_page.mako:168
 msgid "Send to Publisher Warranty Team"
-msgstr ""
+msgstr "Versturen naar Uitgever Garantie Team"
 
 #: controllers/templates/error_page.mako:195
 msgid "Write concurrency warning :"
@@ -774,7 +827,7 @@ msgstr "OK"
 
 #: controllers/templates/exp.mako:236
 msgid "Select Options to Export"
-msgstr ""
+msgstr "Opties voor export selecteren"
 
 #: controllers/templates/exp.mako:242
 msgid "Export as CSV"
@@ -845,7 +898,7 @@ msgstr "Toevoegen/verwijderen snelkoppeling"
 #: controllers/templates/form.mako:81
 #, python-format
 msgid "Search: %s"
-msgstr ""
+msgstr "Zoeken: %s"
 
 #: controllers/templates/form.mako:88
 msgid "Corporate Intelligence..."
@@ -861,7 +914,7 @@ msgstr "Alle tips uitschakelen"
 
 #: controllers/templates/form.mako:106
 msgid "Hide this Tip"
-msgstr ""
+msgstr "Verberg deze tip"
 
 #: controllers/templates/form.mako:119
 msgid "Create a new resource"
@@ -943,7 +996,7 @@ msgstr "Raster in werkschema tonen"
 
 #: controllers/templates/form.mako:158
 msgid "Show grid"
-msgstr ""
+msgstr "Raster tonen"
 
 #: controllers/templates/header.mako:30
 #, python-format
@@ -1037,11 +1090,11 @@ msgstr "Regels overslaan:"
 
 #: controllers/templates/index.mako:164
 msgid "System Logs"
-msgstr ""
+msgstr "Systeem Logboeken"
 
 #: controllers/templates/index.mako:190
 msgid "Widgets"
-msgstr ""
+msgstr "Componenten"
 
 #: controllers/templates/index.mako:220 controllers/templates/index.mako:225
 #, python-format
@@ -1142,12 +1195,12 @@ msgstr "Zoeken"
 #: controllers/templates/search.mako:141
 #, python-format
 msgid "Found no record '%(searched_string)s'."
-msgstr ""
+msgstr "Geen record '%(searched_string)s' gevonden."
 
 #: controllers/templates/search.mako:144
 #, python-format
 msgid "Create %(searched_string)s"
-msgstr ""
+msgstr "%(searched_string)s maken"
 
 #: controllers/templates/selection.mako:4
 msgid "Select action"
@@ -1488,11 +1541,11 @@ msgstr "Weergaven beheren"
 
 #: widgets/templates/sidebar.mako:92
 msgid "Edit workflow of the current object"
-msgstr ""
+msgstr "De workflow van het huidige object wijzigen"
 
 #: widgets/templates/sidebar.mako:93
 msgid "Edit Workflow"
-msgstr ""
+msgstr "Workflow wijzigen"
 
 #: widgets/templates/sidebar.mako:97
 msgid "Customize current object or create a new object"

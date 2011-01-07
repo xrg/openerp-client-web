@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2010-12-17 10:28+0100\n"
-"PO-Revision-Date: 2010-11-12 01:38+0000\n"
-"Last-Translator: Davide Corio - Domsense <davide.corio@domsense.com>\n"
+"PO-Revision-Date: 2011-01-06 16:33+0000\n"
+"Last-Translator: Vincenzo Marino <Unknown>\n"
 "Language-Team: it <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2010-12-18 05:02+0000\n"
+"X-Launchpad-Export-Date: 2011-01-07 05:00+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 "Generated-By: Babel None\n"
 
@@ -149,6 +149,9 @@ msgid ""
 "database. These data will help you to understand OpenERP, with predefined "
 "products, partners, etc."
 msgstr ""
+"Seleziona questa casella se vuoi alcuni dati di esempio nell'installazione "
+"del nuovo database. Questi dati ti aiuteranno a comprendere Open ERP grazie "
+"a prodotti predefiniti, partners, etc."
 
 #: controllers/database.py:80
 msgid "Default Language:"
@@ -160,6 +163,9 @@ msgid ""
 "will be able to install new languages after installation through the "
 "administration menu."
 msgstr ""
+"Scegli la lingua predefinita che verrà installata per questo database. "
+"Potrai seccessivamente installare altre lingue tramite il menu di "
+"amministrazione."
 
 #: controllers/database.py:81
 msgid "Administrator password:"
@@ -314,7 +320,7 @@ msgstr "Nessun record selezionato"
 
 #: controllers/form.py:905
 msgid "Print Screen"
-msgstr ""
+msgstr "Stampa Schermo"
 
 #: controllers/form.py:974 utils/rpc.py:130 utils/rpc.py:141 utils/rpc.py:144
 #: widgets/listgrid.py:333 widgets/form/_form.py:913
@@ -830,7 +836,7 @@ msgstr "Aggiunti / Rimuovi Scorciatoia..."
 #: controllers/templates/form.mako:81
 #, python-format
 msgid "Search: %s"
-msgstr ""
+msgstr "Cerca: %s"
 
 #: controllers/templates/form.mako:88
 msgid "Corporate Intelligence..."
@@ -928,7 +934,7 @@ msgstr "Mostra griglia nella rappresentazione del workflow"
 
 #: controllers/templates/form.mako:158
 msgid "Show grid"
-msgstr ""
+msgstr "Mostra la griglia"
 
 #: controllers/templates/header.mako:30
 #, python-format
@@ -1022,11 +1028,11 @@ msgstr "Linee da saltare:"
 
 #: controllers/templates/index.mako:164
 msgid "System Logs"
-msgstr ""
+msgstr "Log di sistema"
 
 #: controllers/templates/index.mako:190
 msgid "Widgets"
-msgstr ""
+msgstr "Widgets"
 
 #: controllers/templates/index.mako:220 controllers/templates/index.mako:225
 #, python-format
@@ -1336,11 +1342,11 @@ msgstr "non in"
 
 #: widgets/search.py:396
 msgid "Yes"
-msgstr ""
+msgstr "Sì"
 
 #: widgets/search.py:396
 msgid "No"
-msgstr ""
+msgstr "No"
 
 #: widgets/form/_action.py:54
 msgid "Action not found!"
@@ -1517,7 +1523,7 @@ msgstr "Filtri"
 
 #: widgets/templates/viewform.mako:45
 msgid "Saved Filters"
-msgstr ""
+msgstr "Filtri Salvati"
 
 #: widgets/templates/viewform.mako:52
 msgid "New Filter"
