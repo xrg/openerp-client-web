@@ -188,10 +188,11 @@ class ImpEx(SecuredController):
     @expose('json')
     def get_fields(self, model, prefix='', name='', field_parent=None, **kw):
 
-        if len(kw.get('ids').split(',')[0].split('/')) == 1:
-            parent = kw.get('ids').split(',')[0].split('/')[0]
+        parent_field = kw.get('ids').split(',')[0].split('/')
+        if len(parent_field) == 1:
+            parent_field = parent_field[0]
         else:
-            parent = kw.get('ids').split(',')[0].split('/')[-2]
+            parent_field = parent_field[-2]
 
         is_importing = kw.get('is_importing', False)
         import_compat= kw.get('import_com', False)
@@ -209,10 +210,10 @@ class ImpEx(SecuredController):
             views = {}
 
         fields = _fields_get_all(model, views, ctx)
-        if cherrypy.session.get('fld'):
-            m2ofields = cherrypy.session.get('fld')
+        m2ofields = cherrypy.session.get('fld')
+        if m2ofields:
             for i in m2ofields:
-                if i == parent:
+                if i == parent_field:
                     fields = {}
         else:
             m2ofields = []
@@ -374,8 +375,7 @@ class ImpEx(SecuredController):
 
         flds = []
         for item in fields:
-            fld = item
-            fld = fld.replace('/.id','.id')
+            fld = item.replace('/.id','.id')
             flds.append(fld)
 
         if isinstance(fields, basestring):

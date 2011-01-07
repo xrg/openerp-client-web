@@ -31,6 +31,9 @@
         }
 
         function del_fields(all){
+			if (document.getElementById('record').innerHTML){
+				document.getElementById('record').innerHTML = " "
+			}
 
             var fields = filter(function(o){return o.selected;}, openobject.dom.get('fields').options);
 
