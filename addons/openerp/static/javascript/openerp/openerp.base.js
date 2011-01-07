@@ -116,7 +116,7 @@ function doLoadingSuccess(app/*, url*/) {
                 if (data.reload) {
                     var view_type = jQuery('#_terp_view_type').val();
                     if (view_type == 'tree') {
-                        new ListView('_terp_list').reload();
+                        new ListView(data.list_grid).reload();
                     } else {
                         window.location.reload();
                     }

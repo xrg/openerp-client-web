@@ -127,27 +127,27 @@ class List(SecuredController):
                 else:
                     res = proxy.unlink([params.id], ctx)
                     params.ids.remove(params.id)
-                
+
                 if params.model == 'res.request':
                     ids, ids2 = rpc.RPCProxy(params.model).request_get()
                     return dict(res_ids = ids)
-                
+
                 return dict(ids = params.ids, count = len(params.ids))
             except Exception, e:
                 error = ustr(e)
 
         return dict(error=error)
-    
+
     @expose('json')
     def get_m2m(self, name, model, view_id, view_type, ids):
         view_id = ast.literal_eval(view_id) or False
         ids = ast.literal_eval(ids) or []
         view = cache.fields_view_get(model, view_id, view_type, rpc.session.context)
-        
+
         m2m_view = listgrid.List(name, model, view, ids,limit=20, editable=True, m2m=1)
         m2m_view = ustr(m2m_view.render())
         return dict(m2m_view = m2m_view)
-    
+
     @expose('json', methods=('POST',))
     def remove_o2m_defaults(self, o2m_value, index):
         o2m_value = eval(o2m_value)
@@ -163,7 +163,7 @@ class List(SecuredController):
         o2m_view_type = o2m_view_type or 'form'
         context = dict(ast.literal_eval(o2m_context), **rpc.session.context)
         o2m_values = simplejson.loads(o2m_values)
-        
+
         for o2m in o2m_values:
             o2m['id'] = 0
 
@@ -207,13 +207,13 @@ class List(SecuredController):
     def reload_graph(self, **kw):
         params, data = TinyDict.split(kw)
         view = cache.fields_view_get(params.model, params.view_id, 'graph',params.context)
-        
+
         if params.group_by_ctx:
             if isinstance(params.group_by_ctx, str):
                 params.group_by_ctx = params.group_by_ctx.split('group_')[-1]
             else:
                 params.group_by_ctx = map(lambda x: x.split('group_')[-1], params.group_by_ctx)
-        
+
         if params.domain is None:
             params.domain = []
         if params.search_domain:
@@ -230,7 +230,7 @@ class List(SecuredController):
               group_by = params.group_by_ctx)
         view=ustr(wid.render())
         return dict(view = view)
-    
+
     @expose('jsonp', methods=('POST',))
     def get(self, **kw):
         params, data = TinyDict.split(kw)
@@ -272,7 +272,7 @@ class List(SecuredController):
                 params.view_type = 'tree'
             if params.search_domain:
                 params.domain += params.search_domain
-                
+
             params.domain = params.domain or []
             if params.filter_domain:
                 params.domain += params.filter_domain
@@ -327,6 +327,7 @@ class List(SecuredController):
 
         id = (id or False) and int(id)
         ids = (id or []) and [id]
+        list_grid = params.list_grid or '_terp_list'
 
         try:
 
@@ -336,7 +337,7 @@ class List(SecuredController):
                     import actions
                     return actions.execute(res, ids=[id])
                 else:
-                    return True
+                    return dict(reload=True, list_grid=list_grid)
 
             elif btype == 'object':
                 ctx = params.context or {}
@@ -347,7 +348,7 @@ class List(SecuredController):
                     import actions
                     return actions.execute(res, ids=[id])
                 else:
-                    return dict(reload=True)
+                    return dict(reload=True, list_grid=list_grid)
 
             elif btype == 'action':
                 import actions
@@ -360,7 +361,11 @@ class List(SecuredController):
                     cherrypy.session['wizard_parent_params'] = params
 
                 res = actions.execute_by_id(action_id, type=action_type, model=model, id=id, ids=ids, context=ctx or {})
-                return res or True
+
+                if res:
+                    return res
+                else:
+                    return dict(reload=True, list_grid=list_grid)
 
             else:
                 return dict(error = "Unallowed button type")

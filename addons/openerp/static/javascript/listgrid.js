@@ -440,7 +440,7 @@ MochiKit.Base.update(ListView.prototype, {
         if (sure && !confirm(sure)) {
             return;
         }
-        
+
         var self = this;
         var _list = this.name;
         var prefix = this.name == '_terp_list' ? '' : this.name + '/';
@@ -475,6 +475,7 @@ MochiKit.Base.update(ListView.prototype, {
         }).addCallback(function(res) {
             var $form = jQuery('#listgrid_button_action');
             params['_terp_context'] = res.context || '{}';
+            params['_terp_list_grid'] = _list;
             if($form.length) {
                 $form.remove();
             }
