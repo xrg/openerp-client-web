@@ -511,7 +511,7 @@ ManyToOne.prototype.displayResults = function(result) {
         return true;
     }
     catch(e) {
-        error_display('error in display::' + e)
+        error_display(_('error in display::') + e)
     }
 };
 

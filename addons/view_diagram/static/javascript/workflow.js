@@ -322,7 +322,7 @@ openobject.workflow.Workflow.implement({
 
             });
         } else {
-            error_display('state could not be created');
+            error_display(_('state could not be created'));
         }
     },
 
@@ -359,7 +359,7 @@ openobject.workflow.Workflow.implement({
 
                 self.add_connection(act_from, act_to, params);
             } else {
-                error_display('Could not create transaction at server');
+                error_display(_('Could not create transaction at server'));
             }
         });
     },

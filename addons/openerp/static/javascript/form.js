@@ -1206,7 +1206,7 @@ function error_popup(obj){
     try {
         var error_window = window.open("", "error", "status=1, scrollbars=yes, width=550, height=400");
         error_window.document.write(obj.error);
-        error_window.document.title += "OpenERP - Error"
+        error_window.document.title += _("OpenERP - Error");
         error_window.document.close();
     }
     catch (e) {
@@ -1276,7 +1276,8 @@ function validateForm(){
 
 function validate_action() {
     var $form = jQuery('#view_form');
-    if ($form.data('is_form_changed') && !confirm('Warning, the record has been modified,\nyour changes will be discarded.')) {
+    if ($form.data('is_form_changed')
+        && !confirm(_('Warning, the record has been modified,\nyour changes will be discarded.'))) {
         return false;
     }
     $form.removeData('is_form_changed');

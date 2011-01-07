@@ -122,7 +122,7 @@ function doLoadingSuccess(app/*, url*/) {
                     }
                 }
             } catch(e) {
-                return error_display('doLoadingSuccess: Cannot parse JSON');
+                return error_display(_('doLoadingSuccess: Cannot parse JSON'));
             }
         } else {
             jQuery(app).html(data);
