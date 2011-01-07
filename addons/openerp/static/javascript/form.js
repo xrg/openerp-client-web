@@ -1276,7 +1276,7 @@ function validateForm(){
 
 function validate_action() {
     var $form = jQuery('#view_form');
-    if ($form.data('is_form_changed') && !confirm('Warning, the record has been modified\nDo you want to discard your changes ?')) {
+    if ($form.data('is_form_changed') && !confirm('Warning, the record has been modified,\nyour changes will be discarded.')) {
         return false;
     }
     $form.removeData('is_form_changed');
