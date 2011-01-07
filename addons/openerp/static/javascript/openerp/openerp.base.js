@@ -320,7 +320,10 @@ jQuery(document).bind({
     ajaxStart: function() {
         var $loader = jQuery('#ajax_loading');
         if(!$loader.length) {
-            $loader = jQuery('<div id="ajax_loading">Loading&nbsp;&nbsp;&nbsp;</div>').appendTo(document.body);
+            $loader = jQuery('<div id="ajax_loading">'
+                             + _('Loading')
+                             + '&nbsp;&nbsp;&nbsp;</div>'
+            ).appendTo(document.body);
         }
         $loader.css({
             left: (jQuery(window).width() - $loader.outerWidth()) / 2
