@@ -1,14 +1,14 @@
 # Translations template for PROJECT.
-# Copyright (C) 2010 ORGANIZATION
+# Copyright (C) 2011 ORGANIZATION
 # This file is distributed under the same license as the PROJECT project.
-# FIRST AUTHOR <EMAIL@ADDRESS>, 2010.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2011.
 #
 #,
 msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2010-12-17 10:28+0100\n"
+"POT-Creation-Date: 2011-01-07 15:17+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,11 +17,11 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 0.9.5\n"
 
-#: controllers/templates/calpopup.mako:82
+#: controllers/templates/calpopup.mako:83
 msgid "Save"
 msgstr ""
 
-#: controllers/templates/calpopup.mako:85
+#: controllers/templates/calpopup.mako:86
 msgid "Close"
 msgstr ""
 
@@ -117,7 +117,7 @@ msgstr ""
 msgid "December"
 msgstr ""
 
-#: widgets/utils.py:178
+#: widgets/utils.py:181
 #, python-format
 msgid "%(first)s to %(last)s %(month)s"
 msgstr ""

@@ -1,14 +1,14 @@
 # Translations template for PROJECT.
-# Copyright (C) 2010 ORGANIZATION
+# Copyright (C) 2011 ORGANIZATION
 # This file is distributed under the same license as the PROJECT project.
-# FIRST AUTHOR <EMAIL@ADDRESS>, 2010.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2011.
 #
 #,
 msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2010-12-17 10:28+0100\n"
+"POT-Creation-Date: 2011-01-07 15:17+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -53,14 +53,14 @@ msgstr ""
 msgid "Do you really want to delete this record?"
 msgstr ""
 
-#: static/javascript/calendar_gantt.js:259
-#: static/javascript/calendar_month.js:413
+#: static/javascript/calendar_gantt.js:258
+#: static/javascript/calendar_month.js:420
 #: static/javascript/calendar_week.js:277
 #: static/javascript/calendar_week.js:680
 msgid "This calendar object can no longer be moved !"
 msgstr ""
 
-#: static/javascript/calendar_gantt.js:321
+#: static/javascript/calendar_gantt.js:320
 #: static/javascript/calendar_week.js:104
 msgid "This calendar object can no longer be resized !"
 msgstr ""

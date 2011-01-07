@@ -1,14 +1,14 @@
 # Translations template for PROJECT.
-# Copyright (C) 2010 ORGANIZATION
+# Copyright (C) 2011 ORGANIZATION
 # This file is distributed under the same license as the PROJECT project.
-# FIRST AUTHOR <EMAIL@ADDRESS>, 2010.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2011.
 #
 #,
 msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2010-12-17 10:28+0100\n"
+"POT-Creation-Date: 2011-01-07 15:17+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,11 +17,11 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 0.9.5\n"
 
-#: controllers/_diagram.py:100 controllers/_diagram.py:222
+#: controllers/_diagram.py:97 controllers/_diagram.py:218
 msgid "Could not delete state"
 msgstr ""
 
-#: controllers/_diagram.py:285
+#: controllers/_diagram.py:282
 msgid "No workflow associated!"
 msgstr ""
 
@@ -29,12 +29,12 @@ msgstr ""
 msgid "Help: Not Defined"
 msgstr ""
 
-#: controllers/process.py:92
+#: controllers/process.py:93
 #, python-format
 msgid "%(name)s - Resource: %(resource)s, State: %(state)s"
 msgstr ""
 
-#: controllers/process.py:104
+#: controllers/process.py:105
 msgid "Last modified by:"
 msgstr ""
 
@@ -123,7 +123,7 @@ msgstr ""
 msgid "Diagram view..."
 msgstr ""
 
-#: widgets/templates/diagram.mako:26
+#: widgets/templates/diagram.mako:27
 msgid "Loading..."
 msgstr ""
 
