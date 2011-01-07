@@ -22,19 +22,11 @@
             */
             var $doc = jQuery(topWindow.document);
             switch($doc.find('#_terp_view_type').val()) {
-                case null:
-                case undefined:
-                    topWindow.location.reload();
-                    return;
                 case 'tree':
                     new topWindow.ListView('_terp_list').reload();
                     return;
             }
-            var form_action = 'save';
-            if($doc.find('#_terp_editable').val() == 'True') {
-                form_action = 'save_and_edit';
-            }
-            topWindow.submit_form(form_action);
+            topWindow.location.reload();
             /*
             % endif
             */
