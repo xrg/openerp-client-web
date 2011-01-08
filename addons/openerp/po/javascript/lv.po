@@ -7,14 +7,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openobject-client-web\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2010-12-17 10:28+0100\n"
+"POT-Creation-Date: 2011-01-07 17:11+0100\n"
 "PO-Revision-Date: 2010-12-18 14:22+0000\n"
 "Last-Translator: Vladimirs Kuzmins <Unknown>\n"
 "Language-Team: Latvian <lv@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2010-12-19 04:45+0000\n"
+"X-Launchpad-Export-Date: 2011-01-08 04:55+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: static/javascript/form.js:100
@@ -30,21 +30,39 @@ msgstr "Nekorekta forma, izlabojiet sarkanos laukus!"
 msgid "Do you really want to delete this record?"
 msgstr "Vai tiešām vēlaties izdzēst šo ierakstu?"
 
-#: static/javascript/form.js:901
+#: static/javascript/form.js:953
 msgid "You must select one or several records !"
 msgstr "Izvēlies vienu vai vairākus ierakstus!"
 
-#: static/javascript/form.js:1062
+#: static/javascript/form.js:1116
 msgid "Do you really want to delete the attachment"
 msgstr "Vai tiešām vēlaties izdzēst šo pielikumu?"
 
-#: static/javascript/listgrid.js:509 static/javascript/o2m.js:103
+#: static/javascript/form.js:1150
+msgid "No record selected ! You can only attach to existing record."
+msgstr ""
+
+#: static/javascript/form.js:1209
+msgid "OpenERP - Error"
+msgstr ""
+
+#: static/javascript/form.js:1280
+msgid ""
+"Warning, the record has been modified,\n"
+"your changes will be discarded."
+msgstr ""
+
+#: static/javascript/listgrid.js:507 static/javascript/o2m.js:103
 msgid "To edit Record, please first save it."
 msgstr "Lai labotu ierakstu, lūdzu vispirms to saglabājiet!"
 
-#: static/javascript/listgrid.js:617
+#: static/javascript/listgrid.js:615
 msgid "Do you really want to delete selected record(s) ?"
 msgstr "Vai tiešām vēlaties dzēst izvēlēto(s) ierakstu(s)?"
+
+#: static/javascript/m2o.js:514
+msgid "error in display::"
+msgstr ""
 
 #: static/javascript/o2m.js:62
 msgid "Do you really want to delete record ?"
@@ -57,6 +75,14 @@ msgstr "Vai tiešām vēlaties izņemt šo mezglu?"
 #: static/javascript/viewed.js:337
 msgid "Do you really wants to create an inherited view here?"
 msgstr "Vai tiešām vēlaties šeit izveidot mantoto skatu?"
+
+#: static/javascript/openerp/openerp.base.js:125
+msgid "doLoadingSuccess: Cannot parse JSON"
+msgstr ""
+
+#: static/javascript/openerp/openerp.base.js:324
+msgid "Loading"
+msgstr ""
 
 #: static/javascript/openerp/openerp.ui.tips.js:59
 msgid "Object"

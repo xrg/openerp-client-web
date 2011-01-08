@@ -7,21 +7,21 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openobject-client-web\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2010-12-17 10:28+0100\n"
+"POT-Creation-Date: 2011-01-07 17:11+0100\n"
 "PO-Revision-Date: 2010-12-20 11:13+0000\n"
 "Last-Translator: Nikolay Chesnokov <chesnokov_n@msn.com>\n"
 "Language-Team: Russian <ru@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2010-12-22 04:46+0000\n"
+"X-Launchpad-Export-Date: 2011-01-08 04:57+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
-#: controllers/_diagram.py:100 controllers/_diagram.py:222
+#: controllers/_diagram.py:97 controllers/_diagram.py:218
 msgid "Could not delete state"
 msgstr "Невозможно удалить состояние"
 
-#: controllers/_diagram.py:285
+#: controllers/_diagram.py:282
 msgid "No workflow associated!"
 msgstr "Нет связанного рабочего процесса!"
 
@@ -29,12 +29,12 @@ msgstr "Нет связанного рабочего процесса!"
 msgid "Help: Not Defined"
 msgstr "Справка: Не определена"
 
-#: controllers/process.py:92
+#: controllers/process.py:93
 #, python-format
 msgid "%(name)s - Resource: %(resource)s, State: %(state)s"
 msgstr "%(name)s - Ресурс: %(resource)s, Состояние: %(state)s"
 
-#: controllers/process.py:104
+#: controllers/process.py:105
 msgid "Last modified by:"
 msgstr "Последний раз изменялся:"
 
@@ -123,6 +123,6 @@ msgstr "Диаграмма"
 msgid "Diagram view..."
 msgstr "Вид диаграмма..."
 
-#: widgets/templates/diagram.mako:26
+#: widgets/templates/diagram.mako:27
 msgid "Loading..."
 msgstr "Загрузка..."
