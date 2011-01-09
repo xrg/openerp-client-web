@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: openobject-client-web\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2011-01-07 17:11+0100\n"
-"PO-Revision-Date: 2010-12-20 11:10+0000\n"
-"Last-Translator: Nikolay Chesnokov <chesnokov_n@msn.com>\n"
+"PO-Revision-Date: 2011-01-08 10:04+0000\n"
+"Last-Translator: Nkolay Parukhin <parukhin@gmail.com>\n"
 "Language-Team: Russian <ru@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2011-01-08 04:56+0000\n"
+"X-Launchpad-Export-Date: 2011-01-09 04:51+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: static/javascript/infobox.js:143
@@ -39,8 +39,8 @@ msgstr "Справка"
 
 #: static/javascript/workflow.js:325
 msgid "state could not be created"
-msgstr ""
+msgstr "состояние не может быть создано"
 
 #: static/javascript/workflow.js:362
 msgid "Could not create transaction at server"
-msgstr ""
+msgstr "Не удалось создать транзакцию на сервере"

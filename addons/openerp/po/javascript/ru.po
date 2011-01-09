@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: openobject-client-web\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2011-01-07 17:11+0100\n"
-"PO-Revision-Date: 2010-12-19 06:42+0000\n"
-"Last-Translator: Denis Konchekov <Unknown>\n"
+"PO-Revision-Date: 2011-01-08 10:08+0000\n"
+"Last-Translator: Nkolay Parukhin <parukhin@gmail.com>\n"
 "Language-Team: Russian <ru@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2011-01-08 04:55+0000\n"
+"X-Launchpad-Export-Date: 2011-01-09 04:51+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: static/javascript/form.js:100
@@ -41,16 +41,20 @@ msgstr "Вы действительно хотите удалить прикре
 #: static/javascript/form.js:1150
 msgid "No record selected ! You can only attach to existing record."
 msgstr ""
+"Не выбрана ни одна запись! Присоединение возможно только к существующей "
+"записи."
 
 #: static/javascript/form.js:1209
 msgid "OpenERP - Error"
-msgstr ""
+msgstr "OpenERP - Ошибка"
 
 #: static/javascript/form.js:1280
 msgid ""
 "Warning, the record has been modified,\n"
 "your changes will be discarded."
 msgstr ""
+"Предупреждение, запись была изменена,\n"
+"ваши изменения будут потеряны."
 
 #: static/javascript/listgrid.js:507 static/javascript/o2m.js:103
 msgid "To edit Record, please first save it."
@@ -62,7 +66,7 @@ msgstr "Вы действительно хотите удалить выбран
 
 #: static/javascript/m2o.js:514
 msgid "error in display::"
-msgstr ""
+msgstr "ошибка в отображении::"
 
 #: static/javascript/o2m.js:62
 msgid "Do you really want to delete record ?"
@@ -78,11 +82,11 @@ msgstr "Вы действительно хотите создать наслед
 
 #: static/javascript/openerp/openerp.base.js:125
 msgid "doLoadingSuccess: Cannot parse JSON"
-msgstr ""
+msgstr "doLoadingSuccess: Невозможно разобрать JSON"
 
 #: static/javascript/openerp/openerp.base.js:324
 msgid "Loading"
-msgstr ""
+msgstr "Загрузка"
 
 #: static/javascript/openerp/openerp.ui.tips.js:59
 msgid "Object"

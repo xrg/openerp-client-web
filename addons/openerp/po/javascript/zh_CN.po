@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: openobject-client-web\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2011-01-07 17:11+0100\n"
-"PO-Revision-Date: 2010-12-22 10:21+0000\n"
-"Last-Translator: Weichen Wang <Unknown>\n"
+"PO-Revision-Date: 2011-01-08 07:54+0000\n"
+"Last-Translator: Wei \"oldrev\" Li <oldrev@gmail.com>\n"
 "Language-Team: Chinese (Simplified) <zh_CN@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2011-01-08 04:55+0000\n"
+"X-Launchpad-Export-Date: 2011-01-09 04:51+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: static/javascript/form.js:100
@@ -40,17 +40,17 @@ msgstr "你确认删除附件吗？"
 
 #: static/javascript/form.js:1150
 msgid "No record selected ! You can only attach to existing record."
-msgstr ""
+msgstr "没有选择记录！您只能附加到已存在的记录上。"
 
 #: static/javascript/form.js:1209
 msgid "OpenERP - Error"
-msgstr ""
+msgstr "OpenERP - 错误"
 
 #: static/javascript/form.js:1280
 msgid ""
 "Warning, the record has been modified,\n"
 "your changes will be discarded."
-msgstr ""
+msgstr "警告，该记录已经被修改，您的修改将丢失。"
 
 #: static/javascript/listgrid.js:507 static/javascript/o2m.js:103
 msgid "To edit Record, please first save it."
@@ -62,7 +62,7 @@ msgstr "您确认删除选中的记录吗？"
 
 #: static/javascript/m2o.js:514
 msgid "error in display::"
-msgstr ""
+msgstr "显示错误::"
 
 #: static/javascript/o2m.js:62
 msgid "Do you really want to delete record ?"
@@ -78,11 +78,11 @@ msgstr "您确认创建一个继承这的视图吗？"
 
 #: static/javascript/openerp/openerp.base.js:125
 msgid "doLoadingSuccess: Cannot parse JSON"
-msgstr ""
+msgstr "doLoadingSuccess: 不能解析 JSON"
 
 #: static/javascript/openerp/openerp.base.js:324
 msgid "Loading"
-msgstr ""
+msgstr "正在加载"
 
 #: static/javascript/openerp/openerp.ui.tips.js:59
 msgid "Object"
