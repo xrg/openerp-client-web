@@ -4,7 +4,7 @@
     <a id="add_groups" class="button-a" href="javascript: void(0)">${_("Add")}</a>
     <script type="text/javascript">
         jQuery('#add_groups').click(function() {
-            openobject.tools.openWindow(
+            jQuery.frame_dialog({src:
                 openobject.http.getURL('/openerp/search/new',
                 {
                     'model': '${grp_model}',
@@ -13,9 +13,9 @@
                     'source': 'None',
                     'kind': 2,
                     'text': '',
-                    'return_to': 'True'                                    
+                    'return_to': 'True'
                 })
-            );
+            });
         });
     </script>
 % endif
