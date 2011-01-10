@@ -101,6 +101,9 @@ img{behavior:expression((this.runtimeStyle.behavior="none")&&(/^data:.*;base64/i
 .ie #primary {
 	height:auto;
 }
+.ie #secondary {
+	height:100%;
+}
 
 /**
  * vim: sts=4 st=4 et 
