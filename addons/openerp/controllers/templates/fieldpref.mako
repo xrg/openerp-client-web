@@ -6,7 +6,7 @@
     <script type="text/javascript">
         jQuery(document).ready(function(){
             if(openobject.dom.get('click_ok').value)
-                window.close();
+                window.frameElement.close();
         });
     </script>
 </%def>
@@ -96,7 +96,7 @@
                             <td width="100%">
                             </td>
                             <td>
-                            	<a class="button-a" href="javascript: void(0)" onclick="window.close()">${_("Close")}</a>
+                            	<a class="button-a" href="javascript: void(0)" onclick="window.frameElement.close()">${_("Close")}</a>
                             </td>
                             <td>
                                 <button type="submit">${_("OK")}</button>

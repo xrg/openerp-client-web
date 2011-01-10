@@ -908,16 +908,13 @@ function set_as_default(field, model){
             _terp_model: model,
             _terp_field: field
     })).addCallback(function(obj){
-        openobject.tools.openWindow(
-            openobject.http.getURL('/openerp/fieldpref', {
+        jQuery.frame_dialog({src:openobject.http.getURL('/openerp/fieldpref', {
                 '_terp_model': model,
                 '_terp_field/name': field,
                 '_terp_field/string': obj.text,
                 '_terp_field/value': openobject.dom.get(field).value,
                 '_terp_deps': obj.deps
-            }), {
-            width: 500,
-            height: 350
+            })
         });
     });
 }
