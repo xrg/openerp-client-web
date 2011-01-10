@@ -448,7 +448,7 @@ class ViewEd(SecuredController):
         model = _get_model(field_node, parent_model=model)
 
         # get the fields
-        fields = rpc.RPCProxy(model).fields_get().keys()
+        fields = rpc.RPCProxy(model).fields_get(False, rpc.session.context).keys()
 
         nodes = _CHILDREN.keys()
         nodes.remove('view')
