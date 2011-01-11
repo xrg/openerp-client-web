@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: openobject-client-web\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2011-01-07 17:11+0100\n"
-"PO-Revision-Date: 2010-12-08 23:29+0000\n"
-"Last-Translator: Paulino Ascenção <Unknown>\n"
+"PO-Revision-Date: 2011-01-11 01:31+0000\n"
+"Last-Translator: Tiago Baptista <Unknown>\n"
 "Language-Team: Portuguese <pt@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2011-01-08 04:56+0000\n"
+"X-Launchpad-Export-Date: 2011-01-11 04:56+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: validators.py:83
@@ -368,6 +368,7 @@ msgstr "Não pode importar este campo %s, porque não podemos detectá-lo"
 #, python-format
 msgid "Error processing your first line of the file. Field %s is unknown"
 msgstr ""
+"Erro no processamento da primeira linha do ficheiro. O campo %s não existe"
 
 #: controllers/impex.py:468
 msgid "Import Error."
@@ -385,11 +386,11 @@ msgstr "Importados %d objetos"
 #: controllers/impex.py:505
 #, python-format
 msgid "Error trying to import this record:%s. ErrorMessage:%s %s"
-msgstr ""
+msgstr "Erro na importação do registo: %s. Mensagem de erro: %s %s"
 
 #: controllers/impex.py:506
 msgid "ImportationError"
-msgstr ""
+msgstr "ImportationError"
 
 #: controllers/listgrid.py:59
 msgid "Parent record doesn't exists..."
@@ -397,7 +398,7 @@ msgstr "Registo ascendente não existe...."
 
 #: controllers/preferences.py:41
 msgid "Change your password"
-msgstr ""
+msgstr "Altere a sua senha"
 
 #: controllers/preferences.py:70 controllers/templates/header.mako:59
 msgid "Preferences"
@@ -405,19 +406,19 @@ msgstr "Preferências"
 
 #: controllers/preferences.py:92
 msgid "All passwords have to be filled."
-msgstr ""
+msgstr "Todas as senhas devem ser preenchidas."
 
 #: controllers/preferences.py:94
 msgid "The new password and its confirmation must be identical."
-msgstr ""
+msgstr "A nova senha e a sua confirmação devem ser idênticas."
 
 #: controllers/preferences.py:103
 msgid "Could not change your password."
-msgstr ""
+msgstr "Não foi possível mudar a sua senha."
 
 #: controllers/preferences.py:105
 msgid "Original password incorrect, your password was not changed."
-msgstr ""
+msgstr "Senha original errada, a sua senha não foi alterada."
 
 #: controllers/root.py:178
 #, python-format
@@ -530,11 +531,12 @@ msgstr "Acerca do OpenERP Web"
 
 #: controllers/templates/about.mako:27
 msgid "OpenERP Web"
-msgstr ""
+msgstr "OpenERP Web"
 
 #: controllers/templates/about.mako:30
 msgid "Copyright &copy; 2006-TODAY Tiny ERP Pvt. Ltd. All Rights Reserved."
 msgstr ""
+"Copyright &copy; 2006-HOJE Tiny ERP Pvt. Ltd. Todos os direitos reservados."
 
 #: controllers/templates/about.mako:31
 msgid "OpenERP is a trademark of the Tiny Company."
@@ -591,7 +593,7 @@ msgstr ""
 #: controllers/templates/login.mako:67 controllers/templates/login_ajax.mako:85
 #: controllers/templates/login_ajax.mako:104
 msgid "Login"
-msgstr ""
+msgstr "Login"
 
 #: controllers/templates/database.mako:60
 msgid "Password"
@@ -615,7 +617,7 @@ msgstr "Corrija por mim"
 
 #: controllers/templates/error_page.mako:90
 msgid "You do not have a valid OpenERP publisher warranty contract !"
-msgstr ""
+msgstr "Não tem um contrato de suporte OpenERP válido!"
 
 #: controllers/templates/error_page.mako:91
 msgid ""
@@ -660,17 +662,19 @@ msgstr ""
 
 #: controllers/templates/error_page.mako:135
 msgid "Publisher warranty contract."
-msgstr ""
+msgstr "Contrato de suporte."
 
 #: controllers/templates/error_page.mako:136
 msgid ""
 "Your request will be sent to OpenERP and publisher warranty team will reply "
 "you shortly."
 msgstr ""
+"O seu pedido será enviado para a equipa de suporte OpenERP, que responderá "
+"assim que possível."
 
 #: controllers/templates/error_page.mako:140
 msgid "Summary of the problem:"
-msgstr ""
+msgstr "Sumário do problema:"
 
 #: controllers/templates/error_page.mako:147
 msgid "Explain what you did:"
@@ -682,7 +686,7 @@ msgstr "Outros comentários:"
 
 #: controllers/templates/error_page.mako:168
 msgid "Send to Publisher Warranty Team"
-msgstr ""
+msgstr "Enviar para equipa de suporte"
 
 #: controllers/templates/error_page.mako:195
 msgid "Write concurrency warning :"
@@ -785,11 +789,11 @@ msgstr "Nome desta exportação"
 #: controllers/templates/exp.mako:225 controllers/templates/fieldpref.mako:102
 #: controllers/templates/selection.mako:45
 msgid "OK"
-msgstr ""
+msgstr "OK"
 
 #: controllers/templates/exp.mako:236
 msgid "Select Options to Export"
-msgstr ""
+msgstr "Seleccione opções para exportar"
 
 #: controllers/templates/exp.mako:242
 msgid "Export as CSV"
@@ -847,7 +851,7 @@ msgstr "Sempre aplicável!"
 #: controllers/templates/footer.mako:3
 #, python-format
 msgid "&copy; 2008-2010 %(ooweb)s  SA. All Rights Reserved "
-msgstr ""
+msgstr "&copy; 2008-2010 %(ooweb)s  SA. Todos os direitos reservados "
 
 #: controllers/templates/footer.mako:6
 msgid "Significant contributions to the web client have been made by"
@@ -868,7 +872,7 @@ msgstr "Adicionar / Remover atalho..."
 #: controllers/templates/form.mako:90
 #, python-format
 msgid "Search: %s"
-msgstr ""
+msgstr "Pesquisar: %s"
 
 #: controllers/templates/form.mako:97
 msgid "Corporate Intelligence..."
@@ -962,12 +966,12 @@ msgstr "Mostrar grelha"
 #: controllers/templates/header.mako:33
 #, python-format
 msgid "%(company)s"
-msgstr ""
+msgstr "%(company)s"
 
 #: controllers/templates/header.mako:34 controllers/templates/index.mako:218
 #, python-format
 msgid "%(user)s"
-msgstr ""
+msgstr "%(user)s"
 
 #: controllers/templates/header.mako:45 controllers/templates/header.mako:47
 msgid "Home"
@@ -1055,16 +1059,16 @@ msgstr ""
 
 #: controllers/templates/index.mako:189
 msgid "More"
-msgstr ""
+msgstr "Mais"
 
 #: controllers/templates/index.mako:190
 msgid "Widgets"
-msgstr ""
+msgstr "Widgets"
 
 #: controllers/templates/index.mako:220 controllers/templates/index.mako:225
 #, python-format
 msgid "Powered by %(openerp)s "
-msgstr ""
+msgstr "Powered by %(openerp)s "
 
 #: controllers/templates/login.mako:53 controllers/templates/login_ajax.mako:72
 #: controllers/templates/login_ajax.mako:94
@@ -1136,11 +1140,11 @@ msgstr "Módulos Web"
 
 #: controllers/templates/openo2m.mako:34
 msgid "Save & Close"
-msgstr ""
+msgstr "Gravar e Fechar"
 
 #: controllers/templates/openo2m.mako:37
 msgid "Save & New"
-msgstr ""
+msgstr "Gravar e Novo"
 
 #: controllers/templates/save_filter.mako:18
 msgid "Save as Filter"
@@ -1168,7 +1172,7 @@ msgstr "Pesquisar"
 #: controllers/templates/search.mako:143
 #, python-format
 msgid "No record found : '%(searched_string)s'."
-msgstr ""
+msgstr "Nenhum registo encontrado: '%(searched_string)s'."
 
 #: controllers/templates/selection.mako:4
 msgid "Select action"
@@ -1331,12 +1335,12 @@ msgstr "View invalida, campo duplicado: %s"
 #: widgets/pager.py:64
 #, python-format
 msgid "%s"
-msgstr ""
+msgstr "%s"
 
 #: widgets/pager.py:76
 #, python-format
 msgid "%s - %s"
-msgstr ""
+msgstr "%s - %s"
 
 #: widgets/search.py:289
 msgid "contains"
@@ -1411,7 +1415,7 @@ msgstr "adicionar anexo"
 
 #: widgets/form/templates/image.mako:7 widgets/form/templates/image.mako:39
 msgid "Click here to add new image."
-msgstr ""
+msgstr "Carregue aqui para adicionar uma imagem."
 
 #: widgets/form/templates/many2one.mako:2
 #: widgets/form/templates/reference.mako:30
@@ -1489,7 +1493,7 @@ msgstr "Ligações"
 
 #: widgets/templates/sidebar.mako:49
 msgid "Submenu"
-msgstr ""
+msgstr "Sub-menu"
 
 #: widgets/templates/sidebar.mako:54
 msgid "Attachments"

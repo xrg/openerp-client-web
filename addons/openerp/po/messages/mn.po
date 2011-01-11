@@ -8,35 +8,35 @@ msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2011-01-07 17:11+0100\n"
-"PO-Revision-Date: 2010-11-19 07:09+0000\n"
-"Last-Translator: OpenERP Web Administrators <Unknown>\n"
+"PO-Revision-Date: 2011-01-11 04:28+0000\n"
+"Last-Translator: Buyanbat <Unknown>\n"
 "Language-Team: mn <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2011-01-08 04:56+0000\n"
+"X-Launchpad-Export-Date: 2011-01-11 04:56+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 "Generated-By: Babel None\n"
 
 #: validators.py:83
 msgid "Invalid literal for float"
-msgstr ""
+msgstr "Тоон утга буруу байна"
 
 #: validators.py:122 validators.py:127 validators.py:270
 msgid "Invalid datetime format"
-msgstr ""
+msgstr "Огноо буруу байна"
 
 #: validators.py:174
 msgid "Please select a file."
-msgstr ""
+msgstr "Файл сонгоно уу."
 
 #: validators.py:255
 msgid "Please enter an email address"
-msgstr ""
+msgstr "И-мэйл хаяг оруулна уу."
 
 #: validators.py:256
 msgid "An email address must contain a single @"
-msgstr ""
+msgstr "И-мэйл хаяг буруу байна."
 
 #: validators.py:257
 #, python-format
@@ -67,19 +67,19 @@ msgstr ""
 
 #: validators.py:268
 msgid "Please enter an integer value"
-msgstr ""
+msgstr "Бүхэл тоон утга оруулна уу"
 
 #: validators.py:269
 msgid "Please enter a number"
-msgstr ""
+msgstr "Тоон утга оруулна уу"
 
 #: controllers/actions.py:99
 msgid "Invalid View"
-msgstr ""
+msgstr "Буруу дэлгэц"
 
 #: controllers/actions.py:132
 msgid "Error no report"
-msgstr ""
+msgstr "Тайлан олдсонгүй"
 
 #: controllers/actions.py:158
 msgid "Nothing to print"
@@ -107,12 +107,12 @@ msgstr ""
 
 #: controllers/database.py:72
 msgid "Create database"
-msgstr ""
+msgstr "Өгөгдлийн сан үүсгэх"
 
 #: controllers/database.py:74 controllers/templates/database.mako:52
 #: controllers/templates/search.mako:145
 msgid "Create"
-msgstr ""
+msgstr "Үүсгэх"
 
 #: controllers/database.py:77
 msgid "Super admin password:"
@@ -188,14 +188,14 @@ msgstr ""
 #: controllers/database.py:92 controllers/database.py:100
 #: controllers/templates/login.mako:39
 msgid "Database:"
-msgstr ""
+msgstr "Өгөгдлийн сан:"
 
 #: controllers/database.py:93 controllers/database.py:101
 #: controllers/database.py:109 controllers/templates/login.mako:57
 #: controllers/templates/login_ajax.mako:78
 #: controllers/templates/login_ajax.mako:98
 msgid "Password:"
-msgstr ""
+msgstr "Нууц үг:"
 
 #: controllers/database.py:97
 msgid "Backup database"
@@ -304,12 +304,12 @@ msgstr ""
 
 #: controllers/form.py:904
 msgid "Print Screen"
-msgstr ""
+msgstr "Дэлгэц олдсонгүй"
 
 #: controllers/form.py:973 utils/rpc.py:130 utils/rpc.py:141 utils/rpc.py:144
 #: widgets/listgrid.py:332 widgets/form/_form.py:912
 msgid "Application Error"
-msgstr ""
+msgstr "Программын алдаа"
 
 #: controllers/form.py:973
 #, python-format
@@ -376,7 +376,7 @@ msgstr ""
 
 #: controllers/preferences.py:70 controllers/templates/header.mako:59
 msgid "Preferences"
-msgstr ""
+msgstr "Хувийн тохиргоо"
 
 #: controllers/preferences.py:92
 msgid "All passwords have to be filled."
@@ -397,7 +397,7 @@ msgstr ""
 #: controllers/root.py:178
 #, python-format
 msgid "Version %s"
-msgstr ""
+msgstr "Хувилбар %s"
 
 #: controllers/translator.py:140
 msgid "You need to save the resource before adding translations."
@@ -413,31 +413,31 @@ msgstr ""
 
 #: controllers/utils.py:139 controllers/templates/login_ajax.mako:111
 msgid "Bad username or password"
-msgstr ""
+msgstr "Хэрэглэгчийн нэр эсвэр нууц үг буруу байна"
 
 #: controllers/view_log.py:40
 msgid "ID"
-msgstr ""
+msgstr "Дугаар"
 
 #: controllers/view_log.py:41
 msgid "Creation User"
-msgstr ""
+msgstr "Үүсгэсэн хэрэглэгч"
 
 #: controllers/view_log.py:42
 msgid "Creation Date"
-msgstr ""
+msgstr "Үүсгэсэн огноо"
 
 #: controllers/view_log.py:43
 msgid "Latest Modification by"
-msgstr ""
+msgstr "Хамгийн сүүлд зассан"
 
 #: controllers/view_log.py:44
 msgid "Latest Modification Date"
-msgstr ""
+msgstr "Хамгийн сүүлд зассан огноо"
 
 #: controllers/view_log.py:45
 msgid "Owner"
-msgstr ""
+msgstr "Эзэмшигч"
 
 #: controllers/view_log.py:46
 msgid "Group Owner"
@@ -445,7 +445,7 @@ msgstr ""
 
 #: controllers/view_log.py:47
 msgid "Access Level"
-msgstr ""
+msgstr "Хандах эрх"
 
 #: controllers/view_log.py:48
 msgid "Internal module data ID"
@@ -473,7 +473,7 @@ msgstr ""
 
 #: controllers/viewed.py:870
 msgid "New Window"
-msgstr ""
+msgstr "Шинэ цонх"
 
 #: controllers/viewed.py:882
 msgid "Save Button"
@@ -564,11 +564,11 @@ msgstr ""
 #: controllers/templates/login.mako:67 controllers/templates/login_ajax.mako:85
 #: controllers/templates/login_ajax.mako:104
 msgid "Login"
-msgstr ""
+msgstr "Нэвтрэх"
 
 #: controllers/templates/database.mako:60
 msgid "Password"
-msgstr ""
+msgstr "Нууц үг"
 
 #: controllers/templates/error_page.mako:77
 msgid "An "
@@ -584,7 +584,7 @@ msgstr ""
 
 #: controllers/templates/error_page.mako:85
 msgid "Fix it for me"
-msgstr ""
+msgstr "Алдааг харах"
 
 #: controllers/templates/error_page.mako:90
 msgid "You do not have a valid OpenERP publisher warranty contract !"
@@ -677,15 +677,15 @@ msgstr ""
 #: controllers/templates/preferences/index.mako:38
 #: widgets/templates/listgrid/listgrid.mako:33
 msgid "Cancel"
-msgstr ""
+msgstr "Цуцлах"
 
 #: controllers/templates/error_page.mako:215
 msgid "Write Anyway"
-msgstr ""
+msgstr "Заавал хадгал"
 
 #: controllers/templates/exp.mako:143 widgets/templates/sidebar.mako:112
 msgid "Export"
-msgstr ""
+msgstr "Хөрвүүл"
 
 #: controllers/templates/exp.mako:144 controllers/templates/fieldpref.mako:99
 #: controllers/templates/image.mako:70 controllers/templates/imp.mako:131
@@ -701,11 +701,11 @@ msgstr ""
 #: controllers/templates/viewlist.mako:129 widgets/templates/sidebar.mako:67
 #: widgets/templates/viewform.mako:37
 msgid "Close"
-msgstr ""
+msgstr "Хаах"
 
 #: controllers/templates/exp.mako:146
 msgid "Export Data"
-msgstr ""
+msgstr "Өгөгдлийг хөрвүүлэх"
 
 #: controllers/templates/exp.mako:163 controllers/templates/form.mako:144
 #: controllers/templates/image.mako:67 widgets/form/templates/one2many.mako:22
@@ -717,38 +717,38 @@ msgstr ""
 #: widgets/templates/listgrid/listgroup.mako:126
 #: widgets/templates/listgrid/multiple_group.mako:81
 msgid "Delete"
-msgstr ""
+msgstr "Устгах"
 
 #: controllers/templates/exp.mako:174 controllers/templates/imp.mako:143
 msgid "All fields"
-msgstr ""
+msgstr "Бүх талбар"
 
 #: controllers/templates/exp.mako:176
 msgid "Fields to export"
-msgstr ""
+msgstr "Хөрвүүлэх талбарууд"
 
 #: controllers/templates/exp.mako:186 controllers/templates/imp.mako:155
 #: widgets/templates/sidebar.mako:56
 #: widgets/templates/listgrid/listgrid.mako:138
 msgid "Add"
-msgstr ""
+msgstr "Нэмэх"
 
 #: controllers/templates/exp.mako:191 controllers/templates/imp.mako:160
 #: controllers/templates/viewlist.mako:125
 msgid "Remove"
-msgstr ""
+msgstr "Устгах"
 
 #: controllers/templates/exp.mako:196 controllers/templates/imp.mako:165
 msgid "Nothing"
-msgstr ""
+msgstr "Хоосон"
 
 #: controllers/templates/exp.mako:201 controllers/templates/exp.mako:217
 msgid "Save List"
-msgstr ""
+msgstr "Жагсаалтыг хадгалах"
 
 #: controllers/templates/exp.mako:220
 msgid "Name of This Export:"
-msgstr ""
+msgstr "Хөрвүүлэлтийн нэр"
 
 #: controllers/templates/exp.mako:225 controllers/templates/fieldpref.mako:102
 #: controllers/templates/selection.mako:45
@@ -786,7 +786,7 @@ msgstr ""
 
 #: controllers/templates/fieldpref.mako:43
 msgid "Domain:"
-msgstr ""
+msgstr "Нөхцөл:"
 
 #: controllers/templates/fieldpref.mako:47
 msgid "Default Value:"
@@ -823,11 +823,11 @@ msgstr ""
 
 #: controllers/templates/form.mako:70
 msgid "Disable all Tips"
-msgstr ""
+msgstr "Бүх санамжуудыг идэвхигүй болго"
 
 #: controllers/templates/form.mako:71
 msgid "Hide this Tip"
-msgstr ""
+msgstr "Энэ санамжийг идэвхигүй болго"
 
 #: controllers/templates/form.mako:86
 msgid "Add / Remove Shortcut..."
@@ -844,11 +844,11 @@ msgstr ""
 
 #: controllers/templates/form.mako:103
 msgid "Show Logs..."
-msgstr ""
+msgstr "Түүх харах..."
 
 #: controllers/templates/form.mako:120
 msgid "Create a new resource"
-msgstr ""
+msgstr "Шинэ мэдээлэл үүсгэх"
 
 #: controllers/templates/form.mako:121 controllers/templates/search.mako:128
 #: controllers/templates/viewed_new_model.mako:36
@@ -857,11 +857,11 @@ msgstr ""
 #: widgets/templates/listgrid/listgrid.mako:143
 #: widgets/templates/listgrid/listgrid.mako:147
 msgid "New"
-msgstr ""
+msgstr "Шинэ"
 
 #: controllers/templates/form.mako:125
 msgid "Edit this resource"
-msgstr ""
+msgstr "Энэ мэдээллийг засах"
 
 #: controllers/templates/form.mako:126 controllers/templates/viewlist.mako:122
 #: widgets/templates/listgrid/listgrid.mako:78
@@ -869,11 +869,11 @@ msgstr ""
 #: widgets/templates/listgrid/listgroup.mako:107
 #: widgets/templates/listgrid/multiple_group.mako:63
 msgid "Edit"
-msgstr ""
+msgstr "Зас"
 
 #: controllers/templates/form.mako:130
 msgid "Save this resource"
-msgstr ""
+msgstr "Энэ мэдээллийг хадгалах"
 
 #: controllers/templates/form.mako:131 controllers/templates/image.mako:65
 #: controllers/templates/openm2.mako:48
@@ -885,39 +885,39 @@ msgstr ""
 #: controllers/templates/viewlist.mako:157
 #: controllers/templates/preferences/index.mako:39
 msgid "Save"
-msgstr ""
+msgstr "Хадгал"
 
 #: controllers/templates/form.mako:133
 msgid "Save & Edit this resource"
-msgstr ""
+msgstr "Энэ мэдээллийг хадгалаад үргэлжлүүлэн засах"
 
 #: controllers/templates/form.mako:134
 msgid "Save & Edit"
-msgstr ""
+msgstr "Хадгал & Зас"
 
 #: controllers/templates/form.mako:138
 msgid "Duplicate this resource"
-msgstr ""
+msgstr "Энэ мэдээллийг хуулбарлах"
 
 #: controllers/templates/form.mako:139
 msgid "Duplicate"
-msgstr ""
+msgstr "Хуулбарла"
 
 #: controllers/templates/form.mako:143
 msgid "Delete this resource"
-msgstr ""
+msgstr "Энэ мэдээллийг устгах"
 
 #: controllers/templates/form.mako:148
 msgid "Cancel editing the current resource"
-msgstr ""
+msgstr "Энэ мэдээллийг засахаа болих"
 
 #: controllers/templates/form.mako:153
 msgid "Create new node"
-msgstr ""
+msgstr "Шинэ зангилаа үүсгэх"
 
 #: controllers/templates/form.mako:154
 msgid "New Node"
-msgstr ""
+msgstr "Шинэ зангилаа"
 
 #: controllers/templates/form.mako:158
 msgid "Show grid in workflow canvas"
@@ -939,51 +939,51 @@ msgstr ""
 
 #: controllers/templates/header.mako:45 controllers/templates/header.mako:47
 msgid "Home"
-msgstr ""
+msgstr "Эхлэл"
 
 #: controllers/templates/header.mako:53
 msgid "Requests"
-msgstr ""
+msgstr "Захиа"
 
 #: controllers/templates/header.mako:62
 msgid "Edit Preferences"
-msgstr ""
+msgstr "Хувийн тохиргоо"
 
 #: controllers/templates/header.mako:66 controllers/templates/header.mako:69
 msgid "About"
-msgstr ""
+msgstr "Программын тухай"
 
 #: controllers/templates/header.mako:73 controllers/templates/header.mako:75
 msgid "Help"
-msgstr ""
+msgstr "Тусламж"
 
 #: controllers/templates/header.mako:81 controllers/templates/header.mako:84
 msgid "Clear Cache"
-msgstr ""
+msgstr "Санамжийг цэвэрлэх"
 
 #: controllers/templates/header.mako:89
 msgid "Logout"
-msgstr ""
+msgstr "Гарах"
 
 #: controllers/templates/image.mako:4 controllers/templates/image.mako:39
 msgid "Image"
-msgstr ""
+msgstr "Зураг"
 
 #: controllers/templates/image.mako:55
 msgid "Add Resource:"
-msgstr ""
+msgstr "Мэдээлэл нэмэх"
 
 #: controllers/templates/image.mako:66 widgets/form/templates/binary.mako:28
 msgid "Save As"
-msgstr ""
+msgstr "Хадгалах"
 
 #: controllers/templates/imp.mako:130 widgets/templates/sidebar.mako:109
 msgid "Import"
-msgstr ""
+msgstr "Оруулах"
 
 #: controllers/templates/imp.mako:133
 msgid "Import Data"
-msgstr ""
+msgstr "Өгөгдөл оруулах"
 
 #: controllers/templates/imp.mako:145
 msgid "Fields to import"
@@ -1019,7 +1019,7 @@ msgstr ""
 
 #: controllers/templates/index.mako:164
 msgid "System Logs"
-msgstr ""
+msgstr "Системийн лог"
 
 #: controllers/templates/index.mako:189
 msgid "More"
@@ -1037,15 +1037,15 @@ msgstr ""
 #: controllers/templates/login.mako:53 controllers/templates/login_ajax.mako:72
 #: controllers/templates/login_ajax.mako:94
 msgid "User:"
-msgstr ""
+msgstr "Хэрэглэгч:"
 
 #: controllers/templates/login.mako:64
 msgid "Databases"
-msgstr ""
+msgstr "Өгөгдлийн сан"
 
 #: controllers/templates/login.mako:84
 msgid "Top Contributor:"
-msgstr ""
+msgstr "Шилдэг нийтлэгч:"
 
 #: controllers/templates/login.mako:94
 msgid ""
@@ -1069,7 +1069,7 @@ msgstr ""
 
 #: controllers/templates/login.mako:112
 msgid "Open Source"
-msgstr ""
+msgstr "Нээлттэй эх"
 
 #: controllers/templates/login.mako:113
 msgid ""
@@ -1104,26 +1104,26 @@ msgstr ""
 
 #: controllers/templates/save_filter.mako:18
 msgid "Save as Filter"
-msgstr ""
+msgstr "Шүүлтээр хадгалах"
 
 #: controllers/templates/save_filter.mako:30
 msgid "Filter Name"
-msgstr ""
+msgstr "Шүүлтийн нэр"
 
 #: controllers/templates/search.mako:110
 #, python-format
 msgid "Search %(name)s"
-msgstr ""
+msgstr "Хайлт %(name)s"
 
 #: controllers/templates/search.mako:125 widgets/form/templates/datetime.mako:8
 msgid "Select"
-msgstr ""
+msgstr "Сонгох"
 
 #: controllers/templates/search.mako:127 widgets/_views.py:83
 #: widgets/form/templates/many2one.mako:22
 #: widgets/form/templates/reference.mako:27 widgets/templates/viewform.mako:26
 msgid "Search"
-msgstr ""
+msgstr "Хайх"
 
 #: controllers/templates/search.mako:143
 #, python-format
@@ -1160,15 +1160,15 @@ msgstr ""
 
 #: controllers/templates/translator.mako:31
 msgid "Fields"
-msgstr ""
+msgstr "Талбарууд"
 
 #: controllers/templates/translator.mako:32
 msgid "Labels"
-msgstr ""
+msgstr "Нэршилүүд"
 
 #: controllers/templates/translator.mako:33
 msgid "Relates"
-msgstr ""
+msgstr "Холбоосууд"
 
 #: controllers/templates/translator.mako:34
 msgid "View"
@@ -1176,12 +1176,12 @@ msgstr ""
 
 #: controllers/templates/translator.mako:53
 msgid "Field"
-msgstr ""
+msgstr "Талбар"
 
 #: controllers/templates/view_log.mako:4 controllers/templates/view_log.mako:12
 #: utils/common.py:55
 msgid "Information"
-msgstr ""
+msgstr "Мэдээлэл"
 
 #: controllers/templates/viewed.mako:17
 #, python-format
@@ -1198,7 +1198,7 @@ msgstr ""
 
 #: controllers/templates/viewed.mako:34
 msgid "Preview"
-msgstr ""
+msgstr "Урьдчилан харах"
 
 #: controllers/templates/viewed_add.mako:6
 msgid "Node Type:"
@@ -1210,7 +1210,7 @@ msgstr ""
 
 #: controllers/templates/viewed_add.mako:27
 msgid "Position:"
-msgstr ""
+msgstr "Байрлал:"
 
 #: controllers/templates/viewlist.mako:4
 #: controllers/templates/viewlist.mako:108
@@ -1233,19 +1233,19 @@ msgstr ""
 
 #: controllers/templates/viewlist.mako:189
 msgid "Priority:"
-msgstr ""
+msgstr "Урьтамж:"
 
 #: utils/common.py:45 utils/common.py:74
 msgid "Error"
-msgstr ""
+msgstr "Алдаа"
 
 #: utils/common.py:50 utils/common.py:77
 msgid "Warning"
-msgstr ""
+msgstr "Анхааруулга"
 
 #: utils/rpc.py:139
 msgid "Access Denied"
-msgstr ""
+msgstr "Таны эрх хүрэхгүй байна"
 
 #: utils/rpc.py:246
 msgid "Unsupported protocol."
@@ -1267,19 +1267,19 @@ msgstr ""
 
 #: utils/rpc.py:442
 msgid "== Access Denied =="
-msgstr ""
+msgstr "== Таны эрх хүрэхгүй байна =="
 
 #: widgets/_views.py:52
 msgid "Form"
-msgstr ""
+msgstr "Форм"
 
 #: widgets/_views.py:53
 msgid "Form view..."
-msgstr ""
+msgstr "Форм дэлгэц..."
 
 #: widgets/_views.py:84
 msgid "Search view..."
-msgstr ""
+msgstr "Хайлтын дэлгэц..."
 
 #: widgets/listgrid.py:332 widgets/form/_form.py:912
 #, python-format
@@ -1298,43 +1298,43 @@ msgstr ""
 
 #: widgets/search.py:289
 msgid "contains"
-msgstr ""
+msgstr "агуулсан"
 
 #: widgets/search.py:289
 msgid "doesn't contain"
-msgstr ""
+msgstr "агуулаагүй"
 
 #: widgets/search.py:290
 msgid "is equal to"
-msgstr ""
+msgstr "тэнцүү"
 
 #: widgets/search.py:290
 msgid "is not equal to"
-msgstr ""
+msgstr "тэнцүү биш"
 
 #: widgets/search.py:291
 msgid "greater than"
-msgstr ""
+msgstr "их"
 
 #: widgets/search.py:291
 msgid "less than"
-msgstr ""
+msgstr "бага"
 
 #: widgets/search.py:292
 msgid "in"
-msgstr ""
+msgstr "дотор"
 
 #: widgets/search.py:292
 msgid "not in"
-msgstr ""
+msgstr "дотор биш"
 
 #: widgets/search.py:399
 msgid "Yes"
-msgstr ""
+msgstr "Тийм"
 
 #: widgets/search.py:399
 msgid "No"
-msgstr ""
+msgstr "Үгүй"
 
 #: widgets/form/_action.py:54
 msgid "Action not found!"
@@ -1343,15 +1343,15 @@ msgstr ""
 #: widgets/form/_o2m.py:57 widgets/templates/listgrid/listgrid.mako:141
 #: widgets/templates/listgrid/listgrid.mako:147
 msgid "Create new record."
-msgstr ""
+msgstr "Шинэ мэдээлэл үүсгэх."
 
 #: widgets/form/_o2m.py:70
 msgid "Save/New"
-msgstr ""
+msgstr "Хадгал/Шинэ"
 
 #: widgets/form/_o2m.py:70
 msgid "Save parent record."
-msgstr ""
+msgstr "Толгой мэдээллийг хадгал."
 
 #: widgets/form/_o2m.py:196
 #, python-format
@@ -1365,7 +1365,7 @@ msgstr ""
 
 #: widgets/form/templates/binary.mako:31
 msgid "add attachment"
-msgstr ""
+msgstr "хавсралт нэмэх"
 
 #: widgets/form/templates/image.mako:7 widgets/form/templates/image.mako:39
 msgid "Click here to add new image."
@@ -1374,100 +1374,100 @@ msgstr ""
 #: widgets/form/templates/many2one.mako:2
 #: widgets/form/templates/reference.mako:30
 msgid "Open"
-msgstr ""
+msgstr "Нээх"
 
 #: widgets/form/templates/many2one.mako:2
 #: widgets/form/templates/reference.mako:30
 msgid "Open a resource"
-msgstr ""
+msgstr "Мэдээллийг нээх"
 
 #: widgets/form/templates/one2many.mako:20
 msgid "Create new record..."
-msgstr ""
+msgstr "Шинэ мэдээлэл оруулах..."
 
 #: widgets/form/templates/one2many.mako:22
 msgid "Delete record..."
-msgstr ""
+msgstr "Мэдээллийг устгах..."
 
 #: widgets/form/templates/one2many.mako:28
 msgid "Translate me."
-msgstr ""
+msgstr "Орчуулах."
 
 #: widgets/form/templates/one2many.mako:47
 msgid "Previous record..."
-msgstr ""
+msgstr "Өмнөх мэдээлэл..."
 
 #: widgets/form/templates/one2many.mako:49
 msgid "Next record..."
-msgstr ""
+msgstr "Дараах мэдээлэл..."
 
 #: widgets/templates/logs.mako:22
 msgid "More..."
-msgstr ""
+msgstr "Дэлгэрэнгүй..."
 
 #: widgets/templates/logs.mako:35
 msgid "Less..."
-msgstr ""
+msgstr "Хураангуй..."
 
 #: widgets/templates/pager.mako:9
 msgid "<< First"
-msgstr ""
+msgstr "<< Эхнийх"
 
 #: widgets/templates/pager.mako:14
 msgid "< Previous"
-msgstr ""
+msgstr "< Өмнөх"
 
 #: widgets/templates/pager.mako:19
 msgid "of"
-msgstr ""
+msgstr "ийн"
 
 #: widgets/templates/pager.mako:24
 msgid "Next >"
-msgstr ""
+msgstr "Дараах >"
 
 #: widgets/templates/pager.mako:29
 msgid "Last >>"
-msgstr ""
+msgstr "Сүүлийнх >>"
 
 #: widgets/templates/pager.mako:37
 msgid "Change Limit:"
-msgstr ""
+msgstr "Харагдах тоог өөрчлөх:"
 
 #: widgets/templates/sidebar.mako:37
 msgid "Reports"
-msgstr ""
+msgstr "Тайлан"
 
 #: widgets/templates/sidebar.mako:41 widgets/templates/viewform.mako:51
 msgid "Actions"
-msgstr ""
+msgstr "Үйлдлүүд"
 
 #: widgets/templates/sidebar.mako:45
 msgid "Links"
-msgstr ""
+msgstr "Холбоосууд"
 
 #: widgets/templates/sidebar.mako:49
 msgid "Submenu"
-msgstr ""
+msgstr "Дэд цэс"
 
 #: widgets/templates/sidebar.mako:54
 msgid "Attachments"
-msgstr ""
+msgstr "Хавсралтууд"
 
 #: widgets/templates/sidebar.mako:74
 msgid "File"
-msgstr ""
+msgstr "Файл"
 
 #: widgets/templates/sidebar.mako:82
 msgid "Customize"
-msgstr ""
+msgstr "Тохиргоо"
 
 #: widgets/templates/sidebar.mako:86
 msgid "Manage views of the current object"
-msgstr ""
+msgstr "Энэ дэлгэцийн тохиргоог өөрчлөх"
 
 #: widgets/templates/sidebar.mako:88
 msgid "Manage Views"
-msgstr ""
+msgstr "Дэлгэцийн тохиргоо"
 
 #: widgets/templates/sidebar.mako:92
 msgid "Edit workflow of the current object"
@@ -1475,7 +1475,7 @@ msgstr ""
 
 #: widgets/templates/sidebar.mako:93
 msgid "Edit Workflow"
-msgstr ""
+msgstr "Урсгалыг засах"
 
 #: widgets/templates/sidebar.mako:97
 msgid "Customize current object or create a new object"
@@ -1483,11 +1483,11 @@ msgstr ""
 
 #: widgets/templates/sidebar.mako:99
 msgid "Customize Object"
-msgstr ""
+msgstr "Баримтын тохиргоо"
 
 #: widgets/templates/sidebar.mako:104
 msgid "Other Options"
-msgstr "Бусад тохируулгууд"
+msgstr "Бусад тохиргоо"
 
 #: widgets/templates/sidebar.mako:116
 msgid "Translate"
@@ -1511,15 +1511,15 @@ msgstr "Цэвэрлэх"
 
 #: widgets/templates/viewform.mako:43
 msgid "Filters"
-msgstr ""
+msgstr "Шүүлтүүд"
 
 #: widgets/templates/viewform.mako:45
 msgid "Saved Filters"
-msgstr ""
+msgstr "Хадгалсан шүүлтүүд"
 
 #: widgets/templates/viewform.mako:52
 msgid "New Filter"
-msgstr ""
+msgstr "Шинэ шүүлт"
 
 #: widgets/templates/viewform.mako:53
 msgid "Save Filter"
@@ -1531,16 +1531,16 @@ msgstr "Шүүлтийг тохируулах"
 
 #: widgets/templates/listgrid/listgrid.mako:19
 msgid "Update"
-msgstr ""
+msgstr "Шинэчил"
 
 #: widgets/templates/listgrid/listgrid.mako:137
 msgid "Add records..."
-msgstr ""
+msgstr "Мэдээлэл нэмэх..."
 
 #: widgets/templates/listgrid/listgrid.mako:175
 #: widgets/templates/listgrid/listgrid.mako:179
 msgid "Delete record(s)."
-msgstr ""
+msgstr "Мэдээллийг устгах."
 
 #~ msgid "Save Filter."
 #~ msgstr "Шүүлтийг хадгалах"

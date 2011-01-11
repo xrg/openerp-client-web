@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: openobject-client-web\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2011-01-07 17:11+0100\n"
-"PO-Revision-Date: 2010-12-08 23:42+0000\n"
-"Last-Translator: Paulino Ascenção <Unknown>\n"
+"PO-Revision-Date: 2011-01-11 01:21+0000\n"
+"Last-Translator: Tiago Baptista <Unknown>\n"
 "Language-Team: Portuguese <pt@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2011-01-08 04:56+0000\n"
+"X-Launchpad-Export-Date: 2011-01-11 04:56+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: controllers/templates/calpopup.mako:83
@@ -35,7 +35,7 @@ msgstr "Vista calendário"
 
 #: widgets/_views.py:28
 msgid "Gantt"
-msgstr ""
+msgstr "Gantt"
 
 #: widgets/_views.py:29
 msgid "Gantt view..."
@@ -130,7 +130,7 @@ msgstr "%s, semana %s"
 #: widgets/widgets.py:302
 #, python-format
 msgid "%s - %s"
-msgstr ""
+msgstr "%s - %s"
 
 #: widgets/widgets.py:304 widgets/widgets.py:327 widgets/widgets.py:371
 #, python-format
