@@ -56,7 +56,8 @@ def get_search_default(attrs, screen_context=None, default_domain=[]):
                 str_ctx = map(lambda x: 'group_' + x, group_by)
             else:
                 str_ctx = 'group_' + group_by
-            return str_ctx in screen_context.get('group_by', [])
+            result = str_ctx in screen_context.get('group_by', [])
+            return  result or attrs.get('name') and screen_context.get('search_default_' + attrs.get('name'))
 
     if cherrypy.request.path_info != '/openerp/listgrid/get' and 'name' in attrs:
         search_default = screen_context.get('search_default_' + attrs['name'])
