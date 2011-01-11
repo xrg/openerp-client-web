@@ -72,6 +72,9 @@
                         <br style="clear: both"/>
                     </div>
                 % endif
+                % if form.screen.view_type == 'form' and form.logs.logs:
+                    ${form.logs.display()}
+                % endif
                 <div id="body_form">
                 % if buttons.toolbar:
                     <ul id="view-selector">
@@ -108,11 +111,6 @@
                           <small class="sub">${display_name['field']} : ${display_name['value']}</small>
                     % endif
                 </h1>
-                % if form.screen.view_type == 'form':
-                    % if form.logs.logs:
-                        ${form.logs.display()}
-                    % endif
-                % endif
                 % if form.screen.view_type in ['form', 'diagram'] and buttons.toolbar and not is_dashboard:
                 <div class="wrapper action-buttons">
                     <ul class="inline-b left w50">
