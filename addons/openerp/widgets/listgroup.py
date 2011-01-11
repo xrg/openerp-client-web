@@ -51,12 +51,10 @@ def parse(group_by, hiddens, headers, group_level, groups):
             else:
                 group_by[grp] = group_by[grp].split("group_")[-1]
 
-    new_hidden = ()
     for grp_by in groups:
         for hidden in hiddens:
             if grp_by in hidden:
-                new_hidden = hidden
-                headers.insert(groups.index(grp_by), new_hidden)
+                headers.insert(groups.index(grp_by), hidden)
 
     for grp_by in groups:
         for cnt, header in enumerate(headers):
