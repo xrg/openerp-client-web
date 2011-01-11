@@ -28,10 +28,12 @@
 ###############################################################################
 
 import datetime
+import logging
 import os
 import time
 import tempfile
 
+import cherrypy
 from dateutil.relativedelta import relativedelta
 
 import rpc
@@ -48,6 +50,10 @@ def expr_eval(string, context=None):
             temp = eval(string.replace("'active_id'", "active_id"),
                         context)
         except:
+            cherrypy.log.error("Error while parsing %r\n" % string,
+                               context='expr_eval',
+                               severity=logging.WARNING,
+                               traceback=True)
             return {}
         return temp
     else:

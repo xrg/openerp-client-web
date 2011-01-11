@@ -994,8 +994,8 @@ class Form(SecuredController):
                 pprefix = prefix.rsplit('/', 1)[0]
                 pctx = pctx.chain_get(pprefix)
 
-        ctx2 = rpc.session.context.copy()
-        ctx2.update(context or {})
+        ctx2 = dict(rpc.session.context,
+                    **context or {})
 
         ctx['parent'] = pctx
         ctx['context'] = ctx2
@@ -1003,8 +1003,13 @@ class Form(SecuredController):
         func_name = match.group(1)
         arg_names = [n.strip() for n in match.group(2).split(',')]
 
-        ctx_dict = dict(**ctx)
-        args = [utils.expr_eval(arg, ctx_dict) for arg in arg_names]
+        args = [utils.expr_eval(arg, ctx) for arg in arg_names]
+        # TODO: If the eval fails in expr_eval (because `arg` does not exist in `ctx`), it returns `{}`
+        # This is a value we don't want, but not sure where that behavior
+        # comes from/is used so in order not to risk breakage throughout
+        # patch it here
+        args = [(False if arg == {} else arg)
+                for arg in args]
 
         proxy = rpc.RPCProxy(model)
 
