@@ -191,7 +191,7 @@ class ListGroup(List):
         if self.group_by_ctx:
             self.context['group_by'] = self.group_by_ctx
         else:
-            self.group_by_ctx = self.context.get('group_by')
+            self.group_by_ctx = self.context.get('group_by', [])
 
         self.group_by_ctx, self.hiddens, self.headers = parse(self.group_by_ctx, self.hiddens, self.headers, None, self.group_by_ctx)
 
