@@ -27,10 +27,11 @@
 #
 ###############################################################################
 import random
+from operator import itemgetter
+
 import cherrypy
 
 from openerp.utils import rpc
-from openerp.widgets import get_widget
 from openobject.i18n import format
 
 from listgrid import List, CELLTYPES
@@ -176,7 +177,6 @@ class ListGroup(List):
 
         fields = view['fields']
         self.grp_records = []
-        group_field = None
 
         self.context.update(rpc.session.context.copy())
 
@@ -198,7 +198,6 @@ class ListGroup(List):
 
         terp_params = getattr(cherrypy.request, 'terp_params', [])
         if terp_params.sort_key and terp_params.sort_key in self.group_by_ctx and self.group_by_ctx.index(terp_params.sort_key) == 0:
-            from operator import itemgetter, attrgetter
             if terp_params.sort_order == 'desc':
                 rev = True
             else:
@@ -242,7 +241,7 @@ class MultipleGroup(List):
         sort_key = kw.get('sort_key')
         sort_order = kw.get('sort_order')
         proxy = rpc.RPCProxy(model)
-        if ids == None:
+        if ids is None:
             if self.limit > 0:
                 ids = proxy.search(self.domain, self.offset, self.limit, 0, rpc.session.context.copy())
             else:
@@ -268,7 +267,6 @@ class MultipleGroup(List):
         fields = view['fields']
 
         self.grp_records = []
-        group_field = None
         super(MultipleGroup, self).__init__(
             name=name, model=model, view=view, ids=self.ids, domain=self.domain,
             parent_group=parent_group, group_level=group_level, groups=groups, context=self.context, limit=self.limit,
@@ -283,7 +281,6 @@ class MultipleGroup(List):
                                                 fields.keys(), self.group_by_ctx, 0, False, self.context)
 
         if sort_key and sort_key in self.group_by_ctx and self.group_by_ctx.index(sort_key) == 0:
-            from operator import itemgetter, attrgetter
             if sort_order == 'desc':
                 rev = True
             else:
