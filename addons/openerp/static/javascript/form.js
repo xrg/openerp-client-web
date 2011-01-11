@@ -309,7 +309,8 @@ function getFormData(extended){
 
     var $fields = jQuery(parentNode).find('img[kind=picture]');
     if (is_editable) {
-        $fields = $fields.add('input:enabled:not([readonly="True"]), textarea:enabled:not([readonly="True"]), select:enabled:not([readonly="True"])', parentNode);
+        // Warning: in jQuery, :enabled is not the same as :not(:disabled)
+        $fields = $fields.add('input:not([readonly="True"]):not(:disabled), textarea:not([readonly="True"]):not(:disabled), select:not([readonly="True"]):not(:disabled)', parentNode);
     } else {
         $fields = $fields.add('[kind=value], [name$=/__id]');
     }
