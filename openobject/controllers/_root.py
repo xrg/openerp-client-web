@@ -20,6 +20,13 @@ class Root(BaseController):
         # area of the HTML
         ('X-Requested-With', 'requested_with')
     ]
+    
+    def clean_headers_params(self, request):
+        # clear cache parameter added to prevent ie to cache
+        if '_' in request.params:
+            del request.params['_']
+        self.reset_custom_headers_post_redirection(request)
+    
     def reset_custom_headers_post_redirection(self, request):
         """ Firefox doesn't forward headers it has no reason to touch
         (standard or custom headers, doesn't matter) during redirection.
@@ -74,7 +81,7 @@ class Root(BaseController):
             cherrypy.engine.autoreload.subscribe()
 
         request = cherrypy.request
-        self.reset_custom_headers_post_redirection(request)
+        self.clean_headers_params(request)
         self.prevent_csrf(request)
         func, vpath = self.find_handler()
 

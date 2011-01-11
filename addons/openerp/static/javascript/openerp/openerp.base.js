@@ -18,7 +18,8 @@ function openLink(url /*optional afterLoad */) {
                 if(afterLoad) { afterLoad(); }
             },
             success: doLoadingSuccess($app[0], url),
-            error: loadingError(url)
+            error: loadingError(url),
+            cache: false
         });
         return;
     }
