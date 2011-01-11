@@ -101,6 +101,12 @@ class Search(Form):
             if not ids:
                 params.search_text = False
                 params.context['default_name'] = text
+        else:
+            params.search_text = False
+            ctx_search = params.context;
+            if ctx_search.get('default_name'):
+                del params.context['default_name']
+                
         if kw.get('return_to'):
             params['return_to'] = ast.literal_eval(kw['return_to'])
 
