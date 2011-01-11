@@ -197,7 +197,13 @@ function form_evalExpr(prefix, expr, ref_elem) {
 
         var op = ex[1];
         var val = ex[2];
-        var elem_value = elem.attr('value') || elem.text();
+
+        var elem_value;
+        if(elem.is(':input')) {
+            elem_value = elem.val();
+        } else {
+            elem_value = elem.attr('value') || elem.text();
+        }
 
         switch (op.toLowerCase()) {
             case '=':
