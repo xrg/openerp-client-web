@@ -298,8 +298,13 @@ function onBooleanClicked(name){
  *    1 then give form data with type info
  *    2 then give form data with type info + required flag
  * else gives simple key-value pairs
+ *
+ * @param extended format to return
+ * @param include_readonly whether the serialized form data should include
+ * readonly fields (default: excludes disabled fields and fields with
+ * readonly="True"
  */
-function getFormData(extended){
+function getFormData(extended, include_readonly) {
 
     var parentNode = openobject.dom.get('_terp_list') || document.forms['view_form'];
 
@@ -309,8 +314,13 @@ function getFormData(extended){
 
     var $fields = jQuery(parentNode).find('img[kind=picture]');
     if (is_editable) {
-        // Warning: in jQuery, :enabled is not the same as :not(:disabled)
-        $fields = $fields.add('input:not([readonly="True"]):not(:disabled), textarea:not([readonly="True"]):not(:disabled), select:not([readonly="True"]):not(:disabled)', parentNode);
+        if (include_readonly) {
+            $fields = $fields.add('input, textarea, select', parentNode);
+        } else {
+            // Warning: :enabled seems to not yield the same thing as
+            // :not(:disabled), and prunes too much
+            $fields = $fields.add('input:not([readonly="True"]):not(:disabled), textarea:not([readonly="True"]):not(:disabled), select:not([readonly="True"]):not(:disabled)', parentNode);
+        }
     } else {
         $fields = $fields.add('[kind=value], [name$=/__id]');
     }
@@ -486,7 +496,7 @@ function onChange(caller){
 
     var post_url = callback ? '/openerp/form/on_change' : '/openerp/form/change_default_get';
     
-    var form_data = getFormData(1);
+    var form_data = getFormData(1, true);
     /* testing if the record is an empty record, if it does not contain anything except
      * an id, the on_change method is not called
      */
@@ -718,7 +728,7 @@ function eval_domain_context_request(options){
     if (prefix[0] == '_terp_listfields') {
         prefix.shift();
     }
-    var params = jQuery.extend(getFormData(1), {
+    var params = jQuery.extend(getFormData(1, false), {
         '_terp_domain': options.domain,
         '_terp_context': options.context,
         '_terp_prefix': prefix.join('/'),
@@ -899,7 +909,7 @@ function set_to_default(field_id, model){
 function set_as_default(field, model){
     openobject.http.postJSON(
         '/openerp/fieldpref/get',
-        jQuery.extend({}, getFormData(1), {
+        jQuery.extend({}, getFormData(1, false), {
             _terp_model: model,
             _terp_field: field
     })).addCallback(function(obj){
