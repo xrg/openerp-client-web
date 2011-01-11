@@ -391,35 +391,35 @@ MochiKit.Base.update(ListView.prototype, {
 MochiKit.Base.update(ListView.prototype, {
 
     onKeyDown: function(evt) {
-        var key = evt.key();
-        var src = evt.src();
+        var $src = jQuery(evt.target);
 
-        if (!(key.string == "KEY_TAB" || key.string == "KEY_ENTER" || key.string == "KEY_ESCAPE")) {
+        // 9 : 'KEY_TAB'
+        // 13 : 'KEY_ENTER'
+        // 27 : 'KEY_ESCAPE'
+        if (!(evt.which == 9 || evt.which == 13 || evt.which == 27)) {
             return;
         }
 
-        if (key.string == "KEY_ESCAPE") {
-            evt.stop();
+        if (evt.which == 27) {
+            evt.stopPropagation();
             return this.reload();
         }
 
-        if (key.string == "KEY_ENTER") {
-
-            if (hasElementClass(src, "m2o")) {
-
-                var k = src.id;
+        if (evt.which == 13) {
+            if ($src.is('.m2o')) {
+                var k = $src.attr('id');
                 k = k.slice(0, k.length - 5);
 
-                if (src.value && !openobject.dom.get(k).value) {
+                if ($src.val() && !openobject.dom.get(k).value) {
                     return;
                 }
             }
 
-            if (src.onchange) {
-                src.onchange();
+            if ($src[0].onchange) {
+                $src[0].onchange();
             }
 
-            evt.stop();
+            evt.stopPropagation();
             return this.save(this.current_record);
         }
 
@@ -428,8 +428,8 @@ MochiKit.Base.update(ListView.prototype, {
         var first = editors.shift();
         var last = editors.pop();
 
-        if (src == last) {
-            evt.stop();
+        if ($src[0] == last) {
+            evt.stopPropagation();
             first.focus();
             first.select();
         }
