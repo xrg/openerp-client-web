@@ -26,7 +26,7 @@
 # You can see the MPL licence at: http://www.mozilla.org/MPL/MPL-1.1.html
 #
 ###############################################################################
-
+import urlparse
 import cherrypy
 from formencode import NestedVariables
 
@@ -37,3 +37,11 @@ def nestedvars_tool():
 
 cherrypy.tools.nestedvars = cherrypy.Tool("before_handler", nestedvars_tool)
 cherrypy.lowercase_api = True
+
+def csrf_check():
+    if not cherrypy.request.method == 'POST': return;
+
+    referer = cherrypy.request.headers.get('Referer', '')
+    if not(urlparse.urlsplit(referer).path and referer.startswith(cherrypy.request.base)):
+        raise cherrypy.HTTPError(403, "Request Forbidden -- You are not allowed to access this resource.")
+cherrypy.tools.csrf = cherrypy.Tool('before_handler', csrf_check)
