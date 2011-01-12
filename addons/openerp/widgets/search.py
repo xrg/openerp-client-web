@@ -229,7 +229,7 @@ class Search(TinyInputWidget):
             self.search_view = eval(self.search_view)
 
         if not self.search_view:
-            self.search_view = cache.fields_view_get(self.model, view_id, 'search', ctx, True)
+            self.search_view = cache.fields_view_get(self.model, view_id or False, 'search', ctx, True)
 
         self.fields_list = []
         fields = self.search_view['fields']
