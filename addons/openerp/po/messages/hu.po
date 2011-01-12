@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: openobject-client-web\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2011-01-07 17:11+0100\n"
-"PO-Revision-Date: 2010-12-28 20:59+0000\n"
+"PO-Revision-Date: 2011-01-11 16:35+0000\n"
 "Last-Translator: NOVOTRADE RENDSZERHÁZ <openerp@novotrade.hu>\n"
 "Language-Team: Hungarian <hu@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2011-01-08 04:56+0000\n"
+"X-Launchpad-Export-Date: 2011-01-12 04:54+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: validators.py:83
@@ -23,19 +23,19 @@ msgstr ""
 
 #: validators.py:122 validators.py:127 validators.py:270
 msgid "Invalid datetime format"
-msgstr ""
+msgstr "Érvénytelen dátum formátum"
 
 #: validators.py:174
 msgid "Please select a file."
-msgstr ""
+msgstr "Válasszon ki egy fájlt."
 
 #: validators.py:255
 msgid "Please enter an email address"
-msgstr ""
+msgstr "Adja meg az e-mail címet"
 
 #: validators.py:256
 msgid "An email address must contain a single @"
-msgstr ""
+msgstr "Az e-amil címnek tartalmazina kell egy @ karaktert"
 
 #: validators.py:257
 #, python-format
@@ -57,7 +57,7 @@ msgstr ""
 
 #: validators.py:263
 msgid "That is not a valid URL"
-msgstr ""
+msgstr "Érvénytelen URL"
 
 #: validators.py:264
 #, python-format
@@ -66,15 +66,15 @@ msgstr ""
 
 #: validators.py:268
 msgid "Please enter an integer value"
-msgstr ""
+msgstr "Adjon meg egy egyész számot"
 
 #: validators.py:269
 msgid "Please enter a number"
-msgstr ""
+msgstr "Adjon meg egy számot"
 
 #: controllers/actions.py:99
 msgid "Invalid View"
-msgstr ""
+msgstr "Érvénytelen nézet"
 
 #: controllers/actions.py:132
 msgid "Error no report"
@@ -106,7 +106,7 @@ msgstr ""
 
 #: controllers/database.py:72
 msgid "Create database"
-msgstr ""
+msgstr "Adatbázis létrehozása"
 
 #: controllers/database.py:74 controllers/templates/database.mako:52
 #: controllers/templates/search.mako:145
@@ -115,7 +115,7 @@ msgstr "Létrehozás"
 
 #: controllers/database.py:77
 msgid "Super admin password:"
-msgstr ""
+msgstr "Szuper adminisztrátor jelszava:"
 
 #: controllers/database.py:77
 msgid ""
@@ -141,7 +141,7 @@ msgstr ""
 
 #: controllers/database.py:79
 msgid "Load Demonstration data:"
-msgstr ""
+msgstr "Minta adatok betöltése:"
 
 #: controllers/database.py:79
 msgid ""
@@ -155,7 +155,7 @@ msgstr ""
 
 #: controllers/database.py:80
 msgid "Default Language:"
-msgstr ""
+msgstr "Alapértelmezett nyelv:"
 
 #: controllers/database.py:80
 msgid ""
@@ -169,7 +169,7 @@ msgstr ""
 
 #: controllers/database.py:81
 msgid "Administrator password:"
-msgstr ""
+msgstr "Adminisztrátor jelszó:"
 
 #: controllers/database.py:81
 msgid ""
@@ -189,7 +189,7 @@ msgstr ""
 
 #: controllers/database.py:88
 msgid "Drop database"
-msgstr ""
+msgstr "Adatbázis eldobása"
 
 #: controllers/database.py:90 controllers/templates/database.mako:54
 msgid "Drop"
@@ -209,7 +209,7 @@ msgstr "Jelszó:"
 
 #: controllers/database.py:97
 msgid "Backup database"
-msgstr ""
+msgstr "Adatbázis mentése"
 
 #: controllers/database.py:99 controllers/templates/database.mako:56
 msgid "Backup"
@@ -217,7 +217,7 @@ msgstr "Mentés"
 
 #: controllers/database.py:105
 msgid "Restore database"
-msgstr ""
+msgstr "Adatbázis visszaállítása"
 
 #: controllers/database.py:107 controllers/templates/database.mako:58
 msgid "Restore"
@@ -229,7 +229,7 @@ msgstr "Fájl:"
 
 #: controllers/database.py:114
 msgid "Change Administrator Password"
-msgstr ""
+msgstr "Admiszisztrátor jelszó módosítása"
 
 #: controllers/database.py:116 controllers/templates/preferences/index.mako:37
 msgid "Change Password"
@@ -237,7 +237,7 @@ msgstr "Jelszó módosítása"
 
 #: controllers/database.py:117
 msgid "Old Password:"
-msgstr ""
+msgstr "Régi jelszó:"
 
 #: controllers/database.py:118
 msgid "New Password:"
@@ -245,15 +245,15 @@ msgstr "Új jelszó:"
 
 #: controllers/database.py:119
 msgid "Confirm Password:"
-msgstr ""
+msgstr "Jelszó megerősítése:"
 
 #: controllers/database.py:182
 msgid "You must avoid all accents, space or special characters."
-msgstr ""
+msgstr "Kerüljön minden szóközt, ékezetes vagy speciális karaktereket."
 
 #: controllers/database.py:183
 msgid "Bad database name"
-msgstr ""
+msgstr "Rossz adatbázis név"
 
 #: controllers/database.py:203
 msgid ""
@@ -265,12 +265,12 @@ msgstr ""
 
 #: controllers/database.py:204
 msgid "Error during database creation"
-msgstr ""
+msgstr "Hiba történt adatbázis létrehozása közben"
 
 #: controllers/database.py:207 controllers/database.py:234
 #: controllers/database.py:280 controllers/database.py:303
 msgid "Bad super admin password"
-msgstr ""
+msgstr "Hibás szuper adminisztrátor jelszó"
 
 #: controllers/database.py:211
 msgid "Could not create database."
@@ -278,15 +278,15 @@ msgstr "Az adatbázis nem hozható létre."
 
 #: controllers/database.py:237
 msgid "Could not drop database"
-msgstr ""
+msgstr "Az adatbázis nem dobható el."
 
 #: controllers/database.py:260
 msgid "Could not create backup."
-msgstr ""
+msgstr "A mentés nem hozható létre."
 
 #: controllers/database.py:284
 msgid "Could not restore database"
-msgstr ""
+msgstr "Nem állítható vissza az adatbázis"
 
 #: controllers/database.py:307
 msgid "Error, password not changed."
@@ -308,7 +308,7 @@ msgstr ""
 #: controllers/form.py:561
 #, python-format
 msgid "Invalid button type \"%s\""
-msgstr ""
+msgstr "Érvénytelen típusú gomb \"%s\""
 
 #: controllers/form.py:899 controllers/tree.py:241
 msgid "No record selected"
@@ -333,6 +333,8 @@ msgid ""
 "Operation failed\n"
 "I/O error"
 msgstr ""
+"A művelet nem sikerült\n"
+"I/O hiba"
 
 #: controllers/impex.py:346
 msgid "Export Error"
@@ -340,11 +342,11 @@ msgstr "Exportálási hiba"
 
 #: controllers/impex.py:452
 msgid "Error opening .CSV file"
-msgstr ""
+msgstr "Nem sikerült megnyitni a .CSV fájlt"
 
 #: controllers/impex.py:452
 msgid "Input Error."
-msgstr ""
+msgstr "Bemeneti hiba."
 
 #: controllers/impex.py:465
 #, python-format
@@ -362,12 +364,12 @@ msgstr ""
 
 #: controllers/impex.py:495
 msgid "XML-RPC error"
-msgstr ""
+msgstr "XML-RPC hiba"
 
 #: controllers/impex.py:499
 #, python-format
 msgid "Imported %d objects"
-msgstr ""
+msgstr "Importált %d objektum"
 
 #: controllers/impex.py:505
 #, python-format
@@ -453,7 +455,7 @@ msgstr "Tulajdonos"
 
 #: controllers/view_log.py:46
 msgid "Group Owner"
-msgstr ""
+msgstr "Tulajdonos csoport"
 
 #: controllers/view_log.py:47
 msgid "Access Level"
@@ -489,7 +491,7 @@ msgstr "Új ablak"
 
 #: controllers/viewed.py:882
 msgid "Save Button"
-msgstr ""
+msgstr "Mentés gomb"
 
 #: controllers/viewed.py:882
 msgid "Cancel Button"
@@ -522,6 +524,7 @@ msgstr ""
 #: controllers/templates/about.mako:30
 msgid "Copyright &copy; 2006-TODAY Tiny ERP Pvt. Ltd. All Rights Reserved."
 msgstr ""
+"Copyright &copy; 2006-TODAY Tiny ERP Pvt. Ltd. Minden jog fenntartva."
 
 #: controllers/templates/about.mako:31
 msgid "OpenERP is a trademark of the Tiny Company."
@@ -873,7 +876,7 @@ msgstr "Új"
 
 #: controllers/templates/form.mako:125
 msgid "Edit this resource"
-msgstr ""
+msgstr "Rekord szerkesztése"
 
 #: controllers/templates/form.mako:126 controllers/templates/viewlist.mako:122
 #: widgets/templates/listgrid/listgrid.mako:78
@@ -885,7 +888,7 @@ msgstr "Szerkesztés"
 
 #: controllers/templates/form.mako:130
 msgid "Save this resource"
-msgstr ""
+msgstr "Rekord mentése"
 
 #: controllers/templates/form.mako:131 controllers/templates/image.mako:65
 #: controllers/templates/openm2.mako:48
@@ -901,19 +904,19 @@ msgstr "Mentés"
 
 #: controllers/templates/form.mako:133
 msgid "Save & Edit this resource"
-msgstr ""
+msgstr "Rekor mentése és tovább szerkesztése"
 
 #: controllers/templates/form.mako:134
 msgid "Save & Edit"
-msgstr ""
+msgstr "Mentés és tovább szerkesztés"
 
 #: controllers/templates/form.mako:138
 msgid "Duplicate this resource"
-msgstr ""
+msgstr "Rekord duplikálása"
 
 #: controllers/templates/form.mako:139
 msgid "Duplicate"
-msgstr ""
+msgstr "Duplikálás"
 
 #: controllers/templates/form.mako:143
 msgid "Delete this resource"
@@ -951,7 +954,7 @@ msgstr ""
 
 #: controllers/templates/header.mako:45 controllers/templates/header.mako:47
 msgid "Home"
-msgstr ""
+msgstr "Kezdőoldal"
 
 #: controllers/templates/header.mako:53
 msgid "Requests"
@@ -971,7 +974,7 @@ msgstr "Súgó"
 
 #: controllers/templates/header.mako:81 controllers/templates/header.mako:84
 msgid "Clear Cache"
-msgstr ""
+msgstr "Gyorsítótár törlése"
 
 #: controllers/templates/header.mako:89
 msgid "Logout"
@@ -983,7 +986,7 @@ msgstr "Kép"
 
 #: controllers/templates/image.mako:55
 msgid "Add Resource:"
-msgstr ""
+msgstr "Rekord kozzáadása"
 
 #: controllers/templates/image.mako:66 widgets/form/templates/binary.mako:28
 msgid "Save As"
@@ -1296,7 +1299,7 @@ msgstr "Keresés nézet..."
 #: widgets/listgrid.py:332 widgets/form/_form.py:912
 #, python-format
 msgid "Invalid view, duplicate field: %s"
-msgstr ""
+msgstr "Érvénytelen nézet, duplikált mező: %s"
 
 #: widgets/pager.py:64
 #, python-format
@@ -1359,11 +1362,11 @@ msgstr "Új rekord létrehozása."
 
 #: widgets/form/_o2m.py:70
 msgid "Save/New"
-msgstr ""
+msgstr "Mentés/Új"
 
 #: widgets/form/_o2m.py:70
 msgid "Save parent record."
-msgstr ""
+msgstr "Szülő rekord mentése."
 
 #: widgets/form/_o2m.py:196
 #, python-format
@@ -1391,7 +1394,7 @@ msgstr "Megnyit"
 #: widgets/form/templates/many2one.mako:2
 #: widgets/form/templates/reference.mako:30
 msgid "Open a resource"
-msgstr ""
+msgstr "Rekord megnyitása"
 
 #: widgets/form/templates/one2many.mako:20
 msgid "Create new record..."
@@ -1475,19 +1478,19 @@ msgstr "Testreszabás"
 
 #: widgets/templates/sidebar.mako:86
 msgid "Manage views of the current object"
-msgstr ""
+msgstr "Aktuális objektum nézeteinek kezelése"
 
 #: widgets/templates/sidebar.mako:88
 msgid "Manage Views"
-msgstr ""
+msgstr "Nézetek kezelése"
 
 #: widgets/templates/sidebar.mako:92
 msgid "Edit workflow of the current object"
-msgstr ""
+msgstr "Aktuélis objektum munkafolyamatának szerkesztése"
 
 #: widgets/templates/sidebar.mako:93
 msgid "Edit Workflow"
-msgstr ""
+msgstr "Folyamat szerkesztése"
 
 #: widgets/templates/sidebar.mako:97
 msgid "Customize current object or create a new object"
@@ -1515,7 +1518,7 @@ msgstr ""
 
 #: widgets/templates/viewform.mako:33
 msgid "Clear all."
-msgstr ""
+msgstr "Összes törlése"
 
 #: widgets/templates/viewform.mako:35
 msgid "Clear"
@@ -1531,7 +1534,7 @@ msgstr "Mentett szűrők"
 
 #: widgets/templates/viewform.mako:52
 msgid "New Filter"
-msgstr ""
+msgstr "Új szűrő"
 
 #: widgets/templates/viewform.mako:53
 msgid "Save Filter"

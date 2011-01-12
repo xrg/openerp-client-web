@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: openobject-client-web\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2011-01-07 17:11+0100\n"
-"PO-Revision-Date: 2010-12-24 18:31+0000\n"
+"PO-Revision-Date: 2011-01-11 16:37+0000\n"
 "Last-Translator: NOVOTRADE RENDSZERHÁZ <openerp@novotrade.hu>\n"
 "Language-Team: Hungarian <hu@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2011-01-08 04:55+0000\n"
+"X-Launchpad-Export-Date: 2011-01-12 04:54+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: static/javascript/form.js:100
@@ -41,16 +41,19 @@ msgstr "Biztos hogy törölni akarja a csatolmányt"
 #: static/javascript/form.js:1150
 msgid "No record selected ! You can only attach to existing record."
 msgstr ""
+"Nincs rekord kiválasztva ! Csak már létező rekordhoz csatolhat mellékletet."
 
 #: static/javascript/form.js:1209
 msgid "OpenERP - Error"
-msgstr ""
+msgstr "OpenERP - Hiba"
 
 #: static/javascript/form.js:1280
 msgid ""
 "Warning, the record has been modified,\n"
 "your changes will be discarded."
 msgstr ""
+"Figyfelmeztetés, az rekord módosult,\n"
+"a változtatások el lesznek dobva."
 
 #: static/javascript/listgrid.js:507 static/javascript/o2m.js:103
 msgid "To edit Record, please first save it."
@@ -62,7 +65,7 @@ msgstr "Biztos, hogy törölni akarja a kiválasztott rekordo(ka)t ?"
 
 #: static/javascript/m2o.js:514
 msgid "error in display::"
-msgstr ""
+msgstr "hiba a megjelenítésben::"
 
 #: static/javascript/o2m.js:62
 msgid "Do you really want to delete record ?"
@@ -78,11 +81,11 @@ msgstr "Biztos hogy létre akar hozni egy származtatott nézetet ide?"
 
 #: static/javascript/openerp/openerp.base.js:125
 msgid "doLoadingSuccess: Cannot parse JSON"
-msgstr ""
+msgstr "doLoadingSuccess: Nem lehet értelmezni a JSON adatokat"
 
 #: static/javascript/openerp/openerp.base.js:324
 msgid "Loading"
-msgstr ""
+msgstr "Betöltés"
 
 #: static/javascript/openerp/openerp.ui.tips.js:59
 msgid "Object"
