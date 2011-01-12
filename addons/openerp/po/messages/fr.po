@@ -1477,7 +1477,7 @@ msgstr "ajouter une pièce jointe"
 
 #: widgets/form/templates/image.mako:7 widgets/form/templates/image.mako:39
 msgid "Click here to add new image."
-msgstr ""
+msgstr "Cliquez ici pour ajouter une nouvelle image"
 
 #: widgets/form/templates/many2one.mako:2
 #: widgets/form/templates/reference.mako:30
