@@ -862,8 +862,6 @@ function listgridValidation(_list, o2m, record_id) {
     if(current_id != null) {
         if(confirm('The record has been modified \n Do you want to save it ?')) {
             new ListView(_list).save(current_id, record_id);
-        } else {
-            return false;
         }
     } else{
         if(o2m) {
