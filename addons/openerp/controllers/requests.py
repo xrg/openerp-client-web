@@ -53,7 +53,8 @@ class Requests(SecuredController):
 
     @expose()
     def default(self):
+        ids = self.my()
         return actions.execute(
             rpc.RPCProxy('ir.actions.act_window')\
-                    .for_xml_id('base', 'res_request-act')
+                    .for_xml_id('base', 'res_request-act'), domain=('id', 'in', ids)
         )
