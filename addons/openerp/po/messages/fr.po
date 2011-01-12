@@ -619,7 +619,7 @@ msgstr ""
 #: controllers/templates/login.mako:67 controllers/templates/login_ajax.mako:85
 #: controllers/templates/login_ajax.mako:104
 msgid "Login"
-msgstr "Identifiant"
+msgstr "Identification"
 
 #: controllers/templates/database.mako:60
 msgid "Password"
@@ -1477,7 +1477,7 @@ msgstr "ajouter une pièce jointe"
 
 #: widgets/form/templates/image.mako:7 widgets/form/templates/image.mako:39
 msgid "Click here to add new image."
-msgstr ""
+msgstr "Cliquez ici pour ajouter une nouvelle image"
 
 #: widgets/form/templates/many2one.mako:2
 #: widgets/form/templates/reference.mako:30
