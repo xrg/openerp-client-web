@@ -174,10 +174,6 @@ One2Many.prototype = {
             if(btn){btn.style.display='';}
             MochiKit.Base.map(function (el) {el.style.display=''},MochiKit.Selector.findChildElements(grid,['.selector']));
             edit.value = 1;
-            if (rows && rows.length) {
-                rows.each(function(index, row) {
-                    jQuery(row).bind('click');});
-            }
         }
     }
 };
