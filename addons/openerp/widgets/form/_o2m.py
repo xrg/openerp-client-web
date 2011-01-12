@@ -176,7 +176,10 @@ class O2M(TinyInputWidget):
                 self.editable = True
             else:
                 self.editable = False
-        
+
+        if current.context.has_key('default_name'):
+            del current.context['default_name']
+
         self.screen = Screen(current, prefix=self.name, views_preloaded=view,
                              editable=self.editable, readonly=self.readonly,
                              selectable=0, nolinks=self.link, _o2m=1)
