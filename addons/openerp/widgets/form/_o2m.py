@@ -106,7 +106,7 @@ class O2M(TinyInputWidget):
         if ids:
             if isinstance(ids[0], dict):
                 current.default_data = ids
-                for i, item in enumerate(current.default_data):
+                for item in current.default_data:
                     self.default_value.append((0,0, copy.deepcopy(item)))
                     item['id'] = 0
                 ids = []
