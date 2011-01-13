@@ -728,7 +728,7 @@ function eval_domain_context_request(options){
     if (prefix[0] == '_terp_listfields') {
         prefix.shift();
     }
-    var params = jQuery.extend(getFormData(1, false), {
+    var params = jQuery.extend(getFormData(1, true), {
         '_terp_domain': options.domain,
         '_terp_context': options.context,
         '_terp_prefix': prefix.join('/'),
