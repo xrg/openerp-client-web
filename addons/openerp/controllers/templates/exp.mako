@@ -131,11 +131,20 @@
                 fields2 = fields2.concat('"' + o.text + '"');
             });
             openobject.dom.get('_terp_fields2').value = '[' + fields2.join(',') + ']';
-            jQuery('#'+form).attr('target', 'new');
             jQuery('#'+form).attr('action', openobject.http.getURL(
                 '/openerp/impex/export_data/data.' + (jQuery('#export_as').val() || 'csv'))
             ).submit();
         }
+
+
+        jQuery(document).ready(function () {
+	       	var k = document.getElementById('import_compat');
+	       	% if import_com == '1':
+	       		k.selectedIndex = 0;
+			% else:
+	       		k.selectedIndex = 1;
+			% endif
+		});
 
     </script>
 </%def>
@@ -209,17 +218,10 @@
 					<tr>
 						<td class="label">${_("Export Type:")}</td>
 						<td>
-							% if import_com == '1':
-			               	<select id="import_compat" name="import_compat">
-			                   		<option value="imp_cmp" selected="selected" onclick="do_import_cmp('view_form')">${_("Import Compatible Export")}</option>
-			                   		<option value="all" onclick="do_import_cmp('view_form')">${_("Export all Data")}</option>
-			               	</select>
-			               	% else:
 			               	<select id="import_compat" name="import_compat">
 			                   		<option value="imp_cmp" onclick="do_import_cmp('view_form')">${_("Import Compatible Export")}</option>
-			                   		<option value="all" selected="selected" onclick="do_import_cmp('view_form')">${_("Export all Data")}</option>
+			                   		<option value="all" onclick="do_import_cmp('view_form')">${_("Export all Data")}</option>
 			               	</select>
-			               	% endif
 			           	</td>
 					</tr>
 	           	</table>
