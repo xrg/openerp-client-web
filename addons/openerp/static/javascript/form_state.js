@@ -178,13 +178,13 @@ function form_evalExpr(prefix, expr, ref_elem) {
     for (var i = 0; i < expr.length; i++) {
 
         var ex = expr[i];
-        var elem = null;
+        var elem;
         if (ref_elem.parents('table.grid').length) {
             var parent = ref_elem.parents('tr.grid-row');
-            var elem = parent.find(idSelector(prefix + ex[0]));
+            elem = parent.find(idSelector(prefix + ex[0]));
         }
         if (!elem || !elem.length) {
-            var elem = jQuery(idSelector(prefix + ex[0]));
+            elem = jQuery(idSelector(prefix + ex[0]));
         }
 
         if (ex.length==1) {
@@ -192,7 +192,7 @@ function form_evalExpr(prefix, expr, ref_elem) {
             continue;
         }
         
-        if (!elem)
+        if (!elem || !elem.length)
             continue;
 
         var op = ex[1];
