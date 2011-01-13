@@ -40,23 +40,19 @@ from openobject import tools
 from openobject.tools import expose, redirect, ast
 
 
-try:
-    import xlwt
-    xls_export_available = True
-except:
-    xls_export_available = False
 
 
 def datas_read(ids, model, flds, context=None):
     ctx = dict((context or {}), **rpc.session.context)
     return rpc.RPCProxy(model).export_data(ids, flds, ctx)
 
-def export_csv(fields, result, write_title=False):
+def export_csv(fields, result):
     try:
         fp = StringIO.StringIO()
         writer = csv.writer(fp)
-        if write_title:
-            writer.writerow(fields)
+
+        writer.writerow(fields)
+
         for data in result:
             row = []
             for d in data:
@@ -148,7 +144,6 @@ class ImpEx(SecuredController):
                                  import_com=import_com)
 
         tree.show_headers = False
-
         view = proxy.fields_view_get(False, 'tree', ctx)
         new_list = listgrid.List(name='_terp_list', model='ir.exports', view=view, ids=None,
                                  domain=[('resource', '=', params.model)],
@@ -156,7 +151,7 @@ class ImpEx(SecuredController):
 
         return dict(new_list=new_list, model=params.model, ids=params.ids, ctx=ctx,
                     search_domain=params.search_domain, source=params.source,
-                    tree=tree, xls_export_available=xls_export_available, import_com=import_com)
+                    tree=tree, import_com=import_com)
 
     @expose()
     def save_exp(self, **kw):
@@ -313,7 +308,6 @@ class ImpEx(SecuredController):
         id = params.id
 
         res = self.get_data(params.model, ctx)
-
         ir_export = rpc.RPCProxy('ir.exports')
         ir_export_line = rpc.RPCProxy('ir.exports.line')
 
@@ -346,7 +340,7 @@ class ImpEx(SecuredController):
             fields.update(f2)
 
         def rec(fields):
-            _fields = {'id': {'string': 'ID'}, '.id': {'string': 'Database ID'}}
+            _fields = {'id': 'ID' , '.id': 'Database ID' }
 
             def model_populate(fields, prefix_node='', prefix=None, prefix_value='', level=2):
                 fields_order = fields.keys()
@@ -368,7 +362,10 @@ class ImpEx(SecuredController):
         return rec(fields)
 
     @expose(content_type="application/octet-stream")
-    def export_data(self, fname, fields, export_as="csv", add_names=False, import_compat=False, **kw):
+    def export_data(self, fname, fields, import_compat=False, **kw):
+
+        if import_compat == 'all':
+            import_compat = False
 
         params, data_index = TinyDict.split(kw)
         proxy = rpc.RPCProxy(params.model)
@@ -379,7 +376,9 @@ class ImpEx(SecuredController):
             flds.append(fld)
 
         if isinstance(fields, basestring):
+            fields = fields.replace('/.id','.id')
             flds = [fields]
+
 
         ctx = dict((params.context or {}), **rpc.session.context)
         ctx['import_comp'] = import_compat
@@ -397,37 +396,7 @@ class ImpEx(SecuredController):
         if import_compat:
             params.fields2 = flds
 
-        if export_as == 'xls':
-
-            import xlwt
-            ezxf = xlwt.easyxf
-
-            fp = StringIO.StringIO()
-
-            wb = xlwt.Workbook()
-            worksheet = wb.add_sheet('Sheet 1')
-
-            for index, col in enumerate(params.fields2):
-                worksheet.write(0, index, ustr(col))
-
-            heading_xf = ezxf('align: wrap yes')
-
-            for data_index, data in enumerate(result):
-                for d in range(len(result[data_index])):
-                    try:
-                        data[d] = ustr(data[d])
-                    except:
-                        pass
-                    data[d] = re.sub("\r", " ", data[d])
-                    worksheet.write(data_index+1, d, data[d], heading_xf)
-                    worksheet.col(d).width = 8000
-
-            wb.save(fp)
-
-            fp.seek(0)
-            return fp.read()
-        else:
-            return export_csv(params.fields2, result, add_names)
+        return export_csv(params.fields2, result)
 
     @expose(template="/openerp/controllers/templates/imp.mako")
     def imp(self, error=None, records=None, **kw):
@@ -537,7 +506,16 @@ class ImpEx(SecuredController):
         res = None
         content = csvfile.file.read()
         input=StringIO.StringIO(content)
-        data = list(csv.reader(input, quotechar=str(csvdel), delimiter=str(csvsep)))[int(csvskip):]
+        all_data = list(csv.reader(input, quotechar=str(csvdel), delimiter=str(csvsep)))
+        limit = 0
+        data = []
+
+        for j, line in enumerate(all_data):
+            if j == limit:
+                fields = line
+            else:
+               data.append(line)
+
         datas = []
         ctx = dict(rpc.session.context)
 
@@ -552,7 +530,10 @@ class ImpEx(SecuredController):
         try:
             res = rpc.session.execute('object', 'execute', params.model, 'import_data', fields, datas, 'init', '', False, ctx)
         except Exception, e:
-            raise common.warning(ustr(e), _('XML-RPC error'))
+            err = {'message':ustr(e)}
+            error = {'message':err['message'].split('\n'), 'title':_('XML-RPC error')}
+            return self.imp(error=error, **kw)
+
 
         if res[0]>=0:
             error = {'message':_('Imported %d objects') % (res[0],)}

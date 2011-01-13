@@ -11,22 +11,25 @@
             var tree = treeGrids['${tree.name}'];
 
             var fields = tree.selection;
+
             var select = openobject.dom.get('fields');
 
             var opts = {};
-            forEach(openobject.dom.get('fields').options, function(o){
+            forEach(select.options, function(o){
                 opts[o.value] = o;
             });
 
             forEach(fields, function(f){
 
                 var text = f.record.items.name;
+
                 var id = f.record.id;
 
                 if (id in opts) return;
 
                 select.options.add(new Option(text, id));
             });
+
         }
 
         function open_savelist(id) {
@@ -75,8 +78,9 @@
         }
 
         function do_import_cmp(form){
-        	var import_com
-			if(jQuery("#import_compat").attr("checked")==true){
+        	var imp_compat = document.getElementById('import_compat')
+			var import_com
+			if(imp_compat.value == "imp_cmp"){
 				import_com = 1;
 			}
 
@@ -132,6 +136,7 @@
                 '/openerp/impex/export_data/data.' + (jQuery('#export_as').val() || 'csv'))
             ).submit();
         }
+
     </script>
 </%def>
 
@@ -149,16 +154,17 @@
             <td class="side_spacing">
                 <table width="100%" class="popup_header">
                     <tr>
-                    	<td class="exp-header" align="left">
-                    		<a class="button-a" href="javascript: void(0)" onclick="do_export('view_form')">${_("Export")}</a>
-                            <a class="button-a" href="javascript: void(0)" onclick="window.frameElement.close()">${_("Close")}</a>
-                    	</td>
                         <td align="center" class="pop_head_font">${_("Export Data")}</td>
-                        <td width="30%"></td>
                     </tr>
                 </table>
             </td>
         </tr>
+        <tr>
+			<td class="side_spacing" align="left">
+				This wizard will export all data that matches the current search criteria to a CSV file.
+				You can export all data or only the fields that can be reimported after modification.
+			</td>
+		</tr>
         % if new_list.ids:
         <tr>
             <td class="side_spacing">
@@ -177,50 +183,7 @@
             </td>
         </tr>
         % endif
-        <tr>
-            <td class="side_spacing">
-                <table class="fields-selector-export" cellspacing="5" border="0">
-                    <tr>
-                        <th class="fields-selector-left">${_("All fields")}</th>
-                        <th class="fields-selector-center">&nbsp;</th>
-                        <th class="fields-selector-right">${_("Fields to export")}</th>
-                    </tr>
-                    <tr>
-                        <td class="fields-selector-left" height="400px">
-                            <div id="fields_left">${tree.display()}</div>
-                        </td>
-                        <td class="fields-selector-center">
-                        	<table border="0" cellpadding="0" cellspacing="0" width="100%">
-                        		<tr>
-                        			<td align="center">
-                        				<a class="button-a" href="javascript: void(0)" onclick="add_fields()">${_("Add")}</a>
-                        			</td>
-                        		</tr>
-                        		<tr>
-                        			<td align="center">
-                        				<a class="button-a" href="javascript: void(0)" onclick="del_fields()">${_("Remove")}</a>
-                        			</td>
-                        		</tr>
-                        		<tr>
-                        			<td align="center">
-                        				<a class="button-a" href="javascript: void(0)" onclick="del_fields(true)">${_("Nothing")}</a>
-                        			</td>
-                        		</tr>
-                        		<tr>
-                        			<td align="center">
-                        				<a class="button-a" href="javascript: void(0)" onclick="open_savelist('savelist')">${_("Save List")}</a>
-                        			</td>
-                        		</tr>
-                        	</table>
-                        </td>
-                        <td class="fields-selector-right" height="400px">
-                            <select name="fields" id="fields" multiple="multiple"/>
-                        </td>
-                    </tr>
-                </table>
-            </td>
-        </tr>
-        <tr>
+		<tr>
             <td class="side_spacing">
                 <div id="savelist" style="display: none">
                     <fieldset>
@@ -240,38 +203,79 @@
                 </div>
             </td>
         </tr>
+		<tr>
+			<td class="side_spacing">
+				<table>
+					<tr>
+						<td class="label">${_("Export Type:")}</td>
+						<td>
+							% if import_com == '1':
+			               	<select id="import_compat" name="import_compat">
+			                   		<option value="imp_cmp" selected="selected" onclick="do_import_cmp('view_form')">${_("Import Compatible Export")}</option>
+			                   		<option value="all" onclick="do_import_cmp('view_form')">${_("Export all Data")}</option>
+			               	</select>
+			               	% else:
+			               	<select id="import_compat" name="import_compat">
+			                   		<option value="imp_cmp" onclick="do_import_cmp('view_form')">${_("Import Compatible Export")}</option>
+			                   		<option value="all" selected="selected" onclick="do_import_cmp('view_form')">${_("Export all Data")}</option>
+			               	</select>
+			               	% endif
+			           	</td>
+					</tr>
+	           	</table>
+           	</td>
+		</tr>
         <tr>
-        	<td class="side_spacing">
-        		<fieldset title="Restricts the number of exportable fields to ensure you will be able to import your data back in OpenERP">
-                    <legend>${_("Select Options to Export")}</legend>
-                    <table>
-                    	<tr>
-                        	% if xls_export_available:
-                            	<td style="padding-right: 8px;">
-                                	<select style="height:18px" id="export_as" name="export_as">
-                                    	<option value="csv">${_("Export as CSV")}</option>
-                                    	<option value="xls">${_("Export as Excel")}</option>
-                                	</select>
-                            	</td>
-                        	% endif
-                            <td>
-                                <input type="checkbox" class="checkbox" name="add_names" checked="checked"/>
-                            </td>
-                            <td style="padding-left:3px">${_("Add field names")}</td>
-                            <td style="padding-left:8px">
-                            % if import_com == '1' :
-                                <input type="checkbox" class="checkbox" name="import_compat" id="import_compat" checked="checked" onclick="do_import_cmp('view_form')"/>
-                            % else :
-                                <input type="checkbox" class="checkbox" name="import_compat" id="import_compat" onclick="do_import_cmp('view_form')"/>
-                            % endif
-                            </td>
-                            <td style="padding-left:3px"><label for="import_compat" title="Restricts the number of exportable fields in order to ensure the generated export will be importable back into OpenERP."
-                                    >${_("Import Compatible")}</label></td>
-                        </tr>
-                    </table>
-                </fieldset>
-        	</td>
+            <td class="side_spacing">
+                <table class="fields-selector-export" cellspacing="5" border="0">
+                    <tr>
+                        <th class="fields-selector-left">${_("Available fields")}</th>
+                        <th class="fields-selector-center">&nbsp;</th>
+                        <th class="fields-selector-right">${_("Fields to export")} &nbsp; &nbsp; &nbsp;<a style="color: blue;" href="javascript: void(0)" onclick="open_savelist('savelist')">Save</a></th>
+                    </tr>
+                    <tr>
+                        <td class="fields-selector-left" height="400px">
+                            <div id="fields_left">${tree.display()}</div>
+                        </td>
+                        <td class="fields-selector-center">
+                        	<table border="0" cellpadding="0" cellspacing="0" width="100%">
+                        		<tr>
+                        			<td align="center">
+                        				<a class="button-a" href="javascript: void(0)" onclick="add_fields()">${_("Add")}</a>
+                        			</td>
+                        		</tr>
+                        		<tr>
+                        			<td align="center">
+                        				<a class="button-a" href="javascript: void(0)" onclick="del_fields()">${_("Remove")}</a>
+                        			</td>
+                        		</tr>
+                        		<tr>
+                        			<td align="center">
+                        				<a class="button-a" href="javascript: void(0)" onclick="del_fields(true)">${_("Remove All")}</a>
+                        			</td>
+                        		</tr>
+                        	</table>
+                        </td>
+                        <td class="fields-selector-right" height="400px">
+                            <select name="fields" id="fields" multiple="multiple"/>
+                        </td>
+                    </tr>
+                </table>
+            </td>
         </tr>
+        <tr>
+	        <td class="side_spacing">
+		        <table width="100%">
+		            <tr>
+			        	<td class="imp-header" align="right">
+                            <a class="button-a" href="javascript: void(0)" onclick="window.frameElement.close()">${_("Cancel")}</a>
+                            <a class="button-a" href="javascript: void(0)" onclick="do_export('view_form')">${_("Export to File")}</a>
+			           	</td>
+			           	<td width="05%">
+			           	</td>
+			    </table>
+	        </td>
+		</tr>
     </table>
 </form>
 </%def>
