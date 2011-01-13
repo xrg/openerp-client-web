@@ -721,7 +721,7 @@ MochiKit.Base.update(ListView.prototype, {
             args['_terp_clear'] = true;
         }
 
-        jQuery('[id="'+self.name+'"] .loading-list').show();
+        jQuery(idSelector(self.name) + ' .loading-list').show();
         jQuery.ajax({
             url: '/openerp/listgrid/get',
             data: args,
@@ -786,19 +786,23 @@ MochiKit.Base.update(ListView.prototype, {
                 MochiKit.Signal.signal(__listview, 'onreload');
 
                 if(self.sort_key != null) {
+                    var $th;
                     if(self.name != '_terp_list') {
-                        var th = jQuery('th[id= grid-data-column/' + self.name + '/' + self.sort_key + ']').get();
-                    }
-                    else {
-                        var th = jQuery('th[id= grid-data-column/' + self.sort_key + ']').get();
-                    }
-
-                    var detail = jQuery(th).html();
-                    if(self.sort_order == 'asc') {
-                        jQuery(th).html(detail + '&nbsp; <img src="/openerp/static/images/listgrid/arrow_down.gif" id="asc" style="vertical-align: middle;"/>');
+                        $th = jQuery(idSelector('grid-data-column/' + self.name + '/' + self.sort_key));
                     } else {
-                        jQuery(th).html(detail + '&nbsp; <img src="/openerp/static/images/listgrid/arrow_up.gif" id="desc" style="vertical-align: middle;"/>');
+                        $th = jQuery(idSelector('grid-data-column/' + self.sort_key));
                     }
+                    $th.append(
+                        jQuery('<span>&nbsp;</span>')
+                      ).append(
+                        jQuery('<img>', {
+                            style: "vertical-align: middle;",
+                            id: self.sort_order,
+                            src: '/openerp/static/images/listgrid/' + (
+                                self.sort_order == 'asc'
+                                ? 'arrow_down.gif'
+                                : 'arrow_up.gif'
+                            )}));
                 }
             }
         });
