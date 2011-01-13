@@ -868,9 +868,15 @@ function makeContextMenu(id, kind, relation, val){
                         }).text(relate.text))).appendTo($tbody);
             });
         }
-        jQuery('#contextmenu').empty().append(
+        var $menu = jQuery('#contextmenu');
+        $menu.empty().append(
             jQuery('<table cellpadding="0" cellspacing="0">').append($tbody));
 
+        var menu_width = $menu.width();
+        var body_width = jQuery(document.body).width();
+        if (parseInt($menu.css("left")) + menu_width > body_width) {
+            $menu.offset({ left: body_width - menu_width - 10 });
+        }
         showContextMenu();
     });
 }
