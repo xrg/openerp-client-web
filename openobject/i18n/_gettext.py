@@ -77,6 +77,9 @@ def _load_translations(path, locales, domain):
     for locale in locales:
         try:
             tr = _load_translation(path, locale, domain)
+        except babel.core.UnknownLocaleError, e:
+            # don't load unknown locales such as Klingon (tlh)
+            cherrypy.log.error("%s, ignoring translation file" % e, context='i18n', severity=logging.WARN)
         except SyntaxError:
             # http://babel.edgewall.org/ticket/213
             cherrypy.log.error(
