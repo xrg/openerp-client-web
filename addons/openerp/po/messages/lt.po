@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: openobject-client-web\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2011-01-07 17:11+0100\n"
-"PO-Revision-Date: 2011-01-11 18:14+0000\n"
+"PO-Revision-Date: 2011-01-12 21:28+0000\n"
 "Last-Translator: Paulius Sladkevičius - http://www.inovera.lt <Unknown>\n"
 "Language-Team: Lithuanian <lt@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2011-01-12 04:54+0000\n"
-"X-Generator: Launchpad (build Unknown)\n"
+"X-Launchpad-Export-Date: 2011-01-13 04:41+0000\n"
+"X-Generator: Launchpad (build 12177)\n"
 
 #: validators.py:83
 msgid "Invalid literal for float"
@@ -23,19 +23,19 @@ msgstr ""
 
 #: validators.py:122 validators.py:127 validators.py:270
 msgid "Invalid datetime format"
-msgstr "Netinkamas datos/laiko formatas"
+msgstr ""
 
 #: validators.py:174
 msgid "Please select a file."
-msgstr "Pasirinkite failą."
+msgstr ""
 
 #: validators.py:255
 msgid "Please enter an email address"
-msgstr "Įveskite el. pašto adresą"
+msgstr ""
 
 #: validators.py:256
 msgid "An email address must contain a single @"
-msgstr "El. pašto adrese gali būti naudojamas tik vienas @ simbolis"
+msgstr ""
 
 #: validators.py:257
 #, python-format
@@ -43,7 +43,6 @@ msgid ""
 "The username portion of the email address is invalid (the portion before the "
 "@: %(username)s)"
 msgstr ""
-"Netinkama naudotojo vardo dalis el. pašto adrese (dalis iki @: %(username)s)"
 
 #: validators.py:258
 #, python-format
@@ -51,75 +50,72 @@ msgid ""
 "The domain portion of the email address is invalid (the portion after the @: "
 "%(domain)s)"
 msgstr ""
-"Netinkama srities vardo dalis el. pašto adrese (dalis po @: %(domain)s)"
 
 #: validators.py:262
 msgid "You must start your URL with http://, https://, etc"
-msgstr "Adresas (URL) turi prasidėti http://, https:// ir pan."
+msgstr ""
 
 #: validators.py:263
 msgid "That is not a valid URL"
-msgstr "Netinkamas adresas (URL)"
+msgstr ""
 
 #: validators.py:264
 #, python-format
 msgid "You must provide a full domain name (like %(domain)s.com)"
-msgstr "Privalote pateikti pilną srities vardą (kaip %(domain)s.com)"
+msgstr ""
 
 #: validators.py:268
 msgid "Please enter an integer value"
-msgstr "Prašome įvesti reikšmę sveikaisiais skaičiais"
+msgstr ""
 
 #: validators.py:269
 msgid "Please enter a number"
-msgstr "Įveskite skaičių"
+msgstr ""
 
 #: controllers/actions.py:99
 msgid "Invalid View"
-msgstr "Klaidinga peržiūra"
+msgstr ""
 
 #: controllers/actions.py:132
 msgid "Error no report"
-msgstr "Klaida, nėra ataskaitos"
+msgstr ""
 
 #: controllers/actions.py:158
 msgid "Nothing to print"
-msgstr "Nėra ką spausdinti!"
+msgstr ""
 
 #: controllers/actions.py:178
 msgid "Printing aborted, too long delay"
-msgstr "Spausdinimas atšauktas, per ilgas uždelsimas!"
+msgstr ""
 
 #: controllers/actions.py:378
 msgid "Relative URLs are not supported"
-msgstr "Reliatyvūs URL nėra palaikomi"
+msgstr ""
 
 #: controllers/actions.py:406
 msgid "Action not found"
-msgstr "Veiksmas nerastas"
+msgstr ""
 
 #: controllers/actions.py:455
 msgid "No action defined"
-msgstr "Nepriskirtas joks veiksmas"
+msgstr ""
 
 #: controllers/attachment.py:62
 msgid "No record selected, You can only attach to existing record..."
 msgstr ""
-"Nepasirinktas įrašas! Prisegti priedus jūs galite tik prie egzistuojančių "
-"įrašų..."
 
 #: controllers/database.py:72
 msgid "Create database"
-msgstr "Sukurti duomenų bazę"
+msgstr ""
 
 #: controllers/database.py:74 controllers/templates/database.mako:52
 #: controllers/templates/search.mako:145
 msgid "Create"
-msgstr "Sukurti"
+msgstr ""
 
 #: controllers/database.py:77
 msgid "Super admin password:"
-msgstr "Super administratoriaus slaptažodis:"
+msgstr ""
 
 #: controllers/database.py:77
 msgid ""
@@ -127,25 +123,20 @@ msgid ""
 "databases. This is not a OpenERP user, just a super administrator. If you "
 "did not changed it, the password is 'admin' after installation."
 msgstr ""
-"Tai yra slaptažodis naudotojo kuris turi duomenų bazės administravimo "
-"teises. Tai nėra OpenERP naudotojas, tai super administratorius. Jeigu jūs "
-"nepakeitėte jo po įdiegimo, tai slaptažodis yra 'admin'."
 
 #: controllers/database.py:78 controllers/database.py:110
 msgid "New database name:"
-msgstr "Naujos duomenų bazės pavadinimas:"
+msgstr ""
 
 #: controllers/database.py:78
 msgid ""
 "Choose the name of the database that will be created. The name must not "
 "contain any special character. Exemple: 'terp'."
 msgstr ""
-"Pasirinkite kuriamos duomenų bazės pavadinimą. Pavadinimas negali būti "
-"sudarytas iš specialų simbolių. Pvz: 'openerp'."
 
 #: controllers/database.py:79
 msgid "Load Demonstration data:"
-msgstr "Įkelti demonstracinius duomenis:"
+msgstr ""
 
 #: controllers/database.py:79
 msgid ""
@@ -153,13 +144,10 @@ msgid ""
 "database. These data will help you to understand OpenERP, with predefined "
 "products, partners, etc."
 msgstr ""
-"Pažymėkite šį langelį jeigu norite, kad demonstraciniai duomenys būtų "
-"įdiegti į naują duomenų bazę. Šie duomenys padės jums perprasti OpenERP, su "
-"įdiegtais produktais, partneriais ir t.t."
 
 #: controllers/database.py:80
 msgid "Default Language:"
-msgstr "Numatytoji kalba:"
+msgstr ""
 
 #: controllers/database.py:80
 msgid ""
@@ -167,145 +155,135 @@ msgid ""
 "will be able to install new languages after installation through the "
 "administration menu."
 msgstr ""
-"Pasirinkite numatytąją kalbą kuri bus įdiegta šiai duomenų bazei. Po "
-"įdiegimo jūs galėsite įdiegti naujas kalbas per administravimo meniu."
 
 #: controllers/database.py:81
 msgid "Administrator password:"
-msgstr "Administratoriaus slaptažodis:"
+msgstr ""
 
 #: controllers/database.py:81
 msgid ""
 "This is the password of the 'admin' user that will be created in your new "
 "database."
 msgstr ""
-"„Admin“ naudotojo slaptažodis, kuris bus sukurtas jūsų naujoje duomenų "
-"bazėje."
 
 #: controllers/database.py:82
 msgid "Confirm password:"
-msgstr "Patvirtinkite slaptažodį:"
+msgstr ""
 
 #: controllers/database.py:82
 msgid ""
 "This is the password of the 'admin' user that will be created in your new "
 "database. It has to be the same than the above field."
 msgstr ""
-"„Admin“ naudotojo slaptažodis, kuris bus sukurtas jūsų naujoje duomenų "
-"bazėje. Jis turi būti toks pat kaip ir prieš tai įvestas."
 
 #: controllers/database.py:88
 msgid "Drop database"
-msgstr "Naikinti duomenų bazę"
+msgstr ""
 
 #: controllers/database.py:90 controllers/templates/database.mako:54
 msgid "Drop"
-msgstr "Naikinti"
+msgstr ""
 
 #: controllers/database.py:92 controllers/database.py:100
 #: controllers/templates/login.mako:39
 msgid "Database:"
-msgstr "Duomenų bazė:"
+msgstr ""
 
 #: controllers/database.py:93 controllers/database.py:101
 #: controllers/database.py:109 controllers/templates/login.mako:57
 #: controllers/templates/login_ajax.mako:78
 #: controllers/templates/login_ajax.mako:98
 msgid "Password:"
-msgstr "Slaptažodis:"
+msgstr ""
 
 #: controllers/database.py:97
 msgid "Backup database"
-msgstr "Duomenų bazės atsarginė kopija"
+msgstr ""
 
 #: controllers/database.py:99 controllers/templates/database.mako:56
 msgid "Backup"
-msgstr "Sukurti atsarginę kopiją"
+msgstr ""
 
 #: controllers/database.py:105
 msgid "Restore database"
-msgstr "Atkurti duomenų bazę"
+msgstr ""
 
 #: controllers/database.py:107 controllers/templates/database.mako:58
 msgid "Restore"
-msgstr "Atkurti atsarginę kopiją"
+msgstr ""
 
 #: controllers/database.py:108
 msgid "File:"
-msgstr "Failas"
+msgstr ""
 
 #: controllers/database.py:114
 msgid "Change Administrator Password"
-msgstr "Pakeisti administratoriaus slaptažodį"
+msgstr ""
 
 #: controllers/database.py:116 controllers/templates/preferences/index.mako:37
 msgid "Change Password"
-msgstr "Keisti slaptažodį"
+msgstr ""
 
 #: controllers/database.py:117
 msgid "Old Password:"
-msgstr "Esamas slaptažodis:"
+msgstr ""
 
 #: controllers/database.py:118
 msgid "New Password:"
-msgstr "Naujas slaptažodis:"
+msgstr ""
 
 #: controllers/database.py:119
 msgid "Confirm Password:"
-msgstr "Patvirtinkite slaptažodį:"
+msgstr ""
 
 #: controllers/database.py:182
 msgid "You must avoid all accents, space or special characters."
-msgstr "Jūs turite vengti visų akcentų, tarpų ar specialių simbolių."
+msgstr ""
 
 #: controllers/database.py:183
 msgid "Bad database name"
-msgstr "Blogas duomenų bazės pavadinimas"
+msgstr ""
 
 #: controllers/database.py:203
 msgid ""
 "The server crashed during installation.\n"
 "We suggest you to drop this database."
 msgstr ""
-"Įdiegimo metu sutriko serverio darbas.\n"
-"Siūlome jums panaikinti šią duomenų bazę."
 
 #: controllers/database.py:204
 msgid "Error during database creation"
-msgstr "Klaida kuriant duomenų bazę"
+msgstr ""
 
 #: controllers/database.py:207 controllers/database.py:234
 #: controllers/database.py:280 controllers/database.py:303
 msgid "Bad super admin password"
-msgstr "Blogas super administratoriaus slaptažodis"
+msgstr ""
 
 #: controllers/database.py:211
 msgid "Could not create database."
-msgstr "Nepavyko sukurti duomenų bazės."
+msgstr ""
 
 #: controllers/database.py:237
 msgid "Could not drop database"
-msgstr "Nepavyko panaikinti duomenų bazės."
+msgstr ""
 
 #: controllers/database.py:260
 msgid "Could not create backup."
-msgstr "Nepavyko sukurti atsarginės kopijos."
+msgstr ""
 
 #: controllers/database.py:284
 msgid "Could not restore database"
-msgstr "Nepavyko atkurti duomenų bazės"
+msgstr ""
 
 #: controllers/database.py:307
 msgid "Error, password not changed."
-msgstr "Klaida, slaptažodis nepakeistas."
+msgstr ""
 
 #: controllers/error_page.py:86
 msgid ""
 "Your problem has been sent to the quality team\n"
 "We will recontact you after analysing the problem."
 msgstr ""
-"Jūsų problema sėkmingai išsiūsta priežiūros komandai!\n"
-"Išnagrinėję problemą mes su jumis susisieksime."
 
 #: controllers/error_page.py:88
 #, python-format
@@ -313,26 +291,24 @@ msgid ""
 "Your problem could not be sent to the quality team\n"
 "Please report this error manually at %s"
 msgstr ""
-"Nepavyko išsiųsti užklausos priežiūros komandai!\n"
-"Prašome pranešti apie klaidą savarankiškai %s"
 
 #: controllers/form.py:561
 #, python-format
 msgid "Invalid button type \"%s\""
-msgstr "Klaidingas mygtuko tipas \"%s\""
+msgstr ""
 
 #: controllers/form.py:899 controllers/tree.py:241
 msgid "No record selected"
-msgstr "Nepasirinktas įrašas"
+msgstr ""
 
 #: controllers/form.py:904
 msgid "Print Screen"
-msgstr "Spausdinti rodomus duomenis"
+msgstr ""
 
 #: controllers/form.py:973 utils/rpc.py:130 utils/rpc.py:141 utils/rpc.py:144
 #: widgets/listgrid.py:332 widgets/form/_form.py:912
 msgid "Application Error"
-msgstr "Programos klaida"
+msgstr ""
 
 #: controllers/form.py:973
 #, python-format
@@ -344,48 +320,46 @@ msgid ""
 "Operation failed\n"
 "I/O error"
 msgstr ""
-"Veiksmas nepavyko!\n"
-"I/O klaida"
 
 #: controllers/impex.py:346
 msgid "Export Error"
-msgstr "Eksportavimo klaida"
+msgstr ""
 
 #: controllers/impex.py:452
 msgid "Error opening .CSV file"
-msgstr "Klaida atveriant .CSV failą"
+msgstr ""
 
 #: controllers/impex.py:452
 msgid "Input Error."
-msgstr "Įvesties klaida."
+msgstr ""
 
 #: controllers/impex.py:465
 #, python-format
 msgid "You cannot import this field %s, because we cannot auto-detect it"
-msgstr "Laukas %s automatiškai neaptinkamas, todėl negalima importuoti"
+msgstr ""
 
 #: controllers/impex.py:468
 #, python-format
 msgid "Error processing your first line of the file. Field %s is unknown"
-msgstr "Klaida apdorojant pirmą failo eilutę. Laukas %s nežinomas!"
+msgstr ""
 
 #: controllers/impex.py:468
 msgid "Import Error."
-msgstr "Importavimo klaida."
+msgstr ""
 
 #: controllers/impex.py:495
 msgid "XML-RPC error"
-msgstr "XML-RPC klaida"
+msgstr ""
 
 #: controllers/impex.py:499
 #, python-format
 msgid "Imported %d objects"
-msgstr "Importuota %d objektų"
+msgstr ""
 
 #: controllers/impex.py:505
 #, python-format
 msgid "Error trying to import this record:%s. ErrorMessage:%s %s"
-msgstr "Klaida importuojant šį įrašą: %s. Klaidos žinutė: %s %s"
+msgstr ""
 
 #: controllers/impex.py:506
 msgid "ImportationError"
@@ -393,84 +367,84 @@ msgstr ""
 
 #: controllers/listgrid.py:59
 msgid "Parent record doesn't exists..."
-msgstr "Pirminis įrašas neegzistuoja..."
+msgstr ""
 
 #: controllers/preferences.py:41
 msgid "Change your password"
-msgstr "Slaptažodžio keitimas"
+msgstr ""
 
 #: controllers/preferences.py:70 controllers/templates/header.mako:59
 msgid "Preferences"
-msgstr "Nustatymai"
+msgstr ""
 
 #: controllers/preferences.py:92
 msgid "All passwords have to be filled."
-msgstr "Visi slaptažodžių laukai turi būti užpildyti."
+msgstr ""
 
 #: controllers/preferences.py:94
 msgid "The new password and its confirmation must be identical."
-msgstr "Naujas slaptažodis ir jo patvirtinimas turi sutapti."
+msgstr ""
 
 #: controllers/preferences.py:103
 msgid "Could not change your password."
-msgstr "Nepavyko pakeisti jūsų slaptažodžio."
+msgstr ""
 
 #: controllers/preferences.py:105
 msgid "Original password incorrect, your password was not changed."
-msgstr "Senas slaptažodis klaidingas, jūsų slaptažodis nebuvo pakeistas."
+msgstr ""
 
 #: controllers/root.py:178
 #, python-format
 msgid "Version %s"
-msgstr "Versija %s"
+msgstr ""
 
 #: controllers/translator.py:140
 msgid "You need to save the resource before adding translations."
-msgstr "Jums reikia išsaugoti resursą prieš pridedant vertimus."
+msgstr ""
 
 #: controllers/tree.py:272
 msgid "No resource selected"
-msgstr "Nepasirinktas resursas"
+msgstr ""
 
 #: controllers/utils.py:52
 msgid "Could not connect to server"
-msgstr "Nepavyko prisijungti prie serverio"
+msgstr ""
 
 #: controllers/utils.py:139 controllers/templates/login_ajax.mako:111
 msgid "Bad username or password"
-msgstr "Netinkamas naudotojo vardas arba slaptažodis!"
+msgstr ""
 
 #: controllers/view_log.py:40
 msgid "ID"
-msgstr "ID"
+msgstr ""
 
 #: controllers/view_log.py:41
 msgid "Creation User"
-msgstr "Sukūrė naudotojas"
+msgstr ""
 
 #: controllers/view_log.py:42
 msgid "Creation Date"
-msgstr "Sukūrimo data"
+msgstr ""
 
 #: controllers/view_log.py:43
 msgid "Latest Modification by"
-msgstr "Paskutinis redagavo"
+msgstr ""
 
 #: controllers/view_log.py:44
 msgid "Latest Modification Date"
-msgstr "Paskutinio redagavimo data"
+msgstr ""
 
 #: controllers/view_log.py:45
 msgid "Owner"
-msgstr "Savininkas"
+msgstr ""
 
 #: controllers/view_log.py:46
 msgid "Group Owner"
-msgstr "Grupės savininkas"
+msgstr ""
 
 #: controllers/view_log.py:47
 msgid "Access Level"
-msgstr "Prieigos lygis"
+msgstr ""
 
 #: controllers/view_log.py:48
 msgid "Internal module data ID"
@@ -478,82 +452,81 @@ msgstr ""
 
 #: controllers/viewed.py:228
 msgid "Invalid view id."
-msgstr "Netinkamas peržiūros id."
+msgstr ""
 
 #: controllers/viewed.py:506
 msgid "Unable to create inherited view."
-msgstr "Nepavyksta sukurti paveldimojo rodinio."
+msgstr ""
 
 #: controllers/viewed.py:508
 msgid "Can't create inherited view here."
-msgstr "Čia negalima sukurti paveldimojo rodinio."
+msgstr ""
 
 #: controllers/viewed.py:511
 msgid "Not implemented yet!"
-msgstr "Dar neįgyvendinta!"
+msgstr ""
 
 #: controllers/viewed.py:616
 msgid "Unable to update the view."
-msgstr "Nepavyko atnaujinti peržiūros."
+msgstr ""
 
 #: controllers/viewed.py:870
 msgid "New Window"
-msgstr "Naujas langas"
+msgstr ""
 
 #: controllers/viewed.py:882
 msgid "Save Button"
-msgstr "Išsaugojimo mygtukas"
+msgstr ""
 
 #: controllers/viewed.py:882
 msgid "Cancel Button"
-msgstr "Atšaukimo mygtukas"
+msgstr ""
 
 #: controllers/viewed.py:882
 msgid "Open Button"
-msgstr "Atvėrimo mygtukas"
+msgstr ""
 
 #: controllers/viewed.py:888
 msgid "Left"
-msgstr "Kairėje"
+msgstr ""
 
 #: controllers/viewed.py:888
 msgid "Center"
-msgstr "Centre"
+msgstr ""
 
 #: controllers/viewed.py:888
 msgid "Right"
-msgstr "Dešinėje"
+msgstr ""
 
 #: controllers/templates/about.mako:4
 msgid "About the OpenERP Web"
-msgstr "Apie OpenERP Web"
+msgstr ""
 
 #: controllers/templates/about.mako:27
 msgid "OpenERP Web"
-msgstr "OpenERP Web"
+msgstr ""
 
 #: controllers/templates/about.mako:30
 msgid "Copyright &copy; 2006-TODAY Tiny ERP Pvt. Ltd. All Rights Reserved."
 msgstr ""
-"Autorystės teisės &copy; 2006-TODAY Tiny ERP Pvt. Ltd. Visos teisės saugomos."
 
 #: controllers/templates/about.mako:31
 msgid "OpenERP is a trademark of the Tiny Company."
-msgstr "OpenERP yra Tiny kompanijos prekinis ženklas."
+msgstr ""
 
 #: controllers/templates/about.mako:33
 #, python-format
 msgid "%(ooweb)s is jointly developed by %(tiny)s and %(axelor)s."
-msgstr "%(ooweb)s sukurta kartu su %(tiny)s ir %(axelor)s."
+msgstr ""
 
 #: controllers/templates/about.mako:39
 #, python-format
 msgid "Licenced under the terms of %(license)s"
-msgstr "Licencijuota pagal %(license)s sąlygas"
+msgstr ""
 
 #: controllers/templates/about.mako:42
 msgid "About OpenERP"
-msgstr "Apie OpenERP"
+msgstr ""
 
 #: controllers/templates/about.mako:44
 #, python-format
@@ -585,18 +558,16 @@ msgid ""
 "Depending on your needs, OpenERP is available through a web or application "
 "client."
 msgstr ""
-"Priklausomai nuo jūsų poreikių, OpenERP galima naudoti per žiniatinklio arba "
-"programos klientą."
 
 #: controllers/templates/database.mako:50 controllers/templates/login.mako:4
 #: controllers/templates/login.mako:67 controllers/templates/login_ajax.mako:85
 #: controllers/templates/login_ajax.mako:104
 msgid "Login"
-msgstr "Prisijungti"
+msgstr ""
 
 #: controllers/templates/database.mako:60
 msgid "Password"
-msgstr "Slaptažodis"
+msgstr ""
 
 #: controllers/templates/error_page.mako:77
 msgid "An "
@@ -604,7 +575,7 @@ msgstr ""
 
 #: controllers/templates/error_page.mako:77
 msgid "has been reported."
-msgstr "pranešė šią klaidą."
+msgstr ""
 
 #: controllers/templates/error_page.mako:79
 msgid "Let me fix it"
@@ -671,15 +642,15 @@ msgstr ""
 
 #: controllers/templates/error_page.mako:140
 msgid "Summary of the problem:"
-msgstr "Aprašykite savo problemą:"
+msgstr ""
 
 #: controllers/templates/error_page.mako:147
 msgid "Explain what you did:"
-msgstr "Aprašykite ką jūs darėte:"
+msgstr ""
 
 #: controllers/templates/error_page.mako:156
 msgid "Other Comments:"
-msgstr "Kitos pastabos:"
+msgstr ""
 
 #: controllers/templates/error_page.mako:168
 msgid "Send to Publisher Warranty Team"
@@ -687,7 +658,7 @@ msgstr ""
 
 #: controllers/templates/error_page.mako:195
 msgid "Write concurrency warning :"
-msgstr "Lygiagretaus duomenų rašymo klaida:"
+msgstr ""
 
 #: controllers/templates/error_page.mako:200
 msgid ""
@@ -697,11 +668,6 @@ msgid ""
 "    - \"Cancel\" to cancel saving.\n"
 "    - \"Write anyway\" to save your current version."
 msgstr ""
-"Šis dokumentas buvo pakeistas, kol jį redagavote.\n"
-"Pasirinkite:\n"
-"\n"
-"\t- \"Atšaukti\" - nesaugoti pakeitimų.\n"
-"\t- \"Rašyti bet kuriuo atveju\" - išsaugoti jūsų pakeitimus."
 
 #: controllers/templates/error_page.mako:214
 #: controllers/templates/form.mako:149 controllers/templates/openo2m.mako:41
@@ -710,15 +676,15 @@ msgstr ""
 #: controllers/templates/preferences/index.mako:38
 #: widgets/templates/listgrid/listgrid.mako:33
 msgid "Cancel"
-msgstr "Atsisakyti"
+msgstr ""
 
 #: controllers/templates/error_page.mako:215
 msgid "Write Anyway"
-msgstr "Rašyti bet kuriuo atveju"
+msgstr ""
 
 #: controllers/templates/exp.mako:143 widgets/templates/sidebar.mako:112
 msgid "Export"
-msgstr "Eksportuoti"
+msgstr ""
 
 #: controllers/templates/exp.mako:144 controllers/templates/fieldpref.mako:99
 #: controllers/templates/image.mako:70 controllers/templates/imp.mako:131
@@ -734,11 +700,11 @@ msgstr "Eksportuoti"
 #: controllers/templates/viewlist.mako:129 widgets/templates/sidebar.mako:67
 #: widgets/templates/viewform.mako:37
 msgid "Close"
-msgstr "Uždaryti"
+msgstr ""
 
 #: controllers/templates/exp.mako:146
 msgid "Export Data"
-msgstr "Eksportuoti duomenis"
+msgstr ""
 
 #: controllers/templates/exp.mako:163 controllers/templates/form.mako:144
 #: controllers/templates/image.mako:67 widgets/form/templates/one2many.mako:22
@@ -750,100 +716,100 @@ msgstr "Eksportuoti duomenis"
 #: widgets/templates/listgrid/listgroup.mako:126
 #: widgets/templates/listgrid/multiple_group.mako:81
 msgid "Delete"
-msgstr "Ištrinti"
+msgstr ""
 
 #: controllers/templates/exp.mako:174 controllers/templates/imp.mako:143
 msgid "All fields"
-msgstr "Visi laukai"
+msgstr ""
 
 #: controllers/templates/exp.mako:176
 msgid "Fields to export"
-msgstr "Eksportuoti laukus"
+msgstr ""
 
 #: controllers/templates/exp.mako:186 controllers/templates/imp.mako:155
 #: widgets/templates/sidebar.mako:56
 #: widgets/templates/listgrid/listgrid.mako:138
 msgid "Add"
-msgstr "Pridėti"
+msgstr ""
 
 #: controllers/templates/exp.mako:191 controllers/templates/imp.mako:160
 #: controllers/templates/viewlist.mako:125
 msgid "Remove"
-msgstr "Pašalinti"
+msgstr ""
 
 #: controllers/templates/exp.mako:196 controllers/templates/imp.mako:165
 msgid "Nothing"
-msgstr "Nieko"
+msgstr ""
 
 #: controllers/templates/exp.mako:201 controllers/templates/exp.mako:217
 msgid "Save List"
-msgstr "Išsaugoti sąrašą"
+msgstr ""
 
 #: controllers/templates/exp.mako:220
 msgid "Name of This Export:"
-msgstr "Pavadinimas šiam eksportavimui:"
+msgstr ""
 
 #: controllers/templates/exp.mako:225 controllers/templates/fieldpref.mako:102
 #: controllers/templates/selection.mako:45
 msgid "OK"
-msgstr "Gerai"
+msgstr ""
 
 #: controllers/templates/exp.mako:236
 msgid "Select Options to Export"
-msgstr "Pasirinkite parinktis eksportavimui"
+msgstr ""
 
 #: controllers/templates/exp.mako:242
 msgid "Export as CSV"
-msgstr "Eksportuoti CSV formatu"
+msgstr ""
 
 #: controllers/templates/exp.mako:243
 msgid "Export as Excel"
-msgstr "Eksportuoti Excel formatu"
+msgstr ""
 
 #: controllers/templates/exp.mako:250
 msgid "Add field names"
-msgstr "Pridėti laukų pavadinimus"
+msgstr ""
 
 #: controllers/templates/exp.mako:255
 msgid "Import Compatible"
-msgstr "Pritaikyti importavimui"
+msgstr ""
 
 #: controllers/templates/fieldpref.mako:4
 #: controllers/templates/fieldpref.mako:29
 msgid "Field Preferences"
-msgstr "Lauko nustatymai"
+msgstr ""
 
 #: controllers/templates/fieldpref.mako:39
 msgid "Field Name:"
-msgstr "Lauko pavadinimas:"
+msgstr ""
 
 #: controllers/templates/fieldpref.mako:43
 msgid "Domain:"
-msgstr "Sritis:"
+msgstr ""
 
 #: controllers/templates/fieldpref.mako:47
 msgid "Default Value:"
-msgstr "Numatytoji reikšmė:"
+msgstr ""
 
 #: controllers/templates/fieldpref.mako:57
 msgid "Value applicable for:"
-msgstr "Reikšmę naudoti:"
+msgstr ""
 
 #: controllers/templates/fieldpref.mako:63
 msgid "Only for you"
-msgstr "Tik jums"
+msgstr ""
 
 #: controllers/templates/fieldpref.mako:67
 msgid "For all"
-msgstr "Visiems"
+msgstr ""
 
 #: controllers/templates/fieldpref.mako:76
 msgid "Value applicable if:"
-msgstr "Reikšmę naudoti jeigu:"
+msgstr ""
 
 #: controllers/templates/fieldpref.mako:79
 msgid "Always applicable!"
-msgstr "Taikyti visada!"
+msgstr ""
 
 #: controllers/templates/footer.mako:3
 #, python-format
@@ -856,32 +822,32 @@ msgstr ""
 
 #: controllers/templates/form.mako:70
 msgid "Disable all Tips"
-msgstr "Išjungti visus patarimus"
+msgstr ""
 
 #: controllers/templates/form.mako:71
 msgid "Hide this Tip"
-msgstr "Slėpti patarimus"
+msgstr ""
 
 #: controllers/templates/form.mako:86
 msgid "Add / Remove Shortcut..."
-msgstr "Pridėti / Ištrinti nuorodą..."
+msgstr ""
 
 #: controllers/templates/form.mako:90
 #, python-format
 msgid "Search: %s"
-msgstr "Paieška: %s"
+msgstr ""
 
 #: controllers/templates/form.mako:97
 msgid "Corporate Intelligence..."
-msgstr "Kolektyvinė Informacija..."
+msgstr ""
 
 #: controllers/templates/form.mako:103
 msgid "Show Logs..."
-msgstr "Rodyti žurnalus..."
+msgstr ""
 
 #: controllers/templates/form.mako:120
 msgid "Create a new resource"
-msgstr "Sukurti naują resursą"
+msgstr ""
 
 #: controllers/templates/form.mako:121 controllers/templates/search.mako:128
 #: controllers/templates/viewed_new_model.mako:36
@@ -890,11 +856,11 @@ msgstr "Sukurti naują resursą"
 #: widgets/templates/listgrid/listgrid.mako:143
 #: widgets/templates/listgrid/listgrid.mako:147
 msgid "New"
-msgstr "Naujas"
+msgstr ""
 
 #: controllers/templates/form.mako:125
 msgid "Edit this resource"
-msgstr "Redaguoti šį resursą"
+msgstr ""
 
 #: controllers/templates/form.mako:126 controllers/templates/viewlist.mako:122
 #: widgets/templates/listgrid/listgrid.mako:78
@@ -902,11 +868,11 @@ msgstr "Redaguoti šį resursą"
 #: widgets/templates/listgrid/listgroup.mako:107
 #: widgets/templates/listgrid/multiple_group.mako:63
 msgid "Edit"
-msgstr "Redaguoti"
+msgstr ""
 
 #: controllers/templates/form.mako:130
 msgid "Save this resource"
-msgstr "Išsaugoti šį resursą"
+msgstr ""
 
 #: controllers/templates/form.mako:131 controllers/templates/image.mako:65
 #: controllers/templates/openm2.mako:48
@@ -918,39 +884,39 @@ msgstr "Išsaugoti šį resursą"
 #: controllers/templates/viewlist.mako:157
 #: controllers/templates/preferences/index.mako:39
 msgid "Save"
-msgstr "Išsaugoti"
+msgstr ""
 
 #: controllers/templates/form.mako:133
 msgid "Save & Edit this resource"
-msgstr "Redaguoti ir išsaugoti šį resursą"
+msgstr ""
 
 #: controllers/templates/form.mako:134
 msgid "Save & Edit"
-msgstr "Išsaugoti ir redaguoti"
+msgstr ""
 
 #: controllers/templates/form.mako:138
 msgid "Duplicate this resource"
-msgstr "Sukurti šio resurso kopiją"
+msgstr ""
 
 #: controllers/templates/form.mako:139
 msgid "Duplicate"
-msgstr "Sukurti kopiją"
+msgstr ""
 
 #: controllers/templates/form.mako:143
 msgid "Delete this resource"
-msgstr "Ištrinti šį resursą"
+msgstr ""
 
 #: controllers/templates/form.mako:148
 msgid "Cancel editing the current resource"
-msgstr "Nutraukti šio resurso redagavimą"
+msgstr ""
 
 #: controllers/templates/form.mako:153
 msgid "Create new node"
-msgstr "Sukurti naują mazgą"
+msgstr ""
 
 #: controllers/templates/form.mako:154
 msgid "New Node"
-msgstr "Naujas mazgas"
+msgstr ""
 
 #: controllers/templates/form.mako:158
 msgid "Show grid in workflow canvas"
@@ -963,32 +929,32 @@ msgstr ""
 #: controllers/templates/header.mako:33
 #, python-format
 msgid "%(company)s"
-msgstr "%(company)s"
+msgstr ""
 
 #: controllers/templates/header.mako:34 controllers/templates/index.mako:218
 #, python-format
 msgid "%(user)s"
-msgstr "%(user)s"
+msgstr ""
 
 #: controllers/templates/header.mako:45 controllers/templates/header.mako:47
 msgid "Home"
-msgstr "Pradžia"
+msgstr ""
 
 #: controllers/templates/header.mako:53
 msgid "Requests"
-msgstr "Užklausos"
+msgstr ""
 
 #: controllers/templates/header.mako:62
 msgid "Edit Preferences"
-msgstr "Keisti nustatymus"
+msgstr ""
 
 #: controllers/templates/header.mako:66 controllers/templates/header.mako:69
 msgid "About"
-msgstr "Apie"
+msgstr ""
 
 #: controllers/templates/header.mako:73 controllers/templates/header.mako:75
 msgid "Help"
-msgstr "Pagalba"
+msgstr ""
 
 #: controllers/templates/header.mako:81 controllers/templates/header.mako:84
 msgid "Clear Cache"
@@ -996,71 +962,71 @@ msgstr ""
 
 #: controllers/templates/header.mako:89
 msgid "Logout"
-msgstr "Atsijungti"
+msgstr ""
 
 #: controllers/templates/image.mako:4 controllers/templates/image.mako:39
 msgid "Image"
-msgstr "Paveikslas"
+msgstr ""
 
 #: controllers/templates/image.mako:55
 msgid "Add Resource:"
-msgstr "Pridėti resursą:"
+msgstr ""
 
 #: controllers/templates/image.mako:66 widgets/form/templates/binary.mako:28
 msgid "Save As"
-msgstr "Išsaugoti kaip"
+msgstr ""
 
 #: controllers/templates/imp.mako:130 widgets/templates/sidebar.mako:109
 msgid "Import"
-msgstr "Importuoti"
+msgstr ""
 
 #: controllers/templates/imp.mako:133
 msgid "Import Data"
-msgstr "Importuoti duomenis"
+msgstr ""
 
 #: controllers/templates/imp.mako:145
 msgid "Fields to import"
-msgstr "Importuojami laukai"
+msgstr ""
 
 #: controllers/templates/imp.mako:170
 msgid "Auto Detect"
-msgstr "Automatiškai aptikti"
+msgstr ""
 
 #: controllers/templates/imp.mako:189
 msgid "File to import"
-msgstr "Importuojamas failas"
+msgstr ""
 
 #: controllers/templates/imp.mako:197
 msgid "Options"
-msgstr "Parinktys"
+msgstr ""
 
 #: controllers/templates/imp.mako:200
 msgid "Separator:"
-msgstr "Skirtukas:"
+msgstr ""
 
 #: controllers/templates/imp.mako:202
 msgid "Delimiter:"
-msgstr "Baigtukas:"
+msgstr ""
 
 #: controllers/templates/imp.mako:206
 msgid "Encoding:"
-msgstr "Koduotė:"
+msgstr ""
 
 #: controllers/templates/imp.mako:213
 msgid "Lines to skip:"
-msgstr "Praleisti eilučių:"
+msgstr ""
 
 #: controllers/templates/index.mako:164
 msgid "System Logs"
-msgstr "Sistemos žurnalai"
+msgstr ""
 
 #: controllers/templates/index.mako:189
 msgid "More"
-msgstr "Daugiau"
+msgstr ""
 
 #: controllers/templates/index.mako:190
 msgid "Widgets"
-msgstr "Valdikliai"
+msgstr ""
 
 #: controllers/templates/index.mako:220 controllers/templates/index.mako:225
 #, python-format
@@ -1070,11 +1036,11 @@ msgstr ""
 #: controllers/templates/login.mako:53 controllers/templates/login_ajax.mako:72
 #: controllers/templates/login_ajax.mako:94
 msgid "User:"
-msgstr "Naudotojas:"
+msgstr ""
 
 #: controllers/templates/login.mako:64
 msgid "Databases"
-msgstr "Duomenų bazės"
+msgstr ""
 
 #: controllers/templates/login.mako:84
 msgid "Top Contributor:"
@@ -1088,7 +1054,7 @@ msgstr ""
 
 #: controllers/templates/login.mako:95
 msgid "OpenERP's vision to be:"
-msgstr "OpenERP vizija:"
+msgstr ""
 
 #: controllers/templates/login.mako:103
 msgid "Full featured"
@@ -1102,7 +1068,7 @@ msgstr ""
 
 #: controllers/templates/login.mako:112
 msgid "Open Source"
-msgstr "Atviro kodo"
+msgstr ""
 
 #: controllers/templates/login.mako:113
 msgid ""
@@ -1112,7 +1078,7 @@ msgstr ""
 
 #: controllers/templates/login.mako:121
 msgid "User Friendly"
-msgstr "Patogus naudoti"
+msgstr ""
 
 #: controllers/templates/login.mako:122
 msgid ""
@@ -1121,11 +1087,11 @@ msgstr ""
 
 #: controllers/templates/modules.mako:4
 msgid "Module Management"
-msgstr "Modulių valdymas"
+msgstr ""
 
 #: controllers/templates/modules.mako:17
 msgid "Web Modules"
-msgstr "Interneto moduliai"
+msgstr ""
 
 #: controllers/templates/openo2m.mako:34
 msgid "Save & Close"
@@ -1137,26 +1103,26 @@ msgstr ""
 
 #: controllers/templates/save_filter.mako:18
 msgid "Save as Filter"
-msgstr "Išsaugoti kaip filtrą"
+msgstr ""
 
 #: controllers/templates/save_filter.mako:30
 msgid "Filter Name"
-msgstr "Filtro pavadinimas"
+msgstr ""
 
 #: controllers/templates/search.mako:110
 #, python-format
 msgid "Search %(name)s"
-msgstr "Paieška %(name)s"
+msgstr ""
 
 #: controllers/templates/search.mako:125 widgets/form/templates/datetime.mako:8
 msgid "Select"
-msgstr "Pasirinkti"
+msgstr ""
 
 #: controllers/templates/search.mako:127 widgets/_views.py:83
 #: widgets/form/templates/many2one.mako:22
 #: widgets/form/templates/reference.mako:27 widgets/templates/viewform.mako:26
 msgid "Search"
-msgstr "Paieška"
+msgstr ""
 
 #: controllers/templates/search.mako:143
 #, python-format
@@ -1165,243 +1131,240 @@ msgstr ""
 
 #: controllers/templates/selection.mako:4
 msgid "Select action"
-msgstr "Pasirinkite veiksmą"
+msgstr ""
 
 #: controllers/templates/selection.mako:23
 msgid "Select your action"
-msgstr "Pasirinkite veiksmą"
+msgstr ""
 
 #: controllers/templates/server_log.mako:4
 msgid "Server Actions..."
-msgstr "Serverio veiksmai..."
+msgstr ""
 
 #: controllers/templates/server_log.mako:14
 msgid "Server Actions"
-msgstr "Serverio veiksmai"
+msgstr ""
 
 #: controllers/templates/translator.mako:4
 msgid "Add Translations"
-msgstr "Pridėti vertimus"
+msgstr ""
 
 #: controllers/templates/translator.mako:17
 msgid "Add Translation"
-msgstr "Pridėti vertimą"
+msgstr ""
 
 #: controllers/templates/translator.mako:27
 msgid "Add Translation for:"
-msgstr "Pridėti vertimą:"
+msgstr ""
 
 #: controllers/templates/translator.mako:31
 msgid "Fields"
-msgstr "Laukai"
+msgstr ""
 
 #: controllers/templates/translator.mako:32
 msgid "Labels"
-msgstr "Etiketės"
+msgstr ""
 
 #: controllers/templates/translator.mako:33
 msgid "Relates"
-msgstr "Sąryšiai"
+msgstr ""
 
 #: controllers/templates/translator.mako:34
 msgid "View"
-msgstr "Rodinys"
+msgstr ""
 
 #: controllers/templates/translator.mako:53
 msgid "Field"
-msgstr "Laukas"
+msgstr ""
 
 #: controllers/templates/view_log.mako:4 controllers/templates/view_log.mako:12
 #: utils/common.py:55
 msgid "Information"
-msgstr "Informacija"
+msgstr ""
 
 #: controllers/templates/viewed.mako:17
 #, python-format
 msgid "View Editor %s - %s"
-msgstr "Peržiūros redaktorius %s - %s"
+msgstr ""
 
 #: controllers/templates/viewed.mako:31
 msgid "Create a new inherited view"
-msgstr "Sukurti naują paveldimąjį rodinį"
+msgstr ""
 
 #: controllers/templates/viewed.mako:31
 msgid "Inherited View"
-msgstr "Paveldimasis rodinys"
+msgstr ""
 
 #: controllers/templates/viewed.mako:34
 msgid "Preview"
-msgstr "Peržiūra"
+msgstr ""
 
 #: controllers/templates/viewed_add.mako:6
 msgid "Node Type:"
-msgstr "Mazgo tipas:"
+msgstr ""
 
 #: controllers/templates/viewed_add.mako:23
 msgid "New Field"
-msgstr "Naujas laukas"
+msgstr ""
 
 #: controllers/templates/viewed_add.mako:27
 msgid "Position:"
-msgstr "Padėtis:"
+msgstr ""
 
 #: controllers/templates/viewlist.mako:4
 #: controllers/templates/viewlist.mako:108
 #, python-format
 msgid "Manage Views (%s)"
-msgstr "Tvarkyti rodinius (%s)"
+msgstr ""
 
 #: controllers/templates/viewlist.mako:146
 #, python-format
 msgid "Create a view (%s)"
-msgstr "Sukurti rodinį (%s)"
+msgstr ""
 
 #: controllers/templates/viewlist.mako:174
 msgid "View Name:"
-msgstr "Rodinio pavadinimas:"
+msgstr ""
 
 #: controllers/templates/viewlist.mako:178
 msgid "View Type:"
-msgstr "Rodinio tipas:"
+msgstr ""
 
 #: controllers/templates/viewlist.mako:189
 msgid "Priority:"
-msgstr "Prioritetas:"
+msgstr ""
 
 #: utils/common.py:45 utils/common.py:74
 msgid "Error"
-msgstr "Klaida"
+msgstr ""
 
 #: utils/common.py:50 utils/common.py:77
 msgid "Warning"
-msgstr "Įspėjimas"
+msgstr ""
 
 #: utils/rpc.py:139
 msgid "Access Denied"
-msgstr "Prieiga atmesta"
+msgstr ""
 
 #: utils/rpc.py:246
 msgid "Unsupported protocol."
-msgstr "Prisijungimo protokolas."
+msgstr ""
 
 #: utils/rpc.py:350
 msgid ""
 "You select a timezone but OpenERP could not find pytz library!\n"
 "The timezone functionality will be disable."
 msgstr ""
-"Jūs pasirinkote laiko juostą, tačiau OpenERP nepavyko rasti pytz "
-"bibliotekos!\n"
-"Laiko juostų funkcija bus išjungta."
 
 #: utils/rpc.py:363
 msgid "Not logged..."
-msgstr "Neprisijungta..."
+msgstr ""
 
 #: utils/rpc.py:363
 msgid "Authorization Error"
-msgstr "Autorizacijos klaida"
+msgstr ""
 
 #: utils/rpc.py:442
 msgid "== Access Denied =="
-msgstr "== Prieiga atmesta =="
+msgstr ""
 
 #: widgets/_views.py:52
 msgid "Form"
-msgstr "Forma"
+msgstr ""
 
 #: widgets/_views.py:53
 msgid "Form view..."
-msgstr "Formų peržiūra..."
+msgstr ""
 
 #: widgets/_views.py:84
 msgid "Search view..."
-msgstr "Paieškos peržiūra..."
+msgstr ""
 
 #: widgets/listgrid.py:332 widgets/form/_form.py:912
 #, python-format
 msgid "Invalid view, duplicate field: %s"
-msgstr "Netinkamas rodinys, pasikartojantis laukas: %s"
+msgstr ""
 
 #: widgets/pager.py:64
 #, python-format
 msgid "%s"
-msgstr "%s"
+msgstr ""
 
 #: widgets/pager.py:76
 #, python-format
 msgid "%s - %s"
-msgstr "%s - %s"
+msgstr ""
 
 #: widgets/search.py:289
 msgid "contains"
-msgstr "susideda iš"
+msgstr ""
 
 #: widgets/search.py:289
 msgid "doesn't contain"
-msgstr "nesusideda iš"
+msgstr ""
 
 #: widgets/search.py:290
 msgid "is equal to"
-msgstr "lygus"
+msgstr ""
 
 #: widgets/search.py:290
 msgid "is not equal to"
-msgstr "nelygus"
+msgstr ""
 
 #: widgets/search.py:291
 msgid "greater than"
-msgstr "daugiau nei"
+msgstr ""
 
 #: widgets/search.py:291
 msgid "less than"
-msgstr "mažiau nei"
+msgstr ""
 
 #: widgets/search.py:292
 msgid "in"
-msgstr "yra"
+msgstr ""
 
 #: widgets/search.py:292
 msgid "not in"
-msgstr "nėra"
+msgstr ""
 
 #: widgets/search.py:399
 msgid "Yes"
-msgstr "Taip"
+msgstr ""
 
 #: widgets/search.py:399
 msgid "No"
-msgstr "Ne"
+msgstr ""
 
 #: widgets/form/_action.py:54
 msgid "Action not found!"
-msgstr "Veiksmas nerastas!"
+msgstr ""
 
 #: widgets/form/_o2m.py:57 widgets/templates/listgrid/listgrid.mako:141
 #: widgets/templates/listgrid/listgrid.mako:147
 msgid "Create new record."
-msgstr "Sukurti naują įrašą."
+msgstr ""
 
 #: widgets/form/_o2m.py:70
 msgid "Save/New"
-msgstr "Išsaugoti/Sukurti naują"
+msgstr ""
 
 #: widgets/form/_o2m.py:70
 msgid "Save parent record."
-msgstr "Išsaugoti pirminį įrašą."
+msgstr ""
 
 #: widgets/form/_o2m.py:196
 #, python-format
 msgid "%d of %d"
-msgstr "%d iš %d"
+msgstr ""
 
 #: widgets/form/_o2m.py:198
 #, python-format
 msgid "- of %d"
-msgstr "- iš %d"
+msgstr ""
 
 #: widgets/form/templates/binary.mako:31
 msgid "add attachment"
-msgstr "pridėti resursą"
+msgstr ""
 
 #: widgets/form/templates/image.mako:7 widgets/form/templates/image.mako:39
 msgid "Click here to add new image."
@@ -1410,100 +1373,100 @@ msgstr ""
 #: widgets/form/templates/many2one.mako:2
 #: widgets/form/templates/reference.mako:30
 msgid "Open"
-msgstr "Atidaryti"
+msgstr ""
 
 #: widgets/form/templates/many2one.mako:2
 #: widgets/form/templates/reference.mako:30
 msgid "Open a resource"
-msgstr "Atidaryti resursą"
+msgstr ""
 
 #: widgets/form/templates/one2many.mako:20
 msgid "Create new record..."
-msgstr "Sukurti naują įrašą..."
+msgstr ""
 
 #: widgets/form/templates/one2many.mako:22
 msgid "Delete record..."
-msgstr "Ištrinti įrašą..."
+msgstr ""
 
 #: widgets/form/templates/one2many.mako:28
 msgid "Translate me."
-msgstr "Išversti mane."
+msgstr ""
 
 #: widgets/form/templates/one2many.mako:47
 msgid "Previous record..."
-msgstr "Ankstesnis įrašas..."
+msgstr ""
 
 #: widgets/form/templates/one2many.mako:49
 msgid "Next record..."
-msgstr "Kitas įrašas..."
+msgstr ""
 
 #: widgets/templates/logs.mako:22
 msgid "More..."
-msgstr "Daugiau"
+msgstr ""
 
 #: widgets/templates/logs.mako:35
 msgid "Less..."
-msgstr "Mažiau..."
+msgstr ""
 
 #: widgets/templates/pager.mako:9
 msgid "<< First"
-msgstr "<< Pirmas"
+msgstr ""
 
 #: widgets/templates/pager.mako:14
 msgid "< Previous"
-msgstr "< Ankstesnis"
+msgstr ""
 
 #: widgets/templates/pager.mako:19
 msgid "of"
-msgstr "iš"
+msgstr ""
 
 #: widgets/templates/pager.mako:24
 msgid "Next >"
-msgstr "Tolesnis >"
+msgstr ""
 
 #: widgets/templates/pager.mako:29
 msgid "Last >>"
-msgstr "Paskutinis >>"
+msgstr ""
 
 #: widgets/templates/pager.mako:37
 msgid "Change Limit:"
-msgstr "Pakeisti limitą:"
+msgstr ""
 
 #: widgets/templates/sidebar.mako:37
 msgid "Reports"
-msgstr "Ataskaitos"
+msgstr ""
 
 #: widgets/templates/sidebar.mako:41 widgets/templates/viewform.mako:51
 msgid "Actions"
-msgstr "Veiksmai"
+msgstr ""
 
 #: widgets/templates/sidebar.mako:45
 msgid "Links"
-msgstr "Nuorodos"
+msgstr ""
 
 #: widgets/templates/sidebar.mako:49
 msgid "Submenu"
-msgstr "Submeniu"
+msgstr ""
 
 #: widgets/templates/sidebar.mako:54
 msgid "Attachments"
-msgstr "Priedai"
+msgstr ""
 
 #: widgets/templates/sidebar.mako:74
 msgid "File"
-msgstr "Failas"
+msgstr ""
 
 #: widgets/templates/sidebar.mako:82
 msgid "Customize"
-msgstr "Tinkinti"
+msgstr ""
 
 #: widgets/templates/sidebar.mako:86
 msgid "Manage views of the current object"
-msgstr "Tvarkyti šio objekto rodinius"
+msgstr ""
 
 #: widgets/templates/sidebar.mako:88
 msgid "Manage Views"
-msgstr "Tvarkyti rodinius"
+msgstr ""
 
 #: widgets/templates/sidebar.mako:92
 msgid "Edit workflow of the current object"
@@ -1511,69 +1474,69 @@ msgstr ""
 
 #: widgets/templates/sidebar.mako:93
 msgid "Edit Workflow"
-msgstr "Keisti darbų srautą"
+msgstr ""
 
 #: widgets/templates/sidebar.mako:97
 msgid "Customize current object or create a new object"
-msgstr "Tinkinti esamą objektą arba sukurti naują"
+msgstr ""
 
 #: widgets/templates/sidebar.mako:99
 msgid "Customize Object"
-msgstr "Tinkinti objektą"
+msgstr ""
 
 #: widgets/templates/sidebar.mako:104
 msgid "Other Options"
-msgstr "Kitos parinktys"
+msgstr ""
 
 #: widgets/templates/sidebar.mako:116
 msgid "Translate"
-msgstr "Išversti"
+msgstr ""
 
 #: widgets/templates/sidebar.mako:121
 msgid "View Log"
-msgstr "Peržiūrėti žurnalą."
+msgstr ""
 
 #: widgets/templates/viewform.mako:25
 msgid "Filter records."
-msgstr "Filtruoti įrašus."
+msgstr ""
 
 #: widgets/templates/viewform.mako:33
 msgid "Clear all."
-msgstr "Išvalyti visus."
+msgstr ""
 
 #: widgets/templates/viewform.mako:35
 msgid "Clear"
-msgstr "Išvalyti"
+msgstr ""
 
 #: widgets/templates/viewform.mako:43
 msgid "Filters"
-msgstr "Filtrai"
+msgstr ""
 
 #: widgets/templates/viewform.mako:45
 msgid "Saved Filters"
-msgstr "Išsaugoti filtrai"
+msgstr ""
 
 #: widgets/templates/viewform.mako:52
 msgid "New Filter"
-msgstr "Naujas filtras"
+msgstr ""
 
 #: widgets/templates/viewform.mako:53
 msgid "Save Filter"
-msgstr "Išsaugoti filtrą"
+msgstr ""
 
 #: widgets/templates/viewform.mako:54
 msgid "Manage Filters"
-msgstr "Valdyti filtrus"
+msgstr ""
 
 #: widgets/templates/listgrid/listgrid.mako:19
 msgid "Update"
-msgstr "Atnaujinti"
+msgstr ""
 
 #: widgets/templates/listgrid/listgrid.mako:137
 msgid "Add records..."
-msgstr "Pridėti įrašus..."
+msgstr ""
 
 #: widgets/templates/listgrid/listgrid.mako:175
 #: widgets/templates/listgrid/listgrid.mako:179
 msgid "Delete record(s)."
-msgstr "Ištrinti įrašą (-us)."
+msgstr ""
