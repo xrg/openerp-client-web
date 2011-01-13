@@ -56,14 +56,21 @@ def _load_translation(path, locale, domain):
     mopath = join(modir, domain + '.mo')
 
     if not exists(mopath) or getmtime(mopath) < getmtime(popath):
-        # generate MO file if none exists or the MO file is older than the PO
-        # file (== the PO file got updated since the cache was built)
-        with open(popath, 'rb') as pofile:
-            with open(mopath, 'wb') as mofile:
-                babel.messages.mofile.write_mo(
-                        mofile,
-                        babel.messages.pofile.read_po(
-                                pofile, locale, domain))
+        try:
+            # generate MO file if none exists or the MO file is older than the PO
+            # file (== the PO file got updated since the cache was built)
+            with open(popath, 'rb') as pofile:
+                with open(mopath, 'wb') as mofile:
+                    babel.messages.mofile.write_mo(
+                            mofile,
+                            babel.messages.pofile.read_po(
+                                    pofile, locale, domain))
+        except:
+            # If the parsing of the PO file broke, don't leave an empty MO
+            # file hanging around
+            os.remove(mopath)
+            raise
+
     return babel.support.Translations.load(
             locale_path, [locale], domain)
 
