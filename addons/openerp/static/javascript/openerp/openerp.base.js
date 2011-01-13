@@ -78,7 +78,7 @@ function loadingError(/*url*/) {
     }
 }
 
-var ELEMENTS_WITH_CALLBACK = '[callback]:not([type="hidden"]):not([value=""]):not([disabled]):not([readonly])';
+var ELEMENTS_WITH_CALLBACK = '[callback]:enabled:not([type="hidden"]):not([value=""]):not([readonly])';
 /**
  * Creates a LoadingSuccess execution for the providing app element
  * @param app the element to insert successful content in
