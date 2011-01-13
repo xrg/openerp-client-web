@@ -696,9 +696,6 @@ class FieldNode(Node):
 
     def get_text(self):
 
-        if self.attrs.get('type') == 'one2many':
-            return '<field name="%s">' % self.name
-
         return '<field name="%s">' % self.name
 
 class ButtonNode(Node):
