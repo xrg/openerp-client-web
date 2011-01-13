@@ -78,6 +78,7 @@ function loadingError(/*url*/) {
     }
 }
 
+var ELEMENTS_WITH_CALLBACK = '[callback]:not([type="hidden"]):not([value=""]):not([disabled]):not([readonly])';
 /**
  * Creates a LoadingSuccess execution for the providing app element
  * @param app the element to insert successful content in
@@ -134,7 +135,7 @@ function doLoadingSuccess(app/*, url*/) {
         // objects should not get their onchange callbacks called
         // automatically on edition
         if (jQuery('#_terp_id').val() == 'False') {
-            jQuery('[callback]:not([type="hidden"]):not([value=""]):not([disabled]):not([readonly]))').each(function() {
+            jQuery(ELEMENTS_WITH_CALLBACK).each(function() {
                 if (jQuery(this).attr('kind') == 'boolean') {
                     onBooleanClicked(jQuery(this).attr('id'));
                 } else {
@@ -265,7 +266,7 @@ jQuery(document).delegate(
 });
 
 jQuery(document).bind('ready', function (){
-    var $caller = jQuery('[callback]:not([type="hidden"]):not([value=""]):not([disabled]):not([readonly]))');
+    var $caller = jQuery(ELEMENTS_WITH_CALLBACK);
     $caller.each(function(){
         if (!jQuery(this).val()) {
             if (jQuery(this).attr('kind') == 'boolean') {
