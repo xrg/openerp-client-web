@@ -34,8 +34,32 @@ from openerp.utils import TinyDict, expr_eval, rpc
 from openerp.widgets import TinyInputWidget, register_widget
 from openerp.widgets.screen import Screen
 
-__all__ = ["O2M"]
+__all__ = ["O2M", "OneToMany"]
 
+#O2M tuple format:
+#
+#(0, _, {values}): CREATE new record (linked to current) with values $values
+#(1, id, {values}): UPDATE linked record $id with values $values
+#(2, id, _): DELETE linked record $id
+#(3, id, _): FORGET linked record $id (removes relation, but not linked record)
+#(4, id, _): LINK TO existing record $id
+#(5, _, _): FORGET ALL linked records
+#(6, _, [ids]): REPLACE LINKS to links to $ids
+class OneToMany(object):
+    @classmethod
+    def create(cls, values=None, **kw):
+        """ Returns the command used to create a new o2m linked to the
+        current record.
+
+        The values for the record to create can be provided as a dict (or an
+        iterable of pairs) and/or as **kwargs, as for the `dict` constructor
+        or `dict.update`
+
+        :param values: a dictionary or pair iterable
+        :type values: {str: value}
+        :rtype: (int, int, dict)
+        """
+        return 0, False, dict(values or {}, **kw)
 
 class O2M(TinyInputWidget):
     """One2Many widget
@@ -107,7 +131,8 @@ class O2M(TinyInputWidget):
             if isinstance(ids[0], dict):
                 current.default_data = ids
                 for item in current.default_data:
-                    self.default_value.append((0,0, copy.deepcopy(item)))
+                    self.default_value.append(
+                        OneToMany.create(item))
                     item['id'] = 0
                 ids = []
             elif isinstance(ids[0], tuple):
