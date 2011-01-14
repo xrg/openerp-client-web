@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2011-01-07 17:11+0100\n"
-"PO-Revision-Date: 2011-01-11 08:03+0000\n"
+"PO-Revision-Date: 2011-01-13 09:15+0000\n"
 "Last-Translator: Wei \"oldrev\" Li <oldrev@gmail.com>\n"
 "Language-Team: zh_CN <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2011-01-12 04:54+0000\n"
-"X-Generator: Launchpad (build Unknown)\n"
+"X-Launchpad-Export-Date: 2011-01-14 04:52+0000\n"
+"X-Generator: Launchpad (build 12177)\n"
 "Generated-By: Babel None\n"
 
 #: validators.py:83
@@ -128,7 +128,7 @@ msgstr ""
 
 #: controllers/database.py:78 controllers/database.py:110
 msgid "New database name:"
-msgstr "新数据库名称"
+msgstr "新数据库名称："
 
 #: controllers/database.py:78
 msgid ""
@@ -166,7 +166,7 @@ msgstr "管理员密码:"
 msgid ""
 "This is the password of the 'admin' user that will be created in your new "
 "database."
-msgstr "这是将与“系统管理员”用户一同创建的新帐套的密码。"
+msgstr "这是将与“系统管理员”用户一同创建的新数据库的密码。"
 
 #: controllers/database.py:82
 msgid "Confirm password:"
@@ -176,11 +176,11 @@ msgstr "确认管理员密码:"
 msgid ""
 "This is the password of the 'admin' user that will be created in your new "
 "database. It has to be the same than the above field."
-msgstr "这是将与“系统管理员”用户一同创建的新帐套的密码。其必须与上面的字段相同。"
+msgstr "这是将与“系统管理员”用户一同创建的新数据库的密码。其必须与上面的字段相同。"
 
 #: controllers/database.py:88
 msgid "Drop database"
-msgstr "删除帐套"
+msgstr "删除数据库"
 
 #: controllers/database.py:90 controllers/templates/database.mako:54
 msgid "Drop"
@@ -189,7 +189,7 @@ msgstr "删除"
 #: controllers/database.py:92 controllers/database.py:100
 #: controllers/templates/login.mako:39
 msgid "Database:"
-msgstr "帐套:"
+msgstr "数据库："
 
 #: controllers/database.py:93 controllers/database.py:101
 #: controllers/database.py:109 controllers/templates/login.mako:57
@@ -265,11 +265,11 @@ msgstr "无效的超级管理员密码"
 
 #: controllers/database.py:211
 msgid "Could not create database."
-msgstr "创建帐套数据库失败。"
+msgstr "创建数据库失败。"
 
 #: controllers/database.py:237
 msgid "Could not drop database"
-msgstr "删除帐套数据库失败"
+msgstr "不能删除数据库"
 
 #: controllers/database.py:260
 msgid "Could not create backup."
@@ -277,7 +277,7 @@ msgstr "备份创建失败"
 
 #: controllers/database.py:284
 msgid "Could not restore database"
-msgstr "恢复帐套数据库失败。"
+msgstr "不能恢复数据库"
 
 #: controllers/database.py:307
 msgid "Error, password not changed."
@@ -1087,7 +1087,7 @@ msgstr "用户："
 
 #: controllers/templates/login.mako:64
 msgid "Databases"
-msgstr "帐套"
+msgstr "数据库"
 
 #: controllers/templates/login.mako:84
 msgid "Top Contributor:"

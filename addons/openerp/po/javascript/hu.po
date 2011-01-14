@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: openobject-client-web\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2011-01-07 17:11+0100\n"
-"PO-Revision-Date: 2011-01-11 16:37+0000\n"
+"PO-Revision-Date: 2011-01-13 14:49+0000\n"
 "Last-Translator: NOVOTRADE RENDSZERHÁZ <openerp@novotrade.hu>\n"
 "Language-Team: Hungarian <hu@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2011-01-12 04:54+0000\n"
-"X-Generator: Launchpad (build Unknown)\n"
+"X-Launchpad-Export-Date: 2011-01-14 04:52+0000\n"
+"X-Generator: Launchpad (build 12177)\n"
 
 #: static/javascript/form.js:100
 #, python-format
@@ -36,7 +36,7 @@ msgstr "Ki kell választania egy vagy több rekordot !"
 
 #: static/javascript/form.js:1116
 msgid "Do you really want to delete the attachment"
-msgstr "Biztos hogy törölni akarja a csatolmányt"
+msgstr "Biztos, hogy törölni akarja a csatolmányt"
 
 #: static/javascript/form.js:1150
 msgid "No record selected ! You can only attach to existing record."
@@ -52,7 +52,7 @@ msgid ""
 "Warning, the record has been modified,\n"
 "your changes will be discarded."
 msgstr ""
-"Figyfelmeztetés, az rekord módosult,\n"
+"Figyfelmeztetés, az a rekord módosult,\n"
 "a változtatások el lesznek dobva."
 
 #: static/javascript/listgrid.js:507 static/javascript/o2m.js:103
@@ -65,7 +65,7 @@ msgstr "Biztos, hogy törölni akarja a kiválasztott rekordo(ka)t ?"
 
 #: static/javascript/m2o.js:514
 msgid "error in display::"
-msgstr "hiba a megjelenítésben::"
+msgstr "hiba a megjelenítésben:"
 
 #: static/javascript/o2m.js:62
 msgid "Do you really want to delete record ?"
@@ -73,11 +73,11 @@ msgstr "Biztos, hogy törölni akarja a rekordot ?"
 
 #: static/javascript/viewed.js:71
 msgid "Do you really want to remove this node?"
-msgstr "Biztos hogy el akarja távolítani ezt a csomópontot?"
+msgstr "Biztos, hogy el akarja távolítani ezt a csomópontot?"
 
 #: static/javascript/viewed.js:337
 msgid "Do you really wants to create an inherited view here?"
-msgstr "Biztos hogy létre akar hozni egy származtatott nézetet ide?"
+msgstr "Biztos, hogy létre akar hozni egy származtatott nézetet ide?"
 
 #: static/javascript/openerp/openerp.base.js:125
 msgid "doLoadingSuccess: Cannot parse JSON"
