@@ -47,8 +47,7 @@ def expr_eval(string, context=None):
                    relativedelta=relativedelta)
     if isinstance(string, basestring):
         try:
-            temp = eval(string.replace("'active_id'", "active_id"),
-                        context)
+            temp = eval(string, context)
         except:
             cherrypy.log.error("Error while parsing %r\n" % string,
                                context='expr_eval',
