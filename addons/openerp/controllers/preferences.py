@@ -27,6 +27,7 @@
 #
 ###############################################################################
 import cherrypy
+import re
 import openerp.utils.common
 import openerp.utils.rpc
 from openobject.tools import expose, redirect
@@ -40,6 +41,7 @@ class PrefsPassword(database.FormPassword):
     action = "/openerp/pref/password"
     string = _('Change your password')
 
+int_pattern = re.compile(r'\d+')
 class Preferences(Form):
 
     _cp_path = "/openerp/pref"
@@ -78,6 +80,11 @@ class Preferences(Form):
     def ok(self, **kw):
         params, data = TinyDict.split(kw)
         proxy = rpc.RPCProxy('res.users')
+        # validators generally do that...
+        for key in data.keys():
+            if not data[key]: data[key] = False
+            elif int_pattern.match(data[key]):
+                data[key] = int(data[key])
         proxy.write([rpc.session.uid], data)
         rpc.session.context_reload()
         raise redirect('/openerp/pref/create', saved=True)
