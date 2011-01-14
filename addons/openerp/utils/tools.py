@@ -28,12 +28,10 @@
 ###############################################################################
 
 import datetime
-import logging
 import os
 import time
 import tempfile
 
-import cherrypy
 from dateutil.relativedelta import relativedelta
 
 import rpc
@@ -46,15 +44,13 @@ def expr_eval(string, context=None):
                    datetime=datetime,
                    relativedelta=relativedelta)
     if isinstance(string, basestring):
-        try:
-            temp = eval(string, context)
-        except:
-            cherrypy.log.error("Error while parsing %r\n" % string,
-                               context='expr_eval',
-                               severity=logging.WARNING,
-                               traceback=True)
-            return {}
-        return temp
+        evaled = eval(string, context)
+        if isinstance(evaled, list):
+            # eval'd a domain, re-eval it with active_id replacement
+            return eval(string.replace("'active_id'", "active_id"), context)
+        # Anything else (e.g. context), just return it
+        return evaled
+
     else:
         if isinstance(string, dict):
             for i,v in string.items():
