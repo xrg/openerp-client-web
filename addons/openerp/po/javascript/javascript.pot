@@ -1,14 +1,14 @@
 # Translations template for PROJECT.
-# Copyright (C) 2010 ORGANIZATION
+# Copyright (C) 2011 ORGANIZATION
 # This file is distributed under the same license as the PROJECT project.
-# FIRST AUTHOR <EMAIL@ADDRESS>, 2010.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2011.
 #
 #,
 msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2010-12-17 10:28+0100\n"
+"POT-Creation-Date: 2011-01-07 17:11+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -30,20 +30,38 @@ msgstr ""
 msgid "Do you really want to delete this record?"
 msgstr ""
 
-#: static/javascript/form.js:901
+#: static/javascript/form.js:953
 msgid "You must select one or several records !"
 msgstr ""
 
-#: static/javascript/form.js:1062
+#: static/javascript/form.js:1116
 msgid "Do you really want to delete the attachment"
 msgstr ""
 
-#: static/javascript/listgrid.js:509 static/javascript/o2m.js:103
+#: static/javascript/form.js:1150
+msgid "No record selected ! You can only attach to existing record."
+msgstr ""
+
+#: static/javascript/form.js:1209
+msgid "OpenERP - Error"
+msgstr ""
+
+#: static/javascript/form.js:1280
+msgid ""
+"Warning, the record has been modified,\n"
+"your changes will be discarded."
+msgstr ""
+
+#: static/javascript/listgrid.js:507 static/javascript/o2m.js:103
 msgid "To edit Record, please first save it."
 msgstr ""
 
-#: static/javascript/listgrid.js:617
+#: static/javascript/listgrid.js:615
 msgid "Do you really want to delete selected record(s) ?"
+msgstr ""
+
+#: static/javascript/m2o.js:514
+msgid "error in display::"
 msgstr ""
 
 #: static/javascript/o2m.js:62
@@ -56,6 +74,14 @@ msgstr ""
 
 #: static/javascript/viewed.js:337
 msgid "Do you really wants to create an inherited view here?"
+msgstr ""
+
+#: static/javascript/openerp/openerp.base.js:125
+msgid "doLoadingSuccess: Cannot parse JSON"
+msgstr ""
+
+#: static/javascript/openerp/openerp.base.js:324
+msgid "Loading"
 msgstr ""
 
 #: static/javascript/openerp/openerp.ui.tips.js:59

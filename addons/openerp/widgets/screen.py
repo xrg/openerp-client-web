@@ -120,7 +120,7 @@ class Screen(TinyInputWidget):
             ctx.update(self.context)
             if ctx.get('view_id'):
                 view_id = ctx['view_id']
-            view = cache.fields_view_get(self.model, view_id, view_type, ctx, self.hastoolbar, self.hassubmenu)
+            view = cache.fields_view_get(self.model, view_id or False, view_type, ctx, self.hastoolbar, self.hassubmenu)
 
         self.add_view(view, view_type)
 

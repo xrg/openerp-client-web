@@ -298,8 +298,13 @@ function onBooleanClicked(name){
  *    1 then give form data with type info
  *    2 then give form data with type info + required flag
  * else gives simple key-value pairs
+ *
+ * @param extended format to return
+ * @param include_readonly whether the serialized form data should include
+ * readonly fields (default: excludes disabled fields and fields with
+ * readonly="True"
  */
-function getFormData(extended){
+function getFormData(extended, include_readonly) {
 
     var parentNode = openobject.dom.get('_terp_list') || document.forms['view_form'];
 
@@ -309,14 +314,14 @@ function getFormData(extended){
 
     var $fields = jQuery(parentNode).find('img[kind=picture]');
     if (is_editable) {
-        if(jQuery('#_terp_view_type').val() == 'tree') {
-            $fields = $fields.add('input:not([readonly="True"]), textarea, select', parentNode);
-        }
-        else{
+        if (include_readonly) {
             $fields = $fields.add('input, textarea, select', parentNode);
+        } else {
+            // Warning: :enabled seems to not yield the same thing as
+            // :not(:disabled), and prunes too much
+            $fields = $fields.add('input:not([readonly="True"]):not(:disabled), textarea:not([readonly="True"]):not(:disabled), select:not([readonly="True"]):not(:disabled)', parentNode);
         }
-    }
-    else {
+    } else {
         $fields = $fields.add('[kind=value], [name$=/__id]');
     }
 
@@ -491,7 +496,7 @@ function onChange(caller){
 
     var post_url = callback ? '/openerp/form/on_change' : '/openerp/form/change_default_get';
     
-    var form_data = getFormData(1);
+    var form_data = getFormData(1, true);
     /* testing if the record is an empty record, if it does not contain anything except
      * an id, the on_change method is not called
      */
@@ -603,7 +608,7 @@ function onChange(caller){
                                     $o2m_current.attr('__lock_onchange', false);
                                 }, 'json');
                             }
-                    } else {
+                    } else if(value){
                         new ListView(prefix + k).reload();
                     }
                 }
@@ -723,7 +728,7 @@ function eval_domain_context_request(options){
     if (prefix[0] == '_terp_listfields') {
         prefix.shift();
     }
-    var params = jQuery.extend(getFormData(1), {
+    var params = jQuery.extend(getFormData(1, true), {
         '_terp_domain': options.domain,
         '_terp_context': options.context,
         '_terp_prefix': prefix.join('/'),
@@ -863,9 +868,15 @@ function makeContextMenu(id, kind, relation, val){
                         }).text(relate.text))).appendTo($tbody);
             });
         }
-        jQuery('#contextmenu').empty().append(
+        var $menu = jQuery('#contextmenu');
+        $menu.empty().append(
             jQuery('<table cellpadding="0" cellspacing="0">').append($tbody));
 
+        var menu_width = $menu.width();
+        var body_width = jQuery(document.body).width();
+        if (parseInt($menu.css("left")) + menu_width > body_width) {
+            $menu.offset({ left: body_width - menu_width - 10 });
+        }
         showContextMenu();
     });
 }
@@ -904,20 +915,17 @@ function set_to_default(field_id, model){
 function set_as_default(field, model){
     openobject.http.postJSON(
         '/openerp/fieldpref/get',
-        jQuery.extend({}, getFormData(1), {
+        jQuery.extend({}, getFormData(1, false), {
             _terp_model: model,
             _terp_field: field
     })).addCallback(function(obj){
-        openobject.tools.openWindow(
-            openobject.http.getURL('/openerp/fieldpref', {
+        jQuery.frame_dialog({src:openobject.http.getURL('/openerp/fieldpref', {
                 '_terp_model': model,
                 '_terp_field/name': field,
                 '_terp_field/string': obj.text,
                 '_terp_field/value': openobject.dom.get(field).value,
                 '_terp_deps': obj.deps
-            }), {
-            width: 500,
-            height: 350
+            })
         });
     });
 }
@@ -1206,7 +1214,7 @@ function error_popup(obj){
     try {
         var error_window = window.open("", "error", "status=1, scrollbars=yes, width=550, height=400");
         error_window.document.write(obj.error);
-        error_window.document.title += "OpenERP - Error"
+        error_window.document.title += _("OpenERP - Error");
         error_window.document.close();
     }
     catch (e) {
@@ -1276,7 +1284,8 @@ function validateForm(){
 
 function validate_action() {
     var $form = jQuery('#view_form');
-    if ($form.data('is_form_changed') && !confirm('Warning, the record has been modified\nDo you want to discard your changes ?')) {
+    if ($form.data('is_form_changed')
+        && !confirm(_('Warning, the record has been modified,\nyour changes will be discarded.'))) {
         return false;
     }
     $form.removeData('is_form_changed');

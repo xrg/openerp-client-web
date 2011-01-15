@@ -216,6 +216,7 @@
                         <div class="footer-a">
                             <p class="one">
                                 <span>${rpc.session.protocol}://${_("%(user)s", user=rpc.session.loginname)}@${rpc.session.host}:${rpc.session.port}</span>
+                                <span>${cp.locale()}</span>
                             </p>
                             <p class="powered">${_("Powered by %(openerp)s ",
                                                 openerp="""<a target="_blank" href="http://www.openerp.com/">openerp.com</a>""")|n}</p>

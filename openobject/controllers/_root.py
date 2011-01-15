@@ -20,6 +20,13 @@ class Root(BaseController):
         # area of the HTML
         ('X-Requested-With', 'requested_with')
     ]
+    
+    def clean_headers_params(self, request):
+        # clear cache parameter added to prevent ie to cache
+        if '_' in request.params:
+            del request.params['_']
+        self.reset_custom_headers_post_redirection(request)
+    
     def reset_custom_headers_post_redirection(self, request):
         """ Firefox doesn't forward headers it has no reason to touch
         (standard or custom headers, doesn't matter) during redirection.
@@ -43,15 +50,11 @@ class Root(BaseController):
             if header not in request.headers:
                 request.headers[header] = value
 
-    def prevent_csrf(self, request):
-        """ Check HTTP_REFERRER for POST requests in order to prevent CSRF """
-        if request.method == 'POST':
-            referer = request.headers.get('Referer', '')
-            if not(urlparse.urlsplit(referer).path and referer.startswith(request.base)):
-                raise cherrypy.HTTPError(403, "Request Forbidden -- You are not allowed to access this resource.")
-
     @expose()
     def default(self, *args, **kw):
+        # If we don't set it to a `False` default, we're probably going to
+        # throw *a lot* which we don't want.
+        cherrypy.request.loading_addons = False
         autoreloader_enabled = bool(
                 getattr(cherrypy.engine.autoreload, 'thread', None))
         if autoreloader_enabled:
@@ -71,8 +74,7 @@ class Root(BaseController):
             cherrypy.engine.autoreload.subscribe()
 
         request = cherrypy.request
-        self.reset_custom_headers_post_redirection(request)
-        self.prevent_csrf(request)
+        self.clean_headers_params(request)
         func, vpath = self.find_handler()
 
         if func:

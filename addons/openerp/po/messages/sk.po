@@ -7,14 +7,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openobject-client-web\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2010-12-17 10:28+0100\n"
+"POT-Creation-Date: 2011-01-07 17:11+0100\n"
 "PO-Revision-Date: 2010-12-18 17:17+0000\n"
 "Last-Translator: Peter Kohaut <peter.kohaut@gmail.com>\n"
 "Language-Team: Slovak <sk@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2010-12-19 04:46+0000\n"
+"X-Launchpad-Export-Date: 2011-01-08 04:56+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: validators.py:83
@@ -88,15 +88,15 @@ msgstr "Nie je čo tlačiť"
 msgid "Printing aborted, too long delay"
 msgstr "Tlač prerušená, príliš dlhá odozva"
 
-#: controllers/actions.py:361
+#: controllers/actions.py:378
 msgid "Relative URLs are not supported"
 msgstr "Relatívne URL nie sú podporované"
 
-#: controllers/actions.py:389
+#: controllers/actions.py:406
 msgid "Action not found"
 msgstr "Akcia sa nenašla"
 
-#: controllers/actions.py:438
+#: controllers/actions.py:455
 msgid "No action defined"
 msgstr "Nie je definovaná akcia"
 
@@ -109,6 +109,7 @@ msgid "Create database"
 msgstr "Vytvoriť databázu"
 
 #: controllers/database.py:74 controllers/templates/database.mako:52
+#: controllers/templates/search.mako:145
 msgid "Create"
 msgstr "Vytvoriť"
 
@@ -233,7 +234,7 @@ msgstr "Súbor:"
 msgid "Change Administrator Password"
 msgstr "Zmeniť heslo administrátora"
 
-#: controllers/database.py:116
+#: controllers/database.py:116 controllers/templates/preferences/index.mako:37
 msgid "Change Password"
 msgstr "Zmeniť heslo"
 
@@ -311,25 +312,25 @@ msgstr ""
 "Váš problém nebolo možné odoslať tímu kvality\n"
 "Prosím ohláaste túto chybu manuálne na %s"
 
-#: controllers/form.py:562
+#: controllers/form.py:561
 #, python-format
 msgid "Invalid button type \"%s\""
 msgstr "Nesprávny typ tlačidla \"%s\""
 
-#: controllers/form.py:900 controllers/tree.py:241
+#: controllers/form.py:899 controllers/tree.py:241
 msgid "No record selected"
 msgstr "Nie je vybratý záznam"
 
-#: controllers/form.py:905
+#: controllers/form.py:904
 msgid "Print Screen"
 msgstr "Tlačiť obrazovku"
 
-#: controllers/form.py:974 utils/rpc.py:130 utils/rpc.py:141 utils/rpc.py:144
-#: widgets/listgrid.py:333 widgets/form/_form.py:913
+#: controllers/form.py:973 utils/rpc.py:130 utils/rpc.py:141 utils/rpc.py:144
+#: widgets/listgrid.py:332 widgets/form/_form.py:912
 msgid "Application Error"
 msgstr "Chyba aplikácie"
 
-#: controllers/form.py:974
+#: controllers/form.py:973
 #, python-format
 msgid "Wrong on_change trigger: %s"
 msgstr "Zlý spúštať on_change: %s"
@@ -390,11 +391,31 @@ msgstr "Chyba importu"
 msgid "Parent record doesn't exists..."
 msgstr "Rodičovský záznam neexistuje..."
 
-#: controllers/preferences.py:64 controllers/templates/header.mako:56
+#: controllers/preferences.py:41
+msgid "Change your password"
+msgstr ""
+
+#: controllers/preferences.py:70 controllers/templates/header.mako:59
 msgid "Preferences"
 msgstr "Predvoľby"
 
-#: controllers/root.py:181
+#: controllers/preferences.py:92
+msgid "All passwords have to be filled."
+msgstr ""
+
+#: controllers/preferences.py:94
+msgid "The new password and its confirmation must be identical."
+msgstr ""
+
+#: controllers/preferences.py:103
+msgid "Could not change your password."
+msgstr ""
+
+#: controllers/preferences.py:105
+msgid "Original password incorrect, your password was not changed."
+msgstr ""
+
+#: controllers/root.py:178
 #, python-format
 msgid "Version %s"
 msgstr "Verzia %s"
@@ -455,47 +476,47 @@ msgstr "Interné ID modulu dát"
 msgid "Invalid view id."
 msgstr "Zlé ID pohľadu."
 
-#: controllers/viewed.py:507
+#: controllers/viewed.py:506
 msgid "Unable to create inherited view."
 msgstr "Nie je možné vytvoriť zdenený pohľad."
 
-#: controllers/viewed.py:509
+#: controllers/viewed.py:508
 msgid "Can't create inherited view here."
 msgstr "Tu nie je možné vytvoriť zdedený pohľad."
 
-#: controllers/viewed.py:512
+#: controllers/viewed.py:511
 msgid "Not implemented yet!"
 msgstr "Ešte nie je implementovaný!"
 
-#: controllers/viewed.py:617
+#: controllers/viewed.py:616
 msgid "Unable to update the view."
 msgstr "Nie je možné aktualizovať pohľad."
 
-#: controllers/viewed.py:871
+#: controllers/viewed.py:870
 msgid "New Window"
 msgstr "Nové okno"
 
-#: controllers/viewed.py:883
+#: controllers/viewed.py:882
 msgid "Save Button"
 msgstr "Tlačidlo Uložiť"
 
-#: controllers/viewed.py:883
+#: controllers/viewed.py:882
 msgid "Cancel Button"
 msgstr "Tlačidlo Zrušiť"
 
-#: controllers/viewed.py:883
+#: controllers/viewed.py:882
 msgid "Open Button"
 msgstr "Tlačidlo Otvoriť"
 
-#: controllers/viewed.py:889
+#: controllers/viewed.py:888
 msgid "Left"
 msgstr "Vľavo"
 
-#: controllers/viewed.py:889
+#: controllers/viewed.py:888
 msgid "Center"
 msgstr "Vstrede"
 
-#: controllers/viewed.py:889
+#: controllers/viewed.py:888
 msgid "Right"
 msgstr "Vpravo"
 
@@ -722,10 +743,10 @@ msgstr ""
 "    - \"Uložiť aj tak\" pre uloženie Vašej aktuálnej verzie."
 
 #: controllers/templates/error_page.mako:214
-#: controllers/templates/form.mako:148
-#: controllers/templates/preferences.mako:23
+#: controllers/templates/form.mako:149 controllers/templates/openo2m.mako:41
 #: controllers/templates/selection.mako:43
 #: controllers/templates/viewlist.mako:160
+#: controllers/templates/preferences/index.mako:38
 #: widgets/templates/listgrid/listgrid.mako:33
 msgid "Cancel"
 msgstr "Zrušiť"
@@ -741,7 +762,6 @@ msgstr "Export"
 #: controllers/templates/exp.mako:144 controllers/templates/fieldpref.mako:99
 #: controllers/templates/image.mako:70 controllers/templates/imp.mako:131
 #: controllers/templates/index.mako:198 controllers/templates/openm2.mako:52
-#: controllers/templates/openo2m.mako:38
 #: controllers/templates/save_filter.mako:42
 #: controllers/templates/search.mako:129
 #: controllers/templates/translator.mako:41
@@ -759,15 +779,15 @@ msgstr "Zatvoriť"
 msgid "Export Data"
 msgstr "Export údajov"
 
-#: controllers/templates/exp.mako:163 controllers/templates/form.mako:143
-#: controllers/templates/image.mako:67 widgets/form/templates/one2many.mako:20
+#: controllers/templates/exp.mako:163 controllers/templates/form.mako:144
+#: controllers/templates/image.mako:67 widgets/form/templates/one2many.mako:22
 #: widgets/templates/sidebar.mako:67
 #: widgets/templates/listgrid/listgrid.mako:108
 #: widgets/templates/listgrid/listgrid.mako:112
 #: widgets/templates/listgrid/listgrid.mako:176
 #: widgets/templates/listgrid/listgrid.mako:181
-#: widgets/templates/listgrid/listgroup.mako:127
-#: widgets/templates/listgrid/multiple_group.mako:82
+#: widgets/templates/listgrid/listgroup.mako:126
+#: widgets/templates/listgrid/multiple_group.mako:81
 msgid "Delete"
 msgstr "Vymazať"
 
@@ -780,7 +800,7 @@ msgid "Fields to export"
 msgstr "Polia na export"
 
 #: controllers/templates/exp.mako:186 controllers/templates/imp.mako:155
-#: controllers/templates/index.mako:189 widgets/templates/sidebar.mako:56
+#: widgets/templates/sidebar.mako:56
 #: widgets/templates/listgrid/listgrid.mako:138
 msgid "Add"
 msgstr "Pridať"
@@ -873,148 +893,147 @@ msgstr "&copy; 2008-2010 %(ooweb)s  SA. Všetky práva vyhradené "
 msgid "Significant contributions to the web client have been made by"
 msgstr "Dôležité príspevky do web klienta spravil"
 
-#: controllers/templates/form.mako:77
+#: controllers/templates/form.mako:70
+msgid "Disable all Tips"
+msgstr "Vypnúť všetky tipy"
+
+#: controllers/templates/form.mako:71
+msgid "Hide this Tip"
+msgstr "Skryť tento tip"
+
+#: controllers/templates/form.mako:86
 msgid "Add / Remove Shortcut..."
 msgstr "Pridať / Odstrániť skratky..."
 
-#: controllers/templates/form.mako:81
+#: controllers/templates/form.mako:90
 #, python-format
 msgid "Search: %s"
 msgstr "Hľadať: %s"
 
-#: controllers/templates/form.mako:88
+#: controllers/templates/form.mako:97
 msgid "Corporate Intelligence..."
 msgstr "Korporátna inteligencia..."
 
-#: controllers/templates/form.mako:94
+#: controllers/templates/form.mako:103
 msgid "Show Logs..."
 msgstr "Zobraziť protokol..."
 
-#: controllers/templates/form.mako:105
-msgid "Disable all Tips"
-msgstr "Vypnúť všetky tipy"
-
-#: controllers/templates/form.mako:106
-msgid "Hide this Tip"
-msgstr "Skryť tento tip"
-
-#: controllers/templates/form.mako:119
+#: controllers/templates/form.mako:120
 msgid "Create a new resource"
 msgstr "Vytvoriť nový prostriedok"
 
-#: controllers/templates/form.mako:120 controllers/templates/search.mako:128
+#: controllers/templates/form.mako:121 controllers/templates/search.mako:128
 #: controllers/templates/viewed_new_model.mako:36
 #: controllers/templates/viewlist.mako:119 widgets/form/_o2m.py:57
-#: widgets/form/templates/one2many.mako:18
+#: widgets/form/templates/one2many.mako:20
 #: widgets/templates/listgrid/listgrid.mako:143
 #: widgets/templates/listgrid/listgrid.mako:147
 msgid "New"
 msgstr "Nový"
 
-#: controllers/templates/form.mako:124
+#: controllers/templates/form.mako:125
 msgid "Edit this resource"
 msgstr "Upraviť tento prostriedok"
 
-#: controllers/templates/form.mako:125 controllers/templates/viewlist.mako:122
+#: controllers/templates/form.mako:126 controllers/templates/viewlist.mako:122
 #: widgets/templates/listgrid/listgrid.mako:78
 #: widgets/templates/listgrid/listgrid.mako:82
-#: widgets/templates/listgrid/listgrid.mako:188
 #: widgets/templates/listgrid/listgroup.mako:107
 #: widgets/templates/listgrid/multiple_group.mako:63
 msgid "Edit"
 msgstr "Upraviť"
 
-#: controllers/templates/form.mako:129
+#: controllers/templates/form.mako:130
 msgid "Save this resource"
 msgstr "Uložiť tento prostriedok"
 
-#: controllers/templates/form.mako:130 controllers/templates/image.mako:65
-#: controllers/templates/openm2.mako:48 controllers/templates/openo2m.mako:34
-#: controllers/templates/preferences.mako:24
+#: controllers/templates/form.mako:131 controllers/templates/image.mako:65
+#: controllers/templates/openm2.mako:48
 #: controllers/templates/save_filter.mako:41
 #: controllers/templates/translator.mako:39
 #: controllers/templates/translator.mako:106
 #: controllers/templates/viewed_new.mako:46
 #: controllers/templates/viewed_new_model.mako:39
 #: controllers/templates/viewlist.mako:157
+#: controllers/templates/preferences/index.mako:39
 msgid "Save"
 msgstr "Uložiť"
 
-#: controllers/templates/form.mako:132
+#: controllers/templates/form.mako:133
 msgid "Save & Edit this resource"
 msgstr "Uložiť a upraviť tento prostriedok"
 
-#: controllers/templates/form.mako:133
+#: controllers/templates/form.mako:134
 msgid "Save & Edit"
 msgstr "Uložiť a upraviť"
 
-#: controllers/templates/form.mako:137
+#: controllers/templates/form.mako:138
 msgid "Duplicate this resource"
 msgstr "Duplikovať tento prostriedok"
 
-#: controllers/templates/form.mako:138
+#: controllers/templates/form.mako:139
 msgid "Duplicate"
 msgstr "Duplikovať"
 
-#: controllers/templates/form.mako:142
+#: controllers/templates/form.mako:143
 msgid "Delete this resource"
 msgstr "Vymazať tento prostriedok"
 
-#: controllers/templates/form.mako:147
+#: controllers/templates/form.mako:148
 msgid "Cancel editing the current resource"
 msgstr "Zrušiť úpravu tohto prostriedku"
 
-#: controllers/templates/form.mako:152
+#: controllers/templates/form.mako:153
 msgid "Create new node"
 msgstr "Vytvoriť nový uzol"
 
-#: controllers/templates/form.mako:153
+#: controllers/templates/form.mako:154
 msgid "New Node"
 msgstr "Nový uzol"
 
-#: controllers/templates/form.mako:157
+#: controllers/templates/form.mako:158
 msgid "Show grid in workflow canvas"
 msgstr "Zobraziť mriežku v pracovnom toku"
 
-#: controllers/templates/form.mako:158
+#: controllers/templates/form.mako:159
 msgid "Show grid"
 msgstr "Zobraziť mriežku"
 
-#: controllers/templates/header.mako:30
+#: controllers/templates/header.mako:33
 #, python-format
 msgid "%(company)s"
 msgstr "%(company)s"
 
-#: controllers/templates/header.mako:31 controllers/templates/index.mako:218
+#: controllers/templates/header.mako:34 controllers/templates/index.mako:218
 #, python-format
 msgid "%(user)s"
 msgstr "%(user)s"
 
-#: controllers/templates/header.mako:42 controllers/templates/header.mako:44
+#: controllers/templates/header.mako:45 controllers/templates/header.mako:47
 msgid "Home"
 msgstr "Domov"
 
-#: controllers/templates/header.mako:50
+#: controllers/templates/header.mako:53
 msgid "Requests"
 msgstr "Požiadavky"
 
-#: controllers/templates/header.mako:59
+#: controllers/templates/header.mako:62
 msgid "Edit Preferences"
 msgstr "Úpraviť predvoľby"
 
-#: controllers/templates/header.mako:63 controllers/templates/header.mako:66
+#: controllers/templates/header.mako:66 controllers/templates/header.mako:69
 msgid "About"
 msgstr "O programe"
 
-#: controllers/templates/header.mako:70 controllers/templates/header.mako:72
+#: controllers/templates/header.mako:73 controllers/templates/header.mako:75
 msgid "Help"
 msgstr "Pomocník"
 
-#: controllers/templates/header.mako:78 controllers/templates/header.mako:81
+#: controllers/templates/header.mako:81 controllers/templates/header.mako:84
 msgid "Clear Cache"
 msgstr "Vymazať cache"
 
-#: controllers/templates/header.mako:86
+#: controllers/templates/header.mako:89
 msgid "Logout"
 msgstr "Odhlásiť"
 
@@ -1073,6 +1092,10 @@ msgstr "Počet preskočených riadkov:"
 #: controllers/templates/index.mako:164
 msgid "System Logs"
 msgstr "Systémový protokol"
+
+#: controllers/templates/index.mako:189
+msgid "More"
+msgstr ""
 
 #: controllers/templates/index.mako:190
 msgid "Widgets"
@@ -1149,6 +1172,14 @@ msgstr "Správa modulov"
 msgid "Web Modules"
 msgstr "Web moduly"
 
+#: controllers/templates/openo2m.mako:34
+msgid "Save & Close"
+msgstr ""
+
+#: controllers/templates/openo2m.mako:37
+msgid "Save & New"
+msgstr ""
+
 #: controllers/templates/save_filter.mako:18
 msgid "Save as Filter"
 msgstr "Uložiť ako filter"
@@ -1172,15 +1203,10 @@ msgstr "Vybrať"
 msgid "Search"
 msgstr "Hľadať"
 
-#: controllers/templates/search.mako:141
+#: controllers/templates/search.mako:143
 #, python-format
-msgid "Found no record '%(searched_string)s'."
-msgstr "Nenašiel sa žiaden záznam '%(searched_string)s'."
-
-#: controllers/templates/search.mako:144
-#, python-format
-msgid "Create %(searched_string)s"
-msgstr "Vytvoriť %(searched_string)s"
+msgid "No record found : '%(searched_string)s'."
+msgstr ""
 
 #: controllers/templates/selection.mako:4
 msgid "Select action"
@@ -1311,15 +1337,15 @@ msgstr ""
 "Vybrali ste časovú zónu, ale OpenERP nevie nájsť knižnicu pytz!\n"
 "Funkcionalita časových zón bude vypnutá."
 
-#: utils/rpc.py:357
+#: utils/rpc.py:363
 msgid "Not logged..."
 msgstr "Neprihlásený..."
 
-#: utils/rpc.py:357
+#: utils/rpc.py:363
 msgid "Authorization Error"
 msgstr "Chyba autorizácie"
 
-#: utils/rpc.py:422
+#: utils/rpc.py:442
 msgid "== Access Denied =="
 msgstr "== Prístup zamietnutý =="
 
@@ -1335,7 +1361,7 @@ msgstr "Formulárové zobrazenie..."
 msgid "Search view..."
 msgstr "Vyhľadávacie zobrazenie..."
 
-#: widgets/listgrid.py:333 widgets/form/_form.py:913
+#: widgets/listgrid.py:332 widgets/form/_form.py:912
 #, python-format
 msgid "Invalid view, duplicate field: %s"
 msgstr "Zlý pohľad, zdvojené pole: %s"
@@ -1350,43 +1376,43 @@ msgstr "%s"
 msgid "%s - %s"
 msgstr "%s - %s"
 
-#: widgets/search.py:286
+#: widgets/search.py:289
 msgid "contains"
 msgstr "obsahuje"
 
-#: widgets/search.py:286
+#: widgets/search.py:289
 msgid "doesn't contain"
 msgstr "neobsahuje"
 
-#: widgets/search.py:287
+#: widgets/search.py:290
 msgid "is equal to"
 msgstr "rovná sa"
 
-#: widgets/search.py:287
+#: widgets/search.py:290
 msgid "is not equal to"
 msgstr "nerovná sa"
 
-#: widgets/search.py:288
+#: widgets/search.py:291
 msgid "greater than"
 msgstr "vačší ako"
 
-#: widgets/search.py:288
+#: widgets/search.py:291
 msgid "less than"
 msgstr "menší ako"
 
-#: widgets/search.py:289
+#: widgets/search.py:292
 msgid "in"
 msgstr "je v"
 
-#: widgets/search.py:289
+#: widgets/search.py:292
 msgid "not in"
 msgstr "nie je v"
 
-#: widgets/search.py:396
+#: widgets/search.py:399
 msgid "Yes"
 msgstr "Áno"
 
-#: widgets/search.py:396
+#: widgets/search.py:399
 msgid "No"
 msgstr "Nie"
 
@@ -1407,12 +1433,12 @@ msgstr "Uložiť/Nový"
 msgid "Save parent record."
 msgstr "Uložiť rodičovský záznam"
 
-#: widgets/form/_o2m.py:185
+#: widgets/form/_o2m.py:196
 #, python-format
 msgid "%d of %d"
 msgstr "%d z %d"
 
-#: widgets/form/_o2m.py:187
+#: widgets/form/_o2m.py:198
 #, python-format
 msgid "- of %d"
 msgstr "- z %d"
@@ -1420,6 +1446,10 @@ msgstr "- z %d"
 #: widgets/form/templates/binary.mako:31
 msgid "add attachment"
 msgstr "pridať prílohu"
+
+#: widgets/form/templates/image.mako:7 widgets/form/templates/image.mako:39
+msgid "Click here to add new image."
+msgstr ""
 
 #: widgets/form/templates/many2one.mako:2
 #: widgets/form/templates/reference.mako:30
@@ -1431,23 +1461,23 @@ msgstr "Otvoriť"
 msgid "Open a resource"
 msgstr "Otvoriť prostriedok"
 
-#: widgets/form/templates/one2many.mako:18
+#: widgets/form/templates/one2many.mako:20
 msgid "Create new record..."
 msgstr "Vytvoriť nový záznam..."
 
-#: widgets/form/templates/one2many.mako:20
+#: widgets/form/templates/one2many.mako:22
 msgid "Delete record..."
 msgstr "Vymazať záznam..."
 
-#: widgets/form/templates/one2many.mako:26
+#: widgets/form/templates/one2many.mako:28
 msgid "Translate me."
 msgstr "Preložiť ma."
 
-#: widgets/form/templates/one2many.mako:41
+#: widgets/form/templates/one2many.mako:47
 msgid "Previous record..."
 msgstr "Predošlí záznam..."
 
-#: widgets/form/templates/one2many.mako:43
+#: widgets/form/templates/one2many.mako:49
 msgid "Next record..."
 msgstr "Ďalší záznam..."
 
@@ -1592,6 +1622,179 @@ msgstr "Pridať záznamy..."
 msgid "Delete record(s)."
 msgstr "Vymazať záznam(y)."
 
-#: widgets/templates/listgrid/listgrid.mako:186
-msgid "Edit record(s)."
-msgstr "Upraviť záznam(y)."
+#~ msgid "You must save this record to use the sidebar button"
+#~ msgstr ""
+#~ "Musíte uložiť tento záznam aby ste mohli použiť tlačidlo bočnej lišty"
+
+#~ msgid ""
+#~ "Please Install xlwt Library.\n"
+#~ "To create spreadsheet files compatible with MS Excel."
+#~ msgstr ""
+#~ "Prosím naištalujte knižnicu xlwt.\n"
+#~ "Aby bolo možné vytvárať súbory kompatibilné s MS Excelom."
+
+#, python-format
+#~ msgid ""
+#~ "Error processing your first line of the file.\n"
+#~ "Field %s is unknown"
+#~ msgstr ""
+#~ "Chyba pri spracovávaní prvého riadku súboru.\n"
+#~ "Pole %s je neznáme"
+
+#, python-format
+#~ msgid ""
+#~ "Error trying to import this record:\n"
+#~ "%s\n"
+#~ "Error Message:\n"
+#~ "%s\n"
+#~ "\n"
+#~ "%s"
+#~ msgstr ""
+#~ "Chyba pri importe tohto záznamu:\n"
+#~ "%s\n"
+#~ "Popis chyby:Qn%s\n"
+#~ " \n"
+#~ "%s"
+
+#~ msgid "Importation Error"
+#~ msgstr "Chyba importu"
+
+#~ msgid "The Axelor Company"
+#~ msgstr "Spoločnosť Axelor"
+
+#~ msgid "The Tiny Company"
+#~ msgstr "Spoločnosť Tiny"
+
+#~ msgid "RESOURCES"
+#~ msgstr "Prostriedky"
+
+#~ msgid "Homepage"
+#~ msgstr "Domovská stránka"
+
+#~ msgid "Download"
+#~ msgstr "Stiahnuť"
+
+#~ msgid "Documentation"
+#~ msgstr "Dokumentácia"
+
+#~ msgid "Modules"
+#~ msgstr "Moduly"
+
+#~ msgid "Screencasts"
+#~ msgstr "Videoukážky"
+
+#~ msgid "Community"
+#~ msgstr "Komunita"
+
+#~ msgid "SaaS Offers"
+#~ msgstr "Ponuky SaaS"
+
+#~ msgid "Trainings"
+#~ msgstr "Školenia"
+
+#~ msgid "Services"
+#~ msgstr "Služby"
+
+#~ msgid "You do not have a valid OpenERP maintenance contract !"
+#~ msgstr "Nemáte platnú zmluvu o údžbe OpenERP!"
+
+#~ msgid ""
+#~ "If you are using OpenERP in production, it is recommended to have\n"
+#~ "a maintenance program.\n"
+#~ "\n"
+#~ "The OpenERP maintenance contract provides you with bug fix guarantees and "
+#~ "an\n"
+#~ "automatic migration system so that we can start working on your problems "
+#~ "within a few\n"
+#~ "hours.\n"
+#~ "\n"
+#~ "With a maintenance contract, errors such as this one can be sent directly to "
+#~ "the OpenERP\n"
+#~ "team for review and evaluation.\n"
+#~ "\n"
+#~ "The maintenance program offers you:\n"
+#~ "* Automatic migrations on new versions,\n"
+#~ "* A bugfix guarantee,\n"
+#~ "* Monthly announces of potential bugs and their fixes,\n"
+#~ "* Security alerts by email and automatic migration,\n"
+#~ "* Access to the customer portal.\n"
+#~ msgstr ""
+#~ "Ak používate OpenERP v ostrom prostredí, odporúčame Vám uzavrieť\n"
+#~ "program o údžbe.\n"
+#~ "\n"
+#~ "Zmluva o údržbe OpenERP, Vám zabezpečí opravu chýb a\n"
+#~ "automaticky migračný systém takže budeme môcť vyriešiť Vaše problémy\n"
+#~ "za pár hodín. Ak máte záručnú zmluvu, táto chyba bude automaticky\n"
+#~ "poslaná týmu kvality OpenERP.\n"
+#~ "\n"
+#~ "Program údžby Vám ponúka:\n"
+#~ "* Automatickú migráciu na nové verzie, \n"
+#~ "* Garanciu opravy chýb,\n"
+#~ "* Mesačné hlásenie možných chýb a ich opravy,\n"
+#~ "* Bezpečnostné upozornenia emailom a automatickú migráciu,\n"
+#~ "* Prístup k zázkazníckemu portálu.\n"
+
+#~ msgid ""
+#~ "Your maintenance contract does not cover all modules installed in your "
+#~ "system !\n"
+#~ "If you are using OpenERP in production, it is highly suggested to upgrade "
+#~ "your\n"
+#~ "contract.\n"
+#~ "\n"
+#~ "If you have developed your own modules or installed third party module, we\n"
+#~ "can provide you an additional maintenance contract for these modules. After\n"
+#~ "having reviewed your modules, our quality team will ensure they will "
+#~ "migrate\n"
+#~ "automatically for all future stable versions of OpenERP at no extra cost.\n"
+#~ "\n"
+#~ "Here is the list of modules not covered by your maintenance contract:"
+#~ msgstr ""
+#~ "Vaša zmluva o údžbe nepokrýva všetky moduly nainštalované v systéme!\n"
+#~ "Ak používate OpenERp v reálnom prostredí, odporúčame Vám rozšíriť Vašu "
+#~ "zmluvu.\n"
+#~ "\n"
+#~ "Ak ste vytvorili vlastné moduly alebo nainštalovali moduly tretích strán,\n"
+#~ "môžme Vám poskytnúť ďalšiu zmluvu o údržbe na pokrytie týchto modulov.\n"
+#~ "Po revízii Vašich modulov Vám náš tým kvaility zabezpečí ich bezproblémovú "
+#~ "migráciu\n"
+#~ "na všetky budúce stabilné verzie OpenERP bez dodatočných nákladov.\n"
+#~ "\n"
+#~ "Tu je zoznam modulov, ktoré nie sú pokryté Vašou zmluvou o údžrbe:"
+
+#~ msgid "Maintenance contract."
+#~ msgstr "Zmluva o údržbe."
+
+#~ msgid ""
+#~ "Your request will be sent to OpenERP and maintenance team will reply you "
+#~ "shortly."
+#~ msgstr ""
+#~ "Vaša žiadosť bude poslaná do OpenERP a tým údržby Vám v krátkej dobe odpovie"
+
+#~ msgid "Send to Maintenance Team"
+#~ msgstr "Poslať tímu údžby"
+
+#~ msgid "Select an Option to Export"
+#~ msgstr "Vyberte možnosť na export"
+
+#~ msgid "Use On-Site"
+#~ msgstr "Používať samostatne"
+
+#~ msgid "Get the OpenERP Warranty"
+#~ msgstr "Získať záruku OpenERP"
+
+#~ msgid "Use Online"
+#~ msgstr "Používať online"
+
+#~ msgid "Subscribe and start"
+#~ msgstr "Zaregistrovať a začať"
+
+#, python-format
+#~ msgid "Found no record '%(searched_string)s'."
+#~ msgstr "Nenašiel sa žiaden záznam '%(searched_string)s'."
+
+#, python-format
+#~ msgid "Create %(searched_string)s"
+#~ msgstr "Vytvoriť %(searched_string)s"
+
+#~ msgid "Edit record(s)."
+#~ msgstr "Upraviť záznam(y)."

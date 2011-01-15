@@ -4,7 +4,7 @@
             id="${field}"
             name="${name}" 
             border='1' 
-            alt="Click here to add new image." 
+            alt="${_('Click here to add new image.')}"
             align="left" 
             src="${src}" 
             % if width:
@@ -36,7 +36,7 @@
             id="${field}"
             name="${name}" 
             border='1' 
-            alt="Click here to add new image." 
+            alt="${_('Click here to add new image.')}"
             align="left" 
             src=""
             width="100"

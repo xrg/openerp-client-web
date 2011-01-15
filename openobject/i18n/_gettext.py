@@ -56,14 +56,21 @@ def _load_translation(path, locale, domain):
     mopath = join(modir, domain + '.mo')
 
     if not exists(mopath) or getmtime(mopath) < getmtime(popath):
-        # generate MO file if none exists or the MO file is older than the PO
-        # file (== the PO file got updated since the cache was built)
-        with open(popath, 'rb') as pofile:
-            with open(mopath, 'wb') as mofile:
-                babel.messages.mofile.write_mo(
-                        mofile,
-                        babel.messages.pofile.read_po(
-                                pofile, locale, domain))
+        try:
+            # generate MO file if none exists or the MO file is older than the PO
+            # file (== the PO file got updated since the cache was built)
+            with open(popath, 'rb') as pofile:
+                with open(mopath, 'wb') as mofile:
+                    babel.messages.mofile.write_mo(
+                            mofile,
+                            babel.messages.pofile.read_po(
+                                    pofile, locale, domain))
+        except:
+            # If the parsing of the PO file broke, don't leave an empty MO
+            # file hanging around
+            os.remove(mopath)
+            raise
+
     return babel.support.Translations.load(
             locale_path, [locale], domain)
 
@@ -77,6 +84,9 @@ def _load_translations(path, locales, domain):
     for locale in locales:
         try:
             tr = _load_translation(path, locale, domain)
+        except babel.core.UnknownLocaleError, e:
+            # don't load unknown locales such as Klingon (tlh)
+            cherrypy.log.error("%s, ignoring translation file" % e, context='i18n', severity=logging.WARN)
         except SyntaxError:
             # http://babel.edgewall.org/ticket/213
             cherrypy.log.error(
@@ -171,16 +181,16 @@ def lazify(func):
 _lazy_gettext = lazify(_gettext)
 
 def gettext(key, locale=None, domain=None):
-    if cherrypy.request.app:
-        return _gettext(key, locale, domain)
-    return _lazy_gettext(key, locale, domain)
+    if cherrypy.request.loading_addons:
+        return _lazy_gettext(key, locale, domain)
+    return _gettext(key, locale, domain)
 
 def gettext2(key, locale=None, domain=None, **kw):
     value = gettext(key, locale, domain)
     if kw:
         try:
-            return value % kw or None
-        except:
+            return value % kw
+        except KeyError:
             pass
     return value
 

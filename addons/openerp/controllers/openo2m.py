@@ -69,8 +69,10 @@ class OpenO2M(Form):
         ctx.update(params.parent_context or {})
         ctx.update(params.o2m_context or {})
         p, ctx = TinyDict.split(ctx)
+        
         if ctx.get('default_name'):
             del ctx['default_name']
+        
         params.context = ctx or {}
         params.hidden_fields = [tw.form.Hidden(name='_terp_parent_model', default=params.parent_model),
                                 tw.form.Hidden(name='_terp_parent_id', default=params.parent_id),

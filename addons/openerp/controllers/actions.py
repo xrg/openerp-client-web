@@ -232,7 +232,8 @@ def act_window(action, data):
     )
     
     if action.get('context') and isinstance(action['context'], dict):
-        action['context']['active_ids'] = ctx['active_ids'] or []
+        if not action['context'].get('active_ids'):
+            action['context']['active_ids'] = ctx['active_ids'] or []
     
     ctx.update(expr_eval(action.get('context', '{}'), ctx))
 

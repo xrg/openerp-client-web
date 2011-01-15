@@ -668,7 +668,7 @@ table.fields td {
 input.datetime {
     float: left;
 }
-.item img.datetime {
+img.datetime {
     float: left;
     margin: 2px 0 0 -19px;
 }
@@ -854,6 +854,7 @@ div#serverlog {
     -webkit-border-radius: 3px;
     background: #FFFFFF none repeat scroll 0 0;
     border: 1px solid #CECBCB;
+    margin: 8px 8px 0px 8px;
 }
 
 table.serverLogHeader {
@@ -865,6 +866,9 @@ table.serverLogHeader {
 
 div#serverlog a {
     color: #511712;
+}
+div#serverlog table {
+    border: none;
 }
 
 #help-tips {

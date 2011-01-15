@@ -7,22 +7,22 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2010-12-17 10:28+0100\n"
+"POT-Creation-Date: 2011-01-07 17:11+0100\n"
 "PO-Revision-Date: 2010-11-14 07:58+0000\n"
 "Last-Translator: OpenERP Web Administrators <Unknown>\n"
 "Language-Team: sr <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2010-12-18 05:03+0000\n"
+"X-Launchpad-Export-Date: 2011-01-08 04:57+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 "Generated-By: Babel None\n"
 
-#: controllers/_diagram.py:100 controllers/_diagram.py:222
+#: controllers/_diagram.py:97 controllers/_diagram.py:218
 msgid "Could not delete state"
 msgstr "Ne mogu izbrisati stanje"
 
-#: controllers/_diagram.py:285
+#: controllers/_diagram.py:282
 msgid "No workflow associated!"
 msgstr "Nema asociranog radnog prostora!"
 
@@ -30,12 +30,12 @@ msgstr "Nema asociranog radnog prostora!"
 msgid "Help: Not Defined"
 msgstr "Pomoć: nije definisana"
 
-#: controllers/process.py:92
+#: controllers/process.py:93
 #, python-format
 msgid "%(name)s - Resource: %(resource)s, State: %(state)s"
 msgstr "%(name)s - Resurs: %(resource)s, Stanje: %(state)s"
 
-#: controllers/process.py:104
+#: controllers/process.py:105
 msgid "Last modified by:"
 msgstr "Poslednju Izmenu uradio:"
 
@@ -124,7 +124,7 @@ msgstr "Dijagram"
 msgid "Diagram view..."
 msgstr "Pregled Dijagrama..."
 
-#: widgets/templates/diagram.mako:26
+#: widgets/templates/diagram.mako:27
 msgid "Loading..."
 msgstr "Ućitavam..."
 

@@ -5211,7 +5211,9 @@ jQuery.extend({
 				}
 
 				// Fire the complete handlers
-				complete();
+				if ( !jsonp ) {
+					complete();
+				}
 
 				if ( isTimeout === "timeout" ) {
 					xhr.abort();

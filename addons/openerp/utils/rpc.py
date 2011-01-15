@@ -401,13 +401,27 @@ class RPCProxy(object):
         self._attrs = {}
 
     def _func_getter(self, name):
-        return lambda *args: self._session.execute("object", "execute", self._resource, name, *args)
+        return lambda *args: self(name, *args)
 
     def __getattr__(self, name):
         if name not in self._attrs:
             return self._attrs.setdefault(name, self._func_getter(name))
         return self._attrs[name]
 
+    def __call__(self, *args):
+        return self._session.execute('object', 'execute',
+                                     self._resource, *args)
+
+    def fields_get(self, fields, context=None):
+        if context is None:
+            context = self._session.context
+        return self('fields_get', fields, context)
+    def fields_view_get(self, view_id, view_type, context=None,
+                        hastoolbar=False, hassubmenu=False):
+        if context is None:
+            context = self._session.context
+        return self('fields_view_get', view_id, view_type, context,
+                    hastoolbar, hassubmenu)
 
 def name_get(model, id, context=None):
 

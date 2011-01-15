@@ -87,7 +87,7 @@
     % for i, (field, field_attrs) in enumerate(headers):
         %if field == 'button':
             <td class="grid-cell">
-                <span>${buttons[field_attrs-1].display(parent_grid=name, **buttons[field_attrs-1].params_from(data))}</span>
+                ${buttons[field_attrs-1].display(parent_grid=name, **buttons[field_attrs-1].params_from(data))}
             </td>
         % else:
             <td class="grid-cell ${field_attrs.get('type', 'char')}"
@@ -323,7 +323,7 @@
                             /* In editable grid, clicking on empty row will create new and on existing row will edit. */
                            jQuery('table[id=${name}_grid] tr.grid-row').each(function(index, row) {
                                jQuery(row).click(function(event) {
-                                   if (!jQuery(event.target).is(':input, img, option, td.m2o_coplition')) {
+                                   if (!jQuery(event.target).is(':input, img, option, a.listImage-container, td.m2o_coplition')) {
                                        var record_id = parseInt(jQuery(row).attr('record'), 10) || -1;
                                        listgridValidation('${name}','${o2m or 0}', record_id);
                                    }
@@ -346,7 +346,7 @@
 
                                 jQuery('table[id=${name}_grid] tr.grid-row').click(function(event) {
                                     var $this = jQuery(this);
-                                    if(jQuery(event.target).is('img, input')
+                                    if(jQuery(event.target).is('img, input, a.listImage-container')
                                      || view_type != 'tree'
                                      || !$this.attr('record')) {
                                         return;

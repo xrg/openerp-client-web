@@ -18,7 +18,8 @@ function openLink(url /*optional afterLoad */) {
                 if(afterLoad) { afterLoad(); }
             },
             success: doLoadingSuccess($app[0], url),
-            error: loadingError(url)
+            error: loadingError(url),
+            cache: false
         });
         return;
     }
@@ -77,6 +78,7 @@ function loadingError(/*url*/) {
     }
 }
 
+var ELEMENTS_WITH_CALLBACK = '[callback]:enabled:not([type="hidden"]):not([value=""]):not([readonly])';
 /**
  * Creates a LoadingSuccess execution for the providing app element
  * @param app the element to insert successful content in
@@ -116,29 +118,33 @@ function doLoadingSuccess(app/*, url*/) {
                 if (data.reload) {
                     var view_type = jQuery('#_terp_view_type').val();
                     if (view_type == 'tree') {
-                        new ListView('_terp_list').reload();
+                        new ListView(data.list_grid).reload();
                     } else {
                         window.location.reload();
                     }
                 }
             } catch(e) {
-                return error_display('doLoadingSuccess: Cannot parse JSON');
+                return error_display(_('doLoadingSuccess: Cannot parse JSON'));
             }
         } else {
             jQuery(app).html(data);
         }
         jQuery(window).trigger('after-appcontent-change');
-        var $caller = jQuery('[callback]:not([type="hidden"]):not([value=""]):not([disabled]):not([readonly]))');
-        $caller.each(function(){
-            if (jQuery(this).attr('kind') == 'boolean') {
-                onBooleanClicked(jQuery(this).attr('id'));
-            }
-            else {
-                // We pass an arbitrary parameter to the event so we can
-                // differenciate a user event from a trigger
-                jQuery(this).trigger('change', [true]);
-            }
-        });
+
+        // Only autocall form onchanges if we're on a new object, existing
+        // objects should not get their onchange callbacks called
+        // automatically on edition
+        if (jQuery('#_terp_id').val() == 'False') {
+            jQuery(ELEMENTS_WITH_CALLBACK).each(function() {
+                if (jQuery(this).attr('kind') == 'boolean') {
+                    onBooleanClicked(jQuery(this).attr('id'));
+                } else {
+                    // We pass an arbitrary parameter to the event so we can
+                    // differenciate a user event from a trigger
+                    jQuery(this).trigger('change', [true]);
+                }
+            });
+        }
     }
 }
 
@@ -260,7 +266,7 @@ jQuery(document).delegate(
 });
 
 jQuery(document).bind('ready', function (){
-    var $caller = jQuery('[callback]:not([type="hidden"]):not([value=""]):not([disabled]):not([readonly]))');
+    var $caller = jQuery(ELEMENTS_WITH_CALLBACK);
     $caller.each(function(){
         if (!jQuery(this).val()) {
             if (jQuery(this).attr('kind') == 'boolean') {
@@ -293,7 +299,7 @@ function updateConcurrencyInfo(info) {
                             "'" + concurrency_data + "'" +
                             ")"
                     );
-            jQuery('#' + model.replace('.', '-') + '-' + id)
+            jQuery('#' + model.replace(/\./g, '-') + '-' + id)
                     .val(formatted_concurrency_value);
         });
     });
@@ -316,7 +322,10 @@ jQuery(document).bind({
     ajaxStart: function() {
         var $loader = jQuery('#ajax_loading');
         if(!$loader.length) {
-            $loader = jQuery('<div id="ajax_loading">Loading&nbsp;&nbsp;&nbsp;</div>').appendTo(document.body);
+            $loader = jQuery('<div id="ajax_loading">'
+                             + _('Loading')
+                             + '&nbsp;&nbsp;&nbsp;</div>'
+            ).appendTo(document.body);
         }
         $loader.css({
             left: (jQuery(window).width() - $loader.outerWidth()) / 2

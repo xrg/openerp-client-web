@@ -183,8 +183,7 @@ function saveCalendarRecord(record_id, starts, ends) {
 }
 
 function editCalendarRecord(record_id, date) {
-    openobject.tools.openWindow(
-        openobject.http.getURL('/view_calendar/calpopup/edit', {
+    jQuery.frame_dialog({src:openobject.http.getURL('/view_calendar/calpopup/edit', {
             'id': record_id,
             'model': openobject.dom.get('_terp_model').value,
             'view_mode': openobject.dom.get('_terp_view_mode').value,
@@ -192,7 +191,7 @@ function editCalendarRecord(record_id, date) {
             'domain': openobject.dom.get('_terp_domain').value,
             'context': openobject.dom.get('_terp_context').value,
             'default_date': date
-    }));
+    })});
 }
 
 function copyCalendarRecord(record_id) {

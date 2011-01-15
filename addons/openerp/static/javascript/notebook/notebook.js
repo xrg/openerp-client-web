@@ -143,8 +143,20 @@ Notebook.prototype = {
 
         var self = this;
         MochiKit.Async.callLater(0, function() {
-            var i = self.options.remember ? getElement('_terp_notebook_tab').value || 0 : 0;
-            self.show(parseInt(i));
+            var i = parseInt(self.options.remember ? getElement('_terp_notebook_tab').value || -1 : -1, 10);
+            if(i != -1 && jQuery(self.tabs[i]).is(':visible')) {
+                self.show(i);
+                return;
+            }
+            // If currently selected tab is not visible (or no tab selected),
+            // show the first visible one instead
+            for(var j=0; j<self.tabs.length; ++j) {
+                if(jQuery(self.tabs[j]).is(':hidden')) {
+                    continue;
+                }
+                self.show(j);
+                return;
+            }
         });
 
         showElement(this.element);

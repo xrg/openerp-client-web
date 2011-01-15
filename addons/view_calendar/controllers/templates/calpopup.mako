@@ -10,7 +10,7 @@
     <script type="text/javascript">
 
         function load_defaults() {
-            var pwin = window.opener;
+            var pwin = window.top;
             var elem = pwin.document.getElementById('calEventNew');
 
             var starts = getNodeAttribute(elem, 'dtStart');
@@ -47,10 +47,10 @@
             var lc = openobject.dom.get('_terp_load_counter').value;
             lc = parseInt(lc) || 0;
 
-            window.opener.setTimeout('getCalendar()', 0.5);
+            window.top.setTimeout('getCalendar()', 0.5);
 
             if (lc > 1) {
-                return window.close();
+                return window.frameElement.close();
             }
 
             if (id == 0) {
@@ -83,7 +83,7 @@
                                 <a class="button-a" href="javascript: void(0)" onclick="submit_form('save')">${_("Save")}</a>
                             </td>
                             <td style="padding: 0 2px 0 0px;">
-                                <a class="button-a" href="javascript: void(0)" onclick="window.close()">${_("Close")}</a>
+                                <a class="button-a" href="javascript: void(0)" onclick="window.frameElement.close()">${_("Close")}</a>
                             </td>
                             <td width="100%">
                             </td>

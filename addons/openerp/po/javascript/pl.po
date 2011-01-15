@@ -7,15 +7,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2010-12-17 10:28+0100\n"
-"PO-Revision-Date: 2010-11-21 07:42+0000\n"
-"Last-Translator: OpenERP Web Administrators <Unknown>\n"
+"POT-Creation-Date: 2011-01-07 17:11+0100\n"
+"PO-Revision-Date: 2011-01-12 16:53+0000\n"
+"Last-Translator: Grzegorz Grzelak (OpenGLOBE.pl) <grzegorz@openglobe.pl>\n"
 "Language-Team: pl <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2010-12-18 05:02+0000\n"
-"X-Generator: Launchpad (build Unknown)\n"
+"X-Launchpad-Export-Date: 2011-01-13 04:41+0000\n"
+"X-Generator: Launchpad (build 12177)\n"
 "Generated-By: Babel None\n"
 
 #: static/javascript/form.js:100
@@ -31,21 +31,39 @@ msgstr "Niedozwolony formularz, popraw czerwone pola."
 msgid "Do you really want to delete this record?"
 msgstr "Na pewno chcesz usunąć ten rekord?"
 
-#: static/javascript/form.js:901
+#: static/javascript/form.js:953
 msgid "You must select one or several records !"
 msgstr ""
 
-#: static/javascript/form.js:1062
+#: static/javascript/form.js:1116
 msgid "Do you really want to delete the attachment"
 msgstr "Na pewno chcesz usunąć załacznik?"
 
-#: static/javascript/listgrid.js:509 static/javascript/o2m.js:103
+#: static/javascript/form.js:1150
+msgid "No record selected ! You can only attach to existing record."
+msgstr ""
+
+#: static/javascript/form.js:1209
+msgid "OpenERP - Error"
+msgstr ""
+
+#: static/javascript/form.js:1280
+msgid ""
+"Warning, the record has been modified,\n"
+"your changes will be discarded."
+msgstr ""
+
+#: static/javascript/listgrid.js:507 static/javascript/o2m.js:103
 msgid "To edit Record, please first save it."
 msgstr ""
 
-#: static/javascript/listgrid.js:617
+#: static/javascript/listgrid.js:615
 msgid "Do you really want to delete selected record(s) ?"
 msgstr "Na pewno chcesz usunąć wybrane rekordy ?"
+
+#: static/javascript/m2o.js:514
+msgid "error in display::"
+msgstr ""
 
 #: static/javascript/o2m.js:62
 msgid "Do you really want to delete record ?"
@@ -58,6 +76,14 @@ msgstr "Na pewno chcesz usunąć ten węzeł ?"
 #: static/javascript/viewed.js:337
 msgid "Do you really wants to create an inherited view here?"
 msgstr "Na pewno chcesz utworzyć dziedziczony widok tutaj ?"
+
+#: static/javascript/openerp/openerp.base.js:125
+msgid "doLoadingSuccess: Cannot parse JSON"
+msgstr ""
+
+#: static/javascript/openerp/openerp.base.js:324
+msgid "Loading"
+msgstr ""
 
 #: static/javascript/openerp/openerp.ui.tips.js:59
 msgid "Object"

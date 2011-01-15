@@ -26,9 +26,6 @@
 # You can see the MPL licence at: http://www.mozilla.org/MPL/MPL-1.1.html
 #
 ###############################################################################
-
-import re
-
 import cherrypy
 import simplejson
 
@@ -37,6 +34,7 @@ from mako.lookup import TemplateLookup
 
 from openobject import templating, paths, pooler
 
+from openobject import i18n
 import _utils as utils
 import resources
 
@@ -98,6 +96,7 @@ def _cp_vars():
         'session': cherrypy.session,
         'request': cherrypy.request,
         'config': utils.config,
+        'locale': i18n.utils.get_locale
     }
 
 

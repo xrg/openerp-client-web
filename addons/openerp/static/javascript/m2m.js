@@ -108,6 +108,9 @@ Many2Many.prototype = {
         if ($id.attr('callback')) {
             onChange(this.id);
         }
+        // Mark form as changed so save alert can appear
+        // TODO: should we actually do that if we just set the same ids as previously?
+        jQuery('#view_form').data('is_form_changed', true);
     },
 
     getValue: function() {

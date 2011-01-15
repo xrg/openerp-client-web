@@ -1,14 +1,14 @@
 # Translations template for PROJECT.
-# Copyright (C) 2010 ORGANIZATION
+# Copyright (C) 2011 ORGANIZATION
 # This file is distributed under the same license as the PROJECT project.
-# FIRST AUTHOR <EMAIL@ADDRESS>, 2010.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2011.
 #
 #,
 msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2010-12-17 10:28+0100\n"
+"POT-Creation-Date: 2011-01-07 17:11+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -35,5 +35,13 @@ msgstr ""
 
 #: static/javascript/process.js:274
 msgid "Help"
+msgstr ""
+
+#: static/javascript/workflow.js:325
+msgid "state could not be created"
+msgstr ""
+
+#: static/javascript/workflow.js:362
+msgid "Could not create transaction at server"
 msgstr ""
 

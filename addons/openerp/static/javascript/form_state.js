@@ -150,7 +150,7 @@ function form_hookAttrChange() {
     });
 
     for(var field in fields) {
-        jQuery('[id="'+field+'"]').trigger('onAttrChange');
+        jQuery(idSelector(field)).trigger('onAttrChange');
     }
 }
 
@@ -178,13 +178,13 @@ function form_evalExpr(prefix, expr, ref_elem) {
     for (var i = 0; i < expr.length; i++) {
 
         var ex = expr[i];
-        var elem = null;
+        var elem;
         if (ref_elem.parents('table.grid').length) {
             var parent = ref_elem.parents('tr.grid-row');
-            var elem = parent.find(idSelector(prefix + ex[0]));
+            elem = parent.find(idSelector(prefix + ex[0]));
         }
         if (!elem || !elem.length) {
-            var elem = jQuery(idSelector(prefix + ex[0]));
+            elem = jQuery(idSelector(prefix + ex[0]));
         }
 
         if (ex.length==1) {
@@ -192,12 +192,18 @@ function form_evalExpr(prefix, expr, ref_elem) {
             continue;
         }
         
-        if (!elem)
+        if (!elem || !elem.length)
             continue;
 
         var op = ex[1];
         var val = ex[2];
-        var elem_value = elem.attr('value') || elem.text();
+
+        var elem_value;
+        if(elem.is(':input')) {
+            elem_value = elem.val();
+        } else {
+            elem_value = elem.attr('value') || elem.text();
+        }
 
         switch (op.toLowerCase()) {
             case '=':
@@ -241,7 +247,7 @@ function form_evalExpr(prefix, expr, ref_elem) {
 
 function form_setReadonly(container, fieldName, readonly) {
 
-    var $field = jQuery(fieldName) || jQuery('[id="'+fieldName+'"]');
+    var $field = jQuery(fieldName) || jQuery(idSelector(fieldName));
 
     if (!$field.length) {
         return;
@@ -257,46 +263,38 @@ function form_setReadonly(container, fieldName, readonly) {
     }
 
     if (!kind &&
-            jQuery('[id="'+field_id + '_id"]') &&
-            jQuery('[id="'+field_id + '_set"]') &&
-            jQuery('[id="'+field_id + '_id"]').attr('kind') == "many2many") {
-         Many2Many(field_id).setReadonly(readonly)
+            jQuery(idSelector(field_id + '_id')) &&
+            jQuery(idSelector(field_id + '_set')) &&
+            jQuery(idSelector(field_id + '_id')).attr('kind') == "many2many") {
+         Many2Many(field_id).setReadonly(readonly);
         return;
     }
 
     var type = $field.attr('type');
     $field.attr({'disabled':readonly, 'readOnly': readonly});
 
-    if (readonly && (type == 'button')) {
-        $field.css("cursor", "default");
-    }
-
-    if (readonly && (type != 'button')) {
-        $field.removeAttr('href');
-        $field.css("color", "gray");
-    }
-
-    if (readonly && (type != 'button')) {
-        $field.addClass('readonlyfield');
-    } else {
-        $field.removeClass('readonlyfield');
+    if (readonly) {
+        if ((type == 'button')) {
+            $field.css("cursor", "default");
+        } else {
+            $field.removeAttr('href');
+            $field.css("color", "gray");
+        }
+        
+        $field.toggleClass('readonlyfield', type != 'button');
     }
 
     if (type == 'hidden' && kind == 'many2one') {
         ManyToOne(field_id).setReadonly(readonly);
     }
 
-    if (!kind && (jQuery('[id="'+field_id+'_btn_'+'"]').length || jQuery('[id="'+'_o2m'+field_id+'"]').length)) { // one2many
+    if (!kind && (jQuery(idSelector(field_id+'_btn_')).length || jQuery(idSelector('_o2m'+field_id)).length)) { // one2many
         new One2Many(field_id).setReadonly(readonly);
         return
     }
 
     if (kind == 'date' || kind == 'datetime' || kind == 'time') {
-
-        var $img = jQuery('[id="'+field_name+'_trigger'+'"]');
-        if ($img.length){
-            $img.css('display',readonly ? 'none' : '');
-         }
+        jQuery(idSelector(field_name+'_trigger')).toggle(!readonly);
     }
 }
 
@@ -307,16 +305,13 @@ function form_setRequired(container, field, required) {
     }
 	var editable = getElement('_terp_editable').value;
 
+    var $field = jQuery(field);
     if (editable == 'True') {
-	    if (required) {
-	        MochiKit.DOM.addElementClass(field, 'requiredfield');
-	    } else {
-	        MochiKit.DOM.removeElementClass(field, 'requiredfield');
-	    }
+        $field.toggleClass('requiredfield', required);
 	}
-    MochiKit.DOM.removeElementClass(field, 'errorfield');
+    $field.removeClass('errorfield');
 
-    var kind = MochiKit.DOM.getNodeAttribute(field, 'kind');
+    var kind = $field.attr('kind');
     
     if (field.type == 'hidden' && kind == 'many2one') {
         form_setRequired(container, openobject.dom.get(field.name + '_text'), required);
@@ -325,7 +320,8 @@ function form_setRequired(container, field, required) {
 
 function form_setVisible(container, field, visible) {
 
-    if (MochiKit.DOM.hasElementClass(container, 'notebook-page')) { // notebook page?
+    var $container = jQuery(container);
+    if ($container.hasClass('notebook-page')) { // notebook page?
     
         var nb = container.parentNode.parentNode.notebook;
 
@@ -345,15 +341,12 @@ function form_setVisible(container, field, visible) {
     } else {
 
         try {
-            var label = getNodeAttribute(container, 'for');
-            label = MochiKit.Selector.findChildElements(container.parentNode, ['td.label[for="' + label + '"]'])[0];
+            var label = $container.attr('for');
+            var $label = $container.parent().children('td.label[for="' + label + '"]');
 
-            if (!label){
-                container.style.display = visible ? '' : 'none';
-            }
-            else{
-                jQuery(container).css('display', visible ? '' : 'none')
-                jQuery(container).prev().css('display', visible ? '' : 'none')
+            $container.toggle(visible);
+            if ($label.length) {
+                $container.prev().toggle(visible);
             }
         }catch(e){}
     }

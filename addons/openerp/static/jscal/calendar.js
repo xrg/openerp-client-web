@@ -637,12 +637,12 @@ Calendar.cellClick = function(el, ev) {
 				text += cal.showsTime ? Calendar._TT["ABOUT_TIME"] : "";
 			} else {
 				// FIXME: this should be removed as soon as lang files get updated!
-				text = "Help and about box text is not translated into this language.\n" +
+				text = _("Help and about box text is not translated into this language.\n" +
 					"If you know this language and you feel generous please update\n" +
 					"the corresponding file in \"lang\" subdir to match calendar-en.js\n" +
 					"and send it back to <mihai_bazon@yahoo.com> to get it into the distribution  ;-)\n\n" +
 					"Thank you!\n" +
-					"http://dynarch.com/mishoo/calendar.epl\n";
+					"http://dynarch.com/mishoo/calendar.epl\n");
 			}
 			error_display(text);
 			return;

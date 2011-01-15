@@ -7,22 +7,22 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2010-12-17 10:28+0100\n"
-"PO-Revision-Date: 2010-11-24 07:15+0000\n"
-"Last-Translator: cpa(OpenERP) <cpa@tinyerp.com>\n"
+"POT-Creation-Date: 2011-01-07 17:11+0100\n"
+"PO-Revision-Date: 2011-01-11 08:47+0000\n"
+"Last-Translator: OpenERP Web Administrators <Unknown>\n"
 "Language-Team: it <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2010-12-18 05:03+0000\n"
+"X-Launchpad-Export-Date: 2011-01-12 04:54+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 "Generated-By: Babel None\n"
 
-#: controllers/_diagram.py:100 controllers/_diagram.py:222
+#: controllers/_diagram.py:97 controllers/_diagram.py:218
 msgid "Could not delete state"
 msgstr "Impossibile eliminare lo stato"
 
-#: controllers/_diagram.py:285
+#: controllers/_diagram.py:282
 msgid "No workflow associated!"
 msgstr "Nessun flusso di lavoro associato!"
 
@@ -30,12 +30,12 @@ msgstr "Nessun flusso di lavoro associato!"
 msgid "Help: Not Defined"
 msgstr "Aiuto: Non definito"
 
-#: controllers/process.py:92
+#: controllers/process.py:93
 #, python-format
 msgid "%(name)s - Resource: %(resource)s, State: %(state)s"
 msgstr "%(name)s - Risorse: %(resource)s, Stato: %(state)s"
 
-#: controllers/process.py:104
+#: controllers/process.py:105
 msgid "Last modified by:"
 msgstr "Ultima modifica di:"
 
@@ -46,31 +46,31 @@ msgstr "Processo"
 
 #: controllers/templates/process.mako:55
 msgid "Documentation"
-msgstr ""
+msgstr "Documentazione"
 
 #: controllers/templates/process.mako:56
 msgid "Read Documentation Online"
-msgstr ""
+msgstr "Leggi la Documentazione Onlie"
 
 #: controllers/templates/process.mako:62
 msgid "Forum"
-msgstr ""
+msgstr "Forum"
 
 #: controllers/templates/process.mako:63
 msgid "Community Discussion"
-msgstr ""
+msgstr "Discussione della Comunità"
 
 #: controllers/templates/process.mako:68
 msgid "Books"
-msgstr ""
+msgstr "Libri"
 
 #: controllers/templates/process.mako:69
 msgid "Get the book on Amazon"
-msgstr ""
+msgstr "Compra il libro su Amazon"
 
 #: controllers/templates/process.mako:74
 msgid "Support / Publisher Warranty"
-msgstr ""
+msgstr "Supporto / Garanzia dell'Editore"
 
 #: controllers/templates/process.mako:75
 msgid "Get the OpenERP Warranty"
@@ -90,11 +90,11 @@ msgstr "[Modifica Processo]"
 
 #: controllers/templates/process.mako:117
 msgid "[show fields]"
-msgstr ""
+msgstr "[mostra campi]"
 
 #: controllers/templates/process.mako:118
 msgid "[hide fields]"
-msgstr ""
+msgstr "[nascondi campi]"
 
 #: controllers/templates/process_open.mako:54
 #: controllers/templates/process_tip.mako:20
@@ -124,7 +124,7 @@ msgstr "Diagramma"
 msgid "Diagram view..."
 msgstr "Schema di vista..."
 
-#: widgets/templates/diagram.mako:26
+#: widgets/templates/diagram.mako:27
 msgid "Loading..."
 msgstr "Caricamento..."
 

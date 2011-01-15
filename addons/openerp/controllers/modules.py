@@ -1,7 +1,7 @@
+import operator
 import os
 import shutil
 import tempfile
-import zipfile
 from cStringIO import StringIO
 
 from openerp.controllers import form
@@ -30,6 +30,7 @@ class ModuleForm(form.Form):
         modules = rpc.RPCProxy('ir.module.module')
         web_modules = modules.list_web()
         if not web_modules: return []
+        addons_to_load = map(operator.itemgetter(0), web_modules)
 
         addons_to_download = [
             name for (name, version) in web_modules
@@ -37,7 +38,7 @@ class ModuleForm(form.Form):
                 or version > addons.get_info(name).get('version', '0'))
         ]
         # avoid querying for 0 addons if we have everything already
-        if not addons_to_download: return []
+        if not addons_to_download: return addons_to_load
         web_payload = modules.get_web(addons_to_download)
         for module in web_payload:
             # Due to the way zip_directory works on the server, we get a toplevel dir called "web" for our addon,
@@ -62,4 +63,4 @@ class ModuleForm(form.Form):
                 'depends': dependencies or ['openerp'],
             },))
             descriptor.close()
-        return addons_to_download
+        return addons_to_load

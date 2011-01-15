@@ -100,7 +100,12 @@ class Search(Form):
             # When id does not exists for m2o
             if not ids:
                 params.search_text = False
-                params.context['default_name'] = text
+                params.context['default_name'] = ustr(text)
+        else:
+            params.search_text = False
+            if params.context.get('default_name'):
+                del params.context['default_name']
+                
         if kw.get('return_to'):
             params['return_to'] = ast.literal_eval(kw['return_to'])
 

@@ -391,35 +391,35 @@ MochiKit.Base.update(ListView.prototype, {
 MochiKit.Base.update(ListView.prototype, {
 
     onKeyDown: function(evt) {
-        var key = evt.key();
-        var src = evt.src();
+        var $src = jQuery(evt.target);
 
-        if (!(key.string == "KEY_TAB" || key.string == "KEY_ENTER" || key.string == "KEY_ESCAPE")) {
+        // 9 : 'KEY_TAB'
+        // 13 : 'KEY_ENTER'
+        // 27 : 'KEY_ESCAPE'
+        if (!(evt.which == 9 || evt.which == 13 || evt.which == 27)) {
             return;
         }
 
-        if (key.string == "KEY_ESCAPE") {
-            evt.stop();
+        if (evt.which == 27) {
+            evt.stopPropagation();
             return this.reload();
         }
 
-        if (key.string == "KEY_ENTER") {
-
-            if (hasElementClass(src, "m2o")) {
-
-                var k = src.id;
+        if (evt.which == 13) {
+            if ($src.is('.m2o')) {
+                var k = $src.attr('id');
                 k = k.slice(0, k.length - 5);
 
-                if (src.value && !openobject.dom.get(k).value) {
+                if ($src.val() && !openobject.dom.get(k).value) {
                     return;
                 }
             }
 
-            if (src.onchange) {
-                src.onchange();
+            if ($src[0].onchange) {
+                $src[0].onchange();
             }
 
-            evt.stop();
+            evt.stopPropagation();
             return this.save(this.current_record);
         }
 
@@ -428,8 +428,8 @@ MochiKit.Base.update(ListView.prototype, {
         var first = editors.shift();
         var last = editors.pop();
 
-        if (src == last) {
-            evt.stop();
+        if ($src[0] == last) {
+            evt.stopPropagation();
             first.focus();
             first.select();
         }
@@ -440,7 +440,7 @@ MochiKit.Base.update(ListView.prototype, {
         if (sure && !confirm(sure)) {
             return;
         }
-        
+
         var self = this;
         var _list = this.name;
         var prefix = this.name == '_terp_list' ? '' : this.name + '/';
@@ -475,6 +475,7 @@ MochiKit.Base.update(ListView.prototype, {
         }).addCallback(function(res) {
             var $form = jQuery('#listgrid_button_action');
             params['_terp_context'] = res.context || '{}';
+            params['_terp_list_grid'] = _list;
             if($form.length) {
                 $form.remove();
             }
@@ -515,7 +516,7 @@ MochiKit.Base.update(ListView.prototype, {
         }
 
         var parent_field = this.name.split('/');
-        var data = getFormData(2);
+        var data = getFormData(2, false);
         var args = getFormParams('_terp_concurrency_info');
 
         for (var k in data) {
@@ -720,7 +721,7 @@ MochiKit.Base.update(ListView.prototype, {
             args['_terp_clear'] = true;
         }
 
-        jQuery('[id="'+self.name+'"] .loading-list').show();
+        jQuery(idSelector(self.name) + ' .loading-list').show();
         jQuery.ajax({
             url: '/openerp/listgrid/get',
             data: args,
@@ -785,19 +786,23 @@ MochiKit.Base.update(ListView.prototype, {
                 MochiKit.Signal.signal(__listview, 'onreload');
 
                 if(self.sort_key != null) {
+                    var $th;
                     if(self.name != '_terp_list') {
-                        var th = jQuery('th[id= grid-data-column/' + self.name + '/' + self.sort_key + ']').get();
-                    }
-                    else {
-                        var th = jQuery('th[id= grid-data-column/' + self.sort_key + ']').get();
-                    }
-
-                    var detail = jQuery(th).html();
-                    if(self.sort_order == 'asc') {
-                        jQuery(th).html(detail + '&nbsp; <img src="/openerp/static/images/listgrid/arrow_down.gif" id="asc" style="vertical-align: middle;"/>');
+                        $th = jQuery(idSelector('grid-data-column/' + self.name + '/' + self.sort_key));
                     } else {
-                        jQuery(th).html(detail + '&nbsp; <img src="/openerp/static/images/listgrid/arrow_up.gif" id="desc" style="vertical-align: middle;"/>');
+                        $th = jQuery(idSelector('grid-data-column/' + self.sort_key));
                     }
+                    $th.append(
+                        jQuery('<span>&nbsp;</span>')
+                      ).append(
+                        jQuery('<img>', {
+                            style: "vertical-align: middle;",
+                            id: self.sort_order,
+                            src: '/openerp/static/images/listgrid/' + (
+                                self.sort_order == 'asc'
+                                ? 'arrow_down.gif'
+                                : 'arrow_up.gif'
+                            )}));
                 }
             }
         });
@@ -861,8 +866,6 @@ function listgridValidation(_list, o2m, record_id) {
     if(current_id != null) {
         if(confirm('The record has been modified \n Do you want to save it ?')) {
             new ListView(_list).save(current_id, record_id);
-        } else {
-            return false;
         }
     } else{
         if(o2m) {

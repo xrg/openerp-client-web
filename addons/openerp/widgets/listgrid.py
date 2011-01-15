@@ -369,7 +369,6 @@ class List(TinyWidget):
 
                         row_value = values[i]
                         if invisible:
-                            fields[name]['readonly'] = True
                             cell = Hidden(**fields[name])
                             cell.set_value(row_value.get(name, False))
                         else:
