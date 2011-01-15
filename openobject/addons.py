@@ -214,6 +214,9 @@ def load_addons(db_name, config):
         new_modules = obj.get_new_modules()
     except errors.AuthenticationError:
         new_modules = []
+    except Exception:
+        logging.getLogger('addons').exception("Cannot fetch new modules!")
+        new_modules = []
 
     new_modules_in_graph = upgrade_graph(graph, new_modules)
     if new_modules_in_graph:
