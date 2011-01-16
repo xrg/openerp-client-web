@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: openobject-client-web\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2011-01-07 17:11+0100\n"
-"PO-Revision-Date: 2011-01-14 14:13+0000\n"
+"PO-Revision-Date: 2011-01-15 11:56+0000\n"
 "Last-Translator: Paulius Sladkevičius - http://www.inovera.lt <Unknown>\n"
 "Language-Team: Lithuanian <lt@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2011-01-15 05:00+0000\n"
+"X-Launchpad-Export-Date: 2011-01-16 05:03+0000\n"
 "X-Generator: Launchpad (build 12177)\n"
 
 #: validators.py:83
@@ -848,11 +848,11 @@ msgstr "Taikyti visada!"
 #: controllers/templates/footer.mako:3
 #, python-format
 msgid "&copy; 2008-2010 %(ooweb)s  SA. All Rights Reserved "
-msgstr ""
+msgstr "&copy; 2008-2010 %(ooweb)s  SA. Visos teisės saugomos "
 
 #: controllers/templates/footer.mako:6
 msgid "Significant contributions to the web client have been made by"
-msgstr ""
+msgstr "Ženkliai prisidėjo prie žiniatinklio kliento"
 
 #: controllers/templates/form.mako:70
 msgid "Disable all Tips"
@@ -1078,13 +1078,15 @@ msgstr "Duomenų bazės"
 
 #: controllers/templates/login.mako:84
 msgid "Top Contributor:"
-msgstr ""
+msgstr "Daugiausiai prisidėjo:"
 
 #: controllers/templates/login.mako:94
 msgid ""
 "We think that daily job activities can be more intuitive, efficient, "
 "automated, .. and even fun."
 msgstr ""
+"Mes manome, kad kasdieninė darbas gali būti paprastesnis, efektyvesnis, "
+"automatizuotas, .. ir netgi smagus."
 
 #: controllers/templates/login.mako:95
 msgid "OpenERP's vision to be:"
@@ -1092,13 +1094,15 @@ msgstr "OpenERP vizija:"
 
 #: controllers/templates/login.mako:103
 msgid "Full featured"
-msgstr ""
+msgstr "Pilnas funkcionalumas"
 
 #: controllers/templates/login.mako:104
 msgid ""
 "Today's enterprise challenges are multiple. We provide one module for each "
 "need."
 msgstr ""
+"Šiandienos įmonei iškyla įvairūs iššūkiai. Mes siūlome po vieną modulį "
+"kiekvienam poreikiui."
 
 #: controllers/templates/login.mako:112
 msgid "Open Source"
@@ -1109,6 +1113,8 @@ msgid ""
 "To Build a great product, we rely on the knowledge of thousands of "
 "contributors."
 msgstr ""
+"Norint sukurti nuostabų produktą, mes esame priklausomi nuo tūkstančių "
+"prisidedančių žmonių."
 
 #: controllers/templates/login.mako:121
 msgid "User Friendly"
@@ -1118,6 +1124,8 @@ msgstr "Patogus naudoti"
 msgid ""
 "In order to be productive, people need clean and easy to use interface."
 msgstr ""
+"Norint būti produktyvus, žmonėms reikia švarios ir paprastos grafinės "
+"sąsajos."
 
 #: controllers/templates/modules.mako:4
 msgid "Module Management"

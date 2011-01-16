@@ -8,22 +8,22 @@ msgstr ""
 "Project-Id-Version: openobject-client-web\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2011-01-07 17:11+0100\n"
-"PO-Revision-Date: 2011-01-14 16:55+0000\n"
+"PO-Revision-Date: 2011-01-15 11:16+0000\n"
 "Last-Translator: Goran Kliska (Aplikacija d.o.o.) <gkliska@gmail.com>\n"
 "Language-Team: Croatian <hr@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2011-01-15 05:00+0000\n"
+"X-Launchpad-Export-Date: 2011-01-16 05:03+0000\n"
 "X-Generator: Launchpad (build 12177)\n"
 
 #: validators.py:83
 msgid "Invalid literal for float"
-msgstr ""
+msgstr "Neispravan znak za broj"
 
 #: validators.py:122 validators.py:127 validators.py:270
 msgid "Invalid datetime format"
-msgstr "neispravan format datuma/vremena."
+msgstr "Neispravan format datuma/vremena."
 
 #: validators.py:174
 msgid "Please select a file."
@@ -53,16 +53,16 @@ msgstr ""
 
 #: validators.py:262
 msgid "You must start your URL with http://, https://, etc"
-msgstr ""
+msgstr "Morate započeti svoj URL s http://, https: / /, itd."
 
 #: validators.py:263
 msgid "That is not a valid URL"
-msgstr ""
+msgstr "Neispravan URL"
 
 #: validators.py:264
 #, python-format
 msgid "You must provide a full domain name (like %(domain)s.com)"
-msgstr ""
+msgstr "Morate navesti puni naziv domene (kao što su %(domain)s.com)"
 
 #: validators.py:268
 msgid "Please enter an integer value"
@@ -70,7 +70,7 @@ msgstr "Upišite cjelobrojnu vrijednost"
 
 #: validators.py:269
 msgid "Please enter a number"
-msgstr "Upisšite broj"
+msgstr "Upišite brojčanu vrijednost"
 
 #: controllers/actions.py:99
 msgid "Invalid View"
@@ -90,7 +90,7 @@ msgstr "Ispis prekinut, zbog predugog čekanja"
 
 #: controllers/actions.py:378
 msgid "Relative URLs are not supported"
-msgstr ""
+msgstr "Relativni URL-ovi nisu podržani"
 
 #: controllers/actions.py:406
 msgid "Action not found"
@@ -125,8 +125,8 @@ msgid ""
 "did not changed it, the password is 'admin' after installation."
 msgstr ""
 "Ovo je lozinka korisnika koji ima prava za administraciju baza podataka. Ovo "
-"nije OpenERP korisnik, nego samo super administrator. Ako ju niste mjenjali, "
-"lozinka je admin nakon instalacije."
+"nije OpenERP već super administrator. Ako ju niste mjenjali, lozinka je "
+"\"admin\" nakon instalacije."
 
 #: controllers/database.py:78 controllers/database.py:110
 msgid "New database name:"
@@ -222,7 +222,7 @@ msgstr "Arhiviranje/Backup"
 
 #: controllers/database.py:105
 msgid "Restore database"
-msgstr ""
+msgstr "Vraćanje baze podataka"
 
 #: controllers/database.py:107 controllers/templates/database.mako:58
 msgid "Restore"
@@ -234,7 +234,7 @@ msgstr "Datoteka:"
 
 #: controllers/database.py:114
 msgid "Change Administrator Password"
-msgstr ""
+msgstr "Promjena administratorske lozinke"
 
 #: controllers/database.py:116 controllers/templates/preferences/index.mako:37
 msgid "Change Password"
@@ -254,7 +254,7 @@ msgstr "Potvrda lozinke:"
 
 #: controllers/database.py:182
 msgid "You must avoid all accents, space or special characters."
-msgstr "You must avoid all accents, space or special characters."
+msgstr "Morate izbjegavati sve akcenate, razmake i posebne znakove."
 
 #: controllers/database.py:183
 msgid "Bad database name"
@@ -270,12 +270,12 @@ msgstr ""
 
 #: controllers/database.py:204
 msgid "Error during database creation"
-msgstr ""
+msgstr "Greška kod kreiranja baze podataka"
 
 #: controllers/database.py:207 controllers/database.py:234
 #: controllers/database.py:280 controllers/database.py:303
 msgid "Bad super admin password"
-msgstr ""
+msgstr "Kriva super admin lozinka"
 
 #: controllers/database.py:211
 msgid "Could not create database."
@@ -313,7 +313,7 @@ msgstr ""
 #: controllers/form.py:561
 #, python-format
 msgid "Invalid button type \"%s\""
-msgstr ""
+msgstr "Neispravan tip gumba \"%s\""
 
 #: controllers/form.py:899 controllers/tree.py:241
 msgid "No record selected"
@@ -341,7 +341,7 @@ msgstr ""
 
 #: controllers/impex.py:346
 msgid "Export Error"
-msgstr ""
+msgstr "Greška izvoza"
 
 #: controllers/impex.py:452
 msgid "Error opening .CSV file"
@@ -381,11 +381,11 @@ msgstr ""
 
 #: controllers/impex.py:506
 msgid "ImportationError"
-msgstr ""
+msgstr "ImportationError"
 
 #: controllers/listgrid.py:59
 msgid "Parent record doesn't exists..."
-msgstr ""
+msgstr "Nadređeni zapis ne postoji..."
 
 #: controllers/preferences.py:41
 msgid "Change your password"
@@ -397,11 +397,11 @@ msgstr "Postavke"
 
 #: controllers/preferences.py:92
 msgid "All passwords have to be filled."
-msgstr ""
+msgstr "Sve lozinke moraju biti ispunjene."
 
 #: controllers/preferences.py:94
 msgid "The new password and its confirmation must be identical."
-msgstr ""
+msgstr "Nova lozinka i potvrda lozinke moraju biti identične."
 
 #: controllers/preferences.py:103
 msgid "Could not change your password."
@@ -422,7 +422,7 @@ msgstr ""
 
 #: controllers/tree.py:272
 msgid "No resource selected"
-msgstr ""
+msgstr "Nije označen resurs."
 
 #: controllers/utils.py:52
 msgid "Could not connect to server"
@@ -434,7 +434,7 @@ msgstr "Neispravno korisničko ime/lozinka"
 
 #: controllers/view_log.py:40
 msgid "ID"
-msgstr ""
+msgstr "ID"
 
 #: controllers/view_log.py:41
 msgid "Creation User"
@@ -458,7 +458,7 @@ msgstr "Vlasnik"
 
 #: controllers/view_log.py:46
 msgid "Group Owner"
-msgstr ""
+msgstr "Vlasnik grupe"
 
 #: controllers/view_log.py:47
 msgid "Access Level"
@@ -498,7 +498,7 @@ msgstr "Snimi gumb"
 
 #: controllers/viewed.py:882
 msgid "Cancel Button"
-msgstr ""
+msgstr "Gumb za odustajanje"
 
 #: controllers/viewed.py:882
 msgid "Open Button"
@@ -522,7 +522,7 @@ msgstr "O OpenERP Web -u"
 
 #: controllers/templates/about.mako:27
 msgid "OpenERP Web"
-msgstr ""
+msgstr "OpenERP Web"
 
 #: controllers/templates/about.mako:30
 msgid "Copyright &copy; 2006-TODAY Tiny ERP Pvt. Ltd. All Rights Reserved."
@@ -774,7 +774,7 @@ msgstr "OK"
 
 #: controllers/templates/exp.mako:236
 msgid "Select Options to Export"
-msgstr ""
+msgstr "Odabir opcija izvoza"
 
 #: controllers/templates/exp.mako:242
 msgid "Export as CSV"
@@ -782,11 +782,11 @@ msgstr "Izvezi kao CSV"
 
 #: controllers/templates/exp.mako:243
 msgid "Export as Excel"
-msgstr ""
+msgstr "Izvoz u Excel"
 
 #: controllers/templates/exp.mako:250
 msgid "Add field names"
-msgstr ""
+msgstr "Dodaj polja"
 
 #: controllers/templates/exp.mako:255
 msgid "Import Compatible"
@@ -815,11 +815,11 @@ msgstr ""
 
 #: controllers/templates/fieldpref.mako:63
 msgid "Only for you"
-msgstr ""
+msgstr "Samo za vas"
 
 #: controllers/templates/fieldpref.mako:67
 msgid "For all"
-msgstr ""
+msgstr "Za sve"
 
 #: controllers/templates/fieldpref.mako:76
 msgid "Value applicable if:"
@@ -840,15 +840,15 @@ msgstr ""
 
 #: controllers/templates/form.mako:70
 msgid "Disable all Tips"
-msgstr ""
+msgstr "Onemogući sve savjete"
 
 #: controllers/templates/form.mako:71
 msgid "Hide this Tip"
-msgstr ""
+msgstr "Sakrij ovaj savjet"
 
 #: controllers/templates/form.mako:86
 msgid "Add / Remove Shortcut..."
-msgstr ""
+msgstr "Dodaj / ukloni prečac..."
 
 #: controllers/templates/form.mako:90
 #, python-format
@@ -865,7 +865,7 @@ msgstr ""
 
 #: controllers/templates/form.mako:120
 msgid "Create a new resource"
-msgstr ""
+msgstr "Kreiraj novi resurs"
 
 #: controllers/templates/form.mako:121 controllers/templates/search.mako:128
 #: controllers/templates/viewed_new_model.mako:36
@@ -942,17 +942,17 @@ msgstr ""
 
 #: controllers/templates/form.mako:159
 msgid "Show grid"
-msgstr ""
+msgstr "Prikaži rešetku"
 
 #: controllers/templates/header.mako:33
 #, python-format
 msgid "%(company)s"
-msgstr ""
+msgstr "%(company)s"
 
 #: controllers/templates/header.mako:34 controllers/templates/index.mako:218
 #, python-format
 msgid "%(user)s"
-msgstr ""
+msgstr "%(user)s"
 
 #: controllers/templates/header.mako:45 controllers/templates/header.mako:47
 msgid "Home"
@@ -988,7 +988,7 @@ msgstr "Slika"
 
 #: controllers/templates/image.mako:55
 msgid "Add Resource:"
-msgstr ""
+msgstr "Dodaj resurs"
 
 #: controllers/templates/image.mako:66 widgets/form/templates/binary.mako:28
 msgid "Save As"
@@ -1004,15 +1004,15 @@ msgstr "Uvoz podataka"
 
 #: controllers/templates/imp.mako:145
 msgid "Fields to import"
-msgstr ""
+msgstr "Polja za uvoz"
 
 #: controllers/templates/imp.mako:170
 msgid "Auto Detect"
-msgstr ""
+msgstr "Automatsko otkrivanje"
 
 #: controllers/templates/imp.mako:189
 msgid "File to import"
-msgstr ""
+msgstr "Datoteka za uvoz"
 
 #: controllers/templates/imp.mako:197
 msgid "Options"
@@ -1024,7 +1024,7 @@ msgstr "Razdjelnik:"
 
 #: controllers/templates/imp.mako:202
 msgid "Delimiter:"
-msgstr ""
+msgstr "Graničnik:"
 
 #: controllers/templates/imp.mako:206
 msgid "Encoding:"
@@ -1032,11 +1032,11 @@ msgstr "Kodna stranica:"
 
 #: controllers/templates/imp.mako:213
 msgid "Lines to skip:"
-msgstr ""
+msgstr "Preskočiti redova:"
 
 #: controllers/templates/index.mako:164
 msgid "System Logs"
-msgstr ""
+msgstr "Sistemski zapisi"
 
 #: controllers/templates/index.mako:189
 msgid "More"
@@ -1105,11 +1105,11 @@ msgstr ""
 
 #: controllers/templates/modules.mako:4
 msgid "Module Management"
-msgstr ""
+msgstr "Upravljenje modulima"
 
 #: controllers/templates/modules.mako:17
 msgid "Web Modules"
-msgstr ""
+msgstr "Web moduli"
 
 #: controllers/templates/openo2m.mako:34
 msgid "Save & Close"
@@ -1125,22 +1125,22 @@ msgstr "Snimi kao filter"
 
 #: controllers/templates/save_filter.mako:30
 msgid "Filter Name"
-msgstr ""
+msgstr "Naziv filtra"
 
 #: controllers/templates/search.mako:110
 #, python-format
 msgid "Search %(name)s"
-msgstr ""
+msgstr "Traži %(name)s"
 
 #: controllers/templates/search.mako:125 widgets/form/templates/datetime.mako:8
 msgid "Select"
-msgstr ""
+msgstr "Odaberi"
 
 #: controllers/templates/search.mako:127 widgets/_views.py:83
 #: widgets/form/templates/many2one.mako:22
 #: widgets/form/templates/reference.mako:27 widgets/templates/viewform.mako:26
 msgid "Search"
-msgstr ""
+msgstr "Traži"
 
 #: controllers/templates/search.mako:143
 #, python-format
@@ -1153,35 +1153,35 @@ msgstr ""
 
 #: controllers/templates/selection.mako:23
 msgid "Select your action"
-msgstr ""
+msgstr "Odaberite akciju"
 
 #: controllers/templates/server_log.mako:4
 msgid "Server Actions..."
-msgstr ""
+msgstr "Akcije poslužitelja..."
 
 #: controllers/templates/server_log.mako:14
 msgid "Server Actions"
-msgstr ""
+msgstr "Akcije poslužitelja"
 
 #: controllers/templates/translator.mako:4
 msgid "Add Translations"
-msgstr ""
+msgstr "Dodaj prijevode"
 
 #: controllers/templates/translator.mako:17
 msgid "Add Translation"
-msgstr ""
+msgstr "Dodaj prijevod"
 
 #: controllers/templates/translator.mako:27
 msgid "Add Translation for:"
-msgstr ""
+msgstr "Dodaj prijevod za:"
 
 #: controllers/templates/translator.mako:31
 msgid "Fields"
-msgstr ""
+msgstr "Polja"
 
 #: controllers/templates/translator.mako:32
 msgid "Labels"
-msgstr ""
+msgstr "Labele"
 
 #: controllers/templates/translator.mako:33
 msgid "Relates"
@@ -1189,16 +1189,16 @@ msgstr ""
 
 #: controllers/templates/translator.mako:34
 msgid "View"
-msgstr ""
+msgstr "Pogled"
 
 #: controllers/templates/translator.mako:53
 msgid "Field"
-msgstr ""
+msgstr "Polje"
 
 #: controllers/templates/view_log.mako:4 controllers/templates/view_log.mako:12
 #: utils/common.py:55
 msgid "Information"
-msgstr ""
+msgstr "Informacija"
 
 #: controllers/templates/viewed.mako:17
 #, python-format
@@ -1211,11 +1211,11 @@ msgstr ""
 
 #: controllers/templates/viewed.mako:31
 msgid "Inherited View"
-msgstr ""
+msgstr "Nasljeđeni pogled"
 
 #: controllers/templates/viewed.mako:34
 msgid "Preview"
-msgstr ""
+msgstr "Pretpregled"
 
 #: controllers/templates/viewed_add.mako:6
 msgid "Node Type:"
@@ -1227,42 +1227,42 @@ msgstr ""
 
 #: controllers/templates/viewed_add.mako:27
 msgid "Position:"
-msgstr ""
+msgstr "Pozicija:"
 
 #: controllers/templates/viewlist.mako:4
 #: controllers/templates/viewlist.mako:108
 #, python-format
 msgid "Manage Views (%s)"
-msgstr ""
+msgstr "Upravljanje pogledima (%s)"
 
 #: controllers/templates/viewlist.mako:146
 #, python-format
 msgid "Create a view (%s)"
-msgstr ""
+msgstr "Kreiranje pogleda (%s)"
 
 #: controllers/templates/viewlist.mako:174
 msgid "View Name:"
-msgstr ""
+msgstr "Naziv pogleda:"
 
 #: controllers/templates/viewlist.mako:178
 msgid "View Type:"
-msgstr ""
+msgstr "Tip pogleda:"
 
 #: controllers/templates/viewlist.mako:189
 msgid "Priority:"
-msgstr ""
+msgstr "Prioritet:"
 
 #: utils/common.py:45 utils/common.py:74
 msgid "Error"
-msgstr ""
+msgstr "Greška"
 
 #: utils/common.py:50 utils/common.py:77
 msgid "Warning"
-msgstr ""
+msgstr "Upozorenje"
 
 #: utils/rpc.py:139
 msgid "Access Denied"
-msgstr ""
+msgstr "Pristup odbijen"
 
 #: utils/rpc.py:246
 msgid "Unsupported protocol."
@@ -1280,19 +1280,19 @@ msgstr ""
 
 #: utils/rpc.py:363
 msgid "Authorization Error"
-msgstr ""
+msgstr "Autorizacijska greška"
 
 #: utils/rpc.py:442
 msgid "== Access Denied =="
-msgstr ""
+msgstr "== Pristup odbijen =="
 
 #: widgets/_views.py:52
 msgid "Form"
-msgstr ""
+msgstr "Obrazac"
 
 #: widgets/_views.py:53
 msgid "Form view..."
-msgstr ""
+msgstr "Pogled obrasca..."
 
 #: widgets/_views.py:84
 msgid "Search view..."
@@ -1306,52 +1306,52 @@ msgstr ""
 #: widgets/pager.py:64
 #, python-format
 msgid "%s"
-msgstr ""
+msgstr "%s"
 
 #: widgets/pager.py:76
 #, python-format
 msgid "%s - %s"
-msgstr ""
+msgstr "%s - %s"
 
 #: widgets/search.py:289
 msgid "contains"
-msgstr ""
+msgstr "sadrži"
 
 #: widgets/search.py:289
 msgid "doesn't contain"
-msgstr ""
+msgstr "ne sadrži"
 
 #: widgets/search.py:290
 msgid "is equal to"
-msgstr ""
+msgstr "je jednako"
 
 #: widgets/search.py:290
 msgid "is not equal to"
-msgstr ""
+msgstr "nije jednako"
 
 #: widgets/search.py:291
 msgid "greater than"
-msgstr ""
+msgstr "veće od"
 
 #: widgets/search.py:291
 msgid "less than"
-msgstr ""
+msgstr "manje od"
 
 #: widgets/search.py:292
 msgid "in"
-msgstr ""
+msgstr "u"
 
 #: widgets/search.py:292
 msgid "not in"
-msgstr ""
+msgstr "nije u"
 
 #: widgets/search.py:399
 msgid "Yes"
-msgstr ""
+msgstr "Da"
 
 #: widgets/search.py:399
 msgid "No"
-msgstr ""
+msgstr "Ne"
 
 #: widgets/form/_action.py:54
 msgid "Action not found!"
@@ -1360,38 +1360,38 @@ msgstr ""
 #: widgets/form/_o2m.py:57 widgets/templates/listgrid/listgrid.mako:141
 #: widgets/templates/listgrid/listgrid.mako:147
 msgid "Create new record."
-msgstr ""
+msgstr "Kreiraj novi zapis."
 
 #: widgets/form/_o2m.py:70
 msgid "Save/New"
-msgstr ""
+msgstr "Snimi/Novi"
 
 #: widgets/form/_o2m.py:70
 msgid "Save parent record."
-msgstr ""
+msgstr "Snimi nadređeni zapis."
 
 #: widgets/form/_o2m.py:196
 #, python-format
 msgid "%d of %d"
-msgstr ""
+msgstr "%d od %d"
 
 #: widgets/form/_o2m.py:198
 #, python-format
 msgid "- of %d"
-msgstr ""
+msgstr "- od %d"
 
 #: widgets/form/templates/binary.mako:31
 msgid "add attachment"
-msgstr ""
+msgstr "dodaj privitak"
 
 #: widgets/form/templates/image.mako:7 widgets/form/templates/image.mako:39
 msgid "Click here to add new image."
-msgstr ""
+msgstr "Kliknite ovdje za dodavanje nove slike."
 
 #: widgets/form/templates/many2one.mako:2
 #: widgets/form/templates/reference.mako:30
 msgid "Open"
-msgstr ""
+msgstr "Otvori"
 
 #: widgets/form/templates/many2one.mako:2
 #: widgets/form/templates/reference.mako:30
@@ -1400,83 +1400,83 @@ msgstr ""
 
 #: widgets/form/templates/one2many.mako:20
 msgid "Create new record..."
-msgstr ""
+msgstr "Kreiraj novi zapis..."
 
 #: widgets/form/templates/one2many.mako:22
 msgid "Delete record..."
-msgstr ""
+msgstr "Obriši zapis..."
 
 #: widgets/form/templates/one2many.mako:28
 msgid "Translate me."
-msgstr ""
+msgstr "Prevedi me."
 
 #: widgets/form/templates/one2many.mako:47
 msgid "Previous record..."
-msgstr ""
+msgstr "Prwethodni zapis..."
 
 #: widgets/form/templates/one2many.mako:49
 msgid "Next record..."
-msgstr ""
+msgstr "Slijedeći zapis"
 
 #: widgets/templates/logs.mako:22
 msgid "More..."
-msgstr ""
+msgstr "Više..."
 
 #: widgets/templates/logs.mako:35
 msgid "Less..."
-msgstr ""
+msgstr "Manje..."
 
 #: widgets/templates/pager.mako:9
 msgid "<< First"
-msgstr ""
+msgstr "<< Prvi"
 
 #: widgets/templates/pager.mako:14
 msgid "< Previous"
-msgstr ""
+msgstr "< Prethodni"
 
 #: widgets/templates/pager.mako:19
 msgid "of"
-msgstr ""
+msgstr "od"
 
 #: widgets/templates/pager.mako:24
 msgid "Next >"
-msgstr ""
+msgstr "Sljedeći >"
 
 #: widgets/templates/pager.mako:29
 msgid "Last >>"
-msgstr ""
+msgstr "Zadnji >>"
 
 #: widgets/templates/pager.mako:37
 msgid "Change Limit:"
-msgstr ""
+msgstr "Promjeni limit"
 
 #: widgets/templates/sidebar.mako:37
 msgid "Reports"
-msgstr ""
+msgstr "Izvještaji"
 
 #: widgets/templates/sidebar.mako:41 widgets/templates/viewform.mako:51
 msgid "Actions"
-msgstr ""
+msgstr "Akcije"
 
 #: widgets/templates/sidebar.mako:45
 msgid "Links"
-msgstr ""
+msgstr "Poveznice"
 
 #: widgets/templates/sidebar.mako:49
 msgid "Submenu"
-msgstr ""
+msgstr "Podizbornik"
 
 #: widgets/templates/sidebar.mako:54
 msgid "Attachments"
-msgstr ""
+msgstr "Privitci"
 
 #: widgets/templates/sidebar.mako:74
 msgid "File"
-msgstr ""
+msgstr "Datoteka"
 
 #: widgets/templates/sidebar.mako:82
 msgid "Customize"
-msgstr ""
+msgstr "Prilagodi"
 
 #: widgets/templates/sidebar.mako:86
 msgid "Manage views of the current object"
@@ -1484,31 +1484,31 @@ msgstr ""
 
 #: widgets/templates/sidebar.mako:88
 msgid "Manage Views"
-msgstr ""
+msgstr "Upravljanje pogledima"
 
 #: widgets/templates/sidebar.mako:92
 msgid "Edit workflow of the current object"
-msgstr ""
+msgstr "Uredi tijek rada trenutnog objekta"
 
 #: widgets/templates/sidebar.mako:93
 msgid "Edit Workflow"
-msgstr ""
+msgstr "Uredi tijek rada"
 
 #: widgets/templates/sidebar.mako:97
 msgid "Customize current object or create a new object"
-msgstr ""
+msgstr "Prilagdba trenutnog objekta ili kreiranje novog"
 
 #: widgets/templates/sidebar.mako:99
 msgid "Customize Object"
-msgstr ""
+msgstr "Prilagodi objekt"
 
 #: widgets/templates/sidebar.mako:104
 msgid "Other Options"
-msgstr ""
+msgstr "Ostale postavke"
 
 #: widgets/templates/sidebar.mako:116
 msgid "Translate"
-msgstr ""
+msgstr "Prevedi"
 
 #: widgets/templates/sidebar.mako:121
 msgid "View Log"
@@ -1516,31 +1516,31 @@ msgstr ""
 
 #: widgets/templates/viewform.mako:25
 msgid "Filter records."
-msgstr ""
+msgstr "Filtriraj zapise."
 
 #: widgets/templates/viewform.mako:33
 msgid "Clear all."
-msgstr ""
+msgstr "Očisti sve."
 
 #: widgets/templates/viewform.mako:35
 msgid "Clear"
-msgstr ""
+msgstr "Očisti"
 
 #: widgets/templates/viewform.mako:43
 msgid "Filters"
-msgstr ""
+msgstr "Filtri"
 
 #: widgets/templates/viewform.mako:45
 msgid "Saved Filters"
-msgstr ""
+msgstr "Snimljeni filtri"
 
 #: widgets/templates/viewform.mako:52
 msgid "New Filter"
-msgstr ""
+msgstr "Novi filter"
 
 #: widgets/templates/viewform.mako:53
 msgid "Save Filter"
-msgstr ""
+msgstr "Spremi filter"
 
 #: widgets/templates/viewform.mako:54
 msgid "Manage Filters"
