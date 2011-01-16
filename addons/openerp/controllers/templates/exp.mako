@@ -79,14 +79,14 @@
 
         function do_import_cmp(form){
             var imp_compat = document.getElementById('import_compat')
-            var import_com
+            var import_com;
             if(imp_compat.value == "imp_cmp"){
                 import_com = 1;
             }
 
-            jQuery('#'+form).attr({
-                    'action': openobject.http.getURL('/openerp/impex/exp',{'import_com':import_com})
-                }).submit();
+            jQuery(idSelector(form)).attr({
+                'action': openobject.http.getURL('/openerp/impex/exp', {'import_com':import_com})
+            }).submit();
         }
 
         function delete_listname() {
@@ -102,7 +102,6 @@
             var id = boxes[0].value;
             form.action = openobject.http.getURL('/openerp/impex/delete_listname', {'_terp_id' : id});
             form.submit();
-
         }
 
         function reload(name_list) {
@@ -131,21 +130,10 @@
                 fields2 = fields2.concat('"' + o.text + '"');
             });
             openobject.dom.get('_terp_fields2').value = '[' + fields2.join(',') + ']';
-            jQuery('#'+form).attr('action', openobject.http.getURL(
+            jQuery(idSelector(form)).attr('action', openobject.http.getURL(
                 '/openerp/impex/export_data/data.' + (jQuery('#export_as').val() || 'csv'))
             ).submit();
         }
-
-
-        jQuery(document).ready(function () {
-            var k = document.getElementById('import_compat');
-            % if import_com == '1':
-                k.selectedIndex = 0;
-            % else:
-                k.selectedIndex = 1;
-            % endif
-        });
-
     </script>
 </%def>
 
