@@ -28,7 +28,6 @@
 ###############################################################################
 import StringIO
 import csv
-import re
 import xml.dom.minidom
 import cherrypy
 
@@ -93,26 +92,21 @@ def _fields_get_all(model, views, context=None):
 
         return fields
 
+    def get_view_fields(view):
+        return parse(
+            xml.dom.minidom.parseString(view['arch'].encode('utf-8')).documentElement,
+            view['fields'])
+
     proxy = rpc.RPCProxy(model)
 
-    v1 = proxy.fields_view_get(views.get('tree', False), 'tree', context)
-    v2 = proxy.fields_view_get(views.get('form', False), 'form', context)
-
-    dom = xml.dom.minidom.parseString(v1['arch'].encode('utf-8'))
-    root = dom.childNodes[0]
-    f1 = parse(root, v1['fields'])
-
-    dom = xml.dom.minidom.parseString(v2['arch'].encode('utf-8'))
-    root = dom.childNodes[0]
-    f2 = parse(root, v2['fields'])
+    tree_view = proxy.fields_view_get(views.get('tree', False), 'tree', context)
+    form_view = proxy.fields_view_get(views.get('form', False), 'form', context)
 
     fields = {}
-    fields.update(f1)
-    fields.update(f2)
-
+    fields.update(get_view_fields(tree_view))
+    fields.update(get_view_fields(form_view))
 
     return fields
-
 
 
 class ImpEx(SecuredController):
@@ -314,11 +308,9 @@ class ImpEx(SecuredController):
         field = ir_export.read(id)
         fields = ir_export_line.read(field['export_fields'])
 
-        name_list = []
-        ids = [f['name'] for f in fields]
-
-        for name in ids:
-            name_list.append((name, res.get(name)))
+        name_list = [
+                (f['name'], res.get(f['name']))
+                for f in fields]
 
         return dict(name_list=name_list)
 
