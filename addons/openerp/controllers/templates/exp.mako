@@ -78,19 +78,19 @@
         }
 
         function do_import_cmp(form){
-        	var imp_compat = document.getElementById('import_compat')
-			var import_com
-			if(imp_compat.value == "imp_cmp"){
-				import_com = 1;
-			}
+            var imp_compat = document.getElementById('import_compat')
+            var import_com
+            if(imp_compat.value == "imp_cmp"){
+                import_com = 1;
+            }
 
-			jQuery('#'+form).attr({
-	                'action': openobject.http.getURL('/openerp/impex/exp',{'import_com':import_com})
-            	}).submit();
+            jQuery('#'+form).attr({
+                    'action': openobject.http.getURL('/openerp/impex/exp',{'import_com':import_com})
+                }).submit();
         }
 
         function delete_listname() {
-			var form = document.forms['view_form'];
+            var form = document.forms['view_form'];
             var list = new ListView('_terp_list');
             var boxes = list.getSelectedItems();
 
@@ -101,7 +101,7 @@
 
             var id = boxes[0].value;
             form.action = openobject.http.getURL('/openerp/impex/delete_listname', {'_terp_id' : id});
-  			form.submit();
+            form.submit();
 
         }
 
@@ -138,13 +138,13 @@
 
 
         jQuery(document).ready(function () {
-	       	var k = document.getElementById('import_compat');
-	       	% if import_com == '1':
-	       		k.selectedIndex = 0;
-			% else:
-	       		k.selectedIndex = 1;
-			% endif
-		});
+            var k = document.getElementById('import_compat');
+            % if import_com == '1':
+                k.selectedIndex = 0;
+            % else:
+                k.selectedIndex = 1;
+            % endif
+        });
 
     </script>
 </%def>
@@ -169,30 +169,30 @@
             </td>
         </tr>
         <tr>
-			<td class="side_spacing" align="left">
-				This wizard will export all data that matches the current search criteria to a CSV file.
-				You can export all data or only the fields that can be reimported after modification.
-			</td>
-		</tr>
+            <td class="side_spacing" align="left">
+                This wizard will export all data that matches the current search criteria to a CSV file.
+                You can export all data or only the fields that can be reimported after modification.
+            </td>
+        </tr>
         % if new_list.ids:
-        <tr>
-            <td class="side_spacing">
-                <div id='exported_list'>${new_list.display()}</div>
-            </td>
-        </tr>
-        <tr>
-            <td class="side_spacing">
-            	<table class="popup_header" width="100%">
-            		<tr>
-            			<td class="exp-header">
-            				<a class="button-a" href="javascript: void(0)" onclick="delete_listname();">${_("Delete")}</a>
-            			</td>
-            		</tr>
-            	</table>
-            </td>
-        </tr>
+            <tr>
+                <td class="side_spacing">
+                    <div id='exported_list'>${new_list.display()}</div>
+                </td>
+            </tr>
+            <tr>
+                <td class="side_spacing">
+                    <table class="popup_header" width="100%">
+                        <tr>
+                            <td class="exp-header">
+                                <a class="button-a" href="javascript: void(0)" onclick="delete_listname();">${_("Delete")}</a>
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
         % endif
-		<tr>
+        <tr>
             <td class="side_spacing">
                 <div id="savelist" style="display: none">
                     <fieldset>
@@ -204,7 +204,7 @@
                                     <input type="text" id="savelist_name" name="savelist_name"/>
                                 </td>
                                 <td>
-                                	<a class="button-a" href="javascript: void(0)" onclick="save_export()">${_("OK")}</a>
+                                    <a class="button-a" href="javascript: void(0)" onclick="save_export()">${_("OK")}</a>
                                 </td>
                             </tr>
                         </table>
@@ -212,21 +212,21 @@
                 </div>
             </td>
         </tr>
-		<tr>
-			<td class="side_spacing">
-				<table>
-					<tr>
-						<td class="label">${_("Export Type:")}</td>
-						<td>
-			               	<select id="import_compat" name="import_compat">
-			                   		<option value="imp_cmp" onclick="do_import_cmp('view_form')">${_("Import Compatible Export")}</option>
-			                   		<option value="all" onclick="do_import_cmp('view_form')">${_("Export all Data")}</option>
-			               	</select>
-			           	</td>
-					</tr>
-	           	</table>
-           	</td>
-		</tr>
+        <tr>
+            <td class="side_spacing">
+                <table>
+                    <tr>
+                        <td class="label">${_("Export Type:")}</td>
+                        <td>
+                            <select id="import_compat" name="import_compat">
+                                <option value="imp_cmp" onclick="do_import_cmp('view_form')">${_("Import Compatible Export")}</option>
+                                <option value="all" onclick="do_import_cmp('view_form')">${_("Export all Data")}</option>
+                            </select>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
         <tr>
             <td class="side_spacing">
                 <table class="fields-selector-export" cellspacing="5" border="0">
@@ -240,23 +240,23 @@
                             <div id="fields_left">${tree.display()}</div>
                         </td>
                         <td class="fields-selector-center">
-                        	<table border="0" cellpadding="0" cellspacing="0" width="100%">
-                        		<tr>
-                        			<td align="center">
-                        				<a class="button-a" href="javascript: void(0)" onclick="add_fields()">${_("Add")}</a>
-                        			</td>
-                        		</tr>
-                        		<tr>
-                        			<td align="center">
-                        				<a class="button-a" href="javascript: void(0)" onclick="del_fields()">${_("Remove")}</a>
-                        			</td>
-                        		</tr>
-                        		<tr>
-                        			<td align="center">
-                        				<a class="button-a" href="javascript: void(0)" onclick="del_fields(true)">${_("Remove All")}</a>
-                        			</td>
-                        		</tr>
-                        	</table>
+                            <table border="0" cellpadding="0" cellspacing="0" width="100%">
+                                <tr>
+                                    <td align="center">
+                                        <a class="button-a" href="javascript: void(0)" onclick="add_fields()">${_("Add")}</a>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td align="center">
+                                        <a class="button-a" href="javascript: void(0)" onclick="del_fields()">${_("Remove")}</a>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td align="center">
+                                        <a class="button-a" href="javascript: void(0)" onclick="del_fields(true)">${_("Remove All")}</a>
+                                    </td>
+                                </tr>
+                            </table>
                         </td>
                         <td class="fields-selector-right" height="400px">
                             <select name="fields" id="fields" multiple="multiple"/>
@@ -266,18 +266,17 @@
             </td>
         </tr>
         <tr>
-	        <td class="side_spacing">
-		        <table width="100%">
-		            <tr>
-			        	<td class="imp-header" align="right">
+            <td class="side_spacing">
+                <table width="100%">
+                    <tr>
+                        <td class="imp-header" align="right">
                             <a class="button-a" href="javascript: void(0)" onclick="window.frameElement.close()">${_("Cancel")}</a>
                             <a class="button-a" href="javascript: void(0)" onclick="do_export('view_form')">${_("Export to File")}</a>
-			           	</td>
-			           	<td width="05%">
-			           	</td>
-			    </table>
-	        </td>
-		</tr>
+                        </td>
+                        <td width="5%"></td>
+                </table>
+            </td>
+        </tr>
     </table>
 </form>
 </%def>
