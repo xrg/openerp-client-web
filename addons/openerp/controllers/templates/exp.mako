@@ -32,9 +32,11 @@
 
         }
 
-        function open_savelist(id) {
-            var elem = openobject.dom.get(id);
-            elem.style.display = elem.style.display == 'none' ? '' : 'none';
+        function save_fields() {
+            var $savelist = jQuery('#savelist');
+            $savelist.toggle();
+            if($savelist.is(':hidden')) { return; }
+            $savelist.find('input').focus();
         }
 
         function save_export() {
@@ -182,26 +184,6 @@
         % endif
         <tr>
             <td class="side_spacing">
-                <div id="savelist" style="display: none">
-                    <fieldset>
-                        <legend>${_("Save List")}</legend>
-                        <table>
-                            <tr>
-                                <td class="label">${_("Name of This Export:")}</td>
-                                <td>
-                                    <input type="text" id="savelist_name" name="savelist_name"/>
-                                </td>
-                                <td>
-                                    <a class="button-a" href="javascript: void(0)" onclick="save_export()">${_("OK")}</a>
-                                </td>
-                            </tr>
-                        </table>
-                    </fieldset>
-                </div>
-            </td>
-        </tr>
-        <tr>
-            <td class="side_spacing">
                 <table>
                     <tr>
                         <td class="label"><label for="import_compat">${_("Export Type:")}</label></td>
@@ -221,7 +203,16 @@
                     <tr>
                         <th class="fields-selector-left">${_("Available fields")}</th>
                         <th class="fields-selector-center">&nbsp;</th>
-                        <th class="fields-selector-right">${_("Fields to export")} &nbsp; &nbsp; &nbsp;<a style="color: blue;" href="javascript: void(0)" onclick="open_savelist('savelist')">Save</a></th>
+                        <th class="fields-selector-right">${_("Fields to export")}
+                            <a style="color: blue;" href="#"
+                               onclick="save_fields(); return false;">${_("Save fields list")}</a><br>
+                            <span id="savelist" style="display:none;">
+                                <label for="savelist_name">${_("Save as:")}</label>
+                                <input type="text" id="savelist_name" name="savelist_name"/>
+                                <a class="button-a" href="javascript: void(0)" onclick="save_export()">${_("OK")}</a>
+                            </span>
+
+                        </th>
                     </tr>
                     <tr>
                         <td class="fields-selector-left" height="400px">
