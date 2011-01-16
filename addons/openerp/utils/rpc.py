@@ -402,6 +402,10 @@ class RPCProxy(object):
             return self._attrs.setdefault(name, self._func_getter(name))
         return self._attrs[name]
 
+    def search(self, criteria, offset=0, limit=False, order=False, context=False):
+        return self._session.execute(
+                'object', 'execute', self._resource, 'search',
+                criteria, offset, limit, order, context)
 
 def name_get(model, id, context=None):
 

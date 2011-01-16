@@ -125,7 +125,7 @@ class ImpEx(SecuredController):
                 views[view] = params.view_ids[i]
 
 
-        proxy = rpc.RPCProxy('ir.exports')
+        exports = rpc.RPCProxy('ir.exports')
 
         headers = [{'string' : 'Name', 'name' : 'name', 'type' : 'char'}]
         tree = treegrid.TreeGrid('export_fields',
@@ -138,12 +138,12 @@ class ImpEx(SecuredController):
                                  import_com=import_com)
 
         tree.show_headers = False
-        view = proxy.fields_view_get(False, 'tree', ctx)
-        new_list = listgrid.List(name='_terp_list', model='ir.exports', view=view, ids=None,
-                                 domain=[('resource', '=', params.model)],
-                                 context=ctx, selectable=1, editable=False, pageable=False, impex=True)
 
-        return dict(new_list=new_list, model=params.model, ids=params.ids, ctx=ctx,
+        existing_exports = exports.read(
+            exports.search([('resource', '=', params.model)], context=ctx),
+            [], ctx)
+
+        return dict(existing_exports=existing_exports, model=params.model, ids=params.ids, ctx=ctx,
                     search_domain=params.search_domain, source=params.source,
                     tree=tree, import_com=import_com)
 
@@ -293,7 +293,7 @@ class ImpEx(SecuredController):
 
 
     @expose('json')
-    def get_namelist(self, **kw):
+    def namelist(self, **kw):
 
         params, data = TinyDict.split(kw)
 

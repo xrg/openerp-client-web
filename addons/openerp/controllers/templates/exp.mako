@@ -62,21 +62,20 @@
             }
         }
 
-        function do_select(id, src) {
-            openobject.dom.get('fields').innerHTML = '';
-            var model = openobject.dom.get('_terp_model').value;
-            var req = openobject.http.postJSON('/openerp/impex/get_namelist', {
-                '_terp_id': id,
-                '_terp_model': model
-            });
+        function do_select() {
+            var id = jQuery('#saved_fields').val();
+            if(!id) { reload([]); return; }
 
-            req.addCallback(function(obj){
+            var req = jQuery.get('/openerp/impex/namelist', {
+                '_terp_id': id,
+                '_terp_model': jQuery('#_terp_model').val()
+            }, function(obj){
                 if (obj.error){
                     error_display(obj.error);
                 } else {
-                    self.reload(obj.name_list);
+                    reload(obj.name_list);
                 }
-            });
+            }, 'json');
         }
 
         function do_import_cmp(form){
@@ -93,26 +92,18 @@
 
         function delete_listname() {
             var form = document.forms['view_form'];
-            var list = new ListView('_terp_list');
-            var boxes = list.getSelectedItems();
 
-            if (boxes.length == 0){
-                error_display(_('Please select an item...'));
-                return;
-            }
-
-            var id = boxes[0].value;
+            var id = jQuery('#saved_fields').val();
+            if(!id) { return; }
             form.action = openobject.http.getURL('/openerp/impex/delete_listname', {'_terp_id' : id});
             form.submit();
         }
 
         function reload(name_list) {
-            var select = openobject.dom.get('fields');
-
-            forEach(name_list, function(f){
-                var text = f[1];
-                var id = f[0];
-                select.options.add(new Option(text, id));
+            var $fields_list = jQuery('#fields');
+            $fields_list.empty();
+            jQuery.each(name_list, function (_, f) {
+                $fields_list.append(new Option(f[1], f[0]));
             });
         }
 
@@ -164,24 +155,6 @@
                 You can export all data or only the fields that can be reimported after modification.
             </td>
         </tr>
-        % if new_list.ids:
-            <tr>
-                <td class="side_spacing">
-                    <div id='exported_list'>${new_list.display()}</div>
-                </td>
-            </tr>
-            <tr>
-                <td class="side_spacing">
-                    <table class="popup_header" width="100%">
-                        <tr>
-                            <td class="exp-header">
-                                <a class="button-a" href="javascript: void(0)" onclick="delete_listname();">${_("Delete")}</a>
-                            </td>
-                        </tr>
-                    </table>
-                </td>
-            </tr>
-        % endif
         <tr>
             <td class="side_spacing">
                 <table>
@@ -205,13 +178,26 @@
                         <th class="fields-selector-center">&nbsp;</th>
                         <th class="fields-selector-right">${_("Fields to export")}
                             <a style="color: blue;" href="#"
-                               onclick="save_fields(); return false;">${_("Save fields list")}</a><br>
-                            <span id="savelist" style="display:none;">
+                               onclick="save_fields(); return false;">${_("Save fields list")}</a>
+                            <div id="savelist" style="display:none;">
                                 <label for="savelist_name">${_("Save as:")}</label>
                                 <input type="text" id="savelist_name" name="savelist_name"/>
                                 <a class="button-a" href="javascript: void(0)" onclick="save_export()">${_("OK")}</a>
-                            </span>
-
+                            </div>
+                            % if existing_exports:
+                            <div>
+                                <label for="saved_fields">${_("Saved exports:")}</label><br>
+                                <select id="saved_fields" name="saved_exports" onchange="do_select();"
+                                        style="width: 60%;">
+                                    <option></option>
+                                    % for export in existing_exports:
+                                        <option value="${export['id']}">${export['name']}</option>
+                                    % endfor
+                                </select>
+                                <a class="button-a" href="#" onclick="delete_listname(); return false;"
+                                        >${_("Delete")}</a>
+                            </div>
+                            % endif
                         </th>
                     </tr>
                     <tr>
