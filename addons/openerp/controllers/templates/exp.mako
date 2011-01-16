@@ -127,6 +127,14 @@
                 '/openerp/impex/export_data/data.' + (jQuery('#export_as').val() || 'csv'))
             ).submit();
         }
+
+        jQuery(document).ready(function () {
+            // Set the page's title as title of the dialog
+            var $header = jQuery('.pop_head_font');
+            window.frameElement.set_title(
+                $header.text());
+            $header.closest('tr').remove();
+        });
     </script>
 </%def>
 
