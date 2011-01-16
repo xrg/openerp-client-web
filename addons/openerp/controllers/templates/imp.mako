@@ -146,7 +146,7 @@
             <td class="side_spacing">
                 <table align="center">
                     <tr>
-                        <td class="label">${_("CSV File:")}</td>
+                        <td class="label"><label for="csvfile">${_("CSV File:")}</label></td>
                         <td>
                             <input type="file" id="csvfile" size="50" name="csvfile" onchange="do_autodetect('import_data')"/>
                         </td>
@@ -173,21 +173,21 @@
                     <legend>${_("CSV Options")}</legend>
                     <table>
                         <tr>
-                            <td class="label">${_("Separator:")}</td>
-                            <td><input type="text" name="csvsep" value=","/></td>
-                            <td class="label">${_("Delimiter:")}</td>
-                            <td><input type="text" name="csvdel" value='"'/></td>
+                            <td class="label"><label for="csv_separator">${_("Separator:")}</label></td>
+                            <td><input type="text" name="csvsep" id="csv_separator" value=","/></td>
+                            <td class="label"><label for="csv_delimiter">${_("Delimiter:")}</label></td>
+                            <td><input type="text" name="csvdel" id="csv_delimiter" value='"'/></td>
                         </tr>
                         <tr>
-                            <td class="label">${_("Encoding:")}</td>
+                            <td class="label"><label for="csv_encoding">${_("Encoding:")}</label></td>
                             <td>
-                                <select name="csvcode">
+                                <select name="csvcode" id="csv_encoding">
                                     <option value="utf-8">UTF-8</option>
                                     <option value="latin1">Latin 1</option>
                                 </select>
                             </td>
-                            <td class="label">${_("Lines to skip:")}</td>
-                            <td><input type="text" name="csvskip" value="1"/></td>
+                            <td class="label"><label for="csv_skip">${_("Lines to skip:")}</label></td>
+                            <td><input type="text" name="csvskip" id="csv_skip" value="1"/></td>
                         </tr>
                     </table>
                 </fieldset>
@@ -212,5 +212,5 @@
     </table>
 </form>
 
-<iframe name="detector" id="detector" style="display: none;" src="about:blank" onload="on_detector(this)"/>
+<iframe name="detector" id="detector" style="display: none;" src="about:blank" onload="on_detector(this)"></iframe>
 </%def>

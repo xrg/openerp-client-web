@@ -216,7 +216,7 @@
             <td class="side_spacing">
                 <table>
                     <tr>
-                        <td class="label">${_("Export Type:")}</td>
+                        <td class="label"><label for="import_compat">${_("Export Type:")}</label></td>
                         <td>
                             <select id="import_compat" name="import_compat">
                                 <option value="imp_cmp" onclick="do_import_cmp('view_form')">${_("Import Compatible Export")}</option>
@@ -259,7 +259,7 @@
                             </table>
                         </td>
                         <td class="fields-selector-right" height="400px">
-                            <select name="fields" id="fields" multiple="multiple"/>
+                            <select name="fields" id="fields" multiple="multiple"></select>
                         </td>
                     </tr>
                 </table>
