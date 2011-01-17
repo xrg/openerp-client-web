@@ -279,6 +279,8 @@ class List(TinyWidget):
             headers_index = dict([(item[0], item[1]) for item in self.headers])
             to_check = values.keys()
             for field_name in to_check:
+                if not field_name in headers_index:
+                    continue
                 props = headers_index[field_name]
                 if not "on_change" in props:
                     continue
