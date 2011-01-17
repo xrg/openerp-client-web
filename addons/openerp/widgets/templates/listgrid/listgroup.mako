@@ -15,6 +15,11 @@ import itertools
         			<td id="${name}" class="loading-list" style="display: none;">
         				<img src="/openerp/static/images/load.gif" width="16" height="16" title="loading..."/>
         			</td>
+					% if editable:
+						<td class="pager-cell-button">
+							<button id="${name}_new" title="${_('Create new record.')}" onclick="editRecord(null); return false;">${_('New')}</button>
+						</td>						
+					% endif
         			<td class="pager-cell" style="width: 90%">
     					${pager.display()}
     				</td>
