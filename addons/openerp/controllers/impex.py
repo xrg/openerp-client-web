@@ -465,12 +465,12 @@ class ImpEx(SecuredController):
         word=''
         limit = 3
 
-        for i, row in enumerate(data):
-            records.append(row)
-            if i == limit:
-                break
-
         try:
+            for i, row in enumerate(data):
+                records.append(row)
+                if i == limit:
+                    break
+
             for line in records:
                 for word in line:
                     word = ustr(word.decode(csvcode))
@@ -482,13 +482,13 @@ class ImpEx(SecuredController):
                         error = {'message':_("You cannot import the field '%s', because we cannot auto-detect it" % (word,))}
                 break
         except:
-            error = {'message':_('Error processing your first line of the file. Field "%s" is unknown') % (word,), 'title':_('Import Error.')}
+            error = {'message':_('Error processing the first line of the file. Field "%s" is unknown') % (word,), 'title':_('Import Error.')}
 
         kw['fields'] = fields
         if error:
-            return self.imp(error=error, **kw)
+            csvfile.file.seek(0)
+            return self.imp(error=dict(error, preview=csvfile.file.read(200)), **kw)
         return self.imp(records=records, **kw)
-
 
     @expose()
     def import_data(self, csvfile, csvsep, csvdel, csvcode, csvskip, fields=[], **kw):

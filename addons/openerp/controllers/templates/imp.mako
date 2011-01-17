@@ -23,20 +23,14 @@
                 'action': openobject.http.getURL('/openerp/impex/detect_data')
             }).ajaxSubmit({
                 success: function (detection) {
-                    jQuery('#records_data').empty();
+                    jQuery('#records_data, #error').empty();
 
                     // detect_data only returns the body part of this, or something
                     var $detection = jQuery('<div>'+detection+'</div>');
                     var $error = $detection.find('#error');
                     if($error.children().length) {
                         jQuery('#error')
-                                .html($error.html())
-                                .dialog({
-                                    modal: true,
-                                    resizable: false,
-                                    height: 150,
-                                    width: 'auto'
-                                });
+                                .html($error.html());
                     }
                     jQuery('#records_data')
                             .html($detection.find('#records_data').html());
@@ -123,7 +117,13 @@
                             </td>
                         </tr>
                     </table>
-                    <p>If the import is not correct, try changing your import options</p>
+                    <div id="error">
+                        % if error:
+                            <p>${_("The import failed due to: %(message)s", message=error['message'])}</p>
+                            <p>${_("Here is a preview of the file we could not import:")}</p>
+                            <pre>${error['preview']}</pre>
+                        % endif
+                    </div>
                     <table id="records_data" class="grid" width="100%" style="margin: 5px 0;">
                     % if records:
                         % for rownum, row in enumerate(records):
@@ -194,24 +194,4 @@
         </tr>
     </table>
 </form>
-
-<div id="error" title="${error['title'] if (error and 'title' in error) else _('Warning')}" style="display:none;">
-    % if error:
-    <table class="errorbox">
-        <tr>
-            <td width="10%" style="padding: 4px 2px;">
-                <img src="/openerp/static/images/warning.png" alt="">
-            </td>
-            <td class="error_message_content">
-                ${error['message']}
-            </td>
-        </tr>
-        <tr>
-            <td style="padding: 0 8px 5px 0; vertical-align:top;" align="right" colspan="2">
-                <a class="button-a" id="error_btn" onclick="jQuery('#error').dialog('close');">OK</a>
-            </td>
-        </tr>
-    </table>
-    % endif
-</div>
 </%def>
