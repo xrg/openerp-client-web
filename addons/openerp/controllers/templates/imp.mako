@@ -3,114 +3,65 @@
 <%def name="header()">
     <title>Import Data</title>
 
-	<link rel="stylesheet" type="text/css" href="/openerp/static/css/impex.css"/>
-	<link rel="stylesheet" type="text/css" href="/openerp/static/css/database.css"/>
+    <link rel="stylesheet" type="text/css" href="/openerp/static/css/impex.css"/>
+    <link rel="stylesheet" type="text/css" href="/openerp/static/css/database.css"/>
 
     <script type="text/javascript">
-        function add_fields(){
+        function import_results(detection) {
+            jQuery('#records_data, #error, #imported_success').empty();
 
-            var tree = treeGrids['${tree.name}'];
-
-            var fields = tree.selection;
-            var select = openobject.dom.get('fields');
-
-            var opts = {};
-            forEach(openobject.dom.get('fields').options, function(o){
-                opts[o.value] = o;
-            });
-
-            forEach(fields, function(f){
-
-                var text = f.record.items.name;
-                var id = f.record.id;
-
-                if (id in opts) return;
-
-                select.options.add(new Option(text, id));
-            });
-        }
-
-        function del_fields(all){
-
-            var fields = filter(function(o){return o.selected;}, openobject.dom.get('fields').options);
-
-            if (all){
-                openobject.dom.get('fields').innerHTML = '';
-            } else {
-                forEach(fields, function(f){
-                    removeElement(f);
-                });
+            // detect_data only returns the body part of this, or something
+            var $detection = jQuery('<div>'+detection+'</div>');
+            var $error = $detection.find('#error');
+            if($error.children().length) {
+                jQuery('#error')
+                        .html($error.html());
+                return;
             }
+            var $success = $detection.find('#imported_success');
+            if($success.children().length) {
+                jQuery('#imported_success')
+                        .html($success.html());
+                return;
+            }
+            jQuery('#records_data')
+                    .html($detection.find('#records_data').html());
         }
 
-        function do_import(form){
-
-            var options = openobject.dom.get('fields').options;
-
-            forEach(options, function(o){
-                o.selected = true;
-            });
-
-            jQuery('#'+form).attr({
-                'target': "detector",
+        function do_import() {
+            if(!jQuery('#csvfile').val()) { return; }
+            jQuery('#import_data').attr({
                 'action': openobject.http.getURL('/openerp/impex/import_data')
-            }).submit();
+            }).ajaxSubmit({
+                success: import_results
+            });
         }
 
-        function on_detector(src){
-        	jQuery('#error').dialog({
-			    modal: true,
-		        resizable: false,
-			    close: function(ev, ui) { $(this).remove(); }
-			});
-
-            var d = openobject.dom.get("detector");
-
-            if (d.contentDocument)
-                d = d.contentDocument;
-            else if (d.contentWindow)
-                d = d.contentWindow.document;
-            else
-                d = d.document;
-
-            var f = d.getElementById('fields');
-
-            if (f) {
-                openobject.dom.get('fields').innerHTML = '';
-                forEach(f.options, function(o){
-                    openobject.dom.get('fields').options.add(new Option(o.text, o.value));
-                });
-            } else {
-                f = d.getElementsByTagName('pre');
-                if (f[0]) error_display(f[0].innerHTML);
-            }
-        }
-
-        function do_autodetect(form){
-
-            if (! openobject.dom.get('csvfile').value ){
-                return error_display(_('You must select an import file first.'));
-            }
-
-            jQuery('#'+form).attr({
-                'target': "detector",
+        function autodetect_data() {
+            if(!jQuery('#csvfile').val()) { return; }
+            jQuery('#import_data').attr({
                 'action': openobject.http.getURL('/openerp/impex/detect_data')
-            }).submit();
+            }).ajaxSubmit({
+                success: import_results
+            });
+
         }
 
-    % if error:
-        var $error_div = jQuery('\
-            <div id="error" style="display: none" title="${error.get('title', 'Warning')}"> \
-                <table class="errorbox"> \
-                <tr><td style="padding: 4px 2px;" width="10%"><img src="/openerp/static/images/warning.png"></td><td class="error_message_content"><pre>${error["message"]}</pre></td></tr> \
-                <tr><td style="padding: 0 8px 5px 0; vertical-align:top;" align="right" colspan="2"><a class="button-a" id="error_btn" onclick="jQuery(\'#error\').dialog(\'close\');">OK</a></td></tr> \
-                </table> \
-            </div> \
-        ');
-        jQuery(window.parent.document.body).append($error_div);
-    % endif
+        jQuery(document).ready(function () {
+            if(!window.frameElement.set_title) { return; }
+            // Set the page's title as title of the dialog
+            var $header = jQuery('.pop_head_font');
+            window.frameElement.set_title(
+                $header.text());
+            $header.closest('.side_spacing').parent().remove();
 
+            jQuery('fieldset legend').click(function () {
+                jQuery(this).next().toggle();
+            });
+            jQuery('#csvfile, fieldset').change(autodetect_data);
+        });
     </script>
+
 </%def>
 
 <%def name="content()">
@@ -126,58 +77,23 @@
             <td class="side_spacing">
                 <table width="100%" class="popup_header">
                     <tr>
-                    	<td class="imp-header" align="left">
-                            <a class="button-a" href="javascript: void(0)" onclick="do_import('import_data');">${_("Import")}</a>
-                            <a class="button-a" href="javascript: void(0)" onclick="window.frameElement.close()">${_("Close")}</a>
-                        </td>
                         <td align="center" class="pop_head_font">${_("Import Data")}</td>
-                        <td width="30%"></td>
                     </tr>
                 </table>
             </td>
         </tr>
         <tr>
             <td class="side_spacing">
-                <table class="fields-selector-import" cellspacing="5" border="0">
+                <table width="100%">
                     <tr>
-                        <th class="fields-selector-left">${_("All fields")}</th>
-                        <th class="fields-selector-center">&nbsp;</th>
-                        <th class="fields-selector-right">${_("Fields to import")}</th>
+                        <td width="100%" valign="middle" for="" class=" item-separator" colspan="4">
+                            <h2 class="separator horizontal">${_("1. Import a .CSV file")}</h2>
+                        </td>
                     </tr>
                     <tr>
-                        <td class="fields-selector-left" height="300px">
-                            <div id="fields_left">${tree.display()}</div>
-                        </td>
-                        <td class="fields-selector-center">
-                        	<table border="0" cellpadding="0" cellspacing="0" width="100%">
-                        		<tr>
-                        			<td align="center">
-                        				<a class="button-a" href="javascript: void(0)" onclick="add_fields()">${_("Add")}</a>
-                        			</td>
-                        		</tr>
-                        		<tr>
-                        			<td align="center">
-                        				<a class="button-a" href="javascript: void(0)" onclick="del_fields()">${_("Remove")}</a>
-                        			</td>
-                        		</tr>
-                        		<tr>
-                        			<td align="center">
-                        				<a class="button-a" href="javascript: void(0)" onclick="del_fields(true)">${_("Nothing")}</a>
-                        			</td>
-                        		</tr>
-                        		<tr>
-                        			<td align="center">
-                        				<a class="button-a" href="javascript: void(0)" onclick="do_autodetect('import_data')">${_("Auto Detect")}</a>
-                        			</td>
-                        		</tr>
-                        	</table>
-                        </td>
-                        <td class="fields-selector-right" height="300px">
-                            <select name="fields" id="fields" multiple="multiple">
-                                % for f in fields or []:
-                                <option value="${f[0]}">${f[1]}</option>
-                                % endfor
-                            </select>
+                        <td>
+                            Select a .CSV file to import. If you need a sample of file to import,
+                            you should use the export tool with the "Import Compatible" option.
                         </td>
                     </tr>
                 </table>
@@ -185,40 +101,114 @@
         </tr>
         <tr>
             <td class="side_spacing">
-                <fieldset>
-                    <legend>${_("File to import")}</legend>
-                    <input type="file" id="csvfile" size="50" name="csvfile" onchange="do_autodetect('import_data')"/>
-                </fieldset>
+                <table align="center">
+                    <tr>
+                        <td class="label"><label for="csvfile">${_("CSV File:")}</label></td>
+                        <td>
+                            <input type="file" id="csvfile" size="50" name="csvfile"/>
+                        </td>
+                    </tr>
+                </table>
             </td>
         </tr>
         <tr>
-            <td class="side_spacing">
-                <fieldset>
-                    <legend>${_("Options")}</legend>
-                    <table>
+            <td height="10px">
+            </td>
+        </tr>
+        <tr>
+            <td class="side_spacing" width="100%">
+                <div id="record">
+                    <table width="100%">
                         <tr>
-                            <td class="label">${_("Separator:")}</td>
-                            <td><input type="text" name="csvsep" value=","/></td>
-                            <td class="label">${_("Delimiter:")}</td>
-                            <td><input type="text" name="csvdel" value='"'/></td>
-                        </tr>
-                        <tr>
-                            <td class="label">${_("Encoding:")}</td>
-                            <td>
-                                <select name="csvcode">
-                                    <option value="utf-8">UTF-8</option>
-                                    <option value="latin1">Latin 1</option>
-                                </select>
+                            <td width="100%" valign="middle" for="" class=" item-separator">
+                                <h2 class="separator horizontal">${_("2. Check your file format")}</h2>
                             </td>
-                            <td class="label">${_("Lines to skip:")}</td>
-                            <td><input type="text" name="csvskip" value="1"/></td>
                         </tr>
                     </table>
-                </fieldset>
+                    <div id="error">
+                        % if error:
+                            <p style="white-space:pre-line;"
+                                >${_("The import failed due to: %(message)s", message=error['message'])}</p>
+                            % if 'preview' in error:
+                                <p>${_("Here is a preview of the file we could not import:")}</p>
+                                <pre>${error['preview']}</pre>
+                            % endif
+                        % endif
+                    </div>
+                    <table id="records_data" class="grid" width="100%" style="margin: 5px 0;">
+                    % if records:
+                        % for rownum, row in enumerate(records):
+                            % if rownum == 0:
+                                <tr class="grid-header">
+                                    % for title in row:
+                                      <th class="grid-cell">${title}</th>
+                                    % endfor
+                                 </tr>
+                             % else:
+                                 <tr class="grid-row">
+                                    % for index, cell in enumerate(row):
+                                      <td id="cell-${index}" name="cell" class="grid-cell">${cell}</td>
+                                    % endfor
+                                 </tr>
+                             % endif
+                        % endfor
+                    % endif
+                    </table>
+                    <fieldset>
+                        <legend style="cursor:pointer;">${_("CSV Options")}</legend>
+                        <table style="display:none">
+                            <tr>
+                                <td class="label"><label for="csv_separator">${_("Separator:")}</label></td>
+                                <td><input type="text" name="csvsep" id="csv_separator" value=","/></td>
+                                <td class="label"><label for="csv_delimiter">${_("Delimiter:")}</label></td>
+                                <td><input type="text" name="csvdel" id="csv_delimiter" value='"'/></td>
+                            </tr>
+                            <tr>
+                                <td class="label"><label for="csv_encoding">${_("Encoding:")}</label></td>
+                                <td>
+                                    <select name="csvcode" id="csv_encoding">
+                                        <option value="utf-8">UTF-8</option>
+                                        <option value="latin1">Latin 1</option>
+                                    </select>
+                                </td>
+                                <td class="label"><label for="csv_skip">${_("Lines to skip:")}</label></td>
+                                <td><input type="text" name="csvskip" id="csv_skip" value="1"/></td>
+                            </tr>
+                        </table>
+                    </fieldset>
+                </div>
+            </td>
+        </tr>
+        <tr id="imported_success">
+            % if success:
+            <td class="side_spacing">
+                <table width="100%">
+                    <tr>
+                        <td width="100%" valign="middle" for="" class=" item-separator" colspan="4">
+                            <h2 class="separator horizontal">${_("3. File imported")}</h2>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            ${success['message']}
+                        </td>
+                    </tr>
+                </table>
+            </td>
+            % endif
+        </tr>
+        <tr>
+            <td class="side_spacing">
+                <table width="100%">
+                    <tr>
+                        <td class="imp-header" align="right">
+                            <a class="button-a" href="javascript: void(0)" onclick="window.frameElement.close()">${_("Close")}</a>
+                            <a class="button-a" href="javascript: void(0)" onclick="do_import();">${_("Import File")}</a>
+                        </td>
+                        <td width="5%"></td>
+                </table>
             </td>
         </tr>
     </table>
 </form>
-
-<iframe name="detector" id="detector" style="display: none;" src="about:blank" onload="on_detector(this)"/>
 </%def>

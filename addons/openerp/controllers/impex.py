@@ -20,34 +20,30 @@
 ###############################################################################
 import StringIO
 import csv
-import re
 import xml.dom.minidom
+import cherrypy
 
 from openerp.controllers import SecuredController
 from openerp.utils import rpc, common, TinyDict, node_attributes
-from openerp.widgets import treegrid, listgrid
+from openerp.widgets import treegrid
 
 from openobject import tools
 from openobject.tools import expose, redirect, ast
 
 
-try:
-    import xlwt
-    xls_export_available = True
-except:
-    xls_export_available = False
 
 
-def datas_read(ids, model, fields, context=None):
+def datas_read(ids, model, flds, context=None):
     ctx = dict((context or {}), **rpc.session.context)
-    return rpc.RPCProxy(model).export_data(ids, fields, ctx)
+    return rpc.RPCProxy(model).export_data(ids, flds, ctx)
 
-def export_csv(fields, result, write_title=False):
+def export_csv(fields, result):
     try:
         fp = StringIO.StringIO()
         writer = csv.writer(fp)
-        if write_title:
-            writer.writerow(fields)
+
+        writer.writerow(fields)
+
         for data in result:
             row = []
             for d in data:
@@ -88,35 +84,31 @@ def _fields_get_all(model, views, context=None):
 
         return fields
 
+    def get_view_fields(view):
+        return parse(
+            xml.dom.minidom.parseString(view['arch'].encode('utf-8')).documentElement,
+            view['fields'])
+
     proxy = rpc.RPCProxy(model)
 
-    v1 = proxy.fields_view_get(views.get('tree', False), 'tree', context)
-    v2 = proxy.fields_view_get(views.get('form', False), 'form', context)
-
-    dom = xml.dom.minidom.parseString(v1['arch'].encode('utf-8'))
-    root = dom.childNodes[0]
-
-    f1 = parse(root, v1['fields'])
-
-    dom = xml.dom.minidom.parseString(v2['arch'].encode('utf-8'))
-    root = dom.childNodes[0]
-
-    f2 = parse(root, v2['fields'])
+    tree_view = proxy.fields_view_get(views.get('tree', False), 'tree', context)
+    form_view = proxy.fields_view_get(views.get('form', False), 'form', context)
 
     fields = {}
-    fields.update(f1)
-    fields.update(f2)
+    fields.update(get_view_fields(tree_view))
+    fields.update(get_view_fields(form_view))
 
     return fields
+
 
 class ImpEx(SecuredController):
 
     _cp_path = "/openerp/impex"
 
     @expose(template="/openerp/controllers/templates/exp.mako")
-    def exp(self, **kw):
-        params, data = TinyDict.split(kw)
+    def exp(self, import_compat="1", **kw):
 
+        params, data = TinyDict.split(kw)
         ctx = dict((params.context or {}), **rpc.session.context)
 
         views = {}
@@ -125,7 +117,7 @@ class ImpEx(SecuredController):
                 views[view] = params.view_ids[i]
 
 
-        proxy = rpc.RPCProxy('ir.exports')
+        exports = rpc.RPCProxy('ir.exports')
 
         headers = [{'string' : 'Name', 'name' : 'name', 'type' : 'char'}]
         tree = treegrid.TreeGrid('export_fields',
@@ -134,20 +126,18 @@ class ImpEx(SecuredController):
                                  url=tools.url('/openerp/impex/get_fields'),
                                  field_parent='relation',
                                  context=ctx,
-                                 views=views)
+                                 views=views,
+                                 import_compat=int(import_compat))
 
         tree.show_headers = False
 
-        view = proxy.fields_view_get(False, 'tree', ctx)
-        new_list = listgrid.List(name='_terp_list', model='ir.exports', view=view, ids=None,
-                                 domain=[('resource', '=', params.model)],
-                                 context=ctx, selectable=1, editable=False, pageable=False, impex=True)
+        existing_exports = exports.read(
+            exports.search([('resource', '=', params.model)], context=ctx),
+            [], ctx)
 
-
-
-        return dict(new_list=new_list, model=params.model, ids=params.ids, ctx=ctx,
+        return dict(existing_exports=existing_exports, model=params.model, ids=params.ids, ctx=ctx,
                     search_domain=params.search_domain, source=params.source,
-                    tree=tree, xls_export_available=xls_export_available)
+                    tree=tree, import_compat=import_compat)
 
     @expose()
     def save_exp(self, **kw):
@@ -175,10 +165,18 @@ class ImpEx(SecuredController):
 
         raise redirect('/openerp/impex/exp', **kw)
 
+
     @expose('json')
     def get_fields(self, model, prefix='', name='', field_parent=None, **kw):
 
+        parent_field = kw.get('ids').split(',')[0].split('/')
+        if len(parent_field) == 1:
+            parent_field = parent_field[0]
+        else:
+            parent_field = parent_field[-2]
+
         is_importing = kw.get('is_importing', False)
+        import_compat= bool(int(kw.get('import_compat', True)))
 
         try:
             ctx = ast.literal_eval(kw['context'])
@@ -192,18 +190,23 @@ class ImpEx(SecuredController):
         except:
             views = {}
 
-
         fields = _fields_get_all(model, views, ctx)
+        m2ofields = cherrypy.session.get('fld')
+        if m2ofields:
+            for i in m2ofields:
+                if i == parent_field:
+                    fields = {}
+        else:
+            m2ofields = []
 
-        fields.update({'id': {'string': 'ID'}, 'db_id': {'string': 'Database ID'}})
+        fields.update({'id': {'string': 'ID'}, '.id': {'string': 'Database ID'}})
 
         fields_order = fields.keys()
         fields_order.sort(lambda x,y: -cmp(fields[x].get('string', ''), fields[y].get('string', '')))
-
         records = []
 
-        for i, field in enumerate(fields_order):
 
+        for i, field in enumerate(fields_order):
             value = fields[field]
             record = {}
 
@@ -221,40 +224,68 @@ class ImpEx(SecuredController):
                 records.append(record)
 
             elif not is_importing:
+
                 record.update(id=id, items={'name': nm},
                               action='javascript: void(0)', target=None,
                               icon=None, children=[])
-
                 records.append(record)
+
 
             if len(nm.split('/')) < 3 and value.get('relation', False):
 
-                if is_importing and not ((value['type'] not in ('reference',)) and (not value.get('readonly', False)) and value['type']=='one2many'):
-                    continue
+                if import_compat or is_importing:
+                    ref = value.pop('relation')
+                    proxy = rpc.RPCProxy(ref)
+                    cfields = proxy.fields_get(False, rpc.session.context)
+                    if (value['type'] == 'many2many') and not is_importing:
+                        record['children'] = None
+                        record['params'] = {'model': ref, 'prefix': id, 'name': nm}
 
-                ref = value.pop('relation')
+                    elif (value['type'] == 'many2one') or (value['type'] == 'many2many' and is_importing):
+                        m2ofields.append(field)
+                        cfields_order = cfields.keys()
+                        cfields_order.sort(lambda x,y: -cmp(cfields[x].get('string', ''), cfields[y].get('string', '')))
+                        children = []
+                        for j, fld in enumerate(cfields_order):
+                            cid = id + '/' + fld
+                            cid = cid.replace(' ', '_')
+                            children.append(cid)
+                        record['children'] = children or None
+                        record['params'] = {'model': ref, 'prefix': id, 'name': nm}
+                        cherrypy.session['fld'] = m2ofields
 
-                proxy = rpc.RPCProxy(ref)
-                cfields = proxy.fields_get(False, rpc.session.context)
-                cfields_order = cfields.keys()
-                cfields_order.sort(lambda x,y: -cmp(cfields[x].get('string', ''), cfields[y].get('string', '')))
+                    else:
+                        cfields_order = cfields.keys()
+                        cfields_order.sort(lambda x,y: -cmp(cfields[x].get('string', ''), cfields[y].get('string', '')))
+                        children = []
+                        for j, fld in enumerate(cfields_order):
+                            cid = id + '/' + fld
+                            cid = cid.replace(' ', '_')
+                            children.append(cid)
+                        record['children'] = children or None
+                        record['params'] = {'model': ref, 'prefix': id, 'name': nm}
 
-                children = []
-                for j, fld in enumerate(cfields_order):
-                    cid = id + '/' + fld
-                    cid = cid.replace(' ', '_')
-
-                    children.append(cid)
-
-                record['children'] = children or None
-                record['params'] = {'model': ref, 'prefix': id, 'name': nm}
+                else:
+                    ref = value.pop('relation')
+                    proxy = rpc.RPCProxy(ref)
+                    cfields = proxy.fields_get(False, rpc.session.context)
+                    cfields_order = cfields.keys()
+                    cfields_order.sort(lambda x,y: -cmp(cfields[x].get('string', ''), cfields[y].get('string', '')))
+                    children = []
+                    for j, fld in enumerate(cfields_order):
+                        cid = id + '/' + fld
+                        cid = cid.replace(' ', '_')
+                        children.append(cid)
+                    record['children'] = children or None
+                    record['params'] = {'model': ref, 'prefix': id, 'name': nm}
+                    cherrypy.session['fld'] = []
 
         records.reverse()
         return dict(records=records)
 
 
     @expose('json')
-    def get_namelist(self, **kw):
+    def namelist(self, **kw):
 
         params, data = TinyDict.split(kw)
 
@@ -263,18 +294,15 @@ class ImpEx(SecuredController):
         id = params.id
 
         res = self.get_data(params.model, ctx)
-
         ir_export = rpc.RPCProxy('ir.exports')
         ir_export_line = rpc.RPCProxy('ir.exports.line')
 
         field = ir_export.read(id)
         fields = ir_export_line.read(field['export_fields'])
 
-        name_list = []
-        ids = [f['name'] for f in fields]
-
-        for name in ids:
-            name_list.append((name, res.get(name)))
+        name_list = [
+                (f['name'], res.get(f['name']))
+                for f in fields]
 
         return dict(name_list=name_list)
 
@@ -296,7 +324,7 @@ class ImpEx(SecuredController):
             fields.update(f2)
 
         def rec(fields):
-            _fields = {'id': {'string': 'ID'}, 'db_id': {'string': 'Database ID'}}
+            _fields = {'id': 'ID' , '.id': 'Database ID' }
 
             def model_populate(fields, prefix_node='', prefix=None, prefix_value='', level=2):
                 fields_order = fields.keys()
@@ -318,21 +346,28 @@ class ImpEx(SecuredController):
         return rec(fields)
 
     @expose(content_type="application/octet-stream")
-    def export_data(self, fname, fields, export_as="csv", add_names=False, import_compat=False, **kw):
+    def export_data(self, fname, fields, import_compat=False, **kw):
 
         params, data_index = TinyDict.split(kw)
         proxy = rpc.RPCProxy(params.model)
 
+        flds = []
+        for item in fields:
+            fld = item.replace('/.id','.id')
+            flds.append(fld)
+
         if isinstance(fields, basestring):
-            fields = [fields]
+            fields = fields.replace('/.id','.id')
+            flds = [fields]
+
 
         ctx = dict((params.context or {}), **rpc.session.context)
-        ctx['import_comp'] = import_compat
+        ctx['import_comp'] = bool(int(import_compat))
 
         domain = params.seach_domain or []
 
         ids = params.ids or proxy.search(domain, 0, 0, 0, ctx)
-        result = datas_read(ids, params.model, fields, context=ctx)
+        result = datas_read(ids, params.model, flds, context=ctx)
 
         if result.get('warning'):
             common.warning(unicode(result.get('warning', False)), _('Export Error'))
@@ -340,42 +375,12 @@ class ImpEx(SecuredController):
         result = result.get('datas',[])
 
         if import_compat:
-            params.fields2 = fields
+            params.fields2 = flds
 
-        if export_as == 'xls':
-
-            import xlwt
-            ezxf = xlwt.easyxf
-
-            fp = StringIO.StringIO()
-
-            wb = xlwt.Workbook()
-            worksheet = wb.add_sheet('Sheet 1')
-
-            for index, col in enumerate(params.fields2):
-                worksheet.write(0, index, ustr(col))
-
-            heading_xf = ezxf('align: wrap yes')
-
-            for data_index, data in enumerate(result):
-                for d in range(len(result[data_index])):
-                    try:
-                        data[d] = ustr(data[d])
-                    except:
-                        pass
-                    data[d] = re.sub("\r", " ", data[d])
-                    worksheet.write(data_index+1, d, data[d], heading_xf)
-                    worksheet.col(d).width = 8000
-
-            wb.save(fp)
-
-            fp.seek(0)
-            return fp.read()
-        else:
-            return export_csv(params.fields2, result, add_names)
+        return export_csv(params.fields2, result)
 
     @expose(template="/openerp/controllers/templates/imp.mako")
-    def imp(self, error=None, **kw):
+    def imp(self, error=None, records=None, success=None, **kw):
         params, data = TinyDict.split(kw)
 
         ctx = dict((params.context or {}), **rpc.session.context)
@@ -396,8 +401,9 @@ class ImpEx(SecuredController):
                                     is_importing=1)
 
         tree.show_headers = False
-
-        return dict(error=error, model=params.model, source=params.source, tree=tree, fields=kw.get('fields', {}))
+        return dict(error=error, records=records, success=success,
+                    model=params.model, source=params.source,
+                    tree=tree, fields=kw.get('fields', {}))
 
     @expose()
     def detect_data(self, csvfile, csvsep, csvdel, csvcode, csvskip, **kw):
@@ -407,9 +413,8 @@ class ImpEx(SecuredController):
         _fields_invert = {}
         error = None
 
-        fields = dict(rpc.RPCProxy(params.model).fields_get(False, rpc.session.context),
-                      id={'type': 'char', 'string': 'ID'},
-                      db_id={'type': 'char', 'string': 'Database ID'})
+        fields = dict(rpc.RPCProxy(params.model).fields_get(False, rpc.session.context))
+        fields.update({'id': {'string': 'ID'}, '.id': {'string': 'Database ID'}})
 
         def model_populate(fields, prefix_node='', prefix=None, prefix_value='', level=2):
             def str_comp(x,y):
@@ -428,25 +433,36 @@ class ImpEx(SecuredController):
                     st_name = prefix_value+fields[field]['string'] or field
                     _fields[prefix_node+field] = st_name
                     _fields_invert[st_name] = prefix_node+field
+
                     if fields[field].get('type','')=='one2many' and level>0:
                         fields2 = rpc.session.execute('object', 'execute', fields[field]['relation'], 'fields_get', False, rpc.session.context)
-                        fields2.update({'id': {'type': 'char', 'string': 'ID'}, 'db_id':{'type': 'char', 'string': 'Database ID'}})
                         model_populate(fields2, prefix_node+field+'/', None, st_name+'/', level-1)
-                    if fields[field].get('type','') in ('many2one', 'many2many' ) and level>0:
-                        model_populate({'id': {'type': 'char', 'string': 'ID'}, 'db_id': {'type': 'char', 'string': 'Database ID'}},
-                                       prefix_node+field+':', None, st_name+'/', level-1)
 
+                    if fields[field].get('relation',False) and level>0:
+                        model_populate({'/id': {'type': 'char', 'string': 'ID'}, '.id': {'type': 'char', 'string': 'Database ID'}},
+                                       prefix_node+field, None, st_name+'/', level-1)
+        fields.update({'id':{'string':'ID'},'.id':{'string':_('Database ID')}})
         model_populate(fields)
+
 
         try:
             data = csv.reader(csvfile.file, quotechar=str(csvdel), delimiter=str(csvsep))
         except:
             raise common.warning(_('Error opening .CSV file'), _('Input Error.'))
 
+
+        records = []
         fields = []
         word=''
+        limit = 3
+
         try:
-            for line in data:
+            for i, row in enumerate(data):
+                records.append(row)
+                if i == limit:
+                    break
+
+            for line in records:
                 for word in line:
                     word = ustr(word.decode(csvcode))
                     if word in _fields:
@@ -454,13 +470,16 @@ class ImpEx(SecuredController):
                     elif word in _fields_invert.keys():
                         fields.append((_fields_invert[word], word))
                     else:
-                        error = {'message':_("You cannot import this field %s, because we cannot auto-detect it" % (word,))}
+                        error = {'message':_("You cannot import the field '%s', because we cannot auto-detect it" % (word,))}
                 break
         except:
-            error = {'message':_('Error processing your first line of the file. Field %s is unknown') % (word,), 'title':_('Import Error.')}
+            error = {'message':_('Error processing the first line of the file. Field "%s" is unknown') % (word,), 'title':_('Import Error.')}
 
         kw['fields'] = fields
-        return self.imp(error=error, **kw)
+        if error:
+            csvfile.file.seek(0)
+            return self.imp(error=dict(error, preview=csvfile.file.read(200)), **kw)
+        return self.imp(records=records, **kw)
 
     @expose()
     def import_data(self, csvfile, csvsep, csvdel, csvcode, csvskip, fields=[], **kw):
@@ -469,7 +488,16 @@ class ImpEx(SecuredController):
         res = None
         content = csvfile.file.read()
         input=StringIO.StringIO(content)
-        data = list(csv.reader(input, quotechar=str(csvdel), delimiter=str(csvsep)))[int(csvskip):]
+        all_data = list(csv.reader(input, quotechar=str(csvdel), delimiter=str(csvsep)))
+        limit = 0
+        data = []
+
+        for j, line in enumerate(all_data):
+            if j == limit:
+                fields = line
+            else:
+               data.append(line)
+
         datas = []
         ctx = dict(rpc.session.context)
 
@@ -484,17 +512,17 @@ class ImpEx(SecuredController):
         try:
             res = rpc.session.execute('object', 'execute', params.model, 'import_data', fields, datas, 'init', '', False, ctx)
         except Exception, e:
-            raise common.warning(ustr(e), _('XML-RPC error'))
+            error = {'message':ustr(e), 'title':_('XML-RPC error')}
+            return self.imp(error=error, **kw)
 
 
         if res[0]>=0:
-            error = {'message':_('Imported %d objects') % (res[0],)}
+            return self.imp(success={'message':_('Imported %d objects') % (res[0],)}, **kw)
 
-        else:
-            d = ''
-            for key,val in res[1].items():
-                d+= ('%s: %s' % (ustr(key),ustr(val)))
-            msg = _('Error trying to import this record:%s. ErrorMessage:%s %s') % (d,res[2],res[3])
-            error = {'message':ustr(msg), 'title':_('ImportationError')}
+        d = ''
+        for key,val in res[1].items():
+            d+= ('%s: %s' % (ustr(key),ustr(val)))
+        msg = _('Error trying to import this record:%s. ErrorMessage:%s %s') % (d,res[2],res[3])
+        error = {'message':ustr(msg), 'title':_('ImportationError')}
 
         return self.imp(error=error, **kw)

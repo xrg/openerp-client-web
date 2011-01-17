@@ -94,6 +94,9 @@ function idSelector(nodeId) {
                 height: options.height,
                 close:  options.close
             });
+        $frame[0].set_title = function (title) {
+            $frame.prev().find('.ui-dialog-title').text(title);
+        };
         $frame[0].close = function () {
             $frame.dialog('close');
         };
