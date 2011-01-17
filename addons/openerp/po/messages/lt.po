@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: openobject-client-web\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2011-01-07 17:11+0100\n"
-"PO-Revision-Date: 2011-01-15 11:56+0000\n"
+"PO-Revision-Date: 2011-01-16 11:35+0000\n"
 "Last-Translator: Paulius Sladkevičius - http://www.inovera.lt <Unknown>\n"
 "Language-Team: Lithuanian <lt@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2011-01-16 05:03+0000\n"
+"X-Launchpad-Export-Date: 2011-01-17 04:50+0000\n"
 "X-Generator: Launchpad (build 12177)\n"
 
 #: validators.py:83
@@ -873,7 +873,7 @@ msgstr "Paieška: %s"
 
 #: controllers/templates/form.mako:97
 msgid "Corporate Intelligence..."
-msgstr "Kolektyvinė Informacija..."
+msgstr "Bendra informacija..."
 
 #: controllers/templates/form.mako:103
 msgid "Show Logs..."

@@ -1,17 +1,16 @@
-# Spanish translation for openobject-client-web
-# Copyright (c) 2010 Rosetta Contributors and Canonical Ltd 2010
+# Croatian translation for openobject-client-web
+# Copyright (c) 2011 Rosetta Contributors and Canonical Ltd 2011
 # This file is distributed under the same license as the openobject-client-web package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, 2010.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2011.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: openobject-client-web\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2011-01-07 17:11+0100\n"
-"PO-Revision-Date: 2011-01-16 22:59+0000\n"
-"Last-Translator: Jordi Esteve (www.zikzakmedia.com) "
-"<jesteve@zikzakmedia.com>\n"
-"Language-Team: Spanish <es@li.org>\n"
+"PO-Revision-Date: 2011-01-17 00:51+0000\n"
+"Last-Translator: Goran Kliska (Aplikacija d.o.o.) <gkliska@gmail.com>\n"
+"Language-Team: Croatian <hr@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -20,122 +19,110 @@ msgstr ""
 
 #: controllers/_diagram.py:97 controllers/_diagram.py:218
 msgid "Could not delete state"
-msgstr "No es posible eliminar el estado"
+msgstr ""
 
 #: controllers/_diagram.py:282
 msgid "No workflow associated!"
-msgstr "¡No hay asociado un flujo de trabajo!"
+msgstr ""
 
 #: controllers/process.py:53
 msgid "Help: Not Defined"
-msgstr "Ayuda: No está definido"
+msgstr ""
 
 #: controllers/process.py:93
 #, python-format
 msgid "%(name)s - Resource: %(resource)s, State: %(state)s"
-msgstr "%(name)s - Recurso: %(resource)s, Estado: %(state)s"
+msgstr ""
 
 #: controllers/process.py:105
 msgid "Last modified by:"
-msgstr "Última modificación por:"
+msgstr ""
 
 #: controllers/templates/process.mako:4 controllers/templates/process.mako:87
 #: controllers/templates/process_tip.mako:5
 msgid "Process"
-msgstr "Proceso"
+msgstr "Proces"
 
 #: controllers/templates/process.mako:55
 msgid "Documentation"
-msgstr "Documentación"
+msgstr "Dokumentacija"
 
 #: controllers/templates/process.mako:56
 msgid "Read Documentation Online"
-msgstr "Leer documentación online"
+msgstr ""
 
 #: controllers/templates/process.mako:62
 msgid "Forum"
-msgstr "Foro"
+msgstr "Forum"
 
 #: controllers/templates/process.mako:63
 msgid "Community Discussion"
-msgstr "Debate de la comunidad"
+msgstr ""
 
 #: controllers/templates/process.mako:68
 msgid "Books"
-msgstr "Libros"
+msgstr "Knjige"
 
 #: controllers/templates/process.mako:69
 msgid "Get the book on Amazon"
-msgstr "Obtener el libro desde Amazon"
+msgstr ""
 
 #: controllers/templates/process.mako:74
 msgid "Support / Publisher Warranty"
-msgstr "Soporte / Garantía editor"
+msgstr ""
 
 #: controllers/templates/process.mako:75
 msgid "Get the OpenERP Warranty"
-msgstr "Obtener la garantía de OpenERP"
+msgstr ""
 
 #: controllers/templates/process.mako:97
 msgid "Select Process"
-msgstr "Seleccionar proceso"
+msgstr "Odaberi proces"
 
 #: controllers/templates/process.mako:103
 msgid "Select"
-msgstr "Seleccionar"
+msgstr "Odaberi"
 
 #: controllers/templates/process.mako:116
 msgid "[Edit Process]"
-msgstr "[Editar proceso]"
+msgstr ""
 
 #: controllers/templates/process.mako:117
 msgid "[show fields]"
-msgstr "[mostrar campos]"
+msgstr ""
 
 #: controllers/templates/process.mako:118
 msgid "[hide fields]"
-msgstr "[ocultar campos]"
+msgstr ""
 
 #: controllers/templates/process_open.mako:54
 #: controllers/templates/process_tip.mako:20
 #: controllers/templates/wkf_popup.mako:52
 msgid "Close"
-msgstr "Cerrar"
+msgstr "Zatvori"
 
 #: controllers/templates/process_open.mako:55
 #: controllers/templates/wkf_popup.mako:49
 msgid "Save"
-msgstr "Guardar"
+msgstr "Snimi"
 
 #: controllers/templates/workflow.mako:4
 msgid "Workflow"
-msgstr "Flujo"
+msgstr "Tijek procesa"
 
 #: controllers/templates/workflow.mako:20
 #, python-format
 msgid "Workflow (%s)"
-msgstr "Flujo (%s)"
+msgstr ""
 
 #: widgets/_views.py:8
 msgid "Diagram"
-msgstr "Diagrama"
+msgstr "Dijagram"
 
 #: widgets/_views.py:9
 msgid "Diagram view..."
-msgstr "Vista diagrama..."
+msgstr ""
 
 #: widgets/templates/diagram.mako:27
 msgid "Loading..."
-msgstr "Cargando..."
-
-#~ msgid "show fields"
-#~ msgstr "mostrar campos"
-
-#~ msgid "Opportunities Documentation Online"
-#~ msgstr "Documentación oportunidades en línea"
-
-#~ msgid "hide fields"
-#~ msgstr "ocultar campos"
-
-#~ msgid "Support / Maintenance"
-#~ msgstr "Soporte / Mantenimiento"
+msgstr "Učitavanje..."
