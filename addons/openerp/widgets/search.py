@@ -223,7 +223,6 @@ class Search(TinyInputWidget):
         if not self.search_view:
             self.search_view = cache.fields_view_get(self.model, view_id or False, 'search', ctx, True)
 
-        self.fields_list = []
         fields = self.search_view['fields']
 
         self.domain = convert_date_format_in_domain(domain, fields, self.context)
@@ -238,21 +237,17 @@ class Search(TinyInputWidget):
         self.string = dom.documentElement.getAttribute('string')
 
         self.fields_type = {}
-        self.fields = fields
-        all_fields = rpc.session.execute('object', 'execute', model, 'fields_get', rpc.session.context)
-        if len(fields) != len(all_fields):
-            common_fields = [f for f in all_fields if f in fields]
-            for f in common_fields:
-                del all_fields[f]
-            field_dict = all_fields
-            self.fields.update(field_dict)
 
-        self.fields_list.extend((
+        all_fields = cache.fields_get(model, [], rpc.session.context)
+
+        self.fields = dict(all_fields, **fields)
+
+        self.fields_list = [
             (field_name, ustr(field['string']), field['type'])
             for field_name, field in self.fields.iteritems()
             if field['type'] != 'binary'
             if field.get('selectable')
-        ))
+        ]
 
         if self.fields_list:
             self.fields_list.sort(lambda x, y: cmp(x[1], y[1]))

@@ -474,17 +474,15 @@ class Search(Form):
 
     def context_get(self, field_context, parent_context):
         # Need to remove default keys,group_by,search_default of the parent context
-        context = {}
-        context.update(parent_context)
-        context_own = context.copy()
-        for ctx in context.items():
+        context_own = dict(parent_context)
+        for ctx in parent_context.items():
             if ctx[0].startswith('default_') or ctx[0] in ('set_editable','set_visible')\
              or ctx[0] == 'group_by' or ctx[0].startswith('search_default_'):
                 del context_own[ctx[0]]
 
         field_context_str = field_context or '{}'
         if field_context_str:
-            field_context = expr_eval('dict(%s)' % field_context_str)
-            context_own.update(field_context)
+            context_own.update(
+                expr_eval('dict(%s)' % field_context_str, parent_context))
 
         return context_own

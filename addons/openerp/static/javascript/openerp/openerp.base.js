@@ -185,7 +185,7 @@ var FORM_WAIT_NO_ACTIVITY = 500;
 /**
  * selector for delegation to links nobody handles
  */
-var UNTARGETED_LINKS_SELECTOR = 'a[href]:not([target]):not([href^="#"]):not([href^="javascript"]):not([rel=external])';
+var UNTARGETED_LINKS_SELECTOR = 'a[href]:not([target]):not([href^="#"]):not([href^="javascript"]):not([rel=external]):not([href^="http://"]):not([href^="https://"]):not([href^="//"])';
 
 // Prevent action links from blowing up when clicked before document.ready()
 jQuery(document).delegate(UNTARGETED_LINKS_SELECTOR, 'click', function (e) {
@@ -196,7 +196,7 @@ jQuery(document).ready(function () {
     jQuery(document).undelegate(UNTARGETED_LINKS_SELECTOR);
     var $app = jQuery('#appContent');
     if ($app.length) {
-        jQuery('body').delegate('a[href]:not([target="_blank"]):not([href^="#"]):not([href^="javascript"]):not([rel=external])', 'click', function(event){
+        jQuery('body').delegate(UNTARGETED_LINKS_SELECTOR, 'click', function(event){
             if (!validate_action()) {
                 event.stopImmediatePropagation();
                 return false;

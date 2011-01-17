@@ -28,10 +28,10 @@
                                 if screen.view_type == 'tree':
                                     clear_filters = "new ListView('_terp_list').clear();"
                                 else:
-                                    clear_filters = "reload_graph(true)"
+                                    clear_filters = "reload_graph(true);"
                             %>
                              <button title="${_('Clear all.')}" id="clear_all_filters"
-                             onclick="${clear_filters}; return false;"
+                             onclick="${clear_filters} return false;"
                              >${_("Clear")}</button>
                              % if context_menu:
                                 <button title="${_('Close')}" onclick="window.close()" href="javascript: void(0)">${_("Close")}</button>
@@ -40,18 +40,18 @@
                         <td align="right">
                             <select name="filter_list" id="filter_list"
                                 onchange="change_filter(); return false;">
-                                <option value="blk" value="">-- ${_("Filters")} --</option>
+                                <option value="blk">-- ${_("Filters")} --</option>
                                 % if len(search.filters_list):
-                                    <optgroup id="filter_list_options_group" label="${_("Saved Filters")}">
+                                    <optgroup id="filter_list_options_group" label="${_('Saved Filters')}">
                                     % for f in search.filters_list:
                                         <option id="${f[3]}" value="${f[0]}" group_by="${f[2]}">${f[1]}</option>
                                     % endfor
                                     </optgroup>
                                 % endif
-                                <optgroup label="${_("Actions")}">
-                                    <option value="nf" value="">${_("New Filter")}</option>
-                                    <option value="sf" value="">${_("Save Filter")}</option>
-                                    <option value="mf" value="">${_("Manage Filters")}</option>
+                                <optgroup label="${_('Actions')}">
+                                    <option value="nf">${_("New Filter")}</option>
+                                    <option value="sf">${_("Save Filter")}</option>
+                                    <option value="mf">${_("Manage Filters")}</option>
                                 </optgroup>
                             </select>
                         </td>
