@@ -124,7 +124,7 @@
             });
             openobject.dom.get('_terp_fields2').value = '[' + fields2.join(',') + ']';
             jQuery(idSelector(form)).attr('action', openobject.http.getURL(
-                '/openerp/impex/export_data/data.' + (jQuery('#export_as').val() || 'csv'))
+                '/openerp/impex/export_data/data.csv')
             ).submit();
         }
 
