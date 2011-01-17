@@ -9,6 +9,7 @@
     <script type="text/javascript">
 
         function do_import() {
+            if(!jQuery('#csvfile').val()) { return; }
             jQuery('#import_data').attr({
                 'target': "detector",
                 'action': openobject.http.getURL('/openerp/impex/import_data')
@@ -16,6 +17,7 @@
         }
 
         function autodetect_data() {
+            if(!jQuery('#csvfile').val()) { return; }
             jQuery('#import_data').attr({
                 'target': "detector",
                 'action': openobject.http.getURL('/openerp/impex/detect_data')
