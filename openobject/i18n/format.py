@@ -268,7 +268,8 @@ def _convert_date_format_in_domain(domain, fields, context):
                     else:
                         formated_date = format_datetime(val, dtype)
                         val = parse_datetime(formated_date, dtype)
-                        val = DT.datetime.strptime( DT.datetime.strptime(val, server_dformat).strftime(user_dformat), user_dformat).strftime(server_dformat)
+                        if val:
+                            val = DT.datetime.strptime( DT.datetime.strptime(val, server_dformat).strftime(user_dformat), user_dformat).strftime(server_dformat)
 
             fixed_domain.append((key, op, val))
 
