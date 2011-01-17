@@ -142,7 +142,7 @@
                     <tr>
                         <td>
                             Select a .CSV file to import. If you need a sample of file to import,
-                            you should use the <a style="color: blue;" href="javascript: void(0)" onclick="window.location.href=openobject.http.getURL('/openerp/impex/exp',{_terp_model: '${model}', _terp_source: '${source}'})">export tool</a> with the "Import Compatible" option.
+                            you should use the export tool with the "Import Compatible" option.
                         </td>
                     </tr>
                 </table>
