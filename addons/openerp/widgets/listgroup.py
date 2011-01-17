@@ -102,7 +102,7 @@ def parse_groups(group_by, grp_records, headers, ids, model,  offset, limit, con
             if child:
                 rec_dom =  rec.get('__domain')
                 dom = [('id', 'in', ids), rec_dom[0]]
-                ch_ids = [d for id in proxy.search(dom, offset, 0, 0, context)
+                ch_ids = [d for id in proxy.search(dom, offset, limit, 0, context)
                             for  d in data
                             if d.get('id') == id]
             rec['child_rec'] = ch_ids
@@ -174,7 +174,7 @@ class ListGroup(List):
 
         super(ListGroup, self).__init__(
             name=name, model=model, view=view, ids=self.ids, domain=self.domain,
-            context=self.context, limit=-1, count=self.count,
+            context=self.context, limit=self.limit, count=self.count,
             offset=self.offset, editable=self.editable,
             selectable=self.selectable)
 
