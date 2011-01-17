@@ -65,6 +65,10 @@
             window.frameElement.set_title(
                 $header.text());
             $header.closest('.side_spacing').parent().remove();
+
+            jQuery('fieldset legend').click(function () {
+                jQuery(this).next().toggle();
+            })
         });
     </script>
 
@@ -160,8 +164,8 @@
         <tr>
             <td class="side_spacing">
                 <fieldset>
-                    <legend>${_("CSV Options")}</legend>
-                    <table>
+                    <legend style="cursor:pointer;">${_("CSV Options")}</legend>
+                    <table style="display:none">
                         <tr>
                             <td class="label"><label for="csv_separator">${_("Separator:")}</label></td>
                             <td><input type="text" name="csvsep" id="csv_separator" value=","/></td>
@@ -210,7 +214,7 @@
                 <img src="/openerp/static/images/warning.png" alt="">
             </td>
             <td class="error_message_content">
-                ${error['message']|n}
+                ${error['message']}
             </td>
         </tr>
         <tr>

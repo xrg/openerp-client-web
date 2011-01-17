@@ -479,10 +479,10 @@ class ImpEx(SecuredController):
                     elif word in _fields_invert.keys():
                         fields.append((_fields_invert[word], word))
                     else:
-                        error = {'message':_("You cannot import this field %s, because we cannot auto-detect it" % (word,))}
+                        error = {'message':_("You cannot import the field '%s', because we cannot auto-detect it" % (word,))}
                 break
         except:
-            error = {'message':_('Error processing your first line of the file. Field %s is unknown') % (word,), 'title':_('Import Error.')}
+            error = {'message':_('Error processing your first line of the file. Field "%s" is unknown') % (word,), 'title':_('Import Error.')}
 
         kw['fields'] = fields
         if error:
