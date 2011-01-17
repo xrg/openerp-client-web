@@ -7,34 +7,42 @@
     <link rel="stylesheet" type="text/css" href="/openerp/static/css/database.css"/>
 
     <script type="text/javascript">
+        function import_results(detection) {
+            jQuery('#records_data, #error, #imported_success').empty();
+
+            // detect_data only returns the body part of this, or something
+            var $detection = jQuery('<div>'+detection+'</div>');
+            var $error = $detection.find('#error');
+            if($error.children().length) {
+                jQuery('#error')
+                        .html($error.html());
+                return;
+            }
+            var $success = $detection.find('#imported_success');
+            if($success.children().length) {
+                jQuery('#imported_success')
+                        .html($success.html());
+                return;
+            }
+            jQuery('#records_data')
+                    .html($detection.find('#records_data').html());
+        }
 
         function do_import() {
             if(!jQuery('#csvfile').val()) { return; }
             jQuery('#import_data').attr({
-                'target': "detector",
                 'action': openobject.http.getURL('/openerp/impex/import_data')
-            }).submit();
+            }).ajaxSubmit({
+                success: import_results
+            });
         }
 
         function autodetect_data() {
             if(!jQuery('#csvfile').val()) { return; }
             jQuery('#import_data').attr({
-                'target': "detector",
                 'action': openobject.http.getURL('/openerp/impex/detect_data')
             }).ajaxSubmit({
-                success: function (detection) {
-                    jQuery('#records_data, #error').empty();
-
-                    // detect_data only returns the body part of this, or something
-                    var $detection = jQuery('<div>'+detection+'</div>');
-                    var $error = $detection.find('#error');
-                    if($error.children().length) {
-                        jQuery('#error')
-                                .html($error.html());
-                    }
-                    jQuery('#records_data')
-                            .html($detection.find('#records_data').html());
-                }
+                success: import_results
             });
 
         }
@@ -79,7 +87,7 @@
                 <table width="100%">
                     <tr>
                         <td width="100%" valign="middle" for="" class=" item-separator" colspan="4">
-                            <h2 class="separator horizontal">1. Import a .CSV file</h2>
+                            <h2 class="separator horizontal">${_("1. Import a .CSV file")}</h2>
                         </td>
                     </tr>
                     <tr>
@@ -113,15 +121,18 @@
                     <table width="100%">
                         <tr>
                             <td width="100%" valign="middle" for="" class=" item-separator">
-                                <h2 class="separator horizontal">2. Check your file format</h2>
+                                <h2 class="separator horizontal">${_("2. Check your file format")}</h2>
                             </td>
                         </tr>
                     </table>
                     <div id="error">
                         % if error:
-                            <p>${_("The import failed due to: %(message)s", message=error['message'])}</p>
-                            <p>${_("Here is a preview of the file we could not import:")}</p>
-                            <pre>${error['preview']}</pre>
+                            <p style="white-space:pre-line;"
+                                >${_("The import failed due to: %(message)s", message=error['message'])}</p>
+                            % if 'preview' in error:
+                                <p>${_("Here is a preview of the file we could not import:")}</p>
+                                <pre>${error['preview']}</pre>
+                            % endif
                         % endif
                     </div>
                     <table id="records_data" class="grid" width="100%" style="margin: 5px 0;">
@@ -168,17 +179,23 @@
                 </div>
             </td>
         </tr>
-        <tr>
-            <td height="10px">
-            </td>
-        </tr>
-        <tr>
+        <tr id="imported_success">
+            % if success:
             <td class="side_spacing">
+                <table width="100%">
+                    <tr>
+                        <td width="100%" valign="middle" for="" class=" item-separator" colspan="4">
+                            <h2 class="separator horizontal">${_("3. File imported")}</h2>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            ${success['message']}
+                        </td>
+                    </tr>
+                </table>
             </td>
-        </tr>
-        <tr>
-            <td height="20px">
-            </td>
+            % endif
         </tr>
         <tr>
             <td class="side_spacing">

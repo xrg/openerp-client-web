@@ -391,7 +391,7 @@ class ImpEx(SecuredController):
         return export_csv(params.fields2, result)
 
     @expose(template="/openerp/controllers/templates/imp.mako")
-    def imp(self, error=None, records=None, **kw):
+    def imp(self, error=None, records=None, success=None, **kw):
         params, data = TinyDict.split(kw)
 
         ctx = dict((params.context or {}), **rpc.session.context)
@@ -412,7 +412,9 @@ class ImpEx(SecuredController):
                                     is_importing=1)
 
         tree.show_headers = False
-        return dict(error=error, records=records, model=params.model, source=params.source, tree=tree, fields=kw.get('fields', {}))
+        return dict(error=error, records=records, success=success,
+                    model=params.model, source=params.source,
+                    tree=tree, fields=kw.get('fields', {}))
 
     @expose()
     def detect_data(self, csvfile, csvsep, csvdel, csvcode, csvskip, **kw):
@@ -521,19 +523,17 @@ class ImpEx(SecuredController):
         try:
             res = rpc.session.execute('object', 'execute', params.model, 'import_data', fields, datas, 'init', '', False, ctx)
         except Exception, e:
-            err = {'message':ustr(e)}
-            error = {'message':err['message'].split('\n'), 'title':_('XML-RPC error')}
+            error = {'message':ustr(e), 'title':_('XML-RPC error')}
             return self.imp(error=error, **kw)
 
 
         if res[0]>=0:
-            error = {'message':_('Imported %d objects') % (res[0],)}
+            return self.imp(success={'message':_('Imported %d objects') % (res[0],)}, **kw)
 
-        else:
-            d = ''
-            for key,val in res[1].items():
-                d+= ('%s: %s' % (ustr(key),ustr(val)))
-            msg = _('Error trying to import this record:%s. ErrorMessage:%s %s') % (d,res[2],res[3])
-            error = {'message':ustr(msg), 'title':_('ImportationError')}
+        d = ''
+        for key,val in res[1].items():
+            d+= ('%s: %s' % (ustr(key),ustr(val)))
+        msg = _('Error trying to import this record:%s. ErrorMessage:%s %s') % (d,res[2],res[3])
+        error = {'message':ustr(msg), 'title':_('ImportationError')}
 
         return self.imp(error=error, **kw)
