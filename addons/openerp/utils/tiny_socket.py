@@ -45,6 +45,8 @@ class TinySocket(object):
         else:
             self.sock = sock
         self.sock.settimeout(SOCKET_TIMEOUT)
+        # disables Nagle algorithm (avoids 200ms default delay on Windows)
+        self.sock.setsockopt(socket.IPPROTO_TCP, socket.TCP_NODELAY, 1)
 
     def connect(self, host, port=False):
         if not port:
