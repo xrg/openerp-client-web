@@ -78,15 +78,11 @@
             }, 'json');
         }
 
-        function do_import_cmp(form){
-            var imp_compat = document.getElementById('import_compat')
-            var import_com;
-            if(imp_compat.value == "imp_cmp"){
-                import_com = 1;
-            }
-
-            jQuery(idSelector(form)).attr({
-                'action': openobject.http.getURL('/openerp/impex/exp', {'import_com':import_com})
+        function do_import_cmp(){
+            jQuery('#view_form').attr({
+                'action': openobject.http.getURL('/openerp/impex/exp', {
+                    'import_compat': jQuery('#import_compat').val()
+                })
             }).submit();
         }
 
@@ -169,9 +165,11 @@
                     <tr>
                         <td class="label"><label for="import_compat">${_("Export Type:")}</label></td>
                         <td>
-                            <select id="import_compat" name="import_compat">
-                                <option value="imp_cmp" onclick="do_import_cmp('view_form')">${_("Import Compatible Export")}</option>
-                                <option value="all" onclick="do_import_cmp('view_form')">${_("Export all Data")}</option>
+                            <select id="import_compat" name="import_compat" onchange="do_import_cmp();">
+                                <option value="1">${_("Import Compatible Export")}</option>
+                                <option value="0"
+                                    ${'selected=selected' if import_compat == "0" else ''}
+                                    >${_("Export all Data")}</option>
                             </select>
                         </td>
                     </tr>

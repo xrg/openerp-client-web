@@ -114,7 +114,7 @@ class ImpEx(SecuredController):
     _cp_path = "/openerp/impex"
 
     @expose(template="/openerp/controllers/templates/exp.mako")
-    def exp(self, import_com=None, **kw):
+    def exp(self, import_compat="1", **kw):
 
         params, data = TinyDict.split(kw)
         ctx = dict((params.context or {}), **rpc.session.context)
@@ -135,7 +135,7 @@ class ImpEx(SecuredController):
                                  field_parent='relation',
                                  context=ctx,
                                  views=views,
-                                 import_com=import_com)
+                                 import_compat=int(import_compat))
 
         tree.show_headers = False
 
@@ -145,7 +145,7 @@ class ImpEx(SecuredController):
 
         return dict(existing_exports=existing_exports, model=params.model, ids=params.ids, ctx=ctx,
                     search_domain=params.search_domain, source=params.source,
-                    tree=tree, import_com=import_com)
+                    tree=tree, import_compat=import_compat)
 
     @expose()
     def save_exp(self, **kw):
@@ -356,9 +356,6 @@ class ImpEx(SecuredController):
     @expose(content_type="application/octet-stream")
     def export_data(self, fname, fields, import_compat=False, **kw):
 
-        if import_compat == 'all':
-            import_compat = False
-
         params, data_index = TinyDict.split(kw)
         proxy = rpc.RPCProxy(params.model)
 
@@ -373,7 +370,7 @@ class ImpEx(SecuredController):
 
 
         ctx = dict((params.context or {}), **rpc.session.context)
-        ctx['import_comp'] = import_compat
+        ctx['import_comp'] = bool(int(import_compat))
 
         domain = params.seach_domain or []
 
