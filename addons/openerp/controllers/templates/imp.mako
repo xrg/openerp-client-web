@@ -14,7 +14,7 @@
             }
 
 
-            jQuery('#'+form).attr({
+            jQuery(idSelector(form)).attr({
                 'target': "detector",
                 'action': openobject.http.getURL('/openerp/impex/import_data')
             }).submit();
@@ -38,42 +38,46 @@
             }
 
             if (! openobject.dom.get('csvfile').value ){
-                return error_display(_('You must select an import file first.'));
+                error_display(_('You must select an import file first.'));
+                return;
             }
 
-            jQuery('#'+form).attr({
+            jQuery(idSelector(form)).attr({
                 'target': "detector",
                 'action': openobject.http.getURL('/openerp/impex/detect_data')
             }).submit();
 
         }
 
+    /*
     % if error:
+    */
         jQuery(window.parent.document.body).append(
             jQuery('<div>', {'id': 'error', 'title': "${error.get('title', 'Warning')}"})
-            .append(
-                jQuery('<table>', {'class': 'errorbox'}).append(
-                    jQuery('<tr>').append(
-                        jQuery('<td>', {'width': '10%'})
-                        .append(
-                            jQuery('<img>', {'src': '/openerp/static/images/warning.png'})
+                .append(
+                    jQuery('<table>', {'class': 'errorbox'}).append(
+                        jQuery('<tr>').append(
+                            jQuery('<td>', {'width': '10%'})
+                                .append(
+                                    jQuery('<img>', {'src': '/openerp/static/images/warning.png'}))
+                                .css('padding', '4px 2px'),
+                            jQuery('<td>', {'class': 'error_message_content'}).append(
+                                jQuery('<pre>').html("${error.get('message', '')}"))
+                            ),
+                        jQuery('<tr>').append(
+                            '<td style="padding: 0 8px 5px 0; vertical-align:top;" align="right" colspan="2"><a class="button-a" id="error_btn" onclick="jQuery(\'#error\').dialog(\'close\');">OK</a></td>'
+                            )
                         )
-                        .css('padding','4px 2px'),
-                        jQuery('<td>', {'class': 'error_message_content'}).append(
-                            jQuery('<pre>').html("${error.get('message', '')}")
-                        )
-                    ),
-                    jQuery('<tr>').append(
-                        '<td style="padding: 0 8px 5px 0; vertical-align:top;" align="right" colspan="2"><a class="button-a" id="error_btn" onclick="jQuery(\'#error\').dialog(\'close\');">OK</a></td>'
-                    )
-                )
-            )
-            .css('display', 'none')
-        )
+                    ).css('display', 'none')
+        );
+    /*
     % endif
+    */
 
 
+    /*
     % if records:
+    */
         var $rec = jQuery('\
             <table width="100%">\
                 <tr>\
@@ -101,7 +105,9 @@
             </table>\
         ');
         jQuery(window.parent.document.getElementById('record')).append($rec);
+    /*
     % endif
+    */
 
     </script>
 
