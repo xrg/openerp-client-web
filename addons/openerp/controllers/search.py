@@ -281,17 +281,40 @@ class Search(Form):
             domain = expr_eval(check_domain, context) or []
 
         search_data = {}
+        model = kw.get('model')
+        proxy = rpc.RPCProxy(model)
+        res = proxy.fields_get(False, context)
+        all_error = []
+        fld = {}
+        
         if domains:
             for field, value in domains.iteritems():
+                
                 if '/' in field:
                     fieldname, bound = field.split('/')
+                else:
+                    fieldname = field
+                    bound = ''
+                    
+                data = {}
+                fld['type'] = res[fieldname].get('type')    
+                fld['value'] = value
+                data[field] = fld
 
-                    if bound in ('from', 'to'):
-                        if bound == 'from': test = '>='
-                        else: test = '<='
+                try:
+                    frm = TinyForm(**data).to_python()
+                except TinyFormError, e:
+                    error_field = e.field
+                    error = ustr(e)
+                    all_error.append(dict(error=error, error_field=error_field))
+                    continue
 
-                        domain.append((fieldname, test, value))
-                        search_data.setdefault(fieldname, {})[bound] = value
+                if bound in ('from', 'to'):
+                    if bound == 'from': test = '>='
+                    else: test = '<='
+
+                    domain.append((fieldname, test, value))
+                    search_data.setdefault(fieldname, {})[bound] = value
 
                 elif isinstance(value, bool) and value:
                     search_data[field] = 1
@@ -313,6 +336,8 @@ class Search(Form):
                         search_data[field] = value
                     else:
                         search_data[field] = value.split('m2o_')[1]
+            if all_error:
+                return dict(all_error=all_error)
 
         def get_domain(x):
             if len(x) == 1:
