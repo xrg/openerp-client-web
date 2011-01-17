@@ -1078,19 +1078,19 @@ class Form(SecuredController):
         relates = []
 
         if kind == "many2one":
-            defaults.append({'text': 'Open resource', 'action': "new ManyToOne('%s').open_record('%s')" % (field, value)})
+            defaults.append({'text': _('Open resource'), 'action': "new ManyToOne('%s').open_record('%s')" % (field, value)})
 
         defaults += [
-            {'text': 'Set to default value', 'action': "set_to_default('%s', '%s')" % (field, model)},
-            {'text': 'Set as default', 'action': "set_as_default('%s', '%s')"  % (field, model)}
+            {'text': _('Set to default value'), 'action': "set_to_default('%s', '%s')" % (field, model)},
+            {'text': _('Set as default'), 'action': "set_as_default('%s', '%s')"  % (field, model)}
         ]
 
         if kind=='many2one':
 
             act = (value or None) and "javascript: void(0)"
 
-            actions = [{'text': 'Action', 'relation': relation, 'field': field, 'action': act and "do_action(this, true)"},
-                       {'text': 'Report', 'action': act and "do_report('%s', '%s')" %(field, relation)}]
+            actions = [{'text': _('Action'), 'relation': relation, 'field': field, 'action': act and "do_action(this, true)"},
+                       {'text': _('Report'), 'action': act and "do_report('%s', '%s')" %(field, relation)}]
             
             res = rpc.RPCProxy('ir.values').get('action', 'client_action_relate', [(relation, False)], False, rpc.session.context)
             res = [x[2] for x in res]
