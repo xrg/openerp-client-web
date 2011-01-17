@@ -8,20 +8,15 @@
 
     <script type="text/javascript">
 
-        function do_import(form){
-            if (document.getElementById('record').innerHTML){
-                document.getElementById('record').innerHTML = " "
-            }
-
-
-            jQuery(idSelector(form)).attr({
+        function do_import() {
+            jQuery('#import_data').attr({
                 'target': "detector",
                 'action': openobject.http.getURL('/openerp/impex/import_data')
             }).submit();
         }
 
-        function do_autodetect(form){
-            jQuery(idSelector(form)).attr({
+        function autodetect_data() {
+            jQuery('#import_data').attr({
                 'target': "detector",
                 'action': openobject.http.getURL('/openerp/impex/detect_data')
             }).ajaxSubmit({
@@ -58,7 +53,8 @@
 
             jQuery('fieldset legend').click(function () {
                 jQuery(this).next().toggle();
-            })
+            });
+            jQuery('#csvfile, fieldset').change(autodetect_data);
         });
     </script>
 
@@ -105,7 +101,7 @@
                     <tr>
                         <td class="label"><label for="csvfile">${_("CSV File:")}</label></td>
                         <td>
-                            <input type="file" id="csvfile" size="50" name="csvfile" onchange="do_autodetect('import_data')"/>
+                            <input type="file" id="csvfile" size="50" name="csvfile"/>
                         </td>
                     </tr>
                 </table>
@@ -188,7 +184,7 @@
                     <tr>
                         <td class="imp-header" align="right">
                             <a class="button-a" href="javascript: void(0)" onclick="window.frameElement.close()">${_("Close")}</a>
-                            <a class="button-a" href="javascript: void(0)" onclick="do_import('import_data');">${_("Import File")}</a>
+                            <a class="button-a" href="javascript: void(0)" onclick="do_import();">${_("Import File")}</a>
                         </td>
                         <td width="5%"></td>
                 </table>
