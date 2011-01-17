@@ -18,6 +18,7 @@
 #  You can see the MPL licence at: http://www.mozilla.org/MPL/MPL-1.1.html
 #
 ###############################################################################
+import collections
 
 import datetime
 import os
@@ -29,12 +30,15 @@ from dateutil.relativedelta import relativedelta
 import rpc
 
 def expr_eval(string, context=None):
-    context = dict(context or {},
-                   uid=rpc.session.uid,
-                   current_date=time.strftime('%Y-%m-%d'),
-                   time=time,
-                   datetime=datetime,
-                   relativedelta=relativedelta)
+    context = collections.defaultdict(
+        bool,
+        context or {},
+        dict=dict,
+        uid=rpc.session.uid,
+        current_date=time.strftime('%Y-%m-%d'),
+        time=time,
+        datetime=datetime,
+        relativedelta=relativedelta)
     if isinstance(string, basestring):
         evaled = eval(string, context)
         if isinstance(evaled, list):
