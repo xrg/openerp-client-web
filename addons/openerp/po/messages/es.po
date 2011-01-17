@@ -8,15 +8,15 @@ msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2011-01-07 17:11+0100\n"
-"PO-Revision-Date: 2010-11-29 06:48+0000\n"
+"PO-Revision-Date: 2011-01-16 23:25+0000\n"
 "Last-Translator: Jordi Esteve (www.zikzakmedia.com) "
 "<jesteve@zikzakmedia.com>\n"
 "Language-Team: es <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2011-01-08 04:56+0000\n"
-"X-Generator: Launchpad (build Unknown)\n"
+"X-Launchpad-Export-Date: 2011-01-17 04:50+0000\n"
+"X-Generator: Launchpad (build 12177)\n"
 "Generated-By: Babel None\n"
 
 #: validators.py:83
@@ -375,6 +375,8 @@ msgstr ""
 #, python-format
 msgid "Error processing your first line of the file. Field %s is unknown"
 msgstr ""
+"Ha ocurrido un error procesando la primera línea de su archivo. El campo %s "
+"es desconocido."
 
 #: controllers/impex.py:468
 msgid "Import Error."
@@ -393,10 +395,11 @@ msgstr "Importados %d objetos"
 #, python-format
 msgid "Error trying to import this record:%s. ErrorMessage:%s %s"
 msgstr ""
+"Ha ocurrido un error importando el registro: %s. Mensaje de error: %s %s"
 
 #: controllers/impex.py:506
 msgid "ImportationError"
-msgstr ""
+msgstr "Error de importación"
 
 #: controllers/listgrid.py:59
 msgid "Parent record doesn't exists..."
@@ -404,7 +407,7 @@ msgstr "Registro padre no existe..."
 
 #: controllers/preferences.py:41
 msgid "Change your password"
-msgstr ""
+msgstr "Cambiar su contraseña"
 
 #: controllers/preferences.py:70 controllers/templates/header.mako:59
 msgid "Preferences"
@@ -412,19 +415,19 @@ msgstr "Preferencias"
 
 #: controllers/preferences.py:92
 msgid "All passwords have to be filled."
-msgstr ""
+msgstr "Deben ser rellenadas todas las contraseñas."
 
 #: controllers/preferences.py:94
 msgid "The new password and its confirmation must be identical."
-msgstr ""
+msgstr "La nueva contraseña y su confirmación deben ser idénticas."
 
 #: controllers/preferences.py:103
 msgid "Could not change your password."
-msgstr ""
+msgstr "No se puede cambiar su contraseña."
 
 #: controllers/preferences.py:105
 msgid "Original password incorrect, your password was not changed."
-msgstr ""
+msgstr "Contraseña original incorrecta, su contraseña no ha sido cambiada."
 
 #: controllers/root.py:178
 #, python-format
@@ -639,7 +642,7 @@ msgstr "Lo arregla para mi"
 
 #: controllers/templates/error_page.mako:90
 msgid "You do not have a valid OpenERP publisher warranty contract !"
-msgstr ""
+msgstr "¡No dispone de un contrato válido de garantía del editor de OpenERP!"
 
 #: controllers/templates/error_page.mako:91
 msgid ""
@@ -663,6 +666,22 @@ msgid ""
 "* Security alerts by email and automatic migration,\n"
 "* Access to the customer portal.\n"
 msgstr ""
+"Si está utilizando OpenERP en producción, le recomendamos adquirir\n"
+"un contrato de garantía del editor.\n"
+"El contrato de garantía del editor de OpenERP le proporciona garantías de "
+"corrección de errores\n"
+"y una migración automática del sistema, y nosotros podremos trabajar en sus "
+"problema\n"
+"en pocas horas.\n"
+"Con el contrato de garantía del editor, errores como el actual pueden ser "
+"enviados directamente al\n"
+"equipo de OpenERP para su revisión y evaluación.\n"
+"El contrato de garantía del editor además le ofrece:\n"
+"* Migraciones automáticas hacia nuevas versiones,\n"
+"* Garantía en corrección de errores,\n"
+"* Anuncios mensuales de errores potenciales y sus soluciones,\n"
+"* Alertas de seguridad por email y migración automática,\n"
+"* Acceso al portal de clientes.\n"
 
 #: controllers/templates/error_page.mako:113
 msgid ""
@@ -684,17 +703,19 @@ msgstr ""
 
 #: controllers/templates/error_page.mako:135
 msgid "Publisher warranty contract."
-msgstr ""
+msgstr "Contrato de garantía del editor."
 
 #: controllers/templates/error_page.mako:136
 msgid ""
 "Your request will be sent to OpenERP and publisher warranty team will reply "
 "you shortly."
 msgstr ""
+"Se enviará su petición a OpenERP y el equipo de garantía del editor le "
+"responderá en breve."
 
 #: controllers/templates/error_page.mako:140
 msgid "Summary of the problem:"
-msgstr ""
+msgstr "Resumen del problema:"
 
 #: controllers/templates/error_page.mako:147
 msgid "Explain what you did:"
@@ -706,7 +727,7 @@ msgstr "Otros comentarios:"
 
 #: controllers/templates/error_page.mako:168
 msgid "Send to Publisher Warranty Team"
-msgstr ""
+msgstr "Enviar al equipo de garantía del editor"
 
 #: controllers/templates/error_page.mako:195
 msgid "Write concurrency warning :"
@@ -813,7 +834,7 @@ msgstr "Aceptar"
 
 #: controllers/templates/exp.mako:236
 msgid "Select Options to Export"
-msgstr ""
+msgstr "Seleccione las opciones para exportar"
 
 #: controllers/templates/exp.mako:242
 msgid "Export as CSV"
@@ -892,7 +913,7 @@ msgstr "Añadir / Eliminar acceso directo..."
 #: controllers/templates/form.mako:90
 #, python-format
 msgid "Search: %s"
-msgstr ""
+msgstr "Buscar: %s"
 
 #: controllers/templates/form.mako:97
 msgid "Corporate Intelligence..."
@@ -1075,15 +1096,15 @@ msgstr "Líneas a omitir:"
 
 #: controllers/templates/index.mako:164
 msgid "System Logs"
-msgstr ""
+msgstr "Registros de sistema"
 
 #: controllers/templates/index.mako:189
 msgid "More"
-msgstr ""
+msgstr "Más"
 
 #: controllers/templates/index.mako:190
 msgid "Widgets"
-msgstr ""
+msgstr "Widgets"
 
 #: controllers/templates/index.mako:220 controllers/templates/index.mako:225
 #, python-format
@@ -1160,11 +1181,11 @@ msgstr "Módulos web"
 
 #: controllers/templates/openo2m.mako:34
 msgid "Save & Close"
-msgstr ""
+msgstr "Guardar y Cerrar"
 
 #: controllers/templates/openo2m.mako:37
 msgid "Save & New"
-msgstr ""
+msgstr "Guardar y Nuevo"
 
 #: controllers/templates/save_filter.mako:18
 msgid "Save as Filter"
@@ -1192,7 +1213,7 @@ msgstr "Buscar"
 #: controllers/templates/search.mako:143
 #, python-format
 msgid "No record found : '%(searched_string)s'."
-msgstr ""
+msgstr "No se ha encontrado un registro : '%(searched_string)s'."
 
 #: controllers/templates/selection.mako:4
 msgid "Select action"
@@ -1436,7 +1457,7 @@ msgstr "añadir adjunto"
 
 #: widgets/form/templates/image.mako:7 widgets/form/templates/image.mako:39
 msgid "Click here to add new image."
-msgstr ""
+msgstr "Haga clic aquí para añadir una nueva imagen."
 
 #: widgets/form/templates/many2one.mako:2
 #: widgets/form/templates/reference.mako:30

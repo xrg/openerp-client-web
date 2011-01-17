@@ -27,8 +27,8 @@
                 <h1>${_("OpenERP Web")}</h1>
                 <h3 style="padding:0 5px 5px">${version}</h3>
                 <p>
-                    ${_("Copyright &copy; 2006-TODAY Tiny ERP Pvt. Ltd. All Rights Reserved.")|n}<br/>
-                    ${_("OpenERP is a trademark of the Tiny Company.")}
+                    ${_("Copyright &copy; 2006-TODAY OpenERP SA. All Rights Reserved.")|n}<br/>
+                    ${_("OpenERP is a trademark of the OpenERP SA Company.")}
                     
                     ${_("%(ooweb)s is jointly developed by %(tiny)s and %(axelor)s.",
                         ooweb="""<i>OpenERP Web</i>""",

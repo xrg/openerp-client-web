@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2011-01-07 17:11+0100\n"
+"POT-Creation-Date: 2011-01-17 13:09+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,51 +17,51 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 0.9.5\n"
 
-#: static/javascript/calendar_box.js:58
+#: static/javascript/calendar_box.js:50
 msgid "Cancel"
 msgstr ""
 
-#: static/javascript/calendar_box.js:59
+#: static/javascript/calendar_box.js:51
 msgid "Edit"
 msgstr ""
 
-#: static/javascript/calendar_box.js:60
+#: static/javascript/calendar_box.js:52
 msgid "Duplicate"
 msgstr ""
 
-#: static/javascript/calendar_box.js:61
+#: static/javascript/calendar_box.js:53
 msgid "Delete"
 msgstr ""
 
-#: static/javascript/calendar_box.js:88
+#: static/javascript/calendar_box.js:80
 msgid "Creation User: "
 msgstr ""
 
-#: static/javascript/calendar_box.js:89
+#: static/javascript/calendar_box.js:81
 msgid "Creation Date: "
 msgstr ""
 
-#: static/javascript/calendar_box.js:90
+#: static/javascript/calendar_box.js:82
 msgid "Latest Modification by: "
 msgstr ""
 
-#: static/javascript/calendar_box.js:91
+#: static/javascript/calendar_box.js:83
 msgid "Latest Modification Date: "
 msgstr ""
 
-#: static/javascript/calendar_box.js:175
+#: static/javascript/calendar_box.js:167
 msgid "Do you really want to delete this record?"
 msgstr ""
 
 #: static/javascript/calendar_gantt.js:258
-#: static/javascript/calendar_month.js:420
-#: static/javascript/calendar_week.js:277
-#: static/javascript/calendar_week.js:680
+#: static/javascript/calendar_month.js:412
+#: static/javascript/calendar_week.js:269
+#: static/javascript/calendar_week.js:672
 msgid "This calendar object can no longer be moved !"
 msgstr ""
 
 #: static/javascript/calendar_gantt.js:320
-#: static/javascript/calendar_week.js:104
+#: static/javascript/calendar_week.js:96
 msgid "This calendar object can no longer be resized !"
 msgstr ""
 

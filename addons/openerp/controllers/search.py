@@ -1,29 +1,21 @@
 ###############################################################################
 #
-# Copyright (C) 2007-TODAY Tiny ERP Pvt Ltd. All Rights Reserved.
+#  Copyright (C) 2007-TODAY OpenERP SA. All Rights Reserved.
 #
-# $Id$
+#  $Id$
 #
-# Developed by Tiny (http://openerp.com) and Axelor (http://axelor.com).
+#  Developed by OpenERP (http://openerp.com) and Axelor (http://axelor.com).
 #
-# The OpenERP web client is distributed under the "OpenERP Public License".
-# It's based on Mozilla Public License Version (MPL) 1.1 with following
-# restrictions:
+#  The OpenERP web client is distributed under the "OpenERP Public License".
+#  It's based on Mozilla Public License Version (MPL) 1.1 with following 
+#  restrictions:
 #
-# -   All names, links and logos of Tiny, OpenERP and Axelor must be
-#     kept as in original distribution without any changes in all software
-#     screens, especially in start-up page and the software header, even if
-#     the application source code has been changed or updated or code has been
-#     added.
+#  -   All names, links and logos of OpenERP must be kept as in original
+#      distribution without any changes in all software screens, especially
+#      in start-up page and the software header, even if the application
+#      source code has been changed or updated or code has been added.
 #
-# -   All distributions of the software must keep source code with OEPL.
-#
-# -   All integrations to any other software must keep source code with OEPL.
-#
-# If you need commercial licence to remove this kind of restriction please
-# contact us.
-#
-# You can see the MPL licence at: http://www.mozilla.org/MPL/MPL-1.1.html
+#  You can see the MPL licence at: http://www.mozilla.org/MPL/MPL-1.1.html
 #
 ###############################################################################
 from openerp.utils import rpc, expr_eval, TinyDict, TinyForm, TinyFormError
@@ -120,7 +112,7 @@ class Search(Form):
         params.context = params.context or {}
         parent_context = dict(params.parent_context or {},
                               **rpc.session.context)
-        parent_context = self.context_get(parent_context, params.parent_context) or {}
+        parent_context = self.context_get(params.context, params.parent_context) or {}
         if 'group_by' in parent_context:
             if isinstance(params.group_by, str):
                 parent_context['group_by'] = params.group_by.split(',')
@@ -281,17 +273,40 @@ class Search(Form):
             domain = expr_eval(check_domain, context) or []
 
         search_data = {}
+        model = kw.get('model')
+        proxy = rpc.RPCProxy(model)
+        res = proxy.fields_get(False, context)
+        all_error = []
+        fld = {}
+        
         if domains:
             for field, value in domains.iteritems():
+                
                 if '/' in field:
                     fieldname, bound = field.split('/')
+                else:
+                    fieldname = field
+                    bound = ''
+                    
+                data = {}
+                fld['type'] = res[fieldname].get('type')    
+                fld['value'] = value
+                data[field] = fld
 
-                    if bound in ('from', 'to'):
-                        if bound == 'from': test = '>='
-                        else: test = '<='
+                try:
+                    frm = TinyForm(**data).to_python()
+                except TinyFormError, e:
+                    error_field = e.field
+                    error = ustr(e)
+                    all_error.append(dict(error=error, error_field=error_field))
+                    continue
 
-                        domain.append((fieldname, test, value))
-                        search_data.setdefault(fieldname, {})[bound] = value
+                if bound in ('from', 'to'):
+                    if bound == 'from': test = '>='
+                    else: test = '<='
+
+                    domain.append((fieldname, test, value))
+                    search_data.setdefault(fieldname, {})[bound] = value
 
                 elif isinstance(value, bool) and value:
                     search_data[field] = 1
@@ -313,6 +328,8 @@ class Search(Form):
                         search_data[field] = value
                     else:
                         search_data[field] = value.split('m2o_')[1]
+            if all_error:
+                return dict(all_error=all_error)
 
         def get_domain(x):
             if len(x) == 1:

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2011-01-07 17:11+0100\n"
+"POT-Creation-Date: 2011-01-17 13:09+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -41,113 +41,113 @@ msgstr ""
 msgid "Gantt view..."
 msgstr ""
 
-#: widgets/utils.py:34
+#: widgets/utils.py:26
 msgid "Monday"
 msgstr ""
 
-#: widgets/utils.py:35
+#: widgets/utils.py:27
 msgid "Tuesday"
 msgstr ""
 
-#: widgets/utils.py:36
+#: widgets/utils.py:28
 msgid "Wednesday"
 msgstr ""
 
-#: widgets/utils.py:37
+#: widgets/utils.py:29
 msgid "Thursday"
 msgstr ""
 
-#: widgets/utils.py:38
+#: widgets/utils.py:30
 msgid "Friday"
 msgstr ""
 
-#: widgets/utils.py:39
+#: widgets/utils.py:31
 msgid "Saturday"
 msgstr ""
 
-#: widgets/utils.py:40
+#: widgets/utils.py:32
 msgid "Sunday"
 msgstr ""
 
-#: widgets/utils.py:43
+#: widgets/utils.py:35
 msgid "January"
 msgstr ""
 
-#: widgets/utils.py:44
+#: widgets/utils.py:36
 msgid "February"
 msgstr ""
 
-#: widgets/utils.py:45
+#: widgets/utils.py:37
 msgid "March"
 msgstr ""
 
-#: widgets/utils.py:46
+#: widgets/utils.py:38
 msgid "April"
 msgstr ""
 
-#: widgets/utils.py:47
+#: widgets/utils.py:39
 msgid "May"
 msgstr ""
 
-#: widgets/utils.py:48
+#: widgets/utils.py:40
 msgid "June"
 msgstr ""
 
-#: widgets/utils.py:49
+#: widgets/utils.py:41
 msgid "July"
 msgstr ""
 
-#: widgets/utils.py:50
+#: widgets/utils.py:42
 msgid "August"
 msgstr ""
 
-#: widgets/utils.py:51
+#: widgets/utils.py:43
 msgid "September"
 msgstr ""
 
-#: widgets/utils.py:52
+#: widgets/utils.py:44
 msgid "October"
 msgstr ""
 
-#: widgets/utils.py:53
+#: widgets/utils.py:45
 msgid "November"
 msgstr ""
 
-#: widgets/utils.py:54
+#: widgets/utils.py:46
 msgid "December"
 msgstr ""
 
-#: widgets/utils.py:181
+#: widgets/utils.py:173
 #, python-format
 msgid "%(first)s to %(last)s %(month)s"
 msgstr ""
 
-#: widgets/widgets.py:289
+#: widgets/widgets.py:281
 #, python-format
 msgid "%s, Week %s"
 msgstr ""
 
-#: widgets/widgets.py:302
+#: widgets/widgets.py:294
 #, python-format
 msgid "%s - %s"
 msgstr ""
 
-#: widgets/widgets.py:304 widgets/widgets.py:327 widgets/widgets.py:371
+#: widgets/widgets.py:296 widgets/widgets.py:319 widgets/widgets.py:363
 #, python-format
 msgid "Week %s"
 msgstr ""
 
-#: widgets/widgets.py:319
+#: widgets/widgets.py:311
 #, python-format
 msgid "%s, Qtr %s"
 msgstr ""
 
-#: widgets/widgets.py:338
+#: widgets/widgets.py:330
 #, python-format
 msgid "W %s"
 msgstr ""
 
-#: widgets/widgets.py:346 widgets/widgets.py:360
+#: widgets/widgets.py:338 widgets/widgets.py:352
 #, python-format
 msgid "Year %s to Year %s"
 msgstr ""

@@ -1,34 +1,28 @@
 ###############################################################################
 #
-# Copyright (C) 2007-TODAY Tiny ERP Pvt Ltd. All Rights Reserved.
+#  Copyright (C) 2007-TODAY OpenERP SA. All Rights Reserved.
 #
-# $Id$
+#  $Id$
 #
-# Developed by Tiny (http://openerp.com) and Axelor (http://axelor.com).
+#  Developed by OpenERP (http://openerp.com) and Axelor (http://axelor.com).
 #
-# The OpenERP web client is distributed under the "OpenERP Public License".
-# It's based on Mozilla Public License Version (MPL) 1.1 with following
-# restrictions:
+#  The OpenERP web client is distributed under the "OpenERP Public License".
+#  It's based on Mozilla Public License Version (MPL) 1.1 with following 
+#  restrictions:
 #
-# -   All names, links and logos of Tiny, OpenERP and Axelor must be
-#     kept as in original distribution without any changes in all software
-#     screens, especially in start-up page and the software header, even if
-#     the application source code has been changed or updated or code has been
-#     added.
+#  -   All names, links and logos of OpenERP must be kept as in original
+#      distribution without any changes in all software screens, especially
+#      in start-up page and the software header, even if the application
+#      source code has been changed or updated or code has been added.
 #
-# -   All distributions of the software must keep source code with OEPL.
-#
-# -   All integrations to any other software must keep source code with OEPL.
-#
-# If you need commercial licence to remove this kind of restriction please
-# contact us.
-#
-# You can see the MPL licence at: http://www.mozilla.org/MPL/MPL-1.1.html
+#  You can see the MPL licence at: http://www.mozilla.org/MPL/MPL-1.1.html
 #
 ###############################################################################
 import copy
 import math
 import xml.dom.minidom
+import re
+from openerp import utils
 from itertools import chain, count
 
 import cherrypy
@@ -102,9 +96,7 @@ class List(TinyWidget):
         self.o2m = kw.get('o2m', 0)
         self.concurrency_info = None
         self.selector = None
-        
-        #for import /export differentiate action
-        self.impex = kw.get('impex', False)
+
         terp_params = getattr(cherrypy.request, 'terp_params', {})
         if terp_params:
             if terp_params.get('_terp_model'):
@@ -282,6 +274,37 @@ class List(TinyWidget):
                         values[field] = value
                     elif operator == 'in' and len(value) == 1:
                         values[field] = value[0]
+                        
+            #call on_change methods
+            headers_index = dict([(item[0], item[1]) for item in self.headers])
+            to_check = values.keys()
+            for field_name in to_check:
+                if not field_name in headers_index:
+                    continue
+                props = headers_index[field_name]
+                if not "on_change" in props:
+                    continue
+                on_change_method = props["on_change"]
+                
+                match = re.match('^(.*?)\((.*)\)$', on_change_method)
+                if not match:
+                    raise common.error(_('Application Error'), _('Wrong on_change trigger'))
+                func_name = match.group(1)
+                arg_names = [n.strip() for n in match.group(2).split(',')]
+                
+                args = [values[arg] if arg in values else False for arg in arg_names]
+                
+                proxy = rpc.RPCProxy(self.model)
+                response = getattr(proxy, func_name)([], *args)
+                if response is False:
+                    response = {}
+                if 'value' not in response:
+                    response['value'] = {}
+                
+                new_values = response["value"]
+                for k, v in new_values.items():
+                    if v not in values or values[k] != v:
+                        values[k] = v
 
         for f in fields:
             if f in values:

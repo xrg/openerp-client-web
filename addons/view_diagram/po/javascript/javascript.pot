@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2011-01-07 17:11+0100\n"
+"POT-Creation-Date: 2011-01-17 13:09+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,31 +17,31 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 0.9.5\n"
 
-#: static/javascript/infobox.js:143
+#: static/javascript/infobox.js:135
 msgid "Do you really want to delete this record?"
 msgstr ""
 
-#: static/javascript/process.js:178
+#: static/javascript/process.js:170
 msgid "Notes:"
 msgstr ""
 
-#: static/javascript/process.js:186
+#: static/javascript/process.js:178
 msgid "Subflows:"
 msgstr ""
 
-#: static/javascript/process.js:190
+#: static/javascript/process.js:182
 msgid "Related:"
 msgstr ""
 
-#: static/javascript/process.js:274
+#: static/javascript/process.js:266
 msgid "Help"
 msgstr ""
 
-#: static/javascript/workflow.js:325
+#: static/javascript/workflow.js:317
 msgid "state could not be created"
 msgstr ""
 
-#: static/javascript/workflow.js:362
+#: static/javascript/workflow.js:354
 msgid "Could not create transaction at server"
 msgstr ""
 

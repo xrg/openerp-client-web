@@ -74,7 +74,7 @@
             <td valign="top">
                 <form id="view_form" action="/openerp/errorpage/submit" method="POST">
                     <div>
-                        <h4 style="padding-top:10px;">${_("An ")} ${'%s' % title} ${_("has been reported.")}</h4>
+                        <h4 style="padding-top:10px;">${_("An %(error_type)s has been reported.", error_type=title)}</h4>
                         <div class="error-section collapsed-error">
                             <h5><label for="error">${_('Let me fix it')}</label></h5>
                             <div class="details">

@@ -1,29 +1,21 @@
 ###############################################################################
 #
-# Copyright (C) 2007-TODAY Tiny ERP Pvt Ltd. All Rights Reserved.
+#  Copyright (C) 2007-TODAY OpenERP SA. All Rights Reserved.
 #
-# $Id$
+#  $Id$
 #
-# Developed by Tiny (http://openerp.com) and Axelor (http://axelor.com).
+#  Developed by OpenERP (http://openerp.com) and Axelor (http://axelor.com).
 #
-# The OpenERP web client is distributed under the "OpenERP Public License".
-# It's based on Mozilla Public License Version (MPL) 1.1 with following
-# restrictions:
+#  The OpenERP web client is distributed under the "OpenERP Public License".
+#  It's based on Mozilla Public License Version (MPL) 1.1 with following 
+#  restrictions:
 #
-# -   All names, links and logos of Tiny, OpenERP and Axelor must be
-#     kept as in original distribution without any changes in all software
-#     screens, especially in start-up page and the software header, even if
-#     the application source code has been changed or updated or code has been
-#     added.
+#  -   All names, links and logos of OpenERP must be kept as in original
+#      distribution without any changes in all software screens, especially
+#      in start-up page and the software header, even if the application
+#      source code has been changed or updated or code has been added.
 #
-# -   All distributions of the software must keep source code with OEPL.
-#
-# -   All integrations to any other software must keep source code with OEPL.
-#
-# If you need commercial licence to remove this kind of restriction please
-# contact us.
-#
-# You can see the MPL licence at: http://www.mozilla.org/MPL/MPL-1.1.html
+#  You can see the MPL licence at: http://www.mozilla.org/MPL/MPL-1.1.html
 #
 ###############################################################################
 import base64
@@ -1078,19 +1070,19 @@ class Form(SecuredController):
         relates = []
 
         if kind == "many2one":
-            defaults.append({'text': 'Open resource', 'action': "new ManyToOne('%s').open_record('%s')" % (field, value)})
+            defaults.append({'text': _('Open resource'), 'action': "new ManyToOne('%s').open_record('%s')" % (field, value)})
 
         defaults += [
-            {'text': 'Set to default value', 'action': "set_to_default('%s', '%s')" % (field, model)},
-            {'text': 'Set as default', 'action': "set_as_default('%s', '%s')"  % (field, model)}
+            {'text': _('Set to default value'), 'action': "set_to_default('%s', '%s')" % (field, model)},
+            {'text': _('Set as default'), 'action': "set_as_default('%s', '%s')"  % (field, model)}
         ]
 
         if kind=='many2one':
 
             act = (value or None) and "javascript: void(0)"
 
-            actions = [{'text': 'Action', 'relation': relation, 'field': field, 'action': act and "do_action(this, true)"},
-                       {'text': 'Report', 'action': act and "do_report('%s', '%s')" %(field, relation)}]
+            actions = [{'text': _('Action'), 'relation': relation, 'field': field, 'action': act and "do_action(this, true)"},
+                       {'text': _('Report'), 'action': act and "do_report('%s', '%s')" %(field, relation)}]
             
             res = rpc.RPCProxy('ir.values').get('action', 'client_action_relate', [(relation, False)], False, rpc.session.context)
             res = [x[2] for x in res]

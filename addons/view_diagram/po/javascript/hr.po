@@ -1,17 +1,16 @@
-# Spanish translation for openobject-client-web
-# Copyright (c) 2010 Rosetta Contributors and Canonical Ltd 2010
+# Croatian translation for openobject-client-web
+# Copyright (c) 2011 Rosetta Contributors and Canonical Ltd 2011
 # This file is distributed under the same license as the openobject-client-web package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, 2010.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2011.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: openobject-client-web\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2011-01-07 17:11+0100\n"
-"PO-Revision-Date: 2011-01-16 22:58+0000\n"
-"Last-Translator: Jordi Esteve (www.zikzakmedia.com) "
-"<jesteve@zikzakmedia.com>\n"
-"Language-Team: Spanish <es@li.org>\n"
+"PO-Revision-Date: 2011-01-17 00:49+0000\n"
+"Last-Translator: Goran Kliska (Aplikacija d.o.o.) <gkliska@gmail.com>\n"
+"Language-Team: Croatian <hr@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -20,28 +19,28 @@ msgstr ""
 
 #: static/javascript/infobox.js:143
 msgid "Do you really want to delete this record?"
-msgstr "¿Realmente desea eliminar este registro?"
+msgstr "Da li zaista želite obrisati ovaj zapis?"
 
 #: static/javascript/process.js:178
 msgid "Notes:"
-msgstr "Notas:"
+msgstr "Bilješke:"
 
 #: static/javascript/process.js:186
 msgid "Subflows:"
-msgstr "Subflujos:"
+msgstr "Podtokovi:"
 
 #: static/javascript/process.js:190
 msgid "Related:"
-msgstr "Relacionado:"
+msgstr "Povezani:"
 
 #: static/javascript/process.js:274
 msgid "Help"
-msgstr "Ayuda"
+msgstr "Pomoć"
 
 #: static/javascript/workflow.js:325
 msgid "state could not be created"
-msgstr "estado no ha podido ser creado"
+msgstr "stanje nie moguće kreirati"
 
 #: static/javascript/workflow.js:362
 msgid "Could not create transaction at server"
-msgstr "No se ha podido crear una transacción en el servidor"
+msgstr "Ne mogu kreirati transakciju na serveru"

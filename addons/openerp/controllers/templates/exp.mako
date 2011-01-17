@@ -11,27 +11,32 @@
             var tree = treeGrids['${tree.name}'];
 
             var fields = tree.selection;
+
             var select = openobject.dom.get('fields');
 
             var opts = {};
-            forEach(openobject.dom.get('fields').options, function(o){
+            forEach(select.options, function(o){
                 opts[o.value] = o;
             });
 
             forEach(fields, function(f){
 
                 var text = f.record.items.name;
+
                 var id = f.record.id;
 
                 if (id in opts) return;
 
                 select.options.add(new Option(text, id));
             });
+
         }
 
-        function open_savelist(id) {
-            var elem = openobject.dom.get(id);
-            elem.style.display = elem.style.display == 'none' ? '' : 'none';
+        function save_fields() {
+            var $savelist = jQuery('#savelist');
+            $savelist.toggle();
+            if($savelist.is(':hidden')) { return; }
+            $savelist.find('input').focus();
         }
 
         function save_export() {
@@ -57,46 +62,44 @@
             }
         }
 
-        function do_select(id, src) {
-            openobject.dom.get('fields').innerHTML = '';
-            var model = openobject.dom.get('_terp_model').value;
-            var req = openobject.http.postJSON('/openerp/impex/get_namelist', {
-                '_terp_id': id,
-                '_terp_model': model
-            });
+        function do_select() {
+            var id = jQuery('#saved_fields').val();
+            if(!id) { reload([]); return; }
 
-            req.addCallback(function(obj){
+            var req = jQuery.get('/openerp/impex/namelist', {
+                '_terp_id': id,
+                '_terp_model': jQuery('#_terp_model').val()
+            }, function(obj){
                 if (obj.error){
                     error_display(obj.error);
                 } else {
-                    self.reload(obj.name_list);
+                    reload(obj.name_list);
                 }
-            });
+            }, 'json');
+        }
+
+        function do_import_cmp(){
+            jQuery('#view_form').attr({
+                'action': openobject.http.getURL('/openerp/impex/exp', {
+                    'import_compat': jQuery('#import_compat').val()
+                })
+            }).submit();
         }
 
         function delete_listname() {
-			var form = document.forms['view_form'];
-            var list = new ListView('_terp_list');
-            var boxes = list.getSelectedItems();
+            var form = document.forms['view_form'];
 
-            if (boxes.length == 0){
-                error_display(_('Please select an item...'));
-                return;
-            }
-
-            var id = boxes[0].value;
+            var id = jQuery('#saved_fields').val();
+            if(!id) { return; }
             form.action = openobject.http.getURL('/openerp/impex/delete_listname', {'_terp_id' : id});
-  			form.submit();
-
+            form.submit();
         }
 
         function reload(name_list) {
-            var select = openobject.dom.get('fields');
-
-            forEach(name_list, function(f){
-                var text = f[1];
-                var id = f[0];
-                select.options.add(new Option(text, id));
+            var $fields_list = jQuery('#fields');
+            $fields_list.empty();
+            jQuery.each(name_list, function (_, f) {
+                $fields_list.append(new Option(f[1], f[0]));
             });
         }
 
@@ -115,18 +118,24 @@
                 o.selected = true;
                 fields2 = fields2.concat('"' + o.text + '"');
             });
-
             openobject.dom.get('_terp_fields2').value = '[' + fields2.join(',') + ']';
-            jQuery('#'+form).attr('target', 'new');
-            jQuery('#'+form).attr('action', openobject.http.getURL(
-                '/openerp/impex/export_data/data.' + (jQuery('#export_as').val() || 'csv'))
+            jQuery(idSelector(form)).attr('action', openobject.http.getURL(
+                '/openerp/impex/export_data/data.csv')
             ).submit();
         }
+
+        jQuery(document).ready(function () {
+            // Set the page's title as title of the dialog
+            var $header = jQuery('.pop_head_font');
+            window.frameElement.set_title(
+                $header.text());
+            $header.closest('.side_spacing').parent().remove();
+        });
     </script>
 </%def>
 
 <%def name="content()">
-    <form id='view_form' action="/openerp/impex/export_data" method="post" onsubmit="return false;">
+    <form id='view_form' action="/openerp/impex/export_data" method="post" target="_self" onsubmit="return false;">
 
     <input type="hidden" id="_terp_model" name="_terp_model" value="${model}"/>
     <input type="hidden" id="_terp_ids" name="_terp_ids" value="${ids}"/>
@@ -139,72 +148,89 @@
             <td class="side_spacing">
                 <table width="100%" class="popup_header">
                     <tr>
-                    	<td class="exp-header" align="left">
-                    		<a class="button-a" href="javascript: void(0)" onclick="do_export('view_form')">${_("Export")}</a>
-                            <a class="button-a" href="javascript: void(0)" onclick="window.frameElement.close()">${_("Close")}</a>
-                    	</td>
                         <td align="center" class="pop_head_font">${_("Export Data")}</td>
-                        <td width="30%"></td>
                     </tr>
                 </table>
             </td>
         </tr>
-        % if new_list.ids:
         <tr>
-            <td class="side_spacing">
-                <div id='exported_list'>${new_list.display()}</div>
+            <td class="side_spacing" align="left">
+                This wizard will export all data that matches the current search criteria to a CSV file.
+                You can export all data or only the fields that can be reimported after modification.
             </td>
         </tr>
         <tr>
             <td class="side_spacing">
-            	<table class="popup_header" width="100%">
-            		<tr>
-            			<td class="exp-header">
-            				<a class="button-a" href="javascript: void(0)" onclick="delete_listname();">${_("Delete")}</a>
-            			</td>
-            		</tr>
-            	</table>
+                <table>
+                    <tr>
+                        <td class="label"><label for="import_compat">${_("Export Type:")}</label></td>
+                        <td>
+                            <select id="import_compat" name="import_compat" onchange="do_import_cmp();">
+                                <option value="1">${_("Import Compatible Export")}</option>
+                                <option value="0"
+                                    ${'selected=selected' if import_compat == "0" else ''}
+                                    >${_("Export all Data")}</option>
+                            </select>
+                        </td>
+                    </tr>
+                </table>
             </td>
-        </tr>
-        % endif
+        </tr> 
         <tr>
             <td class="side_spacing">
                 <table class="fields-selector-export" cellspacing="5" border="0">
                     <tr>
-                        <th class="fields-selector-left">${_("All fields")}</th>
+                        <th class="fields-selector-left">${_("Available fields")}</th>
                         <th class="fields-selector-center">&nbsp;</th>
-                        <th class="fields-selector-right">${_("Fields to export")}</th>
+                        <th class="fields-selector-right">${_("Fields to export")}
+                            <a style="color: blue;" href="#"
+                               onclick="save_fields(); return false;">${_("Save fields list")}</a>
+                            <div id="savelist" style="display:none;">
+                                <label for="savelist_name">${_("Save as:")}</label>
+                                <input type="text" id="savelist_name" name="savelist_name"/>
+                                <a class="button-a" href="javascript: void(0)" onclick="save_export()">${_("OK")}</a>
+                            </div>
+                            % if existing_exports:
+                            <div>
+                                <label for="saved_fields">${_("Saved exports:")}</label><br>
+                                <select id="saved_fields" name="saved_exports" onchange="do_select();"
+                                        style="width: 60%;">
+                                    <option></option>
+                                    % for export in existing_exports:
+                                        <option value="${export['id']}">${export['name']}</option>
+                                    % endfor
+                                </select>
+                                <a class="button-a" href="#" onclick="delete_listname(); return false;"
+                                        >${_("Delete")}</a>
+                            </div>
+                            % endif
+                        </th>
                     </tr>
                     <tr>
                         <td class="fields-selector-left" height="400px">
                             <div id="fields_left">${tree.display()}</div>
                         </td>
                         <td class="fields-selector-center">
-                        	<table border="0" cellpadding="0" cellspacing="0" width="100%">
-                        		<tr>
-                        			<td align="center">
-                        				<a class="button-a" href="javascript: void(0)" onclick="add_fields()">${_("Add")}</a>
-                        			</td>
-                        		</tr>
-                        		<tr>
-                        			<td align="center">
-                        				<a class="button-a" href="javascript: void(0)" onclick="del_fields()">${_("Remove")}</a>
-                        			</td>
-                        		</tr>
-                        		<tr>
-                        			<td align="center">
-                        				<a class="button-a" href="javascript: void(0)" onclick="del_fields(true)">${_("Nothing")}</a>
-                        			</td>
-                        		</tr>
-                        		<tr>
-                        			<td align="center">
-                        				<a class="button-a" href="javascript: void(0)" onclick="open_savelist('savelist')">${_("Save List")}</a>
-                        			</td>
-                        		</tr>
-                        	</table>
+                            <table border="0" cellpadding="0" cellspacing="0" width="100%">
+                                <tr>
+                                    <td align="center">
+                                        <a class="button-a" href="javascript: void(0)" onclick="add_fields()">${_("Add")}</a>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td align="center">
+                                        <a class="button-a" href="javascript: void(0)" onclick="del_fields()">${_("Remove")}</a>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td align="center">
+                                        <a class="button-a" href="javascript: void(0)" onclick="del_fields(true)">${_("Remove All")}</a>
+                                    </td>
+                                </tr>
+                            </table>
                         </td>
                         <td class="fields-selector-right" height="400px">
-                            <select name="fields" id="fields" multiple="multiple"/>
+                            <select name="fields" id="fields" multiple="multiple"></select>
                         </td>
                     </tr>
                 </table>
@@ -212,51 +238,15 @@
         </tr>
         <tr>
             <td class="side_spacing">
-                <div id="savelist" style="display: none">
-                    <fieldset>
-                        <legend>${_("Save List")}</legend>
-                        <table>
-                            <tr>
-                                <td class="label">${_("Name of This Export:")}</td>
-                                <td>
-                                    <input type="text" id="savelist_name" name="savelist_name"/>
-                                </td>
-                                <td>
-                                	<a class="button-a" href="javascript: void(0)" onclick="save_export()">${_("OK")}</a>
-                                </td>
-                            </tr>
-                        </table>
-                    </fieldset>
-                </div>
+                <table width="100%">
+                    <tr>
+                        <td class="imp-header" align="right">
+                            <a class="button-a" href="javascript: void(0)" onclick="window.frameElement.close()">${_("Cancel")}</a>
+                            <a class="button-a" href="javascript: void(0)" onclick="do_export('view_form')">${_("Export to File")}</a>
+                        </td>
+                        <td width="5%"></td>
+                </table>
             </td>
-        </tr>
-        <tr>
-        	<td class="side_spacing">
-        		<fieldset title="Restricts the number of exportable fields to ensure you will be able to import your data back in OpenERP">
-                    <legend>${_("Select Options to Export")}</legend>
-                    <table>
-                    	<tr>
-                        	% if xls_export_available:
-                            	<td style="padding-right: 8px;">
-                                	<select style="height:18px" id="export_as" name="export_as">
-                                    	<option value="csv">${_("Export as CSV")}</option>
-                                    	<option value="xls">${_("Export as Excel")}</option>
-                                	</select>
-                            	</td>
-                        	% endif
-                            <td>
-                                <input type="checkbox" class="checkbox" name="add_names" checked="checked"/>
-                            </td>
-                            <td style="padding-left:3px">${_("Add field names")}</td>
-                            <td style="padding-left:8px">
-                                <input type="checkbox" class="checkbox" name="import_compat" id="import_compat"/>
-                            </td>
-                            <td style="padding-left:3px"><label for="import_compat" title="Restricts the number of exportable fields in order to ensure the generated export will be importable back into OpenERP."
-                                    >${_("Import Compatible")}</label></td>
-                        </tr>
-                    </table>
-                </fieldset>
-        	</td>
         </tr>
     </table>
 </form>
