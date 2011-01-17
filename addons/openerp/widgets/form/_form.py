@@ -762,33 +762,33 @@ class Form(TinyInputWidget):
 
         values = {}
         defaults = {}
+        try:
+            if ids:
+                lval = proxy.read(ids[:1], fields.keys() + ['__last_update'], self.context)
+                if lval:
+                    values = lval[0]
+                    self.id = ids[0]
+                    ConcurrencyInfo.update(self.model, [values])
 
-        if ids:
-            lval = proxy.read(ids[:1], fields.keys() + ['__last_update'], self.context)
-            if lval:
-                values = lval[0]
-                self.id = ids[0]
-                ConcurrencyInfo.update(self.model, [values])
+            elif 'datas' in view: # wizard data
 
-        elif 'datas' in view: # wizard data
+                for f in fields:
+                    if 'value' in fields[f]:
+                        values[f] = fields[f]['value']
 
-            for f in fields:
-                if 'value' in fields[f]:
-                    values[f] = fields[f]['value']
+                values.update(view['datas'])
 
-            values.update(view['datas'])
-
-        elif not self.nodefault: # default
-            try:
+            elif not self.nodefault: # default
                 defaults = self.get_defaults(fields, domain, self.context)
-            except:
-                pass
 
-        elif 'state' in fields: # if nodefault and state get state only
-            defaults = proxy.default_get(['state'], self.context)
+            elif 'state' in fields: # if nodefault and state get state only
+                defaults = proxy.default_get(['state'], self.context)
 
-        elif 'x_state' in fields: # if nodefault and x_state get x_state only (for custom objects)
-            defaults = proxy.default_get(['x_state'], self.context)
+            elif 'x_state' in fields: # if nodefault and x_state get x_state only (for custom objects)
+                defaults = proxy.default_get(['x_state'], self.context)
+
+        except Exception,e:
+            raise common.warning(e)
 
         if defaults:
             for k, v in defaults.items():
