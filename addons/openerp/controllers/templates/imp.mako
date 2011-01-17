@@ -21,21 +21,12 @@
         }
 
         function do_autodetect(form){
-            if (document.getElementById('record').innerHTML){
-                document.getElementById('record').innerHTML = " "
-            }
-
-            if (! openobject.dom.get('csvfile').value ){
-                error_display(_('You must select an import file first.'));
-                return;
-            }
-
             jQuery(idSelector(form)).attr({
                 'target': "detector",
                 'action': openobject.http.getURL('/openerp/impex/detect_data')
             }).ajaxSubmit({
                 success: function (detection) {
-                    jQuery('#record').empty().hide();
+                    jQuery('#records_data').empty();
 
                     // detect_data only returns the body part of this, or something
                     var $detection = jQuery('<div>'+detection+'</div>');
@@ -50,9 +41,8 @@
                                     width: 'auto'
                                 });
                     }
-                    jQuery('#record')
-                            .html($detection.find('#record').html())
-                            .show();
+                    jQuery('#records_data')
+                            .html($detection.find('#records_data').html());
                 }
             });
 
@@ -97,7 +87,7 @@
                 <table width="100%">
                     <tr>
                         <td width="100%" valign="middle" for="" class=" item-separator" colspan="4">
-                            <div class="separator horizontal">1. Import a .CSV file</div>
+                            <h2 class="separator horizontal">1. Import a .CSV file</h2>
                         </td>
                     </tr>
                     <tr>
@@ -127,16 +117,17 @@
         </tr>
         <tr>
             <td class="side_spacing" width="100%">
-                <div id="record" style="display:none;">
-                    % if records:
+                <div id="record">
                     <table width="100%">
                         <tr>
                             <td width="100%" valign="middle" for="" class=" item-separator">
-                                <div class="separator horizontal">2. Check your file format</div>
+                                <h2 class="separator horizontal">2. Check your file format</h2>
                             </td>
                         </tr>
                     </table>
-                    <table id="records_data" class="grid" width="100%">
+                    <p>If the import is not correct, try changing your import options</p>
+                    <table id="records_data" class="grid" width="100%" style="margin: 5px 0;">
+                    % if records:
                         % for rownum, row in enumerate(records):
                             % if rownum == 0:
                                 <tr class="grid-header">
@@ -152,8 +143,30 @@
                                  </tr>
                              % endif
                         % endfor
-                    </table>
                     % endif
+                    </table>
+                    <fieldset>
+                        <legend style="cursor:pointer;">${_("CSV Options")}</legend>
+                        <table style="display:none">
+                            <tr>
+                                <td class="label"><label for="csv_separator">${_("Separator:")}</label></td>
+                                <td><input type="text" name="csvsep" id="csv_separator" value=","/></td>
+                                <td class="label"><label for="csv_delimiter">${_("Delimiter:")}</label></td>
+                                <td><input type="text" name="csvdel" id="csv_delimiter" value='"'/></td>
+                            </tr>
+                            <tr>
+                                <td class="label"><label for="csv_encoding">${_("Encoding:")}</label></td>
+                                <td>
+                                    <select name="csvcode" id="csv_encoding">
+                                        <option value="utf-8">UTF-8</option>
+                                        <option value="latin1">Latin 1</option>
+                                    </select>
+                                </td>
+                                <td class="label"><label for="csv_skip">${_("Lines to skip:")}</label></td>
+                                <td><input type="text" name="csvskip" id="csv_skip" value="1"/></td>
+                            </tr>
+                        </table>
+                    </fieldset>
                 </div>
             </td>
         </tr>
@@ -163,28 +176,6 @@
         </tr>
         <tr>
             <td class="side_spacing">
-                <fieldset>
-                    <legend style="cursor:pointer;">${_("CSV Options")}</legend>
-                    <table style="display:none">
-                        <tr>
-                            <td class="label"><label for="csv_separator">${_("Separator:")}</label></td>
-                            <td><input type="text" name="csvsep" id="csv_separator" value=","/></td>
-                            <td class="label"><label for="csv_delimiter">${_("Delimiter:")}</label></td>
-                            <td><input type="text" name="csvdel" id="csv_delimiter" value='"'/></td>
-                        </tr>
-                        <tr>
-                            <td class="label"><label for="csv_encoding">${_("Encoding:")}</label></td>
-                            <td>
-                                <select name="csvcode" id="csv_encoding">
-                                    <option value="utf-8">UTF-8</option>
-                                    <option value="latin1">Latin 1</option>
-                                </select>
-                            </td>
-                            <td class="label"><label for="csv_skip">${_("Lines to skip:")}</label></td>
-                            <td><input type="text" name="csvskip" id="csv_skip" value="1"/></td>
-                        </tr>
-                    </table>
-                </fieldset>
             </td>
         </tr>
         <tr>
