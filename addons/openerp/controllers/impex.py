@@ -184,7 +184,7 @@ class ImpEx(SecuredController):
             parent_field = parent_field[-2]
 
         is_importing = kw.get('is_importing', False)
-        import_compat= kw.get('import_com', False)
+        import_compat= bool(int(kw.get('import_compat', True)))
 
         try:
             ctx = ast.literal_eval(kw['context'])

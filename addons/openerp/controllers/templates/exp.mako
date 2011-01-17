@@ -175,7 +175,7 @@
                     </tr>
                 </table>
             </td>
-        </tr>
+        </tr> 
         <tr>
             <td class="side_spacing">
                 <table class="fields-selector-export" cellspacing="5" border="0">
