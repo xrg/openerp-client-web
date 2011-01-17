@@ -487,8 +487,7 @@ class ImpEx(SecuredController):
         kw['fields'] = fields
         if error:
             return self.imp(error=error, **kw)
-        else:
-            return self.imp(records=records, **kw)
+        return self.imp(records=records, **kw)
 
 
     @expose()

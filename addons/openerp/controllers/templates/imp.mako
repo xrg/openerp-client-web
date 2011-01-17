@@ -20,18 +20,6 @@
             }).submit();
         }
 
-        function on_detector(src){
-
-            jQuery('#error').dialog({
-                modal: true,
-                resizable: false,
-                height: 150,
-                width: 'auto',
-                close: function(ev, ui) { $(this).remove(); }
-            });
-
-        }
-
         function do_autodetect(form){
             if (document.getElementById('record').innerHTML){
                 document.getElementById('record').innerHTML = " "
@@ -45,76 +33,38 @@
             jQuery(idSelector(form)).attr({
                 'target': "detector",
                 'action': openobject.http.getURL('/openerp/impex/detect_data')
-            }).submit();
+            }).ajaxSubmit({
+                success: function (detection) {
+                    jQuery('#record').empty().hide();
+
+                    // detect_data only returns the body part of this, or something
+                    var $detection = jQuery('<div>'+detection+'</div>');
+                    var $error = $detection.find('#error');
+                    if($error.children().length) {
+                        jQuery('#error')
+                                .html($error.html())
+                                .dialog({
+                                    modal: true,
+                                    resizable: false,
+                                    height: 150,
+                                    width: 'auto'
+                                });
+                    }
+                    jQuery('#record')
+                            .html($detection.find('#record').html())
+                            .show();
+                }
+            });
 
         }
 
-    /*
-    % if error:
-    */
-        jQuery(window.parent.document.body).append(
-            jQuery('<div>', {'id': 'error', 'title': "${error.get('title', 'Warning')}"})
-                .append(
-                    jQuery('<table>', {'class': 'errorbox'}).append(
-                        jQuery('<tr>').append(
-                            jQuery('<td>', {'width': '10%'})
-                                .append(
-                                    jQuery('<img>', {'src': '/openerp/static/images/warning.png'}))
-                                .css('padding', '4px 2px'),
-                            jQuery('<td>', {'class': 'error_message_content'}).append(
-                                jQuery('<pre>').html("${error.get('message', '')}"))
-                            ),
-                        jQuery('<tr>').append(
-                            '<td style="padding: 0 8px 5px 0; vertical-align:top;" align="right" colspan="2"><a class="button-a" id="error_btn" onclick="jQuery(\'#error\').dialog(\'close\');">OK</a></td>'
-                            )
-                        )
-                    ).css('display', 'none')
-        );
-    /*
-    % endif
-    */
-
-
-    /*
-    % if records:
-    */
-        var $rec = jQuery('\
-            <table width="100%">\
-                <tr>\
-                    <td width="100%" valign="middle" for="" class=" item-separator">\
-                        <div class="separator horizontal">2. Check your file format</div>\
-                    </td>\
-                </tr>\
-            </table>\
-            <table id="test" class="grid" width="100%">\
-                % for j, i in enumerate(records):
-                    % if j == 0:
-                        <tr class="grid-header">\
-                            % for l, k in enumerate(i):
-                              <th class="grid-cell">${i[l]}</th>\
-                            % endfor
-                         </tr>\
-                     % else:
-                         <tr class="grid-row">\
-                            % for l, k in enumerate(i):
-                              <td id="cell-${l}" name="cell" class="grid-cell">${i[l]}</td>\
-                            % endfor
-                         </tr>\
-                     % endif
-                % endfor
-            </table>\
-        ');
-        jQuery(window.parent.document.getElementById('record')).append($rec);
-    /*
-    % endif
-    */
-
         jQuery(document).ready(function () {
+            if(!window.frameElement.set_title) { return; }
             // Set the page's title as title of the dialog
             var $header = jQuery('.pop_head_font');
             window.frameElement.set_title(
                 $header.text());
-            $header.closest('tr').remove();
+            $header.closest('.side_spacing').parent().remove();
         });
     </script>
 
@@ -173,7 +123,34 @@
         </tr>
         <tr>
             <td class="side_spacing" width="100%">
-                <div id="record"></div>
+                <div id="record" style="display:none;">
+                    % if records:
+                    <table width="100%">
+                        <tr>
+                            <td width="100%" valign="middle" for="" class=" item-separator">
+                                <div class="separator horizontal">2. Check your file format</div>
+                            </td>
+                        </tr>
+                    </table>
+                    <table id="records_data" class="grid" width="100%">
+                        % for rownum, row in enumerate(records):
+                            % if rownum == 0:
+                                <tr class="grid-header">
+                                    % for title in row:
+                                      <th class="grid-cell">${title}</th>
+                                    % endfor
+                                 </tr>
+                             % else:
+                                 <tr class="grid-row">
+                                    % for index, cell in enumerate(row):
+                                      <td id="cell-${index}" name="cell" class="grid-cell">${cell}</td>
+                                    % endfor
+                                 </tr>
+                             % endif
+                        % endfor
+                    </table>
+                    % endif
+                </div>
             </td>
         </tr>
         <tr>
@@ -225,5 +202,23 @@
     </table>
 </form>
 
-<iframe name="detector" id="detector" style="display: none;" src="about:blank" onload="on_detector(this)"></iframe>
+<div id="error" title="${error['title'] if (error and 'title' in error) else _('Warning')}" style="display:none;">
+    % if error:
+    <table class="errorbox">
+        <tr>
+            <td width="10%" style="padding: 4px 2px;">
+                <img src="/openerp/static/images/warning.png" alt="">
+            </td>
+            <td class="error_message_content">
+                ${error['message']|n}
+            </td>
+        </tr>
+        <tr>
+            <td style="padding: 0 8px 5px 0; vertical-align:top;" align="right" colspan="2">
+                <a class="button-a" id="error_btn" onclick="jQuery('#error').dialog('close');">OK</a>
+            </td>
+        </tr>
+    </table>
+    % endif
+</div>
 </%def>
