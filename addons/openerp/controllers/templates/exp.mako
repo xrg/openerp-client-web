@@ -129,7 +129,7 @@
             var $header = jQuery('.pop_head_font');
             window.frameElement.set_title(
                 $header.text());
-            $header.closest('tr').remove();
+            $header.closest('.side_spacing').parent().remove();
         });
     </script>
 </%def>
