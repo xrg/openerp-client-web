@@ -112,7 +112,7 @@ class Search(Form):
         params.context = params.context or {}
         parent_context = dict(params.parent_context or {},
                               **rpc.session.context)
-        parent_context = self.context_get(parent_context, params.parent_context) or {}
+        parent_context = self.context_get(params.context, params.parent_context) or {}
         if 'group_by' in parent_context:
             if isinstance(params.group_by, str):
                 parent_context['group_by'] = params.group_by.split(',')
