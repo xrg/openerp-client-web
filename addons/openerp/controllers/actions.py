@@ -212,6 +212,12 @@ def act_window(action, data):
                 data['search_view_id'], 'search', data['context']))
     if data.get('limit'):
         data['limit'] = 20
+    
+    if action.get('target') and action['target'] == 'popup' and action.get('res_model') and action['context']:
+        search_view_id = rpc.RPCProxy('ir.ui.view').search([('type','=', 'search'), ('model','=',action['res_model'])], 0, 0, 0, rpc.session.context)
+        if search_view_id:
+            action['context']['search_view'] = search_view_id[0]
+    
     view_ids = False
     if action.get('views', []):
         if isinstance(action['views'], list):
