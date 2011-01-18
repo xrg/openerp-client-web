@@ -504,7 +504,7 @@ class ViewEd(SecuredController):
 
         try:
             cache.clear()
-        except:
+        except Exception:
             pass
 
         return dict(record=record, error=error)
@@ -519,7 +519,7 @@ class ViewEd(SecuredController):
 
         try:
             cache.clear()
-        except:
+        except Exception:
             pass
 
         return dict()
@@ -609,7 +609,7 @@ class ViewEd(SecuredController):
 
         try:
             cache.clear()
-        except:
+        except Exception:
             pass
 
         return dict(record=record)

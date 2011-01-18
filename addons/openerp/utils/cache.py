@@ -20,17 +20,17 @@
 ###############################################################################
 import copy
 import cPickle
+import functools
 
 import cherrypy
+from mako.util import LRUCache
 
 import rpc
 
-__cache = {}
+__cache = LRUCache(cherrypy.config.get('server.db_cache_size', 8))
 
 def clear():
-    queue, store = __cache.setdefault(rpc.session.db, ([], {}))
-    while queue:
-        del store[queue.pop()]
+    __cache.pop(rpc.session.db, None)
 
 def memoize(limit=100, force=False):
 
@@ -40,24 +40,15 @@ def memoize(limit=100, force=False):
         if not force and cherrypy.config.get('server.environment') == 'development':
             return func
 
+        functools.wraps(func)
         def func_wrapper(*args, **kwargs):
-
-            queue, store = __cache.setdefault(rpc.session.db, ([], {}))
-
+            store = __cache.setdefault(rpc.session.db, LRUCache(limit))
             key = cPickle.dumps((args, kwargs))
-            try:
-                queue.append(queue.pop(queue.index(key)))
-            except ValueError:
+            if key not in store:
                 store[key] = func(*args, **kwargs)
-                queue.append(key)
-                if limit is not None and len(queue) > limit:
-                    del store[queue.pop(0)]
-
             return copy.deepcopy(store[key])
 
-        func_wrapper.func_name = func.func_name
         return func_wrapper
-
     return memoize_wrapper
 
 @memoize(1000)
