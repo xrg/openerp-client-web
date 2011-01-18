@@ -87,14 +87,12 @@ class Search(Form):
             else:
                 count = proxy.search_count(params.domain, ctx)
             params.count = count
+        else:
+            params.context['default_name'] = ustr(text)
+            
         if text:
             params.search_text = True
-            # When id does not exists for m2o
-            if not ids:
-                params.search_text = False
-                params.context['default_name'] = ustr(text)
         else:
-            params.search_text = False
             if params.context.get('default_name'):
                 del params.context['default_name']
                 
