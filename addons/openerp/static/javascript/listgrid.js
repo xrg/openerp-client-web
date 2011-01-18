@@ -857,7 +857,7 @@ function validateList(_list) {
 }
 
 function listgridValidation(_list, o2m, record_id) {
-    o2m = parseInt(o2m, 0);
+    o2m = parseInt(o2m, 10);
     var current_id = jQuery(idSelector(_list)).attr('current_id');
     // not(null | undefined)
     if(current_id != null) {
@@ -870,7 +870,7 @@ function listgridValidation(_list, o2m, record_id) {
             if(record_id == undefined || record_id == -1) {
                 new One2Many(_list, detail).create();
             } else {
-                new ListView(_list).edit(record_id);
+                new One2Many(_list, detail).edit(record_id);
             }
         } else if(record_id == -1) {
             new ListView(_list).create();

@@ -265,7 +265,8 @@ class Form(SecuredController):
 
     def _read_form(self, context, count, domain, filter_domain, id, ids, kw,
                    limit, model, offset, search_data, search_domain, source,
-                   view_ids, view_mode, view_type, notebook_tab, editable=False):
+                   view_ids, view_mode, view_type, notebook_tab, o2m_edit=False,
+                   editable=False):
         """ Extract parameters for form reading/creation common to both
         self.edit and self.view
         """
@@ -285,7 +286,7 @@ class Form(SecuredController):
                                        '_terp_search_data': search_data,
                                        '_terp_filter_domain': filter_domain,
                                        '_terp_notebook_tab': notebook_tab})
-
+        params.o2m_edit = o2m_edit
         params.editable = editable
 
         if kw.get('default_date'):
@@ -308,13 +309,13 @@ class Form(SecuredController):
     def edit(self, model, id=False, ids=None, view_ids=None,
              view_mode=['form', 'tree'], view_type='form', source=None, domain=[], context={},
              offset=0, limit=50, count=0, search_domain=None,
-             search_data=None, filter_domain=None, **kw):
+             search_data=None, filter_domain=None, o2m_edit=False, **kw):
 
         notebook_tab = kw.get('notebook_tab') or 0
         params = self._read_form(context, count, domain, filter_domain, id,
                                  ids, kw, limit, model, offset, search_data,
                                  search_domain, source, view_ids, view_mode,
-                                 view_type, notebook_tab, editable=True)
+                                 view_type, notebook_tab, o2m_edit=o2m_edit, editable=True)
 
         if not params.ids:
             params.count = 0
@@ -467,6 +468,11 @@ class Form(SecuredController):
                 'search_data': ustr(params.search_data),
                 'filter_domain': ustr(params.filter_domain),
                 'notebook_tab': params.notebook_tab}
+        if params.o2m_edit:
+            # hack to avoid creating new record line when editing o2m inline:
+            # by default one2many.mako is going to fetch a new line (.create)
+            # on /edit
+            args['o2m_edit'] = "1"
 
         if params.editable or params.source or params.return_edit:
             raise redirect(self.path + '/edit', source=params.source, **args)
