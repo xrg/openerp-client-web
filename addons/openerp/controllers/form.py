@@ -223,7 +223,7 @@ class Form(SecuredController):
             buttons.views.append(dict(kind=kind, name=view.name, desc=view.desc))
 
         target = getattr(cherrypy.request, '_terp_view_target', None)
-        buttons.toolbar = (target != 'new' and not form.is_dashboard) or mode == 'diagram'
+        buttons.toolbar = (target != 'new' and len(params.view_mode) > 1 and not form.is_dashboard) or mode == 'diagram'
         pager = None
         if buttons.pager:
             pager = tw.pager.Pager(id=form.screen.id, ids=form.screen.ids, offset=form.screen.offset,
