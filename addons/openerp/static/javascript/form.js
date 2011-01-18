@@ -531,7 +531,7 @@ function onChange(caller){
         var value;
         for (var k in values) {
             flag = false;
-            var $fld = jQuery(':input[id="'+prefix + k+'"]');
+            var $fld = jQuery(idSelector(prefix + k));
             if(!$fld.length)
                 continue;
             fld = $fld[0];
