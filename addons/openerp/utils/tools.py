@@ -48,6 +48,12 @@ def expr_eval(string, context=None):
     if isinstance(string, basestring):
         try:
             temp = eval(string, context)
+            if isinstance(temp, list):
+                for index in range(len(temp)):
+                    value = temp[index]
+                    if not (isinstance(value, tuple) and value[2] == 'active_id'):
+                        continue
+                    temp[index] = (value[0], value[1], context['active_id'])
         except:
             cherrypy.log.error("Error while parsing %r\n" % string,
                                context='expr_eval',
