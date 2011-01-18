@@ -404,6 +404,15 @@ button.inactive {
     color: #999;
 }
 
+.button-b[disabled], 
+.button-b[disabled]:hover {
+	background: none repeat scroll 0 0 #FFFFFF;
+    border: 1px solid #CCCCCC;
+    color: #AAAAAA;
+    cursor: default;
+    text-shadow: 0 0 #FFFFFF;
+}
+
 .item .readonlyfield {
     color: black;
 }
