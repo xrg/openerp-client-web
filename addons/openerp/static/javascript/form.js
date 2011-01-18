@@ -531,9 +531,10 @@ function onChange(caller){
         var value;
         for (var k in values) {
             flag = false;
-            fld = openobject.dom.get(prefix + k);
-            if(!jQuery(fld).length)
+            var $fld = jQuery(':input[id="'+prefix + k+'"]');
+            if(!$fld.length)
                 continue;
+            fld = $fld[0];
             value = values[k];
             value = value === false || value === null ? '' : value;
 
