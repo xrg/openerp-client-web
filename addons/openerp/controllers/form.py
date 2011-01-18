@@ -25,7 +25,6 @@ import cherrypy
 from openerp import utils, widgets as tw, validators
 from openerp.controllers import SecuredController
 from openerp.utils import rpc, common, TinyDict, TinyForm, expr_eval
-from openerp.widgets.form import generate_url_for_picture
 from error_page import _ep
 from openobject.tools import expose, redirect, validate, error_handler, exception_handler
 import openobject
@@ -1053,9 +1052,6 @@ class Form(SecuredController):
 
             if relation and kind in ('many2one', 'reference') and values.get(k):
                 values[k] = [values[k], rpc.name_get(relation, values[k], context)]
-
-            if kind == 'picture':
-                values[k] = generate_url_for_picture(model, k, ctx.id, values[k])
 
         result['value'] = values
 

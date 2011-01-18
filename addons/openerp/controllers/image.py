@@ -23,7 +23,6 @@ import base64
 import cherrypy
 from openerp.controllers import SecuredController
 from openerp.utils import rpc
-from openerp.widgets.form import get_temp_file
 
 from openobject.tools import expose, redirect
 
@@ -55,15 +54,6 @@ class Image(SecuredController):
             return base64.decodestring(res)
         else:
             return ''
-
-    @expose(content_type='application/octet')
-    def get_picture(self, **kw):
-        fname = get_temp_file(**kw)
-        data = open(fname).read()
-        if not data:
-            # empty file that have just been created by get_temp_file
-            raise cherrypy.HTTPError(404)
-        return data
 
     @expose(template="/openerp/controllers/templates/image.mako", methods=('POST',))
     def add(self, upimage,  **kw):
