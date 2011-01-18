@@ -94,4 +94,4 @@
         % endif
     % endif
 % endif
-<input type="hidden" id="${name}" name="${name}" is_image="true" value="${src or bin_src or ''}"/>
+<input type="hidden" id="${name}" name="${name}" is_image="true" value="${src or bin_src or ''}" disabled="disabled"/>
