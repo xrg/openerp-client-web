@@ -301,7 +301,10 @@ function form_setRequired(container, field, required) {
     if (editable == 'True') {
         $field.toggleClass('requiredfield', required);
 	}
-    $field.removeClass('errorfield');
+	if($field.hasClass('readonlyfield'))
+		$field.removeClass('readonlyfield');
+	if($field.hasClass('errorfield'))	
+    	$field.removeClass('errorfield');
 
     var kind = $field.attr('kind');
     
