@@ -610,7 +610,7 @@ MochiKit.Base.update(ListView.prototype, {
         }
 
         if(ids.length == 0 || !confirm(_('Do you really want to delete selected record(s) ?'))) {
-            return;
+            return false;
         }
 
         var $terp_ids;
@@ -745,6 +745,11 @@ MochiKit.Base.update(ListView.prototype, {
                     jQuery('div#server_logs').replaceWith(obj.logs)
                 }
 
+                var $list = jQuery(idSelector(self.name));
+                // remove leftover editor(s), otherwise onChange
+                // (if any) blows a gasket
+                $list.empty().trigger('before-redisplay');
+
                 if(clear) {
                     jQuery('#view_form').replaceWith(obj.view);
                     initialize_search();
@@ -752,7 +757,7 @@ MochiKit.Base.update(ListView.prototype, {
 
                 else {
                     var __listview = openobject.dom.get(self.name).__listview;
-                    jQuery(idSelector(self.name)).parent().replaceWith(obj.view);
+                    $list.parent().replaceWith(obj.view);
                 }
 
                 var $editors = self.$adjustEditors(
@@ -866,11 +871,10 @@ function listgridValidation(_list, o2m, record_id) {
         }
     } else{
         if(o2m) {
-            var detail = jQuery('table.one2many[id$="' + _list + '"]').attr('detail');
             if(record_id == undefined || record_id == -1) {
-                new One2Many(_list, detail).create();
+                new One2Many(_list).create();
             } else {
-                new One2Many(_list, detail).edit(record_id);
+                new One2Many(_list).edit(record_id);
             }
         } else if(record_id == -1) {
             new ListView(_list).create();

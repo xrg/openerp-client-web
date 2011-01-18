@@ -8,7 +8,8 @@
         pager_width = '100%'
         o2m_css_class = 'o2m_box'
 %>
-<table border="0" id="_o2m_${name}" width="100%" class="one2many ${o2m_css_class}" detail="${(screen.view_type == 'tree' or 0) and len(screen.widget.editors)}">
+<table border="0" id="_o2m_${name}" width="100%" class="one2many ${o2m_css_class}" detail="${(screen.view_type == 'tree' or 0) and len(screen.widget.editors)}"
+        ${py.attrs(attrs)}>
     % if screen.editable and not readonly and view_type == 'form':
     <tr>
         <td class="o2m_cell">
