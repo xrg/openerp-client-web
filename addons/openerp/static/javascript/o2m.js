@@ -20,6 +20,9 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 var One2Many = function(name, inline) {
+    if(inline == null) {
+        inline = parseInt(jQuery(idSelector('_o2m_' + name)).attr('detail'), 10);
+    }
 
     this.name = name;
     this.inline = inline > 0;
@@ -45,6 +48,16 @@ var One2Many = function(name, inline) {
             self.btn_new.style.display = ListView(self.name).$getEditors().length > 0 ? 'none' : '';
         });
     }
+
+    var $this = jQuery(idSelector('_o2m_' + name));
+    var $list = jQuery(idSelector(name));
+    $list.attr({
+        'callback': $this.attr('callback'),
+        'change_default': $this.attr('change_default')
+    });
+    $list.bind('before-redisplay.o2m', function () {
+        onChange(name);
+    });
 };
 
 One2Many.prototype = {
@@ -182,6 +195,14 @@ One2Many.prototype = {
             MochiKit.Base.map(function (el) {el.style.display=''},MochiKit.Selector.findChildElements(grid,['.selector']));
             edit.value = 1;
         }
+    },
+
+    save: function (id) {
+        ListView(this.name).save(id);
+    },
+
+    rm: function (id) {
+        ListView(this.name).remove(id);
     }
 };
 

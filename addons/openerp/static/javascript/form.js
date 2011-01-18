@@ -462,7 +462,6 @@ function getFormParams(name){
 }
 
 function onChange(caller){
-
     if (openobject.http.AJAX_COUNT > 0) {
         callLater(1, onChange, caller);
         return;

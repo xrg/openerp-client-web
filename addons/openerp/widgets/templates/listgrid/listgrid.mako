@@ -2,7 +2,11 @@
     import itertools
     import cherrypy
 %>
-
+<%
+    object = "new ListView('%s')" % name
+    if o2m:
+        object = "new One2Many('%s')" % name
+%>
 <%def name="make_editors(data=None)">
     % if editable and editors:
         <tr class="grid-row editors" record="${(data and data['id']) or -1}">
@@ -17,7 +21,7 @@
                 <!-- end of hidden fields -->
                 <img alt="save record" src="/openerp/static/images/listgrid/save_inline.gif"
                     class="listImage editors" border="0" title="${_('Update')}"
-                    onclick="new ListView('${name}').save(${(data and data['id']) or 'null'})"/>
+                    onclick="${object}.save(${(data and data['id']) or 'null'})"/>
             </td>
             % for i, (field, field_attrs) in enumerate(headers):
                 % if field == 'button':
@@ -106,10 +110,14 @@
     % endfor
     % if editable:
         <td class="grid-cell selector">
-            %if m2m:
+            % if m2m:
                 <img src="/openerp/static/images/iconset-b-remove.gif" class="listImage"
                     border="0" title="${_('Delete')}"
                     onclick="new Many2Many('${name}').remove(${data['id']}); return false;"/>
+            % elif o2m:
+                <img src="/openerp/static/images/iconset-b-remove.gif" class="listImage"
+                    border="0" title="${_('Delete')}"
+                    onclick="new One2Many('${name}').rm(${data['id']}); return false;"/>
             % else:
                 <img src="/openerp/static/images/iconset-b-remove.gif" class="listImage"
                     border="0" title="${_('Delete')}"
