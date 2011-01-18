@@ -394,6 +394,7 @@ MochiKit.Base.update(ListView.prototype, {
 
         if (evt.which == 27) {
             evt.stopPropagation();
+            evt.preventDefault();
             return this.reload();
         }
 
