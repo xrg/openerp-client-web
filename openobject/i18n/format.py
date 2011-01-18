@@ -182,13 +182,17 @@ def parse_datetime(value, kind="datetime", as_timetuple=False):
 
     try:
         value = time.strptime(value, local_format)
-    except:
+    except ValueError:
         try:
-            dt = list(time.localtime())
-            dt[2] = int(value)
-            value = tuple(dt)
-        except:
-            return False
+            # might be in server format already (e.g. filter domain)
+            value = time.strptime(value, server_format)
+        except ValueError:
+            try:
+                dt = list(time.localtime())
+                dt[2] = int(value)
+                value = tuple(dt)
+            except:
+                return False
 
     if kind == "datetime":
         try:
