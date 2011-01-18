@@ -51,7 +51,12 @@
                 return;
             }
             if (history.length > 1) {
-                history.back()
+                history.back();
+				if(jQuery(window).attr('frameElement')) {
+					window.frameElement.close();
+				} else {
+				jQuery.fancybox.close();
+				}
             } else {
                 window.close();
             }
