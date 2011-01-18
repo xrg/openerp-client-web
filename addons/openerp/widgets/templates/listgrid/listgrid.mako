@@ -159,7 +159,7 @@
                                                 % if editors:
                                                     <script type="text/javascript">
                                                         jQuery('[id=${name}_new]').click(function() {
-                                                            listgridValidation('${name}', '${o2m or 0}', -1)
+                                                            listgridValidation('${name}', '${o2m or 0}', -1);
                                                             return false;
                                                         });
                                                     </script>

@@ -865,14 +865,19 @@ function listgridValidation(_list, o2m, record_id) {
     o2m = parseInt(o2m, 10);
     var current_id = jQuery(idSelector(_list)).attr('current_id');
     // not(null | undefined)
+    var o2m_obj;
+    // Hooks O2M and ListView in case of save
+    if(o2m) { o2m_obj = new One2Many(_list); }
     if(current_id != null) {
-        new ListView(_list).save(current_id, record_id);
+        if(o2m || confirm('The record has been modified \n Do you want to save it ?')) {
+            new ListView(_list).save(current_id, record_id);
+        }
     } else{
         if(o2m) {
             if(record_id == undefined || record_id == -1) {
-                new One2Many(_list).create();
+                o2m_obj.create();
             } else {
-                new One2Many(_list).edit(record_id);
+                o2m_obj.edit(record_id);
             }
         } else if(record_id == -1) {
             new ListView(_list).create();
