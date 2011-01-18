@@ -7,26 +7,26 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openobject-client-web\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2011-01-07 17:11+0100\n"
+"POT-Creation-Date: 2011-01-17 13:09+0100\n"
 "PO-Revision-Date: 2011-01-08 07:54+0000\n"
 "Last-Translator: Wei \"oldrev\" Li <oldrev@gmail.com>\n"
 "Language-Team: Chinese (Simplified) <zh_CN@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2011-01-09 04:51+0000\n"
-"X-Generator: Launchpad (build Unknown)\n"
+"X-Launchpad-Export-Date: 2011-01-18 04:36+0000\n"
+"X-Generator: Launchpad (build 12177)\n"
 
-#: static/javascript/form.js:100
+#: static/javascript/form.js:92
 #, python-format
 msgid "You selected to open %(tabs)s tabs - do you want to continue?"
 msgstr "您选择打开 %(tabs)s 标签 - 您要继续吗？"
 
-#: static/javascript/form.js:177
+#: static/javascript/form.js:169
 msgid "Invalid form, correct red fields."
 msgstr "表单无效，请纠正红色的字段。"
 
-#: static/javascript/form.js:212
+#: static/javascript/form.js:204
 msgid "Do you really want to delete this record?"
 msgstr "您确认要删除这记录吗？"
 
@@ -52,42 +52,42 @@ msgid ""
 "your changes will be discarded."
 msgstr "警告，该记录已经被修改，您的修改将丢失。"
 
-#: static/javascript/listgrid.js:507 static/javascript/o2m.js:103
+#: static/javascript/listgrid.js:499 static/javascript/o2m.js:95
 msgid "To edit Record, please first save it."
 msgstr "编辑记录前请先保存它。"
 
-#: static/javascript/listgrid.js:615
+#: static/javascript/listgrid.js:607
 msgid "Do you really want to delete selected record(s) ?"
 msgstr "您确认删除选中的记录吗？"
 
-#: static/javascript/m2o.js:514
+#: static/javascript/m2o.js:506
 msgid "error in display::"
 msgstr "显示错误::"
 
-#: static/javascript/o2m.js:62
+#: static/javascript/o2m.js:54
 msgid "Do you really want to delete record ?"
 msgstr "您确认删除这记录吗？"
 
-#: static/javascript/viewed.js:71
+#: static/javascript/viewed.js:63
 msgid "Do you really want to remove this node?"
 msgstr "您确认删除这个节点吗？"
 
-#: static/javascript/viewed.js:337
+#: static/javascript/viewed.js:329
 msgid "Do you really wants to create an inherited view here?"
 msgstr "您确认创建一个继承这的视图吗？"
 
-#: static/javascript/openerp/openerp.base.js:125
+#: static/javascript/openerp/openerp.base.js:127
 msgid "doLoadingSuccess: Cannot parse JSON"
 msgstr "doLoadingSuccess: 不能解析 JSON"
 
-#: static/javascript/openerp/openerp.base.js:324
+#: static/javascript/openerp/openerp.base.js:326
 msgid "Loading"
 msgstr "正在加载"
 
-#: static/javascript/openerp/openerp.ui.tips.js:59
+#: static/javascript/openerp/openerp.ui.tips.js:51
 msgid "Object"
 msgstr "对象"
 
-#: static/javascript/openerp/openerp.ui.tips.js:60
+#: static/javascript/openerp/openerp.ui.tips.js:52
 msgid "Field"
 msgstr "字段"
