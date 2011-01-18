@@ -1,4 +1,5 @@
 import operator
+import cherrypy
 import os
 import shutil
 import tempfile
@@ -7,7 +8,7 @@ from cStringIO import StringIO
 from openerp.controllers import form
 from openerp.utils import rpc
 
-from openobject import paths, addons
+from openobject import paths, addons, pooler
 from openobject.tools import extract_zip_file
 
 class ModuleForm(form.Form):
@@ -22,7 +23,8 @@ class ModuleForm(form.Form):
         return bool([
             name for (name, version) in rpc.RPCProxy('ir.module.module').list_web()
             if (not addons.exists(name)
-                or version > addons.get_info(name).get('version', '0'))
+                or version > addons.get_info(name).get('version', '0')
+                or name not in addons._loaded[cherrypy.session.get('db')])
         ])
 
     def get_new_modules(self):
