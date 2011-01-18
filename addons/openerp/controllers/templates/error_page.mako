@@ -1,6 +1,6 @@
 <%inherit file="/openerp/controllers/templates/base_dispatch.mako"/>
 <%!
-    MAINTENANCE_CONTRACTS_LINK = '<a href="http://www.openerp.com/" target="_blank">See more about publisher warranty contracts.</a>'
+    MAINTENANCE_CONTRACTS_URL = 'http://www.openerp.com/support-or-publisher-warranty-contract'
 %>
 <%def name="header()">
     <script type="text/javascript" src="/openerp/static/javascript/openerp/openerp.ui.textarea.js"></script>
@@ -34,7 +34,7 @@
 
         jQuery(document).ready(function () {
             new openerp.ui.TextArea('error');
-            jQuery('.error-section h5').click(function () {
+            jQuery('.error-section h5[id!="non-fold-error-link"]').click(function () {
                 jQuery(this).parent().toggleClass('expanded-error collapsed-error');
             });
         });
@@ -87,52 +87,11 @@
                             </div>
                         </div>
                         <div class="error-section ${maintenance_default}">
+                            % if maintenance['status'] != 'full':
+                            <h5 id="non-fold-error-link"><a href="${MAINTENANCE_CONTRACTS_URL}" target="_blank">${_('Fix it for me')}</a></h5>
+                            % else:
                             <h5>${_('Fix it for me')}</h5>
                             <div class="details">
-                                % if maintenance['status'] == 'none':
-                                <pre>
-
-<b>${_("You do not have a valid OpenERP publisher warranty contract !")}</b><br/><br/>
-${_("""If you are using OpenERP in production, it is recommended to have
-a publisher warranty program.
-
-The OpenERP publisher warranty contract provides you with bug fix guarantees and an
-automatic migration system so that we can start working on your problems within a few
-hours.
-
-With a publisher warranty contract, errors such as this one can be sent directly to the OpenERP
-team for review and evaluation.
-
-The publisher warranty program offers you:
-* Automatic migrations on new versions,
-* A bugfix guarantee,
-* Monthly announces of potential bugs and their fixes,
-* Security alerts by email and automatic migration,
-* Access to the customer portal.
-""")}
-${MAINTENANCE_CONTRACTS_LINK|n}
-                                </pre>
-                                % elif maintenance['status'] == 'partial':
-                                <pre>
-
-${_("""Your publisher warranty contract does not cover all modules installed in your system !
-If you are using OpenERP in production, it is highly suggested to upgrade your
-contract.
-
-If you have developed your own modules or installed third party module, we
-can provide you an additional publisher warranty contract for these modules. After
-having reviewed your modules, our quality team will ensure they will migrate
-automatically for all future stable versions of OpenERP at no extra cost.
-
-Here is the list of modules not covered by your publisher warranty contract:""")}
-
-% for mod in maintenance['uncovered_modules']:
-${' * %s\n' % mod}
-% endfor
-
-${MAINTENANCE_CONTRACTS_LINK|n}
-                                </pre>
-                                % elif maintenance['status'] == 'full':
                                 <div>
                                     <table width="100%">
                                         <tr>
@@ -176,8 +135,8 @@ ${MAINTENANCE_CONTRACTS_LINK|n}
                                         </tr>
                                     </table>
                                 </div>
-                                % endif
                             </div>
+                            % endif
                         </div>
                     </div>
                 </form>
