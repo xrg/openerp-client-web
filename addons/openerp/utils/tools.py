@@ -1,69 +1,60 @@
 ###############################################################################
 #
-#  Copyright (C) 2007-TODAY OpenERP SA. All Rights Reserved.
+# Copyright (C) 2007-TODAY Tiny ERP Pvt Ltd. All Rights Reserved.
 #
-#  $Id$
+# $Id$
 #
-#  Developed by OpenERP (http://openerp.com) and Axelor (http://axelor.com).
+# Developed by Tiny (http://openerp.com) and Axelor (http://axelor.com).
 #
-#  The OpenERP web client is distributed under the "OpenERP Public License".
-#  It's based on Mozilla Public License Version (MPL) 1.1 with following 
-#  restrictions:
+# The OpenERP web client is distributed under the "OpenERP Public License".
+# It's based on Mozilla Public License Version (MPL) 1.1 with following
+# restrictions:
 #
-#  -   All names, links and logos of OpenERP must be kept as in original
-#      distribution without any changes in all software screens, especially
-#      in start-up page and the software header, even if the application
-#      source code has been changed or updated or code has been added.
+# -   All names, links and logos of Tiny, OpenERP and Axelor must be
+#     kept as in original distribution without any changes in all software
+#     screens, especially in start-up page and the software header, even if
+#     the application source code has been changed or updated or code has been
+#     added.
 #
-#  You can see the MPL licence at: http://www.mozilla.org/MPL/MPL-1.1.html
+# -   All distributions of the software must keep source code with OEPL.
+#
+# -   All integrations to any other software must keep source code with OEPL.
+#
+# If you need commercial licence to remove this kind of restriction please
+# contact us.
+#
+# You can see the MPL licence at: http://www.mozilla.org/MPL/MPL-1.1.html
 #
 ###############################################################################
-import __builtin__
-import collections
 
 import datetime
+import logging
 import os
 import time
 import tempfile
 
+import cherrypy
 from dateutil.relativedelta import relativedelta
 
 import rpc
 
-class BuiltinOrFalseDefaultDict(collections.defaultdict):
-    """ If a value is missing, from the dict, tries to get it from the
-     builtins and defaults to `False` if still none available.
-
-     Base `defaultdict` is called during builtins resolution and will return
-    `False` instead of whatever default we need (e.g. `True`) so it does not
-    work when we need access to the builtins
-    """
-    def __init__(self, *args, **kwargs):
-        # Python 2.5 (and 2.6.1)'s defaultdict blows up when None as first
-        # arg (requires callable) so initialize in two steps
-        super(BuiltinOrFalseDefaultDict, self).__init__()
-        self.update(*args, **kwargs)
-    def __missing__(self, key):
-        # module-global __builtins__ can be a dict or a module depending on
-        # the context. __builtin__ is a safer bet: always a module
-        return getattr(__builtin__, key, False)
-
 def expr_eval(string, context=None):
-    context = BuiltinOrFalseDefaultDict(
-            context or {},
-            uid=rpc.session.uid,
-            current_date=time.strftime('%Y-%m-%d'),
-            time=time,
-            datetime=datetime,
-            relativedelta=relativedelta)
+    context = dict(context or {},
+                   uid=rpc.session.uid,
+                   current_date=time.strftime('%Y-%m-%d'),
+                   time=time,
+                   datetime=datetime,
+                   relativedelta=relativedelta)
     if isinstance(string, basestring):
-        evaled = eval(string, context)
-        if isinstance(evaled, list):
-            # eval'd a domain, re-eval it with active_id replacement
-            return eval(string.replace("'active_id'", "active_id"), context)
-        # Anything else (e.g. context), just return it
-        return evaled
-
+        try:
+            temp = eval(string, context)
+        except:
+            cherrypy.log.error("Error while parsing %r\n" % string,
+                               context='expr_eval',
+                               severity=logging.WARNING,
+                               traceback=True)
+            return {}
+        return temp
     else:
         if isinstance(string, dict):
             for i,v in string.items():
