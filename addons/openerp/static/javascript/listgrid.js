@@ -413,7 +413,6 @@ MochiKit.Base.update(ListView.prototype, {
             }
 
             evt.stopPropagation();
-            return this.save(this.current_record);
         }
 
         var editors = jQuery('#' + this.name + ' .listfields').get();
