@@ -428,7 +428,7 @@ MochiKit.Base.update(ListView.prototype, {
         if ($src[0] == last) {
             evt.stopPropagation();
             first.focus();
-            first.select();
+            first.select && first.select();
         }
     },
 
