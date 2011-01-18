@@ -347,7 +347,7 @@ ManyToOne.prototype.on_keydown = function(evt) {
 ManyToOne.prototype.on_keypress = function(evt) {
     // We use 'keyCode' instead if 'which' because keypress is only triggered on 'character' keys except in firefox.
     if (evt.keyCode == 9 || evt.ctrlKey) {
-        return;
+        return true;
     }
 
     if((this.field.value && String.fromCharCode(evt.which)) || evt.which == 13) {
