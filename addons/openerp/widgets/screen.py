@@ -57,7 +57,10 @@ class Screen(TinyInputWidget):
         
         self.m2m = kw.get('_m2m', 0)
         self.o2m = kw.get('_o2m', 0)
-        
+        self.is_dashboard = False
+        if self.model == 'board.board' and self.view_type == 'form':
+            self.is_dashboard = True
+            
         while len(self.view_ids) < len(self.view_mode):
             self.view_ids += [False]
 

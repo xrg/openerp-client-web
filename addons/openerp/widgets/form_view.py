@@ -95,8 +95,7 @@ class ViewForm(Form):
         if self.screen.widget and hasattr(self.screen.widget, 'sidebar'):
             self.sidebar = self.screen.widget.sidebar
         else:
-            view_mode = self.screen.view_mode
-            if  'form' in view_mode and view_mode.index('form') > 0:
+            if  params.target != 'new' and not (self.screen.is_dashboard, self.screen.is_wizard):
                 self.sidebar = Sidebar(self.screen.model, self.screen.submenu, self.screen.toolbar, self.screen.id,
                                self.screen.view_type, context=self.screen.context)
 

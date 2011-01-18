@@ -62,7 +62,7 @@ def execute_window(view_ids, model, res_id=False, domain=None, view_type='form',
     params.search_view = search_view
     params['context_menu'] = context_menu
     params['display_menu_tip'] = display_menu_tip
-
+    params['target'] = target or None
     cherrypy.request._terp_view_name = name or None
     cherrypy.request._terp_view_target = target or None
 

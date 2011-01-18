@@ -256,9 +256,7 @@ class Form(SecuredController):
         if params.view_type == params.view_mode[0] and tips:
             tips = tips
         
-        is_dashboard = False
-        if form.screen.model == 'board.board' and form.screen.view_type == 'form':
-            is_dashboard = True
+        is_dashboard = form.screen.is_dashboard or False
         return dict(form=form, pager=pager, buttons=buttons, path=self.path, can_shortcut=can_shortcut, shortcut_ids=shortcut_ids, display_name=display_name, title=title, tips=tips, obj_process=obj_process, is_dashboard=is_dashboard)
 
     @expose('json', methods=('POST',))
