@@ -18,6 +18,7 @@
 #  You can see the MPL licence at: http://www.mozilla.org/MPL/MPL-1.1.html
 #
 ###############################################################################
+import __builtin__
 import collections
 
 import datetime
@@ -29,16 +30,32 @@ from dateutil.relativedelta import relativedelta
 
 import rpc
 
+class BuiltinOrFalseDefaultDict(collections.defaultdict):
+    """ If a value is missing, from the dict, tries to get it from the
+     builtins and defaults to `False` if still none available.
+
+     Base `defaultdict` is called during builtins resolution and will return
+    `False` instead of whatever default we need (e.g. `True`) so it does not
+    work when we need access to the builtins
+    """
+    def __init__(self, *args, **kwargs):
+        # Python 2.5 (and 2.6.1)'s defaultdict blows up when None as first
+        # arg (requires callable) so initialize in two steps
+        super(BuiltinOrFalseDefaultDict, self).__init__()
+        self.update(*args, **kwargs)
+    def __missing__(self, key):
+        # module-global __builtins__ can be a dict or a module depending on
+        # the context. __builtin__ is a safer bet: always a module
+        return getattr(__builtin__, key, False)
+
 def expr_eval(string, context=None):
-    context = collections.defaultdict(
-        bool,
-        context or {},
-        dict=dict,
-        uid=rpc.session.uid,
-        current_date=time.strftime('%Y-%m-%d'),
-        time=time,
-        datetime=datetime,
-        relativedelta=relativedelta)
+    context = BuiltinOrFalseDefaultDict(
+            context or {},
+            uid=rpc.session.uid,
+            current_date=time.strftime('%Y-%m-%d'),
+            time=time,
+            datetime=datetime,
+            relativedelta=relativedelta)
     if isinstance(string, basestring):
         evaled = eval(string, context)
         if isinstance(evaled, list):
