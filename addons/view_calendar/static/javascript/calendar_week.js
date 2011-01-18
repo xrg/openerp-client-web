@@ -7,7 +7,7 @@
 // Developed by OpenERP (http://openerp.com) and Axelor (http://axelor.com).
 //
 // The OpenERP web client is distributed under the "OpenERP Public License".
-// It's based on Mozilla Public License Version (MPL) 1.1 with following 
+// It's based on Mozilla Public License Version (MPL) 1.1 with following
 // restrictions:
 //
 // -   All names, links and logos of OpenERP must be kept as in original
@@ -73,6 +73,7 @@ WeekCalendar.prototype = {
         this.header.adjust();
         this.allDayGrid.adjust();
         this.dayGrid.adjust();
+
     },
 
     onResizeEnd : function(resizable, evt) {
@@ -322,10 +323,10 @@ WeekCalendar.AllDayGrid.prototype = {
         var target = evt.target();
         if (!hasElementClass(target, 'calVRule'))
             return;
-            
+
         var elem = getElement('calEventNew');
         var dt = MochiKit.DateTime.isoTimestamp(getNodeAttribute(elem, 'dtStart'));
-        
+
         editCalendarRecord(null);
     },
 
@@ -335,7 +336,7 @@ WeekCalendar.AllDayGrid.prototype = {
         var de = isoTimestamp(params.ends);
         var cdate = isoTimestamp(params.create_date);
         var wdate = isoTimestamp(params.write_date);
-        
+
         var cuid = params.create_uid;
         var wuid = params.write_uid;
         var span = parseInt(params.dayspan) || 1;
@@ -431,8 +432,8 @@ WeekCalendar.AllDayGrid.prototype = {
 
         forEach(events, function(e) {
             var dt = toISODate(e.starts);
-
-            if (!(dt in containers)){
+            var end_dt = toISODate(e.ends);
+            if (!(dt in containers) || (end_dt < dt)){
                  e.style.display = 'none';
                  return;
             }
@@ -464,7 +465,7 @@ WeekCalendar.AllDayGrid.prototype = {
                     forEach(cnt.events, function(e) {
                     	cnt.rows.push(evt.row);
                         e.row = e.row >= evt.row ? e.row + 1 : e.row;
-                        
+
                         while (cnt.rows.indexOf(e.row) > -1) {
                             e.row = e.row + 1;
                         }
@@ -906,12 +907,16 @@ WeekCalendar.AllDayEvent.prototype = {
     },
 
     adjust : function() {
+    	var w;
+		var dspan = this.dayspan;
 
-        var w =  elementDimensions('calGrid').w / 7;
+		if (dspan == 1) {
+			w =  elementDimensions('calGrid').w;
+		} else {
+        	w =  elementDimensions('calGrid').w / 7;
+        }
         var x = this.container.index * this.container.calendar.colWidth;
-
         var h = elementDimensions(this.element).h + 1;
-
         var y = this.row * h;
 
         var d = elementDimensions('calAllDaySect');

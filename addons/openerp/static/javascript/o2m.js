@@ -89,7 +89,22 @@ One2Many.prototype = {
         }
     },
 
+    edit_inline: function (id) {
+        if (!this.parent_id || this.parent_id == 'False' || this.mode == 'form') {
+            jQuery('#view_form').append(
+                jQuery('<input type="hidden" name="_terp_o2m_edit" value="1">'));
+            submit_form('save', this.name);
+            return;
+        }
+
+        new ListView(this.name).edit(id)
+    },
+
     edit: function(id, readonly) {
+        if(this.mode == 'tree' && this.inline) {
+            this.edit_inline(id);
+            return;
+        }
         var names = this.name.split('/');
         if (id!='False' && id==0) {
         	return error_display(_('To edit Record, please first save it.'));

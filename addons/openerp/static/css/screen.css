@@ -461,8 +461,7 @@ p#cmp_logo {
     -webkit-border-bottom-right-radius: 3px;
 }
 
-#corner ul.tools li ul li a:hover,#corner ul.tools li ul li a:focus,#corner ul.tools li ul li a:active
-    {
+#corner ul.tools li ul li a:hover,#corner ul.tools li ul li a:focus,#corner ul.tools li ul li a:active {
     color: #fff;
 }
 
@@ -1610,7 +1609,6 @@ ul.sections-a li span.wrap a:hover span strong,ul.sections-a li span.wrap a:focu
 .closed #secondary {
     display: none;
 }
-
 
 #sidenav-a {
     color:#FFFFFF;

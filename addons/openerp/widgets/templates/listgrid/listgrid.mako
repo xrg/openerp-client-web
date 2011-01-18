@@ -75,9 +75,15 @@
                     class="listImage" border="0" title="${_('Edit')}"
                     onclick="editRecord(${data['id']}, '${source}')"/>
             % else:
-                <img alt="edit record" src="/openerp/static/images/iconset-b-edit.gif"
+                <%
+                    if o2m and not data['id']:
+                        edit_image = '/openerp/static/images/listgrid/save_inline.gif'
+                    else:
+                        edit_image = '/openerp/static/images/iconset-b-edit.gif'
+                %>
+                <img alt="edit record" src="${edit_image}"
                     class="listImage" border="0" title="${_('Edit')}"
-                    onclick="new ListView('${name}').edit(${data['id']})"/>
+                    onclick="listgridValidation('${name}', ${o2m or 0}, ${data['id']})"/>
             % endif
         </td>
     % endif

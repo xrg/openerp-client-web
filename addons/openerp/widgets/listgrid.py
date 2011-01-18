@@ -142,13 +142,21 @@ class List(TinyWidget):
                 self.colors[colour] = test
 
         proxy = rpc.RPCProxy(model)
-
-        if not kw.get('default_data') and not self.o2m and not self.m2m and not terp_params.get('_terp_search_text'):
+        
+        default_data = kw.get('default_data', [])
+        search_text = terp_params.get('_terp_search_text', False)
+        if not self.source:
+            self.source = terp_params.get('_terp_source', None)
+        if not default_data and not self.o2m and not self.m2m:
             if self.limit > 0:
                 if self.sort_key:
                     ids = proxy.search(search_param, self.offset, self.limit, self.sort_key + ' ' +self.sort_order, context)
                 else:
-                    ids = proxy.search(search_param, self.offset, self.limit, False, context)
+                    if search_text:
+                        if self.source == '_terp_list':
+                            ids = proxy.search(search_param, self.offset, self.limit, False, context)
+                    else:
+                        ids = proxy.search(search_param, self.offset, self.limit, False, context)
             else:
                 ids = proxy.search(search_param, 0, 0, 0, context)
             if len(ids) < self.limit:

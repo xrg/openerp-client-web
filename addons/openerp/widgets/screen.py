@@ -57,7 +57,10 @@ class Screen(TinyInputWidget):
         
         self.m2m = kw.get('_m2m', 0)
         self.o2m = kw.get('_o2m', 0)
-        
+        self.is_dashboard = False
+        if self.model == 'board.board' and self.view_type == 'form':
+            self.is_dashboard = True
+            
         while len(self.view_ids) < len(self.view_mode):
             self.view_ids += [False]
 
@@ -112,6 +115,8 @@ class Screen(TinyInputWidget):
             ctx.update(self.context)
             if ctx.get('view_id'):
                 view_id = ctx['view_id']
+                if 'view_id' in cherrypy.request.terp_params['_terp_context']:
+                    cherrypy.request.terp_params['_terp_context'].pop('view_id')
             view = cache.fields_view_get(self.model, view_id or False, view_type, ctx, self.hastoolbar, self.hassubmenu)
 
         self.add_view(view, view_type)

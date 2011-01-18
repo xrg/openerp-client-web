@@ -57,7 +57,9 @@ class O2M(TinyInputWidget):
     """One2Many widget
     """
     template = "/openerp/widgets/form/templates/one2many.mako"
-    params = ['id', 'parent_id', 'new_attrs', 'pager_info', 'switch_to', 'default_get_ctx', 'source', 'view_type', 'default_value']
+    params = ['id', 'parent_id', 'new_attrs', 'pager_info', 'switch_to',
+              'default_get_ctx', 'source', 'view_type', 'default_value',
+              'edition']
     member_widgets = ['screen']
 
     form = None
@@ -73,10 +75,10 @@ class O2M(TinyInputWidget):
         self.new_attrs = { 'text': _("New"), 'help': _('Create new record.')}
         self.default_get_ctx = attrs.get('default_get', {}) or attrs.get('context', {})
 
-
         # get top params dictionary
         params = cherrypy.request.terp_params
         self.source = params.source
+        self.edition = params.o2m_edit
         pprefix = ''
         if '/' in self.name:
             pprefix = self.name[:self.name.rindex('/')]

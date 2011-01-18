@@ -394,6 +394,7 @@ MochiKit.Base.update(ListView.prototype, {
 
         if (evt.which == 27) {
             evt.stopPropagation();
+            evt.preventDefault();
             return this.reload();
         }
 
@@ -412,7 +413,11 @@ MochiKit.Base.update(ListView.prototype, {
             }
 
             evt.stopPropagation();
-            return this.save(this.current_record);
+            
+            o2m_exist = jQuery(idSelector(this.name)).closest('table.one2many');
+            if (!o2m_exist.length > 0) {
+            	return this.save(this.current_record);
+            }
         }
 
         var editors = jQuery('#' + this.name + ' .listfields').get();
@@ -852,8 +857,8 @@ function validateList(_list) {
 }
 
 function listgridValidation(_list, o2m, record_id) {
-    o2m = parseInt(o2m, 0);
-    var current_id = jQuery('[id="' + _list + '"]').attr('current_id');
+    o2m = parseInt(o2m, 10);
+    var current_id = jQuery(idSelector(_list)).attr('current_id');
     // not(null | undefined)
     if(current_id != null) {
         if(confirm('The record has been modified \n Do you want to save it ?')) {
@@ -865,7 +870,7 @@ function listgridValidation(_list, o2m, record_id) {
             if(record_id == undefined || record_id == -1) {
                 new One2Many(_list, detail).create();
             } else {
-                new ListView(_list).edit(record_id);
+                new One2Many(_list, detail).edit(record_id);
             }
         } else if(record_id == -1) {
             new ListView(_list).create();

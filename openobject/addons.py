@@ -191,6 +191,7 @@ def load_module_graph(db_name, graph, config):
 
     for package in graph:
         pool.load(package.name)
+        _loaded[db_name][package.name] = True
 
 
 _loaded = {}
@@ -204,6 +205,7 @@ def load_addons(db_name, config):
     if db_name in _loaded:
         return
     cherrypy.request.loading_addons = True
+    _loaded[db_name] = {}
 
     base_addons = [m for m in get_local_addons() if get_info(m).get("active")]
 
@@ -224,7 +226,6 @@ def load_addons(db_name, config):
         load_module_graph(db_name, graph, config)
 
     cherrypy.request.loading_addons = False
-    _loaded[db_name] = True
 
 writeable = os.access('addons', os.W_OK)
 if not writeable:

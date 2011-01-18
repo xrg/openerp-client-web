@@ -1,52 +1,60 @@
 ###############################################################################
 #
-#  Copyright (C) 2007-TODAY OpenERP SA. All Rights Reserved.
+# Copyright (C) 2007-TODAY Tiny ERP Pvt Ltd. All Rights Reserved.
 #
-#  $Id$
+# $Id$
 #
-#  Developed by OpenERP (http://openerp.com) and Axelor (http://axelor.com).
+# Developed by Tiny (http://openerp.com) and Axelor (http://axelor.com).
 #
-#  The OpenERP web client is distributed under the "OpenERP Public License".
-#  It's based on Mozilla Public License Version (MPL) 1.1 with following 
-#  restrictions:
+# The OpenERP web client is distributed under the "OpenERP Public License".
+# It's based on Mozilla Public License Version (MPL) 1.1 with following
+# restrictions:
 #
-#  -   All names, links and logos of OpenERP must be kept as in original
-#      distribution without any changes in all software screens, especially
-#      in start-up page and the software header, even if the application
-#      source code has been changed or updated or code has been added.
+# -   All names, links and logos of Tiny, OpenERP and Axelor must be
+#     kept as in original distribution without any changes in all software
+#     screens, especially in start-up page and the software header, even if
+#     the application source code has been changed or updated or code has been
+#     added.
 #
-#  You can see the MPL licence at: http://www.mozilla.org/MPL/MPL-1.1.html
+# -   All distributions of the software must keep source code with OEPL.
+#
+# -   All integrations to any other software must keep source code with OEPL.
+#
+# If you need commercial licence to remove this kind of restriction please
+# contact us.
+#
+# You can see the MPL licence at: http://www.mozilla.org/MPL/MPL-1.1.html
 #
 ###############################################################################
-import collections
 
 import datetime
+import logging
 import os
 import time
 import tempfile
 
+import cherrypy
 from dateutil.relativedelta import relativedelta
 
 import rpc
 
 def expr_eval(string, context=None):
-    context = collections.defaultdict(
-        bool,
-        context or {},
-        dict=dict,
-        uid=rpc.session.uid,
-        current_date=time.strftime('%Y-%m-%d'),
-        time=time,
-        datetime=datetime,
-        relativedelta=relativedelta)
+    context = dict(context or {},
+                   uid=rpc.session.uid,
+                   current_date=time.strftime('%Y-%m-%d'),
+                   time=time,
+                   datetime=datetime,
+                   relativedelta=relativedelta)
     if isinstance(string, basestring):
-        evaled = eval(string, context)
-        if isinstance(evaled, list):
-            # eval'd a domain, re-eval it with active_id replacement
-            return eval(string.replace("'active_id'", "active_id"), context)
-        # Anything else (e.g. context), just return it
-        return evaled
-
+        try:
+            temp = eval(string, context)
+        except:
+            cherrypy.log.error("Error while parsing %r\n" % string,
+                               context='expr_eval',
+                               severity=logging.WARNING,
+                               traceback=True)
+            return {}
+        return temp
     else:
         if isinstance(string, dict):
             for i,v in string.items():

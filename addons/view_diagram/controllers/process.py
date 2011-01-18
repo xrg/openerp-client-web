@@ -25,6 +25,7 @@ from openerp.utils import rpc, TinyDict
 import openerp.controllers.actions as actions
 import openerp.controllers.form as form
 from openobject.tools import expose
+import urllib
 
 
 class Process(SecuredController):
@@ -65,9 +66,12 @@ class Process(SecuredController):
         from openobject import release
         lang = rpc.session.context.get('lang','en_US')
         context_help = 'http://doc.openerp.com/index.php?model=%s&lang=%s&version=%s' % (res_model, lang, release.version)
-
+        edit_process_url = ('/openerp/form/edit?'+urllib.urlencode({'model': 'process.process', 'id': id}))
+        edit_process_url =  '/?' + urllib.urlencode({'next': edit_process_url})
+        
         return dict(id=id, res_model=res_model, res_id=res_id, title=title, selection=selection, fields=fields,
-                    help=help, process_title=process_title, context_help=context_help, lang=lang, version=release.version)
+                    help=help, process_title=process_title, context_help=context_help, lang=lang, 
+                    version=release.version,edit_process_url=edit_process_url)
 
     @expose('json')
     def get(self, id, res_model=None, res_id=False, title=None):

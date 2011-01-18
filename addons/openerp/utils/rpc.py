@@ -412,10 +412,12 @@ class RPCProxy(object):
                         hastoolbar=False, hassubmenu=False):
         if context is None:
             context = self._session.context
-        return self('fields_view_get', view_id, view_type, context,
+        return self('fields_view_get', view_id or False, view_type, context,
                     hastoolbar, hassubmenu)
 
-    def search(self, criteria, offset=0, limit=False, order=False, context=False):
+    def search(self, criteria, offset=0, limit=False, order=False, context=None):
+        if context is None:
+            context = self._session.context
         return self('search', criteria, offset, limit, order, context)
 
 def name_get(model, id, context=None):

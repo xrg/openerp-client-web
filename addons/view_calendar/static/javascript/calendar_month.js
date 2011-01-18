@@ -7,7 +7,7 @@
 // Developed by OpenERP (http://openerp.com) and Axelor (http://axelor.com).
 //
 // The OpenERP web client is distributed under the "OpenERP Public License".
-// It's based on Mozilla Public License Version (MPL) 1.1 with following 
+// It's based on Mozilla Public License Version (MPL) 1.1 with following
 // restrictions:
 //
 // -   All names, links and logos of OpenERP must be kept as in original
@@ -42,7 +42,7 @@ MonthCalendar.prototype = {
 
         var events = openobject.dom.select('div.calEvent', 'calBodySect');
         forEach(events, function(e) {
-            
+
             var id = getNodeAttribute(e, 'nRecordID');
 
             self.events[id] = {
@@ -84,7 +84,7 @@ MonthCalendar.prototype = {
 
             var week = new MonthCalendar.Week(this, dt);
             this.weeks = this.weeks.concat(week);
-			
+
 			for (var j = 0; j < 7; j ++) {
                 if (weekcount >= 52){
 					if (dt.getWeek() == 1){
@@ -93,11 +93,11 @@ MonthCalendar.prototype = {
                 }
                 dt = dt.getNext();
             }
-			
+
             var a = MochiKit.DOM.A({href: 'javascript: void(0)', onclick : "getCalendar('" + week.days[0] + "', 'week')"}, weekcount);
             appendChildNodes('calTimeCol', DIV({'style': 'height: 133px'}, a));
-			 
-			weekcount= weekcount + 1;  
+
+			weekcount= weekcount + 1;
         }
 
         //calEventNew
@@ -173,23 +173,28 @@ MonthCalendar.prototype = {
 
         var elem = getElement('calEventNew');
         var dt = MochiKit.DateTime.isoTimestamp(getNodeAttribute(elem, 'dtStart'));
-        
+
         editCalendarRecord(null);
     },
 
     splitEvent : function(record, params) {
-        
+
         var ds = isoTimestamp(params.starts);
         var de = isoTimestamp(params.ends);
         var cdate = isoTimestamp(params.create_date);
         var wdate = isoTimestamp(params.write_date);
-        
+
         var cuid = params.create_uid;
         var wuid = params.write_uid;
         var span = parseInt(params.dayspan) || 1;
         var wd = ds.getWeekDay();
-
         var events = [];
+
+		if (wd != 6){
+			wd = wd + 1;
+		} else {
+			wd = 0 ;
+		}
 
         while (span > 0) {
             var sp = span + wd > 7 ? 7 - wd : span;
@@ -514,10 +519,10 @@ MonthCalendar.Week.prototype = {
                 for (var j = i + 1; j < i + evt.dayspan; j++) {
 
                     if (j == 7) break;
-					
+
                     var d = self.days[j];
                     var cnt = containers[d];
-					
+
                     forEach(cnt.events, function(e) {
                         cnt.rows.push(evt.row);
                         e.row = e.row >= evt.row ? e.row + 1 : e.row;
