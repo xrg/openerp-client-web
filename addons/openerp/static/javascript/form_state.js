@@ -300,11 +300,8 @@ function form_setRequired(container, field, required) {
     var $field = jQuery(field);
     if (editable == 'True') {
         $field.toggleClass('requiredfield', required);
-	}
-	if($field.hasClass('readonlyfield'))
-		$field.removeClass('readonlyfield');
-	if($field.hasClass('errorfield'))	
-    	$field.removeClass('errorfield');
+    }
+    $field.removeClass('readonlyfield errorfield');
 
     var kind = $field.attr('kind');
     
@@ -314,7 +311,6 @@ function form_setRequired(container, field, required) {
 }
 
 function form_setVisible(container, field, visible) {
-
     var $container = jQuery(container);
     if ($container.hasClass('notebook-page')) { // notebook page?
     
@@ -336,12 +332,10 @@ function form_setVisible(container, field, visible) {
     } else {
 
         try {
-            var label = $container.attr('for');
-            var $label = $container.parent().children('td.label[for="' + label + '"]');
-
+            var $label = $container.prev('td.label');
             $container.toggle(visible);
             if ($label.length) {
-                $container.prev().toggle(visible);
+                $label.toggle(visible);
             }
         }catch(e){}
     }
