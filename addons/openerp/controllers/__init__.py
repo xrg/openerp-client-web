@@ -25,7 +25,6 @@ import translator
 import impex
 import fieldpref
 import view_log
-import image
 import database
 import viewed
 import viewlist
