@@ -205,7 +205,7 @@ def act_window(action, data):
     if data.get('limit'):
         data['limit'] = 20
     
-    if action.get('target') and action['target'] == 'popup' and action.get('res_model') and isinstance(action['context'], dict):
+    if action.get('target') and action['target'] == 'popup' and action.get('res_model') and isinstance(action.get('context'), dict):
         search_view_id = rpc.RPCProxy('ir.ui.view').search([('type','=', 'search'), ('model','=',action['res_model'])], 0, 0, 0, rpc.session.context)
         if search_view_id and action['context'].get('search_view'):
             action['context']['search_view'] = search_view_id[0]
@@ -327,8 +327,8 @@ def act_window_opener(action, data):
     # unless it is triggered from a menu
     # or if it is not tied to an object (ex: home action after login)
     open_new_tab = False
-    if action['target'] == 'current' and action.get('res_model') != 'ir.ui.menu' and data.get('model') != 'ir.ui.menu' \
-            and data.get('model') is not None:
+    if action['target'] == 'current' and action.get('res_model') != 'ir.ui.menu'\
+        and data.get('model') != 'ir.ui.menu' and not 'home_action' in data:
         action['target'] = 'popup'
         open_new_tab = True
 
