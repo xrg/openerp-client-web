@@ -251,13 +251,11 @@ class List(SecuredController):
             params.search_data = {}
             for k,v in params.context.items():
                 if k.startswith('search_default'):
-                    params.context[k] = 0
+                    del params.context[k]
 
-            if params.context.get('group_by_no_leaf'):
-                params.context['group_by_no_leaf'] = 0
-            if params.context.get('group_by'):
-                params.context['group_by'] = []
-            params.group_by_ctx = groupby = []
+            if 'group_by' in params.context:
+                del params.context['group_by']
+            params.group_by_ctx = []
 
         if source == '_terp_list':
             if not params.view_type == 'graph':
