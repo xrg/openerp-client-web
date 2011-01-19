@@ -53,6 +53,7 @@ def export_csv(fields, result):
                         d = d.encode('utf-8')
                     except:
                         pass
+                if d is False: d = None
                 row.append(d)
 
             writer.writerow(row)
@@ -496,7 +497,7 @@ class ImpEx(SecuredController):
             if j == limit:
                 fields = line
             else:
-               data.append(line)
+                data.append(line)
 
         datas = []
         ctx = dict(rpc.session.context)

@@ -395,7 +395,8 @@ MochiKit.Base.update(ListView.prototype, {
         if (evt.which == 27) {
             evt.stopPropagation();
             evt.preventDefault();
-            return this.reload();
+            this.reload();
+            return;
         }
 
         if (evt.which == 13) {
@@ -413,10 +414,13 @@ MochiKit.Base.update(ListView.prototype, {
             }
 
             evt.stopPropagation();
-            
-            o2m_exist = jQuery(idSelector(this.name)).closest('table.one2many');
-            if (!o2m_exist.length > 0) {
-            	return this.save(this.current_record);
+            evt.preventDefault();
+
+            var $o2m_exist = jQuery(idSelector(this.name)).closest('table.one2many');
+            if (!$o2m_exist.length) {
+                this.save(this.current_record);
+            } else {
+                new One2Many(this.name).save(this.current_record);
             }
         }
 
@@ -428,7 +432,7 @@ MochiKit.Base.update(ListView.prototype, {
         if ($src[0] == last) {
             evt.stopPropagation();
             first.focus();
-            first.select();
+            first.select && first.select();
         }
     },
 
@@ -610,7 +614,7 @@ MochiKit.Base.update(ListView.prototype, {
         }
 
         if(ids.length == 0 || !confirm(_('Do you really want to delete selected record(s) ?'))) {
-            return;
+            return false;
         }
 
         var $terp_ids;
@@ -745,6 +749,11 @@ MochiKit.Base.update(ListView.prototype, {
                     jQuery('div#server_logs').replaceWith(obj.logs)
                 }
 
+                var $list = jQuery(idSelector(self.name));
+                // remove leftover editor(s), otherwise onChange
+                // (if any) blows a gasket
+                $list.empty().trigger('before-redisplay');
+
                 if(clear) {
                     jQuery('#view_form').replaceWith(obj.view);
                     initialize_search();
@@ -752,7 +761,7 @@ MochiKit.Base.update(ListView.prototype, {
 
                 else {
                     var __listview = openobject.dom.get(self.name).__listview;
-                    jQuery(idSelector(self.name)).parent().replaceWith(obj.view);
+                    $list.parent().replaceWith(obj.view);
                 }
 
                 var $editors = self.$adjustEditors(
@@ -860,17 +869,19 @@ function listgridValidation(_list, o2m, record_id) {
     o2m = parseInt(o2m, 10);
     var current_id = jQuery(idSelector(_list)).attr('current_id');
     // not(null | undefined)
+    var o2m_obj;
+    // Hooks O2M and ListView in case of save
+    if(o2m) { o2m_obj = new One2Many(_list); }
     if(current_id != null) {
-        if(confirm('The record has been modified \n Do you want to save it ?')) {
+        if(o2m || confirm('The record has been modified \n Do you want to save it ?')) {
             new ListView(_list).save(current_id, record_id);
         }
     } else{
         if(o2m) {
-            var detail = jQuery('table.one2many[id$="' + _list + '"]').attr('detail');
             if(record_id == undefined || record_id == -1) {
-                new One2Many(_list, detail).create();
+                o2m_obj.create();
             } else {
-                new One2Many(_list, detail).edit(record_id);
+                o2m_obj.edit(record_id);
             }
         } else if(record_id == -1) {
             new ListView(_list).create();

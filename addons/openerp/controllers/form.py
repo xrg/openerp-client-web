@@ -18,14 +18,12 @@
 #  You can see the MPL licence at: http://www.mozilla.org/MPL/MPL-1.1.html
 #
 ###############################################################################
-import base64
-import re
+import base64,os,re
 
 import cherrypy
 from openerp import utils, widgets as tw, validators
 from openerp.controllers import SecuredController
 from openerp.utils import rpc, common, TinyDict, TinyForm, expr_eval
-from openerp.widgets.form import generate_url_for_picture
 from error_page import _ep
 from openobject.tools import expose, redirect, validate, error_handler, exception_handler
 import openobject
@@ -223,7 +221,7 @@ class Form(SecuredController):
             buttons.views.append(dict(kind=kind, name=view.name, desc=view.desc))
 
         target = getattr(cherrypy.request, '_terp_view_target', None)
-        buttons.toolbar = (target != 'new' and not form.is_dashboard) or mode == 'diagram'
+        buttons.toolbar = (target != 'new' and len(params.view_mode) > 1 and not form.is_dashboard) or mode == 'diagram'
         pager = None
         if buttons.pager:
             pager = tw.pager.Pager(id=form.screen.id, ids=form.screen.ids, offset=form.screen.offset,
@@ -504,10 +502,9 @@ class Form(SecuredController):
         model, id, ids, ctx = self._get_button_infos(params)
 
         res = rpc.session.execute('object', 'execute', model, name, ids, ctx)
-
         if isinstance(res, dict):
             import actions
-            return actions.execute(res, ids=[id])
+            return actions.execute(res, ids=[id], context=ctx)
         params.button = None
 
     def button_action_action(self, name, params):
@@ -675,6 +672,48 @@ class Form(SecuredController):
                 'filter_domain': ustr(params.filter_domain)}
 
         raise redirect(self.path + '/edit', **args)
+
+    @expose(content_type='application/octet')
+    def binary_image_get_image(self, **kw):
+        model = kw.get('model')
+        field = kw.get('field')
+        id = kw.get('id')
+        proxy = rpc.RPCProxy(model)
+        if id == 'None':
+            # FIXME: doesnt honor the context
+            res = proxy.default_get([field]).get(field,'')
+        else:
+            res = proxy.read([int(id)], [field])[0].get(field)
+        if res:
+            return base64.decodestring(res)
+        else:
+            return open(os.path.join(os.path.dirname(__file__),'..','static','images','placeholder.png')).read()
+
+    @expose("json")
+    def binary_image_delete(self, **kw):
+        saved = kw.get('saved') or None
+        model = kw.get('model')
+        id = kw.get('id')
+        if id:
+            id = int(id)
+        field = kw.get('field')
+        if id:
+            proxy = rpc.RPCProxy(model)
+            proxy.write([id], {field: False})
+        return {}
+
+    @expose()
+    def b64(self, **kw):
+        #idea from http://dean.edwards.name/weblog/2005/06/base64-ie/
+        try:
+            qs = cherrypy.request.query_string
+            content_type, data = qs.split(';')
+            data_type, data = data.split(',')
+            assert(data_type == 'base64')
+            cherrypy.response.headers['Content-Type'] = content_type
+            return base64.decodestring(data)
+        except:
+            raise cherrypy.HTTPError(400)   # Bad request
 
     @expose()
     @validate(form=get_validation_schema)
@@ -1053,9 +1092,6 @@ class Form(SecuredController):
 
             if relation and kind in ('many2one', 'reference') and values.get(k):
                 values[k] = [values[k], rpc.name_get(relation, values[k], context)]
-
-            if kind == 'picture':
-                values[k] = generate_url_for_picture(model, k, ctx.id, values[k])
 
         result['value'] = values
 

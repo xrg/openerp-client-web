@@ -281,9 +281,12 @@ jQuery(document).bind('ready', function (){
 
 // Hook onchange for all elements
 jQuery(document).delegate('[callback], [onchange_default]', 'change', function () {
-    if(window.onChange && !jQuery(this).is(':input.checkbox:enabled')) {
-        onChange(this);
+    if (jQuery(this).is(':input.checkbox:enabled')
+            || !jQuery(this).is(':input')
+            || !window.onChange) {
+        return;
     }
+    onChange(this);
 });
 
 /**
