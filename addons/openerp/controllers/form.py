@@ -18,8 +18,7 @@
 #  You can see the MPL licence at: http://www.mozilla.org/MPL/MPL-1.1.html
 #
 ###############################################################################
-import base64
-import re
+import base64,os,re
 
 import cherrypy
 from openerp import utils, widgets as tw, validators
@@ -673,6 +672,48 @@ class Form(SecuredController):
                 'filter_domain': ustr(params.filter_domain)}
 
         raise redirect(self.path + '/edit', **args)
+
+    @expose(content_type='application/octet')
+    def binary_image_get_image(self, **kw):
+        model = kw.get('model')
+        field = kw.get('field')
+        id = kw.get('id')
+        proxy = rpc.RPCProxy(model)
+        if id == 'None':
+            # FIXME: doesnt honor the context
+            res = proxy.default_get([field]).get(field,'')
+        else:
+            res = proxy.read([int(id)], [field])[0].get(field)
+        if res:
+            return base64.decodestring(res)
+        else:
+            return open(os.path.join(os.path.dirname(__file__),'..','static','images','placeholder.png')).read()
+
+    @expose("json")
+    def binary_image_delete(self, **kw):
+        saved = kw.get('saved') or None
+        model = kw.get('model')
+        id = kw.get('id')
+        if id:
+            id = int(id)
+        field = kw.get('field')
+        if id:
+            proxy = rpc.RPCProxy(model)
+            proxy.write([id], {field: False})
+        return {}
+
+    @expose()
+    def b64(self, **kw):
+        #idea from http://dean.edwards.name/weblog/2005/06/base64-ie/
+        try:
+            qs = cherrypy.request.query_string
+            content_type, data = qs.split(';')
+            data_type, data = data.split(',')
+            assert(data_type == 'base64')
+            cherrypy.response.headers['Content-Type'] = content_type
+            return base64.decodestring(data)
+        except:
+            raise cherrypy.HTTPError(400)   # Bad request
 
     @expose()
     @validate(form=get_validation_schema)

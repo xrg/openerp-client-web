@@ -87,14 +87,7 @@ class Image(TinyInputWidget):
         self.state = attrs.get('state')
         self.field = self.name.split('/')[-1]
         if attrs.get('widget'):
-            if self.id:
-                self.src = tools.url('/openerp/image/get_image', model=self.model, id=self.id, field=self.field)
-                # TODO: is empty image use a blank to make it clickable
-                #url = tools.url("/static/images/blank.gif")
-            elif attrs.get('value'):
-                self.bin_src =attrs['value']
-            else:
-                self.src =  self.bin_src = ''
+            self.src = tools.url('/openerp/form/binary_image_get_image', model=self.model, id=self.id, field=self.field)
             self.height = attrs.get('img_height', attrs.get('height', None))
             self.width = attrs.get('img_width', attrs.get('width', None))
             self.validator = validators.Binary()
