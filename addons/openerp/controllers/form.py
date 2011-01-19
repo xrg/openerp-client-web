@@ -503,10 +503,9 @@ class Form(SecuredController):
         model, id, ids, ctx = self._get_button_infos(params)
 
         res = rpc.session.execute('object', 'execute', model, name, ids, ctx)
-
         if isinstance(res, dict):
             import actions
-            return actions.execute(res, ids=[id])
+            return actions.execute(res, ids=[id], context=ctx)
         params.button = None
 
     def button_action_action(self, name, params):
