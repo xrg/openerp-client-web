@@ -395,7 +395,8 @@ MochiKit.Base.update(ListView.prototype, {
         if (evt.which == 27) {
             evt.stopPropagation();
             evt.preventDefault();
-            return this.reload();
+            this.reload();
+            return;
         }
 
         if (evt.which == 13) {
@@ -413,10 +414,13 @@ MochiKit.Base.update(ListView.prototype, {
             }
 
             evt.stopPropagation();
-            
-            o2m_exist = jQuery(idSelector(this.name)).closest('table.one2many');
-            if (!o2m_exist.length > 0) {
-            	return this.save(this.current_record);
+            evt.preventDefault();
+
+            var $o2m_exist = jQuery(idSelector(this.name)).closest('table.one2many');
+            if (!$o2m_exist.length) {
+                this.save(this.current_record);
+            } else {
+                new One2Many(this.name).save(this.current_record);
             }
         }
 
