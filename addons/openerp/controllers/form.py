@@ -502,6 +502,12 @@ class Form(SecuredController):
         model, id, ids, ctx = self._get_button_infos(params)
 
         res = rpc.session.execute('object', 'execute', model, name, ids, ctx)
+        # after installation of modules (esp. initial) we may
+        # need values from the global context for some contexts & domains (e.g.
+        # leads) => installer wizards are generally postfixed by '.installer'
+        # so use this characteristic to setup context reloads
+        if model.endswith('.installer'):
+            rpc.session.context_reload()
         if isinstance(res, dict):
             import actions
             return actions.execute(res, ids=[id], context=ctx)
