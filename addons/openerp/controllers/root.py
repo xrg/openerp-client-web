@@ -32,7 +32,10 @@ def _cp_on_error():
     cherrypy.request.pool = openobject.pooler.get_pool()
 
     errorpage = cherrypy.request.pool.get_controller("/openerp/errorpage")
-    message = errorpage.render()
+    if not errorpage:
+        message = "<html>500 Internal error!<newline/>Now, pray...</html>"
+    else:
+        message = errorpage.render()
     cherrypy.response.status = 500
     cherrypy.response.body = [message]
 

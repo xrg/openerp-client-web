@@ -29,7 +29,7 @@ from openobject.tools import expose, redirect
 
 class ErrorPage(BaseController):
 
-    _cp_path = "/openerp/errorpage"    
+    _cp_path = "/openerp/errorpage"
 
     @expose()
     def index(self, *args, **kw):
