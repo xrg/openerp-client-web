@@ -274,6 +274,9 @@ function form_setReadonly(container, fieldName, readonly) {
         }
         
         $field.toggleClass('readonlyfield', type != 'button');
+    } else {
+        $field.removeClass('readonlyfield');
+        $field.css('color', '');
     }
 
     if (type == 'hidden' && kind == 'many2one') {
@@ -301,7 +304,10 @@ function form_setRequired(container, field, required) {
     if (editable == 'True') {
         $field.toggleClass('requiredfield', required);
     }
-    $field.removeClass('readonlyfield errorfield');
+    if(required) {
+        $field.removeClass('readonlyfield');
+    }
+    $field.removeClass('errorfield');
 
     var kind = $field.attr('kind');
     
