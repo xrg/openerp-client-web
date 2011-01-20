@@ -384,7 +384,8 @@ class Search(TinyInputWidget):
                     field.callback = None
 
                     if kind == 'boolean':
-                        field.options = [[1,_('Yes')],[0,_('No')]]
+                        # '0' in string because 0 is considering as No Value, and we need 0 as some value.
+                        field.options = [[1,_('Yes')],['0',_('No')]]
                         field.validator.if_empty = ''
 
                     default_search = None
