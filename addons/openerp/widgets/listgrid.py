@@ -383,12 +383,11 @@ class List(TinyWidget):
 
                     fields[name].update(attrs)
 
-                    invisible = False
                     try:
                         visval = fields[name].get('invisible', 'False')
                         invisible = eval(visval, {'context': self.context})
-                    except:
-                        pass
+                    except NameError, e:
+                        cherrypy.log.error(e, context='listgrid.List.parse')
 
                     if invisible:
                         hiddens += [(name, fields[name])]
