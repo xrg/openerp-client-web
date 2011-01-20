@@ -565,10 +565,15 @@ function onChange(caller){
                             } else {
                                 continue;
                             }
-                        }
-                        else if (value){ //necessary when value then it perform
-                            jQuery.post(
-                                '/openerp/listgrid/get_o2m_defaults', {
+                        } else if (value) {
+                            jQuery.ajax({
+                                // This request should not be asynchronous in order to keep onChange precedence
+                                // If asynchronous is needed, the onChange function design should be reviewed
+                                async : false,
+                                type: 'POST',
+                                url: '/openerp/listgrid/get_o2m_defaults',
+                                dataType : 'json',
+                                data: {
                                     o2m_values: serializeJSON(value),
                                     model: jQuery('#_terp_model').val(),
                                     o2m_model: jQuery(idSelector(prefix+k+'/_terp_model')).val(),
@@ -582,12 +587,12 @@ function onChange(caller){
                                     offset: jQuery(idSelector(prefix+k+'/_terp_offset')).val(),
                                     o2m_context: jQuery(idSelector(prefix+k+'/_terp_context')).val(),
                                     o2m_domain: jQuery(idSelector(prefix+k+'/_terp_domain')).val()
-                                }, function(obj) {
+                                },
+                                success: function(obj) {
                                     $o2m_current.closest('.list-a').replaceWith(obj.view);
                                     if ($default_o2m.length) {
                                         $default_o2m.val(obj.formated_o2m_values);
-                                    }
-                                    else {
+                                    } else {
                                         jQuery(idSelector(k_o2m)).parents('td.o2m_cell').append(
                                             jQuery('<input>', {
                                                 id: '_terp_default_o2m/'+k_o2m,
@@ -598,8 +603,9 @@ function onChange(caller){
                                         );
                                     }
                                     $o2m_current.attr('__lock_onchange', false);
-                                }, 'json');
-                            }
+                                }
+                            });
+                        }
                     } else if(value){
                         new ListView(prefix + k).reload();
                     }
