@@ -189,9 +189,9 @@ def expose(format='html', template=None, content_type=None, allow_json=False, me
                         'function': cherrypy.request.params['callback'],
                         'data': simplejson.dumps(res)
                     } 
-
-            cherrypy.response.headers['Content-Type'] = content_type or \
-            cherrypy.response.headers.get('Content-Type', 'text/html')
+            ct = cherrypy.response.headers['Content-Type'] = content_type or cherrypy.response.headers.get('Content-Type', 'text/html')
+            if ct.startswith('text/') and 'charset' not in ct:
+                cherrypy.response.headers['Content-Type'] = ct + '; charset=utf-8'
 
             if isinstance(res, dict):
 

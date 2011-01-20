@@ -23,6 +23,7 @@
 """
 import base64
 import time
+import zlib
 
 import cherrypy
 from openerp.utils import rpc, common, expr_eval, TinyDict
@@ -33,7 +34,6 @@ from selection import Selection
 from tree import Tree
 from wizard import Wizard
 import urllib
-import simplejson
 
 def execute_window(view_ids, model, res_id=False, domain=None, view_type='form', context=None,
                    mode='form,tree', name=None, target=None, limit=None, search_view=None,
@@ -205,7 +205,7 @@ def act_window(action, data):
     if data.get('limit'):
         data['limit'] = 20
     
-    if action.get('target') and action['target'] == 'popup' and action.get('res_model') and isinstance(action['context'], dict):
+    if action.get('target') and action['target'] == 'popup' and action.get('res_model') and isinstance(action.get('context'), dict):
         search_view_id = rpc.RPCProxy('ir.ui.view').search([('type','=', 'search'), ('model','=',action['res_model'])], 0, 0, 0, rpc.session.context)
         if search_view_id and action['context'].get('search_view'):
             action['context']['search_view'] = search_view_id[0]
@@ -327,8 +327,8 @@ def act_window_opener(action, data):
     # unless it is triggered from a menu
     # or if it is not tied to an object (ex: home action after login)
     open_new_tab = False
-    if action['target'] == 'current' and action.get('res_model') != 'ir.ui.menu' and data.get('model') != 'ir.ui.menu' \
-            and data.get('model') is not None:
+    if action['target'] == 'current' and action.get('res_model') != 'ir.ui.menu'\
+        and data.get('model') != 'ir.ui.menu' and not 'home_action' in data:
         action['target'] = 'popup'
         open_new_tab = True
 
@@ -339,10 +339,20 @@ def act_window_opener(action, data):
 
     # Add 'opened' mark to indicate we're now within the popup and can
     # continue on during the second round of execution
-    url = ('/openerp/execute?' + urllib.urlencode({
-        'action': simplejson.dumps(dict(action, opened=True)),
-        'data': simplejson.dumps(data)
-    }))
+    payload = str({
+      'action': dict(action, opened=True),
+      'data': data
+    })
+    # Use compressed payloads in order to keep the URL under MSIE's size
+    # limitations. Plus repeated urlencodings of serialized Python data
+    # (or json) lead to a combinatorial explosion as there are very many
+    # "special" characters which get urlencoded originally (thus several
+    # times over). base64 strings are far less sensitive to this issue,
+    # and immune when using urlsafe_b64encode
+    compressed_payload = base64.urlsafe_b64encode(zlib.compress(payload))
+    url = ('/openerp/execute?' +
+           urllib.urlencode({'payload': compressed_payload}))
+
     if open_new_tab:
         url = '/?' + urllib.urlencode({'next': url})
 

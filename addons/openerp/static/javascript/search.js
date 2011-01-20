@@ -343,38 +343,84 @@ function display_Customfilters(all_domains, group_by_ctx) {
                     var field = return_record['rec'];
                     var comparison = $row.find('select.expr').val();
                     var value = return_record['rec_val'];
-
+                    
+                    // if there is multiple values we must split them before conversion
+                    isMultipleValues = comparison == 'in' || comparison == 'not in';
+                    var values;
+                    if(isMultipleValues) {
+                    	values = value.split(',');
+                    } else {
+                    	values = [value];
+                    }
+                    // converting values
+                    var newValues = [];
+                    jQuery.each(values, function(i,valuePart) {
+                    	var tmp;
+                    	switch (type) {
+                    	case "string":
+                    	case "many2one":
+                    	case "many2many":
+                    	case "one2many":
+                    	case "date":
+                    	case "reference":
+                    	case "char":
+                    	case "text":
+                    	case "datetime":
+                    	case "time":
+                    	case "binary":
+                    	case "selection":
+                    	case "one2one":
+                    		break;
+                    	case "boolean":
+                    		valuePart = valuePart.toLowerCase().trim();
+                    		if(valuePart == "true" || valuePart == "yes" || valuePart == "1") {
+                    			valuePart = true;
+                    		} else if (valuePart == "false" || valuePart == "no" || valuePart == "0") {
+                    			valuePart = false;
+                    		} else {
+                    			valuePart = Boolean(valuePart);
+                    		}
+                    		break;
+                    	case "integer":
+                    	case "integer_big":
+                    		tmp = parseInt(valuePart,10);
+                    		if(! isNaN(tmp)) {
+                    			valuePart = tmp;
+                    		}
+                    		break;
+                    	case "float":
+                    		tmp = parseFloat(valuePart);
+                    		if(! isNaN(tmp)) {
+                    			valuePart = tmp;
+                    		}
+                    		break;
+                    	default:
+                    		//console.warning("unhandled type: " + type);
+                    	}
+                    	newValues.push(valuePart);
+                    });
+                    if(isMultipleValues) {
+                    	value = newValues;
+                    } else {
+                    	value = newValues[0];
+                    }
+                    
                     switch (comparison) {
-                        case 'ilike':
-                        case 'not ilike':
-                            if(isOrderable(type)) {
-                                comparison = (comparison == 'ilike' ? '=' : '!=');
-                            }
-                            else{
-                                value = '%' + value + '%';
-                            }
-                            break;
-                        case '<':
-                        case '>':
-                            if(!isOrderable(type)) {
-                                comparison = '=';
-                            }
-                            break;
-                        case 'in':
-                        case 'not in':
-                            if(typeof value == 'string') {
-                                value = value.split(',');
-                            } else if (type=='many2many'){
-                                /* very weird array-type construct
-                                   looks a bit like [[6, 0, [list of ids here]]]
-                                */
-                                value = value[value.length - 1][value[value.length - 1].length - 1]
-                            } else if (type=='one2many') {
-                                value = value[0];
-                            } else {
-                                value = value;
-                            }
-                            break;
+                    case 'ilike':
+                    case 'not ilike':
+                        if(isOrderable(type)) {
+                            comparison = (comparison == 'ilike' ? '=' : '!=');
+                        }
+                        else{
+                        	value = '%' + value + '%';
+                        }
+                        break;
+                    case '<':
+                    case '>':
+                        if(!isOrderable(type)) {
+                            comparison = '=';
+                        }
+                        break;
                     }
 
                     if ($row.find('label.and_or').length>0 || grouping){
@@ -502,7 +548,7 @@ function parse_filters(src, id) {
             }
         }
         
-        if(kind == 'boolean') {
+        if(kind == 'boolean' && fld_value) {
             fld_value = parseInt(fld_value);
             domains[fld_name] = fld_value;
         }
@@ -580,7 +626,8 @@ function save_filter() {
     openobject.http.postJSON('/openerp/search/eval_domain_filter', {
         'all_domains': domain_list,
         'source': '_terp_list',
-        'group_by_ctx': grps}).addCallback(function(obj) {
+        'group_by_ctx': grps,
+        'model': jQuery('#_terp_model').val()}).addCallback(function(obj) {
         var sf_params = {'model': jQuery('#_terp_model').val(), 'domain': obj.domain, 'group_by': grps, 'flag': 'sf',
                          'custom_filter':custom_domain, 'selected_filter': selected_filter};
 

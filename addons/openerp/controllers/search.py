@@ -24,6 +24,7 @@ import actions
 from form import Form
 from error_page import _ep
 from openobject.tools import expose, ast
+import simplejson
 
 
 class Search(Form):
@@ -80,8 +81,13 @@ class Search(Form):
         proxy = rpc.RPCProxy(model)
         ids = proxy.name_search(text or '', params.domain or [], 'ilike', ctx)
         params.search_text = False
+        
         if ids:
             params.ids = [id[0] for id in ids]
+            
+            # For m2o, when name_search is called, then its result will be added to existing domain
+            params.domain += [('id','in', params.ids)]
+            
             if len(ids) < params.limit or text:
                 count = len(ids)
             else:
@@ -98,7 +104,7 @@ class Search(Form):
                 
         if kw.get('return_to'):
             params['return_to'] = ast.literal_eval(kw['return_to'])
-
+            
         return self.create(params)
 
     @expose('json')
@@ -218,17 +224,8 @@ class Search(Form):
                         return dict(error=error, error_field=error_field)
 
                     datas['rec'] = field
-
-                    if fld['type'] == 'many2one':
-                        datas['rec_val'] = fld['value']
-                        frm[field] = 'many2one'
-                    elif isinstance(frm[field], bool):
-                        if frm[field]:
-                            datas['rec_val'] = 1
-                        else:
-                            datas['rec_val'] = 0
-                    else:
-                        datas['rec_val'] = frm[field]
+                    
+                    datas['rec_val'] = fld['value']
 
                 datas['type'] = fld['type']
                 values[key] = datas
@@ -329,48 +326,19 @@ class Search(Form):
             if all_error:
                 return dict(all_error=all_error)
 
-        def get_domain(x):
-            if len(x) == 1:
-                if isinstance(x[0], (int, list)):
-                    return ustr(x[0])
-                return x[0]
-
-            elif len(x) == 4:
-                if isinstance(x[3], (int, list)):
-                    tuple_val = x[1], x[2], ustr(x[3])
-                else:
-                    tuple_val = x[1], x[2], x[3]
-                return [x[0], tuple_val]
-
-            else:
-                if isinstance(x[2], (int, list)) and x[1] != 'in':
-                    tuple_val = x[0], x[1], ustr(x[2])
-                else:
-                    tuple_val = x[0], x[1], x[2]
-                return [tuple_val]
-
-        cust_domain = []
-        if custom_domains:
-            custom_domains = eval(custom_domains)
-            for val in custom_domains[:-1]:
-                if val:
-                    val.insert(0, '|')
-
-            for cs_dom in custom_domains:
-                for inner in cs_dom:
-                    if len(inner) == 1 and len([x for x in inner if isinstance(x, list)]) == 0:
-                        cust_domain += inner[0]
-                    elif len([x for x in inner if isinstance(x, list)]) and not 'in' in inner:
-                        for d in inner:
-                            cust_domain += get_domain(d)
-                    else:
-                        cust_domain += get_domain(inner)
-
-            if len(cust_domain)>1 and cust_domain[-2] in ['&','|']:
-                if len(cust_domain) == 2:
-                    cust_domain = [cust_domain[1]]
-                else:
-                    cust_domain = cust_domain[:-2] + cust_domain[-1:]
+        if not custom_domains:
+            custom_domains = []
+        else:
+            custom_domains = simplejson.loads(custom_domains)
+        
+        # conversion of the pseudo domain from the javascript to a valid domain
+        ncustom_domain = []
+        for i in xrange(max(len(custom_domains) - 1, 0)):
+            ncustom_domain.append("|")
+        for and_list in custom_domains:
+            for i in xrange(max(len(and_list) - 1, 0)):
+                ncustom_domain.append("&")
+            ncustom_domain += [tuple(x) for x in and_list]
 
         if selection_domain and selection_domain not in ['blk', 'sf', 'mf']:
             selection_domain = expr_eval(selection_domain)
@@ -383,7 +351,7 @@ class Search(Form):
             group_by_ctx = [group_by_ctx]
         if group_by_ctx:
             search_data['group_by_ctx'] = group_by_ctx
-        return dict(domain=ustr(domain), context=ustr(ctx), search_data=ustr(search_data), filter_domain=ustr(cust_domain))
+        return dict(domain=ustr(domain), context=ustr(ctx), search_data=ustr(search_data), filter_domain=ustr(ncustom_domain))
 
     @expose()
     def manage_filter(self, **kw):

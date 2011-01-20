@@ -384,7 +384,8 @@ class Search(TinyInputWidget):
                     field.callback = None
 
                     if kind == 'boolean':
-                        field.options = [[1,_('Yes')],[0,_('No')]]
+                        # '0' in string because 0 is considering as No Value, and we need 0 as some value.
+                        field.options = [[1,_('Yes')],['0',_('No')]]
                         field.validator.if_empty = ''
 
                     default_search = None
@@ -420,6 +421,9 @@ class Search(TinyInputWidget):
                             field.set_value(defval)
                             self.listof_domain += [i for i in domain if not i in self.listof_domain]
                             self.context.update(expr_eval(attrs.get('context',"{}"), {'self': default_search}))
+                        if 'context' in attrs and attrs['context'] != '{}':
+                            self.context.update(
+                                eval(attrs['context'], {'self': values.get(name)}))
 
                     if (not default_search) and name in values and isinstance(field, TinyInputWidget):
                         field.set_value(values[name])

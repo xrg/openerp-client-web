@@ -18,9 +18,8 @@
 #  You can see the MPL licence at: http://www.mozilla.org/MPL/MPL-1.1.html
 #
 ###############################################################################
-            
-import base64
-import time
+
+import random, time
 
 from openobject import tools
 from openerp import utils
@@ -87,7 +86,7 @@ class Image(TinyInputWidget):
         self.state = attrs.get('state')
         self.field = self.name.split('/')[-1]
         if attrs.get('widget'):
-            self.src = tools.url('/openerp/form/binary_image_get_image', model=self.model, id=self.id, field=self.field)
+            self.src = tools.url('/openerp/form/binary_image_get_image', model=self.model, id=self.id, field=self.field, nocache=random.randint(0,2**32))
             self.height = attrs.get('img_height', attrs.get('height', None))
             self.width = attrs.get('img_width', attrs.get('width', None))
             self.validator = validators.Binary()

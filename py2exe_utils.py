@@ -20,7 +20,7 @@ opts = {
             'mako', 'cherrypy', 'babel', 'formencode', 'simplejson', 'csv',
             'dateutil.relativedelta', 'pytz', 'xml.dom.minidom', 'cgitb',
             'mako.cache', 'zipfile', 'email', 'email.utils', 'email.iterators',
-            'email.message' 
+            'email.message','functools'
         ],
         'excludes': [
             'Carbon', 'Carbon.Files', 'Crypto', 'DNS', 'OpenSSL', 'Tkinter',

@@ -1,42 +1,41 @@
-# Dutch translations for PROJECT.
-# Copyright (C) 2010 ORGANIZATION
-# This file is distributed under the same license as the PROJECT project.
-# FIRST AUTHOR <EMAIL@ADDRESS>, 2010.
+# Galician translation for openobject-client-web
+# Copyright (c) 2011 Rosetta Contributors and Canonical Ltd 2011
+# This file is distributed under the same license as the openobject-client-web package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2011.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: PROJECT VERSION\n"
-"Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
+"Project-Id-Version: openobject-client-web\n"
+"Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2011-01-17 13:09+0100\n"
-"PO-Revision-Date: 2011-01-19 08:20+0000\n"
-"Last-Translator: Douwe Wullink (Dypalio) <Unknown>\n"
-"Language-Team: nl <LL@li.org>\n"
+"PO-Revision-Date: 2011-01-19 18:12+0000\n"
+"Last-Translator: David Diz <Unknown>\n"
+"Language-Team: Galician <gl@li.org>\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=utf-8\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Launchpad-Export-Date: 2011-01-20 04:51+0000\n"
 "X-Generator: Launchpad (build 12177)\n"
-"Generated-By: Babel None\n"
 
 #: validators.py:75
 msgid "Invalid literal for float"
-msgstr "Ongeldige letters voor drijvende comma getal"
+msgstr "Literal non válido para float"
 
 #: validators.py:114 validators.py:119 validators.py:262
 msgid "Invalid datetime format"
-msgstr "Ongeldig datum-tijd formaat"
+msgstr "Formato de data e hora non válido"
 
 #: validators.py:166
 msgid "Please select a file."
-msgstr "Wil u een bestand selecteren."
+msgstr "Por favor, seleccione un arquivo."
 
 #: validators.py:247
 msgid "Please enter an email address"
-msgstr "Wilt u een emailadres invullen."
+msgstr "Por favor, introduza un enderezo de correo electrónico"
 
 #: validators.py:248
 msgid "An email address must contain a single @"
-msgstr "Een emailadres moet een enkele @ bevatten."
+msgstr "Unha dirección de correo electrónico debe conter un único @"
 
 #: validators.py:249
 #, python-format
@@ -44,8 +43,6 @@ msgid ""
 "The username portion of the email address is invalid (the portion before the "
 "@: %(username)s)"
 msgstr ""
-"Het gebruikersnaam gedeelte van het emailadres is ongeldig (het deel voor de "
-"@: %(username)s)"
 
 #: validators.py:250
 #, python-format
@@ -53,75 +50,75 @@ msgid ""
 "The domain portion of the email address is invalid (the portion after the @: "
 "%(domain)s)"
 msgstr ""
-"Het domein gedeelte van het emailadres is ongeldig (het deel na de @: "
-"%(domain)s)"
 
 #: validators.py:254
 msgid "You must start your URL with http://, https://, etc"
-msgstr "U moet uw URL beginnen met http://, https://, etc"
+msgstr "Ten que iniciar o seu URL por http://, https: //, etc"
 
 #: validators.py:255
 msgid "That is not a valid URL"
-msgstr "Dit is geen geldige URL"
+msgstr "Isto non é un URL válido"
 
 #: validators.py:256
 #, python-format
 msgid "You must provide a full domain name (like %(domain)s.com)"
-msgstr "U moet een volledige domeinnaam opgeven (zoals %(domain)s.com)"
+msgstr ""
+"Ten que proporcionar un nome de dominio completo (como %(domain)s.com)"
 
 #: validators.py:260
 msgid "Please enter an integer value"
-msgstr "Vul aub een heel getal in"
+msgstr "Introduza un valor enteiro"
 
 #: validators.py:261
 msgid "Please enter a number"
-msgstr "Vul aub een getal in"
+msgstr "Introduza un número"
 
 #: controllers/actions.py:91
 msgid "Invalid View"
-msgstr "Ongeldige weergave"
+msgstr "Vista non válida"
 
 #: controllers/actions.py:124
 msgid "Error no report"
-msgstr "Fout - geen overzicht"
+msgstr "Erro no informe"
 
 #: controllers/actions.py:150
 msgid "Nothing to print"
-msgstr "Niets af te drukken"
+msgstr "Nada para imprimir"
 
 #: controllers/actions.py:170
 msgid "Printing aborted, too long delay"
-msgstr "Afdrukken afgebroken, te lange wachttijd"
+msgstr "Impresión abortada, demasiado tempo de retraso"
 
 #: controllers/actions.py:377
 msgid "Relative URLs are not supported"
-msgstr "Relatieve URL's worden niet ondersteund"
+msgstr "URLs relativas non son admitidas"
 
 #: controllers/actions.py:405
 msgid "Action not found"
-msgstr "Actie niet gevonden"
+msgstr "Acción non atopada"
 
 #: controllers/actions.py:454
 msgid "No action defined"
-msgstr "Geen actie gedefinieerd"
+msgstr "Ningunha acción definida"
 
 #: controllers/attachment.py:54
 msgid "No record selected, You can only attach to existing record..."
 msgstr ""
-"Geen record geselecteerd; u kunt alleen koppelen aan een bestaand record..."
+"Ningún rexistro seleccionado, soamente pode adxuntar a rexistros "
+"existentes..."
 
 #: controllers/database.py:64
 msgid "Create database"
-msgstr "Database maken"
+msgstr "Crear unha base de datos"
 
 #: controllers/database.py:66 controllers/templates/database.mako:52
 #: controllers/templates/search.mako:145
 msgid "Create"
-msgstr "Maken"
+msgstr "Crear"
 
 #: controllers/database.py:69
 msgid "Super admin password:"
-msgstr "Wachtwoord Super beheerder:"
+msgstr "Contrasinal de super administrador:"
 
 #: controllers/database.py:69
 msgid ""
@@ -129,25 +126,20 @@ msgid ""
 "databases. This is not a OpenERP user, just a super administrator. If you "
 "did not changed it, the password is 'admin' after installation."
 msgstr ""
-"Dit is het wachtwoord van de gebruiker die rechten heeft om databases te "
-"beheren. Dit is geen OpenERP gebruiker, maar een superbeheerder. Als u dit "
-"niet gewijzigd heeft, is dit na installatie 'admin'."
 
 #: controllers/database.py:70 controllers/database.py:102
 msgid "New database name:"
-msgstr "Naam nieuwe database:"
+msgstr "Novo nome da base de datos:"
 
 #: controllers/database.py:70
 msgid ""
 "Choose the name of the database that will be created. The name must not "
 "contain any special character. Exemple: 'terp'."
 msgstr ""
-"Kies de naam van de database die zal worden gemaakt. De naam mag geen "
-"speciale tekens bevatten. Voorbeeld: 'terp'."
 
 #: controllers/database.py:71
 msgid "Load Demonstration data:"
-msgstr "Demonstratiegegevens laden:"
+msgstr "Cargar Datos de Demostración:"
 
 #: controllers/database.py:71
 msgid ""
@@ -155,13 +147,10 @@ msgid ""
 "database. These data will help you to understand OpenERP, with predefined "
 "products, partners, etc."
 msgstr ""
-"Vink dit aan als u de voorbeeldgegevens wilt laden in uw nieuwe database. "
-"Deze gegevens zullen u helpen de werking van OpenERP te begrijpen met "
-"voorgedefinieerde producten, relaties, enz."
 
 #: controllers/database.py:72
 msgid "Default Language:"
-msgstr "Standaard taal:"
+msgstr "Linguaxe por defecto:"
 
 #: controllers/database.py:72
 msgid ""
@@ -169,145 +158,135 @@ msgid ""
 "will be able to install new languages after installation through the "
 "administration menu."
 msgstr ""
-"Kies de standaardtaal die geïnstalleerd wordt voor deze database. Het is "
-"mogelijk nieuwe talen te installeren na installatie middels het Beheer-menu."
 
 #: controllers/database.py:73
 msgid "Administrator password:"
-msgstr "Wachtwoord beheerder:"
+msgstr "Contrasinal do administrador:"
 
 #: controllers/database.py:73
 msgid ""
 "This is the password of the 'admin' user that will be created in your new "
 "database."
 msgstr ""
-"Dit is het wachtwoord van de 'admin' gebruiker die wordt gemaakt voor uw "
-"nieuwe database."
 
 #: controllers/database.py:74
 msgid "Confirm password:"
-msgstr "Bevestig wachtwoord:"
+msgstr "Confirmar contrasinal:"
 
 #: controllers/database.py:74
 msgid ""
 "This is the password of the 'admin' user that will be created in your new "
 "database. It has to be the same than the above field."
 msgstr ""
-"Dit is het wachtwoord van de 'admin' gebruiker die wordt gemaakt voor uw "
-"nieuwe database. Het moet gelijk zijn aan het voorgaande veld."
 
 #: controllers/database.py:80
 msgid "Drop database"
-msgstr "Database wissen"
+msgstr "Borrar base de datos"
 
 #: controllers/database.py:82 controllers/templates/database.mako:54
 msgid "Drop"
-msgstr "Wissen"
+msgstr "Borrar"
 
 #: controllers/database.py:84 controllers/database.py:92
 #: controllers/templates/login.mako:39
 msgid "Database:"
-msgstr "Database:"
+msgstr "Base de datos:"
 
 #: controllers/database.py:85 controllers/database.py:93
 #: controllers/database.py:101 controllers/templates/login.mako:57
 #: controllers/templates/login_ajax.mako:78
 #: controllers/templates/login_ajax.mako:98
 msgid "Password:"
-msgstr "Wachtwoord:"
+msgstr "Contrasinal:"
 
 #: controllers/database.py:89
 msgid "Backup database"
-msgstr "Database veiligstellen"
+msgstr "Copia de seguridade da base de datos"
 
 #: controllers/database.py:91 controllers/templates/database.mako:56
 msgid "Backup"
-msgstr "Veiligstellen"
+msgstr "Copia de seguridade"
 
 #: controllers/database.py:97
 msgid "Restore database"
-msgstr "Database terugzetten"
+msgstr "Restauración da base de datos"
 
 #: controllers/database.py:99 controllers/templates/database.mako:58
 msgid "Restore"
-msgstr "Terugzetten"
+msgstr "Restaurar"
 
 #: controllers/database.py:100
 msgid "File:"
-msgstr "Bestand:"
+msgstr "Arquivo:"
 
 #: controllers/database.py:106
 msgid "Change Administrator Password"
-msgstr "Beheerder wachtwoord wijzigen"
+msgstr "Cambiar Contrasinal do Administrador"
 
 #: controllers/database.py:108 controllers/templates/preferences/index.mako:37
 msgid "Change Password"
-msgstr "Wachtwoord wijzigen"
+msgstr "Cambiar contrasinal"
 
 #: controllers/database.py:109
 msgid "Old Password:"
-msgstr "Oud wachtwoord:"
+msgstr "Contrasinal antiga:"
 
 #: controllers/database.py:110
 msgid "New Password:"
-msgstr "Nieuw wachtwoord:"
+msgstr "Nova Contrasinal:"
 
 #: controllers/database.py:111
 msgid "Confirm Password:"
-msgstr "Bevestig wachtwoord:"
+msgstr "Confirme o contrasinal:"
 
 #: controllers/database.py:174
 msgid "You must avoid all accents, space or special characters."
-msgstr "U moet alle accenten, spaties en speciale tekens vermijden."
+msgstr "Ten que evitar os acentos, espazos ou caracteres especiais."
 
 #: controllers/database.py:175
 msgid "Bad database name"
-msgstr "Slechte databasenaam"
+msgstr "Nome da base de datos incorrecto"
 
 #: controllers/database.py:195
 msgid ""
 "The server crashed during installation.\n"
 "We suggest you to drop this database."
 msgstr ""
-"De server viel uit tijdens installatie.\n"
-"We adviseren u om deze database te verwijderen."
 
 #: controllers/database.py:196
 msgid "Error during database creation"
-msgstr "Fout tijdens maken database"
+msgstr "Erro durante a creación da base de datos"
 
 #: controllers/database.py:199 controllers/database.py:226
 #: controllers/database.py:272 controllers/database.py:295
 msgid "Bad super admin password"
-msgstr "Slecht superbeheerder wachtwoord"
+msgstr "Contrasinal de super administrador non válido"
 
 #: controllers/database.py:203
 msgid "Could not create database."
-msgstr "Kon database niet maken"
+msgstr "Non se puido crear base de datos."
 
 #: controllers/database.py:229
 msgid "Could not drop database"
-msgstr "Kon database niet wissen"
+msgstr "Non se pode borrar a base de datos"
 
 #: controllers/database.py:252
 msgid "Could not create backup."
-msgstr "Kon database niet veiligstellen."
+msgstr "Non se puido crear copia de seguridade."
 
 #: controllers/database.py:276
 msgid "Could not restore database"
-msgstr "Kon database niet terugzetten."
+msgstr "Non se pode restaurar a base de datos"
 
 #: controllers/database.py:299
 msgid "Error, password not changed."
-msgstr "Fout, wachtwoord niet gewijzigd."
+msgstr "Erro, non cambiou o contrasinal."
 
 #: controllers/error_page.py:78
 msgid ""
 "Your problem has been sent to the quality team\n"
 "We will recontact you after analysing the problem."
 msgstr ""
-"Uw probleem is naar het kwaliteitsteam gestuurd.\n"
-"We nemen na analyse van het probleem contact met u op."
 
 #: controllers/error_page.py:80
 #, python-format
@@ -315,159 +294,153 @@ msgid ""
 "Your problem could not be sent to the quality team\n"
 "Please report this error manually at %s"
 msgstr ""
-"Uw probleem kon niet naar het kwaliteitsteam gestuurd worden.\n"
-"Wilt u dit probleem aub handmatig doorgeven bij %s"
 
 #: controllers/form.py:553
 #, python-format
 msgid "Invalid button type \"%s\""
-msgstr "Ongeldige knopsoort \"%s\""
+msgstr "Tipo inválido de botón \"%s\""
 
 #: controllers/form.py:891 controllers/tree.py:233
 msgid "No record selected"
-msgstr "Geen record geselecteerd"
+msgstr "Ningún rexistro seleccionado"
 
 #: controllers/form.py:896
 msgid "Print Screen"
-msgstr "Schermafdruk"
+msgstr "Imprimir Pantalla"
 
 #: controllers/form.py:965 utils/rpc.py:122 utils/rpc.py:133 utils/rpc.py:136
 #: widgets/listgrid.py:289 widgets/listgrid.py:353 widgets/form/_form.py:904
 msgid "Application Error"
-msgstr "Programmafout"
+msgstr "Erro de aplicación"
 
 #: controllers/form.py:965
 #, python-format
 msgid "Wrong on_change trigger: %s"
-msgstr "Verkeerde on_change activering: %s"
+msgstr "Disparador on_change incorrecto: % s"
 
 #: controllers/form.py:1073
 msgid "Open resource"
-msgstr "Open resource"
+msgstr "Abrir recurso"
 
 #: controllers/form.py:1076
 msgid "Set to default value"
-msgstr "Ingesteld als standaardwaarde"
+msgstr "Establecer o valor por defecto"
 
 #: controllers/form.py:1077
 msgid "Set as default"
-msgstr "Instellen als standaard"
+msgstr "Establecer por defecto"
 
 #: controllers/form.py:1084
 msgid "Action"
-msgstr "Actie"
+msgstr "Acción"
 
 #: controllers/form.py:1085
 msgid "Report"
-msgstr "Overzicht"
+msgstr "Informe"
 
 #: controllers/impex.py:66
 msgid ""
 "Operation failed\n"
 "I/O error"
 msgstr ""
-"Bewerking mislukt.\n"
-"Invoer/Uitvoer fout"
 
 #: controllers/impex.py:373
 msgid "Export Error"
-msgstr "Exportfout"
+msgstr "Exportar Erro"
 
 #: controllers/impex.py:444
 msgid "Database ID"
-msgstr "Database ID"
+msgstr "ID da Base de datos"
 
 #: controllers/impex.py:451
 msgid "Error opening .CSV file"
-msgstr "Fout bij openen .CSV bestand"
+msgstr "Erro ao abrir o ficheiro .CSV"
 
 #: controllers/impex.py:451
 msgid "Input Error."
-msgstr "Invoerfout."
+msgstr "Erro de entrada."
 
 #: controllers/impex.py:473
 #, python-format
 msgid "You cannot import the field '%s', because we cannot auto-detect it"
-msgstr ""
-"U kunt het veld '%s' niet importeren, omdat we het niet kunnen auto-"
-"detecteren"
+msgstr "Non podes importar o campo '%s', porque non podemos autodetectalo"
 
 #: controllers/impex.py:476
 #, python-format
 msgid "Error processing the first line of the file. Field \"%s\" is unknown"
 msgstr ""
-"Fout bij verwerking van eerste regel van het bestand. Veld \"%s\" is onbekend"
+"Erro ao procesar a primeira liña do ficheiro. Campo \"%s\" é descoñecido"
 
 #: controllers/impex.py:476
 msgid "Import Error."
-msgstr "Importfout"
+msgstr "Erro de Importación."
 
 #: controllers/impex.py:515
 msgid "XML-RPC error"
-msgstr "XML-RPC fout"
+msgstr "Erro XML-RPC"
 
 #: controllers/impex.py:520
 #, python-format
 msgid "Imported %d objects"
-msgstr "%d objecten geimporteerd"
+msgstr "Importados %d obxectos"
 
 #: controllers/impex.py:525
 #, python-format
 msgid "Error trying to import this record:%s. ErrorMessage:%s %s"
-msgstr "Fout bij pging importeren van dit record:%s. Foutmelding:%s %s"
+msgstr "Erro ao tentar importar este rexistro:%s. ErrorMessage:%s %s"
 
 #: controllers/impex.py:526
 msgid "ImportationError"
-msgstr "Importeerfout"
+msgstr "Erro de Importación"
 
 #: controllers/listgrid.py:51
 msgid "Parent record doesn't exists..."
-msgstr "Bovenliggend record bestaat niet..."
+msgstr "Rexistro pai non existe ..."
 
 #: controllers/preferences.py:34
 msgid "Change your password"
-msgstr "Uw wachtwoord wijzigen"
+msgstr "Cambiar o seu contrasinal"
 
 #: controllers/preferences.py:64 controllers/templates/header.mako:59
 msgid "Preferences"
-msgstr "Voorkeuren"
+msgstr "Preferencias"
 
 #: controllers/preferences.py:91
 msgid "All passwords have to be filled."
-msgstr "Alle wachtwoorden moeten gevuld worden."
+msgstr "Todos os contrasinais deben ser cubertos."
 
 #: controllers/preferences.py:93
 msgid "The new password and its confirmation must be identical."
-msgstr "Het nieuwe wachtwoord en haar bevestiging moeten identiek zijn."
+msgstr "A novo contrasinal e a súa confirmación deben ser idénticos."
 
 #: controllers/preferences.py:102
 msgid "Could not change your password."
-msgstr "Kan het wachtwoord niet wijzigen."
+msgstr "Non se pode cambiar o seu contrasinal."
 
 #: controllers/preferences.py:104
 msgid "Original password incorrect, your password was not changed."
-msgstr "Originele wachtwoord onjuist, uw wachtwoord is niet gewijzigd."
+msgstr "Contrasinal orixinal incorrecto, oseu  contrasinal non foi cambiado."
 
 #: controllers/root.py:170
 #, python-format
 msgid "Version %s"
-msgstr "Versie %s"
+msgstr "Versión %s"
 
 #: controllers/translator.py:132
 msgid "You need to save the resource before adding translations."
-msgstr "U moet de resource opslaan voordat vertalingen worden toegevoegd."
+msgstr "Debe gardar o recurso antes de engadir traducións."
 
 #: controllers/tree.py:264
 msgid "No resource selected"
-msgstr "Geen resource geselecteerd"
+msgstr "Ningún recurso seleccionado"
 
 #: controllers/utils.py:44
 msgid "Could not connect to server"
-msgstr "Kon niet verbinden met server"
+msgstr "Non se puido conectar co servidor"
 
 #: controllers/utils.py:131 controllers/templates/login_ajax.mako:111
 msgid "Bad username or password"
-msgstr "Verkeerde gebruikersnaam of wachtwoord"
+msgstr "Usuario ou contrasinal incorrecto"
 
 #: controllers/view_log.py:32
 msgid "ID"
@@ -475,113 +448,114 @@ msgstr "ID"
 
 #: controllers/view_log.py:33
 msgid "Creation User"
-msgstr "Gebruiker gemaakt"
+msgstr "Usuario Creador"
 
 #: controllers/view_log.py:34
 msgid "Creation Date"
-msgstr "Datum gemaakt"
+msgstr "Data de Creación"
 
 #: controllers/view_log.py:35
 msgid "Latest Modification by"
-msgstr "Laatste wijziging door"
+msgstr "A última modificación fíxoa"
 
 #: controllers/view_log.py:36
 msgid "Latest Modification Date"
-msgstr "Laatste wijziging op"
+msgstr "Data da última modificación"
 
 #: controllers/view_log.py:37
 msgid "Owner"
-msgstr "Eigenaar"
+msgstr "Propietario"
 
 #: controllers/view_log.py:38
 msgid "Group Owner"
-msgstr "Groep eigenaar"
+msgstr "Grupo Propietario"
 
 #: controllers/view_log.py:39
 msgid "Access Level"
-msgstr "Toegangsniveau"
+msgstr "Nivel de acceso"
 
 #: controllers/view_log.py:40
 msgid "Internal module data ID"
-msgstr "Interne module data ID"
+msgstr "ID interno de datos do módulo"
 
 #: controllers/viewed.py:220
 msgid "Invalid view id."
-msgstr "Ongeldige weergave id."
+msgstr "ID de vista inválido."
 
 #: controllers/viewed.py:498
 msgid "Unable to create inherited view."
-msgstr "Kan afgeleide weergave niet maken."
+msgstr "Non se pode crear vista herdada."
 
 #: controllers/viewed.py:500
 msgid "Can't create inherited view here."
-msgstr "Kan hier geen afgeleide weergave maken."
+msgstr "Non se pode crear vista herdada aquí."
 
 #: controllers/viewed.py:503
 msgid "Not implemented yet!"
-msgstr "Nog niet geïmplementeerd!"
+msgstr "Aínda non implementado!"
 
 #: controllers/viewed.py:608
 msgid "Unable to update the view."
-msgstr "Kan de weergave niet bijwerken."
+msgstr "Non se pode actualizar a vista."
 
 #: controllers/viewed.py:859
 msgid "New Window"
-msgstr "Nieuw venster"
+msgstr "Nova Xanela"
 
 #: controllers/viewed.py:871
 msgid "Save Button"
-msgstr "Opslaan-knop"
+msgstr "Botón Gardar"
 
 #: controllers/viewed.py:871
 msgid "Cancel Button"
-msgstr "Annuleren-knop"
+msgstr "Botón Cancelar"
 
 #: controllers/viewed.py:871
 msgid "Open Button"
-msgstr "Openen-knop"
+msgstr "Botón Abrir"
 
 #: controllers/viewed.py:877
 msgid "Left"
-msgstr "Links"
+msgstr "Esquerda"
 
 #: controllers/viewed.py:877
 msgid "Center"
-msgstr "Centreer"
+msgstr "Centro"
 
 #: controllers/viewed.py:877
 msgid "Right"
-msgstr "Rechts"
+msgstr "Dereita"
 
 #: controllers/templates/about.mako:4
 msgid "About the OpenERP Web"
-msgstr "Over OpenERP Web"
+msgstr "Sobre o web OpenERP"
 
 #: controllers/templates/about.mako:27
 msgid "OpenERP Web"
-msgstr "OpenERP Web"
+msgstr "OpenERP web"
 
 #: controllers/templates/about.mako:30
 msgid "Copyright &copy; 2006-TODAY OpenERP SA. All Rights Reserved."
-msgstr "Copyright &copy; 2006-VANDAAG OpenERP SA. Alle rechten voorbehouden."
+msgstr ""
+"Copyright &copy; 2006-TODAY OpenERP SA. Todos os dereitos reservados."
 
 #: controllers/templates/about.mako:31
 msgid "OpenERP is a trademark of the OpenERP SA Company."
-msgstr "OpenERP is een handelsmerk van het bedrijf OpenERP SA."
+msgstr "OpenERP é unha marca rexistrada da Empresa OpenERP SA."
 
 #: controllers/templates/about.mako:33
 #, python-format
 msgid "%(ooweb)s is jointly developed by %(tiny)s and %(axelor)s."
-msgstr "%(ooweb)s is gezamenlijk door %(tiny)s en %(axelor)s ontwikkeld."
+msgstr "%(ooweb)s é desenvolvido en conxunto por %(tiny)s e %(axelor)s."
 
 #: controllers/templates/about.mako:39
 #, python-format
 msgid "Licenced under the terms of %(license)s"
-msgstr "Licentie verleend onder voorwaarden van %(license)s"
+msgstr "Licenciado baixo os termos de %(license)s"
 
 #: controllers/templates/about.mako:42
 msgid "About OpenERP"
-msgstr "Over OpenERP"
+msgstr "Sobre OpenERP"
 
 #: controllers/templates/about.mako:44
 #, python-format
@@ -595,14 +569,6 @@ msgid ""
 "                    project management, production, services, CRM, etc..\n"
 "                    "
 msgstr ""
-"%(openobject)s is een gratis bedrijfsbreed software systeem dat is ontworpen "
-"om productiviteit\n"
-"                    en resultaat te verhogen door data integratie. Het "
-"verbindt, verbetert en beheert\n"
-"                    bedrijfsprocessen in vlakken als verkoop, financiën, "
-"supply chain, project\n"
-"                    management, productie, services, CRM, etc..\n"
-"                    "
 
 #: controllers/templates/about.mako:51
 msgid ""
@@ -615,48 +581,39 @@ msgid ""
 "                    production system and migration to a new version to be "
 "straightforward."
 msgstr ""
-"Het systeem is platform-onafhankelijk, en kan wordne geinstalleerd op "
-"Windows, Mac OS X,\n"
-"                    en verscheidene Linux en andere Unix-based distributies. "
-"Haar architectuur laat\n"
-"                    toe om snel nieuwe functionaliteit te maken, "
-"modificaties aan te brengen aan een\n"
-"                    productie systeem en te migreren naar een nieuwe versie."
 
 #: controllers/templates/about.mako:57
 msgid ""
 "Depending on your needs, OpenERP is available through a web or application "
 "client."
 msgstr ""
-"Naar behoefte is OpenERP als webapplicatie of als client-serverapplicatie "
-"beschikbaar."
 
 #: controllers/templates/database.mako:50 controllers/templates/login.mako:4
 #: controllers/templates/login.mako:67 controllers/templates/login_ajax.mako:85
 #: controllers/templates/login_ajax.mako:104
 msgid "Login"
-msgstr "Aanmelden"
+msgstr "Login"
 
 #: controllers/templates/database.mako:60
 msgid "Password"
-msgstr "Wachtwoord"
+msgstr "Contrasinal"
 
 #: controllers/templates/error_page.mako:77
 #, python-format
 msgid "An %(error_type)s has been reported."
-msgstr "Een %(error_type)s is gemeld."
+msgstr "Un %(error_type)s foi reportado."
 
 #: controllers/templates/error_page.mako:79
 msgid "Let me fix it"
-msgstr "Ik herstel dit zelf"
+msgstr "Déixeme resolve-lo"
 
 #: controllers/templates/error_page.mako:85
 msgid "Fix it for me"
-msgstr "Herstel dit voor mij"
+msgstr "Corrixir para min"
 
 #: controllers/templates/error_page.mako:90
 msgid "You do not have a valid OpenERP publisher warranty contract !"
-msgstr "U heeft geen geldige OpenERP uitgever garantie contract!"
+msgstr "¡Non ten un contrato de garantía válido do editor OpenERP!"
 
 #: controllers/templates/error_page.mako:91
 msgid ""
@@ -680,25 +637,6 @@ msgid ""
 "* Security alerts by email and automatic migration,\n"
 "* Access to the customer portal.\n"
 msgstr ""
-"Als u OpenERP in productie gebruikt, is het aan te bevelen om een uitgever\n"
-"garantie programma te hebben.\n"
-"\n"
-"Het OpenERP uitgever garantie contract voorziet u met foutherstel garanties "
-"en een \n"
-"automatisch migratie systeem zodat we binnen een paar uur aan de slag "
-"kunnen\n"
-"met uw problemen.\n"
-"\n"
-"Met een uitgever garantie contract, kunnen fouten zoals deze direct worden "
-"opgestuurd\n"
-"naar het OpenERP team voor nader onderzoek.\n"
-"\n"
-"Het uitgever garantie programma biedt u:\n"
-"* Automatische migraties naar nieuwe versies,\n"
-"* Een bugfix garantie,\n"
-"* Maandelijkse annonceringen van potentiële bugs and hun fixes,\n"
-"* Beveiliging alerts per email en automatische migratie,\n"
-"* Toegang tot het klanten portaal.\n"
 
 #: controllers/templates/error_page.mako:113
 msgid ""
@@ -717,55 +655,36 @@ msgid ""
 "\n"
 "Here is the list of modules not covered by your publisher warranty contract:"
 msgstr ""
-"Uw uitgever garantie contract dekt niet alle geïnstalleerde modules in uw "
-"systeem !\n"
-"Als u OpenERP in productie gebruikt, is het sterk aan te bevelen om uw "
-"contract op\n"
-"te waarderen.\n"
-"\n"
-"Als u eigen modules heeft ontwikkeld or modules van derden heeft "
-"geïnstalleerd, \n"
-"kunnen we u van een aanvullend uitgever garantie contract voor deze modules "
-"voorzien.\n"
-"Na bestudering en evaluatie van uw modules, zorgt ons kwaliteitsteam ervoor "
-"dat ze\n"
-"automatisch migreren bij alle toekomstige stabiele versies van OpenERP "
-"zonder extra kosten.\n"
-"\n"
-"Hier is de lijst van modules die momenteel niet worden gedekt door uw "
-"uitgever garantie contract:"
 
 #: controllers/templates/error_page.mako:135
 msgid "Publisher warranty contract."
-msgstr "Uitgever garantie contract."
+msgstr "Contrato de garantía do editor."
 
 #: controllers/templates/error_page.mako:136
 msgid ""
 "Your request will be sent to OpenERP and publisher warranty team will reply "
 "you shortly."
 msgstr ""
-"Uw aanvraag wordt naar OpenERP gestuurd en het uitgever garantie team zal u "
-"snel beantwoorden."
 
 #: controllers/templates/error_page.mako:140
 msgid "Summary of the problem:"
-msgstr "Samenvatting van het probleem:"
+msgstr "Resumo do problema:"
 
 #: controllers/templates/error_page.mako:147
 msgid "Explain what you did:"
-msgstr "Leg uit wat u gedaan heeft:"
+msgstr "Explique o que fixo:"
 
 #: controllers/templates/error_page.mako:156
 msgid "Other Comments:"
-msgstr "Andere opmerkingen:"
+msgstr "Outros comentarios:"
 
 #: controllers/templates/error_page.mako:168
 msgid "Send to Publisher Warranty Team"
-msgstr "Versturen naar Uitgever Garantie Team"
+msgstr "Enviar ao Equipo de Garantía do Editor"
 
 #: controllers/templates/error_page.mako:195
 msgid "Write concurrency warning :"
-msgstr "Waarschuwing gelijktijdig wegschrijven:"
+msgstr "Atención, concurrencia na escritura :"
 
 #: controllers/templates/error_page.mako:200
 msgid ""
@@ -775,11 +694,6 @@ msgid ""
 "    - \"Cancel\" to cancel saving.\n"
 "    - \"Write anyway\" to save your current version."
 msgstr ""
-"Dit document is gewijzigd terwijl u deze bewerkte.\n"
-"Kies:\n"
-"\n"
-"    - ¨Annuleren¨ om het opslaan te annuleren.\n"
-"    - ¨Toch Opslaan¨ om uw bewerkte versie op te slaan."
 
 #: controllers/templates/error_page.mako:214 controllers/templates/exp.mako:244
 #: controllers/templates/form.mako:140 controllers/templates/openo2m.mako:41
@@ -788,43 +702,43 @@ msgstr ""
 #: controllers/templates/preferences/index.mako:38
 #: widgets/templates/listgrid/listgrid.mako:33
 msgid "Cancel"
-msgstr "Annuleren"
+msgstr "Cancelar"
 
 #: controllers/templates/error_page.mako:215
 msgid "Write Anyway"
-msgstr "Toch opslaan"
+msgstr "Escribir en calquer caso"
 
 #: controllers/templates/exp.mako:151
 msgid "Export Data"
-msgstr "Exporteer gegevens"
+msgstr "Exportación de datos"
 
 #: controllers/templates/exp.mako:166
 msgid "Export Type:"
-msgstr "Soort export:"
+msgstr "Tipo exportación:"
 
 #: controllers/templates/exp.mako:169
 msgid "Import Compatible Export"
-msgstr "Import compatibele export"
+msgstr "Importar Exportación Compatible"
 
 #: controllers/templates/exp.mako:172
 msgid "Export all Data"
-msgstr "Alle gegevens exporteren"
+msgstr "Exportar todos os datos"
 
 #: controllers/templates/exp.mako:183
 msgid "Available fields"
-msgstr "Beschikbare velden"
+msgstr "Campos dispoñibles"
 
 #: controllers/templates/exp.mako:185
 msgid "Fields to export"
-msgstr "Te exporteren velden"
+msgstr "Campos para a exportación"
 
 #: controllers/templates/exp.mako:187
 msgid "Save fields list"
-msgstr "Veldenlijst opslaan"
+msgstr "Gardar lista de campos"
 
 #: controllers/templates/exp.mako:189
 msgid "Save as:"
-msgstr "Opslaan als:"
+msgstr "Gardar como:"
 
 #: controllers/templates/exp.mako:191 controllers/templates/fieldpref.mako:102
 #: controllers/templates/selection.mako:45
@@ -833,7 +747,7 @@ msgstr "OK"
 
 #: controllers/templates/exp.mako:195
 msgid "Saved exports:"
-msgstr "Opgeslagen exports:"
+msgstr "Exportacións gardadas:"
 
 #: controllers/templates/exp.mako:204 controllers/templates/form.mako:135
 #: controllers/templates/image.mako:67 widgets/form/templates/one2many.mako:22
@@ -845,61 +759,61 @@ msgstr "Opgeslagen exports:"
 #: widgets/templates/listgrid/listgroup.mako:131
 #: widgets/templates/listgrid/multiple_group.mako:81
 msgid "Delete"
-msgstr "Verwijderen"
+msgstr "Borrar"
 
 #: controllers/templates/exp.mako:217 widgets/templates/sidebar.mako:56
 #: widgets/templates/listgrid/listgrid.mako:135
 msgid "Add"
-msgstr "Toevoegen"
+msgstr "Engadir"
 
 #: controllers/templates/exp.mako:222 controllers/templates/viewlist.mako:125
 msgid "Remove"
-msgstr "Verwijderen"
+msgstr "Eliminar"
 
 #: controllers/templates/exp.mako:227
 msgid "Remove All"
-msgstr "Alles verwijderen"
+msgstr "Eliminar todo"
 
 #: controllers/templates/exp.mako:245
 msgid "Export to File"
-msgstr "Naar bestand exporteren"
+msgstr "Exportar a ficheiro"
 
 #: controllers/templates/fieldpref.mako:4
 #: controllers/templates/fieldpref.mako:29
 msgid "Field Preferences"
-msgstr "Veldinstellingen"
+msgstr "Preferencias do Campo"
 
 #: controllers/templates/fieldpref.mako:39
 msgid "Field Name:"
-msgstr "Veldnaam:"
+msgstr "Nome do Campo:"
 
 #: controllers/templates/fieldpref.mako:43
 msgid "Domain:"
-msgstr "Domein:"
+msgstr "Dominio:"
 
 #: controllers/templates/fieldpref.mako:47
 msgid "Default Value:"
-msgstr "Standaardwaarde:"
+msgstr "Valor por defecto:"
 
 #: controllers/templates/fieldpref.mako:57
 msgid "Value applicable for:"
-msgstr "Waarde van toepassing op:"
+msgstr "Valor aplicable a:"
 
 #: controllers/templates/fieldpref.mako:63
 msgid "Only for you"
-msgstr "Alleen voor u"
+msgstr "Só para ti"
 
 #: controllers/templates/fieldpref.mako:67
 msgid "For all"
-msgstr "Voor iedereen"
+msgstr "Para todos"
 
 #: controllers/templates/fieldpref.mako:76
 msgid "Value applicable if:"
-msgstr "Waarde van toepassing als:"
+msgstr "Valor aplicable se:"
 
 #: controllers/templates/fieldpref.mako:79
 msgid "Always applicable!"
-msgstr "Altijd van toepassing!"
+msgstr "¡Sempre aplicable!"
 
 #: controllers/templates/fieldpref.mako:99 controllers/templates/image.mako:70
 #: controllers/templates/imp.mako:205 controllers/templates/index.mako:198
@@ -915,45 +829,45 @@ msgstr "Altijd van toepassing!"
 #: controllers/templates/viewlist.mako:129 widgets/templates/sidebar.mako:67
 #: widgets/templates/viewform.mako:37
 msgid "Close"
-msgstr "Sluiten"
+msgstr "Pechar"
 
 #: controllers/templates/footer.mako:3
 #, python-format
 msgid "&copy; 2008-2010 %(ooweb)s  SA. All Rights Reserved "
-msgstr "&copy; 2008-2010 %(ooweb)s  SA. Alle rechten voorbehouden "
+msgstr "&copy; 2008-2010 %(ooweb)s  SA. Todos os dereitos reservados "
 
 #: controllers/templates/footer.mako:6
 msgid "Significant contributions to the web client have been made by"
-msgstr "Belangrijke bijdragen aan de webclient zijn gemaakt door"
+msgstr "Contribucións significativas para o cliente web foron feitas por"
 
 #: controllers/templates/form.mako:63
 msgid "Disable all Tips"
-msgstr "Alle tips uitschakelen"
+msgstr "Desactivar os Consellos"
 
 #: controllers/templates/form.mako:64
 msgid "Hide this Tip"
-msgstr "Verberg deze tip"
+msgstr "Ocultar esta Consello"
 
 #: controllers/templates/form.mako:82
 msgid "Add / Remove Shortcut..."
-msgstr "Toevoegen/verwijderen snelkoppeling"
+msgstr "Engadir / Eliminar Ligazón..."
 
 #: controllers/templates/form.mako:86
 #, python-format
 msgid "Search: %s"
-msgstr "Zoeken: %s"
+msgstr "Buscar: %s"
 
 #: controllers/templates/form.mako:93
 msgid "Corporate Intelligence..."
-msgstr "Gezamelijke intelligentie..."
+msgstr "Intelixencia Corporativa..."
 
 #: controllers/templates/form.mako:99
 msgid "Show Logs..."
-msgstr "Toon logboeken..."
+msgstr "Mostrar Rexistros..."
 
 #: controllers/templates/form.mako:111
 msgid "Create a new resource"
-msgstr "Nieuwe resource maken"
+msgstr "Crear un novo recurso"
 
 #: controllers/templates/form.mako:112 controllers/templates/search.mako:128
 #: controllers/templates/viewed_new_model.mako:36
@@ -963,11 +877,11 @@ msgstr "Nieuwe resource maken"
 #: widgets/templates/listgrid/listgrid.mako:144
 #: widgets/templates/listgrid/listgroup.mako:20
 msgid "New"
-msgstr "Nieuw"
+msgstr "Novo"
 
 #: controllers/templates/form.mako:116
 msgid "Edit this resource"
-msgstr "Deze resource wijzigen"
+msgstr "Editar este recurso"
 
 #: controllers/templates/form.mako:117 controllers/templates/viewlist.mako:122
 #: widgets/templates/listgrid/listgrid.mako:75
@@ -975,11 +889,11 @@ msgstr "Deze resource wijzigen"
 #: widgets/templates/listgrid/listgroup.mako:112
 #: widgets/templates/listgrid/multiple_group.mako:63
 msgid "Edit"
-msgstr "Wijzigen"
+msgstr "Editar"
 
 #: controllers/templates/form.mako:121
 msgid "Save this resource"
-msgstr "Deze resource opslaan"
+msgstr "Gardar este recurso"
 
 #: controllers/templates/form.mako:122 controllers/templates/image.mako:65
 #: controllers/templates/openm2.mako:48
@@ -991,47 +905,47 @@ msgstr "Deze resource opslaan"
 #: controllers/templates/viewlist.mako:157
 #: controllers/templates/preferences/index.mako:39
 msgid "Save"
-msgstr "Opslaan"
+msgstr "Gardar"
 
 #: controllers/templates/form.mako:124
 msgid "Save & Edit this resource"
-msgstr "Deze resource opslaan & wijzigen"
+msgstr "Gardar e Editar este recurso"
 
 #: controllers/templates/form.mako:125
 msgid "Save & Edit"
-msgstr "Opslaan & Wijzigen"
+msgstr "Gardar e Editar"
 
 #: controllers/templates/form.mako:129
 msgid "Duplicate this resource"
-msgstr "Deze resource dupliceren"
+msgstr "Duplicar este recurso"
 
 #: controllers/templates/form.mako:130
 msgid "Duplicate"
-msgstr "Dupliceren"
+msgstr "Duplicar"
 
 #: controllers/templates/form.mako:134
 msgid "Delete this resource"
-msgstr "Deze resource verwijderen"
+msgstr "Eliminar este recurso"
 
 #: controllers/templates/form.mako:139
 msgid "Cancel editing the current resource"
-msgstr "Wijzigingen aan deze resource ongedaan maken"
+msgstr "Cancelar a edición do recurso actual"
 
 #: controllers/templates/form.mako:144
 msgid "Create new node"
-msgstr "Nieuw knooppunt maken"
+msgstr "Crear un novo nó"
 
 #: controllers/templates/form.mako:145
 msgid "New Node"
-msgstr "Nieuw knooppunt"
+msgstr "Novo nó"
 
 #: controllers/templates/form.mako:149
 msgid "Show grid in workflow canvas"
-msgstr "Raster in werkschema tonen"
+msgstr "Mostrar reixa na paleta do fluxo de traballo"
 
 #: controllers/templates/form.mako:150
 msgid "Show grid"
-msgstr "Raster tonen"
+msgstr "Mostrar reixa"
 
 #: controllers/templates/header.mako:33
 #, python-format
@@ -1045,108 +959,108 @@ msgstr "%(user)s"
 
 #: controllers/templates/header.mako:45 controllers/templates/header.mako:47
 msgid "Home"
-msgstr "Beginscherm"
+msgstr "Inicio"
 
 #: controllers/templates/header.mako:53
 msgid "Requests"
-msgstr "Aanvragen"
+msgstr "Peticións"
 
 #: controllers/templates/header.mako:62
 msgid "Edit Preferences"
-msgstr "Voorkeuren"
+msgstr "Editar as Preferencias"
 
 #: controllers/templates/header.mako:66 controllers/templates/header.mako:69
 msgid "About"
-msgstr "Over"
+msgstr "Sobre"
 
 #: controllers/templates/header.mako:73 controllers/templates/header.mako:75
 msgid "Help"
-msgstr "Help"
+msgstr "Axuda"
 
 #: controllers/templates/header.mako:81 controllers/templates/header.mako:84
 msgid "Clear Cache"
-msgstr "Buffers opschonen"
+msgstr "Borrar a caché"
 
 #: controllers/templates/header.mako:89
 msgid "Logout"
-msgstr "Afmelden"
+msgstr "Saír"
 
 #: controllers/templates/image.mako:4 controllers/templates/image.mako:39
 msgid "Image"
-msgstr "Afbeelding"
+msgstr "Imaxe"
 
 #: controllers/templates/image.mako:55
 msgid "Add Resource:"
-msgstr "Hulpbron toevoegen:"
+msgstr "Engadir recurso:"
 
 #: controllers/templates/image.mako:66 widgets/form/templates/binary.mako:28
 msgid "Save As"
-msgstr "Opslaan als"
+msgstr "Gardar como"
 
 #: controllers/templates/imp.mako:80
 msgid "Import Data"
-msgstr "Importeer gegevens"
+msgstr "Importación de datos"
 
 #: controllers/templates/imp.mako:90
 msgid "1. Import a .CSV file"
-msgstr "1. Importeer een .CSV bestand"
+msgstr "1. Importar un arquivo .CSV"
 
 #: controllers/templates/imp.mako:106
 msgid "CSV File:"
-msgstr "CSV bestand:"
+msgstr "Arquivo CSV:"
 
 #: controllers/templates/imp.mako:124
 msgid "2. Check your file format"
-msgstr "2. Controleer uw bestandsformaat"
+msgstr "2. Asegúrese do formato do seu arquivo"
 
 #: controllers/templates/imp.mako:131
 #, python-format
 msgid "The import failed due to: %(message)s"
-msgstr "Het importeren is mislukt vanwege: %(message)s"
+msgstr "A importación fallou debido a: %(message)s"
 
 #: controllers/templates/imp.mako:133
 msgid "Here is a preview of the file we could not import:"
-msgstr "Hier is een voorbeeld van het bestand dat we niet konden importeren:"
+msgstr "Aquí está unha vista previa do arquivo que non se pode importar:"
 
 #: controllers/templates/imp.mako:158
 msgid "CSV Options"
-msgstr "CSV opties"
+msgstr "Opcións CSV"
 
 #: controllers/templates/imp.mako:161
 msgid "Separator:"
-msgstr "Scheidingsteken:"
+msgstr "Separador:"
 
 #: controllers/templates/imp.mako:163
 msgid "Delimiter:"
-msgstr "Veldscheidingsteken:"
+msgstr "Delimitador:"
 
 #: controllers/templates/imp.mako:167
 msgid "Encoding:"
-msgstr "Codering:"
+msgstr "Codificación:"
 
 #: controllers/templates/imp.mako:174
 msgid "Lines to skip:"
-msgstr "Regels overslaan:"
+msgstr "Liñas a ignorar:"
 
 #: controllers/templates/imp.mako:188
 msgid "3. File imported"
-msgstr "3. Bestand geïmporteerd"
+msgstr "3. Arquivo importado"
 
 #: controllers/templates/imp.mako:206
 msgid "Import File"
-msgstr "Bestand importeren"
+msgstr "Importar Arquivo"
 
 #: controllers/templates/index.mako:164
 msgid "System Logs"
-msgstr "Systeem Logboeken"
+msgstr "Rexistros do Sistema"
 
 #: controllers/templates/index.mako:189
 msgid "More"
-msgstr "Meer"
+msgstr "Máis"
 
 #: controllers/templates/index.mako:190
 msgid "Widgets"
-msgstr "Componenten"
+msgstr "Widgets"
 
 #: controllers/templates/index.mako:221 controllers/templates/index.mako:226
 #, python-format
@@ -1156,268 +1070,258 @@ msgstr "Powered by %(openerp)s "
 #: controllers/templates/login.mako:53 controllers/templates/login_ajax.mako:72
 #: controllers/templates/login_ajax.mako:94
 msgid "User:"
-msgstr "Gebruiker:"
+msgstr "Usuario:"
 
 #: controllers/templates/login.mako:64
 msgid "Databases"
-msgstr "Databases"
+msgstr "Bases de datos"
 
 #: controllers/templates/login.mako:84
 msgid "Top Contributor:"
-msgstr "Top bijdrager:"
+msgstr "Máximo Contribuidor:"
 
 #: controllers/templates/login.mako:94
 msgid ""
 "We think that daily job activities can be more intuitive, efficient, "
 "automated, .. and even fun."
 msgstr ""
-"Wij denken dat dagelijks werk intuïtiever, efficiënter, automatischer kan "
-"zijn, ...en zelfs leuk."
 
 #: controllers/templates/login.mako:95
 msgid "OpenERP's vision to be:"
-msgstr "OpenERP's visie is:"
+msgstr "Visión de OpenERP a ser:"
 
 #: controllers/templates/login.mako:103
 msgid "Full featured"
-msgstr "Uitgebreide functionaliteit"
+msgstr "Caracterización completa"
 
 #: controllers/templates/login.mako:104
 msgid ""
 "Today's enterprise challenges are multiple. We provide one module for each "
 "need."
 msgstr ""
-"Bedrijven kennen vandaag de dag veel uitdagingen. We hebben een module voor "
-"elke behoefte."
 
 #: controllers/templates/login.mako:112
 msgid "Open Source"
-msgstr "Open Source"
+msgstr "Código Libre"
 
 #: controllers/templates/login.mako:113
 msgid ""
 "To Build a great product, we rely on the knowledge of thousands of "
 "contributors."
 msgstr ""
-"Om een prima product te bouwen, rekenen we op de kennis van duizenden "
-"bijdragers."
 
 #: controllers/templates/login.mako:121
 msgid "User Friendly"
-msgstr "Gebruikersvriendelijk"
+msgstr "Sinxelo de usar"
 
 #: controllers/templates/login.mako:122
 msgid ""
 "In order to be productive, people need clean and easy to use interface."
 msgstr ""
-"Om productief te zijn hebben mensen een schoon en eenvoudig "
-"gebruikersinterface nodig."
 
 #: controllers/templates/modules.mako:4
 msgid "Module Management"
-msgstr "Modelbeheer"
+msgstr "Xestión de Módulos"
 
 #: controllers/templates/modules.mako:17
 msgid "Web Modules"
-msgstr "Web modules"
+msgstr "Módulos Web"
 
 #: controllers/templates/openo2m.mako:34
 msgid "Save & Close"
-msgstr "Opslaan & Sluiten"
+msgstr "Gardar e Pechar"
 
 #: controllers/templates/openo2m.mako:37
 msgid "Save & New"
-msgstr "Opslaan & Nieuw"
+msgstr "Gardar e Novo"
 
 #: controllers/templates/save_filter.mako:18
 msgid "Save as Filter"
-msgstr "Opslaan als filter"
+msgstr "Gardar como filtro"
 
 #: controllers/templates/save_filter.mako:30
 msgid "Filter Name"
-msgstr "Filternaam"
+msgstr "Nome do filtro"
 
 #: controllers/templates/search.mako:110
 #, python-format
 msgid "Search %(name)s"
-msgstr "%(name)s zoeken"
+msgstr "Busca %(name)s"
 
 #: controllers/templates/search.mako:125 widgets/form/templates/datetime.mako:8
 msgid "Select"
-msgstr "Selecteren"
+msgstr "Seleccione"
 
 #: controllers/templates/search.mako:127 widgets/_views.py:83
 #: widgets/form/templates/many2one.mako:22
 #: widgets/form/templates/reference.mako:27 widgets/templates/viewform.mako:26
 msgid "Search"
-msgstr "Zoeken"
+msgstr "Busca"
 
 #: controllers/templates/search.mako:143
 #, python-format
 msgid "No record found : '%(searched_string)s'."
-msgstr "Geen record gevonden : '%(searched_string)s'."
+msgstr "Ningún rexistro atopado : '%(searched_string)s'."
 
 #: controllers/templates/selection.mako:4
 msgid "Select action"
-msgstr "Actie selecteren"
+msgstr "Seleccione a acción"
 
 #: controllers/templates/selection.mako:23
 msgid "Select your action"
-msgstr "Uw actie selecteren"
+msgstr "Seleccione súa acción"
 
 #: controllers/templates/server_log.mako:4
 msgid "Server Actions..."
-msgstr "Server acties..."
+msgstr "Accións do servidor..."
 
 #: controllers/templates/server_log.mako:14
 msgid "Server Actions"
-msgstr "Server acties"
+msgstr "Accións do servidor"
 
 #: controllers/templates/translator.mako:4
 msgid "Add Translations"
-msgstr "Vertalingen toevoegen"
+msgstr "Engadir Traducións"
 
 #: controllers/templates/translator.mako:17
 msgid "Add Translation"
-msgstr "Vertaling toevoegen"
+msgstr "Engadir Tradución"
 
 #: controllers/templates/translator.mako:27
 msgid "Add Translation for:"
-msgstr "Vertaling toevoegen voor:"
+msgstr "Engadir Tradución para:"
 
 #: controllers/templates/translator.mako:31
 msgid "Fields"
-msgstr "Velden"
+msgstr "Campos"
 
 #: controllers/templates/translator.mako:32
 msgid "Labels"
-msgstr "Opschriften"
+msgstr "Etiquetas"
 
 #: controllers/templates/translator.mako:33
 msgid "Relates"
-msgstr "Gekoppeld"
+msgstr "Refírese"
 
 #: controllers/templates/translator.mako:34
 msgid "View"
-msgstr "Weergave"
+msgstr "Vista"
 
 #: controllers/templates/translator.mako:53
 msgid "Field"
-msgstr "Veld"
+msgstr "Campo"
 
 #: controllers/templates/view_log.mako:4 controllers/templates/view_log.mako:12
 #: utils/common.py:47
 msgid "Information"
-msgstr "Informatie"
+msgstr "Información"
 
 #: controllers/templates/viewed.mako:17
 #, python-format
 msgid "View Editor %s - %s"
-msgstr "Weergavebewerker %s - %s"
+msgstr "Amosar Editor %s - %s"
 
 #: controllers/templates/viewed.mako:31
 msgid "Create a new inherited view"
-msgstr "Een nieuwe afgeleide weergave maken"
+msgstr "Crear unha nova vista herdada"
 
 #: controllers/templates/viewed.mako:31
 msgid "Inherited View"
-msgstr "Afgeleide weergave"
+msgstr "Vista Herdada"
 
 #: controllers/templates/viewed.mako:34
 msgid "Preview"
-msgstr "Voorbeeld"
+msgstr "Vista Previa"
 
 #: controllers/templates/viewed_add.mako:6
 msgid "Node Type:"
-msgstr "Soort knooppunt"
+msgstr "Tipo de nó:"
 
 #: controllers/templates/viewed_add.mako:23
 msgid "New Field"
-msgstr "Nieuw veld"
+msgstr "Novo Campo"
 
 #: controllers/templates/viewed_add.mako:27
 msgid "Position:"
-msgstr "Positie:"
+msgstr "Posición:"
 
 #: controllers/templates/viewlist.mako:4
 #: controllers/templates/viewlist.mako:108
 #, python-format
 msgid "Manage Views (%s)"
-msgstr "Weergaven beheren (%s)"
+msgstr "Xestionar Vistas (%s)"
 
 #: controllers/templates/viewlist.mako:146
 #, python-format
 msgid "Create a view (%s)"
-msgstr "Een weergave maken (%s)"
+msgstr "Crear unha vista (%s)"
 
 #: controllers/templates/viewlist.mako:174
 msgid "View Name:"
-msgstr "Naam weergave:"
+msgstr "Nome da Vista:"
 
 #: controllers/templates/viewlist.mako:178
 msgid "View Type:"
-msgstr "Soort weergave:"
+msgstr "Tipo de Vista:"
 
 #: controllers/templates/viewlist.mako:189
 msgid "Priority:"
-msgstr "Prioriteit:"
+msgstr "Prioridade:"
 
 #: utils/common.py:37 utils/common.py:66
 msgid "Error"
-msgstr "Fout"
+msgstr "Erro"
 
 #: utils/common.py:42 utils/common.py:69
 msgid "Warning"
-msgstr "Waarschuwing"
+msgstr "Aviso"
 
 #: utils/rpc.py:131
 msgid "Access Denied"
-msgstr "Geen toegang"
+msgstr "Ingreso Denegado"
 
 #: utils/rpc.py:238
 msgid "Unsupported protocol."
-msgstr "Niet-ondersteund protocol."
+msgstr "Protocolo non soportado."
 
 #: utils/rpc.py:342
 msgid ""
 "You select a timezone but OpenERP could not find pytz library!\n"
 "The timezone functionality will be disable."
 msgstr ""
-"U selecteert een tijdzone maar OpenERP kan de pytz bibliotheek niet vinden!\n"
-"De tijdzone functionaliteit wordt uitgeschakeld."
 
 #: utils/rpc.py:355
 msgid "Not logged..."
-msgstr "Niet gelogd..."
+msgstr "Sen identificar..."
 
 #: utils/rpc.py:355
 msgid "Authorization Error"
-msgstr "Autorisatiefout"
+msgstr "Erro de autorización"
 
 #: utils/rpc.py:437
 msgid "== Access Denied =="
-msgstr "=== Geen toegang ==="
+msgstr "== Access Rexeitado =="
 
 #: widgets/_views.py:52
 msgid "Form"
-msgstr "Formulier"
+msgstr "Formulario"
 
 #: widgets/_views.py:53
 msgid "Form view..."
-msgstr "Formulier weergave..."
+msgstr "Vista de formulario..."
 
 #: widgets/_views.py:84
 msgid "Search view..."
-msgstr "Weergave zoeken..."
+msgstr "Vista de Busca..."
 
 #: widgets/listgrid.py:289
 msgid "Wrong on_change trigger"
-msgstr "Verkeerde on_change trigger"
+msgstr "Disparador on_change erróneo"
 
 #: widgets/listgrid.py:353 widgets/form/_form.py:904
 #, python-format
 msgid "Invalid view, duplicate field: %s"
-msgstr "Ongeldige weergave, dubbel veld: %s"
+msgstr "Vista inválida, campo duplicado: %s"
 
 #: widgets/pager.py:56
 #, python-format
@@ -1431,575 +1335,255 @@ msgstr "%s - %s"
 
 #: widgets/search.py:282
 msgid "contains"
-msgstr "bevat"
+msgstr "contén"
 
 #: widgets/search.py:282
 msgid "doesn't contain"
-msgstr "bevat niet"
+msgstr "non contén"
 
 #: widgets/search.py:283
 msgid "is equal to"
-msgstr "is gelijk aan"
+msgstr "é igual a"
 
 #: widgets/search.py:283
 msgid "is not equal to"
-msgstr "is niet gelijk aan"
+msgstr "non é igual a"
 
 #: widgets/search.py:284
 msgid "greater than"
-msgstr "groter dan"
+msgstr "maior que"
 
 #: widgets/search.py:284
 msgid "less than"
-msgstr "kleiner dan"
+msgstr "menor que"
 
 #: widgets/search.py:285
 msgid "in"
-msgstr "in"
+msgstr "en"
 
 #: widgets/search.py:285
 msgid "not in"
-msgstr "niet in"
+msgstr "non en"
 
 #: widgets/search.py:392
 msgid "Yes"
-msgstr "Ja"
+msgstr "Si"
 
 #: widgets/search.py:392
 msgid "No"
-msgstr "Nee"
+msgstr "Non"
 
 #: widgets/form/_action.py:46
 msgid "Action not found!"
-msgstr "Actie niet gevonden!"
+msgstr "¡Acción non atopada!"
 
 #: widgets/form/_o2m.py:73 widgets/templates/listgrid/listgrid.mako:138
 #: widgets/templates/listgrid/listgrid.mako:144
 #: widgets/templates/listgrid/listgroup.mako:20
 msgid "Create new record."
-msgstr "Nieuw record maken."
+msgstr "Crear un novo rexistro."
 
 #: widgets/form/_o2m.py:86
 msgid "Save/New"
-msgstr "Opslaan/Nieuw"
+msgstr "Gardar/Novo"
 
 #: widgets/form/_o2m.py:86
 msgid "Save parent record."
-msgstr "Bovenliggend record opslaan."
+msgstr "Gardar rexistro pai."
 
 #: widgets/form/_o2m.py:216
 #, python-format
 msgid "%d of %d"
-msgstr "%d van %d"
+msgstr "%d en %d"
 
 #: widgets/form/_o2m.py:218
 #, python-format
 msgid "- of %d"
-msgstr "- van %d"
+msgstr "- en %d"
 
 #: widgets/form/templates/binary.mako:31
 msgid "add attachment"
-msgstr "bijlage toevoegen"
+msgstr "engadir adxunto"
 
 #: widgets/form/templates/image.mako:7 widgets/form/templates/image.mako:39
 msgid "Click here to add new image."
-msgstr "Klik hier om een nieuwe afbeelding toe te voegen"
+msgstr "Prema aquí para engadir nova imaxe."
 
 #: widgets/form/templates/many2one.mako:2
 #: widgets/form/templates/reference.mako:30
 msgid "Open"
-msgstr "Openen"
+msgstr "Abrir"
 
 #: widgets/form/templates/many2one.mako:2
 #: widgets/form/templates/reference.mako:30
 msgid "Open a resource"
-msgstr "Een resource openen"
+msgstr "Abrir un recurso"
 
 #: widgets/form/templates/one2many.mako:20
 msgid "Create new record..."
-msgstr "Nieuw record maken..."
+msgstr "Crear un novo rexistro..."
 
 #: widgets/form/templates/one2many.mako:22
 msgid "Delete record..."
-msgstr "Record verwijderen..."
+msgstr "Borrar rexistro..."
 
 #: widgets/form/templates/one2many.mako:28
 msgid "Translate me."
-msgstr "Mij vertalen."
+msgstr "Traducirme."
 
 #: widgets/form/templates/one2many.mako:47
 msgid "Previous record..."
-msgstr "Vorig record..."
+msgstr "Rexistro anterior..."
 
 #: widgets/form/templates/one2many.mako:49
 msgid "Next record..."
-msgstr "Volgend record..."
+msgstr "Seguinte rexistro ..."
 
 #: widgets/templates/logs.mako:22
 msgid "More..."
-msgstr "Meer..."
+msgstr "Máis ..."
 
 #: widgets/templates/logs.mako:35
 msgid "Less..."
-msgstr "Minder..."
+msgstr "Menos..."
 
 #: widgets/templates/pager.mako:9
 msgid "<< First"
-msgstr "<< Eerste"
+msgstr "<< Primeira"
 
 #: widgets/templates/pager.mako:14
 msgid "< Previous"
-msgstr "< Vorige"
+msgstr "< Anterior"
 
 #: widgets/templates/pager.mako:19
 msgid "of"
-msgstr "van"
+msgstr "de"
 
 #: widgets/templates/pager.mako:24
 msgid "Next >"
-msgstr "Volgende >"
+msgstr "Seguinte >"
 
 #: widgets/templates/pager.mako:29
 msgid "Last >>"
-msgstr "Laatste >>"
+msgstr "Último >>"
 
 #: widgets/templates/pager.mako:37
 msgid "Change Limit:"
-msgstr "Limiet wijzigen:"
+msgstr "Cambiar o Límite:"
 
 #: widgets/templates/sidebar.mako:37
 msgid "Reports"
-msgstr "Overzichten"
+msgstr "Informes"
 
 #: widgets/templates/sidebar.mako:41 widgets/templates/viewform.mako:51
 msgid "Actions"
-msgstr "Acties"
+msgstr "Accións"
 
 #: widgets/templates/sidebar.mako:45
 msgid "Links"
-msgstr "Verwijzingen"
+msgstr "Ligazóns"
 
 #: widgets/templates/sidebar.mako:49
 msgid "Submenu"
-msgstr "Submenu"
+msgstr "Submenú"
 
 #: widgets/templates/sidebar.mako:54
 msgid "Attachments"
-msgstr "Bijlagen"
+msgstr "Adxuntos"
 
 #: widgets/templates/sidebar.mako:74
 msgid "File"
-msgstr "Bestand"
+msgstr "Arquivo"
 
 #: widgets/templates/sidebar.mako:83
 msgid "Customize"
-msgstr "Aanpassen"
+msgstr "Personalizar"
 
 #: widgets/templates/sidebar.mako:87
 msgid "Manage views of the current object"
-msgstr "Weergaven van huidig object beheren"
+msgstr "Xestionar vistas do obxecto actual"
 
 #: widgets/templates/sidebar.mako:89
 msgid "Manage Views"
-msgstr "Weergaven beheren"
+msgstr "Xestionar Vistas"
 
 #: widgets/templates/sidebar.mako:93
 msgid "Edit workflow of the current object"
-msgstr "De workflow van het huidige object wijzigen"
+msgstr "Editar fluxo de traballo do obxecto actual"
 
 #: widgets/templates/sidebar.mako:94
 msgid "Edit Workflow"
-msgstr "Workflow wijzigen"
+msgstr "Editar Fluxo de Traballo"
 
 #: widgets/templates/sidebar.mako:98
 msgid "Customize current object or create a new object"
-msgstr "Huidig object aanpassen of nieuw object maken"
+msgstr "Personalizar o obxecto actual ou crear un novo obxecto"
 
 #: widgets/templates/sidebar.mako:100
 msgid "Customize Object"
-msgstr "Object aanpassen"
+msgstr "Personalizar Obxecto"
 
 #: widgets/templates/sidebar.mako:106
 msgid "Other Options"
-msgstr "Overige opties"
+msgstr "Outras opcións"
 
 #: widgets/templates/sidebar.mako:111
 msgid "Import"
-msgstr "Importeren"
+msgstr "Importación"
 
 #: widgets/templates/sidebar.mako:114
 msgid "Export"
-msgstr "Exporteren"
+msgstr "Exportación"
 
 #: widgets/templates/sidebar.mako:118
 msgid "Translate"
-msgstr "Vertalen"
+msgstr "Traducir"
 
 #: widgets/templates/sidebar.mako:123
 msgid "View Log"
-msgstr "Logboek weergeven"
+msgstr "Amosar Log"
 
 #: widgets/templates/viewform.mako:25
 msgid "Filter records."
-msgstr "Records filteren."
+msgstr "Filtrar rexistros."
 
 #: widgets/templates/viewform.mako:33
 msgid "Clear all."
-msgstr "Alles opschonen."
+msgstr "Borrar todos."
 
 #: widgets/templates/viewform.mako:35
 msgid "Clear"
-msgstr "Opschonen"
+msgstr "Borrar"
 
 #: widgets/templates/viewform.mako:43
 msgid "Filters"
-msgstr "Filters"
+msgstr "Filtros"
 
 #: widgets/templates/viewform.mako:45
 msgid "Saved Filters"
-msgstr "Bewaarde filters"
+msgstr "Filtros Gardados"
 
 #: widgets/templates/viewform.mako:52
 msgid "New Filter"
-msgstr "Nieuw filter"
+msgstr "Novo Filtro"
 
 #: widgets/templates/viewform.mako:53
 msgid "Save Filter"
-msgstr "Filter opslaan"
+msgstr "Gardar Filtro"
 
 #: widgets/templates/viewform.mako:54
 msgid "Manage Filters"
-msgstr "Filters beheren"
+msgstr "Xestionar os filtros"
 
 #: widgets/templates/listgrid/listgrid.mako:19
 msgid "Update"
-msgstr "Bijwerken"
+msgstr "Actualizar"
 
 #: widgets/templates/listgrid/listgrid.mako:134
 msgid "Add records..."
-msgstr "Recors toevoegen"
+msgstr "Engadir rexistros..."
 
 #: widgets/templates/listgrid/listgrid.mako:172
 #: widgets/templates/listgrid/listgrid.mako:176
 msgid "Delete record(s)."
-msgstr "Record(s) verwijderen."
-
-#~ msgid "Database already exists"
-#~ msgstr "Database bestaat al"
-
-#~ msgid "Bad database administrator password"
-#~ msgstr "Foutief wachtwoord database beheerder"
-
-#~ msgid "Could not drop database."
-#~ msgstr "Kon database niet wissen"
-
-#~ msgid "Could not restore database."
-#~ msgstr "Kon database niet terugzetten."
-
-#~ msgid "Bad password provided."
-#~ msgstr "Verkeerd wachtwoord ingevoerd."
-
-#~ msgid "Could not change super admin password."
-#~ msgstr "Kon superbeheerder wachtwoord niet wijzigen."
-
-#~ msgid "You must save this record to use the sidebar button"
-#~ msgstr "U moet dit record opslaan om de zijbalkknop te gebruiken"
-
-#~ msgid "Invalid button type"
-#~ msgstr "Ongeldige knopsoort"
-
-#, python-format
-#~ msgid "You cannot import this field %s, because we cannot auto-detect it"
-#~ msgstr ""
-#~ "U kunt dit veld %s niet importeren omdat we het niet kunnen auto-detecteren"
-
-#, python-format
-#~ msgid ""
-#~ "Error processing your first line of the file.\n"
-#~ "Field %s is unknown"
-#~ msgstr ""
-#~ "Fout bij verwerking van de eerste regel uit het bestand.\n"
-#~ "Veld %s is onbekend"
-
-#~ msgid ""
-#~ "Please Install xlwt Library.\n"
-#~ "To create spreadsheet files compatible with MS Excel."
-#~ msgstr ""
-#~ "Installeer aub xlwt library\n"
-#~ "om MS Excel compatibele werkbladen te maken."
-
-#~ msgid "Importation Error"
-#~ msgstr "Importeerfout"
-
-#, python-format
-#~ msgid ""
-#~ "Error trying to import this record:\n"
-#~ "%s\n"
-#~ "Error Message:\n"
-#~ "%s\n"
-#~ "\n"
-#~ "%s"
-#~ msgstr ""
-#~ "Fout bij poging om dit record te importeren:\n"
-#~ "%s\n"
-#~ "Foutmelding:\n"
-#~ "%s\n"
-#~ "\n"
-#~ "%s"
-
-#~ msgid "OpenERP is a trademark of the Tiny Company."
-#~ msgstr "OpenERP is een handelsmerk van Tiny Company"
-
-#, python-format
-#~ msgid ""
-#~ "%(openobject)s is a free enterprise-scale software system that is designed "
-#~ "to boost\n"
-#~ "productivity and profit through data integration. It connects, improves and\n"
-#~ "manages business processes in areas such as sales, finance, supply chain,\n"
-#~ "project management, production, services, CRM, etc..\n"
-#~ msgstr ""
-#~ "%(openobject)s is een gratis verkrijgbaar bedrijfsbreed software systeem dat "
-#~ "is ontworpen\n"
-#~ "om productiviteit en winst te verhogen door data-integratie. Het verbindt,\n"
-#~ "verbetert en beheert bedrijfsprocessen in gebieden zoals verkoop, "
-#~ "financieel,\n"
-#~ "inkoop, project management, productie, services, CRM etc..\n"
-
-#~ msgid "Copyright &copy; 2006-TODAY Tiny ERP Pvt. Ltd. All Rights Reserved."
-#~ msgstr ""
-#~ "Copyright &copy; 2006-VANDAAG Tiny ERP S.A. Alle rechten voorbehouden."
-
-#~ msgid ""
-#~ "The system is platform-independent, and can be installed on Windows, Mac OS "
-#~ "X,\n"
-#~ "and various Linux and other Unix-based distributions. Its architecture "
-#~ "enables\n"
-#~ "new functionality to be rapidly created, modifications to be made to a\n"
-#~ "production system and migration to a new version to be straightforward."
-#~ msgstr ""
-#~ "Het systeem is platform-onafhankelijk en kan worden geïnstalleerd op "
-#~ "Windows,\n"
-#~ "MAC OS X, en verschillende Linux en andere Unix-gebaseerde distributies.\n"
-#~ "De architectuur maakt het mogelijk om in korte tijd nieuwe functionaliteit "
-#~ "te maken,\n"
-#~ "wijzigingen te maken en eenvoudig migraties naar nieuwe versies door te "
-#~ "voeren."
-
-#~ msgid "The Axelor Company"
-#~ msgstr "Axelor"
-
-#~ msgid "The Tiny Company"
-#~ msgstr "Tiny"
-
-#~ msgid "RESOURCES"
-#~ msgstr "HULPBRONNEN"
-
-#~ msgid "Homepage"
-#~ msgstr "Beginpagina"
-
-#~ msgid "Download"
-#~ msgstr "Download"
-
-#~ msgid "Documentation"
-#~ msgstr "Documentatie"
-
-#~ msgid "Modules"
-#~ msgstr "Modules"
-
-#~ msgid "Screencasts"
-#~ msgstr "Schermopnames"
-
-#~ msgid "Community"
-#~ msgstr "Gemeenschap"
-
-#~ msgid "An "
-#~ msgstr "Een "
-
-#~ msgid "Services"
-#~ msgstr "Diensten"
-
-#~ msgid "Trainings"
-#~ msgstr "Trainingen"
-
-#~ msgid "SaaS Offers"
-#~ msgstr "SaaS aanbiedingen"
-
-#~ msgid "You do not have a valid OpenERP maintenance contract !"
-#~ msgstr "U heeft geen geldige OpenERP onderhoudsovereenkomst!"
-
-#~ msgid "has been reported."
-#~ msgstr "is gesignaleerd."
-
-#~ msgid "Maintenance contract."
-#~ msgstr "Onderhoudsovereenkomst."
-
-#~ msgid ""
-#~ "Your request will be sent to OpenERP and maintenance team will reply you "
-#~ "shortly."
-#~ msgstr ""
-#~ "Uw aanvraag wordt naar OpenERP gestuurd en het onderhoudsteam zal u snel "
-#~ "beantwoorden."
-
-#~ msgid ""
-#~ "If you are using OpenERP in production, it is recommended to have\n"
-#~ "a maintenance program.\n"
-#~ "\n"
-#~ "The OpenERP maintenance contract provides you with bug fix guarantees and "
-#~ "an\n"
-#~ "automatic migration system so that we can start working on your problems "
-#~ "within a few\n"
-#~ "hours.\n"
-#~ "\n"
-#~ "With a maintenance contract, errors such as this one can be sent directly to "
-#~ "the OpenERP\n"
-#~ "team for review and evaluation.\n"
-#~ "\n"
-#~ "The maintenance program offers you:\n"
-#~ "* Automatic migrations on new versions,\n"
-#~ "* A bugfix guarantee,\n"
-#~ "* Monthly announces of potential bugs and their fixes,\n"
-#~ "* Security alerts by email and automatic migration,\n"
-#~ "* Access to the customer portal.\n"
-#~ msgstr ""
-#~ "Als u OpenERP in een productieomgeving gebruikt, is het aan te bevelen om "
-#~ "een \n"
-#~ "onderhoudsovereenkomst af te sluiten.\n"
-#~ "\n"
-#~ "De OpenERP onderhoudsovereenkomst voorziet u van foutherstel garantie en "
-#~ "een\n"
-#~ "automatisch migratiesysteem zodat we binnen enkele uren aan uw problemen "
-#~ "kunnen gaan werken.\n"
-#~ "\n"
-#~ "Met een onderhoudsovereenkomst kunnen fouten zoals deze direct naar het \n"
-#~ "OpenERP team\n"
-#~ "worden gestuurd voor onderzoek en evaluatie.\n"
-#~ "\n"
-#~ "Het onderhoudsprogramma biedt u:\n"
-#~ "* Automatische migraties naar nieuwe versies,\n"
-#~ "* Garantie op foutherstel,\n"
-#~ "* Maandelijkse annonceringen van potentiele fouten en hun herstel,\n"
-#~ "* Beveiligingswaarschuwingen via email en automatische migratie,\n"
-#~ "* Toegang tot het klantenportaal.\n"
-
-#~ msgid ""
-#~ "Your maintenance contract does not cover all modules installed in your "
-#~ "system !\n"
-#~ "If you are using OpenERP in production, it is highly suggested to upgrade "
-#~ "your\n"
-#~ "contract.\n"
-#~ "\n"
-#~ "If you have developed your own modules or installed third party module, we\n"
-#~ "can provide you an additional maintenance contract for these modules. After\n"
-#~ "having reviewed your modules, our quality team will ensure they will "
-#~ "migrate\n"
-#~ "automatically for all future stable versions of OpenERP at no extra cost.\n"
-#~ "\n"
-#~ "Here is the list of modules not covered by your maintenance contract:"
-#~ msgstr ""
-#~ "Uw onderhoudsovereenkomst dekt niet alle modules in uw systeem !\n"
-#~ "Als u OpenERP in productieomgeving gebruikt is het aan te bevelen om uw "
-#~ "overeenkomst\n"
-#~ "op te waarderen.\n"
-#~ "\n"
-#~ "Als u eigen modules heeft ontwikkeld of modules van derde partijen heeft "
-#~ "geïnstalleerd,\n"
-#~ "kunnen we u van een aanvullende onderhoudsovereenkomst voor deze modules "
-#~ "voorzien.\"\n"
-#~ "Nadat ons kwaliteitsteam uw modules heeft onderzocht, geven we de zekerheid "
-#~ "dat ze\n"
-#~ "automatisch kunnen migreren naar alle toekomstige stabiele versies van "
-#~ "OpenERP zonder\n"
-#~ "extra kosten.\n"
-#~ "\n"
-#~ "Hier is de lijst van modules die niet onder de onderhoudsovereenkomst vallen:"
-
-#~ msgid "All fields"
-#~ msgstr "Alle velden"
-
-#~ msgid "Send to Maintenance Team"
-#~ msgstr "Versturen naar onderhoudsteam"
-
-#~ msgid "Save List"
-#~ msgstr "Lijst opslaan"
-
-#~ msgid "Name of This Export:"
-#~ msgstr "Naam van deze export:"
-
-#~ msgid "Options"
-#~ msgstr "Opties"
-
-#~ msgid "Export as CSV"
-#~ msgstr "Exporteren als CSV"
-
-#~ msgid "Export as Excel"
-#~ msgstr "Exporteren als Excel"
-
-#~ msgid "Add field names"
-#~ msgstr "Alle veldnamen"
-
-#~ msgid "Nothing"
-#~ msgstr "Niets"
-
-#~ msgid "Import Compatible"
-#~ msgstr "Geschikt voor importeren"
-
-#~ msgid "Select an Option to Export"
-#~ msgstr "Selecteer een optie om te exporteren"
-
-#~ msgid "hide"
-#~ msgstr "verbergen"
-
-#~ msgid "Tips"
-#~ msgstr "Tips"
-
-#~ msgid "Fields to import"
-#~ msgstr "Te importeren velden"
-
-#~ msgid "Auto Detect"
-#~ msgstr "Auto detectie"
-
-#~ msgid "Use On-Site"
-#~ msgstr "Intern gebruik"
-
-#~ msgid "Use Online"
-#~ msgstr "Online gebruik"
-
-#~ msgid "Get the OpenERP Warranty"
-#~ msgstr "Neem de OpenERP garantie"
-
-#~ msgid "File to import"
-#~ msgstr "Te importeren bestand"
-
-#~ msgid "Subscribe and start"
-#~ msgstr "Schrijf in en begin"
-
-#~ msgid "Edit record(s)."
-#~ msgstr "Record(s) wijzigen."
-
-#~ msgid "Show Workflow"
-#~ msgstr "Werkschema tonen"
-
-#~ msgid "Manage workflows of the current object"
-#~ msgstr "Werkschemas van huidig object beheren"
-
-#~ msgid "Save Filter."
-#~ msgstr "Filter opslaan."
-
-#~ msgid "Manage Filter."
-#~ msgstr "Filter beheren."
-
-#, python-format
-#~ msgid "Error processing your first line of the file. Field %s is unknown"
-#~ msgstr ""
-#~ "Fout bij verwerking eerste regel van het bestand. Veld %s is onbekend"
-
-#~ msgid "Select Options to Export"
-#~ msgstr "Opties voor export selecteren"
-
-#, python-format
-#~ msgid "Found no record '%(searched_string)s'."
-#~ msgstr "Geen record '%(searched_string)s' gevonden."
-
-#, python-format
-#~ msgid "Create %(searched_string)s"
-#~ msgstr "%(searched_string)s maken"
+msgstr "Borrar rexistro(s)."
