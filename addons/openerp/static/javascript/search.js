@@ -502,7 +502,7 @@ function parse_filters(src, id) {
             }
         }
         
-        if(kind == 'boolean') {
+        if(kind == 'boolean' && fld_value) {
             fld_value = parseInt(fld_value);
             domains[fld_name] = fld_value;
         }
