@@ -343,39 +343,91 @@ function display_Customfilters(all_domains, group_by_ctx) {
                     var field = return_record['rec'];
                     var comparison = $row.find('select.expr').val();
                     var value = return_record['rec_val'];
-
-                    switch (comparison) {
-                        case 'ilike':
-                        case 'not ilike':
-                            if(isOrderable(type)) {
-                                comparison = (comparison == 'ilike' ? '=' : '!=');
-                            }
-                            else{
-                                value = '%' + value + '%';
-                            }
-                            break;
-                        case '<':
-                        case '>':
-                            if(!isOrderable(type)) {
-                                comparison = '=';
-                            }
-                            break;
-                        case 'in':
-                        case 'not in':
-                            if(typeof value == 'string') {
-                                value = value.split(',');
-                            } else if (type=='many2many'){
-                                /* very weird array-type construct
-                                   looks a bit like [[6, 0, [list of ids here]]]
-                                */
-                                value = value[value.length - 1][value[value.length - 1].length - 1]
-                            } else if (type=='one2many') {
-                                value = value[0];
-                            } else {
-                                value = value;
-                            }
-                            break;
+                    
+                    // if there is multiple values we must split them before conversion
+                    console.info("azer 1");
+                    isMultipleValues = comparison == 'in' || comparison == 'not in';
+                    var values;
+                    if(isMultipleValues) {
+                        console.info("azer 12");
+                    	values = value.split(',');
+                    } else {
+                        console.info("azer 13");
+                    	values = [value];
                     }
+                    console.info("azer 2");
+                    console.info(values);
+                    // converting values
+                    var newValues = [];
+                    jQuery.each(values, function(i,valuePart) {
+                    	console.info("valuePart");
+                    	console.info(valuePart);
+                    	var tmp;
+                    	switch (type) {
+                    	case "string":
+                    	case "many2one":
+                    	case "many2many":
+                    	case "one2many":
+                    	case "date":
+                    	case "reference":
+                    	case "char":
+                    	case "text":
+                    	case "datetime":
+                    	case "time":
+                    	case "binary":
+                    	case "selection":
+                    	case "one2one":
+                    		break;
+                    	case "boolean":
+                    		valuePart = Boolean(valuePart);
+                    		break;
+                    	case "integer":
+                    	case "integer_big":
+                    		tmp = parseInt(valuePart,10);
+                    		if(! isNaN(tmp)) {
+                    			valuePart = tmp;
+                    		}
+                    		break;
+                    	case "float":
+                    		tmp = parseFloat(valuePart);
+                    		if(! isNaN(tmp)) {
+                    			valuePart = tmp;
+                    		}
+                    		break;
+                    	default:
+                    		console.warning("unhandled type: " + type);
+                    	}
+                    	newValues.push(valuePart);
+                    });
+                    console.info("azer 3");
+                    console.info(newValues);
+                    if(isMultipleValues) {
+                    	value = newValues;
+                    } else {
+                    	value = newValues[0];
+                    }
+                    console.info("azer 4");
+                    console.info(value);
+                    
+                    switch (comparison) {
+                    case 'ilike':
+                    case 'not ilike':
+                        if(isOrderable(type)) {
+                            comparison = (comparison == 'ilike' ? '=' : '!=');
+                        }
+                        else{
+                        	value = '%' + value + '%';
+                        }
+                        break;
+                    case '<':
+                    case '>':
+                        if(!isOrderable(type)) {
+                            comparison = '=';
+                        }
+                        break;
+                    }
+                    console.info("azer 5");
+                    console.info(value);
 
                     if ($row.find('label.and_or').length>0 || grouping){
                         temp_domain.push(field, comparison, value);
@@ -558,6 +610,8 @@ function change_filter() {
 function search_filter(src, id) {
 	jQuery('div#no-record-warning').hide();
     var all_domains = parse_filters(src, id);
+    console.info("domains:");
+    console.info(all_domains);
     
     if(jQuery('#filter_table').is(':visible') || jQuery('#_terp_filter_domain').val() != '[]') {
         display_Customfilters(all_domains, group_by);
