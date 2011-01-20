@@ -372,7 +372,14 @@ function display_Customfilters(all_domains, group_by_ctx) {
                     	case "one2one":
                     		break;
                     	case "boolean":
-                    		valuePart = Boolean(valuePart);
+                    		valuePart = valuePart.toLowerCase().trim();
+                    		if(valuePart == "true" || valuePart == "yes" || valuePart == "1") {
+                    			valuePart = true;
+                    		} else if (valuePart == "false" || valuePart == "no" || valuePart == "0") {
+                    			valuePart = false;
+                    		} else {
+                    			valuePart = Boolean(valuePart);
+                    		}
                     		break;
                     	case "integer":
                     	case "integer_big":
