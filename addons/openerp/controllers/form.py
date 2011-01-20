@@ -680,7 +680,7 @@ class Form(SecuredController):
 
         raise redirect(self.path + '/edit', **args)
 
-    @expose(content_type='application/octet')
+    @expose(content_type='image/png')
     def binary_image_get_image(self, **kw):
         model = kw.get('model')
         field = kw.get('field')
