@@ -27,6 +27,7 @@ from openerp.utils import rpc, common, TinyDict, TinyForm, expr_eval
 from error_page import _ep
 from openobject.tools import expose, redirect, validate, error_handler, exception_handler
 import openobject
+import openobject.paths
 import simplejson
 
 def make_domain(name, value, kind='char'):
@@ -693,7 +694,7 @@ class Form(SecuredController):
         if res:
             return base64.decodestring(res)
         else:
-            return open(os.path.join(os.path.dirname(__file__),'..','static','images','placeholder.png')).read()
+            return open(openobject.paths.addons('openerp','static','images','placeholder.png')).read()
 
     @expose("json")
     def binary_image_delete(self, **kw):
