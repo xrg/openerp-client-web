@@ -80,8 +80,13 @@ class Search(Form):
         proxy = rpc.RPCProxy(model)
         ids = proxy.name_search(text or '', params.domain or [], 'ilike', ctx)
         params.search_text = False
+        
         if ids:
             params.ids = [id[0] for id in ids]
+            
+            # For m2o, when name_search is called, then its result will be added to existing domain
+            params.domain += [('id','in', params.ids)]
+            
             if len(ids) < params.limit or text:
                 count = len(ids)
             else:
@@ -98,7 +103,7 @@ class Search(Form):
                 
         if kw.get('return_to'):
             params['return_to'] = ast.literal_eval(kw['return_to'])
-
+            
         return self.create(params)
 
     @expose('json')
