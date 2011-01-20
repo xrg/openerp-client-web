@@ -626,7 +626,8 @@ function save_filter() {
     openobject.http.postJSON('/openerp/search/eval_domain_filter', {
         'all_domains': domain_list,
         'source': '_terp_list',
-        'group_by_ctx': grps}).addCallback(function(obj) {
+        'group_by_ctx': grps,
+        'model': jQuery('#_terp_model').val()}).addCallback(function(obj) {
         var sf_params = {'model': jQuery('#_terp_model').val(), 'domain': obj.domain, 'group_by': grps, 'flag': 'sf',
                          'custom_filter':custom_domain, 'selected_filter': selected_filter};
 

@@ -227,17 +227,6 @@ class Search(Form):
                     
                     datas['rec_val'] = fld['value']
 
-                    """if fld['type'] == 'many2one':
-                        datas['rec_val'] = fld['value']
-                        frm[field] = 'many2one'
-                    elif isinstance(frm[field], bool):
-                        if frm[field]:
-                            datas['rec_val'] = 1
-                        else:
-                            datas['rec_val'] = 0
-                    else:
-                        datas['rec_val'] = frm[field]"""
-
                 datas['type'] = fld['type']
                 values[key] = datas
 
