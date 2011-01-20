@@ -965,7 +965,7 @@ function do_action(src, context_menu) {
     var domain = $src.attr('domain');
     var context = $src.attr('context');
     var context_menu = context_menu ? true: null;
-        
+
     eval_domain_context_request({
         'active_id': id,
         'active_ids': params['_terp_selection'],
