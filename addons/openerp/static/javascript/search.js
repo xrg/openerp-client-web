@@ -345,23 +345,16 @@ function display_Customfilters(all_domains, group_by_ctx) {
                     var value = return_record['rec_val'];
                     
                     // if there is multiple values we must split them before conversion
-                    console.info("azer 1");
                     isMultipleValues = comparison == 'in' || comparison == 'not in';
                     var values;
                     if(isMultipleValues) {
-                        console.info("azer 12");
                     	values = value.split(',');
                     } else {
-                        console.info("azer 13");
                     	values = [value];
                     }
-                    console.info("azer 2");
-                    console.info(values);
                     // converting values
                     var newValues = [];
                     jQuery.each(values, function(i,valuePart) {
-                    	console.info("valuePart");
-                    	console.info(valuePart);
                     	var tmp;
                     	switch (type) {
                     	case "string":
@@ -395,19 +388,15 @@ function display_Customfilters(all_domains, group_by_ctx) {
                     		}
                     		break;
                     	default:
-                    		console.warning("unhandled type: " + type);
+                    		//console.warning("unhandled type: " + type);
                     	}
                     	newValues.push(valuePart);
                     });
-                    console.info("azer 3");
-                    console.info(newValues);
                     if(isMultipleValues) {
                     	value = newValues;
                     } else {
                     	value = newValues[0];
                     }
-                    console.info("azer 4");
-                    console.info(value);
                     
                     switch (comparison) {
                     case 'ilike':
@@ -426,8 +415,6 @@ function display_Customfilters(all_domains, group_by_ctx) {
                         }
                         break;
                     }
-                    console.info("azer 5");
-                    console.info(value);
 
                     if ($row.find('label.and_or').length>0 || grouping){
                         temp_domain.push(field, comparison, value);
@@ -610,8 +597,6 @@ function change_filter() {
 function search_filter(src, id) {
 	jQuery('div#no-record-warning').hide();
     var all_domains = parse_filters(src, id);
-    console.info("domains:");
-    console.info(all_domains);
     
     if(jQuery('#filter_table').is(':visible') || jQuery('#_terp_filter_domain').val() != '[]') {
         display_Customfilters(all_domains, group_by);

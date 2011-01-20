@@ -24,6 +24,7 @@ import actions
 from form import Form
 from error_page import _ep
 from openobject.tools import expose, ast
+import simplejson
 
 
 class Search(Form):
@@ -358,7 +359,7 @@ class Search(Form):
 
         cust_domain = []
         if custom_domains:
-            custom_domains = eval(custom_domains)
+            custom_domains = simplejson.loads(custom_domains)
             for val in custom_domains[:-1]:
                 if val:
                     val.insert(0, '|')
