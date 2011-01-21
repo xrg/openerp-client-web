@@ -256,6 +256,9 @@ class Search(Form):
 
         c = search_context.get('context', {})
         v = search_context.get('value')
+        if '__' in v:
+            value, operator = v.split('__')
+            v = int(value)
         ctx = expr_eval(c, {'self':v})
 
         context = rpc.session.context

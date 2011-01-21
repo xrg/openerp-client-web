@@ -490,6 +490,7 @@ class Selection(TinyInputWidget):
         self.options = attrs.get('selection', [])
         self.type2 = attrs.get('type2')
         self.operator = attrs.get('operator', '=')
+        self.search_context = attrs.get('context', {})
         # m2o as selection
         if not self.options and attrs.get('relation') and attrs.get('widget') == 'selection':
             proxy = rpc.RPCProxy(attrs['relation'])
@@ -502,7 +503,6 @@ class Selection(TinyInputWidget):
                         domain = []
                 ids = proxy.search(domain)
                 ctx = rpc.session.context.copy()
-                self.search_context = attrs.get('context', {})
 #                ctx.update(attrs.get('context', {})) # In search view this will create problem for m2o field having widget='selection' and context as attr.
                 self.options = proxy.name_get(ids, ctx)
             except:
