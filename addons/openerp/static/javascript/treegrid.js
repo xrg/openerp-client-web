@@ -342,7 +342,7 @@ TreeNode.prototype = {
                 this.element_a = value;
 
                 this.eventOnKeyDown = MochiKit.Signal.connect(value, 'onkeydown', this, this.onKeyDown);
-
+				var self = this;
                 var link = jQuery(value);
                 if (record.action) {
                     link.attr('href', record.action).click(function () {
@@ -350,11 +350,10 @@ TreeNode.prototype = {
                             jQuery(row).removeClass('selected')
                         });
                         link.parents('tr.row').addClass('selected');
-
+						self.toggle();
                         MochiKit.Signal.signal(this.tree, "onaction", this);
                     });
                 } else {
-                    var self = this;
                     link.click(function () {
                         if (jQuery(this).parents('tr.row:first').find('td:first span').is('.collapse, .expand')) {
                             self.toggle();
