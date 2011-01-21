@@ -196,32 +196,33 @@ class Search(Form):
 
         record = kw.get('record')
         record = eval(record)
-
         proxy = rpc.RPCProxy(model)
         data = {}
         res = proxy.fields_get(False, rpc.session.context)
 
         all_values = {}
-
+        errors = []
+        
         for k, v in record.items():
             values = {}
             for key, val in v.items():
+                frm_datas = {}
                 for field in val:
                     fld = {
                         'value': val[field],
                         'type': res[field].get('type')
                     }
                     datas = {field: fld}
-
+                    frm_datas[field] = fld
                     try:
-                        frm = TinyForm(**data).to_python()
+                        frm = TinyForm(**frm_datas).to_python()
                     except TinyFormError, e:
                         error_field = e.field
                         error = ustr(e)
-                        return dict(error=error, error_field=error_field)
+                        errors.append({e.field: error})
                     except Exception, e:
                         error = ustr(e)
-                        return dict(error=error, error_field=error_field)
+                        errors.append({field: error})
 
                     datas['rec'] = field
                     
@@ -232,7 +233,7 @@ class Search(Form):
 
             all_values[k] = values
 
-        return dict(frm=all_values, error=error)
+        return dict(frm=all_values, errors=errors)
 
     @expose('json')
     def eval_domain_filter(self, **kw):
