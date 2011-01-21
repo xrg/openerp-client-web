@@ -152,6 +152,7 @@ ManyToOne.prototype.open = function(id) {
     }).addCallback(function(obj) {
         $.m2o({
             record: true,
+            source: source,
             _terp_model: model,
             _terp_id: id,
             _terp_domain: obj.domain,
