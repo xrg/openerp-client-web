@@ -694,7 +694,7 @@ class Form(SecuredController):
         if res:
             return base64.decodestring(res)
         else:
-            return open(openobject.paths.addons('openerp','static','images','placeholder.png')).read()
+            return open(openobject.paths.addons('openerp','static','images','placeholder.png'),'rb').read()
 
     @expose("json")
     def binary_image_delete(self, **kw):
