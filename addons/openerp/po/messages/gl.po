@@ -8,18 +8,18 @@ msgstr ""
 "Project-Id-Version: openobject-client-web\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2011-01-17 13:09+0100\n"
-"PO-Revision-Date: 2011-01-19 18:12+0000\n"
+"PO-Revision-Date: 2011-01-20 08:30+0000\n"
 "Last-Translator: David Diz <Unknown>\n"
 "Language-Team: Galician <gl@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2011-01-20 04:51+0000\n"
+"X-Launchpad-Export-Date: 2011-01-21 04:38+0000\n"
 "X-Generator: Launchpad (build 12177)\n"
 
 #: validators.py:75
 msgid "Invalid literal for float"
-msgstr "Literal non válido para float"
+msgstr "Literal non válido para número en punto flotante"
 
 #: validators.py:114 validators.py:119 validators.py:262
 msgid "Invalid datetime format"
@@ -43,6 +43,8 @@ msgid ""
 "The username portion of the email address is invalid (the portion before the "
 "@: %(username)s)"
 msgstr ""
+"A parte do usuario do enderezo de correo electrónico non é válido (a parte "
+"antes do @: %(username)s)"
 
 #: validators.py:250
 #, python-format
@@ -50,10 +52,12 @@ msgid ""
 "The domain portion of the email address is invalid (the portion after the @: "
 "%(domain)s)"
 msgstr ""
+"A parte do dominio do enderezo de correo electrónico non é válido (a parte "
+"despois do @: %(domain)s)"
 
 #: validators.py:254
 msgid "You must start your URL with http://, https://, etc"
-msgstr "Ten que iniciar o seu URL por http://, https: //, etc"
+msgstr "A súa URL ten que comezar por http://, https: //, etc"
 
 #: validators.py:255
 msgid "That is not a valid URL"
@@ -126,6 +130,9 @@ msgid ""
 "databases. This is not a OpenERP user, just a super administrator. If you "
 "did not changed it, the password is 'admin' after installation."
 msgstr ""
+"Este é o contrasinal do usuario que ten dereitos de administración da base "
+"de datos. Non é un usuario de OpenERP, só un superadministrador. Se non o "
+"cambiou, o contrasinal despois da instalación é 'admin'."
 
 #: controllers/database.py:70 controllers/database.py:102
 msgid "New database name:"
@@ -136,6 +143,8 @@ msgid ""
 "Choose the name of the database that will be created. The name must not "
 "contain any special character. Exemple: 'terp'."
 msgstr ""
+"Escolla o nome da base de datos que vai crear. O nome non pode conter "
+"caracteres especiais. Por exemplo: 'terp'."
 
 #: controllers/database.py:71
 msgid "Load Demonstration data:"
@@ -147,6 +156,9 @@ msgid ""
 "database. These data will help you to understand OpenERP, with predefined "
 "products, partners, etc."
 msgstr ""
+"Marque esta caixa de verificación se quere instalar datos de exemplo na súa "
+"nova base de datos. Estes datos axudaranlle a entender OpenERP, con produtos "
+"predefinidos, empresas, etc."
 
 #: controllers/database.py:72
 msgid "Default Language:"
@@ -158,6 +170,8 @@ msgid ""
 "will be able to install new languages after installation through the "
 "administration menu."
 msgstr ""
+"Escolla o idioma predefinido que será instalado nesta base de datos. Poderá "
+"instalar novos idiomas despois da instalación dende o menú de administración."
 
 #: controllers/database.py:73
 msgid "Administrator password:"
@@ -168,6 +182,8 @@ msgid ""
 "This is the password of the 'admin' user that will be created in your new "
 "database."
 msgstr ""
+"Esta é a clave do usuario administrador que será creado na súa nova base de "
+"datos."
 
 #: controllers/database.py:74
 msgid "Confirm password:"
@@ -178,6 +194,8 @@ msgid ""
 "This is the password of the 'admin' user that will be created in your new "
 "database. It has to be the same than the above field."
 msgstr ""
+"Esta é a clave do usuario administrador que será creado na súa nova base de "
+"datos. Ten que ser o mesmo que o campo anterior."
 
 #: controllers/database.py:80
 msgid "Drop database"
@@ -252,6 +270,8 @@ msgid ""
 "The server crashed during installation.\n"
 "We suggest you to drop this database."
 msgstr ""
+"O servidor fallou durante a instalación.\n"
+"Suxerímoslle que borre esta base de datos."
 
 #: controllers/database.py:196
 msgid "Error during database creation"
@@ -287,6 +307,8 @@ msgid ""
 "Your problem has been sent to the quality team\n"
 "We will recontact you after analysing the problem."
 msgstr ""
+"O seu problema foi remitido ao equipo de calidade\n"
+"Contactaremos con vostede despois de analizar o problema."
 
 #: controllers/error_page.py:80
 #, python-format
@@ -294,6 +316,8 @@ msgid ""
 "Your problem could not be sent to the quality team\n"
 "Please report this error manually at %s"
 msgstr ""
+"O seu problema non puido ser enviado ao equipo de calidade\n"
+"Por favor remita o problema manualmente a %s"
 
 #: controllers/form.py:553
 #, python-format
@@ -343,6 +367,8 @@ msgid ""
 "Operation failed\n"
 "I/O error"
 msgstr ""
+"Operación fallida\n"
+"I/O erro"
 
 #: controllers/impex.py:373
 msgid "Export Error"
@@ -569,6 +595,15 @@ msgid ""
 "                    project management, production, services, CRM, etc..\n"
 "                    "
 msgstr ""
+"%(openobject)s é un sistema de software libre empresarial escalable, que "
+"está deseñado para aumentar\n"
+"                    productividade e beneficios a través da integración de "
+"datos. Se conecta, mellora e\n"
+"                    administra procesos de negocio en áreas como ventas, "
+"finanzas, cadea de subministración,\n"
+"                    administración de proxectos, producción, servizos, CRM, "
+"etc..\n"
+"                    "
 
 #: controllers/templates/about.mako:51
 msgid ""
@@ -581,12 +616,22 @@ msgid ""
 "                    production system and migration to a new version to be "
 "straightforward."
 msgstr ""
+"O sistema é unha plataforma independente, e pode ser instalado en Windows, "
+"MAC OS X,\n"
+"                    e varios Linux e outras distribucións basadas en Unix. A "
+"súa arquitectura permite\n"
+"                    crear novas funcionalidades rápidamente, modificacións "
+"que haxa que facer no\n"
+"                    sistema de producción e migracións a unha nova versión "
+"de maneira sinxela."
 
 #: controllers/templates/about.mako:57
 msgid ""
 "Depending on your needs, OpenERP is available through a web or application "
 "client."
 msgstr ""
+"Dependendo das súas necesidades, OpenERP está dispoñible a través dunha "
+"aplicación web ou dunha aplicación de cliente."
 
 #: controllers/templates/database.mako:50 controllers/templates/login.mako:4
 #: controllers/templates/login.mako:67 controllers/templates/login_ajax.mako:85
@@ -637,6 +682,25 @@ msgid ""
 "* Security alerts by email and automatic migration,\n"
 "* Access to the customer portal.\n"
 msgstr ""
+"Se está usando OpenERP en produción, é recomendable ter\n"
+"un programa de garantía do fabricante.\n"
+"\n"
+"O contrato de garantía da editora OpenERP ofrece garantías de corrección de "
+"erros e unha\n"
+"migración automática do sistema para que poidamos comezar a traballar nos "
+"seus problemas en poucas\n"
+"horas.\n"
+"\n"
+"Cun contrato de garantía da editora, erros como este poden ser enviados "
+"directamente ao equipo OpenERP\n"
+"para a súa análise e avaliación.\n"
+"\n"
+"O programa de garantía da editora ofrecelle:\n"
+"* Migracións automáticas en novas versións,\n"
+"* A garantía de reparación de erros,\n"
+"* Anuncios mensuais de erros potenciais e as súas correccións,\n"
+"* Alertas de seguridade por correo electrónico e migración automática,\n"
+"* Acceso ao portal do cliente.\n"
 
 #: controllers/templates/error_page.mako:113
 msgid ""
@@ -655,6 +719,22 @@ msgid ""
 "\n"
 "Here is the list of modules not covered by your publisher warranty contract:"
 msgstr ""
+"¡O seu contrato de garantía da editora non cobre todos os módulos instalados "
+"no seu sistema!\n"
+"Se está usando OpenERP en produción, é moi recomendable actualizar o seu\n"
+"contrato.\n"
+"\n"
+"Se ten desenvolvido seus propios módulos ou instalado módulos de terceiros, "
+"nos\n"
+"podemos proporcionar-lle un contrato de garantía adicional da editora para "
+"estes módulos. Despois\n"
+"de ter revisado os seus módulos, o noso equipo de calidade vai garantir que "
+"van ser migrados\n"
+"directamente a todas as futuras versións estables do OpenERP sen ningún "
+"custo adicional.\n"
+"\n"
+"Aquí está a lista de módulos que non serán cubertos pola súa garantía "
+"contractual coa editora:"
 
 #: controllers/templates/error_page.mako:135
 msgid "Publisher warranty contract."
@@ -665,6 +745,8 @@ msgid ""
 "Your request will be sent to OpenERP and publisher warranty team will reply "
 "you shortly."
 msgstr ""
+"A súa solicitude será enviada a OpenERP e o equipo de garantía da editora "
+"respostaralle pronto."
 
 #: controllers/templates/error_page.mako:140
 msgid "Summary of the problem:"
@@ -694,6 +776,11 @@ msgid ""
 "    - \"Cancel\" to cancel saving.\n"
 "    - \"Write anyway\" to save your current version."
 msgstr ""
+"Este documento foi modificado mentres o editaba.\n"
+"Escolla:\n"
+"\n"
+"    - \"Cancelar\" para cancelar o gardado.\n"
+"    - \"Modificar de todas maneiras\" para gardar a versión actual."
 
 #: controllers/templates/error_page.mako:214 controllers/templates/exp.mako:244
 #: controllers/templates/form.mako:140 controllers/templates/openo2m.mako:41
@@ -1085,6 +1172,8 @@ msgid ""
 "We think that daily job activities can be more intuitive, efficient, "
 "automated, .. and even fun."
 msgstr ""
+"Pensamos que as actividades de traballo diario poden ser máis intuitivas, "
+"eficaces, automatizadas .. e mesmo divertidas."
 
 #: controllers/templates/login.mako:95
 msgid "OpenERP's vision to be:"
@@ -1099,6 +1188,8 @@ msgid ""
 "Today's enterprise challenges are multiple. We provide one module for each "
 "need."
 msgstr ""
+"Os retos actuais da empresa son múltiples. Nos proveemos un módulo para cada "
+"necesidade."
 
 #: controllers/templates/login.mako:112
 msgid "Open Source"
@@ -1109,6 +1200,8 @@ msgid ""
 "To Build a great product, we rely on the knowledge of thousands of "
 "contributors."
 msgstr ""
+"Para construír un gran produto, contamos co coñecemento de miles de "
+"contribuíntes."
 
 #: controllers/templates/login.mako:121
 msgid "User Friendly"
@@ -1118,6 +1211,8 @@ msgstr "Sinxelo de usar"
 msgid ""
 "In order to be productive, people need clean and easy to use interface."
 msgstr ""
+"Para ser produtivo, as persoas necesitan unha interfaz limpa e sinxela de "
+"usar."
 
 #: controllers/templates/modules.mako:4
 msgid "Module Management"
@@ -1289,6 +1384,8 @@ msgid ""
 "You select a timezone but OpenERP could not find pytz library!\n"
 "The timezone functionality will be disable."
 msgstr ""
+"¡Escolleu unha zona horaria, pero OpenERP non puido atopar a librería pytz!\n"
+"A funcionalidade de fuso horario será desactivada."
 
 #: utils/rpc.py:355
 msgid "Not logged..."
