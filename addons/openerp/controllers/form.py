@@ -1116,7 +1116,7 @@ class Form(SecuredController):
         actions = []
         relates = []
 
-        if kind == "many2one":
+        if kind == "many2one" or kind == "reference":
             defaults.append({'text': _('Open resource'), 'action': "new ManyToOne('%s').open_record('%s')" % (field, value)})
 
         defaults += [

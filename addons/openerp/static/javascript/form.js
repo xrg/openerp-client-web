@@ -1071,7 +1071,7 @@ function on_context_menu(evt, target){
     }
 
     var src = $target.attr('id');
-    if (kind == 'many2one') {
+    if (kind == 'many2one' || kind == 'reference') {
         src = src.slice(0, -5);
     }
     var $src = jQuery('[id="' + src + '"]');
