@@ -1188,7 +1188,7 @@ class Form(SecuredController):
         anyway), and those go through the execute routine, so only match
         execute()d actions concerning ir.ui.menu. And trees, just because
         """
-        action_data = simplejson.loads(cherrypy.request.params.get('data', '{}'))
+        action_data = cherrypy.request.params.get('data', {})
         return (rpc.session.is_logged() and
                 rpc.session.active_id and
                 ((cherrypy.request.path_info == '/openerp/execute'
