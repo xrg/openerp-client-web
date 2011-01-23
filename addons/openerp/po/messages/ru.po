@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: openobject-client-web\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2011-01-17 13:09+0100\n"
-"PO-Revision-Date: 2011-01-17 04:45+0000\n"
-"Last-Translator: Nkolay Parukhin <parukhin@gmail.com>\n"
+"PO-Revision-Date: 2011-01-22 09:43+0000\n"
+"Last-Translator: Nikolay Chesnokov <chesnokov_n@msn.com>\n"
 "Language-Team: Russian <ru@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2011-01-18 04:37+0000\n"
+"X-Launchpad-Export-Date: 2011-01-23 04:57+0000\n"
 "X-Generator: Launchpad (build 12177)\n"
 
 #: validators.py:75
@@ -344,23 +344,23 @@ msgstr "Неправильный on_change триггер: %s"
 
 #: controllers/form.py:1073
 msgid "Open resource"
-msgstr ""
+msgstr "Открыть ресурс"
 
 #: controllers/form.py:1076
 msgid "Set to default value"
-msgstr ""
+msgstr "Установить значение по умолчанию"
 
 #: controllers/form.py:1077
 msgid "Set as default"
-msgstr ""
+msgstr "Установить по умолчанию"
 
 #: controllers/form.py:1084
 msgid "Action"
-msgstr ""
+msgstr "Действие"
 
 #: controllers/form.py:1085
 msgid "Report"
-msgstr ""
+msgstr "Отчет"
 
 #: controllers/impex.py:66
 msgid ""
@@ -376,7 +376,7 @@ msgstr "Ошибка экспорта"
 
 #: controllers/impex.py:444
 msgid "Database ID"
-msgstr ""
+msgstr "Идентификатор базы данных"
 
 #: controllers/impex.py:451
 msgid "Error opening .CSV file"
@@ -390,11 +390,13 @@ msgstr "Ошибка ввода."
 #, python-format
 msgid "You cannot import the field '%s', because we cannot auto-detect it"
 msgstr ""
+"Вы не можете импортировать поле '%s', потому что его невозможно обнаружить "
+"автоматически"
 
 #: controllers/impex.py:476
 #, python-format
 msgid "Error processing the first line of the file. Field \"%s\" is unknown"
-msgstr ""
+msgstr "Ошибка обработки первой строки файла. Поле \"%s\" не известно"
 
 #: controllers/impex.py:476
 msgid "Import Error."
@@ -562,11 +564,11 @@ msgstr "OpenERP Web"
 
 #: controllers/templates/about.mako:30
 msgid "Copyright &copy; 2006-TODAY OpenERP SA. All Rights Reserved."
-msgstr ""
+msgstr "Авторские права &copy; 2006-TODAY OpenERP SA. Все права защищены."
 
 #: controllers/templates/about.mako:31
 msgid "OpenERP is a trademark of the OpenERP SA Company."
-msgstr ""
+msgstr "OpenERP торговая марка компании OpenERP SA."
 
 #: controllers/templates/about.mako:33
 #, python-format
@@ -642,7 +644,7 @@ msgstr "Пароль"
 #: controllers/templates/error_page.mako:77
 #, python-format
 msgid "An %(error_type)s has been reported."
-msgstr ""
+msgstr "%(error_type)s не поступало."
 
 #: controllers/templates/error_page.mako:79
 msgid "Let me fix it"
@@ -762,19 +764,19 @@ msgstr "Экспорт данных"
 
 #: controllers/templates/exp.mako:166
 msgid "Export Type:"
-msgstr ""
+msgstr "Тип экспорта:"
 
 #: controllers/templates/exp.mako:169
 msgid "Import Compatible Export"
-msgstr ""
+msgstr "Совместимость импорта с экспортом"
 
 #: controllers/templates/exp.mako:172
 msgid "Export all Data"
-msgstr ""
+msgstr "Экспортировать все данные"
 
 #: controllers/templates/exp.mako:183
 msgid "Available fields"
-msgstr ""
+msgstr "Доступные поля"
 
 #: controllers/templates/exp.mako:185
 msgid "Fields to export"
@@ -782,11 +784,11 @@ msgstr "Поля для экспорта"
 
 #: controllers/templates/exp.mako:187
 msgid "Save fields list"
-msgstr ""
+msgstr "Сохранить список полей"
 
 #: controllers/templates/exp.mako:189
 msgid "Save as:"
-msgstr ""
+msgstr "Сохранить как:"
 
 #: controllers/templates/exp.mako:191 controllers/templates/fieldpref.mako:102
 #: controllers/templates/selection.mako:45
@@ -795,7 +797,7 @@ msgstr "OK"
 
 #: controllers/templates/exp.mako:195
 msgid "Saved exports:"
-msgstr ""
+msgstr "Сохраненые экспорты:"
 
 #: controllers/templates/exp.mako:204 controllers/templates/form.mako:135
 #: controllers/templates/image.mako:67 widgets/form/templates/one2many.mako:22
@@ -820,11 +822,11 @@ msgstr "Убрать"
 
 #: controllers/templates/exp.mako:227
 msgid "Remove All"
-msgstr ""
+msgstr "Удалить все"
 
 #: controllers/templates/exp.mako:245
 msgid "Export to File"
-msgstr ""
+msgstr "Экспортировать в файл"
 
 #: controllers/templates/fieldpref.mako:4
 #: controllers/templates/fieldpref.mako:29
@@ -1051,20 +1053,20 @@ msgstr "Импорт данных"
 
 #: controllers/templates/imp.mako:90
 msgid "1. Import a .CSV file"
-msgstr ""
+msgstr "Ипортировать из файла формата CSV"
 
 #: controllers/templates/imp.mako:106
 msgid "CSV File:"
-msgstr ""
+msgstr "Файл CSV:"
 
 #: controllers/templates/imp.mako:124
 msgid "2. Check your file format"
-msgstr ""
+msgstr "Проверьте формат вашего файла"
 
 #: controllers/templates/imp.mako:131
 #, python-format
 msgid "The import failed due to: %(message)s"
-msgstr ""
+msgstr "Выполнить импорт не удалось: %(message)s"
 
 #: controllers/templates/imp.mako:133
 msgid "Here is a preview of the file we could not import:"
@@ -1072,7 +1074,7 @@ msgstr ""
 
 #: controllers/templates/imp.mako:158
 msgid "CSV Options"
-msgstr ""
+msgstr "Параметры формата CSV"
 
 #: controllers/templates/imp.mako:161
 msgid "Separator:"
@@ -1092,11 +1094,11 @@ msgstr "Пропустить строк:"
 
 #: controllers/templates/imp.mako:188
 msgid "3. File imported"
-msgstr ""
+msgstr "Файл импортирован"
 
 #: controllers/templates/imp.mako:206
 msgid "Import File"
-msgstr ""
+msgstr "Импортировать файл"
 
 #: controllers/templates/index.mako:164
 msgid "System Logs"
@@ -1373,7 +1375,7 @@ msgstr "Обзор для поиска"
 
 #: widgets/listgrid.py:289
 msgid "Wrong on_change trigger"
-msgstr ""
+msgstr "Неправильный метод on_change"
 
 #: widgets/listgrid.py:353 widgets/form/_form.py:904
 #, python-format
