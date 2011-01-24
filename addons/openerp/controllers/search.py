@@ -54,7 +54,7 @@ class Search(Form):
         return dict(form=form, params=params, form_name = form.screen.widget.name)
 
     @expose()
-    def new(self, model, source=None, kind=0, text=None, domain=[], context={}, **kw):
+    def new(self, model, source=None, kind=0, text=None, domain=None, context=None, **kw):
         """Create new search view...
 
         @param model: the model
@@ -68,8 +68,8 @@ class Search(Form):
         params = TinyDict()
 
         params.model = model
-        params.domain = domain
-        params.context = context
+        params.domain = domain or []
+        params.context = context or {}
 
         params.source = source
         params.selectable = kind
@@ -79,14 +79,14 @@ class Search(Form):
                    **(params.context or {}))
         params.ids = []
         proxy = rpc.RPCProxy(model)
-        ids = proxy.name_search(text or '', params.domain or [], 'ilike', ctx)
+        ids = proxy.name_search(text or '', params.domain, 'ilike', ctx)
         params.search_text = False
         
         if ids:
             params.ids = [id[0] for id in ids]
             
             # For m2o, when name_search is called, then its result will be added to existing domain
-            params.domain += [('id','in', params.ids)]
+            params.domain.append(('id','in', params.ids))
             
             if len(ids) < params.limit or text:
                 count = len(ids)
