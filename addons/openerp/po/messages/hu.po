@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: openobject-client-web\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2011-01-17 13:09+0100\n"
-"PO-Revision-Date: 2011-01-13 15:25+0000\n"
-"Last-Translator: NOVOTRADE RENDSZERHÁZ <openerp@novotrade.hu>\n"
+"PO-Revision-Date: 2011-01-25 00:19+0000\n"
+"Last-Translator: Csaba TOTH <csaba.toth@i3rendszerhaz.hu>\n"
 "Language-Team: Hungarian <hu@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2011-01-18 04:37+0000\n"
+"X-Launchpad-Export-Date: 2011-01-25 04:53+0000\n"
 "X-Generator: Launchpad (build 12177)\n"
 
 #: validators.py:75
@@ -547,7 +547,7 @@ msgstr ""
 
 #: controllers/templates/about.mako:30
 msgid "Copyright &copy; 2006-TODAY OpenERP SA. All Rights Reserved."
-msgstr ""
+msgstr "Copyright &copy; 2006-TODAY OpenERP SA. Minden jog fenntartva."
 
 #: controllers/templates/about.mako:31
 msgid "OpenERP is a trademark of the OpenERP SA Company."
@@ -844,11 +844,11 @@ msgstr "Bezárás"
 #: controllers/templates/footer.mako:3
 #, python-format
 msgid "&copy; 2008-2010 %(ooweb)s  SA. All Rights Reserved "
-msgstr ""
+msgstr "&copy; 2008-TODAY %(ooweb)s Kft. Minden jog fenntartva "
 
 #: controllers/templates/footer.mako:6
 msgid "Significant contributions to the web client have been made by"
-msgstr ""
+msgstr "Jelentős fejlesztéseket végeztek továbbá:"
 
 #: controllers/templates/form.mako:63
 msgid "Disable all Tips"

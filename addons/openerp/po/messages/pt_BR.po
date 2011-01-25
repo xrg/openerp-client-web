@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2011-01-17 13:09+0100\n"
-"PO-Revision-Date: 2010-12-30 07:11+0000\n"
-"Last-Translator: Cristiano Korndörfer <codigo.aberto@dorfer.com.br>\n"
+"PO-Revision-Date: 2011-01-24 21:56+0000\n"
+"Last-Translator: Adriano Prado <adrianojprado@hotmail.com>\n"
 "Language-Team: pt_BR <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2011-01-18 04:38+0000\n"
+"X-Launchpad-Export-Date: 2011-01-25 04:53+0000\n"
 "X-Generator: Launchpad (build 12177)\n"
 "Generated-By: Babel None\n"
 
@@ -344,23 +344,23 @@ msgstr "Disparador on_change incorreto: %s"
 
 #: controllers/form.py:1073
 msgid "Open resource"
-msgstr ""
+msgstr "Abrir Recurso"
 
 #: controllers/form.py:1076
 msgid "Set to default value"
-msgstr ""
+msgstr "Alterar para valor padrão"
 
 #: controllers/form.py:1077
 msgid "Set as default"
-msgstr ""
+msgstr "Definir como padrão"
 
 #: controllers/form.py:1084
 msgid "Action"
-msgstr ""
+msgstr "Ação"
 
 #: controllers/form.py:1085
 msgid "Report"
-msgstr ""
+msgstr "Relatório"
 
 #: controllers/impex.py:66
 msgid ""
@@ -376,7 +376,7 @@ msgstr "Erro de Exportação"
 
 #: controllers/impex.py:444
 msgid "Database ID"
-msgstr ""
+msgstr "ID Banco de Dados"
 
 #: controllers/impex.py:451
 msgid "Error opening .CSV file"
@@ -390,11 +390,13 @@ msgstr "Erro de entrada"
 #, python-format
 msgid "You cannot import the field '%s', because we cannot auto-detect it"
 msgstr ""
+"Você não pode importar o campo '%s', porque não é possível auto detectá lo"
 
 #: controllers/impex.py:476
 #, python-format
 msgid "Error processing the first line of the file. Field \"%s\" is unknown"
 msgstr ""
+"Erro ao processar a primeira linha do arquivo. Campo \"%s\" é desconhecido"
 
 #: controllers/impex.py:476
 msgid "Import Error."
@@ -424,7 +426,7 @@ msgstr "Registro pai não existe...."
 
 #: controllers/preferences.py:34
 msgid "Change your password"
-msgstr ""
+msgstr "Alterar sua senha"
 
 #: controllers/preferences.py:64 controllers/templates/header.mako:59
 msgid "Preferences"
@@ -432,19 +434,19 @@ msgstr "Preferências"
 
 #: controllers/preferences.py:91
 msgid "All passwords have to be filled."
-msgstr ""
+msgstr "Todas as senhas devem ser preenchidas."
 
 #: controllers/preferences.py:93
 msgid "The new password and its confirmation must be identical."
-msgstr ""
+msgstr "A nova senha e sua confirmação devem ser idênticas."
 
 #: controllers/preferences.py:102
 msgid "Could not change your password."
-msgstr ""
+msgstr "Não foi possível alterar sua senha."
 
 #: controllers/preferences.py:104
 msgid "Original password incorrect, your password was not changed."
-msgstr ""
+msgstr "Senha original incorreta, a senha não foi alterada."
 
 #: controllers/root.py:170
 #, python-format
@@ -561,11 +563,11 @@ msgstr "OpenERP Web"
 
 #: controllers/templates/about.mako:30
 msgid "Copyright &copy; 2006-TODAY OpenERP SA. All Rights Reserved."
-msgstr ""
+msgstr "Copyright &copy; 2006-HOJE OpenERP SA. Todos os Direitos Reservados."
 
 #: controllers/templates/about.mako:31
 msgid "OpenERP is a trademark of the OpenERP SA Company."
-msgstr ""
+msgstr "OpenERP é uma marca comercial da Empresa OpenERP SA ."
 
 #: controllers/templates/about.mako:33
 #, python-format
@@ -645,7 +647,7 @@ msgstr "Senha"
 #: controllers/templates/error_page.mako:77
 #, python-format
 msgid "An %(error_type)s has been reported."
-msgstr ""
+msgstr "Um %(error_type)s foi relatado."
 
 #: controllers/templates/error_page.mako:79
 msgid "Let me fix it"
@@ -765,19 +767,19 @@ msgstr "Exportar dados"
 
 #: controllers/templates/exp.mako:166
 msgid "Export Type:"
-msgstr ""
+msgstr "Tipo de Exportação:"
 
 #: controllers/templates/exp.mako:169
 msgid "Import Compatible Export"
-msgstr ""
+msgstr "Importar Exportação Compatível"
 
 #: controllers/templates/exp.mako:172
 msgid "Export all Data"
-msgstr ""
+msgstr "Exportar todos os Dados"
 
 #: controllers/templates/exp.mako:183
 msgid "Available fields"
-msgstr ""
+msgstr "Campos Disponíveis"
 
 #: controllers/templates/exp.mako:185
 msgid "Fields to export"
@@ -785,11 +787,11 @@ msgstr "Campos para exportar"
 
 #: controllers/templates/exp.mako:187
 msgid "Save fields list"
-msgstr ""
+msgstr "Salvar Lista de Campos"
 
 #: controllers/templates/exp.mako:189
 msgid "Save as:"
-msgstr ""
+msgstr "Salvar como:"
 
 #: controllers/templates/exp.mako:191 controllers/templates/fieldpref.mako:102
 #: controllers/templates/selection.mako:45
@@ -798,7 +800,7 @@ msgstr "OK"
 
 #: controllers/templates/exp.mako:195
 msgid "Saved exports:"
-msgstr ""
+msgstr "Salvar exportação:"
 
 #: controllers/templates/exp.mako:204 controllers/templates/form.mako:135
 #: controllers/templates/image.mako:67 widgets/form/templates/one2many.mako:22
@@ -823,11 +825,11 @@ msgstr "Remover"
 
 #: controllers/templates/exp.mako:227
 msgid "Remove All"
-msgstr ""
+msgstr "Remover Tudo"
 
 #: controllers/templates/exp.mako:245
 msgid "Export to File"
-msgstr ""
+msgstr "Exportar para Arquivo"
 
 #: controllers/templates/fieldpref.mako:4
 #: controllers/templates/fieldpref.mako:29
@@ -1054,28 +1056,28 @@ msgstr "Importar Dados"
 
 #: controllers/templates/imp.mako:90
 msgid "1. Import a .CSV file"
-msgstr ""
+msgstr "Importar um arquivo CSV."
 
 #: controllers/templates/imp.mako:106
 msgid "CSV File:"
-msgstr ""
+msgstr "Arquivo CSV."
 
 #: controllers/templates/imp.mako:124
 msgid "2. Check your file format"
-msgstr ""
+msgstr "Verifique seu formato de arquivo"
 
 #: controllers/templates/imp.mako:131
 #, python-format
 msgid "The import failed due to: %(message)s"
-msgstr ""
+msgstr "A importação falhou devido a: %(message)s"
 
 #: controllers/templates/imp.mako:133
 msgid "Here is a preview of the file we could not import:"
-msgstr ""
+msgstr "Aqui está uma visualização do arquivo que não pode importar:"
 
 #: controllers/templates/imp.mako:158
 msgid "CSV Options"
-msgstr ""
+msgstr "Opções CSV"
 
 #: controllers/templates/imp.mako:161
 msgid "Separator:"
@@ -1095,11 +1097,11 @@ msgstr "Linhas para saltar:"
 
 #: controllers/templates/imp.mako:188
 msgid "3. File imported"
-msgstr ""
+msgstr "Arquivo Importado"
 
 #: controllers/templates/imp.mako:206
 msgid "Import File"
-msgstr ""
+msgstr "Importar Arquivo"
 
 #: controllers/templates/index.mako:164
 msgid "System Logs"
@@ -1107,7 +1109,7 @@ msgstr "Logs do Sistema"
 
 #: controllers/templates/index.mako:189
 msgid "More"
-msgstr ""
+msgstr "Mais"
 
 #: controllers/templates/index.mako:190
 msgid "Widgets"
@@ -1188,11 +1190,11 @@ msgstr "Módulos Web"
 
 #: controllers/templates/openo2m.mako:34
 msgid "Save & Close"
-msgstr ""
+msgstr "Salvar & Fechar"
 
 #: controllers/templates/openo2m.mako:37
 msgid "Save & New"
-msgstr ""
+msgstr "Salvar & Novo"
 
 #: controllers/templates/save_filter.mako:18
 msgid "Save as Filter"
@@ -1220,7 +1222,7 @@ msgstr "Lista"
 #: controllers/templates/search.mako:143
 #, python-format
 msgid "No record found : '%(searched_string)s'."
-msgstr ""
+msgstr "Nenhum registro encontrado: '%(searched_string)s'."
 
 #: controllers/templates/selection.mako:4
 msgid "Select action"
@@ -1377,7 +1379,7 @@ msgstr "Lista..."
 
 #: widgets/listgrid.py:289
 msgid "Wrong on_change trigger"
-msgstr ""
+msgstr "Gatilho on_change errado"
 
 #: widgets/listgrid.py:353 widgets/form/_form.py:904
 #, python-format
@@ -1468,7 +1470,7 @@ msgstr "Incluir anexo"
 
 #: widgets/form/templates/image.mako:7 widgets/form/templates/image.mako:39
 msgid "Click here to add new image."
-msgstr ""
+msgstr "Clique aqui para adicionar nova imagem."
 
 #: widgets/form/templates/many2one.mako:2
 #: widgets/form/templates/reference.mako:30
