@@ -184,17 +184,6 @@ class O2M(TinyInputWidget):
 
         if current.view_type == 'tree' and self.readonly:
             self.editable = False
-        
-        if self.view_type == 'form':
-            if current.id and not self.id:
-                self.id = current.id
-                params.id = self.id
-        
-        if self.view_type == 'tree' and pparams:
-            if pparams.id:
-                self.editable = True
-            else:
-                self.editable = False
 
         if 'default_name' in current.context:
             del current.context['default_name']
