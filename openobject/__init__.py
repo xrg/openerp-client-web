@@ -86,6 +86,8 @@ def enable_static_paths():
     }})
 
 BASE_CONFIG = {
+    # Conversion of input parameters via formencode.variabledecode.NestedVariables
+    'tools.nestedvars.on': True
 }
 def configure(app_config):
     ''' Configures OpenERP Web Client. Takes a configuration dict
