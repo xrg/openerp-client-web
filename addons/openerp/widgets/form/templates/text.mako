@@ -16,6 +16,6 @@
         <span class="fielderror">${error}</span>
     % endif
 % else:
-    <p kind="${kind}" id="${name}" class="raw-text">${value|n}</p>
+    <p kind="${kind}" id="${name}" class="raw-text">${value or "&nbsp;"|n}</p>
 % endif
 
