@@ -82,8 +82,9 @@ def _load_translations(path, locales, domain):
 
     catalog = _translations.setdefault(domain, {})
     for locale in locales:
+        translation = None
         try:
-            tr = _load_translation(path, locale, domain)
+            translation = _load_translation(path, locale, domain)
         except babel.core.UnknownLocaleError, e:
             # don't load unknown locales such as Klingon (tlh)
             cherrypy.log.error("%s, ignoring translation file" % e, context='i18n', severity=logging.WARN)
@@ -97,12 +98,11 @@ def _load_translations(path, locales, domain):
                     severity=logging.WARNING)
             cherrypy.log.error(context='i18n', severity=logging.DEBUG,
                                traceback=True)
-            tr = None
-        if isinstance(tr, babel.support.Translations):
+        if isinstance(translation, babel.support.Translations):
             if locale in catalog:
-                catalog[locale].merge(tr)
+                catalog[locale].merge(translation)
             else:
-                catalog[locale] = tr
+                catalog[locale] = translation
 
 def load_translations(path, locales=None, domain="messages"):
     """
