@@ -1,0 +1,97 @@
+# Catalan translation for openobject-client-web
+# Copyright (c) 2011 Rosetta Contributors and Canonical Ltd 2011
+# This file is distributed under the same license as the openobject-client-web package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2011.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: openobject-client-web\n"
+"Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
+"POT-Creation-Date: 2011-01-17 13:09+0100\n"
+"PO-Revision-Date: 2011-01-25 10:33+0000\n"
+"Last-Translator: Esther Xaus (Zikzakmedia) <Unknown>\n"
+"Language-Team: Catalan <ca@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Launchpad-Export-Date: 2011-01-26 04:37+0000\n"
+"X-Generator: Launchpad (build 12177)\n"
+
+#: static/javascript/form.js:92
+#, python-format
+msgid "You selected to open %(tabs)s tabs - do you want to continue?"
+msgstr "Heu seleccionat obrir les pestanyes %(tabs)s - Voleu continuar?"
+
+#: static/javascript/form.js:169
+msgid "Invalid form, correct red fields."
+msgstr "Formulari no vàlid, corregiu els camps en vermell."
+
+#: static/javascript/form.js:204
+msgid "Do you really want to delete this record?"
+msgstr "Realment voleu eliminar aquest registre?"
+
+#: static/javascript/form.js:953
+msgid "You must select one or several records !"
+msgstr "Heu de seleccionar un o varis registres!"
+
+#: static/javascript/form.js:1116
+msgid "Do you really want to delete the attachment"
+msgstr "Realment voleu eliminar l'adjunt"
+
+#: static/javascript/form.js:1150
+msgid "No record selected ! You can only attach to existing record."
+msgstr ""
+"No heu seleccionat un registre! Només podeu adjuntar a un registre en "
+"concret."
+
+#: static/javascript/form.js:1209
+msgid "OpenERP - Error"
+msgstr "OpenERP - Error"
+
+#: static/javascript/form.js:1280
+msgid ""
+"Warning, the record has been modified,\n"
+"your changes will be discarded."
+msgstr ""
+"Avís, el registre s'ha modificat,\n"
+"els canvis seran descartats."
+
+#: static/javascript/listgrid.js:499 static/javascript/o2m.js:95
+msgid "To edit Record, please first save it."
+msgstr "Per editar un registre, deseu-lo primer."
+
+#: static/javascript/listgrid.js:607
+msgid "Do you really want to delete selected record(s) ?"
+msgstr "Realment voleu suprimir el registre (s) seleccionat (s)?"
+
+#: static/javascript/m2o.js:506
+msgid "error in display::"
+msgstr "error al mostrar::"
+
+#: static/javascript/o2m.js:54
+msgid "Do you really want to delete record ?"
+msgstr "Realment voleu eliminar el registre?"
+
+#: static/javascript/viewed.js:63
+msgid "Do you really want to remove this node?"
+msgstr "Realment voleu eliminar aquest node?"
+
+#: static/javascript/viewed.js:329
+msgid "Do you really wants to create an inherited view here?"
+msgstr "Realment voleu crear una vista heretada aquí?"
+
+#: static/javascript/openerp/openerp.base.js:127
+msgid "doLoadingSuccess: Cannot parse JSON"
+msgstr "doLoadingSuccess: No s'ha pogut analitzar JSON"
+
+#: static/javascript/openerp/openerp.base.js:326
+msgid "Loading"
+msgstr "Carregant"
+
+#: static/javascript/openerp/openerp.ui.tips.js:51
+msgid "Object"
+msgstr "Objecte"
+
+#: static/javascript/openerp/openerp.ui.tips.js:52
+msgid "Field"
+msgstr "Camp"
