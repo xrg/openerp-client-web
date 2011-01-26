@@ -111,7 +111,7 @@ ListView.prototype = {
         return jQuery(openobject.dom.select('tr.grid-row', this.name)).map(function () {
             return parseInt(jQuery(this).attr('record')) || 0;
         }).filter(function () {
-            return !!this;
+            return this != 0;
         }).get();
     },
 
