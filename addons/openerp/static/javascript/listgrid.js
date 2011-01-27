@@ -70,27 +70,27 @@ ListView.prototype = {
 
     selectedRow_sum: function() {
         var selected_ids = this.getSelectedRecords();
-        var $buttons = jQuery('[id="'+this.name+'_delete_record'+'"], [id="'+this.name+'_edit_record'+'"]');
-
-        if(selected_ids.length) {
-            $buttons.parent().show();
-        }
-        else {
-            $buttons.parent().hide();
-        }
-
-        if(jQuery('table[id="'+this.name+'"] tr.field_sum td.grid-cell span').length>0) {
-            var sum_fields = jQuery('tr.field_sum td.grid-cell span').map(function() {
-                return jQuery(this).attr('id');
-            }).get();
-
-            var selected_fields = sum_fields.join(",");
-            if(selected_ids.length) {
-                selected_ids = '[' + selected_ids.join(',') + ']';
-            } else if(this.ids) {
-                selected_ids = this.ids;
-            }
-            jQuery.ajax({
+		var $delete_record_option = jQuery(idSelector(this.name+'_delete_record')).parent();
+		
+		
+		$delete_record_option.toggle();
+		var $sum_fields = jQuery('.field_sum', idSelector(this.name));
+		if($sum_fields.length) {
+			if(!selected_ids.length) {
+				selected_ids = this.ids;
+			} else {
+				selected_ids = '[' + selected_ids.join(',') + ']';
+			}
+			
+			var $sum_span_fields = jQuery('td.grid-cell span', $sum_fields);
+			
+			var sum_fields = $sum_span_fields.map(function(){
+				return jQuery(this).attr('id');
+			}).get();
+			
+			var selected_fields = sum_fields.join(",");
+			
+			jQuery.ajax({
                 url: '/openerp/listgrid/count_sum',
                 type: 'POST',
                 data: {
@@ -100,11 +100,11 @@ ListView.prototype = {
                 dataType: 'json',
                 success: function(obj) {
                     for(var i in obj.sum) {
-                        jQuery('tr.field_sum td.grid-cell span[id="' + sum_fields[i] + '"]').html(obj.sum[i])
+						jQuery($sum_span_fields[i]).html(obj.sum[i]);
                     }
                 }
             });
-        }
+		}
     },
 
     getRecords: function() {
