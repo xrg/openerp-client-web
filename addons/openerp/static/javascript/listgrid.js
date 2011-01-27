@@ -70,27 +70,25 @@ ListView.prototype = {
 
     selectedRow_sum: function() {
         var selected_ids = this.getSelectedRecords();
-		var $delete_record_option = jQuery(idSelector(this.name+'_delete_record')).parent();
-		
-		
-		$delete_record_option.toggle();
-		var $sum_fields = jQuery('.field_sum', idSelector(this.name));
-		if($sum_fields.length) {
-			if(!selected_ids.length) {
-				selected_ids = this.ids;
-			} else {
-				selected_ids = '[' + selected_ids.join(',') + ']';
-			}
-			
-			var $sum_span_fields = jQuery('td.grid-cell span', $sum_fields);
-			
-			var sum_fields = $sum_span_fields.map(function(){
-				return jQuery(this).attr('id');
-			}).get();
-			
-			var selected_fields = sum_fields.join(",");
-			
-			jQuery.ajax({
+        var $delete_record_option = jQuery(idSelector(this.name + '_delete_record')).parent();
+
+
+        $delete_record_option.toggle();
+        var $sum_fields = jQuery('.field_sum', idSelector(this.name));
+        if ($sum_fields.length) {
+            selected_ids = (!selected_ids.length
+                    ? this.ids
+                    : '[' + selected_ids.join(',') + ']');
+
+            var $sum_span_fields = jQuery('td.grid-cell span', $sum_fields);
+
+            var sum_fields = $sum_span_fields.map(function() {
+                return jQuery(this).attr('id');
+            }).get();
+
+            var selected_fields = sum_fields.join(",");
+
+            jQuery.ajax({
                 url: '/openerp/listgrid/count_sum',
                 type: 'POST',
                 data: {
@@ -99,12 +97,12 @@ ListView.prototype = {
                     'sum_fields': selected_fields},
                 dataType: 'json',
                 success: function(obj) {
-                    for(var i in obj.sum) {
-						jQuery($sum_span_fields[i]).html(obj.sum[i]);
+                    for (var i in obj.sum) {
+                        jQuery($sum_span_fields[i]).html(obj.sum[i]);
                     }
                 }
             });
-		}
+        }
     },
 
     getRecords: function() {
@@ -408,10 +406,10 @@ MochiKit.Base.update(ListView.prototype, {
                     return;
                 }
 
-				if($src.attr('callback')) {
-					return;
-				}
-				return;
+                if ($src.attr('callback')) {
+                    return;
+                }
+                return;
             }
 
             if ($src[0].onchange) {
@@ -480,15 +478,15 @@ MochiKit.Base.update(ListView.prototype, {
             active_id: id,
             active_ids: openobject.dom.get(prefix + '_terp_ids').value
         }).addCallback(function(res) {
-            var $form = jQuery('#listgrid_button_action');
-			if (res && res.context) {
-				params['_terp_context'] = res.context;
-			} else {
-				params['_terp_context'] = jQuery(idSelector('_terp_context')).val()
-			}
+            if (res && res.context) {
+                params['_terp_context'] = res.context;
+            } else {
+                params['_terp_context'] = jQuery('#_terp_context').val()
+            }
             params['_terp_list_grid'] = _list;
-            if($form.length) {
-                $form.remove();
+            var $action_button = jQuery('#listgrid_button_action');
+            if($action_button.length) {
+                $action_button.remove();
             }
             var $form = jQuery('<form>', {
                 'id': 'listgrid_button_action',
