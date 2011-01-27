@@ -79,29 +79,24 @@ class Search(Form):
                    **(params.context or {}))
         params.ids = []
         proxy = rpc.RPCProxy(model)
-        ids = proxy.name_search(text or '', params.domain or [], 'ilike', ctx)
         params.search_text = False
-        
-        if ids:
-            params.ids = [id[0] for id in ids]
-            
-            # For m2o, when name_search is called, then its result will be added to existing domain
-            params.domain += [('id','in', params.ids)]
-            
-            if len(ids) < params.limit or text:
-                count = len(ids)
-            else:
-                count = proxy.search_count(params.domain, ctx)
-            params.count = count
-        else:
-            params.context['default_name'] = ustr(text)
-            
+
         if text:
             params.search_text = True
-        else:
-            if params.context.get('default_name'):
-                del params.context['default_name']
-                
+            ids = proxy.name_search(text, params.domain or [], 'ilike', ctx, False)
+
+            if ids:
+                params.ids = [id[0] for id in ids]
+
+                # For m2o, when name_search is called, then its result will be added to existing domain
+                params.domain.append(('id','in', params.ids))
+
+                params.count = len(ids)
+            else:
+                params.context['default_name'] = ustr(text)
+        elif 'default_name'in params.context:
+            del params.context['default_name']
+
         if kw.get('return_to'):
             params['return_to'] = ast.literal_eval(kw['return_to'])
             
