@@ -537,6 +537,8 @@ ManyToOne.prototype.getMouseover = function(evt) {
 ManyToOne.prototype.getOnclick = function(evt) {
     evt.which = 13;
     this.on_keydown(evt);
+	evt.stopPropagation();
+	evt.preventDefault();
 };
 
 (function ($) {

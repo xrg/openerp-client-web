@@ -407,6 +407,11 @@ MochiKit.Base.update(ListView.prototype, {
                 if ($src.val() && !openobject.dom.get(k).value) {
                     return;
                 }
+
+				if($src.attr('callback')) {
+					return;
+				}
+				return;
             }
 
             if ($src[0].onchange) {
