@@ -470,7 +470,8 @@ MochiKit.Base.update(ListView.prototype, {
             _terp_model : this.model,
             _terp_id : id,
             _terp_button_name : name,
-            _terp_button_type : btype
+            _terp_button_type : btype,
+			_terp_context: context
         };
 
         eval_domain_context_request({
@@ -480,7 +481,11 @@ MochiKit.Base.update(ListView.prototype, {
             active_ids: openobject.dom.get(prefix + '_terp_ids').value
         }).addCallback(function(res) {
             var $form = jQuery('#listgrid_button_action');
-            params['_terp_context'] = res.context || '{}';
+			if (res && res.context) {
+				params['_terp_context'] = res.context;
+			} else {
+				params['_terp_context'] = jQuery(idSelector('_terp_context')).val()
+			}
             params['_terp_list_grid'] = _list;
             if($form.length) {
                 $form.remove();
