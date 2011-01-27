@@ -104,7 +104,7 @@ def parse_groups(group_by, grp_records, headers, ids, model,  offset, limit, con
                 dom = [('id', 'in', ids), rec_dom[0]]
                 ch_ids = [d for id in proxy.search(dom, offset, limit, 0, context)
                             for  d in data
-                            if d.get('id') == id]
+                            if int(str(d.get('id'))) == id] # Need to convert in String and then Int.
             rec['child_rec'] = ch_ids
             rec['group_id'] = 'group_' + str(random.randrange(1, 10000))
             if group_by:
