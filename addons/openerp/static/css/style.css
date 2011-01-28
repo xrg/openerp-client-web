@@ -817,13 +817,13 @@ div.button_wid_string {
 }
 
 /* Progress Bar Widget */
-#progress {
+.progress-bar {
     position: relative;
     border: 1px solid gray;
     font-size: 11px;
     text-align: center;
 }
-#progress div {
+.progress-bar div {
     position: absolute;
     top: 0;
     left: 0;

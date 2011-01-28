@@ -665,7 +665,7 @@ function onChange(caller){
                         break;
                     case 'progress':
                         var progress = values['progress'].toString() + '%';
-                        jQuery('#progress').text(progress).append(jQuery('<div>', {
+                        jQuery('.progress-bar').text(progress).append(jQuery('<div>', {
                             'width': progress
                         }));
                         break;
