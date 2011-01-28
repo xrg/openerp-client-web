@@ -917,6 +917,7 @@ function set_as_default(field, model){
             _terp_model: model,
             _terp_field: field
     })).addCallback(function(obj){
+        if (!obj.text) { return; }
         jQuery.frame_dialog({src:openobject.http.getURL('/openerp/fieldpref', {
                 '_terp_model': model,
                 '_terp_field/name': field,
