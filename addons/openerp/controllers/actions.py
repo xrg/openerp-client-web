@@ -484,9 +484,10 @@ def close_popup(reload=True):
     """
     return {'reload': reload}
 
-@tools.expose()
+@tools.expose(template="/openerp/controllers/templates/report.mako")
 def report_link(report_name, **kw):
     cherrypy.response.headers['X-Target'] = 'download'
     cherrypy.response.headers['Location'] = tools.url(
             '/openerp/report', report_name=report_name, **kw)
-    return ""
+    return dict(name=report_name, data=kw)
+    
