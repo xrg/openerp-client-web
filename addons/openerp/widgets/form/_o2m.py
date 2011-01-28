@@ -130,7 +130,7 @@ class O2M(TinyInputWidget):
                     item['id'] = 0
                 ids = []
             elif isinstance(ids[0], tuple):
-                ids = [current[1] for current in ids]
+                [current_id[1] for current_id in ids]
         
         id = (ids or None) and ids[0]
         
