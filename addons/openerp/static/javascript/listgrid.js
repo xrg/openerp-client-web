@@ -85,6 +85,7 @@ ListView.prototype = {
             }).get();
 
             var selected_fields = sum_fields.join(",");
+            if(!selected_fields) { return; }
             if(selected_ids.length) {
                 selected_ids = '[' + selected_ids.join(',') + ']';
             } else if(this.ids) {
