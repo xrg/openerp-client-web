@@ -363,7 +363,7 @@ class Char(TinyInputWidget):
         self.validator = validators.String()
 
     def set_value(self, value):
-        self.default = value or ''
+        self.default = value
 
 register_widget(Char, ["char"])
 
@@ -390,7 +390,7 @@ class Text(TinyInputWidget):
         self.validator = validators.String()
 
     def set_value(self, value):
-        self.default = value or ''
+        self.default = value
 
 register_widget(Text, ["text", "text_tag"])
 
