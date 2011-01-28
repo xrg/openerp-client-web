@@ -176,8 +176,11 @@ class Search(Form):
         if isinstance(context, dict):
             context = expr_eval(context, ctx)
         parent_context.update(context)
-        if not isinstance(params.group_by, list):
+
+        if isinstance(params.group_by, basestring):
             params.group_by = params.group_by.split(',')
+        elif not isinstance(params.group_by, list):
+            params.group_by = []
 
         # Fixed header string problem for m2m,m2o field when parent context takes '_terp_view_name'
         parent_context.pop('_terp_view_name', None)
