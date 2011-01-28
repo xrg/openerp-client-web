@@ -79,29 +79,24 @@ class Search(Form):
                    **(params.context or {}))
         params.ids = []
         proxy = rpc.RPCProxy(model)
-        ids = proxy.name_search(text or '', params.domain, 'ilike', ctx)
         params.search_text = False
-        
-        if ids:
-            params.ids = [id[0] for id in ids]
-            
-            # For m2o, when name_search is called, then its result will be added to existing domain
-            params.domain.append(('id','in', params.ids))
-            
-            if len(ids) < params.limit or text:
-                count = len(ids)
-            else:
-                count = proxy.search_count(params.domain, ctx)
-            params.count = count
-        else:
-            params.context['default_name'] = ustr(text)
-            
+
         if text:
             params.search_text = True
-        else:
-            if params.context.get('default_name'):
-                del params.context['default_name']
-                
+            ids = proxy.name_search(text, params.domain or [], 'ilike', ctx, False)
+
+            if ids:
+                params.ids = [id[0] for id in ids]
+
+                # For m2o, when name_search is called, then its result will be added to existing domain
+                params.domain.append(('id','in', params.ids))
+
+                params.count = len(ids)
+            else:
+                params.context['default_name'] = ustr(text)
+        elif 'default_name'in params.context:
+            del params.context['default_name']
+
         if kw.get('return_to'):
             params['return_to'] = ast.literal_eval(kw['return_to'])
             
@@ -199,32 +194,33 @@ class Search(Form):
 
         record = kw.get('record')
         record = eval(record)
-
         proxy = rpc.RPCProxy(model)
         data = {}
         res = proxy.fields_get(False, rpc.session.context)
 
         all_values = {}
-
+        errors = []
+        
         for k, v in record.items():
             values = {}
             for key, val in v.items():
+                frm_datas = {}
                 for field in val:
                     fld = {
                         'value': val[field],
                         'type': res[field].get('type')
                     }
                     datas = {field: fld}
-
+                    frm_datas[field] = fld
                     try:
-                        frm = TinyForm(**data).to_python()
+                        frm = TinyForm(**frm_datas).to_python()
                     except TinyFormError, e:
                         error_field = e.field
                         error = ustr(e)
-                        return dict(error=error, error_field=error_field)
+                        errors.append({e.field: error})
                     except Exception, e:
                         error = ustr(e)
-                        return dict(error=error, error_field=error_field)
+                        errors.append({field: error})
 
                     datas['rec'] = field
                     
@@ -235,7 +231,7 @@ class Search(Form):
 
             all_values[k] = values
 
-        return dict(frm=all_values, error=error)
+        return dict(frm=all_values, errors=errors)
 
     @expose('json')
     def eval_domain_filter(self, **kw):
@@ -258,6 +254,9 @@ class Search(Form):
 
         c = search_context.get('context', {})
         v = search_context.get('value')
+        if v and '__' in v:
+            value, operator = v.split('__')
+            v = int(value)
         ctx = expr_eval(c, {'self':v})
 
         context = rpc.session.context

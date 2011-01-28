@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: openobject-client-web\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2011-01-17 13:09+0100\n"
-"PO-Revision-Date: 2011-01-11 01:31+0000\n"
+"PO-Revision-Date: 2011-01-22 01:09+0000\n"
 "Last-Translator: Tiago Baptista <Unknown>\n"
 "Language-Team: Portuguese <pt@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2011-01-18 04:37+0000\n"
+"X-Launchpad-Export-Date: 2011-01-23 04:56+0000\n"
 "X-Generator: Launchpad (build 12177)\n"
 
 #: validators.py:75
@@ -341,23 +341,23 @@ msgstr "Gatilho \"on_change\" incorreto: %s"
 
 #: controllers/form.py:1073
 msgid "Open resource"
-msgstr ""
+msgstr "Abrir recurso"
 
 #: controllers/form.py:1076
 msgid "Set to default value"
-msgstr ""
+msgstr "Repor valor por defeito"
 
 #: controllers/form.py:1077
 msgid "Set as default"
-msgstr ""
+msgstr "Definir valor por defeito"
 
 #: controllers/form.py:1084
 msgid "Action"
-msgstr ""
+msgstr "Acção"
 
 #: controllers/form.py:1085
 msgid "Report"
-msgstr ""
+msgstr "Relatório"
 
 #: controllers/impex.py:66
 msgid ""
@@ -373,7 +373,7 @@ msgstr "Erro na exportação"
 
 #: controllers/impex.py:444
 msgid "Database ID"
-msgstr ""
+msgstr "ID Base de Dados"
 
 #: controllers/impex.py:451
 msgid "Error opening .CSV file"
@@ -387,11 +387,13 @@ msgstr "Erro de introdução"
 #, python-format
 msgid "You cannot import the field '%s', because we cannot auto-detect it"
 msgstr ""
+"Não pode importar o campo '%s', porque não o conseguimos auto-detectar"
 
 #: controllers/impex.py:476
 #, python-format
 msgid "Error processing the first line of the file. Field \"%s\" is unknown"
 msgstr ""
+"Erro ao analisar a primeira linha do ficheiro. Campo \"%s\" é desconhecido"
 
 #: controllers/impex.py:476
 msgid "Import Error."
@@ -559,10 +561,11 @@ msgstr "OpenERP Web"
 #: controllers/templates/about.mako:30
 msgid "Copyright &copy; 2006-TODAY OpenERP SA. All Rights Reserved."
 msgstr ""
+"Copyright &copy; 2006-TODAY OpenERP SA. Todos os direitos reservados."
 
 #: controllers/templates/about.mako:31
 msgid "OpenERP is a trademark of the OpenERP SA Company."
-msgstr ""
+msgstr "OpenERP é uma marca registada de OpenERP SA"
 
 #: controllers/templates/about.mako:33
 #, python-format
@@ -756,7 +759,7 @@ msgstr ""
 
 #: controllers/templates/exp.mako:183
 msgid "Available fields"
-msgstr ""
+msgstr "Campos disponíveis"
 
 #: controllers/templates/exp.mako:185
 msgid "Fields to export"
@@ -764,11 +767,11 @@ msgstr "Campos a exportar"
 
 #: controllers/templates/exp.mako:187
 msgid "Save fields list"
-msgstr ""
+msgstr "Gravar lista de campos"
 
 #: controllers/templates/exp.mako:189
 msgid "Save as:"
-msgstr ""
+msgstr "Gravar como:"
 
 #: controllers/templates/exp.mako:191 controllers/templates/fieldpref.mako:102
 #: controllers/templates/selection.mako:45
@@ -806,7 +809,7 @@ msgstr ""
 
 #: controllers/templates/exp.mako:245
 msgid "Export to File"
-msgstr ""
+msgstr "Exportar para ficheiro"
 
 #: controllers/templates/fieldpref.mako:4
 #: controllers/templates/fieldpref.mako:29
@@ -1033,20 +1036,20 @@ msgstr "Importar dados"
 
 #: controllers/templates/imp.mako:90
 msgid "1. Import a .CSV file"
-msgstr ""
+msgstr "1. Importar um ficheiro .CSV"
 
 #: controllers/templates/imp.mako:106
 msgid "CSV File:"
-msgstr ""
+msgstr "Ficheiro CSV:"
 
 #: controllers/templates/imp.mako:124
 msgid "2. Check your file format"
-msgstr ""
+msgstr "2. Verifique o formato do ficheiro"
 
 #: controllers/templates/imp.mako:131
 #, python-format
 msgid "The import failed due to: %(message)s"
-msgstr ""
+msgstr "A importação falhou devido a: %(message)s"
 
 #: controllers/templates/imp.mako:133
 msgid "Here is a preview of the file we could not import:"
@@ -1054,7 +1057,7 @@ msgstr ""
 
 #: controllers/templates/imp.mako:158
 msgid "CSV Options"
-msgstr ""
+msgstr "Opções CSV"
 
 #: controllers/templates/imp.mako:161
 msgid "Separator:"
@@ -1074,15 +1077,15 @@ msgstr "Linhas para omitir:"
 
 #: controllers/templates/imp.mako:188
 msgid "3. File imported"
-msgstr ""
+msgstr "3. Ficheiro importado"
 
 #: controllers/templates/imp.mako:206
 msgid "Import File"
-msgstr ""
+msgstr "Importar ficheiro"
 
 #: controllers/templates/index.mako:164
 msgid "System Logs"
-msgstr ""
+msgstr "Registo do sistema"
 
 #: controllers/templates/index.mako:189
 msgid "More"

@@ -290,7 +290,7 @@
                                                 % if 'sum' in field_attrs:
                                                     % for key, val in field_total.items():
                                                         % if field == key:
-                                                            <span class="sum_value_field">${val[1]}</span>
+                                                            <span class="sum_value_field" id="${field}">${val[1]}</span>
                                                         % endif
                                                     % endfor
                                                 % else:

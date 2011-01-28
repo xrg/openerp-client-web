@@ -1,4 +1,3 @@
-import errno
 import logging
 import os
 import imp
@@ -224,9 +223,9 @@ def load_addons(db_name, config):
 
     cherrypy.request.loading_addons = False
 
-writeable = os.access('addons', os.W_OK)
+writeable = os.access(paths.addons(), os.W_OK)
 if not writeable:
     cherrypy.log.error(
-            "Can not write to the addons directory '%s', "
-           "will not be able to download web modules" % paths.addons(),
-            "WARNING", severity=logging.WARNING)
+        "Can not write to the addons directory '%s', "
+        "will not be able to download web modules" % paths.addons(),
+        "WARNING", severity=logging.WARNING)

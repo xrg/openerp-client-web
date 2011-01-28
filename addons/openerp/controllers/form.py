@@ -973,16 +973,14 @@ class Form(SecuredController):
             return self.do_action('client_action_multi', datas=kw)
 
         if type is None:
-            action_type = rpc.RPCProxy('ir.actions.actions').read(act_id, ['type'], rpc.session.context)['type']
-            action = rpc.session.execute('object', 'execute', action_type, 'read', act_id, False, rpc.session.context)
+            action_type = rpc.RPCProxy('ir.actions.actions').read(act_id, ['type'], context)['type']
+            action = rpc.session.execute('object', 'execute', action_type, 'read', act_id, False, context)
 
         if domain:
             if isinstance(domain, basestring):
                 domain = eval(domain)
             domain.extend(expr_eval(action.get('domain', '[]'), context))
             action['domain'] = ustr(domain)
-
-        action['context'] = context or {}
 
         import actions
         return actions.execute(action, model=params.model, id=id, ids=ids, report_type='pdf', context_menu=context_menu)
@@ -1116,7 +1114,7 @@ class Form(SecuredController):
         actions = []
         relates = []
 
-        if kind == "many2one":
+        if kind == "many2one" or kind == "reference":
             defaults.append({'text': _('Open resource'), 'action': "new ManyToOne('%s').open_record('%s')" % (field, value)})
 
         defaults += [
