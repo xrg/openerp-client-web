@@ -489,11 +489,13 @@ class ImpEx(SecuredController):
         res = None
         content = csvfile.file.read()
         input=StringIO.StringIO(content)
-        all_data = list(csv.reader(input, quotechar=str(csvdel), delimiter=str(csvsep)))
         limit = 0
         data = []
 
-        for j, line in enumerate(all_data):
+        if not (csvdel and len(csvdel) == 1):
+            return self.imp(error={'message': _("The CSV delimiter must be a single character")}, **kw)
+
+        for j, line in enumerate(csv.reader(input, quotechar=str(csvdel), delimiter=str(csvsep))):
             if j == limit:
                 fields = line
             else:
