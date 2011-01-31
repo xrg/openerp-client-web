@@ -26,7 +26,7 @@ import formencode
 import openobject
 
 
-def _make_dict(data, is_params=False, previous_dict_ids=None):
+def _make_dict(data, is_params=False):
     """If is_params is True then generates a TinyDict otherwise generates a valid
     dictionary from the given data to be used with OpenERP.
 
@@ -36,43 +36,44 @@ def _make_dict(data, is_params=False, previous_dict_ids=None):
     @return: TinyDict or dict
     """
     
-    if previous_dict_ids is None:
-        previous_dict_ids = set()
-    if id(data) in previous_dict_ids:
-        raise ValueError("Recursive dictionary detected, _make_dict does not handle recursive dictionaries.")
-    previous_dict_ids.add(id(data))
-
-    res = (is_params or {}) and TinyDict()
-
-    for name, value in data.items():
-
-        #XXX: safari 3.0 submits selection field even if no `name` attribute
-        if not name:
-            continue
-
-        if isinstance(name, basestring) and '/' in name:
-            names = name.split('/')
-            res.setdefault(names[0], (is_params or {}) and TinyDict()).update({"/".join(names[1:]): value})
-        else:
-            res[name] = value
-
-    for k, v in res.items():
-        if isinstance(v, dict):
-            if not is_params and '__id' in v:
-                _id = v.pop('__id') or 0
-                _id = int(_id)
-
-                values = _make_dict(v, is_params)
-                if values and any(values.itervalues()):
-                    res[k] = [(_id and 1, _id, values)]
-                else:
-                    res[k] = []
-
+    def make_dict_internal(data, is_params=False, previous_dict_ids=None):
+        if id(data) in previous_dict_ids:
+            raise ValueError("Recursive dictionary detected, _make_dict does not handle recursive dictionaries.")
+        previous_dict_ids.add(id(data))
+    
+        res = (is_params or {}) and TinyDict()
+    
+        for name, value in data.items():
+    
+            #XXX: safari 3.0 submits selection field even if no `name` attribute
+            if not name:
+                continue
+    
+            if isinstance(name, basestring) and '/' in name:
+                names = name.split('/')
+                res.setdefault(names[0], (is_params or {}) and TinyDict()).update({"/".join(names[1:]): value})
             else:
-                res[k] = _make_dict(v, is_params and isinstance(v, TinyDict), previous_dict_ids)
-
-    previous_dict_ids.remove(id(data))
-    return res
+                res[name] = value
+    
+        for k, v in res.items():
+            if isinstance(v, dict):
+                if not is_params and '__id' in v:
+                    _id = v.pop('__id') or 0
+                    _id = int(_id)
+    
+                    values = _make_dict(v, is_params)
+                    if values and any(values.itervalues()):
+                        res[k] = [(_id and 1, _id, values)]
+                    else:
+                        res[k] = []
+    
+                else:
+                    res[k] = make_dict_internal(v, is_params and isinstance(v, TinyDict), previous_dict_ids)
+    
+        previous_dict_ids.remove(id(data))
+        return res
+    
+    return make_dict_internal(data, is_params, set())
 
 class TinyDict(dict):
     """A dictionary class that allows accessing it's items as it's attributes.
