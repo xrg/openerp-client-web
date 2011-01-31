@@ -605,8 +605,10 @@ class Form(SecuredController):
         if current.id:
             ctx = utils.context_with_concurrency_info(current.context, params.concurrency_info)
             res = proxy.unlink([current.id], ctx)
-            idx = current.ids.index(current.id)
-            current.ids.remove(current.id)
+            if current.ids:
+                idx = current.ids.index(current.id)
+                if idx >= 0:
+                    current.ids.remove(current.id)
             params.count = 0 # invalidate count
 
             if idx == len(current.ids):
