@@ -313,6 +313,7 @@
                             if (is_column_sorted == 'False') {
                                 jQuery('#${name} tr.grid-row').closest('tbody').sortable({
                                     axis: 'y',
+                                    helper: 'clone',
                                     stop: function (e, $ui) {
                                         new ListView('${name}').dragRow(
                                             $ui.item.attr('record'),
