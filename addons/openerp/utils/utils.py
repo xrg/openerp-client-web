@@ -26,7 +26,7 @@ import formencode
 import openobject
 
 
-def _make_dict(data, is_params=False):
+def _make_dict(data, is_params=False, previous_dict_ids=None):
     """If is_params is True then generates a TinyDict otherwise generates a valid
     dictionary from the given data to be used with OpenERP.
 
@@ -35,6 +35,12 @@ def _make_dict(data, is_params=False):
 
     @return: TinyDict or dict
     """
+    
+    if previous_dict_ids is None:
+        previous_dict_ids = set()
+    if id(data) in previous_dict_ids:
+        raise ValueError("Recursive dictionary detected, _make_dict does not handle recursive dictionaries.")
+    previous_dict_ids.add(id(data))
 
     res = (is_params or {}) and TinyDict()
 
@@ -53,18 +59,19 @@ def _make_dict(data, is_params=False):
     for k, v in res.items():
         if isinstance(v, dict):
             if not is_params and '__id' in v:
-                id = v.pop('__id') or 0
-                id = int(id)
+                _id = v.pop('__id') or 0
+                _id = int(_id)
 
                 values = _make_dict(v, is_params)
                 if values and any(values.itervalues()):
-                    res[k] = [(id and 1, id, values)]
+                    res[k] = [(_id and 1, _id, values)]
                 else:
                     res[k] = []
 
             else:
-                res[k] = _make_dict(v, is_params and isinstance(v, TinyDict))
+                res[k] = _make_dict(v, is_params and isinstance(v, TinyDict), previous_dict_ids)
 
+    previous_dict_ids.remove(id(data))
     return res
 
 class TinyDict(dict):
