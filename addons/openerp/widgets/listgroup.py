@@ -31,6 +31,13 @@ from pager import Pager
 
 
 def parse(group_by, hiddens, headers, group_level, groups):
+    if isinstance(group_by, list):
+        i = 0
+        while i < len(group_by):
+            if group_by[i] == False:
+                del group_by[i]
+            else:
+                i += 1
 
     if isinstance(groups, basestring):
         groups = groups.split(',')
@@ -38,8 +45,6 @@ def parse(group_by, hiddens, headers, group_level, groups):
         group_by = group_by.split(',')
 
     for grp in range(len(group_by)):
-        if not group_by[grp]:
-            group_by[grp] = ""
         if 'group_' in group_by[grp]:
             if group_by[grp].count('group_') > 1:
                 group_by[grp] = 'group_' + group_by[grp].split("group_")[-1]
