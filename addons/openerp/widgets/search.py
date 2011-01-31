@@ -407,7 +407,18 @@ class Search(TinyInputWidget):
                                 domain = expr_eval(attrs['filter_domain'], {'self': defval})
                             else:
                                 if field.kind == 'selection':
-                                    domain = [(name, '=', int(defval) if type2 == 'many2one' else defval)]
+                                    if type2 == 'many2one':
+                                        m2nval = defval
+                                        try:
+                                            m2nval = int(defval)
+                                        except:
+                                            # you see, since defval can basically be anything, including a totally
+                                            # illogic value, my only possibility is to do return another illogic value,
+                                            # so it won't crash too much
+                                            pass
+                                        domain = [(name, '=', m2nval)]
+                                    else:
+                                        domain = [(name, '=', defval)]
 
                                 elif field.kind in ('date','datetime'):
                                     domain = [(name, '>=', defval)]
