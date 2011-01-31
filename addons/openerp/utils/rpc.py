@@ -434,7 +434,7 @@ def name_get(model, id, context=None):
 
         try:
             name = proxy.name_get([id], ctx)
-            name = name[0][1] or ''
+            name = name and name[0][1] or ''
         except common.TinyWarning:
             name = _("== Access Denied ==")
 
