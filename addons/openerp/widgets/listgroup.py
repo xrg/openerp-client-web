@@ -38,6 +38,8 @@ def parse(group_by, hiddens, headers, group_level, groups):
         group_by = group_by.split(',')
 
     for grp in range(len(group_by)):
+        if not group_by[grp]:
+            group_by[grp] = ""
         if 'group_' in group_by[grp]:
             if group_by[grp].count('group_') > 1:
                 group_by[grp] = 'group_' + group_by[grp].split("group_")[-1]
