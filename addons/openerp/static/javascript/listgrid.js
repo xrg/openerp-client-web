@@ -308,7 +308,9 @@ MochiKit.Base.update(ListView.prototype, {
         }
 
         if((drag_record && drop_record) && (drag.attr('id')) == drop.attr('id')) {
-            _list_view.dragRow(drag, drop, view);
+            this.dragRow(
+                drag.attr('record'),
+                drag.prevAll().length);
         }
         else {
             jQuery.ajax({
@@ -323,19 +325,19 @@ MochiKit.Base.update(ListView.prototype, {
         }
     },
 
-    dragRow: function(drag, drop, view) {
-        var _list_view = new ListView(view);
+    dragRow: function(id, to_index) {
         jQuery.ajax({
             url: '/openerp/listgrid/dragRow',
             type: 'POST',
-            data: {'_terp_model': _list_view.model,
-                   '_terp_ids': _list_view.ids,
-                   '_terp_id': jQuery(drag).attr('record'),
-                   '_terp_swap_id': jQuery(drop).attr('record')
+            context: this,
+            data: {'_terp_model': this.model,
+                   '_terp_ids': this.ids,
+                   '_terp_id': id,
+                   '_terp_destination_index': to_index
                   },
             dataType: 'json',
             success: function() {
-                _list_view.reload();
+                this.reload();
             }
         });
     },
@@ -440,7 +442,6 @@ MochiKit.Base.update(ListView.prototype, {
     },
 
     onButtonClick: function(name, btype, id, sure, context) {
-
         if (sure && !confirm(sure)) {
             return;
         }
