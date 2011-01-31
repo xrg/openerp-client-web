@@ -749,7 +749,7 @@ MochiKit.Base.update(ListView.prototype, {
                         current_id = obj.ids[0];
                     }
                     _terp_id.value = current_id > 0 ? current_id : 'False';
-                    _terp_ids.value = '[' + obj.ids.join(',') + ']';
+                    _terp_ids.value = self.ids = '[' + obj.ids.join(',') + ']';
                     _terp_count.value = obj.count;
                 }
 
