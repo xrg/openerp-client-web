@@ -271,6 +271,10 @@ class CalendarPopup(Form):
         params, data = TinyDict.split(kw)
         data = {}
 
+        if params.starts == "null":
+            params.starts = None
+        if params.ends == "null":
+            params.ends = None
         ds = tc.utils.parse_datetime(params.starts)
         de = tc.utils.parse_datetime(params.ends)
 
