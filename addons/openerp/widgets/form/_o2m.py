@@ -52,6 +52,28 @@ class OneToMany(object):
         :rtype: (int, int, dict)
         """
         return 0, False, dict(values or {}, **kw)
+    @classmethod
+    def replace_all(cls, *with_ids):
+        """ Returns the command used to replace all values of an o2m with the
+         provided ids. Equivalent to a FORGET ALL followed by a LINK TO
+
+         :param with_ids: the ids to set in the o2m
+         :type with_ids: int...
+         :rtype: (int, ?, [int])
+        """
+        return 6, False, with_ids
+    @classmethod
+    def update(cls, record_id, values):
+        """ Returns the command used to update an existing o2m record with the
+         provided values
+
+         :param record_id: the id of the o2m record to update
+         :type record_id: int
+         :param values: the new values to set on the record
+         :type values: dict
+         :rtype: (int, int, dict)
+        """
+        return 1, record_id, values
 
 class O2M(TinyInputWidget):
     """One2Many widget
