@@ -633,17 +633,28 @@ function final_search_domain(custom_domain, all_domains, group_by_ctx) {
             group_by_ctx: group_by_ctx
             },
         success: function(obj) {
-        	
-        	if (obj.all_error){
-        		jQuery(".fielderror").remove();
-        		for(i=0 ;i<obj.all_error.length;i++)
-        		{	
-        			jQuery("#[id=" + obj.all_error[i]['error_field'] + "]").parent().append("<tr class=fielderror>" + obj.all_error[i]['error'] + "</tr>");
-        		}
+            var $errors = jQuery("label.fielderror");
+            if($errors.length) {
+                $errors.removeClass('fielderror')
+                    .nextAll('span.fielderror').remove();
+            }
+        	if (obj['all_error']) {
+                jQuery.each(obj['all_error'], function (_, error) {
+                    var $field = jQuery(idSelector(error['error_field']));
+                    var $field_container = $field.closest('table.search_table')
+                        .find('label').addClass('fielderror')
+                        .parent();
+                    // Avoid putting error message twice in case of date field
+                    // (two sub-fields can be in error)
+                    if($field_container.find('span.fielderror').length) {
+                        return;
+                    }
+                    $field_container.append(
+                        jQuery('<span class="fielderror">').text(error['error']));
+                });
         	}
         
             if (obj.domain) { // For direct search
-            	jQuery(".fielderror").remove();
                  var in_req = eval_domain_context_request({
                     source: '_terp_list',
                     domain: obj.domain,
