@@ -51,8 +51,13 @@ def _make_dict(data, is_params=False):
     
             if isinstance(name, basestring) and '/' in name:
                 names = name.split('/')
-                res.setdefault(names[0], (is_params or {}) and TinyDict()).update({"/".join(names[1:]): value})
-            else:
+                root = names[0]
+                if root in res and not isinstance(res[root], dict):
+                    del res[root]
+                res.setdefault(root, (is_params or {}) and TinyDict()).update({"/".join(names[1:]): value})
+            elif name not in res:
+                # if name is already in res, it might be an o2m value
+                # which tries to overwrite a recursive object/dict
                 res[name] = value
     
         for k, v in res.items():
