@@ -77,7 +77,7 @@ ListView.prototype = {
         var $sum_fields = jQuery('.field_sum', idSelector(this.name));
         if ($sum_fields.length) {
             selected_ids = (!selected_ids.length
-                    ? this.ids
+                    ? (this.ids || '[]')
                     : '[' + selected_ids.join(',') + ']');
 
             var $sum_span_fields = jQuery('td.grid-cell span', $sum_fields);
