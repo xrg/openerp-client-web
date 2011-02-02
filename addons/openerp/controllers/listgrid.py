@@ -379,13 +379,6 @@ class List(SecuredController):
         id = params.id
         destination_index = params.destination_index
         ids = params.ids
-        if not (id and destination_index and ids):
-            cherrypy.log("Missing values in List.dragRow:\n"
-                         "    from=%s\n"
-                         "    to=%s\n"
-                         "    ids=%s\n" % (id, destination_index, ids),
-                         context='List.dragRow')
-            return {}
 
         ids.insert(
             destination_index,
