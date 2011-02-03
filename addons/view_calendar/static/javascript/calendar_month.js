@@ -119,13 +119,13 @@ MonthCalendar.prototype = {
     attachSignals : function() {
         this.eventLoad = MochiKit.Signal.connect(window, 'onload', this, 'onResize');
         this.eventResize = MochiKit.Signal.connect(window, 'onresize', this, 'onResize');
-        this.eventClick = MochiKit.Signal.connect('calGrid', 'onclick', this, 'onClick');
+        this.eventMouseUp = MochiKit.Signal.connect('calGrid', 'onmouseup', this, 'onMouseUp');
     },
 
     dettachSignals : function() {
         MochiKit.Signal.disconnect(this.eventLoad);
         MochiKit.Signal.disconnect(this.eventResize);
-        MochiKit.Signal.disconnect(this.eventClick);
+        MochiKit.Signal.disconnect(this.eventMouseUp);
     },
 
     onResize : function(evt) {
@@ -135,7 +135,7 @@ MonthCalendar.prototype = {
         });
     },
 
-    onClick : function(evt) {
+    onMouseUp : function(evt) {
         if (!evt.mouse().button.left)
             return;
 
