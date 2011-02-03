@@ -315,7 +315,7 @@
                                     axis: 'y',
                                     helper: 'clone',
                                     dropOnEmpty: false,
-                                    items: '> tr.grid-row[record]',
+                                    items: '> tr.grid-row[record][record!=-1]',
                                     stop: function (e, $ui) {
                                         new ListView('${name}').dragRow(
                                             $ui.item.attr('record'),
