@@ -119,15 +119,13 @@ MonthCalendar.prototype = {
     attachSignals : function() {
         this.eventLoad = MochiKit.Signal.connect(window, 'onload', this, 'onResize');
         this.eventResize = MochiKit.Signal.connect(window, 'onresize', this, 'onResize');
-        this.eventMouseDown = MochiKit.Signal.connect('calGrid', 'onmousedown', this, 'onMouseDown');
-        this.eventMouseUp = MochiKit.Signal.connect('calGrid', 'onmouseup', this, 'onMouseUp');
+        this.eventClick = MochiKit.Signal.connect('calGrid', 'onclick', this, 'onClick');
     },
 
     dettachSignals : function() {
         MochiKit.Signal.disconnect(this.eventLoad);
         MochiKit.Signal.disconnect(this.eventResize);
-        MochiKit.Signal.disconnect(this.eventMouseDown);
-        MochiKit.Signal.disconnect(this.eventMouseUp);
+        MochiKit.Signal.disconnect(this.eventClick);
     },
 
     onResize : function(evt) {
@@ -137,7 +135,7 @@ MonthCalendar.prototype = {
         });
     },
 
-    onMouseDown : function(evt) {
+    onClick : function(evt) {
         if (!evt.mouse().button.left)
             return;
 
@@ -160,19 +158,6 @@ MonthCalendar.prototype = {
 
         setNodeAttribute(elem, 'dtstart', toISOTimestamp(s));
         setNodeAttribute(elem, 'dtend', toISOTimestamp(e));
-
-    },
-
-    onMouseUp : function(evt) {
-        if (!evt.mouse().button.left)
-            return;
-
-        var target = evt.target();
-        if (!hasElementClass(target, 'calMonthDay'))
-            return;
-
-        var elem = getElement('calEventNew');
-        var dt = MochiKit.DateTime.isoTimestamp(getNodeAttribute(elem, 'dtStart'));
 
         editCalendarRecord(null);
     },
