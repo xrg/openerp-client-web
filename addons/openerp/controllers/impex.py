@@ -495,11 +495,19 @@ class ImpEx(SecuredController):
         if not (csvdel and len(csvdel) == 1):
             return self.imp(error={'message': _("The CSV delimiter must be a single character")}, **kw)
 
-        for j, line in enumerate(csv.reader(input, quotechar=str(csvdel), delimiter=str(csvsep))):
-            if j == limit:
-                fields = line
-            else:
-                data.append(line)
+        try:
+            for j, line in enumerate(csv.reader(input, quotechar=str(csvdel), delimiter=str(csvsep))):
+                if j == limit:
+                    fields = line
+                else:
+                    data.append(line)
+        except csv.Error, e:
+            return self.imp(
+                error={
+                    'message': ustr(e),
+                    'title': _('File Format Error')
+                },
+                **kw)
 
         datas = []
         ctx = dict(rpc.session.context)
