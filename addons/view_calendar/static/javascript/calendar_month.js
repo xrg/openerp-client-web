@@ -143,21 +143,18 @@ MonthCalendar.prototype = {
         if (!hasElementClass(target, 'calMonthDay'))
             return;
 
-        var elem = openobject.dom.get('calEventNew');
-
         // set datetime info
-        var dt = MochiKit.DateTime.isoDate(getNodeAttribute(target, 'dtDay'));
-        var s = (9 * 40) * (30 / 20) * (60 * 1000);
-        var e = (17 * 40) * (30 / 20) * (60 * 1000);
+        var selected_date = MochiKit.DateTime.isoDate(getNodeAttribute(target, 'dtDay'));
 
-        s = dt.getTime() + s;
-        e = dt.getTime() + e;
+        // cloning date events in JS sucks.
+        var default_start_datetime = new Date(selected_date.getTime());
+        default_start_datetime.setHours(9);
+        var default_end_datetime = new Date(selected_date.getTime());
+        default_end_datetime.setHours(17);
 
-        s = new Date(s);
-        e = new Date(e);
-
-        setNodeAttribute(elem, 'dtstart', toISOTimestamp(s));
-        setNodeAttribute(elem, 'dtend', toISOTimestamp(e));
+        var elem = openobject.dom.get('calEventNew');
+        setNodeAttribute(elem, 'dtstart', toISOTimestamp(default_start_datetime));
+        setNodeAttribute(elem, 'dtend', toISOTimestamp(default_end_datetime));
 
         editCalendarRecord(null);
     },
