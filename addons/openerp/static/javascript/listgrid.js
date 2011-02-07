@@ -400,6 +400,27 @@ MochiKit.Base.update(ListView.prototype, {
         }
 
         if (evt.which == 13) {
+            /*
+            If field on which [Return] was hit has an onchange, by default
+            onchanges execute after onKeyDown has bubbled up, so the element
+            is not attached to the document anymore and there are two issues:
+                * Onchange call fails because we can't get all the
+                  information needed
+                * Even if onchange calls succeeded, the form is gone so we
+                  can't apply the result of the onchange
+            => explicitly call blur() on the field to force an onchange() event
+               before we save the line. Due to the AJAX_COUNT guard, the save()
+               call *will* wait after onchange() call is done before starting
+               so no problem of concurrent editions of the line conflicting.
+
+               And of course, if the field did not change (or there is no
+               openerp onchange on it), nothing happens, which is what we
+               want.
+
+            NOTE: using Node.blur() instead of jQuery.fn.blur due to
+                  http://bugs.jquery.com/ticket/8148 (see comment 5)
+            */
+            $src[0].blur();
             if ($src.is('.m2o')) {
                 var k = $src.attr('id');
                 k = k.slice(0, k.length - 5);
