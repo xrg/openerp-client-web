@@ -39,6 +39,9 @@ def csrf_check():
         raise cherrypy.HTTPError(403, "Request Forbidden -- You are not allowed to access this resource.")
 cherrypy.tools.csrf = cherrypy.Tool('before_handler', csrf_check)
 
-def cgitb_traceback(severity=logging.DEBUG):
-    cherrypy.log(cgitb.text(sys.exc_info()), 'HTTP', severity=severity)
+def cgitb_traceback(ignore=None, severity=logging.DEBUG):
+    typ, value, tb = sys.exc_info()
+    if ignore and issubclass(typ, tuple(ignore)):
+        return
+    cherrypy.log(cgitb.text((typ, value, tb)), 'HTTP', severity=severity)
 cherrypy.tools.cgitb = cherrypy.Tool('before_error_response', cgitb_traceback)

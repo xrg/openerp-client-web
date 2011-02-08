@@ -20,8 +20,8 @@
 ###############################################################################
 import cherrypy
 import re
-import openerp.utils.common
 import openerp.utils.rpc
+import openobject.errors
 from openobject.tools import expose, redirect
 
 from openerp.utils import rpc, TinyDict, cache
@@ -100,7 +100,7 @@ class Preferences(Form):
                 return dict(context, changed=True)
             context['errors'].append(
                 _('Could not change your password.'))
-        except openerp.utils.common.AccessDenied:
+        except openobject.errors.AccessDenied:
             context['errors'].append(_('Original password incorrect, your password was not changed.'))
         return context
 
