@@ -37,7 +37,7 @@ import urllib
 
 def execute_window(view_ids, model, res_id=False, domain=None, view_type='form', context=None,
                    mode='form,tree', name=None, target=None, limit=None, search_view=None,
-                   context_menu=False, display_menu_tip=False):
+                   context_menu=False, display_menu_tip=False, action_id=None):
     """Performs `actions.act_window` action.
 
     @param view_ids: view ids
@@ -65,6 +65,9 @@ def execute_window(view_ids, model, res_id=False, domain=None, view_type='form',
     params['target'] = target or None
     cherrypy.request._terp_view_name = name or None
     cherrypy.request._terp_view_target = target or None
+
+    if action_id:
+        params.action_id = action_id
 
     if name:
          params.context['_terp_view_name'] = name
@@ -267,7 +270,8 @@ def act_window(action, data):
                           limit=data.get('limit'),
                           search_view=data['search_view'],
                           context_menu=data.get('context_menu'),
-                          display_menu_tip=display_menu_tip)
+                          display_menu_tip=display_menu_tip,
+                          action_id=action.get('id'))
 
 def server(action, data):
     context = dict(data.get('context', {}),

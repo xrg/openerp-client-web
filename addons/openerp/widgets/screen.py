@@ -32,7 +32,7 @@ class Screen(TinyInputWidget):
     template = "/openerp/widgets/templates/screen.mako"
 
     params = ['model', 'state', 'id', 'ids', 'view_id', 'view_ids', 'view_mode', 'view_type', 'domain',
-              'context', 'limit', 'offset', 'count', 'group_by_ctx']
+              'context', 'limit', 'offset', 'count', 'group_by_ctx', 'action_id']
 
     member_widgets = ['widget']
 
@@ -51,6 +51,7 @@ class Screen(TinyInputWidget):
         self.view_mode     = params.view_mode or []
         self.view_type     = params.view_type
         self.view_id       = False
+        self.action_id     = params.action_id
         self.group_by_ctx  = params.group_by_ctx or []        
         self.is_wizard = params.is_wizard
         self.default_value = params.default_data or []
