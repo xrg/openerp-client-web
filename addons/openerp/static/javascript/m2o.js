@@ -101,15 +101,18 @@ ManyToOne.prototype.gotFocus = function(evt) {
 
 ManyToOne.prototype.lostFocus = function() {
     this.hasFocus = false;
-
-    if(this.selectedResult) {
+    if(this.selectedResult || this.lastKey == 9) {
         this.lastKey = null;
         this.clearResults();
+        return;
     }
 
-    if(!this.suggestionBoxMouseOver || this.lastKey == 9) {
+    if(!this.suggestionBoxMouseOver && this.text.value && !this.field.value) {
+        // clicked outside the box, with some text entered
+        // do as if tabbed out
         this.lastKey = null;
         this.clearResults();
+        this.get_matched();
     }
 };
 
@@ -359,7 +362,8 @@ ManyToOne.prototype.on_keypress = function(evt) {
 
 ManyToOne.prototype.get_matched = function() {
     if(openobject.http.AJAX_COUNT > 0) {
-        return callLater(1, this.get_matched);
+        callLater(0, jQuery.proxy(this, 'get_matched'));
+        return;
     }
 
     if(!this.relation) {
