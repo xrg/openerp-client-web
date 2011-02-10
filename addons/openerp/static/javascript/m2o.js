@@ -359,7 +359,8 @@ ManyToOne.prototype.on_keypress = function(evt) {
 
 ManyToOne.prototype.get_matched = function() {
     if(openobject.http.AJAX_COUNT > 0) {
-        return callLater(1, this.get_matched);
+        callLater(0, jQuery.proxy(this, 'get_matched'));
+        return;
     }
 
     if(!this.relation) {
