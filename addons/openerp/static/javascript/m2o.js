@@ -110,6 +110,8 @@ ManyToOne.prototype.lostFocus = function() {
     if(!this.suggestionBoxMouseOver && this.text.value && !this.field.value) {
         // clicked outside the box, with some text entered
         // do as if tabbed out
+        this.lastKey = null;
+        this.clearResults();
         this.get_matched();
     }
 };
