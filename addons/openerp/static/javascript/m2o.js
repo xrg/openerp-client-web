@@ -101,15 +101,16 @@ ManyToOne.prototype.gotFocus = function(evt) {
 
 ManyToOne.prototype.lostFocus = function() {
     this.hasFocus = false;
-
-    if(this.selectedResult) {
+    if(this.selectedResult || this.lastKey == 9) {
         this.lastKey = null;
         this.clearResults();
+        return;
     }
 
-    if(!this.suggestionBoxMouseOver || this.lastKey == 9) {
-        this.lastKey = null;
-        this.clearResults();
+    if(!this.suggestionBoxMouseOver && this.text.value && !this.field.value) {
+        // clicked outside the box, with some text entered
+        // do as if tabbed out
+        this.get_matched();
     }
 };
 
