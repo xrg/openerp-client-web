@@ -3,66 +3,92 @@
 # This file is distributed under the same license as the PROJECT project.
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2010.
 #
-#,
 msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2010-10-26 10:51+0200\n"
-"PO-Revision-Date: 2010-11-25 10:31+0530\n"
+"POT-Creation-Date: 2011-01-17 13:09+0100\n"
+"PO-Revision-Date: 2011-02-15 17:38+0000\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: mn <LL@li.org>\n"
-"Plural-Forms: nplurals=2; plural=(n != 1)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"X-Launchpad-Export-Date: 2011-02-16 06:11+0000\n"
+"X-Generator: Launchpad (build 12351)\n"
 "Generated-By: Babel None\n"
 
-#: static/javascript/form.js:100
+#: static/javascript/form.js:92
 #, python-format
 msgid "You selected to open %(tabs)s tabs - do you want to continue?"
 msgstr ""
 
-#: static/javascript/form.js:177
+#: static/javascript/form.js:169
 msgid "Invalid form, correct red fields."
 msgstr ""
 
-#: static/javascript/form.js:212
+#: static/javascript/form.js:204
 msgid "Do you really want to delete this record?"
 msgstr ""
 
-#: static/javascript/form.js:957
+#: static/javascript/form.js:953
+msgid "You must select one or several records !"
+msgstr ""
+
+#: static/javascript/form.js:1116
 msgid "Do you really want to delete the attachment"
 msgstr ""
 
-#: static/javascript/listgrid.js:510 static/javascript/o2m.js:103
+#: static/javascript/form.js:1150
+msgid "No record selected ! You can only attach to existing record."
+msgstr ""
+
+#: static/javascript/form.js:1209
+msgid "OpenERP - Error"
+msgstr ""
+
+#: static/javascript/form.js:1280
+msgid ""
+"Warning, the record has been modified,\n"
+"your changes will be discarded."
+msgstr ""
+
+#: static/javascript/listgrid.js:499 static/javascript/o2m.js:95
 msgid "To edit Record, please first save it."
 msgstr ""
 
-#: static/javascript/listgrid.js:618
+#: static/javascript/listgrid.js:607
 msgid "Do you really want to delete selected record(s) ?"
 msgstr ""
 
-#: static/javascript/o2m.js:62
+#: static/javascript/m2o.js:506
+msgid "error in display::"
+msgstr ""
+
+#: static/javascript/o2m.js:54
 msgid "Do you really want to delete record ?"
 msgstr ""
 
-#: static/javascript/viewed.js:71
+#: static/javascript/viewed.js:63
 msgid "Do you really want to remove this node?"
 msgstr ""
 
-#: static/javascript/viewed.js:337
+#: static/javascript/viewed.js:329
 msgid "Do you really wants to create an inherited view here?"
 msgstr ""
 
-#: static/javascript/openerp/openerp.ui.tips.js:59
+#: static/javascript/openerp/openerp.base.js:127
+msgid "doLoadingSuccess: Cannot parse JSON"
+msgstr ""
+
+#: static/javascript/openerp/openerp.base.js:326
+msgid "Loading"
+msgstr ""
+
+#: static/javascript/openerp/openerp.ui.tips.js:51
 msgid "Object"
 msgstr ""
 
-#: static/javascript/openerp/openerp.ui.tips.js:60
+#: static/javascript/openerp/openerp.ui.tips.js:52
 msgid "Field"
 msgstr ""
-
-#~ msgid "You must select at least one record."
-#~ msgstr ""
-
