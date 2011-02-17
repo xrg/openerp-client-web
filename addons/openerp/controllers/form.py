@@ -609,7 +609,7 @@ class Form(SecuredController):
                 idx = current.ids.index(current.id)
                 if idx >= 0:
                     current.ids.remove(current.id)
-            params.count = 0 # invalidate count
+            params.count -= 1
 
             if idx == len(current.ids):
                 idx = -1
