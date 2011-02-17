@@ -65,7 +65,7 @@ class Process(SecuredController):
 
         from openobject import release
         lang = rpc.session.context.get('lang','en_US')
-        context_help = 'http://doc.openerp.com/index.php?model=%s&lang=%s&version=%s' % (res_model, lang, release.version)
+        context_help = 'http://doc.openerp.com/v6.0/index.php?model=%s&lang=%s&version=%s' % (res_model, lang, release.version)
         edit_process_url = ('/openerp/form/edit?'+urllib.urlencode({'model': 'process.process', 'id': id}))
         edit_process_url =  '/?' + urllib.urlencode({'next': edit_process_url})
         
