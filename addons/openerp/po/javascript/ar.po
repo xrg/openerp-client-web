@@ -1,4 +1,4 @@
-# Indonesian translation for openobject-client-web
+# Arabic translation for openobject-client-web
 # Copyright (c) 2011 Rosetta Contributors and Canonical Ltd 2011
 # This file is distributed under the same license as the openobject-client-web package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2011.
@@ -8,9 +8,9 @@ msgstr ""
 "Project-Id-Version: openobject-client-web\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2011-01-17 13:09+0100\n"
-"PO-Revision-Date: 2011-02-16 02:59+0000\n"
-"Last-Translator: Homa Posniroha Harahap <Unknown>\n"
-"Language-Team: Indonesian <id@li.org>\n"
+"PO-Revision-Date: 2011-02-16 16:50+0000\n"
+"Last-Translator: kifcaliph <kifcaliph@hotmail.com>\n"
+"Language-Team: Arabic <ar@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -20,74 +20,76 @@ msgstr ""
 #: static/javascript/form.js:92
 #, python-format
 msgid "You selected to open %(tabs)s tabs - do you want to continue?"
-msgstr ""
+msgstr "لقد اخترت فتح المبوبة  %(tabs)s - هل تريد الإكمال؟"
 
 #: static/javascript/form.js:169
 msgid "Invalid form, correct red fields."
-msgstr ""
+msgstr "نموذج خاطئ، رجاء تصحيح الحقول الحمراء."
 
 #: static/javascript/form.js:204
 msgid "Do you really want to delete this record?"
-msgstr ""
+msgstr "هل تريد حذف هذا السجل؟"
 
 #: static/javascript/form.js:953
 msgid "You must select one or several records !"
-msgstr ""
+msgstr "يجب ان تختار سجل او مجموعة من السجلات !"
 
 #: static/javascript/form.js:1116
 msgid "Do you really want to delete the attachment"
-msgstr ""
+msgstr "هل تريد حذف المرفقات"
 
 #: static/javascript/form.js:1150
 msgid "No record selected ! You can only attach to existing record."
-msgstr ""
+msgstr "لم يتم إختيار سجل ! يمكنك الإرفاق من خلال سجل."
 
 #: static/javascript/form.js:1209
 msgid "OpenERP - Error"
-msgstr ""
+msgstr "خطأ بالبرنامج - OpenERP"
 
 #: static/javascript/form.js:1280
 msgid ""
 "Warning, the record has been modified,\n"
 "your changes will be discarded."
 msgstr ""
+"تحذير، قد تم تعديل السجل،\n"
+"لم تُحفظ التعديلات."
 
 #: static/javascript/listgrid.js:499 static/javascript/o2m.js:95
 msgid "To edit Record, please first save it."
-msgstr ""
+msgstr "لتحرير السجل، رجاء احفظه."
 
 #: static/javascript/listgrid.js:607
 msgid "Do you really want to delete selected record(s) ?"
-msgstr ""
+msgstr "هل تريد حذف السجل/السجلات؟"
 
 #: static/javascript/m2o.js:506
 msgid "error in display::"
-msgstr ""
+msgstr "خطأ في العرض::"
 
 #: static/javascript/o2m.js:54
 msgid "Do you really want to delete record ?"
-msgstr "Apakah Anda yakin untuk menghapus data?"
+msgstr "هل تريد حذف السجل؟"
 
 #: static/javascript/viewed.js:63
 msgid "Do you really want to remove this node?"
-msgstr "Apakah Anda yakin untuk memindahkan node ini?"
+msgstr "هل تريد إزالة هذا الطرف؟"
 
 #: static/javascript/viewed.js:329
 msgid "Do you really wants to create an inherited view here?"
-msgstr "Apakah Anda yakin untuk membuat sebuah tampilan penerima disini?"
+msgstr "هل تريد إنشاء عرض من الموروث هنا؟"
 
 #: static/javascript/openerp/openerp.base.js:127
 msgid "doLoadingSuccess: Cannot parse JSON"
-msgstr "doLoadingSuccess: JSON tidak dapat dijelaskan"
+msgstr "تم التحميل بنجاح: و لكن لا يمكن قراءة الـ JSON"
 
 #: static/javascript/openerp/openerp.base.js:326
 msgid "Loading"
-msgstr "Proses pemuatan"
+msgstr "جاري التحميل"
 
 #: static/javascript/openerp/openerp.ui.tips.js:51
 msgid "Object"
-msgstr ""
+msgstr "كائن"
 
 #: static/javascript/openerp/openerp.ui.tips.js:52
 msgid "Field"
-msgstr ""
+msgstr "حقل"
