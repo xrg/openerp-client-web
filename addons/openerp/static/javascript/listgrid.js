@@ -72,8 +72,13 @@ ListView.prototype = {
         var selected_ids = this.getSelectedRecords();
         var $delete_record_option = jQuery(idSelector(this.name + '_delete_record')).parent();
 
+        if ($delete_record_option.is(":hidden")) {
+            $delete_record_option.show();
+        }
+        if (!selected_ids.length) {
+            $delete_record_option.hide();
+        }
 
-        $delete_record_option.toggle();
         var $sum_fields = jQuery('.field_sum', idSelector(this.name));
         if ($sum_fields.length) {
             selected_ids = (!selected_ids.length
