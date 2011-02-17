@@ -60,9 +60,18 @@ def expr_eval(string, context=None):
     if isinstance(value, list):
         for index in range(len(value)):
             domain_element = value[index]
-            if not (isinstance(domain_element, tuple) and domain_element[2] == 'active_id'):
+            if not (isinstance(domain_element, tuple) and
+                    (domain_element[2] == 'active_id' or (isinstance(domain_element[2],list) and 'active_id' in domain_element[2]))):
                 continue
-            value[index] = (domain_element[0], domain_element[1], context['active_id'])
+            right_op = domain_element[2]
+            if isinstance(right_op, list):
+                #Its very much possible that 'active_id' in in list in any sequence
+                #eg. ['active_id'], [1,'active_id'],etc.
+                right_op[right_op.index('active_id')] = context.get('active_id')
+            else:
+                #Replacement of right operator with a direct copy of context['active_id']
+                right_op = context.get('active_id')
+            value[index] = (domain_element[0], domain_element[1], right_op)
     elif isinstance(value, dict):
         for key, v in value.items():
             if v == 'active_id' or v == ['active_id']:
