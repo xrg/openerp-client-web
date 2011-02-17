@@ -167,6 +167,7 @@ class TinyInputWidget(TinyWidget, InputWidget):
         if isinstance(self.states, basestring):
             self.states = self.states.split(',')
 
+        self.attrs = attrs
         self.select = _boolean_attr(attrs, 'select')
         self.required = _boolean_attr(attrs, 'required')
         self.readonly = _boolean_attr(attrs, 'readonly')

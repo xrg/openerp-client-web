@@ -604,6 +604,7 @@ class Button(TinyInputWidget):
             state = data.get('state')
             state = ((state or False) and state.value) or 'draft'
             visible = state in self.states
+        visible = not self.attrs.get('invisible') and visible
 
         return dict(id=id, visible=visible)
 
