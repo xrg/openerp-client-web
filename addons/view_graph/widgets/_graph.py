@@ -150,9 +150,8 @@ class GraphData(object):
                         res[x] = res[x][-1]
                     res[x] = ustr(res[x])
                 elif fields[x]['type'] in 'selection':
-                    for i in fields[x]['selection']:
-                        if value[x] in i:
-                            res[x] = i[1]
+                    selection_mapping = dict(fields[x]['selection'])
+                    res[x] = selection_mapping.get(value[x], False)
                 elif fields[x]['type'] == 'date':
                     if value[x]:
                         date = time.strptime(value[x], DT_SERVER_FORMATS['date'])

@@ -28,9 +28,10 @@ import formencode
 from openobject.controllers import BaseController
 from openobject.tools import url, expose, redirect, validate, error_handler
 import openobject
+import openobject.errors
 
 from openerp import validators
-from openerp.utils import common, rpc
+from openerp.utils import rpc
 
 def get_lang_list():
     langs = [('en_US', 'English (US)')]
@@ -195,7 +196,7 @@ class Database(BaseController):
             self.msg = {'message': (_("The server crashed during installation.\nWe suggest you to drop this database.")),
                         'title': (_('Error during database creation'))}
             return self.create()
-        except common.AccessDenied, e:
+        except openobject.errors.AccessDenied, e:
             self.msg = {'message': _('Bad super admin password'),
                         'title' : e.title}
             return self.create()
@@ -222,7 +223,7 @@ class Database(BaseController):
         self.msg = {}
         try:
             rpc.session.execute_db('drop', password, dbname)
-        except common.AccessDenied, e:
+        except openobject.errors.AccessDenied, e:
             self.msg = {'message': _('Bad super admin password'),
                         'title' : e.title}
         except Exception:
@@ -268,7 +269,7 @@ class Database(BaseController):
         try:
             data = base64.encodestring(filename.file.read())
             rpc.session.execute_db('restore', password, dbname, data)
-        except common.AccessDenied, e:
+        except openobject.errors.AccessDenied, e:
             self.msg = {'message': _('Bad super admin password'),
                         'title' : e.title}
             return self.restore()
@@ -291,7 +292,7 @@ class Database(BaseController):
         self.msg = {}
         try:
             rpc.session.execute_db('change_admin_password', old_password, new_password)
-        except common.AccessDenied, e:
+        except openobject.errors.AccessDenied, e:
             self.msg = {'message': _('Bad super admin password'),
                         'title' : e.title}
             return self.password()

@@ -85,6 +85,10 @@ def enable_static_paths():
                                                       'doc', 'LICENSE.txt')
     }})
 
+BASE_CONFIG = {
+    # Conversion of input parameters via formencode.variabledecode.NestedVariables
+    'tools.nestedvars.on': True
+}
 def configure(app_config):
     ''' Configures OpenERP Web Client. Takes a configuration dict
     (as output by cherrypy._cpconfig.as_dict), from it configures
@@ -94,6 +98,7 @@ def configure(app_config):
     _environ = _global.setdefault('server.environment', 'development')
     if _environ != 'development':
         _global['environment'] = _environ
+    cherrypy.config.update(BASE_CONFIG)
     cherrypy.config.update(_global)
     application.merge(app_config)
 

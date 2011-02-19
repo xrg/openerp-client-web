@@ -119,14 +119,12 @@ MonthCalendar.prototype = {
     attachSignals : function() {
         this.eventLoad = MochiKit.Signal.connect(window, 'onload', this, 'onResize');
         this.eventResize = MochiKit.Signal.connect(window, 'onresize', this, 'onResize');
-        this.eventMouseDown = MochiKit.Signal.connect('calGrid', 'onmousedown', this, 'onMouseDown');
         this.eventMouseUp = MochiKit.Signal.connect('calGrid', 'onmouseup', this, 'onMouseUp');
     },
 
     dettachSignals : function() {
         MochiKit.Signal.disconnect(this.eventLoad);
         MochiKit.Signal.disconnect(this.eventResize);
-        MochiKit.Signal.disconnect(this.eventMouseDown);
         MochiKit.Signal.disconnect(this.eventMouseUp);
     },
 
@@ -137,42 +135,27 @@ MonthCalendar.prototype = {
         });
     },
 
-    onMouseDown : function(evt) {
-        if (!evt.mouse().button.left)
-            return;
-
-        var target = evt.target();
-        if (!hasElementClass(target, 'calMonthDay'))
-            return;
-
-        var elem = openobject.dom.get('calEventNew');
-
-        // set datetime info
-        var dt = MochiKit.DateTime.isoDate(getNodeAttribute(target, 'dtDay'));
-        var s = (9 * 40) * (30 / 20) * (60 * 1000);
-        var e = (17 * 40) * (30 / 20) * (60 * 1000);
-
-        s = dt.getTime() + s;
-        e = dt.getTime() + e;
-
-        s = new Date(s);
-        e = new Date(e);
-
-        setNodeAttribute(elem, 'dtstart', toISOTimestamp(s));
-        setNodeAttribute(elem, 'dtend', toISOTimestamp(e));
-
-    },
-
     onMouseUp : function(evt) {
         if (!evt.mouse().button.left)
             return;
 
-        var target = evt.target();
-        if (!hasElementClass(target, 'calMonthDay'))
+        var $target = jQuery(evt.target());
+        if (!$target.hasClass('calMonthDay'))
             return;
 
-        var elem = getElement('calEventNew');
-        var dt = MochiKit.DateTime.isoTimestamp(getNodeAttribute(elem, 'dtStart'));
+        // set datetime info
+        var selected_date = MochiKit.DateTime.isoDate($target.attr('dtDay'));
+
+        // cloning date events in JS sucks.
+        var default_start_datetime = new Date(selected_date.getTime());
+        default_start_datetime.setHours(9);
+        var default_end_datetime = new Date(selected_date.getTime());
+        default_end_datetime.setHours(17);
+
+        jQuery('#calEventNew').attr({
+            dtstart: toISOTimestamp(default_start_datetime),
+            dtend: toISOTimestamp(default_end_datetime)
+        });
 
         editCalendarRecord(null);
     },

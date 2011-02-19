@@ -608,10 +608,6 @@ table.o2m_box div.pagerbar-header strong {
     padding-right: 5px;
 }
 
-.view .selection_search {
-    background-color: turquoise;
-}
-
 .label {
     padding: 2px 6px;
 }
@@ -817,13 +813,13 @@ div.button_wid_string {
 }
 
 /* Progress Bar Widget */
-#progress {
+.progress-bar {
     position: relative;
     border: 1px solid gray;
     font-size: 11px;
     text-align: center;
 }
-#progress div {
+.progress-bar div {
     position: absolute;
     top: 0;
     left: 0;

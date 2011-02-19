@@ -70,26 +70,24 @@ ListView.prototype = {
 
     selectedRow_sum: function() {
         var selected_ids = this.getSelectedRecords();
-        var $buttons = jQuery('[id="'+this.name+'_delete_record'+'"], [id="'+this.name+'_edit_record'+'"]');
+        var $delete_record_option = jQuery(idSelector(this.name + '_delete_record')).parent();
 
-        if(selected_ids.length) {
-            $buttons.parent().show();
-        }
-        else {
-            $buttons.parent().hide();
-        }
 
-        if(jQuery('table[id="'+this.name+'"] tr.field_sum td.grid-cell span').length>0) {
-            var sum_fields = jQuery('tr.field_sum td.grid-cell span').map(function() {
+        $delete_record_option.toggle();
+        var $sum_fields = jQuery('.field_sum', idSelector(this.name));
+        if ($sum_fields.length) {
+            selected_ids = (!selected_ids.length
+                    ? (this.ids || '[]')
+                    : '[' + selected_ids.join(',') + ']');
+
+            var $sum_span_fields = jQuery('td.grid-cell span', $sum_fields);
+
+            var sum_fields = $sum_span_fields.map(function() {
                 return jQuery(this).attr('id');
             }).get();
 
             var selected_fields = sum_fields.join(",");
-            if(selected_ids.length) {
-                selected_ids = '[' + selected_ids.join(',') + ']';
-            } else if(this.ids) {
-                selected_ids = this.ids;
-            }
+            if(!selected_fields || selected_fields == ',') { return; }
             jQuery.ajax({
                 url: '/openerp/listgrid/count_sum',
                 type: 'POST',
@@ -99,8 +97,8 @@ ListView.prototype = {
                     'sum_fields': selected_fields},
                 dataType: 'json',
                 success: function(obj) {
-                    for(var i in obj.sum) {
-                        jQuery('tr.field_sum td.grid-cell span[id="' + sum_fields[i] + '"]').html(obj.sum[i])
+                    for (var i in obj.sum) {
+                        jQuery($sum_span_fields[i]).html(obj.sum[i]);
                     }
                 }
             });
@@ -111,7 +109,7 @@ ListView.prototype = {
         return jQuery(openobject.dom.select('tr.grid-row', this.name)).map(function () {
             return parseInt(jQuery(this).attr('record')) || 0;
         }).filter(function () {
-            return !!this;
+            return this != 0;
         }).get();
     },
 
@@ -310,7 +308,9 @@ MochiKit.Base.update(ListView.prototype, {
         }
 
         if((drag_record && drop_record) && (drag.attr('id')) == drop.attr('id')) {
-            _list_view.dragRow(drag, drop, view);
+            this.dragRow(
+                drag.attr('record'),
+                drag.prevAll().length);
         }
         else {
             jQuery.ajax({
@@ -325,19 +325,19 @@ MochiKit.Base.update(ListView.prototype, {
         }
     },
 
-    dragRow: function(drag, drop, view) {
-        var _list_view = new ListView(view);
+    dragRow: function(id, to_index) {
         jQuery.ajax({
             url: '/openerp/listgrid/dragRow',
             type: 'POST',
-            data: {'_terp_model': _list_view.model,
-                   '_terp_ids': _list_view.ids,
-                   '_terp_id': jQuery(drag).attr('record'),
-                   '_terp_swap_id': jQuery(drop).attr('record')
+            context: this,
+            data: {'_terp_model': this.model,
+                   '_terp_ids': this.ids,
+                   '_terp_id': id,
+                   '_terp_destination_index': to_index
                   },
             dataType: 'json',
             success: function() {
-                _list_view.reload();
+                this.reload();
             }
         });
     },
@@ -400,6 +400,27 @@ MochiKit.Base.update(ListView.prototype, {
         }
 
         if (evt.which == 13) {
+            /*
+            If field on which [Return] was hit has an onchange, by default
+            onchanges execute after onKeyDown has bubbled up, so the element
+            is not attached to the document anymore and there are two issues:
+                * Onchange call fails because we can't get all the
+                  information needed
+                * Even if onchange calls succeeded, the form is gone so we
+                  can't apply the result of the onchange
+            => explicitly call blur() on the field to force an onchange() event
+               before we save the line. Due to the AJAX_COUNT guard, the save()
+               call *will* wait after onchange() call is done before starting
+               so no problem of concurrent editions of the line conflicting.
+
+               And of course, if the field did not change (or there is no
+               openerp onchange on it), nothing happens, which is what we
+               want.
+
+            NOTE: using Node.blur() instead of jQuery.fn.blur due to
+                  http://bugs.jquery.com/ticket/8148 (see comment 5)
+            */
+            $src[0].blur();
             if ($src.is('.m2o')) {
                 var k = $src.attr('id');
                 k = k.slice(0, k.length - 5);
@@ -407,6 +428,11 @@ MochiKit.Base.update(ListView.prototype, {
                 if ($src.val() && !openobject.dom.get(k).value) {
                     return;
                 }
+
+                if ($src.attr('callback')) {
+                    return;
+                }
+                return;
             }
 
             if ($src[0].onchange) {
@@ -437,7 +463,6 @@ MochiKit.Base.update(ListView.prototype, {
     },
 
     onButtonClick: function(name, btype, id, sure, context) {
-
         if (sure && !confirm(sure)) {
             return;
         }
@@ -465,7 +490,8 @@ MochiKit.Base.update(ListView.prototype, {
             _terp_model : this.model,
             _terp_id : id,
             _terp_button_name : name,
-            _terp_button_type : btype
+            _terp_button_type : btype,
+			_terp_context: context
         };
 
         eval_domain_context_request({
@@ -474,11 +500,15 @@ MochiKit.Base.update(ListView.prototype, {
             active_id: id,
             active_ids: openobject.dom.get(prefix + '_terp_ids').value
         }).addCallback(function(res) {
-            var $form = jQuery('#listgrid_button_action');
-            params['_terp_context'] = res.context || '{}';
+            if (res && res.context) {
+                params['_terp_context'] = res.context;
+            } else {
+                params['_terp_context'] = jQuery('#_terp_context').val()
+            }
             params['_terp_list_grid'] = _list;
-            if($form.length) {
-                $form.remove();
+            var $action_button = jQuery('#listgrid_button_action');
+            if($action_button.length) {
+                $action_button.remove();
             }
             var $form = jQuery('<form>', {
                 'id': 'listgrid_button_action',
@@ -740,7 +770,7 @@ MochiKit.Base.update(ListView.prototype, {
                         current_id = obj.ids[0];
                     }
                     _terp_id.value = current_id > 0 ? current_id : 'False';
-                    _terp_ids.value = '[' + obj.ids.join(',') + ']';
+                    _terp_ids.value = self.ids = '[' + obj.ids.join(',') + ']';
                     _terp_count.value = obj.count;
                 }
 

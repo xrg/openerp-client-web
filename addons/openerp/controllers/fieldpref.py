@@ -47,14 +47,15 @@ class FieldPref(SecuredController):
         pctx = TinyForm(**kw).to_python(safe=True)
         ctx = pctx.chain_get(prefix) or pctx
 
-        proxy = rpc.RPCProxy(params.model)
-        res = proxy.fields_get(False, rpc.session.context)
+        fields = rpc.RPCProxy(params.model).fields_get(False, rpc.session.context)
 
-        text = res[field].get('string')
+        if field not in fields:
+            return {}
+        text = fields[field].get('string')
         deps = []
 
-        for name, attrs in res.items():
-            if attrs.get('change_default', False):
+        for name, attrs in fields.iteritems():
+            if attrs.get('change_default'):
                 value = ctx.get(name)
                 if value:
                     deps.append((name, name, value, value))

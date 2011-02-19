@@ -40,7 +40,7 @@ def datas_read(ids, model, flds, context=None):
 def export_csv(fields, result):
     try:
         fp = StringIO.StringIO()
-        writer = csv.writer(fp)
+        writer = csv.writer(fp, quoting=csv.QUOTE_ALL)
 
         writer.writerow(fields)
 
@@ -489,15 +489,25 @@ class ImpEx(SecuredController):
         res = None
         content = csvfile.file.read()
         input=StringIO.StringIO(content)
-        all_data = list(csv.reader(input, quotechar=str(csvdel), delimiter=str(csvsep)))
         limit = 0
         data = []
 
-        for j, line in enumerate(all_data):
-            if j == limit:
-                fields = line
-            else:
-                data.append(line)
+        if not (csvdel and len(csvdel) == 1):
+            return self.imp(error={'message': _("The CSV delimiter must be a single character")}, **kw)
+
+        try:
+            for j, line in enumerate(csv.reader(input, quotechar=str(csvdel), delimiter=str(csvsep))):
+                if j == limit:
+                    fields = line
+                else:
+                    data.append(line)
+        except csv.Error, e:
+            return self.imp(
+                error={
+                    'message': ustr(e),
+                    'title': _('File Format Error')
+                },
+                **kw)
 
         datas = []
         ctx = dict(rpc.session.context)

@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 import base64
+import cherrypy
 import zlib
 
 from openobject.tools import expose, ast
@@ -16,4 +17,5 @@ class Execute(controllers.SecuredController):
             zlib.decompress(
                 base64.urlsafe_b64decode(payload)))
         action, data = decoded_payload['action'], decoded_payload['data']
+        cherrypy.request.params.update(decoded_payload)
         return actions.execute(action, **data)

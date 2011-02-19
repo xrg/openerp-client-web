@@ -270,7 +270,8 @@ class List(TinyWidget):
         fields = [name for name, _ in chain(self.headers, self.hiddens)]
 
         proxy = rpc.RPCProxy(self.model)
-        if self.edit_inline > 0 and isinstance(self.edit_inline, int):
+        if self.edit_inline > 0 and isinstance(self.edit_inline, int) and \
+                self.edit_inline in self.data_dict:
             values = self.data_dict[self.edit_inline]
         else:
             values = dict(proxy.default_get(fields, ctx))

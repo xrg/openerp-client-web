@@ -47,28 +47,27 @@ def expr_eval(string, context=None):
                    relativedelta=relativedelta)
     if isinstance(string, basestring):
         try:
-            temp = eval(string, context)
-            if isinstance(temp, list):
-                for index in range(len(temp)):
-                    value = temp[index]
-                    if not (isinstance(value, tuple) and value[2] == 'active_id'):
-                        continue
-                    temp[index] = (value[0], value[1], context['active_id'])
+            value = eval(string, context)
         except:
             cherrypy.log.error("Error while parsing %r\n" % string,
                                context='expr_eval',
                                severity=logging.WARNING,
                                traceback=True)
             return {}
-        return temp
     else:
-        if isinstance(string, dict):
-            for i,v in string.items():
-                if v=='active_id':
-                    string[i] = eval(v,context)
-                elif v==['active_id']:
-                    string[i] = eval(v[0],context)
-        return string
+        value = string
+
+    if isinstance(value, list):
+        for index in range(len(value)):
+            domain_element = value[index]
+            if not (isinstance(domain_element, tuple) and domain_element[2] == 'active_id'):
+                continue
+            value[index] = (domain_element[0], domain_element[1], context['active_id'])
+    elif isinstance(value, dict):
+        for key, v in value.items():
+            if v == 'active_id' or v == ['active_id']:
+                value[key] = context.get('active_id', False)
+    return value
 
 def node_attributes(node):
     attrs = node.attributes

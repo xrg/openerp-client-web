@@ -35,37 +35,50 @@ def _make_dict(data, is_params=False):
 
     @return: TinyDict or dict
     """
-
-    res = (is_params or {}) and TinyDict()
-
-    for name, value in data.items():
-
-        #XXX: safari 3.0 submits selection field even if no `name` attribute
-        if not name:
-            continue
-
-        if isinstance(name, basestring) and '/' in name:
-            names = name.split('/')
-            res.setdefault(names[0], (is_params or {}) and TinyDict()).update({"/".join(names[1:]): value})
-        else:
-            res[name] = value
-
-    for k, v in res.items():
-        if isinstance(v, dict):
-            if not is_params and '__id' in v:
-                id = v.pop('__id') or 0
-                id = int(id)
-
-                values = _make_dict(v, is_params)
-                if values and any(values.itervalues()):
-                    res[k] = [(id and 1, id, values)]
+    
+    def make_dict_internal(data, is_params=False, previous_dict_ids=None):
+        if id(data) in previous_dict_ids:
+            raise ValueError("Recursive dictionary detected, _make_dict does not handle recursive dictionaries.")
+        previous_dict_ids.add(id(data))
+    
+        res = (is_params or {}) and TinyDict()
+    
+        for name, value in data.items():
+    
+            #XXX: safari 3.0 submits selection field even if no `name` attribute
+            if not name:
+                continue
+    
+            if isinstance(name, basestring) and '/' in name:
+                names = name.split('/')
+                root = names[0]
+                if root in res and not isinstance(res[root], dict):
+                    del res[root]
+                res.setdefault(root, (is_params or {}) and TinyDict()).update({"/".join(names[1:]): value})
+            elif name not in res:
+                # if name is already in res, it might be an o2m value
+                # which tries to overwrite a recursive object/dict
+                res[name] = value
+    
+        for k, v in res.items():
+            if isinstance(v, dict):
+                if not is_params and '__id' in v:
+                    _id = v.pop('__id') or 0
+                    _id = int(_id)
+    
+                    values = _make_dict(v, is_params)
+                    if values and any(values.itervalues()):
+                        res[k] = [(_id and 1, _id, values)]
+                    else:
+                        res[k] = []
+    
                 else:
-                    res[k] = []
-
-            else:
-                res[k] = _make_dict(v, is_params and isinstance(v, TinyDict))
-
-    return res
+                    res[k] = make_dict_internal(v, is_params and isinstance(v, TinyDict), previous_dict_ids)
+    
+        previous_dict_ids.remove(id(data))
+        return res
+    
+    return make_dict_internal(data, is_params, set())
 
 class TinyDict(dict):
     """A dictionary class that allows accessing it's items as it's attributes.
@@ -242,7 +255,7 @@ class TinyForm(object):
                 self.data['_terp_form/' + k] = v
 
     def _convert(self, form=True, safe=False):
-
+        from openerp.widgets.form import OneToMany
         kw = {}
         for name, attrs in self.data.items():
 
@@ -257,23 +270,24 @@ class TinyForm(object):
 
             if kind == "one2many":
                 try:
-                    value = eval(value)
-                    if value:
-                        if not isinstance(value, list):
-                            value = [value]
+                    o2m_ids = eval(value)
+                    if o2m_ids:
+                        if not isinstance(o2m_ids, list):
+                            o2m_ids = [o2m_ids]
+
                         from openerp.utils import rpc
-                        proxy = rpc.RPCProxy(attrs['relation'])
-                        res = proxy.read(value, [], rpc.session.context)
-                        res1 = proxy.fields_get(False, rpc.session.context)
-                        for values in res:
-                            for key, val in values.items():
-                                if key in res1.keys():
-                                    if res1[key]['type'] == 'many2many':
-                                        values[key] = [(6, 0, val)]
+                        Relation = rpc.RPCProxy(attrs['relation'])
+                        relation_objects = Relation.read(o2m_ids, [], rpc.session.context)
+                        relation_fields = Relation.fields_get(False, rpc.session.context)
+                        for relation_record in relation_objects:
+                            for field_name, field_value in relation_record.items():
+                                if field_name in relation_fields and relation_fields[field_name]['type'] == 'many2many':
+                                    relation_record[field_name] = [OneToMany.replace_all(*field_value)]
+
                         value = []
-                        for r in res:
-                            id = r.pop('id')
-                            value += [(1, id, r)]
+                        for relation_record in relation_objects:
+                            id = relation_record.pop('id')
+                            value.append(OneToMany.update(id, relation_record))
                     else:
                         value = []
                 except:
@@ -289,16 +303,13 @@ class TinyForm(object):
 
             try:
                 if form:
-                    value = v.to_python(value, None)
+                    converted = v.to_python(value, None)
                 else:
-                    value = v.from_python(value, None)
-
+                    converted = v.from_python(value, None)
+                kw[name] = converted
             except formencode.api.Invalid, e:
                 if form and not safe:
                     raise TinyFormError(name.replace('_terp_form/', ''), e.msg, e.value)
-
-            kw[name] = value
-
 
         # Prevent auto conversion from TinyDict
         _eval = TinyDict._eval

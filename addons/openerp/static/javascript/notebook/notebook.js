@@ -136,7 +136,7 @@ Notebook.prototype = {
         var self = this;
         MochiKit.Async.callLater(0, function() {
             var i = parseInt(self.options.remember ? getElement('_terp_notebook_tab').value || -1 : -1, 10);
-            if(i != -1 && jQuery(self.tabs[i]).is(':visible')) {
+            if(i != -1 && jQuery(self.tabs[i]).css('display') != 'none') {
                 self.show(i);
                 return;
             }

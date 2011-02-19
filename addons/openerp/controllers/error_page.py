@@ -22,8 +22,9 @@ import cgitb
 import sys
 
 import cherrypy
-from openerp.utils import rpc, common
+from openerp.utils import rpc
 
+import openobject.errors
 from openobject.controllers import BaseController
 from openobject.tools import expose, redirect
 
@@ -38,10 +39,10 @@ class ErrorPage(BaseController):
     def render(self):
         etype, value, tb = sys.exc_info()
 
-        if isinstance(value, common.Concurrency):
+        if isinstance(value, openobject.errors.Concurrency):
             return self.__render(value)
 
-        if not isinstance(value, common.TinyException):
+        if not isinstance(value, openobject.errors.TinyException):
             return cgitb.html((etype, value, tb))
 
         return self.__render(value)
@@ -59,10 +60,10 @@ class ErrorPage(BaseController):
 
         target = cherrypy.request.path_info or '/openerp/form/save'
 
-        if isinstance(value, common.Concurrency):
+        if isinstance(value, openobject.errors.Concurrency):
             concurrency = True
 
-        if isinstance(value, common.TinyError):
+        if isinstance(value, openobject.errors.TinyError):
             proxy = rpc.RPCProxy('maintenance.contract')
             maintenance = proxy.status()
             cherrypy.response.headers['X-Maintenance-Error'] = "1"

@@ -350,11 +350,10 @@ TreeNode.prototype = {
                             jQuery(row).removeClass('selected')
                         });
                         link.parents('tr.row').addClass('selected');
-
                         MochiKit.Signal.signal(this.tree, "onaction", this);
                     });
                 } else {
-                    var self = this;
+					var self = this;
                     link.click(function () {
                         if (jQuery(this).parents('tr.row:first').find('td:first span').is('.collapse, .expand')) {
                             self.toggle();

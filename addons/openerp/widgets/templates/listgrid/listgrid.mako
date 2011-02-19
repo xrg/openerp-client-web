@@ -290,7 +290,7 @@
                                                 % if 'sum' in field_attrs:
                                                     % for key, val in field_total.items():
                                                         % if field == key:
-                                                            <span class="sum_value_field">${val[1]}</span>
+                                                            <span class="sum_value_field" id="${field}">${val[1]}</span>
                                                         % endif
                                                     % endfor
                                                 % else:
@@ -309,23 +309,19 @@
                     % if data and 'sequence' in map(lambda x: x[0], itertools.chain(headers,hiddens)):
                         <script type="text/javascript">
                             // flag is used to check sorting is active or not //
-                            var flag = "${'_terp_sort_key' in cherrypy.request.params.keys()}";
-                            if (flag == 'False') {
-                                jQuery('#${name} tr.grid-row').draggable({
-                                    revert: 'valid',
-                                    connectToSortable: 'tr.grid-row',
-                                    helper: function(){
-                                        return jQuery(this).clone();
-                                    },
-                                    axis: 'y'
-                                });
-                                jQuery('#${name} tr.grid-row').droppable({
-                                    accept: 'tr.grid-row',
-                                    hoverClass: 'grid-rowdrop',
-                                    drop: function(ev, ui){
-                                        new ListView('${name}').dragRow(ui.draggable, jQuery(this), '${name}');
+                            var is_column_sorted = "${'_terp_sort_key' in cherrypy.request.params.keys()}";
+                            if (is_column_sorted == 'False') {
+                                jQuery('#${name} tr.grid-row').closest('tbody').sortable({
+                                    axis: 'y',
+                                    helper: 'clone',
+                                    dropOnEmpty: false,
+                                    items: '> tr.grid-row[record][record!=-1]',
+                                    stop: function (e, $ui) {
+                                        new ListView('${name}').dragRow(
+                                            $ui.item.attr('record'),
+                                            $ui.item.prevAll().length);
                                     }
-                                });
+                                }).disableSelection();
                             }
                         </script>
                     % endif

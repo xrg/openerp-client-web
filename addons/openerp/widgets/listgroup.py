@@ -31,6 +31,13 @@ from pager import Pager
 
 
 def parse(group_by, hiddens, headers, group_level, groups):
+    if isinstance(group_by, list):
+        i = 0
+        while i < len(group_by):
+            if group_by[i] == False:
+                del group_by[i]
+            else:
+                i += 1
 
     if isinstance(groups, basestring):
         groups = groups.split(',')
@@ -104,7 +111,7 @@ def parse_groups(group_by, grp_records, headers, ids, model,  offset, limit, con
                 dom = [('id', 'in', ids), rec_dom[0]]
                 ch_ids = [d for id in proxy.search(dom, offset, limit, 0, context)
                             for  d in data
-                            if d.get('id') == id]
+                            if int(str(d.get('id'))) == id] # Need to convert in String and then Int.
             rec['child_rec'] = ch_ids
             rec['group_id'] = 'group_' + str(random.randrange(1, 10000))
             if group_by:

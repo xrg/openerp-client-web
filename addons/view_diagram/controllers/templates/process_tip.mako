@@ -10,7 +10,7 @@
     <tr>
         <td>
             <div class="box2">
-                ${title_tip | n}
+                ${title_tip}
             </div>
         </td>
     </tr>

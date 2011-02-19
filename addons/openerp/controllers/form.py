@@ -222,7 +222,7 @@ class Form(SecuredController):
             buttons.views.append(dict(kind=kind, name=view.name, desc=view.desc))
 
         target = getattr(cherrypy.request, '_terp_view_target', None)
-        buttons.toolbar = (target != 'new' and len(params.view_mode) > 1 and not form.is_dashboard) or mode == 'diagram'
+        buttons.toolbar = (target != 'new' and not form.is_dashboard) or mode == 'diagram'
         pager = None
         if buttons.pager:
             pager = tw.pager.Pager(id=form.screen.id, ids=form.screen.ids, offset=form.screen.offset,
@@ -605,8 +605,10 @@ class Form(SecuredController):
         if current.id:
             ctx = utils.context_with_concurrency_info(current.context, params.concurrency_info)
             res = proxy.unlink([current.id], ctx)
-            idx = current.ids.index(current.id)
-            current.ids.remove(current.id)
+            if current.ids:
+                idx = current.ids.index(current.id)
+                if idx >= 0:
+                    current.ids.remove(current.id)
             params.count = 0 # invalidate count
 
             if idx == len(current.ids):
@@ -694,7 +696,7 @@ class Form(SecuredController):
         if res:
             return base64.decodestring(res)
         else:
-            return open(openobject.paths.addons('openerp','static','images','placeholder.png')).read()
+            return open(openobject.paths.addons('openerp','static','images','placeholder.png'),'rb').read()
 
     @expose("json")
     def binary_image_delete(self, **kw):
@@ -973,16 +975,14 @@ class Form(SecuredController):
             return self.do_action('client_action_multi', datas=kw)
 
         if type is None:
-            action_type = rpc.RPCProxy('ir.actions.actions').read(act_id, ['type'], rpc.session.context)['type']
-            action = rpc.session.execute('object', 'execute', action_type, 'read', act_id, False, rpc.session.context)
+            action_type = rpc.RPCProxy('ir.actions.actions').read(act_id, ['type'], context)['type']
+            action = rpc.session.execute('object', 'execute', action_type, 'read', act_id, False, context)
 
         if domain:
             if isinstance(domain, basestring):
                 domain = eval(domain)
             domain.extend(expr_eval(action.get('domain', '[]'), context))
             action['domain'] = ustr(domain)
-
-        action['context'] = context or {}
 
         import actions
         return actions.execute(action, model=params.model, id=id, ids=ids, report_type='pdf', context_menu=context_menu)
@@ -1116,7 +1116,7 @@ class Form(SecuredController):
         actions = []
         relates = []
 
-        if kind == "many2one":
+        if kind == "many2one" or kind == "reference":
             defaults.append({'text': _('Open resource'), 'action': "new ManyToOne('%s').open_record('%s')" % (field, value)})
 
         defaults += [
@@ -1188,7 +1188,7 @@ class Form(SecuredController):
         anyway), and those go through the execute routine, so only match
         execute()d actions concerning ir.ui.menu. And trees, just because
         """
-        action_data = simplejson.loads(cherrypy.request.params.get('data', '{}'))
+        action_data = cherrypy.request.params.get('data', {})
         return (rpc.session.is_logged() and
                 rpc.session.active_id and
                 ((cherrypy.request.path_info == '/openerp/execute'

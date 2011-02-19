@@ -109,7 +109,7 @@ function doLoadingSuccess(app/*, url*/) {
         }
         jQuery(window).trigger('before-appcontent-change');
         var data = xhr.responseText || data;
-        if (xhr.getResponseHeader && xhr.getResponseHeader('Content-Type') == 'text/javascript') {
+        if (xhr.getResponseHeader && xhr.getResponseHeader('Content-Type').match("text/javascript")) {
             try {
                 var data = jQuery.parseJSON(data);
                 if (data.error) {
@@ -164,6 +164,12 @@ function openAction(action_url, target) {
             }, null, {
                 width: 800
             });
+            break;
+        case 'download':
+            var $form = jQuery('<form action="" target="_blank" method="POST"><input type="text" name="download" value="true"/></form>').appendTo("body");
+            $form.attr("action", action_url);
+            $form[0].submit();
+            $form.remove();
             break;
         case 'popup':
             window.open(action_url);

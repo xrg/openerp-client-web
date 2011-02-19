@@ -377,34 +377,19 @@ class List(SecuredController):
     def dragRow(self, **kw):
         params, data = TinyDict.split(kw)
         id = params.id
-        swap_id = params.swap_id
+        destination_index = params.destination_index
         ids = params.ids
 
-        proxy = rpc.RPCProxy(params.model)
-        ctx = rpc.session.context.copy()
+        ids.insert(
+            destination_index,
+            ids.pop(ids.index(id)))
 
-        res_ids = []
-        if ids.index(id) < ids.index(swap_id):
-            if ids[:ids.index(id)]:
-                res_ids.extend(ids[:ids.index(id)])
-            if ids[ids.index(id)+1:ids.index(swap_id)+1]:
-                res_ids.extend(ids[ids.index(id)+1:ids.index(swap_id)+1])
-            res_ids.append(id)
-            if ids[ids.index(swap_id)+1:]:
-                res_ids.extend(ids[ids.index(swap_id)+1:])
-        else:
-            if ids[:ids.index(swap_id)]:
-                res_ids.extend(ids[:ids.index(swap_id)])
-            res_ids.append(id)
-            if ids[ids.index(swap_id):ids.index(id)]:
-                res_ids.extend(ids[ids.index(swap_id):ids.index(id)])
-            if ids[ids.index(id)+1:]:
-                res_ids.extend(ids[ids.index(id)+1:])
-
-        res = proxy.read(res_ids, ['sequence'], ctx)
-        for r in res:
-            proxy.write([r['id']], {'sequence': res_ids.index(r['id'])+1}, ctx)
-        return dict()
+        Model = rpc.RPCProxy(params.model)
+        for index, id in enumerate(ids):
+            Model.write([id], {
+                'sequence': index+1
+            }, rpc.session.context)
+        return {}
 
     @expose('json')
     def count_sum(self, model, ids, sum_fields):

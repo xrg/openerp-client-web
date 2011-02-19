@@ -52,6 +52,28 @@ class OneToMany(object):
         :rtype: (int, int, dict)
         """
         return 0, False, dict(values or {}, **kw)
+    @classmethod
+    def replace_all(cls, *with_ids):
+        """ Returns the command used to replace all values of an o2m with the
+         provided ids. Equivalent to a FORGET ALL followed by a LINK TO
+
+         :param with_ids: the ids to set in the o2m
+         :type with_ids: int...
+         :rtype: (int, ?, [int])
+        """
+        return 6, False, with_ids
+    @classmethod
+    def update(cls, record_id, values):
+        """ Returns the command used to update an existing o2m record with the
+         provided values
+
+         :param record_id: the id of the o2m record to update
+         :type record_id: int
+         :param values: the new values to set on the record
+         :type values: dict
+         :rtype: (int, int, dict)
+        """
+        return 1, record_id, values
 
 class O2M(TinyInputWidget):
     """One2Many widget
@@ -130,7 +152,7 @@ class O2M(TinyInputWidget):
                     item['id'] = 0
                 ids = []
             elif isinstance(ids[0], tuple):
-                ids = [current[1] for current in ids]
+                [current_id[1] for current_id in ids]
         
         id = (ids or None) and ids[0]
         
@@ -184,17 +206,6 @@ class O2M(TinyInputWidget):
 
         if current.view_type == 'tree' and self.readonly:
             self.editable = False
-        
-        if self.view_type == 'form':
-            if current.id and not self.id:
-                self.id = current.id
-                params.id = self.id
-        
-        if self.view_type == 'tree' and pparams:
-            if pparams.id:
-                self.editable = True
-            else:
-                self.editable = False
 
         if 'default_name' in current.context:
             del current.context['default_name']

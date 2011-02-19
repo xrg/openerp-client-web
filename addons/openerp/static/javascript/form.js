@@ -665,7 +665,7 @@ function onChange(caller){
                         break;
                     case 'progress':
                         var progress = values['progress'].toString() + '%';
-                        jQuery('#progress').text(progress).append(jQuery('<div>', {
+                        jQuery('.progress-bar').text(progress).append(jQuery('<div>', {
                             'width': progress
                         }));
                         break;
@@ -917,6 +917,7 @@ function set_as_default(field, model){
             _terp_model: model,
             _terp_field: field
     })).addCallback(function(obj){
+        if (!obj.text) { return; }
         jQuery.frame_dialog({src:openobject.http.getURL('/openerp/fieldpref', {
                 '_terp_model': model,
                 '_terp_field/name': field,
@@ -1071,7 +1072,7 @@ function on_context_menu(evt, target){
     }
 
     var src = $target.attr('id');
-    if (kind == 'many2one') {
+    if (kind == 'many2one' || kind == 'reference') {
         src = src.slice(0, -5);
     }
     var $src = jQuery('[id="' + src + '"]');
