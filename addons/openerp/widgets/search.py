@@ -214,14 +214,14 @@ class Search(TinyInputWidget):
         if not self.groupby and (values and values.get('group_by_ctx')):
             self.groupby = values['group_by_ctx']
         
-        view_id = kw.get('search_view_id', False)
-        
-            
         if isinstance (self.search_view, basestring):
             self.search_view = eval(self.search_view)
 
         if not self.search_view:
-            self.search_view = cache.fields_view_get(self.model, view_id or False, 'search', ctx, True)
+            view_id = kw.get('search_view_id')\
+                        or ctx.get('search_view')
+            self.search_view = cache.fields_view_get(
+                self.model, view_id or False, 'search', ctx, True)
 
         fields = self.search_view['fields']
 
