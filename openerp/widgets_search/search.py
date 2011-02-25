@@ -217,6 +217,7 @@ RANGE_WIDGETS = {
     'datetime': DateTime,
     'float': Float,
     'integer': Integer,
+    'progressbar': Float,
 }
 
 WIDGETS = {
@@ -235,6 +236,7 @@ WIDGETS = {
     'many2one': Char,
     'email' : Char,
     'url' : Char,
+    'progressbar': RangeWidget,
 }
 
 # vim: ts=4 sts=4 sw=4 si et
