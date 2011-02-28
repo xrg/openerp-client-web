@@ -1,0 +1,128 @@
+# Bulgarian translation for openobject-client-web
+# Copyright (c) 2011 Rosetta Contributors and Canonical Ltd 2011
+# This file is distributed under the same license as the openobject-client-web package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2011.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: openobject-client-web\n"
+"Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
+"POT-Creation-Date: 2011-01-17 13:09+0100\n"
+"PO-Revision-Date: 2011-02-27 09:22+0000\n"
+"Last-Translator: Dimitar Markov <Unknown>\n"
+"Language-Team: Bulgarian <bg@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Launchpad-Export-Date: 2011-02-28 05:53+0000\n"
+"X-Generator: Launchpad (build 12351)\n"
+
+#: controllers/_diagram.py:89 controllers/_diagram.py:210
+msgid "Could not delete state"
+msgstr ""
+
+#: controllers/_diagram.py:274
+msgid "No workflow associated!"
+msgstr "Не е свързан работен поток"
+
+#: controllers/process.py:45
+msgid "Help: Not Defined"
+msgstr "Помощ: Не е дефинирана"
+
+#: controllers/process.py:85
+#, python-format
+msgid "%(name)s - Resource: %(resource)s, State: %(state)s"
+msgstr ""
+
+#: controllers/process.py:97
+msgid "Last modified by:"
+msgstr "Последна промяна от:"
+
+#: controllers/templates/process.mako:4 controllers/templates/process.mako:87
+#: controllers/templates/process_tip.mako:5
+msgid "Process"
+msgstr "Обработка"
+
+#: controllers/templates/process.mako:55
+msgid "Documentation"
+msgstr "Документация"
+
+#: controllers/templates/process.mako:56
+msgid "Read Documentation Online"
+msgstr "Прочете документацията"
+
+#: controllers/templates/process.mako:62
+msgid "Forum"
+msgstr "Форум"
+
+#: controllers/templates/process.mako:63
+msgid "Community Discussion"
+msgstr "Дискусия в обществото"
+
+#: controllers/templates/process.mako:68
+msgid "Books"
+msgstr "Книги"
+
+#: controllers/templates/process.mako:69
+msgid "Get the book on Amazon"
+msgstr "Вземете книгата от Амазон"
+
+#: controllers/templates/process.mako:74
+msgid "Support / Publisher Warranty"
+msgstr ""
+
+#: controllers/templates/process.mako:75
+msgid "Get the OpenERP Warranty"
+msgstr "Вземете OpenERP Warranty"
+
+#: controllers/templates/process.mako:97
+msgid "Select Process"
+msgstr "Изберете процес"
+
+#: controllers/templates/process.mako:103
+msgid "Select"
+msgstr "Избор"
+
+#: controllers/templates/process.mako:116
+msgid "[Edit Process]"
+msgstr "[Редактирай процес]"
+
+#: controllers/templates/process.mako:117
+msgid "[show fields]"
+msgstr "[покажи полета]"
+
+#: controllers/templates/process.mako:118
+msgid "[hide fields]"
+msgstr "[скрий полета]"
+
+#: controllers/templates/process_open.mako:54
+#: controllers/templates/process_tip.mako:20
+#: controllers/templates/wkf_popup.mako:52
+msgid "Close"
+msgstr "Затвори"
+
+#: controllers/templates/process_open.mako:55
+#: controllers/templates/wkf_popup.mako:49
+msgid "Save"
+msgstr "Запази"
+
+#: controllers/templates/workflow.mako:4
+msgid "Workflow"
+msgstr "Работен поток"
+
+#: controllers/templates/workflow.mako:20
+#, python-format
+msgid "Workflow (%s)"
+msgstr "Работен поток (%s)"
+
+#: widgets/_views.py:8
+msgid "Diagram"
+msgstr "Графика"
+
+#: widgets/_views.py:9
+msgid "Diagram view..."
+msgstr "Виж като диаграма"
+
+#: widgets/templates/diagram.mako:27
+msgid "Loading..."
+msgstr "Зарежда се..."
