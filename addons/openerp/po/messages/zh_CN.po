@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2011-01-17 13:09+0100\n"
-"PO-Revision-Date: 2011-01-13 09:15+0000\n"
+"PO-Revision-Date: 2011-02-28 12:02+0000\n"
 "Last-Translator: Wei \"oldrev\" Li <oldrev@gmail.com>\n"
 "Language-Team: zh_CN <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2011-01-18 04:38+0000\n"
-"X-Generator: Launchpad (build 12177)\n"
+"X-Launchpad-Export-Date: 2011-03-01 05:59+0000\n"
+"X-Generator: Launchpad (build 12351)\n"
 "Generated-By: Babel None\n"
 
 #: validators.py:75
@@ -325,23 +325,23 @@ msgstr "错误的 on_change 事件触发器: %s"
 
 #: controllers/form.py:1073
 msgid "Open resource"
-msgstr ""
+msgstr "打开资源"
 
 #: controllers/form.py:1076
 msgid "Set to default value"
-msgstr ""
+msgstr "设为默认值"
 
 #: controllers/form.py:1077
 msgid "Set as default"
-msgstr ""
+msgstr "设置为默认"
 
 #: controllers/form.py:1084
 msgid "Action"
-msgstr ""
+msgstr "动作"
 
 #: controllers/form.py:1085
 msgid "Report"
-msgstr ""
+msgstr "报表"
 
 #: controllers/impex.py:66
 msgid ""
@@ -357,7 +357,7 @@ msgstr "导出错误"
 
 #: controllers/impex.py:444
 msgid "Database ID"
-msgstr ""
+msgstr "数据库标识"
 
 #: controllers/impex.py:451
 msgid "Error opening .CSV file"
@@ -370,12 +370,12 @@ msgstr "输入错误"
 #: controllers/impex.py:473
 #, python-format
 msgid "You cannot import the field '%s', because we cannot auto-detect it"
-msgstr ""
+msgstr "您不能导入“%s”字段，因为我们无法自动检测它。"
 
 #: controllers/impex.py:476
 #, python-format
 msgid "Error processing the first line of the file. Field \"%s\" is unknown"
-msgstr ""
+msgstr "处理第一行时发生错误：未知字段“%s”"
 
 #: controllers/impex.py:476
 msgid "Import Error."
@@ -542,11 +542,11 @@ msgstr "OpenERP Web 客户端"
 
 #: controllers/templates/about.mako:30
 msgid "Copyright &copy; 2006-TODAY OpenERP SA. All Rights Reserved."
-msgstr ""
+msgstr "版权所有 &copy; 2006—今日 OpenERP SA 公司。保留所有权利。"
 
 #: controllers/templates/about.mako:31
 msgid "OpenERP is a trademark of the OpenERP SA Company."
-msgstr ""
+msgstr "OpenERP 是 OpenERP SA 公司的注册商标。"
 
 #: controllers/templates/about.mako:33
 #, python-format
@@ -615,7 +615,7 @@ msgstr "密码"
 #: controllers/templates/error_page.mako:77
 #, python-format
 msgid "An %(error_type)s has been reported."
-msgstr ""
+msgstr "已经报告了错误“%(error_type)s”。"
 
 #: controllers/templates/error_page.mako:79
 msgid "Let me fix it"
@@ -756,19 +756,19 @@ msgstr "导出数据"
 
 #: controllers/templates/exp.mako:166
 msgid "Export Type:"
-msgstr ""
+msgstr "导出类型："
 
 #: controllers/templates/exp.mako:169
 msgid "Import Compatible Export"
-msgstr ""
+msgstr "导入兼容的导出结果"
 
 #: controllers/templates/exp.mako:172
 msgid "Export all Data"
-msgstr ""
+msgstr "导出所有数据"
 
 #: controllers/templates/exp.mako:183
 msgid "Available fields"
-msgstr ""
+msgstr "可用字段"
 
 #: controllers/templates/exp.mako:185
 msgid "Fields to export"
@@ -776,11 +776,11 @@ msgstr "要导出的字段"
 
 #: controllers/templates/exp.mako:187
 msgid "Save fields list"
-msgstr ""
+msgstr "保存字段列表"
 
 #: controllers/templates/exp.mako:189
 msgid "Save as:"
-msgstr ""
+msgstr "另存为："
 
 #: controllers/templates/exp.mako:191 controllers/templates/fieldpref.mako:102
 #: controllers/templates/selection.mako:45
@@ -789,7 +789,7 @@ msgstr "确认"
 
 #: controllers/templates/exp.mako:195
 msgid "Saved exports:"
-msgstr ""
+msgstr "已保存的导出结果："
 
 #: controllers/templates/exp.mako:204 controllers/templates/form.mako:135
 #: controllers/templates/image.mako:67 widgets/form/templates/one2many.mako:22
@@ -814,11 +814,11 @@ msgstr "移除"
 
 #: controllers/templates/exp.mako:227
 msgid "Remove All"
-msgstr ""
+msgstr "全部移除"
 
 #: controllers/templates/exp.mako:245
 msgid "Export to File"
-msgstr ""
+msgstr "导出到文件"
 
 #: controllers/templates/fieldpref.mako:4
 #: controllers/templates/fieldpref.mako:29
@@ -1045,28 +1045,28 @@ msgstr "导入数据"
 
 #: controllers/templates/imp.mako:90
 msgid "1. Import a .CSV file"
-msgstr ""
+msgstr "导入 .CSV 文件"
 
 #: controllers/templates/imp.mako:106
 msgid "CSV File:"
-msgstr ""
+msgstr "CSV 文件："
 
 #: controllers/templates/imp.mako:124
 msgid "2. Check your file format"
-msgstr ""
+msgstr "2. 检查您的文件格式"
 
 #: controllers/templates/imp.mako:131
 #, python-format
 msgid "The import failed due to: %(message)s"
-msgstr ""
+msgstr "导入失败：%(message)s"
 
 #: controllers/templates/imp.mako:133
 msgid "Here is a preview of the file we could not import:"
-msgstr ""
+msgstr "这是文件中无法导入部分的预览："
 
 #: controllers/templates/imp.mako:158
 msgid "CSV Options"
-msgstr ""
+msgstr "CSV  选项"
 
 #: controllers/templates/imp.mako:161
 msgid "Separator:"
@@ -1086,11 +1086,11 @@ msgstr "要跳过的行："
 
 #: controllers/templates/imp.mako:188
 msgid "3. File imported"
-msgstr ""
+msgstr "3. 文件已导入"
 
 #: controllers/templates/imp.mako:206
 msgid "Import File"
-msgstr ""
+msgstr "导入文件"
 
 #: controllers/templates/index.mako:164
 msgid "System Logs"
@@ -1360,7 +1360,7 @@ msgstr "搜索视图"
 
 #: widgets/listgrid.py:289
 msgid "Wrong on_change trigger"
-msgstr ""
+msgstr "错误的“on_change”触发器"
 
 #: widgets/listgrid.py:353 widgets/form/_form.py:904
 #, python-format
@@ -1631,187 +1631,3 @@ msgstr "增加记录..."
 #: widgets/templates/listgrid/listgrid.mako:176
 msgid "Delete record(s)."
 msgstr "删除记录"
-
-#~ msgid "Database already exists"
-#~ msgstr "帐套数据库已经存在"
-
-#~ msgid "Bad database administrator password"
-#~ msgstr "账套数据库管理员密码错误"
-
-#~ msgid "Could not drop database."
-#~ msgstr "删除帐套数据库失败。"
-
-#~ msgid "Could not restore database."
-#~ msgstr "恢复帐套数据库失败。"
-
-#~ msgid "Bad password provided."
-#~ msgstr "密码错误"
-
-#~ msgid "Could not change super admin password."
-#~ msgstr "不能变更超级管理员密码"
-
-#~ msgid "You must save this record to use the sidebar button"
-#~ msgstr "您必须使用侧边栏按钮保存这条记录"
-
-#~ msgid "Invalid button type"
-#~ msgstr "按键类型无效"
-
-#~ msgid ""
-#~ "Please Install xlwt Library.\n"
-#~ "To create spreadsheet files compatible with MS Excel."
-#~ msgstr "创建兼容MS Excel的电子表请安装xlwt库文件"
-
-#, python-format
-#~ msgid ""
-#~ "Error trying to import this record:\n"
-#~ "%s\n"
-#~ "Error Message:\n"
-#~ "%s\n"
-#~ "\n"
-#~ "%s"
-#~ msgstr ""
-#~ "试图导入记录失败：\n"
-#~ "%s\n"
-#~ "错误信息：\n"
-#~ "%s\n"
-#~ "%s"
-
-#, python-format
-#~ msgid "You cannot import this field %s, because we cannot auto-detect it"
-#~ msgstr "您不能导入字段 %s，因为我们不能自动检测它"
-
-#~ msgid "Importation Error"
-#~ msgstr "导入错误"
-
-#~ msgid "OpenERP is a trademark of the Tiny Company."
-#~ msgstr "OpenERP 是 Tiny 公司的注册商标。"
-
-#~ msgid "Copyright &copy; 2006-TODAY Tiny ERP Pvt. Ltd. All Rights Reserved."
-#~ msgstr "版权所有 &copy; 2006-今日 Tiny ERP Pvt. Ltd. 保留所有权利."
-
-#~ msgid "You do not have a valid OpenERP maintenance contract !"
-#~ msgstr "您没有有效的 OpenERP 维护合同"
-
-#~ msgid "has been reported."
-#~ msgstr "已经报告。"
-
-#~ msgid "Services"
-#~ msgstr "服务"
-
-#~ msgid "Trainings"
-#~ msgstr "培训"
-
-#~ msgid "SaaS Offers"
-#~ msgstr "软件即服务合约"
-
-#~ msgid ""
-#~ "Your request will be sent to OpenERP and maintenance team will reply you "
-#~ "shortly."
-#~ msgstr "您的请求已经发送，维护小组将很快答复您。"
-
-#~ msgid "Maintenance contract."
-#~ msgstr "维护合同。"
-
-#~ msgid "Send to Maintenance Team"
-#~ msgstr "发送给维护小组"
-
-#~ msgid "Nothing"
-#~ msgstr "不做任何事"
-
-#~ msgid "Options"
-#~ msgstr "选项"
-
-#~ msgid "Export as CSV"
-#~ msgstr "导出为 CSV 格式"
-
-#~ msgid "Export as Excel"
-#~ msgstr "导出为 Excel"
-
-#~ msgid "Add field names"
-#~ msgstr "添加字段名"
-
-#~ msgid "Import Compatible"
-#~ msgstr "可兼容导入"
-
-#~ msgid "Select an Option to Export"
-#~ msgstr "选择一个导出项"
-
-#~ msgid "The Axelor Company"
-#~ msgstr "Axelor 公司"
-
-#~ msgid "Community"
-#~ msgstr "社区"
-
-#~ msgid "The Tiny Company"
-#~ msgstr "Tiny 公司"
-
-#~ msgid "RESOURCES"
-#~ msgstr "资源"
-
-#~ msgid "Homepage"
-#~ msgstr "主页"
-
-#~ msgid "Download"
-#~ msgstr "下载"
-
-#~ msgid "Documentation"
-#~ msgstr "文档"
-
-#~ msgid "Modules"
-#~ msgstr "模块"
-
-#~ msgid "Screencasts"
-#~ msgstr "屏幕演示"
-
-#~ msgid "All fields"
-#~ msgstr "全部字段"
-
-#~ msgid "Save List"
-#~ msgstr "保存列表"
-
-#~ msgid "Name of This Export:"
-#~ msgstr "本次导出的名称："
-
-#~ msgid "File to import"
-#~ msgstr "要导入的文件"
-
-#~ msgid "Auto Detect"
-#~ msgstr "自动检测"
-
-#~ msgid "Fields to import"
-#~ msgstr "要导入的字段"
-
-#, python-format
-#~ msgid ""
-#~ "Error processing your first line of the file.\n"
-#~ "Field %s is unknown"
-#~ msgstr ""
-#~ "处理文件第一行的时候发生错误。\n"
-#~ "未知字段： %s"
-
-#, python-format
-#~ msgid "Found no record '%(searched_string)s'."
-#~ msgstr "找不到记录 '%(searched_string)s'."
-
-#, python-format
-#~ msgid "Create %(searched_string)s"
-#~ msgstr "创建 %(searched_string)s"
-
-#~ msgid "Edit record(s)."
-#~ msgstr "编辑记录"
-
-#~ msgid "Use Online"
-#~ msgstr "在线使用"
-
-#~ msgid "Get the OpenERP Warranty"
-#~ msgstr "获取openerp授权"
-
-#~ msgid "An "
-#~ msgstr "一 "
-
-#, python-format
-#~ msgid "Error processing your first line of the file. Field %s is unknown"
-#~ msgstr "处理文件第一行时出错。字段 %s 未知"
-
-#~ msgid "Select Options to Export"
-#~ msgstr "选择需要导出的选项"

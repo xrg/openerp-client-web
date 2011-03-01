@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: openobject-client-web\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2011-01-17 13:09+0100\n"
-"PO-Revision-Date: 2011-01-22 01:09+0000\n"
+"PO-Revision-Date: 2011-02-28 12:02+0000\n"
 "Last-Translator: Tiago Baptista <Unknown>\n"
 "Language-Team: Portuguese <pt@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2011-01-23 04:56+0000\n"
-"X-Generator: Launchpad (build 12177)\n"
+"X-Launchpad-Export-Date: 2011-03-01 05:59+0000\n"
+"X-Generator: Launchpad (build 12351)\n"
 
 #: validators.py:75
 msgid "Invalid literal for float"
@@ -1630,171 +1630,3 @@ msgstr "Adicionar registos..."
 #: widgets/templates/listgrid/listgrid.mako:176
 msgid "Delete record(s)."
 msgstr "Eliminar registo(s)."
-
-#~ msgid "You must save this record to use the sidebar button"
-#~ msgstr ""
-#~ "É necessário salvar este registo para usar os botões da barra lateral"
-
-#~ msgid "OpenERP is a trademark of the Tiny Company."
-#~ msgstr "OpenERP é marca registrada da Tiny Company."
-
-#~ msgid "RESOURCES"
-#~ msgstr "RECURSOS"
-
-#~ msgid "Download"
-#~ msgstr "Descarregar"
-
-#~ msgid "Documentation"
-#~ msgstr "Documentação"
-
-#~ msgid "Modules"
-#~ msgstr "Módulos"
-
-#~ msgid "Community"
-#~ msgstr "Comunidade"
-
-#~ msgid "Services"
-#~ msgstr "Serviços"
-
-#~ msgid "Trainings"
-#~ msgstr "Treinos"
-
-#~ msgid "SaaS Offers"
-#~ msgstr "Ofertas de software como serviço"
-
-#~ msgid "Homepage"
-#~ msgstr "Página inicial"
-
-#~ msgid "has been reported."
-#~ msgstr "foi reportado."
-
-#~ msgid "Maintenance contract."
-#~ msgstr "Contrato de manutenção."
-
-#~ msgid ""
-#~ "Your request will be sent to OpenERP and maintenance team will reply you "
-#~ "shortly."
-#~ msgstr ""
-#~ "Seu pedido foi enviado para a equipe de manutenção, que responderá "
-#~ "brevemente."
-
-#~ msgid "An "
-#~ msgstr "Um "
-
-#~ msgid "Send to Maintenance Team"
-#~ msgstr "Enviar para a equipa de manutenção"
-
-#~ msgid "Save List"
-#~ msgstr "Gravar lista"
-
-#~ msgid "Name of This Export:"
-#~ msgstr "Nome desta exportação"
-
-#~ msgid "Options"
-#~ msgstr "Opções"
-
-#~ msgid "Nothing"
-#~ msgstr "Nada"
-
-#~ msgid "All fields"
-#~ msgstr "Todos os campos"
-
-#~ msgid "Export as CSV"
-#~ msgstr "Exportar como CSV"
-
-#~ msgid "Export as Excel"
-#~ msgstr "Exportar como Excel"
-
-#~ msgid "Add field names"
-#~ msgstr "Incluir nomes dos campos"
-
-#~ msgid "Import Compatible"
-#~ msgstr "Importação compatível"
-
-#~ msgid "Select an Option to Export"
-#~ msgstr "Selecione uma opção para exportar"
-
-#~ msgid "Get the OpenERP Warranty"
-#~ msgstr "Adquirir garantia OpenERP"
-
-#~ msgid "File to import"
-#~ msgstr "Ficheiro a importar"
-
-#~ msgid "Fields to import"
-#~ msgstr "Campos para importar"
-
-#~ msgid "Auto Detect"
-#~ msgstr "Auto-detetar"
-
-#~ msgid "Use Online"
-#~ msgstr "Usar em linha"
-
-#~ msgid "Subscribe and start"
-#~ msgstr "Subscrever e iniciar"
-
-#, python-format
-#~ msgid "Found no record '%(searched_string)s'."
-#~ msgstr "Não foram encontrados registos '%(searched_string)s'"
-
-#, python-format
-#~ msgid "Create %(searched_string)s"
-#~ msgstr "Criar %(searched_string)s"
-
-#~ msgid "Edit record(s)."
-#~ msgstr "Editar registo(s)."
-
-#, python-format
-#~ msgid "You cannot import this field %s, because we cannot auto-detect it"
-#~ msgstr "Não pode importar este campo %s, porque não podemos detectá-lo"
-
-#, python-format
-#~ msgid ""
-#~ "Error processing your first line of the file.\n"
-#~ "Field %s is unknown"
-#~ msgstr ""
-#~ "Erro ao processar a primeira linha do ficheiro.\n"
-#~ "O campo %s é desconhecido."
-
-#~ msgid ""
-#~ "Please Install xlwt Library.\n"
-#~ "To create spreadsheet files compatible with MS Excel."
-#~ msgstr ""
-#~ "Instale a biblioteca xlwt\n"
-#~ "Para criar folhas de cálculo compatíveis com o MS Excel."
-
-#~ msgid "Importation Error"
-#~ msgstr "Erro de importação"
-
-#, python-format
-#~ msgid ""
-#~ "Error trying to import this record:\n"
-#~ "%s\n"
-#~ "Error Message:\n"
-#~ "%s\n"
-#~ "\n"
-#~ "%s"
-#~ msgstr ""
-#~ "Erro ao tentar importar este registo:\n"
-#~ "%s\n"
-#~ "Mensagem de erro:\n"
-#~ "%s\n"
-#~ "\n"
-#~ "%s"
-
-#~ msgid "You do not have a valid OpenERP maintenance contract !"
-#~ msgstr "Não tem um contrato de manutenção válido com a OpenERP!"
-
-#~ msgid "Use On-Site"
-#~ msgstr "Usar localmente"
-
-#, python-format
-#~ msgid "Error processing your first line of the file. Field %s is unknown"
-#~ msgstr ""
-#~ "Erro no processamento da primeira linha do ficheiro. O campo %s não existe"
-
-#~ msgid "Copyright &copy; 2006-TODAY Tiny ERP Pvt. Ltd. All Rights Reserved."
-#~ msgstr ""
-#~ "Copyright &copy; 2006-HOJE Tiny ERP Pvt. Ltd. Todos os direitos reservados."
-
-#~ msgid "Select Options to Export"
-#~ msgstr "Seleccione opções para exportar"

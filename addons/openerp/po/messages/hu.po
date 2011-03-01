@@ -8,18 +8,18 @@ msgstr ""
 "Project-Id-Version: openobject-client-web\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2011-01-17 13:09+0100\n"
-"PO-Revision-Date: 2011-01-25 00:19+0000\n"
+"PO-Revision-Date: 2011-02-28 12:02+0000\n"
 "Last-Translator: Csaba TOTH <csaba.toth@i3rendszerhaz.hu>\n"
 "Language-Team: Hungarian <hu@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2011-01-26 04:37+0000\n"
-"X-Generator: Launchpad (build 12177)\n"
+"X-Launchpad-Export-Date: 2011-03-01 05:59+0000\n"
+"X-Generator: Launchpad (build 12351)\n"
 
 #: validators.py:75
 msgid "Invalid literal for float"
-msgstr ""
+msgstr "Érvénytelen lebegőpontos szám"
 
 #: validators.py:114 validators.py:119 validators.py:262
 msgid "Invalid datetime format"
@@ -35,7 +35,7 @@ msgstr "Adja meg az e-mail címet"
 
 #: validators.py:248
 msgid "An email address must contain a single @"
-msgstr "Az e-amil címnek tartalmazina kell egy @ karaktert"
+msgstr "Az e-mail címnek tartalmazina kell egy @ karaktert"
 
 #: validators.py:249
 #, python-format
@@ -43,6 +43,8 @@ msgid ""
 "The username portion of the email address is invalid (the portion before the "
 "@: %(username)s)"
 msgstr ""
+"Az e-mail címben érvénytelen a felhaszálói név rész (a @ előtti rész: "
+"%(username)s)"
 
 #: validators.py:250
 #, python-format
@@ -50,10 +52,11 @@ msgid ""
 "The domain portion of the email address is invalid (the portion after the @: "
 "%(domain)s)"
 msgstr ""
+"Az e-mail címben érvénytelen a domain rész (a @ utáni rész: %(domain)s)"
 
 #: validators.py:254
 msgid "You must start your URL with http://, https://, etc"
-msgstr ""
+msgstr "Az URL-nak a következőkkel kell kezdődnie: http://, https://, stb."
 
 #: validators.py:255
 msgid "That is not a valid URL"
@@ -62,11 +65,11 @@ msgstr "Érvénytelen URL"
 #: validators.py:256
 #, python-format
 msgid "You must provide a full domain name (like %(domain)s.com)"
-msgstr ""
+msgstr "Meg kell adnia a teljes domain nevet (példáué %(domain)s.com)"
 
 #: validators.py:260
 msgid "Please enter an integer value"
-msgstr "Adjon meg egy egyész számot"
+msgstr "Adjon meg egy egész számot"
 
 #: validators.py:261
 msgid "Please enter a number"
@@ -78,7 +81,7 @@ msgstr "Érvénytelen nézet"
 
 #: controllers/actions.py:124
 msgid "Error no report"
-msgstr ""
+msgstr "Nincs hibajelentés"
 
 #: controllers/actions.py:150
 msgid "Nothing to print"
@@ -86,23 +89,23 @@ msgstr "Nincs mit nyomtatni"
 
 #: controllers/actions.py:170
 msgid "Printing aborted, too long delay"
-msgstr ""
+msgstr "Nyomtatás megszakítva, túl hosszú várakozás"
 
 #: controllers/actions.py:377
 msgid "Relative URLs are not supported"
-msgstr ""
+msgstr "Relatív URL-ek nem támogatottak"
 
 #: controllers/actions.py:405
 msgid "Action not found"
-msgstr ""
+msgstr "Művelet nem található"
 
 #: controllers/actions.py:454
 msgid "No action defined"
-msgstr ""
+msgstr "Nincs meghatározva művelet"
 
 #: controllers/attachment.py:54
 msgid "No record selected, You can only attach to existing record..."
-msgstr ""
+msgstr "Nincs rekord kiválasztva, csak létező rekordot tud csatolni..."
 
 #: controllers/database.py:64
 msgid "Create database"
@@ -176,6 +179,8 @@ msgid ""
 "This is the password of the 'admin' user that will be created in your new "
 "database."
 msgstr ""
+"Ennek az admin felhasználói jelszó segítségével tud létrehozni egy új "
+"adatbázist."
 
 #: controllers/database.py:74
 msgid "Confirm password:"
@@ -186,6 +191,8 @@ msgid ""
 "This is the password of the 'admin' user that will be created in your new "
 "database. It has to be the same than the above field."
 msgstr ""
+"Ennek az admin felhasználói jelszó segítségével tud létrehozni egy új "
+"adatbázist. A fent említett mezővel meg kell egyeznie."
 
 #: controllers/database.py:80
 msgid "Drop database"
@@ -297,6 +304,8 @@ msgid ""
 "Your problem has been sent to the quality team\n"
 "We will recontact you after analysing the problem."
 msgstr ""
+"A problémát továbbítottuk az illetékeseknek\n"
+"A probléma elemzése után ismét felvesszük Önnek a kapcsolatot"
 
 #: controllers/error_page.py:80
 #, python-format
@@ -304,6 +313,8 @@ msgid ""
 "Your problem could not be sent to the quality team\n"
 "Please report this error manually at %s"
 msgstr ""
+"A problémát nem tudtuk továbbítani az illetékeseknek\n"
+"Kérjük jelezze a hibát manuálisan %s-nak/nek"
 
 #: controllers/form.py:553
 #, python-format
@@ -326,27 +337,27 @@ msgstr "Alkalmazáshiba"
 #: controllers/form.py:965
 #, python-format
 msgid "Wrong on_change trigger: %s"
-msgstr ""
+msgstr "Hibás on_change trigger: %s"
 
 #: controllers/form.py:1073
 msgid "Open resource"
-msgstr ""
+msgstr "Forrás megnyitása"
 
 #: controllers/form.py:1076
 msgid "Set to default value"
-msgstr ""
+msgstr "Alapértelmezett értékek betöltése"
 
 #: controllers/form.py:1077
 msgid "Set as default"
-msgstr ""
+msgstr "Beállítás alapértelmezettként"
 
 #: controllers/form.py:1084
 msgid "Action"
-msgstr ""
+msgstr "Művelet"
 
 #: controllers/form.py:1085
 msgid "Report"
-msgstr ""
+msgstr "Jelentés"
 
 #: controllers/impex.py:66
 msgid ""
@@ -362,7 +373,7 @@ msgstr "Exportálási hiba"
 
 #: controllers/impex.py:444
 msgid "Database ID"
-msgstr ""
+msgstr "Adatbázis ID"
 
 #: controllers/impex.py:451
 msgid "Error opening .CSV file"
@@ -376,11 +387,12 @@ msgstr "Bemeneti hiba."
 #, python-format
 msgid "You cannot import the field '%s', because we cannot auto-detect it"
 msgstr ""
+"Nem lehet importálni ezt a mezőt '%s', mert nem ismeri fel automatikusan"
 
 #: controllers/impex.py:476
 #, python-format
 msgid "Error processing the first line of the file. Field \"%s\" is unknown"
-msgstr ""
+msgstr "Hibás feldolgozás a fájl első sorában. A mező \"%s\" ismeretlen"
 
 #: controllers/impex.py:476
 msgid "Import Error."
@@ -399,18 +411,19 @@ msgstr "Importált %d objektum"
 #, python-format
 msgid "Error trying to import this record:%s. ErrorMessage:%s %s"
 msgstr ""
+"Hibás próbálkozás ennek a rekordnak az importálására: %s. Hibaüzenet:%s %s"
 
 #: controllers/impex.py:526
 msgid "ImportationError"
-msgstr ""
+msgstr "Importálási hiba"
 
 #: controllers/listgrid.py:51
 msgid "Parent record doesn't exists..."
-msgstr ""
+msgstr "Főrekord már létezik..."
 
 #: controllers/preferences.py:34
 msgid "Change your password"
-msgstr ""
+msgstr "Változtassa meg a jelszavát"
 
 #: controllers/preferences.py:64 controllers/templates/header.mako:59
 msgid "Preferences"
@@ -418,19 +431,19 @@ msgstr "Beállítások"
 
 #: controllers/preferences.py:91
 msgid "All passwords have to be filled."
-msgstr ""
+msgstr "Minden jelszót ki kell tölteni"
 
 #: controllers/preferences.py:93
 msgid "The new password and its confirmation must be identical."
-msgstr ""
+msgstr "Az új jelszónak és a jelszó megerősítésnek azonosnak kell lennie"
 
 #: controllers/preferences.py:102
 msgid "Could not change your password."
-msgstr ""
+msgstr "Nem tudja lecserélni a jelszavát."
 
 #: controllers/preferences.py:104
 msgid "Original password incorrect, your password was not changed."
-msgstr ""
+msgstr "Eredeti jelszó hibás, jelszava nem változott."
 
 #: controllers/root.py:170
 #, python-format
@@ -439,11 +452,11 @@ msgstr "Verzió %s"
 
 #: controllers/translator.py:132
 msgid "You need to save the resource before adding translations."
-msgstr ""
+msgstr "Mentse el az eredetit mielőtt hozzáadja a fordítást."
 
 #: controllers/tree.py:264
 msgid "No resource selected"
-msgstr ""
+msgstr "Nincs forrás kiválasztva"
 
 #: controllers/utils.py:44
 msgid "Could not connect to server"
@@ -487,27 +500,27 @@ msgstr "Hozzáférési szint"
 
 #: controllers/view_log.py:40
 msgid "Internal module data ID"
-msgstr ""
+msgstr "Belső modul adatok azonosítója"
 
 #: controllers/viewed.py:220
 msgid "Invalid view id."
-msgstr ""
+msgstr "Érvénytelen nézet ID"
 
 #: controllers/viewed.py:498
 msgid "Unable to create inherited view."
-msgstr ""
+msgstr "Nem lehet létrehozni örökölt nézetet"
 
 #: controllers/viewed.py:500
 msgid "Can't create inherited view here."
-msgstr ""
+msgstr "Itt nem lehet létrehozni örökölt nézetet."
 
 #: controllers/viewed.py:503
 msgid "Not implemented yet!"
-msgstr ""
+msgstr "Még nem készült el!"
 
 #: controllers/viewed.py:608
 msgid "Unable to update the view."
-msgstr ""
+msgstr "Nem lehet frissíteni a nézetet."
 
 #: controllers/viewed.py:859
 msgid "New Window"
@@ -523,7 +536,7 @@ msgstr "Mégse gomb"
 
 #: controllers/viewed.py:871
 msgid "Open Button"
-msgstr ""
+msgstr "Nyitás gomb"
 
 #: controllers/viewed.py:877
 msgid "Left"
@@ -539,11 +552,11 @@ msgstr "Jobbra"
 
 #: controllers/templates/about.mako:4
 msgid "About the OpenERP Web"
-msgstr ""
+msgstr "OpenERP Web névjegy"
 
 #: controllers/templates/about.mako:27
 msgid "OpenERP Web"
-msgstr ""
+msgstr "OpenERP Web"
 
 #: controllers/templates/about.mako:30
 msgid "Copyright &copy; 2006-TODAY OpenERP SA. All Rights Reserved."
@@ -551,17 +564,17 @@ msgstr "Copyright &copy; 2006-TODAY OpenERP SA. Minden jog fenntartva."
 
 #: controllers/templates/about.mako:31
 msgid "OpenERP is a trademark of the OpenERP SA Company."
-msgstr ""
+msgstr "OpenERP bejegyzett védjegye az OpenERP SA vállalat."
 
 #: controllers/templates/about.mako:33
 #, python-format
 msgid "%(ooweb)s is jointly developed by %(tiny)s and %(axelor)s."
-msgstr ""
+msgstr "%(ooweb)s közösen dolgozták ki a  %(tiny)s és a %(axelor)s."
 
 #: controllers/templates/about.mako:39
 #, python-format
 msgid "Licenced under the terms of %(license)s"
-msgstr ""
+msgstr "Engedélyezett %(license)s időszak alatt"
 
 #: controllers/templates/about.mako:42
 msgid "About OpenERP"
@@ -579,6 +592,14 @@ msgid ""
 "                    project management, production, services, CRM, etc..\n"
 "                    "
 msgstr ""
+"%(openobject)s egy szabad vállalatirányítási rendszer, melyet arra "
+"terveztek, hogy\n"
+"                    növelje a termelékenységet és a nyereséget az "
+"adatintegráció révén. Ez összeköti, javítja\n"
+"                    és irányítja az üzleti folyamatokat olyan területeken, "
+"mint az értékesítés, pénzügy, ellátási lánc,\n"
+"                    projektek, gyártás, szolgáltatás, CRM, stb.\n"
+"                    "
 
 #: controllers/templates/about.mako:51
 msgid ""
@@ -591,12 +612,21 @@ msgid ""
 "                    production system and migration to a new version to be "
 "straightforward."
 msgstr ""
+"A rendszer platform-független, és lehet telepíteni a Windows,  Mac OS X,\n"
+"                    és a különböző Linux és egyéb Unix-alapú "
+"disztribúciókra. Az architektúra lehetővé teszi, hogy\n"
+"                    gyorsan új funkciókat hozzon létre, módosításokat tudjon "
+"végrehajtani a\n"
+"                    gyártási rendszerben és egyszerűen migrálni tudja az új "
+"verzióba."
 
 #: controllers/templates/about.mako:57
 msgid ""
 "Depending on your needs, OpenERP is available through a web or application "
 "client."
 msgstr ""
+"Az Ön igényeitől függően az OpenERP elérhető weben illetve alkalmazás "
+"kliensen keresztül."
 
 #: controllers/templates/database.mako:50 controllers/templates/login.mako:4
 #: controllers/templates/login.mako:67 controllers/templates/login_ajax.mako:85
@@ -611,19 +641,20 @@ msgstr "Jelszó"
 #: controllers/templates/error_page.mako:77
 #, python-format
 msgid "An %(error_type)s has been reported."
-msgstr ""
+msgstr "Egy %(error_type)s-t jelentettek."
 
 #: controllers/templates/error_page.mako:79
 msgid "Let me fix it"
-msgstr ""
+msgstr "Hadd javítsam meg én"
 
 #: controllers/templates/error_page.mako:85
 msgid "Fix it for me"
-msgstr ""
+msgstr "Javítsd ki nekem"
 
 #: controllers/templates/error_page.mako:90
 msgid "You do not have a valid OpenERP publisher warranty contract !"
 msgstr ""
+"Ön nem rendelkezik érvényes OpenERP által kiadott garancia szerződéssel !"
 
 #: controllers/templates/error_page.mako:91
 msgid ""
@@ -647,6 +678,25 @@ msgid ""
 "* Security alerts by email and automatic migration,\n"
 "* Access to the customer portal.\n"
 msgstr ""
+"Amennyiben az OpenERP-t gyártásra is szeretné használni, javasoljuk, hogy "
+"használja \n"
+"a kiadói/terjesztői garancia programot.\n"
+"\n"
+"Az OpenERP kiadói/terjesztői garancia szerződés biztosítja Ön számára a "
+"hibajavításokat és az\n"
+"automatikus migrációs rendszert, amely segítségével el tudunk kezdeni "
+"dolgozni a probláma elhárításán néhány\n"
+"órán belül.\n"
+"\n"
+"A kiadói/terjesztői garancia szerződéssel a hibákat közvetlenül az OpenERP "
+"csapatának tudja küldeni felülvizsgálatra és értékelésre.\n"
+"\n"
+"A kiadói/terjesztői garancia program az alábbiakat kínálja Önnek:\n"
+"* automatikus migráció az új verziókba,\n"
+"* hibajavító garancia,\n"
+"* havi jelentés az esetleges hibákról és azok javításáról,\n"
+"* biztonsági riasztások és automatikus migráció,\n"
+"* hozzáférés az ügyfélportálhoz.\n"
 
 #: controllers/templates/error_page.mako:113
 msgid ""
@@ -665,20 +715,37 @@ msgid ""
 "\n"
 "Here is the list of modules not covered by your publisher warranty contract:"
 msgstr ""
+"Az Ön kiadói/terjesztői garancia szerződése nem vonatkozik a rendszerébe "
+"telepített összes modulra !\n"
+"Ha gyártásra is szeretné használni az OpenERP-t, javasoljuk, hogy frissítse "
+"\n"
+"a szerződését.\n"
+"\n"
+"Ha Önnél feljesztették a moduljainkat, vagy telepített modult harmadik "
+"féltől, mi\n"
+"lehetőséget biztosítunk kiadói/terjesztői garancia szerződés megkötésére "
+"ezzekre a modulokra is. Miután\n"
+"ellenőriztük a modulokat, a csapatunk biztosítja ezek automatikus migrálását "
+"az OpenERP minden jövőbeni verziójába, külön költség nélkül.\n"
+"\n"
+"Íme azoknak a moduloknak a listája, amelyekre nem vonatkozik az Ön "
+"kiadói/terjesztői garancia szerződése:"
 
 #: controllers/templates/error_page.mako:135
 msgid "Publisher warranty contract."
-msgstr ""
+msgstr "Kiadói/terjesztői garancia szerződés"
 
 #: controllers/templates/error_page.mako:136
 msgid ""
 "Your request will be sent to OpenERP and publisher warranty team will reply "
 "you shortly."
 msgstr ""
+"Az OpenERP elküldte az Ön kérését és a kiadói/terjesztői garancia csapat "
+"hamarosan válaszolni fog Önnek."
 
 #: controllers/templates/error_page.mako:140
 msgid "Summary of the problem:"
-msgstr ""
+msgstr "A probléma összegzése:"
 
 #: controllers/templates/error_page.mako:147
 msgid "Explain what you did:"
@@ -690,11 +757,11 @@ msgstr "További megjegyzések"
 
 #: controllers/templates/error_page.mako:168
 msgid "Send to Publisher Warranty Team"
-msgstr ""
+msgstr "Küldés a kiadói/terjesztői garancia csapatnak"
 
 #: controllers/templates/error_page.mako:195
 msgid "Write concurrency warning :"
-msgstr ""
+msgstr "Párhuzamos figyelmeztetés írása :"
 
 #: controllers/templates/error_page.mako:200
 msgid ""
@@ -704,6 +771,11 @@ msgid ""
 "    - \"Cancel\" to cancel saving.\n"
 "    - \"Write anyway\" to save your current version."
 msgstr ""
+"Ez a dokumentum megváltozott, mialatt szerkesztette\n"
+"Válasszon:\n"
+"\n"
+"    - \"Mégse\" törli a mentést.\n"
+"    - \"Felülírás\" menti a jelenlegi verziót."
 
 #: controllers/templates/error_page.mako:214 controllers/templates/exp.mako:244
 #: controllers/templates/form.mako:140 controllers/templates/openo2m.mako:41
@@ -716,7 +788,7 @@ msgstr "Mégse"
 
 #: controllers/templates/error_page.mako:215
 msgid "Write Anyway"
-msgstr ""
+msgstr "Felülírás"
 
 #: controllers/templates/exp.mako:151
 msgid "Export Data"
@@ -724,40 +796,40 @@ msgstr "Adatok exportálása"
 
 #: controllers/templates/exp.mako:166
 msgid "Export Type:"
-msgstr ""
+msgstr "Exportálás típusa"
 
 #: controllers/templates/exp.mako:169
 msgid "Import Compatible Export"
-msgstr ""
+msgstr "Import/export kompatibilis"
 
 #: controllers/templates/exp.mako:172
 msgid "Export all Data"
-msgstr ""
+msgstr "Összes adat exportálása"
 
 #: controllers/templates/exp.mako:183
 msgid "Available fields"
-msgstr ""
+msgstr "Engedélyezett mezők"
 
 #: controllers/templates/exp.mako:185
 msgid "Fields to export"
-msgstr ""
+msgstr "Mezők exportálása"
 
 #: controllers/templates/exp.mako:187
 msgid "Save fields list"
-msgstr ""
+msgstr "Mezőlisták mentése"
 
 #: controllers/templates/exp.mako:189
 msgid "Save as:"
-msgstr ""
+msgstr "Mentés másként:"
 
 #: controllers/templates/exp.mako:191 controllers/templates/fieldpref.mako:102
 #: controllers/templates/selection.mako:45
 msgid "OK"
-msgstr "OK"
+msgstr "Ok"
 
 #: controllers/templates/exp.mako:195
 msgid "Saved exports:"
-msgstr ""
+msgstr "Mentett exportálások:"
 
 #: controllers/templates/exp.mako:204 controllers/templates/form.mako:135
 #: controllers/templates/image.mako:67 widgets/form/templates/one2many.mako:22
@@ -782,11 +854,11 @@ msgstr "Eltávolít"
 
 #: controllers/templates/exp.mako:227
 msgid "Remove All"
-msgstr ""
+msgstr "Összes eltávolítása"
 
 #: controllers/templates/exp.mako:245
 msgid "Export to File"
-msgstr ""
+msgstr "Exportálás fájlba"
 
 #: controllers/templates/fieldpref.mako:4
 #: controllers/templates/fieldpref.mako:29
@@ -807,23 +879,23 @@ msgstr "Alapértelmezett érték:"
 
 #: controllers/templates/fieldpref.mako:57
 msgid "Value applicable for:"
-msgstr ""
+msgstr "Érték alkalmazható:"
 
 #: controllers/templates/fieldpref.mako:63
 msgid "Only for you"
-msgstr ""
+msgstr "Csak az Ön számára"
 
 #: controllers/templates/fieldpref.mako:67
 msgid "For all"
-msgstr ""
+msgstr "Mindekinek"
 
 #: controllers/templates/fieldpref.mako:76
 msgid "Value applicable if:"
-msgstr ""
+msgstr "Érték alkalmazható, ha:"
 
 #: controllers/templates/fieldpref.mako:79
 msgid "Always applicable!"
-msgstr ""
+msgstr "Mindig érvényes!"
 
 #: controllers/templates/fieldpref.mako:99 controllers/templates/image.mako:70
 #: controllers/templates/imp.mako:205 controllers/templates/index.mako:198
@@ -852,15 +924,15 @@ msgstr "Jelentős fejlesztéseket végeztek továbbá:"
 
 #: controllers/templates/form.mako:63
 msgid "Disable all Tips"
-msgstr ""
+msgstr "Összes tipp letiltása"
 
 #: controllers/templates/form.mako:64
 msgid "Hide this Tip"
-msgstr ""
+msgstr "Tipp elrejtése"
 
 #: controllers/templates/form.mako:82
 msgid "Add / Remove Shortcut..."
-msgstr ""
+msgstr "Billentyűkombináció hozzáadása/eltávolítása"
 
 #: controllers/templates/form.mako:86
 #, python-format
@@ -869,11 +941,11 @@ msgstr "Keresés: %s"
 
 #: controllers/templates/form.mako:93
 msgid "Corporate Intelligence..."
-msgstr ""
+msgstr "Vállalati intelligencia..."
 
 #: controllers/templates/form.mako:99
 msgid "Show Logs..."
-msgstr ""
+msgstr "Naplók megjelenítése..."
 
 #: controllers/templates/form.mako:111
 msgid "Create a new resource"
@@ -919,7 +991,7 @@ msgstr "Mentés"
 
 #: controllers/templates/form.mako:124
 msgid "Save & Edit this resource"
-msgstr "Rekor mentése és tovább szerkesztése"
+msgstr "Rekord mentése és tovább szerkesztése"
 
 #: controllers/templates/form.mako:125
 msgid "Save & Edit"
@@ -939,33 +1011,33 @@ msgstr "Rekord törlése"
 
 #: controllers/templates/form.mako:139
 msgid "Cancel editing the current resource"
-msgstr ""
+msgstr "Jelenlegi forrás szerkesztésének törlése"
 
 #: controllers/templates/form.mako:144
 msgid "Create new node"
-msgstr ""
+msgstr "Új csomópont létrehozása"
 
 #: controllers/templates/form.mako:145
 msgid "New Node"
-msgstr ""
+msgstr "Új csomópont"
 
 #: controllers/templates/form.mako:149
 msgid "Show grid in workflow canvas"
-msgstr ""
+msgstr "Mutassa a rácsot a munkamenet nézőben"
 
 #: controllers/templates/form.mako:150
 msgid "Show grid"
-msgstr ""
+msgstr "Rács mutatása"
 
 #: controllers/templates/header.mako:33
 #, python-format
 msgid "%(company)s"
-msgstr ""
+msgstr "%(company)s"
 
 #: controllers/templates/header.mako:34 controllers/templates/index.mako:218
 #, python-format
 msgid "%(user)s"
-msgstr ""
+msgstr "%(user)s"
 
 #: controllers/templates/header.mako:45 controllers/templates/header.mako:47
 msgid "Home"
@@ -1001,7 +1073,7 @@ msgstr "Kép"
 
 #: controllers/templates/image.mako:55
 msgid "Add Resource:"
-msgstr "Rekord kozzáadása"
+msgstr "Rekord hozzáadása"
 
 #: controllers/templates/image.mako:66 widgets/form/templates/binary.mako:28
 msgid "Save As"
@@ -1013,28 +1085,28 @@ msgstr "Adatok importálása"
 
 #: controllers/templates/imp.mako:90
 msgid "1. Import a .CSV file"
-msgstr ""
+msgstr ".CSV fájl importálása"
 
 #: controllers/templates/imp.mako:106
 msgid "CSV File:"
-msgstr ""
+msgstr "CSV fájl:"
 
 #: controllers/templates/imp.mako:124
 msgid "2. Check your file format"
-msgstr ""
+msgstr "2. Ellenőrizze a fájlformátumot"
 
 #: controllers/templates/imp.mako:131
 #, python-format
 msgid "The import failed due to: %(message)s"
-msgstr ""
+msgstr "Az importálás emiatt nem sikerült: %(message)s"
 
 #: controllers/templates/imp.mako:133
 msgid "Here is a preview of the file we could not import:"
-msgstr ""
+msgstr "Itt van a fájl előnézete, nem tudjuk importálni:"
 
 #: controllers/templates/imp.mako:158
 msgid "CSV Options"
-msgstr ""
+msgstr "CSV lehetőségek"
 
 #: controllers/templates/imp.mako:161
 msgid "Separator:"
@@ -1050,15 +1122,15 @@ msgstr "Kódolás:"
 
 #: controllers/templates/imp.mako:174
 msgid "Lines to skip:"
-msgstr ""
+msgstr "Sorra ugrás:"
 
 #: controllers/templates/imp.mako:188
 msgid "3. File imported"
-msgstr ""
+msgstr "3. Fájl importálása"
 
 #: controllers/templates/imp.mako:206
 msgid "Import File"
-msgstr ""
+msgstr "Fájl importálása"
 
 #: controllers/templates/index.mako:164
 msgid "System Logs"
@@ -1066,7 +1138,7 @@ msgstr "Rendszernaplók"
 
 #: controllers/templates/index.mako:189
 msgid "More"
-msgstr ""
+msgstr "További"
 
 #: controllers/templates/index.mako:190
 msgid "Widgets"
@@ -1075,7 +1147,7 @@ msgstr "Widgetek"
 #: controllers/templates/index.mako:221 controllers/templates/index.mako:226
 #, python-format
 msgid "Powered by %(openerp)s "
-msgstr ""
+msgstr "Üzemelteti a %(openerp)s "
 
 #: controllers/templates/login.mako:53 controllers/templates/login_ajax.mako:72
 #: controllers/templates/login_ajax.mako:94
@@ -1088,27 +1160,31 @@ msgstr "Adatbázisok"
 
 #: controllers/templates/login.mako:84
 msgid "Top Contributor:"
-msgstr ""
+msgstr "Fő közreműködő:"
 
 #: controllers/templates/login.mako:94
 msgid ""
 "We think that daily job activities can be more intuitive, efficient, "
 "automated, .. and even fun."
 msgstr ""
+"Úgy gondoljuk, hogy a napi munkatevékenységek lehetnek intuitívabbak, "
+"hatékonyabbak, automatizáltabbak és már szórakoztatóak is."
 
 #: controllers/templates/login.mako:95
 msgid "OpenERP's vision to be:"
-msgstr ""
+msgstr "OpenERP elképzelése, hogy:"
 
 #: controllers/templates/login.mako:103
 msgid "Full featured"
-msgstr ""
+msgstr "Teljes értékű"
 
 #: controllers/templates/login.mako:104
 msgid ""
 "Today's enterprise challenges are multiple. We provide one module for each "
 "need."
 msgstr ""
+"Manapság egyre több a vállalati kihívás. Biztosítunk egy modult, amelyben "
+"mindent megtalál, amire szüksége van."
 
 #: controllers/templates/login.mako:112
 msgid "Open Source"
@@ -1119,6 +1195,8 @@ msgid ""
 "To Build a great product, we rely on the knowledge of thousands of "
 "contributors."
 msgstr ""
+"Készítettünk egy nagyszerű terméket a több ezer közreműködő tudására "
+"támaszkodva."
 
 #: controllers/templates/login.mako:121
 msgid "User Friendly"
@@ -1128,6 +1206,8 @@ msgstr "Felhasználóbarát"
 msgid ""
 "In order to be productive, people need clean and easy to use interface."
 msgstr ""
+"Az embereknek annak érdekében, hogy produktívak legyenek, szükségük van egy "
+"világos és könnyen használható felületre."
 
 #: controllers/templates/modules.mako:4
 msgid "Module Management"
@@ -1139,11 +1219,11 @@ msgstr "Web modulok"
 
 #: controllers/templates/openo2m.mako:34
 msgid "Save & Close"
-msgstr ""
+msgstr "Mentés & Bezárás"
 
 #: controllers/templates/openo2m.mako:37
 msgid "Save & New"
-msgstr ""
+msgstr "Mentés & Új"
 
 #: controllers/templates/save_filter.mako:18
 msgid "Save as Filter"
@@ -1156,7 +1236,7 @@ msgstr "Szűrő neve"
 #: controllers/templates/search.mako:110
 #, python-format
 msgid "Search %(name)s"
-msgstr ""
+msgstr "Keresés %(name)s"
 
 #: controllers/templates/search.mako:125 widgets/form/templates/datetime.mako:8
 msgid "Select"
@@ -1171,7 +1251,7 @@ msgstr "Keresés"
 #: controllers/templates/search.mako:143
 #, python-format
 msgid "No record found : '%(searched_string)s'."
-msgstr ""
+msgstr "A rekord nem található : '%(searched_string)s'."
 
 #: controllers/templates/selection.mako:4
 msgid "Select action"
@@ -1183,11 +1263,11 @@ msgstr "Válasszon műveletet"
 
 #: controllers/templates/server_log.mako:4
 msgid "Server Actions..."
-msgstr ""
+msgstr "Szerverműveletek..."
 
 #: controllers/templates/server_log.mako:14
 msgid "Server Actions"
-msgstr ""
+msgstr "Szerverműveletek"
 
 #: controllers/templates/translator.mako:4
 msgid "Add Translations"
@@ -1199,7 +1279,7 @@ msgstr "Fordítás hozzáadása"
 
 #: controllers/templates/translator.mako:27
 msgid "Add Translation for:"
-msgstr ""
+msgstr "Fordítás hozzáadása:"
 
 #: controllers/templates/translator.mako:31
 msgid "Fields"
@@ -1211,11 +1291,11 @@ msgstr "Címkék"
 
 #: controllers/templates/translator.mako:33
 msgid "Relates"
-msgstr ""
+msgstr "Kapcsolódó"
 
 #: controllers/templates/translator.mako:34
 msgid "View"
-msgstr ""
+msgstr "Nézet"
 
 #: controllers/templates/translator.mako:53
 msgid "Field"
@@ -1229,15 +1309,15 @@ msgstr "Információ"
 #: controllers/templates/viewed.mako:17
 #, python-format
 msgid "View Editor %s - %s"
-msgstr ""
+msgstr "Szerkesztőnézet %s - %s"
 
 #: controllers/templates/viewed.mako:31
 msgid "Create a new inherited view"
-msgstr ""
+msgstr "Új, örökölt nézet létrehozása"
 
 #: controllers/templates/viewed.mako:31
 msgid "Inherited View"
-msgstr ""
+msgstr "Örökölt nézet"
 
 #: controllers/templates/viewed.mako:34
 msgid "Preview"
@@ -1245,7 +1325,7 @@ msgstr "Előnézet"
 
 #: controllers/templates/viewed_add.mako:6
 msgid "Node Type:"
-msgstr ""
+msgstr "Csomópont típusa"
 
 #: controllers/templates/viewed_add.mako:23
 msgid "New Field"
@@ -1259,20 +1339,20 @@ msgstr "Pozíció:"
 #: controllers/templates/viewlist.mako:108
 #, python-format
 msgid "Manage Views (%s)"
-msgstr ""
+msgstr "Nézetek kezelése (%s)"
 
 #: controllers/templates/viewlist.mako:146
 #, python-format
 msgid "Create a view (%s)"
-msgstr ""
+msgstr "Nézet létrehozása (%s)"
 
 #: controllers/templates/viewlist.mako:174
 msgid "View Name:"
-msgstr ""
+msgstr "Nézet neve:"
 
 #: controllers/templates/viewlist.mako:178
 msgid "View Type:"
-msgstr ""
+msgstr "Nézet típusa:"
 
 #: controllers/templates/viewlist.mako:189
 msgid "Priority:"
@@ -1299,10 +1379,12 @@ msgid ""
 "You select a timezone but OpenERP could not find pytz library!\n"
 "The timezone functionality will be disable."
 msgstr ""
+"Kiválasztott egy időzónát, de OpenERP nem találja pytz könyvtárat!\n"
+"Az időzóna funkció le lesz tiltva."
 
 #: utils/rpc.py:355
 msgid "Not logged..."
-msgstr ""
+msgstr "Nincs bejelentkezve..."
 
 #: utils/rpc.py:355
 msgid "Authorization Error"
@@ -1326,7 +1408,7 @@ msgstr "Keresés nézet..."
 
 #: widgets/listgrid.py:289
 msgid "Wrong on_change trigger"
-msgstr ""
+msgstr "Hibás on_change trigger"
 
 #: widgets/listgrid.py:353 widgets/form/_form.py:904
 #, python-format
@@ -1385,7 +1467,7 @@ msgstr "Nem"
 
 #: widgets/form/_action.py:46
 msgid "Action not found!"
-msgstr ""
+msgstr "Művelet nem található!"
 
 #: widgets/form/_o2m.py:73 widgets/templates/listgrid/listgrid.mako:138
 #: widgets/templates/listgrid/listgrid.mako:144
@@ -1399,7 +1481,7 @@ msgstr "Mentés/Új"
 
 #: widgets/form/_o2m.py:86
 msgid "Save parent record."
-msgstr "Szülő rekord mentése."
+msgstr "Főrekord mentése."
 
 #: widgets/form/_o2m.py:216
 #, python-format
@@ -1409,7 +1491,7 @@ msgstr "%d / %d"
 #: widgets/form/_o2m.py:218
 #, python-format
 msgid "- of %d"
-msgstr ""
+msgstr "- of %d"
 
 #: widgets/form/templates/binary.mako:31
 msgid "add attachment"
@@ -1417,7 +1499,7 @@ msgstr "melléklet hozzáadása"
 
 #: widgets/form/templates/image.mako:7 widgets/form/templates/image.mako:39
 msgid "Click here to add new image."
-msgstr ""
+msgstr "Kattintson ide az új kép hozzáadásához."
 
 #: widgets/form/templates/many2one.mako:2
 #: widgets/form/templates/reference.mako:30
@@ -1431,31 +1513,31 @@ msgstr "Rekord megnyitása"
 
 #: widgets/form/templates/one2many.mako:20
 msgid "Create new record..."
-msgstr ""
+msgstr "Új rekord létrehozása..."
 
 #: widgets/form/templates/one2many.mako:22
 msgid "Delete record..."
-msgstr ""
+msgstr "Rekord törlése..."
 
 #: widgets/form/templates/one2many.mako:28
 msgid "Translate me."
-msgstr ""
+msgstr "Fordítás nekem."
 
 #: widgets/form/templates/one2many.mako:47
 msgid "Previous record..."
-msgstr ""
+msgstr "Előző rekord..."
 
 #: widgets/form/templates/one2many.mako:49
 msgid "Next record..."
-msgstr ""
+msgstr "Következő rekord"
 
 #: widgets/templates/logs.mako:22
 msgid "More..."
-msgstr ""
+msgstr "Több…"
 
 #: widgets/templates/logs.mako:35
 msgid "Less..."
-msgstr ""
+msgstr "Kevesebb..."
 
 #: widgets/templates/pager.mako:9
 msgid "<< First"
@@ -1479,7 +1561,7 @@ msgstr "Utolsó >>"
 
 #: widgets/templates/pager.mako:37
 msgid "Change Limit:"
-msgstr ""
+msgstr "Limit megváltoztatása:"
 
 #: widgets/templates/sidebar.mako:37
 msgid "Reports"
@@ -1519,7 +1601,7 @@ msgstr "Nézetek kezelése"
 
 #: widgets/templates/sidebar.mako:93
 msgid "Edit workflow of the current object"
-msgstr "Aktuélis objektum munkafolyamatának szerkesztése"
+msgstr "Aktuális objektum munkafolyamatának szerkesztése"
 
 #: widgets/templates/sidebar.mako:94
 msgid "Edit Workflow"
@@ -1527,7 +1609,7 @@ msgstr "Folyamat szerkesztése"
 
 #: widgets/templates/sidebar.mako:98
 msgid "Customize current object or create a new object"
-msgstr ""
+msgstr "Aktuális objektum testreszavása vagy egy új objektum létrehozása"
 
 #: widgets/templates/sidebar.mako:100
 msgid "Customize Object"
@@ -1555,7 +1637,7 @@ msgstr "Napló megtekintése"
 
 #: widgets/templates/viewform.mako:25
 msgid "Filter records."
-msgstr ""
+msgstr "Rekordok szűrése"
 
 #: widgets/templates/viewform.mako:33
 msgid "Clear all."
@@ -1579,59 +1661,21 @@ msgstr "Új szűrő"
 
 #: widgets/templates/viewform.mako:53
 msgid "Save Filter"
-msgstr ""
+msgstr "Szűrő mentése"
 
 #: widgets/templates/viewform.mako:54
 msgid "Manage Filters"
-msgstr ""
+msgstr "Szűrők kezelése"
 
 #: widgets/templates/listgrid/listgrid.mako:19
 msgid "Update"
-msgstr ""
+msgstr "Frissítés"
 
 #: widgets/templates/listgrid/listgrid.mako:134
 msgid "Add records..."
-msgstr ""
+msgstr "Rekordok hozzáadása..."
 
 #: widgets/templates/listgrid/listgrid.mako:172
 #: widgets/templates/listgrid/listgrid.mako:176
 msgid "Delete record(s)."
-msgstr ""
-
-#, python-format
-#~ msgid "You cannot import this field %s, because we cannot auto-detect it"
-#~ msgstr "Nem lehet importálni ezt a %s mezőt, mert nem tudjuk ellenőrizni azt"
-
-#~ msgid "Copyright &copy; 2006-TODAY Tiny ERP Pvt. Ltd. All Rights Reserved."
-#~ msgstr ""
-#~ "Copyright &copy; 2006-TODAY Tiny ERP Pvt. Ltd. Minden jog fenntartva."
-
-#~ msgid "All fields"
-#~ msgstr "Minden mező"
-
-#~ msgid "Save List"
-#~ msgstr "Lista mentése"
-
-#~ msgid "Export as CSV"
-#~ msgstr "Exportálás CSV-be"
-
-#~ msgid "Export as Excel"
-#~ msgstr "Exportálás Excel-be"
-
-#~ msgid "Nothing"
-#~ msgstr "Egyiket sem"
-
-#~ msgid "Import Compatible"
-#~ msgstr "Import kompatibilis"
-
-#~ msgid "Options"
-#~ msgstr "Opciók"
-
-#~ msgid "File to import"
-#~ msgstr "Importálandó fájl"
-
-#~ msgid "Fields to import"
-#~ msgstr "Importálandó mezők"
-
-#~ msgid "Auto Detect"
-#~ msgstr "Automatikus felismerés"
+msgstr "Rekord(ok) törlése"

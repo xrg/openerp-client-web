@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: openobject-client-web\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2011-01-17 13:09+0100\n"
-"PO-Revision-Date: 2011-01-16 11:35+0000\n"
+"PO-Revision-Date: 2011-02-28 12:02+0000\n"
 "Last-Translator: Paulius Sladkevičius - http://www.inovera.lt <Unknown>\n"
 "Language-Team: Lithuanian <lt@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2011-01-18 04:37+0000\n"
-"X-Generator: Launchpad (build 12177)\n"
+"X-Launchpad-Export-Date: 2011-03-01 05:59+0000\n"
+"X-Generator: Launchpad (build 12351)\n"
 
 #: validators.py:75
 msgid "Invalid literal for float"
@@ -1626,71 +1626,3 @@ msgstr "Pridėti įrašus..."
 #: widgets/templates/listgrid/listgrid.mako:176
 msgid "Delete record(s)."
 msgstr "Ištrinti įrašą (-us)."
-
-#, python-format
-#~ msgid "You cannot import this field %s, because we cannot auto-detect it"
-#~ msgstr "Laukas %s automatiškai neaptinkamas, todėl negalima importuoti"
-
-#, python-format
-#~ msgid "Error processing your first line of the file. Field %s is unknown"
-#~ msgstr "Klaida apdorojant pirmą failo eilutę. Laukas %s nežinomas!"
-
-#~ msgid "Copyright &copy; 2006-TODAY Tiny ERP Pvt. Ltd. All Rights Reserved."
-#~ msgstr ""
-#~ "Autorystės teisės &copy; 2006-TODAY Tiny ERP Pvt. Ltd. Visos teisės saugomos."
-
-#~ msgid "OpenERP is a trademark of the Tiny Company."
-#~ msgstr "OpenERP yra Tiny kompanijos prekinis ženklas."
-
-#~ msgid "has been reported."
-#~ msgstr "pranešė šią klaidą."
-
-#~ msgid "All fields"
-#~ msgstr "Visi laukai"
-
-#~ msgid "Nothing"
-#~ msgstr "Nieko"
-
-#~ msgid "Save List"
-#~ msgstr "Išsaugoti sąrašą"
-
-#~ msgid "Name of This Export:"
-#~ msgstr "Pavadinimas šiam eksportavimui:"
-
-#~ msgid "Select Options to Export"
-#~ msgstr "Pasirinkite parinktis eksportavimui"
-
-#~ msgid "Export as CSV"
-#~ msgstr "Eksportuoti CSV formatu"
-
-#~ msgid "Export as Excel"
-#~ msgstr "Eksportuoti Excel formatu"
-
-#~ msgid "Add field names"
-#~ msgstr "Pridėti laukų pavadinimus"
-
-#~ msgid "Import Compatible"
-#~ msgstr "Pritaikyti importavimui"
-
-#~ msgid "Fields to import"
-#~ msgstr "Importuojami laukai"
-
-#~ msgid "Auto Detect"
-#~ msgstr "Automatiškai aptikti"
-
-#~ msgid "File to import"
-#~ msgstr "Importuojamas failas"
-
-#~ msgid "Options"
-#~ msgstr "Parinktys"
-
-#, python-format
-#~ msgid "Found no record '%(searched_string)s'."
-#~ msgstr "Nerastas joks įrašas '%(searched_string)s'."
-
-#, python-format
-#~ msgid "Create %(searched_string)s"
-#~ msgstr "Sukurti %(searched_string)s"
-
-#~ msgid "Edit record(s)."
-#~ msgstr "Keisti įrašą (-us)."

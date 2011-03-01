@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2011-01-17 13:09+0100\n"
-"PO-Revision-Date: 2010-12-10 07:42+0000\n"
+"PO-Revision-Date: 2011-02-28 12:02+0000\n"
 "Last-Translator: OpenERP Web Administrators <Unknown>\n"
 "Language-Team: sv <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2011-01-18 04:37+0000\n"
-"X-Generator: Launchpad (build 12177)\n"
+"X-Launchpad-Export-Date: 2011-03-01 05:59+0000\n"
+"X-Generator: Launchpad (build 12351)\n"
 "Generated-By: Babel None\n"
 
 #: validators.py:75
@@ -158,6 +158,8 @@ msgid ""
 "will be able to install new languages after installation through the "
 "administration menu."
 msgstr ""
+"Välj standardspråk som kommer att installeras för den här databasen. Du kan "
+"installera fler språk efter installationen genom administrationsmenyn."
 
 #: controllers/database.py:73
 msgid "Administrator password:"
@@ -225,7 +227,7 @@ msgstr "Ändra administratörs lösenord"
 
 #: controllers/database.py:108 controllers/templates/preferences/index.mako:37
 msgid "Change Password"
-msgstr ""
+msgstr "Byt lösenord"
 
 #: controllers/database.py:109
 msgid "Old Password:"
@@ -262,7 +264,7 @@ msgstr "Fel när databasen skulle skapas"
 #: controllers/database.py:199 controllers/database.py:226
 #: controllers/database.py:272 controllers/database.py:295
 msgid "Bad super admin password"
-msgstr ""
+msgstr "Fel super admin lösenord"
 
 #: controllers/database.py:203
 msgid "Could not create database."
@@ -1608,288 +1610,3 @@ msgstr "Lägg till poster..."
 #: widgets/templates/listgrid/listgrid.mako:176
 msgid "Delete record(s)."
 msgstr "Makulera poster."
-
-#~ msgid "Database already exists"
-#~ msgstr "Databasen finns redan"
-
-#~ msgid "Bad database administrator password"
-#~ msgstr "Fel databasadministratörs lösenord"
-
-#~ msgid "Could not drop database."
-#~ msgstr "Kan inte makulera databasen."
-
-#~ msgid "Could not restore database."
-#~ msgstr "Kan inte läsa tillbaka databasen."
-
-#~ msgid "Bad password provided."
-#~ msgstr "Du angav fel lösenord."
-
-#~ msgid "Could not change super admin password."
-#~ msgstr "Kan inte ändra super admin lösenordet."
-
-#~ msgid "You must save this record to use the sidebar button"
-#~ msgstr "Du måste spara posten för att använda sidoknappmenyn."
-
-#~ msgid "Invalid button type"
-#~ msgstr "Fel knapptyp"
-
-#~ msgid "OpenERP is a trademark of the Tiny Company."
-#~ msgstr "OpenERP is a trademark of the Tiny Company."
-
-#~ msgid "Copyright &copy; 2006-TODAY Tiny ERP Pvt. Ltd. All Rights Reserved."
-#~ msgstr "Copyright &copy; 2006-TODAY Tiny ERP Pvt. Ltd. All Rights Reserved."
-
-#~ msgid "The Axelor Company"
-#~ msgstr "The Axelor Company"
-
-#~ msgid "The Tiny Company"
-#~ msgstr "The Tiny Company"
-
-#~ msgid "RESOURCES"
-#~ msgstr "RESURSER"
-
-#~ msgid "Homepage"
-#~ msgstr "Startsida"
-
-#~ msgid "Download"
-#~ msgstr "Ladda ner"
-
-#~ msgid "Documentation"
-#~ msgstr "Dokumentation"
-
-#~ msgid "Modules"
-#~ msgstr "Moduler"
-
-#~ msgid "Services"
-#~ msgstr "Tjänster"
-
-#~ msgid "Trainings"
-#~ msgstr "Utbildningar"
-
-#~ msgid "SaaS Offers"
-#~ msgstr "SaaS erbjudanden"
-
-#~ msgid "An "
-#~ msgstr "En "
-
-#~ msgid "You do not have a valid OpenERP maintenance contract !"
-#~ msgstr "Du har inte ett aktuellt OpenERP supportavtal !"
-
-#~ msgid "has been reported."
-#~ msgstr "har blivit rapporterad."
-
-#~ msgid "Maintenance contract."
-#~ msgstr "Supportavtal."
-
-#~ msgid "All fields"
-#~ msgstr "Alla fält"
-
-#~ msgid "Send to Maintenance Team"
-#~ msgstr "Skicka till supportteamet"
-
-#~ msgid "Save List"
-#~ msgstr "Spara listan"
-
-#~ msgid "Name of This Export:"
-#~ msgstr "Namn för denna export:"
-
-#~ msgid "Export as CSV"
-#~ msgstr "Exportera till CSV"
-
-#~ msgid "Export as Excel"
-#~ msgstr "Exportera till Excel"
-
-#~ msgid "Nothing"
-#~ msgstr "Ingenting"
-
-#~ msgid "Add field names"
-#~ msgstr "Lägg till fälnamn"
-
-#~ msgid "Import Compatible"
-#~ msgstr "Importkompatibel"
-
-#~ msgid "hide"
-#~ msgstr "göm"
-
-#~ msgid "Select an Option to Export"
-#~ msgstr "Välj ett alternativ att exportera"
-
-#~ msgid "Tips"
-#~ msgstr "Tips"
-
-#~ msgid "File to import"
-#~ msgstr "Fil att importera"
-
-#~ msgid "Fields to import"
-#~ msgstr "Fält att importera"
-
-#~ msgid "Use On-Site"
-#~ msgstr "Använd lokal"
-
-#~ msgid "Use Online"
-#~ msgstr "Använd on-line"
-
-#~ msgid "Manage Filter."
-#~ msgstr "Hantera filter"
-
-#~ msgid "Save Filter."
-#~ msgstr "Spara filter."
-
-#~ msgid "Show Workflow"
-#~ msgstr "Visa arbetsflöden"
-
-#~ msgid "Manage workflows of the current object"
-#~ msgstr "Hantera arbetsflöden av det aktuella objektet"
-
-#~ msgid "Edit record(s)."
-#~ msgstr "Ändra poster."
-
-#~ msgid ""
-#~ "Please Install xlwt Library.\n"
-#~ "To create spreadsheet files compatible with MS Excel."
-#~ msgstr ""
-#~ "Rekommenderar installation av xlwt biblioteket\n"
-#~ "Detta krävs för att kunna skapa kalkyldokument kompatibla med MS Excel."
-
-#~ msgid ""
-#~ "Your request will be sent to OpenERP and maintenance team will reply you "
-#~ "shortly."
-#~ msgstr ""
-#~ "Er förfrågan kommer skickas till OpenERPs underhållsteam som återkommer inom "
-#~ "kort."
-
-#~ msgid ""
-#~ "If you are using OpenERP in production, it is recommended to have\n"
-#~ "a maintenance program.\n"
-#~ "\n"
-#~ "The OpenERP maintenance contract provides you with bug fix guarantees and "
-#~ "an\n"
-#~ "automatic migration system so that we can start working on your problems "
-#~ "within a few\n"
-#~ "hours.\n"
-#~ "\n"
-#~ "With a maintenance contract, errors such as this one can be sent directly to "
-#~ "the OpenERP\n"
-#~ "team for review and evaluation.\n"
-#~ "\n"
-#~ "The maintenance program offers you:\n"
-#~ "* Automatic migrations on new versions,\n"
-#~ "* A bugfix guarantee,\n"
-#~ "* Monthly announces of potential bugs and their fixes,\n"
-#~ "* Security alerts by email and automatic migration,\n"
-#~ "* Access to the customer portal.\n"
-#~ msgstr ""
-#~ "Om ni använder OpenERP i produktionssammanhang rekommenderas ni\n"
-#~ "att ha ett officiellt underhållsavtal. \n"
-#~ "\n"
-#~ "Med OpenERPs underhållsavtal får ni tillgång till garanterad "
-#~ "programfelsavhjälpning\n"
-#~ "samt automatiska migrationsverktyg vilket gör det möjligt för oss att arbeta "
-#~ "med ert\n"
-#~ "problem inom ett fåtal timmar. \n"
-#~ "\n"
-#~ "Med ett underhållsavtal kommer fel såsom detta att skickas direkt till "
-#~ "OpenERPs\n"
-#~ "team för granskning. \n"
-#~ "\n"
-#~ "Underhållsavtalet erbjuder er:\n"
-#~ "* Automatisk migrering till nya versioner av OpenERP,\n"
-#~ "* Felavhjälpningsgaranti, \n"
-#~ "* Månatliga informationsutskick om potentiella fel och möjliga lösningar,\n"
-#~ "* Säkerhetsbulletiner via epost, \n"
-#~ "* Tillgång till vår kundportal.\n"
-
-#~ msgid "Screencasts"
-#~ msgstr "Videoinstruktion"
-
-#~ msgid "Community"
-#~ msgstr "Community (grupp)"
-
-#~ msgid ""
-#~ "The system is platform-independent, and can be installed on Windows, Mac OS "
-#~ "X,\n"
-#~ "and various Linux and other Unix-based distributions. Its architecture "
-#~ "enables\n"
-#~ "new functionality to be rapidly created, modifications to be made to a\n"
-#~ "production system and migration to a new version to be straightforward."
-#~ msgstr ""
-#~ "Detta system är plattformsoberoende och kan installeras på Windows, Mac OS "
-#~ "X\n"
-#~ "samt diverse Linux och andra Unixbaserade distributioner. Arkitekturen "
-#~ "möjliggör\n"
-#~ "snabb utveckling av ny funktionalitet. Modifieringar kan enkelt genomföras "
-#~ "och\n"
-#~ "migreras till produktionsmiljö eller en ny version."
-
-#~ msgid "Options"
-#~ msgstr "Val (tillval)"
-
-#~ msgid "Get the OpenERP Warranty"
-#~ msgstr "Skaffa OpenERPs garanti"
-
-#~ msgid "Auto Detect"
-#~ msgstr "Automatisk identifikation"
-
-#~ msgid "Subscribe and start"
-#~ msgstr "Abonnera och kom igång"
-
-#~ msgid ""
-#~ "Your maintenance contract does not cover all modules installed in your "
-#~ "system !\n"
-#~ "If you are using OpenERP in production, it is highly suggested to upgrade "
-#~ "your\n"
-#~ "contract.\n"
-#~ "\n"
-#~ "If you have developed your own modules or installed third party module, we\n"
-#~ "can provide you an additional maintenance contract for these modules. After\n"
-#~ "having reviewed your modules, our quality team will ensure they will "
-#~ "migrate\n"
-#~ "automatically for all future stable versions of OpenERP at no extra cost.\n"
-#~ "\n"
-#~ "Here is the list of modules not covered by your maintenance contract:"
-#~ msgstr ""
-#~ "Ert underhållsavtal stödjer inte alla moduler som har installerats i ert "
-#~ "system! \n"
-#~ "Om du använder OpenERP i en produktionsmiljö rekommenderar vi er att\n"
-#~ "uppdatera ert avtal. \n"
-#~ "\n"
-#~ "Om ni har utvecklat egna moduler eller installerat tredjepartsmoduler kan "
-#~ "vi\n"
-#~ "erbjuda utökade avtal för dessa moduler. Detta innebär att era moduler \n"
-#~ "måste certifieras och kvalitetssäkras av vårt team. Därefter kan ni \n"
-#~ "åtnjuta automatiskt uppgradering till framtida versioner utan extra kostnad. "
-#~ "\n"
-#~ "\n"
-#~ "Nedan följer en lista över de moduler som inte täcks av ert nuvarande "
-#~ "kontrakt:"
-
-#~ msgid "Importation Error"
-#~ msgstr "Importfel"
-
-#, python-format
-#~ msgid "You cannot import this field %s, because we cannot auto-detect it"
-#~ msgstr ""
-#~ "Du kan inte importera detta fält %s, efter som vi inte kan autodetektera det"
-
-#, python-format
-#~ msgid ""
-#~ "Error processing your first line of the file.\n"
-#~ "Field %s is unknown"
-#~ msgstr ""
-#~ "Fel vid behandling av filens första rad.\n"
-#~ "Fält %s är okänt"
-
-#, python-format
-#~ msgid ""
-#~ "Error trying to import this record:\n"
-#~ "%s\n"
-#~ "Error Message:\n"
-#~ "%s\n"
-#~ "\n"
-#~ "%s"
-#~ msgstr ""
-#~ "Fel när man försöker importera denna post:\n"
-#~ "%s\n"
-#~ "Felmeddelande:\n"
-#~ "%s\n"
-#~ "%s"

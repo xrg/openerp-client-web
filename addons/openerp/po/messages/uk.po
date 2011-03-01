@@ -1,42 +1,41 @@
-# German translations for PROJECT.
-# Copyright (C) 2010 ORGANIZATION
-# This file is distributed under the same license as the PROJECT project.
-# FIRST AUTHOR <EMAIL@ADDRESS>, 2010.
+# Ukrainian translation for openobject-client-web
+# Copyright (c) 2011 Rosetta Contributors and Canonical Ltd 2011
+# This file is distributed under the same license as the openobject-client-web package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2011.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: PROJECT VERSION\n"
-"Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
+"Project-Id-Version: openobject-client-web\n"
+"Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2011-01-17 13:09+0100\n"
 "PO-Revision-Date: 2011-02-28 12:02+0000\n"
-"Last-Translator: Ferdinand-camptocamp <Unknown>\n"
-"Language-Team: de <LL@li.org>\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: Ukrainian <uk@li.org>\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=utf-8\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2011-03-01 05:58+0000\n"
+"X-Launchpad-Export-Date: 2011-03-01 05:59+0000\n"
 "X-Generator: Launchpad (build 12351)\n"
-"Generated-By: Babel None\n"
 
 #: validators.py:75
 msgid "Invalid literal for float"
-msgstr "Ungültiger Wert für eine Gleitkommazahl"
+msgstr "Невірний літерал для дробового числа"
 
 #: validators.py:114 validators.py:119 validators.py:262
 msgid "Invalid datetime format"
-msgstr "Ungültiges Datums/Zeitformat"
+msgstr "Невірний формат дати та часу"
 
 #: validators.py:166
 msgid "Please select a file."
-msgstr "Bitte wählen Sie eine Datei"
+msgstr "Будь ласка, оберіть файл."
 
 #: validators.py:247
 msgid "Please enter an email address"
-msgstr "Geben Sie bitte eine E-Mail Adresse ein"
+msgstr "Будь ласка введіть адресу електронної пошти"
 
 #: validators.py:248
 msgid "An email address must contain a single @"
-msgstr "Eine Emailadresse darf nur ein @ enthalten"
+msgstr "Адреса електронної пошти повинна містити одну @"
 
 #: validators.py:249
 #, python-format
@@ -44,8 +43,8 @@ msgid ""
 "The username portion of the email address is invalid (the portion before the "
 "@: %(username)s)"
 msgstr ""
-"Der Namensteil Ihrer E-Mail Adresse ist ungültig (der Teil vor dem @: "
-"%(username)s)"
+"Ім’я користувача у адресі електронної пошти не дійсно (частина перед "
+"@:%(username)s)"
 
 #: validators.py:250
 #, python-format
@@ -53,77 +52,74 @@ msgid ""
 "The domain portion of the email address is invalid (the portion after the @: "
 "%(domain)s)"
 msgstr ""
-"Der Domain Teil Ihrer E-Mail Adresse ist ungültig (der Teil hinter dem @: "
-"%(domain)s)"
+"Частина адреси електронної пошти - домен, не вірна (частина після "
+"@:%(domain)s)"
 
 #: validators.py:254
 msgid "You must start your URL with http://, https://, etc"
-msgstr "Ihre URL muss mit http://, https://, usw. beginnen"
+msgstr "Ви повинні використовувати на початку URL http://, https://, и тд."
 
 #: validators.py:255
 msgid "That is not a valid URL"
-msgstr "Dies ist keine gültige URL"
+msgstr "Це невірний URL"
 
 #: validators.py:256
 #, python-format
 msgid "You must provide a full domain name (like %(domain)s.com)"
-msgstr ""
-"Sie müssen einen vollständigen Domainnamen angeben (wie %(domain)s.com)"
+msgstr "Вы повинні вказати повне доменне им’я (детально %(domain)s.com)"
 
 #: validators.py:260
 msgid "Please enter an integer value"
-msgstr "Sie müssen eine Ganzzahl eingeben"
+msgstr "Будь ласка, введіть ціле число"
 
 #: validators.py:261
 msgid "Please enter a number"
-msgstr "Sie müssen eine Nummer eingeben"
+msgstr "Будь ласка, введіть число"
 
 #: controllers/actions.py:91
 msgid "Invalid View"
-msgstr "Ungültige Ansicht"
+msgstr "Невірний вигляд"
 
 #: controllers/actions.py:124
 msgid "Error no report"
-msgstr "Fehler Kein Bericht"
+msgstr "Помилка не звітована"
 
 #: controllers/actions.py:150
 msgid "Nothing to print"
-msgstr "Nichts zu drucken"
+msgstr "Немає документів для друку"
 
 #: controllers/actions.py:170
 msgid "Printing aborted, too long delay"
-msgstr "Timeout - der Druck wurde abgebrochen"
+msgstr "Друк перервано, надто довга затримка"
 
 #: controllers/actions.py:377
 msgid "Relative URLs are not supported"
-msgstr "Relative URL's werden nicht unterstützt"
+msgstr "Відносні URL не підтримуються"
 
 #: controllers/actions.py:405
 msgid "Action not found"
-msgstr "Aktion wurde nicht gefunden"
+msgstr "Не можу знайти дію"
 
 #: controllers/actions.py:454
 msgid "No action defined"
-msgstr "Keine Aktion ausgewählt"
+msgstr "Дія не визначена"
 
 #: controllers/attachment.py:54
 msgid "No record selected, You can only attach to existing record..."
-msgstr ""
-"Kein Datensatz ausgewählt, Sie können nur an einen bestehenden Datensatz "
-"anhängen ..."
+msgstr "Не обрано запис, ви можете прикріпити тільки до існуючого запису..."
 
 #: controllers/database.py:64
 msgid "Create database"
-msgstr "Datenbank Anlegen"
+msgstr "Створити базу даних"
 
 #: controllers/database.py:66 controllers/templates/database.mako:52
 #: controllers/templates/search.mako:145
 msgid "Create"
-msgstr "Anlegen"
+msgstr "Створити"
 
 #: controllers/database.py:69
 msgid "Super admin password:"
-msgstr "Super Admin Passwort:"
+msgstr "Пароль супер адміністратора:"
 
 #: controllers/database.py:69
 msgid ""
@@ -131,24 +127,25 @@ msgid ""
 "databases. This is not a OpenERP user, just a super administrator. If you "
 "did not changed it, the password is 'admin' after installation."
 msgstr ""
-"Das ist das Kennwort des Systemverwalters. Das ist kein OpenERP Benutzer! "
-"Wenn das Kennwort nicht geändert wurde ist es 'admin'."
+"Це пароль користувача, що має право адмініструвати базу даних. Це не "
+"користувач OpenERP, а просто супер адміністратор. Якщо Ви не змінювали його, "
+"користуйтеся паролем 'admin' після встановлення."
 
 #: controllers/database.py:70 controllers/database.py:102
 msgid "New database name:"
-msgstr "Name der neuen Datenbank:"
+msgstr "Ім'я нової бази даних:"
 
 #: controllers/database.py:70
 msgid ""
 "Choose the name of the database that will be created. The name must not "
 "contain any special character. Exemple: 'terp'."
 msgstr ""
-"Auswahl des Datenbanknamens. Der Name darf keine Sonderzeichen beinhalten.\n"
-"Beispiel: 'terp'."
+"Оберіть ім'я бази даних, яка буде створена. Ім'я не повинно містити "
+"спецсимволів. Приклад: 'terp'."
 
 #: controllers/database.py:71
 msgid "Load Demonstration data:"
-msgstr "Beispieldaten laden:"
+msgstr "Завантажити демонстраційні дані:"
 
 #: controllers/database.py:71
 msgid ""
@@ -156,13 +153,13 @@ msgid ""
 "database. These data will help you to understand OpenERP, with predefined "
 "products, partners, etc."
 msgstr ""
-"Häckchen setzen, wenn Demo Daten in Ihrer neuen Datenbank erstellt werden "
-"sollen. Diese vordefinierten Daten werden Ihnen helfen OpenERP zu verstehen. "
-"(Partner, Produkte, etc..)"
+"Відмітьте це поле, якщо ви бажаєте встановити демонстраційні дані у нову "
+"базу даних. Ці дані допоможуть зрозуміти OpenERP з попередньо налаштованими "
+"продуктами, партнерами і т.п."
 
 #: controllers/database.py:72
 msgid "Default Language:"
-msgstr "Standardsprache:"
+msgstr "Мова за замовчанням:"
 
 #: controllers/database.py:72
 msgid ""
@@ -170,146 +167,145 @@ msgid ""
 "will be able to install new languages after installation through the "
 "administration menu."
 msgstr ""
-"Auswahl der Standard Sprache für diese Datenbank. \n"
-"Im Menü 'Administration/Übersetzugen' können später andere Sprachen geladen "
-"werden."
+"Оберіть типову мову, яка буде встановлена для цієї бази даних. Ви будете "
+"мати можливість встановлювати нові мови пізніше, через адміністративне меню."
 
 #: controllers/database.py:73
 msgid "Administrator password:"
-msgstr "Administrator Passwort:"
+msgstr "Пароль адміністратора:"
 
 #: controllers/database.py:73
 msgid ""
 "This is the password of the 'admin' user that will be created in your new "
 "database."
 msgstr ""
-"Dieses Passwort wird für den Benutzer 'admin' Ihrer neu erstellten Datenbank "
-"verwendet."
+"Це пароль користувача 'admin', якого буде створено у у Вашій новій базі "
+"даних."
 
 #: controllers/database.py:74
 msgid "Confirm password:"
-msgstr "Passwort bestätigen:"
+msgstr "Підтвердіть пароль:"
 
 #: controllers/database.py:74
 msgid ""
 "This is the password of the 'admin' user that will be created in your new "
 "database. It has to be the same than the above field."
 msgstr ""
-"Dieses Passwort wird für den Benutzer 'admin' Ihrer neu erstellten Datenbank "
-"verwendet. Es muss mit dem oberen übereinstimmen."
+"Це пароль користувача 'admin', якого буде створено у у Вашій новій базі "
+"даних. Він повинен співпадати за паролем у полі вище."
 
 #: controllers/database.py:80
 msgid "Drop database"
-msgstr "Datenbank löschen"
+msgstr "Видалити базу даних"
 
 #: controllers/database.py:82 controllers/templates/database.mako:54
 msgid "Drop"
-msgstr "Löschen"
+msgstr "Знищити"
 
 #: controllers/database.py:84 controllers/database.py:92
 #: controllers/templates/login.mako:39
 msgid "Database:"
-msgstr "Datenbank:"
+msgstr "База даних:"
 
 #: controllers/database.py:85 controllers/database.py:93
 #: controllers/database.py:101 controllers/templates/login.mako:57
 #: controllers/templates/login_ajax.mako:78
 #: controllers/templates/login_ajax.mako:98
 msgid "Password:"
-msgstr "Passwort:"
+msgstr "Пароль:"
 
 #: controllers/database.py:89
 msgid "Backup database"
-msgstr "Datenbankbackup"
+msgstr "Створити резервну копію бази даних"
 
 #: controllers/database.py:91 controllers/templates/database.mako:56
 msgid "Backup"
-msgstr "Sichern"
+msgstr "Резервна копія"
 
 #: controllers/database.py:97
 msgid "Restore database"
-msgstr "Datenbankwiederherstellung"
+msgstr "Відновити базу даних з резервної копії"
 
 #: controllers/database.py:99 controllers/templates/database.mako:58
 msgid "Restore"
-msgstr "Wiederherstellen"
+msgstr "Відновити"
 
 #: controllers/database.py:100
 msgid "File:"
-msgstr "Datei:"
+msgstr "Файл:"
 
 #: controllers/database.py:106
 msgid "Change Administrator Password"
-msgstr "Administrator Passwort ändern"
+msgstr "Змінити пароль адміністратора"
 
 #: controllers/database.py:108 controllers/templates/preferences/index.mako:37
 msgid "Change Password"
-msgstr "Kennwort ändern"
+msgstr "Змінити пароль"
 
 #: controllers/database.py:109
 msgid "Old Password:"
-msgstr "Altes Passwort:"
+msgstr "Старий пароль:"
 
 #: controllers/database.py:110
 msgid "New Password:"
-msgstr "Neues Passwort:"
+msgstr "Новий пароль:"
 
 #: controllers/database.py:111
 msgid "Confirm Password:"
-msgstr "Passwort bestätigen:"
+msgstr "Підтвердьте пароль:"
 
 #: controllers/database.py:174
 msgid "You must avoid all accents, space or special characters."
-msgstr "Keine Sonder- und Leerzeichen verwenden."
+msgstr "Ви повинні уникати всі акценти, пробіл або спеціальні символи."
 
 #: controllers/database.py:175
 msgid "Bad database name"
-msgstr "Ungültiger Datenbankname"
+msgstr "Не вірне ім’я бази даних"
 
 #: controllers/database.py:195
 msgid ""
 "The server crashed during installation.\n"
 "We suggest you to drop this database."
 msgstr ""
-"Der Server stürzte während der Installation ab.\n"
-"Wir empfehlen Ihnen die Datenbank zu löschen."
+"Виникла помилка сервера під час інсталяції.\n"
+"Ми радимо Вам видалити цю базу даних."
 
 #: controllers/database.py:196
 msgid "Error during database creation"
-msgstr "Fehler während der Datenbankanlage"
+msgstr "Помилка при створенні бази даних"
 
 #: controllers/database.py:199 controllers/database.py:226
 #: controllers/database.py:272 controllers/database.py:295
 msgid "Bad super admin password"
-msgstr "Falsches Systemverwalterkennwort."
+msgstr "Не вірний пароль супер адміністратора"
 
 #: controllers/database.py:203
 msgid "Could not create database."
-msgstr "Datenbank konnte nicht angelegt werden."
+msgstr "Не можу створити базу даних."
 
 #: controllers/database.py:229
 msgid "Could not drop database"
-msgstr "Datenbank konnte nicht gelöscht werden."
+msgstr "Не можу видалити базу даних"
 
 #: controllers/database.py:252
 msgid "Could not create backup."
-msgstr "Backup konnte nicht angelegt werden."
+msgstr "Не можу створити резервну копію."
 
 #: controllers/database.py:276
 msgid "Could not restore database"
-msgstr "Datenbank konnte nicht wiederhergestellt werden."
+msgstr "Не можу відновити базу даних"
 
 #: controllers/database.py:299
 msgid "Error, password not changed."
-msgstr "Fehler, das Passwort wurde nicht geändert."
+msgstr "Помилка, пароль не змінено."
 
 #: controllers/error_page.py:78
 msgid ""
 "Your problem has been sent to the quality team\n"
 "We will recontact you after analysing the problem."
 msgstr ""
-"Ihr Problem wurde dem Qualitätssicherungsteam gesendet.\n"
-"Wir werden sie kontaktieren, nachdem wir das Problem analysiert haben."
+"Ваша проблема відправлена до команди контролю якості.\n"
+"Ми зв’яжемося з вами після аналізу  проблеми."
 
 #: controllers/error_page.py:80
 #, python-format
@@ -317,158 +313,159 @@ msgid ""
 "Your problem could not be sent to the quality team\n"
 "Please report this error manually at %s"
 msgstr ""
-"Ihr Problem konnte nicht dem Qualitätssicherungsteam gesendet werden.\n"
-"Bitte senden Sie das Problem manuell an %s"
+"Ваша проблема не може бути відправлена\n"
+"до команди контролю якості.\n"
+"Будь ласка повідомте про проблему самостійно на %s"
 
 #: controllers/form.py:553
 #, python-format
 msgid "Invalid button type \"%s\""
-msgstr "Ungültiger Button Typ \"%s\""
+msgstr "Не вірний тип кнопки \"%s\""
 
 #: controllers/form.py:891 controllers/tree.py:233
 msgid "No record selected"
-msgstr "Kein Datensatz ausgewählt"
+msgstr "Не обрано жодного запису"
 
 #: controllers/form.py:896
 msgid "Print Screen"
-msgstr "Bildschirm drucken"
+msgstr "Друк екрану"
 
 #: controllers/form.py:965 utils/rpc.py:122 utils/rpc.py:133 utils/rpc.py:136
 #: widgets/listgrid.py:289 widgets/listgrid.py:353 widgets/form/_form.py:904
 msgid "Application Error"
-msgstr "Programmfehler"
+msgstr "Помилка Програми"
 
 #: controllers/form.py:965
 #, python-format
 msgid "Wrong on_change trigger: %s"
-msgstr "Falscher on_change Auslöser: %s"
+msgstr "Не вірний on_change триггер: %s"
 
 #: controllers/form.py:1073
 msgid "Open resource"
-msgstr ""
+msgstr "Відкрити ресурс"
 
 #: controllers/form.py:1076
 msgid "Set to default value"
-msgstr ""
+msgstr "Встановити типове значення"
 
 #: controllers/form.py:1077
 msgid "Set as default"
-msgstr ""
+msgstr "Встановити як типове"
 
 #: controllers/form.py:1084
 msgid "Action"
-msgstr ""
+msgstr "Дія"
 
 #: controllers/form.py:1085
 msgid "Report"
-msgstr ""
+msgstr "Звіт"
 
 #: controllers/impex.py:66
 msgid ""
 "Operation failed\n"
 "I/O error"
 msgstr ""
-"Ausführung fehlgeschlagen\n"
-"I/O Fehler"
+"Невдала операція,\n"
+"помила вводу/виводу"
 
 #: controllers/impex.py:373
 msgid "Export Error"
-msgstr "Export Fehler"
+msgstr "Помилка експортування"
 
 #: controllers/impex.py:444
 msgid "Database ID"
-msgstr ""
+msgstr "Идентифікатор бази даних"
 
 #: controllers/impex.py:451
 msgid "Error opening .CSV file"
-msgstr "Fehler beim Öffnen der .csv Datei"
+msgstr "Помилка відкриття .CSV файлу"
 
 #: controllers/impex.py:451
 msgid "Input Error."
-msgstr "Eingabefehler"
+msgstr "Помилка вводу."
 
 #: controllers/impex.py:473
 #, python-format
 msgid "You cannot import the field '%s', because we cannot auto-detect it"
 msgstr ""
+"Ви не можете імпортувати поле '%s', тому що його не можливо виявити "
+"автоматично"
 
 #: controllers/impex.py:476
 #, python-format
 msgid "Error processing the first line of the file. Field \"%s\" is unknown"
-msgstr ""
+msgstr "Помилка обробки першої строки файлу. Поле \"%s\" не відоме"
 
 #: controllers/impex.py:476
 msgid "Import Error."
-msgstr "Import Fehler."
+msgstr "Помилка імпорту"
 
 #: controllers/impex.py:515
 msgid "XML-RPC error"
-msgstr "XML-RPC Fehler"
+msgstr "Помилка XML-RPC"
 
 #: controllers/impex.py:520
 #, python-format
 msgid "Imported %d objects"
-msgstr "%d Objekte wurden importiert"
+msgstr "Імпортовано %d об’єктів"
 
 #: controllers/impex.py:525
 #, python-format
 msgid "Error trying to import this record:%s. ErrorMessage:%s %s"
-msgstr "Fehler beim Impotieren des Eintrags: %s. Fehlermeldung: %s %s"
+msgstr "Помилка при спробі імпортувати запис: %s. Помилка: %s %s"
 
 #: controllers/impex.py:526
 msgid "ImportationError"
-msgstr "Importfehler"
+msgstr "Помилка імпорту"
 
 #: controllers/listgrid.py:51
 msgid "Parent record doesn't exists..."
-msgstr "Übergeordneter Datensatz existiert nicht ..."
+msgstr "Батьківський запис не існує ..."
 
 #: controllers/preferences.py:34
 msgid "Change your password"
-msgstr "Ändern Sie Ihr Passwort"
+msgstr "Змініть ваш пароль"
 
 #: controllers/preferences.py:64 controllers/templates/header.mako:59
 msgid "Preferences"
-msgstr "Voreinstellungen"
+msgstr "Налаштування"
 
 #: controllers/preferences.py:91
 msgid "All passwords have to be filled."
-msgstr "Alle Passworte müssen ausgefüllt werden."
+msgstr "Усі паролі повинні бути заповнені."
 
 #: controllers/preferences.py:93
 msgid "The new password and its confirmation must be identical."
-msgstr "Das neue Passwort und dessen Bestätigung müssen ident sein"
+msgstr "Новый пароль та його підтверження повинні співпадати."
 
 #: controllers/preferences.py:102
 msgid "Could not change your password."
-msgstr "Ihr Passwort konnte nicht geändert werden."
+msgstr "Невдача при зміні паролю."
 
 #: controllers/preferences.py:104
 msgid "Original password incorrect, your password was not changed."
-msgstr ""
-"Original Passwort war nicht korrekt, Ihr Passwort wurde nicht geändert-"
+msgstr "Оригінальний пароль введено не вірно, пароль не змінено."
 
 #: controllers/root.py:170
 #, python-format
 msgid "Version %s"
-msgstr "Version %s"
+msgstr "Версія %s"
 
 #: controllers/translator.py:132
 msgid "You need to save the resource before adding translations."
-msgstr ""
-"Sie müssen die Quelle speichern, bevor Sie weitere Übersetzungen hinzufügen."
+msgstr "Вам необхідно зберегти ресурс перед додаванням перекладів."
 
 #: controllers/tree.py:264
 msgid "No resource selected"
-msgstr "Keine Quelle ausgewählt."
+msgstr "Не обрано жодного ресурсу"
 
 #: controllers/utils.py:44
 msgid "Could not connect to server"
-msgstr "Konnte nicht mit dem Server verbinden"
+msgstr "Не вдається з'єднатись з сервером"
 
 #: controllers/utils.py:131 controllers/templates/login_ajax.mako:111
 msgid "Bad username or password"
-msgstr "Falscher Benutzername oder Passwort"
+msgstr "Невірне ім’я користувача або пароль"
 
 #: controllers/view_log.py:32
 msgid "ID"
@@ -476,87 +473,87 @@ msgstr "ID"
 
 #: controllers/view_log.py:33
 msgid "Creation User"
-msgstr "Benutzeranlage"
+msgstr "Створив Користувач"
 
 #: controllers/view_log.py:34
 msgid "Creation Date"
-msgstr "Anlagedatum"
+msgstr "Дата створення"
 
 #: controllers/view_log.py:35
 msgid "Latest Modification by"
-msgstr "Zuletzt bearbeitet von"
+msgstr "Останнім змінив"
 
 #: controllers/view_log.py:36
 msgid "Latest Modification Date"
-msgstr "Letztes Bearbeitungsdatum"
+msgstr "Дата останньої зміни"
 
 #: controllers/view_log.py:37
 msgid "Owner"
-msgstr "Besitzer"
+msgstr "Власник"
 
 #: controllers/view_log.py:38
 msgid "Group Owner"
-msgstr "Gruppen Besitzer"
+msgstr "Власник групы"
 
 #: controllers/view_log.py:39
 msgid "Access Level"
-msgstr "Zugriffsstufe"
+msgstr "Рівень доступу"
 
 #: controllers/view_log.py:40
 msgid "Internal module data ID"
-msgstr "Interne Modul Daten ID"
+msgstr "Внутрішній ідентификатор даних модуля"
 
 #: controllers/viewed.py:220
 msgid "Invalid view id."
-msgstr "Ungültige Ansichts ID."
+msgstr "Невірний ідентифікатор перегляду"
 
 #: controllers/viewed.py:498
 msgid "Unable to create inherited view."
-msgstr "Nicht möglich eine vereerbte Ansicht zu erzeugen."
+msgstr "Неможливо створити успадкований вигляд"
 
 #: controllers/viewed.py:500
 msgid "Can't create inherited view here."
-msgstr "Kann keine vererbte Ansicht hier anlegen."
+msgstr "Неможливо створити успадкований вигляд тут"
 
 #: controllers/viewed.py:503
 msgid "Not implemented yet!"
-msgstr "Noch nicht implempentiert!"
+msgstr "Ще не реалізовано!"
 
 #: controllers/viewed.py:608
 msgid "Unable to update the view."
-msgstr "Kann die Ansicht nicht aktualisieren."
+msgstr "Неможливо оновити вигляд"
 
 #: controllers/viewed.py:859
 msgid "New Window"
-msgstr "Neues Fenster"
+msgstr "Нове вікно"
 
 #: controllers/viewed.py:871
 msgid "Save Button"
-msgstr "Sichern Button"
+msgstr "Кнопка збереження"
 
 #: controllers/viewed.py:871
 msgid "Cancel Button"
-msgstr "Abbruch Button"
+msgstr "Кнопка скасування"
 
 #: controllers/viewed.py:871
 msgid "Open Button"
-msgstr "Öffnen Button"
+msgstr "Кнопка відкриття"
 
 #: controllers/viewed.py:877
 msgid "Left"
-msgstr "Links"
+msgstr "Ліворуч"
 
 #: controllers/viewed.py:877
 msgid "Center"
-msgstr "Zentriert"
+msgstr "У центрі"
 
 #: controllers/viewed.py:877
 msgid "Right"
-msgstr "Rechts"
+msgstr "Праворуч"
 
 #: controllers/templates/about.mako:4
 msgid "About the OpenERP Web"
-msgstr "Über OpenERP Web"
+msgstr "Про OpenERP Web"
 
 #: controllers/templates/about.mako:27
 msgid "OpenERP Web"
@@ -564,25 +561,25 @@ msgstr "OpenERP Web"
 
 #: controllers/templates/about.mako:30
 msgid "Copyright &copy; 2006-TODAY OpenERP SA. All Rights Reserved."
-msgstr ""
+msgstr "Авторські права &copy; 2006-TODAY OpenERP SA. Усі права захищено."
 
 #: controllers/templates/about.mako:31
 msgid "OpenERP is a trademark of the OpenERP SA Company."
-msgstr ""
+msgstr "OpenERP - торгова марка компанії OpenERP SA."
 
 #: controllers/templates/about.mako:33
 #, python-format
 msgid "%(ooweb)s is jointly developed by %(tiny)s and %(axelor)s."
-msgstr "%(ooweb)s wurde gemeinsam von %(tiny)s und %(axelor)s entwickelt."
+msgstr "%(ooweb)s розроблені  %(tiny)s та %(axelor)s."
 
 #: controllers/templates/about.mako:39
 #, python-format
 msgid "Licenced under the terms of %(license)s"
-msgstr "Lizensiert unter der %(license)s"
+msgstr "Ліцензовано згідно з умов %(license)s"
 
 #: controllers/templates/about.mako:42
 msgid "About OpenERP"
-msgstr "Über OpenERP"
+msgstr "Про OpenERP"
 
 #: controllers/templates/about.mako:44
 #, python-format
@@ -596,11 +593,13 @@ msgid ""
 "                    project management, production, services, CRM, etc..\n"
 "                    "
 msgstr ""
-"%(openobject)s ist ein freies Softwaresystem das entwickelt wurde um "
-"Produktivität und Effizienz durch Datenintegration zu steigern. Es "
-"verbindet, verbessert und managt Geschäftsprozesse in den Bereichen Verkauf, "
-"Buchhaltung, Lieferkette (Supply-Chain-Management), Projektmanagement, "
-"Produktion, Service, CRM (Kundenbeziehungsmanagement), und vieles mehr...\n"
+"%(openobject)s - це безкоштовна програмна система рівня підприємства, яка "
+"призначена для того, щоб підвищити\n"
+"                    продуктивність та прибуток завдяки інтеграції даних. "
+"Вона зв’язує, удосконалює та\n"
+"                    керує бізнес-процесами у таких областях як продаж, "
+"фінанси, логістика,\n"
+"                    керування проектами, виробництво, послуги, CRM та інше\n"
 "                    "
 
 #: controllers/templates/about.mako:51
@@ -614,46 +613,39 @@ msgid ""
 "                    production system and migration to a new version to be "
 "straightforward."
 msgstr ""
-"Das System ist Plattformunabhängig und kann auf Windows, Mac OS X und "
-"diversen Linux Distrubitionen, sowie Unix basierten Betriebssystemen "
-"installiert werden. Seine Architektur ermöglicht es neue Funktionen schnell "
-"zu entwickeln, Modifikationen im Produktivsystem vorzunehmen und einfache "
-"Migration auf neue Versionen."
 
 #: controllers/templates/about.mako:57
 msgid ""
 "Depending on your needs, OpenERP is available through a web or application "
 "client."
 msgstr ""
-"Abhängig von Ihren Anforderungen, steht OpenERP mittels eines Programms oder "
-"webbasiert zur Verfügung."
 
 #: controllers/templates/database.mako:50 controllers/templates/login.mako:4
 #: controllers/templates/login.mako:67 controllers/templates/login_ajax.mako:85
 #: controllers/templates/login_ajax.mako:104
 msgid "Login"
-msgstr "Anmeldung"
+msgstr "Логін"
 
 #: controllers/templates/database.mako:60
 msgid "Password"
-msgstr "Passwort"
+msgstr "Пароль"
 
 #: controllers/templates/error_page.mako:77
 #, python-format
 msgid "An %(error_type)s has been reported."
-msgstr ""
+msgstr "Виникла помилка %(error_type)s."
 
 #: controllers/templates/error_page.mako:79
 msgid "Let me fix it"
-msgstr "Sie möchten es selbst beheben"
+msgstr "Дозвольте виправити це"
 
 #: controllers/templates/error_page.mako:85
 msgid "Fix it for me"
-msgstr "Beheben Sie es für mich"
+msgstr "Виправити це"
 
 #: controllers/templates/error_page.mako:90
 msgid "You do not have a valid OpenERP publisher warranty contract !"
-msgstr "Sie haben keinen gültigen OpenERP Wartungsvertrag !"
+msgstr "Ви не маєте дійсного контракту з видавцем OpenERP !"
 
 #: controllers/templates/error_page.mako:91
 msgid ""
@@ -677,27 +669,6 @@ msgid ""
 "* Security alerts by email and automatic migration,\n"
 "* Access to the customer portal.\n"
 msgstr ""
-"Wenn Sie OpenERP produktiv einsetzen, wird Ihnen vom Herausgeber der "
-"Abschluss \n"
-"eines Wartungsvertrags empfohlen.\n"
-"\n"
-"Der Wartungsvertrag bietet Ihnen zum einen eine Bugfix Garantie und die "
-"Option einer\n"
-"automatischen Migration auf eine nächst höhere Version. Hierdurch können Sie "
-"innerhalb\n"
-"weniger Stunden gegebenenfalls auftretende Probleme über den Wartungsvertrag "
-"lösen.\n"
-"\n"
-"Durch einen Wartungsvertrag, können Fehler und Probleme direkt an das "
-"OpenERP\n"
-"Wartungsteam zwecks Überprüfung und Behebung weitergeleitet werden.\n"
-"\n"
-"Die Herstellergarantie bietet Ihnen konkret:\n"
-"* Automatische Migration auf eine aktuelle Version\n"
-"* Eine Garantie zur Fehlerbehebung\n"
-"* Eine monatliche Liste der aufgetretenen Probleme und Lösungen\n"
-"* Benachrichtigung bei Sicherheitsproblemen und automatischer Migration\n"
-"* Zugriff auf das OpenERP Kundenportal\n"
 
 #: controllers/templates/error_page.mako:113
 msgid ""
@@ -716,55 +687,38 @@ msgid ""
 "\n"
 "Here is the list of modules not covered by your publisher warranty contract:"
 msgstr ""
-"Der Wartungsvertrag deckt nicht zwingend alle installierten Module Ihrer "
-"OpenERP Installation ab.\n"
-"Wenn Sie OpenERP im produktiven Betrieb einsetzen, empfehlen wir Ihnen ein "
-"Update des\n"
-"Wartungsvertrags.\n"
-"\n"
-"Wenn Sie eigene Module entwickelt haben, oder Module anderer Entwickler der "
-"OpenERP Community\n"
-"einsetzen möchten, können wir Ihnen einen erweiterten Wartungsvertrag für "
-"diese Module anbieten.\n"
-"Nachdem das von Ihnen entwickelte Modul durch das OpenERP Qualitätsteam "
-"zertifiziert wurde, \n"
-"sichert OpenERP eine automatische Migration auf alle zukünftigen OpenERP "
-"Versionen (stable) ohne \n"
-"Zusatzkosten zum Wartungsvertrag.\n"
-"\n"
-"Aktuell werden folgende Module über den Wartungsvertrag abgebildet:"
 
 #: controllers/templates/error_page.mako:135
 msgid "Publisher warranty contract."
-msgstr "Wartungsvertrag"
+msgstr "Гарантійний контракт видавця"
 
 #: controllers/templates/error_page.mako:136
 msgid ""
 "Your request will be sent to OpenERP and publisher warranty team will reply "
 "you shortly."
 msgstr ""
-"Ihre Anfrage wird direkt an OpenERP gesendet. Das Team für die "
-"Qualitätssicherung wird sich bei Ihnen melden."
+"Ваш запит буде відправлено до OpenERP та команда видавця гарантує відповідь "
+"у найближчий час."
 
 #: controllers/templates/error_page.mako:140
 msgid "Summary of the problem:"
-msgstr "Zusammenfassung des Problems:"
+msgstr "Резюме проблеми:"
 
 #: controllers/templates/error_page.mako:147
 msgid "Explain what you did:"
-msgstr "Erläutern Sie was Sie durchgeführt haben:"
+msgstr "Поясніть, що ви робили:"
 
 #: controllers/templates/error_page.mako:156
 msgid "Other Comments:"
-msgstr "Andere Anmerkungen:"
+msgstr "Інші коментарі:"
 
 #: controllers/templates/error_page.mako:168
 msgid "Send to Publisher Warranty Team"
-msgstr "Sende an Qualitätssicherung"
+msgstr "Відправити до служби гарантійної підтримки"
 
 #: controllers/templates/error_page.mako:195
 msgid "Write concurrency warning :"
-msgstr "Währungs Warnung:"
+msgstr "Попередження про одночасний запис."
 
 #: controllers/templates/error_page.mako:200
 msgid ""
@@ -774,10 +728,11 @@ msgid ""
 "    - \"Cancel\" to cancel saving.\n"
 "    - \"Write anyway\" to save your current version."
 msgstr ""
-"Der Datensatz wurde geändert, während Sie ihn bearbeitet haben.\n"
-"Wählen Sie:\n"
-"     - \"Abbrechen\" um das Speichern abzubrechen.\n"
-"     - \"Trotzdem Speichern\" um Ihre Änderung zu speichern."
+"Документ було змінено іншим користувачем під час редагування.\n"
+"Оберіть:\n"
+"\n"
+"    - \"Відмінити\" для того, щоб не зберігати ваші зміни.\n"
+"    - \"Зберегти у будь-якому випадку\" для того, щоб зберегти ваші зміни."
 
 #: controllers/templates/error_page.mako:214 controllers/templates/exp.mako:244
 #: controllers/templates/form.mako:140 controllers/templates/openo2m.mako:41
@@ -786,52 +741,52 @@ msgstr ""
 #: controllers/templates/preferences/index.mako:38
 #: widgets/templates/listgrid/listgrid.mako:33
 msgid "Cancel"
-msgstr "Abbrechen"
+msgstr "Відмінити"
 
 #: controllers/templates/error_page.mako:215
 msgid "Write Anyway"
-msgstr "Trotzdem Speichern"
+msgstr "Зберегти у будь-якому випадку"
 
 #: controllers/templates/exp.mako:151
 msgid "Export Data"
-msgstr "Datenexport"
+msgstr "Експорт даних"
 
 #: controllers/templates/exp.mako:166
 msgid "Export Type:"
-msgstr ""
+msgstr "Тип експорту:"
 
 #: controllers/templates/exp.mako:169
 msgid "Import Compatible Export"
-msgstr ""
+msgstr "Сумісність імпорту з експортом"
 
 #: controllers/templates/exp.mako:172
 msgid "Export all Data"
-msgstr ""
+msgstr "Експортувати усі дані"
 
 #: controllers/templates/exp.mako:183
 msgid "Available fields"
-msgstr ""
+msgstr "Наявні поля"
 
 #: controllers/templates/exp.mako:185
 msgid "Fields to export"
-msgstr "Zu exportierende Felder"
+msgstr "Поля для експорту"
 
 #: controllers/templates/exp.mako:187
 msgid "Save fields list"
-msgstr ""
+msgstr "Зберегти список полів"
 
 #: controllers/templates/exp.mako:189
 msgid "Save as:"
-msgstr ""
+msgstr "Зберегти як:"
 
 #: controllers/templates/exp.mako:191 controllers/templates/fieldpref.mako:102
 #: controllers/templates/selection.mako:45
 msgid "OK"
-msgstr "OK"
+msgstr "Так"
 
 #: controllers/templates/exp.mako:195
 msgid "Saved exports:"
-msgstr ""
+msgstr "Збережені експорти:"
 
 #: controllers/templates/exp.mako:204 controllers/templates/form.mako:135
 #: controllers/templates/image.mako:67 widgets/form/templates/one2many.mako:22
@@ -843,61 +798,61 @@ msgstr ""
 #: widgets/templates/listgrid/listgroup.mako:131
 #: widgets/templates/listgrid/multiple_group.mako:81
 msgid "Delete"
-msgstr "Löschen"
+msgstr "Видалити"
 
 #: controllers/templates/exp.mako:217 widgets/templates/sidebar.mako:56
 #: widgets/templates/listgrid/listgrid.mako:135
 msgid "Add"
-msgstr "Hinzufügen"
+msgstr "Додати"
 
 #: controllers/templates/exp.mako:222 controllers/templates/viewlist.mako:125
 msgid "Remove"
-msgstr "Entfernen"
+msgstr "Вилучити"
 
 #: controllers/templates/exp.mako:227
 msgid "Remove All"
-msgstr ""
+msgstr "Вилучити всі"
 
 #: controllers/templates/exp.mako:245
 msgid "Export to File"
-msgstr ""
+msgstr "Экспортувати у файл"
 
 #: controllers/templates/fieldpref.mako:4
 #: controllers/templates/fieldpref.mako:29
 msgid "Field Preferences"
-msgstr "Feldvorgaben"
+msgstr "Властивості поля"
 
 #: controllers/templates/fieldpref.mako:39
 msgid "Field Name:"
-msgstr "Feldname:"
+msgstr "Назва поля:"
 
 #: controllers/templates/fieldpref.mako:43
 msgid "Domain:"
-msgstr "Domain:"
+msgstr "Домен:"
 
 #: controllers/templates/fieldpref.mako:47
 msgid "Default Value:"
-msgstr "Standardwert:"
+msgstr "Типове значення:"
 
 #: controllers/templates/fieldpref.mako:57
 msgid "Value applicable for:"
-msgstr "Wert geeignet für:"
+msgstr "Значення використовується для:"
 
 #: controllers/templates/fieldpref.mako:63
 msgid "Only for you"
-msgstr "Nur für Sie"
+msgstr "Тільки для вас"
 
 #: controllers/templates/fieldpref.mako:67
 msgid "For all"
-msgstr "Für alle"
+msgstr "Для усіх"
 
 #: controllers/templates/fieldpref.mako:76
 msgid "Value applicable if:"
-msgstr "Wert anwendbar wenn:"
+msgstr "Значення використовується якщо:"
 
 #: controllers/templates/fieldpref.mako:79
 msgid "Always applicable!"
-msgstr "Immer anwendbar!"
+msgstr "Використовується завжди!"
 
 #: controllers/templates/fieldpref.mako:99 controllers/templates/image.mako:70
 #: controllers/templates/imp.mako:205 controllers/templates/index.mako:198
@@ -913,47 +868,45 @@ msgstr "Immer anwendbar!"
 #: controllers/templates/viewlist.mako:129 widgets/templates/sidebar.mako:67
 #: widgets/templates/viewform.mako:37
 msgid "Close"
-msgstr "Schliessen"
+msgstr "Закрити"
 
 #: controllers/templates/footer.mako:3
 #, python-format
 msgid "&copy; 2008-2010 %(ooweb)s  SA. All Rights Reserved "
-msgstr "&copy; 2008-2010 %(ooweb)s SA. Alle Rechte vorbehalten "
+msgstr "&copy; 2008-2010 %(ooweb)s  SA. Усі права захищені "
 
 #: controllers/templates/footer.mako:6
 msgid "Significant contributions to the web client have been made by"
-msgstr ""
-"Wesentliche Beiträge zur Entwicklung des Web Clients wurden zur Verfügung "
-"gestellt von"
+msgstr "Значний внесок у web-клиент був зроблен"
 
 #: controllers/templates/form.mako:63
 msgid "Disable all Tips"
-msgstr "Deaktiviere alle Tipps"
+msgstr "Відключити усі підказки"
 
 #: controllers/templates/form.mako:64
 msgid "Hide this Tip"
-msgstr "Tip verstecken"
+msgstr "Сховати цю підказку"
 
 #: controllers/templates/form.mako:82
 msgid "Add / Remove Shortcut..."
-msgstr "Hinzufügen/Entfernen Verknüpfung ..."
+msgstr "Додати / Видалити ярлик..."
 
 #: controllers/templates/form.mako:86
 #, python-format
 msgid "Search: %s"
-msgstr "Suche: %s"
+msgstr "Пошук: %s"
 
 #: controllers/templates/form.mako:93
 msgid "Corporate Intelligence..."
-msgstr "Firmen Information..."
+msgstr "Корпоративний інтелект ..."
 
 #: controllers/templates/form.mako:99
 msgid "Show Logs..."
-msgstr "Zeige Logs ..."
+msgstr "Показати журнали..."
 
 #: controllers/templates/form.mako:111
 msgid "Create a new resource"
-msgstr "Quelle erzeugen"
+msgstr "Створити новий ресурс"
 
 #: controllers/templates/form.mako:112 controllers/templates/search.mako:128
 #: controllers/templates/viewed_new_model.mako:36
@@ -963,11 +916,11 @@ msgstr "Quelle erzeugen"
 #: widgets/templates/listgrid/listgrid.mako:144
 #: widgets/templates/listgrid/listgroup.mako:20
 msgid "New"
-msgstr "Neu"
+msgstr "Новий"
 
 #: controllers/templates/form.mako:116
 msgid "Edit this resource"
-msgstr "Quelle editieren"
+msgstr "Редагувати цей ресурс"
 
 #: controllers/templates/form.mako:117 controllers/templates/viewlist.mako:122
 #: widgets/templates/listgrid/listgrid.mako:75
@@ -975,11 +928,11 @@ msgstr "Quelle editieren"
 #: widgets/templates/listgrid/listgroup.mako:112
 #: widgets/templates/listgrid/multiple_group.mako:63
 msgid "Edit"
-msgstr "Bearbeiten"
+msgstr "Редагувати"
 
 #: controllers/templates/form.mako:121
 msgid "Save this resource"
-msgstr "Quelle speichern"
+msgstr "Зберегти цей ресурс"
 
 #: controllers/templates/form.mako:122 controllers/templates/image.mako:65
 #: controllers/templates/openm2.mako:48
@@ -991,47 +944,47 @@ msgstr "Quelle speichern"
 #: controllers/templates/viewlist.mako:157
 #: controllers/templates/preferences/index.mako:39
 msgid "Save"
-msgstr "Sichern"
+msgstr "Зберегти"
 
 #: controllers/templates/form.mako:124
 msgid "Save & Edit this resource"
-msgstr "Speichere und Editiere diese Quelle"
+msgstr "Зберегти та редагувати цей ресурс"
 
 #: controllers/templates/form.mako:125
 msgid "Save & Edit"
-msgstr "Sichern & Bearbeiten"
+msgstr "Зберегти та редагувати"
 
 #: controllers/templates/form.mako:129
 msgid "Duplicate this resource"
-msgstr "Quelle kopieren"
+msgstr "Дублювати цей ресурс"
 
 #: controllers/templates/form.mako:130
 msgid "Duplicate"
-msgstr "Duplizieren"
+msgstr "Дублювати"
 
 #: controllers/templates/form.mako:134
 msgid "Delete this resource"
-msgstr "Quelle löschen"
+msgstr "Видалити цей ресурс"
 
 #: controllers/templates/form.mako:139
 msgid "Cancel editing the current resource"
-msgstr "Editieren der Quelle abbrechen"
+msgstr "Відмінти редагування цього ресурсу"
 
 #: controllers/templates/form.mako:144
 msgid "Create new node"
-msgstr "Einen neuen Knoten anlegen"
+msgstr "Створити новий вузел"
 
 #: controllers/templates/form.mako:145
 msgid "New Node"
-msgstr "Neuer Knoten"
+msgstr "Новий вузел"
 
 #: controllers/templates/form.mako:149
 msgid "Show grid in workflow canvas"
-msgstr "Grid im Workflow Arbeitsbereich einblenden"
+msgstr "Відображати грід на тлі робочого процессу"
 
 #: controllers/templates/form.mako:150
 msgid "Show grid"
-msgstr "Raster einblenden"
+msgstr "Відображати грід"
 
 #: controllers/templates/header.mako:33
 #, python-format
@@ -1045,150 +998,150 @@ msgstr "%(user)s"
 
 #: controllers/templates/header.mako:45 controllers/templates/header.mako:47
 msgid "Home"
-msgstr "Home"
+msgstr "Домівіка"
 
 #: controllers/templates/header.mako:53
 msgid "Requests"
-msgstr "Anfragen"
+msgstr "Запити"
 
 #: controllers/templates/header.mako:62
 msgid "Edit Preferences"
-msgstr "Voreinstellungen bearbeiten"
+msgstr "Редагувати налаштування"
 
 #: controllers/templates/header.mako:66 controllers/templates/header.mako:69
 msgid "About"
-msgstr "Über"
+msgstr "Про програму"
 
 #: controllers/templates/header.mako:73 controllers/templates/header.mako:75
 msgid "Help"
-msgstr "Hilfe"
+msgstr "Довідка"
 
 #: controllers/templates/header.mako:81 controllers/templates/header.mako:84
 msgid "Clear Cache"
-msgstr "Cache leeren"
+msgstr "Очистити кеш"
 
 #: controllers/templates/header.mako:89
 msgid "Logout"
-msgstr "Abmelden"
+msgstr "Вихід"
 
 #: controllers/templates/image.mako:4 controllers/templates/image.mako:39
 msgid "Image"
-msgstr "Bild"
+msgstr "Зображення"
 
 #: controllers/templates/image.mako:55
 msgid "Add Resource:"
-msgstr "Quelle hinzufügen"
+msgstr "Додати ресурс"
 
 #: controllers/templates/image.mako:66 widgets/form/templates/binary.mako:28
 msgid "Save As"
-msgstr "Sichern unter"
+msgstr "Зберегти як"
 
 #: controllers/templates/imp.mako:80
 msgid "Import Data"
-msgstr "Daten importieren"
+msgstr "Імпортувати дані"
 
 #: controllers/templates/imp.mako:90
 msgid "1. Import a .CSV file"
-msgstr ""
+msgstr "Імпортувати з файлу .CSV"
 
 #: controllers/templates/imp.mako:106
 msgid "CSV File:"
-msgstr ""
+msgstr "Файл CSV:"
 
 #: controllers/templates/imp.mako:124
 msgid "2. Check your file format"
-msgstr ""
+msgstr "Перевірте формат файлу"
 
 #: controllers/templates/imp.mako:131
 #, python-format
 msgid "The import failed due to: %(message)s"
-msgstr ""
+msgstr "Помилка імпорту у зв'язку з: %(message)s"
 
 #: controllers/templates/imp.mako:133
 msgid "Here is a preview of the file we could not import:"
-msgstr ""
+msgstr "Тут ви можете переглянути файл, який ми не можемо імпортувати:"
 
 #: controllers/templates/imp.mako:158
 msgid "CSV Options"
-msgstr ""
+msgstr "Параметри CSV"
 
 #: controllers/templates/imp.mako:161
 msgid "Separator:"
-msgstr "Trennzeichen:"
+msgstr "Сепаратор:"
 
 #: controllers/templates/imp.mako:163
 msgid "Delimiter:"
-msgstr "Feldtrenner:"
+msgstr "Роздільник:"
 
 #: controllers/templates/imp.mako:167
 msgid "Encoding:"
-msgstr "Encoding:"
+msgstr "Кодування:"
 
 #: controllers/templates/imp.mako:174
 msgid "Lines to skip:"
-msgstr "Zu überspringende Zeilen:"
+msgstr "Пропустити строк:"
 
 #: controllers/templates/imp.mako:188
 msgid "3. File imported"
-msgstr ""
+msgstr "Файл імпортовано"
 
 #: controllers/templates/imp.mako:206
 msgid "Import File"
-msgstr ""
+msgstr "Імпортувати файл"
 
 #: controllers/templates/index.mako:164
 msgid "System Logs"
-msgstr "System Protokolle"
+msgstr "Системні журнали"
 
 #: controllers/templates/index.mako:189
 msgid "More"
-msgstr "Weiter.."
+msgstr "Ще"
 
 #: controllers/templates/index.mako:190
 msgid "Widgets"
-msgstr "Widgets"
+msgstr "Віджети"
 
 #: controllers/templates/index.mako:221 controllers/templates/index.mako:226
 #, python-format
 msgid "Powered by %(openerp)s "
-msgstr "Bereitgestellt von %(openerp)s "
+msgstr "Розроблено %(openerp)s "
 
 #: controllers/templates/login.mako:53 controllers/templates/login_ajax.mako:72
 #: controllers/templates/login_ajax.mako:94
 msgid "User:"
-msgstr "Benutzer:"
+msgstr "Користувач:"
 
 #: controllers/templates/login.mako:64
 msgid "Databases"
-msgstr "Datenbanken"
+msgstr "Бази даних"
 
 #: controllers/templates/login.mako:84
 msgid "Top Contributor:"
-msgstr "Top Unterstützer:"
+msgstr "Провідний автор:"
 
 #: controllers/templates/login.mako:94
 msgid ""
 "We think that daily job activities can be more intuitive, efficient, "
 "automated, .. and even fun."
 msgstr ""
-"Wir sind der Überzeugung, dass die tägliche Arbeit intuitiver, effizienter, "
-"automatisierter und mit mehr Spaß verbunden sein kann."
+"Ми вважаємо, що повсякденна робота може бути більш простою, ефективною, "
+"автоматизованою, .. та навіть веселою."
 
 #: controllers/templates/login.mako:95
 msgid "OpenERP's vision to be:"
-msgstr "Was macht OpenERP so Visionär?"
+msgstr "бачення OpenERP:"
 
 #: controllers/templates/login.mako:103
 msgid "Full featured"
-msgstr "Komplettlösung"
+msgstr "Повнофункціональний"
 
 #: controllers/templates/login.mako:104
 msgid ""
 "Today's enterprise challenges are multiple. We provide one module for each "
 "need."
 msgstr ""
-"Die heutigen Unternehmensherausforderungen sind vielfältig. Wir bieten Ihnen "
-"ein Modul für jede Anforderung."
+"Сьогоденні проблеми підприємства - роздробленні. Ми надаємо один модуль для "
+"кожної потреби."
 
 #: controllers/templates/login.mako:112
 msgid "Open Source"
@@ -1199,226 +1152,224 @@ msgid ""
 "To Build a great product, we rely on the knowledge of thousands of "
 "contributors."
 msgstr ""
-"Um ein grossartiges Produkt bereitzustellen, vertrauen wir auf das Wissen "
-"von Tausenden von Unterstützern"
+"При побудові великого продукту, ми спираємося на знання тисяч учасників."
 
 #: controllers/templates/login.mako:121
 msgid "User Friendly"
-msgstr "Benutzerfreundlich"
+msgstr "Дружній"
 
 #: controllers/templates/login.mako:122
 msgid ""
 "In order to be productive, people need clean and easy to use interface."
 msgstr ""
-"Um produktiv arbeiten zu können, benötigen die Mitarbeiter eine einfache und "
-"klar strukturierte Oberfläche."
+"Для того, щоб працювати продуктивно, люди потребують зручний та простий у "
+"використанні інтерфейс."
 
 #: controllers/templates/modules.mako:4
 msgid "Module Management"
-msgstr "Modul Verwaltung"
+msgstr "Керування модулями"
 
 #: controllers/templates/modules.mako:17
 msgid "Web Modules"
-msgstr "Web Module"
+msgstr "Веб-модулі"
 
 #: controllers/templates/openo2m.mako:34
 msgid "Save & Close"
-msgstr "Speichern & Beenden"
+msgstr "Зберегти та закрити"
 
 #: controllers/templates/openo2m.mako:37
 msgid "Save & New"
-msgstr "Speichern & Neu"
+msgstr "Зберегти та створити новий"
 
 #: controllers/templates/save_filter.mako:18
 msgid "Save as Filter"
-msgstr "Als Filter speichern"
+msgstr "Зберегти як фільтр"
 
 #: controllers/templates/save_filter.mako:30
 msgid "Filter Name"
-msgstr "Filter Bezeichnung"
+msgstr "Назва Фільтра"
 
 #: controllers/templates/search.mako:110
 #, python-format
 msgid "Search %(name)s"
-msgstr "Suche %(name)s"
+msgstr "Пошук %(name)s"
 
 #: controllers/templates/search.mako:125 widgets/form/templates/datetime.mako:8
 msgid "Select"
-msgstr "Auswählen"
+msgstr "Вибрати"
 
 #: controllers/templates/search.mako:127 widgets/_views.py:83
 #: widgets/form/templates/many2one.mako:22
 #: widgets/form/templates/reference.mako:27 widgets/templates/viewform.mako:26
 msgid "Search"
-msgstr "Suchen"
+msgstr "Знайти"
 
 #: controllers/templates/search.mako:143
 #, python-format
 msgid "No record found : '%(searched_string)s'."
-msgstr "Kein Datensatz gefunden : '%(searched_string)s'."
+msgstr "Запис не знайдено: '%(searched_string)s'."
 
 #: controllers/templates/selection.mako:4
 msgid "Select action"
-msgstr "Wählen Sie eine Aktion"
+msgstr "Оберіть дію"
 
 #: controllers/templates/selection.mako:23
 msgid "Select your action"
-msgstr "Wählen Sie Ihre Aktion"
+msgstr "Оберіть вашу дію"
 
 #: controllers/templates/server_log.mako:4
 msgid "Server Actions..."
-msgstr "Server Aktionen ..."
+msgstr "Дії сервера..."
 
 #: controllers/templates/server_log.mako:14
 msgid "Server Actions"
-msgstr "Server Aktionen"
+msgstr "Дії сервера"
 
 #: controllers/templates/translator.mako:4
 msgid "Add Translations"
-msgstr "Übersetzungen hinzufügen"
+msgstr "Додати переклади"
 
 #: controllers/templates/translator.mako:17
 msgid "Add Translation"
-msgstr "Übersetzung hinzufügen"
+msgstr "Додати переклад"
 
 #: controllers/templates/translator.mako:27
 msgid "Add Translation for:"
-msgstr "Übersetzung hinzufügen für:"
+msgstr "Додати переклад для:"
 
 #: controllers/templates/translator.mako:31
 msgid "Fields"
-msgstr "Felder"
+msgstr "Поля"
 
 #: controllers/templates/translator.mako:32
 msgid "Labels"
-msgstr "Bezeichnungen"
+msgstr "Мітки"
 
 #: controllers/templates/translator.mako:33
 msgid "Relates"
-msgstr "Bezieht sich auf"
+msgstr "Відносини"
 
 #: controllers/templates/translator.mako:34
 msgid "View"
-msgstr "Ansicht"
+msgstr "Вигляд"
 
 #: controllers/templates/translator.mako:53
 msgid "Field"
-msgstr "Feld"
+msgstr "Поле"
 
 #: controllers/templates/view_log.mako:4 controllers/templates/view_log.mako:12
 #: utils/common.py:47
 msgid "Information"
-msgstr "Information"
+msgstr "Інформація"
 
 #: controllers/templates/viewed.mako:17
 #, python-format
 msgid "View Editor %s - %s"
-msgstr "Ansicht Editor %s - %s"
+msgstr "Редактор виду %s - %s"
 
 #: controllers/templates/viewed.mako:31
 msgid "Create a new inherited view"
-msgstr "Eine neue vererbte Ansicht anlegen"
+msgstr "Створити успадкований вид"
 
 #: controllers/templates/viewed.mako:31
 msgid "Inherited View"
-msgstr "Vererbte Ansicht"
+msgstr "Успадкований вид"
 
 #: controllers/templates/viewed.mako:34
 msgid "Preview"
-msgstr "Vorschau"
+msgstr "Попередній перегляд"
 
 #: controllers/templates/viewed_add.mako:6
 msgid "Node Type:"
-msgstr "Knoten Typ:"
+msgstr "Тип вузла:"
 
 #: controllers/templates/viewed_add.mako:23
 msgid "New Field"
-msgstr "Neues Feld"
+msgstr "Нове поле"
 
 #: controllers/templates/viewed_add.mako:27
 msgid "Position:"
-msgstr "Posititon:"
+msgstr "Позиція:"
 
 #: controllers/templates/viewlist.mako:4
 #: controllers/templates/viewlist.mako:108
 #, python-format
 msgid "Manage Views (%s)"
-msgstr "Ansichen verwalten (%s)"
+msgstr "Керування видами (%s)"
 
 #: controllers/templates/viewlist.mako:146
 #, python-format
 msgid "Create a view (%s)"
-msgstr "Ansicht anlegen (%s)"
+msgstr "Створити вид (%s)"
 
 #: controllers/templates/viewlist.mako:174
 msgid "View Name:"
-msgstr "Bezeichnung der Ansicht:"
+msgstr "Назва виду:"
 
 #: controllers/templates/viewlist.mako:178
 msgid "View Type:"
-msgstr "Ansichtstyp"
+msgstr "Тип виду:"
 
 #: controllers/templates/viewlist.mako:189
 msgid "Priority:"
-msgstr "Rangfolge:"
+msgstr "Пріоритет:"
 
 #: utils/common.py:37 utils/common.py:66
 msgid "Error"
-msgstr "Fehler"
+msgstr "Помилка"
 
 #: utils/common.py:42 utils/common.py:69
 msgid "Warning"
-msgstr "Warnung"
+msgstr "Попередження"
 
 #: utils/rpc.py:131
 msgid "Access Denied"
-msgstr "Zugriff verweigert"
+msgstr "Доступ заборонено"
 
 #: utils/rpc.py:238
 msgid "Unsupported protocol."
-msgstr "Nicht unterstütztes Protokoll."
+msgstr "Протокол не підтримується"
 
 #: utils/rpc.py:342
 msgid ""
 "You select a timezone but OpenERP could not find pytz library!\n"
 "The timezone functionality will be disable."
 msgstr ""
-"Sie haben eine Zeitzone ausgewählt zu der OpenERP keine pytz Library finden "
-"kann!\n"
-"Die Zeitzonenfunktionalität wird deaktiviert."
+"Ви обрали часовий пояс, але OpenERP не може знайти бібліотеку pytz!\n"
+"Функції, пов’язані з часовими поясами, будуть відключені."
 
 #: utils/rpc.py:355
 msgid "Not logged..."
-msgstr "Nicht protokolliert ..."
+msgstr "Не зареєстрован..."
 
 #: utils/rpc.py:355
 msgid "Authorization Error"
-msgstr "Berechtigungsfehler"
+msgstr "Помилка авторизації"
 
 #: utils/rpc.py:437
 msgid "== Access Denied =="
-msgstr "== Zugriff verweigert =="
+msgstr "== У доступі відмовлено =="
 
 #: widgets/_views.py:52
 msgid "Form"
-msgstr "Formular"
+msgstr "Форма"
 
 #: widgets/_views.py:53
 msgid "Form view..."
-msgstr "Formularansicht"
+msgstr "Обзор у вигляді форми"
 
 #: widgets/_views.py:84
 msgid "Search view..."
-msgstr "Suchansicht"
+msgstr "Вид для пошуку"
 
 #: widgets/listgrid.py:289
 msgid "Wrong on_change trigger"
-msgstr ""
+msgstr "Не вірний тригер on_change"
 
 #: widgets/listgrid.py:353 widgets/form/_form.py:904
 #, python-format
 msgid "Invalid view, duplicate field: %s"
-msgstr "Ungültige Ansicht, doppeltes Feld: %s"
+msgstr "Не вірний вид, поле дублюється: %s"
 
 #: widgets/pager.py:56
 #, python-format
@@ -1432,255 +1383,255 @@ msgstr "%s - %s"
 
 #: widgets/search.py:282
 msgid "contains"
-msgstr "enthält"
+msgstr "містить"
 
 #: widgets/search.py:282
 msgid "doesn't contain"
-msgstr "enthält nicht"
+msgstr "не містить"
 
 #: widgets/search.py:283
 msgid "is equal to"
-msgstr "ist gleich"
+msgstr "співпадає з"
 
 #: widgets/search.py:283
 msgid "is not equal to"
-msgstr "ist nicht gleich"
+msgstr "не співпадає з"
 
 #: widgets/search.py:284
 msgid "greater than"
-msgstr "ist größer als"
+msgstr "більше ніж"
 
 #: widgets/search.py:284
 msgid "less than"
-msgstr "ist kleiner als"
+msgstr "менше ніж"
 
 #: widgets/search.py:285
 msgid "in"
-msgstr "enthält"
+msgstr "у"
 
 #: widgets/search.py:285
 msgid "not in"
-msgstr "enthält nicht"
+msgstr "не в"
 
 #: widgets/search.py:392
 msgid "Yes"
-msgstr "Ja"
+msgstr "Так"
 
 #: widgets/search.py:392
 msgid "No"
-msgstr "Nein"
+msgstr "Ні"
 
 #: widgets/form/_action.py:46
 msgid "Action not found!"
-msgstr "Aktion wurde nicht gefunden!"
+msgstr "Дію не знайдено!"
 
 #: widgets/form/_o2m.py:73 widgets/templates/listgrid/listgrid.mako:138
 #: widgets/templates/listgrid/listgrid.mako:144
 #: widgets/templates/listgrid/listgroup.mako:20
 msgid "Create new record."
-msgstr "Neuen Datensatz anlegen."
+msgstr "Створити новий запис."
 
 #: widgets/form/_o2m.py:86
 msgid "Save/New"
-msgstr "Sichern/Neu"
+msgstr "Зберегти/Новий"
 
 #: widgets/form/_o2m.py:86
 msgid "Save parent record."
-msgstr "Sichere übergeordneten Datensatz"
+msgstr "Зберегти батьківський запис."
 
 #: widgets/form/_o2m.py:216
 #, python-format
 msgid "%d of %d"
-msgstr "%d von %d"
+msgstr "%d з %d"
 
 #: widgets/form/_o2m.py:218
 #, python-format
 msgid "- of %d"
-msgstr "- von %d"
+msgstr "- з %d"
 
 #: widgets/form/templates/binary.mako:31
 msgid "add attachment"
-msgstr "Anlage hinzufügen"
+msgstr "додати вкладення"
 
 #: widgets/form/templates/image.mako:7 widgets/form/templates/image.mako:39
 msgid "Click here to add new image."
-msgstr "Hier klicken um ein Bild hinzuzufügen."
+msgstr "Натисніть тут для того, щоб додати нову картинку."
 
 #: widgets/form/templates/many2one.mako:2
 #: widgets/form/templates/reference.mako:30
 msgid "Open"
-msgstr "Öffnen"
+msgstr "Відкрити"
 
 #: widgets/form/templates/many2one.mako:2
 #: widgets/form/templates/reference.mako:30
 msgid "Open a resource"
-msgstr "Quelle öffnen"
+msgstr "Відкрити ресурс"
 
 #: widgets/form/templates/one2many.mako:20
 msgid "Create new record..."
-msgstr "Einen neuen Datensatz anlegen ..."
+msgstr "Створити новий запис..."
 
 #: widgets/form/templates/one2many.mako:22
 msgid "Delete record..."
-msgstr "Datensatz löschen ..."
+msgstr "Видалити запис..."
 
 #: widgets/form/templates/one2many.mako:28
 msgid "Translate me."
-msgstr "Übersetze mich."
+msgstr "Перекласти мене."
 
 #: widgets/form/templates/one2many.mako:47
 msgid "Previous record..."
-msgstr "Vorheriger Datensatz ..."
+msgstr "Попередній запис..."
 
 #: widgets/form/templates/one2many.mako:49
 msgid "Next record..."
-msgstr "Nächster Datensatz ...."
+msgstr "Наступний запис..."
 
 #: widgets/templates/logs.mako:22
 msgid "More..."
-msgstr "Mehr ..."
+msgstr "Більше..."
 
 #: widgets/templates/logs.mako:35
 msgid "Less..."
-msgstr "Weniger ..."
+msgstr "Менше..."
 
 #: widgets/templates/pager.mako:9
 msgid "<< First"
-msgstr "<< Erste"
+msgstr "<< Перша"
 
 #: widgets/templates/pager.mako:14
 msgid "< Previous"
-msgstr "< Vorherige"
+msgstr "< Попередня"
 
 #: widgets/templates/pager.mako:19
 msgid "of"
-msgstr "von"
+msgstr "з"
 
 #: widgets/templates/pager.mako:24
 msgid "Next >"
-msgstr "Nächste >"
+msgstr "Наступне >"
 
 #: widgets/templates/pager.mako:29
 msgid "Last >>"
-msgstr "Letzte >>"
+msgstr "Остання >>"
 
 #: widgets/templates/pager.mako:37
 msgid "Change Limit:"
-msgstr "Höchstwert ändern:"
+msgstr "Змінити обмеження"
 
 #: widgets/templates/sidebar.mako:37
 msgid "Reports"
-msgstr "Berichte"
+msgstr "Звіти"
 
 #: widgets/templates/sidebar.mako:41 widgets/templates/viewform.mako:51
 msgid "Actions"
-msgstr "Aktionen"
+msgstr "Дії"
 
 #: widgets/templates/sidebar.mako:45
 msgid "Links"
-msgstr "Links"
+msgstr "Посилання"
 
 #: widgets/templates/sidebar.mako:49
 msgid "Submenu"
-msgstr "Untermenu"
+msgstr "Підменю"
 
 #: widgets/templates/sidebar.mako:54
 msgid "Attachments"
-msgstr "Anhänge"
+msgstr "Долучення"
 
 #: widgets/templates/sidebar.mako:74
 msgid "File"
-msgstr "Datei"
+msgstr "Файл"
 
 #: widgets/templates/sidebar.mako:83
 msgid "Customize"
-msgstr "Anpassen"
+msgstr "Нетипові параметри"
 
 #: widgets/templates/sidebar.mako:87
 msgid "Manage views of the current object"
-msgstr "Ansichten des aktuelllen Objekts verwalten"
+msgstr "Керувати видом поточного об'єкту"
 
 #: widgets/templates/sidebar.mako:89
 msgid "Manage Views"
-msgstr "Ansichten verwalten"
+msgstr "Керувати видами"
 
 #: widgets/templates/sidebar.mako:93
 msgid "Edit workflow of the current object"
-msgstr "Workflow dieses Objektes bearbeiten"
+msgstr "Редагувати робочий процес поточного об’єкту"
 
 #: widgets/templates/sidebar.mako:94
 msgid "Edit Workflow"
-msgstr "Workflow bearbeiten"
+msgstr "Редагувати робочий процес"
 
 #: widgets/templates/sidebar.mako:98
 msgid "Customize current object or create a new object"
-msgstr "Aktuelles Objekt anpassen oder ein neues Objekt anlegen"
+msgstr "Налаштування об’єкту або створення нового об’єкту"
 
 #: widgets/templates/sidebar.mako:100
 msgid "Customize Object"
-msgstr "Objekt anpassen"
+msgstr "Налаштування об’єкту"
 
 #: widgets/templates/sidebar.mako:106
 msgid "Other Options"
-msgstr "Andere Optionen"
+msgstr "Інші параметри"
 
 #: widgets/templates/sidebar.mako:111
 msgid "Import"
-msgstr "Import"
+msgstr "Імпортувати"
 
 #: widgets/templates/sidebar.mako:114
 msgid "Export"
-msgstr "Export"
+msgstr "Експортувати"
 
 #: widgets/templates/sidebar.mako:118
 msgid "Translate"
-msgstr "Übersetzen"
+msgstr "Перекласти"
 
 #: widgets/templates/sidebar.mako:123
 msgid "View Log"
-msgstr "Protokoll anzeigen"
+msgstr "Переглянути журнал"
 
 #: widgets/templates/viewform.mako:25
 msgid "Filter records."
-msgstr "Datensätzes filtern."
+msgstr "Фільтр записів"
 
 #: widgets/templates/viewform.mako:33
 msgid "Clear all."
-msgstr "Alles leeren."
+msgstr "Очистити все."
 
 #: widgets/templates/viewform.mako:35
 msgid "Clear"
-msgstr "Leeren"
+msgstr "Очистити"
 
 #: widgets/templates/viewform.mako:43
 msgid "Filters"
-msgstr "Filter"
+msgstr "Фільтри"
 
 #: widgets/templates/viewform.mako:45
 msgid "Saved Filters"
-msgstr "Gespeicherte Filter"
+msgstr "Збережені фільтри"
 
 #: widgets/templates/viewform.mako:52
 msgid "New Filter"
-msgstr "Neuer Filter"
+msgstr "Новий фільтр"
 
 #: widgets/templates/viewform.mako:53
 msgid "Save Filter"
-msgstr "Filter Sichern"
+msgstr "Зберегти фільтр"
 
 #: widgets/templates/viewform.mako:54
 msgid "Manage Filters"
-msgstr "Filter verwalten"
+msgstr "Керування фільтрами"
 
 #: widgets/templates/listgrid/listgrid.mako:19
 msgid "Update"
-msgstr "Aktualisieren"
+msgstr "Оновити"
 
 #: widgets/templates/listgrid/listgrid.mako:134
 msgid "Add records..."
-msgstr "Datensätze hinzufügen ..."
+msgstr "Додати запис..."
 
 #: widgets/templates/listgrid/listgrid.mako:172
 #: widgets/templates/listgrid/listgrid.mako:176
 msgid "Delete record(s)."
-msgstr "Datensatz(s) löschen"
+msgstr "Видалити запис(и)."
