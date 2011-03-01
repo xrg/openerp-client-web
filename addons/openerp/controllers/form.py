@@ -610,12 +610,13 @@ class Form(SecuredController):
                 if idx >= 0:
                     current.ids.remove(current.id)
             params.count -= 1
-
+            if not len(current.ids) and params.count > 0:
+                params.offset = params.offset - params.limit
+                current.ids = proxy.search([], params.offset, params.limit,0, ctx)
+                idx = -1
             if idx == len(current.ids):
                 idx = -1
-
         current.id = (current.ids or None) and current.ids[idx]
-
         self.reset_notebooks()
 
         args = {'model': params.model,
