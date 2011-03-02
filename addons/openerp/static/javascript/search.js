@@ -271,7 +271,7 @@ jQuery.extend({
 function display_Customfilters(all_domains, group_by_ctx) {
     var Allrecords = {};
 	var error = false;
-    jQuery('tbody',idSelector('filter_option_table')).each(function () {
+    jQuery('tbody:visible',idSelector('filter_option_table')).each(function () {
         var record = {};
         var pid = jQuery(this).index();
 
@@ -285,11 +285,11 @@ function display_Customfilters(all_domains, group_by_ctx) {
                 rec[$fieldname.attr('value')] = $constraint_value.val();
                 record[id] = rec;
             } else {
-				$constraint_value.addClass('errorfield').val(_('InValid Value')).click(function() {
-					jQuery(this).val('').removeClass('errorfield')
-				})
-				error = true;
-			}
+                $constraint_value.addClass('errorfield').val(_('InValid Value')).click(function() {
+                    jQuery(this).val('').removeClass('errorfield')
+                });
+                error = true;
+            }
         });
 
         if (jQuery.keys(record).length != 0){
@@ -359,9 +359,6 @@ function display_Customfilters(all_domains, group_by_ctx) {
 							case 'not ilike':
 								if (isOrderable(type)) {
 									comparison = (comparison == 'ilike' ? '=' : '!=');
-								}
-								else {
-									value = '%' + value + '%';
 								}
 								break;
 							case '<':
