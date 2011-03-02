@@ -404,6 +404,8 @@ ManyToOne.prototype.get_matched = function() {
                     m2o.text.value = val[1];
                     m2o.on_change();
                 } else {
+                    var id = jQuery(m2o.field).attr('id');
+                    jQuery(idSelector(id + '_text')).val('');
                     open_search_window(m2o.relation, domain, context, m2o.name, 1, text);
                 }
             }, 'json');
@@ -573,13 +575,6 @@ ManyToOne.prototype.getOnclick = function(evt) {
             url = '/openerp/openm2o/edit'
         } else {
             url = '/openerp/search/new';
-            
-            // if new record is closed without saving source value need to blank
-            var $frame = $($this.attr('frameElement'));
-            var $source_elem = $frame.contents().find(idSelector(options.source+'_text'));
-            if($source_elem)
-                $source_elem.val('');
-            
         }
         return $.frame_dialog({
                 src: openobject.http.getURL(url, options)
