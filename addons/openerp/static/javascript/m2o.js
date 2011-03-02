@@ -137,9 +137,6 @@ ManyToOne.prototype.create = function() {
 };
 
 ManyToOne.prototype.open = function(id) {
-    var domain = jQuery(this.field).attr('domain');
-    var context = jQuery(this.field).attr('context');
-
     var model = this.relation;
     var source = this.name;
 
@@ -150,8 +147,8 @@ ManyToOne.prototype.open = function(id) {
 
     eval_domain_context_request({
         source: source,
-        domain: domain,
-        context: context
+        domain: jQuery(this.field).attr('domain'),
+        context: this.get_context()
     }).addCallback(function(obj) {
         $.m2o({
             record: true,
@@ -180,6 +177,15 @@ ManyToOne.prototype.get_text = function() {
             text_field.value = obj.name;
         }, 'json');
     }
+};
+
+/**
+ * Fetches the m2o's context, replacing any <code>self</code> by the actual
+ * value of the m2o
+ */
+ManyToOne.prototype.get_context = function () {
+    return jQuery(this.field).attr('context').replace(
+            /\bself\b/g, "'" + this.text.value + "'");
 };
 
 ManyToOne.prototype.on_change = function(evt) {
@@ -373,7 +379,7 @@ ManyToOne.prototype.get_matched = function() {
     var m2o = this;
 
     var domain = jQuery(this.field).attr('domain');
-    var context = jQuery(this.field).attr('context');
+    var context = this.get_context();
 
     eval_domain_context_request({
         source: this.name,
@@ -437,8 +443,11 @@ ManyToOne.prototype.doDelayedRequest = function () {
     this.lastSearch = this.text.value;
     if (this.numResultRows==0) {
         var self = this;
-        var req = eval_domain_context_request({source: this.name, domain: getNodeAttribute(this.field, 'domain'), context: getNodeAttribute(this.field, 'context')});
-        req.addCallback(function(obj) {
+        eval_domain_context_request({
+            source: this.name,
+            domain: jQuery(this.field).attr('domain'),
+            context: this.get_context()
+        }).addCallback(function(obj) {
             self.eval_domain = obj.domain;
             self.eval_context = obj.context
 
