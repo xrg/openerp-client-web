@@ -5,7 +5,10 @@ from optparse import OptionParser
 import babel.localedata
 
 import cherrypy
-from cherrypy._cpconfig import as_dict
+try:
+    from cherrypy.lib.reprconf import as_dict
+except ImportError:
+    from cherrypy._cpconfig import as_dict
 
 import openobject
 import openobject.release
