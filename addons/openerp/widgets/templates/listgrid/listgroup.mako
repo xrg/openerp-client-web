@@ -18,7 +18,7 @@ import itertools
 					% if editable:
 						<td class="pager-cell-button">
 							<button id="${name}_new" title="${_('Create new record.')}" onclick="editRecord(null); return false;">${_('New')}</button>
-						</td>						
+						</td>
 					% endif
         			<td class="pager-cell" style="width: 90%">
     					${pager.display()}
@@ -28,7 +28,7 @@ import itertools
         </td>
     </tr>
     % endif
-    
+
     <tr>
         <td colspan="2" class="grid-content">
             <table id="${name}_grid" class="grid" width="100%" cellspacing="0" cellpadding="0">
@@ -52,14 +52,14 @@ import itertools
 
                 <tbody>
 					% for j, grp_row in enumerate(grp_records):
-					<tr class="grid-row-group" grp_by_id="${grp_row.get('group_by_id')}" records="${grp_row.get('group_id')}" style="cursor: pointer; " ch_records="${map(lambda x: x['id'], grp_row['child_rec'])}" grp_domain="${grp_row['__domain']}" grp_context="${grp_row['__context']['group_by']}">
+					<tr class="grid-row-group" grp_by_id="${grp_row.get('group_by_id')}" records="${grp_row.get('groups_id')}" style="cursor: pointer; " ch_records="${map(lambda x: x['id'], grp_row['child_rec'])}" grp_domain="${grp_row['__domain']}" grp_context="${grp_row['__context']['group_by']}">
                         % if editable:
-                        
+
                             % if len(group_by_ctx) == 1 and group_by_no_leaf:
                                 <td class="grid-cell"></td>
                             % elif len(group_by_ctx) > 0:
 	                            <td class="grid-cell group-expand"
-	                                onclick="new ListView('${name}').group_by('${grp_row.get('group_by_id')}', '${grp_row.get('group_id')}', '${group_by_no_leaf}', this);">
+	                                onclick="new ListView('${name}').group_by('${grp_row.get('group_by_id')}', '${grp_row.get('groups_id')}', '${group_by_no_leaf}', this);">
 	                            </td>
                             % else:
                                 <td class="grid-cell"></td>
@@ -86,7 +86,7 @@ import itertools
                                             % else:
                                                 <span style="color: #888;">&nbsp;</span>
                                             % endif
-                                        % endif                                    
+                                        % endif
                                     % endif
                                 </td>
                             % else:
@@ -95,7 +95,7 @@ import itertools
                                 </td>
                             % endif
                         % endfor
-                        
+
                         % if editable:
                             <td class="grid-cell selector" >
                                 <div style="width: 0;"></div>
@@ -104,7 +104,7 @@ import itertools
                     </tr>
 
                     % for ch in grp_row.get('child_rec'):
-                    <tr class="grid-row grid-row-group" id="${grp_row.get('group_id')}" parent_grp_id="${grp_row.get('group_by_id')}" 
+                    <tr class="grid-row grid-row-group" id="${grp_row.get('groups_id')}" parent_grp_id="${grp_row.get('group_by_id')}"
                     	record="${ch.get('id')}" style="cursor: pointer; display: none;">
                         % if editable:
                             <td class="grid-cell">
@@ -198,7 +198,7 @@ import itertools
                         },
                         axis: 'y'
                     });
-                    
+
                     jQuery('#${name} tr.grid-row-group').droppable({
                         accept : 'tr.grid-row-group',
                         hoverClass: 'grid-rowdrop',

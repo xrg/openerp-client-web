@@ -4,7 +4,7 @@ background = '#F5F5F5'
 %>
 % for j, grp_row in enumerate(grp_records):
     <tr class="grid-row-group" parent="${parent_group}" grp_by_id="${grp_row['group_by_id']}"
-        records="${grp_row['group_id']}" style="cursor: pointer; background-color: ${background};"
+        records="${grp_row['groups_id']}" style="cursor: pointer; background-color: ${background};"
         ch_records="${map(lambda x: x['id'],grp_row['child_rec'])}" grp_domain="${grp_row['__domain']}"
         grp_context="${grp_row['__context']['group_by']}">
         % if editable:
@@ -19,7 +19,7 @@ background = '#F5F5F5'
                         subgroup_class = ''
                     else:
                       subgroup_expander = "new ListView('%s').group_by('%s', '%s', '%s', this)" % (
-                          name, grp_row['group_by_id'], grp_row['group_id'], group_by_no_leaf)
+                          name, grp_row['group_by_id'], grp_row['groups_id'], group_by_no_leaf)
                       subgroup_class = 'group-expand'
                 else:
                     subgroup_expander = ''
@@ -54,7 +54,7 @@ background = '#F5F5F5'
         % endif
     </tr>
     % for ch in grp_row.get('child_rec'):
-        <tr class="grid-row grid-row-group" id="${grp_row.get('group_id')}" parent="${parent_group}"
+        <tr class="grid-row grid-row-group" id="${grp_row.get('groups_id')}" parent="${parent_group}"
             parent_grp_id="${grp_row.get('group_by_id')}" record="${ch.get('id')}"
             style="cursor: pointer; display:none;">
             % if editable:
