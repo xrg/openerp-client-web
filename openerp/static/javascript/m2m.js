@@ -167,8 +167,12 @@ Many2Many.prototype = {
         } else {
             MochiKit.DOM.removeElementClass(this.id, 'readonlyfield');
             MochiKit.DOM.removeElementClass(this.text, 'readonlyfield');
-            this.btnAdd.parentNode.style.display = '';
-            this.btnDel.parentNode.style.display = '';
+            if (this.btnAdd) {
+            	this.btnAdd.parentNode.style.display = '';
+            }
+            if (this.btnDel) {
+            	this.btnDel.parentNode.style.display = '';
+            }
         }
     }
 }
