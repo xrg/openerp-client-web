@@ -8,7 +8,11 @@ import optparse
 from os.path import join, dirname, exists
 
 import cherrypy
-from cherrypy._cpconfig import as_dict
+try:
+    from cherrypy.lib.reprconf import as_dict
+except ImportError:
+    from cherrypy._cpconfig import as_dict
+
 from formencode import NestedVariables
 
 from openerp import release
