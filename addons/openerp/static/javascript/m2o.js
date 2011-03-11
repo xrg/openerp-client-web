@@ -184,6 +184,9 @@ ManyToOne.prototype.get_text = function() {
  * value of the m2o
  */
 ManyToOne.prototype.get_context = function () {
+    if(!this.text) {
+        return jQuery(this.field).attr('context');
+    }
     return jQuery(this.field).attr('context').replace(
             /\bself\b/g, "'" + this.text.value + "'");
 };
