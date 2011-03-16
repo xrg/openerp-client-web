@@ -55,12 +55,14 @@ class Root(SecuredController):
     
     @expose()
     def home(self):
-        user_action_id = rpc.RPCProxy("res.users").read([rpc.session.uid], ['action_id'], rpc.session.context)[0]['action_id']
+        context = rpc.session.context
+        user_action_id = rpc.RPCProxy("res.users").read([rpc.session.uid], ['action_id'], context)[0]['action_id']
         if user_action_id:
             from openerp import controllers
-            return controllers.actions.execute_by_id(user_action_id[0], home_action=True)
+            return controllers.actions.execute_by_id(
+                user_action_id[0], home_action=True, context=context)
         return ''
-    
+
     @expose(content_type='application/octet-stream')
     def report(self, report_name=None, **kw):
         import actions
