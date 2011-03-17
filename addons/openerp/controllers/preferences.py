@@ -33,7 +33,7 @@ class PrefsPassword(database.FormPassword):
     action = "/openerp/pref/password"
     string = _('Change your password')
 
-int_pattern = re.compile(r'^-{0,1}\d+$')
+int_pattern = re.compile(r'^\d+$')
 class Preferences(Form):
 
     _cp_path = "/openerp/pref"
