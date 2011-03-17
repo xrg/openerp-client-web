@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: openobject-client-web\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2011-01-17 13:09+0100\n"
-"PO-Revision-Date: 2011-03-15 12:07+0000\n"
+"PO-Revision-Date: 2011-03-16 21:34+0000\n"
 "Last-Translator: Dimitar Markov <dimitar.markov@gmail.com>\n"
 "Language-Team: Bulgarian <bg@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2011-03-16 05:42+0000\n"
+"X-Launchpad-Export-Date: 2011-03-17 06:11+0000\n"
 "X-Generator: Launchpad (build 12559)\n"
 
 #: validators.py:75
@@ -309,7 +309,7 @@ msgstr ""
 #: controllers/form.py:553
 #, python-format
 msgid "Invalid button type \"%s\""
-msgstr ""
+msgstr "Невалиден бутон тип \"%s\""
 
 #: controllers/form.py:891 controllers/tree.py:233
 msgid "No record selected"
@@ -331,7 +331,7 @@ msgstr ""
 
 #: controllers/form.py:1073
 msgid "Open resource"
-msgstr ""
+msgstr "Отваряне на ресурс"
 
 #: controllers/form.py:1076
 msgid "Set to default value"
@@ -404,7 +404,7 @@ msgstr ""
 
 #: controllers/impex.py:526
 msgid "ImportationError"
-msgstr ""
+msgstr "Важна грешка"
 
 #: controllers/listgrid.py:51
 msgid "Parent record doesn't exists..."
@@ -541,7 +541,7 @@ msgstr "Дясно"
 
 #: controllers/templates/about.mako:4
 msgid "About the OpenERP Web"
-msgstr ""
+msgstr "Отнсно OpenERP Web"
 
 #: controllers/templates/about.mako:27
 msgid "OpenERP Web"
@@ -689,7 +689,7 @@ msgstr ""
 
 #: controllers/templates/error_page.mako:140
 msgid "Summary of the problem:"
-msgstr ""
+msgstr "Преглед на проблема:"
 
 #: controllers/templates/error_page.mako:147
 msgid "Explain what you did:"
@@ -697,7 +697,7 @@ msgstr ""
 
 #: controllers/templates/error_page.mako:156
 msgid "Other Comments:"
-msgstr ""
+msgstr "Други коментари:"
 
 #: controllers/templates/error_page.mako:168
 msgid "Send to Publisher Warranty Team"
@@ -802,7 +802,7 @@ msgstr "Експорт към файл"
 #: controllers/templates/fieldpref.mako:4
 #: controllers/templates/fieldpref.mako:29
 msgid "Field Preferences"
-msgstr ""
+msgstr "Настройки на поле"
 
 #: controllers/templates/fieldpref.mako:39
 msgid "Field Name:"
@@ -814,11 +814,11 @@ msgstr "Домейн:"
 
 #: controllers/templates/fieldpref.mako:47
 msgid "Default Value:"
-msgstr ""
+msgstr "Стойност по подразбиране"
 
 #: controllers/templates/fieldpref.mako:57
 msgid "Value applicable for:"
-msgstr ""
+msgstr "Стойността приложима за:"
 
 #: controllers/templates/fieldpref.mako:63
 msgid "Only for you"
@@ -830,11 +830,11 @@ msgstr "За всички"
 
 #: controllers/templates/fieldpref.mako:76
 msgid "Value applicable if:"
-msgstr ""
+msgstr "Стойността приложима ако:"
 
 #: controllers/templates/fieldpref.mako:79
 msgid "Always applicable!"
-msgstr ""
+msgstr "Винаги приложима!"
 
 #: controllers/templates/fieldpref.mako:99 controllers/templates/image.mako:70
 #: controllers/templates/imp.mako:205 controllers/templates/index.mako:198
@@ -1024,7 +1024,7 @@ msgstr "Импортиране на данни"
 
 #: controllers/templates/imp.mako:90
 msgid "1. Import a .CSV file"
-msgstr ""
+msgstr "1. Импортиране .CSV file"
 
 #: controllers/templates/imp.mako:106
 msgid "CSV File:"
@@ -1588,7 +1588,7 @@ msgstr "Запазени филтри"
 
 #: widgets/templates/viewform.mako:52
 msgid "New Filter"
-msgstr ""
+msgstr "Нов филтър"
 
 #: widgets/templates/viewform.mako:53
 msgid "Save Filter"
