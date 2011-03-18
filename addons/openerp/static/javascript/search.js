@@ -742,7 +742,7 @@ function initialize_search() {
             (fil_dom.length && fil_dom.val() != '[]')) {
         filter_table.show();
     }
-    jQuery('#search_filter_data').keydown(search_on_return);
+    jQuery('#search_filter_data, #filter_option_table').keydown(search_on_return);
 }
 
 jQuery(document).ready(initialize_search);

@@ -214,7 +214,7 @@ class Search(Form):
                     datas = {field: fld}
 
                     try:
-                        TinyForm(**data).to_python()
+                        TinyForm(**datas).to_python()
                     except TinyFormError, e:
                         errors.append({e.field: ustr(e)})
                     except Exception, e:
@@ -364,6 +364,7 @@ class Search(Form):
             group_by_ctx = [group_by_ctx]
         if group_by_ctx:
             search_data['group_by_ctx'] = group_by_ctx
+        ncustom_domain = convert_date_format_in_domain(ncustom_domain, res, context)
         return dict(domain=ustr(domain), context=ustr(ctx), search_data=ustr(search_data), filter_domain=ustr(ncustom_domain))
 
     @expose()
