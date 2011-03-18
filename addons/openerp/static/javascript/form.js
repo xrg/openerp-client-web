@@ -963,6 +963,10 @@ function do_action(src, context_menu) {
         var id = eval(params['_terp_selection'])[0]
     } else {
         var id = jQuery('[id="'+field+'"]').val();
+        if (id == 'False') {
+        	error_display(_("You must save this record to perform the action !"));
+            return;
+        }
     }
 
     var action_id = $src.attr('action_id') || null;
