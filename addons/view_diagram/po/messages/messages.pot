@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2011-01-17 13:09+0100\n"
+"POT-Creation-Date: 2011-03-18 11:53+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -25,16 +25,16 @@ msgstr ""
 msgid "No workflow associated!"
 msgstr ""
 
-#: controllers/process.py:45
+#: controllers/process.py:46
 msgid "Help: Not Defined"
 msgstr ""
 
-#: controllers/process.py:85
+#: controllers/process.py:89
 #, python-format
 msgid "%(name)s - Resource: %(resource)s, State: %(state)s"
 msgstr ""
 
-#: controllers/process.py:97
+#: controllers/process.py:101
 msgid "Last modified by:"
 msgstr ""
 
@@ -83,15 +83,15 @@ msgstr ""
 msgid "Select"
 msgstr ""
 
-#: controllers/templates/process.mako:116
+#: controllers/templates/process.mako:117
 msgid "[Edit Process]"
 msgstr ""
 
-#: controllers/templates/process.mako:117
+#: controllers/templates/process.mako:119
 msgid "[show fields]"
 msgstr ""
 
-#: controllers/templates/process.mako:118
+#: controllers/templates/process.mako:120
 msgid "[hide fields]"
 msgstr ""
 
