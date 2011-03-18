@@ -18,6 +18,7 @@
 #  You can see the MPL licence at: http://www.mozilla.org/MPL/MPL-1.1.html
 #
 ###############################################################################
+import simplejson
 from openerp.utils import rpc, expr_eval, TinyDict, TinyForm, TinyFormError
 
 import actions
@@ -200,11 +201,9 @@ class Search(Form):
 
         all_values = {}
         errors = []
-        
         for k, v in record.items():
             values = {}
             for key, val in v.items():
-                frm_datas = {}
                 for field in val:
                     fld = {
                         'value': val[field],
@@ -213,16 +212,13 @@ class Search(Form):
                     if fld['type'] == 'many2many':
                         fld['type'] = 'char'
                     datas = {field: fld}
-                    frm_datas[field] = fld
+
                     try:
-                        frm = TinyForm(**frm_datas).to_python()
+                        TinyForm(**data).to_python()
                     except TinyFormError, e:
-                        error_field = e.field
-                        error = ustr(e)
-                        errors.append({e.field: error})
+                        errors.append({e.field: ustr(e)})
                     except Exception, e:
-                        error = ustr(e)
-                        errors.append({field: error})
+                        errors.append({field: ustr(e)})
 
                     datas['rec'] = field
                     
@@ -340,7 +336,13 @@ class Search(Form):
         if not custom_domains:
             custom_domains = []
         else:
-            custom_domains = ast.literal_eval(custom_domains)
+            try:
+                # from JS custom filters, data is sent as JSON
+                custom_domains = simplejson.loads(custom_domains)
+            except simplejson.decoder.JSONDecodeError:
+                # from switchView, data is sent as Python literals
+                # (with unicode strings and keys)
+                custom_domains = ast.literal_eval(custom_domains)
         
         # conversion of the pseudo domain from the javascript to a valid domain
         ncustom_domain = []
