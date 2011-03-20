@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2011-03-18 11:53+0100\n"
-"PO-Revision-Date: 2011-02-15 19:40+0000\n"
-"Last-Translator: Antony Lesuisse <al@openerp.com>\n"
+"PO-Revision-Date: 2011-03-20 01:39+0000\n"
+"Last-Translator: Dr.Dran <Unknown>\n"
 "Language-Team: it <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2011-03-19 07:06+0000\n"
+"X-Launchpad-Export-Date: 2011-03-20 06:31+0000\n"
 "X-Generator: Launchpad (build 12559)\n"
 "Generated-By: Babel None\n"
 
@@ -59,9 +59,9 @@ msgstr "Vuoi veramente eliminare questo record?"
 #: static/javascript/calendar_week.js:270
 #: static/javascript/calendar_week.js:673
 msgid "This calendar object can no longer be moved !"
-msgstr ""
+msgstr "Questo oggetto del calendario non può essere più spostato !"
 
 #: static/javascript/calendar_gantt.js:320
 #: static/javascript/calendar_week.js:97
 msgid "This calendar object can no longer be resized !"
-msgstr ""
+msgstr "Questo oggetto del calendario non può essere più ridimensionato !"
