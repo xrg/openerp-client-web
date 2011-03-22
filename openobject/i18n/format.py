@@ -265,16 +265,27 @@ def _convert_date_format_in_domain(domain, fields, context):
                 if re.findall(r'%[CGsuV]', user_dformat):
                     ok = False
 
+                value_is_list = isinstance(val, list)
+                if value_is_list:
+                    val = val[0]
+
                 if ok:
                     val = parse_datetime(val, dtype)
                     if val:
-                        val = DT.datetime.strptime( DT.datetime.strptime(val, server_dformat).strftime(user_dformat), user_dformat).strftime(server_dformat)
+                        val = DT.datetime.strptime(
+                                DT.datetime.strptime(val, server_dformat)\
+                                    .strftime(user_dformat), user_dformat)\
+                            .strftime(server_dformat)
                     else:
                         formated_date = format_datetime(val, dtype)
                         val = parse_datetime(formated_date, dtype)
                         if val:
-                            val = DT.datetime.strptime( DT.datetime.strptime(val, server_dformat).strftime(user_dformat), user_dformat).strftime(server_dformat)
-
+                            val = DT.datetime.strptime(
+                                    DT.datetime.strptime(val, server_dformat)\
+                                        .strftime(user_dformat), user_dformat)\
+                                .strftime(server_dformat)
+                if value_is_list:
+                    val = [val]
             fixed_domain.append((key, op, val))
 
     return fixed_domain
