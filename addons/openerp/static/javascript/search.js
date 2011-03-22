@@ -251,7 +251,16 @@ function remove_filter_row(element) {
  * @param type the field's type to consider for operator replacement
  */
 function isOrderable(type) {
-    return jQuery.inArray(type, ['integer', 'float', 'date', 'datetime', 'boolean']) != -1;
+    switch(type) {
+        case 'integer':
+        case 'float':
+        case 'date':
+        case 'datetime':
+        case 'time':
+        case 'boolean':
+            return true;
+    }
+    return false;
 }
 
 /**
