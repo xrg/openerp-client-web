@@ -27,7 +27,7 @@
 # Release information about openerp-web
 
 name='openerp-web'
-version = '5.0.15'
+version = '5.0.16'
 
 description = "Web Client of OpenERP, the Enterprise Management Software"
 long_description = "OpenERP Web is the web client of the OpenERP, a free enterprise management software: accounting, stock, manufacturing, project mgt..."
@@ -39,7 +39,7 @@ copyright = "Copyright (C) 2007-TODAY OpenERP S.A."
 
 # if it's open source, you might want to specify these
 url = "http://www.openerp.com"
-download_url='http://www.openerp.com/download/stable/source/openerp-web-5.0.15.tar.gz'
+download_url='http://www.openerp.com/download/stable/source/openerp-web-5.0.16.tar.gz'
 license = "OEPL"
 
 # vim: ts=4 sts=4 sw=4 si et
