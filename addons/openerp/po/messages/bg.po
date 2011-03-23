@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: openobject-client-web\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2011-03-18 11:53+0100\n"
-"PO-Revision-Date: 2011-03-21 08:13+0000\n"
-"Last-Translator: Dimitar Markov <dimitar.markov@gmail.com>\n"
+"PO-Revision-Date: 2011-03-22 19:01+0000\n"
+"Last-Translator: Luk <Unknown>\n"
 "Language-Team: Bulgarian <bg@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2011-03-22 06:22+0000\n"
+"X-Launchpad-Export-Date: 2011-03-23 06:23+0000\n"
 "X-Generator: Launchpad (build 12559)\n"
 
 #: validators.py:75
@@ -43,6 +43,8 @@ msgid ""
 "The username portion of the email address is invalid (the portion before the "
 "@: %(username)s)"
 msgstr ""
+"Потребителското име, част от имейл адреса е невалидна (това е часта преди @: "
+"%(username)s)"
 
 #: validators.py:250
 #, python-format
@@ -390,7 +392,7 @@ msgstr "Грешка при импорт"
 
 #: controllers/impex.py:520
 msgid "The CSV delimiter must be a single character"
-msgstr ""
+msgstr "Разделителят при CSV-формата трябва да бъде един символ"
 
 #: controllers/impex.py:532
 msgid "File Format Error"
@@ -643,7 +645,7 @@ msgstr "Поправете ми го"
 
 #: controllers/templates/error_page.mako:99
 msgid "Publisher warranty contract."
-msgstr ""
+msgstr "Договор за ганционно обслужване."
 
 #: controllers/templates/error_page.mako:100
 msgid ""
@@ -843,7 +845,7 @@ msgstr "Търси: %s"
 
 #: controllers/templates/form.mako:94
 msgid "Corporate Intelligence..."
-msgstr ""
+msgstr "Корпоративно разузнаване ..."
 
 #: controllers/templates/form.mako:100
 msgid "Show Logs..."
@@ -900,7 +902,7 @@ msgstr "Запази и редактирай"
 
 #: controllers/templates/form.mako:130
 msgid "Duplicate this resource"
-msgstr ""
+msgstr "Дублирай на този ресурс"
 
 #: controllers/templates/form.mako:131
 msgid "Duplicate"
@@ -916,15 +918,15 @@ msgstr "Откажете редактирането на текущия ресу
 
 #: controllers/templates/form.mako:145
 msgid "Create new node"
-msgstr ""
+msgstr "Създай ново разклонение"
 
 #: controllers/templates/form.mako:146
 msgid "New Node"
-msgstr ""
+msgstr "Ново разклонение"
 
 #: controllers/templates/form.mako:150
 msgid "Show grid in workflow canvas"
-msgstr ""
+msgstr "Покажи мрежата върху работното табло"
 
 #: controllers/templates/form.mako:151
 msgid "Show grid"
@@ -933,12 +935,12 @@ msgstr "Показване на мрежа"
 #: controllers/templates/header.mako:33
 #, python-format
 msgid "%(company)s"
-msgstr ""
+msgstr "%(company)s"
 
 #: controllers/templates/header.mako:34 controllers/templates/index.mako:230
 #, python-format
 msgid "%(user)s"
-msgstr ""
+msgstr "%(user)s"
 
 #: controllers/templates/header.mako:45 controllers/templates/header.mako:47
 msgid "Home"
@@ -946,7 +948,7 @@ msgstr "Начало"
 
 #: controllers/templates/header.mako:53
 msgid "Requests"
-msgstr ""
+msgstr "Искания"
 
 #: controllers/templates/header.mako:62
 msgid "Edit Preferences"
@@ -987,11 +989,11 @@ msgstr "Проверете формата на файла"
 #: controllers/templates/imp.mako:130
 #, python-format
 msgid "The import failed due to: %(message)s"
-msgstr ""
+msgstr "Внасянето(импортирането) се провали защото: %(message)s"
 
 #: controllers/templates/imp.mako:132
 msgid "Here is a preview of the file we could not import:"
-msgstr ""
+msgstr "Тук прегледай файла, който не се внесе(импортира):"
 
 #: controllers/templates/imp.mako:157
 msgid "CSV Options"
@@ -1056,14 +1058,16 @@ msgid ""
 "We think that daily job activities can be more intuitive, efficient, "
 "automated, .. and even fun."
 msgstr ""
+"Ние смятаме, че ежедневните дейности на работното място могат да бъдат по-"
+"интуитивни, ефективни, автоматизирани, .. и дори забавни."
 
 #: controllers/templates/login.mako:99
 msgid "OpenERP's vision to be:"
-msgstr ""
+msgstr "OpenERP's визията може да е:"
 
 #: controllers/templates/login.mako:107
 msgid "Full featured"
-msgstr ""
+msgstr "Пълна поддръжка"
 
 #: controllers/templates/login.mako:108
 msgid ""

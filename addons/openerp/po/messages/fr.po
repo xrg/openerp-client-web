@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2011-03-18 11:53+0100\n"
-"PO-Revision-Date: 2011-02-28 12:02+0000\n"
-"Last-Translator: Aline (OpenERP) <Unknown>\n"
+"PO-Revision-Date: 2011-03-22 22:54+0000\n"
+"Last-Translator: Open Net Sàrl <openerp@open-net.ch>\n"
 "Language-Team: fr <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2011-03-19 07:07+0000\n"
+"X-Launchpad-Export-Date: 2011-03-23 06:23+0000\n"
 "X-Generator: Launchpad (build 12559)\n"
 "Generated-By: Babel None\n"
 
@@ -352,11 +352,11 @@ msgstr "ouvrir la resource"
 
 #: controllers/form.py:1124
 msgid "Set to default value"
-msgstr ""
+msgstr "Mettre à la valeur par défaut"
 
 #: controllers/form.py:1125
 msgid "Set as default"
-msgstr ""
+msgstr "Enregistrer comme valeur par défaut"
 
 #: controllers/form.py:1132
 msgid "Action"
@@ -380,7 +380,7 @@ msgstr "Erreur d'exportation"
 
 #: controllers/impex.py:469
 msgid "Database ID"
-msgstr ""
+msgstr "Identifiant de base de donnée"
 
 #: controllers/impex.py:476
 msgid "Error opening .CSV file"
@@ -401,6 +401,7 @@ msgstr ""
 #, python-format
 msgid "Error processing the first line of the file. Field \"%s\" is unknown"
 msgstr ""
+"Erreur en traitant la première ligne du fichier. Le champ \"%s\" est inconnu."
 
 #: controllers/impex.py:72 controllers/impex.py:501
 msgid "Import Error."
@@ -451,7 +452,7 @@ msgstr "Tous les mots de passe doivent être remplis."
 
 #: controllers/preferences.py:94
 msgid "The new password and its confirmation must be identical."
-msgstr "Le nouveau mot de passe et sa confirmation doivent être identique."
+msgstr "Le nouveau mot de passe et sa confirmation doivent être identiques."
 
 #: controllers/preferences.py:103
 msgid "Could not change your password."
@@ -486,7 +487,7 @@ msgstr "Mauvais nom d'utilisateur ou mot de passe"
 
 #: controllers/view_log.py:32
 msgid "ID"
-msgstr "Id."
+msgstr "ID"
 
 #: controllers/view_log.py:33
 msgid "Creation User"
@@ -578,11 +579,11 @@ msgstr "OpenERP Web"
 
 #: controllers/templates/about.mako:30
 msgid "Copyright &copy; 2006-TODAY OpenERP SA. All Rights Reserved."
-msgstr ""
+msgstr "Copyright &copy; 2011 par OpenERP SA. Tous droits réservés."
 
 #: controllers/templates/about.mako:31
 msgid "OpenERP is a trademark of the OpenERP SA Company."
-msgstr ""
+msgstr "OpenERP est une marque déposée d'OpenERP SA."
 
 #: controllers/templates/about.mako:33
 #, python-format
@@ -797,7 +798,7 @@ msgstr "Tout supprimer"
 
 #: controllers/templates/exp.mako:252
 msgid "Export to File"
-msgstr ""
+msgstr "Exporter vers un fichier"
 
 #: controllers/templates/fieldpref.mako:4
 #: controllers/templates/fieldpref.mako:29
@@ -1027,7 +1028,7 @@ msgstr "L'import a échoué car : %(message)s"
 
 #: controllers/templates/imp.mako:132
 msgid "Here is a preview of the file we could not import:"
-msgstr ""
+msgstr "Voici un aperçu du fichier que nous n'avons pas pu importer :"
 
 #: controllers/templates/imp.mako:157
 msgid "CSV Options"
@@ -1574,7 +1575,7 @@ msgstr "Tout effacer."
 
 #: widgets/templates/viewform.mako:35
 msgid "Clear"
-msgstr "Vider"
+msgstr "Effacer"
 
 #: widgets/templates/viewform.mako:43
 msgid "Filters"
