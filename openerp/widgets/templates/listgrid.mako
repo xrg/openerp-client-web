@@ -83,9 +83,13 @@
                         <td class="grid-cell ${field_attrs.get('type', 'char')}" style="${(data[field].color or None) and 'color: ' + data[field].color};" sortable_value="${data[field].get_sortable_text()}">
                             % if i==0:
                                 % if link==1:
-                                <span>
-                                    <a href="javascript: void(0)" onclick="do_select(${data['id']}, '${name}'); return false;">${data[field]}</a>
-                                </span>
+                                	%if data[field].link:
+                                    	${data[field].display()}
+                                	%else:
+                                    	<span>
+                                        	<a href="javascript: void(0)" onclick="do_select(${data['id']}, '${name}'); return false;">${data[field]}</a>
+                                    	</span>
+                                	% endif
                                 % else:
                                 <span>
                                 	 ${data[field]}
