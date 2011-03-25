@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: openobject-client-web\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2011-03-18 11:53+0100\n"
-"PO-Revision-Date: 2011-02-28 12:02+0000\n"
-"Last-Translator: Nikolay Chesnokov <chesnokov_n@msn.com>\n"
+"PO-Revision-Date: 2011-03-24 20:49+0000\n"
+"Last-Translator: Stanislav Hanzhin <Unknown>\n"
 "Language-Team: Russian <ru@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2011-03-19 07:08+0000\n"
+"X-Launchpad-Export-Date: 2011-03-25 06:13+0000\n"
 "X-Generator: Launchpad (build 12559)\n"
 
 #: validators.py:75
@@ -31,11 +31,11 @@ msgstr "Пожалуйста, выберите файл."
 
 #: validators.py:247
 msgid "Please enter an email address"
-msgstr "Пожалуйста введите адрес электронной почты"
+msgstr "Пожалуйста, введите адрес электронной почты"
 
 #: validators.py:248
 msgid "An email address must contain a single @"
-msgstr "Адрес электронной почты должен содержать одну @"
+msgstr "Адрес электронной почты должен содержать один символ @"
 
 #: validators.py:249
 #, python-format
@@ -43,8 +43,8 @@ msgid ""
 "The username portion of the email address is invalid (the portion before the "
 "@: %(username)s)"
 msgstr ""
-"Имя пользователя часть адреса электронной почты является недействительным "
-"(часть перед @:%(username)s)"
+"Имя пользователя в адресе электронной почты указано неверно (часть перед "
+"@:%(username)s)"
 
 #: validators.py:250
 #, python-format
@@ -52,12 +52,11 @@ msgid ""
 "The domain portion of the email address is invalid (the portion after the @: "
 "%(domain)s)"
 msgstr ""
-"Часть адреса электронной почты домен является недопустимым (часть после "
-"@:%(domain)s)"
+"Домен в адресе электронной почты указан неверно (часть после @: %(domain)s)"
 
 #: validators.py:254
 msgid "You must start your URL with http://, https://, etc"
-msgstr "Вы должны использовать в начале URL http://, https://, и тд."
+msgstr "URL должен начинаться с http://, https://, и т.д."
 
 #: validators.py:255
 msgid "That is not a valid URL"
@@ -66,11 +65,12 @@ msgstr "Это неверный URL"
 #: validators.py:256
 #, python-format
 msgid "You must provide a full domain name (like %(domain)s.com)"
-msgstr "Вы должны предоставить полное доменное имя (подобно %(domain)s.com)"
+msgstr ""
+"Вы должны предоставить полное доменное имя (например, %(domain)s.com)"
 
 #: validators.py:260
 msgid "Please enter an integer value"
-msgstr "Пожалуйста, введите целое число"
+msgstr "Пожалуйста, введите целочисленное значение"
 
 #: validators.py:261
 msgid "Please enter a number"
@@ -78,11 +78,11 @@ msgstr "Пожалуйста, введите число"
 
 #: controllers/actions.py:94
 msgid "Invalid View"
-msgstr "Неверный обзор"
+msgstr "Неверный вид"
 
 #: controllers/actions.py:127
 msgid "Error no report"
-msgstr "Ошибка в отчете"
+msgstr "Error no report"
 
 #: controllers/actions.py:153
 msgid "Nothing to print"
@@ -102,12 +102,12 @@ msgstr "Действие не найдено"
 
 #: controllers/actions.py:474
 msgid "No action defined"
-msgstr "Деййствие не определено"
+msgstr "Действие не определено"
 
 #: controllers/attachment.py:55
 msgid "No record selected, You can only attach to existing record..."
 msgstr ""
-"Не выбрана запись, Вы можете прикрепить только к существующей записи..."
+"Не выбрана запись, вы можете прикрепить только к существующей записи..."
 
 #: controllers/database.py:63
 msgid "Create database"
@@ -120,7 +120,7 @@ msgstr "Создать"
 
 #: controllers/database.py:68
 msgid "Super admin password:"
-msgstr "Пароль супер администратора:"
+msgstr "Пароль главного администратора:"
 
 #: controllers/database.py:68
 msgid ""
@@ -128,10 +128,9 @@ msgid ""
 "databases. This is not a OpenERP user, just a super administrator. If you "
 "did not changed it, the password is 'admin' after installation."
 msgstr ""
-"Укажите пароль пользователя, который имеет права на администрирование баз "
-"данных. Это не один из пользователей в Open ERP, а просто главный "
-"администратор. Если вы не изменяли его значение, после установки программы, "
-"то укажите пароль 'admin'."
+"Это пароль пользователя, обладающего правами администрирования баз данных. "
+"Это не пользователь OpenERP, а просто главный администратор. Если вы не "
+"изменяли его, после установки пароль — 'admin'."
 
 #: controllers/database.py:69 controllers/database.py:101
 msgid "New database name:"
@@ -155,9 +154,9 @@ msgid ""
 "database. These data will help you to understand OpenERP, with predefined "
 "products, partners, etc."
 msgstr ""
-"Установите пометку в этом поле, если вы хотите загрузить демонстрационные "
-"данные в вашу новую базу данных. Они содержат предопределенные списки "
-"товаров, партнеров, и т.п., и помогут вам лучше понять устройство Open ERP."
+"Отметьте это поле, если вы хотите загрузить демонстрационные данные в вашу "
+"новую базу данных. Они содержат предопределенные списки товаров, "
+"контрагентов, и т.п., и помогут вам понять устройство Open ERP."
 
 #: controllers/database.py:71
 msgid "Default Language:"
@@ -174,7 +173,7 @@ msgstr ""
 
 #: controllers/database.py:72
 msgid "Administrator password:"
-msgstr "Пароль к учётной записи администратора:"
+msgstr "Пароль администратора:"
 
 #: controllers/database.py:72
 msgid ""
@@ -226,11 +225,11 @@ msgstr "Резервное копирование"
 
 #: controllers/database.py:96
 msgid "Restore database"
-msgstr "Восстановить базу данных из резервной копии"
+msgstr "Восстановить базу данных"
 
 #: controllers/database.py:98 controllers/templates/database.mako:62
 msgid "Restore"
-msgstr "Восстановление"
+msgstr "Восстановить"
 
 #: controllers/database.py:99
 msgid "File:"
@@ -258,12 +257,11 @@ msgstr "Подтверждение пароля:"
 
 #: controllers/database.py:173
 msgid "You must avoid all accents, space or special characters."
-msgstr ""
-"Вы можете использовать только латинские буквы, цифры и знак подчеркивания."
+msgstr "Избегайте использования пробела и специальных символов."
 
 #: controllers/database.py:174
 msgid "Bad database name"
-msgstr "Плохое имя базы данных"
+msgstr "Плохое название базы данных"
 
 #: controllers/database.py:194
 msgid ""
@@ -280,7 +278,7 @@ msgstr "Ошибка при создании базы данных"
 #: controllers/database.py:198 controllers/database.py:225
 #: controllers/database.py:271 controllers/database.py:294
 msgid "Bad super admin password"
-msgstr "Неверный пароль супер администратора"
+msgstr "Неверный пароль главного администратора"
 
 #: controllers/database.py:202
 msgid "Could not create database."

@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: openobject-client-web\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2011-03-18 11:53+0100\n"
-"PO-Revision-Date: 2011-02-28 12:02+0000\n"
-"Last-Translator: David Diz <Unknown>\n"
+"PO-Revision-Date: 2011-03-24 17:48+0000\n"
+"Last-Translator: Borja López Soilán <borjalopezsoilan@gmail.com>\n"
 "Language-Team: Galician <gl@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2011-03-19 07:07+0000\n"
+"X-Launchpad-Export-Date: 2011-03-25 06:13+0000\n"
 "X-Generator: Launchpad (build 12559)\n"
 
 #: validators.py:75
@@ -403,11 +403,11 @@ msgstr "Erro de Importación."
 
 #: controllers/impex.py:520
 msgid "The CSV delimiter must be a single character"
-msgstr ""
+msgstr "O delimitador do CSV debe ser un único caracter"
 
 #: controllers/impex.py:532
 msgid "File Format Error"
-msgstr ""
+msgstr "Erro de Formato de Ficheiro"
 
 #: controllers/impex.py:550
 msgid "XML-RPC error"
@@ -1422,7 +1422,7 @@ msgstr "engadir adxunto"
 
 #: widgets/form/templates/image.mako:6
 msgid "Replace image"
-msgstr ""
+msgstr "Sustituir imaxe"
 
 #: widgets/form/templates/many2one.mako:2
 #: widgets/form/templates/reference.mako:30

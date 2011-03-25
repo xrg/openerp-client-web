@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2011-03-18 11:53+0100\n"
-"PO-Revision-Date: 2011-02-28 12:02+0000\n"
-"Last-Translator: Alberto Luengo Cabanillas (Pexego) <alberto@pexego.es>\n"
+"PO-Revision-Date: 2011-03-24 17:45+0000\n"
+"Last-Translator: Borja López Soilán <borjalopezsoilan@gmail.com>\n"
 "Language-Team: es <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2011-03-19 07:08+0000\n"
+"X-Launchpad-Export-Date: 2011-03-25 06:13+0000\n"
 "X-Generator: Launchpad (build 12559)\n"
 "Generated-By: Babel None\n"
 
@@ -406,11 +406,11 @@ msgstr "Error de importación."
 
 #: controllers/impex.py:520
 msgid "The CSV delimiter must be a single character"
-msgstr ""
+msgstr "El delimitador del CSV debe ser un sólo carácter"
 
 #: controllers/impex.py:532
 msgid "File Format Error"
-msgstr ""
+msgstr "Error en el formato del archivo"
 
 #: controllers/impex.py:550
 msgid "XML-RPC error"
@@ -1425,7 +1425,7 @@ msgstr "añadir adjunto"
 
 #: widgets/form/templates/image.mako:6
 msgid "Replace image"
-msgstr ""
+msgstr "Sustituir imagen"
 
 #: widgets/form/templates/many2one.mako:2
 #: widgets/form/templates/reference.mako:30
