@@ -7,7 +7,7 @@
 #  Developed by OpenERP (http://openerp.com) and Axelor (http://axelor.com).
 #
 #  The OpenERP web client is distributed under the "OpenERP Public License".
-#  It's based on Mozilla Public License Version (MPL) 1.1 with following 
+#  It's based on Mozilla Public License Version (MPL) 1.1 with following
 #  restrictions:
 #
 #  -   All names, links and logos of OpenERP must be kept as in original
@@ -19,7 +19,7 @@
 #
 ###############################################################################
 
-from openobject.widgets import JSLink, CSSLink
+from openobject.widgets import JSLink
 
 from openerp import validators
 
@@ -33,14 +33,15 @@ __all__ = ["CKEditor"]
 class CKEditor(TinyInputWidget):
 
     template = "/widget_ckeditor/widgets/templates/ckeditor.mako"
-    
-    javascript = [JSLink("widget_ckeditor", "javascript/ck_editor/ckeditor.js")]
+
+    javascript = [JSLink("widget_ckeditor", "javascript/ck_editor/ckeditor.js"),
+                  JSLink("widget_ckeditor", "javascript/ck_editor/adapters/jquery.js")]
 
     def __init__(self, **attrs):
         super(CKEditor, self).__init__(**attrs)
         self.validator = validators.String()
         self.readonly = not self.editable or self.readonly
-        
+
     def set_value(self, value):
         super(CKEditor, self).set_value(value)
 
