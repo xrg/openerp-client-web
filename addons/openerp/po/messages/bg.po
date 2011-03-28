@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: openobject-client-web\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2011-03-18 11:53+0100\n"
-"PO-Revision-Date: 2011-03-22 19:01+0000\n"
-"Last-Translator: Luk <Unknown>\n"
+"PO-Revision-Date: 2011-03-27 16:44+0000\n"
+"Last-Translator: Dimitar Markov <dimitar.markov@gmail.com>\n"
 "Language-Team: Bulgarian <bg@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2011-03-23 06:23+0000\n"
+"X-Launchpad-Export-Date: 2011-03-28 05:23+0000\n"
 "X-Generator: Launchpad (build 12559)\n"
 
 #: validators.py:75
@@ -51,7 +51,7 @@ msgstr ""
 msgid ""
 "The domain portion of the email address is invalid (the portion after the @: "
 "%(domain)s)"
-msgstr ""
+msgstr "Невалидна е частта за домейна от имейла (частта след  @: %(domain)s)"
 
 #: validators.py:254
 msgid "You must start your URL with http://, https://, etc"
@@ -88,7 +88,7 @@ msgstr "Няма нищо за отпечатване"
 
 #: controllers/actions.py:173
 msgid "Printing aborted, too long delay"
-msgstr ""
+msgstr "Принтирането е отхвърлено. Отне прекалено много време"
 
 #: controllers/actions.py:397
 msgid "Relative URLs are not supported"
@@ -515,7 +515,7 @@ msgstr "Тук не може да бъде създаден наследен и�
 
 #: controllers/viewed.py:504
 msgid "Not implemented yet!"
-msgstr ""
+msgstr "Не е внедрено все още !"
 
 #: controllers/viewed.py:609
 msgid "Unable to update the view."
@@ -705,7 +705,7 @@ msgstr "Тип на експорта:"
 
 #: controllers/templates/exp.mako:169
 msgid "Import Compatible Export"
-msgstr ""
+msgstr "Импортиране на съвместим импорт"
 
 #: controllers/templates/exp.mako:172
 msgid "Export all Data"
@@ -1166,7 +1166,7 @@ msgstr "Добавете превод"
 
 #: controllers/templates/translator.mako:27
 msgid "Add Translation for:"
-msgstr ""
+msgstr "Добавяне на превод за:"
 
 #: controllers/templates/translator.mako:31
 msgid "Fields"
@@ -1225,12 +1225,12 @@ msgstr "Позиция:"
 #: controllers/templates/viewlist.mako:108
 #, python-format
 msgid "Manage Views (%s)"
-msgstr ""
+msgstr "Управление на изгледи (%s)"
 
 #: controllers/templates/viewlist.mako:146
 #, python-format
 msgid "Create a view (%s)"
-msgstr ""
+msgstr "Създаване на изглед (%s)"
 
 #: controllers/templates/viewlist.mako:174
 msgid "View Name:"
@@ -1307,7 +1307,7 @@ msgstr "%s"
 #: widgets/pager.py:68
 #, python-format
 msgid "%s - %s"
-msgstr ""
+msgstr "%s - %s"
 
 #: widgets/search.py:280
 msgid "contains"
@@ -1361,7 +1361,7 @@ msgstr "Създаване на нов запис."
 
 #: widgets/form/_o2m.py:110
 msgid "Save/New"
-msgstr ""
+msgstr "Запазване/Нов"
 
 #: widgets/form/_o2m.py:110
 msgid "Save parent record."
@@ -1375,7 +1375,7 @@ msgstr "%d of %d"
 #: widgets/form/_o2m.py:231
 #, python-format
 msgid "- of %d"
-msgstr ""
+msgstr "- от %d"
 
 #: widgets/form/templates/binary.mako:28
 msgid "Save As"
@@ -1387,7 +1387,7 @@ msgstr "добави притурка"
 
 #: widgets/form/templates/image.mako:6
 msgid "Replace image"
-msgstr ""
+msgstr "Подмяна на изображение"
 
 #: widgets/form/templates/many2one.mako:2
 #: widgets/form/templates/reference.mako:30
@@ -1429,7 +1429,7 @@ msgstr "По-малко..."
 
 #: widgets/templates/pager.mako:9
 msgid "<< First"
-msgstr ""
+msgstr "<< Първи"
 
 #: widgets/templates/pager.mako:14
 msgid "< Previous"
@@ -1489,7 +1489,7 @@ msgstr "Управление на изгледи"
 
 #: widgets/templates/sidebar.mako:93
 msgid "Edit workflow of the current object"
-msgstr ""
+msgstr "Редактиране на работния поток по текущият обект"
 
 #: widgets/templates/sidebar.mako:94
 msgid "Edit Workflow"
@@ -1529,7 +1529,7 @@ msgstr "Филтриране на записи."
 
 #: widgets/templates/viewform.mako:33
 msgid "Clear all."
-msgstr ""
+msgstr "Изчистване на всички."
 
 #: widgets/templates/viewform.mako:35
 msgid "Clear"
