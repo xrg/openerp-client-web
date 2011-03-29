@@ -182,10 +182,13 @@ class List(TinyWidget):
                 data = proxy.read(ids, fields.keys() + ['__last_update'], ctx)
             except:
                 pass
-            
+
             ConcurrencyInfo.update(self.model, data)
+            if cherrypy.response.headers.has_key('X-Concurrency-Info'):
+                # Delete 'X-Concurrency-Info' from header fixed firefox header problem #699960.
+                del cherrypy.response.headers['X-Concurrency-Info']
             self.concurrency_info = ConcurrencyInfo(self.model, ids)
-            
+
             order_data = [(d['id'], d) for d in data]
             orderer = dict(zip(ids, count()))
             ordering = sorted(order_data, key=lambda object: orderer[object[0]])

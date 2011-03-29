@@ -33,6 +33,7 @@ var ListView = function(name) {
     this.__init__(name);
 };
 
+
 ListView.prototype = {
 
     __init__: function(name) {
@@ -844,6 +845,7 @@ MochiKit.Base.update(ListView.prototype, {
                                 : 'arrow_up.gif'
                             )}));
                 }
+                update_concurrency_info(obj.concurrency_info)
             }
         });
     }
@@ -923,4 +925,10 @@ function listgridValidation(_list, o2m, record_id) {
             new ListView(_list).edit(record_id);
         }
     }
+}
+
+function update_concurrency_info(concurrencyInfo) {
+    if (!concurrencyInfo)
+    	return;
+    updateConcurrencyInfo(concurrencyInfo);
 }
