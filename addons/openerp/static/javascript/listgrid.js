@@ -33,6 +33,7 @@ var ListView = function(name) {
     this.__init__(name);
 };
 
+
 ListView.prototype = {
 
     __init__: function(name) {
@@ -844,6 +845,7 @@ MochiKit.Base.update(ListView.prototype, {
                                 : 'arrow_up.gif'
                             )}));
                 }
+                updateConcurrencyInfo(obj.concurrency_info || {});
             }
         });
     }
