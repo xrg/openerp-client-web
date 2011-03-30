@@ -5,5 +5,5 @@
     "author" : "OpenERP SA",
     "description": """CK editor widget for OpenERP.""",
     'website': 'http://www.openerp.com/',
-    'active': False,
+    'active': True,
 }
