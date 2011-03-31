@@ -326,7 +326,7 @@ function onButtonClick(evt, node) {
 
 function onInherit() {
 
-    if (!confirm(_('Do you really wants to create an inherited view here?'))) {
+    if (!confirm(_('Do you really want to create an inherited view here?'))) {
         return;
     }
 
