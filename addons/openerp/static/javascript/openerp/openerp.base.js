@@ -346,6 +346,7 @@ jQuery(document).bind({
         jQuery('#ajax_loading').hide();
     },
     ajaxComplete: function (e, xhr) {
+        if(!xhr) return;
         var concurrencyInfo = xhr.getResponseHeader('X-Concurrency-Info');
         if(!concurrencyInfo) return;
         updateConcurrencyInfo(jQuery.parseJSON(concurrencyInfo));

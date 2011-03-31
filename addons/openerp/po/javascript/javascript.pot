@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2011-01-17 13:09+0100\n"
+"POT-Creation-Date: 2011-03-18 11:53+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -30,42 +30,50 @@ msgstr ""
 msgid "Do you really want to delete this record?"
 msgstr ""
 
-#: static/javascript/form.js:953
+#: static/javascript/form.js:960
 msgid "You must select one or several records !"
 msgstr ""
 
-#: static/javascript/form.js:1116
+#: static/javascript/form.js:967
+msgid "You must save this record to perform the action !"
+msgstr ""
+
+#: static/javascript/form.js:1127
 msgid "Do you really want to delete the attachment"
 msgstr ""
 
-#: static/javascript/form.js:1150
+#: static/javascript/form.js:1161
 msgid "No record selected ! You can only attach to existing record."
 msgstr ""
 
-#: static/javascript/form.js:1209
+#: static/javascript/form.js:1220
 msgid "OpenERP - Error"
 msgstr ""
 
-#: static/javascript/form.js:1280
+#: static/javascript/form.js:1291
 msgid ""
 "Warning, the record has been modified,\n"
 "your changes will be discarded."
 msgstr ""
 
-#: static/javascript/listgrid.js:499 static/javascript/o2m.js:95
+#: static/javascript/listgrid.js:542 static/javascript/o2m.js:123
 msgid "To edit Record, please first save it."
 msgstr ""
 
-#: static/javascript/listgrid.js:607
+#: static/javascript/listgrid.js:650
 msgid "Do you really want to delete selected record(s) ?"
 msgstr ""
 
-#: static/javascript/m2o.js:506
+#: static/javascript/m2o.js:526
 msgid "error in display::"
 msgstr ""
 
-#: static/javascript/o2m.js:54
+#: static/javascript/o2m.js:67
 msgid "Do you really want to delete record ?"
+msgstr ""
+
+#: static/javascript/search.js:285
+msgid "Invalid Value"
 msgstr ""
 
 #: static/javascript/viewed.js:63
@@ -80,7 +88,7 @@ msgstr ""
 msgid "doLoadingSuccess: Cannot parse JSON"
 msgstr ""
 
-#: static/javascript/openerp/openerp.base.js:326
+#: static/javascript/openerp/openerp.base.js:335
 msgid "Loading"
 msgstr ""
 

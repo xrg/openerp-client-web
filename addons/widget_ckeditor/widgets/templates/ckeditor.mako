@@ -5,8 +5,12 @@
 % endif
 
 <script type="text/javascript">
-	window.onload = function()
-	{
-		CKEDITOR.replace( '${name}' );
-	}
+    $('#${name}').ckeditor(function(){
+        this.readOnly(${int(readonly)});
+    },
+    {
+    % if readonly:
+        toolbarStartupExpanded : false
+    % endif
+    });
 </script>

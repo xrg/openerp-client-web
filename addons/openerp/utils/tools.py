@@ -60,9 +60,20 @@ def expr_eval(string, context=None):
     if isinstance(value, list):
         for index in range(len(value)):
             domain_element = value[index]
-            if not (isinstance(domain_element, tuple) and domain_element[2] == 'active_id'):
+            if not isinstance(domain_element, tuple):
                 continue
-            value[index] = (domain_element[0], domain_element[1], context['active_id'])
+            _, _, operand = domain_element
+            # 'evaluate' active_id
+            if operand == 'active_id':
+                operand = context.get('active_id')
+            # active_id might also be in lists of ids in 'in' clauses... and
+            # why not several times in the same list while we're at it
+            elif isinstance(operand, list) and 'active_id' in operand:
+                operand = [
+                    context.get('active_id') if item == 'active_id' else item
+                    for item in operand
+                ]
+            value[index] = (domain_element[0], domain_element[1], operand)
     elif isinstance(value, dict):
         for key, v in value.items():
             if v == 'active_id' or v == ['active_id']:

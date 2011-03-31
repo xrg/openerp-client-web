@@ -210,6 +210,9 @@ class O2M(TinyInputWidget):
         if 'default_name' in current.context:
             del current.context['default_name']
 
+        if self.view_type == 'tree' and pparams:
+            self.editable = bool(pparams.id)
+
         self.screen = Screen(current, prefix=self.name, views_preloaded=view,
                              editable=self.editable, readonly=self.readonly,
                              selectable=0, nolinks=self.link, _o2m=1)

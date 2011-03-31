@@ -70,9 +70,9 @@ version = release.version
                     </ul>
                 </li>
 
-                <li><a target="_blank" href="http://doc.openerp.com/book?version=${version}" class="help">${_("Help")}</a>
+                <li><a target="_blank" href="http://doc.openerp.com/v6.0/book?version=${version}" class="help">${_("Help")}</a>
                     <ul>
-                        <li class="first last"><a target="_blank" href="http://doc.openerp.com/book?version={version}">${_("Help")}</a></li>
+                        <li class="first last"><a target="_blank" href="http://doc.openerp.com/v6.0/book?version={version}">${_("Help")}</a></li>
                     </ul>
                 </li>
 

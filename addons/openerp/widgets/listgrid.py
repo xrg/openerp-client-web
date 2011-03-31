@@ -182,10 +182,11 @@ class List(TinyWidget):
                 data = proxy.read(ids, fields.keys() + ['__last_update'], ctx)
             except:
                 pass
-            
+
             ConcurrencyInfo.update(self.model, data)
+            cherrypy.response.headers.pop('X-Concurrency-Info', None)
             self.concurrency_info = ConcurrencyInfo(self.model, ids)
-            
+
             order_data = [(d['id'], d) for d in data]
             orderer = dict(zip(ids, count()))
             ordering = sorted(order_data, key=lambda object: orderer[object[0]])
@@ -225,14 +226,18 @@ class List(TinyWidget):
                 if not isinstance(fa, int):
                     fa['prefix'] = '_terp_listfields' + ((self.name != '_terp_list' or '') and '/' + self.name)
                     fa['inline'] = True
-                    
+                    if fa.get('type') == 'one2many':
+                        self.edit_inline = False
+                        self.editors = {}
+                        break
                     Widget = get_widget(fa.get('type', 'char')) or get_widget('char')
                     self.editors[f] = Widget(**fa)
 
             # generate hidden fields
-            for f, fa in self.hiddens:
-                fa['prefix'] = '_terp_listfields' + ((self.name != '_terp_list' or '') and '/' + self.name)
-                self.editors[f] = form.Hidden(**fa)
+            if self.editors:
+                for f, fa in self.hiddens:
+                    fa['prefix'] = '_terp_listfields' + ((self.name != '_terp_list' or '') and '/' + self.name)
+                    self.editors[f] = form.Hidden(**fa)
 
         # limit the data
         if self.pageable and len(self.data) > self.limit and self.limit != -1:

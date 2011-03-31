@@ -33,6 +33,7 @@ var ListView = function(name) {
     this.__init__(name);
 };
 
+
 ListView.prototype = {
 
     __init__: function(name) {
@@ -71,9 +72,13 @@ ListView.prototype = {
     selectedRow_sum: function() {
         var selected_ids = this.getSelectedRecords();
         var $delete_record_option = jQuery(idSelector(this.name + '_delete_record')).parent();
+        
+        if (selected_ids.length != 0) {
+            $delete_record_option.show();
+        } else {
+        	$delete_record_option.hide();
+        }
 
-
-        $delete_record_option.toggle();
         var $sum_fields = jQuery('.field_sum', idSelector(this.name));
         if ($sum_fields.length) {
             selected_ids = (!selected_ids.length
@@ -840,6 +845,7 @@ MochiKit.Base.update(ListView.prototype, {
                                 : 'arrow_up.gif'
                             )}));
                 }
+                updateConcurrencyInfo(obj.concurrency_info || {});
             }
         });
     }

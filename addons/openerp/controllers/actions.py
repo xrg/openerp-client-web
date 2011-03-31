@@ -380,7 +380,7 @@ def execute(action, **data):
         #raise common.error('Error', 'Invalid action...')
         return;
 
-    data.setdefault('context', {}).update(expr_eval(action.get('context','{}'), data.get('context', {})))
+    data.setdefault('context', {}).update(expr_eval(action.get('context') or action.get('form_context', '{}'), data.get('context', {})))
 
     action_executor = ACTIONS_BY_TYPE[action['type']]
     return action_executor(action, data)
@@ -486,7 +486,11 @@ def close_popup(reload=True):
     :return: the rendered popup-closing template
     :rtype: str
     """
-    return {'reload': reload}
+    active_id = False
+    if getattr(cherrypy.request, 'params', []):
+        if getattr(cherrypy.request.params, 'context', {}):
+            active_id = cherrypy.request.params.context.get('active_id')
+    return {'reload': reload, 'active_id': active_id}
 
 @tools.expose(template="/openerp/controllers/templates/report.mako")
 def report_link(report_name, **kw):

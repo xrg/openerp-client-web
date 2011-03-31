@@ -14,7 +14,7 @@
 
     <script type="text/javascript">
         openobject.process.Node.prototype.onHelp = function() {
-            window.open(this.data.url || "http://doc.openerp.com/index.php?model=" + this.data.model + "&lang=${lang}&version=${version}");
+            window.open(this.data.url || "http://doc.openerp.com/v6.0/index.php?model=" + this.data.model + "&lang=${lang}&version=${version}");
         }
     </script>
     % if selection:

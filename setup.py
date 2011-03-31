@@ -80,7 +80,7 @@ setup(
     license=license,
     include_package_data=True,
     install_requires=[
-        "CherryPy >= 3.1.2",
+        "CherryPy == 3.1.2",
         "Mako >= 0.2.4",
         "Babel >= 0.9.4",
         "FormEncode >= 1.2.2",

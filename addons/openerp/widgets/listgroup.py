@@ -7,7 +7,7 @@
 #  Developed by OpenERP (http://openerp.com) and Axelor (http://axelor.com).
 #
 #  The OpenERP web client is distributed under the "OpenERP Public License".
-#  It's based on Mozilla Public License Version (MPL) 1.1 with following 
+#  It's based on Mozilla Public License Version (MPL) 1.1 with following
 #  restrictions:
 #
 #  -   All names, links and logos of OpenERP must be kept as in original
@@ -113,7 +113,7 @@ def parse_groups(group_by, grp_records, headers, ids, model,  offset, limit, con
                             for  d in data
                             if int(str(d.get('id'))) == id] # Need to convert in String and then Int.
             rec['child_rec'] = ch_ids
-            rec['group_id'] = 'group_' + str(random.randrange(1, 10000))
+            rec['groups_id'] = 'group_' + str(random.randrange(1, 10000))
             if group_by:
                 rec['group_by_id'] = group_by[0]+'_'+str(grp_records.index(rec))
 

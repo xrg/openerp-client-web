@@ -18,14 +18,14 @@
 #  You can see the MPL licence at: http://www.mozilla.org/MPL/MPL-1.1.html
 #
 ###############################################################################
+import simplejson
 from openerp.utils import rpc, expr_eval, TinyDict, TinyForm, TinyFormError
 
 import actions
 from form import Form
 from error_page import _ep
+import openobject.i18n.format
 from openobject.tools import expose, ast
-import simplejson
-
 
 class Search(Form):
 
@@ -179,6 +179,8 @@ class Search(Form):
 
         # Fixed header string problem for m2m,m2o field when parent context takes '_terp_view_name'
         parent_context.pop('_terp_view_name', None)
+        # parent's search_view has no business being in m2o or m2m
+        parent_context.pop('search_view', None)
 
         return dict(domain=ustr(domain), context=ustr(parent_context), group_by = ustr(params.group_by))
 
@@ -200,27 +202,24 @@ class Search(Form):
 
         all_values = {}
         errors = []
-        
         for k, v in record.items():
             values = {}
             for key, val in v.items():
-                frm_datas = {}
                 for field in val:
                     fld = {
                         'value': val[field],
                         'type': res[field].get('type')
                     }
+                    if fld['type'] == 'many2many':
+                        fld['type'] = 'char'
                     datas = {field: fld}
-                    frm_datas[field] = fld
+
                     try:
-                        frm = TinyForm(**frm_datas).to_python()
+                        TinyForm(**datas).to_python()
                     except TinyFormError, e:
-                        error_field = e.field
-                        error = ustr(e)
-                        errors.append({e.field: error})
+                        errors.append({e.field: ustr(e)})
                     except Exception, e:
-                        error = ustr(e)
-                        errors.append({field: error})
+                        errors.append({field: ustr(e)})
 
                     datas['rec'] = field
                     
@@ -284,9 +283,11 @@ class Search(Form):
                 else:
                     fieldname = field
                     bound = ''
-                    
+
                 data = {}
-                fld['type'] = res[fieldname].get('type')    
+                fld['type'] = res[fieldname].get('type')
+                if fld['type'] == 'many2many':
+                    fld['type'] = 'char'
                 fld['value'] = value
                 data[field] = fld
 
@@ -315,6 +316,11 @@ class Search(Form):
                 elif 'selection_' in value:
                     domain.append((field, '=', value.split('selection_')[1]))
                     search_data[field] = value.split('selection_')[1]
+
+                elif fld['type'] == 'selection':
+                    domain.append((field, '=', value))
+                    search_data[field] = value
+
                 else:
                     if not 'm2o_' in value:
                         operator = 'ilike'
@@ -331,7 +337,13 @@ class Search(Form):
         if not custom_domains:
             custom_domains = []
         else:
-            custom_domains = simplejson.loads(custom_domains)
+            try:
+                # from JS custom filters, data is sent as JSON
+                custom_domains = simplejson.loads(custom_domains)
+            except simplejson.decoder.JSONDecodeError:
+                # from switchView, data is sent as Python literals
+                # (with unicode strings and keys)
+                custom_domains = ast.literal_eval(custom_domains)
         
         # conversion of the pseudo domain from the javascript to a valid domain
         ncustom_domain = []
@@ -353,6 +365,7 @@ class Search(Form):
             group_by_ctx = [group_by_ctx]
         if group_by_ctx:
             search_data['group_by_ctx'] = group_by_ctx
+        ncustom_domain = openobject.i18n.format.convert_date_format_in_domain(ncustom_domain, res, context)
         return dict(domain=ustr(domain), context=ustr(ctx), search_data=ustr(search_data), filter_domain=ustr(ncustom_domain))
 
     @expose()

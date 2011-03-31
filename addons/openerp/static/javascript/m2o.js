@@ -137,9 +137,6 @@ ManyToOne.prototype.create = function() {
 };
 
 ManyToOne.prototype.open = function(id) {
-    var domain = jQuery(this.field).attr('domain');
-    var context = jQuery(this.field).attr('context');
-
     var model = this.relation;
     var source = this.name;
 
@@ -150,8 +147,8 @@ ManyToOne.prototype.open = function(id) {
 
     eval_domain_context_request({
         source: source,
-        domain: domain,
-        context: context
+        domain: jQuery(this.field).attr('domain'),
+        context: this.get_context()
     }).addCallback(function(obj) {
         $.m2o({
             record: true,
@@ -180,6 +177,18 @@ ManyToOne.prototype.get_text = function() {
             text_field.value = obj.name;
         }, 'json');
     }
+};
+
+/**
+ * Fetches the m2o's context, replacing any <code>self</code> by the actual
+ * value of the m2o
+ */
+ManyToOne.prototype.get_context = function () {
+    if(!this.text) {
+        return jQuery(this.field).attr('context');
+    }
+    return jQuery(this.field).attr('context').replace(
+            /\bself\b/g, "'" + this.text.value + "'");
 };
 
 ManyToOne.prototype.on_change = function(evt) {
@@ -373,7 +382,7 @@ ManyToOne.prototype.get_matched = function() {
     var m2o = this;
 
     var domain = jQuery(this.field).attr('domain');
-    var context = jQuery(this.field).attr('context');
+    var context = this.get_context();
 
     eval_domain_context_request({
         source: this.name,
@@ -398,6 +407,8 @@ ManyToOne.prototype.get_matched = function() {
                     m2o.text.value = val[1];
                     m2o.on_change();
                 } else {
+                    var id = jQuery(m2o.field).attr('id');
+                    jQuery(idSelector(id + '_text')).val('');
                     open_search_window(m2o.relation, domain, context, m2o.name, 1, text);
                 }
             }, 'json');
@@ -437,8 +448,11 @@ ManyToOne.prototype.doDelayedRequest = function () {
     this.lastSearch = this.text.value;
     if (this.numResultRows==0) {
         var self = this;
-        var req = eval_domain_context_request({source: this.name, domain: getNodeAttribute(this.field, 'domain'), context: getNodeAttribute(this.field, 'context')});
-        req.addCallback(function(obj) {
+        eval_domain_context_request({
+            source: this.name,
+            domain: jQuery(this.field).attr('domain'),
+            context: this.get_context()
+        }).addCallback(function(obj) {
             self.eval_domain = obj.domain;
             self.eval_context = obj.context
 
@@ -564,13 +578,6 @@ ManyToOne.prototype.getOnclick = function(evt) {
             url = '/openerp/openm2o/edit'
         } else {
             url = '/openerp/search/new';
-            
-            // if new record is closed without saving source value need to blank
-            var $frame = $($this.attr('frameElement'));
-            var $source_elem = $frame.contents().find(idSelector(options.source+'_text'));
-            if($source_elem)
-                $source_elem.val('');
-            
         }
         return $.frame_dialog({
                 src: openobject.http.getURL(url, options)

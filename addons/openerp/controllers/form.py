@@ -609,13 +609,14 @@ class Form(SecuredController):
                 idx = current.ids.index(current.id)
                 if idx >= 0:
                     current.ids.remove(current.id)
-            params.count = 0 # invalidate count
-
+            params.count -= 1
+            if not len(current.ids) and params.count > 0:
+                params.offset = params.offset - params.limit
+                current.ids = proxy.search([], params.offset, params.limit,0, ctx)
+                idx = -1
             if idx == len(current.ids):
                 idx = -1
-
         current.id = (current.ids or None) and current.ids[idx]
-
         self.reset_notebooks()
 
         args = {'model': params.model,
@@ -984,6 +985,7 @@ class Form(SecuredController):
             domain.extend(expr_eval(action.get('domain', '[]'), context))
             action['domain'] = ustr(domain)
 
+        action['form_context'] = context or {}
         import actions
         return actions.execute(action, model=params.model, id=id, ids=ids, report_type='pdf', context_menu=context_menu)
 

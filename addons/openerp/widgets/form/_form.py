@@ -7,7 +7,7 @@
 #  Developed by OpenERP (http://openerp.com) and Axelor (http://axelor.com).
 #
 #  The OpenERP web client is distributed under the "OpenERP Public License".
-#  It's based on Mozilla Public License Version (MPL) 1.1 with following 
+#  It's based on Mozilla Public License Version (MPL) 1.1 with following
 #  restrictions:
 #
 #  -   All names, links and logos of OpenERP must be kept as in original
@@ -532,7 +532,7 @@ class Selection(TinyInputWidget):
             value = value[0]
 
         for s in dict(self.options):
-            if str(s) == str(value):
+            if ustr(s) == ustr(value):
                 value = s
 
         super(Selection, self).set_value(value)
@@ -613,7 +613,7 @@ class Hidden(TinyInputWidget):
     def set_value(self, value):
         self.widget.set_value(value)
         self.default = self.widget.default
-        
+
     def get_sortable_text(self):
         """ If returns anything other then None, the return value will be
         used to sort the listgrid. Useful for localized data.

@@ -293,7 +293,7 @@ MochiKit.Base.update(openobject.process.Node.prototype, {
     },
 
     onHelp: function() {
-    	window.open(this.data.url || "http://doc.openerp.com/index.php?model=" + this.data.model);
+    	window.open(this.data.url || "http://doc.openerp.com/v6.0/index.php?model=" + this.data.model);
         //window.open(this.data.url || "http://openerp.com/scripts/context_index.php?model=" + this.data.model);
     }
 });

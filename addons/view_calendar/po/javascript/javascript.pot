@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2011-01-17 13:09+0100\n"
+"POT-Creation-Date: 2011-03-18 11:53+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -54,14 +54,14 @@ msgid "Do you really want to delete this record?"
 msgstr ""
 
 #: static/javascript/calendar_gantt.js:258
-#: static/javascript/calendar_month.js:412
-#: static/javascript/calendar_week.js:269
-#: static/javascript/calendar_week.js:672
+#: static/javascript/calendar_month.js:400
+#: static/javascript/calendar_week.js:270
+#: static/javascript/calendar_week.js:673
 msgid "This calendar object can no longer be moved !"
 msgstr ""
 
 #: static/javascript/calendar_gantt.js:320
-#: static/javascript/calendar_week.js:96
+#: static/javascript/calendar_week.js:97
 msgid "This calendar object can no longer be resized !"
 msgstr ""
 

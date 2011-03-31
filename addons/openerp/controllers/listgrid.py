@@ -299,7 +299,10 @@ class List(SecuredController):
 
         if frm.logs and frm.screen.view_type == 'tree':
             server_logs = ustr(frm.logs.render())
-        return dict(ids=ids, count=count, view=view, logs=server_logs)
+
+        concurrency_info = getattr(cherrypy.request, 'terp_concurrency_info', None)
+
+        return dict(ids=ids, count=count, view=view, logs=server_logs, concurrency_info=concurrency_info)
 
     @expose('json')
     def button_action(self, **kw):

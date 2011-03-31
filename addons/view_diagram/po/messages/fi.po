@@ -1,0 +1,128 @@
+# Finnish translation for openobject-client-web
+# Copyright (c) 2011 Rosetta Contributors and Canonical Ltd 2011
+# This file is distributed under the same license as the openobject-client-web package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2011.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: openobject-client-web\n"
+"Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
+"POT-Creation-Date: 2011-03-18 11:53+0100\n"
+"PO-Revision-Date: 2011-02-20 21:51+0000\n"
+"Last-Translator: Harri Luuppala <Unknown>\n"
+"Language-Team: Finnish <fi@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Launchpad-Export-Date: 2011-03-19 07:07+0000\n"
+"X-Generator: Launchpad (build 12559)\n"
+
+#: controllers/_diagram.py:89 controllers/_diagram.py:210
+msgid "Could not delete state"
+msgstr "Tilaa ei voi poistaa"
+
+#: controllers/_diagram.py:274
+msgid "No workflow associated!"
+msgstr "Työnkulkua ei ole!"
+
+#: controllers/process.py:46
+msgid "Help: Not Defined"
+msgstr "Ohjetta ei ole!"
+
+#: controllers/process.py:89
+#, python-format
+msgid "%(name)s - Resource: %(resource)s, State: %(state)s"
+msgstr "%(name)s - Resurssi: %(resource)s, Tila: %(state)s"
+
+#: controllers/process.py:101
+msgid "Last modified by:"
+msgstr "Viimeksi muokkasi:"
+
+#: controllers/templates/process.mako:4 controllers/templates/process.mako:87
+#: controllers/templates/process_tip.mako:5
+msgid "Process"
+msgstr "Prosessi"
+
+#: controllers/templates/process.mako:55
+msgid "Documentation"
+msgstr "Dokumentaatio"
+
+#: controllers/templates/process.mako:56
+msgid "Read Documentation Online"
+msgstr "Lue dokumentaatio verkosta"
+
+#: controllers/templates/process.mako:62
+msgid "Forum"
+msgstr "Keskustelualue"
+
+#: controllers/templates/process.mako:63
+msgid "Community Discussion"
+msgstr "Yhteisön keskustelut"
+
+#: controllers/templates/process.mako:68
+msgid "Books"
+msgstr "Kirjat"
+
+#: controllers/templates/process.mako:69
+msgid "Get the book on Amazon"
+msgstr "Hanki kirja Amazonista"
+
+#: controllers/templates/process.mako:74
+msgid "Support / Publisher Warranty"
+msgstr "Tuki / Valmistajan takuu"
+
+#: controllers/templates/process.mako:75
+msgid "Get the OpenERP Warranty"
+msgstr "Hanki OpenErp takuu"
+
+#: controllers/templates/process.mako:97
+msgid "Select Process"
+msgstr "Valitse Prosessi"
+
+#: controllers/templates/process.mako:103
+msgid "Select"
+msgstr "Valitse"
+
+#: controllers/templates/process.mako:117
+msgid "[Edit Process]"
+msgstr "[Muokkaa prosessia]"
+
+#: controllers/templates/process.mako:119
+msgid "[show fields]"
+msgstr "[näytä kentät]"
+
+#: controllers/templates/process.mako:120
+msgid "[hide fields]"
+msgstr "[piilota kentät]"
+
+#: controllers/templates/process_open.mako:54
+#: controllers/templates/process_tip.mako:20
+#: controllers/templates/wkf_popup.mako:52
+msgid "Close"
+msgstr "Sulje"
+
+#: controllers/templates/process_open.mako:55
+#: controllers/templates/wkf_popup.mako:49
+msgid "Save"
+msgstr "Tallenna"
+
+#: controllers/templates/workflow.mako:4
+msgid "Workflow"
+msgstr "Työnkulku"
+
+#: controllers/templates/workflow.mako:20
+#, python-format
+msgid "Workflow (%s)"
+msgstr "Työnkulku (%s)"
+
+#: widgets/_views.py:8
+msgid "Diagram"
+msgstr "Kaavio"
+
+#: widgets/_views.py:9
+msgid "Diagram view..."
+msgstr "Kaavionäkymä"
+
+#: widgets/templates/diagram.mako:27
+msgid "Loading..."
+msgstr "Lataa"

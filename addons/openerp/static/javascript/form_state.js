@@ -61,8 +61,9 @@ function form_onStateChange(container, widget, states, evt) {
         src = evt.src();
     else
         src = evt.target;
-    
+
     var value = typeof(src.value) == "undefined" ? getNodeAttribute(src, 'value') || src.innerHTML : src.value;
+    var $field = jQuery(idSelector(widget));
 
     if (MochiKit.Base.isArrayLike(states)) {
         form_setVisible(container, widget, findIdentical(states, value) > -1);
@@ -79,13 +80,22 @@ function form_onStateChange(container, widget, states, evt) {
     }
 
     var attr = states[value];
-
-    if (attr && has_readonly)
-        form_setReadonly(container, widget, attr['readonly']);
-
-    if (attr && has_required)
-        form_setRequired(container, widget, attr['required']);
-
+    if (has_readonly) {
+    	if (attr) {
+        	form_setReadonly(container, widget, attr['readonly']);
+    	}
+    	else {
+        	form_setReadonly(container, widget, parseInt($field.attr('fld_readonly')));
+    	}
+    }
+    if (has_required) {
+    	if (attr) {
+        	form_setRequired(container, widget, attr['required']);
+    	}
+        else {
+        	form_setRequired(container, widget, parseInt($field.attr('required')));
+        }
+    }
 }
 
 function form_hookAttrChange() {
@@ -239,7 +249,7 @@ function form_evalExpr(prefix, expr, ref_elem) {
 
 function form_setReadonly(container, fieldName, readonly) {
 
-    var $field = jQuery(fieldName) || jQuery(idSelector(fieldName));
+    var $field = typeof(fieldName) == "string" ? jQuery(idSelector(fieldName)) : jQuery(fieldName);
 
     if (!$field.length) {
         return;
@@ -298,11 +308,14 @@ function form_setRequired(container, field, required) {
     if (!field) {
         field = container;
     }
-	var editable = getElement('_terp_editable').value;
+    var editable = getElement('_terp_editable').value;
 
-    var $field = jQuery(field);
-    if (editable == 'True') {
+    var $field = jQuery(idSelector(field));
+    if (editable == 'True' && required) {
         $field.toggleClass('requiredfield', required);
+    }
+    else {
+    	$field.removeClass('requiredfield');
     }
     if(required) {
         $field.removeClass('readonlyfield');
