@@ -3,13 +3,13 @@
 # This file is distributed under the same license as the PROJECT project.
 #
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2010.
-# P. Christeas <p_christ@hol.gr>, 2010.
+# P. Christeas <p_christ@hol.gr>, 2010, 2011.
 msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2010-11-25 10:30+0530\n"
-"PO-Revision-Date: 2010-12-20 10:31+0200\n"
+"PO-Revision-Date: 2011-03-14 00:44+0200\n"
 "Last-Translator: P. Christeas <p_christ@hol.gr>\n"
 "Language-Team: Greek <openerp@lists.hellug.gr>\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
@@ -17,7 +17,8 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 1.0dev\n"
-"X-Generator: Lokalize 1.0\n"
+"X-Generator: Lokalize 1.2\n"
+"Language: el\n"
 
 #: validators.py:83
 msgid "Invalid literal for float"
@@ -29,7 +30,7 @@ msgstr ""
 
 #: validators.py:174
 msgid "Please select a file."
-msgstr ""
+msgstr "Παρακαλώ επιλέξτε ένα αρχείο."
 
 #: validators.py:255
 msgid "Please enter an email address"
@@ -121,15 +122,22 @@ msgid "Super admin password:"
 msgstr ""
 
 #: controllers/database.py:77
+#, fuzzy
 msgid ""
 "This is the password of the user that have the rights to administer "
 "databases. This is not a OpenERP user, just a super administrator. If you"
 " did not changed it, the password is 'admin' after installation."
 msgstr ""
+"Αυτός είναι ο κωδικός εισόδου του χρήστη που έχει δικαίωμα επιτήρησης των "
+"βάσεων δεδομένων. Δεν είναι χρήστης του OpenERP, αλλά ένας υπερ-διαχειριστής. "
+"Εάν "
+"δεν το αλλάξατε, ο κωδικός 'admin' θα ισχύει μετά την εγκατάσταση."
 
 #: controllers/database.py:78 controllers/database.py:110
+#, fuzzy
 msgid "New database name:"
 msgstr ""
+"<sup><b><span foreground=\"dark green\">?</span></b></sup>Όνομα Νέας Βάσης:"
 
 #: controllers/database.py:78
 msgid ""
@@ -138,8 +146,11 @@ msgid ""
 msgstr ""
 
 #: controllers/database.py:79
+#, fuzzy
 msgid "Load Demonstration data:"
 msgstr ""
+"<sup><b><span foreground=\"dark green\">?</span></b></sup>Δοκιμαστικά "
+"Δεδομένα:"
 
 #: controllers/database.py:79
 msgid ""
@@ -149,8 +160,9 @@ msgid ""
 msgstr ""
 
 #: controllers/database.py:80
+#, fuzzy
 msgid "Default Language:"
-msgstr ""
+msgstr "Προκαθορισμένη γλώσσα:"
 
 #: controllers/database.py:80
 msgid ""
@@ -160,24 +172,35 @@ msgid ""
 msgstr ""
 
 #: controllers/database.py:81
+#, fuzzy
 msgid "Administrator password:"
 msgstr ""
+"<sup><b><span foreground=\"dark green\">?</span></b></sup>Συνθηματικό "
+"Διαχειριστή:"
 
 #: controllers/database.py:81
+#, fuzzy
 msgid ""
 "This is the password of the 'admin' user that will be created in your new"
 " database."
 msgstr ""
+"Αυτός είναι ο κωδικός πρόσβασης του χρήστη 'admin' ο οποίος θα "
+"δημιουργηθεί στην νέα βάση δεδομένων σας."
 
 #: controllers/database.py:82
+#, fuzzy
 msgid "Confirm password:"
-msgstr ""
+msgstr "Επι&βεβαίωση κωδικού πρόσβασης:"
 
 #: controllers/database.py:82
+#, fuzzy
 msgid ""
 "This is the password of the 'admin' user that will be created in your new"
 " database. It has to be the same than the above field."
 msgstr ""
+"Αυτός είναι ο κωδικός πρόσβασης του χρήστη 'admin' ο οποίος θα "
+"δημιουργηθεί στην βάση δεδομένων σας. Θα πρέπει να είναι ίδιος με το "
+"παραπάνω πεδίο."
 
 #: controllers/database.py:88
 msgid "Drop database"
@@ -185,7 +208,7 @@ msgstr ""
 
 #: controllers/database.py:90 controllers/templates/database.mako:54
 msgid "Drop"
-msgstr ""
+msgstr "Απόρριψη"
 
 #: controllers/database.py:92 controllers/database.py:100
 #: controllers/templates/login.mako:39
@@ -205,15 +228,16 @@ msgstr ""
 
 #: controllers/database.py:99 controllers/templates/database.mako:56
 msgid "Backup"
-msgstr ""
+msgstr "Αντίγραφο ασφαλείας"
 
 #: controllers/database.py:105
 msgid "Restore database"
 msgstr ""
 
 #: controllers/database.py:107 controllers/templates/database.mako:58
+#, fuzzy
 msgid "Restore"
-msgstr ""
+msgstr "Αποκατάσταση"
 
 #: controllers/database.py:108
 msgid "File:"
@@ -224,20 +248,23 @@ msgid "Change Administrator Password"
 msgstr ""
 
 #: controllers/database.py:116
+#, fuzzy
 msgid "Change Password"
-msgstr ""
+msgstr "Αλλαγή κωδικού πρόσβασης"
 
 #: controllers/database.py:117
 msgid "Old Password:"
 msgstr ""
 
 #: controllers/database.py:118
+#, fuzzy
 msgid "New Password:"
-msgstr ""
+msgstr "Νέ&ος κωδικός πρόσβασης:"
 
 #: controllers/database.py:119
+#, fuzzy
 msgid "Confirm Password:"
-msgstr ""
+msgstr "Επι&βεβαίωση κωδικού πρόσβασης:"
 
 #: controllers/database.py:161
 msgid "You must avoid all accents, space or special characters."
@@ -264,8 +291,9 @@ msgid "Bad super admin password"
 msgstr ""
 
 #: controllers/database.py:190
+#, fuzzy
 msgid "Could not create database."
-msgstr ""
+msgstr "Αδυναμία δημιουργίας της βάσης δεδομένων \"%1\"."
 
 #: controllers/database.py:216
 msgid "Could not drop database"
@@ -331,7 +359,7 @@ msgstr ""
 
 #: controllers/impex.py:338
 msgid "Export Error"
-msgstr ""
+msgstr "Σφάλμα εξαγωγής"
 
 #: controllers/impex.py:349
 msgid ""
@@ -341,15 +369,15 @@ msgstr ""
 
 #: controllers/impex.py:349 controllers/impex.py:462
 msgid "Import Error."
-msgstr ""
+msgstr "Λάθος εισαγωγής."
 
 #: controllers/impex.py:446
 msgid "Error opening .CSV file"
-msgstr ""
+msgstr "Σφάλμα κατά το άνοιγμα του CSV"
 
 #: controllers/impex.py:446
 msgid "Input Error."
-msgstr ""
+msgstr "Σφάλμα Εισόδου"
 
 #: controllers/impex.py:459
 #, python-format
@@ -357,20 +385,22 @@ msgid "You cannot import this field %s, because we cannot auto-detect it"
 msgstr ""
 
 #: controllers/impex.py:462
-#, python-format
+#, fuzzy, python-format
 msgid ""
 "Error processing your first line of the file.\n"
 "Field %s is unknown"
 msgstr ""
+"Σφάλμα στην πρώτη γραμμή του αρχείου.\n"
+"Το πεδίο %s είναι άγνωστο!"
 
 #: controllers/impex.py:489
 msgid "XML-RPC error"
-msgstr ""
+msgstr "Σφάλμα XML-RPC"
 
 #: controllers/impex.py:491
 #, python-format
 msgid "Imported %d objects"
-msgstr ""
+msgstr "Εισήχθησαν %d αντικείμενα"
 
 #: controllers/impex.py:496
 #, python-format
@@ -382,6 +412,12 @@ msgid ""
 "\n"
 "%s"
 msgstr ""
+"Σφάλμα κατά την εισαγωγή της εγγραφής:\n"
+"%s\n"
+"Μήνυμα Σφάλματος:\n"
+"%s\n"
+"\n"
+"%s"
 
 #: controllers/impex.py:497
 msgid "Importation Error"
@@ -394,7 +430,7 @@ msgstr ""
 #: controllers/preferences.py:64 controllers/templates/header.mako:55
 #, fuzzy
 msgid "Preferences"
-msgstr "Ιδιότητες"
+msgstr "Προτιμήσεις"
 
 #: controllers/root.py:175
 #, python-format
@@ -411,7 +447,7 @@ msgstr ""
 
 #: controllers/utils.py:52
 msgid "Could not connect to server"
-msgstr ""
+msgstr "Είναι αδύνατη η σύνδεση στον εξυπηρετητή"
 
 #: controllers/utils.py:143 controllers/templates/login_ajax.mako:111
 #, fuzzy
@@ -424,7 +460,6 @@ msgid "ID"
 msgstr "ID"
 
 #: controllers/view_log.py:41
-#, fuzzy
 msgid "Creation User"
 msgstr "Δημιουργία από"
 
@@ -434,12 +469,10 @@ msgid "Creation Date"
 msgstr "Ημερ/νία Δημιουργίας"
 
 #: controllers/view_log.py:43
-#, fuzzy
 msgid "Latest Modification by"
 msgstr "Τροποποίηση από"
 
 #: controllers/view_log.py:44
-#, fuzzy
 msgid "Latest Modification Date"
 msgstr "Τροποποίηση στις"
 
@@ -454,11 +487,12 @@ msgstr ""
 
 #: controllers/view_log.py:47
 msgid "Access Level"
-msgstr ""
+msgstr "Επίπεδο πρόσβασης"
 
 #: controllers/view_log.py:48
+#, fuzzy
 msgid "Internal module data ID"
-msgstr ""
+msgstr "Εσωτερικό ID δεδομένων Αρθρώματος"
 
 #: controllers/viewed.py:228
 msgid "Invalid view id."
@@ -505,7 +539,7 @@ msgstr "Αριστερά"
 #: controllers/viewed.py:889
 #, fuzzy
 msgid "Center"
-msgstr "κέντρο"
+msgstr "Κέντρο"
 
 #: controllers/viewed.py:889
 #, fuzzy
@@ -514,11 +548,11 @@ msgstr "Δεξιά"
 
 #: controllers/templates/about.mako:4
 msgid "About the OpenERP Web"
-msgstr ""
+msgstr "Σχετικά με το OpenERP Web"
 
 #: controllers/templates/about.mako:27
 msgid "OpenERP Web"
-msgstr ""
+msgstr "OpenERP Web"
 
 #: controllers/templates/about.mako:30
 msgid "Copyright &copy; 2006-TODAY Tiny ERP Pvt. Ltd. All Rights Reserved."
@@ -575,7 +609,7 @@ msgstr ""
 
 #: controllers/templates/about.mako:60 widgets/templates/sidebar.mako:44
 msgid "Links"
-msgstr ""
+msgstr "Δεσμοί"
 
 #: controllers/templates/about.mako:63
 msgid "The Axelor Company"
@@ -591,17 +625,19 @@ msgid "RESOURCES"
 msgstr "Πόροι"
 
 #: controllers/templates/about.mako:76
+#, fuzzy
 msgid "Homepage"
-msgstr ""
+msgstr "Προσωπική σελίδα"
 
 #: controllers/templates/about.mako:79
 #, fuzzy
 msgid "Download"
-msgstr "Κατέβασμα"
+msgstr "Λήψη"
 
 #: controllers/templates/about.mako:82
+#, fuzzy
 msgid "Documentation"
-msgstr ""
+msgstr "Τεκμηρίωση"
 
 #: controllers/templates/about.mako:85
 #, fuzzy
@@ -613,8 +649,9 @@ msgid "Screencasts"
 msgstr ""
 
 #: controllers/templates/about.mako:91
+#, fuzzy
 msgid "Community"
-msgstr ""
+msgstr "Υποβολή"
 
 #: controllers/templates/about.mako:94
 msgid "SaaS Offers"
@@ -639,8 +676,9 @@ msgid "Password"
 msgstr "Συνθηματικό"
 
 #: controllers/templates/error_page.mako:70
+#, fuzzy
 msgid "An "
-msgstr ""
+msgstr "N"
 
 #: controllers/templates/error_page.mako:70
 msgid "has been reported."
@@ -775,41 +813,42 @@ msgid "Close"
 msgstr "Κλείσιμο"
 
 #: controllers/templates/exp.mako:146
-#, fuzzy
 msgid "Export Data"
 msgstr "Εξαγωγή Δεδομένων"
 
 #: controllers/templates/exp.mako:163 controllers/templates/form.mako:125
+#, fuzzy
 #: controllers/templates/image.mako:68 widgets/form/templates/one2many.mako:20
 #: widgets/templates/listgrid.mako:102 widgets/templates/listgrid.mako:106
 #: widgets/templates/listgrid.mako:172 widgets/templates/listgrid.mako:177
 #: widgets/templates/listgroup.mako:125
 #: widgets/templates/multiple_group.mako:82 widgets/templates/sidebar.mako:65
 msgid "Delete"
-msgstr ""
+msgstr "Διαγραφή"
 
 #: controllers/templates/exp.mako:174 controllers/templates/imp.mako:124
+#, fuzzy
 msgid "All fields"
-msgstr ""
+msgstr "(Όλα τα πεδία)"
 
 #: controllers/templates/exp.mako:176
 msgid "Fields to export"
 msgstr ""
 
 #: controllers/templates/exp.mako:186 controllers/templates/imp.mako:136
-#, fuzzy
 #: widgets/templates/listgrid.mako:133 widgets/templates/sidebar.mako:53
 msgid "Add"
 msgstr "Προσθήκη"
 
 #: controllers/templates/exp.mako:191 controllers/templates/imp.mako:141
+#, fuzzy
 #: controllers/templates/viewlist.mako:125
 msgid "Remove"
-msgstr ""
+msgstr "Αφαίρεση"
 
 #: controllers/templates/exp.mako:196 controllers/templates/imp.mako:146
 msgid "Nothing"
-msgstr ""
+msgstr "Τίποτα"
 
 #: controllers/templates/exp.mako:201 controllers/templates/exp.mako:217
 msgid "Save List"
@@ -837,8 +876,9 @@ msgid "Export as Excel"
 msgstr ""
 
 #: controllers/templates/exp.mako:248
+#, fuzzy
 msgid "Add field names"
-msgstr ""
+msgstr "Πρόσθεσε ονόματα πεδίων"
 
 #: controllers/templates/exp.mako:257
 msgid "Select an Option to Export"
@@ -859,9 +899,8 @@ msgid "Field Name:"
 msgstr "Όνομα Πεδίου"
 
 #: controllers/templates/fieldpref.mako:43
-#, fuzzy
 msgid "Domain:"
-msgstr "Τομέας"
+msgstr "Τομέας:"
 
 #: controllers/templates/fieldpref.mako:47
 #, fuzzy
@@ -936,11 +975,12 @@ msgid "Edit this resource"
 msgstr ""
 
 #: controllers/templates/form.mako:107 controllers/templates/viewlist.mako:122
+#, fuzzy
 #: widgets/templates/listgrid.mako:72 widgets/templates/listgrid.mako:76
 #: widgets/templates/listgrid.mako:184 widgets/templates/listgroup.mako:105
 #: widgets/templates/multiple_group.mako:63
 msgid "Edit"
-msgstr ""
+msgstr "Επεξεργασία"
 
 #: controllers/templates/form.mako:111
 msgid "Save this resource"
@@ -973,8 +1013,9 @@ msgid "Duplicate this resource"
 msgstr ""
 
 #: controllers/templates/form.mako:120
+#, fuzzy
 msgid "Duplicate"
-msgstr ""
+msgstr "Αντίγραφο"
 
 #: controllers/templates/form.mako:124
 msgid "Delete this resource"
@@ -998,7 +1039,7 @@ msgstr ""
 
 #: controllers/templates/form.mako:140
 msgid "Show grid"
-msgstr ""
+msgstr "Εμφάνιση καννάβου"
 
 #: controllers/templates/header.mako:30
 #, python-format
@@ -1015,30 +1056,31 @@ msgid "Home"
 msgstr "Αρχική"
 
 #: controllers/templates/header.mako:50
-#, fuzzy
 msgid "Requests"
 msgstr "Αιτήσεις"
 
 #: controllers/templates/header.mako:57
+#, fuzzy
 msgid "Edit Preferences"
-msgstr ""
+msgstr "Επεξεργασία προτιμήσεων..."
 
 #: controllers/templates/header.mako:60 controllers/templates/header.mako:62
+#, fuzzy
 msgid "About"
-msgstr ""
+msgstr "&Σχετικά"
 
 #: controllers/templates/header.mako:66 controllers/templates/header.mako:68
 msgid "Help"
 msgstr "Βοήθεια"
 
 #: controllers/templates/header.mako:73 controllers/templates/header.mako:75
+#, fuzzy
 msgid "Clear Cache"
-msgstr ""
+msgstr "&Καθαρισμός λανθάνουσας μνήμης"
 
 #: controllers/templates/header.mako:80
-#, fuzzy
 msgid "Logout"
-msgstr "ΕΞΟΔΟΣ"
+msgstr "Αποσύνδεση"
 
 #: controllers/templates/image.mako:4 controllers/templates/image.mako:40
 #, fuzzy
@@ -1046,29 +1088,30 @@ msgid "Image"
 msgstr "Εικόνα"
 
 #: controllers/templates/image.mako:56
+#, fuzzy
 msgid "Add Resource:"
-msgstr ""
+msgstr "Προσθήκη πόρου..."
 
 #: controllers/templates/image.mako:67 widgets/form/templates/binary.mako:28
-#, fuzzy
 msgid "Save As"
 msgstr "Αποθήκευση ως"
 
 #: controllers/templates/imp.mako:111 widgets/templates/sidebar.mako:107
 msgid "Import"
-msgstr ""
+msgstr "Εισαγωγή"
 
 #: controllers/templates/imp.mako:114
 msgid "Import Data"
-msgstr ""
+msgstr "Εισαγωγή δεδομένων"
 
 #: controllers/templates/imp.mako:126
 msgid "Fields to import"
 msgstr ""
 
 #: controllers/templates/imp.mako:151
+#, fuzzy
 msgid "Auto Detect"
-msgstr ""
+msgstr "Αυτόματη ανίχνευση"
 
 #: controllers/templates/imp.mako:170
 msgid "File to import"
@@ -1076,15 +1119,16 @@ msgstr ""
 
 #: controllers/templates/imp.mako:181
 msgid "Separator:"
-msgstr ""
+msgstr "Διαχωριστικό:"
 
 #: controllers/templates/imp.mako:183
 msgid "Delimiter:"
-msgstr ""
+msgstr "Οριοθέτης:"
 
 #: controllers/templates/imp.mako:187
+#, fuzzy
 msgid "Encoding:"
-msgstr ""
+msgstr "Κωδικοποίηση:"
 
 #: controllers/templates/imp.mako:194
 msgid "Lines to skip:"
@@ -1112,7 +1156,6 @@ msgid "Powered by %(openerp)s "
 msgstr ""
 
 #: controllers/templates/login.mako:53 controllers/templates/login_ajax.mako:72
-#, fuzzy
 #: controllers/templates/login_ajax.mako:94
 msgid "User:"
 msgstr "Χρήστης:"
@@ -1168,7 +1211,6 @@ msgid "Module Management"
 msgstr ""
 
 #: controllers/templates/modules.mako:17
-#, fuzzy
 msgid "Web Modules"
 msgstr "Αρθρώματα Web"
 
@@ -1177,7 +1219,6 @@ msgid "Save as Filter"
 msgstr ""
 
 #: controllers/templates/save_filter.mako:30
-#, fuzzy
 msgid "Filter Name"
 msgstr "Όνομα Φίλτρου"
 
@@ -1187,9 +1228,10 @@ msgid "Search %(name)s"
 msgstr ""
 
 #: controllers/templates/search.mako:161
+#, fuzzy
 #: widgets/form/templates/datetime.mako:13
 msgid "Select"
-msgstr ""
+msgstr "Επιλογή"
 
 #: controllers/templates/search.mako:162 widgets/_views.py:75
 #, fuzzy
@@ -1214,7 +1256,6 @@ msgid "Select action"
 msgstr "Επιλογή Ενέργειας"
 
 #: controllers/templates/selection.mako:23
-#, fuzzy
 msgid "Select your action"
 msgstr "Επιλέξτε ενέργεια"
 
@@ -1224,7 +1265,6 @@ msgid "Server Actions..."
 msgstr "Server Actions"
 
 #: controllers/templates/server_log.mako:14
-#, fuzzy
 msgid "Server Actions"
 msgstr "Server Actions"
 
@@ -1241,12 +1281,10 @@ msgid "Add Translation for:"
 msgstr ""
 
 #: controllers/templates/translator.mako:31
-#, fuzzy
 msgid "Fields"
 msgstr "Πεδία"
 
 #: controllers/templates/translator.mako:32
-#, fuzzy
 msgid "Labels"
 msgstr "Ετικέτες"
 
@@ -1280,7 +1318,6 @@ msgid "Create a new inherited view"
 msgstr ""
 
 #: controllers/templates/viewed.mako:31
-#, fuzzy
 msgid "Inherited View"
 msgstr "Παράγωγος Προβολή"
 
@@ -1290,17 +1327,17 @@ msgid "Preview"
 msgstr "Προεπισκόπηση"
 
 #: controllers/templates/viewed_add.mako:6
+#, fuzzy
 msgid "Node Type:"
-msgstr ""
+msgstr "Τ&ύπος κόμβου:"
 
 #: controllers/templates/viewed_add.mako:23
 msgid "New Field"
 msgstr ""
 
 #: controllers/templates/viewed_add.mako:27
-#, fuzzy
 msgid "Position:"
-msgstr "Θέση"
+msgstr "Θέση:"
 
 #: controllers/templates/viewlist.mako:4
 #: controllers/templates/viewlist.mako:108
@@ -1340,11 +1377,12 @@ msgstr "Προειδοποίηση"
 
 #: utils/rpc.py:139
 msgid "Access Denied"
-msgstr ""
+msgstr "Άρνηση πρόσβασης"
 
 #: utils/rpc.py:246
+#, fuzzy
 msgid "Unsupported protocol."
-msgstr ""
+msgstr "Μη υποστηριζόμενο πρωτόκολλο %1"
 
 #: utils/rpc.py:348
 msgid ""
@@ -1361,8 +1399,9 @@ msgid "Authorization Error"
 msgstr ""
 
 #: utils/rpc.py:420
+#, fuzzy
 msgid "== Access Denied =="
-msgstr ""
+msgstr "Άρνηση πρόσβασης."
 
 #: widgets/_views.py:44
 #, fuzzy
@@ -1370,8 +1409,9 @@ msgid "Form"
 msgstr "Φόρμα"
 
 #: widgets/_views.py:45
+#, fuzzy
 msgid "Form view..."
-msgstr ""
+msgstr "Προβολή Φόρμας"
 
 #: widgets/_views.py:76
 #, fuzzy
@@ -1384,9 +1424,9 @@ msgid "Invalid view, duplicate field: %s"
 msgstr ""
 
 #: widgets/pager.py:67
-#, fuzzy, python-format
+#, python-format
 msgid "%s"
-msgstr "10. %S              ==> 20"
+msgstr "%s"
 
 #: widgets/pager.py:78
 #, python-format
@@ -1394,38 +1434,33 @@ msgid "%s - %s"
 msgstr ""
 
 #: widgets/search.py:297
-#, fuzzy
 msgid "contains"
 msgstr "περιέχει"
 
 #: widgets/search.py:297
 msgid "doesn't contain"
-msgstr ""
+msgstr "δεν περιέχει"
 
 #: widgets/search.py:298
-#, fuzzy
 msgid "is equal to"
 msgstr "ισούται με"
 
 #: widgets/search.py:298
-#, fuzzy
 msgid "is not equal to"
 msgstr "δεν ισούται με"
 
 #: widgets/search.py:299
-#, fuzzy
 msgid "greater than"
 msgstr "μεγαλύτερο από"
 
 #: widgets/search.py:299
-#, fuzzy
 msgid "less than"
 msgstr "μικρότερο από"
 
 #: widgets/search.py:300
 #, fuzzy
 msgid "in"
-msgstr "σε"
+msgstr "in"
 
 #: widgets/search.py:300
 #, fuzzy
@@ -1433,7 +1468,6 @@ msgid "not in"
 msgstr "διάφορο από"
 
 #: widgets/search.py:407
-#, fuzzy
 msgid "Yes"
 msgstr "Ναι"
 
@@ -1452,8 +1486,9 @@ msgid "Create new record."
 msgstr ""
 
 #: widgets/form/_o2m.py:70
+#, fuzzy
 msgid "Save/New"
-msgstr ""
+msgstr "Αποθήκευση νέου"
 
 #: widgets/form/_o2m.py:70
 msgid "Save parent record."
@@ -1497,17 +1532,19 @@ msgid "Translate me."
 msgstr ""
 
 #: widgets/form/templates/one2many.mako:40
+#, fuzzy
 msgid "Previous record..."
-msgstr ""
+msgstr "Προηγούμενη εγγραφή"
 
 #: widgets/form/templates/one2many.mako:42
+#, fuzzy
 msgid "Next record..."
-msgstr ""
+msgstr "Επόμενη εγγραφή"
 
 #: widgets/templates/listgrid.mako:19
 #, fuzzy
 msgid "Update"
-msgstr "Ανανέωση"
+msgstr "Ενημέρωση"
 
 #: widgets/templates/listgrid.mako:131
 msgid "Add records..."
@@ -1523,11 +1560,12 @@ msgstr ""
 
 #: widgets/templates/logs.mako:22
 msgid "More..."
-msgstr ""
+msgstr "Περισσότερα..."
 
 #: widgets/templates/logs.mako:35
+#, fuzzy
 msgid "Less..."
-msgstr ""
+msgstr "Λιγότερα"
 
 #: widgets/templates/pager.mako:9
 #, fuzzy
@@ -1537,17 +1575,15 @@ msgstr "Πρώτο"
 #: widgets/templates/pager.mako:14
 #, fuzzy
 msgid "< Previous"
-msgstr "Προγούμενος"
+msgstr "Προηγούμενο"
 
 #: widgets/templates/pager.mako:19
-#, fuzzy
 msgid "of"
 msgstr "από"
 
 #: widgets/templates/pager.mako:24
-#, fuzzy
 msgid "Next >"
-msgstr "Επόμενο"
+msgstr "Επόμε&νο"
 
 #: widgets/templates/pager.mako:29
 #, fuzzy
@@ -1573,7 +1609,6 @@ msgid "Submenu"
 msgstr ""
 
 #: widgets/templates/sidebar.mako:54
-#, fuzzy
 msgid "Attachments"
 msgstr "Συνημμένα"
 
@@ -1584,7 +1619,7 @@ msgstr "Αρχείο"
 
 #: widgets/templates/sidebar.mako:80
 msgid "Customize"
-msgstr ""
+msgstr "Προσαρμογή"
 
 #: widgets/templates/sidebar.mako:84
 msgid "Manage views of the current object"
@@ -1612,7 +1647,7 @@ msgstr ""
 
 #: widgets/templates/sidebar.mako:102
 msgid "Other Options"
-msgstr ""
+msgstr "Άλλες επιλογές"
 
 #: widgets/templates/sidebar.mako:114
 msgid "Translate"
@@ -1628,12 +1663,14 @@ msgid "Filter records."
 msgstr ""
 
 #: widgets/templates/viewform.mako:33
+#, fuzzy
 msgid "Clear all."
-msgstr ""
+msgstr "Καθαρισμός όλων"
 
 #: widgets/templates/viewform.mako:35
+#, fuzzy
 msgid "Clear"
-msgstr ""
+msgstr "Καθαρισμός"
 
 #: widgets/templates/viewform.mako:43
 msgid "Filters"
@@ -1645,14 +1682,15 @@ msgstr ""
 
 #: widgets/templates/viewform.mako:52
 msgid "New Filter"
-msgstr ""
+msgstr "Νέο φίλτρο"
 
 #: widgets/templates/viewform.mako:53
 msgid "Save Filter"
-msgstr ""
+msgstr "Φίλτρο"
 
 #: widgets/templates/viewform.mako:54
+#, fuzzy
 msgid "Manage Filters"
-msgstr ""
+msgstr "Διαχείριση φίλτρων"
 
 

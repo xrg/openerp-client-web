@@ -3,13 +3,13 @@
 # This file is distributed under the same license as the PROJECT project.
 #
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2010.
-# P. Christeas <p_christ@hol.gr>, 2010.
+# P. Christeas <p_christ@hol.gr>, 2010, 2011.
 msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2010-11-25 10:30+0530\n"
-"PO-Revision-Date: 2010-12-20 10:34+0200\n"
+"PO-Revision-Date: 2011-01-30 02:29+0200\n"
 "Last-Translator: P. Christeas <p_christ@hol.gr>\n"
 "Language-Team: Greek <openerp@lists.hellug.gr>\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
@@ -22,39 +22,39 @@ msgstr ""
 #: static/javascript/form.js:100
 #, python-format
 msgid "You selected to open %(tabs)s tabs - do you want to continue?"
-msgstr ""
+msgstr "Επιλέξατε να ανοίξετε %(tabs)s καρτέλες· θέλετε να συνεχίσετε;"
 
 #: static/javascript/form.js:177
 msgid "Invalid form, correct red fields."
-msgstr ""
+msgstr "Άκυρη φόρμα, διορθώστε τα κόκκινα πεδία."
 
 #: static/javascript/form.js:212
 msgid "Do you really want to delete this record?"
-msgstr ""
+msgstr "Θέλετε πραγματικά να σβήσετε την εγγραφή;"
 
 #: static/javascript/form.js:957
 msgid "Do you really want to delete the attachment"
-msgstr ""
+msgstr "Θέλετε πραγματικά να διαγράψετε το συνημμένο;"
 
 #: static/javascript/listgrid.js:510 static/javascript/o2m.js:103
 msgid "To edit Record, please first save it."
-msgstr ""
+msgstr "Για να επεξεργαστείτε την εγγραφή, παρακαλώ αποθηκεύστε την πρώτα."
 
 #: static/javascript/listgrid.js:618
 msgid "Do you really want to delete selected record(s) ?"
-msgstr ""
+msgstr "Θέλετε πραγματικά να σβήσετε τις επιλεγμένες εγγραφές;"
 
 #: static/javascript/o2m.js:62
 msgid "Do you really want to delete record ?"
-msgstr ""
+msgstr "Θέλετε πραγματικά να σβήσετε την εγγραφή;"
 
 #: static/javascript/viewed.js:71
 msgid "Do you really want to remove this node?"
-msgstr ""
+msgstr "Θέλετε πραγματικά να διαγράψετε τον κόμβο;"
 
 #: static/javascript/viewed.js:337
 msgid "Do you really wants to create an inherited view here?"
-msgstr ""
+msgstr "Θέλετε σίγουρα να δημιουργήσετε μία παράγωγη προβολή εδώ;"
 
 #: static/javascript/openerp/openerp.ui.tips.js:59
 msgid "Object"
