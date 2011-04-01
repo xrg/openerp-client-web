@@ -159,7 +159,7 @@ function form_hookAttrChange() {
 function form_onAttrChange(container, widgetName, attr, expr, elem) {
 
     var prefix = widgetName.slice(0, widgetName.lastIndexOf('/') + 1);
-    var widget = openobject.dom.get(widgetName);
+    var widget = openobject.dom.get(widgetName) || elem;
 
     var result = form_evalExpr(prefix, expr, elem);
 
@@ -273,6 +273,22 @@ function form_setReadonly(container, fieldName, readonly) {
     }
 
     var type = $field.attr('type');
+
+    if (!type && ($field.hasClass('item-group'))) {
+        var  group_fields = jQuery($field).find('input, textarea, select')
+        group_fields.each(function(){
+        var $this = jQuery(this);
+            if (readonly) {
+            	$this.addClass('readonlyfield')
+            	$this.attr({'disabled': 'disabled', 'readOnly': readonly});
+            }
+            else {
+            	$this.removeClass('readonlyfield');
+            	$this.attr({'disabled': '', 'readOnly': readonly});
+            }
+        });
+        return;
+    }
     $field.attr({'disabled':readonly, 'readOnly': readonly});
 
     if (readonly) {
