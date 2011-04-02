@@ -3,13 +3,13 @@
 # This file is distributed under the same license as the PROJECT project.
 #
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2010.
-# P. Christeas <p_christ@hol.gr>, 2010.
+# P. Christeas <p_christ@hol.gr>, 2010, 2011.
 msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2010-11-25 10:31+0530\n"
-"PO-Revision-Date: 2010-12-20 10:38+0200\n"
+"PO-Revision-Date: 2011-04-03 01:26+0300\n"
 "Last-Translator: P. Christeas <p_christ@hol.gr>\n"
 "Language-Team: Greek <openerp@lists.hellug.gr>\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
@@ -17,7 +17,8 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 1.0dev\n"
-"X-Generator: Lokalize 1.0\n"
+"X-Generator: Lokalize 1.2\n"
+"Language: el\n"
 
 #: static/javascript/infobox.js:143
 msgid "Do you really want to delete this record?"
@@ -30,7 +31,7 @@ msgstr "Σημειώσεις"
 
 #: static/javascript/process.js:186
 msgid "Subflows:"
-msgstr ""
+msgstr "Υπο-ροές:"
 
 #: static/javascript/process.js:190
 msgid "Related:"
