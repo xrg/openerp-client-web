@@ -80,6 +80,8 @@ def _make_dict(data, is_params=False):
     
     return make_dict_internal(data, is_params, set())
 
+
+crummy_pseudoliteral_matcher = re.compile('^(True|False|None|-?\d+(\.\d+)?|\[.*?\]|\(.*?\)|\{.*?\})$', re.M)
 class TinyDict(dict):
     """A dictionary class that allows accessing it's items as it's attributes.
     It also converts stringified Boolean, None, Number or secuence to python object.
@@ -105,11 +107,10 @@ class TinyDict(dict):
         if not isinstance(value, basestring):
             return value
 
-        pat = re.compile('^(True|False|None|-?\d+(\.\d+)?|\[.*?\]|\(.*?\)|\{.*?\})$', re.M)
-        if pat.match(value):
+        if crummy_pseudoliteral_matcher.match(value):
             try:
-                return eval(value)
-            except:
+                return openobject.tools.ast.literal_eval(value)
+            except ValueError:
                 pass
 
         return value
