@@ -47,6 +47,9 @@ class Shortcuts(SecuredController):
         return shortcuts
 
     def list(self):
+        shortcuts = rpc.RPCProxy('ir.ui.view_sc')\
+            .get_sc(rpc.session.uid, 'ir.ui.menu', rpc.session.context) or []
+        cherrypy.session['terp_shortcuts'] = shortcuts
         return cherrypy.session.get('terp_shortcuts', [])
 
     def by_res_id(self):
