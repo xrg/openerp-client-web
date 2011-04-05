@@ -47,9 +47,6 @@ class Shortcuts(SecuredController):
         return shortcuts
 
     def list(self):
-        shortcuts = rpc.RPCProxy('ir.ui.view_sc')\
-            .get_sc(rpc.session.uid, 'ir.ui.menu', rpc.session.context) or []
-        cherrypy.session['terp_shortcuts'] = shortcuts
         return cherrypy.session.get('terp_shortcuts', [])
 
     def by_res_id(self):
@@ -65,7 +62,7 @@ class Shortcuts(SecuredController):
             return []
         # return the shortcuts we have in session, or if none
         # (empty list or no list at all) go fetch them from the server
-        return self.list() or self.refresh_session()
+        return self.refresh_session()
 
     @expose()
     def default(self):
