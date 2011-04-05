@@ -275,18 +275,12 @@ function form_setReadonly(container, fieldName, readonly) {
     var type = $field.attr('type');
 
     if (!type && ($field.hasClass('item-group'))) {
-        var  group_fields = jQuery($field).find('input, textarea, select')
-        group_fields.each(function(){
-        var $this = jQuery(this);
-            if (readonly) {
-            	$this.addClass('readonlyfield')
-            	$this.attr({'disabled': 'disabled', 'readOnly': readonly});
-            }
-            else {
-            	$this.removeClass('readonlyfield');
-            	$this.attr({'disabled': '', 'readOnly': readonly});
-            }
-        });
+    	if (readonly) {
+        	jQuery($field).find(':input').addClass('readonlyfield').attr({'disabled': readonly, 'readOnly': readonly})
+        }
+    	else {
+        	jQuery($field).find(':input').removeClass('readonlyfield').attr({'disabled': readonly, 'readOnly': readonly});
+        }
         return;
     }
     $field.attr({'disabled':readonly, 'readOnly': readonly});
