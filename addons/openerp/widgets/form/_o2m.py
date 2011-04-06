@@ -137,9 +137,8 @@ class O2M(TinyInputWidget):
 
         self.switch_to = view_mode[-1]
         if view_type == view_mode[-1]: self.switch_to = view_mode[0]
-        
+
         ids = attrs.get('value') or []
-        
         if not isinstance(ids, list):
             ids = [ids]
 
@@ -176,18 +175,19 @@ class O2M(TinyInputWidget):
         current.context = current.context or {}
 
         group_by_ctx = ''
-
         if self.default_get_ctx:
             ctx = dict(cherrypy.request.terp_record,
                        context=current.context,
                        active_id=self.parent_id or False)
-
+            ctx[attrs['name']] = ids
             # XXX: parent record for O2M
             #if self.parent:
             #    ctx['parent'] = EvalEnvironment(self.parent)
 
             try:
-                ctx = expr_eval("dict(%s)" % self.default_get_ctx, ctx)
+                context = ctx.copy()
+                ctx = expr_eval("dict(%s)" % self.default_get_ctx, context)
+                ctx.update(expr_eval("dict(%s)" % attrs.get('context', '{}'), context))
                 current.context.update(ctx)
             except:
                 pass
