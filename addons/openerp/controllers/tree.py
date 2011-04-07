@@ -202,8 +202,8 @@ class Tree(SecuredController):
             if field_parent and field_parent in item:
                 record['children'] = item.pop(field_parent) or None
 
-                # don't put an action for items with children
-                if record['children']:
+                # don't put an action for menu items with children
+                if model == 'ir.ui.menu' and record['children']:
                     record['action'] = None
 
             records.append(record)
