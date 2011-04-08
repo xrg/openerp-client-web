@@ -111,8 +111,8 @@ ManyToOne.prototype.lostFocus = function() {
         // clicked outside the box, with some text entered
         // do as if tabbed out
         this.lastKey = null;
-        this.clearResults();
         this.get_matched();
+        this.clearResults();
     }
 };
 
@@ -370,6 +370,13 @@ ManyToOne.prototype.on_keypress = function(evt) {
 };
 
 ManyToOne.prototype.get_matched = function() {
+    if (jQuery(this.field).hasClass('m2o_search') &&
+        this.delayedRequest == null &&
+        this.numResultRows == 0) {
+        // Allow substring search (press ESC at the combobox)
+        return;
+    }
+
     if(openobject.http.AJAX_COUNT > 0) {
         callLater(0, jQuery.proxy(this, 'get_matched'));
         return;
