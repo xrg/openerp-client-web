@@ -62,7 +62,7 @@ class Shortcuts(SecuredController):
             return []
         # return the shortcuts we have in session, or if none
         # (empty list or no list at all) go fetch them from the server
-        return self.list() or self.refresh_session()
+        return self.refresh_session()
 
     @expose()
     def default(self):
