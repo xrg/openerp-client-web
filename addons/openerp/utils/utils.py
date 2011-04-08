@@ -112,6 +112,15 @@ class TinyDict(dict):
                 return openobject.tools.ast.literal_eval(value)
             except ValueError:
                 pass
+            except SyntaxError:
+                # certificates are sequences of digits but may (will?) start
+                # with a pair of zeroes, leading to this code trying (and
+                # failing) to parse them as integers.
+                #
+                # Ignore only this case if we catch a syntax error
+                if not re.match('^0+\d*$', value):
+                    raise
+
 
         return value
 
