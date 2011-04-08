@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: openobject-client-web\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2011-03-18 11:53+0100\n"
-"PO-Revision-Date: 2011-04-06 07:29+0000\n"
-"Last-Translator: Rolv Råen <Unknown>\n"
+"PO-Revision-Date: 2011-04-07 08:09+0000\n"
+"Last-Translator: Rolv Råen (adEgo) <Unknown>\n"
 "Language-Team: Norwegian Bokmal <nb@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2011-04-07 05:54+0000\n"
+"X-Launchpad-Export-Date: 2011-04-08 06:12+0000\n"
 "X-Generator: Launchpad (build 12735)\n"
 
 #: validators.py:75
@@ -27,7 +27,7 @@ msgstr "Ugyldig dato/tids format"
 
 #: validators.py:166
 msgid "Please select a file."
-msgstr "Velg en fil"
+msgstr "Vennligst velg en fil."
 
 #: validators.py:247
 msgid "Please enter an email address"
@@ -54,7 +54,7 @@ msgstr "Domenet i denne e-postadressen er ugyldig (etter @: %(domain)s)"
 
 #: validators.py:254
 msgid "You must start your URL with http://, https://, etc"
-msgstr "Du må starte dinURL med http://, https://, osv."
+msgstr "Du må starte din URL med http://, https://, osv"
 
 #: validators.py:255
 msgid "That is not a valid URL"
@@ -124,6 +124,9 @@ msgid ""
 "databases. This is not a OpenERP user, just a super administrator. If you "
 "did not changed it, the password is 'admin' after installation."
 msgstr ""
+"Dette er passordet til brukeren som har tilgang til å administrere "
+"databaser. Dette er ikke en OpenERP-bruker, men en super-administrator. Hvis "
+"du ikke har endret det er passordet 'admin' etter installasjon."
 
 #: controllers/database.py:69 controllers/database.py:101
 msgid "New database name:"
@@ -134,6 +137,8 @@ msgid ""
 "Choose the name of the database that will be created. The name must not "
 "contain any special character. Exemple: 'terp'."
 msgstr ""
+"Angi navn på databasen som skal opprettes. Navnet må ikke inneholde "
+"spesialtegn."
 
 #: controllers/database.py:70
 msgid "Load Demonstration data:"
@@ -145,6 +150,9 @@ msgid ""
 "database. These data will help you to understand OpenERP, with predefined "
 "products, partners, etc."
 msgstr ""
+"Kryss av her hvis du vil laste demonstrasjonsdata inn i din nye database. "
+"Dette datasettet vil hjelpe deg å forstå OpenERP, med forhåndsdefinerte "
+"produkter, partnere etc."
 
 #: controllers/database.py:71
 msgid "Default Language:"
@@ -156,6 +164,8 @@ msgid ""
 "will be able to install new languages after installation through the "
 "administration menu."
 msgstr ""
+"Velg standardspråk for denne databasen. Du vil kunne legge til nye språk "
+"etter installasjon gjennom administrasjonsmenyen."
 
 #: controllers/database.py:72
 msgid "Administrator password:"
@@ -166,6 +176,7 @@ msgid ""
 "This is the password of the 'admin' user that will be created in your new "
 "database."
 msgstr ""
+"Dette er passordet for 'admin' brukeren som opprettes i din nye database."
 
 #: controllers/database.py:73
 msgid "Confirm password:"
@@ -176,6 +187,8 @@ msgid ""
 "This is the password of the 'admin' user that will be created in your new "
 "database. It has to be the same than the above field."
 msgstr ""
+"Dette er passordet for  'admin' brukeren som opprettes i din nye database. "
+"Passordet må være det samme som i feltet over."
 
 #: controllers/database.py:79
 msgid "Drop database"
@@ -332,7 +345,7 @@ msgstr "Set til standard verdi"
 
 #: controllers/form.py:1125
 msgid "Set as default"
-msgstr ""
+msgstr "Bruk som standard"
 
 #: controllers/form.py:1132
 msgid "Action"
@@ -903,11 +916,11 @@ msgstr "Lagre og redigere"
 
 #: controllers/templates/form.mako:130
 msgid "Duplicate this resource"
-msgstr "Dubliser denne ressursen"
+msgstr "Dupliser denne ressursen"
 
 #: controllers/templates/form.mako:131
 msgid "Duplicate"
-msgstr "Dubliser"
+msgstr "Dupliser"
 
 #: controllers/templates/form.mako:135
 msgid "Delete this resource"
