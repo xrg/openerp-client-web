@@ -303,8 +303,9 @@ class Search(Form):
                     if bound == 'from': test = '>='
                     else: test = '<='
 
-                    domain.append((fieldname, test, value))
-                    search_data.setdefault(fieldname, {})[bound] = value
+                    convert_format = openobject.i18n.format.convert_date_format_in_domain([(fieldname, test, value)], res, context)
+                    domain.append(convert_format[0])
+                    search_data.setdefault(fieldname, {})[bound] = convert_format[0][2]
 
                 elif isinstance(value, bool) and value:
                     search_data[field] = 1
