@@ -390,19 +390,14 @@ def execute_url(**data):
     if not ('://' in url or url.startswith('/')):
         raise common.message(_('Relative URLs are not supported'))
     
-    # Unknown URL required to open in new window/tab.
-    if data['target'] != 'self' or url.startswith('http://') or url.startswith('http://'):
-        cherrypy.response.headers['X-Target'] = 'popup'
-        cherrypy.response.headers['Location'] = url
-        return """<script type="text/javascript">
-                        window.open('%s')
-                    </script>
-                """ % (url)
-    else:
-        return """<script type="text/javascript">
-                      openLink('%s')
-                  </script>
-                """ % (url)
+    # determine target for openAction()
+    openActionMap = {'new': 'popup', 'current': 'iframe'}    
+    target = openActionMap.get(data['target'], 'iframe')
+    
+    return """<script type="text/javascript">
+                  openAction('%s', '%s')
+              </script>
+            """ % (url, target)
     
 
 def get_action_type(act_id):
