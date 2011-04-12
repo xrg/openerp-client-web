@@ -39,7 +39,7 @@ function openLink(url /*optional afterLoad */) {
  */
 function openLinkFrame(url) {
     var app = jQuery('#appContent');
-    var data = '<iframe src="' + url + '" width="100%" height="100%"></iframe>'
+    var data = '<iframe src="' + url + '"></iframe>'
     jQuery(app[0]).html(data);
 }
 
