@@ -341,6 +341,13 @@ def act_window_opener(action, data):
     # then used back as a URL
     action.pop('search_view', None)
 
+    # when perform any button action on unsaved-record which returns 'ir.action.act_window'
+    # which pop-up new window but 'appcontent' is not reloaded
+    # for that passing active_id in headers, to get it in openAction
+    if getattr(cherrypy.request, 'params', []):
+        if getattr(cherrypy.request.params, 'context', {}):
+            cherrypy.response.headers['active_id'] = cherrypy.request.params.context.get('active_id')
+
     # Add 'opened' mark to indicate we're now within the popup and can
     # continue on during the second round of execution
     payload = str({

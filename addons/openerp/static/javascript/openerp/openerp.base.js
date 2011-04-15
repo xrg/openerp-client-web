@@ -91,8 +91,10 @@ function doLoadingSuccess(app/*, url*/) {
     }
     return function (data, status, xhr) {
         var target;
+        var active_id;
         if(xhr.getResponseHeader)
             target = xhr.getResponseHeader('X-Target');
+            active_id = xhr.getResponseHeader('active_id')
         if(target) {
             var _openAction;
             if (window.top.openAction) {
@@ -100,7 +102,7 @@ function doLoadingSuccess(app/*, url*/) {
             } else {
                 _openAction = openAction;
             }
-            _openAction(xhr.getResponseHeader('Location'), target);
+            _openAction(xhr.getResponseHeader('Location'), target, active_id);
             return;
         }
         if(url) {
@@ -154,7 +156,7 @@ function doLoadingSuccess(app/*, url*/) {
  * @param action_url the URL of the action to open
  * @param target the target, if any, defaults to 'current'
  */
-function openAction(action_url, target) {
+function openAction(action_url, target, terp_id) {
     var $dialogs = jQuery('.action-dialog');
     switch(target) {
         case 'new':
@@ -173,6 +175,9 @@ function openAction(action_url, target) {
             break;
         case 'popup':
             window.open(action_url);
+            if (terp_id) {
+            	window.top.editRecord(terp_id);
+            }
             break;
         case 'current':
         default:
