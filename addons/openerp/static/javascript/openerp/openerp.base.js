@@ -38,9 +38,8 @@ function openLink(url /*optional afterLoad */) {
  * @param url the URL to GET and insert into #appContent
  */
 function openLinkFrame(url) {
-    var app = jQuery('#appContent');
-    var data = '<iframe src="' + url + '"></iframe>'
-    jQuery(app[0]).html(data);
+    jQuery('#appContent').html(
+            '<iframe src="' + url + '"></iframe>');
 }
 
 /**
