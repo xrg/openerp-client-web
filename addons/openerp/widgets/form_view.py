@@ -82,6 +82,7 @@ class ViewForm(Form):
 
             cherrypy.request.custom_search_domain = self.search.listof_domain or []
             cherrypy.request.custom_filter_domain = self.search.custom_filter_domain or []
+            params.domain = self.search.domain or []
             params.search_domain = self.search.listof_domain
             params.filter_domain = self.search.custom_filter_domain            
             params.group_by_ctx = self.search.groupby
