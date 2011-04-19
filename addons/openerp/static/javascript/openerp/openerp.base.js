@@ -31,6 +31,17 @@ function openLink(url /*optional afterLoad */) {
     }
     window.location.assign(url);
 }
+
+/**
+ * Opens the provided URL inside the application content section.
+ *
+ * @param url the URL to GET and insert into #appContent
+ */
+function openLinkFrame(url) {
+    jQuery('#appContent').html(
+            '<iframe src="' + url + '"></iframe>');
+}
+
 /**
  * Displays a fancybox containing the error display
  * @param xhr the received XMLHttpResponse
@@ -178,6 +189,9 @@ function openAction(action_url, target, terp_id) {
             if (terp_id) {
             	window.top.editRecord(terp_id);
             }
+            break;
+        case 'iframe':
+            openLinkFrame(action_url);
             break;
         case 'current':
         default:
