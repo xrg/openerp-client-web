@@ -23,6 +23,7 @@
 """
 import base64
 import time
+import urlparse
 import zlib
 
 import cherrypy
@@ -387,17 +388,25 @@ def execute(action, **data):
 
 def execute_url(**data):
     url = data.get('url') or ''
-    if not ('://' in url or url.startswith('/')):
+    parsed = urlparse.urlsplit(url)
+    if not (parsed.netloc or parsed.path.startswith('/')):
         raise common.message(_('Relative URLs are not supported'))
-    
-    # determine target for openAction()
-    openActionMap = {'new': 'popup', 'current': 'iframe'}    
-    target = openActionMap.get(data['target'], 'iframe')
-    
+
+    if parsed.netloc:
+        # external URL
+
+        # determine target for openAction()
+        target = {'new': 'popup'}.get(data['target'], 'iframe')
+
+        return """<script type="text/javascript">
+                      openAction('%s', '%s')
+                  </script>
+                """ % (url, target)
+
     return """<script type="text/javascript">
-                  openAction('%s', '%s')
+                  openLink('%s')
               </script>
-            """ % (url, target)
+            """ % url
     
 
 def get_action_type(act_id):
