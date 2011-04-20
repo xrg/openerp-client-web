@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: openobject-client-web\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2011-03-18 11:53+0100\n"
-"PO-Revision-Date: 2011-04-05 13:46+0000\n"
+"PO-Revision-Date: 2011-04-19 10:51+0000\n"
 "Last-Translator: Rolv Råen (adEgo) <Unknown>\n"
 "Language-Team: Norwegian Bokmal <nb@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2011-04-06 06:01+0000\n"
-"X-Generator: Launchpad (build 12559)\n"
+"X-Launchpad-Export-Date: 2011-04-20 05:56+0000\n"
+"X-Generator: Launchpad (build 12758)\n"
 
 #: static/javascript/form.js:92
 #, python-format
@@ -24,7 +24,7 @@ msgstr ""
 
 #: static/javascript/form.js:169
 msgid "Invalid form, correct red fields."
-msgstr ""
+msgstr "Feil i skjemaet, korriger røde felter."
 
 #: static/javascript/form.js:204
 msgid "Do you really want to delete this record?"
@@ -36,7 +36,7 @@ msgstr "Du må velge en eller flere poster !"
 
 #: static/javascript/form.js:995
 msgid "You must save this record to perform the action !"
-msgstr ""
+msgstr "Du må lagre denne posten for å utføre handlingen !"
 
 #: static/javascript/form.js:1127
 msgid "Do you really want to delete the attachment"
@@ -48,13 +48,15 @@ msgstr ""
 
 #: static/javascript/form.js:1220
 msgid "OpenERP - Error"
-msgstr ""
+msgstr "OpenERP - Feil"
 
 #: static/javascript/form.js:1291
 msgid ""
 "Warning, the record has been modified,\n"
 "your changes will be discarded."
 msgstr ""
+"Advarsel, posten har blitt endret,\n"
+"dine endringer vil bli forkastet."
 
 #: static/javascript/listgrid.js:542 static/javascript/o2m.js:123
 msgid "To edit Record, please first save it."
@@ -62,7 +64,7 @@ msgstr "For å redigere posten må du først lagre den"
 
 #: static/javascript/listgrid.js:650
 msgid "Do you really want to delete selected record(s) ?"
-msgstr ""
+msgstr "Vil du virkelig slette valgte innføringer"
 
 #: static/javascript/m2o.js:526
 msgid "error in display::"
@@ -78,7 +80,7 @@ msgstr "Ugyldig verdi"
 
 #: static/javascript/viewed.js:63
 msgid "Do you really want to remove this node?"
-msgstr ""
+msgstr "Vil du virkelig fjerne denne noden?"
 
 #: static/javascript/viewed.js:329
 msgid "Do you really wants to create an inherited view here?"
