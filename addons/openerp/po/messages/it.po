@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2011-03-18 11:53+0100\n"
-"PO-Revision-Date: 2011-02-28 12:02+0000\n"
-"Last-Translator: inbeauty <a.tonelli@inbeauty.it>\n"
+"PO-Revision-Date: 2011-04-18 09:36+0000\n"
+"Last-Translator: Guybrush88 <Unknown>\n"
 "Language-Team: it <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2011-03-19 07:08+0000\n"
-"X-Generator: Launchpad (build 12559)\n"
+"X-Launchpad-Export-Date: 2011-04-19 06:20+0000\n"
+"X-Generator: Launchpad (build 12758)\n"
 "Generated-By: Babel None\n"
 
 #: validators.py:75
@@ -142,6 +142,8 @@ msgid ""
 "Choose the name of the database that will be created. The name must not "
 "contain any special character. Exemple: 'terp'."
 msgstr ""
+"Scegli il nome del database che verrà creato. Il nome non deve contenere "
+"caratteri speciali. Esempio: 'terp'."
 
 #: controllers/database.py:70
 msgid "Load Demonstration data:"
@@ -180,6 +182,8 @@ msgid ""
 "This is the password of the 'admin' user that will be created in your new "
 "database."
 msgstr ""
+"Questa è la password dell'utente 'admin' (amministratore) che verrà creata "
+"nel tuo nuovo database."
 
 #: controllers/database.py:73
 msgid "Confirm password:"
@@ -190,6 +194,8 @@ msgid ""
 "This is the password of the 'admin' user that will be created in your new "
 "database. It has to be the same than the above field."
 msgstr ""
+"Questa è la password dell'utente 'admin' (amministratore) che verrà creata "
+"nel tuo nuovo database. Deve essere la stessa del campo superiore."
 
 #: controllers/database.py:79
 msgid "Drop database"
@@ -237,7 +243,7 @@ msgstr "Cambia Password Amministrazione"
 
 #: controllers/database.py:107 controllers/templates/preferences/index.mako:37
 msgid "Change Password"
-msgstr ""
+msgstr "Cambia password"
 
 #: controllers/database.py:108
 msgid "Old Password:"
@@ -274,7 +280,7 @@ msgstr "Errore durante la creazione del database"
 #: controllers/database.py:198 controllers/database.py:225
 #: controllers/database.py:271 controllers/database.py:294
 msgid "Bad super admin password"
-msgstr ""
+msgstr "Password super amministratore errata."
 
 #: controllers/database.py:202
 msgid "Could not create database."
@@ -316,7 +322,7 @@ msgstr ""
 #: controllers/form.py:561
 #, python-format
 msgid "Invalid button type \"%s\""
-msgstr ""
+msgstr "Tipo pulsante invalido \"%s\""
 
 #: controllers/form.py:944 controllers/tree.py:243
 msgid "No record selected"
@@ -338,23 +344,23 @@ msgstr "Trigger on_change errato: %s"
 
 #: controllers/form.py:1121
 msgid "Open resource"
-msgstr ""
+msgstr "Apri risorsa"
 
 #: controllers/form.py:1124
 msgid "Set to default value"
-msgstr ""
+msgstr "Imposta valore predefinito"
 
 #: controllers/form.py:1125
 msgid "Set as default"
-msgstr ""
+msgstr "Imposta come predefinito"
 
 #: controllers/form.py:1132
 msgid "Action"
-msgstr ""
+msgstr "Azione"
 
 #: controllers/form.py:1133
 msgid "Report"
-msgstr ""
+msgstr "Segnala"
 
 #: controllers/impex.py:66
 msgid ""
@@ -370,7 +376,7 @@ msgstr "Errore Export"
 
 #: controllers/impex.py:469
 msgid "Database ID"
-msgstr ""
+msgstr "ID database"
 
 #: controllers/impex.py:476
 msgid "Error opening .CSV file"
@@ -400,7 +406,7 @@ msgstr ""
 
 #: controllers/impex.py:532
 msgid "File Format Error"
-msgstr ""
+msgstr "Errore nel formato del file"
 
 #: controllers/impex.py:550
 msgid "XML-RPC error"
@@ -426,7 +432,7 @@ msgstr "Il record padre non esiste..."
 
 #: controllers/preferences.py:35
 msgid "Change your password"
-msgstr ""
+msgstr "Cambia la tua password"
 
 #: controllers/preferences.py:65 controllers/templates/header.mako:59
 msgid "Preferences"
@@ -434,19 +440,20 @@ msgstr "Preferenze"
 
 #: controllers/preferences.py:92
 msgid "All passwords have to be filled."
-msgstr ""
+msgstr "Tutte le password devono essere riempite."
 
 #: controllers/preferences.py:94
 msgid "The new password and its confirmation must be identical."
-msgstr ""
+msgstr "La nuova password e la sua conferma devono essere identiche."
 
 #: controllers/preferences.py:103
 msgid "Could not change your password."
-msgstr ""
+msgstr "Non è stato possibile cambiare la tua password."
 
 #: controllers/preferences.py:105
 msgid "Original password incorrect, your password was not changed."
 msgstr ""
+"Password originale non corretta, la tua password non è stata cambiata."
 
 #: controllers/root.py:174
 #, python-format
@@ -563,11 +570,11 @@ msgstr "OpenERP Web"
 
 #: controllers/templates/about.mako:30
 msgid "Copyright &copy; 2006-TODAY OpenERP SA. All Rights Reserved."
-msgstr ""
+msgstr "Copyright &copy; 2006-OGGI OpenERP SA. Tutti i diritti riservati."
 
 #: controllers/templates/about.mako:31
 msgid "OpenERP is a trademark of the OpenERP SA Company."
-msgstr ""
+msgstr "OpenERP è un marchio registrato della OpenERP SA Company."
 
 #: controllers/templates/about.mako:33
 #, python-format
@@ -629,7 +636,7 @@ msgstr "Password"
 #: controllers/templates/error_page.mako:82
 #, python-format
 msgid "An %(error_type)s has been reported."
-msgstr ""
+msgstr "Un %(error_type)s è stato segnalato."
 
 #: controllers/templates/error_page.mako:84
 msgid "Let me fix it"
@@ -642,7 +649,7 @@ msgstr "Risolvilo al posto mio"
 
 #: controllers/templates/error_page.mako:99
 msgid "Publisher warranty contract."
-msgstr ""
+msgstr "Contratto della garanzia del pubblicatore."
 
 #: controllers/templates/error_page.mako:100
 msgid ""
@@ -652,7 +659,7 @@ msgstr ""
 
 #: controllers/templates/error_page.mako:104
 msgid "Summary of the problem:"
-msgstr ""
+msgstr "Riepilogo del problema:"
 
 #: controllers/templates/error_page.mako:111
 msgid "Explain what you did:"
@@ -703,7 +710,7 @@ msgstr "Esporta Dati"
 
 #: controllers/templates/exp.mako:166
 msgid "Export Type:"
-msgstr ""
+msgstr "Tipo di esportazione:"
 
 #: controllers/templates/exp.mako:169
 msgid "Import Compatible Export"
@@ -711,11 +718,11 @@ msgstr ""
 
 #: controllers/templates/exp.mako:172
 msgid "Export all Data"
-msgstr ""
+msgstr "Esporta tutti i dati"
 
 #: controllers/templates/exp.mako:190
 msgid "Available fields"
-msgstr ""
+msgstr "Campi disponibili"
 
 #: controllers/templates/exp.mako:192
 msgid "Fields to export"
@@ -723,11 +730,11 @@ msgstr "Campi da esportare"
 
 #: controllers/templates/exp.mako:194
 msgid "Save fields list"
-msgstr ""
+msgstr "Salva l'elenco dei campi"
 
 #: controllers/templates/exp.mako:196
 msgid "Save as:"
-msgstr ""
+msgstr "Salva come:"
 
 #: controllers/templates/exp.mako:198 controllers/templates/fieldpref.mako:102
 #: controllers/templates/selection.mako:45
@@ -736,7 +743,7 @@ msgstr "OK"
 
 #: controllers/templates/exp.mako:202
 msgid "Saved exports:"
-msgstr ""
+msgstr "Esportazioni salvate:"
 
 #: controllers/templates/exp.mako:211 controllers/templates/form.mako:136
 #: widgets/form/templates/one2many.mako:23 widgets/templates/sidebar.mako:67
@@ -761,11 +768,11 @@ msgstr "Rimuovi"
 
 #: controllers/templates/exp.mako:234
 msgid "Remove All"
-msgstr ""
+msgstr "Rimuovi tutto"
 
 #: controllers/templates/exp.mako:252
 msgid "Export to File"
-msgstr ""
+msgstr "Esporta al file"
 
 #: controllers/templates/fieldpref.mako:4
 #: controllers/templates/fieldpref.mako:29
@@ -835,7 +842,7 @@ msgstr "Disabilita tutti i Suggerimenti"
 
 #: controllers/templates/form.mako:65 controllers/templates/tree.mako:34
 msgid "Hide this Tip"
-msgstr ""
+msgstr "Nascondi questo suggerimento"
 
 #: controllers/templates/form.mako:83 controllers/templates/tree.mako:41
 msgid "Add / Remove Shortcut..."
@@ -979,28 +986,28 @@ msgstr "Importa Dati"
 
 #: controllers/templates/imp.mako:89
 msgid "1. Import a .CSV file"
-msgstr ""
+msgstr "1. Importa un file .CSV"
 
 #: controllers/templates/imp.mako:105
 msgid "CSV File:"
-msgstr ""
+msgstr "File CSV:"
 
 #: controllers/templates/imp.mako:123
 msgid "2. Check your file format"
-msgstr ""
+msgstr "2. Controlla il formato del tuo file"
 
 #: controllers/templates/imp.mako:130
 #, python-format
 msgid "The import failed due to: %(message)s"
-msgstr ""
+msgstr "L'importazione è fallita per via di: %(message)s"
 
 #: controllers/templates/imp.mako:132
 msgid "Here is a preview of the file we could not import:"
-msgstr ""
+msgstr "Ecco un anteprima del file che non siamo riusciti a importare:"
 
 #: controllers/templates/imp.mako:157
 msgid "CSV Options"
-msgstr ""
+msgstr "Opzioni CSV"
 
 #: controllers/templates/imp.mako:160
 msgid "Separator:"
@@ -1020,11 +1027,11 @@ msgstr "Linee da saltare:"
 
 #: controllers/templates/imp.mako:187
 msgid "3. File imported"
-msgstr ""
+msgstr "3. File importato"
 
 #: controllers/templates/imp.mako:205
 msgid "Import File"
-msgstr ""
+msgstr "Importa file"
 
 #: controllers/templates/index.mako:167
 msgid "System Logs"
@@ -1032,7 +1039,7 @@ msgstr "Log di sistema"
 
 #: controllers/templates/index.mako:192
 msgid "More"
-msgstr ""
+msgstr "Di più"
 
 #: controllers/templates/index.mako:193
 msgid "Widgets"
@@ -1113,11 +1120,11 @@ msgstr "Moduli Web"
 
 #: controllers/templates/openo2m.mako:34
 msgid "Save & Close"
-msgstr ""
+msgstr "Salva & Chiudi"
 
 #: controllers/templates/openo2m.mako:37
 msgid "Save & New"
-msgstr ""
+msgstr "Salva & Nuovo"
 
 #: controllers/templates/save_filter.mako:18
 msgid "Save as Filter"
@@ -1498,7 +1505,7 @@ msgstr "Gestisci Viste"
 
 #: widgets/templates/sidebar.mako:93
 msgid "Edit workflow of the current object"
-msgstr ""
+msgstr "Modifica il flusso di lavoro dell'oggetto corrente"
 
 #: widgets/templates/sidebar.mako:94
 msgid "Edit Workflow"

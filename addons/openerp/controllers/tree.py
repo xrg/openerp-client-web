@@ -164,6 +164,9 @@ class Tree(SecuredController):
         if icon_name:
             fields.append(icon_name)
 
+        if model == 'ir.ui.menu' and 'action' not in fields:
+            fields.append('action')
+
         result = proxy.read(ids, fields, ctx)
 
         if sort_by:
@@ -199,12 +202,14 @@ class Tree(SecuredController):
                 icon = item.pop(icon_name)
                 record['icon'] = icons.get_icon(icon)
 
-                if icon == 'STOCK_OPEN':
-                    record['action'] = None
-                    record['target'] = None
-
             if field_parent and field_parent in item:
                 record['children'] = item.pop(field_parent) or None
+
+                # For nested menu items, remove void action url
+                # to suppress 'No action defined' error.
+                if (model == 'ir.ui.menu' and record['children'] and
+                     not item['action']):
+                    record['action'] = None
 
             records.append(record)
 

@@ -114,8 +114,8 @@ function form_hookAttrChange() {
         attrs = attrs.replace(/\)/g, ']');
         attrs = attrs.replace(/True/g, '1');
         attrs = attrs.replace(/False/g, '0');
-        attrs = attrs.replace(/uid/g, window.USER_ID);
-        
+        attrs = attrs.replace(/\buid\b/g, window.USER_ID);
+
         try {
             attrs = eval('(' + attrs + ')');
         } catch(e){
@@ -159,7 +159,7 @@ function form_hookAttrChange() {
 function form_onAttrChange(container, widgetName, attr, expr, elem) {
 
     var prefix = widgetName.slice(0, widgetName.lastIndexOf('/') + 1);
-    var widget = openobject.dom.get(widgetName);
+    var widget = openobject.dom.get(widgetName) || elem;
 
     var result = form_evalExpr(prefix, expr, elem);
 
@@ -240,7 +240,7 @@ function form_evalExpr(prefix, expr, ref_elem) {
     for (var j=stack.length-1; j>-1; j--) {
         if(stack[j] == '|'){
             var result = stack[j+1] || stack[j+2];
-            stack.splice(j, 3, result)
+            stack.splice(j, 3, result);
         }
     }
     // shouldn't find any `false` left at this point
@@ -273,6 +273,13 @@ function form_setReadonly(container, fieldName, readonly) {
     }
 
     var type = $field.attr('type');
+
+    if (!type && ($field.hasClass('item-group'))) {
+        jQuery($field).find(':input')
+                .toggleClass('readonlyfield', readonly)
+                .attr({'disabled': readonly, 'readOnly': readonly});
+        return;
+    }
     $field.attr({'disabled':readonly, 'readOnly': readonly});
 
     if (readonly) {
@@ -295,7 +302,7 @@ function form_setReadonly(container, fieldName, readonly) {
 
     if (!kind && (jQuery(idSelector(field_id+'_btn_')).length || jQuery(idSelector('_o2m'+field_id)).length)) { // one2many
         new One2Many(field_id).setReadonly(readonly);
-        return
+        return;
     }
 
     if (kind == 'date' || kind == 'datetime' || kind == 'time') {

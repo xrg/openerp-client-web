@@ -35,6 +35,10 @@ function escapeId(id) {
  * @param nodeId the DOM id to transform into selector
  */
 function idSelector(nodeId) {
+    if (!(typeof nodeId === 'string')) {
+        return nodeId;
+    }
+
     return '#' + escapeId(nodeId);
 }
 

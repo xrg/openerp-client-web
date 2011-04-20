@@ -1,106 +1,103 @@
-# Italian translations for PROJECT.
-# Copyright (C) 2010 ORGANIZATION
-# This file is distributed under the same license as the PROJECT project.
-# FIRST AUTHOR <EMAIL@ADDRESS>, 2010.
+# Norwegian Bokmal translation for openobject-client-web
+# Copyright (c) 2011 Rosetta Contributors and Canonical Ltd 2011
+# This file is distributed under the same license as the openobject-client-web package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2011.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: PROJECT VERSION\n"
-"Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
+"Project-Id-Version: openobject-client-web\n"
+"Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2011-03-18 11:53+0100\n"
-"PO-Revision-Date: 2011-04-18 09:23+0000\n"
-"Last-Translator: Guybrush88 <Unknown>\n"
-"Language-Team: it <LL@li.org>\n"
+"PO-Revision-Date: 2011-04-19 10:51+0000\n"
+"Last-Translator: Rolv Råen (adEgo) <Unknown>\n"
+"Language-Team: Norwegian Bokmal <nb@li.org>\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=utf-8\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2011-04-19 06:20+0000\n"
+"X-Launchpad-Export-Date: 2011-04-20 05:56+0000\n"
 "X-Generator: Launchpad (build 12758)\n"
-"Generated-By: Babel None\n"
 
 #: static/javascript/form.js:92
 #, python-format
 msgid "You selected to open %(tabs)s tabs - do you want to continue?"
-msgstr "Hai deciso di aprire %(tabs)s tab - vuoi continuare?"
+msgstr ""
 
 #: static/javascript/form.js:169
 msgid "Invalid form, correct red fields."
-msgstr "Form non valido, correggere i campi in rosso."
+msgstr "Feil i skjemaet, korriger røde felter."
 
 #: static/javascript/form.js:204
 msgid "Do you really want to delete this record?"
-msgstr "Vuoi veramente eliminare questo record?"
+msgstr "Vil du virkelig slette denne posten ?"
 
 #: static/javascript/form.js:960
 msgid "You must select one or several records !"
-msgstr "Selezionare una o più righe !"
+msgstr "Du må velge en eller flere poster !"
 
 #: static/javascript/form.js:995
 msgid "You must save this record to perform the action !"
-msgstr "Devi salvare il record prima di eseguire questa azione!"
+msgstr "Du må lagre denne posten for å utføre handlingen !"
 
 #: static/javascript/form.js:1127
 msgid "Do you really want to delete the attachment"
-msgstr "Vuoi veramente eliminare l'allegato?"
+msgstr "Vil du virkelig slette dette vedlegget"
 
 #: static/javascript/form.js:1161
 msgid "No record selected ! You can only attach to existing record."
 msgstr ""
-"Non è stato selezionato alcun record ! Si può solo agganciare ad un record "
-"esistente."
 
 #: static/javascript/form.js:1220
 msgid "OpenERP - Error"
-msgstr "OpenERP - Errore"
+msgstr "OpenERP - Feil"
 
 #: static/javascript/form.js:1291
 msgid ""
 "Warning, the record has been modified,\n"
 "your changes will be discarded."
 msgstr ""
-"Attenzione, il record è stato modificato,\n"
-"le modifiche saranno scartate."
+"Advarsel, posten har blitt endret,\n"
+"dine endringer vil bli forkastet."
 
 #: static/javascript/listgrid.js:542 static/javascript/o2m.js:123
 msgid "To edit Record, please first save it."
-msgstr "Prima di modificare il record è necessario salvarlo."
+msgstr "For å redigere posten må du først lagre den"
 
 #: static/javascript/listgrid.js:650
 msgid "Do you really want to delete selected record(s) ?"
-msgstr "Vuoi veramente eliminare i/il record selezionato/i?"
+msgstr "Vil du virkelig slette valgte innføringer"
 
 #: static/javascript/m2o.js:526
 msgid "error in display::"
-msgstr "errore nel visualizzare::"
+msgstr ""
 
 #: static/javascript/o2m.js:67
 msgid "Do you really want to delete record ?"
-msgstr "Vuoi veramente eliminare il record?"
+msgstr "Vil du virkelig slette denne posten ?"
 
 #: static/javascript/search.js:285
 msgid "Invalid Value"
-msgstr "Valore non valido"
+msgstr "Ugyldig verdi"
 
 #: static/javascript/viewed.js:63
 msgid "Do you really want to remove this node?"
-msgstr "Vuoi veramente eliminare questo nodo?"
+msgstr "Vil du virkelig fjerne denne noden?"
 
 #: static/javascript/viewed.js:329
 msgid "Do you really wants to create an inherited view here?"
-msgstr "Vuoi veramente creare una vista ereditata in questa posizione?"
+msgstr ""
 
 #: static/javascript/openerp/openerp.base.js:127
 msgid "doLoadingSuccess: Cannot parse JSON"
-msgstr "doLoadingSuccess: impossibile analizzare il JSON"
+msgstr ""
 
 #: static/javascript/openerp/openerp.base.js:335
 msgid "Loading"
-msgstr "Caricamento"
+msgstr "Laster"
 
 #: static/javascript/openerp/openerp.ui.tips.js:51
 msgid "Object"
-msgstr "Oggetto"
+msgstr "Objekt"
 
 #: static/javascript/openerp/openerp.ui.tips.js:52
 msgid "Field"
-msgstr "Campo"
+msgstr "Felt"

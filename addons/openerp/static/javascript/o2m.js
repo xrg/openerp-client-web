@@ -125,12 +125,11 @@ One2Many.prototype = {
         var parents = [];
         // get the required view params to get proper view
         var params = {
-            '_terp_view_params/_terp_model': openobject.dom.get('_terp_model').value,
-            '_terp_view_params/_terp_id': openobject.dom.get('_terp_id').value,
-            '_terp_view_params/_terp_ids': openobject.dom.get('_terp_ids').value,
-            '_terp_view_params/_terp_view_ids': openobject.dom.get('_terp_view_ids').value,
-            '_terp_view_params/_terp_view_mode': openobject.dom.get('_terp_view_mode').value,
-            '_terp_view_params/_terp_context': openobject.dom.get('_terp_context').value || {},
+            '_terp_view_params/_terp_model': this.parent_model,
+            '_terp_view_params/_terp_id': this.parent_id,
+            '_terp_view_params/_terp_view_id':this.parent_view_id,
+            '_terp_view_params/_terp_view_mode': this.mode,
+            '_terp_view_params/_terp_context': this.parent_context || {},
             '_terp_view_params/_terp_view_type': 'form'
         };
 

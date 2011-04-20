@@ -803,10 +803,10 @@ function makeContextMenu(id, kind, relation, val){
 
     var prefix = id.indexOf('/') > -1 ? id.slice(0, id.lastIndexOf('/')) + '/' : '';
     if ((prefix.split('/')[0])== '_terp_listfields') {
-        prefix = ''
+        prefix = (prefix.split('/')[1]);
     }
 
-    var model = prefix ? openobject.dom.get(prefix + '_terp_model').value : openobject.dom.get('_terp_model').value;
+    var model = prefix ? openobject.dom.get(prefix + '/_terp_model').value : openobject.dom.get('_terp_model').value;
 
     openobject.http.postJSON(act, {
         'model': model,
