@@ -46,6 +46,7 @@ def expr_eval(string, context=None):
                    datetime=datetime,
                    relativedelta=relativedelta)
     if isinstance(string, basestring):
+        string = string.strip()
         try:
             value = eval(string, context)
         except:
