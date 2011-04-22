@@ -59,16 +59,20 @@ def _load_translation(path, locale, domain):
         try:
             # generate MO file if none exists or the MO file is older than the PO
             # file (== the PO file got updated since the cache was built)
+            cherrypy.log('Compiling message catalogs for %s' % popath, 'INFO')
             with open(popath, 'rb') as pofile:
                 with open(mopath, 'wb') as mofile:
                     babel.messages.mofile.write_mo(
                             mofile,
                             babel.messages.pofile.read_po(
                                     pofile, locale, domain))
-        except:
+        except Exception:
             # If the parsing of the PO file broke, don't leave an empty MO
             # file hanging around
-            os.remove(mopath)
+            cherrypy.log.error('Failed compilation of message catalog %s!' % popath)
+            if os.path.exists(mopath):
+                os.remove(mopath)
+            
             raise
 
     return babel.support.Translations.load(
