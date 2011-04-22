@@ -1094,7 +1094,6 @@ WeekCalendar.DayEvent.prototype = {
     },
 
     adjust : function() {
-
         var w = this.container.calendar.colWidth;
         var h = ((this.ends.getTime() - this.starts.getTime()) / (60 * 1000)) / (30 / 20);
 
@@ -1104,10 +1103,7 @@ WeekCalendar.DayEvent.prototype = {
         w -= 2;
         w = this.expand ? w : w / this.container.columns;
 
-        var pad = this.expand ? 0 : (w * 25) / 100;
-
-        x = this.column == 0 ? x : x + (this.column * w) - pad;
-        w += pad;
+        x = this.column == 0 ? x : x + (this.column * w);
 
         if (!this.expand && (Browser.isIE || Browser.isWebKit)) {
             w += 1;

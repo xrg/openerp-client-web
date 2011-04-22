@@ -31,7 +31,7 @@ var One2Many = function(name, inline) {
     this.mode = openobject.dom.get(name + '/_terp_view_type').value;
 
     if (openobject.dom.get(name + '/_terp_default_get_ctx'))
-        this.default_get_ctx = openobject.dom.get(name + '/_terp_default_get_ctx').value;
+        this.default_get_ctx = openobject.dom.get(name + '/_terp_context').value;
 
     var parent_prefix = name.indexOf('/') > -1 ? name.slice(0, name.lastIndexOf('/') + 1) : '';
 
@@ -39,6 +39,8 @@ var One2Many = function(name, inline) {
     this.parent_id = openobject.dom.get(parent_prefix + '_terp_id').value;
     this.parent_context = openobject.dom.get(parent_prefix + '_terp_context').value;
     this.parent_view_id = openobject.dom.get(parent_prefix + '_terp_view_id').value;
+    this.parent_view_ids = jQuery(idSelector(parent_prefix + '_terp_view_ids')).val();
+    this.parent_view_mode = jQuery(idSelector(parent_prefix + '_terp_view_mode')).val();
 
     // hide new button when editors are visible
     if (this.mode == 'tree' && this.inline) {
@@ -128,7 +130,8 @@ One2Many.prototype = {
             '_terp_view_params/_terp_model': this.parent_model,
             '_terp_view_params/_terp_id': this.parent_id,
             '_terp_view_params/_terp_view_id':this.parent_view_id,
-            '_terp_view_params/_terp_view_mode': this.mode,
+            '_terp_view_params/_terp_view_ids': this.parent_view_ids,
+            '_terp_view_params/_terp_view_mode': this.parent_view_mode,
             '_terp_view_params/_terp_context': this.parent_context || {},
             '_terp_view_params/_terp_view_type': 'form'
         };

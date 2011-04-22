@@ -86,7 +86,6 @@ class ListView(TinyView):
 
     def __call__(self, screen):
         fields = screen.view['fields']
-        screen.domain = convert_date_format_in_domain(screen.domain, fields, screen.context)
         screen.search_domain = convert_date_format_in_domain(screen.search_domain, fields, screen.context)
 
         if screen.group_by_ctx or screen.context.get('group_by') or screen.context.get('group_by_no_leaf'):
