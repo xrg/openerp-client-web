@@ -25,6 +25,7 @@ from openerp.controllers import SecuredController, unsecured, actions, login as 
 from openerp.utils import rpc, cache, TinyDict
 
 from openobject.tools import url, expose, redirect
+from openobject.tools.ast import literal_eval
 
 _MAXIMUM_NUMBER_WELCOME_MESSAGES = 3
 
@@ -101,7 +102,15 @@ class Root(SecuredController):
             form.Form().reset_notebooks()
         ctx = rpc.session.context.copy()
         menus = rpc.RPCProxy("ir.ui.menu")
-        ids = menus.search([('parent_id', '=', False)], 0, 0, 0, ctx)
+
+        domain = [('parent_id', '=', False)]
+        user_menu_action_id = rpc.RPCProxy("res.users").read([rpc.session.uid], ['menu_id'], ctx)[0]['menu_id']
+        if user_menu_action_id:
+            act = rpc.RPCProxy('ir.actions.act_window').read([user_menu_action_id[0]], ['res_model', 'domain'], ctx)[0]
+            if act['res_model'] == 'ir.ui.menu' and act['domain']:
+                domain = literal_eval(act['domain'])
+
+        ids = menus.search(domain, 0, 0, 0, ctx)
         parents = menus.read(ids, ['name', 'action', 'web_icon_data', 'web_icon_hover_data'], ctx)
 
         for parent in parents:
