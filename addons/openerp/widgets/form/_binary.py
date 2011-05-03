@@ -95,6 +95,6 @@ class Image(TinyInputWidget):
         if self.readonly:
             self.editable = False
 
-register_widget(Image, ["image"])
+register_widget(Image, ["image", 'picture'])
 
 # vim: ts=4 sts=4 sw=4 si et
