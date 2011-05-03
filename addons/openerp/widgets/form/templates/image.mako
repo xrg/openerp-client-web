@@ -21,13 +21,12 @@
             ${py.attrs(attrs)}
         />
     </div>
-</div>
 % else:
+    <div align="center">
     <img
         id="${field}"
         name="${name}"
         border='1'
-        align="left"
         src="${src}"
         % if width:
             width="${width}"
@@ -36,5 +35,6 @@
             height="${height}"
         % endif
     />
+    </div>
 % endif
 
