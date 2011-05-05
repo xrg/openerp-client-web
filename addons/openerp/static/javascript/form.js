@@ -56,7 +56,8 @@ function openRecord(id, src, target, readonly){
         'search_domain': jQuery('#_terp_search_domain').val() || null,
         'search_data': jQuery('#_terp_search_data').val() || null,
         'filter_domain': jQuery('#_terp_filter_domain').val() || [],
-        'notebook_tab': jQuery('#_terp_notebook_tab').val() || 0
+        'notebook_tab': jQuery('#_terp_notebook_tab').val() || 0,
+        'action_id': jQuery('#_terp_action_id').val() || null,
     };
 
     var action = readonly ? 'view' : 'edit';
