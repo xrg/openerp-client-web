@@ -1,0 +1,103 @@
+# Macedonian translation for openobject-client-web
+# Copyright (c) 2011 Rosetta Contributors and Canonical Ltd 2011
+# This file is distributed under the same license as the openobject-client-web package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2011.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: openobject-client-web\n"
+"Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
+"POT-Creation-Date: 2011-03-18 11:53+0100\n"
+"PO-Revision-Date: 2011-05-07 06:31+0000\n"
+"Last-Translator: Vasko Gjurovski <Unknown>\n"
+"Language-Team: Macedonian <mk@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Launchpad-Export-Date: 2011-05-08 05:37+0000\n"
+"X-Generator: Launchpad (build 12959)\n"
+
+#: static/javascript/form.js:92
+#, python-format
+msgid "You selected to open %(tabs)s tabs - do you want to continue?"
+msgstr ""
+
+#: static/javascript/form.js:169
+msgid "Invalid form, correct red fields."
+msgstr ""
+
+#: static/javascript/form.js:204
+msgid "Do you really want to delete this record?"
+msgstr "Дали сте сигурни дека сакате да го избришете овој запис?"
+
+#: static/javascript/form.js:960
+msgid "You must select one or several records !"
+msgstr "Мора да изберете еден или повеќе записи!"
+
+#: static/javascript/form.js:995
+msgid "You must save this record to perform the action !"
+msgstr ""
+
+#: static/javascript/form.js:1127
+msgid "Do you really want to delete the attachment"
+msgstr "Дали сте сигурни дека сакате да го иозбришете прикачениот документ?"
+
+#: static/javascript/form.js:1161
+msgid "No record selected ! You can only attach to existing record."
+msgstr "Немате изберено запис! Можете да прикачите само кон постоечки запис."
+
+#: static/javascript/form.js:1220
+msgid "OpenERP - Error"
+msgstr "OpenERP - Грешка"
+
+#: static/javascript/form.js:1291
+msgid ""
+"Warning, the record has been modified,\n"
+"your changes will be discarded."
+msgstr ""
+"Предупредување, записот е променет,\n"
+"вашите примени ќе бидат избришани."
+
+#: static/javascript/listgrid.js:542 static/javascript/o2m.js:123
+msgid "To edit Record, please first save it."
+msgstr "За да го промените записот, мора прво да го зачувате."
+
+#: static/javascript/listgrid.js:650
+msgid "Do you really want to delete selected record(s) ?"
+msgstr "Дали сте сигурни дека сакате да ги избришете избраните записи?"
+
+#: static/javascript/m2o.js:526
+msgid "error in display::"
+msgstr ""
+
+#: static/javascript/o2m.js:67
+msgid "Do you really want to delete record ?"
+msgstr "Дали сте сигурни дека сакате да го избришете избраниот запис?"
+
+#: static/javascript/search.js:285
+msgid "Invalid Value"
+msgstr "Погрешна вредност"
+
+#: static/javascript/viewed.js:63
+msgid "Do you really want to remove this node?"
+msgstr "Дали сте сигурни дека сакате да го избришете избраниот јазол?"
+
+#: static/javascript/viewed.js:329
+msgid "Do you really wants to create an inherited view here?"
+msgstr "Дали сте сигурни дека сакате да креирате наследен поглед овде?"
+
+#: static/javascript/openerp/openerp.base.js:127
+msgid "doLoadingSuccess: Cannot parse JSON"
+msgstr ""
+
+#: static/javascript/openerp/openerp.base.js:335
+msgid "Loading"
+msgstr "Вчитувам"
+
+#: static/javascript/openerp/openerp.ui.tips.js:51
+msgid "Object"
+msgstr "Објект"
+
+#: static/javascript/openerp/openerp.ui.tips.js:52
+msgid "Field"
+msgstr "Поле"
