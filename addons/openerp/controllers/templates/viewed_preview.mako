@@ -25,7 +25,7 @@
                     <table border="0" cellpadding="0" cellspacing="0" width="100%">
                         <tr>
                             <td class="save_close">
-                            	<a class="button-a" href="javascript: void(0)" onclick="window.close()">${_("Close")}</a>
+                                <a class="button-a" href="javascript: void(0)" onclick="window.frameElement.close();">${_("Close")}</a>
                             </td>
                             <td width="100%">
                             </td>

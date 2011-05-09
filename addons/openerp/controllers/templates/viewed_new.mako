@@ -10,17 +10,11 @@
     <script type="text/javascript">
         jQuery(document).ready(function() {
 
-            var lc = parseInt(openobject.dom.get('_terp_id').value) || 0;
-            
+            var lc = parseInt(jQuery(idSelector('_terp_id')).val()) || 0;
+
             if (lc > 0) {
-            
-                var id = parseInt(openobject.dom.get('_terp_id').value) || 0;
-                
-                if (id) {
-                    window.opener.addNewFieldName(openobject.dom.get('name').value);
-                }
-                
-                window.close();
+               window.top.jQuery(window.frameElement).data('source-window').addNewFieldName(jQuery(idSelector('name')).val());
+               window.frameElement.close();
             }
         });
     </script>
