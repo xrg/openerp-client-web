@@ -191,7 +191,7 @@ class Tree(SecuredController):
             id = item.pop('id')
             record = {
                 'id': id,
-                'action': url('/openerp/tree/open', model=model, id=id),
+                'action': url('/openerp/tree/open', model=model, id=id, context=ctx),
                 'target': None,
                 'icon': None,
                 'children': [],
