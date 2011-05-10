@@ -55,8 +55,11 @@
     width: auto;
 }
 
-.grid-header .grid-cell {
+.grid-header {
     background: url(../images/gradientlinebg.gif);
+}
+
+.grid-header .grid-cell {
     border-bottom: 1px solid #E3E3E3;
     font-weight: bold;
     text-align: left;
