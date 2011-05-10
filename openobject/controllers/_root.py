@@ -64,6 +64,9 @@ class Root(BaseController):
             cherrypy.engine.autoreload.unsubscribe()
         try:
             obj = pooler.get_pool().get_controller("/openerp/modules")
+            if not obj:
+                raise RuntimeError(
+                    "Cannot find controller for /openerp/modules")
             if obj.has_new_modules():
                 pooler.restart_pool()
         except AuthenticationError:
