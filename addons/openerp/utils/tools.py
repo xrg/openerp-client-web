@@ -47,7 +47,7 @@ def expr_eval(string, context=None):
                    relativedelta=relativedelta)
     if isinstance(string, basestring):
         try:
-            value = eval(string, context)
+            value = eval(string.strip(), context)
         except:
             cherrypy.log.error("Error while parsing %r\n" % string,
                                context='expr_eval',
