@@ -77,30 +77,30 @@
         </form>
     </div>
     % endif
-	
-	% if rpc.session.uid == 1:
-	    <div class="sideheader-a">
-	        <h2>${_("Customize")}</h2>
-	    </div>
-	    <ul class="clean-a">
-	        <li>
-	            <a title="${_('Manage views of the current object')}"
-	               onclick="openobject.tools.openWindow('/openerp/viewlist?model=${model}', {height: 400})"
-	               href="javascript: void(0)">${_("Manage Views")}</a>
-	        </li>
-	        % if id:
-	        <li>
-	            <a title="${_('Edit workflow of the current object')}"
-	               href="/view_diagram/workflow?model=${model}&amp;rec_id=${id}">${_("Edit Workflow")}</a>
-	        </li>
-	        % endif
-	        <li>
-	            <a title="${_('Customize current object or create a new object')}"
-	               onclick="jQuery.frame_dialog({src:'/openerp/viewed/new_model/edit?model=${model}'}, null, { width: '80%', max_width: 1000, height: '90%' })"
-	               href="javascript: void(0)">${_("Customize Object")}</a>
-	        </li>
-	    </ul>
-	% endif
+
+    % if rpc.session.uid == 1:
+        <div class="sideheader-a">
+            <h2>${_("Customize")}</h2>
+        </div>
+        <ul class="clean-a">
+            <li>
+                <a title="${_('Manage views of the current object')}"
+                    onclick="jQuery.frame_dialog({src:openobject.http.getURL('/openerp/viewlist?model=${model}')});"
+                    href="javascript: void(0)">${_("Manage Views")}</a>
+            </li>
+            % if id:
+            <li>
+                <a title="${_('Edit workflow of the current object')}"
+                    href="/view_diagram/workflow?model=${model}&amp;rec_id=${id}">${_("Edit Workflow")}</a>
+            </li>
+            % endif
+            <li>
+                <a title="${_('Customize current object or create a new object')}"
+                    onclick="jQuery.frame_dialog({src:'/openerp/viewed/new_model/edit?model=${model}'}, null, { width: '80%', max_width: 1000, height: '90%' })"
+                    href="javascript: void(0)">${_("Customize Object")}</a>
+            </li>
+        </ul>
+    % endif
 
     <div class="sideheader-a">
         <h2>${_("Other Options")}</h2>

@@ -20,7 +20,7 @@
                 </select>
             </td>
             <td width="5" nowrap="nowrap">
-            	<a id="new_field" name="new_field" class="button" href="javascript: void(0)" onclick="onNew('${model}')">${_("New Field")}</a>
+                <a id="new_field" name="new_field" class="button" href="javascript: void(0)" onclick="onNew('${model}', window)">${_("New Field")}</a>
             </td>
         </tr>
         <tr>

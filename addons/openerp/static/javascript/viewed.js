@@ -362,20 +362,20 @@ function onPreview() {
                                              'view_type' : openobject.dom.get('view_type').value});
 
     if (window.browser.isGecko19) {
-        return openobject.tools.openWindow(act);
+        return jQuery.frame_dialog({src:act});
     }
 
-    window.open(act);
+    return jQuery.frame_dialog({src:act});
 }
 
 function onNew(model){
     var act = openobject.http.getURL('/openerp/viewed/new_field/edit', {'for_model' : model});
-    openobject.tools.openWindow(act, {width: 650, height: 400});
+    jQuery.frame_dialog({src: act}, {'source-window': jQuery(window)[0]});
 }
 
 function onClose(){
-    window.opener.setTimeout("window.location.reload()", 1);
-    window.close();
+    window.top.setTimeout('window.location.reload()', 1);
+    window.frameElement.close();
 }
 
 function toggleFields(selector) {
