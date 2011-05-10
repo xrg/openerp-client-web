@@ -191,7 +191,7 @@ class Tree(SecuredController):
             record = {}
 
             record['id'] = item.pop('id')
-            record['action'] = url('/tree/open', model=model, id=record['id'])
+            record['action'] = url('/tree/open', model=model, id=record['id'], context=ctx)
             record['target'] = None
 
             record['icon'] = None

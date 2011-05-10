@@ -362,13 +362,13 @@ def execute_by_keyword(keyword, adds={}, **data):
 
     @return: XHTML code
     """
-
+    ctx = dict(data.get('context', {}), **rpc.session.context)
     actions = None
     if 'id' in data:
         try:
             id = data.get('id', False)
             if (id != False): id = int(id)
-            actions = rpc.session.execute('object', 'execute', 'ir.values', 'get', 'action', keyword, [(data['model'], id)], False, rpc.session.context)
+            actions = rpc.session.execute('object', 'execute', 'ir.values', 'get', 'action', keyword, [(data['model'], id)], False, ctx)
             actions = map(lambda x: x[2], actions)
         except rpc.RPCException, e:
             raise e
