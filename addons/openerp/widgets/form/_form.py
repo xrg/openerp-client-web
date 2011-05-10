@@ -653,7 +653,7 @@ class Group(TinyWidget):
     params = ["expand_grp_id", "default", "view_type", "states"]
     member_widgets = ["frame"]
     valign = "top"
-    colspan = 4
+    colspan = 1
     col = 4
     states = None
     visible = True
