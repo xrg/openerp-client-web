@@ -69,7 +69,8 @@ def _load_translation(path, locale, domain):
         except Exception:
             # If the parsing of the PO file broke, don't leave an empty MO
             # file hanging around
-            cherrypy.log.error('Failed compilation of message catalog %s!' % popath)
+            cherrypy.log.error(
+                'Failed compilation of message catalog %s' % popath, 'ERROR')
             if os.path.exists(mopath):
                 os.remove(mopath)
             

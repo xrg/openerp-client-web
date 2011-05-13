@@ -287,6 +287,7 @@ class Form(SecuredController):
                                        '_terp_notebook_tab': notebook_tab})
         params.o2m_edit = o2m_edit
         params.editable = editable
+        params.action_id = kw.get('action_id')
 
         if kw.get('default_date'):
             params.context.update({'default_date' : kw['default_date']})

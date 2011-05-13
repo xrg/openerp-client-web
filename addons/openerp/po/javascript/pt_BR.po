@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2011-03-18 11:53+0100\n"
-"PO-Revision-Date: 2011-02-15 19:45+0000\n"
-"Last-Translator: Adriano Prado <adrianojprado@hotmail.com>\n"
+"PO-Revision-Date: 2011-04-23 20:52+0000\n"
+"Last-Translator: Emerson <Unknown>\n"
 "Language-Team: pt_BR <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2011-03-19 07:06+0000\n"
-"X-Generator: Launchpad (build 12559)\n"
+"X-Launchpad-Export-Date: 2011-04-24 05:51+0000\n"
+"X-Generator: Launchpad (build 12758)\n"
 "Generated-By: Babel None\n"
 
 #: static/javascript/form.js:92
@@ -37,7 +37,7 @@ msgstr "Você deve selecionar um ou mais registros !"
 
 #: static/javascript/form.js:995
 msgid "You must save this record to perform the action !"
-msgstr ""
+msgstr "Você precisa gravar este registro para executar a ação!"
 
 #: static/javascript/form.js:1127
 msgid "Do you really want to delete the attachment"
@@ -79,7 +79,7 @@ msgstr "Quer realmente excluir o registro?"
 
 #: static/javascript/search.js:285
 msgid "Invalid Value"
-msgstr ""
+msgstr "Valor Inválido"
 
 #: static/javascript/viewed.js:63
 msgid "Do you really want to remove this node?"

@@ -1,41 +1,41 @@
-# Turkish translation for openobject-client-web
-# Copyright (c) 2010 Rosetta Contributors and Canonical Ltd 2010
+# Macedonian translation for openobject-client-web
+# Copyright (c) 2011 Rosetta Contributors and Canonical Ltd 2011
 # This file is distributed under the same license as the openobject-client-web package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, 2010.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2011.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: openobject-client-web\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2011-03-18 11:53+0100\n"
-"PO-Revision-Date: 2011-04-27 13:40+0000\n"
-"Last-Translator: Ahmet Altınışık <Unknown>\n"
-"Language-Team: Turkish <tr@li.org>\n"
+"PO-Revision-Date: 2011-05-06 18:42+0000\n"
+"Last-Translator: Vasko Gjurovski <Unknown>\n"
+"Language-Team: Macedonian <mk@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2011-04-28 05:48+0000\n"
-"X-Generator: Launchpad (build 12758)\n"
+"X-Launchpad-Export-Date: 2011-05-07 06:01+0000\n"
+"X-Generator: Launchpad (build 12959)\n"
 
 #: validators.py:75
 msgid "Invalid literal for float"
-msgstr "Float için geçersiz kalıp"
+msgstr "Погрешен знак за децимален број"
 
 #: validators.py:114 validators.py:119 validators.py:262
 msgid "Invalid datetime format"
-msgstr "Geçersiz tarih zaman biçimi"
+msgstr "Погрешен формат на датум"
 
 #: validators.py:166
 msgid "Please select a file."
-msgstr "Lütfen bir dosya seçin."
+msgstr "Изберете документ"
 
 #: validators.py:247
 msgid "Please enter an email address"
-msgstr "Lütfen bir e-posta adresi girin"
+msgstr ""
 
 #: validators.py:248
 msgid "An email address must contain a single @"
-msgstr "E-posta adresinde sadece bir @ olabilir"
+msgstr "e-mail адресата мора да содржи само едно @"
 
 #: validators.py:249
 #, python-format
@@ -43,8 +43,8 @@ msgid ""
 "The username portion of the email address is invalid (the portion before the "
 "@: %(username)s)"
 msgstr ""
-"E-posta adresinin kullanıcı adı kısmı geçersiz ( @ işaretinden önce gelen "
-"kısım: %(username)s )"
+"Делот со корисничкото име од e-mail адресата е погрешен (делот пред @: "
+"%(username)s)"
 
 #: validators.py:250
 #, python-format
@@ -52,74 +52,74 @@ msgid ""
 "The domain portion of the email address is invalid (the portion after the @: "
 "%(domain)s)"
 msgstr ""
-"E-posta adresindeki alan adı geçersiz (@ işaretinden sonraki kısımlar @: "
-"%(domain)s)"
+"Делот со доменот од e-mail адресата е погрешен (делот после @: %(domain)s)"
 
 #: validators.py:254
 msgid "You must start your URL with http://, https://, etc"
-msgstr "URL nizin http:// veya https:// ile başlaması gerekiyor"
+msgstr "Интернет адресата мора да почнува со http://, https://, итн."
 
 #: validators.py:255
 msgid "That is not a valid URL"
-msgstr "Bu geçerli bir URL değil"
+msgstr "Интернет адресата не е валидна"
 
 #: validators.py:256
 #, python-format
 msgid "You must provide a full domain name (like %(domain)s.com)"
-msgstr "Tam bir alan adı sağlamalısınız (mesela %(domain)s.com.tr)"
+msgstr ""
+"Морате да ја внесете целата интернет адреса на доменот (пр. %(domain)s.com)"
 
 #: validators.py:260
 msgid "Please enter an integer value"
-msgstr "Lütfen bir Tamsayı değer girin"
+msgstr "Внесете цел број"
 
 #: validators.py:261
 msgid "Please enter a number"
-msgstr "Lütfen bir numara giriniz"
+msgstr "Внесете број"
 
 #: controllers/actions.py:94
 msgid "Invalid View"
-msgstr "Geçersiz Ekran"
+msgstr "Погрешен поглед"
 
 #: controllers/actions.py:127
 msgid "Error no report"
-msgstr "Hata, rapor yok"
+msgstr "Грешка, извештајот не постои"
 
 #: controllers/actions.py:153
 msgid "Nothing to print"
-msgstr "Yazdıracak bir şey yok"
+msgstr "Ништо за печатење"
 
 #: controllers/actions.py:173
 msgid "Printing aborted, too long delay"
-msgstr "Çok fazla gecikmeden dolayı, Yazdırma iptal edildi"
+msgstr "Печатењето е откажано, предолго време на чекање"
 
 #: controllers/actions.py:397
 msgid "Relative URLs are not supported"
-msgstr "Bağlı URL ler desteklenmiyor"
+msgstr "Релативни патеки не се поддржани"
 
 #: controllers/actions.py:425
 msgid "Action not found"
-msgstr "Eylem bulunamadı"
+msgstr "Непозната акција"
 
 #: controllers/actions.py:474
 msgid "No action defined"
-msgstr "Eylem tanımlanamadı"
+msgstr "Нема дефинирани акции"
 
 #: controllers/attachment.py:55
 msgid "No record selected, You can only attach to existing record..."
-msgstr "Kayıt seçilmedi, Sadece varolan kayıtlara ek yapabilirsiniz..."
+msgstr "Немате изберено запис. Можете да додадете само на постоечки запис..."
 
 #: controllers/database.py:63
 msgid "Create database"
-msgstr "Veritabanı Oluştur"
+msgstr "Креирај база на податоци"
 
 #: controllers/database.py:65 controllers/templates/database.mako:56
 #: controllers/templates/search.mako:145
 msgid "Create"
-msgstr "Oluştur"
+msgstr "Креирај"
 
 #: controllers/database.py:68
 msgid "Super admin password:"
-msgstr "Super Admin Şifresi:"
+msgstr "Супер администраторска лозинка"
 
 #: controllers/database.py:68
 msgid ""
@@ -127,25 +127,23 @@ msgid ""
 "databases. This is not a OpenERP user, just a super administrator. If you "
 "did not changed it, the password is 'admin' after installation."
 msgstr ""
-"Bu veritabanı yönetiçisi parolasıdır. Bu bir OpenERP kullanıcısı değildir, "
-"Sadece üst yöneticidir. Eğer değişmezseniz kurulumdan sonra parola 'admin' "
-"dir"
+"Оваа лозинка е за корисникот кој има администраторски права врз базата на "
+"податоци. Ова не е OpenERP корисник, туку супер администратор. Доколку ја "
+"немате променето, лозинката после инсталацијата ќе биде 'admin'."
 
 #: controllers/database.py:69 controllers/database.py:101
 msgid "New database name:"
-msgstr "Yeni Veritaban adı:"
+msgstr "Име на новата база на податоци:"
 
 #: controllers/database.py:69
 msgid ""
 "Choose the name of the database that will be created. The name must not "
 "contain any special character. Exemple: 'terp'."
 msgstr ""
-"Oluşturmak istediğiniz veritabanına isim verin. Dikkat özel karekterler "
-"kullanmayınız. Örnek: 'terp'."
 
 #: controllers/database.py:70
 msgid "Load Demonstration data:"
-msgstr "Örnek verileri yükle:"
+msgstr ""
 
 #: controllers/database.py:70
 msgid ""
@@ -153,14 +151,10 @@ msgid ""
 "database. These data will help you to understand OpenERP, with predefined "
 "products, partners, etc."
 msgstr ""
-"Örnek verilerin veritabanınıza eklenmesini istiyorsanız burayı "
-"işaretleyiniz\r\n"
-"Bu dosyalar sizin OpenERP'nin çalışma şeklini kavramanıza yardımcı olması "
-"için hazırlanmıştır. İçinde örnek ürünler, cari hesaplar vs vardır."
 
 #: controllers/database.py:71
 msgid "Default Language:"
-msgstr "Öntanımlı Dil:"
+msgstr ""
 
 #: controllers/database.py:71
 msgid ""
@@ -168,143 +162,135 @@ msgid ""
 "will be able to install new languages after installation through the "
 "administration menu."
 msgstr ""
-"Kullanmak istediğiniz dili seçiniz. Kurulumdan sonra Yönetici Menüsünden "
-"yeni dil ekliyebilirsiniz."
 
 #: controllers/database.py:72
 msgid "Administrator password:"
-msgstr "Yönetici Şifresi:"
+msgstr ""
 
 #: controllers/database.py:72
 msgid ""
 "This is the password of the 'admin' user that will be created in your new "
 "database."
-msgstr "Yeni oluşturulacak veritabanındaki 'admin' kullanıcısının şifresi."
+msgstr ""
 
 #: controllers/database.py:73
 msgid "Confirm password:"
-msgstr "Parolayı tekrarla:"
+msgstr ""
 
 #: controllers/database.py:73
 msgid ""
 "This is the password of the 'admin' user that will be created in your new "
 "database. It has to be the same than the above field."
 msgstr ""
-"Yeni oluşturulacak veritabanındaki 'admin' kullanıcısının şifresi. "
-"Yukarıdaki alanın tekrarı"
 
 #: controllers/database.py:79
 msgid "Drop database"
-msgstr "Veritabanını sil"
+msgstr ""
 
 #: controllers/database.py:81 controllers/templates/database.mako:58
 msgid "Drop"
-msgstr "Sil"
+msgstr ""
 
 #: controllers/database.py:83 controllers/database.py:91
 #: controllers/templates/login.mako:43
 msgid "Database:"
-msgstr "Veritabanı:"
+msgstr ""
 
 #: controllers/database.py:84 controllers/database.py:92
 #: controllers/database.py:100 controllers/templates/login.mako:61
 #: controllers/templates/login_ajax.mako:78
 #: controllers/templates/login_ajax.mako:98
 msgid "Password:"
-msgstr "Şifre:"
+msgstr ""
 
 #: controllers/database.py:88
 msgid "Backup database"
-msgstr "Veritabanı Yedekle"
+msgstr ""
 
 #: controllers/database.py:90 controllers/templates/database.mako:60
 msgid "Backup"
-msgstr "Yedekle"
+msgstr ""
 
 #: controllers/database.py:96
 msgid "Restore database"
-msgstr "Veritabanını yedekten geri yükle"
+msgstr ""
 
 #: controllers/database.py:98 controllers/templates/database.mako:62
 msgid "Restore"
-msgstr "Geri Yükle"
+msgstr ""
 
 #: controllers/database.py:99
 msgid "File:"
-msgstr "Dosya:"
+msgstr ""
 
 #: controllers/database.py:105
 msgid "Change Administrator Password"
-msgstr "Yönetici Şifresini Değiştir"
+msgstr ""
 
 #: controllers/database.py:107 controllers/templates/preferences/index.mako:37
 msgid "Change Password"
-msgstr "Şifreyi Değiştir"
+msgstr ""
 
 #: controllers/database.py:108
 msgid "Old Password:"
-msgstr "Eski Şifre:"
+msgstr ""
 
 #: controllers/database.py:109
 msgid "New Password:"
-msgstr "Yeni Şifre:"
+msgstr ""
 
 #: controllers/database.py:110
 msgid "Confirm Password:"
-msgstr "Şifreyi Onayla:"
+msgstr ""
 
 #: controllers/database.py:173
 msgid "You must avoid all accents, space or special characters."
-msgstr "Noktalı harfleri boşluk ya da özel karakterleri kullanmayın"
+msgstr ""
 
 #: controllers/database.py:174
 msgid "Bad database name"
-msgstr "Geçersiz veritabanı adı"
+msgstr ""
 
 #: controllers/database.py:194
 msgid ""
 "The server crashed during installation.\n"
 "We suggest you to drop this database."
 msgstr ""
-"Sunucu yükleme sırasında çöktü.\n"
-"Bu veritabanını silmenizi tavsiye ederiz."
 
 #: controllers/database.py:195
 msgid "Error during database creation"
-msgstr "Veritabanı oluşturulması sırasında hata"
+msgstr ""
 
 #: controllers/database.py:198 controllers/database.py:225
 #: controllers/database.py:271 controllers/database.py:294
 msgid "Bad super admin password"
-msgstr "Geçersiz super admin şifresi"
+msgstr ""
 
 #: controllers/database.py:202
 msgid "Could not create database."
-msgstr "Veritabanı oluşturulamadı"
+msgstr ""
 
 #: controllers/database.py:228
 msgid "Could not drop database"
-msgstr "Veritabanı silinemedi"
+msgstr ""
 
 #: controllers/database.py:251
 msgid "Could not create backup."
-msgstr "Yedek Oluşturulamadı"
+msgstr ""
 
 #: controllers/database.py:275
 msgid "Could not restore database"
-msgstr "Veritabanı geri yüklenemedi"
+msgstr ""
 
 #: controllers/database.py:298
 msgid "Error, password not changed."
-msgstr "Hata, şifre değişmedi."
+msgstr ""
 
 #: controllers/error_page.py:79
 msgid ""
 "Your problem has been sent to the quality team\n"
 "We will recontact you after analysing the problem."
 msgstr ""
-"Karşılaştığınız problem kalite takımına gönderildi\n"
-"problemi inceledikten sonra sizinle iletişime geçeceğiz."
 
 #: controllers/error_page.py:81
 #, python-format
@@ -312,279 +298,274 @@ msgid ""
 "Your problem could not be sent to the quality team\n"
 "Please report this error manually at %s"
 msgstr ""
-"Problem kalite takımına gönderilemedi\n"
-"lütfen bu hatayı ilgili adresten bildirin %s"
 
 #: controllers/form.py:561
 #, python-format
 msgid "Invalid button type \"%s\""
-msgstr "Geçersiz düğme tipi \"%s\""
+msgstr ""
 
 #: controllers/form.py:944 controllers/tree.py:243
 msgid "No record selected"
-msgstr "Seçili Kayıt Yok"
+msgstr ""
 
 #: controllers/form.py:949
 msgid "Print Screen"
-msgstr "Ekranı Yazdır"
+msgstr ""
 
 #: controllers/form.py:1016 widgets/listgrid.py:305 widgets/listgrid.py:366
 #: widgets/form/_form.py:910
 msgid "Application Error"
-msgstr "Uygulama Hatası"
+msgstr ""
 
 #: controllers/form.py:1016
 #, python-format
 msgid "Wrong on_change trigger: %s"
-msgstr "Yanlış on_change trigger: %s"
+msgstr ""
 
 #: controllers/form.py:1121
 msgid "Open resource"
-msgstr "Açık Kaynak"
+msgstr ""
 
 #: controllers/form.py:1124
 msgid "Set to default value"
-msgstr "Varsayılan değere ayarla"
+msgstr ""
 
 #: controllers/form.py:1125
 msgid "Set as default"
-msgstr "Varsayılan Olarak Ata"
+msgstr ""
 
 #: controllers/form.py:1132
 msgid "Action"
-msgstr "Eylem"
+msgstr ""
 
 #: controllers/form.py:1133
 msgid "Report"
-msgstr "Rapor"
+msgstr ""
 
 #: controllers/impex.py:66
 msgid ""
 "Operation failed\n"
 "I/O error"
 msgstr ""
-"İşlem Başarısız\n"
-"I/O hatası"
 
 #: controllers/impex.py:402
 msgid "Export Error"
-msgstr "Dışa Aktarım Harası"
+msgstr ""
 
 #: controllers/impex.py:469
 msgid "Database ID"
-msgstr "Veritabanı IDsi"
+msgstr ""
 
 #: controllers/impex.py:476
 msgid "Error opening .CSV file"
-msgstr ".CSV dosyası açılırken hata oluştu"
+msgstr ""
 
 #: controllers/impex.py:476
 msgid "Input Error."
-msgstr "Giriş Hatalı"
+msgstr ""
 
 #: controllers/impex.py:498
 #, python-format
 msgid "You cannot import the field '%s', because we cannot auto-detect it"
-msgstr "'%s' alanını otomatik-tanımlayamadığımız için. içeri alamazsınız."
+msgstr ""
 
 #: controllers/impex.py:501
 #, python-format
 msgid "Error processing the first line of the file. Field \"%s\" is unknown"
-msgstr "Dosyanın ilk satırını işlerken hata oluştu. \"%s\" alanı bilinmiyor."
+msgstr ""
 
 #: controllers/impex.py:72 controllers/impex.py:501
 msgid "Import Error."
-msgstr "içe aktarım hatası"
+msgstr ""
 
 #: controllers/impex.py:520
 msgid "The CSV delimiter must be a single character"
-msgstr "CSV delimitter tek karakter olmalı"
+msgstr ""
 
 #: controllers/impex.py:532
 msgid "File Format Error"
-msgstr "Dosya Format Hatası"
+msgstr ""
 
 #: controllers/impex.py:550
 msgid "XML-RPC error"
-msgstr "XML-RPC hatası"
+msgstr ""
 
 #: controllers/impex.py:555
 #, python-format
 msgid "Imported %d objects"
-msgstr "%d nesne içe aktarıldı"
+msgstr ""
 
 #: controllers/impex.py:560
 #, python-format
 msgid "Error trying to import this record:%s. ErrorMessage:%s %s"
-msgstr "Kayıt:%s içe aktarılırken hata oluştur. Hata mesajı: %s %s"
+msgstr ""
 
 #: controllers/impex.py:561
 msgid "ImportationError"
-msgstr "İçe aktarım Hatası"
+msgstr ""
 
 #: controllers/listgrid.py:52
 msgid "Parent record doesn't exists..."
-msgstr "Ana kayıt yok.."
+msgstr ""
 
 #: controllers/preferences.py:35
 msgid "Change your password"
-msgstr "Parolanızı değiştirin"
+msgstr ""
 
 #: controllers/preferences.py:65 controllers/templates/header.mako:59
 msgid "Preferences"
-msgstr "Seçenekler"
+msgstr ""
 
 #: controllers/preferences.py:92
 msgid "All passwords have to be filled."
-msgstr "Bütün şifreler doldurulmalı"
+msgstr ""
 
 #: controllers/preferences.py:94
 msgid "The new password and its confirmation must be identical."
-msgstr "Yeni şifre ve şifre tekrarı aynı olmalı"
+msgstr ""
 
 #: controllers/preferences.py:103
 msgid "Could not change your password."
-msgstr "Şifrenizi değiştirilemedi"
+msgstr ""
 
 #: controllers/preferences.py:105
 msgid "Original password incorrect, your password was not changed."
-msgstr "Şu anki şifreniz yanlış, şifreniz değiştirilemedi"
+msgstr ""
 
 #: controllers/root.py:174
 #, python-format
 msgid "Version %s"
-msgstr "Sürüm %s"
+msgstr ""
 
 #: controllers/translator.py:136
 msgid "You need to save the resource before adding translations."
-msgstr "Çevirileri eklemeden önce kaynağı saklamalısınız"
+msgstr ""
 
 #: controllers/tree.py:274
 msgid "No resource selected"
-msgstr "Hiç kaynak seçilmedi"
+msgstr ""
 
 #: controllers/utils.py:43
 msgid "Could not connect to server"
-msgstr "Sunucuyla bağlantı kurulamadı"
+msgstr ""
 
 #: controllers/utils.py:127 controllers/templates/login_ajax.mako:111
 msgid "Bad username or password"
-msgstr "Hatalı Kullanıcı ya da şifre"
+msgstr ""
 
 #: controllers/view_log.py:32
 msgid "ID"
-msgstr "Kod"
+msgstr ""
 
 #: controllers/view_log.py:33
 msgid "Creation User"
-msgstr "Oluşturan Kullanıcı"
+msgstr ""
 
 #: controllers/view_log.py:34
 msgid "Creation Date"
-msgstr "Oluşturma Tarihi"
+msgstr ""
 
 #: controllers/view_log.py:35
 msgid "Latest Modification by"
-msgstr "En son değiştiren"
+msgstr ""
 
 #: controllers/view_log.py:36
 msgid "Latest Modification Date"
-msgstr "son Değiştirilme Tarihi"
+msgstr ""
 
 #: controllers/view_log.py:37
 msgid "Owner"
-msgstr "Sahibi"
+msgstr ""
 
 #: controllers/view_log.py:38
 msgid "Group Owner"
-msgstr "Grup Yöneticisi"
+msgstr ""
 
 #: controllers/view_log.py:39
 msgid "Access Level"
-msgstr "Erişim Düzeyi"
+msgstr ""
 
 #: controllers/view_log.py:40
 msgid "Internal module data ID"
-msgstr "İç modül veri NO"
+msgstr ""
 
 #: controllers/viewed.py:221
 msgid "Invalid view id."
-msgstr "geçersiz tablo görünümü no"
+msgstr ""
 
 #: controllers/viewed.py:499
 msgid "Unable to create inherited view."
-msgstr "İntikal eden tablo görünümü oluşturulamadı"
+msgstr ""
 
 #: controllers/viewed.py:501
 msgid "Can't create inherited view here."
-msgstr "Burada intikal eden tablo görünümü oluşturulamaz"
+msgstr ""
 
 #: controllers/viewed.py:504
 msgid "Not implemented yet!"
-msgstr "Henüz uygulanamadı!"
+msgstr ""
 
 #: controllers/viewed.py:609
 msgid "Unable to update the view."
-msgstr "Tablo görünümünü güncellenemiyor."
+msgstr ""
 
 #: controllers/viewed.py:859
 msgid "New Window"
-msgstr "Yeni Pencere"
+msgstr ""
 
 #: controllers/viewed.py:871
 msgid "Save Button"
-msgstr "Kaydet Düğmesi"
+msgstr ""
 
 #: controllers/viewed.py:871
 msgid "Cancel Button"
-msgstr "İptal Butonu"
+msgstr ""
 
 #: controllers/viewed.py:871
 msgid "Open Button"
-msgstr "Aç Butonu"
+msgstr ""
 
 #: controllers/viewed.py:877
 msgid "Left"
-msgstr "Sol"
+msgstr ""
 
 #: controllers/viewed.py:877
 msgid "Center"
-msgstr "Orta"
+msgstr ""
 
 #: controllers/viewed.py:877
 msgid "Right"
-msgstr "Sağ"
+msgstr ""
 
 #: controllers/templates/about.mako:4
 msgid "About the OpenERP Web"
-msgstr "Open ERP web hakkında"
+msgstr ""
 
 #: controllers/templates/about.mako:27
 msgid "OpenERP Web"
-msgstr "OpenERP Web"
+msgstr ""
 
 #: controllers/templates/about.mako:30
 msgid "Copyright &copy; 2006-TODAY OpenERP SA. All Rights Reserved."
-msgstr "Copyright &copy; 2006-BUGÜN OpenERP SA. Tüm Hakları Saklıdır."
+msgstr ""
 
 #: controllers/templates/about.mako:31
 msgid "OpenERP is a trademark of the OpenERP SA Company."
-msgstr "OpenERP  OpenERP SA Şirketinin Tescilli markasıdır."
+msgstr ""
 
 #: controllers/templates/about.mako:33
 #, python-format
 msgid "%(ooweb)s is jointly developed by %(tiny)s and %(axelor)s."
 msgstr ""
-"%(ooweb)s yazılımı %(tiny)s ve %(axelor)s ile birlikte geliştirilmektedir."
 
 #: controllers/templates/about.mako:39
 #, python-format
 msgid "Licenced under the terms of %(license)s"
-msgstr "%(license)s lisansı ile lisanslanmıştır"
+msgstr ""
 
 #: controllers/templates/about.mako:42
 msgid "About OpenERP"
-msgstr "OpenERP Hakkında"
+msgstr ""
 
 #: controllers/templates/about.mako:44
 #, python-format
@@ -598,14 +579,6 @@ msgid ""
 "                    project management, production, services, CRM, etc..\n"
 "                    "
 msgstr ""
-"%(openobject)s is a free enterprise-scale software system that is designed "
-"to boost\n"
-"                    productivity and profit through data integration. It "
-"connects, improves and\n"
-"                    manages business processes in areas such as sales, "
-"finance, supply chain,\n"
-"                    project management, production, services, CRM, etc..\n"
-"                    "
 
 #: controllers/templates/about.mako:51
 msgid ""
@@ -618,76 +591,66 @@ msgid ""
 "                    production system and migration to a new version to be "
 "straightforward."
 msgstr ""
-"Sistem platform bağımsızdır ve Windows, Mac OSC,\n"
-"                    ve çeşitli Linnux ve Unix tabanlı dağıtıma kurulabilir. "
-"Mimarisi yeni fonksiyonların\n"
-"                    hızlı bir şekilde oluşturulup, değişikliklerin yeni "
-"versiyonlara hızlı bir şekilde taşınabilmesini \n"
-"                    mümkün kılmaktadır."
 
 #: controllers/templates/about.mako:57
 msgid ""
 "Depending on your needs, OpenERP is available through a web or application "
 "client."
 msgstr ""
-"İhtiyacınıza göre OpenERP web sayfası üzerinden ya da kendi istemci yazılımı "
-"üzerinden çalışabilir."
 
 #: controllers/templates/database.mako:54 controllers/templates/login.mako:4
 #: controllers/templates/login.mako:71 controllers/templates/login_ajax.mako:85
 #: controllers/templates/login_ajax.mako:104
 msgid "Login"
-msgstr "Oturum aç"
+msgstr ""
 
 #: controllers/templates/database.mako:64
 msgid "Password"
-msgstr "Şifre"
+msgstr ""
 
 #: controllers/templates/error_page.mako:82
 #, python-format
 msgid "An %(error_type)s has been reported."
-msgstr "Bir %(error_type)s hatası rapor edildi."
+msgstr ""
 
 #: controllers/templates/error_page.mako:84
 msgid "Let me fix it"
-msgstr "Ben düzelteyim."
+msgstr ""
 
 #: controllers/templates/error_page.mako:91
 #: controllers/templates/error_page.mako:93
 msgid "Fix it for me"
-msgstr "Benim için düzelt"
+msgstr ""
 
 #: controllers/templates/error_page.mako:99
 msgid "Publisher warranty contract."
-msgstr "Yayıncı Garanti Sözleşmesi"
+msgstr ""
 
 #: controllers/templates/error_page.mako:100
 msgid ""
 "Your request will be sent to OpenERP and publisher warranty team will reply "
 "you shortly."
 msgstr ""
-"İsteğiniz OpenERP ekibine gönderilecektir. Yayıncı garanti ekibimiz size "
-"kısa süre sonra cevap verecektir."
 
 #: controllers/templates/error_page.mako:104
 msgid "Summary of the problem:"
-msgstr "Problemin Özeti:"
+msgstr ""
 
 #: controllers/templates/error_page.mako:111
 msgid "Explain what you did:"
-msgstr "Ne yaptığınızı açıklayınız:"
+msgstr ""
 
 #: controllers/templates/error_page.mako:120
 msgid "Other Comments:"
-msgstr "Diğer Yorumlar:"
+msgstr ""
 
 #: controllers/templates/error_page.mako:132
 msgid "Send to Publisher Warranty Team"
-msgstr "Yayıncı Garanti Ekibine gönder"
+msgstr ""
 
 #: controllers/templates/error_page.mako:159
 msgid "Write concurrency warning :"
-msgstr "Tutarlılık uyarısını yazın :"
+msgstr ""
 
 #: controllers/templates/error_page.mako:164
 msgid ""
@@ -697,11 +660,6 @@ msgid ""
 "    - \"Cancel\" to cancel saving.\n"
 "    - \"Write anyway\" to save your current version."
 msgstr ""
-"Bu belge siz düzenlerken değiştirildi.\n"
-"Lütfen bir eylem seçin:\n"
-"                                  \"İptal\" kaydetmekten vazgeçersiniz.\n"
-"                                  \"Yine de kaydet\" sizin "
-"değişikliklerinizi kaydeder."
 
 #: controllers/templates/error_page.mako:178 controllers/templates/exp.mako:251
 #: controllers/templates/form.mako:141 controllers/templates/openo2m.mako:41
@@ -710,52 +668,52 @@ msgstr ""
 #: controllers/templates/preferences/index.mako:38
 #: widgets/templates/listgrid/listgrid.mako:41
 msgid "Cancel"
-msgstr "İptal"
+msgstr ""
 
 #: controllers/templates/error_page.mako:179
 msgid "Write Anyway"
-msgstr "Yine de kaydet"
+msgstr ""
 
 #: controllers/templates/exp.mako:151
 msgid "Export Data"
-msgstr "Veri Dışa Aktar"
+msgstr ""
 
 #: controllers/templates/exp.mako:166
 msgid "Export Type:"
-msgstr "Dışa Aktarma Türü"
+msgstr ""
 
 #: controllers/templates/exp.mako:169
 msgid "Import Compatible Export"
-msgstr "Tekrar İçeri Aktarılabilir Dışa Aktarım"
+msgstr ""
 
 #: controllers/templates/exp.mako:172
 msgid "Export all Data"
-msgstr "Tüm veriyi Dışa Aktar"
+msgstr ""
 
 #: controllers/templates/exp.mako:190
 msgid "Available fields"
-msgstr "Uygun Alanlar"
+msgstr ""
 
 #: controllers/templates/exp.mako:192
 msgid "Fields to export"
-msgstr "Aktarılacak alanlar"
+msgstr ""
 
 #: controllers/templates/exp.mako:194
 msgid "Save fields list"
-msgstr "Alan listesini Kaydet"
+msgstr ""
 
 #: controllers/templates/exp.mako:196
 msgid "Save as:"
-msgstr "Farklı Kaydet:"
+msgstr ""
 
 #: controllers/templates/exp.mako:198 controllers/templates/fieldpref.mako:102
 #: controllers/templates/selection.mako:45
 msgid "OK"
-msgstr "Tamam"
+msgstr ""
 
 #: controllers/templates/exp.mako:202
 msgid "Saved exports:"
-msgstr "Kaydedilmiş Dışa Aktarımlar"
+msgstr ""
 
 #: controllers/templates/exp.mako:211 controllers/templates/form.mako:136
 #: widgets/form/templates/one2many.mako:23 widgets/templates/sidebar.mako:67
@@ -767,61 +725,61 @@ msgstr "Kaydedilmiş Dışa Aktarımlar"
 #: widgets/templates/listgrid/listgroup.mako:131
 #: widgets/templates/listgrid/multiple_group.mako:81
 msgid "Delete"
-msgstr "Sil"
+msgstr ""
 
 #: controllers/templates/exp.mako:224 widgets/templates/sidebar.mako:56
 #: widgets/templates/listgrid/listgrid.mako:153
 msgid "Add"
-msgstr "Ekle"
+msgstr ""
 
 #: controllers/templates/exp.mako:229 controllers/templates/viewlist.mako:125
 msgid "Remove"
-msgstr "Kaldır"
+msgstr ""
 
 #: controllers/templates/exp.mako:234
 msgid "Remove All"
-msgstr "Tümünü Kaldır"
+msgstr ""
 
 #: controllers/templates/exp.mako:252
 msgid "Export to File"
-msgstr "Dosyaya Aktar"
+msgstr ""
 
 #: controllers/templates/fieldpref.mako:4
 #: controllers/templates/fieldpref.mako:29
 msgid "Field Preferences"
-msgstr "Alan Ayarları"
+msgstr ""
 
 #: controllers/templates/fieldpref.mako:39
 msgid "Field Name:"
-msgstr "Alan Adı:"
+msgstr ""
 
 #: controllers/templates/fieldpref.mako:43
 msgid "Domain:"
-msgstr "Alan adı:"
+msgstr ""
 
 #: controllers/templates/fieldpref.mako:47
 msgid "Default Value:"
-msgstr "Varsayılan Değer:"
+msgstr ""
 
 #: controllers/templates/fieldpref.mako:57
 msgid "Value applicable for:"
-msgstr "Değerin uygulanabilir"
+msgstr ""
 
 #: controllers/templates/fieldpref.mako:63
 msgid "Only for you"
-msgstr "Sadece sizin için"
+msgstr ""
 
 #: controllers/templates/fieldpref.mako:67
 msgid "For all"
-msgstr "Herkes İçin"
+msgstr ""
 
 #: controllers/templates/fieldpref.mako:76
 msgid "Value applicable if:"
-msgstr "Değer uygulanabilir eğer:"
+msgstr ""
 
 #: controllers/templates/fieldpref.mako:79
 msgid "Always applicable!"
-msgstr "Daima Uygulanabilir!"
+msgstr ""
 
 #: controllers/templates/fieldpref.mako:99 controllers/templates/imp.mako:204
 #: controllers/templates/index.mako:201 controllers/templates/openm2.mako:52
@@ -836,45 +794,45 @@ msgstr "Daima Uygulanabilir!"
 #: controllers/templates/viewlist.mako:129 widgets/templates/sidebar.mako:67
 #: widgets/templates/viewform.mako:37
 msgid "Close"
-msgstr "Kapat"
+msgstr ""
 
 #: controllers/templates/footer.mako:3
 #, python-format
 msgid "&copy; 2008-2010 %(ooweb)s  SA. All Rights Reserved "
-msgstr "&copy; 2008-2011 %(ooweb)s SA. Tüm Hakları Saklıdır. "
+msgstr ""
 
 #: controllers/templates/footer.mako:6
 msgid "Significant contributions to the web client have been made by"
-msgstr "Web istemcisine başlıca katkı yapanlar"
+msgstr ""
 
 #: controllers/templates/form.mako:64 controllers/templates/tree.mako:33
 msgid "Disable all Tips"
-msgstr "Bütün ipuçlarını kapat"
+msgstr ""
 
 #: controllers/templates/form.mako:65 controllers/templates/tree.mako:34
 msgid "Hide this Tip"
-msgstr "İpuçlarını gizle"
+msgstr ""
 
 #: controllers/templates/form.mako:83 controllers/templates/tree.mako:41
 msgid "Add / Remove Shortcut..."
-msgstr "Kısayol Ekle/Kaldır..."
+msgstr ""
 
 #: controllers/templates/form.mako:87
 #, python-format
 msgid "Search: %s"
-msgstr "Ara:%s"
+msgstr ""
 
 #: controllers/templates/form.mako:94
 msgid "Corporate Intelligence..."
-msgstr "Kurumsal Zeka..."
+msgstr ""
 
 #: controllers/templates/form.mako:100
 msgid "Show Logs..."
-msgstr "Günlükleri Göster..."
+msgstr ""
 
 #: controllers/templates/form.mako:112
 msgid "Create a new resource"
-msgstr "Yeni bir kaynak oluştur"
+msgstr ""
 
 #: controllers/templates/form.mako:113 controllers/templates/search.mako:128
 #: controllers/templates/viewed_new_model.mako:36
@@ -884,11 +842,11 @@ msgstr "Yeni bir kaynak oluştur"
 #: widgets/templates/listgrid/listgrid.mako:162
 #: widgets/templates/listgrid/listgroup.mako:20
 msgid "New"
-msgstr "Yeni"
+msgstr ""
 
 #: controllers/templates/form.mako:117
 msgid "Edit this resource"
-msgstr "Kaynağı düzenle"
+msgstr ""
 
 #: controllers/templates/form.mako:118 controllers/templates/viewlist.mako:122
 #: widgets/templates/listgrid/listgrid.mako:83
@@ -896,11 +854,11 @@ msgstr "Kaynağı düzenle"
 #: widgets/templates/listgrid/listgroup.mako:112
 #: widgets/templates/listgrid/multiple_group.mako:63
 msgid "Edit"
-msgstr "Düzenle"
+msgstr ""
 
 #: controllers/templates/form.mako:122
 msgid "Save this resource"
-msgstr "Kaynağı kaydet"
+msgstr ""
 
 #: controllers/templates/form.mako:123 controllers/templates/openm2.mako:48
 #: controllers/templates/save_filter.mako:41
@@ -911,773 +869,676 @@ msgstr "Kaynağı kaydet"
 #: controllers/templates/viewlist.mako:157
 #: controllers/templates/preferences/index.mako:39
 msgid "Save"
-msgstr "Kaydet"
+msgstr ""
 
 #: controllers/templates/form.mako:125
 msgid "Save & Edit this resource"
-msgstr "Bu kaynağı Sakla & Düzenle"
+msgstr ""
 
 #: controllers/templates/form.mako:126
 msgid "Save & Edit"
-msgstr "Sakla & Düzenle"
+msgstr ""
 
 #: controllers/templates/form.mako:130
 msgid "Duplicate this resource"
-msgstr "Kaynağın kopyasını oluştur"
+msgstr ""
 
 #: controllers/templates/form.mako:131
 msgid "Duplicate"
-msgstr "Kopya Oluştur"
+msgstr ""
 
 #: controllers/templates/form.mako:135
 msgid "Delete this resource"
-msgstr "Kaynağı Sil"
+msgstr ""
 
 #: controllers/templates/form.mako:140
 msgid "Cancel editing the current resource"
-msgstr "Şu anki kaynağın düzenlemesini iptal et"
+msgstr ""
 
 #: controllers/templates/form.mako:145
 msgid "Create new node"
-msgstr "Yeni düğüm oluştur"
+msgstr ""
 
 #: controllers/templates/form.mako:146
 msgid "New Node"
-msgstr "Yeni Düğüm"
+msgstr ""
 
 #: controllers/templates/form.mako:150
 msgid "Show grid in workflow canvas"
-msgstr "İş Akışı şemasına ızgara ekle"
+msgstr ""
 
 #: controllers/templates/form.mako:151
 msgid "Show grid"
-msgstr "Izgarayi göster"
+msgstr ""
 
 #: controllers/templates/header.mako:33
 #, python-format
 msgid "%(company)s"
-msgstr "%(company)s"
+msgstr ""
 
 #: controllers/templates/header.mako:34 controllers/templates/index.mako:230
 #, python-format
 msgid "%(user)s"
-msgstr "%(user)s"
+msgstr ""
 
 #: controllers/templates/header.mako:45 controllers/templates/header.mako:47
 msgid "Home"
-msgstr "Anasayfa"
+msgstr ""
 
 #: controllers/templates/header.mako:53
 msgid "Requests"
-msgstr "İstekler"
+msgstr ""
 
 #: controllers/templates/header.mako:62
 msgid "Edit Preferences"
-msgstr "Ayarları Düzenle"
+msgstr ""
 
 #: controllers/templates/header.mako:66 controllers/templates/header.mako:69
 msgid "About"
-msgstr "Hakkında"
+msgstr ""
 
 #: controllers/templates/header.mako:73 controllers/templates/header.mako:75
 msgid "Help"
-msgstr "Yardım"
+msgstr ""
 
 #: controllers/templates/header.mako:81 controllers/templates/header.mako:84
 msgid "Clear Cache"
-msgstr "Önbelleği Temizle"
+msgstr ""
 
 #: controllers/templates/header.mako:89
 msgid "Logout"
-msgstr "Oturumu kapat"
+msgstr ""
 
 #: controllers/templates/imp.mako:79
 msgid "Import Data"
-msgstr "İçe Veri Aktar"
+msgstr ""
 
 #: controllers/templates/imp.mako:89
 msgid "1. Import a .CSV file"
-msgstr ".CSV Dosyasından veri al"
+msgstr ""
 
 #: controllers/templates/imp.mako:105
 msgid "CSV File:"
-msgstr "CSV dosyası:"
+msgstr ""
 
 #: controllers/templates/imp.mako:123
 msgid "2. Check your file format"
-msgstr "Dosya biçimini kontrol edin"
+msgstr ""
 
 #: controllers/templates/imp.mako:130
 #, python-format
 msgid "The import failed due to: %(message)s"
-msgstr "İçeri veri aktarımı yapılamadı, Hata: %(message)s"
+msgstr ""
 
 #: controllers/templates/imp.mako:132
 msgid "Here is a preview of the file we could not import:"
-msgstr "İçeri aktaramadığımız dosyanın önizlemesi:"
+msgstr ""
 
 #: controllers/templates/imp.mako:157
 msgid "CSV Options"
-msgstr "CSV Seçenekleri"
+msgstr ""
 
 #: controllers/templates/imp.mako:160
 msgid "Separator:"
-msgstr "Ayraç:"
+msgstr ""
 
 #: controllers/templates/imp.mako:162
 msgid "Delimiter:"
-msgstr "Sınırlayıcı:"
+msgstr ""
 
 #: controllers/templates/imp.mako:166
 msgid "Encoding:"
-msgstr "Kodlama:"
+msgstr ""
 
 #: controllers/templates/imp.mako:173
 msgid "Lines to skip:"
-msgstr "Atlanacak Satırlar:"
+msgstr ""
 
 #: controllers/templates/imp.mako:187
 msgid "3. File imported"
-msgstr "Veri aktarılan dosya"
+msgstr ""
 
 #: controllers/templates/imp.mako:205
 msgid "Import File"
-msgstr "İçeriye Dosya Aktar"
+msgstr ""
 
 #: controllers/templates/index.mako:167
 msgid "System Logs"
-msgstr "Sistem Kayıtları"
+msgstr ""
 
 #: controllers/templates/index.mako:192
 msgid "More"
-msgstr "Daha fazla"
+msgstr ""
 
 #: controllers/templates/index.mako:193
 msgid "Widgets"
-msgstr "Gereçler"
+msgstr ""
 
 #: controllers/templates/index.mako:233 controllers/templates/index.mako:238
 #, python-format
 msgid "Powered by %(openerp)s "
-msgstr "%(openerp)s ile yapıldı "
+msgstr ""
 
 #: controllers/templates/login.mako:57 controllers/templates/login_ajax.mako:72
 #: controllers/templates/login_ajax.mako:94
 msgid "User:"
-msgstr "Kullanıcı:"
+msgstr ""
 
 #: controllers/templates/login.mako:68
 msgid "Databases"
-msgstr "Veritabanları"
+msgstr ""
 
 #: controllers/templates/login.mako:88
 msgid "Top Contributor:"
-msgstr "En çok katkısı olan:"
+msgstr ""
 
 #: controllers/templates/login.mako:98
 msgid ""
 "We think that daily job activities can be more intuitive, efficient, "
 "automated, .. and even fun."
 msgstr ""
-"Günlük iş aktivitelerinin daha öngürülü, verimli, otomatikleştirilmil ve "
-"hatta eğlenceli olabileceğini düşünüyoruz."
 
 #: controllers/templates/login.mako:99
 msgid "OpenERP's vision to be:"
-msgstr "OpenERP nin vizyonu:"
+msgstr ""
 
 #: controllers/templates/login.mako:107
 msgid "Full featured"
-msgstr "Tam Özellikli"
+msgstr ""
 
 #: controllers/templates/login.mako:108
 msgid ""
 "Today's enterprise challenges are multiple. We provide one module for each "
 "need."
 msgstr ""
-"Günümüzün şirketler bir çok zorlukla karşılaşıyor. Biz her ihtiyaca bir "
-"modül sunuyoruz."
 
 #: controllers/templates/login.mako:116
 msgid "Open Source"
-msgstr "Açık Kaynak Kodlu"
+msgstr ""
 
 #: controllers/templates/login.mako:117
 msgid ""
 "To Build a great product, we rely on the knowledge of thousands of "
 "contributors."
 msgstr ""
-"Mükemmel bir program oluşturmak için, binlerce katılımcının bilgisine "
-"yaslanıyoruz."
 
 #: controllers/templates/login.mako:125
 msgid "User Friendly"
-msgstr "Kullanıcı Dostu"
+msgstr ""
 
 #: controllers/templates/login.mako:126
 msgid ""
 "In order to be productive, people need clean and easy to use interface."
 msgstr ""
-"Üretken olabilmek için insanların temiz ve kolay bir kullanıcı arayüzüne "
-"ihtiyaçları var."
 
 #: controllers/templates/modules.mako:4
 msgid "Module Management"
-msgstr "Modül Yönetimi"
+msgstr ""
 
 #: controllers/templates/modules.mako:17
 msgid "Web Modules"
-msgstr "Web Modülleri"
+msgstr ""
 
 #: controllers/templates/openo2m.mako:34
 msgid "Save & Close"
-msgstr "Kaydet & Kapat"
+msgstr ""
 
 #: controllers/templates/openo2m.mako:37
 msgid "Save & New"
-msgstr "Kaydet & Yeni"
+msgstr ""
 
 #: controllers/templates/save_filter.mako:18
 msgid "Save as Filter"
-msgstr "Filtre olarak kaydet"
+msgstr ""
 
 #: controllers/templates/save_filter.mako:30
 msgid "Filter Name"
-msgstr "Filtre adı"
+msgstr ""
 
 #: controllers/templates/search.mako:110
 #, python-format
 msgid "Search %(name)s"
-msgstr "Ara %(name)s"
+msgstr ""
 
 #: controllers/templates/search.mako:125 widgets/form/templates/datetime.mako:8
 msgid "Select"
-msgstr "Seç"
+msgstr ""
 
 #: controllers/templates/search.mako:127 widgets/_views.py:77
 #: widgets/form/templates/many2one.mako:22
 #: widgets/form/templates/reference.mako:27 widgets/templates/viewform.mako:26
 msgid "Search"
-msgstr "Arama"
+msgstr ""
 
 #: controllers/templates/search.mako:143
 #, python-format
 msgid "No record found : '%(searched_string)s'."
-msgstr "Hiç kayıt bulunamadı:'%(searched_string)s'."
+msgstr ""
 
 #: controllers/templates/selection.mako:4
 msgid "Select action"
-msgstr "Eylem seçin"
+msgstr ""
 
 #: controllers/templates/selection.mako:23
 msgid "Select your action"
-msgstr "Yapmak istediğinizi seçiniz"
+msgstr ""
 
 #: controllers/templates/server_log.mako:4
 msgid "Server Actions..."
-msgstr "Sunucu İşlemleri..."
+msgstr ""
 
 #: controllers/templates/server_log.mako:14
 msgid "Server Actions"
-msgstr "Sunucu işlemleri"
+msgstr ""
 
 #: controllers/templates/translator.mako:4
 msgid "Add Translations"
-msgstr "Çeviri Ekle"
+msgstr ""
 
 #: controllers/templates/translator.mako:17
 msgid "Add Translation"
-msgstr "Çeviri Ekle"
+msgstr ""
 
 #: controllers/templates/translator.mako:27
 msgid "Add Translation for:"
-msgstr "Çeviri eklenecek:"
+msgstr ""
 
 #: controllers/templates/translator.mako:31
 msgid "Fields"
-msgstr "Alanlar"
+msgstr ""
 
 #: controllers/templates/translator.mako:32
 msgid "Labels"
-msgstr "Etiketler"
+msgstr ""
 
 #: controllers/templates/translator.mako:33
 msgid "Relates"
-msgstr "İlişkili"
+msgstr ""
 
 #: controllers/templates/translator.mako:34
 msgid "View"
-msgstr "Tablo Görünümü"
+msgstr ""
 
 #: controllers/templates/translator.mako:53
 msgid "Field"
-msgstr "Alan"
+msgstr ""
 
 #: controllers/templates/view_log.mako:4 controllers/templates/view_log.mako:12
 msgid "Information"
-msgstr "Bilgi"
+msgstr ""
 
 #: controllers/templates/viewed.mako:17
 #, python-format
 msgid "View Editor %s - %s"
-msgstr "Tablo Görünüm Düzenleyici %s - %s"
+msgstr ""
 
 #: controllers/templates/viewed.mako:31
 msgid "Create a new inherited view"
-msgstr "Yeni bir alt görünüm oluştur"
+msgstr ""
 
 #: controllers/templates/viewed.mako:31
 msgid "Inherited View"
-msgstr "Alt Görünüm"
+msgstr ""
 
 #: controllers/templates/viewed.mako:34
 msgid "Preview"
-msgstr "Önizleme"
+msgstr ""
 
 #: controllers/templates/viewed_add.mako:6
 msgid "Node Type:"
-msgstr "Uç Tipi:"
+msgstr ""
 
 #: controllers/templates/viewed_add.mako:23
 msgid "New Field"
-msgstr "Yeni Alan"
+msgstr ""
 
 #: controllers/templates/viewed_add.mako:27
 msgid "Position:"
-msgstr "Pozisyon:"
+msgstr ""
 
 #: controllers/templates/viewlist.mako:4
 #: controllers/templates/viewlist.mako:108
 #, python-format
 msgid "Manage Views (%s)"
-msgstr "Tablo görünümlerini düzenle (%s)"
+msgstr ""
 
 #: controllers/templates/viewlist.mako:146
 #, python-format
 msgid "Create a view (%s)"
-msgstr "Tablo görünümü oluştur (%s)"
+msgstr ""
 
 #: controllers/templates/viewlist.mako:174
 msgid "View Name:"
-msgstr "Tablo Görünümü Adı:"
+msgstr ""
 
 #: controllers/templates/viewlist.mako:178
 msgid "View Type:"
-msgstr "Tablo Görünümü Tipi:"
+msgstr ""
 
 #: controllers/templates/viewlist.mako:189
 msgid "Priority:"
-msgstr "Öncelik:"
+msgstr ""
 
 #: utils/common.py:24
 msgid "Error"
-msgstr "Hata"
+msgstr ""
 
 #: utils/common.py:27
 msgid "Warning"
-msgstr "Uyarı"
+msgstr ""
 
 #: utils/rpc.py:131
 msgid "Access Denied"
-msgstr "Erişim Engellendi"
+msgstr ""
 
 #: utils/rpc.py:238
 msgid "Unsupported protocol."
-msgstr "Desteklenmeyen Protokol."
+msgstr ""
 
 #: utils/rpc.py:342
 msgid ""
 "You select a timezone but OpenERP could not find pytz library!\n"
 "The timezone functionality will be disable."
 msgstr ""
-"Bir saat dilimi seçtiniz fakat OpenERP pytz kitaplığını bulamadı!\n"
-"Saat dilimi özelliği kullanılamayacak."
 
 #: utils/rpc.py:355
 msgid "Not logged..."
-msgstr "Giriş Yapılmamış..."
+msgstr ""
 
 #: utils/rpc.py:355
 msgid "Authorization Error"
-msgstr "Yetkilendirme Hatası"
+msgstr ""
 
 #: utils/rpc.py:439
 msgid "== Access Denied =="
-msgstr "== Erişim Reddedildi =="
+msgstr ""
 
 #: widgets/_views.py:46
 msgid "Form"
-msgstr "Form"
+msgstr ""
 
 #: widgets/_views.py:47
 msgid "Form view..."
-msgstr "Form görünümü..."
+msgstr ""
 
 #: widgets/_views.py:78
 msgid "Search view..."
-msgstr "Arama Görünümü..."
+msgstr ""
 
 #: widgets/listgrid.py:305
 msgid "Wrong on_change trigger"
-msgstr "Yanlış on_change tetikleyicisi"
+msgstr ""
 
 #: widgets/listgrid.py:368 widgets/form/_form.py:904
 #, python-format
 msgid "Invalid view, duplicate field: %s"
-msgstr "Geçersiz görünüm, Çift Alan: %s"
+msgstr ""
 
 #: widgets/pager.py:56
 #, python-format
 msgid "%s"
-msgstr "%s"
+msgstr ""
 
 #: widgets/pager.py:68
 #, python-format
 msgid "%s - %s"
-msgstr "%s - %s"
+msgstr ""
 
 #: widgets/search.py:280
 msgid "contains"
-msgstr "şunu içeriyor"
+msgstr ""
 
 #: widgets/search.py:280
 msgid "doesn't contain"
-msgstr "içermiyor"
+msgstr ""
 
 #: widgets/search.py:281
 msgid "is equal to"
-msgstr "eşittir"
+msgstr ""
 
 #: widgets/search.py:281
 msgid "is not equal to"
-msgstr "eşit değildir"
+msgstr ""
 
 #: widgets/search.py:282
 msgid "greater than"
-msgstr "büyüktür"
+msgstr ""
 
 #: widgets/search.py:282
 msgid "less than"
-msgstr "küçüktür"
+msgstr ""
 
 #: widgets/search.py:283
 msgid "in"
-msgstr "içinde"
+msgstr ""
 
 #: widgets/search.py:283
 msgid "not in"
-msgstr "içinde değil"
+msgstr ""
 
 #: widgets/search.py:392
 msgid "Yes"
-msgstr "Evet"
+msgstr ""
 
 #: widgets/search.py:392
 msgid "No"
-msgstr "Hayır"
+msgstr ""
 
 #: widgets/form/_action.py:48
 msgid "Action not found!"
-msgstr "Eylem bulunamadı !"
+msgstr ""
 
 #: widgets/form/_o2m.py:97 widgets/templates/listgrid/listgrid.mako:156
 #: widgets/templates/listgrid/listgrid.mako:162
 #: widgets/templates/listgrid/listgroup.mako:20
 msgid "Create new record."
-msgstr "Yeni kayıt oluştur."
+msgstr ""
 
 #: widgets/form/_o2m.py:110
 msgid "Save/New"
-msgstr "Sakla/Yeni"
+msgstr ""
 
 #: widgets/form/_o2m.py:110
 msgid "Save parent record."
-msgstr "Ana kaydı kaydet"
+msgstr ""
 
 #: widgets/form/_o2m.py:229
 #, python-format
 msgid "%d of %d"
-msgstr "%d / %d"
+msgstr ""
 
 #: widgets/form/_o2m.py:231
 #, python-format
 msgid "- of %d"
-msgstr "- / %d"
+msgstr ""
 
 #: widgets/form/templates/binary.mako:28
 msgid "Save As"
-msgstr "Farklı kaydet"
+msgstr ""
 
 #: widgets/form/templates/binary.mako:31
 msgid "add attachment"
-msgstr "ek ekle"
+msgstr ""
 
 #: widgets/form/templates/image.mako:6
 msgid "Replace image"
-msgstr "Resim değiştir"
+msgstr ""
 
 #: widgets/form/templates/many2one.mako:2
 #: widgets/form/templates/reference.mako:30
 msgid "Open"
-msgstr "Aç"
+msgstr ""
 
 #: widgets/form/templates/many2one.mako:2
 #: widgets/form/templates/reference.mako:30
 msgid "Open a resource"
-msgstr "Kaynağı aç"
+msgstr ""
 
 #: widgets/form/templates/one2many.mako:21
 msgid "Create new record..."
-msgstr "Yeni Kayıt Aç..."
+msgstr ""
 
 #: widgets/form/templates/one2many.mako:23
 msgid "Delete record..."
-msgstr "Kaydı Sil..."
+msgstr ""
 
 #: widgets/form/templates/one2many.mako:29
 msgid "Translate me."
-msgstr "Beni Tercüme et."
+msgstr ""
 
 #: widgets/form/templates/one2many.mako:48
 msgid "Previous record..."
-msgstr "Önceki kayıt..."
+msgstr ""
 
 #: widgets/form/templates/one2many.mako:50
 msgid "Next record..."
-msgstr "Sonraki kayıt..."
+msgstr ""
 
 #: widgets/templates/logs.mako:22
 msgid "More..."
-msgstr "Daha..."
+msgstr ""
 
 #: widgets/templates/logs.mako:35
 msgid "Less..."
-msgstr "Daha az.."
+msgstr ""
 
 #: widgets/templates/pager.mako:9
 msgid "<< First"
-msgstr "<< İLK"
+msgstr ""
 
 #: widgets/templates/pager.mako:14
 msgid "< Previous"
-msgstr "< Önceki"
+msgstr ""
 
 #: widgets/templates/pager.mako:19
 msgid "of"
-msgstr "/"
+msgstr ""
 
 #: widgets/templates/pager.mako:24
 msgid "Next >"
-msgstr "Sonraki >"
+msgstr ""
 
 #: widgets/templates/pager.mako:29
 msgid "Last >>"
-msgstr "Sonuncu >>"
+msgstr ""
 
 #: widgets/templates/pager.mako:37
 msgid "Change Limit:"
-msgstr "Sınırı Değiştir:"
+msgstr ""
 
 #: widgets/templates/sidebar.mako:37
 msgid "Reports"
-msgstr "Raporlar"
+msgstr ""
 
 #: widgets/templates/sidebar.mako:41 widgets/templates/viewform.mako:51
 msgid "Actions"
-msgstr "Hareketler"
+msgstr ""
 
 #: widgets/templates/sidebar.mako:45
 msgid "Links"
-msgstr "Bağlantılar"
+msgstr ""
 
 #: widgets/templates/sidebar.mako:49
 msgid "Submenu"
-msgstr "Alt menü"
+msgstr ""
 
 #: widgets/templates/sidebar.mako:54
 msgid "Attachments"
-msgstr "Ekler"
+msgstr ""
 
 #: widgets/templates/sidebar.mako:74
 msgid "File"
-msgstr "Dosya"
+msgstr ""
 
 #: widgets/templates/sidebar.mako:83
 msgid "Customize"
-msgstr "Özelleştir"
+msgstr ""
 
 #: widgets/templates/sidebar.mako:87
 msgid "Manage views of the current object"
-msgstr "Şu anki nesnenin görünümünü yönet"
+msgstr ""
 
 #: widgets/templates/sidebar.mako:89
 msgid "Manage Views"
-msgstr "Görünümleri Yönet"
+msgstr ""
 
 #: widgets/templates/sidebar.mako:93
 msgid "Edit workflow of the current object"
-msgstr "Şu anki nesnenin iş akışını düzenle"
+msgstr ""
 
 #: widgets/templates/sidebar.mako:94
 msgid "Edit Workflow"
-msgstr "İş Akışını Düzenle"
+msgstr ""
 
 #: widgets/templates/sidebar.mako:98
 msgid "Customize current object or create a new object"
-msgstr "Şu anki nesneyi özelleştir ya da yeni bir nesne oluştur"
+msgstr ""
 
 #: widgets/templates/sidebar.mako:100
 msgid "Customize Object"
-msgstr "Nesneyi Özelleştir"
+msgstr ""
 
 #: widgets/templates/sidebar.mako:106
 msgid "Other Options"
-msgstr "Diğer Seçenekler"
+msgstr ""
 
 #: widgets/templates/sidebar.mako:111 widgets/templates/sidebar.mako:119
 msgid "Import"
-msgstr "İçe aktar"
+msgstr ""
 
 #: widgets/templates/sidebar.mako:114 widgets/templates/sidebar.mako:122
 msgid "Export"
-msgstr "Dışa aktar"
+msgstr ""
 
 #: widgets/templates/sidebar.mako:126
 msgid "Translate"
-msgstr "Çevir"
+msgstr ""
 
 #: widgets/templates/sidebar.mako:131
 msgid "View Log"
-msgstr "Günlüğü Göster"
+msgstr ""
 
 #: widgets/templates/viewform.mako:25
 msgid "Filter records."
-msgstr "Kayıtları Filtrele"
+msgstr ""
 
 #: widgets/templates/viewform.mako:33
 msgid "Clear all."
-msgstr "Hepsini temizle"
+msgstr ""
 
 #: widgets/templates/viewform.mako:35
 msgid "Clear"
-msgstr "Temizle"
+msgstr ""
 
 #: widgets/templates/viewform.mako:43
 msgid "Filters"
-msgstr "Filtreler"
+msgstr "Филтри"
 
 #: widgets/templates/viewform.mako:45
 msgid "Saved Filters"
-msgstr "Kaydedilmiş Filtreler"
+msgstr ""
 
 #: widgets/templates/viewform.mako:52
 msgid "New Filter"
-msgstr "Yeni filtre"
+msgstr "Нов филтер"
 
 #: widgets/templates/viewform.mako:53
 msgid "Save Filter"
-msgstr "Filitreyi Kaydet"
+msgstr ""
 
 #: widgets/templates/viewform.mako:54
 msgid "Manage Filters"
-msgstr "Filtreleri Yönet:"
+msgstr "Сочувај филтер"
 
 #: widgets/templates/listgrid/listgrid.mako:23
 msgid "Update"
-msgstr "Güncelle"
+msgstr "Ажурирај"
 
 #: widgets/templates/listgrid/listgrid.mako:152
 msgid "Add records..."
-msgstr "Kayıt ekle..."
+msgstr ""
 
 #: widgets/templates/listgrid/listgrid.mako:190
 #: widgets/templates/listgrid/listgrid.mako:194
 msgid "Delete record(s)."
-msgstr "Kayıt(ları) sil.."
-
-#~ msgid "You do not have a valid OpenERP publisher warranty contract !"
-#~ msgstr "Geçerli bir OpenERP yayıncı garanti sözleşmeniz yok !"
-
-#~ msgid "Image"
-#~ msgstr "Resim"
-
-#~ msgid "Add Resource:"
-#~ msgstr "Kaynak Ekle"
-
-#~ msgid "Click here to add new image."
-#~ msgstr "Yeni resim eklemek için buraya tıkla"
-
-#~ msgid ""
-#~ "Your publisher warranty contract does not cover all modules installed in "
-#~ "your system !\n"
-#~ "If you are using OpenERP in production, it is highly suggested to upgrade "
-#~ "your\n"
-#~ "contract.\n"
-#~ "\n"
-#~ "If you have developed your own modules or installed third party module, we\n"
-#~ "can provide you an additional publisher warranty contract for these modules. "
-#~ "After\n"
-#~ "having reviewed your modules, our quality team will ensure they will "
-#~ "migrate\n"
-#~ "automatically for all future stable versions of OpenERP at no extra cost.\n"
-#~ "\n"
-#~ "Here is the list of modules not covered by your publisher warranty contract:"
-#~ msgstr ""
-#~ "Your publisher warranty contract does not cover all modules installed in "
-#~ "your system !\n"
-#~ "If you are using OpenERP in production, it is highly suggested to upgrade "
-#~ "your\n"
-#~ "contract.\n"
-#~ "\n"
-#~ "If you have developed your own modules or installed third party module, we\n"
-#~ "can provide you an additional publisher warranty contract for these modules. "
-#~ "After\n"
-#~ "having reviewed your modules, our quality team will ensure they will "
-#~ "migrate\n"
-#~ "automatically for all future stable versions of OpenERP at no extra cost.\n"
-#~ "\n"
-#~ "Here is the list of modules not covered by your publisher warranty contract:"
-
-#~ msgid ""
-#~ "If you are using OpenERP in production, it is recommended to have\n"
-#~ "a publisher warranty program.\n"
-#~ "\n"
-#~ "The OpenERP publisher warranty contract provides you with bug fix guarantees "
-#~ "and an\n"
-#~ "automatic migration system so that we can start working on your problems "
-#~ "within a few\n"
-#~ "hours.\n"
-#~ "\n"
-#~ "With a publisher warranty contract, errors such as this one can be sent "
-#~ "directly to the OpenERP\n"
-#~ "team for review and evaluation.\n"
-#~ "\n"
-#~ "The publisher warranty program offers you:\n"
-#~ "* Automatic migrations on new versions,\n"
-#~ "* A bugfix guarantee,\n"
-#~ "* Monthly announces of potential bugs and their fixes,\n"
-#~ "* Security alerts by email and automatic migration,\n"
-#~ "* Access to the customer portal.\n"
-#~ msgstr ""
-#~ "Copy text \t\n"
-#~ "If you are using OpenERP in production, it is recommended to have\n"
-#~ "a publisher warranty program.\n"
-#~ "\n"
-#~ "The OpenERP publisher warranty contract provides you with bug fix guarantees "
-#~ "and an\n"
-#~ "automatic migration system so that we can start working on your problems "
-#~ "within a few\n"
-#~ "hours.\n"
-#~ "\n"
-#~ "With a publisher warranty contract, errors such as this one can be sent "
-#~ "directly to the OpenERP\n"
-#~ "team for review and evaluation.\n"
-#~ "\n"
-#~ "The publisher warranty program offers you:\n"
-#~ "* Automatic migrations on new versions,\n"
-#~ "* A bugfix guarantee,\n"
-#~ "* Monthly announces of potential bugs and their fixes,\n"
-#~ "* Security alerts by email and automatic migration,\n"
-#~ "* Access to the customer portal.\n"
-#~ "\t\tThere are line breaks here. Each one represents a line break. Start a "
-#~ "new line in the equivalent position in the translation.\n"
+msgstr ""

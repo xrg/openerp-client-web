@@ -180,7 +180,7 @@ function form_evalExpr(prefix, expr, ref_elem) {
     for (var i = 0; i < expr.length; i++) {
 
         var ex = expr[i];
-        var elem;
+        var elem = null;
         if (ref_elem.parents('table.grid').length) {
             var parent = ref_elem.parents('tr.grid-row');
             elem = parent.find(idSelector(prefix + ex[0]));

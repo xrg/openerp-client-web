@@ -21,20 +21,20 @@
             ${py.attrs(attrs)}
         />
     </div>
-</div>
 % else:
-    <img
-        id="${field}"
-        name="${name}"
-        border='1'
-        align="left"
-        src="${src}"
-        % if width:
-            width="${width}"
-        % endif
-        % if height:
-            height="${height}"
-        % endif
-    />
+    <div align="center">
+        <img
+            id="${field}"
+            name="${name}"
+            border='1'
+            src="${src}"
+            % if width:
+                width="${width}"
+            % endif
+            % if height:
+                height="${height}"
+            % endif
+        />
+    </div>
 % endif
 

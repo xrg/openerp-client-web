@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: openobject-client-web\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2011-03-18 11:53+0100\n"
-"PO-Revision-Date: 2011-02-15 19:33+0000\n"
+"PO-Revision-Date: 2011-05-11 12:26+0000\n"
 "Last-Translator: Nkolay Parukhin <parukhin@gmail.com>\n"
 "Language-Team: Russian <ru@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2011-03-19 07:06+0000\n"
-"X-Generator: Launchpad (build 12559)\n"
+"X-Launchpad-Export-Date: 2011-05-12 05:59+0000\n"
+"X-Generator: Launchpad (build 12959)\n"
 
 #: static/javascript/form.js:92
 #, python-format
@@ -36,7 +36,7 @@ msgstr "Вы должны выбрать одну или несколько за
 
 #: static/javascript/form.js:995
 msgid "You must save this record to perform the action !"
-msgstr ""
+msgstr "Вы должны сохранить эту запись для выполнения действия!"
 
 #: static/javascript/form.js:1127
 msgid "Do you really want to delete the attachment"
@@ -78,7 +78,7 @@ msgstr "Вы действительно хотите удалить запись
 
 #: static/javascript/search.js:285
 msgid "Invalid Value"
-msgstr ""
+msgstr "Недопустимое значение"
 
 #: static/javascript/viewed.js:63
 msgid "Do you really want to remove this node?"
