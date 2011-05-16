@@ -404,8 +404,16 @@ class Form(SecuredController):
                 params.ids = (params.ids or []) + [params.id]
                 params.count += 1
             else:
-                 ctx = utils.context_with_concurrency_info(params.context, params.concurrency_info)
-                 Model.write([params.id], data, ctx)
+                datas = Model.read(params.id, data.keys())
+                Updated_data = {}
+                for i,j in datas.iteritems():
+                    if isinstance(j,tuple):
+                        datas[i] = j[0]
+                    if i in data.keys():
+                        if data[i] != datas[i]:
+                            Updated_data[i] = data[i]
+                ctx = utils.context_with_concurrency_info(params.context, params.concurrency_info)
+                Model.write([params.id], Updated_data, ctx)
 
             tw.ConcurrencyInfo.update(
                 params.model, Model.read([params.id], ['__last_update'], ctx)
