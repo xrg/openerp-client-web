@@ -807,7 +807,7 @@ function makeContextMenu(id, kind, relation, val){
         prefix = (prefix.split('/')[1]);
     }
 
-    var model = prefix ? openobject.dom.get(prefix + '/_terp_model').value : openobject.dom.get('_terp_model').value;
+    var model = prefix ? openobject.dom.get(prefix + '_terp_model').value : openobject.dom.get('_terp_model').value;
 
     openobject.http.postJSON(act, {
         'model': model,
