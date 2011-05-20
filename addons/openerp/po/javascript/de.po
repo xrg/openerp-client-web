@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2011-03-18 11:53+0100\n"
-"PO-Revision-Date: 2011-02-15 19:36+0000\n"
-"Last-Translator: Antony Lesuisse <al@openerp.com>\n"
+"PO-Revision-Date: 2011-05-19 18:45+0000\n"
+"Last-Translator: Daniel Fai <Unknown>\n"
 "Language-Team: de <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2011-03-19 07:06+0000\n"
-"X-Generator: Launchpad (build 12559)\n"
+"X-Launchpad-Export-Date: 2011-05-20 05:51+0000\n"
+"X-Generator: Launchpad (build 12959)\n"
 "Generated-By: Babel None\n"
 
 #: static/javascript/form.js:92
@@ -38,7 +38,7 @@ msgstr "Sie müssen einen oder mehrere Datensätze auswählen !"
 
 #: static/javascript/form.js:995
 msgid "You must save this record to perform the action !"
-msgstr ""
+msgstr "Sie müssen diesen Datensatz sichern, um die Aktion auszuführen."
 
 #: static/javascript/form.js:1127
 msgid "Do you really want to delete the attachment"
@@ -80,7 +80,7 @@ msgstr "Möchten Sie wirklich den ausgewählten Datensatz löschen?"
 
 #: static/javascript/search.js:285
 msgid "Invalid Value"
-msgstr ""
+msgstr "Ungültiger Wert"
 
 #: static/javascript/viewed.js:63
 msgid "Do you really want to remove this node?"
