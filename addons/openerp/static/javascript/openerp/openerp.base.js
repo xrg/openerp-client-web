@@ -103,9 +103,10 @@ function doLoadingSuccess(app/*, url*/) {
     return function (data, status, xhr) {
         var target;
         var active_id;
-        if(xhr.getResponseHeader)
+        if(xhr.getResponseHeader){
             target = xhr.getResponseHeader('X-Target');
             active_id = xhr.getResponseHeader('active_id')
+        }
         if(target) {
             var _openAction;
             if (window.top.openAction) {
