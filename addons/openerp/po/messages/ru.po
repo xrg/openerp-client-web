@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: openobject-client-web\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2011-03-18 11:53+0100\n"
-"PO-Revision-Date: 2011-05-14 17:55+0000\n"
+"PO-Revision-Date: 2011-05-21 16:06+0000\n"
 "Last-Translator: Chertykov Denis <chertykov@gmail.com>\n"
 "Language-Team: Russian <ru@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2011-05-15 05:37+0000\n"
+"X-Launchpad-Export-Date: 2011-05-22 05:56+0000\n"
 "X-Generator: Launchpad (build 12959)\n"
 
 #: validators.py:75
@@ -1138,7 +1138,7 @@ msgstr "Сохранить и закрыть"
 
 #: controllers/templates/openo2m.mako:37
 msgid "Save & New"
-msgstr "Сохранить и новая"
+msgstr "Сохранить и создать"
 
 #: controllers/templates/save_filter.mako:18
 msgid "Save as Filter"
@@ -1391,7 +1391,7 @@ msgstr "Создать новую запись."
 
 #: widgets/form/_o2m.py:110
 msgid "Save/New"
-msgstr "Сохранить/Новый"
+msgstr "Сохранить/Создать"
 
 #: widgets/form/_o2m.py:110
 msgid "Save parent record."
