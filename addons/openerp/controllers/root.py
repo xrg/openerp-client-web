@@ -43,7 +43,7 @@ class Root(SecuredController):
     _cp_path = "/openerp"
 
     @expose()
-    def index(self, next=None):
+    def index(self, next=None, active=None):
         """Index page, loads the view defined by `action_id`.
         """
         if not next:
