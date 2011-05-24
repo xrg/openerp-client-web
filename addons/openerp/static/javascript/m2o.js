@@ -65,6 +65,10 @@ ManyToOne.prototype.__init__ = function(name) {
     jQuery(this.text).attr('autocomplete', 'OFF');
 
     if(this.editable) {
+
+        if (jQuery(this.text).attr('callback')) {
+            jQuery(this.text).removeAttr('callback');
+        }
         jQuery(this.field).change(jQuery.proxy(this, 'on_change'));
         jQuery(this.text).bind({
             keydown: jQuery.proxy(this, 'on_keydown'),
