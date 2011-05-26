@@ -72,7 +72,7 @@ ManyToOne.prototype.__init__ = function(name) {
             keyup: jQuery.proxy(this, 'on_keyup'),
             focus: jQuery.proxy(this, 'gotFocus'),
             blur: jQuery.proxy(this, 'lostFocus')
-        });
+        }).removeAttr('callback');
 
         this.lastTextResult = this.text.value;
 
