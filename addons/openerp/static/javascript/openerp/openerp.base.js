@@ -274,6 +274,16 @@ jQuery(document).ready(function () {
     jQuery(window).bind('hashchange', function () {
         var newUrl = $.hash();
         if(!newUrl || newUrl == $.hash.currentUrl) {
+            //Only autocall form onchanges when o2m open in popup.
+            jQuery(ELEMENTS_WITH_CALLBACK).each(function() {
+                if (jQuery(this).attr('kind') == 'boolean') {
+                    onBooleanClicked(jQuery(this).attr('id'));
+                } else {
+                    // We pass an arbitrary parameter to the event so we can
+                    // differentiate a user event from a trigger
+                    jQuery(this).trigger('change', [true]);
+                }
+            });
             return;
         }
         openLink(newUrl);
