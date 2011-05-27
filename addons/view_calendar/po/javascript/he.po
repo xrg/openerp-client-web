@@ -1,0 +1,66 @@
+# Hebrew translation for openobject-client-web
+# Copyright (c) 2011 Rosetta Contributors and Canonical Ltd 2011
+# This file is distributed under the same license as the openobject-client-web package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2011.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: openobject-client-web\n"
+"Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
+"POT-Creation-Date: 2011-03-18 11:53+0100\n"
+"PO-Revision-Date: 2011-05-26 12:41+0000\n"
+"Last-Translator: Natan Alter <Unknown>\n"
+"Language-Team: Hebrew <he@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Launchpad-Export-Date: 2011-05-27 06:02+0000\n"
+"X-Generator: Launchpad (build 12959)\n"
+
+#: static/javascript/calendar_box.js:50
+msgid "Cancel"
+msgstr "בטל"
+
+#: static/javascript/calendar_box.js:51
+msgid "Edit"
+msgstr "עריכה"
+
+#: static/javascript/calendar_box.js:52
+msgid "Duplicate"
+msgstr ""
+
+#: static/javascript/calendar_box.js:53
+msgid "Delete"
+msgstr "מחק"
+
+#: static/javascript/calendar_box.js:80
+msgid "Creation User: "
+msgstr ""
+
+#: static/javascript/calendar_box.js:81
+msgid "Creation Date: "
+msgstr "תאריך יצירה: "
+
+#: static/javascript/calendar_box.js:82
+msgid "Latest Modification by: "
+msgstr "שינוי אחרון ע\"י: "
+
+#: static/javascript/calendar_box.js:83
+msgid "Latest Modification Date: "
+msgstr "תאריך השינוי האחרון: "
+
+#: static/javascript/calendar_box.js:167
+msgid "Do you really want to delete this record?"
+msgstr "האם את/ה בטוח/ה שאת/ה רוצה למחוק רשומה זאת?"
+
+#: static/javascript/calendar_gantt.js:258
+#: static/javascript/calendar_month.js:400
+#: static/javascript/calendar_week.js:270
+#: static/javascript/calendar_week.js:673
+msgid "This calendar object can no longer be moved !"
+msgstr ""
+
+#: static/javascript/calendar_gantt.js:320
+#: static/javascript/calendar_week.js:97
+msgid "This calendar object can no longer be resized !"
+msgstr ""
