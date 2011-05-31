@@ -8,95 +8,95 @@ msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2011-03-18 11:53+0100\n"
-"PO-Revision-Date: 2011-02-15 17:38+0000\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"PO-Revision-Date: 2011-05-30 06:56+0000\n"
+"Last-Translator: BAYARAA Sainbayar <Unknown>\n"
 "Language-Team: mn <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2011-03-19 07:06+0000\n"
-"X-Generator: Launchpad (build 12559)\n"
+"X-Launchpad-Export-Date: 2011-05-31 05:53+0000\n"
+"X-Generator: Launchpad (build 12959)\n"
 "Generated-By: Babel None\n"
 
 #: static/javascript/form.js:92
 #, python-format
 msgid "You selected to open %(tabs)s tabs - do you want to continue?"
-msgstr ""
+msgstr "Та нээлттэй цонхыг %(tabs)s сонгосон байна - та үргэлжлүүлэх үү?"
 
 #: static/javascript/form.js:169
 msgid "Invalid form, correct red fields."
-msgstr ""
+msgstr "Улаанаар тэмдэглэгдсэн талбарууд алдаатай байна"
 
 #: static/javascript/form.js:204
 msgid "Do you really want to delete this record?"
-msgstr ""
+msgstr "Та энэ мэдээллийг устгах уу?"
 
 #: static/javascript/form.js:960
 msgid "You must select one or several records !"
-msgstr ""
+msgstr "Та нэг болон хэд хэдэн бичлэг сонгох ёстой."
 
 #: static/javascript/form.js:995
 msgid "You must save this record to perform the action !"
-msgstr ""
+msgstr "Та заавал коммандаар хадгалах шаардлагатай"
 
 #: static/javascript/form.js:1127
 msgid "Do you really want to delete the attachment"
-msgstr ""
+msgstr "Та энэ хавсралтыг устгах уу?"
 
 #: static/javascript/form.js:1161
 msgid "No record selected ! You can only attach to existing record."
-msgstr ""
+msgstr "Сонгосон бичлэг алга! Та зөвхөн байгаа бичлэгт хавсаргаж болно."
 
 #: static/javascript/form.js:1220
 msgid "OpenERP - Error"
-msgstr ""
+msgstr "Алдаа"
 
 #: static/javascript/form.js:1291
 msgid ""
 "Warning, the record has been modified,\n"
 "your changes will be discarded."
-msgstr ""
+msgstr "Анхааруулга, бичлэг өөрчлөгдсөн байна, та өөчрлөлтийг цуцлах уу"
 
 #: static/javascript/listgrid.js:542 static/javascript/o2m.js:123
 msgid "To edit Record, please first save it."
-msgstr ""
+msgstr "Бичлэг засахын тулд эхлээд хадгал"
 
 #: static/javascript/listgrid.js:650
 msgid "Do you really want to delete selected record(s) ?"
-msgstr ""
+msgstr "Та сонгогдсон бичлэгийг устгах уу?"
 
 #: static/javascript/m2o.js:526
 msgid "error in display::"
-msgstr ""
+msgstr "дэлгэцний алдаа::"
 
 #: static/javascript/o2m.js:67
 msgid "Do you really want to delete record ?"
-msgstr ""
+msgstr "Та энэ бичлэгийг устгах уу?"
 
 #: static/javascript/search.js:285
 msgid "Invalid Value"
-msgstr ""
+msgstr "Утга тодорхойгүй"
 
 #: static/javascript/viewed.js:63
 msgid "Do you really want to remove this node?"
-msgstr ""
+msgstr "Энэ дараалалаас хасах уу?"
 
 #: static/javascript/viewed.js:329
 msgid "Do you really wants to create an inherited view here?"
-msgstr ""
+msgstr "Харагдацаас удамшуулан үүсгэх үү?"
 
 #: static/javascript/openerp/openerp.base.js:127
 msgid "doLoadingSuccess: Cannot parse JSON"
-msgstr ""
+msgstr "АмжилттайАчааллаа: JSON задлах боломжгүй"
 
 #: static/javascript/openerp/openerp.base.js:335
 msgid "Loading"
-msgstr ""
+msgstr "Ачааллаж байна"
 
 #: static/javascript/openerp/openerp.ui.tips.js:51
 msgid "Object"
-msgstr ""
+msgstr "Объект"
 
 #: static/javascript/openerp/openerp.ui.tips.js:52
 msgid "Field"
-msgstr ""
+msgstr "Талбар"
