@@ -802,8 +802,8 @@ function open_search_window(relation, domain, context, source, kind, text){
 function makeContextMenu(id, kind, relation, val){
     var act = get_form_action('get_context_menu');
 
-    var prefix = id.indexOf('/') > -1 ? id.slice(0, id.lastIndexOf('/')) + '/' : '';
-    if ((prefix.split('/')[0])== '_terp_listfields') {
+    var prefix = id.indexOf('/') > -1 ? id.slice(0, id.lastIndexOf('/')) : '';
+    if ((prefix.split('/')[0]) == '_terp_listfields') {
         prefix = (prefix.split('/')[1]);
     }
 
