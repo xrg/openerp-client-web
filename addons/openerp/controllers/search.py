@@ -360,7 +360,7 @@ class Search(Form):
                 domain.extend(selection_domain)
 
         if not domain:
-            domain = None
+            domain = '[]'
         if not isinstance(group_by_ctx, list):
             group_by_ctx = [group_by_ctx]
         if group_by_ctx:

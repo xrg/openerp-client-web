@@ -468,12 +468,12 @@ var filter_context = [];
 var previous_filter = 0;
 function parse_filters(src, id) {
     var all_domains = {};
-    var check_domain = 'None';
+    var check_domain = '[]';
     var domains = {};
     var search_context = {};
     var all_boxes = [];
     var $filter_list = jQuery('#filter_list');
-    var domain = 'None';
+    var domain = '[]';
     if (jQuery('div.group-data').length) {
         jQuery('div.group-data button').each(function(){
             if (jQuery(this).hasClass('active')) {
@@ -590,7 +590,7 @@ function parse_filters(src, id) {
     var checked_button = all_boxes.toString();
 
     if(checked_button.length) {
-        check_domain = checked_button.length > 0? checked_button.replace(/(],\[)/g, ', ') : 'None';
+        check_domain = checked_button.length > 0? checked_button.replace(/(],\[)/g, ', ') : '[]';
         all_domains['check_domain'] = check_domain;
     }
     all_domains = serializeJSON(all_domains);
@@ -652,7 +652,7 @@ function save_filter() {
         'source': '_terp_list',
         'group_by_ctx': grps,
         'model': jQuery('#_terp_model').val()}).addCallback(function(obj) {
-        var sf_params = {'model': jQuery('#_terp_model').val(), 'domain': obj.domain, 'group_by': grps, 'flag': 'sf',
+        var sf_params = {'model': jQuery('#_terp_model').val(), 'domain': obj.domain || '[]', 'group_by': grps, 'flag': 'sf',
                          'custom_filter':custom_domain, 'selected_filter': selected_filter};
 
         jQuery.ajax({
@@ -716,9 +716,9 @@ function final_search_domain(custom_domain, all_domains, group_by_ctx) {
                 });
 
                 in_req.addCallback(function(in_obj){
-                    openobject.dom.get('_terp_search_domain').value = in_obj.domain;
+                    openobject.dom.get('_terp_search_domain').value = in_obj.domain || '[]';
                     openobject.dom.get('_terp_search_data').value = obj.search_data;
-                    openobject.dom.get('_terp_context').value = in_obj.context;
+                    openobject.dom.get('_terp_context').value = in_obj.context || '{}';
                     openobject.dom.get('_terp_filter_domain').value = obj.filter_domain;
                     jQuery('#_terp_group_by_ctx').val(in_obj.group_by);
                     jQuery('#_terp_offset').val(0);
