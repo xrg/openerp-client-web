@@ -768,6 +768,11 @@ class Form(TinyInputWidget):
                 if lval:
                     values = lval[0]
                     self.id = ids[0]
+                    
+                    for f in fields:
+                        if fields[f]['type'] == 'many2one' and isinstance(values[f], tuple):
+                            values[f] = values[f][0]
+                            
                     ConcurrencyInfo.update(self.model, [values])
 
             elif 'datas' in view: # wizard data
