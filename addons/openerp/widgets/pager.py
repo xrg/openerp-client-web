@@ -29,7 +29,7 @@ class Pager(TinyWidget):
 
     page_info = None
     pager_id = 1
-    UNLIMITED = -1
+    UNLIMITED = False
 
     def __init__(self, id=False, ids=[], offset=0, limit=50, count=0, view_type='tree'):
         super(Pager, self).__init__()
