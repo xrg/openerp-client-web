@@ -407,7 +407,7 @@ class Form(SecuredController):
                 original_data = Model.read(params.id, data.keys())
                 modified = {}
                 
-                if original_data and isinstance(original_data, {}):
+                if original_data and isinstance(original_data, dict):
                     for field, original_value in original_data.iteritems():
                         if isinstance(original_value, tuple):
                             original_data[field] = original_value[0]
