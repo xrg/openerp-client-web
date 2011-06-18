@@ -14,8 +14,8 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2011-03-19 07:07+0000\n"
-"X-Generator: Launchpad (build 12559)\n"
+"X-Launchpad-Export-Date: 2011-06-18 05:47+0000\n"
+"X-Generator: Launchpad (build 13168)\n"
 "Generated-By: Babel None\n"
 
 #: validators.py:75
@@ -404,11 +404,11 @@ msgstr "Importfout"
 
 #: controllers/impex.py:520
 msgid "The CSV delimiter must be a single character"
-msgstr ""
+msgstr "Het CSV scheidingsteken moet een enkel teken zijn"
 
 #: controllers/impex.py:532
 msgid "File Format Error"
-msgstr ""
+msgstr "Fout in bestandsindeling"
 
 #: controllers/impex.py:550
 msgid "XML-RPC error"
@@ -1420,7 +1420,7 @@ msgstr "bijlage toevoegen"
 
 #: widgets/form/templates/image.mako:6
 msgid "Replace image"
-msgstr ""
+msgstr "Afbeelding vervangen"
 
 #: widgets/form/templates/many2one.mako:2
 #: widgets/form/templates/reference.mako:30
