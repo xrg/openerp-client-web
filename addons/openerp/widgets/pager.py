@@ -29,7 +29,7 @@ class Pager(TinyWidget):
 
     page_info = None
     pager_id = 1
-    UNLIMITED = False
+    UNLIMITED = -1
 
     def __init__(self, id=False, ids=[], offset=0, limit=50, count=0, view_type='tree'):
         super(Pager, self).__init__()
@@ -46,6 +46,8 @@ class Pager(TinyWidget):
         if self.limit != Pager.UNLIMITED and len(self.ids) > self.limit:
             # if self.ids isn't clamped, it is entirely un-paginated.
             self.ids = self.ids[self.offset:self.offset + self.limit]
+        elif self.limit == -1:
+            self.limit = False
 
         if self.view_type in ['form', 'diagram']:        
 
