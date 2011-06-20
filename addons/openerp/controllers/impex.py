@@ -211,6 +211,13 @@ class ImpEx(SecuredController):
             value = fields[field]
             record = {}
 
+            if import_compat and value.get('readonly', False):
+                ok = False
+                for sl in value.get('states', {}).values():
+                    for s in sl:
+                        ok = ok or (s==('readonly',False))
+                if not ok: continue
+                
             id = prefix + (prefix and '/' or '') + field
             nm = name + (name and '/' or '') + value['string']
 
