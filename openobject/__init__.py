@@ -10,6 +10,7 @@ if os.path.exists(libdir) and libdir not in sys.path:
 import cherrypy
 import controllers._root
 import openobject
+from logging import handlers
 
 __all__ = ['ustr', 'application', 'configure', 'enable_static_paths',
            'WSGI_STATIC_PATHS']
@@ -103,10 +104,30 @@ def configure(app_config):
     application.merge(app_config)
 
     # logging config
-    error_level = logging._levelNames.get(
-        _global.get('log.error_level'), 'WARNING')
-    access_level = logging._levelNames.get(
-        _global.get('log.access_level'), 'INFO')
+    log = cherrypy.log
 
-    cherrypy.log.error_log.setLevel(error_level)
-    cherrypy.log.access_log.setLevel(access_level)
+    rotate = getattr(log, 'rotate', False)
+
+    if rotate:
+        access_file  = log.access_file
+        error_file = log.error_file
+        for handler in cherrypy.log.error_log.handlers:
+            cherrypy.log.error_log.removeHandler(handler)
+
+        for handler in cherrypy.log.access_log.handlers:
+            cherrypy.log.access_log.removeHandler(handler)
+
+        # Make a new RotatingFileHandler for the error log.
+        h = handlers.TimedRotatingFileHandler(error_file, rotate['unit'], rotate.get('interval'))
+        error_level = logging._levelNames.get(
+            _global.get('log.error_level'), 'WARNING')
+        h.setLevel(error_level)
+        log.error_log.addHandler(h)
+
+        # Make a new RotatingFileHandler for the access log.
+        h = handlers.TimedRotatingFileHandler(access_file, rotate['unit'], rotate.get('interval'))
+        access_level = logging._levelNames.get(
+            _global.get('log.access_level'), 'INFO')
+        h.setLevel(access_level)
+        log.access_log.addHandler(h)
+
