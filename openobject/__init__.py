@@ -10,6 +10,7 @@ if os.path.exists(libdir) and libdir not in sys.path:
 import cherrypy
 import controllers._root
 import openobject
+from logging import handlers
 
 __all__ = ['ustr', 'application', 'configure', 'enable_static_paths',
            'WSGI_STATIC_PATHS']
@@ -90,10 +91,10 @@ BASE_CONFIG = {
     'tools.nestedvars.on': True
 }
 def configure(app_config):
-    ''' Configures OpenERP Web Client. Takes a configuration dict
+    """ Configures OpenERP Web Client. Takes a configuration dict
     (as output by cherrypy._cpconfig.as_dict), from it configures
     cherrypy globally and configure the OpenERP WSGI Application.
-    '''
+    """
     _global = app_config.pop('global', {})
     _environ = _global.setdefault('server.environment', 'development')
     if _environ != 'development':
@@ -103,10 +104,32 @@ def configure(app_config):
     application.merge(app_config)
 
     # logging config
+    log = cherrypy.log
+
     error_level = logging._levelNames.get(
         _global.get('log.error_level'), 'WARNING')
     access_level = logging._levelNames.get(
         _global.get('log.access_level'), 'INFO')
+    log.error_log.setLevel(error_level)
+    log.access_log.setLevel(access_level)
 
-    cherrypy.log.error_log.setLevel(error_level)
-    cherrypy.log.access_log.setLevel(access_level)
+    rotate = getattr(log, 'rotate', None)
+    if rotate is not None: # allow empty log.rotate dict
+        # Replace cherrypy's FileHandlers by TimedRotatingFileHandler
+        access_file  = log.access_file
+        error_file = log.error_file
+        for handler in cherrypy.log.error_log.handlers:
+            cherrypy.log.error_log.removeHandler(handler)
+
+        for handler in cherrypy.log.access_log.handlers:
+            cherrypy.log.access_log.removeHandler(handler)
+
+        # Make a new RotatingFileHandler for the error log.
+        error_handler = handlers.TimedRotatingFileHandler(error_file, **rotate)
+        error_handler.setLevel(error_level)
+        log.error_log.addHandler(error_handler)
+
+        # Make a new RotatingFileHandler for the access log.
+        access_handler = handlers.TimedRotatingFileHandler(access_file, **rotate)
+        access_handler.setLevel(access_level)
+        log.access_log.addHandler(access_handler)
