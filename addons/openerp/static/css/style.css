@@ -418,7 +418,7 @@ button.inactive {
 }
 
 .readonlyfield button {
-    display: none;
+    cursor: default;
 }
 
 /* ---------------------- Attachment --------------- */
