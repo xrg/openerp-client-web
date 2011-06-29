@@ -21,8 +21,8 @@
     </div>
     <div id="${name}_binary_buttons" class="binary_buttons">
         <input type="text" value="${value or text or ''}" readonly="readonly"/>
-        %if value or text:
-        	<input type="hidden" name="${name}" value="${value or text}"></input>
+        %if value:
+        	<input type="hidden" name="${name}" value="${value}"></input>
        	% endif
         % if text:
         <a class="button-a" href="javascript: void(0)" onclick="save_binary_data('${name}', '${filename}')">${_("Save As")}</a>
