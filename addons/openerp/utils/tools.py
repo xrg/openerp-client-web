@@ -151,13 +151,27 @@ def get_xpath(expr, pn):
                     param = param.strip('@')
                     key = param.split('=')[0]
                     value = param.split('=')[1][1:-1]
-                    
+
         if index:
             nodes = [n for n in pn.childNodes if n.localName == name]
             try:
                 return nodes[index-1]
             except:
                 return []
+
+        if 'last()' in expr:
+            get_child_nodes = []
+            def all_child_nodes(node, nodes):
+                for i in node.childNodes:
+                    if i.localName == name:
+                        nodes.append(i)
+                    if i.childNodes:
+                        all_child_nodes(i, nodes)
+                return nodes
+
+            get_child_nodes = all_child_nodes(pn, [])
+            if len(get_child_nodes):
+                return get_child_nodes[-1]
             
         for child in pn.childNodes:
             if child.localName and child.localName == name:
