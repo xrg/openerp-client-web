@@ -245,7 +245,10 @@ class List(SecuredController):
         source = (params.source or '') and str(params.source)
         if not params.view_type == 'graph':
             params.view_type = 'form'
-
+        
+        if params.view_type == 'form':
+            params['_terp_nodefault'] = True
+                
         if params.get('_terp_clear'):
             params.search_domain, params.filter_domain, params.ids = [], [], []
             params.search_data = {}
