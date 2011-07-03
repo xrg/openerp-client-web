@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: openobject-client-web\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2011-03-18 11:53+0100\n"
-"PO-Revision-Date: 2011-06-27 15:15+0000\n"
+"PO-Revision-Date: 2011-07-02 16:08+0000\n"
 "Last-Translator: Manop Pornpeanvichanon(darkpower) <Unknown>\n"
 "Language-Team: Thai <th@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2011-06-28 05:29+0000\n"
+"X-Launchpad-Export-Date: 2011-07-03 05:27+0000\n"
 "X-Generator: Launchpad (build 13168)\n"
 
 #: static/javascript/infobox.js:135
@@ -31,7 +31,7 @@ msgstr ""
 
 #: static/javascript/process.js:182
 msgid "Related:"
-msgstr ""
+msgstr "อ้างถึง:"
 
 #: static/javascript/process.js:266
 msgid "Help"
