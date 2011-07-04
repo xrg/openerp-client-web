@@ -489,6 +489,8 @@ table.errorbox {
     -moz-border-radius: 3px;
     -webkit-border-radius: 3px;
     border-radius: 3px;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .error_message_header {
