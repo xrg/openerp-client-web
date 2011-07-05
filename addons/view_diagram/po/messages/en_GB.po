@@ -8,35 +8,35 @@ msgstr ""
 "Project-Id-Version: openobject-client-web\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2011-03-18 11:53+0100\n"
-"PO-Revision-Date: 2011-03-28 15:34+0000\n"
+"PO-Revision-Date: 2011-07-04 10:08+0000\n"
 "Last-Translator: Harmel Delphine (OpenERP) <Unknown>\n"
 "Language-Team: English (United Kingdom) <en_GB@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2011-06-18 05:47+0000\n"
+"X-Launchpad-Export-Date: 2011-07-05 05:07+0000\n"
 "X-Generator: Launchpad (build 13168)\n"
 
 #: controllers/_diagram.py:89 controllers/_diagram.py:210
 msgid "Could not delete state"
-msgstr ""
+msgstr "Could not delete state"
 
 #: controllers/_diagram.py:274
 msgid "No workflow associated!"
-msgstr ""
+msgstr "No workflow associated!"
 
 #: controllers/process.py:46
 msgid "Help: Not Defined"
-msgstr ""
+msgstr "Help: Not Defined"
 
 #: controllers/process.py:89
 #, python-format
 msgid "%(name)s - Resource: %(resource)s, State: %(state)s"
-msgstr ""
+msgstr "%(name)s - Resource: %(resource)s, State: %(state)s"
 
 #: controllers/process.py:101
 msgid "Last modified by:"
-msgstr ""
+msgstr "Last modified by:"
 
 #: controllers/templates/process.mako:4 controllers/templates/process.mako:87
 #: controllers/templates/process_tip.mako:5
@@ -49,7 +49,7 @@ msgstr "Documentation"
 
 #: controllers/templates/process.mako:56
 msgid "Read Documentation Online"
-msgstr ""
+msgstr "Read Documentation Online"
 
 #: controllers/templates/process.mako:62
 msgid "Forum"
@@ -57,7 +57,7 @@ msgstr "Forum"
 
 #: controllers/templates/process.mako:63
 msgid "Community Discussion"
-msgstr ""
+msgstr "Community Discussion"
 
 #: controllers/templates/process.mako:68
 msgid "Books"
@@ -65,19 +65,19 @@ msgstr "Books"
 
 #: controllers/templates/process.mako:69
 msgid "Get the book on Amazon"
-msgstr ""
+msgstr "Get the book on Amazon"
 
 #: controllers/templates/process.mako:74
 msgid "Support / Publisher Warranty"
-msgstr ""
+msgstr "Support / Publisher Warranty"
 
 #: controllers/templates/process.mako:75
 msgid "Get the OpenERP Warranty"
-msgstr ""
+msgstr "Get the OpenERP Warranty"
 
 #: controllers/templates/process.mako:97
 msgid "Select Process"
-msgstr ""
+msgstr "Select Process"
 
 #: controllers/templates/process.mako:103
 msgid "Select"
@@ -85,15 +85,15 @@ msgstr "Select"
 
 #: controllers/templates/process.mako:117
 msgid "[Edit Process]"
-msgstr ""
+msgstr "[Edit Process]"
 
 #: controllers/templates/process.mako:119
 msgid "[show fields]"
-msgstr ""
+msgstr "[Show fields]"
 
 #: controllers/templates/process.mako:120
 msgid "[hide fields]"
-msgstr ""
+msgstr "[Hide fields]"
 
 #: controllers/templates/process_open.mako:54
 #: controllers/templates/process_tip.mako:20
@@ -113,7 +113,7 @@ msgstr "Workflow"
 #: controllers/templates/workflow.mako:20
 #, python-format
 msgid "Workflow (%s)"
-msgstr ""
+msgstr "Workflow (%s)"
 
 #: widgets/_views.py:8
 msgid "Diagram"
@@ -121,7 +121,7 @@ msgstr "Diagram"
 
 #: widgets/_views.py:9
 msgid "Diagram view..."
-msgstr ""
+msgstr "Diagram view..."
 
 #: widgets/templates/diagram.mako:27
 msgid "Loading..."
