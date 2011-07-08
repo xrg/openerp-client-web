@@ -271,7 +271,7 @@ class ICalendar(TinyWidget):
         ids = proxy.search(domain, 0, 0, order_by, ctx)
 
         result = proxy.read(ids, self.fields.keys()+['__last_update'], ctx)
-
+        
         ConcurrencyInfo.update(self.model, result)
         self.concurrency_info = ConcurrencyInfo(self.model, ids)
         if self.color_field:
@@ -284,13 +284,15 @@ class ICalendar(TinyWidget):
 
                 if isinstance(key, tuple): # M2O
                     value, name = key
-
-                self.colors[key] = (name, value, None)
-
-            colors = choice_colors(len(self.colors))
-            for i, (key, value) in enumerate(self.colors.items()):
-                self.colors[key] = (value[0], value[1], colors[i])
-
+                if key not in self.colors:
+                    self.colors[key] = (name, value, None)
+            
+            self.colors = sorted(self.colors.items(), key=lambda x: x[0])
+            colors = choice_colors(len(dict(self.colors)))
+            for i in range(0,len(dict(self.colors))):
+                self.colors[i] = ((self.colors[i][0][0],self.colors[i][0][1]),(self.colors[i][1][0], self.colors[i][1][1], colors[i]))
+            self.colors = dict(self.colors)
+            
         events = []
 
         for evt in result:
