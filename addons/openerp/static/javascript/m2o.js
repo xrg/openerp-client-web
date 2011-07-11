@@ -415,7 +415,11 @@ ManyToOne.prototype.get_matched = function() {
                     m2o.on_change();
                 } else {
                     var id = jQuery(m2o.field).attr('id');
-                    jQuery(idSelector(id + '_text')).val('');
+                    // If the text on m2o field is related to any existing ID,
+                    // we won't set the text to blank while clicking on search
+                    if (!m2o.field.value) {
+                        jQuery(idSelector(id + '_text')).val('');
+                    }
                     open_search_window(m2o.relation, domain, context, m2o.name, 1, text);
                 }
             }, 'json');
