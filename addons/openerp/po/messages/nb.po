@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: openobject-client-web\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2011-03-18 11:53+0100\n"
-"PO-Revision-Date: 2011-06-09 11:39+0000\n"
-"Last-Translator: Rolv Råen (adEgo) <Unknown>\n"
+"PO-Revision-Date: 2011-07-11 10:12+0000\n"
+"Last-Translator: Ole Kristian Gaski <Unknown>\n"
 "Language-Team: Norwegian Bokmal <nb@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2011-06-18 05:48+0000\n"
+"X-Launchpad-Export-Date: 2011-07-12 05:22+0000\n"
 "X-Generator: Launchpad (build 13168)\n"
 
 #: validators.py:75
@@ -75,7 +75,7 @@ msgstr "Vennligst tast inn et tall"
 
 #: controllers/actions.py:94
 msgid "Invalid View"
-msgstr ""
+msgstr "Ugyldig visning"
 
 #: controllers/actions.py:127
 msgid "Error no report"
@@ -315,7 +315,7 @@ msgstr ""
 #: controllers/form.py:561
 #, python-format
 msgid "Invalid button type \"%s\""
-msgstr ""
+msgstr "Ugyldig knapptype \"%s\""
 
 #: controllers/form.py:944 controllers/tree.py:243
 msgid "No record selected"
@@ -349,7 +349,7 @@ msgstr "Bruk som standard"
 
 #: controllers/form.py:1132
 msgid "Action"
-msgstr ""
+msgstr "Handling"
 
 #: controllers/form.py:1133
 msgid "Report"
