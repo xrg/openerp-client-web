@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: openobject-client-web\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2011-03-18 11:53+0100\n"
-"PO-Revision-Date: 2011-07-06 02:50+0000\n"
+"PO-Revision-Date: 2011-07-19 12:19+0000\n"
 "Last-Translator: Manop Pornpeanvichanon(darkpower) <Unknown>\n"
 "Language-Team: Thai <th@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2011-07-07 05:48+0000\n"
-"X-Generator: Launchpad (build 13168)\n"
+"X-Launchpad-Export-Date: 2011-07-20 05:35+0000\n"
+"X-Generator: Launchpad (build 13405)\n"
 
 #: validators.py:75
 msgid "Invalid literal for float"
@@ -70,7 +70,7 @@ msgstr ""
 
 #: validators.py:261
 msgid "Please enter a number"
-msgstr ""
+msgstr "โปรดใส่ตัวเลข"
 
 #: controllers/actions.py:94
 msgid "Invalid View"
@@ -78,11 +78,11 @@ msgstr ""
 
 #: controllers/actions.py:127
 msgid "Error no report"
-msgstr ""
+msgstr "ผิดพลาด ไม่มีรายงาน"
 
 #: controllers/actions.py:153
 msgid "Nothing to print"
-msgstr ""
+msgstr "ไม่มีอะไรจะพิมพ์"
 
 #: controllers/actions.py:173
 msgid "Printing aborted, too long delay"
@@ -111,11 +111,11 @@ msgstr ""
 #: controllers/database.py:65 controllers/templates/database.mako:56
 #: controllers/templates/search.mako:145
 msgid "Create"
-msgstr ""
+msgstr "สร้าง"
 
 #: controllers/database.py:68
 msgid "Super admin password:"
-msgstr ""
+msgstr "รหัสผ่านผู้ดูแลระบบ:"
 
 #: controllers/database.py:68
 msgid ""
@@ -126,7 +126,7 @@ msgstr ""
 
 #: controllers/database.py:69 controllers/database.py:101
 msgid "New database name:"
-msgstr ""
+msgstr "ชื่อฐานข้อมูลใหม่:"
 
 #: controllers/database.py:69
 msgid ""
@@ -136,7 +136,7 @@ msgstr ""
 
 #: controllers/database.py:70
 msgid "Load Demonstration data:"
-msgstr ""
+msgstr "เรียกดูตัวอย่างข้อมูล:"
 
 #: controllers/database.py:70
 msgid ""
@@ -147,7 +147,7 @@ msgstr ""
 
 #: controllers/database.py:71
 msgid "Default Language:"
-msgstr ""
+msgstr "ภาษาปริยาย:"
 
 #: controllers/database.py:71
 msgid ""
@@ -168,7 +168,7 @@ msgstr ""
 
 #: controllers/database.py:73
 msgid "Confirm password:"
-msgstr ""
+msgstr "ยืนยันรหัสผ่าน:"
 
 #: controllers/database.py:73
 msgid ""
@@ -178,63 +178,63 @@ msgstr ""
 
 #: controllers/database.py:79
 msgid "Drop database"
-msgstr ""
+msgstr "ทิ้งฐานข้อมูล"
 
 #: controllers/database.py:81 controllers/templates/database.mako:58
 msgid "Drop"
-msgstr ""
+msgstr "ทิ้ง"
 
 #: controllers/database.py:83 controllers/database.py:91
 #: controllers/templates/login.mako:43
 msgid "Database:"
-msgstr ""
+msgstr "ฐานข้อมูล:"
 
 #: controllers/database.py:84 controllers/database.py:92
 #: controllers/database.py:100 controllers/templates/login.mako:61
 #: controllers/templates/login_ajax.mako:78
 #: controllers/templates/login_ajax.mako:98
 msgid "Password:"
-msgstr ""
+msgstr "รหัสผ่าน:"
 
 #: controllers/database.py:88
 msgid "Backup database"
-msgstr ""
+msgstr "สำรองฐานข้อมูล"
 
 #: controllers/database.py:90 controllers/templates/database.mako:60
 msgid "Backup"
-msgstr ""
+msgstr "สำรอง"
 
 #: controllers/database.py:96
 msgid "Restore database"
-msgstr ""
+msgstr "เรียกคืนฐานข้อมูล"
 
 #: controllers/database.py:98 controllers/templates/database.mako:62
 msgid "Restore"
-msgstr ""
+msgstr "เรียกคืน"
 
 #: controllers/database.py:99
 msgid "File:"
-msgstr ""
+msgstr "แฟ้ม:"
 
 #: controllers/database.py:105
 msgid "Change Administrator Password"
-msgstr ""
+msgstr "เปลี่ยนรหัสผ่านผู้ดูแลระบบ"
 
 #: controllers/database.py:107 controllers/templates/preferences/index.mako:37
 msgid "Change Password"
-msgstr ""
+msgstr "เปลี่ยนรหัสผ่าน"
 
 #: controllers/database.py:108
 msgid "Old Password:"
-msgstr ""
+msgstr "รหัสผ่านเก่า:"
 
 #: controllers/database.py:109
 msgid "New Password:"
-msgstr ""
+msgstr "รหัสผ่านใหม่:"
 
 #: controllers/database.py:110
 msgid "Confirm Password:"
-msgstr ""
+msgstr "ยืนยันรหัสผ่าน:"
 
 #: controllers/database.py:173
 msgid "You must avoid all accents, space or special characters."
@@ -242,7 +242,7 @@ msgstr ""
 
 #: controllers/database.py:174
 msgid "Bad database name"
-msgstr ""
+msgstr "ชื่อฐานข้อมูลใช้ไม่ได้"
 
 #: controllers/database.py:194
 msgid ""
@@ -252,32 +252,32 @@ msgstr ""
 
 #: controllers/database.py:195
 msgid "Error during database creation"
-msgstr ""
+msgstr "ผิดพลาดระหว่างการสร้างฐานข้อมูล"
 
 #: controllers/database.py:198 controllers/database.py:225
 #: controllers/database.py:271 controllers/database.py:294
 msgid "Bad super admin password"
-msgstr ""
+msgstr "รหัสผ่านผู้ดูแลระบบใช้ไม่ได้"
 
 #: controllers/database.py:202
 msgid "Could not create database."
-msgstr ""
+msgstr "ไม่สามารถสร้างฐานข้อมูลได้"
 
 #: controllers/database.py:228
 msgid "Could not drop database"
-msgstr ""
+msgstr "ไม่สามารถทิ้งฐานข้อมูล"
 
 #: controllers/database.py:251
 msgid "Could not create backup."
-msgstr ""
+msgstr "ไม่สามารถสร้างตัวสำรองฐานข้อมูล"
 
 #: controllers/database.py:275
 msgid "Could not restore database"
-msgstr ""
+msgstr "ไม่สามารถเรียกฐานข้อมูลกลับมาได้"
 
 #: controllers/database.py:298
 msgid "Error, password not changed."
-msgstr ""
+msgstr "ผิดพลาด, รหัสผ่านไม่เปลี่ยนแปลง"
 
 #: controllers/error_page.py:79
 msgid ""
@@ -299,16 +299,16 @@ msgstr ""
 
 #: controllers/form.py:944 controllers/tree.py:243
 msgid "No record selected"
-msgstr ""
+msgstr "ไม่ได้เลือกระเบียน"
 
 #: controllers/form.py:949
 msgid "Print Screen"
-msgstr ""
+msgstr "พิมพ์ภาพหน้าจอ"
 
 #: controllers/form.py:1016 widgets/listgrid.py:305 widgets/listgrid.py:366
 #: widgets/form/_form.py:910
 msgid "Application Error"
-msgstr ""
+msgstr "โปรแกรมผิดพลาด"
 
 #: controllers/form.py:1016
 #, python-format
@@ -317,45 +317,47 @@ msgstr ""
 
 #: controllers/form.py:1121
 msgid "Open resource"
-msgstr ""
+msgstr "เปิดทรัพยากร"
 
 #: controllers/form.py:1124
 msgid "Set to default value"
-msgstr ""
+msgstr "ตั้งไปเป็นค่าปริยาย"
 
 #: controllers/form.py:1125
 msgid "Set as default"
-msgstr ""
+msgstr "ตั้งเป็นค่าปริยาย"
 
 #: controllers/form.py:1132
 msgid "Action"
-msgstr ""
+msgstr "ปฏิบัติงาน"
 
 #: controllers/form.py:1133
 msgid "Report"
-msgstr ""
+msgstr "รายงาน"
 
 #: controllers/impex.py:66
 msgid ""
 "Operation failed\n"
 "I/O error"
 msgstr ""
+"การทำงานล้มเ้หลว\n"
+"ผิดพลาดที่ I/O"
 
 #: controllers/impex.py:402
 msgid "Export Error"
-msgstr ""
+msgstr "ส่งออกผิดพลาด"
 
 #: controllers/impex.py:469
 msgid "Database ID"
-msgstr ""
+msgstr "ID ฐานข้อมูล"
 
 #: controllers/impex.py:476
 msgid "Error opening .CSV file"
-msgstr ""
+msgstr "การเปิดแฟ้ม .CSV ผิดพลาด"
 
 #: controllers/impex.py:476
 msgid "Input Error."
-msgstr ""
+msgstr "ข้อมูลเข้าผิดพลาด"
 
 #: controllers/impex.py:498
 #, python-format
@@ -369,7 +371,7 @@ msgstr ""
 
 #: controllers/impex.py:72 controllers/impex.py:501
 msgid "Import Error."
-msgstr ""
+msgstr "นำเข้าผิดพลาด"
 
 #: controllers/impex.py:520
 msgid "The CSV delimiter must be a single character"
@@ -377,16 +379,16 @@ msgstr ""
 
 #: controllers/impex.py:532
 msgid "File Format Error"
-msgstr ""
+msgstr "รูปแบบแฟ้มผิดพลาด"
 
 #: controllers/impex.py:550
 msgid "XML-RPC error"
-msgstr ""
+msgstr "XML-RPC ผิดพลาด"
 
 #: controllers/impex.py:555
 #, python-format
 msgid "Imported %d objects"
-msgstr ""
+msgstr "นำเข้าวัตถุแล้ว %d ชิ้น"
 
 #: controllers/impex.py:560
 #, python-format
@@ -395,7 +397,7 @@ msgstr ""
 
 #: controllers/impex.py:561
 msgid "ImportationError"
-msgstr ""
+msgstr "ImportationError"
 
 #: controllers/listgrid.py:52
 msgid "Parent record doesn't exists..."
@@ -403,11 +405,11 @@ msgstr ""
 
 #: controllers/preferences.py:35
 msgid "Change your password"
-msgstr ""
+msgstr "เปลี่ยนรหัสผ่าน"
 
 #: controllers/preferences.py:65 controllers/templates/header.mako:59
 msgid "Preferences"
-msgstr ""
+msgstr "ค่าปรับแต่ง"
 
 #: controllers/preferences.py:92
 msgid "All passwords have to be filled."
@@ -428,15 +430,15 @@ msgstr ""
 #: controllers/root.py:174
 #, python-format
 msgid "Version %s"
-msgstr ""
+msgstr "รุ่น %s"
 
 #: controllers/translator.py:136
 msgid "You need to save the resource before adding translations."
-msgstr ""
+msgstr "คุณต้องบันทึกทรัพยากรนี้ไว้ก่อนที่จะเพิ้มการแปลภาษา"
 
 #: controllers/tree.py:274
 msgid "No resource selected"
-msgstr ""
+msgstr "ไม่ได้เลือกทรัพยากรไว้"
 
 #: controllers/utils.py:43
 msgid "Could not connect to server"
