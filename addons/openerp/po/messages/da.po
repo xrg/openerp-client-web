@@ -8,18 +8,18 @@ msgstr ""
 "Project-Id-Version: openobject-client-web\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2011-03-18 11:53+0100\n"
-"PO-Revision-Date: 2011-06-05 08:14+0000\n"
-"Last-Translator: Jacob Andersen <Unknown>\n"
+"PO-Revision-Date: 2011-07-22 13:08+0000\n"
+"Last-Translator: Mads L. Nielsen <Unknown>\n"
 "Language-Team: Danish <da@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2011-07-20 05:34+0000\n"
+"X-Launchpad-Export-Date: 2011-07-23 05:35+0000\n"
 "X-Generator: Launchpad (build 13405)\n"
 
 #: validators.py:75
 msgid "Invalid literal for float"
-msgstr "Ugyldigt bogstav for flydende komma tal"
+msgstr "Ugyldigt decimaltegn"
 
 #: validators.py:114 validators.py:119 validators.py:262
 msgid "Invalid datetime format"
@@ -27,7 +27,7 @@ msgstr "Forkert dato/tid format"
 
 #: validators.py:166
 msgid "Please select a file."
-msgstr "Vælg venligst en fil."
+msgstr "Vælg en fil."
 
 #: validators.py:247
 msgid "Please enter an email address"
@@ -35,7 +35,7 @@ msgstr "Indtast email adresse"
 
 #: validators.py:248
 msgid "An email address must contain a single @"
-msgstr "En email adresse skal indeholde et @"
+msgstr "En email skal indeholde ét @"
 
 #: validators.py:249
 #, python-format
@@ -66,7 +66,7 @@ msgstr ""
 
 #: validators.py:260
 msgid "Please enter an integer value"
-msgstr "Indtast en heĺtals værdi"
+msgstr "Indtast et heltal"
 
 #: validators.py:261
 msgid "Please enter a number"
@@ -90,7 +90,7 @@ msgstr "Udskrivning afbrudt, for lang forsinkelse"
 
 #: controllers/actions.py:397
 msgid "Relative URLs are not supported"
-msgstr ""
+msgstr "Relativ URL er ikke understøttet"
 
 #: controllers/actions.py:425
 msgid "Action not found"
@@ -169,13 +169,15 @@ msgstr ""
 
 #: controllers/database.py:72
 msgid "Administrator password:"
-msgstr ""
+msgstr "Administrator adgangskode:"
 
 #: controllers/database.py:72
 msgid ""
 "This is the password of the 'admin' user that will be created in your new "
 "database."
 msgstr ""
+"Dette er kodeordet for \"admin\" bruger, der vil blive oprettet i din nye "
+"database."
 
 #: controllers/database.py:73
 msgid "Confirm password:"
@@ -186,10 +188,12 @@ msgid ""
 "This is the password of the 'admin' user that will be created in your new "
 "database. It has to be the same than the above field."
 msgstr ""
+"Dette er kodeordet for \"admin\" bruger, der vil blive oprettet i din nye "
+"database. Det skal være den samme end ovennævnte område."
 
 #: controllers/database.py:79
 msgid "Drop database"
-msgstr ""
+msgstr "Drop database"
 
 #: controllers/database.py:81 controllers/templates/database.mako:58
 msgid "Drop"
@@ -217,7 +221,7 @@ msgstr "Sikkerhedskopi"
 
 #: controllers/database.py:96
 msgid "Restore database"
-msgstr ""
+msgstr "Gendan database"
 
 #: controllers/database.py:98 controllers/templates/database.mako:62
 msgid "Restore"
@@ -229,7 +233,7 @@ msgstr "Fil:"
 
 #: controllers/database.py:105
 msgid "Change Administrator Password"
-msgstr ""
+msgstr "Ændre administrator adgangskode"
 
 #: controllers/database.py:107 controllers/templates/preferences/index.mako:37
 msgid "Change Password"
@@ -249,52 +253,56 @@ msgstr "Bekræft adgangskode:"
 
 #: controllers/database.py:173
 msgid "You must avoid all accents, space or special characters."
-msgstr ""
+msgstr "Du skal undgå alle accenter, mellemrum og special karakterer"
 
 #: controllers/database.py:174
 msgid "Bad database name"
-msgstr ""
+msgstr "Ugyldig databasenavn"
 
 #: controllers/database.py:194
 msgid ""
 "The server crashed during installation.\n"
 "We suggest you to drop this database."
 msgstr ""
+"Serveren fejlede under installationen. \n"
+"Vi anbefaler dig at slette denne database."
 
 #: controllers/database.py:195
 msgid "Error during database creation"
-msgstr ""
+msgstr "Fejl under dannelse af database"
 
 #: controllers/database.py:198 controllers/database.py:225
 #: controllers/database.py:271 controllers/database.py:294
 msgid "Bad super admin password"
-msgstr ""
+msgstr "Ugyldig super admin adgangskode"
 
 #: controllers/database.py:202
 msgid "Could not create database."
-msgstr ""
+msgstr "Kunne ikke danne database"
 
 #: controllers/database.py:228
 msgid "Could not drop database"
-msgstr ""
+msgstr "Kunne ikke slette database"
 
 #: controllers/database.py:251
 msgid "Could not create backup."
-msgstr ""
+msgstr "Kunne ikke oprette database"
 
 #: controllers/database.py:275
 msgid "Could not restore database"
-msgstr ""
+msgstr "Kunne ikke gendanne database"
 
 #: controllers/database.py:298
 msgid "Error, password not changed."
-msgstr ""
+msgstr "Fejl, adgangskode ikke ændret"
 
 #: controllers/error_page.py:79
 msgid ""
 "Your problem has been sent to the quality team\n"
 "We will recontact you after analysing the problem."
 msgstr ""
+"Dit problem er blevet sendt til kvalitetsguppen\n"
+"Vi vil kontakte dig når problemet er blevet analyseret."
 
 #: controllers/error_page.py:81
 #, python-format
@@ -302,6 +310,8 @@ msgid ""
 "Your problem could not be sent to the quality team\n"
 "Please report this error manually at %s"
 msgstr ""
+"Dit problem kunne ikke sendes til kvalitetsgruppen\n"
+"Rapportér venligst denne fejl manuelt ved %s"
 
 #: controllers/form.py:561
 #, python-format
