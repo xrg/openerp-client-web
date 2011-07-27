@@ -371,8 +371,9 @@ ManyToOne.prototype.on_keypress = function(evt) {
 
 ManyToOne.prototype.get_matched = function() {
     if (jQuery(this.field).hasClass('m2o_search') &&
-        this.delayedRequest == null &&
-        this.numResultRows == 0) {
+            this.delayedRequest == null &&
+            this.numResultRows == 0 &&
+            !this.text.value) {
         // Allow substring search (press ESC at the combobox)
         return;
     }
