@@ -321,6 +321,8 @@
                                             $ui.item.attr('record'),
                                             $ui.item.prevAll().length);
                                     }
+                                }).bind('mousedown.ui-disableSelection selectstart.ui-disableSelection', function(event) {
+                                    event.stopImmediatePropagation();
                                 }).disableSelection();
                             }
                         </script>
