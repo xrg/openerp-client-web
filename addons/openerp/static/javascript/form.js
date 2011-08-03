@@ -611,10 +611,9 @@ function onChange(caller){
                         fld.src = value;
                         break;
                     case 'many2many':
+                    	var fld_val = '[]';
                         if(value){
-                        	var fld_val = '['+ value.join(',') + ']';
-                        }else{
-                        	var fld_val = '[]';
+                        	fld_val = '['+ value.join(',') + ']';
                         }
                         var fld_name = jQuery(fld).attr('name');
                         var old_m2m = jQuery(idSelector(fld_name)).closest('.list-a');
