@@ -366,15 +366,8 @@ def act_window_opener(action, data):
            urllib.urlencode({'payload': compressed_payload}))
 
     if open_new_tab:
-        parent_id = False
-        if data['context'] and data['context'].get('active_id') and not data.get('model'):
-            parent = rpc.RPCProxy('ir.ui.menu').read([int(data['context']['active_id'])],['complete_name'], rpc.session.context)[0]['complete_name'].split('/')[0]
-            parent_id = rpc.RPCProxy('ir.ui.menu').search([('name','=', parent),('parent_id','=',False)],0,0,0, rpc.session.context)
-        if parent_id:
-            url = '/openerp/?' + urllib.urlencode({'active': parent_id[0],'next': url})
-        else:
-            url = '/openerp/?' + urllib.urlencode({'next': url})
-
+        url = '/?' + urllib.urlencode({'next': url})
+        
     cherrypy.response.headers['X-Target'] = action['target']
     cherrypy.response.headers['Location'] = url
     return """<script type="text/javascript">

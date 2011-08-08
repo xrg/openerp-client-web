@@ -44,16 +44,14 @@ class Root(SecuredController):
     _cp_path = "/openerp"
 
     @expose()
-    def index(self, next=None, active=None):
+    def index(self, next=None):
         """Index page, loads the view defined by `action_id`.
         """
         if not next:
             user_action_id = rpc.RPCProxy("res.users").read([rpc.session.uid], ['action_id'], rpc.session.context)[0]['action_id']
             if user_action_id:
                 next = '/openerp/home'
-        if active:
-            return self.menu(active, next)
-
+        
         return self.menu(next=next)
 
     @expose()
