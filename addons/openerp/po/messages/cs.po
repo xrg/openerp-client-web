@@ -1,41 +1,43 @@
-# Czech translation for openobject-client-web
-# Copyright (c) 2011 Rosetta Contributors and Canonical Ltd 2011
-# This file is distributed under the same license as the openobject-client-web package.
+# Translations template for PROJECT.
+# Copyright (C) 2011 ORGANIZATION
+# This file is distributed under the same license as the PROJECT project.
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2011.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: openobject-client-web\n"
-"Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
+"Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2011-03-18 11:53+0100\n"
-"PO-Revision-Date: 2011-08-07 10:33+0000\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: Czech <cs@li.org>\n"
+"PO-Revision-Date: 2011-08-08 08:08+0000\n"
+"Last-Translator: Chronos <robie@centrum.cz>\n"
+"Language-Team: Czech\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2011-08-08 05:14+0000\n"
-"X-Generator: Launchpad (build 13613)\n"
+"X-Launchpad-Export-Date: 2011-08-09 05:16+0000\n"
+"X-Generator: Launchpad (build 13628)\n"
+"X-Poedit-Language: Czech\n"
+"Generated-By: Babel 0.9.5\n"
 
 #: validators.py:75
 msgid "Invalid literal for float"
-msgstr ""
+msgstr "Neplatné znaky pro desetinné číslo"
 
 #: validators.py:114 validators.py:119 validators.py:262
 msgid "Invalid datetime format"
-msgstr ""
+msgstr "Neplatný formát data a času"
 
 #: validators.py:166
 msgid "Please select a file."
-msgstr ""
+msgstr "Prosíme vyberte soubor."
 
 #: validators.py:247
 msgid "Please enter an email address"
-msgstr ""
+msgstr "Prosíme zadejte emailovou adresu"
 
 #: validators.py:248
 msgid "An email address must contain a single @"
-msgstr ""
+msgstr "Emailová adresa musí obsahovat jediný @"
 
 #: validators.py:249
 #, python-format
@@ -43,79 +45,80 @@ msgid ""
 "The username portion of the email address is invalid (the portion before the "
 "@: %(username)s)"
 msgstr ""
+"Část jména uživatele emailové adresy není platná (část přes @: %(username)s)"
 
 #: validators.py:250
 #, python-format
 msgid ""
 "The domain portion of the email address is invalid (the portion after the @: "
 "%(domain)s)"
-msgstr ""
+msgstr "Neplatná doménová část emailové adresy (část po @: %(domain)s)"
 
 #: validators.py:254
 msgid "You must start your URL with http://, https://, etc"
-msgstr ""
+msgstr "Vaše URL musí začínat http://, https://, atd."
 
 #: validators.py:255
 msgid "That is not a valid URL"
-msgstr ""
+msgstr "Toto není platné URL"
 
 #: validators.py:256
 #, python-format
 msgid "You must provide a full domain name (like %(domain)s.com)"
-msgstr ""
+msgstr "Musíte poskytnout plné jméno domény (jako %(domain)s.com)"
 
 #: validators.py:260
 msgid "Please enter an integer value"
-msgstr ""
+msgstr "Prosíme zadejte číselnou hodnotu"
 
 #: validators.py:261
 msgid "Please enter a number"
-msgstr ""
+msgstr "Prosíme zadejte číslo"
 
 #: controllers/actions.py:94
 msgid "Invalid View"
-msgstr ""
+msgstr "Neplatný pohled"
 
 #: controllers/actions.py:127
 msgid "Error no report"
-msgstr ""
+msgstr "Chyba bez hlášení"
 
 #: controllers/actions.py:153
 msgid "Nothing to print"
-msgstr ""
+msgstr "Není co tisknout!"
 
 #: controllers/actions.py:173
 msgid "Printing aborted, too long delay"
-msgstr ""
+msgstr "Tisk zrušen, dlouhá čekací prodleva"
 
 #: controllers/actions.py:397
 msgid "Relative URLs are not supported"
-msgstr ""
+msgstr "Nejsou podporována relativní URL"
 
 #: controllers/actions.py:425
 msgid "Action not found"
-msgstr ""
+msgstr "Akce nenalezena"
 
 #: controllers/actions.py:474
 msgid "No action defined"
-msgstr ""
+msgstr "Nedefinována žádná akce"
 
 #: controllers/attachment.py:55
 msgid "No record selected, You can only attach to existing record..."
-msgstr ""
+msgstr "Nevybrán záznam, můžete přiložit pouze k existujícímu záznamu..."
 
 #: controllers/database.py:63
 msgid "Create database"
-msgstr ""
+msgstr "Vytvořit databázi"
 
 #: controllers/database.py:65 controllers/templates/database.mako:56
 #: controllers/templates/search.mako:145
 msgid "Create"
-msgstr ""
+msgstr "Vytvořit"
 
 #: controllers/database.py:68
 msgid "Super admin password:"
-msgstr ""
+msgstr "Heslo hlavního správce:"
 
 #: controllers/database.py:68
 msgid ""
@@ -123,20 +126,25 @@ msgid ""
 "databases. This is not a OpenERP user, just a super administrator. If you "
 "did not changed it, the password is 'admin' after installation."
 msgstr ""
+"Toto je heslo uživatele, který má práva spravovat databázi. Toto není "
+"uživatel OpenERP, jen super správce. Heslo po instalaci je 'admin', pokud "
+"jste jej nezměnili."
 
 #: controllers/database.py:69 controllers/database.py:101
 msgid "New database name:"
-msgstr ""
+msgstr "Jméno nové databáze:"
 
 #: controllers/database.py:69
 msgid ""
 "Choose the name of the database that will be created. The name must not "
 "contain any special character. Exemple: 'terp'."
 msgstr ""
+"Vyberte jméno databáze, která bude vytvořena. Jméno nesmí obsahovat "
+"speciální symboly. Příklad: 'terp'."
 
 #: controllers/database.py:70
 msgid "Load Demonstration data:"
-msgstr ""
+msgstr "Načíst ukázkové údaje:"
 
 #: controllers/database.py:70
 msgid ""
@@ -144,10 +152,13 @@ msgid ""
 "database. These data will help you to understand OpenERP, with predefined "
 "products, partners, etc."
 msgstr ""
+"Zaškrtněte toto pole, pokud chcete nechat načíst ukázková data do vaší nové "
+"databáze. Tyto data vám pomůžou pochopit OpenERP, s přednastavenými výrobky, "
+"partnery, aj."
 
 #: controllers/database.py:71
 msgid "Default Language:"
-msgstr ""
+msgstr "Výchozí jazyk:"
 
 #: controllers/database.py:71
 msgid ""
@@ -155,135 +166,144 @@ msgid ""
 "will be able to install new languages after installation through the "
 "administration menu."
 msgstr ""
+"Vyberte výchozí jazyk, který bude instalován do této databáze. Po instalaci "
+"budete mít možnost instalovat nové jazyky přes správcovskou nabídku."
 
 #: controllers/database.py:72
 msgid "Administrator password:"
-msgstr ""
+msgstr "Heslo správce:"
 
 #: controllers/database.py:72
 msgid ""
 "This is the password of the 'admin' user that will be created in your new "
 "database."
 msgstr ""
+"Toto je heslo uživatele 'admin', který bude vytvořen ve vaši nové databázi."
 
 #: controllers/database.py:73
 msgid "Confirm password:"
-msgstr ""
+msgstr "Potvrdit heslo:"
 
 #: controllers/database.py:73
 msgid ""
 "This is the password of the 'admin' user that will be created in your new "
 "database. It has to be the same than the above field."
 msgstr ""
+"Toto je heslo uživatele 'admin', který bude vytvořen ve vaši nové databázi. "
+"Musí být stejné jako pole nad ním."
 
 #: controllers/database.py:79
 msgid "Drop database"
-msgstr ""
+msgstr "Odstranit databázi"
 
 #: controllers/database.py:81 controllers/templates/database.mako:58
 msgid "Drop"
-msgstr ""
+msgstr "Odstranit"
 
 #: controllers/database.py:83 controllers/database.py:91
 #: controllers/templates/login.mako:43
 msgid "Database:"
-msgstr ""
+msgstr "Databáze:"
 
 #: controllers/database.py:84 controllers/database.py:92
 #: controllers/database.py:100 controllers/templates/login.mako:61
 #: controllers/templates/login_ajax.mako:78
 #: controllers/templates/login_ajax.mako:98
 msgid "Password:"
-msgstr ""
+msgstr "Heslo:"
 
 #: controllers/database.py:88
 msgid "Backup database"
-msgstr ""
+msgstr "Zálohovat databáze"
 
 #: controllers/database.py:90 controllers/templates/database.mako:60
 msgid "Backup"
-msgstr ""
+msgstr "Zálohovat"
 
 #: controllers/database.py:96
 msgid "Restore database"
-msgstr ""
+msgstr "Obnovit databázi"
 
 #: controllers/database.py:98 controllers/templates/database.mako:62
 msgid "Restore"
-msgstr ""
+msgstr "Obnovit"
 
 #: controllers/database.py:99
 msgid "File:"
-msgstr ""
+msgstr "Soubor:"
 
 #: controllers/database.py:105
 msgid "Change Administrator Password"
-msgstr ""
+msgstr "Změnit heslo správce"
 
 #: controllers/database.py:107 controllers/templates/preferences/index.mako:37
 msgid "Change Password"
-msgstr ""
+msgstr "Změnit heslo"
 
 #: controllers/database.py:108
 msgid "Old Password:"
-msgstr ""
+msgstr "Staré heslo:"
 
 #: controllers/database.py:109
 msgid "New Password:"
-msgstr ""
+msgstr "Nové heslo:"
 
 #: controllers/database.py:110
 msgid "Confirm Password:"
-msgstr ""
+msgstr "Potvrdit heslo:"
 
 #: controllers/database.py:173
 msgid "You must avoid all accents, space or special characters."
-msgstr ""
+msgstr "Musíte se vyhnout přízvukům, mezerám nebo speciálním znakům."
 
 #: controllers/database.py:174
 msgid "Bad database name"
-msgstr ""
+msgstr "Chybné jméno databáze"
 
 #: controllers/database.py:194
 msgid ""
 "The server crashed during installation.\n"
 "We suggest you to drop this database."
 msgstr ""
+"Server zkolaboval během instalace.\n"
+"Doporučujeme vám smazat tuto databázi."
 
 #: controllers/database.py:195
 msgid "Error during database creation"
-msgstr ""
+msgstr "Chyba během vytváření databáze"
 
 #: controllers/database.py:198 controllers/database.py:225
 #: controllers/database.py:271 controllers/database.py:294
 msgid "Bad super admin password"
-msgstr ""
+msgstr "Chybné heslo hlavního správce"
 
 #: controllers/database.py:202
 msgid "Could not create database."
-msgstr ""
+msgstr "Nelze vytvořit databázi."
 
 #: controllers/database.py:228
 msgid "Could not drop database"
-msgstr ""
+msgstr "Nelze odstranit databázi"
 
 #: controllers/database.py:251
 msgid "Could not create backup."
-msgstr ""
+msgstr "Nelze vytvořit zálohu."
 
 #: controllers/database.py:275
 msgid "Could not restore database"
-msgstr ""
+msgstr "Databázi nelze obnovit"
 
 #: controllers/database.py:298
 msgid "Error, password not changed."
-msgstr ""
+msgstr "Chyba, heslo nebylo změněno."
 
 #: controllers/error_page.py:79
 msgid ""
 "Your problem has been sent to the quality team\n"
 "We will recontact you after analysing the problem."
 msgstr ""
+"Váš problém byl odeslán týmu kvality\n"
+"Po analýze problému vás budeme kontaktovat."
 
 #: controllers/error_page.py:81
 #, python-format
@@ -291,274 +311,279 @@ msgid ""
 "Your problem could not be sent to the quality team\n"
 "Please report this error manually at %s"
 msgstr ""
+"Váš problém nelze odeslat týmu kvality\n"
+"Prosíme nahlašte tuto chybu ručně na: %s"
 
 #: controllers/form.py:561
 #, python-format
 msgid "Invalid button type \"%s\""
-msgstr ""
+msgstr "Neplatný typ tlačítka \"%s\""
 
 #: controllers/form.py:944 controllers/tree.py:243
 msgid "No record selected"
-msgstr ""
+msgstr "Nevybrán žádný záznam"
 
 #: controllers/form.py:949
 msgid "Print Screen"
-msgstr ""
+msgstr "Tisknout obrazovku"
 
 #: controllers/form.py:1016 widgets/listgrid.py:305 widgets/listgrid.py:366
 #: widgets/form/_form.py:910
 msgid "Application Error"
-msgstr ""
+msgstr "Chyba aplikace"
 
 #: controllers/form.py:1016
 #, python-format
 msgid "Wrong on_change trigger: %s"
-msgstr ""
+msgstr "Chybný spouštěč on_change: %s"
 
 #: controllers/form.py:1121
 msgid "Open resource"
-msgstr ""
+msgstr "Otevřít zdroj"
 
 #: controllers/form.py:1124
 msgid "Set to default value"
-msgstr ""
+msgstr "Nastavit výchozí hodnotu"
 
 #: controllers/form.py:1125
 msgid "Set as default"
-msgstr ""
+msgstr "Nastavit jako výchozí"
 
 #: controllers/form.py:1132
 msgid "Action"
-msgstr ""
+msgstr "Akce"
 
 #: controllers/form.py:1133
 msgid "Report"
-msgstr ""
+msgstr "Výkaz"
 
 #: controllers/impex.py:66
 msgid ""
 "Operation failed\n"
 "I/O error"
 msgstr ""
+"Operace selhala\n"
+"I/O chyba"
 
 #: controllers/impex.py:402
 msgid "Export Error"
-msgstr ""
+msgstr "Chyba exportu"
 
 #: controllers/impex.py:469
 msgid "Database ID"
-msgstr ""
+msgstr "ID databáze"
 
 #: controllers/impex.py:476
 msgid "Error opening .CSV file"
-msgstr ""
+msgstr "Chyba otvírání souboru .CSV"
 
 #: controllers/impex.py:476
 msgid "Input Error."
-msgstr ""
+msgstr "Chyba vstupu."
 
 #: controllers/impex.py:498
 #, python-format
 msgid "You cannot import the field '%s', because we cannot auto-detect it"
 msgstr ""
+"Nemůžete importovat pole '%s', protože jej nemůžeme automaticky rozpoznat"
 
 #: controllers/impex.py:501
 #, python-format
 msgid "Error processing the first line of the file. Field \"%s\" is unknown"
-msgstr ""
+msgstr "Chyba zpracování první řádky souboru. Neznámé pole \"%s\""
 
 #: controllers/impex.py:72 controllers/impex.py:501
 msgid "Import Error."
-msgstr ""
+msgstr "Chyba importu."
 
 #: controllers/impex.py:520
 msgid "The CSV delimiter must be a single character"
-msgstr ""
+msgstr "CSV oddělovač musí být jediný znak"
 
 #: controllers/impex.py:532
 msgid "File Format Error"
-msgstr ""
+msgstr "Chyba formátu souboru"
 
 #: controllers/impex.py:550
 msgid "XML-RPC error"
-msgstr ""
+msgstr "Chyba XML-RPC"
 
 #: controllers/impex.py:555
 #, python-format
 msgid "Imported %d objects"
-msgstr ""
+msgstr "Importováno %d objektů"
 
 #: controllers/impex.py:560
 #, python-format
 msgid "Error trying to import this record:%s. ErrorMessage:%s %s"
-msgstr ""
+msgstr "Chyba při pokusu o import tohoto záznamu:%s. Chybová zpráva:%s %s"
 
 #: controllers/impex.py:561
 msgid "ImportationError"
-msgstr ""
+msgstr "ChybaImportování"
 
 #: controllers/listgrid.py:52
 msgid "Parent record doesn't exists..."
-msgstr ""
+msgstr "Nadřazený záznam neexistuje..."
 
 #: controllers/preferences.py:35
 msgid "Change your password"
-msgstr ""
+msgstr "Změnit vaše heslo"
 
 #: controllers/preferences.py:65 controllers/templates/header.mako:59
 msgid "Preferences"
-msgstr ""
+msgstr "Předvolby"
 
 #: controllers/preferences.py:92
 msgid "All passwords have to be filled."
-msgstr ""
+msgstr "Musí být vyplněna všechna hesla."
 
 #: controllers/preferences.py:94
 msgid "The new password and its confirmation must be identical."
-msgstr ""
+msgstr "Nové heslo a jeho potvrzení musí být stejné."
 
 #: controllers/preferences.py:103
 msgid "Could not change your password."
-msgstr ""
+msgstr "Nelze změnit vaše heslo."
 
 #: controllers/preferences.py:105
 msgid "Original password incorrect, your password was not changed."
-msgstr ""
+msgstr "Neplatné původní heslo, vaše heslo nebylo změněno."
 
 #: controllers/root.py:174
 #, python-format
 msgid "Version %s"
-msgstr ""
+msgstr "Verze %s"
 
 #: controllers/translator.py:136
 msgid "You need to save the resource before adding translations."
-msgstr ""
+msgstr "Potřebujte uložit zdroj před přidáním překladů."
 
 #: controllers/tree.py:274
 msgid "No resource selected"
-msgstr ""
+msgstr "Nevybrán žádný zdroj"
 
 #: controllers/utils.py:43
 msgid "Could not connect to server"
-msgstr ""
+msgstr "Nelze připojit k serveru"
 
 #: controllers/utils.py:127 controllers/templates/login_ajax.mako:111
 msgid "Bad username or password"
-msgstr ""
+msgstr "Chybné jméno nebo heslo"
 
 #: controllers/view_log.py:32
 msgid "ID"
-msgstr ""
+msgstr "ID"
 
 #: controllers/view_log.py:33
 msgid "Creation User"
-msgstr ""
+msgstr "Vytvořil"
 
 #: controllers/view_log.py:34
 msgid "Creation Date"
-msgstr ""
+msgstr "Datum vytvoření"
 
 #: controllers/view_log.py:35
 msgid "Latest Modification by"
-msgstr ""
+msgstr "Změnil"
 
 #: controllers/view_log.py:36
 msgid "Latest Modification Date"
-msgstr ""
+msgstr "Naposledy změněno"
 
 #: controllers/view_log.py:37
 msgid "Owner"
-msgstr ""
+msgstr "Vlastník"
 
 #: controllers/view_log.py:38
 msgid "Group Owner"
-msgstr ""
+msgstr "Vlastník skupiny"
 
 #: controllers/view_log.py:39
 msgid "Access Level"
-msgstr ""
+msgstr "Úroveň přístupu"
 
 #: controllers/view_log.py:40
 msgid "Internal module data ID"
-msgstr ""
+msgstr "ID vnitřního datového modulu"
 
 #: controllers/viewed.py:221
 msgid "Invalid view id."
-msgstr ""
+msgstr "Chybné id pohledu"
 
 #: controllers/viewed.py:499
 msgid "Unable to create inherited view."
-msgstr ""
+msgstr "Nelze vytvořit zděděný pohled"
 
 #: controllers/viewed.py:501
 msgid "Can't create inherited view here."
-msgstr ""
+msgstr "Zde nelze vytvořit zděděný pohled."
 
 #: controllers/viewed.py:504
 msgid "Not implemented yet!"
-msgstr ""
+msgstr "Doposud nerealizováno!"
 
 #: controllers/viewed.py:609
 msgid "Unable to update the view."
-msgstr ""
+msgstr "Nelze aktualizovat pohled."
 
 #: controllers/viewed.py:859
 msgid "New Window"
-msgstr ""
+msgstr "Nové okno"
 
 #: controllers/viewed.py:871
 msgid "Save Button"
-msgstr ""
+msgstr "Tlačítko Uložit"
 
 #: controllers/viewed.py:871
 msgid "Cancel Button"
-msgstr ""
+msgstr "Tlačítko Zrušit"
 
 #: controllers/viewed.py:871
 msgid "Open Button"
-msgstr ""
+msgstr "Tlačítko Otevřít"
 
 #: controllers/viewed.py:877
 msgid "Left"
-msgstr ""
+msgstr "Vlevo"
 
 #: controllers/viewed.py:877
 msgid "Center"
-msgstr ""
+msgstr "Uprostřed"
 
 #: controllers/viewed.py:877
 msgid "Right"
-msgstr ""
+msgstr "Vpravo"
 
 #: controllers/templates/about.mako:4
 msgid "About the OpenERP Web"
-msgstr ""
+msgstr "O webu OpenERP"
 
 #: controllers/templates/about.mako:27
 msgid "OpenERP Web"
-msgstr ""
+msgstr "Web OpenERP"
 
 #: controllers/templates/about.mako:30
 msgid "Copyright &copy; 2006-TODAY OpenERP SA. All Rights Reserved."
-msgstr ""
+msgstr "Copyright &copy; 2006-DNES OpenERP SA. Všechna práva vyhrazena."
 
 #: controllers/templates/about.mako:31
 msgid "OpenERP is a trademark of the OpenERP SA Company."
-msgstr ""
+msgstr "OpenERP je obchodní značka společnosti OpenERP SA."
 
 #: controllers/templates/about.mako:33
 #, python-format
 msgid "%(ooweb)s is jointly developed by %(tiny)s and %(axelor)s."
-msgstr ""
+msgstr "%(ooweb)s je společně vyvíjen %(tiny)s a %(axelor)s."
 
 #: controllers/templates/about.mako:39
 #, python-format
 msgid "Licenced under the terms of %(license)s"
-msgstr ""
+msgstr "Licence pod podmínkami %(license)s"
 
 #: controllers/templates/about.mako:42
 msgid "About OpenERP"
-msgstr ""
+msgstr "O OpenERP"
 
 #: controllers/templates/about.mako:44
 #, python-format
@@ -572,6 +597,14 @@ msgid ""
 "                    project management, production, services, CRM, etc..\n"
 "                    "
 msgstr ""
+"%(openobject)s je svobodný podnikový softwarový systém, který je navržen k "
+"posílení\n"
+"                    výkonnosti a zisku skrze datovou integraci. Propojuje, "
+"vylepšuje a\n"
+"                    spravuje podnikové procesy v oblastech jako prodeje, "
+"peněžnictví, dodavatelské kanály,\n"
+"                    projektové řízení, výroba, služby, CRM, atd..\n"
+"                    "
 
 #: controllers/templates/about.mako:51
 msgid ""
@@ -584,66 +617,76 @@ msgid ""
 "                    production system and migration to a new version to be "
 "straightforward."
 msgstr ""
+"Systém je platformě nezávislý a lze jej instalovat na Windows, Mac OS X,\n"
+"                    a rozličné Linuxové a jiné Unixově založené distribuce. "
+"Jeho architektura umožňuje\n"
+"                    rapidní vytváření nové funkcionality, přímočaré úpravy "
+"potřebné pro\n"
+"                    produkční systém a stěhování na novou verzi."
 
 #: controllers/templates/about.mako:57
 msgid ""
 "Depending on your needs, OpenERP is available through a web or application "
 "client."
 msgstr ""
+"V závislosti na vašich potřebách, OpenERP je dostupný přes web nebo "
+"aplikačního klienta."
 
 #: controllers/templates/database.mako:54 controllers/templates/login.mako:4
 #: controllers/templates/login.mako:71 controllers/templates/login_ajax.mako:85
 #: controllers/templates/login_ajax.mako:104
 msgid "Login"
-msgstr ""
+msgstr "Přihlašovací jméno"
 
 #: controllers/templates/database.mako:64
 msgid "Password"
-msgstr ""
+msgstr "Heslo"
 
 #: controllers/templates/error_page.mako:82
 #, python-format
 msgid "An %(error_type)s has been reported."
-msgstr ""
+msgstr "Byla hlášena chyba %(error_type)s."
 
 #: controllers/templates/error_page.mako:84
 msgid "Let me fix it"
-msgstr ""
+msgstr "Nech mě to opravit"
 
 #: controllers/templates/error_page.mako:91
 #: controllers/templates/error_page.mako:93
 msgid "Fix it for me"
-msgstr ""
+msgstr "Oprav to pro mě"
 
 #: controllers/templates/error_page.mako:99
 msgid "Publisher warranty contract."
-msgstr ""
+msgstr "Smlouva záruky vydavatele."
 
 #: controllers/templates/error_page.mako:100
 msgid ""
 "Your request will be sent to OpenERP and publisher warranty team will reply "
 "you shortly."
 msgstr ""
+"Váš požadavek bude zaslán do OpenERP a záruční tým vydavatele vám zakrátko "
+"odpoví."
 
 #: controllers/templates/error_page.mako:104
 msgid "Summary of the problem:"
-msgstr ""
+msgstr "Souhrn problému:"
 
 #: controllers/templates/error_page.mako:111
 msgid "Explain what you did:"
-msgstr ""
+msgstr "Vysvětlete co jste udělali:"
 
 #: controllers/templates/error_page.mako:120
 msgid "Other Comments:"
-msgstr ""
+msgstr "Ostatní komentáře:"
 
 #: controllers/templates/error_page.mako:132
 msgid "Send to Publisher Warranty Team"
-msgstr ""
+msgstr "Odeslat záručnímu týmu vydavatele"
 
 #: controllers/templates/error_page.mako:159
 msgid "Write concurrency warning :"
-msgstr ""
+msgstr "Zapsat souběžné varování :"
 
 #: controllers/templates/error_page.mako:164
 msgid ""
@@ -653,6 +696,11 @@ msgid ""
 "    - \"Cancel\" to cancel saving.\n"
 "    - \"Write anyway\" to save your current version."
 msgstr ""
+"Tento dokument byl změněn zatímco jste jej upravovali.\n"
+"Vyberte:\n"
+"\n"
+"    - \"Zrušit\" pro zrušení ukládání.\n"
+"    - \"Přesto zapsat\" pro uložení vaší aktuální verze."
 
 #: controllers/templates/error_page.mako:178 controllers/templates/exp.mako:251
 #: controllers/templates/form.mako:141 controllers/templates/openo2m.mako:41
@@ -661,52 +709,52 @@ msgstr ""
 #: controllers/templates/preferences/index.mako:38
 #: widgets/templates/listgrid/listgrid.mako:41
 msgid "Cancel"
-msgstr ""
+msgstr "Zrušit"
 
 #: controllers/templates/error_page.mako:179
 msgid "Write Anyway"
-msgstr ""
+msgstr "Přesto zapsat"
 
 #: controllers/templates/exp.mako:151
 msgid "Export Data"
-msgstr ""
+msgstr "Data exportu"
 
 #: controllers/templates/exp.mako:166
 msgid "Export Type:"
-msgstr ""
+msgstr "Typ exportu:"
 
 #: controllers/templates/exp.mako:169
 msgid "Import Compatible Export"
-msgstr ""
+msgstr "Importovat slučitelný export"
 
 #: controllers/templates/exp.mako:172
 msgid "Export all Data"
-msgstr ""
+msgstr "Exportovat všechna data"
 
 #: controllers/templates/exp.mako:190
 msgid "Available fields"
-msgstr ""
+msgstr "Dostupná pole"
 
 #: controllers/templates/exp.mako:192
 msgid "Fields to export"
-msgstr ""
+msgstr "Pole k exportu"
 
 #: controllers/templates/exp.mako:194
 msgid "Save fields list"
-msgstr ""
+msgstr "Uložit seznam polí"
 
 #: controllers/templates/exp.mako:196
 msgid "Save as:"
-msgstr ""
+msgstr "Uložit jako:"
 
 #: controllers/templates/exp.mako:198 controllers/templates/fieldpref.mako:102
 #: controllers/templates/selection.mako:45
 msgid "OK"
-msgstr ""
+msgstr "OK"
 
 #: controllers/templates/exp.mako:202
 msgid "Saved exports:"
-msgstr ""
+msgstr "Uložené exporty:"
 
 #: controllers/templates/exp.mako:211 controllers/templates/form.mako:136
 #: widgets/form/templates/one2many.mako:23 widgets/templates/sidebar.mako:67
@@ -718,61 +766,61 @@ msgstr ""
 #: widgets/templates/listgrid/listgroup.mako:131
 #: widgets/templates/listgrid/multiple_group.mako:81
 msgid "Delete"
-msgstr ""
+msgstr "Smazat"
 
 #: controllers/templates/exp.mako:224 widgets/templates/sidebar.mako:56
 #: widgets/templates/listgrid/listgrid.mako:153
 msgid "Add"
-msgstr ""
+msgstr "Přidat"
 
 #: controllers/templates/exp.mako:229 controllers/templates/viewlist.mako:125
 msgid "Remove"
-msgstr ""
+msgstr "Odstranit"
 
 #: controllers/templates/exp.mako:234
 msgid "Remove All"
-msgstr ""
+msgstr "Odstranit vše"
 
 #: controllers/templates/exp.mako:252
 msgid "Export to File"
-msgstr ""
+msgstr "Exportovat do souboru"
 
 #: controllers/templates/fieldpref.mako:4
 #: controllers/templates/fieldpref.mako:29
 msgid "Field Preferences"
-msgstr ""
+msgstr "Předvolby pole"
 
 #: controllers/templates/fieldpref.mako:39
 msgid "Field Name:"
-msgstr ""
+msgstr "Název pole:"
 
 #: controllers/templates/fieldpref.mako:43
 msgid "Domain:"
-msgstr ""
+msgstr "Doména:"
 
 #: controllers/templates/fieldpref.mako:47
 msgid "Default Value:"
-msgstr ""
+msgstr "Výchozí hodnota:"
 
 #: controllers/templates/fieldpref.mako:57
 msgid "Value applicable for:"
-msgstr ""
+msgstr "Hodnota použitelná pro:"
 
 #: controllers/templates/fieldpref.mako:63
 msgid "Only for you"
-msgstr ""
+msgstr "Pouze pro vás"
 
 #: controllers/templates/fieldpref.mako:67
 msgid "For all"
-msgstr ""
+msgstr "Pro všechny"
 
 #: controllers/templates/fieldpref.mako:76
 msgid "Value applicable if:"
-msgstr ""
+msgstr "Hodnota použitelná pokud:"
 
 #: controllers/templates/fieldpref.mako:79
 msgid "Always applicable!"
-msgstr ""
+msgstr "Použitelné vždy!"
 
 #: controllers/templates/fieldpref.mako:99 controllers/templates/imp.mako:204
 #: controllers/templates/index.mako:201 controllers/templates/openm2.mako:52
@@ -787,45 +835,45 @@ msgstr ""
 #: controllers/templates/viewlist.mako:129 widgets/templates/sidebar.mako:67
 #: widgets/templates/viewform.mako:37
 msgid "Close"
-msgstr ""
+msgstr "Zavřít"
 
 #: controllers/templates/footer.mako:3
 #, python-format
 msgid "&copy; 2008-2010 %(ooweb)s  SA. All Rights Reserved "
-msgstr ""
+msgstr "&copy; 2008-2010 %(ooweb)s  SA. Všechna práva vyhrazena "
 
 #: controllers/templates/footer.mako:6
 msgid "Significant contributions to the web client have been made by"
-msgstr ""
+msgstr "Web klientovi významně přispěli"
 
 #: controllers/templates/form.mako:64 controllers/templates/tree.mako:33
 msgid "Disable all Tips"
-msgstr ""
+msgstr "Zakázat všechny tipy"
 
 #: controllers/templates/form.mako:65 controllers/templates/tree.mako:34
 msgid "Hide this Tip"
-msgstr ""
+msgstr "Skrýt tento tip"
 
 #: controllers/templates/form.mako:83 controllers/templates/tree.mako:41
 msgid "Add / Remove Shortcut..."
-msgstr ""
+msgstr "Přidat / Odebrat zkratku..."
 
 #: controllers/templates/form.mako:87
 #, python-format
 msgid "Search: %s"
-msgstr ""
+msgstr "Hledat: %s"
 
 #: controllers/templates/form.mako:94
 msgid "Corporate Intelligence..."
-msgstr ""
+msgstr "Inteligence společností..."
 
 #: controllers/templates/form.mako:100
 msgid "Show Logs..."
-msgstr ""
+msgstr "Ukázat záznamy..."
 
 #: controllers/templates/form.mako:112
 msgid "Create a new resource"
-msgstr ""
+msgstr "Vytvořit nový zdroj"
 
 #: controllers/templates/form.mako:113 controllers/templates/search.mako:128
 #: controllers/templates/viewed_new_model.mako:36
@@ -835,11 +883,11 @@ msgstr ""
 #: widgets/templates/listgrid/listgrid.mako:162
 #: widgets/templates/listgrid/listgroup.mako:20
 msgid "New"
-msgstr ""
+msgstr "Nový"
 
 #: controllers/templates/form.mako:117
 msgid "Edit this resource"
-msgstr ""
+msgstr "Upravit tento zdroj"
 
 #: controllers/templates/form.mako:118 controllers/templates/viewlist.mako:122
 #: widgets/templates/listgrid/listgrid.mako:83
@@ -847,11 +895,11 @@ msgstr ""
 #: widgets/templates/listgrid/listgroup.mako:112
 #: widgets/templates/listgrid/multiple_group.mako:63
 msgid "Edit"
-msgstr ""
+msgstr "Úpravit"
 
 #: controllers/templates/form.mako:122
 msgid "Save this resource"
-msgstr ""
+msgstr "Uložit tento zdroj"
 
 #: controllers/templates/form.mako:123 controllers/templates/openm2.mako:48
 #: controllers/templates/save_filter.mako:41
@@ -862,363 +910,370 @@ msgstr ""
 #: controllers/templates/viewlist.mako:157
 #: controllers/templates/preferences/index.mako:39
 msgid "Save"
-msgstr ""
+msgstr "Uložit"
 
 #: controllers/templates/form.mako:125
 msgid "Save & Edit this resource"
-msgstr ""
+msgstr "Uložit & Upravit tento zdroj"
 
 #: controllers/templates/form.mako:126
 msgid "Save & Edit"
-msgstr ""
+msgstr "Uložit & Upravit"
 
 #: controllers/templates/form.mako:130
 msgid "Duplicate this resource"
-msgstr ""
+msgstr "Zdvojit tento zdroj"
 
 #: controllers/templates/form.mako:131
 msgid "Duplicate"
-msgstr ""
+msgstr "Zdvojit"
 
 #: controllers/templates/form.mako:135
 msgid "Delete this resource"
-msgstr ""
+msgstr "Smazat tento zdroj"
 
 #: controllers/templates/form.mako:140
 msgid "Cancel editing the current resource"
-msgstr ""
+msgstr "Zrušit úpravu aktuálního zdroje"
 
 #: controllers/templates/form.mako:145
 msgid "Create new node"
-msgstr ""
+msgstr "Vytvořit nový uzel"
 
 #: controllers/templates/form.mako:146
 msgid "New Node"
-msgstr ""
+msgstr "Nový uzel"
 
 #: controllers/templates/form.mako:150
 msgid "Show grid in workflow canvas"
-msgstr ""
+msgstr "Ukázat mřížku na plátně pracovního postupu"
 
 #: controllers/templates/form.mako:151
 msgid "Show grid"
-msgstr ""
+msgstr "Ukázat mřížku"
 
 #: controllers/templates/header.mako:33
 #, python-format
 msgid "%(company)s"
-msgstr ""
+msgstr "%(company)s"
 
 #: controllers/templates/header.mako:34 controllers/templates/index.mako:230
 #, python-format
 msgid "%(user)s"
-msgstr ""
+msgstr "%(user)s"
 
 #: controllers/templates/header.mako:45 controllers/templates/header.mako:47
 msgid "Home"
-msgstr ""
+msgstr "Domov"
 
 #: controllers/templates/header.mako:53
 msgid "Requests"
-msgstr ""
+msgstr "Požadavky"
 
 #: controllers/templates/header.mako:62
 msgid "Edit Preferences"
-msgstr ""
+msgstr "Upravit předvolby"
 
 #: controllers/templates/header.mako:66 controllers/templates/header.mako:69
 msgid "About"
-msgstr ""
+msgstr "O aplikaci"
 
 #: controllers/templates/header.mako:73 controllers/templates/header.mako:75
 msgid "Help"
-msgstr ""
+msgstr "Nápověda"
 
 #: controllers/templates/header.mako:81 controllers/templates/header.mako:84
 msgid "Clear Cache"
-msgstr ""
+msgstr "Smazat cache"
 
 #: controllers/templates/header.mako:89
 msgid "Logout"
-msgstr ""
+msgstr "Odhlásit"
 
 #: controllers/templates/imp.mako:79
 msgid "Import Data"
-msgstr ""
+msgstr "Importovat data"
 
 #: controllers/templates/imp.mako:89
 msgid "1. Import a .CSV file"
-msgstr ""
+msgstr "1. Importovat soubor .CSV"
 
 #: controllers/templates/imp.mako:105
 msgid "CSV File:"
-msgstr ""
+msgstr "Soubor CSV:"
 
 #: controllers/templates/imp.mako:123
 msgid "2. Check your file format"
-msgstr ""
+msgstr "2. Zkontrolovat formát vašeho souboru"
 
 #: controllers/templates/imp.mako:130
 #, python-format
 msgid "The import failed due to: %(message)s"
-msgstr ""
+msgstr "Importování selhalo kvůli: %(message)s"
 
 #: controllers/templates/imp.mako:132
 msgid "Here is a preview of the file we could not import:"
-msgstr ""
+msgstr "Zde je náhled souboru, který nemůžeme importovat:"
 
 #: controllers/templates/imp.mako:157
 msgid "CSV Options"
-msgstr ""
+msgstr "Volby CSV"
 
 #: controllers/templates/imp.mako:160
 msgid "Separator:"
-msgstr ""
+msgstr "Oddělovač:"
 
 #: controllers/templates/imp.mako:162
 msgid "Delimiter:"
-msgstr ""
+msgstr "Omezovač:"
 
 #: controllers/templates/imp.mako:166
 msgid "Encoding:"
-msgstr ""
+msgstr "Kódování:"
 
 #: controllers/templates/imp.mako:173
 msgid "Lines to skip:"
-msgstr ""
+msgstr "Řádky k přeskočení:"
 
 #: controllers/templates/imp.mako:187
 msgid "3. File imported"
-msgstr ""
+msgstr "3. Soubor importován"
 
 #: controllers/templates/imp.mako:205
 msgid "Import File"
-msgstr ""
+msgstr "Importovat soubor"
 
 #: controllers/templates/index.mako:167
 msgid "System Logs"
-msgstr ""
+msgstr "Systémové záznamy"
 
 #: controllers/templates/index.mako:192
 msgid "More"
-msgstr ""
+msgstr "Více"
 
 #: controllers/templates/index.mako:193
 msgid "Widgets"
-msgstr ""
+msgstr "Pomůcky"
 
 #: controllers/templates/index.mako:233 controllers/templates/index.mako:238
 #, python-format
 msgid "Powered by %(openerp)s "
-msgstr ""
+msgstr "Založeno na %(openerp)s "
 
 #: controllers/templates/login.mako:57 controllers/templates/login_ajax.mako:72
 #: controllers/templates/login_ajax.mako:94
 msgid "User:"
-msgstr ""
+msgstr "Uživatel:"
 
 #: controllers/templates/login.mako:68
 msgid "Databases"
-msgstr ""
+msgstr "Databáze"
 
 #: controllers/templates/login.mako:88
 msgid "Top Contributor:"
-msgstr ""
+msgstr "Nejlepší přispěvatelé:"
 
 #: controllers/templates/login.mako:98
 msgid ""
 "We think that daily job activities can be more intuitive, efficient, "
 "automated, .. and even fun."
 msgstr ""
+"Myslíme si, že každodenní pracovní činnosti mohou být více intuitivní, "
+"efektivní, automatizované, ..a dokonce zábavné."
 
 #: controllers/templates/login.mako:99
 msgid "OpenERP's vision to be:"
-msgstr ""
+msgstr "Vize OpenERP:"
 
 #: controllers/templates/login.mako:107
 msgid "Full featured"
-msgstr ""
+msgstr "Plně vybavené"
 
 #: controllers/templates/login.mako:108
 msgid ""
 "Today's enterprise challenges are multiple. We provide one module for each "
 "need."
 msgstr ""
+"Dnes je plno výzev pro společnosti. Poskytujeme jeden modul pro každou "
+"potřebu."
 
 #: controllers/templates/login.mako:116
 msgid "Open Source"
-msgstr ""
+msgstr "Otevřený kód"
 
 #: controllers/templates/login.mako:117
 msgid ""
 "To Build a great product, we rely on the knowledge of thousands of "
 "contributors."
 msgstr ""
+"Pro vytvoření skvělého produktu spoléháme na znalosti tisíců přispěvatelů."
 
 #: controllers/templates/login.mako:125
 msgid "User Friendly"
-msgstr ""
+msgstr "Uživatelsky přívětivý"
 
 #: controllers/templates/login.mako:126
 msgid ""
 "In order to be productive, people need clean and easy to use interface."
 msgstr ""
+"Lidé potřebují čisté a jednoduše použitelné rozhraní, aby mohli být "
+"produktivní."
 
 #: controllers/templates/modules.mako:4
 msgid "Module Management"
-msgstr ""
+msgstr "Správa modulů"
 
 #: controllers/templates/modules.mako:17
 msgid "Web Modules"
-msgstr ""
+msgstr "Webové moduly"
 
 #: controllers/templates/openo2m.mako:34
 msgid "Save & Close"
-msgstr ""
+msgstr "Uložit & Zavřít"
 
 #: controllers/templates/openo2m.mako:37
 msgid "Save & New"
-msgstr ""
+msgstr "Uložit & Nový"
 
 #: controllers/templates/save_filter.mako:18
 msgid "Save as Filter"
-msgstr ""
+msgstr "Uložit jako filtr"
 
 #: controllers/templates/save_filter.mako:30
 msgid "Filter Name"
-msgstr ""
+msgstr "Jméno filtru"
 
 #: controllers/templates/search.mako:110
 #, python-format
 msgid "Search %(name)s"
-msgstr ""
+msgstr "Hledat %(name)s"
 
 #: controllers/templates/search.mako:125 widgets/form/templates/datetime.mako:8
 msgid "Select"
-msgstr ""
+msgstr "Vybrat"
 
 #: controllers/templates/search.mako:127 widgets/_views.py:77
 #: widgets/form/templates/many2one.mako:22
 #: widgets/form/templates/reference.mako:27 widgets/templates/viewform.mako:26
 msgid "Search"
-msgstr ""
+msgstr "Hledat"
 
 #: controllers/templates/search.mako:143
 #, python-format
 msgid "No record found : '%(searched_string)s'."
-msgstr ""
+msgstr "Žádný záznam nenalezen : '%(searched_string)s'."
 
 #: controllers/templates/selection.mako:4
 msgid "Select action"
-msgstr ""
+msgstr "Vybrat akci"
 
 #: controllers/templates/selection.mako:23
 msgid "Select your action"
-msgstr ""
+msgstr "Vyberte vaši akce"
 
 #: controllers/templates/server_log.mako:4
 msgid "Server Actions..."
-msgstr ""
+msgstr "Akce serveru..."
 
 #: controllers/templates/server_log.mako:14
 msgid "Server Actions"
-msgstr ""
+msgstr "Akce serveru"
 
 #: controllers/templates/translator.mako:4
 msgid "Add Translations"
-msgstr ""
+msgstr "Přidat překlady"
 
 #: controllers/templates/translator.mako:17
 msgid "Add Translation"
-msgstr ""
+msgstr "Přidat překlad"
 
 #: controllers/templates/translator.mako:27
 msgid "Add Translation for:"
-msgstr ""
+msgstr "Přidat překlad pro:"
 
 #: controllers/templates/translator.mako:31
 msgid "Fields"
-msgstr ""
+msgstr "Pole"
 
 #: controllers/templates/translator.mako:32
 msgid "Labels"
-msgstr ""
+msgstr "Štítky"
 
 #: controllers/templates/translator.mako:33
 msgid "Relates"
-msgstr ""
+msgstr "Související"
 
 #: controllers/templates/translator.mako:34
 msgid "View"
-msgstr ""
+msgstr "Pohled"
 
 #: controllers/templates/translator.mako:53
 msgid "Field"
-msgstr ""
+msgstr "Pole"
 
 #: controllers/templates/view_log.mako:4 controllers/templates/view_log.mako:12
 msgid "Information"
-msgstr ""
+msgstr "Informace"
 
 #: controllers/templates/viewed.mako:17
 #, python-format
 msgid "View Editor %s - %s"
-msgstr ""
+msgstr "Ukázat editor %s - %s"
 
 #: controllers/templates/viewed.mako:31
 msgid "Create a new inherited view"
-msgstr ""
+msgstr "Vytvořit nový zděděný pohled"
 
 #: controllers/templates/viewed.mako:31
 msgid "Inherited View"
-msgstr ""
+msgstr "Zděděný pohled"
 
 #: controllers/templates/viewed.mako:34
 msgid "Preview"
-msgstr ""
+msgstr "Náhled"
 
 #: controllers/templates/viewed_add.mako:6
 msgid "Node Type:"
-msgstr ""
+msgstr "Typ uzlu:"
 
 #: controllers/templates/viewed_add.mako:23
 msgid "New Field"
-msgstr ""
+msgstr "Nové pole"
 
 #: controllers/templates/viewed_add.mako:27
 msgid "Position:"
-msgstr ""
+msgstr "Pozice:"
 
 #: controllers/templates/viewlist.mako:4
 #: controllers/templates/viewlist.mako:108
 #, python-format
 msgid "Manage Views (%s)"
-msgstr ""
+msgstr "Spravovat pohledy (%s)"
 
 #: controllers/templates/viewlist.mako:146
 #, python-format
 msgid "Create a view (%s)"
-msgstr ""
+msgstr "Vytvořit pohled (%s)"
 
 #: controllers/templates/viewlist.mako:174
 msgid "View Name:"
-msgstr ""
+msgstr "Název náhledu:"
 
 #: controllers/templates/viewlist.mako:178
 msgid "View Type:"
-msgstr ""
+msgstr "Typ pohledu:"
 
 #: controllers/templates/viewlist.mako:189
 msgid "Priority:"
-msgstr ""
+msgstr "Priorita:"
 
 #: utils/common.py:24
 msgid "Error"
-msgstr ""
+msgstr "Chyba"
 
 #: utils/common.py:27
 msgid "Warning"
-msgstr ""
+msgstr "Varování"
 
 #: utils/rpc.py:131
 msgid "Access Denied"
@@ -1248,19 +1303,19 @@ msgstr ""
 
 #: widgets/_views.py:46
 msgid "Form"
-msgstr ""
+msgstr "Formulář"
 
 #: widgets/_views.py:47
 msgid "Form view..."
-msgstr ""
+msgstr "Formulářový pohled..."
 
 #: widgets/_views.py:78
 msgid "Search view..."
-msgstr ""
+msgstr "Hledat pohled..."
 
 #: widgets/listgrid.py:305
 msgid "Wrong on_change trigger"
-msgstr ""
+msgstr "Špatný spouštěč on_change"
 
 #: widgets/listgrid.py:368 widgets/form/_form.py:904
 #, python-format
@@ -1270,268 +1325,268 @@ msgstr ""
 #: widgets/pager.py:56
 #, python-format
 msgid "%s"
-msgstr ""
+msgstr "%s"
 
 #: widgets/pager.py:68
 #, python-format
 msgid "%s - %s"
-msgstr ""
+msgstr "%s - %s"
 
 #: widgets/search.py:280
 msgid "contains"
-msgstr ""
+msgstr "obsahuje"
 
 #: widgets/search.py:280
 msgid "doesn't contain"
-msgstr ""
+msgstr "neobsahuje"
 
 #: widgets/search.py:281
 msgid "is equal to"
-msgstr ""
+msgstr "rovná se"
 
 #: widgets/search.py:281
 msgid "is not equal to"
-msgstr ""
+msgstr "nerovná se"
 
 #: widgets/search.py:282
 msgid "greater than"
-msgstr ""
+msgstr "větší než"
 
 #: widgets/search.py:282
 msgid "less than"
-msgstr ""
+msgstr "menší než"
 
 #: widgets/search.py:283
 msgid "in"
-msgstr ""
+msgstr "v"
 
 #: widgets/search.py:283
 msgid "not in"
-msgstr ""
+msgstr "není v"
 
 #: widgets/search.py:392
 msgid "Yes"
-msgstr ""
+msgstr "Ano"
 
 #: widgets/search.py:392
 msgid "No"
-msgstr ""
+msgstr "Ne"
 
 #: widgets/form/_action.py:48
 msgid "Action not found!"
-msgstr ""
+msgstr "Akce nenalezena!"
 
 #: widgets/form/_o2m.py:97 widgets/templates/listgrid/listgrid.mako:156
 #: widgets/templates/listgrid/listgrid.mako:162
 #: widgets/templates/listgrid/listgroup.mako:20
 msgid "Create new record."
-msgstr ""
+msgstr "Vytvořit nový záznam."
 
 #: widgets/form/_o2m.py:110
 msgid "Save/New"
-msgstr ""
+msgstr "Uložit/Nový"
 
 #: widgets/form/_o2m.py:110
 msgid "Save parent record."
-msgstr ""
+msgstr "Uložit nadřazený záznam."
 
 #: widgets/form/_o2m.py:229
 #, python-format
 msgid "%d of %d"
-msgstr ""
+msgstr "%d z %d"
 
 #: widgets/form/_o2m.py:231
 #, python-format
 msgid "- of %d"
-msgstr ""
+msgstr "- z %d"
 
 #: widgets/form/templates/binary.mako:28
 msgid "Save As"
-msgstr ""
+msgstr "Uložit jako"
 
 #: widgets/form/templates/binary.mako:31
 msgid "add attachment"
-msgstr ""
+msgstr "přidat přílohu"
 
 #: widgets/form/templates/image.mako:6
 msgid "Replace image"
-msgstr ""
+msgstr "Nahradit obrázky"
 
 #: widgets/form/templates/many2one.mako:2
 #: widgets/form/templates/reference.mako:30
 msgid "Open"
-msgstr ""
+msgstr "Otevřít"
 
 #: widgets/form/templates/many2one.mako:2
 #: widgets/form/templates/reference.mako:30
 msgid "Open a resource"
-msgstr ""
+msgstr "Otevřít zdroj"
 
 #: widgets/form/templates/one2many.mako:21
 msgid "Create new record..."
-msgstr ""
+msgstr "Vytvořit nový záznam..."
 
 #: widgets/form/templates/one2many.mako:23
 msgid "Delete record..."
-msgstr ""
+msgstr "Odstranit záznam..."
 
 #: widgets/form/templates/one2many.mako:29
 msgid "Translate me."
-msgstr ""
+msgstr "Přelož mě"
 
 #: widgets/form/templates/one2many.mako:48
 msgid "Previous record..."
-msgstr ""
+msgstr "Předchozí záznam..."
 
 #: widgets/form/templates/one2many.mako:50
 msgid "Next record..."
-msgstr ""
+msgstr "Další záznam..."
 
 #: widgets/templates/logs.mako:22
 msgid "More..."
-msgstr ""
+msgstr "Více..."
 
 #: widgets/templates/logs.mako:35
 msgid "Less..."
-msgstr ""
+msgstr "Méně..."
 
 #: widgets/templates/pager.mako:9
 msgid "<< First"
-msgstr ""
+msgstr "<< První"
 
 #: widgets/templates/pager.mako:14
 msgid "< Previous"
-msgstr ""
+msgstr "< Předchozí"
 
 #: widgets/templates/pager.mako:19
 msgid "of"
-msgstr ""
+msgstr "z"
 
 #: widgets/templates/pager.mako:24
 msgid "Next >"
-msgstr ""
+msgstr "Další >"
 
 #: widgets/templates/pager.mako:29
 msgid "Last >>"
-msgstr ""
+msgstr "Poslední >>"
 
 #: widgets/templates/pager.mako:37
 msgid "Change Limit:"
-msgstr ""
+msgstr "Změnit omezení:"
 
 #: widgets/templates/sidebar.mako:37
 msgid "Reports"
-msgstr ""
+msgstr "Výkazy"
 
 #: widgets/templates/sidebar.mako:41 widgets/templates/viewform.mako:51
 msgid "Actions"
-msgstr ""
+msgstr "Akce"
 
 #: widgets/templates/sidebar.mako:45
 msgid "Links"
-msgstr ""
+msgstr "Odkazy"
 
 #: widgets/templates/sidebar.mako:49
 msgid "Submenu"
-msgstr ""
+msgstr "Podnabídka"
 
 #: widgets/templates/sidebar.mako:54
 msgid "Attachments"
-msgstr ""
+msgstr "Přílohy"
 
 #: widgets/templates/sidebar.mako:74
 msgid "File"
-msgstr ""
+msgstr "Soubor"
 
 #: widgets/templates/sidebar.mako:83
 msgid "Customize"
-msgstr ""
+msgstr "Přizpůsobit"
 
 #: widgets/templates/sidebar.mako:87
 msgid "Manage views of the current object"
-msgstr ""
+msgstr "Spravovat pohledy aktuálního objektu"
 
 #: widgets/templates/sidebar.mako:89
 msgid "Manage Views"
-msgstr ""
+msgstr "Spravovat pohledy"
 
 #: widgets/templates/sidebar.mako:93
 msgid "Edit workflow of the current object"
-msgstr ""
+msgstr "Upravit pracovní postup aktuálního objektu"
 
 #: widgets/templates/sidebar.mako:94
 msgid "Edit Workflow"
-msgstr ""
+msgstr "Upravit pracovní postup"
 
 #: widgets/templates/sidebar.mako:98
 msgid "Customize current object or create a new object"
-msgstr ""
+msgstr "Přizpůsobit aktuální objekt nebo vytvořit nový objekt"
 
 #: widgets/templates/sidebar.mako:100
 msgid "Customize Object"
-msgstr ""
+msgstr "Přizpůsobit objekt"
 
 #: widgets/templates/sidebar.mako:106
 msgid "Other Options"
-msgstr ""
+msgstr "Jiné volby"
 
 #: widgets/templates/sidebar.mako:111 widgets/templates/sidebar.mako:119
 msgid "Import"
-msgstr ""
+msgstr "Importovat"
 
 #: widgets/templates/sidebar.mako:114 widgets/templates/sidebar.mako:122
 msgid "Export"
-msgstr ""
+msgstr "Exportovat"
 
 #: widgets/templates/sidebar.mako:126
 msgid "Translate"
-msgstr ""
+msgstr "Přeložit"
 
 #: widgets/templates/sidebar.mako:131
 msgid "View Log"
-msgstr ""
+msgstr "Zobrazit záznam"
 
 #: widgets/templates/viewform.mako:25
 msgid "Filter records."
-msgstr ""
+msgstr "Filtrovat záznamy."
 
 #: widgets/templates/viewform.mako:33
 msgid "Clear all."
-msgstr ""
+msgstr "Vyčistit vše."
 
 #: widgets/templates/viewform.mako:35
 msgid "Clear"
-msgstr ""
+msgstr "Vymazat"
 
 #: widgets/templates/viewform.mako:43
 msgid "Filters"
-msgstr ""
+msgstr "Filtry"
 
 #: widgets/templates/viewform.mako:45
 msgid "Saved Filters"
-msgstr ""
+msgstr "Uložené filtry"
 
 #: widgets/templates/viewform.mako:52
 msgid "New Filter"
-msgstr ""
+msgstr "Nový filtr"
 
 #: widgets/templates/viewform.mako:53
 msgid "Save Filter"
-msgstr ""
+msgstr "Uložit filtr"
 
 #: widgets/templates/viewform.mako:54
 msgid "Manage Filters"
-msgstr ""
+msgstr "Spravovat filtry"
 
 #: widgets/templates/listgrid/listgrid.mako:23
 msgid "Update"
-msgstr ""
+msgstr "Aktualizovat"
 
 #: widgets/templates/listgrid/listgrid.mako:152
 msgid "Add records..."
-msgstr ""
+msgstr "Přidat záznamy..."
 
 #: widgets/templates/listgrid/listgrid.mako:190
 #: widgets/templates/listgrid/listgrid.mako:194
 msgid "Delete record(s)."
-msgstr ""
+msgstr "Smazat záznam(y)."
