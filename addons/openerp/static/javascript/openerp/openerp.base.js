@@ -270,7 +270,15 @@ jQuery(document).ready(function () {
         var newUrl = $.hash();
         if(!newUrl || newUrl == $.hash.currentUrl) {
             //Only autocall form onchanges when o2m open in popup.
-            initial_onchange_triggers();
+             if (jQuery('[callback]').length){
+                name = jQuery('[callback]').first().attr('id');
+                var parent_prefix = name.indexOf('/') > -1 ? name.slice(0, name.lastIndexOf('/') + 1) : '';
+                if (parent_prefix != ''){
+                    if(jQuery(idSelector(parent_prefix + '_terp_id')).val() == 'False'){
+                        initial_onchange_triggers();
+                    }
+                }
+            }
             return;
         }
         openLink(newUrl);
