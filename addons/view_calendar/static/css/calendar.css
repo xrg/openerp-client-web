@@ -118,7 +118,7 @@
     padding: 2px;
     font-weight: 600;
     line-height: 1em;
-    white-space: pre-wrap;
+    white-space: nowrap;
     overflow: hidden;
     cursor: pointer;
     border-radius: 5px; 
