@@ -525,11 +525,11 @@ MonthCalendar.Week.prototype = {
 
             if (container.events.length > 0) {
                 e = container.events[container.events.length - 1];
-                if (e.row > 5) {
+                if (e.row > 4) {
                     appendChildNodes(element, DIV({'class': 'calEventInfo'},
                             MochiKit.DOM.A({'href':'javascript: void(0)',
                                'onclick': "getCalendar('" + dt + "', 'day')"},
-                               '+ (' + (e.row - 5) + ') more...')));
+                               '+ (' + (e.row - 3) + ') more...')));
                 }
             }
         }
@@ -614,7 +614,7 @@ MonthCalendar.Event.prototype = {
 
     adjust : function() {
 
-        if (this.row > 5) {
+        if (this.row > 4) {
             hideElement(this.element);
             return;
         }
