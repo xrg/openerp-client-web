@@ -17,7 +17,7 @@
 #  You can see the MPL licence at: http://www.mozilla.org/MPL/MPL-1.1.html
 #
 name = 'openerp-web'
-version = '6.0.2'
+version = '6.0.3'
 description = "Web Client of OpenERP, the Enterprise Management Software"
 long_description = "OpenERP Web is the web client of the OpenERP, a free enterprise management software"
 author = "OpenERP S.A."
