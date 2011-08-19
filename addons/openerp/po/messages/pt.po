@@ -14,8 +14,8 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2011-08-04 05:13+0000\n"
-"X-Generator: Launchpad (build 13573)\n"
+"X-Launchpad-Export-Date: 2011-08-19 05:12+0000\n"
+"X-Generator: Launchpad (build 13697)\n"
 
 #: validators.py:75
 msgid "Invalid literal for float"
@@ -1583,15 +1583,3 @@ msgstr "Adicionar registos..."
 #: widgets/templates/listgrid/listgrid.mako:194
 msgid "Delete record(s)."
 msgstr "Eliminar registo(s)."
-
-#~ msgid "Image"
-#~ msgstr "Imagem"
-
-#~ msgid "Add Resource:"
-#~ msgstr "Adicionar recurso:"
-
-#~ msgid "Click here to add new image."
-#~ msgstr "Carregue aqui para adicionar uma imagem."
-
-#~ msgid "You do not have a valid OpenERP publisher warranty contract !"
-#~ msgstr "Não tem um contrato de suporte OpenERP válido!"

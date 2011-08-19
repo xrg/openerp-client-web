@@ -14,8 +14,8 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2011-08-04 05:12+0000\n"
-"X-Generator: Launchpad (build 13573)\n"
+"X-Launchpad-Export-Date: 2011-08-19 05:11+0000\n"
+"X-Generator: Launchpad (build 13697)\n"
 "Generated-By: Babel None\n"
 
 #: controllers/_diagram.py:89 controllers/_diagram.py:210
@@ -127,24 +127,3 @@ msgstr "Pregled Dijagrama..."
 #: widgets/templates/diagram.mako:27
 msgid "Loading..."
 msgstr "Ućitavam..."
-
-#~ msgid "Online Documentation"
-#~ msgstr "Onlajn Dokumentacija"
-
-#~ msgid "Help:"
-#~ msgstr "Pomoć:"
-
-#~ msgid "Get Books"
-#~ msgstr "Traži Knjige"
-
-#~ msgid "Community Forum"
-#~ msgstr "Forum Zajednice"
-
-#~ msgid "show"
-#~ msgstr "prikaži"
-
-#~ msgid "fields"
-#~ msgstr "polja"
-
-#~ msgid "hide"
-#~ msgstr "sakrij"

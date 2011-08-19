@@ -14,8 +14,8 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2011-08-04 05:14+0000\n"
-"X-Generator: Launchpad (build 13573)\n"
+"X-Launchpad-Export-Date: 2011-08-19 05:13+0000\n"
+"X-Generator: Launchpad (build 13697)\n"
 
 #: validators.py:75
 msgid "Invalid literal for float"
@@ -1609,9 +1609,3 @@ msgstr "Añadir registros..."
 #: widgets/templates/listgrid/listgrid.mako:194
 msgid "Delete record(s)."
 msgstr "Eliminar registro(s)."
-
-#~ msgid "Image"
-#~ msgstr "Imagen"
-
-#~ msgid "Add Resource:"
-#~ msgstr "Añadir recurso:"

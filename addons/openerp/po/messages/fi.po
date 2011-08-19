@@ -8,18 +8,18 @@ msgstr ""
 "Project-Id-Version: openobject-client-web\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2011-03-18 11:53+0100\n"
-"PO-Revision-Date: 2011-06-07 06:48+0000\n"
+"PO-Revision-Date: 2011-08-18 06:24+0000\n"
 "Last-Translator: Juha Kotamäki <Unknown>\n"
 "Language-Team: Finnish <fi@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2011-08-04 05:13+0000\n"
-"X-Generator: Launchpad (build 13573)\n"
+"X-Launchpad-Export-Date: 2011-08-19 05:12+0000\n"
+"X-Generator: Launchpad (build 13697)\n"
 
 #: validators.py:75
 msgid "Invalid literal for float"
-msgstr ""
+msgstr "virheellinen merkki liukuluvussa"
 
 #: validators.py:114 validators.py:119 validators.py:262
 msgid "Invalid datetime format"
@@ -118,7 +118,7 @@ msgstr "Luo"
 
 #: controllers/database.py:68
 msgid "Super admin password:"
-msgstr ""
+msgstr "Super pääkäyttäjän salasana"
 
 #: controllers/database.py:68
 msgid ""
@@ -336,7 +336,7 @@ msgstr "Sovellusvirhe"
 #: controllers/form.py:1016
 #, python-format
 msgid "Wrong on_change trigger: %s"
-msgstr ""
+msgstr "virheellinen päivitystriggeri (on_change): %s"
 
 #: controllers/form.py:1121
 msgid "Open resource"
@@ -511,7 +511,7 @@ msgstr "Sisäisen modulin data ID"
 
 #: controllers/viewed.py:221
 msgid "Invalid view id."
-msgstr ""
+msgstr "Virheellinen näkymän tunus (id)"
 
 #: controllers/viewed.py:499
 msgid "Unable to create inherited view."
@@ -519,7 +519,7 @@ msgstr "Ei voitu luoda perittyä näkymää."
 
 #: controllers/viewed.py:501
 msgid "Can't create inherited view here."
-msgstr ""
+msgstr "Ei voida luoda perittyä näkymää tähän."
 
 #: controllers/viewed.py:504
 msgid "Not implemented yet!"
@@ -563,7 +563,7 @@ msgstr "Tietoja OpenErp Webistä"
 
 #: controllers/templates/about.mako:27
 msgid "OpenERP Web"
-msgstr ""
+msgstr "OpenERP Web"
 
 #: controllers/templates/about.mako:30
 msgid "Copyright &copy; 2006-TODAY OpenERP SA. All Rights Reserved."
@@ -571,7 +571,7 @@ msgstr ""
 
 #: controllers/templates/about.mako:31
 msgid "OpenERP is a trademark of the OpenERP SA Company."
-msgstr ""
+msgstr "OpenERP on OpenERP SA:n tavaramerkki"
 
 #: controllers/templates/about.mako:33
 #, python-format
@@ -585,7 +585,7 @@ msgstr ""
 
 #: controllers/templates/about.mako:42
 msgid "About OpenERP"
-msgstr ""
+msgstr "Tietoja OpenERP:istä"
 
 #: controllers/templates/about.mako:44
 #, python-format
@@ -599,6 +599,14 @@ msgid ""
 "                    project management, production, services, CRM, etc..\n"
 "                    "
 msgstr ""
+"%(openobject)s on ilmainen yritystason ohjelmisto joka on suunniteltu "
+"tehostamaan\n"
+"                      tuottavuutta ja tulosta integroimalla tiedot. Se "
+"yhdistää, parantaa ja\n"
+"                      hallinnoi bisnesprosessjea alueilla kuten myynti, "
+"talous, toimitusketju,\n"
+"                      projektinhallinta, tuotanto, palvelut, CRM jne.\n"
+"                    "
 
 #: controllers/templates/about.mako:51
 msgid ""
@@ -611,12 +619,22 @@ msgid ""
 "                    production system and migration to a new version to be "
 "straightforward."
 msgstr ""
+"Järjestelmä on käyttöjärjestelmäriippumaton ja voidaan asentaa Windowssille, "
+"Mac OS X:lle,\n"
+"                      ja useille Linux ja unix jakeluille. Sen arkkitehtuuri "
+"mahdollistaa\n"
+"                      uusien toiminnallisuuksien nopean luonnin, muutosten "
+"luonnin \n"
+"                      tuotantojärjestelmään sekä päivityksen uuteen versioon "
+"helposti."
 
 #: controllers/templates/about.mako:57
 msgid ""
 "Depending on your needs, OpenERP is available through a web or application "
 "client."
 msgstr ""
+"Riippuen tarpeistasi, OpenERP on käytettävissä joko web tai työasema "
+"clientillä"
 
 #: controllers/templates/database.mako:54 controllers/templates/login.mako:4
 #: controllers/templates/login.mako:71 controllers/templates/login_ajax.mako:85
@@ -631,46 +649,48 @@ msgstr "Salasana"
 #: controllers/templates/error_page.mako:82
 #, python-format
 msgid "An %(error_type)s has been reported."
-msgstr ""
+msgstr "Virhe %(error_type)s on raportoitu."
 
 #: controllers/templates/error_page.mako:84
 msgid "Let me fix it"
-msgstr ""
+msgstr "Anna minun korjata se"
 
 #: controllers/templates/error_page.mako:91
 #: controllers/templates/error_page.mako:93
 msgid "Fix it for me"
-msgstr ""
+msgstr "Korjaa se minulle"
 
 #: controllers/templates/error_page.mako:99
 msgid "Publisher warranty contract."
-msgstr ""
+msgstr "Julkaisijan takuusopimus"
 
 #: controllers/templates/error_page.mako:100
 msgid ""
 "Your request will be sent to OpenERP and publisher warranty team will reply "
 "you shortly."
 msgstr ""
+"Pyyntösi lähetetään OpenERP:ille ja julkaisijan takuutiimi vastaa sinulle "
+"piakkoin."
 
 #: controllers/templates/error_page.mako:104
 msgid "Summary of the problem:"
-msgstr ""
+msgstr "Ongelman yhteenveto"
 
 #: controllers/templates/error_page.mako:111
 msgid "Explain what you did:"
-msgstr ""
+msgstr "Selitä mitä teit:"
 
 #: controllers/templates/error_page.mako:120
 msgid "Other Comments:"
-msgstr ""
+msgstr "Muut kommentit"
 
 #: controllers/templates/error_page.mako:132
 msgid "Send to Publisher Warranty Team"
-msgstr ""
+msgstr "Lähetä julkaisijan takuutiimille"
 
 #: controllers/templates/error_page.mako:159
 msgid "Write concurrency warning :"
-msgstr ""
+msgstr "Samanaikaisen kirjoituksen varoitus :"
 
 #: controllers/templates/error_page.mako:164
 msgid ""
@@ -680,6 +700,12 @@ msgid ""
 "    - \"Cancel\" to cancel saving.\n"
 "    - \"Write anyway\" to save your current version."
 msgstr ""
+"Dokumenttia on muutettu sillä aikaa kun editoit sitä.\n"
+"Valitse:\n"
+"\n"
+"    - Peruuta (cancel) peruuttaaksesi tallennuksen.\n"
+"    - Kirjoita jokatapauksessa (write anyway) tallentaaksesi nykyisen "
+"version."
 
 #: controllers/templates/error_page.mako:178 controllers/templates/exp.mako:251
 #: controllers/templates/form.mako:141 controllers/templates/openo2m.mako:41
@@ -823,7 +849,7 @@ msgstr ""
 
 #: controllers/templates/footer.mako:6
 msgid "Significant contributions to the web client have been made by"
-msgstr ""
+msgstr "Merkittäviä osallistujia web clientin kehitykseen ovat olleet mm."
 
 #: controllers/templates/form.mako:64 controllers/templates/tree.mako:33
 msgid "Disable all Tips"
@@ -1032,7 +1058,7 @@ msgstr "Lisää"
 
 #: controllers/templates/index.mako:193
 msgid "Widgets"
-msgstr ""
+msgstr "Sovelmat"
 
 #: controllers/templates/index.mako:233 controllers/templates/index.mako:238
 #, python-format
@@ -1057,39 +1083,46 @@ msgid ""
 "We think that daily job activities can be more intuitive, efficient, "
 "automated, .. and even fun."
 msgstr ""
+"Mielestämme päivittäiset työtehtävät voivat olla intuitiivisempia, "
+"tehokkaampia, automatisoidumpia ja jopa hauskoja."
 
 #: controllers/templates/login.mako:99
 msgid "OpenERP's vision to be:"
-msgstr ""
+msgstr "OpenERP:in visio:"
 
 #: controllers/templates/login.mako:107
 msgid "Full featured"
-msgstr ""
+msgstr "Rikas ominaisuuksiltaan"
 
 #: controllers/templates/login.mako:108
 msgid ""
 "Today's enterprise challenges are multiple. We provide one module for each "
 "need."
 msgstr ""
+"Tämän päivän yrityksen haasteet ovat moninaisia. Annamme moduulin joka "
+"tarpeeseen."
 
 #: controllers/templates/login.mako:116
 msgid "Open Source"
-msgstr ""
+msgstr "Avoin lähdekoodi (Open Source)"
 
 #: controllers/templates/login.mako:117
 msgid ""
 "To Build a great product, we rely on the knowledge of thousands of "
 "contributors."
 msgstr ""
+"Rakentaaksemme mahtavan tuotteen, luotamme tuhansien osallistujien tietoihin."
 
 #: controllers/templates/login.mako:125
 msgid "User Friendly"
-msgstr ""
+msgstr "Käyttäjäystävällinen"
 
 #: controllers/templates/login.mako:126
 msgid ""
 "In order to be productive, people need clean and easy to use interface."
 msgstr ""
+"Ollakseen tuottavia, ihmiset tarvitsevat selkeän ja helppokäyttöisen "
+"käyttöliittymän."
 
 #: controllers/templates/modules.mako:4
 msgid "Module Management"
