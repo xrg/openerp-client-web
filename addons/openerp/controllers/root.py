@@ -127,7 +127,9 @@ class Root(SecuredController):
                 id = ids[0] 
             ids = menus.search([('parent_id', '=', id)], 0, 0, 0, ctx)
             tools = menus.read(ids, ['name', 'action'], ctx)
-            view = cache.fields_view_get('ir.ui.menu', 1, 'tree', {})
+            #searching id for the hierarchycal tree view of ir.ui.menu 
+            view_id = rpc.RPCProxy('ir.ui.view').search([('model','=','ir.ui.menu'),('type','=','tree')],0,0,'id')[0]
+            view = cache.fields_view_get('ir.ui.menu', view_id, 'tree', {})
             fields = cache.fields_get(view['model'], False, ctx)
             
             for tool in tools:
