@@ -359,8 +359,6 @@ class Search(Form):
             if selection_domain:
                 domain.extend(selection_domain)
 
-        if not domain:
-            domain = '[]'
         if not isinstance(group_by_ctx, list):
             group_by_ctx = [group_by_ctx]
         if group_by_ctx:
