@@ -36,7 +36,7 @@ function save_binary_data(src, filename) {
     act = fname ? act + '/' + fname : act;
 
     submit_form(openobject.http.getURL(act, {
-        _terp_field: name,
+        _terp_field: filename,
         _terp_model: openobject.dom.get(prefix + '_terp_model').value,
         _terp_id: openobject.dom.get(prefix + '_terp_id').value
     }), undefined, '_blank');
