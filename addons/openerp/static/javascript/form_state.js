@@ -176,9 +176,9 @@ function form_onAttrChange(container, widgetName, attr, expr, elem) {
 
 function matchArray(val,eval_value){
 	if (val.length != eval_value.length) { return false; }
-    var val = val.sort(),
-        eval_value = eval_value.sort();
-    for (var i = 0; val[i]; i++) {
+	var val = val.sort(),
+	eval_value = eval_value.sort();
+	for (var i = 0; val[i]; i++) {
     	if (val[i] !== eval_value[i]) { 
     		return false;
     	}
