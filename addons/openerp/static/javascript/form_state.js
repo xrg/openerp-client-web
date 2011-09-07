@@ -174,6 +174,19 @@ function form_onAttrChange(container, widgetName, attr, expr, elem) {
     }
 }
 
+function matchArray(val,eval_value){
+	if (val.length != eval_value.length) { return false; }
+    var val = val.sort(),
+        eval_value = eval_value.sort();
+    for (var i = 0; val[i]; i++) {
+    	if (val[i] !== eval_value[i]) { 
+    		return false;
+    	}
+    }
+    return true;
+	
+}
+
 function form_evalExpr(prefix, expr, ref_elem) {
 
     var stack = [];
@@ -204,7 +217,15 @@ function form_evalExpr(prefix, expr, ref_elem) {
         if(elem.is(':input')) {
             elem_value = elem.val();
         } else if(elem[0].nodeName == "TABLE"){
-        	elem_value = $.trim($(elem).find("tr tbody:nth-child(2)").text())
+        	prefix = $(elem).attr('id')
+        	elem_value = eval($(idSelector(prefix+"/_terp_ids")).val())
+        	res = matchArray(eval(val), elem_value)
+        	if(res){
+        		val = elem_value = true
+        	}else{
+        		val = true
+        		elem_value = false
+        	}
         } else {
             elem_value = elem.attr('value') || elem.text();
         }
