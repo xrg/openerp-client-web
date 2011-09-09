@@ -20,7 +20,7 @@
 ###############################################################################
 import random
 from operator import itemgetter
-
+import copy
 import cherrypy
 
 from openerp.utils import rpc
@@ -128,7 +128,7 @@ class ListGroup(List):
     def __init__(self, name, model, view, ids=[], domain=[], context={}, **kw):
 
         self.context = context or {}
-        self.domain = domain or []
+        self.domain = copy.deepcopy(domain) or []
         self.group_by_no_leaf = self.context.get('group_by_no_leaf', 0)
         self.selectable = kw.get('selectable', 0)
         self.editable = kw.get('editable', False)
