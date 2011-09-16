@@ -49,9 +49,6 @@ class OpenO2M(Form):
         form = tw.form_view.ViewForm(vp, name="view_form", action="/openerp/openo2m/save")
         cherrypy.request.terp_validators = {}
 
-        if '/' in params.o2m:
-            params.o2m = '.'.join(params.o2m.split('/')[-1:])
-
         wid = form.screen.widget.get_widgets_by_name(params.o2m)[0]
 
         # save view_params for later phazes
