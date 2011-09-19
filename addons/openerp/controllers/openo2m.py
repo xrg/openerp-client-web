@@ -55,6 +55,9 @@ class OpenO2M(Form):
         vp = vp.make_plain('_terp_view_params/')
         hiddens = map(lambda x: tw.form.Hidden(name=x, default=ustr(vp[x])), vp)
 
+        if params.m2o:
+            hiddens += [tw.form.Hidden(name='_terp_m2o', default=params.m2o)]
+
         params.prefix = params.o2m
         params.views = wid.view
 
