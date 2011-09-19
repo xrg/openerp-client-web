@@ -500,6 +500,7 @@ function onChange(caller){
 
     openobject.http.postJSON(post_url, jQuery.extend({}, form_data, {
         _terp_callback: callback,
+        _terp_change_default: change_default,
         _terp_caller: $caller.attr('id').slice(id_slice_offset),
         _terp_value: $caller.val(),
         _terp_model: select('_terp_model').val(),

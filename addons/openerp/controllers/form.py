@@ -1019,6 +1019,10 @@ class Form(SecuredController):
         caller = data.pop('_terp_caller')
         model = data.pop('_terp_model')
         context = data.pop('_terp_context')
+        
+        change_default = False
+        if '_terp_change_default' in data:
+            change_default = data.pop('_terp_change_default')
 
         try:
             context = eval(context) # convert to python dict
@@ -1122,7 +1126,14 @@ class Form(SecuredController):
         if 'domain' in result:
             for k in result['domain']:
                 result['domain'][k] = ustr(result['domain'][k])
-
+        
+        if change_default:
+            value = data.get('_terp_value')
+            proxy = rpc.RPCProxy('ir.values')
+            values = proxy.get('default', '%s=%s' % (caller, value), [(model, False)], False, context)
+            for index, fname, value in values:
+                if fname not in result['value']: 
+                    result['value'][fname] = value
         return result
 
     @expose('json')
