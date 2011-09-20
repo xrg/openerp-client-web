@@ -252,7 +252,7 @@ class Search(Form):
 
         c = search_context.get('context', {})
         v = search_context.get('value')
-        if v and '__' in v:
+        if v and isinstance(v, basestring) and '__' in v:
             value, operator = v.split('__')
             v = int(value)
         ctx = expr_eval(c, {'self':v})

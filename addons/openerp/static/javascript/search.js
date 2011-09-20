@@ -566,6 +566,11 @@ function parse_filters(src, id) {
             else {
             	fld_value = parseInt(jQuery(idSelector(fld_name)).val()) || fld_value;
             }
+            fld_context = jQuery(idSelector(fld_name)).attr('context');
+            if (fld_context) {
+                search_context['context'] = fld_context;
+                search_context['value'] = fld_value;
+            }
         }
         
         if(kind == 'boolean' && fld_value) {
