@@ -290,32 +290,113 @@ def _convert_date_format_in_domain(domain, fields, context):
 
     return fixed_domain
 
-def format_decimal(value, digits=2):
+LOCALE_CACHE = {
+               'date_format':'%m/%d/%Y',
+               'time_format':'%H:%M:%S',
+               'grouping':[],
+               'decimal_point':'.',
+               'thousands_sep': ','
+                }
+
+def get_lang_float_format(locale_lang,monetary=False):
+    thousands_sep = LOCALE_CACHE.get('thousands_sep') or numbers.get_group_symbol(locale_lang)
+    decimal_point = LOCALE_CACHE.get('decimal_point')
+    grouping      = LOCALE_CACHE.get('grouping')
+    return (grouping, thousands_sep, decimal_point)
+
+
+def format_decimal(value, digits=2, grouping=True, monetary=False):
     locale = get_locale()
-    v = ("%%.%df" % digits) % value
-    if not digits:
-        return numbers.format_number(value, locale=locale)
-    num, decimals = v.split(".", 1)
+    formatted = ("%%.%df" % digits) % value
+    lang_grouping, thousands_sep, decimal_point = get_lang_float_format(locale,monetary=False)
+    
+    seps = 0
+    parts = formatted.split('.')
 
-    if num == "-0":
-        val = "-0"
-    else:
-        val = numbers.format_number(int(num), locale=locale)
+    if grouping:
+        parts[0], seps = group(parts[0], monetary=monetary, grouping=lang_grouping, thousands_sep=thousands_sep)
 
-    return val + unicode(numbers.get_decimal_symbol(locale) + decimals)
+    formatted = decimal_point.join(parts)
+    while seps:
+        sp = formatted.find(' ')
+        if sp == -1: break
+        formatted = formatted[:sp] + formatted[sp+1:]
+        seps -= 1
+    return formatted
 
+
+def group(value, monetary=False, grouping=False, thousands_sep=''):
+
+    """ This function will convert the value in appropriate format after applying
+        thousands_sep, grouping etc
+
+        @param value:The value to be converted
+        @param monetary:True or False by default False
+        @param grouping:True or False by default False
+        @param thousands_sep: The symbol to be applied at the thousand's place by default blank
+
+        @return: The converted value"""
+
+    grouping = eval(grouping)
+    if not grouping:
+        return (value, 0)
+
+    result = ""
+    seps = 0
+    spaces = ""
+
+    if value[-1] == ' ':
+        sp = value.find(' ')
+        spaces = value[sp:]
+        value = value[:sp]
+
+    while value and grouping:
+        # if grouping is -1, we are done
+        if grouping[0] == -1:
+            break
+        # 0: re-use last group ad infinitum
+        elif grouping[0] != 0:
+            #process last group
+            group = grouping[0]
+            grouping = grouping[1:]
+        if result:
+            result = value[-group:] + thousands_sep + result
+            seps += 1
+        else:
+            result = value[-group:]
+        value = value[:-group]
+        if value and value[-1] not in "0123456789":
+            # the leading string is only spaces and signs
+            return value + result + spaces, seps
+    if not result:
+        return value + spaces, seps
+    if value:
+        result = value + thousands_sep + result
+        seps += 1
+    return result + spaces, seps         
+        
+
+def set_locale_cache(lang_data={}):
+    try:
+        if lang_data:
+            if 'id' in lang_data:
+                del lang_data['id']
+            LOCALE_CACHE.update(lang_data)
+    except:
+        pass
+
+    
 def parse_decimal(value):
-
+    
+    locale = get_locale()
     if isinstance(value, basestring):
-
+        
         value = ustr(value)
-
+        
+        grouping, thousands_sep, decimal_point = get_lang_float_format(locale,monetary=False)
         #deal with ' ' instead of u'\xa0' (SP instead of NBSP as grouping char)
         value = value.replace(' ', '')
-        try:
-            value = numbers.parse_decimal(value, locale=get_locale())
-        except ValueError:
-            pass
+        value = value.replace(thousands_sep, '').replace(decimal_point, '.')
 
     if not isinstance(value, float):
         return float(value)
