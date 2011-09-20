@@ -654,7 +654,7 @@ class Form(SecuredController):
     @expose(content_type='application/octet-stream')
     def save_binary_data(self, _fname='file.dat', **kw):
         params, data = TinyDict.split(kw)
-
+        
         cherrypy.response.headers['Content-Disposition'] = 'attachment; filename="%s"' % _fname
 
         if params.datas:
@@ -666,6 +666,8 @@ class Form(SecuredController):
             proxy = rpc.RPCProxy(params.model)
             res = proxy.read([params.id],[params.field], rpc.session.context)
             return base64.decodestring(res[0][params.field])
+        elif params.filename:
+            return base64.decodestring(data[params.filename])
         else:
             return base64.decodestring(data[params.field])
         
