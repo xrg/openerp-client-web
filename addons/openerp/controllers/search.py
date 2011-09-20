@@ -388,7 +388,7 @@ class Search(Form):
                         ncustom_domain[i] = (left_field, operator, keys)
 
         if not domain:
-            domain = '[]'
+            domain = None
         if not isinstance(group_by_ctx, list):
             group_by_ctx = [group_by_ctx]
         if group_by_ctx:
