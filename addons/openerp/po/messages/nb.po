@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: openobject-client-web\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2011-03-18 11:53+0100\n"
-"PO-Revision-Date: 2011-04-11 17:47+0000\n"
-"Last-Translator: Rolv Råen (adEgo) <Unknown>\n"
+"PO-Revision-Date: 2011-07-11 10:12+0000\n"
+"Last-Translator: Ole Kristian Gaski <Unknown>\n"
 "Language-Team: Norwegian Bokmal <nb@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2011-04-12 06:06+0000\n"
-"X-Generator: Launchpad (build 12735)\n"
+"X-Launchpad-Export-Date: 2011-09-02 05:12+0000\n"
+"X-Generator: Launchpad (build 13830)\n"
 
 #: validators.py:75
 msgid "Invalid literal for float"
@@ -75,7 +75,7 @@ msgstr "Vennligst tast inn et tall"
 
 #: controllers/actions.py:94
 msgid "Invalid View"
-msgstr ""
+msgstr "Ugyldig visning"
 
 #: controllers/actions.py:127
 msgid "Error no report"
@@ -315,7 +315,7 @@ msgstr ""
 #: controllers/form.py:561
 #, python-format
 msgid "Invalid button type \"%s\""
-msgstr ""
+msgstr "Ugyldig knapptype \"%s\""
 
 #: controllers/form.py:944 controllers/tree.py:243
 msgid "No record selected"
@@ -349,7 +349,7 @@ msgstr "Bruk som standard"
 
 #: controllers/form.py:1132
 msgid "Action"
-msgstr ""
+msgstr "Handling"
 
 #: controllers/form.py:1133
 msgid "Report"
@@ -436,11 +436,11 @@ msgstr "Preferanser"
 
 #: controllers/preferences.py:92
 msgid "All passwords have to be filled."
-msgstr ""
+msgstr "Alle passord felter må fylles ut."
 
 #: controllers/preferences.py:94
 msgid "The new password and its confirmation must be identical."
-msgstr ""
+msgstr "Det nye passordet og bekreftelsen må være identisk"
 
 #: controllers/preferences.py:103
 msgid "Could not change your password."
@@ -541,7 +541,7 @@ msgstr "Avbryt-knapp"
 
 #: controllers/viewed.py:871
 msgid "Open Button"
-msgstr ""
+msgstr "Åpne knapp"
 
 #: controllers/viewed.py:877
 msgid "Left"
@@ -642,7 +642,7 @@ msgstr "Passord"
 #: controllers/templates/error_page.mako:82
 #, python-format
 msgid "An %(error_type)s has been reported."
-msgstr ""
+msgstr "En %(error_type)s har blitt rapportert."
 
 #: controllers/templates/error_page.mako:84
 msgid "Let me fix it"
@@ -667,7 +667,7 @@ msgstr ""
 
 #: controllers/templates/error_page.mako:104
 msgid "Summary of the problem:"
-msgstr ""
+msgstr "Oppsummering av problemet:"
 
 #: controllers/templates/error_page.mako:111
 msgid "Explain what you did:"
@@ -718,11 +718,11 @@ msgstr "Eksporter Data"
 
 #: controllers/templates/exp.mako:166
 msgid "Export Type:"
-msgstr ""
+msgstr "Eksporttype:"
 
 #: controllers/templates/exp.mako:169
 msgid "Import Compatible Export"
-msgstr ""
+msgstr "Importkompatibel eksport"
 
 #: controllers/templates/exp.mako:172
 msgid "Export all Data"
@@ -837,7 +837,7 @@ msgstr "Lukk"
 #: controllers/templates/footer.mako:3
 #, python-format
 msgid "&copy; 2008-2010 %(ooweb)s  SA. All Rights Reserved "
-msgstr ""
+msgstr "&copy; 2008-2010 %(ooweb)s  SA. All Rights Reserved "
 
 #: controllers/templates/footer.mako:6
 msgid "Significant contributions to the web client have been made by"
@@ -845,15 +845,15 @@ msgstr ""
 
 #: controllers/templates/form.mako:64 controllers/templates/tree.mako:33
 msgid "Disable all Tips"
-msgstr ""
+msgstr "Skru av alle tips"
 
 #: controllers/templates/form.mako:65 controllers/templates/tree.mako:34
 msgid "Hide this Tip"
-msgstr ""
+msgstr "Gjem dette tipset"
 
 #: controllers/templates/form.mako:83 controllers/templates/tree.mako:41
 msgid "Add / Remove Shortcut..."
-msgstr ""
+msgstr "Legg til /fjern snarvei"
 
 #: controllers/templates/form.mako:87
 #, python-format
@@ -866,7 +866,7 @@ msgstr "Konsernanalyse..."
 
 #: controllers/templates/form.mako:100
 msgid "Show Logs..."
-msgstr ""
+msgstr "Vis logger..."
 
 #: controllers/templates/form.mako:112
 msgid "Create a new resource"
@@ -939,7 +939,7 @@ msgstr "Opprett ny node"
 
 #: controllers/templates/form.mako:146
 msgid "New Node"
-msgstr ""
+msgstr "Ny node"
 
 #: controllers/templates/form.mako:150
 msgid "Show grid in workflow canvas"
@@ -947,7 +947,7 @@ msgstr ""
 
 #: controllers/templates/form.mako:151
 msgid "Show grid"
-msgstr ""
+msgstr "Vis rutenett"
 
 #: controllers/templates/header.mako:33
 #, python-format
@@ -993,7 +993,7 @@ msgstr "Importer data"
 
 #: controllers/templates/imp.mako:89
 msgid "1. Import a .CSV file"
-msgstr ""
+msgstr "Importer en .CSV fil"
 
 #: controllers/templates/imp.mako:105
 msgid "CSV File:"
@@ -1001,16 +1001,16 @@ msgstr "CSV fil:"
 
 #: controllers/templates/imp.mako:123
 msgid "2. Check your file format"
-msgstr ""
+msgstr "Sjekk filformatet ditt"
 
 #: controllers/templates/imp.mako:130
 #, python-format
 msgid "The import failed due to: %(message)s"
-msgstr ""
+msgstr "Importen feilet pga: %(message)s"
 
 #: controllers/templates/imp.mako:132
 msgid "Here is a preview of the file we could not import:"
-msgstr ""
+msgstr "Her er en forhåndsvisning av filen vi ikke kunne importere:"
 
 #: controllers/templates/imp.mako:157
 msgid "CSV Options"
@@ -1042,7 +1042,7 @@ msgstr "Importer fil"
 
 #: controllers/templates/index.mako:167
 msgid "System Logs"
-msgstr ""
+msgstr "Systemlogger"
 
 #: controllers/templates/index.mako:192
 msgid "More"
@@ -1055,7 +1055,7 @@ msgstr "Widgets"
 #: controllers/templates/index.mako:233 controllers/templates/index.mako:238
 #, python-format
 msgid "Powered by %(openerp)s "
-msgstr ""
+msgstr "Powered by %(openerp)s "
 
 #: controllers/templates/login.mako:57 controllers/templates/login_ajax.mako:72
 #: controllers/templates/login_ajax.mako:94
@@ -1068,7 +1068,7 @@ msgstr "Databaser"
 
 #: controllers/templates/login.mako:88
 msgid "Top Contributor:"
-msgstr ""
+msgstr "Topp bidragsyter:"
 
 #: controllers/templates/login.mako:98
 msgid ""
@@ -1271,7 +1271,7 @@ msgstr "Ingen tilgang"
 
 #: utils/rpc.py:238
 msgid "Unsupported protocol."
-msgstr ""
+msgstr "Ikke supportert protokoll"
 
 #: utils/rpc.py:342
 msgid ""
@@ -1385,12 +1385,12 @@ msgstr "lagre overordnet post"
 #: widgets/form/_o2m.py:229
 #, python-format
 msgid "%d of %d"
-msgstr ""
+msgstr "%d av %d"
 
 #: widgets/form/_o2m.py:231
 #, python-format
 msgid "- of %d"
-msgstr ""
+msgstr "- av %d"
 
 #: widgets/form/templates/binary.mako:28
 msgid "Save As"
@@ -1480,7 +1480,7 @@ msgstr "Lenker"
 
 #: widgets/templates/sidebar.mako:49
 msgid "Submenu"
-msgstr ""
+msgstr "Undermeny"
 
 #: widgets/templates/sidebar.mako:54
 msgid "Attachments"
@@ -1582,442 +1582,3 @@ msgstr "Legg til poster..."
 #: widgets/templates/listgrid/listgrid.mako:194
 msgid "Delete record(s)."
 msgstr "Slett post(er)."
-
-#~ msgid "Could not find configuration file: %s"
-#~ msgstr "Kan ikke finne konfigurasjonsfilen: %s"
-
-#~ msgid ""
-#~ "You can not log into the system!\n"
-#~ "Ask the administrator to verify\n"
-#~ "you have an action defined for your user."
-#~ msgstr ""
-#~ "Du kan ikke logges på systemet\n"
-#~ "Undersøk med administrator for å verifisere\n"
-#~ "at du har adgang tilknyttet din bruker."
-
-#~ msgid "OpenERP"
-#~ msgstr "OpenERP"
-
-#~ msgid "Developped by Axelor and Tiny"
-#~ msgstr "Utviklet av Axelor og Tiny"
-
-#~ msgid "Connection refused!"
-#~ msgstr "Forbindelse avslått!"
-
-#~ msgid "Invalid form, correct red fields !"
-#~ msgstr "Ugyldig skjema, korriger røde felt !"
-
-#~ msgid "Do you really want to delete this record?"
-#~ msgstr "Vil du virkelig slette denne innføringen?"
-
-#~ msgid "You must select at least one record."
-#~ msgstr "Du må velge minst en post"
-
-#~ msgid "You must save this record to use the relate button!"
-#~ msgstr "Du må lagre denne posten for å kunne bruke knappen for å relatere!"
-
-#~ msgid "Do you really want to delete selected record(s) ?"
-#~ msgstr "Vil du virkelig slette valgte innføringer"
-
-#~ msgid "Loading..."
-#~ msgstr "Laster ..."
-
-#~ msgid "Do you really want to remove this node?"
-#~ msgstr "Vil du virkelig fjerne denne noden?"
-
-#~ msgid "Do you really wants to create an inherited view here?"
-#~ msgstr "Er du sikker på at du vil opprette en nedarvet visning her?"
-
-#~ msgid "Please wait..."
-#~ msgstr "Vent litt …"
-
-#~ msgid "This operation may take a while..."
-#~ msgstr "Denne operasjonen kan ta noe tid..."
-
-#~ msgid "Notes:"
-#~ msgstr "Merknader:"
-
-#~ msgid "Subflows:"
-#~ msgstr "Underflyter:"
-
-#~ msgid "Related:"
-#~ msgstr "Relatert:"
-
-#~ msgid "Print"
-#~ msgstr "Utskrift"
-
-#~ msgid "Print workflow"
-#~ msgstr "Skriv ut arbeidsflyt"
-
-#~ msgid "Do you really want to drop the selected database?"
-#~ msgstr "Ønsker du å slette valgt database?"
-
-#~ msgid "Database already exists!"
-#~ msgstr "Database finnes allerede!"
-
-#~ msgid "Bad database administrator password!"
-#~ msgstr "Feil passord for databaseadministrator"
-
-#~ msgid "Couldn't drop database"
-#~ msgstr "Kunne ikke slette database."
-
-#~ msgid "Couldn't restore database"
-#~ msgstr "Kunne ikke legge tilbake database."
-
-#~ msgid "Bad password provided!"
-#~ msgstr "Feil passord angitt!"
-
-#~ msgid "You must save this record to use the sidebar button!"
-#~ msgstr ""
-#~ "Du må lagre denne registreringen for å kunne bruke knappene på sidene!"
-
-#~ msgid "Select Workflow"
-#~ msgstr "Velg arbeidsflyt"
-
-#~ msgid "%(name)s - Resource: %(resource)s, State: %(state)s"
-#~ msgstr "%(name)s - Ressurs: %(resource)s, Tilstand: %(state)s"
-
-#~ msgid "Last modified by:"
-#~ msgstr "Sist endret av:"
-
-#~ msgid "No request"
-#~ msgstr "Ingen forespørsel"
-
-#~ msgid "%s request(s)"
-#~ msgstr "%s forespørsel(s)"
-
-#~ msgid " - %s pending request(s)"
-#~ msgstr " - %s ventende forespørsler(s)"
-
-#~ msgid "No resource is selected..."
-#~ msgstr "Ingen ressurs er valgt..."
-
-#~ msgid "Could not delete state"
-#~ msgstr "Kunne ikke slette tilstand"
-
-#~ msgid "No workflow associated!"
-#~ msgstr "Ingen arbeidsflyt assosiert!"
-
-#~ msgid "Maintenance"
-#~ msgstr "Vedlikehold"
-
-#~ msgid "You do not have a valid Open ERP maintenance contract !"
-#~ msgstr "Du har ikke en gyldig Open ERP vedlikeholdskontrakt!"
-
-#~ msgid ""
-#~ "If you are using Open ERP in production, it is highly suggested to "
-#~ "subscribe\n"
-#~ "a maintenance program.\n"
-#~ "\n"
-#~ "The Open ERP maintenance contract provides you a bugfix guarantee and an\n"
-#~ "automatic migration system so that we can fix your problems within a few\n"
-#~ "hours. If you had a maintenance contract, this error would have been sent\n"
-#~ "to the quality team of the Open ERP editor.\n"
-#~ "\n"
-#~ "The maintenance program offers you:\n"
-#~ "* Automatic migrations on new versions,\n"
-#~ "* A bugfix guarantee,\n"
-#~ "* Monthly announces of potential bugs and their fixes,\n"
-#~ "* Security alerts by email and automatic migration,\n"
-#~ "* Access to the customer portal.\n"
-#~ "\n"
-#~ "You can use the link bellow for more information. The detail of the error\n"
-#~ "is displayed on the second tab."
-#~ msgstr ""
-#~ "If you are using Open ERP in production, it is highly suggested to "
-#~ "subscribe\n"
-#~ "a maintenance program.\n"
-#~ "\n"
-#~ "The Open ERP maintenance contract provides you a bugfix guarantee and an\n"
-#~ "automatic migration system so that we can fix your problems within a few\n"
-#~ "hours. If you had a maintenance contract, this error would have been sent\n"
-#~ "to the quality team of the Open ERP editor.\n"
-#~ "\n"
-#~ "The maintenance program offers you:\n"
-#~ "* Automatic migrations on new versions,\n"
-#~ "* A bugfix guarantee,\n"
-#~ "* Monthly announces of potential bugs and their fixes,\n"
-#~ "* Security alerts by email and automatic migration,\n"
-#~ "* Access to the customer portal.\n"
-#~ "\n"
-#~ "You can use the link bellow for more information. The detail of the error\n"
-#~ "is displayed on the second tab."
-
-#~ msgid ""
-#~ "Your maintenance contract does not cover all modules installed in your "
-#~ "system !\n"
-#~ "If you are using Open ERP in production, it is highly suggested to upgrade "
-#~ "your\n"
-#~ "contract.\n"
-#~ "\n"
-#~ "If you have developped your own modules or installed third party module, we\n"
-#~ "can provide you an additional maintenance contract for these modules. After\n"
-#~ "having reviewed your modules, our quality team will ensure they will "
-#~ "migrate\n"
-#~ "automatically for all futur stable versions of Open ERP at no extra cost.\n"
-#~ "\n"
-#~ "Here is the list of modules not covered by your maintenance contract:"
-#~ msgstr ""
-#~ "Your maintenance contract does not cover all modules installed in your "
-#~ "system !\n"
-#~ "If you are using Open ERP in production, it is highly suggested to upgrade "
-#~ "your\n"
-#~ "contract.\n"
-#~ "\n"
-#~ "If you have developped your own modules or installed third party module, we\n"
-#~ "can provide you an additional maintenance contract for these modules. After\n"
-#~ "having reviewed your modules, our quality team will ensure they will "
-#~ "migrate\n"
-#~ "automatically for all futur stable versions of Open ERP at no extra cost.\n"
-#~ "\n"
-#~ "Here is the list of modules not covered by your maintenance contract:"
-
-#~ msgid ""
-#~ "You can use the link bellow for more information. The detail of the error\n"
-#~ "is displayed on the second tab."
-#~ msgstr ""
-#~ "Du kan se linken under for mer informasjon. Detaljen om feilen\n"
-#~ "er vist på andre linje."
-
-#~ msgid "Tree View..."
-#~ msgstr "Trevisning..."
-
-#~ msgid "Calendar View..."
-#~ msgstr "Kalendervisning..."
-
-#~ msgid "Calendar"
-#~ msgstr "Kalender"
-
-#~ msgid "Gantt View..."
-#~ msgstr "Gantdiagram..."
-
-#~ msgid "Gantt"
-#~ msgstr "Gantt"
-
-#~ msgid "Graph View..."
-#~ msgstr "Grafisk visning..."
-
-#~ msgid "Graph"
-#~ msgstr "Graf"
-
-#~ msgid "Process"
-#~ msgstr "Prosess"
-
-#~ msgid "Add an attachment to this resource."
-#~ msgstr "Legg et vedlegg til denne ressursen"
-
-#~ msgid "Translate this resource."
-#~ msgstr "Oversett denne ressursen"
-
-#~ msgid "Manage Workflows"
-#~ msgstr "Administrere arbeidsflyter"
-
-#~ msgid "Image"
-#~ msgstr "Bilde"
-
-#~ msgid "Add Resource:"
-#~ msgstr "Opprett ressurs:"
-
-#~ msgid "Select Process"
-#~ msgstr "Velg prosess"
-
-#~ msgid "Switch current view: form/list"
-#~ msgstr "Bytt aktiv visning: skjema/liste"
-
-#~ msgid "Switch"
-#~ msgstr "Bytt"
-
-#~ msgid "Manage Workflows %s"
-#~ msgstr "Administrere arbeidsflyter"
-
-#~ msgid "Activate"
-#~ msgstr "Aktiver"
-
-#~ msgid "Create a Workflow (%s)"
-#~ msgstr "Opprett arbeidsflyt (%s)"
-
-#~ msgid "Workflow Name:"
-#~ msgstr "Navn på arbeidsflyt:"
-
-#~ msgid "Resource Model:"
-#~ msgstr "Ressursmodell:"
-
-#~ msgid "On Create:"
-#~ msgstr "Ved opprettelse:"
-
-#~ msgid "Workflow (%s)"
-#~ msgstr "Arbeidsflyt (%s)"
-
-#~ msgid "Forum"
-#~ msgstr "Forum"
-
-#~ msgid "Planet"
-#~ msgstr "Planet"
-
-#~ msgid "Welcome to OpenERP"
-#~ msgstr "Velkommen til OpenERP"
-
-#~ msgid "Server:"
-#~ msgstr "Tjener:"
-
-#~ msgid "MAIN MENU"
-#~ msgstr "Hovedmeny"
-
-#~ msgid "SHORTCUTS"
-#~ msgstr "Snarveier"
-
-#~ msgid "[ADD]"
-#~ msgstr "[OPPRETT]"
-
-#~ msgid "Copyright &copy; 2007-TODAY Tiny ERP Pvt. Ltd. All Rights Reserved."
-#~ msgstr "Copyright &copy; 2007-TODAY Tiny ERP Pvt. Ltd. All Rights Reserved."
-
-#~ msgid "More Information on %s"
-#~ msgstr "Mer informasjon på %s"
-
-#~ msgid "The web client is developed by %(axelor)s and %(tiny)s."
-#~ msgstr "Webklienten er utviklet av %(axelor) or %(tiny)s."
-
-#~ msgid "Running Server:"
-#~ msgstr "Kjørende tjener"
-
-#~ msgid "[%s/%s]"
-#~ msgstr "[%s/%s]"
-
-#~ msgid "[%s - %s of %s]"
-#~ msgstr "[%s - %s av %s]"
-
-#~ msgid "Go!"
-#~ msgstr "Start!"
-
-#~ msgid "Move Up"
-#~ msgstr "Flytt opp"
-
-#~ msgid "Move Down"
-#~ msgstr "Flytt ned"
-
-#~ msgid "REPORTS"
-#~ msgstr "Rapporter"
-
-#~ msgid "ACTIONS"
-#~ msgstr "Handlinger"
-
-#~ msgid "LINKS"
-#~ msgstr "Lenker"
-
-#~ msgid "ATTACHMENTS"
-#~ msgstr "Vedlegg"
-
-#~ msgid "Delete selected records."
-#~ msgstr "Slett valgt poster"
-
-#~ msgid "Edit selected records."
-#~ msgstr "Rediger valgte poster"
-
-#~ msgid "Monday"
-#~ msgstr "mandag"
-
-#~ msgid "Tuesday"
-#~ msgstr "tirsdag"
-
-#~ msgid "Wednesday"
-#~ msgstr "onsdag"
-
-#~ msgid "Thursday"
-#~ msgstr "torsdag"
-
-#~ msgid "Friday"
-#~ msgstr "fredag"
-
-#~ msgid "Saturday"
-#~ msgstr "lørdag"
-
-#~ msgid "Sunday"
-#~ msgstr "søndag"
-
-#~ msgid "January"
-#~ msgstr "januar"
-
-#~ msgid "February"
-#~ msgstr "februar"
-
-#~ msgid "March"
-#~ msgstr "mars"
-
-#~ msgid "April"
-#~ msgstr "april"
-
-#~ msgid "May"
-#~ msgstr "mai"
-
-#~ msgid "June"
-#~ msgstr "juni"
-
-#~ msgid "July"
-#~ msgstr "juli"
-
-#~ msgid "August"
-#~ msgstr "august"
-
-#~ msgid "September"
-#~ msgstr "september"
-
-#~ msgid "October"
-#~ msgstr "oktober"
-
-#~ msgid "November"
-#~ msgstr "november"
-
-#~ msgid "December"
-#~ msgstr "desember"
-
-#~ msgid "%s, Week %s"
-#~ msgstr "%s, Uke %s"
-
-#~ msgid "Week %s"
-#~ msgstr "Uke %s"
-
-#~ msgid "%s, Qtr %s"
-#~ msgstr "%s, Qtr %s"
-
-#~ msgid "Year %s to Year %s"
-#~ msgstr "År %s til år %s"
-
-#~ msgid "Today..."
-#~ msgstr "I dag"
-
-#~ msgid "Today"
-#~ msgstr "I dag"
-
-#~ msgid "Day Calendar..."
-#~ msgstr "Dagkalender..."
-
-#~ msgid "Day"
-#~ msgstr "Dag"
-
-#~ msgid "Week Calendar..."
-#~ msgstr "Ukekalender..."
-
-#~ msgid "Week"
-#~ msgstr "Uke"
-
-#~ msgid "Month Calendar..."
-#~ msgstr "Månedskalender..."
-
-#~ msgid "Month"
-#~ msgstr "Måned"
-
-#~ msgid "Apply search filter"
-#~ msgstr "Bruk søkefilter"
-
-#~ msgid "Zoom In"
-#~ msgstr "Forstørr"
-
-#~ msgid "Zoom Out"
-#~ msgstr "Forminsk"
-
-#~ msgid "Basic Search"
-#~ msgstr "Basissøk"
-
-#~ msgid "Advanced Search"
-#~ msgstr "Avansert søk"

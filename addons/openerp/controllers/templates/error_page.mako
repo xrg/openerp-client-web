@@ -50,13 +50,31 @@
                 jQuery.fancybox.close();
                 return;
             }
+
+            var topWindow;
+            if(window.top != window) {
+                topWindow = window.top;
+            } else {
+                topWindow = window.opener;
+            }
+            var $doc = jQuery(topWindow.document);
+            var terp_id = jQuery(idSelector('_terp_id'), $doc).val();
+
+            var frame_element;
+            if(jQuery(window).attr('frameElement')) {
+               frame_element = window.frameElement;
+            } else {
+               frame_element = jQuery.fancybox;
+            }
+
+            if (terp_id) {
+                frame_element.close();
+                return;
+            }
+
             if (history.length > 1) {
                 history.back();
-				if(jQuery(window).attr('frameElement')) {
-					window.frameElement.close();
-				} else {
-				jQuery.fancybox.close();
-				}
+                frame_element.close();
             } else {
                 window.close();
             }

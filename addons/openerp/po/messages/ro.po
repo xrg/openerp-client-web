@@ -8,34 +8,34 @@ msgstr ""
 "Project-Id-Version: openobject-client-web\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2011-03-18 11:53+0100\n"
-"PO-Revision-Date: 2011-04-20 18:54+0000\n"
-"Last-Translator: Mihai Boiciuc <Unknown>\n"
+"PO-Revision-Date: 2011-09-16 17:21+0000\n"
+"Last-Translator: Syraxes <Unknown>\n"
 "Language-Team: Romanian <ro@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2011-04-21 05:59+0000\n"
-"X-Generator: Launchpad (build 12758)\n"
+"X-Launchpad-Export-Date: 2011-09-17 05:22+0000\n"
+"X-Generator: Launchpad (build 13955)\n"
 
 #: validators.py:75
 msgid "Invalid literal for float"
-msgstr ""
+msgstr "Număr real invalid"
 
 #: validators.py:114 validators.py:119 validators.py:262
 msgid "Invalid datetime format"
-msgstr ""
+msgstr "Format data+timp incorect"
 
 #: validators.py:166
 msgid "Please select a file."
-msgstr "Selectați un fișier."
+msgstr "Alegeți un fișier."
 
 #: validators.py:247
 msgid "Please enter an email address"
-msgstr ""
+msgstr "Introduceți o adresă email"
 
 #: validators.py:248
 msgid "An email address must contain a single @"
-msgstr ""
+msgstr "O adresă email conține un singur @"
 
 #: validators.py:249
 #, python-format
@@ -53,11 +53,11 @@ msgstr ""
 
 #: validators.py:254
 msgid "You must start your URL with http://, https://, etc"
-msgstr ""
+msgstr "URL-ul trebuie să înceapă cu http://, https://, etc"
 
 #: validators.py:255
 msgid "That is not a valid URL"
-msgstr ""
+msgstr "URL incorect"
 
 #: validators.py:256
 #, python-format
@@ -66,15 +66,15 @@ msgstr ""
 
 #: validators.py:260
 msgid "Please enter an integer value"
-msgstr ""
+msgstr "Introduceți un număr întreg"
 
 #: validators.py:261
 msgid "Please enter a number"
-msgstr "Vă rog introduceți un număr"
+msgstr "Introduceți un număr"
 
 #: controllers/actions.py:94
 msgid "Invalid View"
-msgstr ""
+msgstr "View invalid"
 
 #: controllers/actions.py:127
 msgid "Error no report"
@@ -90,11 +90,11 @@ msgstr ""
 
 #: controllers/actions.py:397
 msgid "Relative URLs are not supported"
-msgstr ""
+msgstr "URL-urile relative nu sînt suportate"
 
 #: controllers/actions.py:425
 msgid "Action not found"
-msgstr ""
+msgstr "Acțiune necunoscută"
 
 #: controllers/actions.py:474
 msgid "No action defined"
@@ -103,10 +103,12 @@ msgstr "Nici o acţiune definită"
 #: controllers/attachment.py:55
 msgid "No record selected, You can only attach to existing record..."
 msgstr ""
+"Nu este selectată nici o înregistrare. Atașarea nu poate fi făcută decît la "
+"o înregistrare existentă ..."
 
 #: controllers/database.py:63
 msgid "Create database"
-msgstr ""
+msgstr "Crearea unei baze de date"
 
 #: controllers/database.py:65 controllers/templates/database.mako:56
 #: controllers/templates/search.mako:145
@@ -141,7 +143,7 @@ msgstr ""
 
 #: controllers/database.py:70
 msgid "Load Demonstration data:"
-msgstr ""
+msgstr "Încărcare date demo:"
 
 #: controllers/database.py:70
 msgid ""
@@ -155,7 +157,7 @@ msgstr ""
 
 #: controllers/database.py:71
 msgid "Default Language:"
-msgstr ""
+msgstr "Limba implicită:"
 
 #: controllers/database.py:71
 msgid ""
@@ -192,11 +194,11 @@ msgstr ""
 
 #: controllers/database.py:79
 msgid "Drop database"
-msgstr ""
+msgstr "Ștergerea bazei de date"
 
 #: controllers/database.py:81 controllers/templates/database.mako:58
 msgid "Drop"
-msgstr ""
+msgstr "Ștergere"
 
 #: controllers/database.py:83 controllers/database.py:91
 #: controllers/templates/login.mako:43
@@ -253,6 +255,7 @@ msgstr "Confirmaţi parola:"
 #: controllers/database.py:173
 msgid "You must avoid all accents, space or special characters."
 msgstr ""
+"Trebuie să evitați toate accentele , spațiile și caracterele speciale."
 
 #: controllers/database.py:174
 msgid "Bad database name"
@@ -273,7 +276,7 @@ msgstr "Eroare în timpul creării bazei de date"
 #: controllers/database.py:198 controllers/database.py:225
 #: controllers/database.py:271 controllers/database.py:294
 msgid "Bad super admin password"
-msgstr ""
+msgstr "Parola de superadmin este incorectă"
 
 #: controllers/database.py:202
 msgid "Could not create database."
@@ -281,7 +284,7 @@ msgstr "Baza de date nu poate fi creată."
 
 #: controllers/database.py:228
 msgid "Could not drop database"
-msgstr ""
+msgstr "Baza de date nu a putut fi ștearsă"
 
 #: controllers/database.py:251
 msgid "Could not create backup."
@@ -300,6 +303,8 @@ msgid ""
 "Your problem has been sent to the quality team\n"
 "We will recontact you after analysing the problem."
 msgstr ""
+"Problema dumneavoastră a fost trimisă echipei responsabile cu calitatea\n"
+"Vă vom contacta după analizarea problemei."
 
 #: controllers/error_page.py:81
 #, python-format
@@ -307,11 +312,14 @@ msgid ""
 "Your problem could not be sent to the quality team\n"
 "Please report this error manually at %s"
 msgstr ""
+"Problema dumneavoastră nu a putut fi trimisă echipei responsabile cu "
+"calitatea\n"
+"Vă rugăm să raportați eroarea manual la %s"
 
 #: controllers/form.py:561
 #, python-format
 msgid "Invalid button type \"%s\""
-msgstr ""
+msgstr "Tipul butonului este invalid \"%s\""
 
 #: controllers/form.py:944 controllers/tree.py:243
 msgid "No record selected"
@@ -329,11 +337,11 @@ msgstr "Eroare Aplicaţie"
 #: controllers/form.py:1016
 #, python-format
 msgid "Wrong on_change trigger: %s"
-msgstr ""
+msgstr "on_change trigger incorect : %s"
 
 #: controllers/form.py:1121
 msgid "Open resource"
-msgstr ""
+msgstr "Deschidere resursă"
 
 #: controllers/form.py:1124
 msgid "Set to default value"
@@ -356,6 +364,8 @@ msgid ""
 "Operation failed\n"
 "I/O error"
 msgstr ""
+"Operațiune eșuată\n"
+"I/O error"
 
 #: controllers/impex.py:402
 msgid "Export Error"
@@ -363,7 +373,7 @@ msgstr "Eroare la export."
 
 #: controllers/impex.py:469
 msgid "Database ID"
-msgstr ""
+msgstr "ID-ul bazei de date"
 
 #: controllers/impex.py:476
 msgid "Error opening .CSV file"
@@ -371,17 +381,19 @@ msgstr "Eroare la deschiderea fișierului .CSV"
 
 #: controllers/impex.py:476
 msgid "Input Error."
-msgstr ""
+msgstr "Eroare de input."
 
 #: controllers/impex.py:498
 #, python-format
 msgid "You cannot import the field '%s', because we cannot auto-detect it"
 msgstr ""
+"Cîmpul %s' nu poate fi importat deoarece nu a reușit auto-detectarea sa"
 
 #: controllers/impex.py:501
 #, python-format
 msgid "Error processing the first line of the file. Field \"%s\" is unknown"
 msgstr ""
+"Eroare la procesarea primei linii din fișier. Cîmpul \"%s\" este necunoscut"
 
 #: controllers/impex.py:72 controllers/impex.py:501
 msgid "Import Error."
@@ -389,33 +401,33 @@ msgstr "Eroare la import."
 
 #: controllers/impex.py:520
 msgid "The CSV delimiter must be a single character"
-msgstr ""
+msgstr "Delimitatorul CSV trebuie să fie un singur caracter"
 
 #: controllers/impex.py:532
 msgid "File Format Error"
-msgstr ""
+msgstr "Eroare cauzată de tipul fișierului"
 
 #: controllers/impex.py:550
 msgid "XML-RPC error"
-msgstr ""
+msgstr "Eroare XML-RPC"
 
 #: controllers/impex.py:555
 #, python-format
 msgid "Imported %d objects"
-msgstr ""
+msgstr "Au fost importate %d obiecte"
 
 #: controllers/impex.py:560
 #, python-format
 msgid "Error trying to import this record:%s. ErrorMessage:%s %s"
-msgstr ""
+msgstr "Eroare la importarea acestei înregistrări : %s. ErrorMessage:%s %s"
 
 #: controllers/impex.py:561
 msgid "ImportationError"
-msgstr ""
+msgstr "ImportationError"
 
 #: controllers/listgrid.py:52
 msgid "Parent record doesn't exists..."
-msgstr ""
+msgstr "Înregistrarea părinte nu există ..."
 
 #: controllers/preferences.py:35
 msgid "Change your password"
@@ -427,19 +439,19 @@ msgstr "Preferințe"
 
 #: controllers/preferences.py:92
 msgid "All passwords have to be filled."
-msgstr ""
+msgstr "Toate parolele trebui completate."
 
 #: controllers/preferences.py:94
 msgid "The new password and its confirmation must be identical."
-msgstr ""
+msgstr "Parola nouă și confirmarea ei trebuie să fie identice."
 
 #: controllers/preferences.py:103
 msgid "Could not change your password."
-msgstr ""
+msgstr "Nu puteți modifica parola."
 
 #: controllers/preferences.py:105
 msgid "Original password incorrect, your password was not changed."
-msgstr ""
+msgstr "Parola veche nu corespunde. Parola nu a fost modificată."
 
 #: controllers/root.py:174
 #, python-format
@@ -448,11 +460,11 @@ msgstr "Versiunea %s"
 
 #: controllers/translator.py:136
 msgid "You need to save the resource before adding translations."
-msgstr ""
+msgstr "Resursa trebuie să fie salvată înainte de a adăuga traduceri."
 
 #: controllers/tree.py:274
 msgid "No resource selected"
-msgstr ""
+msgstr "Nu este selectată nici o resursă"
 
 #: controllers/utils.py:43
 msgid "Could not connect to server"
@@ -460,7 +472,7 @@ msgstr "Nu se poate conecta la server"
 
 #: controllers/utils.py:127 controllers/templates/login_ajax.mako:111
 msgid "Bad username or password"
-msgstr ""
+msgstr "Utilizatorul sau parola incorecte"
 
 #: controllers/view_log.py:32
 msgid "ID"
@@ -492,7 +504,7 @@ msgstr ""
 
 #: controllers/view_log.py:39
 msgid "Access Level"
-msgstr ""
+msgstr "Nivel de acces"
 
 #: controllers/view_log.py:40
 msgid "Internal module data ID"
@@ -500,7 +512,7 @@ msgstr ""
 
 #: controllers/viewed.py:221
 msgid "Invalid view id."
-msgstr ""
+msgstr "Id view invalid."
 
 #: controllers/viewed.py:499
 msgid "Unable to create inherited view."
@@ -512,11 +524,11 @@ msgstr ""
 
 #: controllers/viewed.py:504
 msgid "Not implemented yet!"
-msgstr ""
+msgstr "Nu este încă implementat !"
 
 #: controllers/viewed.py:609
 msgid "Unable to update the view."
-msgstr ""
+msgstr "View-ul nu a putut fi actualizat."
 
 #: controllers/viewed.py:859
 msgid "New Window"
@@ -548,19 +560,19 @@ msgstr "Dreapta"
 
 #: controllers/templates/about.mako:4
 msgid "About the OpenERP Web"
-msgstr ""
+msgstr "Despre OpenERP Web"
 
 #: controllers/templates/about.mako:27
 msgid "OpenERP Web"
-msgstr ""
+msgstr "OpenERP Web"
 
 #: controllers/templates/about.mako:30
 msgid "Copyright &copy; 2006-TODAY OpenERP SA. All Rights Reserved."
-msgstr ""
+msgstr "Copyright &copy; 2006-TODAY OpenERP SA. All Rights Reserved."
 
 #: controllers/templates/about.mako:31
 msgid "OpenERP is a trademark of the OpenERP SA Company."
-msgstr ""
+msgstr "OpenERP este marcă înregistrată a OpenERP SA Company."
 
 #: controllers/templates/about.mako:33
 #, python-format
@@ -574,7 +586,7 @@ msgstr ""
 
 #: controllers/templates/about.mako:42
 msgid "About OpenERP"
-msgstr ""
+msgstr "Despre OpenERP"
 
 #: controllers/templates/about.mako:44
 #, python-format
@@ -606,6 +618,8 @@ msgid ""
 "Depending on your needs, OpenERP is available through a web or application "
 "client."
 msgstr ""
+"În funcție de necesitățile dumneavoastră, OpenERP este disponibil atît sub "
+"formă de client web cît și sub formă de aplicație."
 
 #: controllers/templates/database.mako:54 controllers/templates/login.mako:4
 #: controllers/templates/login.mako:71 controllers/templates/login_ajax.mako:85
@@ -689,7 +703,7 @@ msgstr "Exportă datele"
 
 #: controllers/templates/exp.mako:166
 msgid "Export Type:"
-msgstr ""
+msgstr "Tipul exportului :"
 
 #: controllers/templates/exp.mako:169
 msgid "Import Compatible Export"
@@ -697,7 +711,7 @@ msgstr ""
 
 #: controllers/templates/exp.mako:172
 msgid "Export all Data"
-msgstr ""
+msgstr "Exportă toate datele"
 
 #: controllers/templates/exp.mako:190
 msgid "Available fields"
@@ -705,7 +719,7 @@ msgstr "Câmpuri disponibile"
 
 #: controllers/templates/exp.mako:192
 msgid "Fields to export"
-msgstr ""
+msgstr "Cîmpurile de exportat"
 
 #: controllers/templates/exp.mako:194
 msgid "Save fields list"
@@ -722,7 +736,7 @@ msgstr "OK"
 
 #: controllers/templates/exp.mako:202
 msgid "Saved exports:"
-msgstr ""
+msgstr "Exporturi salvate :"
 
 #: controllers/templates/exp.mako:211 controllers/templates/form.mako:136
 #: widgets/form/templates/one2many.mako:23 widgets/templates/sidebar.mako:67
@@ -751,7 +765,7 @@ msgstr "Eliminaţi toate"
 
 #: controllers/templates/exp.mako:252
 msgid "Export to File"
-msgstr ""
+msgstr "Export într-un fișier"
 
 #: controllers/templates/fieldpref.mako:4
 #: controllers/templates/fieldpref.mako:29
@@ -772,7 +786,7 @@ msgstr "Valoare implicită"
 
 #: controllers/templates/fieldpref.mako:57
 msgid "Value applicable for:"
-msgstr ""
+msgstr "Valoarea este aplicabilă pentru :"
 
 #: controllers/templates/fieldpref.mako:63
 msgid "Only for you"
@@ -784,11 +798,11 @@ msgstr "Pentru toți"
 
 #: controllers/templates/fieldpref.mako:76
 msgid "Value applicable if:"
-msgstr ""
+msgstr "Valoare alpicabilă dacă :"
 
 #: controllers/templates/fieldpref.mako:79
 msgid "Always applicable!"
-msgstr ""
+msgstr "Aplicabil întotdeauna !"
 
 #: controllers/templates/fieldpref.mako:99 controllers/templates/imp.mako:204
 #: controllers/templates/index.mako:201 controllers/templates/openm2.mako:52
@@ -808,23 +822,23 @@ msgstr "Închide"
 #: controllers/templates/footer.mako:3
 #, python-format
 msgid "&copy; 2008-2010 %(ooweb)s  SA. All Rights Reserved "
-msgstr ""
+msgstr "&copy; 2008-2010 %(ooweb)s  SA. All Rights Reserved "
 
 #: controllers/templates/footer.mako:6
 msgid "Significant contributions to the web client have been made by"
-msgstr ""
+msgstr "Contribuții semnificative la clientul web au fost făcute de"
 
 #: controllers/templates/form.mako:64 controllers/templates/tree.mako:33
 msgid "Disable all Tips"
-msgstr ""
+msgstr "Dezactivarea tuturor sugestiilor"
 
 #: controllers/templates/form.mako:65 controllers/templates/tree.mako:34
 msgid "Hide this Tip"
-msgstr ""
+msgstr "Ascunde sugestia"
 
 #: controllers/templates/form.mako:83 controllers/templates/tree.mako:41
 msgid "Add / Remove Shortcut..."
-msgstr ""
+msgstr "Adăugare / Ștergere shortcut ..."
 
 #: controllers/templates/form.mako:87
 #, python-format
@@ -837,7 +851,7 @@ msgstr ""
 
 #: controllers/templates/form.mako:100
 msgid "Show Logs..."
-msgstr ""
+msgstr "Afișare log-uri ..."
 
 #: controllers/templates/form.mako:112
 msgid "Create a new resource"
@@ -855,7 +869,7 @@ msgstr "Nou"
 
 #: controllers/templates/form.mako:117
 msgid "Edit this resource"
-msgstr ""
+msgstr "Editarea resursei"
 
 #: controllers/templates/form.mako:118 controllers/templates/viewlist.mako:122
 #: widgets/templates/listgrid/listgrid.mako:83
@@ -867,7 +881,7 @@ msgstr "Editează"
 
 #: controllers/templates/form.mako:122
 msgid "Save this resource"
-msgstr ""
+msgstr "Salvarea resursei"
 
 #: controllers/templates/form.mako:123 controllers/templates/openm2.mako:48
 #: controllers/templates/save_filter.mako:41
@@ -890,7 +904,7 @@ msgstr "Salvează și Editează"
 
 #: controllers/templates/form.mako:130
 msgid "Duplicate this resource"
-msgstr ""
+msgstr "Duplicarea resursei"
 
 #: controllers/templates/form.mako:131
 msgid "Duplicate"
@@ -906,11 +920,11 @@ msgstr ""
 
 #: controllers/templates/form.mako:145
 msgid "Create new node"
-msgstr ""
+msgstr "Crearea unui nod nou"
 
 #: controllers/templates/form.mako:146
 msgid "New Node"
-msgstr ""
+msgstr "Nod Nou"
 
 #: controllers/templates/form.mako:150
 msgid "Show grid in workflow canvas"
@@ -940,7 +954,7 @@ msgstr "Cereri"
 
 #: controllers/templates/header.mako:62
 msgid "Edit Preferences"
-msgstr ""
+msgstr "Preferințe"
 
 #: controllers/templates/header.mako:66 controllers/templates/header.mako:69
 msgid "About"
@@ -964,7 +978,7 @@ msgstr "Importă date"
 
 #: controllers/templates/imp.mako:89
 msgid "1. Import a .CSV file"
-msgstr ""
+msgstr "1. Importarea unui fișier .CSV"
 
 #: controllers/templates/imp.mako:105
 msgid "CSV File:"
@@ -972,7 +986,7 @@ msgstr "Fișier CSV:"
 
 #: controllers/templates/imp.mako:123
 msgid "2. Check your file format"
-msgstr ""
+msgstr "2. Verificarea formatului de fișier"
 
 #: controllers/templates/imp.mako:130
 #, python-format
@@ -985,7 +999,7 @@ msgstr ""
 
 #: controllers/templates/imp.mako:157
 msgid "CSV Options"
-msgstr ""
+msgstr "Opțiuni CSV"
 
 #: controllers/templates/imp.mako:160
 msgid "Separator:"
@@ -1005,7 +1019,7 @@ msgstr ""
 
 #: controllers/templates/imp.mako:187
 msgid "3. File imported"
-msgstr ""
+msgstr "3. Fișierul importat"
 
 #: controllers/templates/imp.mako:205
 msgid "Import File"
@@ -1013,7 +1027,7 @@ msgstr "Importă fișier"
 
 #: controllers/templates/index.mako:167
 msgid "System Logs"
-msgstr ""
+msgstr "Log-uri sistem"
 
 #: controllers/templates/index.mako:192
 msgid "More"
@@ -1039,7 +1053,7 @@ msgstr "Baze de date"
 
 #: controllers/templates/login.mako:88
 msgid "Top Contributor:"
-msgstr ""
+msgstr "Contribuitor de top :"
 
 #: controllers/templates/login.mako:98
 msgid ""
@@ -1063,7 +1077,7 @@ msgstr ""
 
 #: controllers/templates/login.mako:116
 msgid "Open Source"
-msgstr ""
+msgstr "Open Source"
 
 #: controllers/templates/login.mako:117
 msgid ""
@@ -1082,11 +1096,11 @@ msgstr ""
 
 #: controllers/templates/modules.mako:4
 msgid "Module Management"
-msgstr ""
+msgstr "Gestionarea modulelor"
 
 #: controllers/templates/modules.mako:17
 msgid "Web Modules"
-msgstr ""
+msgstr "Module Web"
 
 #: controllers/templates/openo2m.mako:34
 msgid "Save & Close"
@@ -1098,7 +1112,7 @@ msgstr "Salvare & Creare înregistrare nouă"
 
 #: controllers/templates/save_filter.mako:18
 msgid "Save as Filter"
-msgstr ""
+msgstr "Salvare sub formă de filtru"
 
 #: controllers/templates/save_filter.mako:30
 msgid "Filter Name"
@@ -1142,7 +1156,7 @@ msgstr "Acțiuni server"
 
 #: controllers/templates/translator.mako:4
 msgid "Add Translations"
-msgstr ""
+msgstr "Adăugare traduceri"
 
 #: controllers/templates/translator.mako:17
 msgid "Add Translation"
@@ -1150,7 +1164,7 @@ msgstr "Adaugă traducere"
 
 #: controllers/templates/translator.mako:27
 msgid "Add Translation for:"
-msgstr ""
+msgstr "Adăugare traduceri pentru :"
 
 #: controllers/templates/translator.mako:31
 msgid "Fields"
@@ -1195,7 +1209,7 @@ msgstr "Previzualizează"
 
 #: controllers/templates/viewed_add.mako:6
 msgid "Node Type:"
-msgstr ""
+msgstr "Tipul nodului :"
 
 #: controllers/templates/viewed_add.mako:23
 msgid "New Field"
@@ -1209,20 +1223,20 @@ msgstr "Poziție:"
 #: controllers/templates/viewlist.mako:108
 #, python-format
 msgid "Manage Views (%s)"
-msgstr ""
+msgstr "Gestionare View-uri (%s)"
 
 #: controllers/templates/viewlist.mako:146
 #, python-format
 msgid "Create a view (%s)"
-msgstr ""
+msgstr "Creare view (%s)"
 
 #: controllers/templates/viewlist.mako:174
 msgid "View Name:"
-msgstr ""
+msgstr "Numele view-ului :"
 
 #: controllers/templates/viewlist.mako:178
 msgid "View Type:"
-msgstr ""
+msgstr "Tipul view-ului :"
 
 #: controllers/templates/viewlist.mako:189
 msgid "Priority:"
@@ -1238,11 +1252,11 @@ msgstr "Atenție"
 
 #: utils/rpc.py:131
 msgid "Access Denied"
-msgstr ""
+msgstr "Acces interzis"
 
 #: utils/rpc.py:238
 msgid "Unsupported protocol."
-msgstr ""
+msgstr "Protocolul nu este suportat."
 
 #: utils/rpc.py:342
 msgid ""
@@ -1252,15 +1266,15 @@ msgstr ""
 
 #: utils/rpc.py:355
 msgid "Not logged..."
-msgstr ""
+msgstr "Nu sînteți logat ..."
 
 #: utils/rpc.py:355
 msgid "Authorization Error"
-msgstr ""
+msgstr "Eroare la autorizare"
 
 #: utils/rpc.py:439
 msgid "== Access Denied =="
-msgstr ""
+msgstr "== Acces Interzis =="
 
 #: widgets/_views.py:46
 msgid "Form"
@@ -1272,16 +1286,16 @@ msgstr ""
 
 #: widgets/_views.py:78
 msgid "Search view..."
-msgstr ""
+msgstr "Căutare view ..."
 
 #: widgets/listgrid.py:305
 msgid "Wrong on_change trigger"
-msgstr ""
+msgstr "on_change trigger incorect"
 
 #: widgets/listgrid.py:368 widgets/form/_form.py:904
 #, python-format
 msgid "Invalid view, duplicate field: %s"
-msgstr ""
+msgstr "View invalid , cîmp duplicat: %s"
 
 #: widgets/pager.py:56
 #, python-format
@@ -1341,7 +1355,7 @@ msgstr ""
 #: widgets/templates/listgrid/listgrid.mako:162
 #: widgets/templates/listgrid/listgroup.mako:20
 msgid "Create new record."
-msgstr ""
+msgstr "Creare înregistrare nouă."
 
 #: widgets/form/_o2m.py:110
 msgid "Save/New"
@@ -1349,7 +1363,7 @@ msgstr ""
 
 #: widgets/form/_o2m.py:110
 msgid "Save parent record."
-msgstr ""
+msgstr "Salvarea înregistrării părinte."
 
 #: widgets/form/_o2m.py:229
 #, python-format
@@ -1359,7 +1373,7 @@ msgstr "%d din %d"
 #: widgets/form/_o2m.py:231
 #, python-format
 msgid "- of %d"
-msgstr ""
+msgstr "- din %d"
 
 #: widgets/form/templates/binary.mako:28
 msgid "Save As"
@@ -1367,11 +1381,11 @@ msgstr "Salvează ca"
 
 #: widgets/form/templates/binary.mako:31
 msgid "add attachment"
-msgstr ""
+msgstr "adăugare atașament"
 
 #: widgets/form/templates/image.mako:6
 msgid "Replace image"
-msgstr ""
+msgstr "Înlocuire imagine"
 
 #: widgets/form/templates/many2one.mako:2
 #: widgets/form/templates/reference.mako:30
@@ -1381,15 +1395,15 @@ msgstr "Deschideți"
 #: widgets/form/templates/many2one.mako:2
 #: widgets/form/templates/reference.mako:30
 msgid "Open a resource"
-msgstr ""
+msgstr "Deschidere resursă"
 
 #: widgets/form/templates/one2many.mako:21
 msgid "Create new record..."
-msgstr ""
+msgstr "Creare înregistrare nouă ..."
 
 #: widgets/form/templates/one2many.mako:23
 msgid "Delete record..."
-msgstr ""
+msgstr "Ștergere"
 
 #: widgets/form/templates/one2many.mako:29
 msgid "Translate me."
@@ -1397,11 +1411,11 @@ msgstr ""
 
 #: widgets/form/templates/one2many.mako:48
 msgid "Previous record..."
-msgstr ""
+msgstr "Înregistrarea precedentă ..."
 
 #: widgets/form/templates/one2many.mako:50
 msgid "Next record..."
-msgstr ""
+msgstr "Înregistrarea următoare ..."
 
 #: widgets/templates/logs.mako:22
 msgid "More..."
@@ -1469,7 +1483,7 @@ msgstr ""
 
 #: widgets/templates/sidebar.mako:89
 msgid "Manage Views"
-msgstr ""
+msgstr "Gestionare view-uri"
 
 #: widgets/templates/sidebar.mako:93
 msgid "Edit workflow of the current object"
@@ -1477,7 +1491,7 @@ msgstr ""
 
 #: widgets/templates/sidebar.mako:94
 msgid "Edit Workflow"
-msgstr ""
+msgstr "Editare workflow"
 
 #: widgets/templates/sidebar.mako:98
 msgid "Customize current object or create a new object"
@@ -1485,7 +1499,7 @@ msgstr ""
 
 #: widgets/templates/sidebar.mako:100
 msgid "Customize Object"
-msgstr ""
+msgstr "Customizare obiect"
 
 #: widgets/templates/sidebar.mako:106
 msgid "Other Options"
@@ -1505,11 +1519,11 @@ msgstr "Traduceți"
 
 #: widgets/templates/sidebar.mako:131
 msgid "View Log"
-msgstr ""
+msgstr "Afișare log"
 
 #: widgets/templates/viewform.mako:25
 msgid "Filter records."
-msgstr ""
+msgstr "Filtrarea înregistrărilor."
 
 #: widgets/templates/viewform.mako:33
 msgid "Clear all."
@@ -1525,11 +1539,11 @@ msgstr "Filtre"
 
 #: widgets/templates/viewform.mako:45
 msgid "Saved Filters"
-msgstr ""
+msgstr "Filtre salvate."
 
 #: widgets/templates/viewform.mako:52
 msgid "New Filter"
-msgstr ""
+msgstr "Filtru nou"
 
 #: widgets/templates/viewform.mako:53
 msgid "Save Filter"
@@ -1545,9 +1559,9 @@ msgstr "Actualizează"
 
 #: widgets/templates/listgrid/listgrid.mako:152
 msgid "Add records..."
-msgstr ""
+msgstr "Adăugare înregistrări"
 
 #: widgets/templates/listgrid/listgrid.mako:190
 #: widgets/templates/listgrid/listgrid.mako:194
 msgid "Delete record(s)."
-msgstr ""
+msgstr "Ștergere înregistrare (înregistrări)."

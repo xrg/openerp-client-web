@@ -347,7 +347,8 @@ def act_window_opener(action, data):
     # for that passing active_id in headers, to get it in openAction
     if getattr(cherrypy.request, 'params', []):
         if getattr(cherrypy.request.params, 'context', {}):
-            cherrypy.response.headers['active_id'] = cherrypy.request.params.context.get('active_id')
+            cherrypy.response.headers['active_id'] = cherrypy.request.params.get('_terp_id')\
+            or cherrypy.request.params.context.get('active_id')
 
     # Add 'opened' mark to indicate we're now within the popup and can
     # continue on during the second round of execution
@@ -367,7 +368,7 @@ def act_window_opener(action, data):
 
     if open_new_tab:
         url = '/?' + urllib.urlencode({'next': url})
-
+        
     cherrypy.response.headers['X-Target'] = action['target']
     cherrypy.response.headers['Location'] = url
     return """<script type="text/javascript">

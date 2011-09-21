@@ -1,3 +1,187 @@
+2011-08-18: 6.0.3
+=================
+
+Bugfixes
+--------
+
+* Not linked to a bug report:
+
+  * Fixed the problem of calendar view interface which doesn't show more button
+  * Fixed the problem of improper raising of exception
+  * Fixed the issue of active_id by changing code in action and root.py which was done for proper left menu
+  * Correction About the previous commit
+  * Fixed the issue of many2many not reloaded when on_change returns blank list
+  * m2o search popup failing to open when calling it explicitly (via looking glass) if no text has been entered in the input
+  * Without text m2o widget not open popup in search view.
+  * selection widget options updating based on environment content
+  * Selection : Options of selections were not getting updated dynamically with production environment
+  * time range imprecision when creating calendar event via drag&drop in day or week mode
+  * Corrected the creation of meeting with day criteria.
+  * don't break m2o field values when opening m2o search popup with a preexisting value in the field
+  * Text set blank when text not related to any id in m2o field search.
+  * double-action execution in case of opening action URLs containing spaces
+  * Fixed function call arguments which effect on wizard actions.
+  * redirection issues following errors in Firefox, error page styling in case of 'normal' OpenERP error
+  * Fixed css for error popups.
+  * If error generated when perform any form action then just close the popup and return.
+  * mucking around with unlimited list limits in case of grouped lists
+  * Set 0 when -1(unlimited) limit in groupby.
+  * avoid calling default_get twice in m2m
+  * listgrid : Fixed the problem of double call of default_get at the time of selecting a many2many record(case:5992)
+  * force domain operators to skip deduplication of domain conditions
+  * Fixed '&' and '|' for domain evaluation.
+  * Fixed binary field issue when save/edit the saved record again.
+  * Button will not be disabled when parent is readonly (Partially Fixed, it should not be clickable also).
+  * Fixed pager issues again for unlimited range.
+  * Fixed the solution for readonly field in export
+  * Fixed mistake in condition.
+  * Basic condition checked for empty dict (checked for modified data else form data).
+  * Fixed the unlimited limit issue for List View.
+  * many2one will accept only ID instead of (ID, Value) to save data. (case #5989).
+  * Domain should be empty list instead of None if empty.
+  * m2m contextmenu doesn't appear in o2m popup.
+  * m2m contextmenu doesn't appear in o2m popup ('/' should not be added in prefix).
+  * Import : Web client adds an extra seperated line [] and sends to server, which turns into crash at server failing to read data within the line.
+  * Removed unnecessary comma (,) to avoide IE issue. (OPW-5969).
+  * Syntax errors were not handled properly.
+  * make substring search on m2o fields (without popping up the m2o search) significantly more reliable, thanks Stefan
+  * m2o double-firing onchange events: callback present on both hidden id field and visible text field, should only be available on the hidden id field
+  * Fixed many2one onchange, it call twice.
+  * a few warnings, deduplicate onchange triggerings
+  * initial calling of onchanges in o2m popups
+  * Fixed one2many onchange when open in popup.
+  * only send values for modified fields when calling write() for an object edition
+  * respect the user's menu action
+  * scope bug in JS code, proving once again that you should always use braces. Thanks to D. Halgand
+  * bug javascript for wizard
+  * handling of post-action reloading in o2m list views
+  * Fixed button action for listview (When perform any button action from one2many listview, need to reload one2many list only not form.).
+  * inability to handle domains padded with white space
+  * broken alignments due to incorrect column hiding in o2m widgets
+  * correctly forward context in tree view
+  * Fixed element initialization for attrs.
+  * image widget markup, handle picture widget
+  * center image/picture widgets
+  * handle widget="picture"
+  * the default colspan of group widgets is 1
+  * <group> tags have a default colspan of 1
+  * form controller: action_id should be available in form views
+  * regression error when creating invoice line on a duplicated invoice
+  * incorrect context passing in o2m
+  * Fixed twice context evaluation.
+  * Fixed one2many context when passed default_get and context both.
+  * calendar events (day and week) should not overlap, makes descriptions unreadable
+  * date formats in search view
+  * Fixed reviewed code.
+  * Passed evaluated domain to params for searchview.
+  * Fixed date formate for search when change formate from Languages.
+  * handling of external links with target current (load into iframe)
+  * reinstate openLink for local URLs
+  * handling of menu items with both action and children
+  * readonly attr on groups
+  * Fixed re for uid, which applied in attrs.
+  * refresh of forms after some button types
+  * Fixed button action on unsaved-record which returns 'ir.action.act_window' but 'appcontent' is not reloaded.
+  * protect idSelector against code passing live DOM nodes in instead of ids
+  * do not use icon to determine non-leaf nodes in tree view
+  * visibility of shortcuts
+  * Fixed issue of shortcuts at initial db setup with new addons.
+  * correctly fall back when literal_eval encounters a non-literal-integer made entirely of digits
+  * default values in o2m form fields
+  * only let TinyDict evaluate literals
+
+* https://launchpad.net/bugs/78439
+  * Fixed calendar view search pane, no need to set search_limit(case:5799).
+
+* https://launchpad.net/bugs/768918
+  * error in evaluating view domain containing whitespace
+
+* https://launchpad.net/bugs/786751
+  * Fixed variable initialization.
+
+* https://launchpad.net/bugs/753340
+  * improve filtering of actions on menu items (don't just use the menu item icon)
+
+* https://launchpad.net/bugs/770192
+  * Fixed many2one context menu when open from one2many popup.
+
+* https://launchpad.net/bugs/716300
+  * Fixed context for tree view.
+
+* https://launchpad.net/bugs/771288
+  * Improved display of o2m in form view to set alignement.
+
+* https://launchpad.net/bugs/750056
+  * Fixed the unlimited limit issue for list view.
+
+* https://launchpad.net/bugs/816207
+  * Correction over the commit http://bazaar.launchpad.net/~openerp/openobject-client-web/6.0/revision/4671
+
+* https://launchpad.net/bugs/696793
+  * Fixed functional field isuue when update the same value.
+
+* https://launchpad.net/bugs/744080
+  * Fixed issue of shortcuts when create a new db with more than modules installed.
+
+* https://launchpad.net/bugs/744311
+  * Fixed set default value for editable listview.
+
+* https://launchpad.net/bugs/753937
+  * Fixed one2many problem when create new record.
+
+* https://launchpad.net/bugs/759896
+  * Prevents 'No action defined' error on parent menu items
+  * Menu actions stopped working when the menu item has children
+
+* https://launchpad.net/bugs/768973
+  * improve handling of PO file loading error, provide more helpful error messages for incompletely loaded databases
+
+* https://launchpad.net/bugs/752787
+  * Fixed binary field issue when save/edit the saved record again.
+
+* https://launchpad.net/bugs/795704
+  * Fixed the limit as unlimited options.
+
+* https://launchpad.net/bugs/733089
+  * nested o2ms not being creatable at once (needed two news on the same button)
+
+* https://launchpad.net/bugs/748238
+  * search view - substring search on many2one
+  * Fixed many2one search domain for search view ('=' and 'ilike' seperated based on the value entered in many2one field).
+
+* https://launchpad.net/bugs/768963
+  * cherrypy 3.2 incompabitility bug, hide under rug of arbitrariness
+
+
+Improvements
+------------
+
+* Improve last() expression for xpath (case:5936).
+* Use a TimedRotatingFileHandler if the rotate flag in the
+* Improve wizard action which is load in new tab when target is popup. It should open with the right parent menu.
+* use menu action to define root user menu in web client
+* fix initialization of local variable in form_evalExpr
+* open view_editor in jquery dialog
+* Improve jquery-ui dialogs for view editor.
+* jQuery code
+* Improve readonly attrs on groups.
+
+2011-04-01: 6.0.2
+=================
+
+Missing ChangeLog (see the commits)
+
+2011-01-20: 6.0.1
+=================
+
+Missing ChangeLog (see the commits)
+
+2011-01-19: 6.0.0
+=================
+
+Missing ChangeLog (see the commits)
+
+
 5.0.4 (2009-08-28)
 	
 	* [FIX] dynamic context is missing in non-editable view.

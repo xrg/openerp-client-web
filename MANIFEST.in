@@ -1,7 +1,7 @@
 include admin.py openerp-web.py run-tests.py py2exe_utils.py setup.nsi
 graft doc
 prune dist
-prune lib
+graft lib
 graft win32
 graft pixmaps
 

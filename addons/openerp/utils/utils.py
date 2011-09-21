@@ -118,9 +118,7 @@ class TinyDict(dict):
                 # failing) to parse them as integers.
                 #
                 # Ignore only this case if we catch a syntax error
-                if not re.match('^0+\d*$', value):
-                    raise
-
+                pass
 
         return value
 

@@ -1,0 +1,128 @@
+# Thai translation for openobject-client-web
+# Copyright (c) 2011 Rosetta Contributors and Canonical Ltd 2011
+# This file is distributed under the same license as the openobject-client-web package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2011.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: openobject-client-web\n"
+"Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
+"POT-Creation-Date: 2011-03-18 11:53+0100\n"
+"PO-Revision-Date: 2011-07-08 04:08+0000\n"
+"Last-Translator: Manop Pornpeanvichanon(มานพ พรเพียรวิชานนท์) <Unknown>\n"
+"Language-Team: Thai <th@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Launchpad-Export-Date: 2011-09-02 05:11+0000\n"
+"X-Generator: Launchpad (build 13830)\n"
+
+#: controllers/_diagram.py:89 controllers/_diagram.py:210
+msgid "Could not delete state"
+msgstr "ลบสถานะไม่ได้"
+
+#: controllers/_diagram.py:274
+msgid "No workflow associated!"
+msgstr ""
+
+#: controllers/process.py:46
+msgid "Help: Not Defined"
+msgstr "ความช่วยเหลือ: ไม่ได้ระบุไว้"
+
+#: controllers/process.py:89
+#, python-format
+msgid "%(name)s - Resource: %(resource)s, State: %(state)s"
+msgstr "%(name)s - ทรัพยากร: %(resource)s, สถานะ: %(state)s"
+
+#: controllers/process.py:101
+msgid "Last modified by:"
+msgstr "แก้ล่าสุดเมื่อ:"
+
+#: controllers/templates/process.mako:4 controllers/templates/process.mako:87
+#: controllers/templates/process_tip.mako:5
+msgid "Process"
+msgstr "กระบวนการ"
+
+#: controllers/templates/process.mako:55
+msgid "Documentation"
+msgstr "เอกสาร"
+
+#: controllers/templates/process.mako:56
+msgid "Read Documentation Online"
+msgstr "อ่านเอกสารออนไลน์"
+
+#: controllers/templates/process.mako:62
+msgid "Forum"
+msgstr "กระดานสนทนา"
+
+#: controllers/templates/process.mako:63
+msgid "Community Discussion"
+msgstr "การสื่อสารในชุมชน"
+
+#: controllers/templates/process.mako:68
+msgid "Books"
+msgstr "หนังสือ"
+
+#: controllers/templates/process.mako:69
+msgid "Get the book on Amazon"
+msgstr "ดูหนังสือที่ Amazon"
+
+#: controllers/templates/process.mako:74
+msgid "Support / Publisher Warranty"
+msgstr ""
+
+#: controllers/templates/process.mako:75
+msgid "Get the OpenERP Warranty"
+msgstr ""
+
+#: controllers/templates/process.mako:97
+msgid "Select Process"
+msgstr "เลือกกระบวนการ"
+
+#: controllers/templates/process.mako:103
+msgid "Select"
+msgstr "เลือก"
+
+#: controllers/templates/process.mako:117
+msgid "[Edit Process]"
+msgstr "[กระบวนการแก้ไข]"
+
+#: controllers/templates/process.mako:119
+msgid "[show fields]"
+msgstr "[แสดงช่องข้อมูล]"
+
+#: controllers/templates/process.mako:120
+msgid "[hide fields]"
+msgstr "[ซ่อนช่องข้อมูล]"
+
+#: controllers/templates/process_open.mako:54
+#: controllers/templates/process_tip.mako:20
+#: controllers/templates/wkf_popup.mako:52
+msgid "Close"
+msgstr "ปิด"
+
+#: controllers/templates/process_open.mako:55
+#: controllers/templates/wkf_popup.mako:49
+msgid "Save"
+msgstr ""
+
+#: controllers/templates/workflow.mako:4
+msgid "Workflow"
+msgstr ""
+
+#: controllers/templates/workflow.mako:20
+#, python-format
+msgid "Workflow (%s)"
+msgstr ""
+
+#: widgets/_views.py:8
+msgid "Diagram"
+msgstr ""
+
+#: widgets/_views.py:9
+msgid "Diagram view..."
+msgstr ""
+
+#: widgets/templates/diagram.mako:27
+msgid "Loading..."
+msgstr ""

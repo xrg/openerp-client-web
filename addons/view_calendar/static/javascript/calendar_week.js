@@ -724,7 +724,7 @@ WeekCalendar.DayGrid.prototype = {
         }
 
         var w = this.calendar.colWidth;
-        var h = 36;
+        var h = 38;
 
         w = Math.max(w - 6, 0);
 

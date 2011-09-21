@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: openobject-client-web\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2011-03-18 11:53+0100\n"
-"PO-Revision-Date: 2011-03-01 09:02+0000\n"
-"Last-Translator: Jussi Mikkola <Unknown>\n"
+"PO-Revision-Date: 2011-06-07 07:00+0000\n"
+"Last-Translator: Harri Luuppala <Unknown>\n"
 "Language-Team: Finnish <fi@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2011-03-19 07:06+0000\n"
-"X-Generator: Launchpad (build 12559)\n"
+"X-Launchpad-Export-Date: 2011-09-02 05:11+0000\n"
+"X-Generator: Launchpad (build 13830)\n"
 
 #: controllers/templates/calpopup.mako:83
 msgid "Save"
@@ -120,7 +120,7 @@ msgstr "Joulukuu"
 #: widgets/utils.py:173
 #, python-format
 msgid "%(first)s to %(last)s %(month)s"
-msgstr ""
+msgstr "%(first)s to %(last)s %(month)s"
 
 #: widgets/widgets.py:281
 #, python-format

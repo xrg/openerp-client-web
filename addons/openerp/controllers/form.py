@@ -404,8 +404,21 @@ class Form(SecuredController):
                 params.ids = (params.ids or []) + [params.id]
                 params.count += 1
             else:
-                 ctx = utils.context_with_concurrency_info(params.context, params.concurrency_info)
-                 Model.write([params.id], data, ctx)
+                original_data = Model.read(params.id, data.keys())
+                modified = {}
+                
+                if original_data and isinstance(original_data, dict):
+                    for field, original_value in original_data.iteritems():
+                        if isinstance(original_value, tuple):
+                            original_data[field] = original_value[0]
+                        if field in data and data[field] != original_data[field]:
+                            modified[field] = data[field]
+
+                    ctx = utils.context_with_concurrency_info(params.context, params.concurrency_info)
+                    Model.write([params.id], modified, ctx)
+                else:
+                    ctx = utils.context_with_concurrency_info(params.context, params.concurrency_info)
+                    Model.write([params.id], data, ctx)
 
             tw.ConcurrencyInfo.update(
                 params.model, Model.read([params.id], ['__last_update'], ctx)
@@ -641,7 +654,7 @@ class Form(SecuredController):
     @expose(content_type='application/octet-stream')
     def save_binary_data(self, _fname='file.dat', **kw):
         params, data = TinyDict.split(kw)
-
+        
         cherrypy.response.headers['Content-Disposition'] = 'attachment; filename="%s"' % _fname
 
         if params.datas:
@@ -653,6 +666,8 @@ class Form(SecuredController):
             proxy = rpc.RPCProxy(params.model)
             res = proxy.read([params.id],[params.field], rpc.session.context)
             return base64.decodestring(res[0][params.field])
+        elif params.filename:
+            return base64.decodestring(data[params.filename])
         else:
             return base64.decodestring(data[params.field])
         

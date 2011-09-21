@@ -57,7 +57,7 @@ function openRecord(id, src, target, readonly){
         'search_data': jQuery('#_terp_search_data').val() || null,
         'filter_domain': jQuery('#_terp_filter_domain').val() || [],
         'notebook_tab': jQuery('#_terp_notebook_tab').val() || 0,
-        'action_id': jQuery('#_terp_action_id').val() || null,
+        'action_id': jQuery('#_terp_action_id').val() || null
     };
 
     var action = readonly ? 'view' : 'edit';
@@ -611,26 +611,27 @@ function onChange(caller){
                         fld.src = value;
                         break;
                     case 'many2many':
-                        if(value) {
-                            var fld_name = jQuery(fld).attr('name');
-                            var fld_val = '['+ value.join(',') + ']';
-                            var old_m2m = jQuery(idSelector(fld_name)).closest('.list-a');
-                            jQuery.ajax({
-                                url: '/openerp/listgrid/get_m2m',
-                                data: {
-                                    'name': fld_name,
-                                    'model': jQuery(fld).attr('relation'),
-                                    'view_id': jQuery(idSelector(fld_name + '/_terp_view_id')).val(),
-                                    'view_type': jQuery(idSelector(fld_name + '/_terp_view_type')).val(),
-                                    'ids': fld_val
-                                },
-                                dataType: 'json',
-                                error: loadingError(),
-                                success: function(obj){
-                                    jQuery(old_m2m).replaceWith(obj.m2m_view);
-                                }
-                            });
+                    	var fld_val = '[]';
+                        if(value){
+                        	fld_val = '['+ value.join(',') + ']';
                         }
+                        var fld_name = jQuery(fld).attr('name');
+                        var old_m2m = jQuery(idSelector(fld_name)).closest('.list-a');
+                        jQuery.ajax({
+                            url: '/openerp/listgrid/get_m2m',
+                            data: {
+                                'name': fld_name,
+                                'model': jQuery(fld).attr('relation'),
+                                'view_id': jQuery(idSelector(fld_name + '/_terp_view_id')).val(),
+                                'view_type': jQuery(idSelector(fld_name + '/_terp_view_type')).val(),
+                                'ids': fld_val
+                            },
+                            dataType: 'json',
+                            error: loadingError(),
+                            success: function(obj){
+                                jQuery(old_m2m).replaceWith(obj.m2m_view);
+                            }
+                        });
                         break;
                     case 'many2one':
                         fld.value = value[0] || '';
@@ -802,8 +803,8 @@ function open_search_window(relation, domain, context, source, kind, text){
 function makeContextMenu(id, kind, relation, val){
     var act = get_form_action('get_context_menu');
 
-    var prefix = id.indexOf('/') > -1 ? id.slice(0, id.lastIndexOf('/')) + '/' : '';
-    if ((prefix.split('/')[0])== '_terp_listfields') {
+    var prefix = id.indexOf('/') > -1 ? id.slice(0, id.lastIndexOf('/')) : '';
+    if ((prefix.split('/')[0]) == '_terp_listfields') {
         prefix = (prefix.split('/')[1]);
     }
 

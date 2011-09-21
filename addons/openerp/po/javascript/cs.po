@@ -1,0 +1,106 @@
+# Translations template for PROJECT.
+# Copyright (C) 2011 ORGANIZATION
+# This file is distributed under the same license as the PROJECT project.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2011.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: openobject-client-web\n"
+"Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
+"POT-Creation-Date: 2011-03-18 11:53+0100\n"
+"PO-Revision-Date: 2011-08-08 08:08+0000\n"
+"Last-Translator: Jiří Hajda <robie@centrum.cz>\n"
+"Language-Team: Czech\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Launchpad-Export-Date: 2011-09-02 05:11+0000\n"
+"X-Generator: Launchpad (build 13830)\n"
+"Language: \n"
+"X-Poedit-Language: Czech\n"
+"Generated-By: Babel 0.9.5\n"
+
+#: static/javascript/form.js:92
+#, python-format
+msgid "You selected to open %(tabs)s tabs - do you want to continue?"
+msgstr "Vybrali jste k otevření %(tabs)s záložky - opravdu chcete otevřít?"
+
+#: static/javascript/form.js:169
+msgid "Invalid form, correct red fields."
+msgstr "Neplatný formulář, opravte červená pole."
+
+#: static/javascript/form.js:204
+msgid "Do you really want to delete this record?"
+msgstr "Opravdu chcete smazat tento záznam?"
+
+#: static/javascript/form.js:960
+msgid "You must select one or several records !"
+msgstr "Musíte vybrat jeden nebo více záznamů !"
+
+#: static/javascript/form.js:995
+msgid "You must save this record to perform the action !"
+msgstr "Musíte tento záznam uložit pro vykonání akce !"
+
+#: static/javascript/form.js:1127
+msgid "Do you really want to delete the attachment"
+msgstr "Opravdu chcete smazat přílohu?"
+
+#: static/javascript/form.js:1161
+msgid "No record selected ! You can only attach to existing record."
+msgstr "Nevybrán žádný záznam ! Můžete přiložit pouze existující záznam."
+
+#: static/javascript/form.js:1220
+msgid "OpenERP - Error"
+msgstr "OpenERP - Chyba"
+
+#: static/javascript/form.js:1291
+msgid ""
+"Warning, the record has been modified,\n"
+"your changes will be discarded."
+msgstr ""
+"Varování, záznam byl upraven,\n"
+"vaše změny budou zahozeny."
+
+#: static/javascript/listgrid.js:542 static/javascript/o2m.js:123
+msgid "To edit Record, please first save it."
+msgstr "Pro úpravu Záznamu jej prosíme nejdříve uložte."
+
+#: static/javascript/listgrid.js:650
+msgid "Do you really want to delete selected record(s) ?"
+msgstr "Opravdu chcete smazat vybrané záznam(y) ?"
+
+#: static/javascript/m2o.js:526
+msgid "error in display::"
+msgstr "chyba ve zobrazení::"
+
+#: static/javascript/o2m.js:67
+msgid "Do you really want to delete record ?"
+msgstr "Opravdu chcete smazat záznam ?"
+
+#: static/javascript/search.js:285
+msgid "Invalid Value"
+msgstr "Neplatná hodnota"
+
+#: static/javascript/viewed.js:63
+msgid "Do you really want to remove this node?"
+msgstr "Opravdu chcete odstranit tento uzel?"
+
+#: static/javascript/viewed.js:329
+msgid "Do you really wants to create an inherited view here?"
+msgstr "Opravdu zde chcete vytvořit zděděný pohled?"
+
+#: static/javascript/openerp/openerp.base.js:127
+msgid "doLoadingSuccess: Cannot parse JSON"
+msgstr "doLoadingSuccess: Nelze parsovat JSON"
+
+#: static/javascript/openerp/openerp.base.js:335
+msgid "Loading"
+msgstr "Načítání"
+
+#: static/javascript/openerp/openerp.ui.tips.js:51
+msgid "Object"
+msgstr "Objekt"
+
+#: static/javascript/openerp/openerp.ui.tips.js:52
+msgid "Field"
+msgstr "Pole"

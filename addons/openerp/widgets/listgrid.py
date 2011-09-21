@@ -142,7 +142,6 @@ class List(TinyWidget):
                 self.colors[colour] = test
 
         proxy = rpc.RPCProxy(model)
-        
         default_data = kw.get('default_data', [])
         search_text = terp_params.get('_terp_search_text', False)
         if not self.source:

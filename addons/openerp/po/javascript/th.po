@@ -1,0 +1,103 @@
+# Thai translation for openobject-client-web
+# Copyright (c) 2011 Rosetta Contributors and Canonical Ltd 2011
+# This file is distributed under the same license as the openobject-client-web package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2011.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: openobject-client-web\n"
+"Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
+"POT-Creation-Date: 2011-03-18 11:53+0100\n"
+"PO-Revision-Date: 2011-06-27 07:18+0000\n"
+"Last-Translator: Manop Pornpeanvichanon(มานพ พรเพียรวิชานนท์) <Unknown>\n"
+"Language-Team: Thai <th@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Launchpad-Export-Date: 2011-09-02 05:11+0000\n"
+"X-Generator: Launchpad (build 13830)\n"
+
+#: static/javascript/form.js:92
+#, python-format
+msgid "You selected to open %(tabs)s tabs - do you want to continue?"
+msgstr "คุณต้องการให้เปิดแท็บ %(tabs)s หรือไม่"
+
+#: static/javascript/form.js:169
+msgid "Invalid form, correct red fields."
+msgstr "ข้อมูลไม่ถูกต้อง, กรอกช่องสี่แดงให้ถูก"
+
+#: static/javascript/form.js:204
+msgid "Do you really want to delete this record?"
+msgstr "คุณต้องการลบระเบียนนี้"
+
+#: static/javascript/form.js:960
+msgid "You must select one or several records !"
+msgstr "คุณต้องเลือกอย่างน้อยหนึ่งระเบียน"
+
+#: static/javascript/form.js:995
+msgid "You must save this record to perform the action !"
+msgstr "คุณต้องบันทึกระเบียนนี้ก่อนที่จะดำเนินการ !"
+
+#: static/javascript/form.js:1127
+msgid "Do you really want to delete the attachment"
+msgstr "คุณต้องการลบสิ่งที่แนบมาด้วย"
+
+#: static/javascript/form.js:1161
+msgid "No record selected ! You can only attach to existing record."
+msgstr "ไม่ได้เลือกระเบียน ! คุณทำได้แค่แนบไปกับระเบียนปัจจุบัน"
+
+#: static/javascript/form.js:1220
+msgid "OpenERP - Error"
+msgstr "OpenERP - ผิดพลาด"
+
+#: static/javascript/form.js:1291
+msgid ""
+"Warning, the record has been modified,\n"
+"your changes will be discarded."
+msgstr ""
+"คำเตือน, ข้อมูลในระเบียนถูกเปลี่ยนแล้ว,\n"
+"การเปลี่ยนแปลงของคุณถูกยกเลิก"
+
+#: static/javascript/listgrid.js:542 static/javascript/o2m.js:123
+msgid "To edit Record, please first save it."
+msgstr "ต้องบันทึกระเบียนก่อนที่จะเริ่มแก้ไข"
+
+#: static/javascript/listgrid.js:650
+msgid "Do you really want to delete selected record(s) ?"
+msgstr "คุณต้องการลบระเบียนที่เลือกไว้"
+
+#: static/javascript/m2o.js:526
+msgid "error in display::"
+msgstr "ข้อผิดพลาดในการแสดงผล::"
+
+#: static/javascript/o2m.js:67
+msgid "Do you really want to delete record ?"
+msgstr "คุณต้องการลบระเบียน"
+
+#: static/javascript/search.js:285
+msgid "Invalid Value"
+msgstr "ค่าไม่ถูกต้อง"
+
+#: static/javascript/viewed.js:63
+msgid "Do you really want to remove this node?"
+msgstr "คุณต้องการเอาโหนดนี้ออก"
+
+#: static/javascript/viewed.js:329
+msgid "Do you really wants to create an inherited view here?"
+msgstr "คุณต้องการสร้างมุมมองที่สืบทอดที่นี้"
+
+#: static/javascript/openerp/openerp.base.js:127
+msgid "doLoadingSuccess: Cannot parse JSON"
+msgstr "doLoadingSuccess: แปล JSON ไม่ออก"
+
+#: static/javascript/openerp/openerp.base.js:335
+msgid "Loading"
+msgstr "กำลังโหลด"
+
+#: static/javascript/openerp/openerp.ui.tips.js:51
+msgid "Object"
+msgstr "วัตถุ"
+
+#: static/javascript/openerp/openerp.ui.tips.js:52
+msgid "Field"
+msgstr "ช่อง"

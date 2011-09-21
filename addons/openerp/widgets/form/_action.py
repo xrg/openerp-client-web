@@ -20,7 +20,7 @@
 ###############################################################################
 import cherrypy
 
-from openerp.utils import rpc, expr_eval, TinyDict
+from openerp.utils import rpc, expr_eval, TinyDict, common
 from openerp.widgets import screen, TinyInputWidget, register_widget
 
 
@@ -43,7 +43,7 @@ class Action(TinyInputWidget):
         proxy = rpc.RPCProxy("ir.actions.actions")
         res = proxy.read([self.act_id], ['type'], rpc.session.context)
         if not res:
-            raise _('Action not found!')
+            raise common.message(_('Action not found'))
 
         _type=res[0]['type']
         self.action = rpc.session.execute('object', 'execute', _type, 'read', [self.act_id], False, rpc.session.context)[0]

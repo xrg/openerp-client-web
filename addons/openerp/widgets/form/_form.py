@@ -491,7 +491,7 @@ class Selection(TinyInputWidget):
         self.type2 = attrs.get('type2')
         self.operator = attrs.get('operator', '=')
         self.search_context = attrs.get('context', {})
-        # m2o as selection
+        #Below mentioned process should be followed for m2o as selection and for boolean field on search panel
         if not self.options and attrs.get('relation') and attrs.get('widget') == 'selection':
             proxy = rpc.RPCProxy(attrs['relation'])
             try:
@@ -768,6 +768,11 @@ class Form(TinyInputWidget):
                 if lval:
                     values = lval[0]
                     self.id = ids[0]
+                    
+                    for f in fields:
+                        if fields[f]['type'] == 'many2one' and isinstance(values[f], tuple):
+                            values[f] = values[f][0]
+                            
                     ConcurrencyInfo.update(self.model, [values])
 
             elif 'datas' in view: # wizard data

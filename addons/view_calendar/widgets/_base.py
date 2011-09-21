@@ -261,18 +261,22 @@ class ICalendar(TinyWidget):
                     self.color_field == 'user_id' and \
                     self.fields[self.color_field].get('relation') == 'res.users':
                     need_to_add_the_user_to_the_list_of_users = True
-                clr_field = rpc.RPCProxy(self.fields[self.color_field]['relation']).search([], 0, search_limit, 0, ctx)
+                clr_field = rpc.RPCProxy(self.fields[self.color_field]['relation']).search([], 0, 0, 0, ctx)
+                
                 if need_to_add_the_user_to_the_list_of_users and self.context.get('search_default_user_id') not in clr_field:
                     clr_field[search_limit-1] = self.context.get('search_default_user_id')
 
             domain.append((self.color_field, 'in', clr_field))
 
         ids = proxy.search(domain, 0, 0, order_by, ctx)
-
+        splitIds = [tuple(x.split('-')) for x in ids]
+        splitIds.sort(key = lambda x: int(x[0]))
+        ids = ["-".join(i) for i in splitIds]
         result = proxy.read(ids, self.fields.keys()+['__last_update'], ctx)
-
+        
         ConcurrencyInfo.update(self.model, result)
         self.concurrency_info = ConcurrencyInfo(self.model, ids)
+        colorCount = 1
         if self.color_field:
             for evt in result:
                 key = evt[self.color_field]
@@ -284,11 +288,10 @@ class ICalendar(TinyWidget):
                 if isinstance(key, tuple): # M2O
                     value, name = key
 
-                self.colors[key] = (name, value, None)
-
-            colors = choice_colors(len(self.colors))
-            for i, (key, value) in enumerate(self.colors.items()):
-                self.colors[key] = (value[0], value[1], colors[i])
+                if key not in self.colors:
+                    colors = choice_colors(colorCount)
+                    self.colors[key] = (name, value, colors[-1])
+                    colorCount += 1
 
         events = []
 

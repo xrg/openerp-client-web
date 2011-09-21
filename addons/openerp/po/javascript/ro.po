@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: openobject-client-web\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2011-03-18 11:53+0100\n"
-"PO-Revision-Date: 2011-03-15 08:06+0000\n"
-"Last-Translator: Mihai Boiciuc <Unknown>\n"
+"PO-Revision-Date: 2011-09-16 16:34+0000\n"
+"Last-Translator: Syraxes <Unknown>\n"
 "Language-Team: Romanian <ro@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2011-03-19 07:06+0000\n"
-"X-Generator: Launchpad (build 12559)\n"
+"X-Launchpad-Export-Date: 2011-09-17 05:22+0000\n"
+"X-Generator: Launchpad (build 13955)\n"
 
 #: static/javascript/form.js:92
 #, python-format
@@ -24,7 +24,7 @@ msgstr ""
 
 #: static/javascript/form.js:169
 msgid "Invalid form, correct red fields."
-msgstr ""
+msgstr "Forma invalidă. Corectați cîmpurile colorate în roșu."
 
 #: static/javascript/form.js:204
 msgid "Do you really want to delete this record?"
@@ -32,70 +32,74 @@ msgstr "Chiar doriti stergerea acestei inregistrari?"
 
 #: static/javascript/form.js:960
 msgid "You must select one or several records !"
-msgstr ""
+msgstr "Trebuie să selectați cel puțin o înregistrare !"
 
 #: static/javascript/form.js:995
 msgid "You must save this record to perform the action !"
-msgstr ""
+msgstr "Trebuie să salvați înregistrarea mai întîi !"
 
 #: static/javascript/form.js:1127
 msgid "Do you really want to delete the attachment"
-msgstr ""
+msgstr "Sigur doriți să ștergeți atașamentul"
 
 #: static/javascript/form.js:1161
 msgid "No record selected ! You can only attach to existing record."
 msgstr ""
+"Nu ați selectat nici o înregistrare ! Atașarea nu poate fi făcută decît la o "
+"înregistrare existentă."
 
 #: static/javascript/form.js:1220
 msgid "OpenERP - Error"
-msgstr ""
+msgstr "Eroare OpenERP"
 
 #: static/javascript/form.js:1291
 msgid ""
 "Warning, the record has been modified,\n"
 "your changes will be discarded."
 msgstr ""
+"Atenție: înregistrarea a fost modificată întretimp,\n"
+"așadar schimbările făcute de dvs vor fi anulate."
 
 #: static/javascript/listgrid.js:542 static/javascript/o2m.js:123
 msgid "To edit Record, please first save it."
-msgstr ""
+msgstr "Vă rugăm să salvați înregistrarea înainte de a încerca să o editați."
 
 #: static/javascript/listgrid.js:650
 msgid "Do you really want to delete selected record(s) ?"
-msgstr ""
+msgstr "Sigur doriți ștergerea înregistrărilor selectate ?"
 
 #: static/javascript/m2o.js:526
 msgid "error in display::"
-msgstr ""
+msgstr "eroare la afișare::"
 
 #: static/javascript/o2m.js:67
 msgid "Do you really want to delete record ?"
-msgstr ""
+msgstr "Sigur doriți să ștergeți înregistrarea ?"
 
 #: static/javascript/search.js:285
 msgid "Invalid Value"
-msgstr ""
+msgstr "Valoare incorectă"
 
 #: static/javascript/viewed.js:63
 msgid "Do you really want to remove this node?"
-msgstr ""
+msgstr "Sigur doriți ștergerea acestui nod ?"
 
 #: static/javascript/viewed.js:329
 msgid "Do you really wants to create an inherited view here?"
-msgstr ""
+msgstr "Sigur doriți crearea aici a unui view moștenit ?"
 
 #: static/javascript/openerp/openerp.base.js:127
 msgid "doLoadingSuccess: Cannot parse JSON"
-msgstr ""
+msgstr "doLoadingSuccess: Eroare la parsarea JSON"
 
 #: static/javascript/openerp/openerp.base.js:335
 msgid "Loading"
-msgstr ""
+msgstr "Se încarcă"
 
 #: static/javascript/openerp/openerp.ui.tips.js:51
 msgid "Object"
-msgstr ""
+msgstr "Obiect"
 
 #: static/javascript/openerp/openerp.ui.tips.js:52
 msgid "Field"
-msgstr ""
+msgstr "Câmp"

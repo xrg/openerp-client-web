@@ -178,7 +178,7 @@ openobject.http = {
      */
     function setHashUrl(url) {
         $.hash.currentUrl = url;
-        var hash = '#' + jQuery.param({'url': url});
+        var hash = '#url=' + encodeURIComponent(url);
         try {
             window.location.hash = hash;
         } catch (e) {

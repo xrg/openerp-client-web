@@ -25,6 +25,7 @@ from openerp.controllers import SecuredController, unsecured, actions, login as 
 from openerp.utils import rpc, cache, TinyDict
 
 from openobject.tools import url, expose, redirect
+from openobject.tools.ast import literal_eval
 
 _MAXIMUM_NUMBER_WELCOME_MESSAGES = 3
 
@@ -55,7 +56,7 @@ class Root(SecuredController):
                 next = '/openerp/home'
         
         return self.menu(next=next)
-    
+
     @expose()
     def home(self):
         context = rpc.session.context
@@ -104,7 +105,15 @@ class Root(SecuredController):
             form.Form().reset_notebooks()
         ctx = rpc.session.context.copy()
         menus = rpc.RPCProxy("ir.ui.menu")
-        ids = menus.search([('parent_id', '=', False)], 0, 0, 0, ctx)
+
+        domain = [('parent_id', '=', False)]
+        user_menu_action_id = rpc.RPCProxy("res.users").read([rpc.session.uid], ['menu_id'], ctx)[0]['menu_id']
+        if user_menu_action_id:
+            act = rpc.RPCProxy('ir.actions.act_window').read([user_menu_action_id[0]], ['res_model', 'domain'], ctx)[0]
+            if act['res_model'] == 'ir.ui.menu' and act['domain']:
+                domain = literal_eval(act['domain'])
+
+        ids = menus.search(domain, 0, 0, 0, ctx)
         parents = menus.read(ids, ['name', 'action', 'web_icon_data', 'web_icon_hover_data'], ctx)
 
         for parent in parents:
@@ -121,7 +130,9 @@ class Root(SecuredController):
                 id = ids[0] 
             ids = menus.search([('parent_id', '=', id)], 0, 0, 0, ctx)
             tools = menus.read(ids, ['name', 'action'], ctx)
-            view = cache.fields_view_get('ir.ui.menu', 1, 'tree', {})
+            #searching id for the hierarchycal tree view of ir.ui.menu 
+            view_id = rpc.RPCProxy('ir.ui.view').search([('model','=','ir.ui.menu'),('type','=','tree')],0,0,'id')[0]
+            view = cache.fields_view_get('ir.ui.menu', view_id, 'tree', {})
             fields = cache.fields_get(view['model'], False, ctx)
             
             for tool in tools:

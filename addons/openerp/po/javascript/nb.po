@@ -8,19 +8,19 @@ msgstr ""
 "Project-Id-Version: openobject-client-web\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2011-03-18 11:53+0100\n"
-"PO-Revision-Date: 2011-04-19 10:51+0000\n"
-"Last-Translator: Rolv Råen (adEgo) <Unknown>\n"
+"PO-Revision-Date: 2011-07-11 10:09+0000\n"
+"Last-Translator: Ole Kristian Gaski <Unknown>\n"
 "Language-Team: Norwegian Bokmal <nb@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2011-04-20 05:56+0000\n"
-"X-Generator: Launchpad (build 12758)\n"
+"X-Launchpad-Export-Date: 2011-09-02 05:11+0000\n"
+"X-Generator: Launchpad (build 13830)\n"
 
 #: static/javascript/form.js:92
 #, python-format
 msgid "You selected to open %(tabs)s tabs - do you want to continue?"
-msgstr ""
+msgstr "Du har valgt å åpne %(tabs)s faner - Vil du fortsette?"
 
 #: static/javascript/form.js:169
 msgid "Invalid form, correct red fields."
@@ -45,6 +45,8 @@ msgstr "Vil du virkelig slette dette vedlegget"
 #: static/javascript/form.js:1161
 msgid "No record selected ! You can only attach to existing record."
 msgstr ""
+"Ingen post er valgt! Du kan bare legge ved dokumenter til en eksisterende "
+"post."
 
 #: static/javascript/form.js:1220
 msgid "OpenERP - Error"
@@ -64,11 +66,11 @@ msgstr "For å redigere posten må du først lagre den"
 
 #: static/javascript/listgrid.js:650
 msgid "Do you really want to delete selected record(s) ?"
-msgstr "Vil du virkelig slette valgte innføringer"
+msgstr "Vil du virkelig slette valgt(e) post(er)?"
 
 #: static/javascript/m2o.js:526
 msgid "error in display::"
-msgstr ""
+msgstr "feil i visning::"
 
 #: static/javascript/o2m.js:67
 msgid "Do you really want to delete record ?"
@@ -92,7 +94,7 @@ msgstr ""
 
 #: static/javascript/openerp/openerp.base.js:335
 msgid "Loading"
-msgstr "Laster"
+msgstr "Laster..."
 
 #: static/javascript/openerp/openerp.ui.tips.js:51
 msgid "Object"

@@ -63,14 +63,10 @@ function displayErrorOverlay(xhr) {
  * Handles errors when loading page via XHR
  * TODO: maybe we should set this as the global error handler via jQuery.ajaxSetup
  *
- * @param url The URL to set, if any, in case of 500 error (so users can just
+ * @param {String} [url] The URL to set, if any, in case of 500 error (so users can just
  * C-R or C-F5).
  */
-function loadingError(/*url*/) {
-    var url;
-    if(arguments[0]) {
-        url = arguments[0]
-    }
+function loadingError(url) {
     return function (xhr) {
         if(url) { $.hash(url); }
         switch (xhr.status) {
@@ -86,26 +82,39 @@ function loadingError(/*url*/) {
                     console.warn("Failed to load ", xhr.url, ":", xhr.status, xhr.statusText);
                 }
         }
-    }
+    };
 }
 
 var ELEMENTS_WITH_CALLBACK = '[callback]:enabled:not([type="hidden"]):not([value=""]):not([readonly])';
+
+/**
+ * Performs initial triggering of all <code>onchange</code> events in form in
+ * order to correctly set up initial values
+ */
+function initial_onchange_triggers() {
+    jQuery(ELEMENTS_WITH_CALLBACK).each(function() {
+        if (jQuery(this).attr('kind') == 'boolean') {
+            onBooleanClicked(jQuery(this).attr('id'));
+        } else {
+            // We pass an arbitrary parameter to the event so we can
+            // differentiate a user event from a trigger
+            jQuery(this).trigger('change', [true]);
+        }
+    });
+}
 /**
  * Creates a LoadingSuccess execution for the providing app element
  * @param app the element to insert successful content in
- * @param url the url being opened, to set as hash-url param
+ * @param {String} [url] the url being opened, to set as hash-url param
  */
-function doLoadingSuccess(app/*, url*/) {
-    var url;
-    if(arguments[1]) {
-        url = arguments[1];
-    }
+function doLoadingSuccess(app, url) {
     return function (data, status, xhr) {
         var target;
         var active_id;
-        if(xhr.getResponseHeader)
+        if(xhr.getResponseHeader){
             target = xhr.getResponseHeader('X-Target');
-            active_id = xhr.getResponseHeader('active_id')
+            active_id = xhr.getResponseHeader('active_id');
+        }
         if(target) {
             var _openAction;
             if (window.top.openAction) {
@@ -122,16 +131,15 @@ function doLoadingSuccess(app/*, url*/) {
         }
         jQuery(window).trigger('before-appcontent-change');
         var data = xhr.responseText || data;
-        if (xhr.getResponseHeader && xhr.getResponseHeader('Content-Type').match("text/javascript")) {
+        if (xhr.getResponseHeader && xhr.getResponseHeader('Content-Type').match(/text\/javascript/)) {
             try {
-                var data = jQuery.parseJSON(data);
-                if (data.error) {
-                    return error_display(data.error);
+                var parsed = jQuery.parseJSON(data);
+                if (parsed.error) {
+                    return error_display(parsed.error);
                 }
-                if (data.reload) {
-                    var view_type = jQuery('#_terp_view_type').val();
-                    if (data.list_grid) {
-                        new ListView(data.list_grid).reload();
+                if (parsed.reload) {
+                    if (parsed.list_grid) {
+                        new ListView(parsed.list_grid).reload();
                     } else {
                         window.location.reload();
                     }
@@ -144,21 +152,13 @@ function doLoadingSuccess(app/*, url*/) {
         }
         jQuery(window).trigger('after-appcontent-change');
 
-        // Only autocall form onchanges if we're on a new object, existing
+        // Only auto-call form onchanges if we're on a new object, existing
         // objects should not get their onchange callbacks called
         // automatically on edition
         if (jQuery('#_terp_id').val() == 'False') {
-            jQuery(ELEMENTS_WITH_CALLBACK).each(function() {
-                if (jQuery(this).attr('kind') == 'boolean') {
-                    onBooleanClicked(jQuery(this).attr('id'));
-                } else {
-                    // We pass an arbitrary parameter to the event so we can
-                    // differenciate a user event from a trigger
-                    jQuery(this).trigger('change', [true]);
-                }
-            });
+            initial_onchange_triggers();
         }
-    }
+    };
 }
 
 /**
@@ -203,10 +203,6 @@ function closeAction() {
     jQuery('.action-dialog').dialog('close');
 }
 
-// Timers before displaying the wait box, in case the remote query takes too long
-var LINK_WAIT_NO_ACTIVITY = 300;
-/** @constant */
-var FORM_WAIT_NO_ACTIVITY = 500;
 /**
  * selector for delegation to links nobody handles
  */
@@ -273,6 +269,16 @@ jQuery(document).ready(function () {
     jQuery(window).bind('hashchange', function () {
         var newUrl = $.hash();
         if(!newUrl || newUrl == $.hash.currentUrl) {
+            //Only autocall form onchanges when o2m open in popup.
+             if (jQuery('[callback]').length){
+                name = jQuery('[callback]').first().attr('id');
+                var parent_prefix = name.indexOf('/') > -1 ? name.slice(0, name.lastIndexOf('/') + 1) : '';
+                if (parent_prefix != ''){
+                    if(jQuery(idSelector(parent_prefix + '_terp_id')).val() == 'False'){
+                        initial_onchange_triggers();
+                    }
+                }
+            }
             return;
         }
         openLink(newUrl);
@@ -342,7 +348,7 @@ function loader_throb() {
         $loader.html($loader.text().replace(/\.{3}$/, '&nbsp;&nbsp;&nbsp;'));
     } else {
         // otherwise replace first space with a dot
-        $loader.text($loader.text().replace(/(\.*)(\s)(\s*)$/, '$1.$3'))
+        $loader.text($loader.text().replace(/(\.*)(\s)(\s*)$/, '$1.$3'));
     }
     LOADER_THROBBER = setTimeout(loader_throb, THROBBER_DELAY);
 }

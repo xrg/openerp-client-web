@@ -14,8 +14,8 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2011-03-19 07:08+0000\n"
-"X-Generator: Launchpad (build 12559)\n"
+"X-Launchpad-Export-Date: 2011-09-02 05:13+0000\n"
+"X-Generator: Launchpad (build 13830)\n"
 
 #: validators.py:75
 msgid "Invalid literal for float"
@@ -251,6 +251,8 @@ msgid ""
 "The server crashed during installation.\n"
 "We suggest you to drop this database."
 msgstr ""
+"Máy chủ bị sự cố trong quá trình cài đặt.\n"
+"Chúng tôi gợi ý bạn nên hủy bỏ cơ sở dữ liệu này."
 
 #: controllers/database.py:195
 msgid "Error during database creation"
@@ -327,19 +329,19 @@ msgstr ""
 
 #: controllers/form.py:1124
 msgid "Set to default value"
-msgstr ""
+msgstr "Sử dụng giá trị mặc định"
 
 #: controllers/form.py:1125
 msgid "Set as default"
-msgstr ""
+msgstr "Đặt làm mặc định"
 
 #: controllers/form.py:1132
 msgid "Action"
-msgstr ""
+msgstr "Hành động"
 
 #: controllers/form.py:1133
 msgid "Report"
-msgstr ""
+msgstr "Báo cáo"
 
 #: controllers/impex.py:66
 msgid ""
@@ -425,11 +427,11 @@ msgstr ""
 
 #: controllers/preferences.py:103
 msgid "Could not change your password."
-msgstr ""
+msgstr "Không thể thay đổi mật khẩu của bạn."
 
 #: controllers/preferences.py:105
 msgid "Original password incorrect, your password was not changed."
-msgstr ""
+msgstr "Mật khẩu cũ không đúng, mật khẩu của bạn không được thay đổi."
 
 #: controllers/root.py:174
 #, python-format
@@ -466,11 +468,11 @@ msgstr "Ngày tạo"
 
 #: controllers/view_log.py:35
 msgid "Latest Modification by"
-msgstr ""
+msgstr "Chỉnh sửa lần gần nhất bởi"
 
 #: controllers/view_log.py:36
 msgid "Latest Modification Date"
-msgstr ""
+msgstr "Ngày chỉnh sửa gần nhất"
 
 #: controllers/view_log.py:37
 msgid "Owner"
@@ -542,7 +544,7 @@ msgstr ""
 
 #: controllers/templates/about.mako:27
 msgid "OpenERP Web"
-msgstr ""
+msgstr "OpenERP Web"
 
 #: controllers/templates/about.mako:30
 msgid "Copyright &copy; 2006-TODAY OpenERP SA. All Rights Reserved."
@@ -703,7 +705,7 @@ msgstr ""
 
 #: controllers/templates/exp.mako:196
 msgid "Save as:"
-msgstr ""
+msgstr "Lưu thành:"
 
 #: controllers/templates/exp.mako:198 controllers/templates/fieldpref.mako:102
 #: controllers/templates/selection.mako:45
@@ -737,7 +739,7 @@ msgstr "Gỡ bỏ"
 
 #: controllers/templates/exp.mako:234
 msgid "Remove All"
-msgstr ""
+msgstr "Xoá Tất cả"
 
 #: controllers/templates/exp.mako:252
 msgid "Export to File"
@@ -880,7 +882,7 @@ msgstr ""
 
 #: controllers/templates/form.mako:130
 msgid "Duplicate this resource"
-msgstr ""
+msgstr "Nhân bản tài nguyên này"
 
 #: controllers/templates/form.mako:131
 msgid "Duplicate"
@@ -958,7 +960,7 @@ msgstr ""
 
 #: controllers/templates/imp.mako:105
 msgid "CSV File:"
-msgstr ""
+msgstr "Tập tin CSV:"
 
 #: controllers/templates/imp.mako:123
 msgid "2. Check your file format"
@@ -975,7 +977,7 @@ msgstr ""
 
 #: controllers/templates/imp.mako:157
 msgid "CSV Options"
-msgstr ""
+msgstr "Các tùy chọn CSV"
 
 #: controllers/templates/imp.mako:160
 msgid "Separator:"
@@ -983,7 +985,7 @@ msgstr "Dấu phân cách:"
 
 #: controllers/templates/imp.mako:162
 msgid "Delimiter:"
-msgstr ""
+msgstr "Dấu phân cách:"
 
 #: controllers/templates/imp.mako:166
 msgid "Encoding:"
@@ -1011,7 +1013,7 @@ msgstr ""
 
 #: controllers/templates/index.mako:193
 msgid "Widgets"
-msgstr ""
+msgstr "Ô điều khiển"
 
 #: controllers/templates/index.mako:233 controllers/templates/index.mako:238
 #, python-format
@@ -1084,7 +1086,7 @@ msgstr ""
 
 #: controllers/templates/openo2m.mako:37
 msgid "Save & New"
-msgstr ""
+msgstr "Lưu & Tạo mới"
 
 #: controllers/templates/save_filter.mako:18
 msgid "Save as Filter"
@@ -1112,15 +1114,15 @@ msgstr "Tìm kiếm"
 #: controllers/templates/search.mako:143
 #, python-format
 msgid "No record found : '%(searched_string)s'."
-msgstr ""
+msgstr "Không tìm thấy bản ghi : '%(searched_string)s'."
 
 #: controllers/templates/selection.mako:4
 msgid "Select action"
-msgstr ""
+msgstr "Chọn hành động"
 
 #: controllers/templates/selection.mako:23
 msgid "Select your action"
-msgstr ""
+msgstr "Chọn hành động của bạn"
 
 #: controllers/templates/server_log.mako:4
 msgid "Server Actions..."
@@ -1216,7 +1218,7 @@ msgstr ""
 
 #: controllers/templates/viewlist.mako:189
 msgid "Priority:"
-msgstr ""
+msgstr "Độ ưu tiên:"
 
 #: utils/common.py:24
 msgid "Error"
@@ -1297,7 +1299,7 @@ msgstr "bằng"
 
 #: widgets/search.py:281
 msgid "is not equal to"
-msgstr ""
+msgstr "không bằng"
 
 #: widgets/search.py:282
 msgid "greater than"
@@ -1309,11 +1311,11 @@ msgstr "nhỏ hơn"
 
 #: widgets/search.py:283
 msgid "in"
-msgstr ""
+msgstr "trong"
 
 #: widgets/search.py:283
 msgid "not in"
-msgstr ""
+msgstr "không có trong"
 
 #: widgets/search.py:392
 msgid "Yes"
@@ -1325,13 +1327,13 @@ msgstr "Không"
 
 #: widgets/form/_action.py:48
 msgid "Action not found!"
-msgstr ""
+msgstr "Hanh động không tìm thấy!"
 
 #: widgets/form/_o2m.py:97 widgets/templates/listgrid/listgrid.mako:156
 #: widgets/templates/listgrid/listgrid.mako:162
 #: widgets/templates/listgrid/listgroup.mako:20
 msgid "Create new record."
-msgstr ""
+msgstr "Tạo bản ghi mới."
 
 #: widgets/form/_o2m.py:110
 msgid "Save/New"
@@ -1431,11 +1433,11 @@ msgstr "Các báo cáo"
 
 #: widgets/templates/sidebar.mako:41 widgets/templates/viewform.mako:51
 msgid "Actions"
-msgstr ""
+msgstr "Các hành động"
 
 #: widgets/templates/sidebar.mako:45
 msgid "Links"
-msgstr ""
+msgstr "Các liên kết"
 
 #: widgets/templates/sidebar.mako:49
 msgid "Submenu"
@@ -1443,7 +1445,7 @@ msgstr "Trình đơn con"
 
 #: widgets/templates/sidebar.mako:54
 msgid "Attachments"
-msgstr ""
+msgstr "Các tập tin đính kèm"
 
 #: widgets/templates/sidebar.mako:74
 msgid "File"
@@ -1463,11 +1465,11 @@ msgstr ""
 
 #: widgets/templates/sidebar.mako:93
 msgid "Edit workflow of the current object"
-msgstr ""
+msgstr "Sửa đổi luồng công việc của đối tượng hiện tại"
 
 #: widgets/templates/sidebar.mako:94
 msgid "Edit Workflow"
-msgstr ""
+msgstr "Sửa đổi Luồng công việc"
 
 #: widgets/templates/sidebar.mako:98
 msgid "Customize current object or create a new object"
@@ -1495,7 +1497,7 @@ msgstr "Dịch"
 
 #: widgets/templates/sidebar.mako:131
 msgid "View Log"
-msgstr ""
+msgstr "Xem sổ theo dõi"
 
 #: widgets/templates/viewform.mako:25
 msgid "Filter records."
@@ -1541,9 +1543,3 @@ msgstr ""
 #: widgets/templates/listgrid/listgrid.mako:194
 msgid "Delete record(s)."
 msgstr ""
-
-#~ msgid "Image"
-#~ msgstr "Hình ảnh"
-
-#~ msgid "Add Resource:"
-#~ msgstr "Thêm tài nguyên:"

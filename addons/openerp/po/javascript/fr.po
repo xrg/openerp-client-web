@@ -8,26 +8,25 @@ msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2011-03-18 11:53+0100\n"
-"PO-Revision-Date: 2011-02-15 19:35+0000\n"
-"Last-Translator: Antony Lesuisse <al@openerp.com>\n"
+"PO-Revision-Date: 2011-09-20 09:43+0000\n"
+"Last-Translator: Quentin THEURET <Unknown>\n"
 "Language-Team: fr <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2011-03-19 07:06+0000\n"
-"X-Generator: Launchpad (build 12559)\n"
+"X-Launchpad-Export-Date: 2011-09-21 05:25+0000\n"
+"X-Generator: Launchpad (build 13996)\n"
 "Generated-By: Babel None\n"
 
 #: static/javascript/form.js:92
 #, python-format
 msgid "You selected to open %(tabs)s tabs - do you want to continue?"
-msgstr "Vous avez choisi d'ouvrir %(tabs)s onglets - voulez-vous continuer?"
+msgstr "Vous avez choisi d'ouvrir %(tabs)s onglets. Voulez-vous continuer ?"
 
 #: static/javascript/form.js:169
 msgid "Invalid form, correct red fields."
 msgstr ""
-"Le formulaire est incorrectement rempli, veuillez vérifier les champs "
-"surlignés en rouge"
+"Formulaire incomplet, veuillez mettre à jour les champs surlignés en rouge."
 
 #: static/javascript/form.js:204
 msgid "Do you really want to delete this record?"
@@ -39,11 +38,11 @@ msgstr "Vous devez sélectionner au moins un enregistrement!"
 
 #: static/javascript/form.js:995
 msgid "You must save this record to perform the action !"
-msgstr ""
+msgstr "Vous devez sauvegarder cet enregistrement avant de lancer l'action !"
 
 #: static/javascript/form.js:1127
 msgid "Do you really want to delete the attachment"
-msgstr "Voulez-vous réellement supprimer ce fichier attaché?"
+msgstr "Voulez-vous réellement supprimer cette pièce jointe ?"
 
 #: static/javascript/form.js:1161
 msgid "No record selected ! You can only attach to existing record."
@@ -69,7 +68,7 @@ msgstr "Pour éditer l'enregistrement, vous devez d'abord le sauvegarder."
 
 #: static/javascript/listgrid.js:650
 msgid "Do you really want to delete selected record(s) ?"
-msgstr "Voulez-vous réellement supprimer les enregistrements sélectionnés?"
+msgstr "Voulez-vous réellement supprimer les enregistrements sélectionnés ?"
 
 #: static/javascript/m2o.js:526
 msgid "error in display::"
@@ -77,19 +76,19 @@ msgstr "Erreur d'affichage ::"
 
 #: static/javascript/o2m.js:67
 msgid "Do you really want to delete record ?"
-msgstr "Voulez-vous réellement supprimer cet enregistrement?"
+msgstr "Voulez-vous réellement supprimer cet enregistrement ?"
 
 #: static/javascript/search.js:285
 msgid "Invalid Value"
-msgstr ""
+msgstr "Valeur incorrecte"
 
 #: static/javascript/viewed.js:63
 msgid "Do you really want to remove this node?"
-msgstr "Voulez-vous réellement supprimer ce noeud?"
+msgstr "Voulez-vous réellement supprimer ce noeud ?"
 
 #: static/javascript/viewed.js:329
 msgid "Do you really wants to create an inherited view here?"
-msgstr "Voulez-vous réellement créer une vue héritée à cet emplacement?"
+msgstr "Voulez-vous réellement créer une vue héritée à cet emplacement ?"
 
 #: static/javascript/openerp/openerp.base.js:127
 msgid "doLoadingSuccess: Cannot parse JSON"

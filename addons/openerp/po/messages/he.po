@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: openobject-client-web\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2011-03-18 11:53+0100\n"
-"PO-Revision-Date: 2011-02-28 12:02+0000\n"
-"Last-Translator: Olivier Dony (OpenERP) <Unknown>\n"
+"PO-Revision-Date: 2011-05-26 12:33+0000\n"
+"Last-Translator: Natan Alter <Unknown>\n"
 "Language-Team: Hebrew <he@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2011-03-19 07:07+0000\n"
-"X-Generator: Launchpad (build 12559)\n"
+"X-Launchpad-Export-Date: 2011-09-02 05:12+0000\n"
+"X-Generator: Launchpad (build 13830)\n"
 
 #: validators.py:75
 msgid "Invalid literal for float"
@@ -126,7 +126,7 @@ msgstr ""
 
 #: controllers/database.py:69 controllers/database.py:101
 msgid "New database name:"
-msgstr ""
+msgstr "שם מסד הנתונים החדש:"
 
 #: controllers/database.py:69
 msgid ""
@@ -155,6 +155,8 @@ msgid ""
 "will be able to install new languages after installation through the "
 "administration menu."
 msgstr ""
+"בחר בשפת ברירת המחדל שתותקן עבור מסד הנתונים הזה. תוכל להתקין שפות חדשות "
+"לאחר ההתקנה דרך תפריט הניהול."
 
 #: controllers/database.py:72
 msgid "Administrator password:"
@@ -164,7 +166,7 @@ msgstr ""
 msgid ""
 "This is the password of the 'admin' user that will be created in your new "
 "database."
-msgstr ""
+msgstr "זוהי הסיסמה של המשתמש \"admin\" שיווצר במסד הנתונים החדש שלך."
 
 #: controllers/database.py:73
 msgid "Confirm password:"
@@ -194,7 +196,7 @@ msgstr "מסד הנתונים:"
 #: controllers/templates/login_ajax.mako:78
 #: controllers/templates/login_ajax.mako:98
 msgid "Password:"
-msgstr "ססמה:"
+msgstr "סיסמה:"
 
 #: controllers/database.py:88
 msgid "Backup database"
@@ -202,7 +204,7 @@ msgstr ""
 
 #: controllers/database.py:90 controllers/templates/database.mako:60
 msgid "Backup"
-msgstr ""
+msgstr "גיבוי"
 
 #: controllers/database.py:96
 msgid "Restore database"
@@ -222,7 +224,7 @@ msgstr ""
 
 #: controllers/database.py:107 controllers/templates/preferences/index.mako:37
 msgid "Change Password"
-msgstr "שינוי ססמה"
+msgstr "שנה סיסמה"
 
 #: controllers/database.py:108
 msgid "Old Password:"
@@ -234,7 +236,7 @@ msgstr "סיסמה חדשה:"
 
 #: controllers/database.py:110
 msgid "Confirm Password:"
-msgstr "אישור הסיסמה:"
+msgstr "אשר סיסמה:"
 
 #: controllers/database.py:173
 msgid "You must avoid all accents, space or special characters."
