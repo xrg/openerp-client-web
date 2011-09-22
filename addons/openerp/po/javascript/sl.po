@@ -8,19 +8,20 @@ msgstr ""
 "Project-Id-Version: openobject-client-web\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2011-03-18 11:53+0100\n"
-"PO-Revision-Date: 2011-09-19 13:46+0000\n"
+"PO-Revision-Date: 2011-09-21 08:29+0000\n"
 "Last-Translator: Anze (Neotek) <Unknown>\n"
 "Language-Team: Slovenian <sl@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2011-09-20 05:18+0000\n"
-"X-Generator: Launchpad (build 13980)\n"
+"X-Launchpad-Export-Date: 2011-09-22 05:01+0000\n"
+"X-Generator: Launchpad (build 13996)\n"
 
 #: static/javascript/form.js:92
 #, python-format
 msgid "You selected to open %(tabs)s tabs - do you want to continue?"
 msgstr ""
+"Izbrali ste, da boste odprli zavihke %(tabs)s - ali želite nadaljevati?"
 
 #: static/javascript/form.js:169
 msgid "Invalid form, correct red fields."
@@ -84,11 +85,11 @@ msgstr "Ali res želite izbrisati to vozlišče?"
 
 #: static/javascript/viewed.js:329
 msgid "Do you really wants to create an inherited view here?"
-msgstr ""
+msgstr "Ali res želite ustvariti deden pogled tukaj?"
 
 #: static/javascript/openerp/openerp.base.js:127
 msgid "doLoadingSuccess: Cannot parse JSON"
-msgstr ""
+msgstr "doLoadingSuccess: Ni mogoče razčleniti JSON"
 
 #: static/javascript/openerp/openerp.base.js:335
 msgid "Loading"
