@@ -41,7 +41,8 @@ var One2Many = function(name, inline) {
     this.parent_view_id = openobject.dom.get(parent_prefix + '_terp_view_id').value;
     this.parent_view_ids = jQuery(idSelector(parent_prefix + '_terp_view_ids')).val();
     this.parent_view_mode = jQuery(idSelector(parent_prefix + '_terp_view_mode')).val();
-
+    this.parent_view_type = openobject.dom.get(parent_prefix + '_terp_view_type').value;
+    this.m2o = jQuery('#_terp_m2o').length ? "True" : "False";
     // hide new button when editors are visible
     if (this.mode == 'tree' && this.inline) {
         var self = this;
@@ -51,6 +52,18 @@ var One2Many = function(name, inline) {
         });
     }
 
+    this.params_parent = false
+    if (this.m2o == "False"){
+        this.params_parent = {
+            '_terp_view_params/_terp_model': openobject.dom.get('_terp_model').value,
+            '_terp_view_params/_terp_id': openobject.dom.get('_terp_id').value,
+            '_terp_view_params/_terp_view_id':openobject.dom.get('_terp_view_id').value,
+            '_terp_view_params/_terp_view_ids': openobject.dom.get('_terp_view_ids').value,
+            '_terp_view_params/_terp_view_mode': openobject.dom.get('_terp_view_mode').value,
+            '_terp_view_params/_terp_context': openobject.dom.get('_terp_context').value || {},
+            '_terp_view_params/_terp_view_type': 'form'
+        };
+    }
     var $this = jQuery(idSelector('_o2m_' + name));
     var $list = jQuery(idSelector(name));
     $list.attr({
@@ -136,6 +149,15 @@ One2Many.prototype = {
             '_terp_view_params/_terp_view_type': 'form'
         };
 
+        var o2m_name;
+        if (this.params_parent) {
+            params = this.params_parent;
+        }
+        else {
+            o2m_name = this.name.split('/');
+            o2m_name = o2m_name[o2m_name.length-1];
+        }
+
         while (names.length) {
             parents.push(names.shift());
             var prefix = parents.join('/');
@@ -153,9 +175,11 @@ One2Many.prototype = {
             _terp_parent_model: this.parent_model,
             _terp_parent_id: this.parent_id,
             _terp_parent_view_id: this.parent_view_id,
-            _terp_o2m: this.name,
+            _terp_o2m: o2m_name ? o2m_name : this.name,
             _terp_o2m_model: this.model,
-            _terp_editable: readonly ? 0 : 1
+            _terp_parent_view_type: this.parent_view_type,
+            _terp_editable: readonly ? 0 : 1,
+            _terp_m2o: this.m2o
         });
 
         if(id != null) {
