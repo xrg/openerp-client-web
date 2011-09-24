@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2011-03-18 11:53+0100\n"
-"PO-Revision-Date: 2011-02-28 12:02+0000\n"
-"Last-Translator: Grzegorz Grzelak (OpenGLOBE.pl) <grzegorz@openglobe.pl>\n"
+"PO-Revision-Date: 2011-09-23 09:38+0000\n"
+"Last-Translator: Wojciech Zylinski <Unknown>\n"
 "Language-Team: pl <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2011-09-02 05:12+0000\n"
-"X-Generator: Launchpad (build 13830)\n"
+"X-Launchpad-Export-Date: 2011-09-24 05:19+0000\n"
+"X-Generator: Launchpad (build 14012)\n"
 "Generated-By: Babel None\n"
 
 #: validators.py:75
@@ -344,7 +344,7 @@ msgstr "Niepoprawny wyzwalacz on_change : %s"
 
 #: controllers/form.py:1121
 msgid "Open resource"
-msgstr ""
+msgstr "Otwórz zasób"
 
 #: controllers/form.py:1124
 msgid "Set to default value"
@@ -356,11 +356,11 @@ msgstr ""
 
 #: controllers/form.py:1132
 msgid "Action"
-msgstr ""
+msgstr "Akcja"
 
 #: controllers/form.py:1133
 msgid "Report"
-msgstr ""
+msgstr "Raport"
 
 #: controllers/impex.py:66
 msgid ""
@@ -587,7 +587,7 @@ msgstr ""
 
 #: controllers/templates/about.mako:42
 msgid "About OpenERP"
-msgstr ""
+msgstr "O OpenERP"
 
 #: controllers/templates/about.mako:44
 #, python-format
@@ -637,7 +637,7 @@ msgstr ""
 
 #: controllers/templates/error_page.mako:84
 msgid "Let me fix it"
-msgstr ""
+msgstr "Pozwól mi to naprawić"
 
 #: controllers/templates/error_page.mako:91
 #: controllers/templates/error_page.mako:93
@@ -664,7 +664,7 @@ msgstr "Opisz co zrobiłeś(-aś):"
 
 #: controllers/templates/error_page.mako:120
 msgid "Other Comments:"
-msgstr ""
+msgstr "Pozostałe komentarze:"
 
 #: controllers/templates/error_page.mako:132
 msgid "Send to Publisher Warranty Team"
@@ -707,7 +707,7 @@ msgstr "Eksport danych"
 
 #: controllers/templates/exp.mako:166
 msgid "Export Type:"
-msgstr ""
+msgstr "Typ eksportu:"
 
 #: controllers/templates/exp.mako:169
 msgid "Import Compatible Export"
@@ -719,7 +719,7 @@ msgstr ""
 
 #: controllers/templates/exp.mako:190
 msgid "Available fields"
-msgstr ""
+msgstr "Dostępne pola"
 
 #: controllers/templates/exp.mako:192
 msgid "Fields to export"
@@ -727,16 +727,16 @@ msgstr "Pola do eksportu"
 
 #: controllers/templates/exp.mako:194
 msgid "Save fields list"
-msgstr ""
+msgstr "Zapisz listę pól"
 
 #: controllers/templates/exp.mako:196
 msgid "Save as:"
-msgstr ""
+msgstr "Zapisz jako:"
 
 #: controllers/templates/exp.mako:198 controllers/templates/fieldpref.mako:102
 #: controllers/templates/selection.mako:45
 msgid "OK"
-msgstr ""
+msgstr "OK"
 
 #: controllers/templates/exp.mako:202
 msgid "Saved exports:"
@@ -765,7 +765,7 @@ msgstr "Usuń"
 
 #: controllers/templates/exp.mako:234
 msgid "Remove All"
-msgstr ""
+msgstr "Usuń wszystko"
 
 #: controllers/templates/exp.mako:252
 msgid "Export to File"
@@ -986,11 +986,11 @@ msgstr ""
 
 #: controllers/templates/imp.mako:105
 msgid "CSV File:"
-msgstr ""
+msgstr "Plik CSV:"
 
 #: controllers/templates/imp.mako:123
 msgid "2. Check your file format"
-msgstr ""
+msgstr "2. Sprawdź format pliku"
 
 #: controllers/templates/imp.mako:130
 #, python-format
