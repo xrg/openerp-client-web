@@ -267,11 +267,12 @@ class ICalendar(TinyWidget):
                     clr_field[search_limit-1] = self.context.get('search_default_user_id')
 
             domain.append((self.color_field, 'in', clr_field))
-
+        
         ids = proxy.search(domain, 0, 0, order_by, ctx)
-        splitIds = [tuple(x.split('-')) for x in ids]
+        splitIds = [tuple(x.split('-')) for x in ids if isinstance(x, str)]
         splitIds.sort(key = lambda x: int(x[0]))
-        ids = ["-".join(i) for i in splitIds]
+        if splitIds:
+            ids = ["-".join(i) for i in splitIds]
         result = proxy.read(ids, self.fields.keys()+['__last_update'], ctx)
         
         ConcurrencyInfo.update(self.model, result)
