@@ -632,6 +632,9 @@ class Button(TinyInputWidget):
         # remove mnemonic
         self.string = re.sub('_(?!_)', '', self.string or '')
 
+        if (getattr(cherrypy.request, 'terp_params', {}) and 
+            cherrypy.request.terp_params.o2m and not cherrypy.request.terp_params.o2m_id):
+            self.readonly = True
         self.btype = attrs.get('special', attrs.get('type', 'workflow'))
         self.context = attrs.get("context", {})
         self.nolabel = True
