@@ -262,7 +262,7 @@ class ICalendar(TinyWidget):
                     self.fields[self.color_field].get('relation') == 'res.users':
                     need_to_add_the_user_to_the_list_of_users = True
                 clr_field = rpc.RPCProxy(self.fields[self.color_field]['relation']).search([], 0, 0, 0, ctx)
-                
+
                 if need_to_add_the_user_to_the_list_of_users and self.context.get('search_default_user_id') not in clr_field:
                     clr_field[search_limit-1] = self.context.get('search_default_user_id')
 
