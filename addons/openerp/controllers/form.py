@@ -666,8 +666,6 @@ class Form(SecuredController):
             proxy = rpc.RPCProxy(params.model)
             res = proxy.read([params.id],[params.field], rpc.session.context)
             return base64.decodestring(res[0][params.field])
-        elif params.filename:
-            return base64.decodestring(data[params.filename])
         else:
             return base64.decodestring(data[params.field])
         
