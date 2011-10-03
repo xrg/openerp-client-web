@@ -411,9 +411,10 @@ class Form(SecuredController):
                     for field, original_value in original_data.iteritems():
                         if isinstance(original_value, tuple):
                             original_data[field] = original_value[0]
-                        #When field is many2many at that time following code will be applied
+
                         if field in data and data[field] != original_data[field]:
-                            if isinstance(original_data[field], list):
+                            #When field is many2many at that time following code will be applied
+                            if isinstance(data[field], list) and isinstance(data[field][0][2], list):
                                 if sorted(data[field][0][2]) != sorted(original_data[field]):
                                     modified[field] = data[field]
                             else:
