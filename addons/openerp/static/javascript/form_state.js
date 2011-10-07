@@ -324,11 +324,7 @@ function form_setRequired(container, field, required) {
     var $field = jQuery(idSelector(field));
     
     if (required == undefined){
-        required = $field.attr("fld_required");
-        if (required == "1") 
-            required = true;
-        else 
-            required = false;
+        required =  $field.attr("fld_required") == "1" ? true : false; 
     }
     
     if (editable == 'True' && required) {
