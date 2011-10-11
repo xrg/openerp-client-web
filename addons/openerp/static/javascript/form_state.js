@@ -202,7 +202,12 @@ function form_evalExpr(prefix, expr, ref_elem) {
 
         var elem_value;
         if(elem.is(':input')) {
-            elem_value = elem.val();
+            elem_kind = elem.attr('kind')
+            if(elem_kind == 'float' || elem_kind == 'integer') {
+                elem_value = eval(elem.val());
+            } else {
+                elem_value = elem.val();
+            }
         } else if(elem[0].nodeName == "TABLE"){
         	elem_value = $.trim($(elem).find("tr tbody:nth-child(2)").text())
         } else {
