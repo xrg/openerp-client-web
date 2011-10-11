@@ -20,6 +20,7 @@
 ###############################################################################
 
 import random, time
+import binascii
 
 from openobject import tools
 from openerp import utils
@@ -40,10 +41,11 @@ __all__ = ["Binary", "Image"]
 
 class Binary(TinyInputWidget):
     template = "/openerp/widgets/form/templates/binary.mako"
-    params = ["name", "text", "readonly", "filename", "bin_data", 'value_bin_size']
+    params = ["name", "text", "readonly", "filename", "bin_data", 'value_bin_size', 'val']
 
     text = None
     file_upload = True
+    val = True
 
     def __init__(self, **attrs):
         super(Binary, self).__init__(**attrs)
@@ -56,6 +58,10 @@ class Binary(TinyInputWidget):
 
     def set_value(self, value):
         #XXX: server bug work-arround
+        try:
+            binascii.a2b_base64(value)
+        except:
+            self.val = False
         if self.value_bin_size:
             self.text = value
             return
