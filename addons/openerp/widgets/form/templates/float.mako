@@ -6,7 +6,7 @@
         id ='${name}' 
         value="${value}" 
         size="1"
-        class="${css_class}" ${py.attrs(attrs)}/>
+        class="${css_class}" ${py.attrs(attrs, fld_required=required and 1 or 0, fld_readonly=readonly and 1 or 0)}/>
 % endif
 
 % if editable and error:

@@ -93,7 +93,7 @@ function form_onStateChange(container, widget, states, evt) {
         	form_setRequired(container, widget, attr['required']);
     	}
         else {
-        	form_setRequired(container, widget, parseInt($field.attr('required')));
+        	form_setRequired(container, widget, parseInt($field.attr('fld_required')));
         }
     }
 }
@@ -287,6 +287,12 @@ function form_setReadonly(container, fieldName, readonly) {
                 .attr({'disabled': readonly, 'readOnly': readonly});
         return;
     }
+    
+    if (type == 'hidden' && kind == 'many2one') {
+        ManyToOne(field_id).setReadonly(readonly);
+        $field = jQuery(idSelector(fieldName+'_text'));
+    }
+    
     $field.attr({'disabled':readonly, 'readOnly': readonly});
 
     if (readonly) {
@@ -301,10 +307,6 @@ function form_setReadonly(container, fieldName, readonly) {
     } else {
         $field.removeClass('readonlyfield');
         $field.css('color', '');
-    }
-
-    if (type == 'hidden' && kind == 'many2one') {
-        ManyToOne(field_id).setReadonly(readonly);
     }
 
     if (!kind && (jQuery(idSelector(field_id+'_btn_')).length || jQuery(idSelector('_o2m'+field_id)).length)) { // one2many
@@ -325,6 +327,11 @@ function form_setRequired(container, field, required) {
     var editable = getElement('_terp_editable').value;
 
     var $field = jQuery(idSelector(field));
+    
+    if (required == undefined){
+        required =  $field.attr("fld_required") == "1" ? true : false; 
+    }
+    
     if (editable == 'True' && required) {
         $field.toggleClass('requiredfield', required);
     }
@@ -337,9 +344,11 @@ function form_setRequired(container, field, required) {
     $field.removeClass('errorfield');
 
     var kind = $field.attr('kind');
-    
-    if (field.type == 'hidden' && kind == 'many2one') {
-        form_setRequired(container, openobject.dom.get(field.name + '_text'), required);
+    var type = $field.attr('type');
+    var name = $field.attr('name');
+
+    if (type == 'hidden' && kind == 'many2one') {
+        form_setRequired(container, name + '_text' , required);
     }
 }
 

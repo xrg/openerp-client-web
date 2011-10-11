@@ -11,7 +11,7 @@
     <%self:m2o_container>
         <span class="m2o">
             <input type="hidden" id="${name}" name="${name}" class="${css_class}" value="${value}"
-                ${py.attrs(attrs, kind=kind, domain=domain, context=ctx, relation=relation, required=required and 1 or 0, fld_readonly=readonly and 1 or 0)}/>
+                ${py.attrs(attrs, kind=kind, domain=domain, context=ctx, relation=relation, fld_required=required and 1 or 0, fld_readonly=readonly and 1 or 0)}/>
             <input type="text" id="${name}_text" class="${css_class}" size="1"
                 ${py.attrs(attrs, kind=kind, relation=relation, value=text)}/>
 
