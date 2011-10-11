@@ -412,7 +412,12 @@ class Form(SecuredController):
                         if isinstance(original_value, tuple):
                             original_data[field] = original_value[0]
                         if field in data and data[field] != original_data[field]:
-                            modified[field] = data[field]
+                            #When field is many2many at that time following code will be applied
+                            if isinstance(data[field], list) and isinstance(data[field][0][2], list):
+                                if sorted(data[field][0][2]) != sorted(original_data[field]):
+                                    modified[field] = data[field]
+                            else:
+                                modified[field] = data[field]
 
                     ctx = utils.context_with_concurrency_info(params.context, params.concurrency_info)
                     Model.write([params.id], modified, ctx)
