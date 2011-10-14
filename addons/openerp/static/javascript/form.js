@@ -462,10 +462,6 @@ function onChange(caller){
         return;
     }
 
-    if (jQuery('tr.editors').length) {
-        jQuery('tr.editors').remove()
-    }
-
     var $caller = jQuery(openobject.dom.get(caller));
     var $form = $caller.closest('form');
 
