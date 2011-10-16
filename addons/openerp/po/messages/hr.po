@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: openobject-client-web\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2011-03-18 11:53+0100\n"
-"PO-Revision-Date: 2011-02-28 12:02+0000\n"
-"Last-Translator: Goran Kliska (Aplikacija d.o.o.) <gkliska@gmail.com>\n"
+"PO-Revision-Date: 2011-10-04 18:36+0000\n"
+"Last-Translator: Goran Cvijanović <goranc@gmail.com>\n"
 "Language-Team: Croatian <hr@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2011-09-02 05:12+0000\n"
-"X-Generator: Launchpad (build 13830)\n"
+"X-Launchpad-Export-Date: 2011-10-05 04:54+0000\n"
+"X-Generator: Launchpad (build 14085)\n"
 
 #: validators.py:75
 msgid "Invalid literal for float"
@@ -42,14 +42,14 @@ msgstr "Adresa e-pošte mora sadržavati jedan@ znak."
 msgid ""
 "The username portion of the email address is invalid (the portion before the "
 "@: %(username)s)"
-msgstr ""
+msgstr "Pogrešno korisničko ime u email adresi (dio prije @: %(username)s)"
 
 #: validators.py:250
 #, python-format
 msgid ""
 "The domain portion of the email address is invalid (the portion after the @: "
 "%(domain)s)"
-msgstr ""
+msgstr "Pogrešan naziv domene u email adresi (dio prije @: %(domain)s)"
 
 #: validators.py:254
 msgid "You must start your URL with http://, https://, etc"
@@ -194,11 +194,11 @@ msgstr ""
 
 #: controllers/database.py:79
 msgid "Drop database"
-msgstr ""
+msgstr "Obriši bazu podataka"
 
 #: controllers/database.py:81 controllers/templates/database.mako:58
 msgid "Drop"
-msgstr ""
+msgstr "Obriši"
 
 #: controllers/database.py:83 controllers/database.py:91
 #: controllers/templates/login.mako:43
@@ -214,7 +214,7 @@ msgstr "Lozinka:"
 
 #: controllers/database.py:88
 msgid "Backup database"
-msgstr ""
+msgstr "Napravi sigurnosnu kopiju baze"
 
 #: controllers/database.py:90 controllers/templates/database.mako:60
 msgid "Backup"
@@ -226,7 +226,7 @@ msgstr "Vraćanje baze podataka"
 
 #: controllers/database.py:98 controllers/templates/database.mako:62
 msgid "Restore"
-msgstr ""
+msgstr "Obnovi"
 
 #: controllers/database.py:99
 msgid "File:"
@@ -283,15 +283,15 @@ msgstr "Ne mogu stvoriti bazu podataka."
 
 #: controllers/database.py:228
 msgid "Could not drop database"
-msgstr ""
+msgstr "Ne mogu obrisati bazu"
 
 #: controllers/database.py:251
 msgid "Could not create backup."
-msgstr ""
+msgstr "Ne mogu kreirati sigurnosnu kopiju."
 
 #: controllers/database.py:275
 msgid "Could not restore database"
-msgstr ""
+msgstr "Ne mogu obnoviti bazu"
 
 #: controllers/database.py:298
 msgid "Error, password not changed."
@@ -302,6 +302,8 @@ msgid ""
 "Your problem has been sent to the quality team\n"
 "We will recontact you after analysing the problem."
 msgstr ""
+"Vaša prijava problema je poslana timu za podršku\n"
+"Javiti ćemo vam se nakon analize problema."
 
 #: controllers/error_page.py:81
 #, python-format
@@ -339,25 +341,27 @@ msgstr ""
 
 #: controllers/form.py:1124
 msgid "Set to default value"
-msgstr ""
+msgstr "Postavi na predefiniranu vrijednost"
 
 #: controllers/form.py:1125
 msgid "Set as default"
-msgstr ""
+msgstr "Postavi kao predefinirano"
 
 #: controllers/form.py:1132
 msgid "Action"
-msgstr ""
+msgstr "Akcija"
 
 #: controllers/form.py:1133
 msgid "Report"
-msgstr ""
+msgstr "Izvještaj"
 
 #: controllers/impex.py:66
 msgid ""
 "Operation failed\n"
 "I/O error"
 msgstr ""
+"Neuspješna radnja\n"
+"I/O greška"
 
 #: controllers/impex.py:402
 msgid "Export Error"
@@ -365,7 +369,7 @@ msgstr "Greška izvoza"
 
 #: controllers/impex.py:469
 msgid "Database ID"
-msgstr ""
+msgstr "Oznaka baze"
 
 #: controllers/impex.py:476
 msgid "Error opening .CSV file"

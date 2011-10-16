@@ -412,7 +412,12 @@ class Form(SecuredController):
                         if isinstance(original_value, tuple):
                             original_data[field] = original_value[0]
                         if field in data and data[field] != original_data[field]:
-                            modified[field] = data[field]
+                            #When field is many2many at that time following code will be applied
+                            if isinstance(data[field], list) and isinstance(data[field][0][2], list):
+                                if sorted(data[field][0][2]) != sorted(original_data[field]):
+                                    modified[field] = data[field]
+                            else:
+                                modified[field] = data[field]
 
                     ctx = utils.context_with_concurrency_info(params.context, params.concurrency_info)
                     Model.write([params.id], modified, ctx)
@@ -666,8 +671,6 @@ class Form(SecuredController):
             proxy = rpc.RPCProxy(params.model)
             res = proxy.read([params.id],[params.field], rpc.session.context)
             return base64.decodestring(res[0][params.field])
-        elif params.filename:
-            return base64.decodestring(data[params.filename])
         else:
             return base64.decodestring(data[params.field])
         
@@ -1022,6 +1025,10 @@ class Form(SecuredController):
         model = data.pop('_terp_model')
         context = data.pop('_terp_context')
 
+        change_default = False
+        if '_terp_change_default' in data:
+            change_default = data.pop('_terp_change_default')
+
         try:
             context = eval(context) # convert to python dict
         except:
@@ -1125,6 +1132,13 @@ class Form(SecuredController):
             for k in result['domain']:
                 result['domain'][k] = ustr(result['domain'][k])
 
+        if change_default:
+            value = data.get('_terp_value')
+            proxy = rpc.RPCProxy('ir.values')
+            values = proxy.get('default', '%s=%s' % (caller, value), [(model, False)], False, context)
+            for index, fname, value in values:
+                if fname not in result['value']:
+                    result['value'][fname] = value
         return result
 
     @expose('json')

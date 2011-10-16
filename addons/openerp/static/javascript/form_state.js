@@ -81,19 +81,19 @@ function form_onStateChange(container, widget, states, evt) {
 
     var attr = states[value];
     if (has_readonly) {
-    	if (attr) {
-        	form_setReadonly(container, widget, attr['readonly']);
-    	}
-    	else {
-        	form_setReadonly(container, widget, parseInt($field.attr('fld_readonly')));
-    	}
+        if (attr) {
+            form_setReadonly(container, widget, attr['readonly']);
+        }
+        else {
+            form_setReadonly(container, widget, parseInt($field.attr('fld_readonly')));
+        }
     }
     if (has_required) {
-    	if (attr) {
-        	form_setRequired(container, widget, attr['required']);
-    	}
+        if (attr) {
+            form_setRequired(container, widget, attr['required']);
+        }
         else {
-        	form_setRequired(container, widget, parseInt($field.attr('required')));
+            form_setRequired(container, widget, parseInt($field.attr('fld_required')));
         }
     }
 }
@@ -174,6 +174,18 @@ function form_onAttrChange(container, widgetName, attr, expr, elem) {
     }
 }
 
+function matchArray(val,eval_value){
+    if (val.length != eval_value.length) { return false; }
+    var val = val.sort(),
+    eval_value = eval_value.sort();
+    for (var i = 0; val[i]; i++) {
+        if (val[i] !== eval_value[i]) { 
+            return false;
+        }
+    }
+    return true;
+}
+
 function form_evalExpr(prefix, expr, ref_elem) {
 
     var stack = [];
@@ -202,9 +214,22 @@ function form_evalExpr(prefix, expr, ref_elem) {
 
         var elem_value;
         if(elem.is(':input')) {
-            elem_value = elem.val();
+            elem_kind = elem.attr('kind')
+            if(elem_kind == 'float' || elem_kind == 'integer') {
+                elem_value = eval(elem.val());
+            } else {
+                elem_value = elem.val();
+            }
         } else if(elem[0].nodeName == "TABLE"){
-        	elem_value = $.trim($(elem).find("tr tbody:nth-child(2)").text())
+            prefix = $(elem).attr('id')
+            elem_value = eval($(idSelector(prefix+"/_terp_ids")).val())
+            res = matchArray(eval(val), elem_value)
+            if(res){
+                val = elem_value = true
+            }else{
+                val = true
+                elem_value = false
+            }
         } else {
             elem_value = elem.attr('value') || elem.text();
         }
@@ -282,6 +307,12 @@ function form_setReadonly(container, fieldName, readonly) {
                 .attr({'disabled': readonly, 'readOnly': readonly});
         return;
     }
+    
+    if (type == 'hidden' && kind == 'many2one') {
+        ManyToOne(field_id).setReadonly(readonly);
+        $field = jQuery(idSelector(fieldName+'_text'));
+    }
+    
     $field.attr({'disabled':readonly, 'readOnly': readonly});
 
     if (readonly) {
@@ -296,10 +327,6 @@ function form_setReadonly(container, fieldName, readonly) {
     } else {
         $field.removeClass('readonlyfield');
         $field.css('color', '');
-    }
-
-    if (type == 'hidden' && kind == 'many2one') {
-        ManyToOne(field_id).setReadonly(readonly);
     }
 
     if (!kind && (jQuery(idSelector(field_id+'_btn_')).length || jQuery(idSelector('_o2m'+field_id)).length)) { // one2many
@@ -320,11 +347,16 @@ function form_setRequired(container, field, required) {
     var editable = getElement('_terp_editable').value;
 
     var $field = jQuery(idSelector(field));
+    
+    if (required == undefined){
+        required =  $field.attr("fld_required") == "1" ? true : false; 
+    }
+    
     if (editable == 'True' && required) {
         $field.toggleClass('requiredfield', required);
     }
     else {
-    	$field.removeClass('requiredfield');
+        $field.removeClass('requiredfield');
     }
     if(required) {
         $field.removeClass('readonlyfield');
@@ -332,9 +364,11 @@ function form_setRequired(container, field, required) {
     $field.removeClass('errorfield');
 
     var kind = $field.attr('kind');
-    
-    if (field.type == 'hidden' && kind == 'many2one') {
-        form_setRequired(container, openobject.dom.get(field.name + '_text'), required);
+    var type = $field.attr('type');
+    var name = $field.attr('name');
+
+    if (type == 'hidden' && kind == 'many2one') {
+        form_setRequired(container, name + '_text' , required);
     }
 }
 

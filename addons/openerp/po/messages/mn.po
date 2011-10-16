@@ -8,19 +8,19 @@ msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2011-03-18 11:53+0100\n"
-"PO-Revision-Date: 2011-05-26 03:23+0000\n"
+"PO-Revision-Date: 2011-10-02 19:39+0000\n"
 "Last-Translator: BAYARAA Sainbayar <Unknown>\n"
 "Language-Team: mn <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2011-09-02 05:12+0000\n"
-"X-Generator: Launchpad (build 13830)\n"
+"X-Launchpad-Export-Date: 2011-10-03 04:46+0000\n"
+"X-Generator: Launchpad (build 14071)\n"
 "Generated-By: Babel None\n"
 
 #: validators.py:75
 msgid "Invalid literal for float"
-msgstr "Тоон утга буруу байна"
+msgstr "Бутархай тоо бичигдлийн алдаатай байна"
 
 #: validators.py:114 validators.py:119 validators.py:262
 msgid "Invalid datetime format"
@@ -262,7 +262,7 @@ msgid ""
 "We suggest you to drop this database."
 msgstr ""
 "Сервер суулгах явцад алдаа гарлаа.\n"
-"Бид танд үүссэн өгөгдлийн сангаа устгахыг зөвлөж байна."
+"Бид танд энэ үүссэн өгөгдлийн сангаа устгахыг зөвлөж байна."
 
 #: controllers/database.py:195
 msgid "Error during database creation"
@@ -271,27 +271,27 @@ msgstr "Өгөгдлийн сан үүсгэхэд алдаа гарлаа"
 #: controllers/database.py:198 controllers/database.py:225
 #: controllers/database.py:271 controllers/database.py:294
 msgid "Bad super admin password"
-msgstr ""
+msgstr "Супер админ нууц үгийн сонголт муу"
 
 #: controllers/database.py:202
 msgid "Could not create database."
-msgstr ""
+msgstr "Өгөгдлийн санг үүсгэх боломжгүй"
 
 #: controllers/database.py:228
 msgid "Could not drop database"
-msgstr ""
+msgstr "Өгөгдлийн санг устгах боломжгүй"
 
 #: controllers/database.py:251
 msgid "Could not create backup."
-msgstr ""
+msgstr "Өгөгдлийн санг нөөцлөх боломжгүй"
 
 #: controllers/database.py:275
 msgid "Could not restore database"
-msgstr ""
+msgstr "Өгөгдлийн санг сэргээх боломжгүй"
 
 #: controllers/database.py:298
 msgid "Error, password not changed."
-msgstr ""
+msgstr "Алдаа, нууц үг солигдсонгүй."
 
 #: controllers/error_page.py:79
 msgid ""
@@ -309,15 +309,15 @@ msgstr ""
 #: controllers/form.py:561
 #, python-format
 msgid "Invalid button type \"%s\""
-msgstr ""
+msgstr "\"%s\" товчны төрөл тодорхойгүй"
 
 #: controllers/form.py:944 controllers/tree.py:243
 msgid "No record selected"
-msgstr ""
+msgstr "Сонгогдсон бичлэг байхгүй"
 
 #: controllers/form.py:949
 msgid "Print Screen"
-msgstr "Дэлгэц олдсонгүй"
+msgstr "Дэлгэц хэвлэх"
 
 #: controllers/form.py:1016 widgets/listgrid.py:305 widgets/listgrid.py:366
 #: widgets/form/_form.py:910
@@ -331,76 +331,79 @@ msgstr ""
 
 #: controllers/form.py:1121
 msgid "Open resource"
-msgstr ""
+msgstr "Нөөцийг нээх"
 
 #: controllers/form.py:1124
 msgid "Set to default value"
-msgstr ""
+msgstr "Үндсэн утга олгох"
 
 #: controllers/form.py:1125
 msgid "Set as default"
-msgstr ""
+msgstr "Үндсэн утгаар тохируулах"
 
 #: controllers/form.py:1132
 msgid "Action"
-msgstr ""
+msgstr "Үйлдэл"
 
 #: controllers/form.py:1133
 msgid "Report"
-msgstr ""
+msgstr "Тайлан"
 
 #: controllers/impex.py:66
 msgid ""
 "Operation failed\n"
 "I/O error"
 msgstr ""
+"Үйлдэл алдаатай\n"
+"Оролт/гаралтын алдаа"
 
 #: controllers/impex.py:402
 msgid "Export Error"
-msgstr ""
+msgstr "Экспорт алдаа"
 
 #: controllers/impex.py:469
 msgid "Database ID"
-msgstr ""
+msgstr "Өгөгдлийн сангийн дугаар"
 
 #: controllers/impex.py:476
 msgid "Error opening .CSV file"
-msgstr ""
+msgstr ".CSV  файлыг нээхэд алдаа гарлаа"
 
 #: controllers/impex.py:476
 msgid "Input Error."
-msgstr ""
+msgstr "Оролтын алдаа."
 
 #: controllers/impex.py:498
 #, python-format
 msgid "You cannot import the field '%s', because we cannot auto-detect it"
 msgstr ""
+"Та, автоматаар олох боломжгүй учир '%s' талбарыг импорт хийх боломжгүй."
 
 #: controllers/impex.py:501
 #, python-format
 msgid "Error processing the first line of the file. Field \"%s\" is unknown"
-msgstr ""
+msgstr "Файлын эхний мөр дээрх үйлдэлийн алдаа. '%s' талбар тодорхойгүй"
 
 #: controllers/impex.py:72 controllers/impex.py:501
 msgid "Import Error."
-msgstr ""
+msgstr "Импортын алдаа"
 
 #: controllers/impex.py:520
 msgid "The CSV delimiter must be a single character"
-msgstr ""
+msgstr "CSV ганц тэмдэгтээр хязгаарлагдсан байх ёстой"
 
 #: controllers/impex.py:532
 msgid "File Format Error"
-msgstr ""
+msgstr "Файлын формат алдаатай"
 
 #: controllers/impex.py:550
 msgid "XML-RPC error"
-msgstr ""
+msgstr "XML-RPC алдаатай"
 
 #: controllers/impex.py:555
 #, python-format
 msgid "Imported %d objects"
-msgstr ""
+msgstr "%d объект импортлогдсон"
 
 #: controllers/impex.py:560
 #, python-format
@@ -421,7 +424,7 @@ msgstr ""
 
 #: controllers/preferences.py:65 controllers/templates/header.mako:59
 msgid "Preferences"
-msgstr "Хувийн тохиргоо"
+msgstr "Тохируулга"
 
 #: controllers/preferences.py:92
 msgid "All passwords have to be filled."
@@ -433,11 +436,11 @@ msgstr ""
 
 #: controllers/preferences.py:103
 msgid "Could not change your password."
-msgstr ""
+msgstr "Таны нууц үгийг өөрчлөх боломжгүй"
 
 #: controllers/preferences.py:105
 msgid "Original password incorrect, your password was not changed."
-msgstr ""
+msgstr "Жинхэнэ нууц үг алдаатай, таны нууц үг солигдсонгүй"
 
 #: controllers/root.py:174
 #, python-format
@@ -446,15 +449,15 @@ msgstr "Хувилбар %s"
 
 #: controllers/translator.py:136
 msgid "You need to save the resource before adding translations."
-msgstr ""
+msgstr "Та орчуулгыг нэмэхээс өмнө нөөцийг хадгалах шаардлагатай"
 
 #: controllers/tree.py:274
 msgid "No resource selected"
-msgstr ""
+msgstr "Нөөц сонгогдоогүй байна"
 
 #: controllers/utils.py:43
 msgid "Could not connect to server"
-msgstr ""
+msgstr "Сервертэй холбогдох боломжгүй"
 
 #: controllers/utils.py:127 controllers/templates/login_ajax.mako:111
 msgid "Bad username or password"
@@ -474,11 +477,11 @@ msgstr "Үүсгэсэн огноо"
 
 #: controllers/view_log.py:35
 msgid "Latest Modification by"
-msgstr "Хамгийн сүүлд зассан"
+msgstr "Сүүлд өөрчилсөн хэрэглэгч"
 
 #: controllers/view_log.py:36
 msgid "Latest Modification Date"
-msgstr "Хамгийн сүүлд зассан огноо"
+msgstr "Сүүлд өөрчилсөн огноо"
 
 #: controllers/view_log.py:37
 msgid "Owner"
@@ -486,7 +489,7 @@ msgstr "Эзэмшигч"
 
 #: controllers/view_log.py:38
 msgid "Group Owner"
-msgstr ""
+msgstr "Эзэмшигч групп"
 
 #: controllers/view_log.py:39
 msgid "Access Level"
@@ -494,19 +497,19 @@ msgstr "Хандах эрх"
 
 #: controllers/view_log.py:40
 msgid "Internal module data ID"
-msgstr ""
+msgstr "Гадаад модулийн өгөгдлийн дугаар"
 
 #: controllers/viewed.py:221
 msgid "Invalid view id."
-msgstr ""
+msgstr "Харагдагцын дугаар алдаатай"
 
 #: controllers/viewed.py:499
 msgid "Unable to create inherited view."
-msgstr ""
+msgstr "Харагдагцаас удамшуулаж үүсгэх боломжгүй"
 
 #: controllers/viewed.py:501
 msgid "Can't create inherited view here."
-msgstr ""
+msgstr "Энд харагдагцаас удамшуулан үүсгэж болохгүй"
 
 #: controllers/viewed.py:504
 msgid "Not implemented yet!"
@@ -522,43 +525,44 @@ msgstr "Шинэ цонх"
 
 #: controllers/viewed.py:871
 msgid "Save Button"
-msgstr ""
+msgstr "Хадгалах товч"
 
 #: controllers/viewed.py:871
 msgid "Cancel Button"
-msgstr ""
+msgstr "Болих товч"
 
 #: controllers/viewed.py:871
 msgid "Open Button"
-msgstr ""
+msgstr "Нээх товч"
 
 #: controllers/viewed.py:877
 msgid "Left"
-msgstr ""
+msgstr "Зүүн"
 
 #: controllers/viewed.py:877
 msgid "Center"
-msgstr ""
+msgstr "Төв"
 
 #: controllers/viewed.py:877
 msgid "Right"
-msgstr ""
+msgstr "Баруун"
 
 #: controllers/templates/about.mako:4
 msgid "About the OpenERP Web"
-msgstr ""
+msgstr "OpenERP Web тухай"
 
 #: controllers/templates/about.mako:27
 msgid "OpenERP Web"
-msgstr ""
+msgstr "OpenERP Web"
 
 #: controllers/templates/about.mako:30
 msgid "Copyright &copy; 2006-TODAY OpenERP SA. All Rights Reserved."
 msgstr ""
+"Copyright &copy; 2006-TODAY OpenERP SA. Бүх эрх хуулиар хамгаалагдсан."
 
 #: controllers/templates/about.mako:31
 msgid "OpenERP is a trademark of the OpenERP SA Company."
-msgstr ""
+msgstr "OpenERP барааны таних тэмдэгийг эзэмшигч OpenERP SA компани"
 
 #: controllers/templates/about.mako:33
 #, python-format

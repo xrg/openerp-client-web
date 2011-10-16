@@ -8,19 +8,19 @@ msgstr ""
 "Project-Id-Version: openobject-client-web\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2011-03-18 11:53+0100\n"
-"PO-Revision-Date: 2011-02-15 19:35+0000\n"
-"Last-Translator: Goran Kliska <gkliska@gmail.com>\n"
+"PO-Revision-Date: 2011-10-04 18:19+0000\n"
+"Last-Translator: Goran Cvijanović <goranc@gmail.com>\n"
 "Language-Team: Croatian <hr@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2011-09-02 05:11+0000\n"
-"X-Generator: Launchpad (build 13830)\n"
+"X-Launchpad-Export-Date: 2011-10-05 04:54+0000\n"
+"X-Generator: Launchpad (build 14085)\n"
 
 #: static/javascript/form.js:92
 #, python-format
 msgid "You selected to open %(tabs)s tabs - do you want to continue?"
-msgstr ""
+msgstr "Odabrali ste otvaranje %(tabs)s jezičke - želite li nastaviti?"
 
 #: static/javascript/form.js:169
 msgid "Invalid form, correct red fields."
@@ -36,7 +36,7 @@ msgstr "Morate odabrati jedan ili više zapisa !"
 
 #: static/javascript/form.js:995
 msgid "You must save this record to perform the action !"
-msgstr ""
+msgstr "Morate spremiti zapis prije izvršenja akcije"
 
 #: static/javascript/form.js:1127
 msgid "Do you really want to delete the attachment"
@@ -68,7 +68,7 @@ msgstr "Da li zaista želite obrisati odabrani(e) zapis(e)?"
 
 #: static/javascript/m2o.js:526
 msgid "error in display::"
-msgstr ""
+msgstr "greška u prikazu::"
 
 #: static/javascript/o2m.js:67
 msgid "Do you really want to delete record ?"
@@ -76,7 +76,7 @@ msgstr "Zaista želite obrisati zapis?"
 
 #: static/javascript/search.js:285
 msgid "Invalid Value"
-msgstr ""
+msgstr "Pogrešna vrijednost"
 
 #: static/javascript/viewed.js:63
 msgid "Do you really want to remove this node?"
@@ -88,7 +88,7 @@ msgstr "Da li zaista želite kreirati nasljeđeni pogled ovdje?"
 
 #: static/javascript/openerp/openerp.base.js:127
 msgid "doLoadingSuccess: Cannot parse JSON"
-msgstr ""
+msgstr "doLoadingSuccess: Nije moguće parsirati JSON"
 
 #: static/javascript/openerp/openerp.base.js:335
 msgid "Loading"

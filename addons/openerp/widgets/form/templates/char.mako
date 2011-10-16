@@ -2,7 +2,7 @@
     <span class="char">
         <input type="${password and 'password' or 'text'}" size="1"
             id="${name}" name="${name}" class="${css_class}"
-            ${py.attrs(attrs, kind=kind, maxlength=size, value=value, required=required and 1 or 0, fld_readonly=readonly and 1 or 0)}/>
+            ${py.attrs(attrs, kind=kind, maxlength=size, value=value, fld_required=required and 1 or 0, fld_readonly=readonly and 1 or 0)}/>
         % if translatable:
             <img src="/openerp/static/images/stock/stock_translate.png" class="translatable" />
             <script type="text/javascript">

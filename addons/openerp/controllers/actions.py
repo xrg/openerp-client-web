@@ -389,7 +389,7 @@ def execute(action, **data):
         #raise common.error('Error', 'Invalid action...')
         return;
 
-    data.setdefault('context', {}).update(expr_eval(action.get('form_context', '{}') or action.get('context'), data.get('context', {})))
+    data.setdefault('context', {}).update(expr_eval(action.get('form_context', '{}') or action.get('context','{}'), data.get('context', {})))
 
     action_executor = ACTIONS_BY_TYPE[action['type']]
     return action_executor(action, data)

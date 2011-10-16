@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: openobject-client-web\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2011-03-18 11:53+0100\n"
-"PO-Revision-Date: 2011-09-21 10:25+0000\n"
+"PO-Revision-Date: 2011-09-28 08:38+0000\n"
 "Last-Translator: Anze (Neotek) <Unknown>\n"
 "Language-Team: Slovenian <sl@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2011-09-22 05:01+0000\n"
-"X-Generator: Launchpad (build 13996)\n"
+"X-Launchpad-Export-Date: 2011-09-29 04:47+0000\n"
+"X-Generator: Launchpad (build 14049)\n"
 
 #: validators.py:75
 msgid "Invalid literal for float"
@@ -1493,7 +1493,7 @@ msgstr "Podmeni"
 
 #: widgets/templates/sidebar.mako:54
 msgid "Attachments"
-msgstr "Priponke"
+msgstr "Priloge"
 
 #: widgets/templates/sidebar.mako:74
 msgid "File"
