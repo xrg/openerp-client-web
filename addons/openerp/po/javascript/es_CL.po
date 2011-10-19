@@ -14,8 +14,8 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2011-09-02 05:11+0000\n"
-"X-Generator: Launchpad (build 13830)\n"
+"X-Launchpad-Export-Date: 2011-10-19 06:09+0000\n"
+"X-Generator: Launchpad (build 14157)\n"
 
 #: static/javascript/form.js:92
 #, python-format
@@ -36,7 +36,7 @@ msgstr ""
 
 #: static/javascript/form.js:995
 msgid "You must save this record to perform the action !"
-msgstr ""
+msgstr "Debe guardar este registro para ejecutar la acción"
 
 #: static/javascript/form.js:1127
 msgid "Do you really want to delete the attachment"
@@ -74,7 +74,7 @@ msgstr ""
 
 #: static/javascript/search.js:285
 msgid "Invalid Value"
-msgstr ""
+msgstr "Valor inválido"
 
 #: static/javascript/viewed.js:63
 msgid "Do you really want to remove this node?"
