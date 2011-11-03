@@ -447,6 +447,9 @@ def execute_by_id(act_id, type=None, **data):
         
     ctx = dict(rpc.session.context, **(data.get('context') or {}))   
 
+    # avoid reading large binary values that we won't even care about
+    ctx['bin_size'] = True
+
     res = rpc.session.execute('object', 'execute', type, 'read', act_id, False, ctx)
     return execute(res, **data)
 
