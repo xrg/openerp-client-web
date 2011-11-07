@@ -983,7 +983,7 @@ class Form(SecuredController):
             id = ids[0]
 
         domain = params.domain or []
-        context = dict(params.context) or {}
+        context = params.context or {}
         action = {}
 
         if data.get('datas'):
@@ -995,10 +995,10 @@ class Form(SecuredController):
             return self.do_action('client_action_multi', datas=kw)
 
         if type is None:
-            # avoid reading large binary values that we won't even care about
-            context['bin_size'] = True
             action_type = rpc.RPCProxy('ir.actions.actions').read(act_id, ['type'], context)['type']
-            action = rpc.session.execute('object', 'execute', action_type, 'read', act_id, False, context)
+            # avoid reading large binary values that we won't even care about
+            ctx_no_bin = dict(context, bin_size=True)
+            action = rpc.session.execute('object', 'execute', action_type, 'read', act_id, False, ctx_no_bin)
 
         if domain:
             if isinstance(domain, basestring):
