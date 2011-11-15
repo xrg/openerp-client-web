@@ -447,7 +447,7 @@ def execute_by_id(act_id, type=None, **data):
         
     ctx = dict(rpc.session.context, **(data.get('context') or {}))   
 
-    if type == 'ir.actions.report_xml':
+    if type == 'ir.actions.report.xml':
         # avoid reading large binary values that we won't even care about
         ctx['bin_size'] = True
 

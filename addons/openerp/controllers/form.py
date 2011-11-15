@@ -971,7 +971,7 @@ class Form(SecuredController):
     @expose()
     def action(self, **kw):
         params, data = TinyDict.split(kw)
-        context_menu = kw.get('context_menu')
+        context_menu = kw.get('context_menu') or False
 
         id = params.id or False
         ids = params.selection or []
@@ -996,9 +996,11 @@ class Form(SecuredController):
 
         if type is None:
             action_type = rpc.RPCProxy('ir.actions.actions').read(act_id, ['type'], context)['type']
-            # avoid reading large binary values that we won't even care about
-            ctx_no_bin = dict(context, bin_size=True)
-            action = rpc.session.execute('object', 'execute', action_type, 'read', act_id, False, ctx_no_bin)
+            tmp_ctx = dict(context)
+            if action_type == 'ir.actions.report.xml':
+                # avoid reading large binary values that we won't even care about
+                tmp_ctx['bin_size'] = True
+            action = rpc.session.execute('object', 'execute', action_type, 'read', act_id, False, tmp_ctx)
 
         if domain:
             if isinstance(domain, basestring):
