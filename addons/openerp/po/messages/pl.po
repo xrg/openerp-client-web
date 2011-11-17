@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2011-03-18 11:53+0100\n"
-"PO-Revision-Date: 2011-09-23 09:38+0000\n"
-"Last-Translator: Wojciech Zylinski <Unknown>\n"
+"PO-Revision-Date: 2011-11-16 18:39+0000\n"
+"Last-Translator: Łukasz Semler <lukasz.semler@gmail.com>\n"
 "Language-Team: pl <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2011-11-11 05:18+0000\n"
-"X-Generator: Launchpad (build 14277)\n"
+"X-Launchpad-Export-Date: 2011-11-17 05:53+0000\n"
+"X-Generator: Launchpad (build 14291)\n"
 "Generated-By: Babel None\n"
 
 #: validators.py:75
@@ -348,11 +348,11 @@ msgstr "Otwórz zasób"
 
 #: controllers/form.py:1124
 msgid "Set to default value"
-msgstr ""
+msgstr "Przywróć wartość domyślną"
 
 #: controllers/form.py:1125
 msgid "Set as default"
-msgstr ""
+msgstr "Ustaw jako wartość domyślną"
 
 #: controllers/form.py:1132
 msgid "Action"
@@ -376,7 +376,7 @@ msgstr "Błąd eksportu"
 
 #: controllers/impex.py:469
 msgid "Database ID"
-msgstr ""
+msgstr "ID bazy danych"
 
 #: controllers/impex.py:476
 msgid "Error opening .CSV file"
@@ -389,12 +389,12 @@ msgstr "Błąd wejścia"
 #: controllers/impex.py:498
 #, python-format
 msgid "You cannot import the field '%s', because we cannot auto-detect it"
-msgstr ""
+msgstr "Nie można odczytać pola '%s', bo nie można go automatycznie wykryć"
 
 #: controllers/impex.py:501
 #, python-format
 msgid "Error processing the first line of the file. Field \"%s\" is unknown"
-msgstr ""
+msgstr "Błąd przetwarzania pierwszej linii pliku. Pole \"%s\" jest nieznane"
 
 #: controllers/impex.py:72 controllers/impex.py:501
 msgid "Import Error."
@@ -402,11 +402,11 @@ msgstr "Błąd importu."
 
 #: controllers/impex.py:520
 msgid "The CSV delimiter must be a single character"
-msgstr ""
+msgstr "Separator CSV musi być pojedyńczym znakiem"
 
 #: controllers/impex.py:532
 msgid "File Format Error"
-msgstr ""
+msgstr "Zły format pliku"
 
 #: controllers/impex.py:550
 msgid "XML-RPC error"
@@ -424,7 +424,7 @@ msgstr "Błąd przy próbie importu tego rekordu:%s. Komunikat błędu:%s %s"
 
 #: controllers/impex.py:561
 msgid "ImportationError"
-msgstr ""
+msgstr "Błąd importu"
 
 #: controllers/listgrid.py:52
 msgid "Parent record doesn't exists..."
@@ -477,7 +477,7 @@ msgstr "Niepoprawna nazwa użytkownika lub hasło"
 
 #: controllers/view_log.py:32
 msgid "ID"
-msgstr ""
+msgstr "ID"
 
 #: controllers/view_log.py:33
 msgid "Creation User"
@@ -565,20 +565,20 @@ msgstr "Informacje o OpenERP Web"
 
 #: controllers/templates/about.mako:27
 msgid "OpenERP Web"
-msgstr ""
+msgstr "Strona OpenERP"
 
 #: controllers/templates/about.mako:30
 msgid "Copyright &copy; 2006-TODAY OpenERP SA. All Rights Reserved."
-msgstr ""
+msgstr "Copyright &copy; 2006-TODAY OpenERP SA. Wszelkie prawa zastrzeżone."
 
 #: controllers/templates/about.mako:31
 msgid "OpenERP is a trademark of the OpenERP SA Company."
-msgstr ""
+msgstr "OpenERP jest znakiem towarowym należącym do OpenERP SA Company."
 
 #: controllers/templates/about.mako:33
 #, python-format
 msgid "%(ooweb)s is jointly developed by %(tiny)s and %(axelor)s."
-msgstr ""
+msgstr "%(ooweb)s jest  rozwijany wspólnie przez %(tiny)s and %(axelor)s."
 
 #: controllers/templates/about.mako:39
 #, python-format
@@ -601,6 +601,13 @@ msgid ""
 "                    project management, production, services, CRM, etc..\n"
 "                    "
 msgstr ""
+"%(openobject)s jest darmowym oprogramowaniem, zaprojektowanym aby zwiększyć\n"
+"                    produktywność i zwiększyć zyski poprzez zintegrowanie "
+"danych. Łączy, ulepsza i zarządza\n"
+"                    procesami biznesowymi w obszarach takich jak sprzedaż, "
+"finanse, zarządzanie łańcuchem dostaw,\n"
+"                    zarządzania projektami, produkcji, usług, CRM, itp..\n"
+"                    "
 
 #: controllers/templates/about.mako:51
 msgid ""
@@ -613,12 +620,21 @@ msgid ""
 "                    production system and migration to a new version to be "
 "straightforward."
 msgstr ""
+"System jest niezależny od platformy i może być instalowany w systemie "
+"Windows, Mac OS X,\n"
+"                    i różnych odmianach Linuksa i innych dystrybucji systemu "
+"Unix. Jego architektura umożliwia\n"
+"                    szybkie dodawanie nowych funkcji, oraz łatwe "
+"wprowadzanie modyfikacji do\n"
+"                    systemu i migracji do nowej wersji."
 
 #: controllers/templates/about.mako:57
 msgid ""
 "Depending on your needs, OpenERP is available through a web or application "
 "client."
 msgstr ""
+"W zależności od twoich potrzeb, OpenERP jest dostępny prze internet lub "
+"aplikację kliencką."
 
 #: controllers/templates/database.mako:54 controllers/templates/login.mako:4
 #: controllers/templates/login.mako:71 controllers/templates/login_ajax.mako:85
@@ -642,7 +658,7 @@ msgstr "Pozwól mi to naprawić"
 #: controllers/templates/error_page.mako:91
 #: controllers/templates/error_page.mako:93
 msgid "Fix it for me"
-msgstr ""
+msgstr "Napraw to dla mnie"
 
 #: controllers/templates/error_page.mako:99
 msgid "Publisher warranty contract."
