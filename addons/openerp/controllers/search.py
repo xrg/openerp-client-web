@@ -82,7 +82,7 @@ class Search(Form):
         params.search_text = False
 
         # parent's search_view has no business being in m2o or m2m
-        if params.has_key('_terp_context') and params['_terp_context'].has_key('search_view'):
+        if '_terp_context' in params and 'search_view' in params['_terp_context']:
             params.get('_terp_context').pop('search_view', None)
         if text:
             params.search_text = True
