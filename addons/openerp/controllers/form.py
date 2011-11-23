@@ -1216,7 +1216,7 @@ class Form(SecuredController):
         for index, fname, value in values:
             data[fname] = value
 
-        return dict(values=data)
+        return dict(value=data)
 
     # Possible to create shortcut for particular object or not.
     def can_shortcut_create(self):

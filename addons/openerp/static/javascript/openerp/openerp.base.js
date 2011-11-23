@@ -311,7 +311,7 @@ jQuery(document).bind('ready', function (){
 });
 
 // Hook onchange for all elements
-jQuery(document).delegate('[callback], [onchange_default]', 'change', function () {
+jQuery(document).delegate('[callback], [change_default]', 'change', function () {
     if (jQuery(this).is(':input.checkbox:enabled')
             || !jQuery(this).is(':input')
             || !window.onChange) {
