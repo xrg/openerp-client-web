@@ -18,6 +18,7 @@
                     showsTime: ${str(picker_shows_time).lower()},
                     onClose: function(cal){
                         cal.destroy();
+                        cal.hide();
                     }
                 });
             });
