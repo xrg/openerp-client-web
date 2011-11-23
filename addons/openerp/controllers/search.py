@@ -81,6 +81,9 @@ class Search(Form):
         proxy = rpc.RPCProxy(model)
         params.search_text = False
 
+        # parent's search_view has no business being in m2o or m2m
+        if '_terp_context' in params and 'search_view' in params['_terp_context']:
+            params.get('_terp_context').pop('search_view', None)
         if text:
             params.search_text = True
             ids = proxy.name_search(text, params.domain or [], 'ilike', ctx, False)
@@ -178,8 +181,6 @@ class Search(Form):
 
         # Fixed header string problem for m2m,m2o field when parent context takes '_terp_view_name'
         parent_context.pop('_terp_view_name', None)
-        # parent's search_view has no business being in m2o or m2m
-        parent_context.pop('search_view', None)
 
         return dict(domain=ustr(domain), context=ustr(parent_context), group_by = ustr(params.group_by))
 
