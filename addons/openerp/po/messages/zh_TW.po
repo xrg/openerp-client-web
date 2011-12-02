@@ -1,0 +1,1547 @@
+# Chinese (Traditional) translation for openobject-client-web
+# Copyright (c) 2011 Rosetta Contributors and Canonical Ltd 2011
+# This file is distributed under the same license as the openobject-client-web package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2011.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: openobject-client-web\n"
+"Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
+"POT-Creation-Date: 2011-03-18 11:53+0100\n"
+"PO-Revision-Date: 2011-12-01 13:13+0000\n"
+"Last-Translator: Walter Cheuk <wwycheuk@gmail.com>\n"
+"Language-Team: Chinese (Traditional) <zh_TW@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Launchpad-Export-Date: 2011-12-02 05:33+0000\n"
+"X-Generator: Launchpad (build 14414)\n"
+
+#: validators.py:75
+msgid "Invalid literal for float"
+msgstr ""
+
+#: validators.py:114 validators.py:119 validators.py:262
+msgid "Invalid datetime format"
+msgstr ""
+
+#: validators.py:166
+msgid "Please select a file."
+msgstr "請選取檔案。"
+
+#: validators.py:247
+msgid "Please enter an email address"
+msgstr "請輸入電郵地址"
+
+#: validators.py:248
+msgid "An email address must contain a single @"
+msgstr "電郵地址須包含單一 @"
+
+#: validators.py:249
+#, python-format
+msgid ""
+"The username portion of the email address is invalid (the portion before the "
+"@: %(username)s)"
+msgstr ""
+
+#: validators.py:250
+#, python-format
+msgid ""
+"The domain portion of the email address is invalid (the portion after the @: "
+"%(domain)s)"
+msgstr ""
+
+#: validators.py:254
+msgid "You must start your URL with http://, https://, etc"
+msgstr "網址須以 http:// 或 https:// 等開首"
+
+#: validators.py:255
+msgid "That is not a valid URL"
+msgstr "並非有效網址"
+
+#: validators.py:256
+#, python-format
+msgid "You must provide a full domain name (like %(domain)s.com)"
+msgstr "須提供完整網域名 (如 %(domain)s.com)"
+
+#: validators.py:260
+msgid "Please enter an integer value"
+msgstr "請輸入整數"
+
+#: validators.py:261
+msgid "Please enter a number"
+msgstr "請輸入數字"
+
+#: controllers/actions.py:94
+msgid "Invalid View"
+msgstr "檢視無效"
+
+#: controllers/actions.py:127
+msgid "Error no report"
+msgstr ""
+
+#: controllers/actions.py:153
+msgid "Nothing to print"
+msgstr "無東西可印"
+
+#: controllers/actions.py:173
+msgid "Printing aborted, too long delay"
+msgstr ""
+
+#: controllers/actions.py:397
+msgid "Relative URLs are not supported"
+msgstr "不支援相對網址"
+
+#: controllers/actions.py:425
+msgid "Action not found"
+msgstr "找不到動作"
+
+#: controllers/actions.py:474
+msgid "No action defined"
+msgstr "未定義動作"
+
+#: controllers/attachment.py:55
+msgid "No record selected, You can only attach to existing record..."
+msgstr ""
+
+#: controllers/database.py:63
+msgid "Create database"
+msgstr "建立資料庫"
+
+#: controllers/database.py:65 controllers/templates/database.mako:56
+#: controllers/templates/search.mako:145
+msgid "Create"
+msgstr "建立"
+
+#: controllers/database.py:68
+msgid "Super admin password:"
+msgstr "超級管理員密碼："
+
+#: controllers/database.py:68
+msgid ""
+"This is the password of the user that have the rights to administer "
+"databases. This is not a OpenERP user, just a super administrator. If you "
+"did not changed it, the password is 'admin' after installation."
+msgstr ""
+
+#: controllers/database.py:69 controllers/database.py:101
+msgid "New database name:"
+msgstr "新建資料庫名稱："
+
+#: controllers/database.py:69
+msgid ""
+"Choose the name of the database that will be created. The name must not "
+"contain any special character. Exemple: 'terp'."
+msgstr "輸入要建立的資料庫名稱，名稱不能包含特殊字元。"
+
+#: controllers/database.py:70
+msgid "Load Demonstration data:"
+msgstr "載入演示資料："
+
+#: controllers/database.py:70
+msgid ""
+"Check this box if you want demonstration data to be installed on your new "
+"database. These data will help you to understand OpenERP, with predefined "
+"products, partners, etc."
+msgstr ""
+
+#: controllers/database.py:71
+msgid "Default Language:"
+msgstr "預設語言："
+
+#: controllers/database.py:71
+msgid ""
+"Choose the default language that will be installed for this database. You "
+"will be able to install new languages after installation through the "
+"administration menu."
+msgstr ""
+
+#: controllers/database.py:72
+msgid "Administrator password:"
+msgstr "管理員密碼："
+
+#: controllers/database.py:72
+msgid ""
+"This is the password of the 'admin' user that will be created in your new "
+"database."
+msgstr ""
+
+#: controllers/database.py:73
+msgid "Confirm password:"
+msgstr "確認密碼："
+
+#: controllers/database.py:73
+msgid ""
+"This is the password of the 'admin' user that will be created in your new "
+"database. It has to be the same than the above field."
+msgstr ""
+
+#: controllers/database.py:79
+msgid "Drop database"
+msgstr "捨棄資料庫"
+
+#: controllers/database.py:81 controllers/templates/database.mako:58
+msgid "Drop"
+msgstr "捨棄"
+
+#: controllers/database.py:83 controllers/database.py:91
+#: controllers/templates/login.mako:43
+msgid "Database:"
+msgstr "資料庫："
+
+#: controllers/database.py:84 controllers/database.py:92
+#: controllers/database.py:100 controllers/templates/login.mako:61
+#: controllers/templates/login_ajax.mako:78
+#: controllers/templates/login_ajax.mako:98
+msgid "Password:"
+msgstr "密碼："
+
+#: controllers/database.py:88
+msgid "Backup database"
+msgstr "備份資料庫"
+
+#: controllers/database.py:90 controllers/templates/database.mako:60
+msgid "Backup"
+msgstr "備份"
+
+#: controllers/database.py:96
+msgid "Restore database"
+msgstr "還原資料庫"
+
+#: controllers/database.py:98 controllers/templates/database.mako:62
+msgid "Restore"
+msgstr "還原"
+
+#: controllers/database.py:99
+msgid "File:"
+msgstr "檔案："
+
+#: controllers/database.py:105
+msgid "Change Administrator Password"
+msgstr "變更管理員密碼"
+
+#: controllers/database.py:107 controllers/templates/preferences/index.mako:37
+msgid "Change Password"
+msgstr "變更密碼"
+
+#: controllers/database.py:108
+msgid "Old Password:"
+msgstr "舊密碼："
+
+#: controllers/database.py:109
+msgid "New Password:"
+msgstr "新密碼："
+
+#: controllers/database.py:110
+msgid "Confirm Password:"
+msgstr "確認密碼："
+
+#: controllers/database.py:173
+msgid "You must avoid all accents, space or special characters."
+msgstr ""
+
+#: controllers/database.py:174
+msgid "Bad database name"
+msgstr "資料庫名稱不對"
+
+#: controllers/database.py:194
+msgid ""
+"The server crashed during installation.\n"
+"We suggest you to drop this database."
+msgstr ""
+"安裝途中伺服器當掉。\n"
+"建議捨棄該資料庫。"
+
+#: controllers/database.py:195
+msgid "Error during database creation"
+msgstr "建立資料庫途中發生錯誤"
+
+#: controllers/database.py:198 controllers/database.py:225
+#: controllers/database.py:271 controllers/database.py:294
+msgid "Bad super admin password"
+msgstr "超級管理員密碼不對"
+
+#: controllers/database.py:202
+msgid "Could not create database."
+msgstr "無法建立資料庫。"
+
+#: controllers/database.py:228
+msgid "Could not drop database"
+msgstr "無法捨棄資料庫"
+
+#: controllers/database.py:251
+msgid "Could not create backup."
+msgstr "無法建立備份。"
+
+#: controllers/database.py:275
+msgid "Could not restore database"
+msgstr "無法還原資料庫"
+
+#: controllers/database.py:298
+msgid "Error, password not changed."
+msgstr "錯誤，密碼未更改。"
+
+#: controllers/error_page.py:79
+msgid ""
+"Your problem has been sent to the quality team\n"
+"We will recontact you after analysing the problem."
+msgstr ""
+"問題已送發予器管隊伍\n"
+"分析過問題後會再聯絡閣下。"
+
+#: controllers/error_page.py:81
+#, python-format
+msgid ""
+"Your problem could not be sent to the quality team\n"
+"Please report this error manually at %s"
+msgstr ""
+"問題無法送發予器管隊伍\n"
+"請手動將此問題報告予 %s"
+
+#: controllers/form.py:561
+#, python-format
+msgid "Invalid button type \"%s\""
+msgstr ""
+
+#: controllers/form.py:944 controllers/tree.py:243
+msgid "No record selected"
+msgstr "未選擇紀錄"
+
+#: controllers/form.py:949
+msgid "Print Screen"
+msgstr "列印畫面"
+
+#: controllers/form.py:1016 widgets/listgrid.py:305 widgets/listgrid.py:366
+#: widgets/form/_form.py:910
+msgid "Application Error"
+msgstr "應用程式出錯！"
+
+#: controllers/form.py:1016
+#, python-format
+msgid "Wrong on_change trigger: %s"
+msgstr ""
+
+#: controllers/form.py:1121
+msgid "Open resource"
+msgstr ""
+
+#: controllers/form.py:1124
+msgid "Set to default value"
+msgstr "設定為預設值"
+
+#: controllers/form.py:1125
+msgid "Set as default"
+msgstr "設為預設值"
+
+#: controllers/form.py:1132
+msgid "Action"
+msgstr "動作"
+
+#: controllers/form.py:1133
+msgid "Report"
+msgstr ""
+
+#: controllers/impex.py:66
+msgid ""
+"Operation failed\n"
+"I/O error"
+msgstr ""
+"操作失敗\n"
+"I/O 發生錯誤"
+
+#: controllers/impex.py:402
+msgid "Export Error"
+msgstr "匯出發生錯誤"
+
+#: controllers/impex.py:469
+msgid "Database ID"
+msgstr "資料庫 ID"
+
+#: controllers/impex.py:476
+msgid "Error opening .CSV file"
+msgstr "開啟 .CSV 檔案時發生錯誤"
+
+#: controllers/impex.py:476
+msgid "Input Error."
+msgstr "輸入時發生錯誤。"
+
+#: controllers/impex.py:498
+#, python-format
+msgid "You cannot import the field '%s', because we cannot auto-detect it"
+msgstr "無法匯入「%s」欄位，因無法自動偵測"
+
+#: controllers/impex.py:501
+#, python-format
+msgid "Error processing the first line of the file. Field \"%s\" is unknown"
+msgstr ""
+
+#: controllers/impex.py:72 controllers/impex.py:501
+msgid "Import Error."
+msgstr "匯入時發生錯誤。"
+
+#: controllers/impex.py:520
+msgid "The CSV delimiter must be a single character"
+msgstr ""
+
+#: controllers/impex.py:532
+msgid "File Format Error"
+msgstr "檔案格式錯誤"
+
+#: controllers/impex.py:550
+msgid "XML-RPC error"
+msgstr "XML-RPC 錯誤"
+
+#: controllers/impex.py:555
+#, python-format
+msgid "Imported %d objects"
+msgstr "已匯入 %d 件物件"
+
+#: controllers/impex.py:560
+#, python-format
+msgid "Error trying to import this record:%s. ErrorMessage:%s %s"
+msgstr ""
+
+#: controllers/impex.py:561
+msgid "ImportationError"
+msgstr ""
+
+#: controllers/listgrid.py:52
+msgid "Parent record doesn't exists..."
+msgstr ""
+
+#: controllers/preferences.py:35
+msgid "Change your password"
+msgstr "變更密碼"
+
+#: controllers/preferences.py:65 controllers/templates/header.mako:59
+msgid "Preferences"
+msgstr "偏好設定"
+
+#: controllers/preferences.py:92
+msgid "All passwords have to be filled."
+msgstr "要填入所有密碼。"
+
+#: controllers/preferences.py:94
+msgid "The new password and its confirmation must be identical."
+msgstr "新密碼與確認密碼須相同。"
+
+#: controllers/preferences.py:103
+msgid "Could not change your password."
+msgstr "無法變更密碼。"
+
+#: controllers/preferences.py:105
+msgid "Original password incorrect, your password was not changed."
+msgstr "原密碼不對，密碼未有變更。"
+
+#: controllers/root.py:174
+#, python-format
+msgid "Version %s"
+msgstr "%s 版"
+
+#: controllers/translator.py:136
+msgid "You need to save the resource before adding translations."
+msgstr ""
+
+#: controllers/tree.py:274
+msgid "No resource selected"
+msgstr "未選取資源"
+
+#: controllers/utils.py:43
+msgid "Could not connect to server"
+msgstr "無法連接伺服器"
+
+#: controllers/utils.py:127 controllers/templates/login_ajax.mako:111
+msgid "Bad username or password"
+msgstr "使用者名稱或密碼不對"
+
+#: controllers/view_log.py:32
+msgid "ID"
+msgstr ""
+
+#: controllers/view_log.py:33
+msgid "Creation User"
+msgstr "建立使用者"
+
+#: controllers/view_log.py:34
+msgid "Creation Date"
+msgstr "建立日期"
+
+#: controllers/view_log.py:35
+msgid "Latest Modification by"
+msgstr "最後更改者"
+
+#: controllers/view_log.py:36
+msgid "Latest Modification Date"
+msgstr "最後更改日期"
+
+#: controllers/view_log.py:37
+msgid "Owner"
+msgstr "所有者"
+
+#: controllers/view_log.py:38
+msgid "Group Owner"
+msgstr "群組所有者"
+
+#: controllers/view_log.py:39
+msgid "Access Level"
+msgstr "存取等級"
+
+#: controllers/view_log.py:40
+msgid "Internal module data ID"
+msgstr "內部模組資料 ID"
+
+#: controllers/viewed.py:221
+msgid "Invalid view id."
+msgstr ""
+
+#: controllers/viewed.py:499
+msgid "Unable to create inherited view."
+msgstr ""
+
+#: controllers/viewed.py:501
+msgid "Can't create inherited view here."
+msgstr ""
+
+#: controllers/viewed.py:504
+msgid "Not implemented yet!"
+msgstr "未完成功能！"
+
+#: controllers/viewed.py:609
+msgid "Unable to update the view."
+msgstr "無法更新檢視。"
+
+#: controllers/viewed.py:859
+msgid "New Window"
+msgstr "新視窗"
+
+#: controllers/viewed.py:871
+msgid "Save Button"
+msgstr "儲存按鈕"
+
+#: controllers/viewed.py:871
+msgid "Cancel Button"
+msgstr "取消按鈕"
+
+#: controllers/viewed.py:871
+msgid "Open Button"
+msgstr "開啟按鈕"
+
+#: controllers/viewed.py:877
+msgid "Left"
+msgstr "左"
+
+#: controllers/viewed.py:877
+msgid "Center"
+msgstr "中"
+
+#: controllers/viewed.py:877
+msgid "Right"
+msgstr "右"
+
+#: controllers/templates/about.mako:4
+msgid "About the OpenERP Web"
+msgstr "有關 OpenERP Web"
+
+#: controllers/templates/about.mako:27
+msgid "OpenERP Web"
+msgstr ""
+
+#: controllers/templates/about.mako:30
+msgid "Copyright &copy; 2006-TODAY OpenERP SA. All Rights Reserved."
+msgstr ""
+
+#: controllers/templates/about.mako:31
+msgid "OpenERP is a trademark of the OpenERP SA Company."
+msgstr "OpenERP 為 OpenERP SA 公司商標。"
+
+#: controllers/templates/about.mako:33
+#, python-format
+msgid "%(ooweb)s is jointly developed by %(tiny)s and %(axelor)s."
+msgstr "%(ooweb)s 由 %(tiny)s 及 %(axelor)s 聯合開發。"
+
+#: controllers/templates/about.mako:39
+#, python-format
+msgid "Licenced under the terms of %(license)s"
+msgstr ""
+
+#: controllers/templates/about.mako:42
+msgid "About OpenERP"
+msgstr "有關 OpenERP"
+
+#: controllers/templates/about.mako:44
+#, python-format
+msgid ""
+"%(openobject)s is a free enterprise-scale software system that is designed "
+"to boost\n"
+"                    productivity and profit through data integration. It "
+"connects, improves and\n"
+"                    manages business processes in areas such as sales, "
+"finance, supply chain,\n"
+"                    project management, production, services, CRM, etc..\n"
+"                    "
+msgstr ""
+
+#: controllers/templates/about.mako:51
+msgid ""
+"The system is platform-independent, and can be installed on Windows, Mac OS "
+"X,\n"
+"                    and various Linux and other Unix-based distributions. "
+"Its architecture enables\n"
+"                    new functionality to be rapidly created, modifications "
+"to be made to a\n"
+"                    production system and migration to a new version to be "
+"straightforward."
+msgstr ""
+
+#: controllers/templates/about.mako:57
+msgid ""
+"Depending on your needs, OpenERP is available through a web or application "
+"client."
+msgstr ""
+
+#: controllers/templates/database.mako:54 controllers/templates/login.mako:4
+#: controllers/templates/login.mako:71 controllers/templates/login_ajax.mako:85
+#: controllers/templates/login_ajax.mako:104
+msgid "Login"
+msgstr "登入"
+
+#: controllers/templates/database.mako:64
+msgid "Password"
+msgstr "密碼"
+
+#: controllers/templates/error_page.mako:82
+#, python-format
+msgid "An %(error_type)s has been reported."
+msgstr ""
+
+#: controllers/templates/error_page.mako:84
+msgid "Let me fix it"
+msgstr ""
+
+#: controllers/templates/error_page.mako:91
+#: controllers/templates/error_page.mako:93
+msgid "Fix it for me"
+msgstr ""
+
+#: controllers/templates/error_page.mako:99
+msgid "Publisher warranty contract."
+msgstr ""
+
+#: controllers/templates/error_page.mako:100
+msgid ""
+"Your request will be sent to OpenERP and publisher warranty team will reply "
+"you shortly."
+msgstr ""
+
+#: controllers/templates/error_page.mako:104
+msgid "Summary of the problem:"
+msgstr "問題摘要："
+
+#: controllers/templates/error_page.mako:111
+msgid "Explain what you did:"
+msgstr "說明您做過什麼："
+
+#: controllers/templates/error_page.mako:120
+msgid "Other Comments:"
+msgstr "其他評語："
+
+#: controllers/templates/error_page.mako:132
+msgid "Send to Publisher Warranty Team"
+msgstr ""
+
+#: controllers/templates/error_page.mako:159
+msgid "Write concurrency warning :"
+msgstr ""
+
+#: controllers/templates/error_page.mako:164
+msgid ""
+"This document has been modified while you were editing it.\n"
+"Choose:\n"
+"\n"
+"    - \"Cancel\" to cancel saving.\n"
+"    - \"Write anyway\" to save your current version."
+msgstr ""
+
+#: controllers/templates/error_page.mako:178 controllers/templates/exp.mako:251
+#: controllers/templates/form.mako:141 controllers/templates/openo2m.mako:41
+#: controllers/templates/selection.mako:43
+#: controllers/templates/viewlist.mako:160
+#: controllers/templates/preferences/index.mako:38
+#: widgets/templates/listgrid/listgrid.mako:41
+msgid "Cancel"
+msgstr "取消"
+
+#: controllers/templates/error_page.mako:179
+msgid "Write Anyway"
+msgstr ""
+
+#: controllers/templates/exp.mako:151
+msgid "Export Data"
+msgstr "匯出資料"
+
+#: controllers/templates/exp.mako:166
+msgid "Export Type:"
+msgstr "匯出類型："
+
+#: controllers/templates/exp.mako:169
+msgid "Import Compatible Export"
+msgstr ""
+
+#: controllers/templates/exp.mako:172
+msgid "Export all Data"
+msgstr "匯出所有資料"
+
+#: controllers/templates/exp.mako:190
+msgid "Available fields"
+msgstr "可用欄位"
+
+#: controllers/templates/exp.mako:192
+msgid "Fields to export"
+msgstr "要匯出欄位"
+
+#: controllers/templates/exp.mako:194
+msgid "Save fields list"
+msgstr "儲存欄位清單"
+
+#: controllers/templates/exp.mako:196
+msgid "Save as:"
+msgstr "另存為："
+
+#: controllers/templates/exp.mako:198 controllers/templates/fieldpref.mako:102
+#: controllers/templates/selection.mako:45
+msgid "OK"
+msgstr ""
+
+#: controllers/templates/exp.mako:202
+msgid "Saved exports:"
+msgstr ""
+
+#: controllers/templates/exp.mako:211 controllers/templates/form.mako:136
+#: widgets/form/templates/one2many.mako:23 widgets/templates/sidebar.mako:67
+#: widgets/templates/listgrid/listgrid.mako:119
+#: widgets/templates/listgrid/listgrid.mako:123
+#: widgets/templates/listgrid/listgrid.mako:127
+#: widgets/templates/listgrid/listgrid.mako:191
+#: widgets/templates/listgrid/listgrid.mako:196
+#: widgets/templates/listgrid/listgroup.mako:131
+#: widgets/templates/listgrid/multiple_group.mako:81
+msgid "Delete"
+msgstr "刪除"
+
+#: controllers/templates/exp.mako:224 widgets/templates/sidebar.mako:56
+#: widgets/templates/listgrid/listgrid.mako:153
+msgid "Add"
+msgstr ""
+
+#: controllers/templates/exp.mako:229 controllers/templates/viewlist.mako:125
+msgid "Remove"
+msgstr "移除"
+
+#: controllers/templates/exp.mako:234
+msgid "Remove All"
+msgstr "全部移除"
+
+#: controllers/templates/exp.mako:252
+msgid "Export to File"
+msgstr "匯出至檔案"
+
+#: controllers/templates/fieldpref.mako:4
+#: controllers/templates/fieldpref.mako:29
+msgid "Field Preferences"
+msgstr "欄位偏好設定"
+
+#: controllers/templates/fieldpref.mako:39
+msgid "Field Name:"
+msgstr "欄位名稱："
+
+#: controllers/templates/fieldpref.mako:43
+msgid "Domain:"
+msgstr "領域："
+
+#: controllers/templates/fieldpref.mako:47
+msgid "Default Value:"
+msgstr "預設值："
+
+#: controllers/templates/fieldpref.mako:57
+msgid "Value applicable for:"
+msgstr ""
+
+#: controllers/templates/fieldpref.mako:63
+msgid "Only for you"
+msgstr ""
+
+#: controllers/templates/fieldpref.mako:67
+msgid "For all"
+msgstr ""
+
+#: controllers/templates/fieldpref.mako:76
+msgid "Value applicable if:"
+msgstr ""
+
+#: controllers/templates/fieldpref.mako:79
+msgid "Always applicable!"
+msgstr ""
+
+#: controllers/templates/fieldpref.mako:99 controllers/templates/imp.mako:204
+#: controllers/templates/index.mako:201 controllers/templates/openm2.mako:52
+#: controllers/templates/save_filter.mako:42
+#: controllers/templates/search.mako:129
+#: controllers/templates/translator.mako:41
+#: controllers/templates/translator.mako:108
+#: controllers/templates/viewed.mako:37
+#: controllers/templates/viewed_new.mako:43
+#: controllers/templates/viewed_new_model.mako:42
+#: controllers/templates/viewed_preview.mako:28
+#: controllers/templates/viewlist.mako:129 widgets/templates/sidebar.mako:67
+#: widgets/templates/viewform.mako:37
+msgid "Close"
+msgstr "關閉"
+
+#: controllers/templates/footer.mako:3
+#, python-format
+msgid "&copy; 2008-2010 %(ooweb)s  SA. All Rights Reserved "
+msgstr ""
+
+#: controllers/templates/footer.mako:6
+msgid "Significant contributions to the web client have been made by"
+msgstr ""
+
+#: controllers/templates/form.mako:64 controllers/templates/tree.mako:33
+msgid "Disable all Tips"
+msgstr "停用所有提示"
+
+#: controllers/templates/form.mako:65 controllers/templates/tree.mako:34
+msgid "Hide this Tip"
+msgstr "隱藏此提示"
+
+#: controllers/templates/form.mako:83 controllers/templates/tree.mako:41
+msgid "Add / Remove Shortcut..."
+msgstr ""
+
+#: controllers/templates/form.mako:87
+#, python-format
+msgid "Search: %s"
+msgstr "搜尋：%s"
+
+#: controllers/templates/form.mako:94
+msgid "Corporate Intelligence..."
+msgstr ""
+
+#: controllers/templates/form.mako:100
+msgid "Show Logs..."
+msgstr ""
+
+#: controllers/templates/form.mako:112
+msgid "Create a new resource"
+msgstr "建立新資源"
+
+#: controllers/templates/form.mako:113 controllers/templates/search.mako:128
+#: controllers/templates/viewed_new_model.mako:36
+#: controllers/templates/viewlist.mako:119 widgets/form/_o2m.py:97
+#: widgets/form/templates/one2many.mako:21
+#: widgets/templates/listgrid/listgrid.mako:158
+#: widgets/templates/listgrid/listgrid.mako:162
+#: widgets/templates/listgrid/listgroup.mako:20
+msgid "New"
+msgstr ""
+
+#: controllers/templates/form.mako:117
+msgid "Edit this resource"
+msgstr "編輯此資源"
+
+#: controllers/templates/form.mako:118 controllers/templates/viewlist.mako:122
+#: widgets/templates/listgrid/listgrid.mako:83
+#: widgets/templates/listgrid/listgrid.mako:93
+#: widgets/templates/listgrid/listgroup.mako:112
+#: widgets/templates/listgrid/multiple_group.mako:63
+msgid "Edit"
+msgstr "編輯"
+
+#: controllers/templates/form.mako:122
+msgid "Save this resource"
+msgstr "儲存此資源"
+
+#: controllers/templates/form.mako:123 controllers/templates/openm2.mako:48
+#: controllers/templates/save_filter.mako:41
+#: controllers/templates/translator.mako:39
+#: controllers/templates/translator.mako:106
+#: controllers/templates/viewed_new.mako:40
+#: controllers/templates/viewed_new_model.mako:39
+#: controllers/templates/viewlist.mako:157
+#: controllers/templates/preferences/index.mako:39
+msgid "Save"
+msgstr "儲存"
+
+#: controllers/templates/form.mako:125
+msgid "Save & Edit this resource"
+msgstr "儲存並編輯此資源"
+
+#: controllers/templates/form.mako:126
+msgid "Save & Edit"
+msgstr "儲存並編輯"
+
+#: controllers/templates/form.mako:130
+msgid "Duplicate this resource"
+msgstr ""
+
+#: controllers/templates/form.mako:131
+msgid "Duplicate"
+msgstr ""
+
+#: controllers/templates/form.mako:135
+msgid "Delete this resource"
+msgstr "刪除此資源"
+
+#: controllers/templates/form.mako:140
+msgid "Cancel editing the current resource"
+msgstr "取消編輯當前資源"
+
+#: controllers/templates/form.mako:145
+msgid "Create new node"
+msgstr "建立新節點"
+
+#: controllers/templates/form.mako:146
+msgid "New Node"
+msgstr "新節點"
+
+#: controllers/templates/form.mako:150
+msgid "Show grid in workflow canvas"
+msgstr "於流程畫布顯示格線"
+
+#: controllers/templates/form.mako:151
+msgid "Show grid"
+msgstr "顯示格線"
+
+#: controllers/templates/header.mako:33
+#, python-format
+msgid "%(company)s"
+msgstr ""
+
+#: controllers/templates/header.mako:34 controllers/templates/index.mako:230
+#, python-format
+msgid "%(user)s"
+msgstr ""
+
+#: controllers/templates/header.mako:45 controllers/templates/header.mako:47
+msgid "Home"
+msgstr ""
+
+#: controllers/templates/header.mako:53
+msgid "Requests"
+msgstr ""
+
+#: controllers/templates/header.mako:62
+msgid "Edit Preferences"
+msgstr "編輯偏好設定"
+
+#: controllers/templates/header.mako:66 controllers/templates/header.mako:69
+msgid "About"
+msgstr "關於"
+
+#: controllers/templates/header.mako:73 controllers/templates/header.mako:75
+msgid "Help"
+msgstr ""
+
+#: controllers/templates/header.mako:81 controllers/templates/header.mako:84
+msgid "Clear Cache"
+msgstr ""
+
+#: controllers/templates/header.mako:89
+msgid "Logout"
+msgstr "登出"
+
+#: controllers/templates/imp.mako:79
+msgid "Import Data"
+msgstr "匯入資料"
+
+#: controllers/templates/imp.mako:89
+msgid "1. Import a .CSV file"
+msgstr "1. 匯入 .CSV 檔"
+
+#: controllers/templates/imp.mako:105
+msgid "CSV File:"
+msgstr "CSV 檔："
+
+#: controllers/templates/imp.mako:123
+msgid "2. Check your file format"
+msgstr "2. 檢查檔案格式"
+
+#: controllers/templates/imp.mako:130
+#, python-format
+msgid "The import failed due to: %(message)s"
+msgstr "匯入失敗，原因為：%(message)s"
+
+#: controllers/templates/imp.mako:132
+msgid "Here is a preview of the file we could not import:"
+msgstr ""
+
+#: controllers/templates/imp.mako:157
+msgid "CSV Options"
+msgstr "CSV 選項"
+
+#: controllers/templates/imp.mako:160
+msgid "Separator:"
+msgstr "分隔符號："
+
+#: controllers/templates/imp.mako:162
+msgid "Delimiter:"
+msgstr ""
+
+#: controllers/templates/imp.mako:166
+msgid "Encoding:"
+msgstr "編碼："
+
+#: controllers/templates/imp.mako:173
+msgid "Lines to skip:"
+msgstr ""
+
+#: controllers/templates/imp.mako:187
+msgid "3. File imported"
+msgstr "3. 已匯入檔案"
+
+#: controllers/templates/imp.mako:205
+msgid "Import File"
+msgstr "匯入檔案"
+
+#: controllers/templates/index.mako:167
+msgid "System Logs"
+msgstr ""
+
+#: controllers/templates/index.mako:192
+msgid "More"
+msgstr ""
+
+#: controllers/templates/index.mako:193
+msgid "Widgets"
+msgstr ""
+
+#: controllers/templates/index.mako:233 controllers/templates/index.mako:238
+#, python-format
+msgid "Powered by %(openerp)s "
+msgstr ""
+
+#: controllers/templates/login.mako:57 controllers/templates/login_ajax.mako:72
+#: controllers/templates/login_ajax.mako:94
+msgid "User:"
+msgstr "使用者："
+
+#: controllers/templates/login.mako:68
+msgid "Databases"
+msgstr "資料庫"
+
+#: controllers/templates/login.mako:88
+msgid "Top Contributor:"
+msgstr ""
+
+#: controllers/templates/login.mako:98
+msgid ""
+"We think that daily job activities can be more intuitive, efficient, "
+"automated, .. and even fun."
+msgstr "我們認為日常工作可以更直觀、更有效率、更自動化......以至更有趣。"
+
+#: controllers/templates/login.mako:99
+msgid "OpenERP's vision to be:"
+msgstr "OpenERP 的願景為："
+
+#: controllers/templates/login.mako:107
+msgid "Full featured"
+msgstr "完整功能"
+
+#: controllers/templates/login.mako:108
+msgid ""
+"Today's enterprise challenges are multiple. We provide one module for each "
+"need."
+msgstr "今時今日企業面對的問題很多。我們為每件工作皆提供處理的模組。"
+
+#: controllers/templates/login.mako:116
+msgid "Open Source"
+msgstr ""
+
+#: controllers/templates/login.mako:117
+msgid ""
+"To Build a great product, we rely on the knowledge of thousands of "
+"contributors."
+msgstr "要製作好用的產品，我們靠的是成千上萬的自願貢獻者。"
+
+#: controllers/templates/login.mako:125
+msgid "User Friendly"
+msgstr "易用"
+
+#: controllers/templates/login.mako:126
+msgid ""
+"In order to be productive, people need clean and easy to use interface."
+msgstr "要工作更有效率，人們要更簡潔、更易用的介面。"
+
+#: controllers/templates/modules.mako:4
+msgid "Module Management"
+msgstr "模組管理"
+
+#: controllers/templates/modules.mako:17
+msgid "Web Modules"
+msgstr "Web 模組"
+
+#: controllers/templates/openo2m.mako:34
+msgid "Save & Close"
+msgstr "儲存並關閉"
+
+#: controllers/templates/openo2m.mako:37
+msgid "Save & New"
+msgstr "儲存並新增"
+
+#: controllers/templates/save_filter.mako:18
+msgid "Save as Filter"
+msgstr ""
+
+#: controllers/templates/save_filter.mako:30
+msgid "Filter Name"
+msgstr ""
+
+#: controllers/templates/search.mako:110
+#, python-format
+msgid "Search %(name)s"
+msgstr "搜尋 %(name)s"
+
+#: controllers/templates/search.mako:125 widgets/form/templates/datetime.mako:8
+msgid "Select"
+msgstr "選取"
+
+#: controllers/templates/search.mako:127 widgets/_views.py:77
+#: widgets/form/templates/many2one.mako:22
+#: widgets/form/templates/reference.mako:27 widgets/templates/viewform.mako:26
+msgid "Search"
+msgstr "搜尋"
+
+#: controllers/templates/search.mako:143
+#, python-format
+msgid "No record found : '%(searched_string)s'."
+msgstr "找不到紀錄：「%(searched_string)s」。"
+
+#: controllers/templates/selection.mako:4
+msgid "Select action"
+msgstr "選取動作"
+
+#: controllers/templates/selection.mako:23
+msgid "Select your action"
+msgstr "選取要執行動作"
+
+#: controllers/templates/server_log.mako:4
+msgid "Server Actions..."
+msgstr "伺服器動作..."
+
+#: controllers/templates/server_log.mako:14
+msgid "Server Actions"
+msgstr "伺服器動作"
+
+#: controllers/templates/translator.mako:4
+msgid "Add Translations"
+msgstr ""
+
+#: controllers/templates/translator.mako:17
+msgid "Add Translation"
+msgstr ""
+
+#: controllers/templates/translator.mako:27
+msgid "Add Translation for:"
+msgstr ""
+
+#: controllers/templates/translator.mako:31
+msgid "Fields"
+msgstr "欄位"
+
+#: controllers/templates/translator.mako:32
+msgid "Labels"
+msgstr "標籤"
+
+#: controllers/templates/translator.mako:33
+msgid "Relates"
+msgstr ""
+
+#: controllers/templates/translator.mako:34
+msgid "View"
+msgstr "檢視"
+
+#: controllers/templates/translator.mako:53
+msgid "Field"
+msgstr "欄位"
+
+#: controllers/templates/view_log.mako:4 controllers/templates/view_log.mako:12
+msgid "Information"
+msgstr "資訊"
+
+#: controllers/templates/viewed.mako:17
+#, python-format
+msgid "View Editor %s - %s"
+msgstr ""
+
+#: controllers/templates/viewed.mako:31
+msgid "Create a new inherited view"
+msgstr ""
+
+#: controllers/templates/viewed.mako:31
+msgid "Inherited View"
+msgstr ""
+
+#: controllers/templates/viewed.mako:34
+msgid "Preview"
+msgstr "預覽"
+
+#: controllers/templates/viewed_add.mako:6
+msgid "Node Type:"
+msgstr "節點類型："
+
+#: controllers/templates/viewed_add.mako:23
+msgid "New Field"
+msgstr "新欄位"
+
+#: controllers/templates/viewed_add.mako:27
+msgid "Position:"
+msgstr "位置："
+
+#: controllers/templates/viewlist.mako:4
+#: controllers/templates/viewlist.mako:108
+#, python-format
+msgid "Manage Views (%s)"
+msgstr "管理檢視 (%s)"
+
+#: controllers/templates/viewlist.mako:146
+#, python-format
+msgid "Create a view (%s)"
+msgstr "建立檢視 (%s)"
+
+#: controllers/templates/viewlist.mako:174
+msgid "View Name:"
+msgstr "檢視名稱："
+
+#: controllers/templates/viewlist.mako:178
+msgid "View Type:"
+msgstr "檢視類型："
+
+#: controllers/templates/viewlist.mako:189
+msgid "Priority:"
+msgstr ""
+
+#: utils/common.py:24
+msgid "Error"
+msgstr ""
+
+#: utils/common.py:27
+msgid "Warning"
+msgstr "警告"
+
+#: utils/rpc.py:131
+msgid "Access Denied"
+msgstr "存取遭拒"
+
+#: utils/rpc.py:238
+msgid "Unsupported protocol."
+msgstr "未支援該協定。"
+
+#: utils/rpc.py:342
+msgid ""
+"You select a timezone but OpenERP could not find pytz library!\n"
+"The timezone functionality will be disable."
+msgstr ""
+"閣下選取了 OpenERP 未能找到 pytz 函式庫的時區！\n"
+"時區功能會停用。"
+
+#: utils/rpc.py:355
+msgid "Not logged..."
+msgstr ""
+
+#: utils/rpc.py:355
+msgid "Authorization Error"
+msgstr "授權錯誤"
+
+#: utils/rpc.py:439
+msgid "== Access Denied =="
+msgstr "== 存取遭拒 =="
+
+#: widgets/_views.py:46
+msgid "Form"
+msgstr "表單"
+
+#: widgets/_views.py:47
+msgid "Form view..."
+msgstr "表單檢視..."
+
+#: widgets/_views.py:78
+msgid "Search view..."
+msgstr "搜尋檢視..."
+
+#: widgets/listgrid.py:305
+msgid "Wrong on_change trigger"
+msgstr ""
+
+#: widgets/listgrid.py:368 widgets/form/_form.py:904
+#, python-format
+msgid "Invalid view, duplicate field: %s"
+msgstr ""
+
+#: widgets/pager.py:56
+#, python-format
+msgid "%s"
+msgstr ""
+
+#: widgets/pager.py:68
+#, python-format
+msgid "%s - %s"
+msgstr ""
+
+#: widgets/search.py:280
+msgid "contains"
+msgstr "包含"
+
+#: widgets/search.py:280
+msgid "doesn't contain"
+msgstr "不包含"
+
+#: widgets/search.py:281
+msgid "is equal to"
+msgstr "等於"
+
+#: widgets/search.py:281
+msgid "is not equal to"
+msgstr "不等於"
+
+#: widgets/search.py:282
+msgid "greater than"
+msgstr "大於"
+
+#: widgets/search.py:282
+msgid "less than"
+msgstr "小於"
+
+#: widgets/search.py:283
+msgid "in"
+msgstr "在"
+
+#: widgets/search.py:283
+msgid "not in"
+msgstr "不在"
+
+#: widgets/search.py:392
+msgid "Yes"
+msgstr "是"
+
+#: widgets/search.py:392
+msgid "No"
+msgstr "否"
+
+#: widgets/form/_action.py:48
+msgid "Action not found!"
+msgstr ""
+
+#: widgets/form/_o2m.py:97 widgets/templates/listgrid/listgrid.mako:156
+#: widgets/templates/listgrid/listgrid.mako:162
+#: widgets/templates/listgrid/listgroup.mako:20
+msgid "Create new record."
+msgstr "建立新紀錄。"
+
+#: widgets/form/_o2m.py:110
+msgid "Save/New"
+msgstr ""
+
+#: widgets/form/_o2m.py:110
+msgid "Save parent record."
+msgstr ""
+
+#: widgets/form/_o2m.py:229
+#, python-format
+msgid "%d of %d"
+msgstr ""
+
+#: widgets/form/_o2m.py:231
+#, python-format
+msgid "- of %d"
+msgstr ""
+
+#: widgets/form/templates/binary.mako:28
+msgid "Save As"
+msgstr "另存為"
+
+#: widgets/form/templates/binary.mako:31
+msgid "add attachment"
+msgstr "添加附件"
+
+#: widgets/form/templates/image.mako:6
+msgid "Replace image"
+msgstr "替換圖像"
+
+#: widgets/form/templates/many2one.mako:2
+#: widgets/form/templates/reference.mako:30
+msgid "Open"
+msgstr "開啟"
+
+#: widgets/form/templates/many2one.mako:2
+#: widgets/form/templates/reference.mako:30
+msgid "Open a resource"
+msgstr "開啟資源"
+
+#: widgets/form/templates/one2many.mako:21
+msgid "Create new record..."
+msgstr "建立新紀錄..."
+
+#: widgets/form/templates/one2many.mako:23
+msgid "Delete record..."
+msgstr "刪除紀錄..."
+
+#: widgets/form/templates/one2many.mako:29
+msgid "Translate me."
+msgstr ""
+
+#: widgets/form/templates/one2many.mako:48
+msgid "Previous record..."
+msgstr "上一紀錄..."
+
+#: widgets/form/templates/one2many.mako:50
+msgid "Next record..."
+msgstr "下一紀錄..."
+
+#: widgets/templates/logs.mako:22
+msgid "More..."
+msgstr ""
+
+#: widgets/templates/logs.mako:35
+msgid "Less..."
+msgstr ""
+
+#: widgets/templates/pager.mako:9
+msgid "<< First"
+msgstr ""
+
+#: widgets/templates/pager.mako:14
+msgid "< Previous"
+msgstr ""
+
+#: widgets/templates/pager.mako:19
+msgid "of"
+msgstr ""
+
+#: widgets/templates/pager.mako:24
+msgid "Next >"
+msgstr ""
+
+#: widgets/templates/pager.mako:29
+msgid "Last >>"
+msgstr ""
+
+#: widgets/templates/pager.mako:37
+msgid "Change Limit:"
+msgstr "變更限制："
+
+#: widgets/templates/sidebar.mako:37
+msgid "Reports"
+msgstr ""
+
+#: widgets/templates/sidebar.mako:41 widgets/templates/viewform.mako:51
+msgid "Actions"
+msgstr "動作"
+
+#: widgets/templates/sidebar.mako:45
+msgid "Links"
+msgstr "連結"
+
+#: widgets/templates/sidebar.mako:49
+msgid "Submenu"
+msgstr "子選單"
+
+#: widgets/templates/sidebar.mako:54
+msgid "Attachments"
+msgstr "附件"
+
+#: widgets/templates/sidebar.mako:74
+msgid "File"
+msgstr "檔案"
+
+#: widgets/templates/sidebar.mako:83
+msgid "Customize"
+msgstr "自訂"
+
+#: widgets/templates/sidebar.mako:87
+msgid "Manage views of the current object"
+msgstr "管理當前物件的檢視"
+
+#: widgets/templates/sidebar.mako:89
+msgid "Manage Views"
+msgstr "管理檢視"
+
+#: widgets/templates/sidebar.mako:93
+msgid "Edit workflow of the current object"
+msgstr "編輯當前物件的流程"
+
+#: widgets/templates/sidebar.mako:94
+msgid "Edit Workflow"
+msgstr "編輯流程"
+
+#: widgets/templates/sidebar.mako:98
+msgid "Customize current object or create a new object"
+msgstr "自訂當前物件或建立新物件"
+
+#: widgets/templates/sidebar.mako:100
+msgid "Customize Object"
+msgstr "自訂物件"
+
+#: widgets/templates/sidebar.mako:106
+msgid "Other Options"
+msgstr "其他選項"
+
+#: widgets/templates/sidebar.mako:111 widgets/templates/sidebar.mako:119
+msgid "Import"
+msgstr "匯入"
+
+#: widgets/templates/sidebar.mako:114 widgets/templates/sidebar.mako:122
+msgid "Export"
+msgstr "匯出"
+
+#: widgets/templates/sidebar.mako:126
+msgid "Translate"
+msgstr ""
+
+#: widgets/templates/sidebar.mako:131
+msgid "View Log"
+msgstr ""
+
+#: widgets/templates/viewform.mako:25
+msgid "Filter records."
+msgstr ""
+
+#: widgets/templates/viewform.mako:33
+msgid "Clear all."
+msgstr "全部清除。"
+
+#: widgets/templates/viewform.mako:35
+msgid "Clear"
+msgstr "清除"
+
+#: widgets/templates/viewform.mako:43
+msgid "Filters"
+msgstr ""
+
+#: widgets/templates/viewform.mako:45
+msgid "Saved Filters"
+msgstr ""
+
+#: widgets/templates/viewform.mako:52
+msgid "New Filter"
+msgstr ""
+
+#: widgets/templates/viewform.mako:53
+msgid "Save Filter"
+msgstr ""
+
+#: widgets/templates/viewform.mako:54
+msgid "Manage Filters"
+msgstr ""
+
+#: widgets/templates/listgrid/listgrid.mako:23
+msgid "Update"
+msgstr "更新"
+
+#: widgets/templates/listgrid/listgrid.mako:152
+msgid "Add records..."
+msgstr "添加紀錄..."
+
+#: widgets/templates/listgrid/listgrid.mako:190
+#: widgets/templates/listgrid/listgrid.mako:194
+msgid "Delete record(s)."
+msgstr "刪除紀錄。"
