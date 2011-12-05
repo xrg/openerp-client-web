@@ -1,0 +1,101 @@
+# Chinese (Traditional) translation for openobject-client-web
+# Copyright (c) 2011 Rosetta Contributors and Canonical Ltd 2011
+# This file is distributed under the same license as the openobject-client-web package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2011.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: openobject-client-web\n"
+"Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
+"POT-Creation-Date: 2011-03-18 11:53+0100\n"
+"PO-Revision-Date: 2011-12-04 16:15+0000\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: Chinese (Traditional) <zh_TW@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Launchpad-Export-Date: 2011-12-05 05:47+0000\n"
+"X-Generator: Launchpad (build 14418)\n"
+
+#: static/javascript/form.js:92
+#, python-format
+msgid "You selected to open %(tabs)s tabs - do you want to continue?"
+msgstr ""
+
+#: static/javascript/form.js:169
+msgid "Invalid form, correct red fields."
+msgstr ""
+
+#: static/javascript/form.js:204
+msgid "Do you really want to delete this record?"
+msgstr ""
+
+#: static/javascript/form.js:960
+msgid "You must select one or several records !"
+msgstr ""
+
+#: static/javascript/form.js:995
+msgid "You must save this record to perform the action !"
+msgstr "必須儲存此紀錄以進行動作！"
+
+#: static/javascript/form.js:1127
+msgid "Do you really want to delete the attachment"
+msgstr ""
+
+#: static/javascript/form.js:1161
+msgid "No record selected ! You can only attach to existing record."
+msgstr ""
+
+#: static/javascript/form.js:1220
+msgid "OpenERP - Error"
+msgstr ""
+
+#: static/javascript/form.js:1291
+msgid ""
+"Warning, the record has been modified,\n"
+"your changes will be discarded."
+msgstr ""
+
+#: static/javascript/listgrid.js:542 static/javascript/o2m.js:123
+msgid "To edit Record, please first save it."
+msgstr ""
+
+#: static/javascript/listgrid.js:650
+msgid "Do you really want to delete selected record(s) ?"
+msgstr ""
+
+#: static/javascript/m2o.js:526
+msgid "error in display::"
+msgstr ""
+
+#: static/javascript/o2m.js:67
+msgid "Do you really want to delete record ?"
+msgstr ""
+
+#: static/javascript/search.js:285
+msgid "Invalid Value"
+msgstr ""
+
+#: static/javascript/viewed.js:63
+msgid "Do you really want to remove this node?"
+msgstr ""
+
+#: static/javascript/viewed.js:329
+msgid "Do you really wants to create an inherited view here?"
+msgstr ""
+
+#: static/javascript/openerp/openerp.base.js:127
+msgid "doLoadingSuccess: Cannot parse JSON"
+msgstr ""
+
+#: static/javascript/openerp/openerp.base.js:335
+msgid "Loading"
+msgstr ""
+
+#: static/javascript/openerp/openerp.ui.tips.js:51
+msgid "Object"
+msgstr ""
+
+#: static/javascript/openerp/openerp.ui.tips.js:52
+msgid "Field"
+msgstr ""
